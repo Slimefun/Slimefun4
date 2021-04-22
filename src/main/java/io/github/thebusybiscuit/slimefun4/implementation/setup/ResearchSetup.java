@@ -287,6 +287,7 @@ public final class ResearchSetup {
         register("produce_collector", 274, "Automatic Milking", 20, SlimefunItems.PRODUCE_COLLECTOR);
         register("improved_generators", 275, "Improved Generators", 24, SlimefunItems.COAL_GENERATOR_2, SlimefunItems.LAVA_GENERATOR_2);
         register("ingredients_and_cheese", 276, "Slimefun Cuisine", 5, SlimefunItems.SALT, SlimefunItems.WHEAT_FLOUR, SlimefunItems.HEAVY_CREAM, SlimefunItems.CHEESE, SlimefunItems.BUTTER);
+        register("medium_tier_auto_enchanting", 277, "Fast Automatic Enchanting and Disenchanting", 48, SlimefunItems.AUTO_ENCHANTER_2, SlimefunItems.AUTO_DISENCHANTER_2);
     }
 
     @ParametersAreNonnullByDefault
