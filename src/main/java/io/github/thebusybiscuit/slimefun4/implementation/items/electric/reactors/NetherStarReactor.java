@@ -30,7 +30,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public abstract class NetherStarReactor extends Reactor {
 
     @ParametersAreNonnullByDefault
-    public NetherStarReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected NetherStarReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 
