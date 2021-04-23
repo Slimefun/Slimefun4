@@ -1,28 +1,34 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 public class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
 
+    @Nonnull
     @Override
     public SlimefunAddon getAddon() {
         return SlimefunPlugin.instance();
     }
 
+    @Nonnull
     @Override
     public NamespacedKey getKey() {
         return new NamespacedKey(SlimefunPlugin.instance(), "research_learning_animation");
     }
 
+    @Nonnull
     @Override
     public Optional<ItemStack> getDisplayItem(Player p, ItemStack guide) {
         if (SlimefunPlugin.getRegistry().isLearningAnimationDisabled()) {
@@ -35,20 +41,20 @@ public class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
     }
 
     @Override
-    public void onClick(Player p, ItemStack guide) {
+    public void onClick(@Nonnull Player p, @Nonnull ItemStack guide) {
         setSelectedOption(p, guide, !getSelectedOption(p, guide).orElse(true));
         SlimefunGuideSettings.openSettings(p, guide);
     }
 
     @Override
-    public Optional<Boolean> getSelectedOption(Player p, ItemStack guide) {
+    public Optional<Boolean> getSelectedOption(@Nonnull Player p, @Nonnull ItemStack guide) {
         NamespacedKey key = getKey();
         boolean value = !PersistentDataAPI.hasByte(p, key) || PersistentDataAPI.getByte(p, key) == (byte) 1;
         return Optional.of(value);
     }
 
     @Override
-    public void setSelectedOption(Player p, ItemStack guide, Boolean value) {
+    public void setSelectedOption(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull Boolean value) {
         PersistentDataAPI.setByte(p, getKey(), (byte) (value ? 1 : 0));
     }
 

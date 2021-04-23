@@ -240,6 +240,11 @@ public final class SlimefunRegistry {
         return researchFireworks;
     }
 
+    /**
+     * Returns whether the research learning animations is disabled
+     *
+     * @return Whether the research learning animations is disabled
+     */
     public boolean isLearningAnimationDisabled() {
         return disableLearningAnimation;
     }
