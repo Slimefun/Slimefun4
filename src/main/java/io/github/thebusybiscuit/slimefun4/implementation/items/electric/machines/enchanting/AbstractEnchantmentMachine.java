@@ -63,8 +63,15 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
     protected boolean hasIgnoredLore(@Nonnull ItemStack itemStack) {
         List<String> ignoredLore = ignoredLores.getValue();
+        // Skip the check if not set any ignored lore.
+        if (ignoredLore.isEmpty()) {
+            return false;
+        }
         if (itemStack.hasItemMeta()) {
             List<String> itemLore = itemStack.getItemMeta().getLore();
+            if (itemLore == null) {
+                return false;
+            }
             for (String lore : ignoredLore) {
                 if (itemLore.contains(ChatColors.color(lore))) {
                     return true;
