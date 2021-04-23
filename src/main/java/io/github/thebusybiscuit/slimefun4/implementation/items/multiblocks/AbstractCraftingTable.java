@@ -54,7 +54,7 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
         for (int j = 0; j < inv.getContents().length; j++) {
             ItemStack stack = inv.getContents()[j];
 
-            /**
+            /*
              * Fixes #2103 - Properly simulating the consumption
              * (which may leave behind empty buckets or glass bottles)
              */

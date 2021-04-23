@@ -809,6 +809,11 @@ public class SlimefunItem implements Placeable {
             throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
         }
 
+        // Do not add any item handlers if the SlimefunItem is disabled - fixes #2954
+        if (isDisabled()) {
+            return;
+        }
+
         for (ItemHandler handler : handlers) {
             itemhandlers.put(handler.getIdentifier(), handler);
 
