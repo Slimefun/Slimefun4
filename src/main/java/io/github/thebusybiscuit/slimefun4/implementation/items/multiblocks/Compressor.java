@@ -36,6 +36,9 @@ public class Compressor extends MultiBlockMachine {
 
         recipes.add(new ItemStack(Material.FLINT, 8));
         recipes.add(new ItemStack(Material.COBBLESTONE));
+
+        recipes.add(new ItemStack(Material.COAL_BLOCK, 8));
+        recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 9));
     }
 
     @Override
