@@ -33,13 +33,17 @@
 * Added Tier 2 Auto-Disenchanter
 
 #### Changes
-
-#### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
 * Photovoltaic Cells can no longer be placed
 * (API) Removed deprecated "SlimefunBlockHandler"
 
 #### Fixes
+* Fixed #2957
+* Fixed #2958
+* Fixed #2954
+* Fixed #2959
+* Fixed #2957
+* Fixed #2966
 
 ## Release Candidate 22 (18 Apr 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
