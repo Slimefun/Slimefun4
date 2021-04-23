@@ -203,11 +203,6 @@
                             <pattern>kong.unirest</pattern>
                             <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.unirest</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <!-- (Dependency of Unirest) -->
-                            <pattern>org.apache</pattern>
-                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.apache</shadedPattern>
-                        </relocation>
                     </relocations>
 
                     <!-- Exclude unneeded metadata files from shaded dependencies -->

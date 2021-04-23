@@ -73,7 +73,7 @@ class TestItemSetup {
     @Order(value = 4)
     @DisplayName("Test whether every Category is added to the translation files")
     void testCategoryTranslations() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/categories_en.yml"), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/en/categories.yml"), StandardCharsets.UTF_8))) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 
             for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
