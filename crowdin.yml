@@ -1,0 +1,11 @@
+files:
+  - source: src/main/resources/languages/messages_en.yml
+    translation: src/main/resources/languages/messages_%two_letters_code%.yml
+  - source: src/main/resources/languages/researches_en.yml
+    translation: src/main/resources/languages/researches_%two_letters_code%.yml
+  - source: src/main/resources/languages/categories_en.yml
+    translation: src/main/resources/languages/categories_%two_letters_code%.yml
+  - source: src/main/resources/languages/resources_en.yml
+    translation: src/main/resources/languages/resources_%two_letters_code%.yml
+  - source: src/main/resources/languages/recipes_en.yml
+    translation: src/main/resources/languages/recipes_%two_letters_code%.yml
