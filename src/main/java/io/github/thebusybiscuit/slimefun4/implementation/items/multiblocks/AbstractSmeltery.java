@@ -2,8 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.List;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -31,8 +29,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 abstract class AbstractSmeltery extends MultiBlockMachine {
 
-    @ParametersAreNonnullByDefault
-    public AbstractSmeltery(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
+    protected AbstractSmeltery(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
         super(category, item, recipe, trigger);
     }
 

@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 22 (TBD)](#release-candidate-22-tbd)
+- [Release Candidate 23 (TBD)](#release-candidate-23-tbd)
+- [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
 - [Release Candidate 21 (14 Mar 2021)](#release-candidate-21-14-mar-2021)
 - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
 - [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
@@ -22,10 +23,28 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 22 (TBD)
+## Release Candidate 23 (TBD)
 
 #### Additions
+* Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
+* Added "8 Coal Blocks -> 9 Carbon" recipe to Compressor
+* Added "8 Coal Blocks -> 9 Carbon" recipe to Carbon Press
+* Added Tier 2 Auto-Enchanter
+* Added Tier 2 Auto-Disenchanter
+* Added sound effects for Slime Boots
+* Added sounds.yml file to configure all sound effects
 
+#### Changes
+* Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
+* Photovoltaic Cells can no longer be placed
+* (API) Removed deprecated "SlimefunBlockHandler"
+
+#### Fixes
+
+## Release Candidate 22 (18 Apr 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
+
+#### Additions
 * Added Vanilla Auto-Crafter
 * Added Enhanced Auto-Crafter
 * Added "Smart-Filling" mode to Cargo Input nodes
@@ -42,8 +61,6 @@
 * Added "2 magma blocks -> slime block" recipe to the Freezer
 * Added configurable enchantment level limit for both auto enchanter and auto disenchanter
 * (API) Added AutoEnchantEvent
-* Added sound effects for Slime Boots
-* Added sounds.yml file to configure all sound effects
 
 #### Changes
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
@@ -74,6 +91,7 @@
 * Fixed Grappling Hook vanishing in creative mode
 * Fixed #2944
 * Fixed #2837
+* Fixed #2942
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21

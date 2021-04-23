@@ -95,10 +95,10 @@ public final class SlimefunUtils {
      * is enabled in the provided {@link World}.
      *
      * @param item
-     *              The {@link ItemStack} to check for
+     *            The {@link ItemStack} to check for
      * @param world
-     *              The {@link World} to check if the {@link SlimefunItem} is enabled in if applicable.
-     *              If {@code null} then this will not do a world check.
+     *            The {@link World} to check if the {@link SlimefunItem} is enabled in if applicable.
+     *            If {@code null} then this will not do a world check.
      * @return Whether the given item is soulbound
      */
     public static boolean isSoulbound(@Nullable ItemStack item, @Nullable World world) {

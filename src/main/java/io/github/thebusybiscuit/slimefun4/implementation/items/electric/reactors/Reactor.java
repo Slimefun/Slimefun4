@@ -78,7 +78,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     private final Set<Location> explosionsQueue = new HashSet<>();
 
     @ParametersAreNonnullByDefault
-    public Reactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected Reactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         new BlockMenuPreset(getId(), getInventoryTitle()) {

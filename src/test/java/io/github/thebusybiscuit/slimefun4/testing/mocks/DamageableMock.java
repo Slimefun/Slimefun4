@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.testing.mocks;
 
-
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;

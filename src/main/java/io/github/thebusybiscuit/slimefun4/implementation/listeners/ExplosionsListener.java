@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,9 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -58,36 +57,26 @@ public class ExplosionsListener implements Listener {
             if (item != null) {
                 blocks.remove();
 
-                if (!(item instanceof WitherProof)) {
-                    SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(item.getId());
-                    boolean success = true;
+                if (!(item instanceof WitherProof) && !item.callItemHandler(BlockBreakHandler.class, handler -> handleExplosion(handler, block))) {
+                    BlockStorage.clearBlockInfo(block);
+                    block.setType(Material.AIR);
+                }
+            }
+        }
+    }
 
-                    if (blockHandler != null) {
-                        success = blockHandler.onBreak(null, block, item, UnregisterReason.EXPLODE);
-                    } else {
-                        item.callItemHandler(BlockBreakHandler.class, handler -> {
-                            if (handler.isExplosionAllowed(block)) {
-                                BlockStorage.clearBlockInfo(block);
-                                block.setType(Material.AIR);
+    @ParametersAreNonnullByDefault
+    private void handleExplosion(BlockBreakHandler handler, Block block) {
+        if (handler.isExplosionAllowed(block)) {
+            BlockStorage.clearBlockInfo(block);
+            block.setType(Material.AIR);
 
-                                List<ItemStack> drops = new ArrayList<>();
-                                handler.onExplode(block, drops);
+            List<ItemStack> drops = new ArrayList<>();
+            handler.onExplode(block, drops);
 
-                                for (ItemStack drop : drops) {
-                                    if (drop != null && !drop.getType().isAir()) {
-                                        block.getWorld().dropItemNaturally(block.getLocation(), drop);
-                                    }
-                                }
-                            }
-                        });
-
-                        return;
-                    }
-
-                    if (success) {
-                        BlockStorage.clearBlockInfo(block);
-                        block.setType(Material.AIR);
-                    }
+            for (ItemStack drop : drops) {
+                if (drop != null && !drop.getType().isAir()) {
+                    block.getWorld().dropItemNaturally(block.getLocation(), drop);
                 }
             }
         }

@@ -40,7 +40,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -531,11 +530,6 @@ public class SlimefunItem implements Placeable {
 
         // Send out deprecation warnings for any classes or interfaces
         checkForDeprecations(getClass());
-
-        // Inform addon developers about the BlockBreakHandler
-        if (SlimefunPlugin.getUpdater().getBranch() != SlimefunBranch.DEVELOPMENT && SlimefunPlugin.getRegistry().getBlockHandlers().containsKey(getId())) {
-            warn("This item uses a deprecated SlimefunBlockHandler which will be removed in the very near future! Please switch to the BlockBreakHandler as soon as possible.");
-        }
 
         // Check for an illegal stack size
         if (itemStackTemplate.getAmount() != 1) {
@@ -1198,21 +1192,6 @@ public class SlimefunItem implements Placeable {
     @Nonnull
     public static Set<ItemHandler> getPublicItemHandlers(@Nonnull Class<? extends ItemHandler> identifier) {
         return SlimefunPlugin.getRegistry().getPublicItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
-    }
-
-    /**
-     * This has been deprecated.
-     * 
-     * @deprecated Please use {@link #addItemHandler(ItemHandler...)} and {@link BlockBreakHandler} instead
-     * 
-     * @param id
-     *            The id
-     * @param handler
-     *            The handler
-     */
-    @Deprecated
-    public static void registerBlockHandler(@Nonnull String id, @Nullable me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler handler) {
-        SlimefunPlugin.getRegistry().getBlockHandlers().put(id, handler);
     }
 
 }

@@ -773,7 +773,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {new ItemStack(Material.QUARTZ_BLOCK), null, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, SlimefunItems.SOLAR_PANEL, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.technicalComponents, SlimefunItems.SOLAR_PANEL, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), SlimefunItems.SILICON, SlimefunItems.SILICON, SlimefunItems.SILICON, SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON})
         .register(plugin);
 
@@ -1767,11 +1767,25 @@ public final class SlimefunItemSetup {
         .setProcessingSpeed(1)
         .register(plugin);
 
+        new AutoEnchanter(categories.electricity, SlimefunItems.AUTO_ENCHANTER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.REINFORCED_PLATE, SlimefunItems.BIG_CAPACITOR, SlimefunItems.REINFORCED_PLATE, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.AUTO_ENCHANTER, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.WITHER_PROOF_OBSIDIAN})
+        .setCapacity(1024)
+        .setEnergyConsumption(24)
+        .setProcessingSpeed(3)
+        .register(plugin);
+
         new AutoDisenchanter(categories.electricity, SlimefunItems.AUTO_DISENCHANTER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.REDSTONE), new ItemStack(Material.ANVIL), new ItemStack(Material.REDSTONE), SlimefunItems.CARBONADO, SlimefunItems.AUTO_ENCHANTER, SlimefunItems.CARBONADO, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN})
         .setCapacity(128)
         .setEnergyConsumption(9)
         .setProcessingSpeed(1)
+        .register(plugin);
+
+        new AutoDisenchanter(categories.electricity, SlimefunItems.AUTO_DISENCHANTER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.ANVIL), SlimefunItems.REINFORCED_PLATE, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.AUTO_DISENCHANTER, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.BIG_CAPACITOR, SlimefunItems.WITHER_PROOF_OBSIDIAN})
+        .setCapacity(1024)
+        .setEnergyConsumption(24)
+        .setProcessingSpeed(3)
         .register(plugin);
 
         new AutoAnvil(categories.electricity, 10, SlimefunItems.AUTO_ANVIL, RecipeType.ENHANCED_CRAFTING_TABLE,
