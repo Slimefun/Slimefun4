@@ -65,7 +65,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
     protected boolean hasIgnoredLore(@Nonnull ItemStack itemStack) {
         List<String> ignoredLore = ignoredLores.getValue();
-        // Skip the check if not set any ignored lore.
+        // Skip the check if not enable this feature or set any ignored lore.
         if (!useIgnoredLores.getValue() || ignoredLore.isEmpty()) {
             return false;
         }
