@@ -33,11 +33,11 @@ public abstract class BlockMenuPreset extends ChestMenu {
     private final boolean universal;
     private boolean locked;
 
-    public BlockMenuPreset(@Nonnull String id, @Nonnull String title) {
+    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title) {
         this(id, title, false);
     }
 
-    public BlockMenuPreset(@Nonnull String id, @Nonnull String title, boolean universal) {
+    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, boolean universal) {
         super(title);
 
         Validate.notNull(id, "You need to specify an id!");

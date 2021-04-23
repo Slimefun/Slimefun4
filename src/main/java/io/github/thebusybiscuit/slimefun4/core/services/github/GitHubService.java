@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang.Validate;
+
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -78,10 +80,14 @@ public class GitHubService {
      * the usual methods.
      */
     private void addDefaultContributors() {
+        // Artists
         addContributor("Fuffles_", "&dArtist");
-        addContributor("IMS_Art", "&dArtist");
+        addContributor("IMS_Art", "https://github.com/IAmSorryArt", "&dArtist", 0);
+
+        // Addon Jam winners
         addContributor("nahkd123", "&aWinner of the 2020 Addon Jam");
 
+        // Translators
         new Translators(this);
     }
 
@@ -94,6 +100,11 @@ public class GitHubService {
 
     @Nonnull
     public Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
+        Validate.notNull(minecraftName, "Minecraft username must not be null.");
+        Validate.notNull(profileURL, "GitHub profile url must not be null.");
+        Validate.notNull(role, "Role should not be null.");
+        Validate.isTrue(commits >= 0, "Commit count cannot be negative.");;
+
         String username = profileURL.substring(profileURL.lastIndexOf('/') + 1);
 
         Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(minecraftName, profileURL));
@@ -106,9 +117,10 @@ public class GitHubService {
         this.logging = logging;
         addDefaultContributors();
 
-        // TheBusyBiscuit/Slimefun4 (twice because there may me multiple pages)
+        // TheBusyBiscuit/Slimefun4 (multiple times because there may me multiple pages)
         connectors.add(new ContributionsConnector(this, "code", 1, repository, "developer"));
         connectors.add(new ContributionsConnector(this, "code2", 2, repository, "developer"));
+        connectors.add(new ContributionsConnector(this, "code3", 3, repository, "developer"));
 
         // TheBusyBiscuit/Slimefun4-Wiki
         connectors.add(new ContributionsConnector(this, "wiki", 1, "Slimefun/Wiki", "wiki"));
@@ -122,6 +134,7 @@ public class GitHubService {
             this.pendingPullRequests = pullRequests;
         }));
 
+        // Forks, star count and last commit date
         connectors.add(new GitHubActivityConnector(this, repository, (forks, stars, date) -> {
             this.publicForks = forks;
             this.stargazers = stars;

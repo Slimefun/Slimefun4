@@ -14,17 +14,11 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -46,17 +40,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @see AutoEnchanter
  *
  */
-public class AutoDisenchanter extends AContainer {
-
-    private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
-    private final IntRangeSetting enchantLevelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
+public class AutoDisenchanter extends AbstractEnchantmentMachine {
 
     @ParametersAreNonnullByDefault
     public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-
-        addItemSetting(useEnchantLevelLimit);
-        addItemSetting(enchantLevelLimit);
     }
 
     @Override
@@ -66,8 +54,6 @@ public class AutoDisenchanter extends AContainer {
 
     @Override
     protected MachineRecipe findNextRecipe(BlockMenu menu) {
-        Map<Enchantment, Integer> enchantments = new HashMap<>();
-
         for (int slot : getInputSlots()) {
             ItemStack item = menu.getItemInSlot(slot);
 
@@ -75,6 +61,7 @@ public class AutoDisenchanter extends AContainer {
                 return null;
             }
 
+            // Call an event so other Plugins can modify it.
             AutoDisenchantEvent event = new AutoDisenchantEvent(item);
             Bukkit.getPluginManager().callEvent(event);
 
@@ -82,50 +69,58 @@ public class AutoDisenchanter extends AContainer {
                 return null;
             }
 
-            ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
+            ItemStack secondItem = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
 
-            // Disenchanting
-            if (target != null && target.getType() == Material.BOOK) {
-                int amount = 0;
-
-                for (Map.Entry<Enchantment, Integer> entry : item.getEnchantments().entrySet()) {
-                    if (!useEnchantLevelLimit.getValue() || enchantLevelLimit.getValue() >= entry.getValue()) {
-                        enchantments.put(entry.getKey(), entry.getValue());
-                        amount++;
-                    } else if (!menu.toInventory().getViewers().isEmpty()) {
-                        String notice = ChatColors.color(SlimefunPlugin.getLocalization().getMessage("messages.above-limit-level"));
-                        notice = notice.replace("%level%", String.valueOf(enchantLevelLimit.getValue()));
-                        ItemStack progressBar = new CustomItem(Material.BARRIER, " ", notice);
-                        menu.replaceExistingItem(22, progressBar);
-                        return null;
-                    }
-                }
-
-                if (amount > 0) {
-                    ItemStack disenchantedItem = item.clone();
-                    disenchantedItem.setAmount(1);
-
-                    ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
-                    transferEnchantments(disenchantedItem, book, enchantments);
-
-                    MachineRecipe recipe = new MachineRecipe(90 * amount / this.getSpeed(), new ItemStack[] { target, item }, new ItemStack[] { disenchantedItem, book });
-
-                    if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
-                        return null;
-                    }
-
-                    for (int inputSlot : getInputSlots()) {
-                        menu.consumeItem(inputSlot);
-                    }
-
-                    return recipe;
-                }
+            if (secondItem != null && secondItem.getType() == Material.BOOK) {
+                return disenchant(menu, item, secondItem);
             }
         }
 
         return null;
     }
 
+    @Nullable
+    @ParametersAreNonnullByDefault
+    private MachineRecipe disenchant(BlockMenu menu, ItemStack item, ItemStack book) {
+        Map<Enchantment, Integer> enchantments = new HashMap<>();
+        int amount = 0;
+
+        // Find enchantments
+        for (Map.Entry<Enchantment, Integer> entry : item.getEnchantments().entrySet()) {
+            if (isEnchantmentLevelAllowed(entry.getValue())) {
+                enchantments.put(entry.getKey(), entry.getValue());
+                amount++;
+            } else if (!menu.toInventory().getViewers().isEmpty()) {
+                showEnchantmentLevelWarning(menu);
+                return null;
+            }
+        }
+
+        // Check if we found any valid enchantments
+        if (amount > 0) {
+            ItemStack disenchantedItem = item.clone();
+            disenchantedItem.setAmount(1);
+
+            ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
+            transferEnchantments(disenchantedItem, enchantedBook, enchantments);
+
+            MachineRecipe recipe = new MachineRecipe(90 * amount / this.getSpeed(), new ItemStack[] { book, item }, new ItemStack[] { disenchantedItem, enchantedBook });
+
+            if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
+                return null;
+            }
+
+            for (int inputSlot : getInputSlots()) {
+                menu.consumeItem(inputSlot);
+            }
+
+            return recipe;
+        } else {
+            return null;
+        }
+    }
+
+    @ParametersAreNonnullByDefault
     private void transferEnchantments(ItemStack item, ItemStack book, Map<Enchantment, Integer> enchantments) {
         ItemMeta itemMeta = item.getItemMeta();
         ItemMeta bookMeta = book.getItemMeta();
