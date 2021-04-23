@@ -17,7 +17,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,7 +35,8 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
     private final ItemSetting<Boolean> useLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting levelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
-    private final ItemSetting<List<String>> ignoredLores = new ItemSetting<>(this, "ignored-lores", Arrays.asList("&7- &cCan't be used in " + this.getItemName()));
+    private final ItemSetting<Boolean> useIgnoredLores = new ItemSetting<>(this, "use-ignored-lores", false);
+    private final ItemSetting<List<String>> ignoredLores = new ItemSetting<>(this, "ignored-lores", Collections.singletonList("&7- &cCan't be used in " + this.getItemName()));
 
     @ParametersAreNonnullByDefault
     protected AbstractEnchantmentMachine(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -43,6 +44,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
         addItemSetting(useLevelLimit);
         addItemSetting(levelLimit);
+        addItemSetting(useIgnoredLores);
         addItemSetting(ignoredLores);
     }
 
@@ -64,12 +66,12 @@ abstract class AbstractEnchantmentMachine extends AContainer {
     protected boolean hasIgnoredLore(@Nonnull ItemStack itemStack) {
         List<String> ignoredLore = ignoredLores.getValue();
         // Skip the check if not set any ignored lore.
-        if (ignoredLore.isEmpty()) {
+        if (!useIgnoredLores.getValue() || ignoredLore.isEmpty()) {
             return false;
         }
-        if (itemStack.hasItemMeta()) {
+        if (itemStack.hasItemMeta() && itemStack.getItemMeta().hasLore()) {
             List<String> itemLore = itemStack.getItemMeta().getLore();
-            if (itemLore == null) {
+            if (itemLore.isEmpty()) {
                 return false;
             }
             for (String lore : ignoredLore) {
