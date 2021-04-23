@@ -45,13 +45,13 @@ public class TeleporterListener implements Listener {
         }
 
         Block b = e.getClickedBlock();
-        SlimefunItem item = BlockStorage.check(e.getClickedBlock());
+        SlimefunItem item = BlockStorage.check(b);
         Player p = e.getPlayer();
 
         if (item instanceof ElevatorPlate) {
             // Pressure plate was an elevator
             ElevatorPlate elevator = SlimefunItems.ELEVATOR_PLATE.getItem(ElevatorPlate.class);
-            elevator.openInterface(p, e.getClickedBlock());
+            elevator.openInterface(p, b);
         } else if (item instanceof AbstractTeleporterPlate && ((AbstractTeleporterPlate) item).hasAccess(p, b)) {
             // Pressure plate was a teleporter
             SlimefunItem teleporter = BlockStorage.check(b.getRelative(BlockFace.DOWN));
