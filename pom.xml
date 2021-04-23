@@ -261,7 +261,8 @@
                             <packages>io.github.thebusybiscuit.slimefun4.implementation*</packages>
                         </group>
                         <group>
-                            <title>Slimefun4 - Integrations with other plugins</title>
+                            <title>Slimefun4 - Integrations with other
+                                plugins</title>
                             <packages>io.github.thebusybiscuit.slimefun4.integrations*</packages>
                         </group>
                         <group>
@@ -297,15 +298,20 @@
                 <filtering>true</filtering>
 
                 <includes>
-                    <include>*</include>
-                    <include>tags/*</include>
-                    <include>languages/*</include>
+                    <include>plugin.yml</include>
+                    <include>config.yml</include>
+
+                    <include>wiki.json</include>
+                    <include>tags/*.json</include>
+
+                    <include>languages/**/*.yml</include>
                 </includes>
             </resource>
 
             <!-- We also want to include our LICENSE file -->
             <resource>
                 <directory>${basedir}</directory>
+                <filtering>false</filtering>
 
                 <includes>
                     <include>LICENSE</include>
