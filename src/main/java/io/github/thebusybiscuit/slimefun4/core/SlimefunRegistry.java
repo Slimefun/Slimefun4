@@ -69,6 +69,7 @@ public final class SlimefunRegistry {
     private boolean enableResearches;
     private boolean freeCreativeResearches;
     private boolean researchFireworks;
+    private boolean disableLearningAnimation;
     private boolean logDuplicateBlockEntries;
     private boolean talismanActionBarMessages;
 
@@ -109,6 +110,7 @@ public final class SlimefunRegistry {
         backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility");
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
+        disableLearningAnimation = cfg.getBoolean("researches.disable-learning-animation");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
         talismanActionBarMessages = cfg.getBoolean("talismans.use-actionbar");
     }
@@ -236,6 +238,10 @@ public final class SlimefunRegistry {
 
     public boolean isResearchFireworkEnabled() {
         return researchFireworks;
+    }
+
+    public boolean isLearningAnimationDisabled() {
+        return disableLearningAnimation;
     }
 
     /**

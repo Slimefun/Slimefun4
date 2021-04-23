@@ -26,6 +26,7 @@ guide:
 researches:
   free-in-creative-mode: true
   enable-fireworks: true
+  disable-learning-animation: false
 
 URID:
   info-delay: 3000

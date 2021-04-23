@@ -47,6 +47,7 @@ public final class SlimefunGuideSettings {
     static {
         options.add(new GuideModeOption());
         options.add(new FireworksOption());
+        options.add(new LearningAnimationOption());
         options.add(new PlayerLanguageOption());
     }
 
@@ -243,6 +244,27 @@ public final class SlimefunGuideSettings {
                 FireworksOption fireworks = (FireworksOption) option;
                 ItemStack guide = SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE);
                 return fireworks.getSelectedOption(p, guide).orElse(true);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * This method checks if the given {@link Player} has enabled the {@link LearningAnimationOption}
+     * in their {@link SlimefunGuide}.
+     * If they enabled this setting, they will see messages in chat about the progress of their {@link Research}.
+     *
+     * @param p The {@link Player}
+     *
+     * @return Whether this {@link Player} wants to info messages in chat when unlocking a {@link Research}
+     */
+    public static boolean hasLearningAnimationEnabled(@Nonnull Player p) {
+        for (SlimefunGuideOption<?> option : options) {
+            if (option instanceof LearningAnimationOption) {
+                LearningAnimationOption learningAnimation = (LearningAnimationOption) option;
+                ItemStack guide = SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE);
+                return learningAnimation.getSelectedOption(p, guide).orElse(true);
             }
         }
 

@@ -47,7 +47,7 @@ class TestResearchUnlocking {
             latch.countDown();
         });
 
-        latch.await(10, TimeUnit.SECONDS);
+        latch.await(instant ? 1 : 10, TimeUnit.SECONDS);
         return ref.get();
     }
 
