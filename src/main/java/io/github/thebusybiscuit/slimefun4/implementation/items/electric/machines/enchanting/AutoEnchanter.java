@@ -53,7 +53,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
 
             // Check if the item is enchantable
             if (!isEnchantable(item)) {
-                return null;
+                continue;
             }
 
             // Call an event so other Plugins can modify it.
