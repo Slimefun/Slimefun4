@@ -79,13 +79,11 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
     protected MachineRecipe enchant(BlockMenu menu, ItemStack target, ItemStack enchantedBook) {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) enchantedBook.getItemMeta();
         Map<Enchantment, Integer> enchantments = new HashMap<>();
-        int amount = 0;
 
         // Find applicable enchantments
         for (Map.Entry<Enchantment, Integer> entry : meta.getStoredEnchants().entrySet()) {
             if (entry.getKey().canEnchantItem(target)) {
                 if (isEnchantmentLevelAllowed(entry.getValue())) {
-                    amount++;
                     enchantments.put(entry.getKey(), entry.getValue());
                 } else if (!menu.toInventory().getViewers().isEmpty()) {
                     showEnchantmentLevelWarning(menu);
@@ -95,15 +93,12 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
         }
 
         // Check if we found any valid enchantments
-        if (amount > 0) {
+        if (!enchantments.isEmpty()) {
             ItemStack enchantedItem = target.clone();
             enchantedItem.setAmount(1);
+            enchantedItem.addUnsafeEnchantments(enchantments);
 
-            for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-                enchantedItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
-            }
-
-            MachineRecipe recipe = new MachineRecipe(75 * amount / this.getSpeed(), new ItemStack[] { target, enchantedBook }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
+            MachineRecipe recipe = new MachineRecipe(75 * enchantments.size() / getSpeed(), new ItemStack[] { target, enchantedBook }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
 
             if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                 return null;
