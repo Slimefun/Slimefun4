@@ -27,6 +27,10 @@
 
 #### Additions
 * Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
+* Added "8 Coal Blocks -> 9 Carbon" recipe to Compressor
+* Added "8 Coal Blocks -> 9 Carbon" recipe to Carbon Press
+* Added Tier 2 Auto-Enchanter
+* Added Tier 2 Auto-Disenchanter
 
 #### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators

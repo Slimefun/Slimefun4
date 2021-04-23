@@ -23,7 +23,7 @@ public abstract class BlockPlaceHandler implements ItemHandler {
 
     private final boolean allowBlockPlacers;
 
-    public BlockPlaceHandler(boolean allowBlockPlacers) {
+    protected BlockPlaceHandler(boolean allowBlockPlacers) {
         this.allowBlockPlacers = allowBlockPlacers;
     }
 

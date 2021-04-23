@@ -53,7 +53,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     protected final MultiBlock multiblock;
 
     @ParametersAreNonnullByDefault
-    public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+    protected MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
         super(category, item, RecipeType.MULTIBLOCK, recipe);
         this.recipes = new ArrayList<>();
         this.displayRecipes = new ArrayList<>();
@@ -64,7 +64,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     }
 
     @ParametersAreNonnullByDefault
-    public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
+    protected MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
         this(category, item, recipe, new ItemStack[0], trigger);
     }
 
