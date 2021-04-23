@@ -216,7 +216,7 @@ public class PerWorldSettingsService {
                 }
             }
 
-            if (SlimefunPlugin.getCfg().getStringList("options.disabled-worlds").contains(name))  {
+            if (SlimefunPlugin.getCfg().getStringList("options.disabled-worlds").contains(name)) {
                 disabledWorlds.add(world.getUID());
             }
 
