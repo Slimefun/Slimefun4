@@ -233,21 +233,12 @@ public final class SlimefunGuideSettings {
      * in their {@link SlimefunGuide}.
      * If they enabled this setting, they will see fireworks when they unlock a {@link Research}.
      * 
-     * @param p
-     *            The {@link Player}
+     * @param p The {@link Player}
      * 
      * @return Whether this {@link Player} wants to see fireworks when unlocking a {@link Research}
      */
     public static boolean hasFireworksEnabled(@Nonnull Player p) {
-        for (SlimefunGuideOption<?> option : options) {
-            if (option instanceof FireworksOption) {
-                FireworksOption fireworks = (FireworksOption) option;
-                ItemStack guide = SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE);
-                return fireworks.getSelectedOption(p, guide).orElse(true);
-            }
-        }
-
-        return true;
+        return getOptionValue(p, FireworksOption.class, true);
     }
 
     /**
@@ -260,15 +251,30 @@ public final class SlimefunGuideSettings {
      * @return Whether this {@link Player} wants to info messages in chat when unlocking a {@link Research}
      */
     public static boolean hasLearningAnimationEnabled(@Nonnull Player p) {
+        return getOptionValue(p, LearningAnimationOption.class, true);
+    }
+
+    /**
+     * Helper method to get the value of a {@link SlimefunGuideOption} that the {@link Player}
+     * has set in their {@link SlimefunGuide}
+     *
+     * @param p The {@link Player}
+     * @param cls Class of the {@link SlimefunGuideOption} to get the value of
+     * @param defaultValue Default value to return in case the option is not found at all or has no value set
+     * @param <T> Type of the {@link SlimefunGuideOption} value
+     * @param <OPTION> Type of the {@link SlimefunGuideOption}
+     * @return The value of given {@link SlimefunGuideOption}
+     */
+    private static <T, OPTION extends SlimefunGuideOption<T>> T getOptionValue(@Nonnull Player p, @Nonnull Class<OPTION> cls, T defaultValue) {
         for (SlimefunGuideOption<?> option : options) {
-            if (option instanceof LearningAnimationOption) {
-                LearningAnimationOption learningAnimation = (LearningAnimationOption) option;
+            if (cls.isInstance(option)) {
+                OPTION o = (OPTION) option;
                 ItemStack guide = SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE);
-                return learningAnimation.getSelectedOption(p, guide).orElse(true);
+                return o.getSelectedOption(p, guide).orElse(defaultValue);
             }
         }
 
-        return true;
+        return defaultValue;
     }
 
 }

@@ -34,8 +34,9 @@ public class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
         if (SlimefunPlugin.getRegistry().isLearningAnimationDisabled()) {
             return Optional.empty();
         } else {
-            boolean enabled = getSelectedOption(p, guide).orElse(true);
-            ItemStack item = new CustomItem(Material.PAPER, "&bLearning Animation: &" + (enabled ? "aYes" : "4No"), "", "&7You can now toggle whether you", "&7will see information about your pondering in chat", "&7upon researching an item.", "", "&7\u21E8 &eClick to " + (enabled ? "disable" : "enable") + " your learning animation");
+            String enabled = getSelectedOption(p, guide).orElse(true) ? "enabled" : "disabled";
+            ItemStack item = new CustomItem(Material.PAPER, SlimefunPlugin.getLocalization().getMessages(
+                    p, "guide.options.learning-animation." + enabled));
             return Optional.of(item);
         }
     }
