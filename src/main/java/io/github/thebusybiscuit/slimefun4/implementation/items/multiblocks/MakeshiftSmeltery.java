@@ -17,6 +17,15 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link MakeshiftSmeltery} is a simpler version of the {@link Smeltery}.
+ * Its functionality is very limited and it cannot be used to smelt alloys.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Smeltery
+ *
+ */
 public class MakeshiftSmeltery extends AbstractSmeltery {
 
     @ParametersAreNonnullByDefault

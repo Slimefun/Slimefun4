@@ -122,17 +122,33 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     }
 
     @Nonnull
+    private final FileConfiguration getFallback(@Nonnull LanguageFile file) {
+        Language language = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
+
+        if (language == null) {
+            throw new IllegalStateException("Fallback language \"en\" is missing!");
+        }
+
+        FileConfiguration fallback = language.getFile(file);
+
+        if (fallback != null) {
+            return fallback;
+        } else {
+            throw new IllegalStateException("Fallback file: \"" + file.getFilePath("en") + "\" is missing!");
+        }
+    }
+
+    @Nonnull
     @Override
     public String getMessage(@Nonnull String key) {
         Validate.notNull(key, "Message key must not be null!");
 
         Language language = getDefaultLanguage();
 
-        String message = language == null ? null : language.getMessagesFile().getString(key);
+        String message = language == null ? null : language.getFile(LanguageFile.MESSAGES).getString(key);
 
         if (message == null) {
-            Language fallback = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
-            return fallback.getMessagesFile().getString(key);
+            return getFallback(LanguageFile.MESSAGES).getString(key);
         }
 
         return message;
@@ -149,11 +165,10 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
             return "NO LANGUAGE FOUND";
         }
 
-        String message = language.getMessagesFile().getString(key);
+        String message = language.getFile(LanguageFile.MESSAGES).getString(key);
 
         if (message == null) {
-            Language fallback = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
-            return fallback.getMessagesFile().getString(key);
+            return getFallback(LanguageFile.MESSAGES).getString(key);
         }
 
         return message;
@@ -170,11 +185,10 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
             return Collections.singletonList("NO LANGUAGE FOUND");
         }
 
-        List<String> messages = language.getMessagesFile().getStringList(key);
+        List<String> messages = language.getFile(LanguageFile.MESSAGES).getStringList(key);
 
         if (messages.isEmpty()) {
-            Language fallback = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
-            return fallback.getMessagesFile().getStringList(key);
+            return getFallback(LanguageFile.MESSAGES).getStringList(key);
         }
 
         return messages;
@@ -200,11 +214,11 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         Language language = getLanguage(p);
 
-        if (language == null || language.getResearchesFile() == null) {
+        if (language == null || language.getFile(LanguageFile.RESEARCHES) == null) {
             return null;
         }
 
-        return language.getResearchesFile().getString(key.getNamespace() + '.' + key.getKey());
+        return language.getFile(LanguageFile.RESEARCHES).getString(key.getNamespace() + '.' + key.getKey());
     }
 
     @Nullable
@@ -214,11 +228,11 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         Language language = getLanguage(p);
 
-        if (language == null || language.getCategoriesFile() == null) {
+        if (language == null || language.getFile(LanguageFile.CATEGORIES) == null) {
             return null;
         }
 
-        return language.getCategoriesFile().getString(key.getNamespace() + '.' + key.getKey());
+        return language.getFile(LanguageFile.CATEGORIES).getString(key.getNamespace() + '.' + key.getKey());
     }
 
     @Nullable
@@ -228,13 +242,12 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         Language language = getLanguage(p);
 
-        String value = language != null && language.getResourcesFile() != null ? language.getResourcesFile().getString(key) : null;
+        String value = language != null && language.getFile(LanguageFile.RESOURCES) != null ? language.getFile(LanguageFile.RESOURCES).getString(key) : null;
 
         if (value != null) {
             return value;
         } else {
-            Language fallback = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
-            return fallback.getResourcesFile().getString(key);
+            return getFallback(LanguageFile.RESOURCES).getString(key);
         }
     }
 
@@ -247,15 +260,15 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         ItemStack item = recipeType.toItem();
         NamespacedKey key = recipeType.getKey();
 
-        if (language == null || language.getRecipeTypesFile() == null || !language.getRecipeTypesFile().contains(key.getNamespace() + '.' + key.getKey())) {
+        if (language == null || language.getFile(LanguageFile.RECIPES) == null || !language.getFile(LanguageFile.RECIPES).contains(key.getNamespace() + '.' + key.getKey())) {
             language = getLanguage("en");
         }
 
-        if (!language.getRecipeTypesFile().contains(key.getNamespace() + '.' + key.getKey())) {
+        if (!language.getFile(LanguageFile.RECIPES).contains(key.getNamespace() + '.' + key.getKey())) {
             return item;
         }
 
-        FileConfiguration config = language.getRecipeTypesFile();
+        FileConfiguration config = language.getFile(LanguageFile.RECIPES);
 
         return new CustomItem(item, meta -> {
             meta.setDisplayName(ChatColor.AQUA + config.getString(key.getNamespace() + "." + key.getKey() + ".name"));

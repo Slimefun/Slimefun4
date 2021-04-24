@@ -261,7 +261,8 @@
                             <packages>io.github.thebusybiscuit.slimefun4.implementation*</packages>
                         </group>
                         <group>
-                            <title>Slimefun4 - Integrations with other plugins</title>
+                            <title>Slimefun4 - Integrations with other
+                                plugins</title>
                             <packages>io.github.thebusybiscuit.slimefun4.integrations*</packages>
                         </group>
                         <group>
@@ -297,15 +298,20 @@
                 <filtering>true</filtering>
 
                 <includes>
-                    <include>*</include>
-                    <include>tags/*</include>
-                    <include>languages/*</include>
+                    <include>plugin.yml</include>
+                    <include>config.yml</include>
+
+                    <include>wiki.json</include>
+                    <include>tags/*.json</include>
+
+                    <include>languages/**/*.yml</include>
                 </includes>
             </resource>
 
             <!-- We also want to include our LICENSE file -->
             <resource>
                 <directory>${basedir}</directory>
+                <filtering>false</filtering>
 
                 <includes>
                     <include>LICENSE</include>
@@ -420,7 +426,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.195</version>
+            <version>2.1.196</version>
             <scope>provided</scope>
 
             <exclusions>
@@ -462,7 +468,7 @@
         <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>itemsadder-api</artifactId>
-            <version>2.2.1</version>
+            <version>2.3.3</version>
             <scope>provided</scope>
 
             <exclusions>

@@ -27,9 +27,11 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
- * The {@link Juicer} allows you to turn various fruits and berries into {@link Juice}.
+ * The {@link Juicer} is a {@link MultiBlockMachine} which can be used to
+ * craft {@link Juice}.
  * 
  * @author TheBusyBiscuit
+ * @author Liruxo
  * 
  * @see Juice
  *
