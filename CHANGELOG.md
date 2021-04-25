@@ -31,6 +31,7 @@
 * Added "8 Coal Blocks -> 9 Carbon" recipe to Carbon Press
 * Added Tier 2 Auto-Enchanter
 * Added Tier 2 Auto-Disenchanter
+* (API) Added Category#setTier() to modify a category's position in the guide
 * Added sound effects for Slime Boots
 * Added sounds.yml file to configure all sound effects
 
@@ -38,9 +39,12 @@
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
 * Photovoltaic Cells can no longer be placed
 * (API) Removed deprecated "SlimefunBlockHandler"
+* Removed Automated Crafting Chamber
 
 #### Fixes
 * Fixed #2987
+* Fixed #2989
+* Fixed #2977
 
 ## Release Candidate 22 (18 Apr 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22

@@ -2,7 +2,9 @@ package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.UnaryOperator;
 
 import javax.annotation.Nonnull;
@@ -370,5 +372,21 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     @ParametersAreNonnullByDefault
     public void sendMessages(CommandSender recipient, String key, UnaryOperator<String> function) {
         sendMessages(recipient, key, true, function);
+    }
+
+    @Nonnull
+    protected Set<String> getTotalKeys(@Nonnull Language lang) {
+        return getKeys(lang.getFiles());
+    }
+
+    @Nonnull
+    protected Set<String> getKeys(@Nonnull FileConfiguration... files) {
+        Set<String> keys = new HashSet<>();
+
+        for (FileConfiguration cfg : files) {
+            keys.addAll(cfg.getKeys(true));
+        }
+
+        return keys;
     }
 }
