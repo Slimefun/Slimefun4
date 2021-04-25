@@ -31,6 +31,7 @@
 * Added "8 Coal Blocks -> 9 Carbon" recipe to Carbon Press
 * Added Tier 2 Auto-Enchanter
 * Added Tier 2 Auto-Disenchanter
+* (API) Added Category#setTier() to modify a category's position in the guide
 
 #### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
