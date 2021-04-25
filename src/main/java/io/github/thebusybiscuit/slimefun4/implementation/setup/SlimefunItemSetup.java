@@ -85,7 +85,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generato
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoAnvil;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBrewer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDrier;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CarbonPress;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ChargingBench;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricDustWasher;
@@ -2493,21 +2492,6 @@ public final class SlimefunItemSetup {
         new AdvancedCargoOutputNode(categories.cargo, SlimefunItems.CARGO_OUTPUT_NODE_2, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.CARGO_MOTOR, null, SlimefunItems.COBALT_INGOT, SlimefunItems.CARGO_OUTPUT_NODE, SlimefunItems.COBALT_INGOT, null, SlimefunItems.CARGO_MOTOR, null})
         .register(plugin);
-
-        new AutomatedCraftingChamber(categories.electricity, SlimefunItems.AUTOMATED_CRAFTING_CHAMBER, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, null, null, null, new CustomItem(Material.BARRIER, "&4This Item has been disabled.", "&cIt will soon be removed!", "&cPlease switch over to the new", "&cAuto-Crafters from the Cargo Category."), null, null, null, null}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 10;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-        }.register(plugin);
 
         new ReactorAccessPort(categories.cargo, SlimefunItems.REACTOR_ACCESS_PORT, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.LEAD_INGOT, SlimefunItems.CARGO_MOTOR, SlimefunItems.LEAD_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, null})
