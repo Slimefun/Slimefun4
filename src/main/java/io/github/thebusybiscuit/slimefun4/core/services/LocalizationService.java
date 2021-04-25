@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -252,22 +251,6 @@ public class LocalizationService extends SlimefunLocalization {
         }
 
         return Math.min(NumberUtils.reparseDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
-    }
-
-    @Nonnull
-    private Set<String> getTotalKeys(@Nonnull Language lang) {
-        return getKeys(lang.getFiles());
-    }
-
-    @Nonnull
-    private Set<String> getKeys(@Nonnull FileConfiguration... files) {
-        Set<String> keys = new HashSet<>();
-
-        for (FileConfiguration cfg : files) {
-            keys.addAll(cfg.getKeys(true));
-        }
-
-        return keys;
     }
 
     @Nullable

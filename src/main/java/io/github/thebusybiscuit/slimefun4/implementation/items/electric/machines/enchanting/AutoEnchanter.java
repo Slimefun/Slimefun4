@@ -30,6 +30,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @author Poslovitch
  * @author Mooy1
  * @author StarWishSama
+ * @author martinbrom
  *
  * @see AutoDisenchanter
  *
@@ -121,7 +122,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
 
     private boolean isEnchantable(@Nullable ItemStack item) {
         // stops endless checks of getByItem for enchanted book stacks.
-        if (item != null && item.getType() != Material.ENCHANTED_BOOK) {
+        if (item != null && !item.getType().isAir() && item.getType() != Material.ENCHANTED_BOOK) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
             return sfItem == null || sfItem.isEnchantable();
         } else {

@@ -21,7 +21,7 @@ public enum LanguageFile {
     RESOURCES("resources.yml"),
     RESEARCHES("researches.yml");
 
-    static final LanguageFile[] valuesCached = values();
+    protected static final LanguageFile[] valuesCached = values();
 
     private final String fileName;
 
