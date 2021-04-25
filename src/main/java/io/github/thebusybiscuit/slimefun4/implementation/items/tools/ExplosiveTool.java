@@ -149,8 +149,17 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         SlimefunItem sfItem = BlockStorage.check(b);
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-            if (!sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(e, item, drops))) {
+            /*
+             * Fixes #2989
+             * We create a dummy here to pass onto the BlockBreakHandler.
+             * This will set the correct block context.
+             */
+            BlockBreakEvent dummyEvent = new BlockBreakEvent(b, e.getPlayer());
+
+            if (!sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops)) && !dummyEvent.isCancelled()) {
                 drops.addAll(sfItem.getDrops(p));
+                b.setType(Material.AIR);
+                BlockStorage.clearBlockInfo(b);
             }
         } else {
             b.breakNaturally(item);
