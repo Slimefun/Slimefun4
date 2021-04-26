@@ -36,6 +36,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  *
  */
 public class AutoEnchanter extends AbstractEnchantmentMachine {
+
     @ParametersAreNonnullByDefault
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
