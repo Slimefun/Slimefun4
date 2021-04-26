@@ -41,7 +41,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
     }
 
     @Override
-    protected boolean chopTree(Block b, BlockMenu menu, BlockFace face) {
+    protected void chopTree(Block b, BlockMenu menu, BlockFace face) {
         Block target = b.getRelative(face);
 
         if (Tag.LOGS.isTagged(target.getType())) {
@@ -55,12 +55,8 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
                 if (SlimefunPlugin.getProtectionManager().hasPermission(owner, log.getLocation(), ProtectableAction.BREAK_BLOCK)) {
                     breakLog(log, b, menu, face);
                 }
-
-                return false;
             }
         }
-
-        return true;
     }
 
     @ParametersAreNonnullByDefault

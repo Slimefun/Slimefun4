@@ -706,10 +706,9 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
                     break;
                 case CHOP_TREE:
-                    // We only move to the next step if we finished chopping wood
-                    if (chopTree(b, inv, face)) {
-                        BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
-                    }
+                    // Move to the next step and try to chop the tree
+                    BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                    chopTree(b, inv, face);
                     break;
                 default:
                     // We set the index here in advance to fix moving android issues
@@ -894,7 +893,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         throw new UnsupportedOperationException("Non-mining Android tried to mine!");
     }
 
-    protected boolean chopTree(Block b, BlockMenu menu, BlockFace face) {
+    protected void chopTree(Block b, BlockMenu menu, BlockFace face) {
         throw new UnsupportedOperationException("Non-woodcutter Android tried to chop a Tree!");
     }
 
