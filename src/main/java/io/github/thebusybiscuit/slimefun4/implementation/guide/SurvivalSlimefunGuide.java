@@ -146,6 +146,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         if (isSurvivalMode()) {
             profile.getGuideHistory().clear();
         }
+        profile.getGuideHistory().setMainMenuPage(page);
 
         ChestMenu menu = create(p);
         List<Category> categories = getVisibleCategories(p, profile);
@@ -602,7 +603,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
                 if (action.isShiftClicked()) {
-                    openMainMenu(profile, 1);
+                    openMainMenu(profile, profile.getGuideHistory().getMainMenuPage());
                 } else {
                     history.goBack(this);
                 }
@@ -612,7 +613,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         } else {
             menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide"))));
             menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
-                openMainMenu(profile, 1);
+                openMainMenu(profile, profile.getGuideHistory().getMainMenuPage());
                 return false;
             });
         }
