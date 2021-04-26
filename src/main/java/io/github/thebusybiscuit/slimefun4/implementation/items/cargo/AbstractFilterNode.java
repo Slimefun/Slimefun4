@@ -38,7 +38,7 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
     private static final String FILTER_LORE = "filter-lore";
 
     @ParametersAreNonnullByDefault
-    public AbstractFilterNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+    protected AbstractFilterNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
         addItemHandler(onBreak());

@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,6 +27,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class MagicWorkbench extends AbstractCraftingTable {
 
+    @ParametersAreNonnullByDefault
     public MagicWorkbench(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, BlockFace.UP);
     }

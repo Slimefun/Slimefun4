@@ -53,7 +53,7 @@ class TestResearchSetup {
     @Order(value = 2)
     @DisplayName("Test if Researches have a translation")
     void testResearchTranslations() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/researches_en.yml"), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/en/researches.yml"), StandardCharsets.UTF_8))) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 
             for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
