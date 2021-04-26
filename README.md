@@ -1,5 +1,5 @@
 # Slimefun 4
-*Looking for the download link? [**Click here**](https://github.com/Slimefun/Slimefun4/blob/master/README.md#download-slimefun-4)*
+*Looking for the download link? [**Click here**](https://github.com/Slimefun/Slimefun4/blob/master/README.md#floppy_disk-download-slimefun-4)*
 
 Slimefun is a plugin which aims to turn your Spigot Server into a modpack without ever installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks! Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.<br>
 We got everything from magical wands to nuclear reactors.<br>
@@ -9,8 +9,7 @@ This project originally started back **in 2013** and has grown ever since.<br>
 From one single person working on this plugin back then, we grew to a community of thousands of players and hundreds of contributors to this project.<br>
 It currently adds over **500 new items and recipes** to Minecraft ([Read more about the history of this project](https://github.com/Slimefun/Slimefun4/wiki/Slimefun-in-a-nutshell)).
 
-But it also comes with a lot of Addons too!<br>
-Check out our [Addons](https://github.com/Slimefun/Slimefun4/wiki/Addons), you may find exactly what you were looking for.
+But it also comes with a lot of addons! Check out our [addons](https://github.com/Slimefun/Slimefun4/wiki/Addons), you may find exactly what you were looking for.
 
 ### :compass: Quick navigation
 * **[:floppy_disk: Download Slimefun4](#floppy_disk-download-slimefun-4)**
@@ -85,7 +84,7 @@ Slimefun has a (detailed and well-maintained - *cough*) Wiki for new players, ma
 expanding the wiki to help grow our community and help out new users of this plugin.
 https://github.com/Slimefun/Slimefun4/wiki
 
-##### :star: Highlighted Articles
+#### :star: Highlighted Articles
 * [What is Slimefun?](https://github.com/Slimefun/Slimefun4/wiki/Slimefun-in-a-nutshell)
 * [How to install Slimefun](https://github.com/Slimefun/Slimefun4/wiki/Installing-Slimefun)
 * [Addons for Slimefun 4](https://github.com/Slimefun/Slimefun4/wiki/Addons)
@@ -101,8 +100,8 @@ The wiki is entirely community-run, so if you find an article missing, feel free
 ## :handshake: Contributing to this project
 Slimefun 4 is an Open-Source project and licensed under
 [GNU GPLv3](https://github.com/Slimefun/Slimefun4/blob/master/LICENSE).<br>
-**Over 200 people have already contributed to this amazing project. You guys are awesome.**<br>
-Please consider helping us maintain this project too, your engagement keeps the project alive <3.
+**Over 200 people have already contributed to this amazing project. You guys are awesome! :heart:**<br>
+Please consider helping us maintain this project too, your engagement keeps the project alive!
 
 You can find more info on how to contribute to this project in our [CONTRIBUTING.md](https://github.com/Slimefun/Slimefun4/blob/master/CONTRIBUTING.md).
 
@@ -110,7 +109,7 @@ You can find more info on how to contribute to this project in our [CONTRIBUTING
 Slimefun4 uses various systems that collect usage information or download automatic updates as well as the latest information about the project.
 We do not collect any personal information from you but there are some services that may gather or download some form of data.
 
-You can opt-out of the Auto-Updater and stats collection at any time.
+You can opt-out of the Auto-Updater and stats collection at any time!
 
 <details>
   <summary>Automatic updates</summary>
@@ -153,4 +152,5 @@ This information includes (but is not limited to)
 </details>
 
 Additionally the plugin connects to [textures.minecraft.net](https://www.minecraft.net/en-us) to retrieve the Minecraft skins of our contributors (if possible).<br>
-Note that Slimefun is not associated with `Mojang Studios` or Minecraft.
+
+*Note that Slimefun is not associated with `Mojang Studios` or `Minecraft`.*
