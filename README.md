@@ -11,7 +11,7 @@ It currently adds over **500 new items and recipes** to Minecraft ([Read more ab
 
 But it also comes with a lot of addons! Check out our [addons](https://github.com/Slimefun/Slimefun4/wiki/Addons), you may find exactly what you were looking for.
 
-### :compass: Quick navigation
+### Quick navigation
 * **[:floppy_disk: Download Slimefun4](#floppy_disk-download-slimefun-4)**
 * **[:framed_picture: Screenshots](#framed_picture-screenshots)**
 * **[:headphones: Discord Support Server](#headphones-discord)**
