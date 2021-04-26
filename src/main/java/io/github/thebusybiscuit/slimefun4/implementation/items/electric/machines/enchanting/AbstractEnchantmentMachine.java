@@ -16,6 +16,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
 import java.util.List;
@@ -65,15 +66,15 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
     protected boolean hasIgnoredLore(@Nonnull ItemStack itemStack) {
         List<String> ignoredLore = ignoredLores.getValue();
-        // Skip the check if not enable this feature or set any ignored lore.
-        if (!useIgnoredLores.getValue() || ignoredLore.isEmpty()) {
+        if (!useIgnoredLores.getValue()) {
             return false;
         }
-        if (itemStack.hasItemMeta() && itemStack.getItemMeta().hasLore()) {
-            List<String> itemLore = itemStack.getItemMeta().getLore();
-            if (itemLore.isEmpty()) {
+        if (itemStack.hasItemMeta()) {
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            if (!itemMeta.hasLore()) {
                 return false;
             }
+            List<String> itemLore = itemMeta.getLore();
             for (String lore : ignoredLore) {
                 if (itemLore.contains(ChatColors.color(lore))) {
                     return true;
