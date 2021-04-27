@@ -153,7 +153,7 @@ public enum Instruction {
      * ahead of them.
      */
     ATTACK_MOBS(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
-        Predicate<LivingEntity> predicate = e -> e instanceof Monster;
+        Predicate<LivingEntity> predicate = Monster.class::isInstance;
         android.attack(b, face, predicate);
     }),
 
@@ -162,7 +162,7 @@ public enum Instruction {
      * ahead of them.
      */
     ATTACK_ANIMALS(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
-        Predicate<LivingEntity> predicate = e -> e instanceof Animals;
+        Predicate<LivingEntity> predicate = Animals.class::isInstance;
         android.attack(b, face, predicate);
     }),
 

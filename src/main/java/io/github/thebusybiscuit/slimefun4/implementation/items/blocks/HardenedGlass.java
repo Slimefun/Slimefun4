@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.entity.Wither;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +23,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class HardenedGlass extends WitherProofBlock {
 
+    @ParametersAreNonnullByDefault
     public HardenedGlass(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }

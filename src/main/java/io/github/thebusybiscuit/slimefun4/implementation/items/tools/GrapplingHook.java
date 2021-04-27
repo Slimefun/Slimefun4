@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
@@ -38,8 +39,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
-    private final ItemSetting<Boolean> consumeOnUse = new ItemSetting<>("consume-on-use", true);
-    private final ItemSetting<Integer> despawnTicks = new IntRangeSetting("despawn-seconds", 0, 60, Integer.MAX_VALUE);
+    private final ItemSetting<Boolean> consumeOnUse = new ItemSetting<>(this, "consume-on-use", true);
+    private final ItemSetting<Integer> despawnTicks = new IntRangeSetting(this, "despawn-seconds", 0, 60, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -54,7 +55,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
         return e -> {
             Player p = e.getPlayer();
             UUID uuid = p.getUniqueId();
-            boolean isConsumed = consumeOnUse.getValue();
+            boolean isConsumed = consumeOnUse.getValue() && p.getGameMode() != GameMode.CREATIVE;
 
             if (!e.getClickedBlock().isPresent() && !SlimefunPlugin.getGrapplingHookListener().isGrappling(uuid)) {
                 e.cancel();

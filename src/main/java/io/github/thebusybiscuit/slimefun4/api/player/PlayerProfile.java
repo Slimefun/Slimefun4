@@ -388,7 +388,7 @@ public class PlayerProfile {
         Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
             AsyncProfileLoadEvent event = new AsyncProfileLoadEvent(new PlayerProfile(p));
             Bukkit.getPluginManager().callEvent(event);
-            
+
             SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, event.getProfile());
             callback.accept(event.getProfile());
         });
@@ -471,6 +471,8 @@ public class PlayerProfile {
     }
 
     public boolean hasFullProtectionAgainst(@Nonnull ProtectionType type) {
+        Validate.notNull(type, "ProtectionType must not be null.");
+
         int armorCount = 0;
         NamespacedKey setId = null;
 

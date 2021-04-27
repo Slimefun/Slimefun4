@@ -105,15 +105,18 @@ public class DirtyChestMenu extends ChestMenu {
             if (stack == null) {
                 replaceExistingItem(slot, item);
                 return null;
-            } else if (stack.getAmount() < stack.getMaxStackSize()) {
-                if (wrapper == null) {
-                    wrapper = new ItemStackWrapper(item);
-                }
+            } else {
+                int maxStackSize = Math.min(stack.getMaxStackSize(), toInventory().getMaxStackSize());
+                if (stack.getAmount() < maxStackSize) {
+                    if (wrapper == null) {
+                        wrapper = new ItemStackWrapper(item);
+                    }
 
-                if (ItemUtils.canStack(wrapper, stack)) {
-                    amount -= (stack.getMaxStackSize() - stack.getAmount());
-                    stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), stack.getMaxStackSize()));
-                    item.setAmount(amount);
+                    if (ItemUtils.canStack(wrapper, stack)) {
+                        amount -= (maxStackSize - stack.getAmount());
+                        stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), maxStackSize));
+                        item.setAmount(amount);
+                    }
                 }
             }
         }

@@ -48,6 +48,6 @@ assignees: ''
 <!-- Make sure that the screenshot covers the entire output of that command. -->
 <!-- If your issue is related to other plugins, make sure to include the versions of these plugins too! -->
 
- - Server Software: 
- - Minecraft Version: 
- - Slimefun Version: 
+ - Server software: 
+ - Minecraft version: 
+ - Slimefun version: 

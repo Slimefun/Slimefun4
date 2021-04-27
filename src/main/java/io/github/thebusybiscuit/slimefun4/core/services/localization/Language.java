@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
+import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,15 +29,11 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  */
 public final class Language {
 
+    private final Map<LanguageFile, FileConfiguration> files = new EnumMap<>(LanguageFile.class);
+
     private final String id;
     private final ItemStack item;
     private double progress = -1;
-
-    private FileConfiguration messages;
-    private FileConfiguration researches;
-    private FileConfiguration resources;
-    private FileConfiguration categories;
-    private FileConfiguration recipeTypes;
 
     /**
      * This instantiates a new {@link Language} with the given language code
@@ -85,58 +84,15 @@ public final class Language {
     }
 
     @Nullable
-    FileConfiguration getMessagesFile() {
-        return messages;
+    FileConfiguration getFile(@Nonnull LanguageFile file) {
+        return files.get(file);
     }
 
-    @Nullable
-    FileConfiguration getResearchesFile() {
-        return researches;
-    }
+    public void setFile(@Nonnull LanguageFile file, @Nonnull FileConfiguration config) {
+        Validate.notNull(file, "The provided file should not be null.");
+        Validate.notNull(config, "The provided config should not be null.");
 
-    @Nullable
-    FileConfiguration getResourcesFile() {
-        return resources;
-    }
-
-    @Nullable
-    FileConfiguration getCategoriesFile() {
-        return categories;
-    }
-
-    @Nullable
-    FileConfiguration getRecipeTypesFile() {
-        return recipeTypes;
-    }
-
-    public void setMessagesFile(@Nonnull FileConfiguration config) {
-        Validate.notNull(config);
-
-        this.messages = config;
-    }
-
-    public void setResearchesFile(@Nonnull FileConfiguration config) {
-        Validate.notNull(config);
-
-        this.researches = config;
-    }
-
-    public void setResourcesFile(@Nonnull FileConfiguration config) {
-        Validate.notNull(config);
-
-        this.resources = config;
-    }
-
-    public void setCategoriesFile(@Nonnull FileConfiguration config) {
-        Validate.notNull(config);
-
-        this.categories = config;
-    }
-
-    public void setRecipeTypesFile(@Nonnull FileConfiguration config) {
-        Validate.notNull(config);
-
-        this.recipeTypes = config;
+        files.put(file, config);
     }
 
     /**
@@ -160,8 +116,7 @@ public final class Language {
      */
     @Nonnull
     public String getName(@Nonnull Player p) {
-        String name = SlimefunPlugin.getLocalization().getMessage(p, "languages." + id);
-        return name != null ? name : toString();
+        return SlimefunPlugin.getLocalization().getMessage(p, "languages." + id);
     }
 
     /**
@@ -180,8 +135,8 @@ public final class Language {
     }
 
     @Nonnull
-    public FileConfiguration[] getFiles() {
-        return new FileConfiguration[] { getMessagesFile(), getCategoriesFile(), getResearchesFile(), getResourcesFile() };
+    FileConfiguration[] getFiles() {
+        return Arrays.stream(LanguageFile.valuesCached).map(this::getFile).toArray(FileConfiguration[]::new);
     }
 
 }

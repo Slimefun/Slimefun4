@@ -7,7 +7,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 
 /**
  * An {@link Event} that is called whenever an {@link AutoDisenchanter} has
@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
  * 
  * @author poma123
  *
+ * @see AutoEnchantEvent
  */
 public class AutoDisenchantEvent extends Event implements Cancellable {
 

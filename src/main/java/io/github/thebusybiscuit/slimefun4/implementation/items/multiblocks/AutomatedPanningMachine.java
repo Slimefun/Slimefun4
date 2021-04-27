@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -19,15 +21,27 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link AutomatedPanningMachine} is a {@link MultiBlockMachine} that
+ * functions as a semi-automatic version of the {@link GoldPan} and {@link NetherGoldPan}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Liruxo
+ * 
+ * @see GoldPan
+ *
+ */
 public class AutomatedPanningMachine extends MultiBlockMachine {
 
-    private final GoldPan goldPan = (GoldPan) SlimefunItems.GOLD_PAN.getItem();
-    private final GoldPan netherGoldPan = (GoldPan) SlimefunItems.NETHER_GOLD_PAN.getItem();
+    private final GoldPan goldPan = SlimefunItems.GOLD_PAN.getItem(GoldPan.class);
+    private final NetherGoldPan netherGoldPan = SlimefunItems.NETHER_GOLD_PAN.getItem(NetherGoldPan.class);
 
+    @ParametersAreNonnullByDefault
     public AutomatedPanningMachine(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
     }

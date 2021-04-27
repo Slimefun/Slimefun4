@@ -32,7 +32,7 @@ class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
     @Nonnull
     @Override
     public NamespacedKey getKey() {
-        return new NamespacedKey(SlimefunPlugin.instance(), "guide_layout");
+        return new NamespacedKey(SlimefunPlugin.instance(), "guide_mode");
     }
 
     @Nonnull
@@ -46,25 +46,24 @@ class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
         Optional<SlimefunGuideMode> current = getSelectedOption(p, guide);
 
         if (current.isPresent()) {
-            SlimefunGuideMode layout = current.get();
+            SlimefunGuideMode selectedMode = current.get();
             ItemStack item = new ItemStack(Material.AIR);
 
-            if (layout == SlimefunGuideMode.SURVIVAL_MODE) {
+            if (selectedMode == SlimefunGuideMode.SURVIVAL_MODE) {
                 item.setType(Material.CHEST);
             } else {
                 item.setType(Material.COMMAND_BLOCK);
             }
 
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(ChatColor.GRAY + "Slimefun Guide Design: " + ChatColor.YELLOW + ChatUtils.humanize(layout.name()));
+            meta.setDisplayName(ChatColor.GRAY + "Slimefun Guide Type: " + ChatColor.YELLOW + ChatUtils.humanize(selectedMode.name()));
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add((layout == SlimefunGuideMode.SURVIVAL_MODE ? ChatColor.GREEN : ChatColor.GRAY) + "Chest");
-
-            lore.add((layout == SlimefunGuideMode.CHEAT_MODE ? ChatColor.GREEN : ChatColor.GRAY) + "Cheat Sheet");
+            lore.add((selectedMode == SlimefunGuideMode.SURVIVAL_MODE ? ChatColor.GREEN : ChatColor.GRAY) + "Survival Mode");
+            lore.add((selectedMode == SlimefunGuideMode.CHEAT_MODE ? ChatColor.GREEN : ChatColor.GRAY) + "Cheat Sheet");
 
             lore.add("");
-            lore.add(ChatColor.GRAY + "\u21E8 " + ChatColor.YELLOW + "Click to change your layout");
+            lore.add(ChatColor.GRAY + "\u21E8 " + ChatColor.YELLOW + "Click to change the type");
             meta.setLore(lore);
             item.setItemMeta(meta);
 

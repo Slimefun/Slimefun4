@@ -1,12 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.testing.tests.utils;
 
-import java.util.Arrays;
 import java.util.Collections;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.ChargeUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +11,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.ChargeUtils;
 
 class TestChargeUtils {
 

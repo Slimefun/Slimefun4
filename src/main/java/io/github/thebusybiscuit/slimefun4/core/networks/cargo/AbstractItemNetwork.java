@@ -115,14 +115,14 @@ abstract class AbstractItemNetwork extends Network {
 
             if (menu != null) {
                 switch (request.getDirection()) {
-                case INSERT:
-                    distributeInsertionRequest(inventories, request, menu, iterator, destinations);
-                    break;
-                case WITHDRAW:
-                    collectExtractionRequest(inventories, request, menu, iterator, providers);
-                    break;
-                default:
-                    break;
+                    case INSERT:
+                        distributeInsertionRequest(inventories, request, menu, iterator, destinations);
+                        break;
+                    case WITHDRAW:
+                        collectExtractionRequest(inventories, request, menu, iterator, providers);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -135,7 +135,7 @@ abstract class AbstractItemNetwork extends Network {
             Optional<Block> target = getAttachedBlock(l);
 
             if (target.isPresent()) {
-                item = CargoUtils.insert(this, inventories, l.getBlock(), target.get(), item);
+                item = CargoUtils.insert(this, inventories, l.getBlock(), target.get(), false, item);
 
                 if (item == null) {
                     terminal.replaceExistingItem(request.getSlot(), null);
@@ -235,7 +235,7 @@ abstract class AbstractItemNetwork extends Network {
             if (menu.getItemInSlot(17) != null) {
                 Optional<Block> target = getAttachedBlock(bus);
 
-                target.ifPresent(block -> menu.replaceExistingItem(17, CargoUtils.insert(this, inventories, bus.getBlock(), block, menu.getItemInSlot(17))));
+                target.ifPresent(block -> menu.replaceExistingItem(17, CargoUtils.insert(this, inventories, bus.getBlock(), block, false, menu.getItemInSlot(17))));
             }
 
             if (menu.getItemInSlot(17) == null) {

@@ -36,7 +36,11 @@ class McMMOIntegration implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockPlacerPlace(BlockPlacerPlaceEvent e) {
         // This registers blocks placed by the BlockPlacer as "player-placed"
-        mcMMO.getPlaceStore().setTrue(e.getBlock());
+        try {
+            mcMMO.getPlaceStore().setTrue(e.getBlock());
+        } catch (Exception | LinkageError x) {
+            SlimefunPlugin.getIntegrations().logError("mcMMO", x);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

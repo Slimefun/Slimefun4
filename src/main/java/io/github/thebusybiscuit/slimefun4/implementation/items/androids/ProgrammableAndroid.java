@@ -24,6 +24,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -36,6 +37,7 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -52,11 +54,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -133,25 +133,11 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             }
         };
 
-        registerBlockHandler(getId(), (p, b, stack, reason) -> {
-            boolean allow = reason == UnregisterReason.PLAYER_BREAK && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
-
-            if (allow) {
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    inv.dropItems(b.getLocation(), 43);
-                    inv.dropItems(b.getLocation(), getOutputSlots());
-                }
-            }
-
-            return allow;
-        });
-
-        addItemHandler(onPlace());
+        addItemHandler(onPlace(), onBreak());
     }
 
-    private ItemHandler onPlace() {
+    @Nonnull
+    private BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
@@ -177,6 +163,31 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         };
     }
 
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+        return new BlockBreakHandler(false, false) {
+
+            @Override
+            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
+                Block b = e.getBlock();
+                String owner = BlockStorage.getLocationInfo(b.getLocation(), "owner");
+
+                if (!e.getPlayer().hasPermission("slimefun.android.bypass") && !e.getPlayer().getUniqueId().toString().equals(owner)) {
+                    // The Player is not allowed to break this android
+                    e.setCancelled(true);
+                    return;
+                }
+
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), 43);
+                    inv.dropItems(b.getLocation(), getOutputSlots());
+                }
+            }
+        };
+    }
+
     /**
      * This returns the {@link AndroidType} that is associated with this {@link ProgrammableAndroid}.
      * 
@@ -194,14 +205,14 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
      */
     public AndroidFuelSource getFuelSource() {
         switch (getTier()) {
-        case 1:
-            return AndroidFuelSource.SOLID;
-        case 2:
-            return AndroidFuelSource.LIQUID;
-        case 3:
-            return AndroidFuelSource.NUCLEAR;
-        default:
-            throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
+            case 1:
+                return AndroidFuelSource.SOLID;
+            case 2:
+                return AndroidFuelSource.LIQUID;
+            case 3:
+                return AndroidFuelSource.NUCLEAR;
+            default:
+                throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
         }
     }
 
@@ -564,38 +575,38 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     private void registerDefaultFuelTypes() {
         switch (getFuelSource()) {
-        case SOLID:
-            registerFuelType(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
-            registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
-            registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
+            case SOLID:
+                registerFuelType(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
+                registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
+                registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
 
-            // Coal & Charcoal
-            registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
-            registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
+                // Coal & Charcoal
+                registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
+                registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
 
-            // Logs
-            for (Material mat : Tag.LOGS.getValues()) {
-                registerFuelType(new MachineFuel(2, new ItemStack(mat)));
-            }
+                // Logs
+                for (Material mat : Tag.LOGS.getValues()) {
+                    registerFuelType(new MachineFuel(2, new ItemStack(mat)));
+                }
 
-            // Wooden Planks
-            for (Material mat : Tag.PLANKS.getValues()) {
-                registerFuelType(new MachineFuel(1, new ItemStack(mat)));
-            }
+                // Wooden Planks
+                for (Material mat : Tag.PLANKS.getValues()) {
+                    registerFuelType(new MachineFuel(1, new ItemStack(mat)));
+                }
 
-            break;
-        case LIQUID:
-            registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
-            registerFuelType(new MachineFuel(200, SlimefunItems.OIL_BUCKET));
-            registerFuelType(new MachineFuel(500, SlimefunItems.FUEL_BUCKET));
-            break;
-        case NUCLEAR:
-            registerFuelType(new MachineFuel(2500, SlimefunItems.URANIUM));
-            registerFuelType(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
-            registerFuelType(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
-            break;
-        default:
-            throw new IllegalStateException("Unhandled Fuel Source: " + getFuelSource());
+                break;
+            case LIQUID:
+                registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
+                registerFuelType(new MachineFuel(200, SlimefunItems.OIL_BUCKET));
+                registerFuelType(new MachineFuel(500, SlimefunItems.FUEL_BUCKET));
+                break;
+            case NUCLEAR:
+                registerFuelType(new MachineFuel(2500, SlimefunItems.URANIUM));
+                registerFuelType(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
+                registerFuelType(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
+                break;
+            default:
+                throw new IllegalStateException("Unhandled Fuel Source: " + getFuelSource());
         }
     }
 
@@ -685,26 +696,26 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             BlockFace face = rotationData == null ? BlockFace.NORTH : BlockFace.valueOf(rotationData);
 
             switch (instruction) {
-            case START:
-            case WAIT:
-                // We are "waiting" here, so we only move a step forward
-                BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
-                break;
-            case REPEAT:
-                // "repeat" just means, we reset our index
-                BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
-                break;
-            case CHOP_TREE:
-                // We only move to the next step if we finished chopping wood
-                if (chopTree(b, inv, face)) {
+                case START:
+                case WAIT:
+                    // We are "waiting" here, so we only move a step forward
                     BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
-                }
-                break;
-            default:
-                // We set the index here in advance to fix moving android issues
-                BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
-                instruction.execute(this, b, inv, face);
-                break;
+                    break;
+                case REPEAT:
+                    // "repeat" just means, we reset our index
+                    BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
+                    break;
+                case CHOP_TREE:
+                    // We only move to the next step if we finished chopping wood
+                    if (chopTree(b, inv, face)) {
+                        BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                    }
+                    break;
+                default:
+                    // We set the index here in advance to fix moving android issues
+                    BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                    instruction.execute(this, b, inv, face);
+                    break;
             }
         }
     }

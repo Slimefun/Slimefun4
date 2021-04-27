@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -17,14 +19,26 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link Juicer} is a {@link MultiBlockMachine} which can be used to
+ * craft {@link Juice}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Liruxo
+ * 
+ * @see Juice
+ *
+ */
 public class Juicer extends MultiBlockMachine {
 
+    @ParametersAreNonnullByDefault
     public Juicer(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
     }

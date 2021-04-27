@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -54,7 +53,6 @@ class TestResearchUnlocking {
 
     @ParameterizedTest
     @DisplayName("Test Unlocking Researches")
-    @Disabled(value = "Blocked by a concurrency issue in MockBukkit")
     @ValueSource(booleans = { true, false })
     void testUnlock(boolean instant) throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);

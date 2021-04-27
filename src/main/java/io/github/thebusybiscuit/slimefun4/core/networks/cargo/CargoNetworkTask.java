@@ -1,13 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
@@ -15,6 +20,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -63,31 +69,35 @@ class CargoNetworkTask implements Runnable {
     public void run() {
         long timestamp = System.nanoTime();
 
-        // Chest Terminal Code
-        if (SlimefunPlugin.getIntegrations().isChestTerminalInstalled()) {
-            network.handleItemRequests(inventories, chestTerminalInputs, chestTerminalOutputs);
-        }
+        try {
+            // Chest Terminal Code
+            if (SlimefunPlugin.getIntegrations().isChestTerminalInstalled()) {
+                network.handleItemRequests(inventories, chestTerminalInputs, chestTerminalOutputs);
+            }
 
-        /**
-         * All operations happen here: Everything gets iterated from the Input Nodes.
-         * (Apart from ChestTerminal Buses)
-         */
-        SlimefunItem inputNode = SlimefunItems.CARGO_INPUT_NODE.getItem();
-        for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
-            long nodeTimestamp = System.nanoTime();
-            Location input = entry.getKey();
-            Optional<Block> attachedBlock = network.getAttachedBlock(input);
+            /**
+             * All operations happen here: Everything gets iterated from the Input Nodes.
+             * (Apart from ChestTerminal Buses)
+             */
+            SlimefunItem inputNode = SlimefunItems.CARGO_INPUT_NODE.getItem();
+            for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
+                long nodeTimestamp = System.nanoTime();
+                Location input = entry.getKey();
+                Optional<Block> attachedBlock = network.getAttachedBlock(input);
 
-            attachedBlock.ifPresent(block -> routeItems(input, block, entry.getValue(), outputs));
+                attachedBlock.ifPresent(block -> routeItems(input, block, entry.getValue(), outputs));
 
-            // This will prevent this timings from showing up for the Cargo Manager
-            timestamp += SlimefunPlugin.getProfiler().closeEntry(entry.getKey(), inputNode, nodeTimestamp);
-        }
+                // This will prevent this timings from showing up for the Cargo Manager
+                timestamp += SlimefunPlugin.getProfiler().closeEntry(entry.getKey(), inputNode, nodeTimestamp);
+            }
 
-        // Chest Terminal Code
-        if (SlimefunPlugin.getIntegrations().isChestTerminalInstalled()) {
-            // This will deduct any CT timings and attribute them towards the actual terminal
-            timestamp += network.updateTerminals(chestTerminalInputs);
+            // Chest Terminal Code
+            if (SlimefunPlugin.getIntegrations().isChestTerminalInstalled()) {
+                // This will deduct any CT timings and attribute them towards the actual terminal
+                timestamp += network.updateTerminals(chestTerminalInputs);
+            }
+        } catch (Exception | LinkageError x) {
+            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking a Cargo network @ " + new BlockPosition(network.getRegulator()));
         }
 
         // Submit a timings report
@@ -145,22 +155,36 @@ class CargoNetworkTask implements Runnable {
         }
     }
 
+    @Nullable
+    @ParametersAreNonnullByDefault
     private ItemStack distributeItem(ItemStack stack, Location inputNode, List<Location> outputNodes) {
         ItemStack item = stack;
 
-        Deque<Location> destinations = new LinkedList<>(outputNodes);
         Config cfg = BlockStorage.getLocationInfo(inputNode);
-        boolean roundrobin = "true".equals(cfg.getString("round-robin"));
+        boolean roundrobin = Objects.equals(cfg.getString("round-robin"), "true");
+        boolean smartFill = Objects.equals(cfg.getString("smart-fill"), "true");
 
+        Collection<Location> destinations;
         if (roundrobin) {
-            roundRobinSort(inputNode, destinations);
+            // Use an ArrayDeque to perform round-robin sorting
+            // Since the impl for roundRobinSort just does Deque.addLast(Deque#removeFirst)
+            // An ArrayDequeue is preferable as opposed to a LinkedList:
+            // - The number of elements does not change.
+            // - ArrayDequeue has better iterative performance
+            Deque<Location> tempDestinations = new ArrayDeque<>(outputNodes);
+            roundRobinSort(inputNode, tempDestinations);
+            destinations = tempDestinations;
+        } else {
+            // Using an ArrayList here since we won't need to sort the destinations
+            // The ArrayList has the best performance for iteration bar a primitive array
+            destinations = new ArrayList<>(outputNodes);
         }
 
         for (Location output : destinations) {
             Optional<Block> target = network.getAttachedBlock(output);
 
             if (target.isPresent()) {
-                item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), item);
+                item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), smartFill, item);
 
                 if (item == null) {
                     break;

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -49,8 +51,9 @@ public class IndustrialMiner extends MultiBlockMachine {
 
     private final int range;
     private final boolean silkTouch;
-    private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>("can-mine-ancient-debris", false);
+    private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>(this, "can-mine-ancient-debris", false);
 
+    @ParametersAreNonnullByDefault
     public IndustrialMiner(Category category, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
         super(category, item, new ItemStack[] { null, null, null, new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial) }, BlockFace.UP);
 
@@ -120,21 +123,21 @@ public class IndustrialMiner extends MultiBlockMachine {
         Random random = ThreadLocalRandom.current();
 
         switch (ore) {
-        case COAL_ORE:
-            return new ItemStack(Material.COAL);
-        case DIAMOND_ORE:
-            return new ItemStack(Material.DIAMOND);
-        case EMERALD_ORE:
-            return new ItemStack(Material.EMERALD);
-        case NETHER_QUARTZ_ORE:
-            return new ItemStack(Material.QUARTZ);
-        case REDSTONE_ORE:
-            return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
-        case LAPIS_ORE:
-            return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
-        default:
-            // This includes Iron and Gold ore (and Ancient Debris)
-            return new ItemStack(ore);
+            case COAL_ORE:
+                return new ItemStack(Material.COAL);
+            case DIAMOND_ORE:
+                return new ItemStack(Material.DIAMOND);
+            case EMERALD_ORE:
+                return new ItemStack(Material.EMERALD);
+            case NETHER_QUARTZ_ORE:
+                return new ItemStack(Material.QUARTZ);
+            case REDSTONE_ORE:
+                return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
+            case LAPIS_ORE:
+                return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+            default:
+                // This includes Iron and Gold ore (and Ancient Debris)
+                return new ItemStack(ore);
         }
     }
 

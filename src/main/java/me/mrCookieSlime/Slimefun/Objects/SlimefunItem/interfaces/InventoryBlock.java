@@ -16,7 +16,8 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 /**
  * 
- * @deprecated This interface is not designed to be used by addons.
+ * @deprecated This interface is not designed to be used by addons. The entire inventory system will be replaced
+ *             eventually.
  *
  */
 public interface InventoryBlock {
@@ -60,7 +61,7 @@ public interface InventoryBlock {
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || (SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES) && Slimefun.hasUnlocked(p, item, false));
+                return p.hasPermission("slimefun.inventory.bypass") || (SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK) && Slimefun.hasUnlocked(p, item, false));
             }
         };
     }

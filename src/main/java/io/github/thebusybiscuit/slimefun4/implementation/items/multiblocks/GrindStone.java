@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -27,6 +28,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class GrindStone extends MultiBlockMachine {
 
+    @ParametersAreNonnullByDefault
     public GrindStone(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
     }
@@ -71,6 +73,12 @@ public class GrindStone extends MultiBlockMachine {
 
         recipes.add(new ItemStack(Material.PRISMARINE));
         recipes.add(new ItemStack(Material.PRISMARINE_SHARD, 4));
+
+        recipes.add(new ItemStack(Material.NETHER_WART_BLOCK));
+        recipes.add(new ItemStack(Material.NETHER_WART, 9));
+
+        recipes.add(new ItemStack(Material.QUARTZ_BLOCK));
+        recipes.add(new ItemStack(Material.QUARTZ, 4));
     }
 
     @Override

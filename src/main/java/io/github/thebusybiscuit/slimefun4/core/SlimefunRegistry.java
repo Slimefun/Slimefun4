@@ -36,7 +36,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
@@ -64,12 +63,14 @@ public final class SlimefunRegistry {
     private final List<String> researchRanks = new ArrayList<>();
     private final Set<UUID> researchingPlayers = Collections.synchronizedSet(new HashSet<>());
 
+    // TODO: Move this all into a proper "config cache" class
     private boolean backwardsCompatibility;
     private boolean automaticallyLoadItems;
     private boolean enableResearches;
     private boolean freeCreativeResearches;
     private boolean researchFireworks;
     private boolean logDuplicateBlockEntries;
+    private boolean talismanActionBarMessages;
 
     private final Set<String> tickers = new HashSet<>();
     private final Set<SlimefunItem> radioactive = new HashSet<>();
@@ -90,7 +91,6 @@ public final class SlimefunRegistry {
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
     private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
-    private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 
     public void load(@Nonnull SlimefunPlugin plugin, @Nonnull Config cfg) {
         Validate.notNull(plugin, "The Plugin cannot be null!");
@@ -110,6 +110,7 @@ public final class SlimefunRegistry {
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
+        talismanActionBarMessages = cfg.getBoolean("talismans.use-actionbar");
     }
 
     /**
@@ -331,11 +332,6 @@ public final class SlimefunRegistry {
     }
 
     @Nonnull
-    public Map<String, SlimefunBlockHandler> getBlockHandlers() {
-        return blockHandlers;
-    }
-
-    @Nonnull
     public Map<String, BlockStorage> getWorlds() {
         return worlds;
     }
@@ -352,6 +348,10 @@ public final class SlimefunRegistry {
 
     public boolean logDuplicateBlockEntries() {
         return logDuplicateBlockEntries;
+    }
+
+    public boolean useActionbarForTalismans() {
+        return talismanActionBarMessages;
     }
 
     @Nonnull
