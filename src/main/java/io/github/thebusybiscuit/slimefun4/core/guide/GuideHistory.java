@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

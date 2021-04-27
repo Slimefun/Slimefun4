@@ -144,8 +144,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         if (isSurvivalMode()) {
-            profile.getGuideHistory().clear();
-            profile.getGuideHistory().setMainMenuPage(page);
+            GuideHistory history = profile.getGuideHistory();
+            history.clear();
+            history.setMainMenuPage(page);
         }
 
         ChestMenu menu = create(p);
