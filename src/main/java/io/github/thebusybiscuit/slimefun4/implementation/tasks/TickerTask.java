@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,16 +22,17 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
+import io.github.thebusybiscuit.cscorelib2.blocks.ChunkPosition;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -40,8 +43,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * or not.
  * 
  * @author TheBusyBiscuit
- * @author Qalle
  * @author Linox
+ * @author Qalle
  * 
  * @see BlockTicker
  *
@@ -51,31 +54,52 @@ public class TickerTask implements Runnable {
     private static final Runnable END_ELEMENT = () -> {};
     private static final long MAX_POLL_NS = 250_000L;
     private static final long MAX_TICK_NS = 1_500_000L;
-    
-    // This Map holds all currently actively ticking locations
-    private final Map<String, Set<Location>> activeTickers = new ConcurrentHashMap<>();
+
+    /**
+     * This Map holds all currently actively ticking locations.
+     */
+    private final Map<ChunkPosition, Set<Location>> tickingLocations = new ConcurrentHashMap<>();
+
+    /**
+     * This Map tracks how many bugs have occurred in a given Location.
+     * If too many bugs happen, we delete that Location.
+     */
+    private final Map<BlockPosition, AtomicInteger> bugs = new ConcurrentHashMap<>();
+
+    /**
+     * Don't overload the Bukkit scheduler with a thousand runnables.
+     * It doesn't like that. This way, we can spread the
+     * time cost over several game ticks and adapt ticker rate to server performance.
+     */
+    private final BlockingQueue<Runnable> syncTasks = new ArrayBlockingQueue<>(32);
+
+    /**
+     * Making collections concurrent doesn't make their iterators thread safe.
+     */
+    private final ReadWriteLock queueLock = new ReentrantReadWriteLock();
 
     // These are "Queues" of blocks that need to be removed or moved
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
 
-    // Making collections concurrent doesn't make their iterators thread safe.
-    private final ReadWriteLock queueLock = new ReentrantReadWriteLock();
-
-    // This Map tracks how many bugs have occurred in a given Location.
-    // If too many bugs happen, we delete that Location.
-    private final Map<BlockPosition, AtomicInteger> bugs = new ConcurrentHashMap<>();
-
-    // Don't overload the Bukkit scheduler with a thousand runnables. It doesn't like that. This way, we can spread the
-    // time cost over several game ticks and adapt ticker rate to server performance.
-    private final ArrayBlockingQueue<Runnable> syncTasks = new ArrayBlockingQueue<>(32);
-
+    /**
+     * This is our tick rate, aka the delay inbetween ticks.
+     */
     private int tickRate;
+
+    /**
+     * This boolean marks whether the ticker is supposed to be halted.
+     * This is true when the {@link Server} is shutting down.
+     */
     private boolean halted = false;
-    
-    // This needs to be volatile. Visibility is not guaranteed for primitives
-    // across multiple threads, and since this is a Runnable, we cannot control which thread calls Runnable#run().
-    private volatile boolean running = false; 
+
+    /**
+     * This value marks whether the ticker is currently in the middle of an execution or run.
+     * This needs to be volatile.
+     * Visibility is not guaranteed for primitives across multiple threads
+     * and since this is a {@link Runnable}, we cannot control which {@link Thread} calls {@link Runnable#run()}.
+     */
+    private volatile boolean running = false;
 
     /**
      * This method starts the {@link TickerTask} on an asynchronous schedule.
@@ -84,27 +108,34 @@ public class TickerTask implements Runnable {
      *            The instance of our {@link SlimefunPlugin}
      */
     public void start(@Nonnull SlimefunPlugin plugin) {
-
         this.tickRate = SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay");
 
         BukkitScheduler scheduler = plugin.getServer().getScheduler();
         scheduler.runTaskLater(plugin, this, 100L);
     }
 
-    @Override 
+    @Override
     public final void run() {
-        // This should only happen when the plugin gets disabled and the task is already running. Process all
-        // sync tasks before returning, blocking the main thread until the task is complete.
+        /*
+         * This should only happen when the plugin gets disabled and the
+         * task is already running.
+         * Process all sync tasks before returning, blocking the main thread until
+         * the task is complete.
+         */
         if (running) {
             processSyncTasks();
             return;
         }
+
         if (!Bukkit.isPrimaryThread()) {
             return;
         }
 
-        // Iterate over the ticker tasks. Process the asynchronous ones on the new thread, and queue the sync
-        // tasks to the queue.
+        /*
+         * Iterate over the ticker tasks.
+         * Process the asynchronous ones on the new thread
+         * and queue the sync tasks to the queue.
+         */
         new Thread(this::tick, "Slimefun Async Ticker Thread").start();
 
         // Process the synchronous ticker tasks on the main thread.
@@ -121,7 +152,6 @@ public class TickerTask implements Runnable {
 
         try {
             while (endNs > System.nanoTime() || !SlimefunPlugin.instance().isEnabled()) {
-
                 // Don't wait on an empty queue for too long.
                 Runnable task = syncTasks.poll(MAX_POLL_NS, TimeUnit.NANOSECONDS);
 
@@ -161,29 +191,33 @@ public class TickerTask implements Runnable {
             return;
         }
 
-        // Schedule the ticker task to run again once the tick interval has elapsed. Use a synchronous task instead of
-        // an asynchronous one to bind the interval to the server clock, not the wall clock.
-        Bukkit.getScheduler().runTaskLater(
-                SlimefunPlugin.instance(),
-                this,
-                (long) tickRate
-        );
+        /*
+         * Schedule the ticker task to run again once the tick interval has elapsed.
+         * Use a synchronous task instead of an asynchronous one to bind the
+         * interval to the server clock, not the wall clock.
+         */
+        Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), this, (long) tickRate);
     }
 
     private void tick() {
         try {
-            // We don't care about the equality of elements here. Use a
-            // list, it has lower add/remove/iterate time complexity and smaller memory footprint.
+            /*
+             * We don't care about the equality of elements here.
+             * Use a list, it has lower add/remove/iterate time complexity and
+             * smaller memory footprint.
+             */
             SlimefunPlugin.getProfiler().start();
-            List<BlockTicker> tickers = new LinkedList<>(); 
-            
-            // Iterators will throw CME's if something modifies the collection
-            // during iteration.
-            queueLock.writeLock().lock(); 
-            
+            List<BlockTicker> tickers = new LinkedList<>();
+
+            /*
+             * Iterators will throw ConcurrentModificationExceptions if something
+             * modifies the collection during iteration.
+             */
+            queueLock.writeLock().lock();
+
             try {
                 Iterator<Map.Entry<Location, Boolean>> removals = deletionQueue.entrySet().iterator();
-                
+
                 while (removals.hasNext()) {
                     Map.Entry<Location, Boolean> entry = removals.next();
                     BlockStorage.deleteLocationInfoUnsafely(entry.getKey(), entry.getValue());
@@ -194,15 +228,15 @@ public class TickerTask implements Runnable {
             }
 
             if (!halted) {
-                for (Map.Entry<String, Set<Location>> entry : activeTickers.entrySet()) {
-                    tickChunk(tickers, entry.getKey(), entry.getValue());
+                for (Map.Entry<ChunkPosition, Set<Location>> entry : tickingLocations.entrySet()) {
+                    tickChunk(entry.getKey(), tickers, entry.getValue());
                 }
             }
 
             queueLock.writeLock().lock();
             try {
                 Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
-                
+
                 while (moves.hasNext()) {
                     Map.Entry<Location, Location> entry = moves.next();
                     BlockStorage.moveLocationInfoUnsafely(entry.getKey(), entry.getValue());
@@ -216,7 +250,7 @@ public class TickerTask implements Runnable {
             for (BlockTicker ticker : tickers) {
                 ticker.startNewTick();
             }
-            
+
             SlimefunPlugin.getProfiler().stop();
         } catch (Exception | LinkageError x) {
             SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + SlimefunPlugin.getVersion());
@@ -227,21 +261,15 @@ public class TickerTask implements Runnable {
 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                return;
             }
         }
     }
 
     @ParametersAreNonnullByDefault
-    private void tickChunk(List<BlockTicker> tickers, String chunk, Set<Location> locations) {
+    private void tickChunk(ChunkPosition chunk, Collection<BlockTicker> tickers, Collection<Location> locations) {
         try {
-            String[] components = PatternUtils.SEMICOLON.split(chunk);
-
-            World world = Bukkit.getWorld(components[0]);
-            int x = Integer.parseInt(components[components.length - 2]);
-            int z = Integer.parseInt(components[components.length - 1]);
-
-            if (world != null && world.isChunkLoaded(x, z)) {
+            // Only continue if the Chunk is actually loaded
+            if (chunk.isLoaded()) {
                 for (Location l : locations) {
                     tickLocation(tickers, l);
                 }
@@ -251,7 +279,7 @@ public class TickerTask implements Runnable {
         }
     }
 
-    private void tickLocation(@Nonnull List<BlockTicker> tickers, @Nonnull Location l) {
+    private void tickLocation(@Nonnull Collection<BlockTicker> tickers, @Nonnull Location l) {
         Config data = BlockStorage.getLocationInfo(l);
         SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
 
@@ -260,15 +288,18 @@ public class TickerTask implements Runnable {
                 if (item.getBlockTicker().isSynchronized()) {
                     SlimefunPlugin.getProfiler().scheduleEntries(1);
                     item.getBlockTicker().update();
-                    
-                    // We are inserting a new timestamp because synchronized
-                    // actions are always ran with a 50ms delay (1 game tick).
+
+                    /*
+                     * We are inserting a new timestamp because synchronized
+                     * actions are always ran with a 50ms delay (1 game tick).
+                     */
                     try {
-                        Runnable sync = () -> {
+                        Runnable syncTask = () -> {
                             Block b = l.getBlock();
                             tickBlock(l, b, item, data, System.nanoTime());
                         };
-                        syncTasks.put(sync);
+
+                        syncTasks.put(syncTask);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         return;
@@ -325,7 +356,7 @@ public class TickerTask implements Runnable {
     public void halt() {
         halted = true;
     }
-    
+
     /**
      * This method checks if the given {@link Location} has been reserved
      * by this {@link TickerTask}.
@@ -391,17 +422,24 @@ public class TickerTask implements Runnable {
     }
 
     /**
-     * This method returns the {@link Map} of actively ticking locations according to
-     * their chunk id.
+     * This method returns a <strong>read-only</strong> {@link Set}
+     * of all ticking {@link Location Locations} in a given {@link Chunk}.
+     * The {@link Chunk} does not have to be loaded.
+     * If no {@link Location} is present, the returned {@link Set} will be empty.
      * 
-     * @return The {@link Map} of active tickers
+     * @param chunk
+     *            The {@link Chunk}
+     * 
+     * @return A {@link Set} of all ticking {@link Location Locations}
      */
     @Nonnull
-    public Map<String, Set<Location>> getActiveTickers() {
-        return activeTickers;
+    public Set<Location> getLocations(@Nonnull Chunk chunk) {
+        Validate.notNull(chunk, "The Chunk cannot be null!");
+
+        Set<Location> locations = tickingLocations.getOrDefault(new ChunkPosition(chunk), new HashSet<>());
+        return Collections.unmodifiableSet(locations);
     }
-    
-    
+
     /**
      * This enables the ticker at the given {@link Location} and adds it to our "queue".
      * 
@@ -410,13 +448,13 @@ public class TickerTask implements Runnable {
      */
     public void enableTicker(@Nonnull Location l) {
         Validate.notNull(l, "Location cannot be null!");
-        
-        String chunk = l.getWorld().getName() + ";" + l.getChunk().getX() + ";" + l.getChunk().getZ();
+
+        ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
 
         Set<Location> newValue = new HashSet<>();
-        Set<Location> oldValue = activeTickers.putIfAbsent(chunk, newValue);
+        Set<Location> oldValue = tickingLocations.putIfAbsent(chunk, newValue);
 
-        /**
+        /*
          * This is faster than doing computeIfAbsent(...)
          * on a ConcurrentHashMap because it won't block the Thread for too long
          */
@@ -426,7 +464,7 @@ public class TickerTask implements Runnable {
             newValue.add(l);
         }
     }
-    
+
     /**
      * This method disables the ticker at the given {@link Location} and removes it from our internal
      * "queue".
@@ -437,14 +475,14 @@ public class TickerTask implements Runnable {
     public void disableTicker(@Nonnull Location l) {
         Validate.notNull(l, "Location cannot be null!");
 
-        String chunk = l.getWorld().getName() + ";" + l.getChunk().getX() + ";" + l.getChunk().getZ();
-        Set<Location> locations = activeTickers.get(chunk);
+        ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
+        Set<Location> locations = tickingLocations.get(chunk);
 
         if (locations != null) {
             locations.remove(l);
 
             if (locations.isEmpty()) {
-                activeTickers.remove(chunk);
+                tickingLocations.remove(chunk);
             }
         }
     }
