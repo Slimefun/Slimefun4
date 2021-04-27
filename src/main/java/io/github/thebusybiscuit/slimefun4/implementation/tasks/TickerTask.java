@@ -422,6 +422,20 @@ public class TickerTask implements Runnable {
     }
 
     /**
+     * This method returns a <strong>read-only</strong> {@link Map}
+     * representation of every {@link ChunkPosition} and its corresponding
+     * {@link Set} of ticking {@link Location Locations}.
+     * 
+     * This does include any {@link Location} from an unloaded {@link Chunk} too!
+     * 
+     * @return A {@link Map} representation of all ticking {@link Location Locations}
+     */
+    @Nonnull
+    public Map<ChunkPosition, Set<Location>> getLocations() {
+        return Collections.unmodifiableMap(tickingLocations);
+    }
+
+    /**
      * This method returns a <strong>read-only</strong> {@link Set}
      * of all ticking {@link Location Locations} in a given {@link Chunk}.
      * The {@link Chunk} does not have to be loaded.
