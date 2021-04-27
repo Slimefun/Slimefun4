@@ -349,31 +349,20 @@ public class TickerTask implements Runnable {
         }
     }
 
+    /**
+     * This returns whether the {@link TickerTask} has been ordered to halt.
+     * 
+     * @return Whether the {@link TickerTask} should halt.
+     */
     public boolean isHalted() {
         return halted;
     }
 
+    /**
+     * This method orders the {@link TickerTask} to be halted.
+     */
     public void halt() {
         halted = true;
-    }
-
-    /**
-     * This method checks if the given {@link Location} has been reserved
-     * by this {@link TickerTask}.
-     * A reserved {@link Location} does not currently hold any data but will
-     * be occupied upon the next tick.
-     * Checking this ensures that our {@link Location} does not get treated like a normal
-     * {@link Location} as it is theoretically "moving".
-     * 
-     * @param l
-     *            The {@link Location} to check
-     * 
-     * @return Whether this {@link Location} has been reserved and will be filled upon the next tick
-     */
-    public boolean isOccupiedSoon(@Nonnull Location l) {
-        Validate.notNull(l, "Null is not a valid Location!");
-
-        return movingQueue.containsValue(l);
     }
 
     @ParametersAreNonnullByDefault
@@ -396,6 +385,25 @@ public class TickerTask implements Runnable {
         } finally {
             queueLock.readLock().unlock();
         }
+    }
+
+    /**
+     * This method checks if the given {@link Location} has been reserved
+     * by this {@link TickerTask}.
+     * A reserved {@link Location} does not currently hold any data but will
+     * be occupied upon the next tick.
+     * Checking this ensures that our {@link Location} does not get treated like a normal
+     * {@link Location} as it is theoretically "moving".
+     * 
+     * @param l
+     *            The {@link Location} to check
+     * 
+     * @return Whether this {@link Location} has been reserved and will be filled upon the next tick
+     */
+    public boolean isOccupiedSoon(@Nonnull Location l) {
+        Validate.notNull(l, "Null is not a valid Location!");
+
+        return movingQueue.containsValue(l);
     }
 
     /**
@@ -464,7 +472,6 @@ public class TickerTask implements Runnable {
         Validate.notNull(l, "Location cannot be null!");
 
         ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
-
         Set<Location> newValue = new HashSet<>();
         Set<Location> oldValue = tickingLocations.putIfAbsent(chunk, newValue);
 
