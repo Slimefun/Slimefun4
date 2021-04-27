@@ -52,7 +52,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @see BlockTicker
  *
  */
-public class TickerTask implements Runnable {
+public final class TickerTask {
 
     /**
      * This {@link Runnable} represents the end of our {@link Queue}.
@@ -143,11 +143,10 @@ public class TickerTask implements Runnable {
         this.tickRate = SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay");
 
         BukkitScheduler scheduler = plugin.getServer().getScheduler();
-        scheduler.runTaskLater(plugin, this, 100L);
+        scheduler.runTaskLater(plugin, this::tick, 100L);
     }
 
-    @Override
-    public final void run() {
+    public void tick() {
         /*
          * This should only happen when the plugin gets disabled and the
          * task is already running.
@@ -166,7 +165,7 @@ public class TickerTask implements Runnable {
         /*
          * Process all asynchronous tasks using our Executor.
          */
-        asyncExecutor.submit(this::tick);
+        asyncExecutor.submit(this::processAsyncTasks);
 
         /*
          * Process the remaining synchronous tasks on the main Thread.
@@ -228,10 +227,10 @@ public class TickerTask implements Runnable {
          * Use a synchronous task instead of an asynchronous one to bind the
          * interval to the server clock, not the wall clock.
          */
-        Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), this, (long) tickRate);
+        Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), this::tick, (long) tickRate);
     }
 
-    private void tick() {
+    private void processAsyncTasks() {
         try {
             /*
              * We don't care about the equality of elements here.
@@ -281,7 +280,7 @@ public class TickerTask implements Runnable {
 
             // Start a new tick cycle for every BlockTicker
             for (BlockTicker ticker : tickers) {
-                ticker.startNewTick();
+                ticker.reset();
             }
 
             SlimefunPlugin.getProfiler().stop();
@@ -300,38 +299,36 @@ public class TickerTask implements Runnable {
 
     @ParametersAreNonnullByDefault
     private void tickChunk(ChunkPosition chunk, Collection<BlockTicker> tickers, Collection<Location> locations) {
-        try {
-            // Only continue if the Chunk is actually loaded
-            if (chunk.isLoaded()) {
-                for (Location l : locations) {
-                    tickLocation(tickers, l);
+        // Only continue if the Chunk is actually loaded
+        if (chunk.isLoaded()) {
+            for (Location l : locations) {
+                Config data = BlockStorage.getLocationInfo(l);
+                SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
+
+                if (item != null && item.getBlockTicker() != null) {
+                    try {
+                        runTask(l, data, item);
+                        tickers.add(item.getBlockTicker());
+                    } catch (Exception x) {
+                        // Catch and report any errors caused by this ticker.
+                        reportErrors(l, item, x);
+                    }
                 }
-            }
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException x) {
-            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Exception has occurred while trying to resolve Chunk: " + chunk);
-        }
-    }
-
-    private void tickLocation(@Nonnull Collection<BlockTicker> tickers, @Nonnull Location l) {
-        Config data = BlockStorage.getLocationInfo(l);
-        SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
-
-        if (item != null && item.getBlockTicker() != null) {
-            try {
-                runTask(l, data, item);
-                tickers.add(item.getBlockTicker());
-            } catch (Exception x) {
-                // Catch and report any errors caused by this ticker.
-                reportErrors(l, item, x);
             }
         }
     }
 
     @ParametersAreNonnullByDefault
     private void runTask(Location l, Config data, SlimefunItem item) {
-        if (item.getBlockTicker().isSynchronized()) {
+        BlockTicker ticker = item.getBlockTicker();
+
+        // Check on which Thread to run this.
+        if (ticker.isSynchronized()) {
+            // Inform our profiler that we will be scheduling a task.
             SlimefunPlugin.getProfiler().scheduleEntries(1);
-            item.getBlockTicker().update();
+
+            // Start a new iteration for our block ticker
+            ticker.start();
 
             /*
              * We are inserting a new timestamp because synchronized
@@ -349,7 +346,7 @@ public class TickerTask implements Runnable {
             }
         } else {
             long timestamp = SlimefunPlugin.getProfiler().newEntry();
-            item.getBlockTicker().update();
+            ticker.start();
             Block b = l.getBlock();
             tickBlock(l, b, item, data, timestamp);
         }
