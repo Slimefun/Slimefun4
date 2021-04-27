@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -51,8 +52,24 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class TickerTask implements Runnable {
 
+    /**
+     * This {@link Runnable} represents the end of our {@link Queue}.
+     * When this element is reached, we consider the task finished.
+     */
     private static final Runnable END_ELEMENT = () -> {};
+
+    /**
+     * This is the maximum time we will wait for tasks to be queued.
+     * See {@link BlockingQueue#poll(long, TimeUnit)}
+     * The applicable {@link TimeUnit} is {@link TimeUnit#NANOSECONDS}.
+     */
     private static final long MAX_POLL_NS = 250_000L;
+
+    /**
+     * This is the maximum time we allow tasks to be run.
+     * Should a tick take longer than this, we will abort it.
+     * The applicable {@link TimeUnit} is {@link TimeUnit#NANOSECONDS}.
+     */
     private static final long MAX_TICK_NS = 1_500_000L;
 
     /**
@@ -285,36 +302,40 @@ public class TickerTask implements Runnable {
 
         if (item != null && item.getBlockTicker() != null) {
             try {
-                if (item.getBlockTicker().isSynchronized()) {
-                    SlimefunPlugin.getProfiler().scheduleEntries(1);
-                    item.getBlockTicker().update();
-
-                    /*
-                     * We are inserting a new timestamp because synchronized
-                     * actions are always ran with a 50ms delay (1 game tick).
-                     */
-                    try {
-                        Runnable syncTask = () -> {
-                            Block b = l.getBlock();
-                            tickBlock(l, b, item, data, System.nanoTime());
-                        };
-
-                        syncTasks.put(syncTask);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        return;
-                    }
-                } else {
-                    long timestamp = SlimefunPlugin.getProfiler().newEntry();
-                    item.getBlockTicker().update();
-                    Block b = l.getBlock();
-                    tickBlock(l, b, item, data, timestamp);
-                }
-
+                runTask(l, data, item);
                 tickers.add(item.getBlockTicker());
             } catch (Exception x) {
+                // Catch and report any errors caused by this ticker.
                 reportErrors(l, item, x);
             }
+        }
+    }
+
+    @ParametersAreNonnullByDefault
+    private void runTask(Location l, Config data, SlimefunItem item) {
+        if (item.getBlockTicker().isSynchronized()) {
+            SlimefunPlugin.getProfiler().scheduleEntries(1);
+            item.getBlockTicker().update();
+
+            /*
+             * We are inserting a new timestamp because synchronized
+             * actions are always ran with a 50ms delay (1 game tick).
+             */
+            try {
+                Runnable syncTask = () -> {
+                    Block b = l.getBlock();
+                    tickBlock(l, b, item, data, System.nanoTime());
+                };
+
+                syncTasks.put(syncTask);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        } else {
+            long timestamp = SlimefunPlugin.getProfiler().newEntry();
+            item.getBlockTicker().update();
+            Block b = l.getBlock();
+            tickBlock(l, b, item, data, timestamp);
         }
     }
 
