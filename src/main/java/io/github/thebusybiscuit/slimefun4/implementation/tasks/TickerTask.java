@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -46,13 +48,14 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * or not.
  * 
  * @author TheBusyBiscuit
+ * @author md5sha256
  * @author Linox
  * @author Qalle
  * 
  * @see BlockTicker
  *
  */
-public final class TickerTask {
+public final class TickerTask implements Closeable {
 
     /**
      * This {@link Runnable} represents the end of our {@link Queue}.
@@ -65,14 +68,14 @@ public final class TickerTask {
      * See {@link BlockingQueue#poll(long, TimeUnit)}
      * The applicable {@link TimeUnit} is {@link TimeUnit#NANOSECONDS}.
      */
-    private static final long MAX_POLL_NS = 250_000L;
+    private static final long MAX_POLL_TIME = 250_000L;
 
     /**
      * This is the maximum time we allow tasks to be run.
      * Should a tick take longer than this, we will abort it.
      * The applicable {@link TimeUnit} is {@link TimeUnit#NANOSECONDS}.
      */
-    private static final long MAX_TICK_NS = 1_500_000L;
+    private static final long MAX_WAIT_TIME = 1_500_000L;
 
     /**
      * This Map holds all currently actively ticking locations.
@@ -114,6 +117,8 @@ public final class TickerTask {
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
 
+    private SlimefunPlugin plugin;
+
     /**
      * This is our tick rate, aka the delay inbetween ticks.
      */
@@ -140,10 +145,21 @@ public final class TickerTask {
      *            The instance of our {@link SlimefunPlugin}
      */
     public void start(@Nonnull SlimefunPlugin plugin) {
+        if (this.plugin != null) {
+            throw new UnsupportedOperationException("The Slimefun TickerTask has already been started!");
+        }
+
+        this.plugin = plugin;
         this.tickRate = SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay");
 
         BukkitScheduler scheduler = plugin.getServer().getScheduler();
         scheduler.runTaskLater(plugin, this::tick, 100L);
+    }
+
+    @Override
+    public void close() throws IOException {
+        // TODO Auto-generated method stub
+
     }
 
     public void tick() {
@@ -174,50 +190,78 @@ public final class TickerTask {
     }
 
     private void processSyncTasks() {
+        /*
+         * Synchronous tasks should only ever be processed on the
+         * main Thread. Never on any other one.
+         */
         if (!Bukkit.isPrimaryThread()) {
             return;
         }
 
-        // Let's not lag the main thread. Spikes suck. Steady time usage is much better.
-        long endNs = System.nanoTime() + MAX_TICK_NS;
+        /*
+         * Let's not lag the main thread.
+         * Spikes suck.
+         * Steady time usage is much better.
+         */
+        long deadline = System.nanoTime() + MAX_WAIT_TIME;
 
         try {
-            while (endNs > System.nanoTime() || !SlimefunPlugin.instance().isEnabled()) {
-                // Don't wait on an empty queue for too long.
-                Runnable task = syncTasks.poll(MAX_POLL_NS, TimeUnit.NANOSECONDS);
+            /*
+             * Only continue running this if the Plugin is shutting down or if we
+             * haven't reached the deadline yet.
+             */
+            while (!plugin.isEnabled() || deadline > System.nanoTime()) {
+                /*
+                 * Poll the next task.
+                 * But don't wait on an empty queue for too long.
+                 */
+                Runnable task = syncTasks.poll(MAX_POLL_TIME, TimeUnit.NANOSECONDS);
 
                 if (task == null) {
-                    if (SlimefunPlugin.instance().isEnabled()) {
-                        // If the queue is empty, let the server do its thing. We'll check back later.
+                    /*
+                     * If the queue is empty, let the server do its thing.
+                     * We'll check back later.
+                     * 
+                     * If the plugin is not enabled, then the Server will
+                     * expect the task to shutdown.
+                     * We will continue blocking until we reach our end element.
+                     */
+                    if (plugin.isEnabled()) {
                         break;
-                    } else {
-                        // The server expects the plugin to shut down right now. Continue blocking until we are done.
-                        continue;
                     }
-                }
-
-                // The end element is a singleton runnable and represents the end of the ticker task list. Finish up.
-                if (task == END_ELEMENT) {
+                } else if (task == END_ELEMENT) {
+                    /*
+                     * The end element is a singleton runnable and represents the end of the ticker task list.
+                     * Finish up.
+                     */
                     finish();
-                    return;
+                } else {
+                    /*
+                     * The task is neither null nor our end element.
+                     * Run it synchronously.
+                     */
+                    task.run();
                 }
-
-                // Run the synchronous ticker task.
-                task.run();
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return;
         }
 
-        // We're not done with the synchronous tickers yet. Give the server a breather and let it progress one tick.
+        /*
+         * We're not done with the synchronous tickers yet.
+         * Give the server a breather and let it progress one tick.
+         */
         Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), this::processSyncTasks, 2L);
     }
 
     private void finish() {
         running = false;
 
-        // If the plugin has been disabled, do not schedule the next execution.
+        /*
+         * If the plugin has been disabled,
+         * do not schedule the next execution.
+         */
         if (!SlimefunPlugin.instance().isEnabled()) {
             return;
         }
@@ -232,12 +276,14 @@ public final class TickerTask {
 
     private void processAsyncTasks() {
         try {
+            // Start our profiler
+            SlimefunPlugin.getProfiler().start();
+
             /*
              * We don't care about the equality of elements here.
              * Use a list, it has lower add/remove/iterate time complexity and
              * smaller memory footprint.
              */
-            SlimefunPlugin.getProfiler().start();
             List<BlockTicker> tickers = new LinkedList<>();
 
             /*
