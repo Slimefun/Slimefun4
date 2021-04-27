@@ -367,8 +367,12 @@ public class TickerTask implements Runnable {
 
     @ParametersAreNonnullByDefault
     public void queueMove(Location from, Location to) {
+        Validate.notNull(from, "Source Location cannot be null!");
+        Validate.notNull(to, "Target Location cannot be null!");
+
         // This collection is iterated over in a different thread. Need to lock it.
         queueLock.readLock().lock();
+
         try {
             movingQueue.put(from, to);
         } finally {
@@ -378,8 +382,11 @@ public class TickerTask implements Runnable {
 
     @ParametersAreNonnullByDefault
     public void queueDelete(Location l, boolean destroy) {
+        Validate.notNull(l, "Location must not be null!");
+
         // This collection is iterated over in a different thread. Need to lock it.
         queueLock.readLock().lock();
+
         try {
             deletionQueue.put(l, destroy);
         } finally {
