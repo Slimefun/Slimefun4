@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -91,6 +93,19 @@ public class TickerTask implements Runnable {
     private final BlockingQueue<Runnable> syncTasks = new ArrayBlockingQueue<>(32);
 
     /**
+     * Our internal instance of {@link TickerThreadFactory}, it provides the naming
+     * convention for our {@link Thread} pool and also the count of this pool.
+     */
+    private final TickerThreadFactory threadFactory = new TickerThreadFactory(1);
+
+    /**
+     * This is our {@link Thread} pool.
+     * Using an {@link ExecutorService} here instead of continously spawning a new {@link Thread}
+     * will help performance.
+     */
+    private final ExecutorService asyncExecutor = Executors.newSingleThreadExecutor(threadFactory);
+
+    /**
      * Making collections concurrent doesn't make their iterators thread safe.
      */
     private final ReadWriteLock queueLock = new ReentrantReadWriteLock();
@@ -149,13 +164,13 @@ public class TickerTask implements Runnable {
         }
 
         /*
-         * Iterate over the ticker tasks.
-         * Process the asynchronous ones on the new thread
-         * and queue the sync tasks to the queue.
+         * Process all asynchronous tasks using our Executor.
          */
-        new Thread(this::tick, "Slimefun Async Ticker Thread").start();
+        asyncExecutor.submit(this::tick);
 
-        // Process the synchronous ticker tasks on the main thread.
+        /*
+         * Process the remaining synchronous tasks on the main Thread.
+         */
         processSyncTasks();
     }
 
@@ -251,6 +266,7 @@ public class TickerTask implements Runnable {
             }
 
             queueLock.writeLock().lock();
+
             try {
                 Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
 
