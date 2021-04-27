@@ -316,14 +316,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         return EnergyNetComponentType.CONSUMER;
     }
 
-    // public MachineRecipe getProcessing(Block b) {
-    // return processing.get(b);
-    // }
-    //
-    // public boolean isProcessing(Block b) {
-    // return getProcessing(b) != null;
-    // }
-
     public void registerRecipe(MachineRecipe recipe) {
         recipe.setTicks(recipe.getTicks() / getSpeed());
         recipes.add(recipe);
@@ -370,8 +362,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                         inv.pushItem(output.clone(), getOutputSlots());
                     }
 
-                    // Bukkit.getPluginManager().callEvent(new AsyncMachineProcessCompleteEvent(b.getLocation(),
-                    // AContainer.this, getProcessing(b)));
                     processor.endOperation(b);
                 }
             }

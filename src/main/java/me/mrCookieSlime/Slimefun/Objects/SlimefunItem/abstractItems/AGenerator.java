@@ -83,7 +83,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
         addItemHandler(onBlockBreak());
         registerDefaultFuelTypes();
     }
-    
+
     @Override
     public MachineProcessor<FuelOperation> getMachineProcessor() {
         return processor;
@@ -148,14 +148,6 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
         return new int[] { 24, 25 };
     }
 
-    // public MachineFuel getProcessing(Location l) {
-    // return processing.get(l);
-    // }
-    //
-    // public boolean isProcessing(Location l) {
-    // return progress.containsKey(l);
-    // }
-
     @Override
     public int getGeneratedOutput(Location l, Config data) {
         BlockMenu inv = BlockStorage.getInventory(l);
@@ -186,9 +178,6 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
                 }
 
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-
-                // Bukkit.getPluginManager().callEvent(new AsyncGeneratorProcessCompleteEvent(l, AGenerator.this,
-                // getProcessing(l)));
 
                 processor.endOperation(l);
                 return 0;

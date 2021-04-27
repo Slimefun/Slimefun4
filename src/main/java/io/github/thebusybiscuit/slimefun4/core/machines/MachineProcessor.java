@@ -9,11 +9,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineOperationFinishEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -46,6 +49,7 @@ public class MachineProcessor<T extends MachineOperation> {
      */
     public MachineProcessor(@Nonnull MachineProcessHolder<T> owner) {
         Validate.notNull(owner, "The MachineProcessHolder cannot be null.");
+
         this.owner = owner;
     }
 
@@ -236,7 +240,22 @@ public class MachineProcessor<T extends MachineOperation> {
         lock.writeLock().lock();
 
         try {
-            return machines.remove(pos) != null;
+            T operation = machines.remove(pos);
+
+            if (operation != null) {
+                /*
+                 * Only call an event if the operation actually finished.
+                 * If it was ended prematurely (aka aborted), then we don't call any event.
+                 */
+                if (operation.isFinished()) {
+                    Event event = new AsyncMachineOperationFinishEvent(pos, this, operation);
+                    Bukkit.getPluginManager().callEvent(event);
+                }
+
+                return true;
+            } else {
+                return false;
+            }
         } finally {
             lock.writeLock().unlock();
         }

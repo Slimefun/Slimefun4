@@ -4,10 +4,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 
@@ -22,26 +22,26 @@ public class AsyncMachineOperationFinishEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private final Location location;
+    private final BlockPosition position;
     private final MachineProcessor<?> machineProcessor;
     private final MachineOperation machineOperation;
 
-    public <T extends MachineOperation> AsyncMachineOperationFinishEvent(Location l, MachineProcessor<T> processor, T operation) {
+    public <T extends MachineOperation> AsyncMachineOperationFinishEvent(BlockPosition pos, MachineProcessor<T> processor, T operation) {
         super(!Bukkit.isPrimaryThread());
 
-        this.location = l;
+        this.position = pos;
         this.machineProcessor = processor;
         this.machineOperation = operation;
     }
 
     /**
-     * This returns the {@link Location} of the machine.
+     * This returns the {@link BlockPosition} of the machine.
      *
-     * @return The {@link Location} of the machine
+     * @return The {@link BlockPosition} of the machine
      */
     @Nonnull
-    public Location getLocation() {
-        return location;
+    public BlockPosition getPosition() {
+        return position;
     }
 
     /**

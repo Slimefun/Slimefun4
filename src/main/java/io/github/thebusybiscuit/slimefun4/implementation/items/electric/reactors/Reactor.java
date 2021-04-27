@@ -277,14 +277,6 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
         return new int[] { 40 };
     }
 
-    // public MachineFuel getProcessing(Location l) {
-    // return processing.get(l);
-    // }
-    //
-    // public boolean isProcessing(Location l) {
-    // return progress.containsKey(l);
-    // }
-
     @Override
     public int getGeneratedOutput(Location l, Config data) {
         BlockMenu inv = BlockStorage.getInventory(l);
@@ -385,8 +377,6 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
                 }
             }
         }
-
-        // Bukkit.getPluginManager().callEvent(new AsyncReactorProcessCompleteEvent(l, Reactor.this, getProcessing(l)));
 
         processor.endOperation(l);
     }
