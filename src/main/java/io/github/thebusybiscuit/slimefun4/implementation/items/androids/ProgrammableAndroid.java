@@ -681,7 +681,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             // The Android was destroyed or moved.
             return;
         }
-        
+
         if ("false".equals(data.getString("paused"))) {
             BlockMenu menu = BlockStorage.getInventory(b);
             
