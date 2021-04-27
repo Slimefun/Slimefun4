@@ -893,7 +893,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         throw new UnsupportedOperationException("Non-mining Android tried to mine!");
     }
 
-    protected void chopTree(Block b, BlockMenu menu, BlockFace face) {
+    protected boolean chopTree(Block b, BlockMenu menu, BlockFace face) {
         throw new UnsupportedOperationException("Non-woodcutter Android tried to chop a Tree!");
     }
 

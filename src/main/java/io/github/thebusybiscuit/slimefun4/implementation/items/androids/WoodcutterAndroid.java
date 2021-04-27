@@ -41,7 +41,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
     }
 
     @Override
-    protected void chopTree(Block b, BlockMenu menu, BlockFace face) {
+    protected boolean chopTree(Block b, BlockMenu menu, BlockFace face) {
         Block target = b.getRelative(face);
 
         if (Tag.LOGS.isTagged(target.getType())) {
@@ -57,6 +57,8 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
                 }
             }
         }
+        
+        return true;
     }
 
     @ParametersAreNonnullByDefault
