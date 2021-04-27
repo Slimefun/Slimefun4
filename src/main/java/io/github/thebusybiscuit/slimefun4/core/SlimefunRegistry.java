@@ -36,7 +36,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
@@ -92,7 +91,6 @@ public final class SlimefunRegistry {
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
     private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
-    private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 
     public void load(@Nonnull SlimefunPlugin plugin, @Nonnull Config cfg) {
         Validate.notNull(plugin, "The Plugin cannot be null!");
@@ -331,12 +329,6 @@ public final class SlimefunRegistry {
     @Nonnull
     public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getPublicItemHandlers() {
         return globalItemHandlers;
-    }
-
-    @Deprecated
-    @Nonnull
-    public Map<String, SlimefunBlockHandler> getBlockHandlers() {
-        return blockHandlers;
     }
 
     @Nonnull

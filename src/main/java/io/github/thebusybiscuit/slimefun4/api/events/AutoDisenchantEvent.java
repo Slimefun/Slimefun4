@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
  * 
  * @author poma123
  *
+ * @see AutoEnchantEvent
  */
 public class AutoDisenchantEvent extends Event implements Cancellable {
 

@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -21,7 +22,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * option that decides whether or not this {@link SlimefunItem} shall be damageable.
  * 
  * @author TheBusyBiscuit
- *
+ * @author RobotHanzo
+ * 
+ * @see UnbreakingAlgorithm
+ * 
  */
 public interface DamageableItem extends ItemAttribute {
 
@@ -49,7 +53,7 @@ public interface DamageableItem extends ItemAttribute {
         if (isDamageable() && item != null && !item.getType().isAir() && item.getAmount() > 0) {
             int unbreakingLevel = item.getEnchantmentLevel(Enchantment.DURABILITY);
 
-            if (unbreakingLevel > 0 && Math.random() * 100 <= (60 + Math.floorDiv(40, (unbreakingLevel + 1)))) {
+            if (evaluateUnbreakingEnchantment(unbreakingLevel)) {
                 return;
             }
 
@@ -67,6 +71,22 @@ public interface DamageableItem extends ItemAttribute {
                 }
             }
         }
+    }
+
+    /**
+     * This method will randomly decide if the item should be damaged or not
+     * This does not damage the item, it is called by {@link #damageItem(Player, ItemStack)} to randomly generate a
+     * boolean
+     * This function should be overridden when the item type is not a tool which is the default value
+     *
+     * @param unbreakingLevel
+     *            The {@link Integer} level of the unbreaking {@link Enchantment}
+     * 
+     * @return Whether to save the item from taking damage
+     *
+     */
+    default boolean evaluateUnbreakingEnchantment(int unbreakingLevel) {
+        return UnbreakingAlgorithm.TOOLS.evaluate(unbreakingLevel);
     }
 
 }
