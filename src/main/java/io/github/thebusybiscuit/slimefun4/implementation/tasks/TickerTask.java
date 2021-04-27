@@ -1,7 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -55,7 +53,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @see BlockTicker
  *
  */
-public final class TickerTask implements Closeable {
+public final class TickerTask {
 
     /**
      * This {@link Runnable} represents the end of our {@link Queue}.
@@ -117,6 +115,9 @@ public final class TickerTask implements Closeable {
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
 
+    /**
+     * Our {@link SlimefunPlugin} instance.
+     */
     private SlimefunPlugin plugin;
 
     /**
@@ -154,12 +155,6 @@ public final class TickerTask implements Closeable {
 
         BukkitScheduler scheduler = plugin.getServer().getScheduler();
         scheduler.runTaskLater(plugin, this::tick, 100L);
-    }
-
-    @Override
-    public void close() throws IOException {
-        // TODO Auto-generated method stub
-
     }
 
     public void tick() {
@@ -252,7 +247,7 @@ public final class TickerTask implements Closeable {
          * We're not done with the synchronous tickers yet.
          * Give the server a breather and let it progress one tick.
          */
-        Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), this::processSyncTasks, 2L);
+        Bukkit.getScheduler().runTaskLater(plugin, this::processSyncTasks, 2L);
     }
 
     private void finish() {
@@ -262,7 +257,7 @@ public final class TickerTask implements Closeable {
          * If the plugin has been disabled,
          * do not schedule the next execution.
          */
-        if (!SlimefunPlugin.instance().isEnabled()) {
+        if (!plugin.isEnabled()) {
             return;
         }
 
@@ -271,7 +266,7 @@ public final class TickerTask implements Closeable {
          * Use a synchronous task instead of an asynchronous one to bind the
          * interval to the server clock, not the wall clock.
          */
-        Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), this::tick, (long) tickRate);
+        Bukkit.getScheduler().runTaskLater(plugin, this::tick, (long) tickRate);
     }
 
     private void processAsyncTasks() {
@@ -425,7 +420,7 @@ public final class TickerTask implements Closeable {
             bugs.remove(position);
 
             BlockStorage.deleteLocationInfoUnsafely(l, true);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance(), () -> l.getBlock().setType(Material.AIR));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> l.getBlock().setType(Material.AIR));
         }
     }
 
