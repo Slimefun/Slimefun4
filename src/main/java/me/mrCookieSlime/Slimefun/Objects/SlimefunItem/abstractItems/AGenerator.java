@@ -19,14 +19,14 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
-import io.github.thebusybiscuit.slimefun4.core.attributes.ProcessHolder;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.machines.FuelOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.FuelOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -41,7 +41,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-public abstract class AGenerator extends AbstractEnergyProvider implements ProcessHolder<FuelOperation> {
+public abstract class AGenerator extends AbstractEnergyProvider implements MachineProcessHolder<FuelOperation> {
 
     private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
     private static final int[] border_in = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
@@ -102,7 +102,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Proce
                     inv.dropItems(b.getLocation(), getOutputSlots());
                 }
 
-                processor.removeOperation(b);
+                processor.endOperation(b);
             }
         };
     }
@@ -190,7 +190,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Proce
                 // Bukkit.getPluginManager().callEvent(new AsyncGeneratorProcessCompleteEvent(l, AGenerator.this,
                 // getProcessing(l)));
 
-                processor.removeOperation(l);
+                processor.endOperation(l);
                 return 0;
             }
         } else {
@@ -202,7 +202,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Proce
                     inv.consumeItem(entry.getKey(), entry.getValue());
                 }
 
-                processor.addOperation(l, new FuelOperation(fuel));
+                processor.startOperation(l, new FuelOperation(fuel));
             }
 
             return 0;

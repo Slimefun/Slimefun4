@@ -37,6 +37,7 @@
 #### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
 * Photovoltaic Cells can no longer be placed
+* (API) Refactored "Machine Process" API
 * (API) Removed deprecated "SlimefunBlockHandler"
 * Removed Automated Crafting Chamber
 

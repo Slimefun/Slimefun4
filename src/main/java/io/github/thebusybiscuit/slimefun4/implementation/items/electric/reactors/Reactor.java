@@ -23,15 +23,15 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
-import io.github.thebusybiscuit.slimefun4.core.attributes.ProcessHolder;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.machines.FuelOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.FuelOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -59,7 +59,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @see NetherStarReactor
  *
  */
-public abstract class Reactor extends AbstractEnergyProvider implements HologramOwner, ProcessHolder<FuelOperation> {
+public abstract class Reactor extends AbstractEnergyProvider implements HologramOwner, MachineProcessHolder<FuelOperation> {
 
     private static final String MODE = "reactor-mode";
     private static final int INFO_SLOT = 49;
@@ -133,7 +133,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
                     inv.dropItems(b.getLocation(), getOutputSlots());
                 }
 
-                processor.removeOperation(b);
+                processor.endOperation(b);
                 removeHologram(b);
             }
         };
@@ -349,7 +349,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
             });
 
             explosionsQueue.remove(l);
-            processor.removeOperation(l);
+            processor.endOperation(l);
         }
 
         return explosion;
@@ -388,7 +388,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
         // Bukkit.getPluginManager().callEvent(new AsyncReactorProcessCompleteEvent(l, Reactor.this, getProcessing(l)));
 
-        processor.removeOperation(l);
+        processor.endOperation(l);
     }
 
     private void burnNextFuel(Location l, BlockMenu inv, BlockMenu accessPort) {
@@ -404,7 +404,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
                 inv.consumeItem(entry.getKey(), entry.getValue());
             }
 
-            processor.addOperation(l, new FuelOperation(fuel));
+            processor.startOperation(l, new FuelOperation(fuel));
         }
     }
 

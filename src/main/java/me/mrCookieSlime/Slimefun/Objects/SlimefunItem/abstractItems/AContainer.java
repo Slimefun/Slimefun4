@@ -22,12 +22,12 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.attributes.ProcessHolder;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.machines.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -44,7 +44,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
-public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent, ProcessHolder<CraftingOperation> {
+public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent, MachineProcessHolder<CraftingOperation> {
 
     private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
     private static final int[] BORDER_IN = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
@@ -80,7 +80,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                     inv.dropItems(b.getLocation(), getOutputSlots());
                 }
 
-                processor.removeOperation(b);
+                processor.endOperation(b);
             }
 
         };
@@ -372,14 +372,14 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
                     // Bukkit.getPluginManager().callEvent(new AsyncMachineProcessCompleteEvent(b.getLocation(),
                     // AContainer.this, getProcessing(b)));
-                    processor.removeOperation(b);
+                    processor.endOperation(b);
                 }
             }
         } else {
             MachineRecipe next = findNextRecipe(inv);
 
             if (next != null) {
-                processor.addOperation(b, new CraftingOperation(next));
+                processor.startOperation(b, new CraftingOperation(next));
             }
         }
     }

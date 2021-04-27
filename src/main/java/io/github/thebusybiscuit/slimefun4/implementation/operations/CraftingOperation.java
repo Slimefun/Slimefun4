@@ -1,10 +1,11 @@
-package io.github.thebusybiscuit.slimefun4.core.machines;
+package io.github.thebusybiscuit.slimefun4.implementation.operations;
 
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
 public class CraftingOperation implements MachineOperation {
