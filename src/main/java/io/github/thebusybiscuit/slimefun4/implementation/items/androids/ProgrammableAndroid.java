@@ -247,6 +247,8 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             // Fixes #2937
             if (inv != null) {
                 inv.open(pl);
+            } else {
+                pl.closeInventory();
             }
             return false;
         });
@@ -274,6 +276,8 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     // Fixes #2937
                     if (inv != null) {
                         inv.open(pl);
+                    } else {
+                        pl.closeInventory();
                     }
                     return false;
                 });
@@ -499,6 +503,8 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     pl.closeInventory();
                     SlimefunPlugin.getLocalization().sendMessage(pl, "android.scripts.too-long");
                 }
+            } else {
+                pl.closeInventory();
             }
             return false;
         });
@@ -521,6 +527,8 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             // Fixes #2937
             if (inv != null) {
                 inv.open(pl);
+            } else {
+                pl.closeInventory();
             }
             return false;
         });
@@ -673,7 +681,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             // The Android was destroyed or moved.
             return;
         }
-
+        
         if ("false".equals(data.getString("paused"))) {
             BlockMenu menu = BlockStorage.getInventory(b);
             
