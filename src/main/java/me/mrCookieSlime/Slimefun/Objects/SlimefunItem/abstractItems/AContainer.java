@@ -51,7 +51,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private static final int[] BORDER_OUT = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
     protected final List<MachineRecipe> recipes = new ArrayList<>();
-    private final MachineProcessor<CraftingOperation> processor = new MachineProcessor<>();
+    private final MachineProcessor<CraftingOperation> processor = new MachineProcessor<>(this);
 
     private int energyConsumedPerTick = -1;
     private int energyCapacity = -1;

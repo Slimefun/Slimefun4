@@ -47,7 +47,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
     private static final int[] border_in = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
-    private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>();
+    private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>(this);
 
     private int energyProducedPerTick = -1;
     private int energyCapacity = -1;

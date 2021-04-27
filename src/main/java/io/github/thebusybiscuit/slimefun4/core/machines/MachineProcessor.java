@@ -34,7 +34,30 @@ public class MachineProcessor<T extends MachineOperation> {
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private final Map<BlockPosition, T> machines = new HashMap<>();
+    private final MachineProcessHolder<T> owner;
+
     private ItemStack progressBar;
+
+    /**
+     * This creates a new {@link MachineProcessor}.
+     * 
+     * @param owner
+     *            The owner of this {@link MachineProcessor}.
+     */
+    public MachineProcessor(@Nonnull MachineProcessHolder<T> owner) {
+        Validate.notNull(owner, "The MachineProcessHolder cannot be null.");
+        this.owner = owner;
+    }
+
+    /**
+     * This returns the owner of this {@link MachineProcessor}.
+     * 
+     * @return The owner / holder
+     */
+    @Nonnull
+    public MachineProcessHolder<T> getOwner() {
+        return owner;
+    }
 
     /**
      * This returns the progress bar icon for this {@link MachineProcessor}

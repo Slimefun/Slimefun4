@@ -57,7 +57,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     private static final int PROCESSING_TIME = 14;
     private static final int ENERGY_CONSUMPTION = 24;
 
-    private final MachineProcessor<MiningOperation> processor = new MachineProcessor<>();
+    private final MachineProcessor<MiningOperation> processor = new MachineProcessor<>(this);
 
     @ParametersAreNonnullByDefault
     public GEOMiner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

@@ -75,7 +75,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     private static final int[] border_4 = { 25, 34, 43 };
 
     private final Set<Location> explosionsQueue = new HashSet<>();
-    private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>();
+    private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>(this);
 
     @ParametersAreNonnullByDefault
     protected Reactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
