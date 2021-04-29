@@ -382,7 +382,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.BOOK), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.MAGIC_LUMP_2, null})
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.MAGICAL_GLASS, RecipeType.MAGIC_WORKBENCH,
+        new UnplaceableBlock(categories.magicalResources, SlimefunItems.MAGICAL_GLASS, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_DUST, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, new ItemStack(Material.GLASS_PANE), SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.MAGIC_LUMP_2})
         .register(plugin);
 
@@ -415,7 +415,7 @@ public final class SlimefunItemSetup {
         
         new PressureChamber(categories.basicMachines, SlimefunItems.PRESSURE_CHAMBER).register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, SlimefunItems.BATTERY, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.technicalComponents, SlimefunItems.BATTERY, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT})
         .register(plugin);
 
@@ -996,7 +996,7 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.SPLINT, 4))
         .register(plugin);
 
-        new SlimefunItem(categories.misc, SlimefunItems.TIN_CAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.misc, SlimefunItems.TIN_CAN, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, null, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT}, 
         new SlimefunItemStack(SlimefunItems.TIN_CAN, 8))
         .register(plugin);
