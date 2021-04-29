@@ -54,6 +54,9 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
  * that is required for activating a {@link Talisman}.
  * 
  * @author TheBusyBiscuit
+ * @author StarWishsama
+ * @author svr333
+ * @author martinbrom
  * 
  * @see Talisman
  *

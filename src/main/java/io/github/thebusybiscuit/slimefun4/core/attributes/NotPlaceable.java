@@ -16,6 +16,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  *
  */
-public interface NotPlaceable {
+public interface NotPlaceable extends ItemAttribute {
 
 }

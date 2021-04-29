@@ -327,8 +327,13 @@ public final class SlimefunRegistry {
     }
 
     @Nonnull
-    public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getPublicItemHandlers() {
+    public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getGlobalItemHandlers() {
         return globalItemHandlers;
+    }
+
+    @Nonnull
+    public Set<ItemHandler> getGlobalItemHandlers(@Nonnull Class<? extends ItemHandler> identifier) {
+        return globalItemHandlers.computeIfAbsent(identifier, c -> new HashSet<>());
     }
 
     @Nonnull
