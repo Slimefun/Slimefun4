@@ -21,6 +21,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Trident;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -29,7 +30,6 @@ import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
@@ -49,6 +49,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans
 import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
+/**
+ * This {@link Listener} is responsible for handling any {@link Event}
+ * that is required for activating a {@link Talisman}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Talisman
+ *
+ */
 public class TalismanListener implements Listener {
 
     private final int[] armorSlots = { 39, 38, 37, 36 };
@@ -60,34 +69,43 @@ public class TalismanListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamageGet(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
-            if (e.getCause() == DamageCause.LAVA) {
-                Talisman.trigger(e, SlimefunItems.TALISMAN_LAVA);
-            }
+            switch (e.getCause()) {
+                case LAVA:
+                    // Fire Resistance when hitting lava
+                    Talisman.trigger(e, SlimefunItems.TALISMAN_LAVA);
+                    break;
+                case DROWNING:
+                    // Water Breathing when starting to drown
+                    Talisman.trigger(e, SlimefunItems.TALISMAN_WATER);
+                    break;
+                case FALL:
+                    // 75% chance to prevent fall damage
+                    Talisman.trigger(e, SlimefunItems.TALISMAN_ANGEL);
+                    break;
+                case FIRE:
+                    // Fire Resistance when starting to burn
+                    Talisman.trigger(e, SlimefunItems.TALISMAN_FIRE);
+                    break;
+                case ENTITY_ATTACK:
+                    // 30% chance to get Regeneration
+                    Talisman.trigger(e, SlimefunItems.TALISMAN_KNIGHT);
 
-            if (e.getCause() == DamageCause.DROWNING) {
-                Talisman.trigger(e, SlimefunItems.TALISMAN_WATER);
-            }
-
-            if (e.getCause() == DamageCause.FALL) {
-                Talisman.trigger(e, SlimefunItems.TALISMAN_ANGEL);
-            }
-
-            if (e.getCause() == DamageCause.FIRE) {
-                Talisman.trigger(e, SlimefunItems.TALISMAN_FIRE);
-            }
-
-            if (e.getCause() == DamageCause.ENTITY_ATTACK) {
-                Talisman.trigger(e, SlimefunItems.TALISMAN_KNIGHT);
-                Talisman.trigger(e, SlimefunItems.TALISMAN_WARRIOR);
-            }
-
-            if (e.getCause() == DamageCause.PROJECTILE && e instanceof EntityDamageByEntityEvent) {
-                onProjectileDamage((EntityDamageByEntityEvent) e);
+                    // Strength III when getting attacked
+                    Talisman.trigger(e, SlimefunItems.TALISMAN_WARRIOR);
+                    break;
+                case PROJECTILE:
+                    if (e instanceof EntityDamageByEntityEvent) {
+                        onProjectileDamage((EntityDamageByEntityEvent) e);
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
 
     private void onProjectileDamage(@Nonnull EntityDamageByEntityEvent e) {
+        // "Fixes" #1022 - We just ignore Tridents now.
         if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
             Projectile projectile = (Projectile) e.getDamager();
 
@@ -136,13 +154,18 @@ public class TalismanListener implements Listener {
         LivingEntity entity = e.getEntity();
 
         if (entity instanceof Player || entity instanceof ArmorStand) {
-            // We absolutely don't want to double the
-            // drops from players or ArmorStands
+            /*
+             * We absolutely don't want to double the
+             * drops from players or ArmorStands
+             */
             return;
         }
 
-        // We are also excluding entities which can pickup items, this is not perfect
-        // but it at least prevents dupes by tossing items to zombies
+        /*
+         * We are also excluding entities which can pickup items,
+         * this is not perfect but it at least prevents dupes
+         * by tossing items to zombies.
+         */
         if (!entity.getCanPickupItems() && Talisman.trigger(e, SlimefunItems.TALISMAN_HUNTER)) {
             Collection<ItemStack> extraDrops = getExtraDrops(e.getEntity(), e.getDrops());
 
@@ -173,11 +196,14 @@ public class TalismanListener implements Listener {
             }
         }
 
-        // WARNING: This check is broken as entities now set their
-        // equipment to NULL before calling the event!
-
-        // Prevents duplication of handheld items or armor
+        /*
+         * WARNING: This check is broken as entities now set their
+         * equipment to NULL before calling the event!
+         * 
+         * It prevents duplication of handheld items or armor.
+         */
         EntityEquipment equipment = entity.getEquipment();
+
         if (equipment != null) {
             for (ItemStack item : equipment.getArmorContents()) {
                 items.remove(item);
@@ -240,8 +266,10 @@ public class TalismanListener implements Listener {
 
         if (enchantment != null && Talisman.trigger(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             /*
-             * Fix #2679
-             * By default, the Bukkit API doesn't allow us to give enchantment books extra enchantments.
+             * Fixes #2679
+             * 
+             * By default, the Bukkit API doesn't allow us to give enchantment books
+             * extra enchantments.
              */
             if (talisman.isEnchantmentBookAllowed() && e.getItem().getType() == Material.BOOK) {
                 e.getItem().addUnsafeEnchantment(enchantment.getEnchantment(), enchantment.getLevel());
