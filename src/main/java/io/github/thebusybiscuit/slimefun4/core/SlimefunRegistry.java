@@ -333,6 +333,8 @@ public final class SlimefunRegistry {
 
     @Nonnull
     public Set<ItemHandler> getGlobalItemHandlers(@Nonnull Class<? extends ItemHandler> identifier) {
+        Validate.notNull(identifier, "The identifier for an ItemHandler cannot be null!");
+
         return globalItemHandlers.computeIfAbsent(identifier, c -> new HashSet<>());
     }
 
