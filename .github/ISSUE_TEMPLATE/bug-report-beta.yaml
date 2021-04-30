@@ -13,8 +13,8 @@ body:
       A clear and detailed description of what went wrong.
       The more information you can provide, the easier we can handle this problem.
     placeholder: |
-      example:
-      When trying to do [...], I expected [...] to happen but [...] happened instead.
+      (example)<br>
+      When trying to do [...], I expected [...] to happen but [...] happened instead.<br>
       I am pretty sure this is not intended and should be fixed.
 
 - id: reproduction-steps
@@ -25,11 +25,10 @@ body:
     label: '📑 Reproduction Steps'
     description: |
       Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
-      Youtube Videos and Screenshots are recommended!
     placeholder: |
-      example:
-      1. Craft [...]
-      2. Right click with that item on a workbench
+      (example)<br>
+      1. Craft [...]<br>
+      2. Right click with that item on a workbench<br>
       3. The workbench explodes
 
 - id: expected-behaviour
@@ -44,21 +43,32 @@ body:
     placeholder: |
       I expected [...] to happen.
 
-- id: server-log
+- id: media
   type: textarea
+  attributes:
+    label: '📷 Screenshots / Videos'
+    description: |
+      Videos and Screenshots help illustrate issues the best.
+      If you can capture any footage of the bug happening, it would help us out a lot!
+
+- id: server-log
+  type: input
   attributes:
     label: '📜 Server Log'
     description: |
-      Take a look at your Server Log and post any errors you can find via https://pastebin.com/
+      Take a look at your Server Log and upload any error messages from Slimefun
+      to a pasting site (e.g. https://pastebin.com/)
       If you are unsure about it, post your full log, you can find it under /logs/latest.log
+    placeholder: https://pastebin.com/...
 
 - id: error-reports
-  type: textarea
+  type: input
   attributes:
     label: '📂 `/error-reports/` folder'
     description: |
-      Check the folder /plugins/Slimefun/error-reports/ and upload any files inside that folder.
-      You can also post these files via https://pastebin.com/
+      Check the folder `/plugins/Slimefun/error-reports/` and upload any files inside that folder
+      to a pasting site (e.g. https://pastebin.com/)
+    placeholder: https://pastebin.com/...
 
 - id: server-software
   type: dropdown
@@ -89,18 +99,17 @@ body:
       - (Older versions are not supported)
 
 - id: slimefun-version
-  type: input
+  type: textarea
   validations:
     required: true
   attributes:
     label: '⭐ Slimefun version'
     description: |
-      Any issue without the exact version numbers will be closed!
-      "latest" IS NOT A VERSION NUMBER.
-      We recommend running "/sf versions" and showing us a screenshot of that.
+      **"latest" is not a version number, we need the exact version.**
+      We recommend running "/sf versions" and uploading a screenshot of that.
       Make sure that the screenshot covers the entire output of that command.
       If your issue is related to other plugins, make sure to include the versions of these plugins too!
-    placeholder: Slimefun version
+    placeholder: Slimefun version: [...]
 
 - type: markdown
   attributes:
