@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -132,10 +133,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.geo.PortableGEOSc
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSControlPanel;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSMarkerTool;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.PersonalActivationPlate;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.SharedActivationPlate;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.TeleporterPylon;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfernalBonemeal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedHopper;
@@ -146,6 +143,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeO
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicalZombiePills;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.TelepositionScroll;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.ElementalRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.EnchantmentRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.SoulboundRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.VillagerRune;
@@ -184,6 +182,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.ChristmasPresent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.EasterEgg;
+import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.PersonalActivationPlate;
+import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.SharedActivationPlate;
+import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Teleporter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.TeleporterPylon;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosivePickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
@@ -384,7 +386,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.BOOK), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.MAGIC_LUMP_2, null})
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.MAGICAL_GLASS, RecipeType.MAGIC_WORKBENCH,
+        new UnplaceableBlock(categories.magicalResources, SlimefunItems.MAGICAL_GLASS, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_2, SlimefunItems.GOLD_DUST, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, new ItemStack(Material.GLASS_PANE), SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.MAGIC_LUMP_2, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.MAGIC_LUMP_2})
         .register(plugin);
 
@@ -417,7 +419,7 @@ public final class SlimefunItemSetup {
         
         new PressureChamber(categories.basicMachines, SlimefunItems.PRESSURE_CHAMBER).register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, SlimefunItems.BATTERY, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.technicalComponents, SlimefunItems.BATTERY, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT})
         .register(plugin);
 
@@ -820,7 +822,7 @@ public final class SlimefunItemSetup {
 
         new Talisman(SlimefunItems.TALISMAN_MINER,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.COMMON_TALISMAN, SlimefunItems.SIFTED_ORE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-        false, false, null, 20)
+        false, false, "miner", 20)
         .register(plugin);
 
         new Talisman(SlimefunItems.TALISMAN_HUNTER,
@@ -998,7 +1000,7 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.SPLINT, 4))
         .register(plugin);
 
-        new SlimefunItem(categories.misc, SlimefunItems.TIN_CAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.misc, SlimefunItems.TIN_CAN, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, null, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.TIN_INGOT}, 
         new SlimefunItemStack(SlimefunItems.TIN_CAN, 8))
         .register(plugin);
@@ -1955,41 +1957,41 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.GPS_TRANSMITTER_3, null, new ItemStack(Material.DIAMOND_SWORD), SlimefunItems.PROGRAMMABLE_ANDROID_3, new ItemStack(Material.DIAMOND_SWORD), null, SlimefunItems.ELECTRIC_MOTOR, null})
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.BLANK_RUNE, RecipeType.ANCIENT_ALTAR,
+        new ElementalRune(categories.magicalResources, SlimefunItems.BLANK_RUNE,
         new ItemStack[] {new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.OBSIDIAN), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE)})
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.AIR_RUNE, RecipeType.ANCIENT_ALTAR,
+        new ElementalRune(categories.magicalResources, SlimefunItems.AIR_RUNE,
         new ItemStack[] {new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.FEATHER), new ItemStack(Material.GHAST_TEAR), SlimefunItems.BLANK_RUNE, new ItemStack(Material.GHAST_TEAR), new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.FEATHER)}, 
         new SlimefunItemStack(SlimefunItems.AIR_RUNE, 4))
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.EARTH_RUNE, RecipeType.ANCIENT_ALTAR,
+        new ElementalRune(categories.magicalResources, SlimefunItems.EARTH_RUNE,
         new ItemStack[] {new ItemStack(Material.DIRT), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.STONE), new ItemStack(Material.OBSIDIAN), SlimefunItems.BLANK_RUNE, new ItemStack(Material.OBSIDIAN), new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.DIRT)}, 
         new SlimefunItemStack(SlimefunItems.EARTH_RUNE, 4))
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.FIRE_RUNE, RecipeType.ANCIENT_ALTAR,
+        new ElementalRune(categories.magicalResources, SlimefunItems.FIRE_RUNE,
         new ItemStack[] {new ItemStack(Material.FIRE_CHARGE), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.FIRE_CHARGE), new ItemStack(Material.BLAZE_POWDER), SlimefunItems.EARTH_RUNE, new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.FIRE_CHARGE), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.FIRE_CHARGE)}, 
         new SlimefunItemStack(SlimefunItems.FIRE_RUNE, 4))
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.WATER_RUNE, RecipeType.ANCIENT_ALTAR,
+        new ElementalRune(categories.magicalResources, SlimefunItems.WATER_RUNE,
         new ItemStack[] {new ItemStack(Material.SALMON), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.SAND), SlimefunItems.BLANK_RUNE, new ItemStack(Material.SAND), new ItemStack(Material.WATER_BUCKET), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.COD)}, 
         new SlimefunItemStack(SlimefunItems.WATER_RUNE, 4))
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.ENDER_RUNE, RecipeType.ANCIENT_ALTAR,
+        new ElementalRune(categories.magicalResources, SlimefunItems.ENDER_RUNE,
         new ItemStack[] {new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENDER_PEARL), new ItemStack(Material.ENDER_EYE), SlimefunItems.BLANK_RUNE, new ItemStack(Material.ENDER_EYE), new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENDER_PEARL)}, 
         new SlimefunItemStack(SlimefunItems.ENDER_RUNE, 6))
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.LIGHTNING_RUNE, RecipeType.ANCIENT_ALTAR,
+        new ElementalRune(categories.magicalResources, SlimefunItems.LIGHTNING_RUNE,
         new ItemStack[] {new ItemStack(Material.IRON_INGOT), SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.IRON_INGOT), SlimefunItems.AIR_RUNE, new ItemStack(Material.PHANTOM_MEMBRANE), SlimefunItems.WATER_RUNE, new ItemStack(Material.IRON_INGOT), SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.IRON_INGOT)}, 
         new SlimefunItemStack(SlimefunItems.LIGHTNING_RUNE, 4))
         .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, SlimefunItems.RAINBOW_RUNE, RecipeType.ANCIENT_ALTAR,
+        new ElementalRune(categories.magicalResources, SlimefunItems.RAINBOW_RUNE,
         new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.CYAN_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.ENDER_RUNE, new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.YELLOW_DYE), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.MAGENTA_DYE)})
         .register(plugin);
 
@@ -2625,6 +2627,7 @@ public final class SlimefunItemSetup {
         // @formatter:on
     }
 
+    @ParametersAreNonnullByDefault
     private static void registerArmorSet(Category category, ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, PotionEffect[][] effects, SlimefunAddon addon) {
         String[] components = new String[] { "_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS" };
         List<ItemStack[]> recipes = new ArrayList<>();

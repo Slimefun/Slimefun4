@@ -39,6 +39,9 @@
 #### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
 * Photovoltaic Cells can no longer be placed
+* Batteries can no longer be placed
+* Tin Cans can no longer be placed
+* Magical Glass can no longer be placed
 * (API) Removed deprecated "SlimefunBlockHandler"
 * Removed Automated Crafting Chamber
 
@@ -46,6 +49,7 @@
 * Fixed #2987
 * Fixed #2989
 * Fixed #2977
+* Fixed #2999
 
 ## Release Candidate 22 (18 Apr 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22

@@ -30,6 +30,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAlta
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+// This class will be reworked and relocated in the "Recipe Rewrite"
 public class RecipeType implements Keyed {
 
     public static final RecipeType MULTIBLOCK = new RecipeType(new NamespacedKey(SlimefunPlugin.instance(), "multiblock"), new CustomItem(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));

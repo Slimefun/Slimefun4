@@ -18,6 +18,13 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link MagicEyeOfEnder} allows you to launch an {@link EnderPearl}
+ * out of thin air as long as you are wearing Ender Armor.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemUseHandler> {
 
     @ParametersAreNonnullByDefault

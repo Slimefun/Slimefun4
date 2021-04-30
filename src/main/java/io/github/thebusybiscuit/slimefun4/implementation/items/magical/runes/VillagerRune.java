@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.GameMode;
 import org.bukkit.Particle;
 import org.bukkit.SoundCategory;
@@ -29,6 +31,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
 
+    @ParametersAreNonnullByDefault
     public VillagerRune(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }

@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.gps;
+package io.github.thebusybiscuit.slimefun4.implementation.items.teleporter;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

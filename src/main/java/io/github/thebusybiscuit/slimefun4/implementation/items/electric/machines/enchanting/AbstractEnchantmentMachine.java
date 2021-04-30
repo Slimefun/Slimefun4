@@ -64,20 +64,23 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         menu.replaceExistingItem(22, progressBar);
     }
 
-    protected boolean hasIgnoredLore(@Nonnull ItemStack itemStack) {
-        if (useIgnoredLores.getValue() && itemStack.hasItemMeta()) {
-            ItemMeta itemMeta = itemStack.getItemMeta();
-            if (!itemMeta.hasLore()) {
-                return false;
-            }
-            List<String> itemLore = itemMeta.getLore();
-            List<String> ignoredLore = ignoredLores.getValue();
-            for (String lore : ignoredLore) {
-                if (itemLore.contains(ChatColors.color(lore))) {
-                    return true;
+    protected boolean hasIgnoredLore(@Nonnull ItemStack item) {
+        if (useIgnoredLores.getValue() && item.hasItemMeta()) {
+            ItemMeta itemMeta = item.getItemMeta();
+
+            if (itemMeta.hasLore()) {
+                List<String> itemLore = itemMeta.getLore();
+                List<String> ignoredLore = ignoredLores.getValue();
+
+                // Check if any of the lines are found on the item
+                for (String lore : ignoredLore) {
+                    if (itemLore.contains(ChatColors.color(lore))) {
+                        return true;
+                    }
                 }
             }
         }
+
         return false;
     }
 }

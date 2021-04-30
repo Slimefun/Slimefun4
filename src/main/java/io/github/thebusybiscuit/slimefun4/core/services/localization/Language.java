@@ -135,7 +135,7 @@ public final class Language {
     }
 
     @Nonnull
-    protected FileConfiguration[] getFiles() {
+    FileConfiguration[] getFiles() {
         return Arrays.stream(LanguageFile.valuesCached).map(this::getFile).toArray(FileConfiguration[]::new);
     }
 
