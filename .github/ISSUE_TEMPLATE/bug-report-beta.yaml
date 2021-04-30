@@ -1,6 +1,6 @@
 name: Bug Report (Beta)
 description: Report a Bug or an Issue with Slimefun 4.
-labels: ['\U0001F3AF Needs testing', '\U0001F41E Bug Report']
+labels: ['🎯 Needs testing', '🐞 Bug Report']
 
 body:
 - id: description
@@ -8,7 +8,7 @@ body:
   validations:
     required: true
   attributes:
-    label: ':round_pushpin: Description'
+    label: '📍 Description'
     description: |
       A clear and detailed description of what went wrong.
       The more information you can provide, the easier we can handle this problem.
@@ -22,7 +22,7 @@ body:
   validations:
     required: true
   attributes:
-    label: ':bookmark_tabs: Reproduction Steps'
+    label: '📑 Reproduction Steps'
     description: |
       Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
       Youtube Videos and Screenshots are recommended!
@@ -37,7 +37,7 @@ body:
   validations:
     required: true
   attributes:
-    label: ':bulb: Expected Behavior'
+    label: '💡 Expected Behavior'
     description: |
       What were you expecting to happen?
       What do you think would have been the correct behaviour?
@@ -47,7 +47,7 @@ body:
 - id: server-log
   type: textarea
   attributes:
-    label: ':scroll: Server Log'
+    label: '📜 Server Log'
     description: |
       Take a look at your Server Log and post any errors you can find via https://pastebin.com/
       If you are unsure about it, post your full log, you can find it under /logs/latest.log
@@ -55,7 +55,7 @@ body:
 - id: error-reports
   type: textarea
   attributes:
-    label: ':open_file_folder: /error-reports/ Folder'
+    label: '📂 `/error-reports/` folder'
     description: |
       Check the folder /plugins/Slimefun/error-reports/ and upload any files inside that folder.
       You can also post these files via https://pastebin.com/
@@ -65,7 +65,7 @@ body:
   validations:
     required: true
   attributes:
-    label: ':desktop_computer: Server Software'
+    label: '💻 Server Software'
     description: 'Please select the software your Server is running on'
     options:
       - Spigot
@@ -79,7 +79,7 @@ body:
   validations:
     required: true
   attributes:
-    label: ':video_game: Minecraft Version'
+    label: '🎮 Minecraft Version'
     description: 'Please select the Minecraft version of the server'
     options:
       #- 1.17.x
@@ -93,7 +93,7 @@ body:
   validations:
     required: true
   attributes:
-    label: ':compass: Slimefun version'
+    label: '⭐ Slimefun version'
     description: |
       Any issue without the exact version numbers will be closed!
       "latest" IS NOT A VERSION NUMBER.
@@ -105,6 +105,6 @@ body:
 - type: markdown
   attributes:
     value: |
-      Thank you for submitting a bug report! If anyone who sees this has some additional info which
-      can help reproduce or track down this issue, please comment down below.
-      Any help is appreciated! :heart:
+      ## ❤️ Thank you for submitting a bug report!
+      If anyone who sees this has some additional info which can help reproduce or track down this issue,
+      please comment down below. Any help is appreciated!
