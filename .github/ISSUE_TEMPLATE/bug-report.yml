@@ -1,53 +1,56 @@
 name: Bug Report (Beta)
 about: Report a Bug or an Issue with Slimefun 4.
-title: ''
 labels: ['\U0001F3AF Needs testing', '\U0001F41E Bug Report']
-assignees: ''
 body:
 - type: markdown
   attributes:
     value: '## Thanks for reporting a bug!'
 - type: textarea
-  label: ':round_pushpin: Description'
   validations:
     required: true
-  description: |
-    A clear and detailed description of what went wrong.
-    The more information you can provide, the easier we can handle this problem.
+  attributes:
+    label: ':round_pushpin: Description'
+    description: |
+      A clear and detailed description of what went wrong.
+      The more information you can provide, the easier we can handle this problem.
 - type: textarea
-  label: ':bookmark_tabs: Reproduction Steps'
   validations:
     required: true
-  description: |
-    Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
-    Youtube Videos and Screenshots are recommended!
-  value: |
-    1.
-    2.
-    3.
+  attributes:
+    label: ':bookmark_tabs: Reproduction Steps'
+    description: |
+      Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
+      Youtube Videos and Screenshots are recommended!
+    value: |
+      1.
+      2.
+      3.
 - type: textarea
-  label: ':bulb: Expected Behavior'
   validations:
     required: true
-  description: |
-    What were you expecting to happen?
-    What do you think would have been the correct behaviour?
+  attributes:
+    label: ':bulb: Expected Behavior'
+    description: |
+      What were you expecting to happen?
+      What do you think would have been the correct behaviour?
 - type: textarea
-  label: ':scroll: Server Log'
-  description: |
-    Take a look at your Server Log and post any errors you can find via https://pastebin.com/
-    If you are unsure about it, post your full log, you can find it under /logs/latest.log
+  attributes:
+    label: ':scroll: Server Log'
+    description: |
+      Take a look at your Server Log and post any errors you can find via https://pastebin.com/
+      If you are unsure about it, post your full log, you can find it under /logs/latest.log
 - type: textarea
-  label: ':open_file_folder: /error-reports/ Folder'
-  description: |
-    Check the folder /plugins/Slimefun/error-reports/ and upload any files inside that folder.
-    You can also post these files via https://pastebin.com/
+  attributes:
+    label: ':open_file_folder: /error-reports/ Folder'
+    description: |
+      Check the folder /plugins/Slimefun/error-reports/ and upload any files inside that folder.
+      You can also post these files via https://pastebin.com/
 - type: dropdown
   validations:
     required: true
-  description: 'Please select the Minecraft version of the server'
   attributes:
     label: ':video_game: Minecraft Version'
+    description: 'Please select the Minecraft version of the server'
     options:
       #- 1.17.x
       - 1.16.x
@@ -55,15 +58,16 @@ body:
       - 1.14.x
       - Older
 - type: textarea
-  label: ':compass: Environment'
   validations:
     required: true
-  description: |
-    Any issue without the exact version numbers will be closed!
-    "latest" IS NOT A VERSION NUMBER.
-    We recommend running "/sf versions" and showing us a screenshot of that.
-    Make sure that the screenshot covers the entire output of that command.
-    If your issue is related to other plugins, make sure to include the versions of these plugins too!
-  value: |
-    - Server software:
-    - Slimefun version:
+  attributes:
+    label: ':compass: Environment'
+    description: |
+      Any issue without the exact version numbers will be closed!
+      "latest" IS NOT A VERSION NUMBER.
+      We recommend running "/sf versions" and showing us a screenshot of that.
+      Make sure that the screenshot covers the entire output of that command.
+      If your issue is related to other plugins, make sure to include the versions of these plugins too!
+    value: |
+      - Server software:
+      - Slimefun version:
