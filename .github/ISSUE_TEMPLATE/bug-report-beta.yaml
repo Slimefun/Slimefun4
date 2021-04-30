@@ -19,6 +19,8 @@ body:
       required: true
     - label: I searched for similar open issues and could not find an existing bug report on this.
       required: true
+    - label: I am aware that issues related to Slimefun addons need to be reported on their bug trackers and not here.
+      required: true
 
 - id: description
   type: textarea
