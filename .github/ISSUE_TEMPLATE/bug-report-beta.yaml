@@ -64,7 +64,7 @@ body:
   attributes:
     label: '📷 Screenshots / Videos'
     description: |
-      Videos and Screenshots help illustrate issues the best.
+      The best way to illustrate in an issue is by recording a Video or taking a Screenshot.
       If you can capture any footage of the bug happening, it would help us out a lot!
 
 - id: server-log
