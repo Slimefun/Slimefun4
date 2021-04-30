@@ -109,7 +109,7 @@ body:
       We recommend running "/sf versions" and uploading a screenshot of that.
       Make sure that the screenshot covers the entire output of that command.
       If your issue is related to other plugins, make sure to include the versions of these plugins too!
-    placeholder: Slimefun version: [...]
+    placeholder: Slimefun version [...]
 
 - type: markdown
   attributes:
