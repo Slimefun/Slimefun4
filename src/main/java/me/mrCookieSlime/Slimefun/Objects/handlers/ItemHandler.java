@@ -30,19 +30,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 public interface ItemHandler {
 
     /**
-     * This method is used to determine whether this {@link ItemHandler} can be
-     * safely associated with one particular {@link SlimefunItem}.
-     * 
-     * Should this {@link ItemHandler} not be private, then it will never be
-     * permanently linked to a {@link SlimefunItem}.
-     * 
-     * @return Whether this {@link ItemHandler} is considered private.
-     */
-    default boolean isPrivate() {
-        return true;
-    }
-
-    /**
      * This method is used to check whether a given {@link SlimefunItem} is compatible
      * with this {@link ItemHandler}, it will return an {@link IncompatibleItemHandlerException}
      * if the items are not compatible.

@@ -170,15 +170,15 @@ public class ArmorTask implements Runnable {
         }
 
         Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
-        ItemStack subject = item;
+        ItemStack itemStack = item;
 
         if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {
             // Performance optimization to reduce ItemMeta calls
-            subject = new ItemStackWrapper(item);
+            itemStack = new ItemStackWrapper(item);
         }
 
         for (SlimefunItem radioactiveItem : radioactiveItems) {
-            if (radioactiveItem.isItem(subject) && Slimefun.isEnabled(p, radioactiveItem, true)) {
+            if (radioactiveItem.isItem(itemStack) && Slimefun.isEnabled(p, radioactiveItem, true)) {
                 // If the item is enabled in the world, then make radioactivity do its job
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
 

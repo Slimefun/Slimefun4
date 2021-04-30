@@ -32,7 +32,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent}
@@ -81,7 +80,7 @@ public class BlockListener implements Listener {
         ItemStack item = e.getItemInHand();
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-        if (sfItem != null && !(sfItem instanceof NotPlaceable) && Slimefun.isEnabled(e.getPlayer(), sfItem, true)) {
+        if (sfItem != null && !(sfItem instanceof NotPlaceable)) {
             if (!sfItem.canUse(e.getPlayer(), true)) {
                 e.setCancelled(true);
             } else {
