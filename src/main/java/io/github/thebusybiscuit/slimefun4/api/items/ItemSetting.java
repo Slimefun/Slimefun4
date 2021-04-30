@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
+import java.util.List;
+import java.util.Objects;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -8,8 +11,6 @@ import org.apache.commons.lang.Validate;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-
-import java.util.List;
 
 /**
  * This class represents a Setting for a {@link SlimefunItem} that can be modified via
@@ -89,6 +90,16 @@ public class ItemSetting<T> {
     @Nonnull
     public String getKey() {
         return key;
+    }
+
+    /**
+     * This returns the associated {@link SlimefunItem} for this {@link ItemSetting}.
+     * 
+     * @return The associated {@link SlimefunItem}
+     */
+    @Nonnull
+    protected SlimefunItem getItem() {
+        return item;
     }
 
     /**
@@ -186,6 +197,21 @@ public class ItemSetting<T> {
     public String toString() {
         T currentValue = this.value != null ? this.value : defaultValue;
         return getClass().getSimpleName() + " {" + getKey() + " = " + currentValue + " (default: " + getDefaultValue() + ")";
+    }
+
+    @Override
+    public final int hashCode() {
+        return Objects.hash(item, key);
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj instanceof ItemSetting) {
+            ItemSetting<?> setting = (ItemSetting<?>) obj;
+            return Objects.equals(getKey(), setting.getKey()) && Objects.equals(getItem(), setting.getItem());
+        } else {
+            return false;
+        }
     }
 
 }

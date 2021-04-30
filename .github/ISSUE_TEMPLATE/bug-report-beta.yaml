@@ -1,73 +1,119 @@
 name: Bug Report (Beta)
-about: Report a Bug or an Issue with Slimefun 4.
-labels: ['\U0001F3AF Needs testing', '\U0001F41E Bug Report']
+description: Report a Bug or an Issue with Slimefun 4.
+labels: ['🎯 Needs testing', '🐞 Bug Report']
+
 body:
-- type: markdown
-  attributes:
-    value: '## Thanks for reporting a bug!'
-- type: textarea
+- id: description
+  type: textarea
   validations:
     required: true
   attributes:
-    label: ':round_pushpin: Description'
+    label: '📍 Description'
     description: |
       A clear and detailed description of what went wrong.
       The more information you can provide, the easier we can handle this problem.
-- type: textarea
+    placeholder: |
+      (example)
+      When trying to do [...], I expected [...] to happen but [...] happened instead.
+      I am pretty sure this is not intended and should be fixed.
+
+- id: reproduction-steps
+  type: textarea
   validations:
     required: true
   attributes:
-    label: ':bookmark_tabs: Reproduction Steps'
+    label: '📑 Reproduction Steps'
     description: |
       Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
-      Youtube Videos and Screenshots are recommended!
-    value: |
-      1.
-      2.
-      3.
-- type: textarea
+    placeholder: |
+      (example)
+      1. Craft [...]
+      2. Right click with that item on a workbench
+      3. The workbench explodes
+
+- id: expected-behaviour
+  type: textarea
   validations:
     required: true
   attributes:
-    label: ':bulb: Expected Behavior'
+    label: '💡 Expected Behavior'
     description: |
       What were you expecting to happen?
       What do you think would have been the correct behaviour?
-- type: textarea
+    placeholder: |
+      I expected [...] to happen.
+
+- id: media
+  type: textarea
   attributes:
-    label: ':scroll: Server Log'
+    label: '📷 Screenshots / Videos'
     description: |
-      Take a look at your Server Log and post any errors you can find via https://pastebin.com/
+      Videos and Screenshots help illustrate issues the best.
+      If you can capture any footage of the bug happening, it would help us out a lot!
+
+- id: server-log
+  type: input
+  attributes:
+    label: '📜 Server Log'
+    description: |
+      Take a look at your Server Log and upload any error messages from Slimefun
+      to a pasting site (e.g. https://pastebin.com/)
       If you are unsure about it, post your full log, you can find it under /logs/latest.log
-- type: textarea
+    placeholder: https://pastebin.com/...
+
+- id: error-reports
+  type: input
   attributes:
-    label: ':open_file_folder: /error-reports/ Folder'
+    label: '📂 `/error-reports/` folder'
     description: |
-      Check the folder /plugins/Slimefun/error-reports/ and upload any files inside that folder.
-      You can also post these files via https://pastebin.com/
-- type: dropdown
+      Check the folder `/plugins/Slimefun/error-reports/` and upload any files inside that folder
+      to a pasting site (e.g. https://pastebin.com/)
+    placeholder: https://pastebin.com/...
+
+- id: server-software
+  type: dropdown
   validations:
     required: true
   attributes:
-    label: ':video_game: Minecraft Version'
+    label: '💻 Server Software'
+    description: 'Please select the software your Server is running on'
+    options:
+      - Spigot
+      - Paper
+      - Tuinity
+      - Purpur
+      - Other
+
+- id: minecraft-version
+  type: dropdown
+  validations:
+    required: true
+  attributes:
+    label: '🎮 Minecraft Version'
     description: 'Please select the Minecraft version of the server'
     options:
       #- 1.17.x
       - 1.16.x
       - 1.15.x
       - 1.14.x
-      - Older
-- type: textarea
+      - (Older versions are not supported)
+
+- id: slimefun-version
+  type: textarea
   validations:
     required: true
   attributes:
-    label: ':compass: Environment'
+    label: '⭐ Slimefun version'
     description: |
-      Any issue without the exact version numbers will be closed!
-      "latest" IS NOT A VERSION NUMBER.
-      We recommend running "/sf versions" and showing us a screenshot of that.
+      **"latest" is not a version number, we need the exact version.**
+      We recommend running "/sf versions" and uploading a screenshot of that.
       Make sure that the screenshot covers the entire output of that command.
       If your issue is related to other plugins, make sure to include the versions of these plugins too!
+    placeholder: Slimefun version [...]
+
+- type: markdown
+  attributes:
     value: |
-      - Server software:
-      - Slimefun version:
+      ## ❤️ Thank you for submitting a bug report!
+      If anyone who sees this has some additional info which can help reproduce or track down this issue,
+      please comment down below. Any help is appreciated!
