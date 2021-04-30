@@ -124,8 +124,15 @@ body:
       **"latest" is not a version number, we need the exact version.**
       We recommend running "/sf versions" and uploading a screenshot of that.
       Make sure that the screenshot covers the entire output of that command.
-      If your issue is related to other plugins, make sure to include the versions of these plugins too!
     placeholder: Slimefun version [...]
+
+- id: other-versions
+  type: textarea
+  attributes:
+    label: '🧭 Additional info'
+    description: |
+      If your issue is related to another plugin, make sure to include this here!
+    placeholder: The issue is related to plugin [...], version [...]
 
 - type: markdown
   attributes:
