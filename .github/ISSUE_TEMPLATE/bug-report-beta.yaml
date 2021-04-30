@@ -6,13 +6,18 @@ body:
 - type: markdown
   attributes:
     value: |
-      **Thank you for wanting to report a bug in Slimefun!**
+      ## ❤️ Thank you for wanting to report a bug in Slimefun!
+      If you need any help to identify the problem, visit our [Discord server](https://discord.gg/slimefun)
+      and see if others experience a similar issue.
 
-      ⚠️ Verify first that your issue is not [already reported on GitHub](https://github.com/Slimefun/Slimefun4/issues).
-
-      Also please make sure it happens on the **latest DEV version** if you're using RC.
-
-      **Tip:** If you are seeking community support, please consider joining the [Discord](https://discord.gg/slimefun).
+- id: checklist
+  type: checkboxes
+  description: Please go through this checklist before creating the issue.
+  options:
+  - label: I am using an up to date **DEV** (not **RC**) version of Slimefun.
+    required: true
+  - label: I searched for similar open issues and could not find an existing bug report on this.
+    required: true
 
 - id: description
   type: textarea
