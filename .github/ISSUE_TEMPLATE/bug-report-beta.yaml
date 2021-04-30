@@ -13,8 +13,8 @@ body:
       A clear and detailed description of what went wrong.
       The more information you can provide, the easier we can handle this problem.
     placeholder: |
-      (example)<br>
-      When trying to do [...], I expected [...] to happen but [...] happened instead.<br>
+      (example)
+      When trying to do [...], I expected [...] to happen but [...] happened instead.
       I am pretty sure this is not intended and should be fixed.
 
 - id: reproduction-steps
@@ -26,9 +26,9 @@ body:
     description: |
       Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
     placeholder: |
-      (example)<br>
-      1. Craft [...]<br>
-      2. Right click with that item on a workbench<br>
+      (example)
+      1. Craft [...]
+      2. Right click with that item on a workbench
       3. The workbench explodes
 
 - id: expected-behaviour
