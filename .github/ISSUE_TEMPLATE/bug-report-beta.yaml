@@ -31,8 +31,7 @@ body:
       The more information you can provide, the easier we can handle this problem.
     placeholder: |
       (example)
-      When trying to do [...], I expected [...] to happen but [...] happened instead.
-      I am pretty sure this is not intended and should be fixed.
+      When trying to do [...], I expected [...] to happen but [...] happened instead. I am pretty sure this is not intended and should be fixed.
 
 - id: reproduction-steps
   type: textarea
@@ -73,8 +72,7 @@ body:
   attributes:
     label: '📜 Server Log'
     description: |
-      Take a look at your Server Log and upload any error messages from Slimefun
-      to a pasting site (e.g. https://pastebin.com/)
+      Take a look at your Server Log and upload any error messages from Slimefun to a pasting site (e.g. https://pastebin.com/).
       If you are unsure about it, post your full log, you can find it under /logs/latest.log
     placeholder: https://pastebin.com/...
 
@@ -83,8 +81,7 @@ body:
   attributes:
     label: '📂 `/error-reports/` folder'
     description: |
-      Check the folder `/plugins/Slimefun/error-reports/` and upload any files inside that folder
-      to a pasting site (e.g. https://pastebin.com/)
+      Check the folder `/plugins/Slimefun/error-reports/` and upload any files inside that folder to a pasting site (e.g. https://pastebin.com/).
     placeholder: https://pastebin.com/...
 
 - id: server-software
@@ -139,5 +136,4 @@ body:
   attributes:
     value: |
       ## ❤️ Thank you for submitting a bug report!
-      If anyone who sees this has some additional info which can help reproduce or track down this issue,
-      please comment down below. Any help is appreciated!
+      If anyone who sees this has some additional info which can help reproduce or track down this issue, please comment down below. Any help is appreciated!
