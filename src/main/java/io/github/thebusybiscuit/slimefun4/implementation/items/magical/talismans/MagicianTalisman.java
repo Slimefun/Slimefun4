@@ -1,24 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link MagicianTalisman} is a special kind of {@link Talisman} which awards a {@link Player}
@@ -48,8 +50,13 @@ public class MagicianTalisman extends Talisman {
             }
         }
 
-        if (!enchantments.isEmpty()) {
-            addItemSetting(enchantments.toArray(new ItemSetting[0]));
+        try {
+            if (!enchantments.isEmpty()) {
+                // Fixes #3007 - This is a Set, so every Enchantment should only be contained in here once.
+                addItemSetting(enchantments.toArray(new ItemSetting[0]));
+            }
+        } catch (Exception x) {
+            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "The following Exception was thrown when initializing the settings for " + toString());
         }
     }
 
