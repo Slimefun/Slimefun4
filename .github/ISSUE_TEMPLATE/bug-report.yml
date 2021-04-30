@@ -1,4 +1,4 @@
-name: Bug Report
+name: Bug Report (NEW)
 about: Report a Bug or an Issue with Slimefun 4.
 title: ''
 labels: ['\U0001F3AF Needs testing', '\U0001F41E Bug Report']
@@ -15,16 +15,16 @@ body:
     A clear and detailed description of what went wrong.
     The more information you can provide, the easier we can handle this problem.
 - type: textarea
-  label: ':bookmark_tabs: Reproduction Steps'  
+  label: ':bookmark_tabs: Reproduction Steps'
   validations:
     required: true
   description: |
     Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
     Youtube Videos and Screenshots are recommended!
   value: |
-    1. 
-    2. 
-    3. 
+    1.
+    2.
+    3.
 - type: textarea
   label: ':bulb: Expected Behavior'
   validations:
@@ -53,6 +53,6 @@ body:
     Make sure that the screenshot covers the entire output of that command.
     If your issue is related to other plugins, make sure to include the versions of these plugins too!
   value: |
-    - Server software: 
-    - Minecraft version: 
-    - Slimefun version: 
+    - Server software:
+    - Minecraft version:
+    - Slimefun version:
