@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalInt;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -29,6 +31,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     private final GEOResource oil;
 
+    @ParametersAreNonnullByDefault
     public OilPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 

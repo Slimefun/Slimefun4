@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import java.util.Optional;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -17,8 +19,16 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link InfernalBonemeal} is a special type of bone meal which will work on
+ * Nether Warts.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class InfernalBonemeal extends SimpleSlimefunItem<ItemUseHandler> {
 
+    @ParametersAreNonnullByDefault
     public InfernalBonemeal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }

@@ -131,10 +131,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.geo.PortableGEOSc
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSControlPanel;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSMarkerTool;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.PersonalActivationPlate;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.SharedActivationPlate;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.gps.TeleporterPylon;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfernalBonemeal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedHopper;
@@ -183,6 +179,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.ChristmasPresent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.EasterEgg;
+import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.PersonalActivationPlate;
+import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.SharedActivationPlate;
+import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Teleporter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.TeleporterPylon;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosivePickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
