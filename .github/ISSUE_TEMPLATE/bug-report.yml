@@ -42,6 +42,18 @@ body:
   description: |
     Check the folder /plugins/Slimefun/error-reports/ and upload any files inside that folder.
     You can also post these files via https://pastebin.com/
+- type: dropdown
+  validations:
+    required: true
+  description: 'Please select the Minecraft version of the server'
+  attributes:
+    label: ':video_game: Minecraft Version'
+    options:
+      #- 1.17.x
+      - 1.16.x
+      - 1.15.x
+      - 1.14.x
+      - Older
 - type: textarea
   label: ':compass: Environment'
   validations:
@@ -54,5 +66,4 @@ body:
     If your issue is related to other plugins, make sure to include the versions of these plugins too!
   value: |
     - Server software:
-    - Minecraft version:
     - Slimefun version:
