@@ -103,7 +103,8 @@ body:
     placeholder: Slimefun version
 
 - type: markdown
-  value: |
-    Thank you for submitting a bug report! If anyone who sees this has some additional info which
-    can help reproduce or track down this issue, please comment down below.
-    Any help is appreciated! :heart:
+  attributes:
+    value: |
+      Thank you for submitting a bug report! If anyone who sees this has some additional info which
+      can help reproduce or track down this issue, please comment down below.
+      Any help is appreciated! :heart:
