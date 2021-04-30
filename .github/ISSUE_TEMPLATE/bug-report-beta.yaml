@@ -12,12 +12,13 @@ body:
 
 - id: checklist
   type: checkboxes
-  description: Please go through this checklist before creating the issue.
-  options:
-  - label: I am using an up to date **DEV** (not **RC**) version of Slimefun.
-    required: true
-  - label: I searched for similar open issues and could not find an existing bug report on this.
-    required: true
+  attributes:
+    description: Please go through this checklist before creating the issue.
+    options:
+    - label: I am using an up to date **DEV** (not **RC**) version of Slimefun.
+      required: true
+    - label: I searched for similar open issues and could not find an existing bug report on this.
+      required: true
 
 - id: description
   type: textarea
