@@ -3,6 +3,17 @@ description: Report a Bug or an Issue with Slimefun 4.
 labels: ['🎯 Needs testing', '🐞 Bug Report']
 
 body:
+- type: markdown
+  attributes:
+    value: |
+      **Thank you for wanting to report a bug in Slimefun!**
+
+      ⚠️ Verify first that your issue is not [already reported on GitHub](https://github.com/Slimefun/Slimefun4/issues).
+
+      Also please make sure it happens on the **latest DEV version** if you're using RC.
+
+      **Tip:** If you are seeking community support, please consider joining the [Discord](https://discord.gg/slimefun).
+
 - id: description
   type: textarea
   validations:
