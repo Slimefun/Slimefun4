@@ -3,11 +3,8 @@ description: Report a Bug or an Issue with Slimefun 4.
 labels: ['\U0001F3AF Needs testing', '\U0001F41E Bug Report']
 
 body:
-- type: markdown
-  attributes:
-    value: '## Thanks for reporting a bug!'
-
-- type: textarea
+- id: description
+  type: textarea
   validations:
     required: true
   attributes:
@@ -15,8 +12,13 @@ body:
     description: |
       A clear and detailed description of what went wrong.
       The more information you can provide, the easier we can handle this problem.
+    placeholder: |
+      example:
+      When trying to do [...], I expected [...] to happen but [...] happened instead.
+      I am pretty sure this is not intended and should be fixed.
 
-- type: textarea
+- id: reproduction-steps
+  type: textarea
   validations:
     required: true
   attributes:
@@ -24,12 +26,14 @@ body:
     description: |
       Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
       Youtube Videos and Screenshots are recommended!
-    value: |
-      1.
-      2.
-      3.
+    placeholder: |
+      example:
+      1. Craft [...]
+      2. Right click with that item on a workbench
+      3. The workbench explodes
 
-- type: textarea
+- id: expected-behaviour
+  type: textarea
   validations:
     required: true
   attributes:
@@ -37,22 +41,27 @@ body:
     description: |
       What were you expecting to happen?
       What do you think would have been the correct behaviour?
+    placeholder: |
+      I expected [...] to happen.
 
-- type: textarea
+- id: server-log
+  type: textarea
   attributes:
     label: ':scroll: Server Log'
     description: |
       Take a look at your Server Log and post any errors you can find via https://pastebin.com/
       If you are unsure about it, post your full log, you can find it under /logs/latest.log
 
-- type: textarea
+- id: error-reports
+  type: textarea
   attributes:
     label: ':open_file_folder: /error-reports/ Folder'
     description: |
       Check the folder /plugins/Slimefun/error-reports/ and upload any files inside that folder.
       You can also post these files via https://pastebin.com/
 
-- type: dropdown
+- id: server-software
+  type: dropdown
   validations:
     required: true
   attributes:
@@ -65,7 +74,8 @@ body:
       - Purpur
       - Other
 
-- type: dropdown
+- id: minecraft-version
+  type: dropdown
   validations:
     required: true
   attributes:
@@ -76,13 +86,14 @@ body:
       - 1.16.x
       - 1.15.x
       - 1.14.x
-      - Older
+      - (Older versions are not supported)
 
-- type: textarea
+- id: slimefun-version
+  type: input
   validations:
     required: true
   attributes:
-    label: ':compass: Your Slimefun version'
+    label: ':compass: Slimefun version'
     description: |
       Any issue without the exact version numbers will be closed!
       "latest" IS NOT A VERSION NUMBER.
@@ -90,3 +101,9 @@ body:
       Make sure that the screenshot covers the entire output of that command.
       If your issue is related to other plugins, make sure to include the versions of these plugins too!
     placeholder: Slimefun version
+
+- type: markdown
+  value: |
+    Thank you for submitting a bug report! If anyone who sees this has some additional info which
+    can help reproduce or track down this issue, please comment down below.
+    Any help is appreciated! :heart:
