@@ -7,8 +7,8 @@ body:
   attributes:
     value: |
       ## ❤️ Thank you for wanting to report a bug in Slimefun!
-      If you need any help to identify the problem, visit our [Discord server](https://discord.gg/slimefun)
-      and see if others experience a similar issue.
+      If you need any help to identify the problem, visit our [Discord server](https://discord.gg/slimefun) and see if others experience a similar issue.
+      Also take a look at our [Troubleshooting Guide](https://github.com/Slimefun/Slimefun4/wiki/How-to-report-bugs) and the list of [existing Issues](https://github.com/Slimefun/Slimefun4/issues).
 
 - id: checklist
   type: checkboxes
