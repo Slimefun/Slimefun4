@@ -56,7 +56,7 @@ public class GuideHistory {
      */
     public void setMainMenuPage(int page) {
         Validate.isTrue(page >= 1, "page must be greater than 0!");
-        
+
         mainMenuPage = page;
     }
 
