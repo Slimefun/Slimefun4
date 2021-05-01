@@ -44,6 +44,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class EnergyNet extends Network implements HologramOwner {
 
     private static final int RANGE = 6;
+    private static final long MAX_ENERGY = Long.MAX_VALUE;
 
     private final Map<Location, EnergyNetProvider> generators = new HashMap<>();
     private final Map<Location, EnergyNetComponent> capacitors = new HashMap<>();
@@ -216,11 +217,6 @@ public class EnergyNet extends Network implements HologramOwner {
 
             try {
                 Config data = BlockStorage.getLocationInfo(loc);
-                int energy = provider.getGeneratedOutput(loc, data);
-
-                if (provider.isChargeable()) {
-                    energy += provider.getCharge(loc, data);
-                }
 
                 if (provider.willExplode(loc, data)) {
                     explodedBlocks.add(loc);
@@ -231,7 +227,15 @@ public class EnergyNet extends Network implements HologramOwner {
                         loc.getWorld().createExplosion(loc, 0F, false);
                     });
                 } else {
-                    supply += energy;
+                    supply += provider.getGeneratedOutput(loc, data);
+
+                    if (provider.isChargeable()) {
+                        supply += provider.getCharge(loc, data);
+                    }
+                    
+                    if (supply < 0 || supply > MAX_ENERGY) {
+                        supply = MAX_ENERGY;
+                    }
                 }
             } catch (Exception | LinkageError throwable) {
                 explodedBlocks.add(loc);
