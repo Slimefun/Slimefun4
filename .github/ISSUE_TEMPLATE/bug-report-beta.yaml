@@ -102,9 +102,10 @@ body:
       - Spigot
       - Paper
       - Tuinity
+      - Yatopia
       - Purpur
       - Airplane
-      - Other
+      - Other (please specify in your description)
 
 - id: minecraft-version
   type: dropdown
