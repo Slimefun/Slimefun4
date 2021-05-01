@@ -144,5 +144,7 @@ body:
   attributes:
     value: |
       ## ❤️ Thank you for submitting your bug report!
-      If anyone who sees this has some additional info which can help reproduce or track down this issue, please comment down below.
-      Any additional help is appreciated!
+      If you find any additional info that can help to identify this problem, don't hesitate to comment on your issue!
+      Any additional info can help us fix this bug faster.
+      In the meantime, try visiting our [Discord server](https://discord.gg/slimefun).
+      Perhaps someone else has experienced a similar issue.
