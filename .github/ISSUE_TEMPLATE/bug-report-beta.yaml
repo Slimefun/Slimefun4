@@ -9,8 +9,9 @@ body:
       ## 👋 Welcome to the Slimefun Bug Tracker
       If you need any help to identify the problem, visit our [Discord server](https://discord.gg/slimefun) and see if others experience a similar issue.
       Also take a look at our [Troubleshooting Guide](https://github.com/Slimefun/Slimefun4/wiki/How-to-report-bugs) and the list of [existing Issues](https://github.com/Slimefun/Slimefun4/issues).
-      <hr />
-      **Fields marked with an asterisk (*) are required.**
+      <br />
+      <strong><i>Fields marked with an asterisk (*) are required.</i></strong>
+      <br />
 
 - id: checklist
   type: checkboxes
