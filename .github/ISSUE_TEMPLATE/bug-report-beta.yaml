@@ -9,10 +9,13 @@ body:
       ## 👋 Welcome to the Slimefun Bug Tracker
       If you need any help to identify the problem, visit our [Discord server](https://discord.gg/slimefun) and see if others experience a similar issue.
       Also take a look at our [Troubleshooting Guide](https://github.com/Slimefun/Slimefun4/wiki/How-to-report-bugs) and the list of [existing Issues](https://github.com/Slimefun/Slimefun4/issues).
+      <hr />
+      **Fields marked with an asterisk (*) are required.**
 
 - id: checklist
   type: checkboxes
   attributes:
+    label: '❗ Checklist'
     description: Please go through this checklist before creating the issue.
     options:
     - label: I am using the official english version of Slimefun and did not modify the jar.
@@ -66,7 +69,7 @@ body:
 - id: media
   type: textarea
   attributes:
-    label: '📷 Screenshots / Videos'
+    label: '📷 Screenshots / Videos (optional)'
     description: |
       The best way to illustrate in an issue is by recording a Video or taking a Screenshot.
       If you can capture any footage of the bug happening, it would help us out a lot!
@@ -100,6 +103,7 @@ body:
       - Paper
       - Tuinity
       - Purpur
+      - Airplane
       - Other
 
 - id: minecraft-version
