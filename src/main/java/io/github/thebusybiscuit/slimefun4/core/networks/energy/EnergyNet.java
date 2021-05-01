@@ -226,7 +226,7 @@ public class EnergyNet extends Network implements HologramOwner {
                         loc.getBlock().setType(Material.LAVA);
                         loc.getWorld().createExplosion(loc, 0F, false);
                     });
-                } else {
+                } else if (supply != MAX_ENERGY) {
                     supply += provider.getGeneratedOutput(loc, data);
 
                     if (provider.isChargeable()) {
