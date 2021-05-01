@@ -15,7 +15,7 @@ body:
 - id: checklist
   type: checkboxes
   attributes:
-    label: '❗ Checklist *'
+    label: '❗ Checklist'
     description: Please go through this checklist before creating the issue.
     options:
     - label: I am using the official english version of Slimefun and did not modify the jar.
