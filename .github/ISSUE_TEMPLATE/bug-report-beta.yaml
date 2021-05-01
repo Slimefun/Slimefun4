@@ -3,6 +3,27 @@ description: Report a Bug or an Issue with Slimefun 4.
 labels: ['🎯 Needs testing', '🐞 Bug Report']
 
 body:
+- type: markdown
+  attributes:
+    value: |
+      ## 👋 Welcome to the Slimefun Bug Tracker
+      If you need any help to identify the problem, visit our [Discord server](https://discord.gg/slimefun) and see if others experience a similar issue.
+      Also take a look at our [Troubleshooting Guide](https://github.com/Slimefun/Slimefun4/wiki/How-to-report-bugs) and the list of [existing Issues](https://github.com/Slimefun/Slimefun4/issues).
+
+- id: checklist
+  type: checkboxes
+  attributes:
+    description: Please go through this checklist before creating the issue.
+    options:
+    - label: I am using the official english version of Slimefun and did not modify the jar.
+      required: true
+    - label: I am using an up to date "DEV" (not "RC") version of Slimefun.
+      required: true
+    - label: I am aware that issues related to Slimefun addons need to be reported on their bug trackers and not here.
+      required: true
+    - label: I searched for similar open issues and could not find an existing bug report on this.
+      required: true
+
 - id: description
   type: textarea
   validations:
@@ -14,8 +35,7 @@ body:
       The more information you can provide, the easier we can handle this problem.
     placeholder: |
       (example)
-      When trying to do [...], I expected [...] to happen but [...] happened instead.
-      I am pretty sure this is not intended and should be fixed.
+      When trying to do [...], I expected [...] to happen but [...] happened instead. I am pretty sure this is not intended and should be fixed.
 
 - id: reproduction-steps
   type: textarea
@@ -48,7 +68,7 @@ body:
   attributes:
     label: '📷 Screenshots / Videos'
     description: |
-      Videos and Screenshots help illustrate issues the best.
+      The best way to illustrate in an issue is by recording a Video or taking a Screenshot.
       If you can capture any footage of the bug happening, it would help us out a lot!
 
 - id: server-log
@@ -56,8 +76,7 @@ body:
   attributes:
     label: '📜 Server Log'
     description: |
-      Take a look at your Server Log and upload any error messages from Slimefun
-      to a pasting site (e.g. https://pastebin.com/)
+      Take a look at your Server Log and upload any error messages from Slimefun to a pasting site (e.g. https://pastebin.com/).
       If you are unsure about it, post your full log, you can find it under /logs/latest.log
     placeholder: https://pastebin.com/...
 
@@ -66,8 +85,7 @@ body:
   attributes:
     label: '📂 `/error-reports/` folder'
     description: |
-      Check the folder `/plugins/Slimefun/error-reports/` and upload any files inside that folder
-      to a pasting site (e.g. https://pastebin.com/)
+      Check the folder `/plugins/Slimefun/error-reports/` and upload any files inside that folder to a pasting site (e.g. https://pastebin.com/).
     placeholder: https://pastebin.com/...
 
 - id: server-software
@@ -108,12 +126,19 @@ body:
       **"latest" is not a version number, we need the exact version.**
       We recommend running "/sf versions" and uploading a screenshot of that.
       Make sure that the screenshot covers the entire output of that command.
-      If your issue is related to other plugins, make sure to include the versions of these plugins too!
     placeholder: Slimefun version [...]
+
+- id: other-versions
+  type: textarea
+  attributes:
+    label: '🧭 Additional info'
+    description: |
+      If your issue is related to another plugin, make sure to include this here!
+    placeholder: The issue is related to plugin [...], version [...]
 
 - type: markdown
   attributes:
     value: |
-      ## ❤️ Thank you for submitting a bug report!
-      If anyone who sees this has some additional info which can help reproduce or track down this issue,
-      please comment down below. Any help is appreciated!
+      ## ❤️ Thank you for submitting your bug report!
+      If anyone who sees this has some additional info which can help reproduce or track down this issue, please comment down below.
+      Any additional help is appreciated!
