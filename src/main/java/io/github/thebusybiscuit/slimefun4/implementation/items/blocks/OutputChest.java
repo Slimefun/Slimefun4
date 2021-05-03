@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -50,8 +51,25 @@ public class OutputChest extends SlimefunItem {
         addItemHandler(new VanillaInventoryDropHandler<>(Chest.class));
     }
 
+    /**
+     * This method checks if an {@link OutputChest} is placed next to the given {@link Block}.
+     * The returned object is an {@link Optional}.
+     * This {@link Optional} will be empty if no {@link OutputChest} was found or if no {@link OutputChest}
+     * could fit the {@link ItemStack} inside.
+     * Otherwise the {@link Inventory} of the {@link OutputChest} will be returned (as an {@link Optional}).
+     * 
+     * @param b
+     *            The {@link Block} from which to look for an adjacent {@link OutputChest}
+     * @param item
+     *            The {@link ItemStack} to insert
+     * 
+     * @return An {@link Optional} describing the result
+     */
     @Nonnull
     public static Optional<Inventory> findOutputChestFor(@Nonnull Block b, @Nonnull ItemStack item) {
+        Validate.notNull(b, "The target block must not be null!");
+        Validate.notNull(item, "The ItemStack should not be null!");
+
         for (BlockFace face : possibleFaces) {
             Block potentialOutput = b.getRelative(face);
 
@@ -76,6 +94,7 @@ public class OutputChest extends SlimefunItem {
             }
         }
 
+        // No Inventory was found
         return Optional.empty();
     }
 
