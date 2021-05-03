@@ -424,7 +424,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.gmail.nossr50.mcmmo</groupId>
+            <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
             <version>2.1.196</version>
             <scope>provided</scope>
