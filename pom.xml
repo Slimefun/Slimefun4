@@ -368,9 +368,9 @@
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.TheBusyBiscuit</groupId>
+            <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.30.4</version>
+            <version>0.31.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -424,7 +424,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.gmail.nossr50.mcMMO</groupId>
+            <groupId>com.gmail.nossr50.mcmmo</groupId>
             <artifactId>mcMMO</artifactId>
             <version>2.1.196</version>
             <scope>provided</scope>

@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -11,7 +12,9 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
@@ -20,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListen
  * An abstract Network class to manage networks in a stateful way
  * 
  * @author meiamsome
+ * @author TheBusyBiscuit
  * 
  * @see NetworkListener
  * @see NetworkManager
@@ -37,8 +41,19 @@ public abstract class Network {
      */
     protected Location regulator;
 
+    /**
+     * The {@link UUID} of the {@link World} this {@link Network} exists within.
+     */
+    private final UUID worldId;
+
+    /**
+     * This {@link Set} holds all {@link Network} positions that are part of this {@link Network}.
+     * The {@link World} should be equal for all positions, therefore we can save memory by simply
+     * storing {@link BlockPosition#getAsLong(int, int, int)}.
+     */
+    private final Set<Long> positions = new HashSet<>();
+
     private final Queue<Location> nodeQueue = new ArrayDeque<>();
-    protected final Set<Location> connectedLocations = new HashSet<>();
     protected final Set<Location> regulatorNodes = new HashSet<>();
     protected final Set<Location> connectorNodes = new HashSet<>();
     protected final Set<Location> terminusNodes = new HashSet<>();
@@ -57,8 +72,9 @@ public abstract class Network {
 
         this.manager = manager;
         this.regulator = regulator;
+        this.worldId = regulator.getWorld().getUID();
 
-        connectedLocations.add(regulator);
+        positions.add(BlockPosition.getAsLong(regulator));
         nodeQueue.add(regulator.clone());
     }
 
@@ -115,7 +131,10 @@ public abstract class Network {
      *            The {@link Location} to add
      */
     protected void addLocationToNetwork(@Nonnull Location l) {
-        if (connectedLocations.add(l.clone())) {
+        Validate.notNull(l, "You cannot add a Location to a Network which is null!");
+        Validate.isTrue(l.getWorld().getUID().equals(worldId), "Networks cannot exist in multiple worlds!");
+
+        if (positions.add(BlockPosition.getAsLong(l))) {
             markDirty(l);
         }
     }
@@ -144,10 +163,14 @@ public abstract class Network {
      * @return Whether the given {@link Location} is part of this {@link Network}
      */
     public boolean connectsTo(@Nonnull Location l) {
-        if (regulator.equals(l)) {
+        Validate.notNull(l, "The Location cannot be null.");
+
+        if (this.regulator.equals(l)) {
             return true;
+        } else if (!l.getWorld().getUID().equals(this.worldId)) {
+            return false;
         } else {
-            return connectedLocations.contains(l);
+            return positions.contains(BlockPosition.getAsLong(l));
         }
     }
 
