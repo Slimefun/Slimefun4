@@ -217,6 +217,8 @@ public class EnergyNet extends Network implements HologramOwner {
 
             try {
                 Config data = BlockStorage.getLocationInfo(loc);
+                
+                long generated = provider.getGeneratedOutput(loc, data);
 
                 if (provider.willExplode(loc, data)) {
                     explodedBlocks.add(loc);
@@ -227,7 +229,7 @@ public class EnergyNet extends Network implements HologramOwner {
                         loc.getWorld().createExplosion(loc, 0F, false);
                     });
                 } else {
-                    supply += provider.getGeneratedOutput(loc, data);
+                    supply += generated;
 
                     if (provider.isChargeable()) {
                         supply += provider.getCharge(loc, data);
