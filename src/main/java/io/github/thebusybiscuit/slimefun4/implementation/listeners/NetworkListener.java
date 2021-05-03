@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  * This {@link Listener} is responsible for all updates to a {@link Network}.
  * 
  * @author meiamsome
+ * @author TheBusyBiscuit
  * 
  * @see Network
  * @see NetworkManager
@@ -25,6 +26,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  */
 public class NetworkListener implements Listener {
 
+    /**
+     * Our {@link NetworkManager} instance.
+     */
     private final NetworkManager manager;
 
     public NetworkListener(@Nonnull SlimefunPlugin plugin, @Nonnull NetworkManager manager) {
