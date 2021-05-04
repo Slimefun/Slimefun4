@@ -51,7 +51,7 @@ public final class PostSetup {
                 SlimefunItem item = SlimefunItem.getByID(entry.getKey());
 
                 if (item != null) {
-                    item.addOfficialWikipage(entry.getValue().getAsString());
+                    item.addOficialWikipage(entry.getValue().getAsString());
                 }
             }
         } catch (IOException e) {

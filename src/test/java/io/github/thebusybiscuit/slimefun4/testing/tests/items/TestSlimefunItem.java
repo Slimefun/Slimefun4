@@ -46,9 +46,9 @@ class TestSlimefunItem {
         Assertions.assertFalse(item.getWikipage().isPresent());
 
         // null should not be a valid argument
-        Assertions.assertThrows(IllegalArgumentException.class, () -> item.addOfficialWikipage(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> item.addOficialWikipage(null));
 
-        item.addOfficialWikipage("Test");
+        item.addOficialWikipage("Test");
 
         Optional<String> wiki = item.getWikipage();
         Assertions.assertTrue(wiki.isPresent());
