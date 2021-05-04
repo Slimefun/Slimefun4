@@ -21,6 +21,7 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -99,10 +100,10 @@ public class TableSaw extends MultiBlockMachine {
     }
 
     private void outputItems(@Nonnull Block b, @Nonnull ItemStack output) {
-        Inventory outputChest = findOutputChest(b, output);
+        Optional<Inventory> outputChest = OutputChest.findOutputChestFor(b, output);
 
-        if (outputChest != null) {
-            outputChest.addItem(output);
+        if (outputChest.isPresent()) {
+            outputChest.get().addItem(output);
         } else {
             b.getWorld().dropItemNaturally(b.getLocation(), output);
         }
