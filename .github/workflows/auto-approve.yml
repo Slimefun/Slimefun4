@@ -15,3 +15,8 @@ jobs:
       if: github.actor == 'renovate[bot]'
       with:
         github-token: "${{ secrets.ACCESS_TOKEN }}"
+    - name: Approve via Github Actions
+      uses: hmarr/auto-approve-action@v2.1.0
+      if: github.actor == 'TheBusyBot'
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
