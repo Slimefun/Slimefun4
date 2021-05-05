@@ -1,24 +1,24 @@
 ---
 tooltips:
-  results: GEO-Scan Resultaten
-  chunk: Gescannen Chunk
-  world: Wereld
-  unit: Stuk
-  units: Stukken
+  results: 'GEO-Scan Resultaten'
+  chunk: 'Gescannen Chunk'
+  world: 'Wereld'
+  unit: 'Stuk'
+  units: 'Stukken'
 resources:
   slimefun:
-    oil: Olie
-    nether_ice: Netherijs
-    salt: Zout
-    uranium: Uranium
+    oil: 'Olie'
+    nether_ice: 'Netherijs'
+    salt: 'Zout'
+    uranium: 'Uranium'
   slimefunorechunks:
-    iron_ore_chunk: Ijzer erts brok
-    gold_ore_chunk: Gouden erts brok
-    copper_ore_chunk: Koper erts brok
-    tin_ore_chunk: Tin erts brok
-    silver_ore_chunk: Zilver erts brok
-    aluminum_ore_chunk: Aluminium erts brok
-    lead_ore_chunk: Lood erts brok
-    zinc_ore_chunk: Zink erts brok
-    nickel_ore_chunk: Nikkel erts brok
-    cobalt_ore_chunk: Kobalt erts brok
+    iron_ore_chunk: 'Ijzer erts brok'
+    gold_ore_chunk: 'Gouden erts brok'
+    copper_ore_chunk: 'Koper erts brok'
+    tin_ore_chunk: 'Tin erts brok'
+    silver_ore_chunk: 'Zilver erts brok'
+    aluminum_ore_chunk: 'Aluminium erts brok'
+    lead_ore_chunk: 'Lood erts brok'
+    zinc_ore_chunk: 'Zink erts brok'
+    nickel_ore_chunk: 'Nikkel erts brok'
+    cobalt_ore_chunk: 'Kobalt erts brok'
