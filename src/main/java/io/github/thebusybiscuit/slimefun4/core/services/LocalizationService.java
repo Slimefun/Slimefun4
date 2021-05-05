@@ -126,7 +126,7 @@ public class LocalizationService extends SlimefunLocalization {
 
         // Checks if our jar files contains a messages.yml file for that language
         String file = LanguageFile.MESSAGES.getFilePath(id);
-        return streamConfigFile(file, null).getKeys(false).isEmpty();
+        return !streamConfigFile(file, null).getKeys(false).isEmpty();
     }
 
     /**
