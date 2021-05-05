@@ -1,123 +1,123 @@
 ---
 slimefun:
   multiblock:
-    name: 'Multiblock'
+    name: 'หลายบล็อก '
     lore:
-      - 'Build the shown structure'
-      - 'as shown. It is not crafted.'
+      - 'สร้างตามโครงสร้างที่แสดง'
+      - 'ตามที่เห็น มันยังไม่ได้คราฟ'
   enhanced_crafting_table:
     name: 'Enhanced Crafting Table'
     lore:
-      - 'Craft this Item as shown'
-      - 'in an Enhanced Crafting Table.'
-      - 'A normal Crafting Table will not suffice!'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ \tEnhanced Crafting Table'
+      - 'ใช้กับโต๊ะคราฟธรรมดาไม่ได้!'
   armor_forge:
     name: 'Armor Forge'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Armor Forge'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Armor Forge'
   grind_stone:
     name: 'Grind Stone'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Grind Stone'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Grind Stone'
   smeltery:
     name: 'Smeltery'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Smeltery'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Smeltery'
   ore_crusher:
     name: 'Ore Crusher'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Crusher'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Ore Crusher'
   mob_drop:
-    name: 'Mob Drop'
+    name: 'ของได้จากม็อป'
     lore:
-      - 'Kill that Mob to'
-      - 'obtain this item'
+      - 'ฆ่าม็อปนั้นเพื่อ'
+      - 'ใด้ของนี้'
   gold_pan:
     name: 'Gold Pan'
     lore:
-      - 'Use a Gold Pan to'
-      - 'obtain this item'
+      - 'ใช้ Gold Pan เพื่อ'
+      - 'ให้ใด้ของนี้'
   compressor:
     name: 'Compressor'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Compressor'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Compressor'
   pressure_chamber:
     name: 'Pressure Chamber'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Pressure Chamber'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Pressure Chamber'
   ore_washer:
     name: 'Ore Washer'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Washer'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Ore Washer'
   juicer:
     name: 'Juicer'
     lore:
-      - 'Craft this Juice as shown'
-      - 'using a Juicer'
+      - 'คราฟน้ำผลไม้นี้ตามที่แสดง'
+      - 'โดยใช้ Juicer'
   magic_workbench:
     name: 'Magic Workbench'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Magic Workbench'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Magic Workbench'
   ancient_altar:
     name: 'Ancient Altar'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ancient Altar.'
-      - 'Look up the Ancient Altar for more Info'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Ancient Altar'
+      - 'ค้นหา Ancient Altar เพื่อหาข้อมูลเพิ่มเติม'
   heated_pressure_chamber:
     name: 'Heated Pressure Chamber'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Heated Pressure Chamber'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Heated Pressure Chamber'
   food_fabricator:
     name: 'Food Fabricator'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Fabricator'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'ใช้ Food Fabricator'
   food_composter:
     name: 'Food Composter'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Composter'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Food Composter'
   freezer:
-    name: 'Freezer'
+    name: 'ตู้แช่แข็ง'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Freezer'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้ Freezer'
   geo_miner:
     name: 'GEO Miner'
     lore:
-      - 'This Item can be gathered'
-      - 'by using a GEO Miner'
+      - 'ไอเทมนี้สามารถรวบรวม'
+      - 'โดยใช้ GEO Miner'
   nuclear_reactor:
     name: 'Nuclear Reactor'
     lore:
-      - 'This Item is a byproduct'
-      - 'of running a Nuclear Reactor'
+      - 'ไอเทมนี้เป็นผลพลอยได้'
+      - 'ของการใช้ Nuclear Reactor'
   oil_pump:
     name: 'Oil Pump'
     lore:
-      - 'This Item can be gathered'
-      - 'by using an Oil Pump'
+      - 'ไอเท็มสามารถรวมกันได้'
+      - 'โดยการใช้ Oil Pump'
   pickaxe_of_containment:
     name: 'Pickaxe of Containment'
     lore:
-      - 'This Block can be obtained'
-      - 'by mining a Spawner with'
-      - 'the Pickaxe of Containment'
+      - 'สามารถเก็บบล็อค'
+      - 'Spawner โดยการขุดด้วย'
+      - 'Pickaxe of Containment'
   refinery:
     name: 'Refinery'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Refinery'
+      - 'คราฟไอเท็มตามที่แสดง'
+      - 'โดยใช้ Refinery'
   barter_drop:
     name: 'Piglin Bartering Drop'
     lore:
@@ -125,42 +125,42 @@ slimefun:
       - 'Gold Ingots to obtain this Item'
 minecraft:
   shaped:
-    name: 'Shaped Crafting Recipe'
+    name: 'สูตรคราฟคงตัว'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'The shape is important.'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'ใน โต๊ะคราฟธรมดา'
+      - 'ตำแหน่งสำคัญมาก'
   shapeless:
-    name: 'Shapeless Crafting Recipe'
+    name: 'สูตรคราฟไม่คงตัว'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'This Recipe is shapeless.'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'ใน โต๊ะคราฟธรมดา'
+      - 'สูตรนี้วางตำแหน่งในก็ได้'
   furnace:
-    name: 'Furnace Recipe'
+    name: 'สูตรเตาเผา'
     lore:
-      - 'Smelt this item in a Furnace'
-      - 'to craft your desired item'
+      - 'เผาสิ่งนี้ในเตาเผา'
+      - 'เพื่อคราฟไอเท็มที่คุณต้องการ'
   blasting:
-    name: 'Blast Furnace Recipe'
+    name: 'สูตรเตาหลอมเหล็ก'
     lore:
-      - 'Smelt this item in a Blast Furnace'
-      - 'to craft your desired item'
+      - 'หลอมสิ่งนี้ในเตาหลอมเหล็ก'
+      - 'เพื่อคราฟไอเท็มที่คุณต้องการ'
   smoking:
-    name: 'Smoker Recipe'
+    name: 'สูตรเตารมควัน'
     lore:
-      - 'Smelt this item in a Smoker'
-      - 'to craft your desired item'
+      - 'หลอมสิ่งนี้ใน เตารมควัน'
+      - 'เพื่อคราฟไอเท็มที่คุณต้องการ'
   campfire:
-    name: 'Campfire Recipe'
+    name: 'สูตรแคมป์ไฟ'
     lore:
-      - 'Smelt this item over a Campfire'
-      - 'to craft your desired item'
+      - 'เผาสิ่งนี้ผ่านแคมป์ไฟ'
+      - 'เพื่อคราฟไอเท็มที่คุณต้องการ'
   stonecutting:
-    name: 'Stonecutter Recipe'
+    name: 'สูตรเครื่องตัดหิน'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Stonecutter'
+      - 'คราฟไอเท็มนี้ตามที่แสดง'
+      - 'โดยใช้เครื่องตัดหิน'
   smithing:
     name: 'Smithing Table Recipe'
     lore:
