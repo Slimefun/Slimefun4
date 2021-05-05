@@ -1,26 +1,26 @@
 ---
 slimefun:
-  weapons: נשק
-  tools: כלים
-  items: פריטים שימושיים
-  food: מזון
-  basic_machines: מכונות בסיסיות
-  electricity: אנרגיה וחשמל
-  gps: מכונות מבוססות GPS
-  armor: שריון
-  magical_items: פריטים קסומים
-  magical_gadgets: גאדג'טים קסומים
-  misc: שונות
-  technical_gadgets: גאדג'טים טכניים
-  resources: משאבים
-  cargo: ניהול מטען
-  tech_misc: רכיבים טכניים
-  magical_armor: שריון קסום
-  talismans: קמעות (דרגה I)
-  ender_talismans: אנדר-קמעות (דרגה II)
-  christmas: חג המולד (דצמבר)
-  valentines_day: חג האהבה (14 בפברואר)
-  easter: חג הפסחא (אפריל)
-  birthday: יום הולדתו של TheBusyBiscuit (26 באוקטובר)
-  halloween: ליל כל הקדושים (31 באוקטובר)
-  androids: רובוטים ניתנים לתכנות
+  weapons: 'Weapons'
+  tools: 'Tools'
+  items: 'Useful Items'
+  food: 'Food'
+  basic_machines: 'Basic Machines'
+  electricity: 'Energy and Electricity'
+  androids: 'Programmable Androids'
+  gps: 'GPS-based Machines'
+  armor: 'Armor'
+  magical_items: 'Magical Items'
+  magical_gadgets: 'Magical Gadgets'
+  misc: 'Miscellaneous Items'
+  technical_gadgets: 'Technical Gadgets'
+  resources: 'Resources'
+  cargo: 'Cargo Management'
+  tech_misc: 'Technical Components'
+  magical_armor: 'Magical Armor'
+  talismans: 'Talismans (Tier I)'
+  ender_talismans: 'Ender Talismans (Tier II)'
+  christmas: 'Christmas (December)'
+  valentines_day: 'Valentine''s Day (14th February)'
+  easter: 'Easter (April)'
+  birthday: 'TheBusyBiscuit''s birthday (26th October)'
+  halloween: 'Halloween (31st October)'
