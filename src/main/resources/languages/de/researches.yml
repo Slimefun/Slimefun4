@@ -25,6 +25,7 @@ slimefun:
   steel_thruster: Ein Triebwerk aus Stahl
   parachute: Fallschirm
   grappling_hook: Enterhaken
+  jetpacks: Jetpacks
   multitools: Schweizer Taschenmesser
   solar_panel_and_helmet: Solarhelm
   elemental_staff: Stab der Elemente
@@ -124,6 +125,7 @@ slimefun:
   electric_motor: Elektromotoren
   block_placer: Automatisch Blöcke platzieren
   scroll_of_dimensional_teleposition: Schwindelerregend
+  special_bows: Robin Hood
   tome_of_knowledge_sharing: Erfahrungen teilen
   flask_of_knowledge: Erfahrung lagern
   hardened_glass: Verstärktes Glas
@@ -187,6 +189,7 @@ slimefun:
   cargo_basics: Cargo 101
   cargo_nodes: Cargo-Knotenpunkte
   electric_ingot_machines: Die Barrenfabrik
+  medium_tier_electric_ingot_machines: Schnelle Barrenfabrik
   high_tier_electric_ingot_machines: Schnelle Barren
   automated_crafting_chamber: Automatisches Craften
   better_food_fabricator: Essen vom Fließband
@@ -248,3 +251,8 @@ slimefun:
   elytra_cap: Harter Aufprall
   bee_armor: Bienen-Rüstung
   book_binder: Verzaubertes Bücherbinden
+  auto_crafting: Automatisierung vom Feinsten
+  produce_collector: Molkereibetrieb
+  improved_generators: Verbesserte Generatoren
+  ingredients_and_cheese: Eine Basis für jede Küche
+  medium_tier_auto_enchanting: Schnelle Verzauberungsmaschinen
