@@ -1,168 +1,168 @@
 ---
 slimefun:
   multiblock:
-    name: マルチブロック
+    name: 'Multiblock'
     lore:
-    - 図面通りに設置して建造する。
-    - クラフトではありません！
+      - 'Build the shown structure'
+      - 'as shown. It is not crafted.'
   enhanced_crafting_table:
-    name: Enhanced Crafting Table
+    name: 'Enhanced Crafting Table'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Enhanced Crafting Table'
-    - 通常の作業台では不十分です！
+      - 'Craft this Item as shown'
+      - 'in an Enhanced Crafting Table.'
+      - 'A normal Crafting Table will not suffice!'
   armor_forge:
-    name: Armor Forge
+    name: 'Armor Forge'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Armor Forge'
+      - 'Craft this Item as shown'
+      - 'using an Armor Forge'
   grind_stone:
-    name: Grind Stone
+    name: 'Grind Stone'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Grind Stone'
+      - 'Craft this Item as shown'
+      - 'using a Grind Stone'
   smeltery:
-    name: Smeltery
+    name: 'Smeltery'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Smeltery'
+      - 'Craft this Item as shown'
+      - 'using a Smeltery'
   ore_crusher:
-    name: Ore Crusher
+    name: 'Ore Crusher'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Ore Crusher'
+      - 'Craft this Item as shown'
+      - 'using an Ore Crusher'
   mob_drop:
-    name: モブドロップ
+    name: 'Mob Drop'
     lore:
-    - モブを倒して
-    - 入手するアイテム
+      - 'Kill that Mob to'
+      - 'obtain this item'
   gold_pan:
-    name: Gold Pan
+    name: 'Gold Pan'
     lore:
-    - このアイテムの入手に使用する
-    - '機械: Gold Pan'
+      - 'Use a Gold Pan to'
+      - 'obtain this item'
   compressor:
-    name: Compressor
+    name: 'Compressor'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Compressor'
+      - 'Craft this Item as shown'
+      - 'using a Compressor'
   pressure_chamber:
-    name: Pressure Chamber
+    name: 'Pressure Chamber'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Pressure Chamber'
+      - 'Craft this Item as shown'
+      - 'using a Pressure Chamber'
   ore_washer:
-    name: Ore Washer
+    name: 'Ore Washer'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Ore Washer'
+      - 'Craft this Item as shown'
+      - 'using an Ore Washer'
   juicer:
-    name: Juicer
+    name: 'Juicer'
     lore:
-    - このジュースの作成に使用する
-    - '機械: Juicer'
+      - 'Craft this Juice as shown'
+      - 'using a Juicer'
   magic_workbench:
-    name: Magic Workbench
+    name: 'Magic Workbench'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Magic Workbench'
+      - 'Craft this Item as shown'
+      - 'using a Magic Workbench'
   ancient_altar:
-    name: Ancient Altar
+    name: 'Ancient Altar'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Ancient Altar'
-    - 詳細はAncient Altarに記載
+      - 'Craft this Item as shown'
+      - 'using an Ancient Altar.'
+      - 'Look up the Ancient Altar for more Info'
   heated_pressure_chamber:
-    name: Heated Pressure Chamber
+    name: 'Heated Pressure Chamber'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Heated Pressure Chamber'
+      - 'Craft this Item as shown'
+      - 'using a Heated Pressure Chamber'
   food_fabricator:
-    name: Food Fabricator
+    name: 'Food Fabricator'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Food Fabricator'
+      - 'Craft this Item as shown'
+      - 'using a Food Fabricator'
   food_composter:
-    name: Food Composter
+    name: 'Food Composter'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Food Composter'
+      - 'Craft this Item as shown'
+      - 'using a Food Composter'
   freezer:
-    name: Freezer
+    name: 'Freezer'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Freezer'
+      - 'Craft this Item as shown'
+      - 'using a Freezer'
   geo_miner:
-    name: GEO Miner
+    name: 'GEO Miner'
     lore:
-    - このアイテムの採掘に使用する
-    - '機械: GEO Miner'
+      - 'This Item can be gathered'
+      - 'by using a GEO Miner'
   nuclear_reactor:
-    name: Nuclear Reactor
+    name: 'Nuclear Reactor'
     lore:
-    - このアイテムを副産物として入手できる
-    - '機械: Nuclear Reactor'
+      - 'This Item is a byproduct'
+      - 'of running a Nuclear Reactor'
   oil_pump:
-    name: Oil Pump
+    name: 'Oil Pump'
     lore:
-    - このアイテムの収集に使用する
-    - '機械: Oil Pump'
+      - 'This Item can be gathered'
+      - 'by using an Oil Pump'
   pickaxe_of_containment:
-    name: Pickaxe of Containment
+    name: 'Pickaxe of Containment'
     lore:
-    - このブロックを入手するには
-    - Pickaxe of Containmentを
-    - 使用してスポナーを採掘する
+      - 'This Block can be obtained'
+      - 'by mining a Spawner with'
+      - 'the Pickaxe of Containment'
   refinery:
-    name: Refinery
+    name: 'Refinery'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: Refinery'
+      - 'Craft this Item as shown'
+      - 'using a Refinery'
   barter_drop:
-    name: ピグリンとの物々交換
+    name: 'Piglin Bartering Drop'
     lore:
-    - このアイテムは金インゴットを
-    - ピグリンとの物々交換で入手
+      - 'Barter with Piglins using'
+      - 'Gold Ingots to obtain this Item'
 minecraft:
   shaped:
-    name: 定形レシピ
+    name: 'Shaped Crafting Recipe'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: 作業台'
-    - 並べ方は固定
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'The shape is important.'
   shapeless:
-    name: 不定形レシピ
+    name: 'Shapeless Crafting Recipe'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: 作業台'
-    - 並べ方は自由
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'This Recipe is shapeless.'
   furnace:
-    name: かまどでの精錬
+    name: 'Furnace Recipe'
     lore:
-    - このアイテムの精錬に使用する
-    - '機械: かまど'
+      - 'Smelt this item in a Furnace'
+      - 'to craft your desired item'
   blasting:
-    name: 溶鉱炉での精錬
+    name: 'Blast Furnace Recipe'
     lore:
-    - このアイテムの精錬に使用する
-    - '機械: 溶鉱炉'
+      - 'Smelt this item in a Blast Furnace'
+      - 'to craft your desired item'
   smoking:
-    name: 燻製器
+    name: 'Smoker Recipe'
     lore:
-    - このアイテムの燻製に使用する
-    - '機械: 燻製器'
+      - 'Smelt this item in a Smoker'
+      - 'to craft your desired item'
   campfire:
-    name: 焚き火
+    name: 'Campfire Recipe'
     lore:
-    - このアイテムの精錬に使用する
-    - '機械: 焚き火'
+      - 'Smelt this item over a Campfire'
+      - 'to craft your desired item'
   stonecutting:
-    name: 石切台
+    name: 'Stonecutter Recipe'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: 石切台'
+      - 'Craft this Item as shown'
+      - 'using a Stonecutter'
   smithing:
-    name: 鍛冶台
+    name: 'Smithing Table Recipe'
     lore:
-    - このアイテムの作成に使用する
-    - '機械: 鍛冶台'
+      - 'Craft this Item as shown'
+      - 'using a Smithing Table'
