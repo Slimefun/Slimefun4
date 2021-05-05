@@ -62,6 +62,8 @@ slimefun:
   water_talisman: A Vízlélegzés talizmánja
   angel_talisman: Az Angyal talizmánja
   fire_talisman: A Tűzoltó talizmánja
+  caveman_talisman: Az Ősember talizmánja
+  wise_talisman: A Bölcs talizmánja
   lava_crystal: Tüzes helyzet
   magician_talisman: A Bűvész talizmánja
   traveller_talisman: Az Utazó talizmánja
@@ -109,7 +111,7 @@ slimefun:
   jetboots: Sugárhajtású csizma
   armored_jetboots: Páncélozott sugárhajtású csizmák
   seismic_axe: Szeizmikus fejsze
-  pickaxe_of_vein_mining: 'Ércbányász csákány '
+  pickaxe_of_vein_mining: Ércbányász csákány 
   bound_weapons: Lélekhez kötött fegyverek
   bound_tools: Lélekhez kötött eszközök
   bound_armor: Lélekhez kötött páncél
@@ -123,7 +125,6 @@ slimefun:
   electric_motor: Felmelegítés
   block_placer: Blokk lehelyező
   scroll_of_dimensional_teleposition: Megfordítja a dolgokat
-  special_bows: Robin Hood
   tome_of_knowledge_sharing: Megosztás barátokkal
   flask_of_knowledge: XP-tároló
   hardened_glass: Robbanások ellen
@@ -145,6 +146,7 @@ slimefun:
   hologram_projector: Hologramok
   capacitors: 1. szintű kondenzátorok
   high_tier_capacitors: 2. szintű kondenzátorok
+  even_higher_tier_capacitors: 3. szintű kondenzátorok
   solar_generators: Napenergia-erőmű
   electric_furnaces: Elektromos kemence
   electric_ore_grinding: Zúzás és őrlés
@@ -168,6 +170,7 @@ slimefun:
   energized_solar_generator: Folyamatos napenergia
   energized_gps_transmitter: Magasszintű transzmitter
   energy_regulator: Energiahálózatok 101
+  energy_connectors: Vezetékes csatlakozás
   butcher_androids: Hentes androidok
   organic_food: Bioélelmiszerek
   auto_breeder: Automatizált etetés
@@ -236,16 +239,11 @@ slimefun:
   advanced_industrial_miner: Jobb bányászat
   magical_zombie_pills: Zombi átváltoztató
   auto_brewer: Ipari sörgyár
+  shulker_shell: Szintetikus shulkerek
   enchantment_rune: Ősi enchantolás
   lead_clothing: Ólom ruházat
   tape_measure: Mérőszalag
   iron_golem_assembler: Automatizált vasgólemek
-  climbing_pick: Block Raider
-  shulker_shell: Szintetikus shulkerek
   villager_rune: Falusiak alaphelyzetbe állítása
-  caveman_talisman: Az Ősember talizmánja
-  even_higher_tier_capacitors: 3. szintű kondenzátorok
   elytra_cap: Ütközésvédelem
-  energy_connectors: Vezetékes csatlakozás
   bee_armor: Méhpáncél
-  wise_talisman: A Bölcs talizmánja
