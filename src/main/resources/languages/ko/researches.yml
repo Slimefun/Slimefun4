@@ -62,6 +62,8 @@ slimefun:
   water_talisman: 물 숨결의 부적
   angel_talisman: 천사의 부적
   fire_talisman: 소방사의 부적
+  caveman_talisman: Talisman of the Caveman
+  wise_talisman: Talisman of the Wise
   lava_crystal: 화끈한 상황
   magician_talisman: 마술사의 부적
   traveller_talisman: 여행자의 부적
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: 홀로그램
   capacitors: 1티어 건전지
   high_tier_capacitors: 2티어 건전지
+  even_higher_tier_capacitors: Tier 3 Capacitors
   solar_generators: 태양 광 발전소
   electric_furnaces: 전자 화로
   electric_ore_grinding: 분쇄 및 연삭
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: 풀 타임 태양 광 발전
   energized_gps_transmitter: 최상위 송신기
   energy_regulator: 에너지 네트워크 101
+  energy_connectors: Wired Connections
   butcher_androids: 정육점 안드로이드(Butcher Androids)
   organic_food: 유기농 식품
   auto_breeder: 자동 공급
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: 화물 기본
   cargo_nodes: 화물 설정
   electric_ingot_machines: 전자 주괴 제작(Electric Ingot Fabrication)
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: 초고속 주괴 제작
   automated_crafting_chamber: 자동화 조합대(Automated Crafting)
   better_food_fabricator: 업그레이드 된 식품 제조
@@ -236,7 +241,18 @@ slimefun:
   advanced_industrial_miner: 더 나은 채광 기술
   magical_zombie_pills: 좀비화 방지
   auto_brewer: 산업용 양조장
+  climbing_pick: Block Raider
+  shulker_shell: Synthetic Shulkers
   enchantment_rune: 고대 마법
   lead_clothing: 납 의류
   tape_measure: 줄자
   iron_golem_assembler: 자동 철골램
+  villager_rune: Reset Villager Trades
+  elytra_cap: Crash Gear
+  bee_armor: Bee Armor
+  book_binder: Enchantment Book Binding
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
+  medium_tier_auto_enchanting: Fast Automatic Enchanting and Disenchanting
