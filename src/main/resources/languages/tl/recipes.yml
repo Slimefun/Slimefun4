@@ -3,166 +3,166 @@ slimefun:
   multiblock:
     name: 'Multiblock'
     lore:
-      - 'Build the shown structure'
-      - 'as shown. It is not crafted.'
+      - 'Buuin ang ipinakita na istraktura.'
+      - 'Hindi ito crafted.'
   enhanced_crafting_table:
     name: 'Enhanced Crafting Table'
     lore:
-      - 'Craft this Item as shown'
-      - 'in an Enhanced Crafting Table.'
-      - 'A normal Crafting Table will not suffice!'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'sa Enhanced Crafting Table.'
+      - 'Ang isang normal na Crafting Table ay hindi sapat!'
   armor_forge:
     name: 'Armor Forge'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Armor Forge'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Armor Forge.'
   grind_stone:
     name: 'Grind Stone'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Grind Stone'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Grind Stone.'
   smeltery:
     name: 'Smeltery'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Smeltery'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Smeltery.'
   ore_crusher:
     name: 'Ore Crusher'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Crusher'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ng Ore Crusher.'
   mob_drop:
     name: 'Mob Drop'
     lore:
-      - 'Kill that Mob to'
-      - 'obtain this item'
+      - 'Patayin ang mob na iyon upang'
+      - 'makuha ang aytem na ito.'
   gold_pan:
     name: 'Gold Pan'
     lore:
-      - 'Use a Gold Pan to'
-      - 'obtain this item'
+      - 'Gamitin ang Gold Pan upang'
+      - 'makuha ang aytem na ito.'
   compressor:
     name: 'Compressor'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Compressor'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Compressor.'
   pressure_chamber:
     name: 'Pressure Chamber'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Pressure Chamber'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Pressure Chamber'
   ore_washer:
     name: 'Ore Washer'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Washer'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Ore Washer'
   juicer:
     name: 'Juicer'
     lore:
-      - 'Craft this Juice as shown'
-      - 'using a Juicer'
+      - 'I-craft ang Juice na ito tulad ng ipinakita'
+      - 'gamit ang Juicer.'
   magic_workbench:
     name: 'Magic Workbench'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Magic Workbench'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Magic Workbench.'
   ancient_altar:
     name: 'Ancient Altar'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ancient Altar.'
-      - 'Look up the Ancient Altar for more Info'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Ancient Altar.'
+      - 'Hanapin ang Ancient Altar para sa mga karagdagang Impormasyon.'
   heated_pressure_chamber:
     name: 'Heated Pressure Chamber'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Heated Pressure Chamber'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Heated Pressure Chamber.'
   food_fabricator:
     name: 'Food Fabricator'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Fabricator'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Food Fabricator.'
   food_composter:
     name: 'Food Composter'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Composter'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Food Composter.'
   freezer:
     name: 'Freezer'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Freezer'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Freezer.'
   geo_miner:
     name: 'GEO Miner'
     lore:
-      - 'This Item can be gathered'
-      - 'by using a GEO Miner'
+      - 'Ang item na ito ay maaaring tipunin'
+      - 'sa pamamagitan ng paggamit ng isang GEO Miner.'
   nuclear_reactor:
     name: 'Nuclear Reactor'
     lore:
-      - 'This Item is a byproduct'
-      - 'of running a Nuclear Reactor'
+      - 'Ang Item na ito ay isang byproduct'
+      - 'ng pagpapatakbo ng isang Nuclear Reactor.'
   oil_pump:
     name: 'Oil Pump'
     lore:
-      - 'This Item can be gathered'
-      - 'by using an Oil Pump'
+      - 'Ang item na ito ay maaaring tipunin'
+      - 'sa pamamagitan ng paggamit ng isang Oil Pump.'
   pickaxe_of_containment:
     name: 'Pickaxe of Containment'
     lore:
-      - 'This Block can be obtained'
-      - 'by mining a Spawner with'
-      - 'the Pickaxe of Containment'
+      - 'Maaaring makuha ang block na ito'
+      - 'sa pamamagitan ng pagmimina ng Spawner kasama'
+      - 'ang Pickaxe of Containment.'
   refinery:
     name: 'Refinery'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Refinery'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Refinery.'
   barter_drop:
     name: 'Piglin Bartering Drop'
     lore:
-      - 'Barter with Piglins using'
-      - 'Gold Ingots to obtain this Item'
+      - 'Mag-barter kasama ang mga Piglins gamit ang mga'
+      - 'Gold Ingots upang makuha ang aytem na ito.'
 minecraft:
   shaped:
     name: 'Shaped Crafting Recipe'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'The shape is important.'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'sa normal na Crafting Table.'
+      - 'Mahalaga ang hugis.'
   shapeless:
     name: 'Shapeless Crafting Recipe'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'This Recipe is shapeless.'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'sa normal na Crafting Table.'
+      - 'Shapeless ang Recipe na ito.'
   furnace:
     name: 'Furnace Recipe'
     lore:
-      - 'Smelt this item in a Furnace'
-      - 'to craft your desired item'
+      - 'Lutuin ang item na ito sa isang Furnace'
+      - 'upang likhain ang iyong ninanais na item.'
   blasting:
     name: 'Blast Furnace Recipe'
     lore:
-      - 'Smelt this item in a Blast Furnace'
-      - 'to craft your desired item'
+      - 'Lutuin ang item na ito sa isang Blast Furnace'
+      - 'upang likhain ang iyong ninanais na item.'
   smoking:
     name: 'Smoker Recipe'
     lore:
-      - 'Smelt this item in a Smoker'
-      - 'to craft your desired item'
+      - 'Lutuin ang item na ito sa isang Smoker'
+      - 'upang likhain ang iyong ninanais na item.'
   campfire:
     name: 'Campfire Recipe'
     lore:
-      - 'Smelt this item over a Campfire'
-      - 'to craft your desired item'
+      - 'Lutuin ang item na ito sa isang Campfire'
+      - 'upang likhain ang iyong ninanais na item.'
   stonecutting:
     name: 'Stonecutter Recipe'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Stonecutter'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Stonecutter.'
   smithing:
     name: 'Smithing Table Recipe'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Smithing Table'
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Smithing Table.'
