@@ -1,25 +1,25 @@
 ---
 slimefun:
-  armor: Brnenie
-  basic_machines: Základné stroje
-  birthday: Narodeniny TheBusyBiscuit -a  (26. október)
-  christmas: Vianoce (December)
-  easter: Veľká noc (Apríl)
-  electricity: Energia a elektrina
-  ender_talismans: Talizmany endu (Úroveň II)
-  food: Jedlo
-  gps: GPS stroje
-  halloween: Halloween (31. október)
-  items: Užitočné itemy
-  magical_armor: Magické brnenie
-  magical_gadgets: Magické komponenty
-  magical_items: Magické itemy
-  misc: Rôzne itemy
-  talismans: Talizmany (Úroveň I)
-  tech_misc: Technické komponenty
-  technical_gadgets: Technické komponenty
-  tools: Nástroje
-  valentines_day: Valentín (14. február)
-  weapons: Zbrane
-  resources: Suroviny
-  cargo: Cargo sieť
+  weapons: 'Zbrane'
+  tools: 'Nástroje'
+  items: 'Užitočné itemy'
+  food: 'Jedlo'
+  basic_machines: 'Základné stroje'
+  electricity: 'Energia a elektrina'
+  gps: 'GPS stroje'
+  armor: 'Brnenie'
+  magical_items: 'Magické itemy'
+  magical_gadgets: 'Magické komponenty'
+  misc: 'Rôzne itemy'
+  technical_gadgets: 'Technické komponenty'
+  resources: 'Suroviny'
+  cargo: 'Cargo sieť'
+  tech_misc: 'Technické komponenty'
+  magical_armor: 'Magické brnenie'
+  talismans: 'Talizmany (Úroveň I)'
+  ender_talismans: 'Talizmany endu (Úroveň II)'
+  christmas: 'Vianoce (December)'
+  valentines_day: 'Valentín (14. február)'
+  easter: 'Veľká noc (Apríl)'
+  birthday: 'Narodeniny TheBusyBiscuit -a  (26. október)'
+  halloween: 'Halloween (31. október)'

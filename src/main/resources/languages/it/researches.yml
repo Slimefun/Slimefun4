@@ -51,7 +51,6 @@ slimefun:
   reinforced_armor: Armatura Rinforzata
   ore_washer: Lavaggio di Minerali
   gold_carats: Oro Puro
-  silicon: Silicon Valley
   fire_staff: Staffa di Fuoco
   smelters_pickaxe: Piccone delle Fonderie
   common_talisman: Talismano Comune
@@ -123,7 +122,6 @@ slimefun:
   electric_motor: Riscaldamento
   block_placer: Posizionatore di blocchi
   scroll_of_dimensional_teleposition: Rovesciare le cose
-  special_bows: Robin Hood
   tome_of_knowledge_sharing: Condivisione con gli amici
   flask_of_knowledge: Immagazzinamento di XP
   hardened_glass: Resistere alle Esplosioni
@@ -158,7 +156,6 @@ slimefun:
   gps_emergency_transmitter: Waypoint di emergenza GPS
   programmable_androids: Androidi Programmabili
   android_interfaces: Interfacce Androidi
-  geo_scanner: GEO-Scans
   combustion_reactor: Reattore a Combustione
   teleporter: Componenti base del Teletrasporto
   teleporter_activation_plates: Attivazione del Teletrasporto
@@ -183,7 +180,6 @@ slimefun:
   nuclear_reactor: Centrale Nucleare
   freezer: Signor Freeze
   cargo_basics: Nozioni di base sul cargo
-  cargo_nodes: Cargo Setup
   electric_ingot_machines: Fabbricazione di lingotti elettrici
   high_tier_electric_ingot_machines: Fabbricazione di lingotti super veloce
   automated_crafting_chamber: Creazione automatizzata
@@ -211,7 +207,7 @@ slimefun:
   advanced_electric_smeltery: Fonderia elettrica avanzata
   advanced_farmer_android: Androidi avanzati - Agricoltore
   lava_generator: Generatore di lava
-  nether_ice: " Refrigerante a Ghiaccio del nether"
+  nether_ice: ' Refrigerante a Ghiaccio del nether'
   nether_star_reactor: Reattore Stella del Nether
   blistering_ingots: Vesciche da Radioattività
   automatic_ignition_chamber: Camera di accensione automatica
@@ -222,7 +218,6 @@ slimefun:
   diet_cookie: Biscotto per la dieta
   storm_staff: Staffa della Tempesta
   soulbound_rune: Runa Soulbound
-  geo_miner: GEO-Miner
   lightning_rune: Runa del Tuono
   totem_of_undying: Totem dell'immortalità
   charging_bench: Banco di ricarica

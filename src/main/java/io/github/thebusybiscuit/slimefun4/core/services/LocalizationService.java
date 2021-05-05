@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
@@ -122,8 +123,10 @@ public class LocalizationService extends SlimefunLocalization {
     @Override
     public boolean hasLanguage(@Nonnull String id) {
         Validate.notNull(id, "The language id cannot be null");
+
         // Checks if our jar files contains a messages.yml file for that language
-        return containsResource(id, LanguageFile.MESSAGES);
+        String file = LanguageFile.MESSAGES.getFilePath(id);
+        return !streamConfigFile(file, null).getKeys(false).isEmpty();
     }
 
     /**
@@ -137,13 +140,6 @@ public class LocalizationService extends SlimefunLocalization {
     public boolean isLanguageLoaded(@Nonnull String id) {
         Validate.notNull(id, "The language cannot be null!");
         return languages.containsKey(id);
-    }
-
-    private boolean containsResource(@Nonnull String languageId, @Nonnull LanguageFile file) {
-        Validate.notNull(languageId, "Language id cannot be null");
-        Validate.notNull(file, "Language file cannot be null");
-
-        return plugin.getClass().getResource(file.getFilePath(languageId)) != null;
     }
 
     @Override
@@ -253,13 +249,15 @@ public class LocalizationService extends SlimefunLocalization {
         return Math.min(NumberUtils.reparseDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
     }
 
-    @Nullable
+    @Nonnull
     private FileConfiguration streamConfigFile(@Nonnull String file, @Nullable FileConfiguration defaults) {
-        if (plugin.getClass().getResourceAsStream(file) == null) {
+        InputStream inputStream = plugin.getClass().getResourceAsStream(file);
+
+        if (inputStream == null) {
             return new YamlConfiguration();
         }
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(file), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 
             if (defaults != null) {
@@ -269,7 +267,7 @@ public class LocalizationService extends SlimefunLocalization {
             return config;
         } catch (IOException e) {
             SlimefunPlugin.logger().log(Level.SEVERE, e, () -> "Failed to load language file into memory: \"" + file + "\"");
-            return null;
+            return new YamlConfiguration();
         }
     }
 }

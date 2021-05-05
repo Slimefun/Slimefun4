@@ -25,7 +25,6 @@ slimefun:
   steel_thruster: Ein Triebwerk aus Stahl
   parachute: Fallschirm
   grappling_hook: Enterhaken
-  jetpacks: Jetpacks
   multitools: Schweizer Taschenmesser
   solar_panel_and_helmet: Solarhelm
   elemental_staff: Stab der Elemente
@@ -47,7 +46,7 @@ slimefun:
   reinforced_alloy: Verstärkte Legierung
   carbonado: Schwarze Diamanten
   magic_workbench: Magische Werkbank
-  wind_staff: " Bezwinger der Lüfte"
+  wind_staff: ' Bezwinger der Lüfte'
   reinforced_armor: Verstärkte Rüstung
   ore_washer: Erze waschen
   gold_carats: Hochwertiges Gold
@@ -62,6 +61,8 @@ slimefun:
   water_talisman: Atmen wie ein Fisch
   angel_talisman: Talisman des Engels
   fire_talisman: Talisman des Feuerwehrmanns
+  caveman_talisman: Des Höhlenmenschen's Talisman
+  wise_talisman: Stein der Weisen
   lava_crystal: Feurige Angelegenheit
   magician_talisman: Talisman des Magiers
   traveller_talisman: Talisman des Wanderers
@@ -123,7 +124,6 @@ slimefun:
   electric_motor: Elektromotoren
   block_placer: Automatisch Blöcke platzieren
   scroll_of_dimensional_teleposition: Schwindelerregend
-  special_bows: Robin Hood
   tome_of_knowledge_sharing: Erfahrungen teilen
   flask_of_knowledge: Erfahrung lagern
   hardened_glass: Verstärktes Glas
@@ -145,6 +145,7 @@ slimefun:
   hologram_projector: Hologramme
   capacitors: Einfache Kondensatoren
   high_tier_capacitors: Verbesserte Kondensatoren
+  even_higher_tier_capacitors: Kondensatoren Stufe 3
   solar_generators: Solarenergie
   electric_furnaces: Elektrische Öfen
   electric_ore_grinding: Zermalmen und Zerquetschen
@@ -168,6 +169,7 @@ slimefun:
   energized_solar_generator: Solarkraft in der Nacht
   energized_gps_transmitter: High-End-Satelliten
   energy_regulator: Ein Netzwerk unter Strom
+  energy_connectors: Kupferkabel
   butcher_androids: Killer-Roboter
   organic_food: Viehfutter
   auto_breeder: Futterautomaten
@@ -236,17 +238,13 @@ slimefun:
   advanced_industrial_miner: Verbesserter Erzabbau
   magical_zombie_pills: De-Zombifikation/Anti-Zombi Medizin
   auto_brewer: Automatischer Braustand
+  climbing_pick: Lara Craft
+  shulker_shell: Synthetische Shulkerschalen
   enchantment_rune: Primitiver Zauber
   lead_clothing: Kleidung aus Blei
   tape_measure: Maßband
   iron_golem_assembler: Eisengolems vom Fließband
-  climbing_pick: Lara Craft
-  shulker_shell: Synthetische Shulkerschalen
   villager_rune: Dorfbewohner wie neugeboren
-  caveman_talisman: Des Höhlenmenschen's Talisman
-  even_higher_tier_capacitors: Kondensatoren Stufe 3
   elytra_cap: Harter Aufprall
-  energy_connectors: Kupferkabel
   bee_armor: Bienen-Rüstung
-  wise_talisman: Stein der Weisen
   book_binder: Verzaubertes Bücherbinden
