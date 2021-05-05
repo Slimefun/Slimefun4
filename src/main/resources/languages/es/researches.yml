@@ -62,6 +62,8 @@ slimefun:
   water_talisman: Talismán del Pez
   angel_talisman: Talismán del Ángel
   fire_talisman: Talismán del Bombero
+  caveman_talisman: Talisman of the Caveman
+  wise_talisman: Talismán del Sabio
   lava_crystal: Situación Ardiente
   magician_talisman: Talismán del Mago
   traveller_talisman: Talismán del Explorador
@@ -97,7 +99,7 @@ slimefun:
   backpacks: Mochilas
   woven_backpack: Mochila Tejida
   crucible: Crisol
-  gilded_backpack: 'Mochila Reforzada '
+  gilded_backpack: Mochila Reforzada 
   armored_jetpack: Jetpack Blindado
   ender_talismans: Talismán de Ender
   nickel_and_cobalt: Aún más Minerales
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: Hologramas
   capacitors: Capacitador LVL I
   high_tier_capacitors: Capacitador LVL II
+  even_higher_tier_capacitors: Capacitores Tier 3
   solar_generators: Generador Solar
   electric_furnaces: Horno Eléctrico
   electric_ore_grinding: Triturar y Moler
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: Energía Solar a Tiempo Completo
   energized_gps_transmitter: Transmisor de Punta
   energy_regulator: Redes Energéticas 101
+  energy_connectors: Conexiones Instaladas
   butcher_androids: Androides Carniceros
   organic_food: Comida Organica
   auto_breeder: Auto-Alimentacion
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: Fundamentos de Cargas
   cargo_nodes: Configuración de Carga
   electric_ingot_machines: Fabricación Eléctrica de Lingotes
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: Lingotes Super Rápidos
   automated_crafting_chamber: Crafteo Automatizado
   better_food_fabricator: Fabricación de Alimentos Mejorado
@@ -236,16 +241,18 @@ slimefun:
   advanced_industrial_miner: Minería Mejorada
   magical_zombie_pills: De-Zombificación
   auto_brewer: Alquimia Industrial
+  climbing_pick: Block Raider
+  shulker_shell: Shulkers Sintéticos
   enchantment_rune: Encantamiento Antiguo
   lead_clothing: Ropa de Plomo
   tape_measure: Cinta Métrica
   iron_golem_assembler: Iron Golems Automáticos
-  climbing_pick: Block Raider
-  shulker_shell: Shulkers Sintéticos
   villager_rune: Restablece los Intercambios de los Aldeanos
-  caveman_talisman: Talisman of the Caveman
-  even_higher_tier_capacitors: Capacitores Tier 3
   elytra_cap: Equipo de choque
-  energy_connectors: Conexiones Instaladas
   bee_armor: Armadura de Abeja
-  wise_talisman: Talismán del Sabio
+  book_binder: Enchantment Book Binding
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
+  medium_tier_auto_enchanting: Fast Automatic Enchanting and Disenchanting
