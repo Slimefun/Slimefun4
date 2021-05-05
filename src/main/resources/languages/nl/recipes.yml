@@ -1,168 +1,168 @@
 ---
 slimefun:
   multiblock:
-    name: Multiblok
+    name: 'Multiblock'
     lore:
-    - Bouw de getoonde structuur
-    - zoals afgebeeld. Het wordt niet gemaakt in een Werkbank.
+      - 'Build the shown structure'
+      - 'as shown. It is not crafted.'
   enhanced_crafting_table:
-    name: Enhanced Crafting Table
+    name: 'Enhanced Crafting Table'
     lore:
-    - Maak dit item zoals afgebeeld
-    - in een Enhanced Crafting Table.
-    - Een normale Werkbank volstaat niet!
+      - 'Craft this Item as shown'
+      - 'in an Enhanced Crafting Table.'
+      - 'A normal Crafting Table will not suffice!'
   armor_forge:
-    name: Armor Forge
+    name: 'Armor Forge'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Armor Forge.
+      - 'Craft this Item as shown'
+      - 'using an Armor Forge'
   grind_stone:
-    name: Grind Stone
+    name: 'Grind Stone'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Grind Stone.
+      - 'Craft this Item as shown'
+      - 'using a Grind Stone'
   smeltery:
-    name: Smeltery
+    name: 'Smeltery'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Smeltery.
+      - 'Craft this Item as shown'
+      - 'using a Smeltery'
   ore_crusher:
-    name: Ore Crusher
+    name: 'Ore Crusher'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Ore Crusher.
+      - 'Craft this Item as shown'
+      - 'using an Ore Crusher'
   mob_drop:
-    name: Monster buit
+    name: 'Mob Drop'
     lore:
-    - Dood dat monster om
-    - dit voorwerp te verkrijgen.
+      - 'Kill that Mob to'
+      - 'obtain this item'
   gold_pan:
-    name: Gold Pan
+    name: 'Gold Pan'
     lore:
-    - Gebruik een Gold Pan om
-    - dit voorwerp te verkrijgen.
+      - 'Use a Gold Pan to'
+      - 'obtain this item'
   compressor:
-    name: Compressor
+    name: 'Compressor'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Compressor.
+      - 'Craft this Item as shown'
+      - 'using a Compressor'
   pressure_chamber:
-    name: Pressure Chamber
+    name: 'Pressure Chamber'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Pressure Chamber.
+      - 'Craft this Item as shown'
+      - 'using a Pressure Chamber'
   ore_washer:
-    name: Ore Washer
+    name: 'Ore Washer'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Ore Washer.
+      - 'Craft this Item as shown'
+      - 'using an Ore Washer'
   juicer:
-    name: Juicer
+    name: 'Juicer'
     lore:
-    - Maak dit sap zoals afgebeeld
-    - met behulp van een Juicer.
+      - 'Craft this Juice as shown'
+      - 'using a Juicer'
   magic_workbench:
-    name: Magic Workbench
+    name: 'Magic Workbench'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Magic Workbench.
+      - 'Craft this Item as shown'
+      - 'using a Magic Workbench'
   ancient_altar:
-    name: Ancient Altar
+    name: 'Ancient Altar'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Ancient Altar.
-    - Zoek het Ancient Altar op voor meer info.
+      - 'Craft this Item as shown'
+      - 'using an Ancient Altar.'
+      - 'Look up the Ancient Altar for more Info'
   heated_pressure_chamber:
-    name: Heated Pressure Chamber
+    name: 'Heated Pressure Chamber'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Heated Pressure Chamber.
+      - 'Craft this Item as shown'
+      - 'using a Heated Pressure Chamber'
   food_fabricator:
-    name: " Food Fabricator"
+    name: 'Food Fabricator'
     lore:
-    - Maak dit item zoals afgebeeld
-    - Met behulp van een Food Fabricator
+      - 'Craft this Item as shown'
+      - 'using a Food Fabricator'
   food_composter:
-    name: " Food Composter"
+    name: 'Food Composter'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Food Composter.
+      - 'Craft this Item as shown'
+      - 'using a Food Composter'
   freezer:
-    name: Freezer
+    name: 'Freezer'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Freezer
+      - 'Craft this Item as shown'
+      - 'using a Freezer'
   geo_miner:
-    name: GEO Miner
+    name: 'GEO Miner'
     lore:
-    - Dit item kan worden verzameld
-    - met behulp van een GEO Miner
+      - 'This Item can be gathered'
+      - 'by using a GEO Miner'
   nuclear_reactor:
-    name: Nuclear Reactor
+    name: 'Nuclear Reactor'
     lore:
-    - Dit item is een bijproduct
-    - als je een kernreactor gebruikt
+      - 'This Item is a byproduct'
+      - 'of running a Nuclear Reactor'
   oil_pump:
-    name: Oil Pump
+    name: 'Oil Pump'
     lore:
-    - Dit item kan worden verzameld
-    - door een Oil Pump te gebruiken
+      - 'This Item can be gathered'
+      - 'by using an Oil Pump'
   pickaxe_of_containment:
-    name: de Pickaxe of Containment
+    name: 'Pickaxe of Containment'
     lore:
-    - Dit blok kan worden verzameld
-    - door een Spawner te minen met
-    - Pickaxe of Containment
+      - 'This Block can be obtained'
+      - 'by mining a Spawner with'
+      - 'the Pickaxe of Containment'
   refinery:
-    name: Refinery
+    name: 'Refinery'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Refinery
+      - 'Craft this Item as shown'
+      - 'using a Refinery'
   barter_drop:
-    name: Piglin ruilhandel drop
+    name: 'Piglin Bartering Drop'
     lore:
-    - 'Ruil Goud met Piglins '
-    - Om dit item te verkrijgen
+      - 'Barter with Piglins using'
+      - 'Gold Ingots to obtain this Item'
 minecraft:
   shaped:
-    name: Gevormd Verwerkingsrecept
+    name: 'Shaped Crafting Recipe'
     lore:
-    - Maak dit item zoals afgebeeld
-    - in een normale Werkbank.
-    - De vorm is belangrijk.
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'The shape is important.'
   shapeless:
-    name: Vormloos Verwerkingsrecept
+    name: 'Shapeless Crafting Recipe'
     lore:
-    - Maak dit item zoals afgebeeld
-    - in een normale Werkbank.
-    - Dit recept is vormloos.
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'This Recipe is shapeless.'
   furnace:
-    name: Ovenrecept
+    name: 'Furnace Recipe'
     lore:
-    - Smelt dit item in een Oven
-    - om het gewenste item te maken.
+      - 'Smelt this item in a Furnace'
+      - 'to craft your desired item'
   blasting:
-    name: Hoogovenrecept
+    name: 'Blast Furnace Recipe'
     lore:
-    - Smelt dit item in een Hoogoven
-    - om het gewenste item te maken.
+      - 'Smelt this item in a Blast Furnace'
+      - 'to craft your desired item'
   smoking:
-    name: Rokerrecept
+    name: 'Smoker Recipe'
     lore:
-    - Smelt dit item in een Roker
-    - om het gewenste item te maken.
+      - 'Smelt this item in a Smoker'
+      - 'to craft your desired item'
   campfire:
-    name: Kampvuurrecept
+    name: 'Campfire Recipe'
     lore:
-    - Smelt dit item boven een kampvuur
-    - om het gewenste item te maken.
+      - 'Smelt this item over a Campfire'
+      - 'to craft your desired item'
   stonecutting:
-    name: Steenzaagrecept
+    name: 'Stonecutter Recipe'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Steenzaag.
+      - 'Craft this Item as shown'
+      - 'using a Stonecutter'
   smithing:
-    name: Smeedstafel recept
+    name: 'Smithing Table Recipe'
     lore:
-    - Maak dit item zoals afgebeeld
-    - met behulp van een Smeedstafel
+      - 'Craft this Item as shown'
+      - 'using a Smithing Table'
