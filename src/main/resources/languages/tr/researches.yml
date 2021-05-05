@@ -62,6 +62,7 @@ slimefun:
   water_talisman: Suda Nefes Alan Tılsımı
   angel_talisman: Melek Tılsımı
   fire_talisman: İtfaiyeci Tılsımı
+  caveman_talisman: Mağara Adamı Tılsımı
   lava_crystal: Ateşli Durum
   magician_talisman: Sihirbaz Tılsımı
   traveller_talisman: Gezgin Tılsımı
@@ -123,7 +124,6 @@ slimefun:
   electric_motor: Kızışıyor
   block_placer: Blok Yerleştirici
   scroll_of_dimensional_teleposition: Bir şeyleri etrafında çevirmek
-  special_bows: Robin Hood
   tome_of_knowledge_sharing: Arkadaşlarla paylaşma
   flask_of_knowledge: XP Depolama
   hardened_glass: Patlamalara Dayanıklı
@@ -145,6 +145,7 @@ slimefun:
   hologram_projector: Hologramlar
   capacitors: Seviye 1 Kapasitörler
   high_tier_capacitors: Seviye 2 Kapasitörler
+  even_higher_tier_capacitors: Seviye 3 Kapasitörler
   solar_generators: Güneş Enerjisi Elektrik Santrali
   electric_furnaces: Elektrikli Fırın
   electric_ore_grinding: Kırma ve Öğütme
@@ -168,6 +169,7 @@ slimefun:
   energized_solar_generator: Tam Zamanlı Güneş Enerjisi
   energized_gps_transmitter: Üst Seviye Verici
   energy_regulator: Enerji Ağları 101
+  energy_connectors: Kablolu Bağlantı
   butcher_androids: Kasap Androidleri
   organic_food: Organik Yemek
   auto_breeder: Otomatik Besleme
@@ -236,14 +238,11 @@ slimefun:
   advanced_industrial_miner: Gelişmiş Madencilik
   magical_zombie_pills: A-Zombifikasyon
   auto_brewer: Endüstriyel İksircilik
+  climbing_pick: Blok Raider
+  shulker_shell: Sentetik Shulkerlar
   enchantment_rune: Kadim Büyücülük
   lead_clothing: Kurşun Kaplama
   tape_measure: Mezura
   iron_golem_assembler: Otomize Demir Golemler
-  climbing_pick: Blok Raider
-  shulker_shell: Sentetik Shulkerlar
   villager_rune: Sıfır Köylü Ticareti
-  caveman_talisman: Mağara Adamı Tılsımı
-  even_higher_tier_capacitors: Seviye 3 Kapasitörler
   elytra_cap: İniş Takımı
-  energy_connectors: Kablolu Bağlantı

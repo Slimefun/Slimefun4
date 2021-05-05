@@ -62,6 +62,8 @@ slimefun:
   water_talisman: Bùa hộ mệnh nước
   angel_talisman: Bùa hộ mệnh thiên sứ
   fire_talisman: Bùa hộ mệnh tránh lửa
+  caveman_talisman: Bùa thổ dân
+  wise_talisman: Bùa ma thuật của sự Tinh Khôn
   lava_crystal: Pha lê dung nham
   magician_talisman: Bùa hộ mệnh pháp sư
   traveller_talisman: Bùa hộ mệnh du hành
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: Ảnh ba chiều
   capacitors: Tụ điện cấp 1
   high_tier_capacitors: Tụ điện cấp 2
+  even_higher_tier_capacitors: Pin cấp 3
   solar_generators: Máy sản xuất năng lượng mặt trời
   electric_furnaces: Lò nung điện
   electric_ore_grinding: Máy nghiền điện
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: Máy phát điện toàn thời gian
   energized_gps_transmitter: Máy phát cấp cao nhất
   energy_regulator: Mạng năng lượng 101
+  energy_connectors: Đầu nối
   butcher_androids: Android đồ tể
   organic_food: Thực phẩm hữu cơ
   auto_breeder: Máy cho ăn tự động
@@ -236,17 +240,13 @@ slimefun:
   advanced_industrial_miner: Đào tốt hơn
   magical_zombie_pills: Thuốc kháng khuẩn thây ma
   auto_brewer: Lò thuốc công nghiệp
+  climbing_pick: Móc kéo
+  shulker_shell: Shulker tổng hợp
   enchantment_rune: Đá cường hoá cổ
   lead_clothing: Vải pha chì
   tape_measure: Thước dây
   iron_golem_assembler: Máy lắp Golem Sắt
-  climbing_pick: Móc kéo
-  shulker_shell: Shulker tổng hợp
   villager_rune: Đá trao đổi
-  caveman_talisman: Bùa thổ dân
-  even_higher_tier_capacitors: Pin cấp 3
   elytra_cap: Mũ lượn
-  energy_connectors: Đầu nối
   bee_armor: Giáp ong
-  wise_talisman: Bùa ma thuật của sự Tinh Khôn
   book_binder: Sách phù phép Ràng Buộc

@@ -62,6 +62,8 @@ slimefun:
   water_talisman: Talisman dýchání pod vodou
   angel_talisman: Talisman anděla
   fire_talisman: Talisman hasiče
+  caveman_talisman: Talisman jeskynního člověka
+  wise_talisman: Talisman moudrosti
   lava_crystal: Ohnivá situace
   magician_talisman: Talisman kouzelníka
   traveller_talisman: Talisman cestovatele
@@ -123,7 +125,6 @@ slimefun:
   electric_motor: Zahřívání
   block_placer: Pokládač bloků
   scroll_of_dimensional_teleposition: Otáčí věcí kolem
-  special_bows: Robin Hood
   tome_of_knowledge_sharing: Dělení s přáteli
   flask_of_knowledge: XP uložistě
   hardened_glass: Odolávání výbuchům
@@ -145,6 +146,7 @@ slimefun:
   hologram_projector: Hologramy
   capacitors: Kondenzátory 1. stupně
   high_tier_capacitors: Kondenzátory 2. stupně
+  even_higher_tier_capacitors: Kondenzátory 3. stupně
   solar_generators: Solární elektrárna
   electric_furnaces: Elektrická pec
   electric_ore_grinding: Drcení a broušení
@@ -168,6 +170,7 @@ slimefun:
   energized_solar_generator: Nezastavitelná solární energie
   energized_gps_transmitter: Nejlepší vysílač
   energy_regulator: Energické sítě 101
+  energy_connectors: Drátové připojení
   butcher_androids: Řeznické androidy
   organic_food: Organické jídlo
   auto_breeder: Automatické krmení
@@ -230,23 +233,19 @@ slimefun:
   electric_press: Elektrický lis
   magnesium_generator: Energie z magnézia
   kelp_cookie: Chutná řasa
-  advanced_industrial_miner: Lepší těžení
-  magical_zombie_pills: Dezombifikace
-  enchantment_rune: Antická očarování
-  climbing_pick: Blokace nájezdníků
-  caveman_talisman: Talisman jeskynního člověka
-  even_higher_tier_capacitors: Kondenzátory 3. stupně
-  elytra_cap: Popraskané brnění
-  energy_connectors: Drátové připojení
-  bee_armor: Včelí zbroj
-  wise_talisman: Talisman moudrosti
-  book_binder: Vázání knihy očarování
   makeshift_smeltery: Vylepšená tavírna
   tree_growth_accelerator: Rychlejší stromy
+  industrial_miner: Průmyslové těžení
+  advanced_industrial_miner: Lepší těžení
+  magical_zombie_pills: Dezombifikace
+  auto_brewer: Průmyslový pivovar
+  climbing_pick: Blokace nájezdníků
+  shulker_shell: Syntetičtí shulkeři
+  enchantment_rune: Antická očarování
   lead_clothing: Olověné oblečení
   tape_measure: Svinovací metr
   iron_golem_assembler: Automatická farma na železné golemy
-  shulker_shell: Syntetičtí shulkeři
   villager_rune: Obnova vesnických obchodů
-  industrial_miner: Průmyslové těžení
-  auto_brewer: Průmyslový pivovar
+  elytra_cap: Popraskané brnění
+  bee_armor: Včelí zbroj
+  book_binder: Vázání knihy očarování
