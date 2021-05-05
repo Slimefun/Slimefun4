@@ -1,158 +1,168 @@
 ---
-minecraft:
-  blasting:
-    lore:
-    - Nung vật phẩm này trong một lò nung phản ứng
-    - để chế tạo vật phẩm mình muốn
-    name: Công thức lò nung phản ứng
-  campfire:
-    lore:
-    - Nung vật phẩm này trên một lửa trại
-    - để chế tạo vật phẩm bạn muốn
-    name: Công thức nung trên lửa trại
-  furnace:
-    lore:
-    - Nung vật phẩm này trong lò
-    - để chế tạo vật phẩm bạn muốn
-    name: Công thức nung lò nung
-  shaped:
-    lore:
-    - Chế tạo vật phẩm
-    - trong bàn chế tạo thường.
-    - Hình dạng rất quan trọng.
-    name: Công thức chế tạo hình
-  shapeless:
-    lore:
-    - Chế tạo vật phẩm này
-    - trong bàn chế tạo thường
-    - Công thức này vô dạng.
-    name: Công thức chế tạo vô dạng
-  smoking:
-    lore:
-    - Nung vật phẩm này trong máy tạo hơi khói
-    - để chế tạo vật phẩm bạn mong muốn
-    name: Công thức máy tạo hơi khói
-  stonecutting:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng máy cắt đá
-    name: Công thức máy cắt đá
 slimefun:
-  ancient_altar:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Ancient Altar.
-    - Kiểm tra Ancient Altar biết thêm thông tin
-    name: Ancient Altar
-  armor_forge:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Armor Forge
-    name: Armor Forge
-  compressor:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Compressor
-    name: Compressor
-  enhanced_crafting_table:
-    lore:
-    - Chế tạo vật phẩm được hiển thị
-    - trong Enhanced Crafting Table.
-    - Một bàn chế tạo bình thường sẽ không đủ!
-    name: Enhanced Crafting Table
-  food_composter:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Food Composter
-    name: Food Composter
-  food_fabricator:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Food Fabricator
-    name: Food Fabricator
-  freezer:
-    lore:
-    - Chế tạo vật phẩm như đã hiển thị
-    - sử dụng Freezer
-    name: Freezer
-  geo_miner:
-    lore:
-    - Vật phẩm này có thể kiểm được
-    - bàng cách sử dụng GEO Miner
-    name: GEO Miner
-  gold_pan:
-    lore:
-    - Dùng Gold Pan để
-    - lấy vật phẩm này
-    name: Gold Pan
-  grind_stone:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Grind Stone
-    name: Grind Stone
-  heated_pressure_chamber:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Heated Pressure Chamber
-    name: Heated Pressure Chamber
-  juicer:
-    lore:
-    - Chế tạo nước ép này như đã hiển thị
-    - sử dụng Juicer
-    name: Juicer
-  magic_workbench:
-    lore:
-    - Chế tạo vật phẩm này như hình
-    - sử dụng Magic Workbench
-    name: Magic Workbench
-  mob_drop:
-    lore:
-    - Giết con vật đó để
-    - lấy vật phẩm này
-    name: Vật phẩm bị rơi ra từ con vật bị giết
   multiblock:
+    name: 'Multiblock'
     lore:
-    - Xây công trình đã hiển thị
-    - hiển thị. Đây không phải công thức chế tạo
-    name: Đa khối
-  nuclear_reactor:
+      - 'Build the shown structure'
+      - 'as shown. It is not crafted.'
+  enhanced_crafting_table:
+    name: 'Enhanced Crafting Table'
     lore:
-    - Vật phẩm này là sản phẩm phụ
-    - của Nuclear Reactor
-    name: Nuclear Reactor
-  ore_crusher:
+      - 'Craft this Item as shown'
+      - 'in an Enhanced Crafting Table.'
+      - 'A normal Crafting Table will not suffice!'
+  armor_forge:
+    name: 'Armor Forge'
     lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Ore Crusher
-    name: Ore Crusher
-  ore_washer:
+      - 'Craft this Item as shown'
+      - 'using an Armor Forge'
+  grind_stone:
+    name: 'Grind Stone'
     lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Ore Washer
-    name: Ore Washer
-  pressure_chamber:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Pressure Chamber
-    name: Pressure Chamber
+      - 'Craft this Item as shown'
+      - 'using a Grind Stone'
   smeltery:
+    name: 'Smeltery'
     lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Smeltery
-    name: Smeltery
+      - 'Craft this Item as shown'
+      - 'using a Smeltery'
+  ore_crusher:
+    name: 'Ore Crusher'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using an Ore Crusher'
+  mob_drop:
+    name: 'Mob Drop'
+    lore:
+      - 'Kill that Mob to'
+      - 'obtain this item'
+  gold_pan:
+    name: 'Gold Pan'
+    lore:
+      - 'Use a Gold Pan to'
+      - 'obtain this item'
+  compressor:
+    name: 'Compressor'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Compressor'
+  pressure_chamber:
+    name: 'Pressure Chamber'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Pressure Chamber'
+  ore_washer:
+    name: 'Ore Washer'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using an Ore Washer'
+  juicer:
+    name: 'Juicer'
+    lore:
+      - 'Craft this Juice as shown'
+      - 'using a Juicer'
+  magic_workbench:
+    name: 'Magic Workbench'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Magic Workbench'
+  ancient_altar:
+    name: 'Ancient Altar'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using an Ancient Altar.'
+      - 'Look up the Ancient Altar for more Info'
+  heated_pressure_chamber:
+    name: 'Heated Pressure Chamber'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Heated Pressure Chamber'
+  food_fabricator:
+    name: 'Food Fabricator'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Food Fabricator'
+  food_composter:
+    name: 'Food Composter'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Food Composter'
+  freezer:
+    name: 'Freezer'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Freezer'
+  geo_miner:
+    name: 'GEO Miner'
+    lore:
+      - 'This Item can be gathered'
+      - 'by using a GEO Miner'
+  nuclear_reactor:
+    name: 'Nuclear Reactor'
+    lore:
+      - 'This Item is a byproduct'
+      - 'of running a Nuclear Reactor'
   oil_pump:
-    name: Oil Pump
+    name: 'Oil Pump'
     lore:
-    - Vật phẩm này có thể kiếm được
-    - bằng cách sử dụng Oil Pump
+      - 'This Item can be gathered'
+      - 'by using an Oil Pump'
   pickaxe_of_containment:
-    name: Pickaxe of Containment
+    name: 'Pickaxe of Containment'
     lore:
-    - Spawner có thể thu được
-    - bằng cách đập với
-    - Pickaxe of Containment
+      - 'This Block can be obtained'
+      - 'by mining a Spawner with'
+      - 'the Pickaxe of Containment'
   refinery:
-    name: Refinery
+    name: 'Refinery'
     lore:
-    - Chế tạo vật phẩm này như hình
-    - sử dụng Refinery
+      - 'Craft this Item as shown'
+      - 'using a Refinery'
+  barter_drop:
+    name: 'Piglin Bartering Drop'
+    lore:
+      - 'Barter with Piglins using'
+      - 'Gold Ingots to obtain this Item'
+minecraft:
+  shaped:
+    name: 'Shaped Crafting Recipe'
+    lore:
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'The shape is important.'
+  shapeless:
+    name: 'Shapeless Crafting Recipe'
+    lore:
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'This Recipe is shapeless.'
+  furnace:
+    name: 'Furnace Recipe'
+    lore:
+      - 'Smelt this item in a Furnace'
+      - 'to craft your desired item'
+  blasting:
+    name: 'Blast Furnace Recipe'
+    lore:
+      - 'Smelt this item in a Blast Furnace'
+      - 'to craft your desired item'
+  smoking:
+    name: 'Smoker Recipe'
+    lore:
+      - 'Smelt this item in a Smoker'
+      - 'to craft your desired item'
+  campfire:
+    name: 'Campfire Recipe'
+    lore:
+      - 'Smelt this item over a Campfire'
+      - 'to craft your desired item'
+  stonecutting:
+    name: 'Stonecutter Recipe'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Stonecutter'
+  smithing:
+    name: 'Smithing Table Recipe'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Smithing Table'
