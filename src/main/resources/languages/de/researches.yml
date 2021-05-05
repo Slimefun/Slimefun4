@@ -47,7 +47,7 @@ slimefun:
   reinforced_alloy: Verstärkte Legierung
   carbonado: Schwarze Diamanten
   magic_workbench: Magische Werkbank
-  wind_staff: " Bezwinger der Lüfte"
+  wind_staff: ' Bezwinger der Lüfte'
   reinforced_armor: Verstärkte Rüstung
   ore_washer: Erze waschen
   gold_carats: Hochwertiges Gold
@@ -62,6 +62,8 @@ slimefun:
   water_talisman: Atmen wie ein Fisch
   angel_talisman: Talisman des Engels
   fire_talisman: Talisman des Feuerwehrmanns
+  caveman_talisman: Des Höhlenmenschen's Talisman
+  wise_talisman: Stein der Weisen
   lava_crystal: Feurige Angelegenheit
   magician_talisman: Talisman des Magiers
   traveller_talisman: Talisman des Wanderers
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: Hologramme
   capacitors: Einfache Kondensatoren
   high_tier_capacitors: Verbesserte Kondensatoren
+  even_higher_tier_capacitors: Kondensatoren Stufe 3
   solar_generators: Solarenergie
   electric_furnaces: Elektrische Öfen
   electric_ore_grinding: Zermalmen und Zerquetschen
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: Solarkraft in der Nacht
   energized_gps_transmitter: High-End-Satelliten
   energy_regulator: Ein Netzwerk unter Strom
+  energy_connectors: Kupferkabel
   butcher_androids: Killer-Roboter
   organic_food: Viehfutter
   auto_breeder: Futterautomaten
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: Cargo 101
   cargo_nodes: Cargo-Knotenpunkte
   electric_ingot_machines: Die Barrenfabrik
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: Schnelle Barren
   automated_crafting_chamber: Automatisches Craften
   better_food_fabricator: Essen vom Fließband
@@ -236,17 +241,18 @@ slimefun:
   advanced_industrial_miner: Verbesserter Erzabbau
   magical_zombie_pills: De-Zombifikation/Anti-Zombi Medizin
   auto_brewer: Automatischer Braustand
+  climbing_pick: Lara Craft
+  shulker_shell: Synthetische Shulkerschalen
   enchantment_rune: Primitiver Zauber
   lead_clothing: Kleidung aus Blei
   tape_measure: Maßband
   iron_golem_assembler: Eisengolems vom Fließband
-  climbing_pick: Lara Craft
-  shulker_shell: Synthetische Shulkerschalen
   villager_rune: Dorfbewohner wie neugeboren
-  caveman_talisman: Des Höhlenmenschen's Talisman
-  even_higher_tier_capacitors: Kondensatoren Stufe 3
   elytra_cap: Harter Aufprall
-  energy_connectors: Kupferkabel
   bee_armor: Bienen-Rüstung
-  wise_talisman: Stein der Weisen
   book_binder: Verzaubertes Bücherbinden
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
+  medium_tier_auto_enchanting: Fast Automatic Enchanting and Disenchanting
