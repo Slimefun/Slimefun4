@@ -1,126 +1,168 @@
 ---
 slimefun:
   multiblock:
+    name: 'Multiblock'
     lore:
-    - Изгради ја прикажаната структура
-    - како покажаното. Не е за крафтирање.
+      - 'Build the shown structure'
+      - 'as shown. It is not crafted.'
   enhanced_crafting_table:
+    name: 'Enhanced Crafting Table'
     lore:
-    - Крафтирај го Материјалот како покажаното
-    - во Enhanced Crafting Table.
-    - Нормална Crafting Table нема да успее!
+      - 'Craft this Item as shown'
+      - 'in an Enhanced Crafting Table.'
+      - 'A normal Crafting Table will not suffice!'
   armor_forge:
+    name: 'Armor Forge'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Armor Forge
+      - 'Craft this Item as shown'
+      - 'using an Armor Forge'
   grind_stone:
+    name: 'Grind Stone'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Grind Stone
+      - 'Craft this Item as shown'
+      - 'using a Grind Stone'
   smeltery:
+    name: 'Smeltery'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Smeltery
+      - 'Craft this Item as shown'
+      - 'using a Smeltery'
   ore_crusher:
+    name: 'Ore Crusher'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Ore Crusher
+      - 'Craft this Item as shown'
+      - 'using an Ore Crusher'
   mob_drop:
+    name: 'Mob Drop'
     lore:
-    - Исто така утепај го тој Моб
-    - доби го материјалов
+      - 'Kill that Mob to'
+      - 'obtain this item'
   gold_pan:
+    name: 'Gold Pan'
     lore:
-    - 
-    - доби го материјалов
+      - 'Use a Gold Pan to'
+      - 'obtain this item'
   compressor:
+    name: 'Compressor'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Compressor
+      - 'Craft this Item as shown'
+      - 'using a Compressor'
   pressure_chamber:
+    name: 'Pressure Chamber'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Pressure Chamber
+      - 'Craft this Item as shown'
+      - 'using a Pressure Chamber'
   ore_washer:
+    name: 'Ore Washer'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Ore Washer
+      - 'Craft this Item as shown'
+      - 'using an Ore Washer'
   juicer:
+    name: 'Juicer'
     lore:
-    - Крафтирај го соков како покажаното
-    - користејки Juicer
+      - 'Craft this Juice as shown'
+      - 'using a Juicer'
   magic_workbench:
+    name: 'Magic Workbench'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Magic Workbench
+      - 'Craft this Item as shown'
+      - 'using a Magic Workbench'
   ancient_altar:
+    name: 'Ancient Altar'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Ancient Altar.
-    - Побарај Ancient Altar за повеќе инофмации
+      - 'Craft this Item as shown'
+      - 'using an Ancient Altar.'
+      - 'Look up the Ancient Altar for more Info'
   heated_pressure_chamber:
+    name: 'Heated Pressure Chamber'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Heated Pressure Chamber
+      - 'Craft this Item as shown'
+      - 'using a Heated Pressure Chamber'
   food_fabricator:
+    name: 'Food Fabricator'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Food Fabricator
+      - 'Craft this Item as shown'
+      - 'using a Food Fabricator'
   food_composter:
+    name: 'Food Composter'
     lore:
-    - Крафтирај го како покажаното
-    - користејки Food Composter
+      - 'Craft this Item as shown'
+      - 'using a Food Composter'
   freezer:
+    name: 'Freezer'
     lore:
-    - 
-    - користејки Freezer
+      - 'Craft this Item as shown'
+      - 'using a Freezer'
   geo_miner:
+    name: 'GEO Miner'
     lore:
-    - Овој материјал може да биде најден
-    - користејќи GEO Miner
+      - 'This Item can be gathered'
+      - 'by using a GEO Miner'
   nuclear_reactor:
+    name: 'Nuclear Reactor'
     lore:
-    - Овој материјал е додаток
-    - на Nuclear Reactor
+      - 'This Item is a byproduct'
+      - 'of running a Nuclear Reactor'
   oil_pump:
+    name: 'Oil Pump'
     lore:
-    - Овој материјал може да биде најден
-    - користејќи Oil Pump
+      - 'This Item can be gathered'
+      - 'by using an Oil Pump'
   pickaxe_of_containment:
+    name: 'Pickaxe of Containment'
     lore:
-    - Овој блок може да биде земен
+      - 'This Block can be obtained'
+      - 'by mining a Spawner with'
+      - 'the Pickaxe of Containment'
   refinery:
+    name: 'Refinery'
     lore:
-    - Крафтирај го материјалот како покажаното
-    - користејќи Refinery
+      - 'Craft this Item as shown'
+      - 'using a Refinery'
+  barter_drop:
+    name: 'Piglin Bartering Drop'
+    lore:
+      - 'Barter with Piglins using'
+      - 'Gold Ingots to obtain this Item'
 minecraft:
   shaped:
+    name: 'Shaped Crafting Recipe'
     lore:
-    - Крафтирај го како покажаното
-    - 
-    - Формата е битна.
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'The shape is important.'
   shapeless:
+    name: 'Shapeless Crafting Recipe'
     lore:
-    - Крафтирај го како покажаното
-    - во нормална Crafting Table.
-    - Рецептот е без форма.
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'This Recipe is shapeless.'
   furnace:
+    name: 'Furnace Recipe'
     lore:
-    - Стопи го овој материјал во Furnace
-    - за да го крафтираш саканиот материјал
+      - 'Smelt this item in a Furnace'
+      - 'to craft your desired item'
   blasting:
+    name: 'Blast Furnace Recipe'
     lore:
-    - Стопи го материјалов во Blast Furnace
-    - за да го крафтираш саканиот материјал
+      - 'Smelt this item in a Blast Furnace'
+      - 'to craft your desired item'
   smoking:
+    name: 'Smoker Recipe'
     lore:
-    - Стопи го материјалов во Smoker
-    - за да го крафтираш саканиот материјал
+      - 'Smelt this item in a Smoker'
+      - 'to craft your desired item'
   campfire:
+    name: 'Campfire Recipe'
     lore:
-    - Стопи го материјалов врз Campfire
-    - за да го крафтираш саканиот материјал
+      - 'Smelt this item over a Campfire'
+      - 'to craft your desired item'
   stonecutting:
+    name: 'Stonecutter Recipe'
     lore:
-    - Крафтирај го материјалот како покажаното
-    - користејќи Stonecutter
+      - 'Craft this Item as shown'
+      - 'using a Stonecutter'
+  smithing:
+    name: 'Smithing Table Recipe'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Smithing Table'
