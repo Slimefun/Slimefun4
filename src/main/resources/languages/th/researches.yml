@@ -53,7 +53,6 @@ slimefun:
   gold_carats: ทองคำบริสุทธิ์ 100%
   silicon: ซิลิโคนเสริมนม
   fire_staff: คฑาไฟ
-  smelters_pickaxe: Smelters Pickaxe
   common_talisman: เครื่องรางทั่วไป
   anvil_talisman: เครื่องราง Anvil
   miner_talisman: เครื่องราง  Miner
@@ -81,19 +80,14 @@ slimefun:
   first_aid: ปฐมพยาบาล
   gold_armor: เกราะสะท้อนแสงใด้เหมือนหัวประ......
   night_vision_googles: แว่นตามองกลางคืน
-  pickaxe_of_containment: Pickaxe of Containment
-  hercules_pickaxe: Hercules Pickaxe
   table_saw: เลื่อยมือ
   slime_steel_armor: เกราะเหล็กเสริมสไลม์
-  blade_of_vampires: Blade of Vampires
   water_staff: คฑาน้ำ
   24k_gold_block: บล็อกทองแบบ 400%
   composter: หมักดิน
   farmer_shoes: รองเท้าเกษตรกร
   explosive_tools: เครื่องมือระเบิดได้
   automated_panning_machine: เครื่องร่อนอัตโนมัติ
-  boots_of_the_stomper: Boots of the Stomper
-  pickaxe_of_the_seeker: Pickaxe of the Seeker
   backpacks: เป้สะพายหลัง
   woven_backpack: กระเป๋าเป้ทอ
   crucible: เบ้าหลอมโลหะ
@@ -105,12 +99,11 @@ slimefun:
   infused_magnet: แม่เหล็กผสม
   cobalt_pickaxe: ขุดเร็ว
   essence_of_afterlife: ผงวิเศษตราหลังความตาย
-  bound_backpack: 'ที่เก็บ Soundbound '
+  bound_backpack: ที่เก็บ Soundbound 
   jetboots: รองเท้าบูทเจ็ท
   armored_jetboots: รองเท้าบูทหุ้มเกราะ
-  seismic_axe: Seismic Axe
   pickaxe_of_vein_mining: Vein Mining
-  bound_weapons: 'อาวุธ Soulbound '
+  bound_weapons: อาวุธ Soulbound 
   bound_tools: อุปกรณ์ Soulbound
   bound_armor: เกราะ Soulbound
   juicer: เครื่องดื่มแสนอร่อย
@@ -131,7 +124,7 @@ slimefun:
   cooler: เครื่องดื่มพกพา
   ancient_altar: แท่นบูชาโบราณ
   wither_proof_obsidian: Obsidian กัน Wither
-  ancient_runes: 'รูนธาตุต่าง ๆ '
+  ancient_runes: รูนธาตุต่าง ๆ 
   special_runes: รูนม่วง
   infernal_bonemeal: ปุ๋ยกระดูกไฟ
   rainbow_blocks: บล็อกสายรุ้ง
@@ -158,7 +151,6 @@ slimefun:
   gps_emergency_transmitter: Waypoint GPS  ฉุกเฉิน
   programmable_androids: Androids ที่ตั้งโปรแกรมได้
   android_interfaces: อินเทอร์เฟซ Android
-  geo_scanner: GEO-Scans
   combustion_reactor: เครื่องปฏิกรณ์เผาไหม้
   teleporter: ส่วนประกอบฐาน เครื่องเทเลพอร์ด
   teleporter_activation_plates: การเปิดใช้งาน Teleporter
@@ -213,7 +205,7 @@ slimefun:
   lava_generator: เครื่องผลิตไฟฟ้าจากลาวา
   nether_ice: น้ำแข็งนรก
   nether_star_reactor: เครื่องผลิตไฟฟ้าจาก Nether Star
-  blistering_ingots: " ทองที่เป็นกัมมันตภาพรังสี"
+  blistering_ingots: ' ทองที่เป็นกัมมันตภาพรังสี'
   automatic_ignition_chamber: จุดไฟอัตโนมัติ
   output_chest: กลอ่งเก็บของพื้นฐาน
   copper_wire: สายทองแดง
@@ -222,9 +214,7 @@ slimefun:
   diet_cookie: คุกกี้ไดเอท
   storm_staff: คฑาวายุ
   soulbound_rune: รูน Soulbound
-  geo_miner: GEO-Miner
   lightning_rune: รูน Lightning
-  totem_of_undying: Totem of Undying
   charging_bench: แท่นชาร์จ
   nether_gold_pan: ที่ร่อนนรก
   electric_press: เครื่องกดไฟฟ้า
