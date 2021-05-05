@@ -1,168 +1,168 @@
 ---
 slimefun:
   multiblock:
-    name: 'Multiblock'
+    name: 'Yapı İnşa Etme'
     lore:
-      - 'Build the shown structure'
-      - 'as shown. It is not crafted.'
+      - 'Gösterilen yapıyı olduğu gibi inşa edin.'
+      - 'Üretim masasında üretilmez.'
   enhanced_crafting_table:
     name: 'Enhanced Crafting Table'
     lore:
-      - 'Craft this Item as shown'
-      - 'in an Enhanced Crafting Table.'
-      - 'A normal Crafting Table will not suffice!'
+      - 'Bu eşyayı Enhanced Crafting Tableda'
+      - 'gösterildiği gibi üretin.'
+      - 'Normal bir Üretim Masası yeterli olmaz!'
   armor_forge:
     name: 'Armor Forge'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Armor Forge'
+      - 'Bu eşyayı bir Armor Forge kullanarak'
+      - 'gösterildiği gibi üretin.'
   grind_stone:
     name: 'Grind Stone'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Grind Stone'
+      - 'Bu eşyayı Grind Stone kullanarak'
+      - 'gösterildiği gibi üretin.'
   smeltery:
     name: 'Smeltery'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Smeltery'
+      - 'Bu eşyayı Smeltery kullanarak'
+      - 'gösterildiği gibi üretin.'
   ore_crusher:
     name: 'Ore Crusher'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Crusher'
+      - 'Bu eşyayı Ore Crusher kullanarak'
+      - 'gösterildiği gibi üretin.'
   mob_drop:
-    name: 'Mob Drop'
+    name: 'Yaratıktan Düşürme'
     lore:
-      - 'Kill that Mob to'
-      - 'obtain this item'
+      - 'Bu eşyayı almak için'
+      - 'yaratığı öldürün.'
   gold_pan:
     name: 'Gold Pan'
     lore:
-      - 'Use a Gold Pan to'
-      - 'obtain this item'
+      - 'Bu eşyayı almak için'
+      - 'Gold Pan kullanın.'
   compressor:
     name: 'Compressor'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Compressor'
+      - 'Bu eşyayı Compressor kullanarak'
+      - 'gösterildiği gibi üretin.'
   pressure_chamber:
     name: 'Pressure Chamber'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Pressure Chamber'
+      - 'Bu eşyayı Pressure Chamber kullanarak'
+      - 'gösterildiği gibi üretin.'
   ore_washer:
     name: 'Ore Washer'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Washer'
+      - 'Bu eşyayı Ore Washer kullanarak'
+      - 'gösterildiği gibi üretin.'
   juicer:
     name: 'Juicer'
     lore:
-      - 'Craft this Juice as shown'
-      - 'using a Juicer'
+      - 'Bu eşyayı Juicer kullanarak'
+      - 'gösterildiği gibi üretin.'
   magic_workbench:
     name: 'Magic Workbench'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Magic Workbench'
+      - 'Bu eşyayı Magic Workbench kullanarak'
+      - 'gösterildiği gibi üretin.'
   ancient_altar:
     name: 'Ancient Altar'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ancient Altar.'
-      - 'Look up the Ancient Altar for more Info'
+      - 'Bu eşyayı Ancient Altar kullanarak'
+      - 'gösterildiği gibi üretin.'
+      - 'Daha fazla bilgi için Ancient Altar sayfasına bakın.'
   heated_pressure_chamber:
     name: 'Heated Pressure Chamber'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Heated Pressure Chamber'
+      - 'Bu eşyayı Heated Pressure Chamber kullanarak'
+      - 'gösterildiği gibi üretin.'
   food_fabricator:
     name: 'Food Fabricator'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Fabricator'
+      - 'Bu eşyayı Food Fabricator kullanarak'
+      - 'gösterildiği gibi üretin'
   food_composter:
     name: 'Food Composter'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Composter'
+      - 'Bu eşyayı Food Composter kullanarak'
+      - 'gösterildiği gibi üretin.'
   freezer:
     name: 'Freezer'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Freezer'
+      - 'Bu eşyayı Freezer kullanarak'
+      - 'gösterildiği gibi üretin'
   geo_miner:
     name: 'GEO Miner'
     lore:
-      - 'This Item can be gathered'
-      - 'by using a GEO Miner'
+      - 'Bu eşyayı GEO Miner kullanarak'
+      - 'elde edin'
   nuclear_reactor:
     name: 'Nuclear Reactor'
     lore:
-      - 'This Item is a byproduct'
-      - 'of running a Nuclear Reactor'
+      - 'Bu eşya Nuclear Reactor''ın'
+      - 'bir yan ürünüdür'
   oil_pump:
     name: 'Oil Pump'
     lore:
-      - 'This Item can be gathered'
-      - 'by using an Oil Pump'
+      - 'Bu eşyayı Oil Pump kullanarak'
+      - 'elde edin'
   pickaxe_of_containment:
     name: 'Pickaxe of Containment'
     lore:
-      - 'This Block can be obtained'
-      - 'by mining a Spawner with'
-      - 'the Pickaxe of Containment'
+      - 'Bu bloku Pickaxe of Containment kullanarak'
+      - 've bir Spawner kırarak'
+      - 'elde edin'
   refinery:
     name: 'Refinery'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Refinery'
+      - 'Bu eşyayı Refinery kullanarak'
+      - 'üretin'
   barter_drop:
-    name: 'Piglin Bartering Drop'
+    name: 'Piglin Takası İle Elde Edilir'
     lore:
-      - 'Barter with Piglins using'
-      - 'Gold Ingots to obtain this Item'
+      - 'Piglinlerle Altın Külçesi takas ederek'
+      - 'bu eşyayı elde edin'
 minecraft:
   shaped:
-    name: 'Shaped Crafting Recipe'
+    name: 'Biçimli Üretim Tarifi'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'The shape is important.'
+      - 'Bu eşyayı normal Üretim Masası kullanarak'
+      - 'gösterildiği gibi üretin.'
+      - 'Tarifin şekline dikkat edin.'
   shapeless:
-    name: 'Shapeless Crafting Recipe'
+    name: 'Biçimsiz Üretim Tarifi'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'This Recipe is shapeless.'
+      - 'Bu eşyayı normal Üretim Masası kullanarak'
+      - 'gösterildiği gibi üretin.'
+      - 'Tarifin şekli önemli değil.'
   furnace:
-    name: 'Furnace Recipe'
+    name: 'Fırın Tarifi'
     lore:
-      - 'Smelt this item in a Furnace'
-      - 'to craft your desired item'
+      - 'İstediğiniz eşyayı üretmek için'
+      - 'bu eşyayı Fırında pişirin.'
   blasting:
-    name: 'Blast Furnace Recipe'
+    name: 'Maden Fırını Tarifi'
     lore:
-      - 'Smelt this item in a Blast Furnace'
-      - 'to craft your desired item'
+      - 'İstediğiniz eşyayı üretmek için'
+      - 'bu eşyayı Maden Fırınında pişirin.'
   smoking:
-    name: 'Smoker Recipe'
+    name: 'Duman Fırını Tarifi'
     lore:
-      - 'Smelt this item in a Smoker'
-      - 'to craft your desired item'
+      - 'İstediğiniz eşyayı hazırlamak için'
+      - 'bu eşyayı Duman Fırınında pişirin.'
   campfire:
-    name: 'Campfire Recipe'
+    name: 'Kamp Ateşi Tarifi'
     lore:
-      - 'Smelt this item over a Campfire'
-      - 'to craft your desired item'
+      - 'İstediğiniz eşyayı hazırlamak için'
+      - 'bu eşyayı Kamp Ateşinde pişirin.'
   stonecutting:
-    name: 'Stonecutter Recipe'
+    name: 'Taş Kesici Tarifi'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Stonecutter'
+      - 'İstediğiniz eşyayı üretmek için'
+      - 'Taş Kesici kullanın.'
   smithing:
-    name: 'Smithing Table Recipe'
+    name: 'Demirci Masası Üretimi'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Smithing Table'
+      - 'Bu eşyayı Demirci Masası kullanarak'
+      - 'gösterildiği gibi üretin'
