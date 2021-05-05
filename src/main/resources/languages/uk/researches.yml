@@ -62,12 +62,12 @@ slimefun:
   water_talisman: Талісман підкорювача води
   angel_talisman: Талісман ангела
   fire_talisman: Талісман пожежного
-  lava_crystal: "«Вогняна ситуація»"
+  lava_crystal: '«Вогняна ситуація»'
   magician_talisman: Талісман мага
   traveller_talisman: Талісман мандрівника
   warrior_talisman: Талісман воїна
   knight_talisman: Талісман лицаря
-  gilded_iron: "«Блискуче залізо»"
+  gilded_iron: '«Блискуче залізо»'
   synthetic_emerald: Фальшивий смарагд
   chainmail_armor: Кольчужна броня
   whirlwind_talisman: Талісман вихору
@@ -79,7 +79,7 @@ slimefun:
   redstone_alloy: Редстоуновий сплав
   carbonado_tools: Високорівневі машини
   first_aid: Перша допомога
-  gold_armor: "«Блискучі обладунки»"
+  gold_armor: '«Блискучі обладунки»'
   night_vision_googles: Пристрій нічного бачення
   pickaxe_of_containment: Кайло стримування
   hercules_pickaxe: Геркулесове кайло
@@ -87,7 +87,7 @@ slimefun:
   slime_steel_armor: Слизові сталеві обладунки
   blade_of_vampires: Вампірський клинок
   water_staff: Посох морів
-  24k_gold_block: "«Ельдорадо»"
+  24k_gold_block: '«Ельдорадо»'
   composter: Компостування бруду
   farmer_shoes: Фермерські черевики
   explosive_tools: Вибухові інструменти
@@ -120,15 +120,15 @@ slimefun:
   high_tier_enhanced_furnaces: Високорівнева піч
   reinforced_furnace: Посилена піч
   carbonado_furnace: Піч-карбонадо
-  electric_motor: "«Нагрів»"
+  electric_motor: '«Нагрів»'
   block_placer: Розміщувач блоків
   scroll_of_dimensional_teleposition: Поворот речей навколо
-  special_bows: "«Робін Гуд»"
+  special_bows: '«Робін Гуд»'
   tome_of_knowledge_sharing: Поділитися з ближніми
   flask_of_knowledge: Сховище досвіду
   hardened_glass: Підкорення вибухів
-  golden_apple_juice: "«Золоте зілля»"
-  cooler: "«Переносний холодильник»"
+  golden_apple_juice: '«Золоте зілля»'
+  cooler: '«Переносний холодильник»'
   ancient_altar: Стародавній вівтар
   wither_proof_obsidian: Візеростійкий обсидіан
   ancient_runes: Стихійні руни
@@ -191,7 +191,7 @@ slimefun:
   reactor_access_port: Порт доступу до реактора
   fluid_pump: Рідинний насос
   better_freezer: Покращена морозилка
-  boosted_uranium: "«Замкнуте коло»"
+  boosted_uranium: '«Замкнуте коло»'
   trash_can: Смітник
   advanced_output_node: Просунутий вантажний вузол
   carbon_press: Вуглецевий прес
@@ -218,7 +218,7 @@ slimefun:
   output_chest: Вихідна скриня
   copper_wire: Мідний дріт
   radiant_backpack: Рюкзак мандрівника
-  auto_drier: "«День сушки»"
+  auto_drier: '«День сушки»'
   diet_cookie: Дієтичне печиво
   storm_staff: Штормовий посох
   soulbound_rune: Персональна руна
