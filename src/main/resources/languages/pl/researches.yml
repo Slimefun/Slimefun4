@@ -12,7 +12,7 @@ slimefun:
   ender_armor: Zbroja Endu
   magic_eye_of_ender: Magiczne Oko Endera
   magic_sugar: Magiczny Cukier
-  monster_jerky: 'Potworne Mięso '
+  monster_jerky: Potworne Mięso 
   slime_armor: Szlamowa Zbroja
   sword_of_beheading: Miecz Odcinania Głów
   basic_circuit_board: Podstawowa Płyta Drukowana
@@ -123,7 +123,6 @@ slimefun:
   electric_motor: Podgrzewać
   block_placer: Blok Kładący
   scroll_of_dimensional_teleposition: Odwracając rzeczy dookoła
-  special_bows: Robin Hood
   tome_of_knowledge_sharing: Podziel się z Znajomym
   flask_of_knowledge: Przechowywacz Expa
   hardened_glass: Wytrzymałość na Wybuchy
@@ -178,7 +177,6 @@ slimefun:
   xp_collector: Kolekcjoner Expa
   organic_fertilizer: Organiczny Nawóz
   crop_growth_accelerator: Przyspieszenie Wzrostu Upraw
-  better_crop_growth_accelerator: Upgraded Crop Growth Accelerator
   reactor_essentials: Podstawowy Reaktor
   nuclear_reactor: Elektrownia Atomowa
   freezer: Zamrażarka
@@ -198,7 +196,7 @@ slimefun:
   electric_smeltery: Elektryczny Wytapiacz
   better_electric_furnace: Ulepszony Elektryczny Piec
   better_carbon_press: Ulepszona Prasa do Karbonado
-  empowered_android: 'Wzmocniony Android '
+  empowered_android: Wzmocniony Android 
   empowered_butcher_android: Wzmocniony Android - Rzeźnik
   empowered_fisherman_android: Wzmocniony Android - Rybak
   high_tier_carbon_press: Ostateczna Prasa Węglowa
@@ -221,7 +219,6 @@ slimefun:
   auto_drier: Suchy Dzień
   diet_cookie: Dietetyczne Ciasteczko
   storm_staff: Laska Burzowa
-  soulbound_rune: Soulbound Rune
   geo_miner: GEO-Górnik
   lightning_rune: Błyskawiczna Runa
   totem_of_undying: Totem Nieśmiertelności
