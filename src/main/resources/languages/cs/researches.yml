@@ -62,6 +62,8 @@ slimefun:
   water_talisman: Talisman dýchání pod vodou
   angel_talisman: Talisman anděla
   fire_talisman: Talisman hasiče
+  caveman_talisman: Talisman jeskynního člověka
+  wise_talisman: Talisman moudrosti
   lava_crystal: Ohnivá situace
   magician_talisman: Talisman kouzelníka
   traveller_talisman: Talisman cestovatele
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: Hologramy
   capacitors: Kondenzátory 1. stupně
   high_tier_capacitors: Kondenzátory 2. stupně
+  even_higher_tier_capacitors: Kondenzátory 3. stupně
   solar_generators: Solární elektrárna
   electric_furnaces: Elektrická pec
   electric_ore_grinding: Drcení a broušení
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: Nezastavitelná solární energie
   energized_gps_transmitter: Nejlepší vysílač
   energy_regulator: Energické sítě 101
+  energy_connectors: Drátové připojení
   butcher_androids: Řeznické androidy
   organic_food: Organické jídlo
   auto_breeder: Automatické krmení
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: Základy nákladu
   cargo_nodes: Nastavení nákladu
   electric_ingot_machines: Elektrická výroba ingotů
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: Super rychlá výroba ingotů
   automated_crafting_chamber: Automatická výroba
   better_food_fabricator: Vylepšená výroba jídla
@@ -230,23 +235,24 @@ slimefun:
   electric_press: Elektrický lis
   magnesium_generator: Energie z magnézia
   kelp_cookie: Chutná řasa
-  advanced_industrial_miner: Lepší těžení
-  magical_zombie_pills: Dezombifikace
-  enchantment_rune: Antická očarování
-  climbing_pick: Blokace nájezdníků
-  caveman_talisman: Talisman jeskynního člověka
-  even_higher_tier_capacitors: Kondenzátory 3. stupně
-  elytra_cap: Popraskané brnění
-  energy_connectors: Drátové připojení
-  bee_armor: Včelí zbroj
-  wise_talisman: Talisman moudrosti
-  book_binder: Vázání knihy očarování
   makeshift_smeltery: Vylepšená tavírna
   tree_growth_accelerator: Rychlejší stromy
+  industrial_miner: Průmyslové těžení
+  advanced_industrial_miner: Lepší těžení
+  magical_zombie_pills: Dezombifikace
+  auto_brewer: Průmyslový pivovar
+  climbing_pick: Blokace nájezdníků
+  shulker_shell: Syntetičtí shulkeři
+  enchantment_rune: Antická očarování
   lead_clothing: Olověné oblečení
   tape_measure: Svinovací metr
   iron_golem_assembler: Automatická farma na železné golemy
-  shulker_shell: Syntetičtí shulkeři
   villager_rune: Obnova vesnických obchodů
-  industrial_miner: Průmyslové těžení
-  auto_brewer: Průmyslový pivovar
+  elytra_cap: Popraskané brnění
+  bee_armor: Včelí zbroj
+  book_binder: Vázání knihy očarování
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
+  medium_tier_auto_enchanting: Fast Automatic Enchanting and Disenchanting
