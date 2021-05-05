@@ -62,6 +62,8 @@ slimefun:
   water_talisman: เครื่องราง หายใจใต้น้ำ
   angel_talisman: เครื่องราง Angel
   fire_talisman: เครื่องราง คนสู้ไฟ
+  caveman_talisman: Talisman of the Caveman
+  wise_talisman: Talisman of the Wise
   lava_crystal: อยู่ในโลกแห่ง ล า ว า
   magician_talisman: เครื่องราง Magician
   traveller_talisman: เครื่องราง Traveller
@@ -105,12 +107,12 @@ slimefun:
   infused_magnet: แม่เหล็กผสม
   cobalt_pickaxe: ขุดเร็ว
   essence_of_afterlife: ผงวิเศษตราหลังความตาย
-  bound_backpack: 'ที่เก็บ Soundbound '
+  bound_backpack: ที่เก็บ Soundbound 
   jetboots: รองเท้าบูทเจ็ท
   armored_jetboots: รองเท้าบูทหุ้มเกราะ
   seismic_axe: Seismic Axe
   pickaxe_of_vein_mining: Vein Mining
-  bound_weapons: 'อาวุธ Soulbound '
+  bound_weapons: อาวุธ Soulbound 
   bound_tools: อุปกรณ์ Soulbound
   bound_armor: เกราะ Soulbound
   juicer: เครื่องดื่มแสนอร่อย
@@ -131,7 +133,7 @@ slimefun:
   cooler: เครื่องดื่มพกพา
   ancient_altar: แท่นบูชาโบราณ
   wither_proof_obsidian: Obsidian กัน Wither
-  ancient_runes: 'รูนธาตุต่าง ๆ '
+  ancient_runes: รูนธาตุต่าง ๆ 
   special_runes: รูนม่วง
   infernal_bonemeal: ปุ๋ยกระดูกไฟ
   rainbow_blocks: บล็อกสายรุ้ง
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: โฮโลแกรม
   capacitors: ตัวเก็บประจุ ชั้นที่ 1
   high_tier_capacitors: ตัวเก็บประจุ ชั้นที่ 2
+  even_higher_tier_capacitors: Tier 3 Capacitors
   solar_generators: โรงไฟฟ้าพลังงานแสงอาทิตย์
   electric_furnaces: เตาเผาไม่ใช้เชื้อเพลิง
   electric_ore_grinding: ที่บดแร่อัตโนมัติ
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: พลังงานแสงอาทิตย์ทั้งวัน
   energized_gps_transmitter: เครื่องส่งสัญญาณเทียร์สูงสุด
   energy_regulator: เครือข่ายพลังงาน 101
+  energy_connectors: Wired Connections
   butcher_androids: Androids แล่เนื้อ
   organic_food: อาหารธรรมชาติ
   auto_breeder: การให้อาหารอัตโนมัติ
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: พื้นฐานการขนส่ง
   cargo_nodes: การตั้งค่าการขนส่ง
   electric_ingot_machines: การคราฟโลหะด้วยไฟฟ้า
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: การคราฟโลหะเร็วสุด
   automated_crafting_chamber: คราฟอัตโนมัติ
   better_food_fabricator: การผลิตอาหารอัพเกรด
@@ -213,7 +218,7 @@ slimefun:
   lava_generator: เครื่องผลิตไฟฟ้าจากลาวา
   nether_ice: น้ำแข็งนรก
   nether_star_reactor: เครื่องผลิตไฟฟ้าจาก Nether Star
-  blistering_ingots: " ทองที่เป็นกัมมันตภาพรังสี"
+  blistering_ingots: ' ทองที่เป็นกัมมันตภาพรังสี'
   automatic_ignition_chamber: จุดไฟอัตโนมัติ
   output_chest: กลอ่งเก็บของพื้นฐาน
   copper_wire: สายทองแดง
@@ -232,3 +237,22 @@ slimefun:
   kelp_cookie: สาหร่ายทะเลแสนอร่อย
   makeshift_smeltery: เตาหลอมพัฒนาขึ้น
   tree_growth_accelerator: ต้นไม้โตเร็วขึ้น
+  industrial_miner: Industrial Mining
+  advanced_industrial_miner: Better Mining
+  magical_zombie_pills: De-Zombification
+  auto_brewer: Industrial Brewery
+  climbing_pick: Block Raider
+  shulker_shell: Synthetic Shulkers
+  enchantment_rune: Ancient Enchanting
+  lead_clothing: Lead Clothing
+  tape_measure: Tape Measure
+  iron_golem_assembler: Automated Iron Golems
+  villager_rune: Reset Villager Trades
+  elytra_cap: Crash Gear
+  bee_armor: Bee Armor
+  book_binder: Enchantment Book Binding
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
+  medium_tier_auto_enchanting: Fast Automatic Enchanting and Disenchanting
