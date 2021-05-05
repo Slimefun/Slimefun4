@@ -1,168 +1,168 @@
 ---
 slimefun:
   multiblock:
-    name: 'Multiblock'
+    name: '멀티블럭'
     lore:
-      - 'Build the shown structure'
-      - 'as shown. It is not crafted.'
+      - '표시된 구조를 설치'
+      - '보여진 바와 같이. 제작되지 않습니다.'
   enhanced_crafting_table:
-    name: 'Enhanced Crafting Table'
+    name: '향상된 조합대 (Enhanced Crafting Table)'
     lore:
-      - 'Craft this Item as shown'
-      - 'in an Enhanced Crafting Table.'
-      - 'A normal Crafting Table will not suffice!'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '향상된 조합대(Enhanced Crafting Table) 내에서'
+      - '일반 조합대로는 충분하지 않습니다!'
   armor_forge:
-    name: 'Armor Forge'
+    name: '갑옷 대장간 (Armor Forge)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Armor Forge'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '갑옷 대장간 (Armor Forge) 사용'
   grind_stone:
-    name: 'Grind Stone'
+    name: '맷돌 (Grind Stone)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Grind Stone'
+      - '표시된대로이 아이템을 제작하십시오'
+      - '맷돌(Grind Stone) 사용'
   smeltery:
-    name: 'Smeltery'
+    name: '제련소 (Smeltery)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Smeltery'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '제련소 (Smeltery) 사용'
   ore_crusher:
-    name: 'Ore Crusher'
+    name: '광석 분쇄기 (Ore Crusher)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Crusher'
+      - '표시된대로이 아이템을 제작하십시오'
+      - '광석 분쇄기 (Ore Crusher) 사용'
   mob_drop:
-    name: 'Mob Drop'
+    name: '몹 드롭'
     lore:
-      - 'Kill that Mob to'
-      - 'obtain this item'
+      - '몹을 처치하여'
+      - '이 아이템을 얻다'
   gold_pan:
-    name: 'Gold Pan'
+    name: '골드 판 (Gold Pan)'
     lore:
-      - 'Use a Gold Pan to'
-      - 'obtain this item'
+      - '골드 판 (Gold Pan) 사용'
+      - '이 아이템을 얻다'
   compressor:
-    name: 'Compressor'
+    name: '압축기 (Compressor)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Compressor'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '압축기(Compressor) 를 사용하여'
   pressure_chamber:
-    name: 'Pressure Chamber'
+    name: '압력 챔버'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Pressure Chamber'
+      - '표시된대로이 아이템을 제작하십시오'
+      - '압력 챔버를 사용하여'
   ore_washer:
-    name: 'Ore Washer'
+    name: '광물 세척기 (Ore Washer)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Washer'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '광물 세척기를 사용하여'
   juicer:
-    name: 'Juicer'
+    name: '주스기 (Juicer)'
     lore:
-      - 'Craft this Juice as shown'
-      - 'using a Juicer'
+      - '그림과 같이 주스를 만드십시오'
+      - '주스기 (Juicer) 를 사용하여'
   magic_workbench:
-    name: 'Magic Workbench'
+    name: '마법 조합대 (Magic Workbench)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Magic Workbench'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '마법 조합대 (Magic Workbench) 를 사용하여'
   ancient_altar:
-    name: 'Ancient Altar'
+    name: '고대 제단 (Ancient Altar)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ancient Altar.'
-      - 'Look up the Ancient Altar for more Info'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '고대 제단 (Ancient Altar) 을 사용하여'
+      - '자세한 정보는 고대 제단 (Ancient Altar) 을 찾아보십시오'
   heated_pressure_chamber:
-    name: 'Heated Pressure Chamber'
+    name: '가열 압력 챔버 (Heated Pressure Chamber)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Heated Pressure Chamber'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '가열 압력 챔버 (Heated Pressure Chamber) 를 사용하여'
   food_fabricator:
-    name: 'Food Fabricator'
+    name: '식품 제작기 (Food Fabricator)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Fabricator'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '식품 제작기 (Food Fabricator) 를 사용하여'
   food_composter:
-    name: 'Food Composter'
+    name: '식품 퇴비통 (Food Composter)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Composter'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '식품 퇴비통 (Food Composter) 을 사용하여'
   freezer:
-    name: 'Freezer'
+    name: '냉동고 (Freezer)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Freezer'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '냉동고 (Freezer) 를 사용하여'
   geo_miner:
-    name: 'GEO Miner'
+    name: 'GEO 마이너 (GEO Miner)'
     lore:
-      - 'This Item can be gathered'
-      - 'by using a GEO Miner'
+      - '채굴 할 수있는 아이템'
+      - 'GEO 마이너 (Geo Miner) 를 사용하여'
   nuclear_reactor:
-    name: 'Nuclear Reactor'
+    name: '원자로 (Nuclear Reactor)'
     lore:
-      - 'This Item is a byproduct'
-      - 'of running a Nuclear Reactor'
+      - '이 아이템은 부산물입니다'
+      - '원자로 (Nuclear Reactor) 운영'
   oil_pump:
-    name: 'Oil Pump'
+    name: '오일 펌프 (Oil Pump)'
     lore:
-      - 'This Item can be gathered'
-      - 'by using an Oil Pump'
+      - '이 아이템은 수집 가능합니다.'
+      - '오일 펌프 (Oil Pump) 를 사용하여'
   pickaxe_of_containment:
-    name: 'Pickaxe of Containment'
+    name: '억제의 곡괭이 (Pickaxe of Containment)'
     lore:
-      - 'This Block can be obtained'
-      - 'by mining a Spawner with'
-      - 'the Pickaxe of Containment'
+      - '이 블록을 얻을 수 있습니다'
+      - '를 통해 스포너를 채굴하여'
+      - '억제의 곡괭이'
   refinery:
-    name: 'Refinery'
+    name: '정유 공장 (Refinery)'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Refinery'
+      - '표시된대로이 아이템을 제작하십시오'
+      - '정유 공장 (Refinery) 을 사용하여'
   barter_drop:
-    name: 'Piglin Bartering Drop'
+    name: '피글린 물물 교환 드롭'
     lore:
-      - 'Barter with Piglins using'
-      - 'Gold Ingots to obtain this Item'
+      - '다음을 사용하여 피글린과 물물 교환'
+      - '이 아이템을 얻기위한 금괴'
 minecraft:
   shaped:
-    name: 'Shaped Crafting Recipe'
+    name: '유형 조합 조합법'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'The shape is important.'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '일반 조합대에서'
+      - '모양이 중요합니다.'
   shapeless:
-    name: 'Shapeless Crafting Recipe'
+    name: '무형 조합 조합법'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'This Recipe is shapeless.'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '일반 조합대에서'
+      - '이 조합법은 형태가 없습니다.'
   furnace:
-    name: 'Furnace Recipe'
+    name: '화로 조합법'
     lore:
-      - 'Smelt this item in a Furnace'
-      - 'to craft your desired item'
+      - '이 아이템을 화로에서 제련'
+      - '원하는 아이템을 만들기 위해'
   blasting:
-    name: 'Blast Furnace Recipe'
+    name: '용광로 조합법'
     lore:
-      - 'Smelt this item in a Blast Furnace'
-      - 'to craft your desired item'
+      - '이 아이템을 용광로에서 제련'
+      - '원하는 아이템을 만들기 위해'
   smoking:
-    name: 'Smoker Recipe'
+    name: '훈연기 조합법'
     lore:
-      - 'Smelt this item in a Smoker'
-      - 'to craft your desired item'
+      - '이 아이템을 훈연기에서 훈연'
+      - '원하는 아이템을 만들기 위해'
   campfire:
-    name: 'Campfire Recipe'
+    name: '캠프 파이어 조합법'
     lore:
-      - 'Smelt this item over a Campfire'
-      - 'to craft your desired item'
+      - '이 아이템을 캠프 파이어 위에서 제련'
+      - '원하는 아이템을 만들기 위해'
   stonecutting:
-    name: 'Stonecutter Recipe'
+    name: '석재 절단기 레시피'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Stonecutter'
+      - '표시된대로이 아이템을 제작하십시오'
+      - '석제 절단기를 사용하여'
   smithing:
-    name: 'Smithing Table Recipe'
+    name: '스미팅 테이블 레시피'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Smithing Table'
+      - '표시된대로 이 아이템을 제작하십시오'
+      - '스미팅 테이블 사용'
