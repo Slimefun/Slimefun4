@@ -1,26 +1,26 @@
 ---
 slimefun:
-  weapons: Armas
-  tools: Ferramentas
-  items: Itens úteis
-  food: Comida
-  basic_machines: Máquinas básicas
-  electricity: Energia e Eletricidade
-  gps: Máquinas baseadas em GPS
-  armor: Armaduras
-  magical_items: Itens mágicos
-  magical_gadgets: Acessórios Mágicos
-  misc: Itens Variados
-  technical_gadgets: Dispositivos Técnicos
-  resources: Recursos
-  cargo: Gestão de Carga
-  tech_misc: Componentes Técnicos
-  magical_armor: Armaduras Mágicas
-  talismans: Talismãs (Tier I)
-  ender_talismans: Ender Talismãs (Tier II)
-  christmas: Natal (Dezembro)
-  valentines_day: Dia dos Namorados (14 de Fevereiro)
-  easter: Páscoa (Abril)
-  birthday: Aniversário do TheBusyBiscuit (26 de Outubro)
-  halloween: Dia das Bruxas (31 de Outubro)
-  androids: Androids Programáveis
+  weapons: 'Weapons'
+  tools: 'Tools'
+  items: 'Useful Items'
+  food: 'Food'
+  basic_machines: 'Basic Machines'
+  electricity: 'Energy and Electricity'
+  androids: 'Programmable Androids'
+  gps: 'GPS-based Machines'
+  armor: 'Armor'
+  magical_items: 'Magical Items'
+  magical_gadgets: 'Magical Gadgets'
+  misc: 'Miscellaneous Items'
+  technical_gadgets: 'Technical Gadgets'
+  resources: 'Resources'
+  cargo: 'Cargo Management'
+  tech_misc: 'Technical Components'
+  magical_armor: 'Magical Armor'
+  talismans: 'Talismans (Tier I)'
+  ender_talismans: 'Ender Talismans (Tier II)'
+  christmas: 'Christmas (December)'
+  valentines_day: 'Valentine''s Day (14th February)'
+  easter: 'Easter (April)'
+  birthday: 'TheBusyBiscuit''s birthday (26th October)'
+  halloween: 'Halloween (31st October)'
