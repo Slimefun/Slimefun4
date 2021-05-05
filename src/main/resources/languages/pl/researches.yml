@@ -12,7 +12,7 @@ slimefun:
   ender_armor: Zbroja Endu
   magic_eye_of_ender: Magiczne Oko Endera
   magic_sugar: Magiczny Cukier
-  monster_jerky: 'Potworne Mięso '
+  monster_jerky: Potworne Mięso 
   slime_armor: Szlamowa Zbroja
   sword_of_beheading: Miecz Odcinania Głów
   basic_circuit_board: Podstawowa Płyta Drukowana
@@ -62,6 +62,8 @@ slimefun:
   water_talisman: Talizman Oddychacza pod Wodą
   angel_talisman: Talizman Anioła
   fire_talisman: Talizman Strażaka
+  caveman_talisman: Talisman of the Caveman
+  wise_talisman: Talisman of the Wise
   lava_crystal: Ogniowa Sytuacja
   magician_talisman: Talizman Maga
   traveller_talisman: Talizman Podróżnika
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: Projektor Hologramów
   capacitors: Poziom 1 Kondensator
   high_tier_capacitors: Poziom 2 Kondensator
+  even_higher_tier_capacitors: Tier 3 Capacitors
   solar_generators: Generator Słoneczny
   electric_furnaces: Elektryczny Piec
   electric_ore_grinding: Elektryczna Szlifierka Rudy
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: Pełny-Czas Energia Słoneczna
   energized_gps_transmitter: Transmiter Najwyższego Poziomu
   energy_regulator: Regulator Energii
+  energy_connectors: Wired Connections
   butcher_androids: Rzeźnik Android
   organic_food: Organiczne Jedzenie
   auto_breeder: Zautomatyzowane Karmienie
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: Podstawy Ładunku
   cargo_nodes: Konfiguracja Ładunku
   electric_ingot_machines: Elektryczna Fabryka Sztabek
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: Super Szybka Produkcja Sztabek
   automated_crafting_chamber: Automatyczny Stół Rzemieślniczy
   better_food_fabricator: Ulepszone Wytwarzanie Żywności
@@ -198,7 +203,7 @@ slimefun:
   electric_smeltery: Elektryczny Wytapiacz
   better_electric_furnace: Ulepszony Elektryczny Piec
   better_carbon_press: Ulepszona Prasa do Karbonado
-  empowered_android: 'Wzmocniony Android '
+  empowered_android: Wzmocniony Android 
   empowered_butcher_android: Wzmocniony Android - Rzeźnik
   empowered_fisherman_android: Wzmocniony Android - Rybak
   high_tier_carbon_press: Ostateczna Prasa Węglowa
@@ -232,3 +237,22 @@ slimefun:
   kelp_cookie: Ciastko z Wodorostów
   makeshift_smeltery: Improwizowana huta
   tree_growth_accelerator: Szybsze drzewa
+  industrial_miner: Industrial Mining
+  advanced_industrial_miner: Better Mining
+  magical_zombie_pills: De-Zombification
+  auto_brewer: Industrial Brewery
+  climbing_pick: Block Raider
+  shulker_shell: Synthetic Shulkers
+  enchantment_rune: Ancient Enchanting
+  lead_clothing: Lead Clothing
+  tape_measure: Tape Measure
+  iron_golem_assembler: Automated Iron Golems
+  villager_rune: Reset Villager Trades
+  elytra_cap: Crash Gear
+  bee_armor: Bee Armor
+  book_binder: Enchantment Book Binding
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
+  medium_tier_auto_enchanting: Fast Automatic Enchanting and Disenchanting
