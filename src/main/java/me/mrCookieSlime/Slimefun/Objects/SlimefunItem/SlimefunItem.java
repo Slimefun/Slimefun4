@@ -884,7 +884,7 @@ public class SlimefunItem implements Placeable {
      * @param page
      *            The associated wiki page
      */
-    public final void addOficialWikipage(@Nonnull String page) {
+    public final void addOfficialWikipage(@Nonnull String page) {
         Validate.notNull(page, "Wiki page cannot be null.");
         wikiURL = Optional.of("https://github.com/Slimefun/Slimefun4/wiki/" + page);
     }
@@ -893,7 +893,7 @@ public class SlimefunItem implements Placeable {
      * This method returns the wiki page that has been assigned to this item.
      * It will return null, if no wiki page was found.
      * 
-     * @see SlimefunItem#addOficialWikipage(String)
+     * @see SlimefunItem#addOfficialWikipage(String)
      * 
      * @return This item's wiki page
      */
