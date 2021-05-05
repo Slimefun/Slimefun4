@@ -3,166 +3,166 @@ slimefun:
   multiblock:
     name: 'Multiblock'
     lore:
-      - 'Build the shown structure'
-      - 'as shown. It is not crafted.'
+      - 'Építsd meg a látott szerkezetet'
+      - 'az ábra alapján. Ez nem barkácsolás.'
   enhanced_crafting_table:
     name: 'Enhanced Crafting Table'
     lore:
-      - 'Craft this Item as shown'
-      - 'in an Enhanced Crafting Table.'
-      - 'A normal Crafting Table will not suffice!'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Enhanced Crafting Table-ben.'
+      - 'A sima barkácsasztal nem lesz elegendő!'
   armor_forge:
     name: 'Armor Forge'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Armor Forge'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Armor Forge segítségével'
   grind_stone:
     name: 'Grind Stone'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Grind Stone'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Grind Stone segítségével'
   smeltery:
     name: 'Smeltery'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Smeltery'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Smeltery segítségével'
   ore_crusher:
     name: 'Ore Crusher'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Crusher'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Ore Crusher segítségével'
   mob_drop:
-    name: 'Mob Drop'
+    name: 'Élőlény dobja'
     lore:
-      - 'Kill that Mob to'
-      - 'obtain this item'
+      - 'Öld meg ezt az élőlényt,'
+      - 'hogy megszerezd ezt a tárgyat'
   gold_pan:
     name: 'Gold Pan'
     lore:
-      - 'Use a Gold Pan to'
-      - 'obtain this item'
+      - 'Használd az Gold Pan-t,'
+      - 'hogy megszerezd ezt a tárgyat'
   compressor:
     name: 'Compressor'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Compressor'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Compressor segítségével'
   pressure_chamber:
     name: 'Pressure Chamber'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Pressure Chamber'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Pressure Chamber segítségével'
   ore_washer:
     name: 'Ore Washer'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ore Washer'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Ore Washer segítségével'
   juicer:
     name: 'Juicer'
     lore:
-      - 'Craft this Juice as shown'
-      - 'using a Juicer'
+      - 'Készítsd el ezt a gyümölcslevet az ábra alapján'
+      - 'egy Juicer segítségével'
   magic_workbench:
     name: 'Magic Workbench'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Magic Workbench'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Magic Workbench segítségével'
   ancient_altar:
     name: 'Ancient Altar'
     lore:
-      - 'Craft this Item as shown'
-      - 'using an Ancient Altar.'
-      - 'Look up the Ancient Altar for more Info'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Ancient Altar segítségével.'
+      - 'Keress utána az Ancient Altar-nak a további információkért'
   heated_pressure_chamber:
     name: 'Heated Pressure Chamber'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Heated Pressure Chamber'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Heated Pressure Chamber segítségével'
   food_fabricator:
     name: 'Food Fabricator'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Fabricator'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Food Fabricator segítségével'
   food_composter:
     name: 'Food Composter'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Food Composter'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Food Composter segítségével.'
   freezer:
     name: 'Freezer'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Freezer'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Freezer segítségével.'
   geo_miner:
     name: 'GEO Miner'
     lore:
-      - 'This Item can be gathered'
-      - 'by using a GEO Miner'
+      - 'Ez a tárgy összegyűjthető'
+      - 'egy GEO Miner segítségével.'
   nuclear_reactor:
     name: 'Nuclear Reactor'
     lore:
-      - 'This Item is a byproduct'
-      - 'of running a Nuclear Reactor'
+      - 'Ez a tárgy mellékterméke'
+      - 'a Nuclear Reactor működésének.'
   oil_pump:
     name: 'Oil Pump'
     lore:
-      - 'This Item can be gathered'
-      - 'by using an Oil Pump'
+      - 'Ez a tárgy összegyűjthető'
+      - 'egy Oil Pump segítségével.'
   pickaxe_of_containment:
     name: 'Pickaxe of Containment'
     lore:
-      - 'This Block can be obtained'
-      - 'by mining a Spawner with'
-      - 'the Pickaxe of Containment'
+      - 'Ez a blokk megszerezhető úgy,'
+      - 'hogy egy spawnert kibányászol'
+      - 'a Pickaxe of Containment-tel.'
   refinery:
     name: 'Refinery'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Refinery'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Refinery segítségével.'
   barter_drop:
-    name: 'Piglin Bartering Drop'
+    name: 'Piglinek dobják cserélésnél'
     lore:
-      - 'Barter with Piglins using'
-      - 'Gold Ingots to obtain this Item'
+      - 'Cserélj el piglenekkel aranyrudakat,'
+      - 'hogy megszerezd ezt a tárgyat.'
 minecraft:
   shaped:
-    name: 'Shaped Crafting Recipe'
+    name: 'Barkácsrecept forma'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'The shape is important.'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy sima barkácsasztal segítségével.'
+      - 'A forma fontos.'
   shapeless:
-    name: 'Shapeless Crafting Recipe'
+    name: 'Forma nélküli barkácsrecept'
     lore:
-      - 'Craft this Item as shown'
-      - 'in a normal Crafting Table.'
-      - 'This Recipe is shapeless.'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy sima barkácsasztal segítségével.'
+      - 'Ez a recept forma nélküli.'
   furnace:
-    name: 'Furnace Recipe'
+    name: 'Kemence recept'
     lore:
-      - 'Smelt this item in a Furnace'
-      - 'to craft your desired item'
+      - 'Olvaszd meg ezt a tárgyat egy kemencében,'
+      - 'hogy elkészítsd a kívánt tárgyat.'
   blasting:
-    name: 'Blast Furnace Recipe'
+    name: 'Kohó recept'
     lore:
-      - 'Smelt this item in a Blast Furnace'
-      - 'to craft your desired item'
+      - 'Olvaszd meg ezt a tárgyat egy kohóban,'
+      - 'hogy elkészítsd a kívánt tárgyat.'
   smoking:
-    name: 'Smoker Recipe'
+    name: 'Füstölő recept'
     lore:
-      - 'Smelt this item in a Smoker'
-      - 'to craft your desired item'
+      - 'Olvaszd meg ezt a tárgyat egy füstölőben,'
+      - 'hogy elkészítsd a kívánt tárgyat.'
   campfire:
-    name: 'Campfire Recipe'
+    name: 'Tábortűz recept'
     lore:
-      - 'Smelt this item over a Campfire'
-      - 'to craft your desired item'
+      - 'Olvaszd meg ezt a tárgyat tábortűzön,'
+      - 'hogy elkészítsd a kívánt tárgyat.'
   stonecutting:
-    name: 'Stonecutter Recipe'
+    name: 'Kővágó recept'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Stonecutter'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy kővágó segítségével.'
   smithing:
-    name: 'Smithing Table Recipe'
+    name: 'Kovácsasztal recept'
     lore:
-      - 'Craft this Item as shown'
-      - 'using a Smithing Table'
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy kovácsasztal segítségével.'
