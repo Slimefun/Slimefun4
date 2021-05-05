@@ -1,25 +1,26 @@
 ---
 slimefun:
-  weapons: våben
-  tools: Værktøj
-  items: Nyttige Items
-  food: Mad
-  basic_machines: Grundlæggende maskiner
-  electricity: Energi og elektricitet
-  gps: GPS-baserede maskiner
-  armor: Rustning
-  magical_items: Magiske genstande
-  magical_gadgets: Magiske gadgets
-  misc: Diverse Items
-  technical_gadgets: Tekniske gadgets
-  resources: Ressourcer
-  cargo: Laststyring
-  tech_misc: Tekniske komponenter
-  magical_armor: Magisk rustning
-  ender_talismans: Ender Talismans (Tier II)
-  christmas: Jul (December)
-  valentines_day: Valentinsdag (14. februar)
-  easter: Påske (April)
-  birthday: TheBusyBiscuit's fødselsdag (26. Oktober)
-  halloween: Halloween (31. Oktober)
-  talismans: Talismans (niveau I)
+  weapons: 'Weapons'
+  tools: 'Tools'
+  items: 'Useful Items'
+  food: 'Food'
+  basic_machines: 'Basic Machines'
+  electricity: 'Energy and Electricity'
+  androids: 'Programmable Androids'
+  gps: 'GPS-based Machines'
+  armor: 'Armor'
+  magical_items: 'Magical Items'
+  magical_gadgets: 'Magical Gadgets'
+  misc: 'Miscellaneous Items'
+  technical_gadgets: 'Technical Gadgets'
+  resources: 'Resources'
+  cargo: 'Cargo Management'
+  tech_misc: 'Technical Components'
+  magical_armor: 'Magical Armor'
+  talismans: 'Talismans (Tier I)'
+  ender_talismans: 'Ender Talismans (Tier II)'
+  christmas: 'Christmas (December)'
+  valentines_day: 'Valentine''s Day (14th February)'
+  easter: 'Easter (April)'
+  birthday: 'TheBusyBiscuit''s birthday (26th October)'
+  halloween: 'Halloween (31st October)'
