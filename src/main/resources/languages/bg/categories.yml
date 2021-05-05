@@ -1,26 +1,26 @@
 ---
 slimefun:
-  weapons: Оръжия
-  tools: Инструменти
-  items: Полезни Предмети
-  food: Храна
-  basic_machines: Основни Машини
-  electricity: Енергия и Eлектричество
-  gps: GPS Машини
-  armor: Брони
-  magical_items: Магически Предмети
-  magical_gadgets: Магически Джаджи
-  misc: Разни Предмети
-  technical_gadgets: Технически Джаджи
-  resources: Ресурси
-  cargo: Товарно Управление
-  tech_misc: Технически Компоненти
-  magical_armor: Магически Брони
-  talismans: Талисмани (Ниво I)
-  ender_talismans: Ендър Талисмани (Ниво II)
-  christmas: Коледа (Декември)
-  valentines_day: Свети Валентин (14ти Февруари)
-  easter: Великден (Април)
-  birthday: Рожденият Ден на TheBusyBiscuit (26ти Октомври)
-  halloween: Хелоуин (31и Октомври)
-  androids: Програмируеми Андроиди
+  weapons: 'Weapons'
+  tools: 'Tools'
+  items: 'Useful Items'
+  food: 'Food'
+  basic_machines: 'Basic Machines'
+  electricity: 'Energy and Electricity'
+  androids: 'Programmable Androids'
+  gps: 'GPS-based Machines'
+  armor: 'Armor'
+  magical_items: 'Magical Items'
+  magical_gadgets: 'Magical Gadgets'
+  misc: 'Miscellaneous Items'
+  technical_gadgets: 'Technical Gadgets'
+  resources: 'Resources'
+  cargo: 'Cargo Management'
+  tech_misc: 'Technical Components'
+  magical_armor: 'Magical Armor'
+  talismans: 'Talismans (Tier I)'
+  ender_talismans: 'Ender Talismans (Tier II)'
+  christmas: 'Christmas (December)'
+  valentines_day: 'Valentine''s Day (14th February)'
+  easter: 'Easter (April)'
+  birthday: 'TheBusyBiscuit''s birthday (26th October)'
+  halloween: 'Halloween (31st October)'
