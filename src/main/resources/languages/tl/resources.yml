@@ -1,1 +1,8 @@
 ---
+tooltips:
+  results: 'Result ng GEO-Scan'
+  world: 'Mundo'
+resources:
+  slimefun:
+    oil: 'Langis'
+    salt: 'Asin'
