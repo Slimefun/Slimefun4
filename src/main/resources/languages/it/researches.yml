@@ -62,6 +62,8 @@ slimefun:
   water_talisman: Talismano per Respirare nell'Acqua
   angel_talisman: Talismano dell'Angelo
   fire_talisman: Talismano del Pompiere
+  caveman_talisman: Talisman of the Caveman
+  wise_talisman: Talisman of the Wise
   lava_crystal: Situazione Scottante
   magician_talisman: Talismano del Mago
   traveller_talisman: Talismano del Viaggiatore
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: Ologrammi
   capacitors: Condensatori di livello 1
   high_tier_capacitors: Condensatori di livello 2
+  even_higher_tier_capacitors: Tier 3 Capacitors
   solar_generators: Impianto di energia solare
   electric_furnaces: Fornace Elettrificata
   electric_ore_grinding: Schiacciare e macinare
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: Energia solare a tempo pieno
   energized_gps_transmitter: Trasmettitore di livello superiore
   energy_regulator: Reti Energetiche 101
+  energy_connectors: Wired Connections
   butcher_androids: Androidi del macellaio
   organic_food: Cibo Organico
   auto_breeder: Alimentazione automatizzata
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: Nozioni di base sul cargo
   cargo_nodes: Cargo Setup
   electric_ingot_machines: Fabbricazione di lingotti elettrici
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: Fabbricazione di lingotti super veloce
   automated_crafting_chamber: Creazione automatizzata
   better_food_fabricator: Fabbricazione di alimenti aggiornata
@@ -211,7 +216,7 @@ slimefun:
   advanced_electric_smeltery: Fonderia elettrica avanzata
   advanced_farmer_android: Androidi avanzati - Agricoltore
   lava_generator: Generatore di lava
-  nether_ice: " Refrigerante a Ghiaccio del nether"
+  nether_ice: ' Refrigerante a Ghiaccio del nether'
   nether_star_reactor: Reattore Stella del Nether
   blistering_ingots: Vesciche da Radioattività
   automatic_ignition_chamber: Camera di accensione automatica
@@ -236,7 +241,18 @@ slimefun:
   advanced_industrial_miner: Scavo migliorato
   magical_zombie_pills: De-Zombificazione
   auto_brewer: Distillazione industriale
+  climbing_pick: Block Raider
+  shulker_shell: Synthetic Shulkers
   enchantment_rune: Incantamento antico
   lead_clothing: Rivestimento di piombo
   tape_measure: metro
   iron_golem_assembler: Costruttore di Golem di ferro
+  villager_rune: Reset Villager Trades
+  elytra_cap: Crash Gear
+  bee_armor: Bee Armor
+  book_binder: Enchantment Book Binding
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
+  medium_tier_auto_enchanting: Fast Automatic Enchanting and Disenchanting
