@@ -25,7 +25,6 @@ slimefun:
   steel_thruster: Propulsor de Acero
   parachute: Paracaídas
   grappling_hook: Gancho
-  jetpacks: Jetpacks
   multitools: Multi Herramientas
   solar_panel_and_helmet: Energía solar
   elemental_staff: Bastónes Elementales
@@ -51,7 +50,6 @@ slimefun:
   reinforced_armor: Armadura Reforzada
   ore_washer: Tamizador
   gold_carats: Oro Puro
-  silicon: Silicon Valley
   fire_staff: Vara de Fuego
   smelters_pickaxe: Pico Fundidor
   common_talisman: Talismán Común
@@ -62,6 +60,7 @@ slimefun:
   water_talisman: Talismán del Pez
   angel_talisman: Talismán del Ángel
   fire_talisman: Talismán del Bombero
+  wise_talisman: Talismán del Sabio
   lava_crystal: Situación Ardiente
   magician_talisman: Talismán del Mago
   traveller_talisman: Talismán del Explorador
@@ -97,7 +96,7 @@ slimefun:
   backpacks: Mochilas
   woven_backpack: Mochila Tejida
   crucible: Crisol
-  gilded_backpack: 'Mochila Reforzada '
+  gilded_backpack: Mochila Reforzada 
   armored_jetpack: Jetpack Blindado
   ender_talismans: Talismán de Ender
   nickel_and_cobalt: Aún más Minerales
@@ -123,7 +122,6 @@ slimefun:
   electric_motor: Calentando Motores
   block_placer: Colocador de Bloques
   scroll_of_dimensional_teleposition: Volteando cosas por aquí
-  special_bows: Robin Hood
   tome_of_knowledge_sharing: Compartiendo con amigos
   flask_of_knowledge: Almacenamiento de EXP
   hardened_glass: Resistiendo Explosiones
@@ -145,6 +143,7 @@ slimefun:
   hologram_projector: Hologramas
   capacitors: Capacitador LVL I
   high_tier_capacitors: Capacitador LVL II
+  even_higher_tier_capacitors: Capacitores Tier 3
   solar_generators: Generador Solar
   electric_furnaces: Horno Eléctrico
   electric_ore_grinding: Triturar y Moler
@@ -168,6 +167,7 @@ slimefun:
   energized_solar_generator: Energía Solar a Tiempo Completo
   energized_gps_transmitter: Transmisor de Punta
   energy_regulator: Redes Energéticas 101
+  energy_connectors: Conexiones Instaladas
   butcher_androids: Androides Carniceros
   organic_food: Comida Organica
   auto_breeder: Auto-Alimentacion
@@ -204,7 +204,6 @@ slimefun:
   high_tier_carbon_press: Carbón Prensado Definitivo
   wither_assembler: Mata Withers Automatizado
   better_heated_pressure_chamber: Maquina de Presión Caliente Mejorada
-  elytra: Elytras
   special_elytras: Elytras Especiales
   electric_crucible: Crisól Electrificado
   better_electric_crucibles: Crisoles Calientes
@@ -236,16 +235,11 @@ slimefun:
   advanced_industrial_miner: Minería Mejorada
   magical_zombie_pills: De-Zombificación
   auto_brewer: Alquimia Industrial
+  shulker_shell: Shulkers Sintéticos
   enchantment_rune: Encantamiento Antiguo
   lead_clothing: Ropa de Plomo
   tape_measure: Cinta Métrica
   iron_golem_assembler: Iron Golems Automáticos
-  climbing_pick: Block Raider
-  shulker_shell: Shulkers Sintéticos
   villager_rune: Restablece los Intercambios de los Aldeanos
-  caveman_talisman: Talisman of the Caveman
-  even_higher_tier_capacitors: Capacitores Tier 3
   elytra_cap: Equipo de choque
-  energy_connectors: Conexiones Instaladas
   bee_armor: Armadura de Abeja
-  wise_talisman: Talismán del Sabio
