@@ -1,163 +1,168 @@
 ---
 slimefun:
   multiblock:
-    name: Споруда
+    name: 'Multiblock'
     lore:
-    - Будується в світі з блоків,
-    - не крафтиться.
+      - 'Build the shown structure'
+      - 'as shown. It is not crafted.'
   enhanced_crafting_table:
-    name: Enhanced Crafting Table
+    name: 'Enhanced Crafting Table'
     lore:
-    - Цей предмет створюється
-    - в Enhanced Crafting Table.
-    - Звичайний верстак не втримає таку силу!
+      - 'Craft this Item as shown'
+      - 'in an Enhanced Crafting Table.'
+      - 'A normal Crafting Table will not suffice!'
   armor_forge:
-    name: Armor Forge
+    name: 'Armor Forge'
     lore:
-    - Цей предмет створюється
-    - в Armor Forge
+      - 'Craft this Item as shown'
+      - 'using an Armor Forge'
   grind_stone:
-    name: Grind Stone
+    name: 'Grind Stone'
     lore:
-    - Цей предмет створюється
-    - в Grind Stone
+      - 'Craft this Item as shown'
+      - 'using a Grind Stone'
   smeltery:
-    name: Smeltery
+    name: 'Smeltery'
     lore:
-    - Цей предмет створюється
-    - в Smeltery
+      - 'Craft this Item as shown'
+      - 'using a Smeltery'
   ore_crusher:
-    name: Ore Crusher
+    name: 'Ore Crusher'
     lore:
-    - Цей предмет створюється
-    - в Ore Crusher
+      - 'Craft this Item as shown'
+      - 'using an Ore Crusher'
   mob_drop:
-    name: Дроп з моба
+    name: 'Mob Drop'
     lore:
-    - Убийте вказаного моба,
-    - щоб отримати предмет
+      - 'Kill that Mob to'
+      - 'obtain this item'
   gold_pan:
-    name: Gold Pan
+    name: 'Gold Pan'
     lore:
-    - Використайте Gold Pan,
-    - щоб отримати предмет
+      - 'Use a Gold Pan to'
+      - 'obtain this item'
   compressor:
-    name: Compressor
+    name: 'Compressor'
     lore:
-    - Цей предмет створюється
-    - в Compressor
+      - 'Craft this Item as shown'
+      - 'using a Compressor'
   pressure_chamber:
-    name: Pressure Chamber
+    name: 'Pressure Chamber'
     lore:
-    - Цей предмет створюється
-    - в Pressure Chamber
+      - 'Craft this Item as shown'
+      - 'using a Pressure Chamber'
   ore_washer:
-    name: Ore Washer
+    name: 'Ore Washer'
     lore:
-    - Цей предмет створюється
-    - в Ore Washer
+      - 'Craft this Item as shown'
+      - 'using an Ore Washer'
   juicer:
-    name: Juicer
+    name: 'Juicer'
     lore:
-    - Цей предмет створюється
-    - в Juicer
+      - 'Craft this Juice as shown'
+      - 'using a Juicer'
   magic_workbench:
-    name: Magic Workbench
+    name: 'Magic Workbench'
     lore:
-    - Цей предмет створюється
-    - в Magic Workbench
+      - 'Craft this Item as shown'
+      - 'using a Magic Workbench'
   ancient_altar:
-    name: Ancient Altar
+    name: 'Ancient Altar'
     lore:
-    - Цей предмет створюється
-    - в Ancient Altar.
-    - Дивіться Ancient Altar для додаткової інформації
+      - 'Craft this Item as shown'
+      - 'using an Ancient Altar.'
+      - 'Look up the Ancient Altar for more Info'
   heated_pressure_chamber:
-    name: Heated Pressure Chamber
+    name: 'Heated Pressure Chamber'
     lore:
-    - Цей предмет створюється
-    - в Heated Pressure Chamber
+      - 'Craft this Item as shown'
+      - 'using a Heated Pressure Chamber'
   food_fabricator:
-    name: Food Fabricator
+    name: 'Food Fabricator'
     lore:
-    - Цей предмет створюється
-    - в Food Fabricator
+      - 'Craft this Item as shown'
+      - 'using a Food Fabricator'
   food_composter:
-    name: Food Composter
+    name: 'Food Composter'
     lore:
-    - Цей предмет створюється
-    - в Food Composter
+      - 'Craft this Item as shown'
+      - 'using a Food Composter'
   freezer:
-    name: Freezer
+    name: 'Freezer'
     lore:
-    - Цей предмет створюється
-    - у Freezer
+      - 'Craft this Item as shown'
+      - 'using a Freezer'
   geo_miner:
-    name: GEO Miner
+    name: 'GEO Miner'
     lore:
-    - Цей предмет отримується
-    - при використанні GEO Miner
+      - 'This Item can be gathered'
+      - 'by using a GEO Miner'
   nuclear_reactor:
-    name: Nuclear Reactor
+    name: 'Nuclear Reactor'
     lore:
-    - Є побічним продуктом при
-    - використанні Nuclear Reactor
+      - 'This Item is a byproduct'
+      - 'of running a Nuclear Reactor'
   oil_pump:
-    name: Oil Pump
+    name: 'Oil Pump'
     lore:
-    - Цей предмет отримується
-    - при використанні Oil Pump
+      - 'This Item can be gathered'
+      - 'by using an Oil Pump'
   pickaxe_of_containment:
-    name: Pickaxe of Containment
+    name: 'Pickaxe of Containment'
     lore:
-    - Цей блок видобувається
-    - за допомоги
-    - Pickaxe of Containment
+      - 'This Block can be obtained'
+      - 'by mining a Spawner with'
+      - 'the Pickaxe of Containment'
   refinery:
-    name: Refinery
+    name: 'Refinery'
     lore:
-    - Цей предмет створюється
-    - в Refinery
+      - 'Craft this Item as shown'
+      - 'using a Refinery'
+  barter_drop:
+    name: 'Piglin Bartering Drop'
+    lore:
+      - 'Barter with Piglins using'
+      - 'Gold Ingots to obtain this Item'
 minecraft:
   shaped:
-    name: Звичайний рецепт
+    name: 'Shaped Crafting Recipe'
     lore:
-    - Цей предмет створюється
-    - у звичайному верстаку.
-    - Форма рецепту має значення.
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'The shape is important.'
   shapeless:
-    name: Безформовий рецепт
+    name: 'Shapeless Crafting Recipe'
     lore:
-    - Цей предмет створюється
-    - у звичайному верстаку.
-    - Форма цецепту не має значення.
+      - 'Craft this Item as shown'
+      - 'in a normal Crafting Table.'
+      - 'This Recipe is shapeless.'
   furnace:
-    name: Плавиться у печі
+    name: 'Furnace Recipe'
     lore:
-    - Переплавте предмет у печі,
-    - щоб отримати результат
+      - 'Smelt this item in a Furnace'
+      - 'to craft your desired item'
   blasting:
-    name: Плавиться у плавильній печі
+    name: 'Blast Furnace Recipe'
     lore:
-    - Переплавте предмет у плавильній
-    - печі, щоб отримати результат
+      - 'Smelt this item in a Blast Furnace'
+      - 'to craft your desired item'
   smoking:
-    name: Смажиться у коптильні
+    name: 'Smoker Recipe'
     lore:
-    - Посмажте цей предмет в коптильні,
-    - щоб отримати результат
+      - 'Smelt this item in a Smoker'
+      - 'to craft your desired item'
   campfire:
-    name: Смажиться на багатті
+    name: 'Campfire Recipe'
     lore:
-    - Посмажте цей предмет на багатті
-    - щоб отримати результат
+      - 'Smelt this item over a Campfire'
+      - 'to craft your desired item'
   stonecutting:
-    name: Виточується в каменерізі
+    name: 'Stonecutter Recipe'
     lore:
-    - Цей предмет створюється
-    - у камнерізі
+      - 'Craft this Item as shown'
+      - 'using a Stonecutter'
   smithing:
-    name: Верстат коваля
+    name: 'Smithing Table Recipe'
     lore:
-    - Цей предмет створюється
-    - на верстаті коваля
+      - 'Craft this Item as shown'
+      - 'using a Smithing Table'
