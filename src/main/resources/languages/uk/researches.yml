@@ -62,12 +62,14 @@ slimefun:
   water_talisman: Талісман підкорювача води
   angel_talisman: Талісман ангела
   fire_talisman: Талісман пожежного
-  lava_crystal: "«Вогняна ситуація»"
+  caveman_talisman: Talisman of the Caveman
+  wise_talisman: Talisman of the Wise
+  lava_crystal: '«Вогняна ситуація»'
   magician_talisman: Талісман мага
   traveller_talisman: Талісман мандрівника
   warrior_talisman: Талісман воїна
   knight_talisman: Талісман лицаря
-  gilded_iron: "«Блискуче залізо»"
+  gilded_iron: '«Блискуче залізо»'
   synthetic_emerald: Фальшивий смарагд
   chainmail_armor: Кольчужна броня
   whirlwind_talisman: Талісман вихору
@@ -79,7 +81,7 @@ slimefun:
   redstone_alloy: Редстоуновий сплав
   carbonado_tools: Високорівневі машини
   first_aid: Перша допомога
-  gold_armor: "«Блискучі обладунки»"
+  gold_armor: '«Блискучі обладунки»'
   night_vision_googles: Пристрій нічного бачення
   pickaxe_of_containment: Кайло стримування
   hercules_pickaxe: Геркулесове кайло
@@ -87,7 +89,7 @@ slimefun:
   slime_steel_armor: Слизові сталеві обладунки
   blade_of_vampires: Вампірський клинок
   water_staff: Посох морів
-  24k_gold_block: "«Ельдорадо»"
+  24k_gold_block: '«Ельдорадо»'
   composter: Компостування бруду
   farmer_shoes: Фермерські черевики
   explosive_tools: Вибухові інструменти
@@ -120,15 +122,15 @@ slimefun:
   high_tier_enhanced_furnaces: Високорівнева піч
   reinforced_furnace: Посилена піч
   carbonado_furnace: Піч-карбонадо
-  electric_motor: "«Нагрів»"
+  electric_motor: '«Нагрів»'
   block_placer: Розміщувач блоків
   scroll_of_dimensional_teleposition: Поворот речей навколо
-  special_bows: "«Робін Гуд»"
+  special_bows: '«Робін Гуд»'
   tome_of_knowledge_sharing: Поділитися з ближніми
   flask_of_knowledge: Сховище досвіду
   hardened_glass: Підкорення вибухів
-  golden_apple_juice: "«Золоте зілля»"
-  cooler: "«Переносний холодильник»"
+  golden_apple_juice: '«Золоте зілля»'
+  cooler: '«Переносний холодильник»'
   ancient_altar: Стародавній вівтар
   wither_proof_obsidian: Візеростійкий обсидіан
   ancient_runes: Стихійні руни
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: ГоЛоГрАмИ
   capacitors: Маленький накопичувач енергії
   high_tier_capacitors: Середній накопичувач енергії
+  even_higher_tier_capacitors: Tier 3 Capacitors
   solar_generators: Сонячна електростанція
   electric_furnaces: Електрична піч
   electric_ore_grinding: Дроблення і розпорошення
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: Сонячна енергія цілодобово!
   energized_gps_transmitter: Високорівневий передавач
   energy_regulator: Електричні мережі
+  energy_connectors: Wired Connections
   butcher_androids: Андроїд-м’ясник
   organic_food: Органічна їжа
   auto_breeder: Автоматизоване розмноження
@@ -185,13 +189,14 @@ slimefun:
   cargo_basics: Основи вантажної мережі
   cargo_nodes: Налаштування вантажної мережі
   electric_ingot_machines: Електричний завод злитків
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: Надшвидкий електричний завод злитків
   automated_crafting_chamber: Автоматизований крафт
   better_food_fabricator: Покращена харчова фабрика
   reactor_access_port: Порт доступу до реактора
   fluid_pump: Рідинний насос
   better_freezer: Покращена морозилка
-  boosted_uranium: "«Замкнуте коло»"
+  boosted_uranium: '«Замкнуте коло»'
   trash_can: Смітник
   advanced_output_node: Просунутий вантажний вузол
   carbon_press: Вуглецевий прес
@@ -218,7 +223,7 @@ slimefun:
   output_chest: Вихідна скриня
   copper_wire: Мідний дріт
   radiant_backpack: Рюкзак мандрівника
-  auto_drier: "«День сушки»"
+  auto_drier: '«День сушки»'
   diet_cookie: Дієтичне печиво
   storm_staff: Штормовий посох
   soulbound_rune: Персональна руна
@@ -236,3 +241,18 @@ slimefun:
   advanced_industrial_miner: Покращений видобуток
   magical_zombie_pills: Дезомбіфікація
   auto_brewer: Промислова пивоварня
+  climbing_pick: Block Raider
+  shulker_shell: Synthetic Shulkers
+  enchantment_rune: Ancient Enchanting
+  lead_clothing: Lead Clothing
+  tape_measure: Tape Measure
+  iron_golem_assembler: Automated Iron Golems
+  villager_rune: Reset Villager Trades
+  elytra_cap: Crash Gear
+  bee_armor: Bee Armor
+  book_binder: Enchantment Book Binding
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
+  medium_tier_auto_enchanting: Fast Automatic Enchanting and Disenchanting
