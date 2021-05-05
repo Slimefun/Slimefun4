@@ -62,6 +62,8 @@ slimefun:
   water_talisman: Ang Anting-anting ng  Water Breather
   angel_talisman: Ang Anting-anting ng Anghel
   fire_talisman: Ang Anting-anting ng Bumbero
+  caveman_talisman: Talisman of the Caveman
+  wise_talisman: Talisman of the Wise
   lava_crystal: Fiery Situation
   magician_talisman: Ang Anting-anting ng Mago
   traveller_talisman: Ang Anting-anting ng Manlalakbay
@@ -145,9 +147,10 @@ slimefun:
   hologram_projector: Holograms
   capacitors: Tier 1 Capacitors
   high_tier_capacitors: Tier 2 Capacitors
+  even_higher_tier_capacitors: Tier 3 Capacitors
   solar_generators: Solar Power Plant
   electric_furnaces: Powered Furnace
-  electric_ore_grinding: 'Crushing and Grinding '
+  electric_ore_grinding: Crushing and Grinding 
   heated_pressure_chamber: Heated Pressure Chamber
   coal_generator: Coal Generator
   bio_reactor: Bio-Reactor
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: Full-Time Solar Power
   energized_gps_transmitter: Top Tier Transmitter
   energy_regulator: Energy Networks 101
+  energy_connectors: Wired Connections
   butcher_androids: Butcher Androids
   organic_food: Organic Food
   auto_breeder: Automated Feeding
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: Cargo Basics
   cargo_nodes: Cargo Setup
   electric_ingot_machines: Electric Ingot Fabrication
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: Super Fast Ingot Fabrication
   automated_crafting_chamber: Automated Crafting
   better_food_fabricator: Upgraded Food Fabrication
@@ -236,14 +241,18 @@ slimefun:
   advanced_industrial_miner: Better Mining
   magical_zombie_pills: De-Zombification
   auto_brewer: Industrial Brewery
+  climbing_pick: Block Raider
+  shulker_shell: Synthetic Shulkers
   enchantment_rune: Ancient Enchanting
   lead_clothing: Lead Clothing
   tape_measure: Tape Measure
   iron_golem_assembler: Automated Iron Golems
-  climbing_pick: Block Raider
-  shulker_shell: Synthetic Shulkers
   villager_rune: Reset Villager Trades
-  caveman_talisman: Talisman of the Caveman
-  even_higher_tier_capacitors: Tier 3 Capacitors
   elytra_cap: Crash Gear
-  energy_connectors: Wired Connections
+  bee_armor: Bee Armor
+  book_binder: Enchantment Book Binding
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
+  medium_tier_auto_enchanting: Fast Automatic Enchanting and Disenchanting
