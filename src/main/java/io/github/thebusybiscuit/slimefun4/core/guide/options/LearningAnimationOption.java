@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
@@ -35,8 +36,12 @@ public class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
             return Optional.empty();
         } else {
             String enabled = getSelectedOption(p, guide).orElse(true) ? "enabled" : "disabled";
-            ItemStack item = new CustomItem(Material.PAPER, SlimefunPlugin.getLocalization().getMessages(
-                    p, "guide.options.learning-animation." + enabled));
+            List<String> lore = SlimefunPlugin.getLocalization().getMessages(
+                    p, "guide.options.learning-animation." + enabled + ".text");
+            lore.add("");
+            lore.add("&7\u21E8 " + SlimefunPlugin.getLocalization().getMessage(
+                    p, "guide.options.learning-animation." + enabled + ".click"));
+            ItemStack item = new CustomItem(Material.PAPER, lore);
             return Optional.of(item);
         }
     }
