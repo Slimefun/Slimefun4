@@ -80,6 +80,7 @@ slimefun:
       - 'Dieses Item kann mittels eines'
       - '"GEO Miner" erhalten werden.'
   nuclear_reactor:
+    name: 'Kernreaktor'
     lore:
       - 'Dieses Item ist ein Nebenprodukt vom'
       - 'Betrieb eines "Nuclear Reactor".'
