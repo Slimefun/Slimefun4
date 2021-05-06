@@ -302,6 +302,7 @@
                     <include>config.yml</include>
 
                     <include>wiki.json</include>
+                    <include>languages/translators.json</include>
                     <include>tags/*.json</include>
 
                     <include>languages/**/*.yml</include>
