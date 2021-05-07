@@ -197,6 +197,8 @@ messages:
     - '&7Always look on the bright side of life!'
     - '&7Ist das jetzt ein Keks, Cookie oder ein Biscuit?'
     - '&7Jetzt auch zuckerfrei!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cEs konnten keine Erze in deiner Nähe gefunden werden!'
 machines:
   pattern-not-found: '&eEs tut mir leid, aber ich konnte kein passendes Rezept finden.'
   unknown-material: '&eEs tut mir leid, aber ich erkenne das Item in meinem Werfer nicht, probier ein anderes Item aus.'
