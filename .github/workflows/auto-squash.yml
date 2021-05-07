@@ -20,9 +20,13 @@ jobs:
     steps:
     - name: Auto squash
       uses: pascalgn/automerge-action@v0.13.1
+      with:
+        args: "--trace"
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         MERGE_METHOD: "squash"
         MERGE_FORKS: false
+        MERGE_DELETE_BRANCH: true
         MERGE_LABELS: "📄 Translations Update"
         MERGE_COMMIT_MESSAGE: "[CI skip] New locale updates from Crowdin"
+        UPDATE_RETRIES: 0
