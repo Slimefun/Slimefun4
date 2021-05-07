@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -16,7 +17,6 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang.Validate;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
@@ -88,7 +88,12 @@ public class GitHubService {
         addContributor("nahkd123", "&aWinner of the 2020 Addon Jam");
 
         // Translators
-        new Translators(this);
+        try {
+            TranslatorsReader translators = new TranslatorsReader(this);
+            translators.load();
+        } catch (Exception x) {
+            SlimefunPlugin.logger().log(Level.SEVERE, "Failed to read 'translators.json'", x);
+        }
     }
 
     private void addContributor(@Nonnull String name, @Nonnull String role) {
@@ -110,6 +115,17 @@ public class GitHubService {
         Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(minecraftName, profileURL));
         contributor.setContributions(role, commits);
         contributor.setUniqueId(uuidCache.getUUID(minecraftName));
+        return contributor;
+    }
+
+    @Nonnull
+    public Contributor addContributor(@Nonnull String username, @Nonnull String role, int commits) {
+        Validate.notNull(username, "Username must not be null.");
+        Validate.notNull(role, "Role should not be null.");
+        Validate.isTrue(commits >= 0, "Commit count cannot be negative.");
+
+        Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(username));
+        contributor.setContributions(role, commits);
         return contributor;
     }
 

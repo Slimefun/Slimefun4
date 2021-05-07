@@ -62,6 +62,7 @@ slimefun:
   water_talisman: Talismã de Água
   angel_talisman: Talismã do Anjo
   fire_talisman: Talismã de Fogo
+  caveman_talisman: Talismã do Homem das Cavernas
   lava_crystal: Situação de Fogo
   magician_talisman: Talismã do Mágico
   traveller_talisman: Talismã do Viajante
@@ -145,6 +146,7 @@ slimefun:
   hologram_projector: Hologramas
   capacitors: Capacitores de Nível 1
   high_tier_capacitors: Capacitores de Nível 2
+  even_higher_tier_capacitors: Capacitores tier 3
   solar_generators: Planta de Energia Solar
   electric_furnaces: Fornalha Elétrica
   electric_ore_grinding: Britagem & Moagem
@@ -168,6 +170,7 @@ slimefun:
   energized_solar_generator: Energia Solar em Tempo Integral
   energized_gps_transmitter: Transmissor de Nível Superior
   energy_regulator: Redes de Energia 101
+  energy_connectors: Fios de conexão
   butcher_androids: Androids Açougueiro
   organic_food: Comida Orgânica
   auto_breeder: Alimentação Automatizada
@@ -213,7 +216,7 @@ slimefun:
   lava_generator: Gerador de Lava
   nether_ice: Refrigerador de Gelo do Nether
   nether_star_reactor: Reator de Estrela do Nether
-  blistering_ingots: " Minério Radiotativo"
+  blistering_ingots: ' Minério Radiotativo'
   automatic_ignition_chamber: Câmara de Ignição Automática
   output_chest: Baú de Saída
   copper_wire: Fio de Cobre
@@ -236,14 +239,11 @@ slimefun:
   advanced_industrial_miner: Melhor mineração
   magical_zombie_pills: Deszombificação
   auto_brewer: Cervejaria Industrial
+  climbing_pick: Bloco atacante
+  shulker_shell: Shulkers Sintética
   enchantment_rune: Encantador Antigo
   lead_clothing: Roupa de Chumbo
   tape_measure: Fita métrica
   iron_golem_assembler: Golems de Ferro Automatizados
-  climbing_pick: Bloco atacante
-  shulker_shell: Shulkers Sintética
   villager_rune: Resetador de trocas dos aldeões
-  caveman_talisman: Talismã do Homem das Cavernas
-  even_higher_tier_capacitors: Capacitores tier 3
   elytra_cap: Engrenagem de colisão
-  energy_connectors: Fios de conexão

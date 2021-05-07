@@ -236,6 +236,9 @@ messages:
 
   above-limit-level: '&cCannot (dis)enchant an enchantment level higher than %level%!'
 
+  pickaxe-of-the-seeker:
+    no-ores: '&cCannot find any nearby ores!'
+
 machines:
   pattern-not-found: '&eSorry, I could not recognize this Recipe. Please place the Items in the correct pattern into the Dispenser.'
   unknown-material: '&eSorry, I could not recognize the Item in my dispenser. Please put something in that I know.'
