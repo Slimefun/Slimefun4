@@ -125,6 +125,20 @@ messages:
   multi-tool:
     mode-change: '&bDer Modus von deinem Multi-Tool wurde geändert zu: &9%mode%'
     not-shears: '&cEinMulti Tool kann nicht als Schere verwendet werden!'
+  auto-crafting:
+    recipe-set: '&aDu hast das Rezept für diese Maschine erfolgreich gesetzt.'
+    recipe-removed: '&eDu hast das Rezept erfolgreich von dieser Maschine entfernt. Du kannst jederzeit ein neues Rezept festlegen!'
+    no-recipes: '&cWir konnten keine gültigen Rezepte für diesen Gegenstand finden.'
+    missing-chest: '&cFehlende Truhe! Auto-Crafter müssen über einer Truhe platziert werden.'
+    select: 'Dieses Rezept auswählen'
+    temporarily-disabled: '&eDieser Auto-Crafter wurde vorübergehend deaktiviert. Du kannst ihn jederzeit wieder aktivieren!'
+    re-enabled: '&eDieser Auto-Crafter wurde reaktiviert!'
+    tooltips:
+      enabled:
+        - '&cDieses Rezept ist momentan deaktiviert'
+        - ''
+        - '&eLeft Click &7to temporarily disable the recipe'
+        - '&eRight Click &7to remove this recipe'
   talisman:
     anvil: '&a&oDein Talisman hat dein Werkzeug vor dem Zerfall gerettet'
     miner: '&a&oDein Talisman hat soeben die Drops verdoppelt'
@@ -190,6 +204,7 @@ machines:
   full-inventory: '&eDieses Inventar ist bereits voll!'
   in-use: '&cDiese Maschine wird derzeit von einem anderen Spieler verwendet.'
   ignition-chamber-no-flint: '&cAlle Feuerzeuge wurden aufgebraucht!'
+  inventory-empty: '&6Du hast erfolgreich einen Multiblock erschaffen! Fahre fort indem du Gegenstände in den Werfer platzierst und klicke mich erneut um den gewünschten Gegenstand herzustellen!'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)'
     unknown-catalyst: '&4Unbekannter Katalysator!'
@@ -329,6 +344,7 @@ languages:
   pt: 'Portugiesisch (Portugal)'
   pt-BR: 'Portugiesisch (Brasilien)'
   ar: 'Arabisch'
+  af: 'Afrikaans'
   da: 'Dänisch'
   fi: 'Finnisch'
   uk: 'Ukrainisch'
@@ -337,6 +353,7 @@ languages:
   ja: 'Japanisch'
   fa: 'Persisch'
   th: 'Thailändisch'
+  tl: 'Tagalog'
   ro: 'Rumänisch'
   bg: 'Bulgarisch'
   ko: 'Koreanisch'
