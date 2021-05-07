@@ -16,7 +16,7 @@ jobs:
 
     name: Auto squash
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Auto squash
       uses: pascalgn/automerge-action@v0.13.1
@@ -26,4 +26,3 @@ jobs:
         MERGE_FORKS: false
         MERGE_LABELS: "📄 Translations Update"
         MERGE_COMMIT_MESSAGE: "[CI skip] New locale updates from Crowdin"
-    
