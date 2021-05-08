@@ -1,17 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -20,6 +8,16 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The {@link AutoEnchanter}, in contrast to the {@link AutoDisenchanter}, adds
@@ -57,18 +55,18 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
                 continue;
             }
 
-            // Call an event so other Plugins can modify it.
-            AutoEnchantEvent event = new AutoEnchantEvent(item);
-            Bukkit.getPluginManager().callEvent(event);
+            ItemStack enchantBook = menu.getItemInSlot(slot);
 
-            if (event.isCancelled()) {
-                return null;
-            }
+            if (enchantBook != null && enchantBook.getType() == Material.ENCHANTED_BOOK) {
+                // Call an event so other Plugins can modify it.
+                AutoEnchantEvent event = new AutoEnchantEvent(item, enchantBook);
+                Bukkit.getPluginManager().callEvent(event);
 
-            ItemStack secondItem = menu.getItemInSlot(slot);
+                if (event.isCancelled()) {
+                    return null;
+                }
 
-            if (secondItem != null && secondItem.getType() == Material.ENCHANTED_BOOK) {
-                return enchant(menu, item, secondItem);
+                return enchant(menu, item, enchantBook);
             }
         }
 
