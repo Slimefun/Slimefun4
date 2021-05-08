@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * The {@link NetworkManager} is responsible for holding all instances of {@link Network}
@@ -169,11 +170,24 @@ public class NetworkManager {
     public void updateAllNetworks(@Nonnull Location l) {
         Validate.notNull(l, "The Location cannot be null");
 
-        // No need to create a sublist and loop through it if there are no Networks
+        /*
+         * No need to create a sublist and loop through it if
+         * there aren't even any networks on the server.
+         */
         if (!networks.isEmpty()) {
-            for (Network network : getNetworksFromLocation(l, Network.class)) {
-                network.markDirty(l);
-            }
+            return;
+        }
+
+        /*
+         * Only a Slimefun block can be part of a Network.
+         * This check helps to speed up performance.
+         */
+        if (!BlockStorage.hasBlockInfo(l)) {
+            return;
+        }
+
+        for (Network network : getNetworksFromLocation(l, Network.class)) {
+            network.markDirty(l);
         }
     }
 
