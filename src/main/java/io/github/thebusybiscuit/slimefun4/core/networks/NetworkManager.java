@@ -13,8 +13,10 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -174,15 +176,17 @@ public class NetworkManager {
          * No need to create a sublist and loop through it if
          * there aren't even any networks on the server.
          */
-        if (!networks.isEmpty()) {
+        if (networks.isEmpty()) {
             return;
         }
 
         /*
          * Only a Slimefun block can be part of a Network.
          * This check helps to speed up performance.
+         * 
+         * (Skip for Unit Tests as they don't support block info yet)
          */
-        if (!BlockStorage.hasBlockInfo(l)) {
+        if (!BlockStorage.hasBlockInfo(l) && SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
             return;
         }
 
