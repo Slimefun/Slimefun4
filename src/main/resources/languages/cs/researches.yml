@@ -125,6 +125,7 @@ slimefun:
   electric_motor: Zahřívání
   block_placer: Pokládač bloků
   scroll_of_dimensional_teleposition: Otáčí věcí kolem
+  special_bows: Robin Hood
   tome_of_knowledge_sharing: Dělení s přáteli
   flask_of_knowledge: XP uložistě
   hardened_glass: Odolávání výbuchům
@@ -249,3 +250,4 @@ slimefun:
   elytra_cap: Popraskané brnění
   bee_armor: Včelí zbroj
   book_binder: Vázání knihy očarování
+  improved_generators: Vylepšené generátory

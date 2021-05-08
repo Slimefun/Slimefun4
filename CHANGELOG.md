@@ -29,6 +29,10 @@
 * Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
 * Added "8 Coal Blocks -> 9 Carbon" recipe to Compressor
 * Added "8 Coal Blocks -> 9 Carbon" recipe to Carbon Press
+* Added "Magical Lump Tier 2 -> 4 Magical Lump Tier 1" recipe to Grind Stone
+* Added "Magical Lump Tier 3 -> 4 Magical Lump Tier 2" recipe to Grind Stone
+* Added "Ender Lump Tier 2 -> 4 Ender Lump Tier 1" recipe to Grind Stone
+* Added "Ender Lump Tier 3 -> 4 Ender Lump Tier 2" recipe to Grind Stone
 * Added Tier 2 Auto-Enchanter
 * Added Tier 2 Auto-Disenchanter
 * (API) Added Category#setTier() to modify a category's position in the guide
@@ -52,6 +56,7 @@
 * Fixed #2937
 * Fixed #3007
 * Fixed #3012
+* Fixed #3027
 
 ## Release Candidate 22 (18 Apr 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22

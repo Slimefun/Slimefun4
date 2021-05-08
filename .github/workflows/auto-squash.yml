@@ -1,0 +1,28 @@
+name: Auto squash Crowdin updates
+
+on:
+  pull_request_review:
+    types:
+      - submitted
+
+  check_suite:
+    types:
+      - completed
+
+  status: {}
+
+jobs:
+  autosquash:
+
+    name: Auto squash
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Auto squash
+      uses: pascalgn/automerge-action@v0.13.1
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        MERGE_METHOD: "squash"
+        MERGE_FORKS: false
+        MERGE_LABELS: "📄 Translations Update"
+        MERGE_COMMIT_MESSAGE: "[CI skip] New locale updates from Crowdin"
