@@ -1,0 +1,20 @@
+# Slimefun items that are not registered.
+SLIMEFUN_GUIDE: 0
+ENDER_TALISMAN: 0
+
+# UI elements also have their own id.
+_UI_BACKGROUND: 0
+_UI_NO_PERMISSION: 0
+_UI_NOT_RESEARCHED: 0
+_UI_INPUT_SLOT: 0
+_UI_OUTPUT_SLOT: 0
+_UI_BACK: 0
+_UI_MENU: 0
+_UI_SEARCH: 0
+_UI_WIKI: 0
+_UI_PREVIOUS_ACTIVE: 0
+_UI_PREVIOUS_INACTIVE: 0
+_UI_NEXT_ACTIVE: 0
+_UI_NEXT_INACTIVE: 0
+
+## The rest of the file will be auto-populated with all registered Slimefun items.
