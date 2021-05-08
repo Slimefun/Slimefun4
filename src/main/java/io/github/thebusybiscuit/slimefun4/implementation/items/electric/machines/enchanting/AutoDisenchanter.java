@@ -127,11 +127,14 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
         item.setItemMeta(itemMeta);
         book.setItemMeta(bookMeta);
 
+        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
+
         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
             item.removeEnchantment(entry.getKey());
+            meta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
         }
 
-        book.addUnsafeEnchantments(enchantments);
+        book.setItemMeta(meta);
     }
 
     private boolean isDisenchantable(@Nullable ItemStack item) {
