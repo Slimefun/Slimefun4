@@ -54,6 +54,7 @@
 * Fixed #2999
 * Fixed #2593
 * Fixed #2937
+* Fixed #2927
 * Fixed #3007
 * Fixed #3012
 * Fixed #3027
