@@ -57,6 +57,8 @@
 * Fixed #3007
 * Fixed #3012
 * Fixed #3027
+* Fixed #2978
+* Possibly fixed #2927
 
 ## Release Candidate 22 (18 Apr 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
