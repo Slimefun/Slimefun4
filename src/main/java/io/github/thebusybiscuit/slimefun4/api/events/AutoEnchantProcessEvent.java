@@ -26,6 +26,8 @@ public class AutoEnchantProcessEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     public AutoEnchantProcessEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantBook, @Nonnull BlockMenu menu) {
+        super(true);
+
         this.item = item;
         this.enchantBook = enchantBook;
         this.menu = menu;
