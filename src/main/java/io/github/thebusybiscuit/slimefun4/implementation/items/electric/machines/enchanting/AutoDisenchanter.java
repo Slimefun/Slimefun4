@@ -55,7 +55,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
     @Override
     protected MachineRecipe findNextRecipe(BlockMenu menu) {
         for (int slot : getInputSlots()) {
-            ItemStack item = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
+            ItemStack item = menu.getItemInSlot(slot);
 
             if (!isDisenchantable(item)) {
                 continue;
@@ -69,7 +69,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
                 return null;
             }
 
-            ItemStack secondItem = menu.getItemInSlot(slot);
+            ItemStack secondItem = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
 
             if (secondItem != null && secondItem.getType() == Material.BOOK) {
                 return disenchant(menu, item, secondItem);
