@@ -22,13 +22,15 @@ public class AutoEnchantEvent extends Event implements Cancellable {
 
     private final ItemStack item;
     private final ItemStack enchantBook;
+    private final AutoEnchanter enchanter;
     private boolean cancelled;
 
-    public AutoEnchantEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantBook) {
+    public AutoEnchantEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantBook, @Nonnull AutoEnchanter enchanter) {
         super(true);
 
         this.item = item;
         this.enchantBook = enchantBook;
+        this.enchanter = enchanter;
     }
 
     /**
@@ -49,6 +51,16 @@ public class AutoEnchantEvent extends Event implements Cancellable {
     @Nonnull
     public ItemStack getEnchantBook() {
         return enchantBook;
+    }
+
+    /**
+     * This returns the {@link AutoEnchanter} that is enchanting item.
+     *
+     * @return The {@link AutoEnchanter} that is enchanting item
+     */
+    @Nonnull
+    public AutoEnchanter getEnchanter() {
+        return enchanter;
     }
 
     @Override

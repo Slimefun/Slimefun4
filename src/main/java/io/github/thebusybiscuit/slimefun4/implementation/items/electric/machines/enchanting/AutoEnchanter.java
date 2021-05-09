@@ -59,7 +59,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
 
             if (enchantBook != null && enchantBook.getType() == Material.ENCHANTED_BOOK) {
                 // Call an event so other Plugins can modify it.
-                AutoEnchantEvent event = new AutoEnchantEvent(item, enchantBook);
+                AutoEnchantEvent event = new AutoEnchantEvent(item, enchantBook, this);
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (event.isCancelled()) {
