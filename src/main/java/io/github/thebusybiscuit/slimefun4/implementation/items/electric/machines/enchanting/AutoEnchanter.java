@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantProcessEvent;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -55,17 +56,17 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
                 continue;
             }
 
+            // Call an event so other Plugins can modify it.
+            AutoEnchantEvent event = new AutoEnchantEvent(item);
+            Bukkit.getPluginManager().callEvent(event);
+
+            if (event.isCancelled()) {
+                return null;
+            }
+
             ItemStack enchantBook = menu.getItemInSlot(slot);
 
             if (enchantBook != null && enchantBook.getType() == Material.ENCHANTED_BOOK) {
-                // Call an event so other Plugins can modify it.
-                AutoEnchantEvent event = new AutoEnchantEvent(item, enchantBook, this);
-                Bukkit.getPluginManager().callEvent(event);
-
-                if (event.isCancelled()) {
-                    return null;
-                }
-
                 return enchant(menu, item, enchantBook);
             }
         }
@@ -76,6 +77,14 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
     @Nullable
     @ParametersAreNonnullByDefault
     protected MachineRecipe enchant(BlockMenu menu, ItemStack target, ItemStack enchantedBook) {
+        // Call an event so other Plugins can modify it.
+        AutoEnchantProcessEvent event = new AutoEnchantProcessEvent(target, enchantedBook, menu);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            return null;
+        }
+
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) enchantedBook.getItemMeta();
         Map<Enchantment, Integer> enchantments = new HashMap<>();
 
