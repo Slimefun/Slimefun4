@@ -300,6 +300,7 @@
                 <includes>
                     <include>plugin.yml</include>
                     <include>config.yml</include>
+                    <include>item-models.yml</include>
 
                     <include>wiki.json</include>
                     <include>languages/translators.json</include>
