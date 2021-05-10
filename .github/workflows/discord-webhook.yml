@@ -12,6 +12,8 @@ jobs:
 
     name: Discord Webhook
     runs-on: ubuntu-latest
+
+    ## Only run this on the main repo
     if: github.repository == 'Slimefun/Slimefun4'
 
     steps:

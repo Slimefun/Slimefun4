@@ -17,6 +17,9 @@ jobs:
     name: Auto squash
     runs-on: ubuntu-latest
 
+    ## Only run this on the main repo
+    if: github.repository == 'Slimefun/Slimefun4'
+
     steps:
     - name: Auto squash
       uses: pascalgn/automerge-action@v0.13.1

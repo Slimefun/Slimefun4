@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -248,7 +249,8 @@ public abstract class Network {
      */
     public void display() {
         if (manager.isVisualizerEnabled()) {
-            SlimefunPlugin.runSync(new NetworkVisualizer(this));
+            // TODO: Make Color configurable / network-dependent
+            SlimefunPlugin.runSync(new NetworkVisualizer(this, Color.BLUE));
         }
     }
 
