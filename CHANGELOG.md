@@ -46,6 +46,7 @@
 * Magical Glass can no longer be placed
 * (API) Removed deprecated "SlimefunBlockHandler"
 * Removed Automated Crafting Chamber
+* Memory and performance improvements for Cargo and Energy networks
 
 #### Fixes
 * Fixed #2987
@@ -57,6 +58,7 @@
 * Fixed #2927
 * Fixed #3007
 * Fixed #3012
+* Fixed #3013
 * Fixed #3027
 * Fixed #2978
 * Possibly fixed #2927
