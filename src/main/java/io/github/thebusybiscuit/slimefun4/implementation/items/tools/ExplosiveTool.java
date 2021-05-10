@@ -156,9 +156,13 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
              */
             BlockBreakEvent dummyEvent = new BlockBreakEvent(b, e.getPlayer());
 
-            // Call the BlockBreakHandler if the block has it to allow for cancelling.
+            /*
+             * Fixes #3036 and handling in general.
+             * Call the BlockBreakHandler if the block has one to allow for proper handling.
+             */
             sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
             
+            // Make sure the event wasn't cancelled by the BlockBreakHandler.
             if (!dummyEvent.isCancelled()) {
                 drops.addAll(sfItem.getDrops(p));
                 b.setType(Material.AIR);
