@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -26,6 +28,7 @@ public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveAr
     private final NamespacedKey namespacedKey;
     private final ProtectionType[] types;
 
+    @ParametersAreNonnullByDefault
     public HazmatArmorPiece(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
         super(category, item, recipeType, recipe, effects);
 

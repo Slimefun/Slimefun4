@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -34,6 +35,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
 
+    @ParametersAreNonnullByDefault
     public PickaxeOfContainment(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }

@@ -58,7 +58,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             ItemStack item = menu.getItemInSlot(slot);
 
             if (!isDisenchantable(item)) {
-                return null;
+                continue;
             }
 
             // Call an event so other Plugins can modify it.
@@ -83,13 +83,11 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
     @ParametersAreNonnullByDefault
     private MachineRecipe disenchant(BlockMenu menu, ItemStack item, ItemStack book) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
-        int amount = 0;
 
         // Find enchantments
         for (Map.Entry<Enchantment, Integer> entry : item.getEnchantments().entrySet()) {
             if (isEnchantmentLevelAllowed(entry.getValue())) {
                 enchantments.put(entry.getKey(), entry.getValue());
-                amount++;
             } else if (!menu.toInventory().getViewers().isEmpty()) {
                 showEnchantmentLevelWarning(menu);
                 return null;
@@ -97,14 +95,14 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
         }
 
         // Check if we found any valid enchantments
-        if (amount > 0) {
+        if (!enchantments.isEmpty()) {
             ItemStack disenchantedItem = item.clone();
             disenchantedItem.setAmount(1);
 
             ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
             transferEnchantments(disenchantedItem, enchantedBook, enchantments);
 
-            MachineRecipe recipe = new MachineRecipe(90 * amount / this.getSpeed(), new ItemStack[] { book, item }, new ItemStack[] { disenchantedItem, enchantedBook });
+            MachineRecipe recipe = new MachineRecipe(90 * enchantments.size() / this.getSpeed(), new ItemStack[] { book, item }, new ItemStack[] { disenchantedItem, enchantedBook });
 
             if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                 return null;
@@ -140,10 +138,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
     }
 
     private boolean isDisenchantable(@Nullable ItemStack item) {
-        if (item == null || item.getType().isAir()) {
-            return false;
-        } else if (item.getType() != Material.BOOK && !hasIgnoredLore(item)) {
-            // ^ This stops endless checks of getByItem for books
+        if (item != null && !item.getType().isAir() && item.getType() != Material.BOOK && !hasIgnoredLore(item)) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
             return sfItem == null || sfItem.isDisenchantable();
         } else {

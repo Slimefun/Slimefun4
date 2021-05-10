@@ -62,6 +62,8 @@ slimefun:
   water_talisman: 水中呼吸護身符
   angel_talisman: 天使護身符
   fire_talisman: 火焰護身符
+  caveman_talisman: 穴居人護符
+  wise_talisman: 智者護身符
   lava_crystal: 燒喔~
   magician_talisman: 法師護身符
   traveller_talisman: 旅者護身符
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: 投影文字
   capacitors: 初階電容器
   high_tier_capacitors: 高階電容器
+  even_higher_tier_capacitors: 第三級電容器
   solar_generators: 太陽能發機
   electric_furnaces: 電磁爐
   electric_ore_grinding: 電動研磨
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: 這...這不科學!
   energized_gps_transmitter: 頂級 GPS 信號發送器
   energy_regulator: 電力核心
+  energy_connectors: 電線
   butcher_androids: 屠夫機器人
   organic_food: 有機食品
   auto_breeder: 幫你餵動物
@@ -236,17 +240,13 @@ slimefun:
   advanced_industrial_miner: 工業化採礦—改
   magical_zombie_pills: 救贖藥丸
   auto_brewer: 工業化釀造
+  climbing_pick: 飛簷走壁
+  shulker_shell: 工業界伏殼
   enchantment_rune: 古代附魔
   lead_clothing: 防輻射衣
   tape_measure: 捲尺
   iron_golem_assembler: 鐵巨人召喚機
-  climbing_pick: 飛簷走壁
-  shulker_shell: 工業界伏殼
   villager_rune: 讓村民失業
-  caveman_talisman: 穴居人護符
-  even_higher_tier_capacitors: 第三級電容器
   elytra_cap: 體驗動能
-  energy_connectors: 電線
   bee_armor: 蜂裝
-  wise_talisman: 智者護身符
   book_binder: 附魔書裝訂

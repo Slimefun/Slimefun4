@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.block.data.type.Farmland;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +20,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class FarmerShoes extends SlimefunItem {
 
+    @ParametersAreNonnullByDefault
     public FarmerShoes(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }

@@ -62,6 +62,8 @@ slimefun:
   water_talisman: 水中呼吸のタリスマン
   angel_talisman: 天使のタリスマン
   fire_talisman: 消防士のタリスマン
+  caveman_talisman: 洞窟暮らしのタリスマン
+  wise_talisman: 知恵のタリスマン
   lava_crystal: 溶岩のクリスタル
   magician_talisman: 奇術師のタリスマン
   traveller_talisman: 探索者のタリスマン
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: ホログラム
   capacitors: キャパシタⅠ
   high_tier_capacitors: キャパシタⅡ
+  even_higher_tier_capacitors: キャパシタⅢ
   solar_generators: 太陽光発電所
   electric_furnaces: 電気炉Ⅰ
   electric_ore_grinding: 粉砕粉砕
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: 全日制太陽光発電所
   energized_gps_transmitter: 上級GPS送信機
   energy_regulator: エネルギーネットワーク
+  energy_connectors: 有線接続
   butcher_androids: 屠殺アンドロイド
   organic_food: オーガニック食品
   auto_breeder: 自動交配
@@ -236,17 +240,13 @@ slimefun:
   advanced_industrial_miner: よりよい採掘
   magical_zombie_pills: ゾンビ化解除
   auto_brewer: 工業的醸造
+  climbing_pick: ブロッククライミング
+  shulker_shell: 合成シュルカー
   enchantment_rune: 太古のエンチャント
   lead_clothing: 鉛の布
   tape_measure: テープメジャー
   iron_golem_assembler: 人造アイアンゴーレム
-  climbing_pick: ブロッククライミング
-  shulker_shell: 合成シュルカー
   villager_rune: 村人の初期化
-  caveman_talisman: 洞窟暮らしのタリスマン
-  even_higher_tier_capacitors: キャパシタⅢ
   elytra_cap: 衝撃緩和装備
-  energy_connectors: 有線接続
   bee_armor: 蜂アーマー
-  wise_talisman: 知恵のタリスマン
   book_binder: エンチャントの本の製本

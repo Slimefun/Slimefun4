@@ -5,6 +5,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author Sfiguz7
  *
+ * @see SlimefunBackpack
  * @see PlayerBackpack
  */
 public class RestoredBackpack extends SlimefunBackpack {
@@ -27,7 +31,8 @@ public class RestoredBackpack extends SlimefunBackpack {
      * @param category
      *            the category to bind this {@link SlimefunBackpack} to
      */
-    public RestoredBackpack(Category category) {
+    @ParametersAreNonnullByDefault
+    public RestoredBackpack(@Nonnull Category category) {
         super(54, category, SlimefunItems.RESTORED_BACKPACK, RecipeType.NULL, new ItemStack[9]);
 
         this.hidden = true;

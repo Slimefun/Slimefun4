@@ -160,7 +160,7 @@
                 <!-- Code Coverage Reports -->
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.6</version>
+                <version>0.8.7</version>
 
                 <executions>
                     <execution>
@@ -300,8 +300,10 @@
                 <includes>
                     <include>plugin.yml</include>
                     <include>config.yml</include>
+                    <include>item-models.yml</include>
 
                     <include>wiki.json</include>
+                    <include>languages/translators.json</include>
                     <include>tags/*.json</include>
 
                     <include>languages/**/*.yml</include>
@@ -370,7 +372,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.30.4</version>
+            <version>0.31.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
