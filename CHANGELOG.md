@@ -61,6 +61,7 @@
 * Fixed #3013
 * Fixed #3027
 * Fixed #2978
+* Fixed #3041
 * Possibly fixed #2927
 
 ## Release Candidate 22 (18 Apr 2021)
