@@ -123,8 +123,6 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This method will actually start the {@link MachineOperation}.
-     * We don't need to validate any of these inputs as that is already
-     * covered in our public methods.
      * 
      * @param pos
      *            The {@link BlockPosition} of our machine
@@ -134,7 +132,10 @@ public class MachineProcessor<T extends MachineOperation> {
      * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
      *         {@link MachineOperation} has already been started at that {@link BlockPosition}.
      */
-    private boolean startOperation(@Nonnull BlockPosition pos, @Nonnull T operation) {
+    public boolean startOperation(@Nonnull BlockPosition pos, @Nonnull T operation) {
+        Validate.notNull(pos, "The BlockPosition must not be null");
+        Validate.notNull(operation, "The machine operation cannot be null");
+
         lock.writeLock().lock();
 
         try {
@@ -185,7 +186,9 @@ public class MachineProcessor<T extends MachineOperation> {
      * @return The current {@link MachineOperation} or null.
      */
     @Nullable
-    private T getOperation(@Nonnull BlockPosition pos) {
+    public T getOperation(@Nonnull BlockPosition pos) {
+        Validate.notNull(pos, "The BlockPosition must not be null");
+
         lock.readLock().lock();
 
         try {
@@ -227,8 +230,6 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This will end the {@link MachineOperation} at the given {@link BlockPosition}.
-     * We don't need to validate our input here as that is already
-     * covered in our public methods.
      * 
      * @param pos
      *            The {@link BlockPosition} at which our machine is located.
@@ -236,28 +237,32 @@ public class MachineProcessor<T extends MachineOperation> {
      * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
      *         {@link MachineOperation} to begin with.
      */
-    private boolean endOperation(@Nonnull BlockPosition pos) {
+    public boolean endOperation(@Nonnull BlockPosition pos) {
+        Validate.notNull(pos, "The BlockPosition cannot be null");
+
         lock.writeLock().lock();
 
+        T operation;
+
         try {
-            T operation = machines.remove(pos);
-
-            if (operation != null) {
-                /*
-                 * Only call an event if the operation actually finished.
-                 * If it was ended prematurely (aka aborted), then we don't call any event.
-                 */
-                if (operation.isFinished()) {
-                    Event event = new AsyncMachineOperationFinishEvent(pos, this, operation);
-                    Bukkit.getPluginManager().callEvent(event);
-                }
-
-                return true;
-            } else {
-                return false;
-            }
+            operation = machines.remove(pos);
         } finally {
             lock.writeLock().unlock();
+        }
+
+        if (operation != null) {
+            /*
+             * Only call an event if the operation actually finished.
+             * If it was ended prematurely (aka aborted), then we don't call any event.
+             */
+            if (operation.isFinished()) {
+                Event event = new AsyncMachineOperationFinishEvent(pos, this, operation);
+                Bukkit.getPluginManager().callEvent(event);
+            }
+
+            return true;
+        } else {
+            return false;
         }
     }
 
