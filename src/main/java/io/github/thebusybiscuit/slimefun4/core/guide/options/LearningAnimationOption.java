@@ -7,11 +7,8 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -53,14 +50,7 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
             lore.add("&7\u21E8 " + SlimefunPlugin.getLocalization().getMessage(
                     p, "guide.options.learning-animation." + optionState + ".click"));
 
-            ItemStack item = new CustomItem(Material.PAPER, lore);
-            if (enabled) {
-                item.addUnsafeEnchantment(Enchantment.MENDING, 1);
-                ItemMeta meta = item.getItemMeta();
-                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                item.setItemMeta(meta);
-            }
-
+            ItemStack item = new CustomItem(enabled ? Material.MAP : Material.PAPER, lore);
             return Optional.of(item);
         }
     }
