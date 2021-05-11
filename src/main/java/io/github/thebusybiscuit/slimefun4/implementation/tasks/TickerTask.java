@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
-import io.github.thebusybiscuit.cscorelib2.blocks.ChunkPosition;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -10,7 +9,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -20,14 +18,11 @@ import org.bukkit.scheduler.BukkitScheduler;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,8 +30,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 
 /**
@@ -75,15 +68,9 @@ public final class TickerTask {
 
 
     /**
-     * Given that the values in tickingLocations are mutable, we should synchronize their
-     * access externally. This locks serves that purpose.
-     */
-    private final ReadWriteLock tickingLocationLock = new ReentrantReadWriteLock();
-
-    /**
      * This Map holds all currently actively ticking locations.
      */
-    private final Map<ChunkPosition, Set<Location>> tickingLocations = new HashMap<>();
+    private final TickingBlocks tickingBlocks = new TickingBlocks();
 
     /**
      * This Map tracks how many bugs have occurred in a given Location.
@@ -112,7 +99,13 @@ public final class TickerTask {
     private final ExecutorService asyncExecutor = Executors.newSingleThreadExecutor(threadFactory);
 
 
-    // These are "Queues" of blocks that need to be removed or moved
+    /**
+     *  These are "Queues" of blocks that need to be removed or moved.
+     *  <p>
+     *  Whilst the {@link ConcurrentHashMap} implementation is thread-safe,
+     *  the {@link Location Locations} are not. Therefore, the internal copy of the locations
+     *  should be treated as <strong>read only</strong> and never exposed externally.
+     */
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
 
@@ -294,21 +287,8 @@ public final class TickerTask {
             }
 
             if (!halted) {
-                /*
-                 * The Sets in tickingLocations aren't thread safe so we must synchronize externally.
-                 *
-                 * Implementation note: Since we are only acquiring the read lock,
-                 * care must be taken to ensure that TickerTask#tickChunk does not modify
-                 * the passed Set<Location> in any manner whatsoever.
-                 */
-                tickingLocationLock.readLock().lock();
-                try {
-                    for (Map.Entry<ChunkPosition, Set<Location>> entry : tickingLocations.entrySet()) {
-                        tickChunk(entry.getKey(), tickers, entry.getValue());
-                    }
-                } finally {
-                    tickingLocationLock.readLock().unlock();
-                }
+                Collection<Location> toTick = tickingBlocks.getBlocksAsLocations();
+                tickLocations(tickers, toTick);
             }
 
             /*
@@ -342,29 +322,20 @@ public final class TickerTask {
     }
 
     /**
-     * Execute all tasks registered to a given {@link ChunkPosition}
-     *
-     * @implNote The {@link Collection} passed in <code>locations</code> must not be modified.
-     * Additionally, the {@link Location Locations} themselves should also be accessed in a read-only fashion
-     * as the caller is only guaranteed to have acquired a read lock on the passed {@link Collection}
-     * @see #processAsyncTasks()
+     * Executes all tasks in a given {@link Collection} of locations
      */
-    @ParametersAreNonnullByDefault
-    private void tickChunk(ChunkPosition chunk, Collection<BlockTicker> tickers, Collection<Location> locations) {
-        // Only continue if the Chunk is actually loaded
-        if (chunk.isLoaded()) {
-            for (Location l : locations) {
-                Config data = BlockStorage.getLocationInfo(l);
-                SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
+    private void tickLocations(Collection<BlockTicker> tickers, @Nonnull Collection<Location> locations) {
+        for (Location l : locations) {
+            Config data = BlockStorage.getLocationInfo(l);
+            SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
 
-                if (item != null && item.getBlockTicker() != null) {
-                    try {
-                        runTask(l, data, item);
-                        tickers.add(item.getBlockTicker());
-                    } catch (Exception x) {
-                        // Catch and report any errors caused by this ticker.
-                        reportErrors(l, item, x);
-                    }
+            if (item != null && item.getBlockTicker() != null) {
+                try {
+                    runTask(l, data, item);
+                    tickers.add(item.getBlockTicker());
+                } catch (Exception x) {
+                    // Catch and report any errors caused by this ticker.
+                    reportErrors(l, item, x);
                 }
             }
         }
@@ -509,103 +480,6 @@ public final class TickerTask {
     }
 
     /**
-     * This method returns a deep cloned {@link Map}
-     * representation of every {@link ChunkPosition} and its corresponding
-     * {@link Set} of ticking {@link Location Locations}.
-     * <p>
-     * {@link Location Locations} from unloaded {@link Chunk Chunks} will also be present.
-     * </p>
-     * Note: this is a blocking method which may be expensive as values have to be cloned.
-     * @return A {@link Map} representation of all ticking {@link Location Locations}
-     * <p>
-     * The returned {@link Map} should be treated as a snapshot. Modifications to the Map
-     * will <strong>not</strong> change the values held by this instance and vice versa.
-     * </p>
-     * @see #getLocations(Chunk)
-     */
-    @Nonnull
-    public Map<ChunkPosition, Set<Location>> getLocations() {
-
-        /*
-         * Perform a deep clone of the Map.
-         * Since the stored values stored by the map are mutable and not thread-safe,
-         * we must perform a deep clone to prevent unsafe modification of the
-         * internal state.
-         */
-        tickingLocationLock.readLock().lock();
-        try {
-
-            /*
-             * Create a shallow copy of the map.
-             * We don't need to deep clone the keys -- ChunkPosition is immutable.
-             */
-            Map<ChunkPosition, Set<Location>> clone = new HashMap<>(tickingLocations);
-
-            for (Map.Entry<ChunkPosition, Set<Location>> entry : clone.entrySet()) {
-                /*
-                 * Perform a deep clone of the value for each entry
-                 * Since the stored Set and Location are mutable and not thread-safe,
-                 * we must perform a deep clone to prevent unsafe modification of the
-                 * internal state.
-                 */
-                Set<Location> original = entry.getValue();
-                Set<Location> cloned = new HashSet<>(original.size());
-                for (Location location : original) {
-                    cloned.add(location.clone());
-                }
-                entry.setValue(cloned);
-            }
-            return clone;
-        } finally {
-            tickingLocationLock.readLock().unlock();
-        }
-    }
-
-    /**
-     * This method returns a deep-cloned {@link Set} of all ticking
-     * {@link Location Locations} in a given {@link Chunk}.
-     * <p>
-     * The {@link Chunk} does not have to be loaded.
-     * </p>
-     * <p>
-     * If no {@link Location} is present, the returned {@link Set} will be empty.
-     * </p>
-     * Note: this is a blocking method which may be expensive as values have to be cloned.
-     * @param chunk The {@link Chunk}
-     * @return A {@link Set} of all ticking {@link Location Locations}
-     * <p>
-     * The returned {@link Set} should be treated as a snapshot. Modifications to the collection
-     * will <strong>not</strong> change the values held by this instance and vice versa.
-     * </p>
-     * @see #getLocations()
-     */
-    @Nonnull
-    public Set<Location> getLocations(@Nonnull Chunk chunk) {
-        Validate.notNull(chunk, "The Chunk cannot be null!");
-
-        tickingLocationLock.readLock().lock();
-        try {
-            Set<Location> locations = tickingLocations.get(new ChunkPosition(chunk));
-            if (locations == null) {
-                return Collections.emptySet();
-            }
-            /*
-             * Perform a deep clone of the Set.
-             * Since the stored Set and Location are mutable and not thread-safe,
-             * we must perform a deep clone to prevent unsafe modification of the
-             * internal state.
-             */
-            Set<Location> cloned = new HashSet<>(locations.size());
-            for (Location location : locations) {
-                cloned.add(location.clone());
-            }
-            return cloned;
-        } finally {
-            tickingLocationLock.readLock().unlock();
-        }
-    }
-
-    /**
      * This enables the ticker at the given {@link Location} and adds it to the our queue.
      *
      * @param l The {@link Location} to activate
@@ -615,19 +489,7 @@ public final class TickerTask {
         Validate.notNull(l, "Location cannot be null!");
         Validate.notNull(l.getWorld(), "Location must have a world!");
 
-        ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
-
-        // We clone the location to ensure the instance we store is synchronized effectively
-        Location clonedLocation = l.clone();
-
-        // The values in tickingLocations are mutable so we must synchronize externally.
-        tickingLocationLock.writeLock().lock();
-        try {
-            Set<Location> locations = tickingLocations.computeIfAbsent(chunk, (unused) -> new HashSet<>());
-            locations.add(clonedLocation);
-        } finally {
-            tickingLocationLock.writeLock().unlock();
-        }
+        tickingBlocks.addBlock(l);
     }
 
     /**
@@ -641,23 +503,6 @@ public final class TickerTask {
         Validate.notNull(l, "Location cannot be null!");
         Validate.notNull(l.getWorld(), "Location must have a world!");
 
-        ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
-
-        // The values in tickingLocations are mutable so we must synchronize externally.
-        tickingLocationLock.writeLock().lock();
-        try {
-            Set<Location> locations = tickingLocations.get(chunk);
-
-            if (locations != null) {
-                // Remove the location. We don't clone as we aren't storing the location
-                locations.remove(l);
-
-                if (locations.isEmpty()) {
-                    tickingLocations.remove(chunk);
-                }
-            }
-        } finally {
-            tickingLocationLock.writeLock().unlock();
-        }
+        tickingBlocks.removeBlock(l);
     }
 }
