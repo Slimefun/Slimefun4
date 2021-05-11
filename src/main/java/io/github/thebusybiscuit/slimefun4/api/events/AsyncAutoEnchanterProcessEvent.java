@@ -50,9 +50,9 @@ public class AsyncAutoEnchanterProcessEvent extends Event implements Cancellable
     }
 
     /**
-     * This returns the {@link ItemStack} that is being used enchant book
+     * This returns the {@link ItemStack} that is being used enchanted book
      *
-     * @return The {@link ItemStack} that is being used enchant book
+     * @return The {@link ItemStack} that is being used enchanted book
      */
     @Nonnull
     public ItemStack getEnchantedBook() {
@@ -60,9 +60,9 @@ public class AsyncAutoEnchanterProcessEvent extends Event implements Cancellable
     }
 
     /**
-     * This returns the {@link AutoEnchanter}'s ${@link BlockMenu}
+     * This returns the {@link AutoEnchanter}'s {@link BlockMenu}
      *
-     * @return The ${@link BlockMenu} of {@link AutoEnchanter} that is enchanting item
+     * @return The {@link BlockMenu} of {@link AutoEnchanter} that is enchanting item
      */
     @Nonnull
     public BlockMenu getMenu() {
