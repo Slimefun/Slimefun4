@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
  *
  * @author StarWishsama
  */
-public class AutoEnchantProcessEvent extends Event implements Cancellable {
+public class AsyncAutoEnchantProcessEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final ItemStack item;
@@ -25,7 +25,7 @@ public class AutoEnchantProcessEvent extends Event implements Cancellable {
 
     private boolean cancelled;
 
-    public AutoEnchantProcessEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantBook, @Nonnull BlockMenu menu) {
+    public AsyncAutoEnchantProcessEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantBook, @Nonnull BlockMenu menu) {
         super(true);
 
         this.item = item;
