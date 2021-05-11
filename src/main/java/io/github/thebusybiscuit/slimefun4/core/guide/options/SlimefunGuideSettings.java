@@ -266,7 +266,8 @@ public final class SlimefunGuideSettings {
      * @param <V> Type of the {@link SlimefunGuideOption} value
      * @return The value of given {@link SlimefunGuideOption}
      */
-    private static <T extends SlimefunGuideOption<V>, V> V getOptionValue(@Nonnull Player p, @Nonnull Class<T> cls, @Nullable V defaultValue) {
+    @Nonnull
+    private static <T extends SlimefunGuideOption<V>, V> V getOptionValue(@Nonnull Player p, @Nonnull Class<T> cls, @Nonnull V defaultValue) {
         for (SlimefunGuideOption<?> option : options) {
             if (cls.isInstance(option)) {
                 T o = (T) option;
