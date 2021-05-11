@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -266,7 +266,7 @@ public final class TickerTask {
          * Use a synchronous task instead of an asynchronous one to bind the
          * interval to the server clock, not the wall clock.
          */
-        Bukkit.getScheduler().runTaskLater(plugin, this::tick, (long) tickRate);
+        Bukkit.getScheduler().runTaskLater(plugin, this::tick, tickRate);
     }
 
     private void processAsyncTasks() {
@@ -286,17 +286,17 @@ public final class TickerTask {
              * modifies the collection during iteration.
              */
             queueLock.writeLock().lock();
-
+            Map<Location, Boolean> deletionQueueCopy;
             try {
-                Iterator<Map.Entry<Location, Boolean>> removals = deletionQueue.entrySet().iterator();
-
-                while (removals.hasNext()) {
-                    Map.Entry<Location, Boolean> entry = removals.next();
-                    BlockStorage.deleteLocationInfoUnsafely(entry.getKey(), entry.getValue());
-                    removals.remove();
-                }
+                // Copy the queue, this way we don't have keep the queue locked whilst removing
+                deletionQueueCopy = new HashMap<>(deletionQueue);
+                deletionQueue.clear();
             } finally {
                 queueLock.writeLock().unlock();
+            }
+
+            for (Map.Entry<Location, Boolean> entry : deletionQueueCopy.entrySet()) {
+                BlockStorage.deleteLocationInfoUnsafely(entry.getKey(), entry.getValue());
             }
 
             if (!halted) {
@@ -306,17 +306,17 @@ public final class TickerTask {
             }
 
             queueLock.writeLock().lock();
-
+            Map<Location, Location> moveCopy;
             try {
-                Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
-
-                while (moves.hasNext()) {
-                    Map.Entry<Location, Location> entry = moves.next();
-                    BlockStorage.moveLocationInfoUnsafely(entry.getKey(), entry.getValue());
-                    moves.remove();
-                }
+                // Copy the queue, this way we don't have keep the queue locked whilst moving
+                moveCopy = new HashMap<>(movingQueue);
+                movingQueue.clear();
             } finally {
                 queueLock.writeLock().unlock();
+            }
+
+            for (Map.Entry<Location, Location> entry : moveCopy.entrySet()) {
+                BlockStorage.moveLocationInfoUnsafely(entry.getKey(), entry.getValue());
             }
 
             // Start a new tick cycle for every BlockTicker
@@ -436,7 +436,7 @@ public final class TickerTask {
     /**
      * This method orders the {@link TickerTask} to be halted.
      */
-    public void halt() {
+    public synchronized void halt() {
         halted = true;
     }
 
@@ -446,12 +446,12 @@ public final class TickerTask {
         Validate.notNull(to, "Target Location cannot be null!");
 
         // This collection is iterated over in a different thread. Need to lock it.
-        queueLock.readLock().lock();
+        queueLock.writeLock().lock();
 
         try {
             movingQueue.put(from, to);
         } finally {
-            queueLock.readLock().unlock();
+            queueLock.writeLock().unlock();
         }
     }
 
@@ -460,12 +460,12 @@ public final class TickerTask {
         Validate.notNull(l, "Location must not be null!");
 
         // This collection is iterated over in a different thread. Need to lock it.
-        queueLock.readLock().lock();
+        queueLock.writeLock().lock();
 
         try {
             deletionQueue.put(l, destroy);
         } finally {
-            queueLock.readLock().unlock();
+            queueLock.writeLock().unlock();
         }
     }
 
