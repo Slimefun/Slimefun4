@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -16,20 +17,25 @@ import javax.annotation.Nonnull;
  *
  * @author StarWishsama
  */
-public class AsyncAutoEnchantProcessEvent extends Event implements Cancellable {
+public class AsyncAutoEnchanterProcessEvent extends Event implements Cancellable {
+
     private static final HandlerList handlers = new HandlerList();
 
     private final ItemStack item;
-    private final ItemStack enchantBook;
+    private final ItemStack enchantedBook;
     private final BlockMenu menu;
 
     private boolean cancelled;
 
-    public AsyncAutoEnchantProcessEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantBook, @Nonnull BlockMenu menu) {
+    public AsyncAutoEnchanterProcessEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantedBook, @Nonnull BlockMenu menu) {
         super(true);
 
+        Validate.notNull(item, "The item to enchant cannot be null!");
+        Validate.notNull(enchantedBook, "The enchanted book to enchant cannot be null!");
+        Validate.notNull(menu, "The menu of auto-enchanter cannot be null!");
+
         this.item = item;
-        this.enchantBook = enchantBook;
+        this.enchantedBook = enchantedBook;
         this.menu = menu;
     }
 
@@ -49,8 +55,8 @@ public class AsyncAutoEnchantProcessEvent extends Event implements Cancellable {
      * @return The {@link ItemStack} that is being used enchant book
      */
     @Nonnull
-    public ItemStack getEnchantBook() {
-        return enchantBook;
+    public ItemStack getEnchantedBook() {
+        return enchantedBook;
     }
 
     /**

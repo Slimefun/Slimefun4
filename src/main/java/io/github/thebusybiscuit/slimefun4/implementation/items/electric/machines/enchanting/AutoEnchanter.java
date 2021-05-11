@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncAutoEnchanterProcessEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantProcessEvent;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -64,10 +64,10 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
                 return null;
             }
 
-            ItemStack enchantBook = menu.getItemInSlot(slot);
+            ItemStack enchantedBook = menu.getItemInSlot(slot);
 
-            if (enchantBook != null && enchantBook.getType() == Material.ENCHANTED_BOOK) {
-                return enchant(menu, item, enchantBook);
+            if (enchantedBook != null && enchantedBook.getType() == Material.ENCHANTED_BOOK) {
+                return enchant(menu, item, enchantedBook);
             }
         }
 
@@ -78,7 +78,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
     @ParametersAreNonnullByDefault
     protected MachineRecipe enchant(BlockMenu menu, ItemStack target, ItemStack enchantedBook) {
         // Call an event so other Plugins can modify it.
-        AutoEnchantProcessEvent event = new AutoEnchantProcessEvent(target, enchantedBook, menu);
+        AsyncAutoEnchanterProcessEvent event = new AsyncAutoEnchanterProcessEvent(target, enchantedBook, menu);
         Bukkit.getPluginManager().callEvent(event);
 
         if (event.isCancelled()) {
