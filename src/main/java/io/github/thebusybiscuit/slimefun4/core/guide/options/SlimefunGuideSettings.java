@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
@@ -261,14 +262,14 @@ public final class SlimefunGuideSettings {
      * @param p The {@link Player}
      * @param cls Class of the {@link SlimefunGuideOption} to get the value of
      * @param defaultValue Default value to return in case the option is not found at all or has no value set
-     * @param <T> Type of the {@link SlimefunGuideOption} value
-     * @param <OPTION> Type of the {@link SlimefunGuideOption}
+     * @param <T> Type of the {@link SlimefunGuideOption}
+     * @param <V> Type of the {@link SlimefunGuideOption} value
      * @return The value of given {@link SlimefunGuideOption}
      */
-    private static <T, OPTION extends SlimefunGuideOption<T>> T getOptionValue(@Nonnull Player p, @Nonnull Class<OPTION> cls, T defaultValue) {
+    private static <T extends SlimefunGuideOption<V>, V> V getOptionValue(@Nonnull Player p, @Nonnull Class<T> cls, @Nullable V defaultValue) {
         for (SlimefunGuideOption<?> option : options) {
             if (cls.isInstance(option)) {
-                OPTION o = (OPTION) option;
+                T o = (T) option;
                 ItemStack guide = SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE);
                 return o.getSelectedOption(p, guide).orElse(defaultValue);
             }

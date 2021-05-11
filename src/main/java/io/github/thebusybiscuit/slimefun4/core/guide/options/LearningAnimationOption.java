@@ -7,15 +7,25 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
-public class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
+/**
+ * {@link LearningAnimationOption} represents a setting in the Slimefun guide book.
+ * It allows users to disable/enable the "learning animation",
+ * the information in chat when doing a Slimefun research.
+ *
+ * @author martinbrom
+ */
+class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
 
     @Nonnull
     @Override
@@ -35,13 +45,22 @@ public class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
         if (SlimefunPlugin.getRegistry().isLearningAnimationDisabled()) {
             return Optional.empty();
         } else {
-            String enabled = getSelectedOption(p, guide).orElse(true) ? "enabled" : "disabled";
+            boolean enabled = getSelectedOption(p, guide).orElse(true);
+            String optionState = enabled ? "enabled" : "disabled";
             List<String> lore = SlimefunPlugin.getLocalization().getMessages(
-                    p, "guide.options.learning-animation." + enabled + ".text");
+                    p, "guide.options.learning-animation." + optionState + ".text");
             lore.add("");
             lore.add("&7\u21E8 " + SlimefunPlugin.getLocalization().getMessage(
-                    p, "guide.options.learning-animation." + enabled + ".click"));
+                    p, "guide.options.learning-animation." + optionState + ".click"));
+
             ItemStack item = new CustomItem(Material.PAPER, lore);
+            if (enabled) {
+                item.addUnsafeEnchantment(Enchantment.MENDING, 1);
+                ItemMeta meta = item.getItemMeta();
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                item.setItemMeta(meta);
+            }
+
             return Optional.of(item);
         }
     }
