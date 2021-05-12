@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.settings.FloatRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -27,10 +27,10 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class PortableTeleporter extends SimpleSlimefunItem<ItemUseHandler> implements Rechargeable {
 
-    private static final float CAPACITY = 30F;
-    private static final float DEFAULT_COST = 5F;
+    private static final int CAPACITY = 30;
+    private static final int DEFAULT_COST = 5;
 
-    private final ItemSetting<Float> cost = new FloatRangeSetting(this, "teleportation-cost", 0F, DEFAULT_COST, CAPACITY);
+    private final ItemSetting<Integer> cost = new IntRangeSetting(this, "teleportation-cost", 0, DEFAULT_COST, CAPACITY);
 
     @ParametersAreNonnullByDefault
     public PortableTeleporter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
