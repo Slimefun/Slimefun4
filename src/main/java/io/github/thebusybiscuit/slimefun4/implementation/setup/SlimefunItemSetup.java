@@ -2225,7 +2225,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.GPS_CONTROL_PANEL, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.GPS_TELEPORTER_PYLON, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.GPS_TELEPORTER_PYLON})
         .register(plugin);
 
-        new PortableTeleporter(categories.gps, SlimefunItems.GPS_ACTIVATION_DEVICE_PORTABLE, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new PortableTeleporter(categories.gps, SlimefunItems.PORTABLE_TELEPORTER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.ELECTRO_MAGNET, SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.REINFORCED_PLATE, SlimefunItems.GPS_TELEPORTATION_MATRIX, SlimefunItems.REINFORCED_PLATE, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.BLISTERING_INGOT_3})
         .register(plugin);
 

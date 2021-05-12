@@ -7,6 +7,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.FloatRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -25,12 +27,16 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class PortableTeleporter extends SimpleSlimefunItem<ItemUseHandler> implements Rechargeable {
 
-    private static final float COST = 2F;
     private static final float CAPACITY = 30F;
+    private static final float DEFAULT_COST = 5F;
+
+    private final ItemSetting<Float> cost = new FloatRangeSetting(this, "teleportation-cost", 0F, DEFAULT_COST, CAPACITY);
 
     @ParametersAreNonnullByDefault
     public PortableTeleporter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        addItemSetting(cost);
     }
 
     @Nonnull
@@ -40,9 +46,10 @@ public class PortableTeleporter extends SimpleSlimefunItem<ItemUseHandler> imple
             ItemStack item = e.getItem();
             e.cancel();
 
-            if (removeItemCharge(item, COST)) {
+            if (removeItemCharge(item, cost.getValue())) {
+                Player p = e.getPlayer();
                 SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI(
-                        e.getPlayer(), e.getPlayer().getUniqueId(), e.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN));
+                        p, p.getUniqueId(), p.getLocation().getBlock().getRelative(BlockFace.DOWN));
             }
         };
     }
