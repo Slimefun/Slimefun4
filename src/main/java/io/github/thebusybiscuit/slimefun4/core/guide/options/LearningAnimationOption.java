@@ -38,7 +38,7 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
 
     @Nonnull
     @Override
-    public Optional<ItemStack> getDisplayItem(Player p, ItemStack guide) {
+    public Optional<ItemStack> getDisplayItem(@Nonnull Player p, @Nonnull ItemStack guide) {
         if (SlimefunPlugin.getRegistry().isLearningAnimationDisabled()) {
             return Optional.empty();
         } else {
