@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
@@ -18,7 +19,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 /**
  * This interface is used for the different implementations that add behaviour
  * to the {@link SlimefunGuide}.
- * 
+ *
  * @author TheBusyBiscuit
  * 
  * @see SlimefunGuideMode
@@ -30,7 +31,7 @@ public interface SlimefunGuideImplementation {
     /**
      * Every {@link SlimefunGuideImplementation} can be associated with a
      * {@link SlimefunGuideMode}.
-     * 
+     *
      * @return The mode this {@link SlimefunGuideImplementation} represents
      */
     @Nonnull
@@ -40,7 +41,7 @@ public interface SlimefunGuideImplementation {
      * Returns the {@link ItemStack} representation for this {@link SlimefunGuideImplementation}.
      * In other words: The {@link ItemStack} you hold in your hand and that you use to
      * open your {@link SlimefunGuide}
-     * 
+     *
      * @return The {@link ItemStack} representation for this {@link SlimefunGuideImplementation}
      */
     @Nonnull
@@ -63,7 +64,9 @@ public interface SlimefunGuideImplementation {
             research.unlock(p, true, callback);
         } else {
             p.setLevel(p.getLevel() - research.getCost());
-            research.unlock(p, false, callback);
+            boolean skipLearningAnimation = SlimefunPlugin.getRegistry().isLearningAnimationDisabled()
+                    || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
+            research.unlock(p, skipLearningAnimation, callback);
         }
     }
 
