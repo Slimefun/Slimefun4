@@ -27,8 +27,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class PortableTeleporter extends SimpleSlimefunItem<ItemUseHandler> implements Rechargeable {
 
-    private static final int CAPACITY = 30;
-    private static final int DEFAULT_COST = 5;
+    private static final int CAPACITY = 50;
+    private static final int DEFAULT_COST = 10;
 
     private final ItemSetting<Integer> cost = new IntRangeSetting(this, "teleportation-cost", 0, DEFAULT_COST, CAPACITY);
 
