@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,9 +39,7 @@ import net.md_5.bungee.api.chat.TextComponent;
  * There is not really much more I can say besides that...
  *
  * @author TheBusyBiscuit
- *
  * @see LocalizationService
- *
  */
 public abstract class SlimefunLocalization extends Localization implements Keyed {
 
@@ -53,9 +51,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
      * This method attempts to return the {@link Language} with the given
      * language code.
      *
-     * @param id
-     *            The language code
-     *
+     * @param id The language code
      * @return A {@link Language} with the given id or null
      */
     @Nullable
@@ -64,9 +60,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     /**
      * This method returns the currently selected {@link Language} of a {@link Player}.
      *
-     * @param p
-     *            The {@link Player} to query
-     *
+     * @param p The {@link Player} to query
      * @return The {@link Language} that was selected by the given {@link Player}
      */
     @Nullable
@@ -84,9 +78,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
      * This returns whether a {@link Language} with the given id exists within
      * the project resources.
      *
-     * @param id
-     *            The {@link Language} id
-     *
+     * @param id The {@link Language} id
      * @return Whether the project contains a {@link Language} with that id
      */
     protected abstract boolean hasLanguage(@Nonnull String id);
@@ -103,10 +95,8 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     /**
      * This method adds a new {@link Language} with the given id and texture.
      *
-     * @param id
-     *            The {@link Language} id
-     * @param texture
-     *            The texture of how this {@link Language} should be displayed
+     * @param id      The {@link Language} id
+     * @param texture The texture of how this {@link Language} should be displayed
      */
     protected abstract void addLanguage(@Nonnull String id, @Nonnull String texture);
 
@@ -124,159 +114,63 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     }
 
     @Nonnull
-    private final FileConfiguration getFallback(@Nonnull LanguageFile file) {
-        Language language = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
-
-        if (language == null) {
-            throw new IllegalStateException("Fallback language \"en\" is missing!");
-        }
-
-        FileConfiguration fallback = language.getFile(file);
-
-        if (fallback != null) {
-            return fallback;
-        } else {
-            throw new IllegalStateException("Fallback file: \"" + file.getFilePath("en") + "\" is missing!");
-        }
-    }
-
-    @Nonnull
     @Override
     public String getMessage(@Nonnull String key) {
-        Validate.notNull(key, "Message key must not be null!");
-
-        Language language = getDefaultLanguage();
-
-        String message = language == null ? null : language.getFile(LanguageFile.MESSAGES).getString(key);
-
-        if (message == null) {
-            return getFallback(LanguageFile.MESSAGES).getString(key);
-        }
-
-        return message;
+        return getString(getDefaultLanguage(), LanguageFile.MESSAGES, key);
     }
 
     @Nonnull
-    public String getMessage(@Nonnull Player p, @Nonnull String key) {
-        Validate.notNull(p, "Player must not be null!");
-        Validate.notNull(key, "Message key must not be null!");
-
-        Language language = getLanguage(p);
-
-        if (language == null) {
-            return "NO LANGUAGE FOUND";
-        }
-
-        String message = language.getFile(LanguageFile.MESSAGES).getString(key);
-
-        if (message == null) {
-            return getFallback(LanguageFile.MESSAGES).getString(key);
-        }
-
-        return message;
+    @ParametersAreNonnullByDefault
+    public String getMessage(Player p, String key) {
+        return getString(p, LanguageFile.MESSAGES, key);
     }
 
     @Nonnull
-    public List<String> getMessages(@Nonnull Player p, @Nonnull String key) {
-        Validate.notNull(p, "Player should not be null.");
-        Validate.notNull(key, "Message key cannot be null.");
-
-        Language language = getLanguage(p);
-
-        if (language == null) {
-            return Collections.singletonList("NO LANGUAGE FOUND");
-        }
-
-        List<String> messages = language.getFile(LanguageFile.MESSAGES).getStringList(key);
-
-        if (messages.isEmpty()) {
-            return getFallback(LanguageFile.MESSAGES).getStringList(key);
-        }
-
-        return messages;
+    @ParametersAreNonnullByDefault
+    public List<String> getMessages(Player p, String key) {
+        return getStringList(p, LanguageFile.MESSAGES, key);
     }
 
     @Nonnull
     @ParametersAreNonnullByDefault
     public List<String> getMessages(Player p, String key, UnaryOperator<String> function) {
-        Validate.notNull(p, "Player cannot be null.");
-        Validate.notNull(key, "Message key cannot be null.");
-        Validate.notNull(function, "Function cannot be null.");
-
-        List<String> messages = getMessages(p, key);
-        messages.replaceAll(function);
-
-        return messages;
+        return getStringList(p, LanguageFile.MESSAGES, key, function);
     }
 
-    @Nullable
-    public String getResearchName(@Nonnull Player p, @Nonnull NamespacedKey key) {
-        Validate.notNull(p, "Player must not be null.");
-        Validate.notNull(key, "NamespacedKey cannot be null.");
-
-        Language language = getLanguage(p);
-
-        if (language == null || language.getFile(LanguageFile.RESEARCHES) == null) {
-            return null;
-        }
-
-        return language.getFile(LanguageFile.RESEARCHES).getString(key.getNamespace() + '.' + key.getKey());
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public String getResearchName(Player p, NamespacedKey key) {
+        return getString(p, LanguageFile.RESEARCHES, key);
     }
 
-    @Nullable
-    public String getCategoryName(@Nonnull Player p, @Nonnull NamespacedKey key) {
-        Validate.notNull(p, "Player must not be null.");
-        Validate.notNull(key, "NamespacedKey cannot be null!");
-
-        Language language = getLanguage(p);
-
-        if (language == null || language.getFile(LanguageFile.CATEGORIES) == null) {
-            return null;
-        }
-
-        return language.getFile(LanguageFile.CATEGORIES).getString(key.getNamespace() + '.' + key.getKey());
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public String getCategoryName(Player p, NamespacedKey key) {
+        return getString(p, LanguageFile.CATEGORIES, key);
     }
 
-    @Nullable
-    public String getResourceString(@Nonnull Player p, @Nonnull String key) {
-        Validate.notNull(p, "Player should not be null!");
-        Validate.notNull(key, "Message key should not be null!");
-
-        Language language = getLanguage(p);
-
-        String value = language != null && language.getFile(LanguageFile.RESOURCES) != null ? language.getFile(LanguageFile.RESOURCES).getString(key) : null;
-
-        if (value != null) {
-            return value;
-        } else {
-            return getFallback(LanguageFile.RESOURCES).getString(key);
-        }
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public String getResourceString(Player p, String key) {
+        return getString(p, LanguageFile.RESOURCES, key);
     }
 
-    @Nullable
-    public ItemStack getRecipeTypeItem(@Nonnull Player p, @Nonnull RecipeType recipeType) {
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public String getRecipeString(Player p, String key) {
+        return getString(p, LanguageFile.RECIPES, key);
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public ItemStack getRecipeTypeItem(Player p, RecipeType recipeType) {
         Validate.notNull(p, "Player cannot be null!");
         Validate.notNull(recipeType, "Recipe type cannot be null!");
 
-        Language language = getLanguage(p);
-        ItemStack item = recipeType.toItem();
-        NamespacedKey key = recipeType.getKey();
-
-        if (language == null || language.getFile(LanguageFile.RECIPES) == null || !language.getFile(LanguageFile.RECIPES).contains(key.getNamespace() + '.' + key.getKey())) {
-            language = getLanguage("en");
-        }
-
-        if (!language.getFile(LanguageFile.RECIPES).contains(key.getNamespace() + '.' + key.getKey())) {
-            return item;
-        }
-
-        FileConfiguration config = language.getFile(LanguageFile.RECIPES);
-
-        return new CustomItem(item, meta -> {
-            meta.setDisplayName(ChatColor.AQUA + config.getString(key.getNamespace() + "." + key.getKey() + ".name"));
-            List<String> lore = config.getStringList(key.getNamespace() + "." + key.getKey() + ".lore");
-            lore.replaceAll(line -> ChatColor.GRAY + line);
-            meta.setLore(lore);
+        String keyString = namespacedKeyToString(recipeType.getKey());
+        return new CustomItem(recipeType.toItem(), meta -> {
+            meta.setDisplayName(ChatColor.AQUA + getRecipeString(p, keyString + ".name"));
+            meta.setLore(getStringList(p, LanguageFile.RECIPES, keyString + ".lore", line -> ChatColor.GRAY + line));
 
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -284,7 +178,8 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     }
 
     @Override
-    public void sendMessage(@Nonnull CommandSender recipient, @Nonnull String key, boolean addPrefix) {
+    @ParametersAreNonnullByDefault
+    public void sendMessage(CommandSender recipient, String key, boolean addPrefix) {
         Validate.notNull(recipient, "Recipient cannot be null!");
         Validate.notNull(key, "Message key cannot be null!");
 
@@ -297,7 +192,8 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         }
     }
 
-    public void sendActionbarMessage(@Nonnull Player player, @Nonnull String key, boolean addPrefix) {
+    @ParametersAreNonnullByDefault
+    public void sendActionbarMessage(Player player, String key, boolean addPrefix) {
         Validate.notNull(player, "Player cannot be null!");
         Validate.notNull(key, "Message key cannot be null!");
 
@@ -309,7 +205,8 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     }
 
     @Override
-    public void sendMessage(@Nonnull CommandSender recipient, @Nonnull String key) {
+    @ParametersAreNonnullByDefault
+    public void sendMessage(CommandSender recipient, String key) {
         sendMessage(recipient, key, true);
     }
 
@@ -335,7 +232,8 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     }
 
     @Override
-    public void sendMessages(@Nonnull CommandSender recipient, @Nonnull String key) {
+    @ParametersAreNonnullByDefault
+    public void sendMessages(CommandSender recipient, String key) {
         String prefix = getPrefix();
 
         if (recipient instanceof Player) {
@@ -357,8 +255,8 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         String prefix = addPrefix ? getPrefix() : "";
 
         if (recipient instanceof Player) {
-            for (String translation : getMessages((Player) recipient, key)) {
-                String message = ChatColors.color(prefix + function.apply(translation));
+            for (String translation : getMessages((Player) recipient, key, function)) {
+                String message = ChatColors.color(prefix + translation);
                 recipient.sendMessage(message);
             }
         } else {
@@ -388,5 +286,84 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         }
 
         return keys;
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    private String getString(Player p, LanguageFile languageFile, NamespacedKey key) {
+        return getString(p, languageFile, namespacedKeyToString(key));
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    private String getString(Player p, LanguageFile languageFile, String key) {
+        return getString(getLanguage(p), languageFile, key);
+    }
+
+    @Nonnull
+    private String getString(@Nullable Language language, @Nonnull LanguageFile languageFile, @Nonnull String key) {
+        Validate.notNull(languageFile, "LanguageFile must not be null!");
+        Validate.notNull(key, "Message key must not be null!");
+
+        if (language == null) {
+            return "NO LANGUAGE FOUND";
+        }
+
+        String value = language.getFile(languageFile) != null
+                ? language.getFile(languageFile).getString(key)
+                : null;
+
+        // TODO: 13.05.21 Nullability for the fallback?
+        return value == null
+                ? getFallback(languageFile).getString(key)
+                : value;
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    private List<String> getStringList(Player p, LanguageFile languageFile, String key, UnaryOperator<String> function) {
+        return getStringList(p, languageFile, key)
+                .stream()
+                .map(function)
+                .collect(Collectors.toList());
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    private List<String> getStringList(Player p, LanguageFile languageFile, String key) {
+        Validate.notNull(languageFile, "LanguageFile must not be null!");
+        Validate.notNull(key, "Message key must not be null!");
+
+        Language language = getLanguage(p);
+
+        List<String> value = language != null && language.getFile(languageFile) != null
+                ? language.getFile(languageFile).getStringList(key)
+                : null;
+
+        return value == null || value.isEmpty()
+                ? getFallback(languageFile).getStringList(key)
+                : value;
+    }
+
+    @Nonnull
+    private FileConfiguration getFallback(@Nonnull LanguageFile file) {
+        Language language = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
+
+        if (language == null) {
+            throw new IllegalStateException("Fallback language \"en\" is missing!");
+        }
+
+        FileConfiguration fallback = language.getFile(file);
+
+        if (fallback != null) {
+            return fallback;
+        } else {
+            throw new IllegalStateException("Fallback file: \"" + file.getFilePath("en") + "\" is missing!");
+        }
+    }
+
+    @Nonnull
+    private String namespacedKeyToString(@Nonnull NamespacedKey key) {
+        return key.getNamespace() + "." + key.getKey();
     }
 }
