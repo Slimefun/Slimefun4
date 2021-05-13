@@ -18,10 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     ## Only run this on the main repo
-   ## if: github.head_ref == 'Slimefun/Slimefun4'
+    if: github.repository == 'Slimefun/Slimefun4'
 
     steps:
-    - run: echo ${{ github.pull_request }}
     - name: Auto squash
       uses: pascalgn/automerge-action@v0.14.1
       env:
