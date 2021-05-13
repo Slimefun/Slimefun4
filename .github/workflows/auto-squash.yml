@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     ## Only run this on the main repo
-    if: github.head_ref == 'Slimefun/Slimefun4'
+    if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
 
     steps:
     - name: Auto squash
