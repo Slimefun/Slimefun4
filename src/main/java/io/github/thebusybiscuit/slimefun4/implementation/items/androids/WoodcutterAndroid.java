@@ -69,13 +69,14 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
 
         if (menu.fits(drop, getOutputSlots())) {
             menu.pushItem(drop, getOutputSlots());
-            log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+        }
 
-            if (log.getY() == android.getRelative(face).getY()) {
-                replant(log);
-            } else {
-                log.setType(Material.AIR);
-            }
+        log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+
+        if (log.getY() == android.getRelative(face).getY()) {
+            replant(log);
+        } else {
+            log.setType(Material.AIR);
         }
     }
 
