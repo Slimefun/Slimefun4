@@ -18,10 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     ## Only run this on the main repo
-    if: github.repository == 'Slimefun/Slimefun4'
+    if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
 
     steps:
-    - run: echo "${{ toJSON(github) }}"
     - name: Auto squash
       uses: pascalgn/automerge-action@v0.14.1
       env:
