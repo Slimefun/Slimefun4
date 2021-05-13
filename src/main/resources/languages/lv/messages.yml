@@ -35,7 +35,7 @@ guide:
     languages: 'Izvēlies savu vēlamo valodu,'
     credits: 'Slimefun4 Ieguldītāji'
   credits:
-    commit: "Ieguldījums"
+    commit: 'Ieguldījums'
     commits: 'Ieguldījumi'
     profile-link: 'Spied, lai apmeklētu GitHub profilu'
     roles:
