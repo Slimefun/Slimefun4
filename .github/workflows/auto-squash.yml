@@ -21,6 +21,7 @@ jobs:
     if: github.repository == 'Slimefun/Slimefun4'
 
     steps:
+    - run: echo "${{ github }}"
     - name: Auto squash
       uses: pascalgn/automerge-action@v0.14.1
       env:
