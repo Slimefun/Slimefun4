@@ -430,6 +430,9 @@ public final class SlimefunItemSetup {
             new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}
         }, plugin);
 
+        // TODO: 14.05.21 Add rainbow leather to the ancient altar
+        registerArmorSet(categories.magicalArmor, new ItemStack(Material.PINK_DYE), new ItemStack[] {SlimefunItems.RAINBOW_HELMET, SlimefunItems.RAINBOW_CHESTPLATE, SlimefunItems.RAINBOW_LEGGINGS, SlimefunItems.RAINBOW_BOOTS}, "RAINBOW", false, new PotionEffect[0][0], plugin);
+
         registerArmorSet(categories.armor, SlimefunItems.DAMASCUS_STEEL_INGOT, new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_HELMET, SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, SlimefunItems.DAMASCUS_STEEL_LEGGINGS, SlimefunItems.DAMASCUS_STEEL_BOOTS}, "DAMASCUS_STEEL", false, new PotionEffect[0][0], plugin);
 
         registerArmorSet(categories.armor, SlimefunItems.REINFORCED_ALLOY_INGOT, new ItemStack[] {SlimefunItems.REINFORCED_ALLOY_HELMET, SlimefunItems.REINFORCED_ALLOY_CHESTPLATE, SlimefunItems.REINFORCED_ALLOY_LEGGINGS, SlimefunItems.REINFORCED_ALLOY_BOOTS}, "REINFORCED_ALLOY", false, new PotionEffect[0][0], plugin);

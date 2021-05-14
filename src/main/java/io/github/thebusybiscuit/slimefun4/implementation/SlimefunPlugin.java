@@ -114,6 +114,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.RainbowArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
@@ -341,6 +342,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         if (config.getBoolean("options.enable-armor-effects")) {
             boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
             getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
+            getServer().getScheduler().runTaskTimerAsynchronously(this, new RainbowArmorTask(), 0L, 20L);
         }
 
         // Starting our tasks

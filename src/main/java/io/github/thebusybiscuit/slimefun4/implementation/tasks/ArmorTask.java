@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -38,7 +37,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author TheBusyBiscuit
  *
  */
-public class ArmorTask implements Runnable {
+public class ArmorTask extends AbstractArmorTask {
 
     private final Set<PotionEffect> radiationEffects;
     private final boolean radioactiveFire;
@@ -74,34 +73,23 @@ public class ArmorTask implements Runnable {
     }
 
     @Override
-    public void run() {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!p.isValid() || p.isDead()) {
-                continue;
-            }
+    protected void handle(Player p, PlayerProfile profile, ItemStack[] armor) {
+        handleSlimefunArmor(p, armor, profile.getArmor());
 
-            PlayerProfile.get(p, profile -> {
-                ItemStack[] armor = p.getInventory().getArmorContents();
-                HashedArmorpiece[] cachedArmor = profile.getArmor();
-
-                handleSlimefunArmor(p, armor, cachedArmor);
-
-                if (hasSunlight(p)) {
-                    checkForSolarHelmet(p);
-                }
-
-                checkForRadiation(p, profile);
-            });
+        if (hasSunlight(p)) {
+            checkForSolarHelmet(p);
         }
+
+        checkForRadiation(p, profile);
     }
 
     @ParametersAreNonnullByDefault
     private void handleSlimefunArmor(Player p, ItemStack[] armor, HashedArmorpiece[] cachedArmor) {
         for (int slot = 0; slot < 4; slot++) {
             ItemStack item = armor[slot];
-            HashedArmorpiece armorpiece = cachedArmor[slot];
+            HashedArmorpiece armorPiece = cachedArmor[slot];
 
-            if (armorpiece.hasDiverged(item)) {
+            if (armorPiece.hasDiverged(item)) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
                 if (!(sfItem instanceof SlimefunArmorPiece)) {
@@ -109,12 +97,12 @@ public class ArmorTask implements Runnable {
                     sfItem = null;
                 }
 
-                armorpiece.update(item, sfItem);
+                armorPiece.update(item, sfItem);
             }
 
-            if (item != null && armorpiece.getItem().isPresent()) {
+            if (item != null && armorPiece.getItem().isPresent()) {
                 SlimefunPlugin.runSync(() -> {
-                    SlimefunArmorPiece slimefunArmor = armorpiece.getItem().get();
+                    SlimefunArmorPiece slimefunArmor = armorPiece.getItem().get();
 
                     if (slimefunArmor.canUse(p, true)) {
                         for (PotionEffect effect : slimefunArmor.getPotionEffects()) {
