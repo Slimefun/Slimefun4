@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
@@ -11,7 +13,8 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.RainbowArmorPiece;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 
 /**
  * The {@link RainbowArmorTask} is responsible for handling the change in color of any Rainbow Armor piece.
@@ -24,6 +27,8 @@ public class RainbowArmorTask extends AbstractArmorTask {
 
     private final LoopIterator<Color> iterator;
 
+    private Color currentColor = DYE_COLORS[0].getColor();
+
     public RainbowArmorTask() {
         iterator = new LoopIterator<>(Arrays.stream(DYE_COLORS)
                 .map(DyeColor::getColor)
@@ -31,15 +36,22 @@ public class RainbowArmorTask extends AbstractArmorTask {
     }
 
     @Override
-    protected void handle(Player p, PlayerProfile profile, ItemStack[] armor) {
-        Color color = iterator.next();
-        for (int slot = 0; slot < 4; slot++) {
-            ItemStack item = armor[slot];
-            if (item != null && SlimefunTag.LEATHER_ARMOR.isTagged(item.getType())) {
-                LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
-                meta.setColor(color);
-                item.setItemMeta(meta);
-            }
+    @ParametersAreNonnullByDefault
+    protected void handleArmorPiece(Player p, SlimefunArmorPiece sfArmorPiece, ItemStack armorPiece) {
+        if (sfArmorPiece instanceof RainbowArmorPiece) {
+            LeatherArmorMeta meta = (LeatherArmorMeta) armorPiece.getItemMeta();
+            meta.setColor(currentColor);
+            armorPiece.setItemMeta(meta);
         }
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
+    protected void handlePlayer(Player p, PlayerProfile profile) {
+    }
+
+    @Override
+    protected void handleTick() {
+        currentColor = iterator.next();
     }
 }
