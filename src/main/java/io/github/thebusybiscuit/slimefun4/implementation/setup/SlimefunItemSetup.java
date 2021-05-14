@@ -430,8 +430,7 @@ public final class SlimefunItemSetup {
             new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}
         }, plugin);
 
-        // TODO: 14.05.21 Add rainbow leather to the ancient altar
-        registerArmorSet(categories.magicalArmor, new ItemStack(Material.PINK_DYE), new ItemStack[] {SlimefunItems.RAINBOW_HELMET, SlimefunItems.RAINBOW_CHESTPLATE, SlimefunItems.RAINBOW_LEGGINGS, SlimefunItems.RAINBOW_BOOTS}, "RAINBOW", false, new PotionEffect[0][0], plugin);
+        registerArmorSet(categories.magicalArmor, SlimefunItems.RAINBOW_LEATHER, new ItemStack[] {SlimefunItems.RAINBOW_HELMET, SlimefunItems.RAINBOW_CHESTPLATE, SlimefunItems.RAINBOW_LEGGINGS, SlimefunItems.RAINBOW_BOOTS}, "RAINBOW", false, new PotionEffect[0][0], plugin);
 
         registerArmorSet(categories.armor, SlimefunItems.DAMASCUS_STEEL_INGOT, new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_HELMET, SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, SlimefunItems.DAMASCUS_STEEL_LEGGINGS, SlimefunItems.DAMASCUS_STEEL_BOOTS}, "DAMASCUS_STEEL", false, new PotionEffect[0][0], plugin);
 
@@ -2593,6 +2592,11 @@ public final class SlimefunItemSetup {
             new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
             .register(plugin);
         }
+
+        new SlimefunItem(categories.magicalResources, SlimefunItems.RAINBOW_LEATHER, RecipeType.ANCIENT_ALTAR,
+        new ItemStack[] {new ItemStack(Material.RABBIT_HIDE), new ItemStack(Material.LEATHER), new ItemStack(Material.RABBIT_HIDE), new ItemStack(Material.LEATHER), SlimefunItems.RAINBOW_RUNE, new ItemStack(Material.LEATHER), new ItemStack(Material.RABBIT_HIDE), new ItemStack(Material.LEATHER), new ItemStack(Material.RABBIT_HIDE)},
+        new SlimefunItemStack(SlimefunItems.RAINBOW_LEATHER, 8))
+        .register(plugin);
 
         new ElytraCap(categories.magicalArmor, SlimefunItems.ELYTRA_CAP, RecipeType.ARMOR_FORGE,
         new ItemStack[] {new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.SLIME_BALL)})
