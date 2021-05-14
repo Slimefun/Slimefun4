@@ -60,6 +60,7 @@ public abstract class AbstractArmorTask implements Runnable {
      * @param p The {@link Player} wearing the armor
      * @param profile The {@link Player}'s {@link PlayerProfile}
      */
+    @ParametersAreNonnullByDefault
     protected abstract void handlePlayer(Player p, PlayerProfile profile);
 
     /**
