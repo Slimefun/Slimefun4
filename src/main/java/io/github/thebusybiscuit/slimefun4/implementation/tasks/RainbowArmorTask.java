@@ -3,29 +3,29 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
 /**
- * The {@link RainbowArmorTask} is responsible for handling the change in color of any Rainbow Armor piece
+ * The {@link RainbowArmorTask} is responsible for handling the change in color of any Rainbow Armor piece.
  *
  * @author martinbrom
  */
 public class RainbowArmorTask extends AbstractArmorTask {
 
+    private static final DyeColor[] DYE_COLORS = { DyeColor.RED, DyeColor.ORANGE, DyeColor.YELLOW, DyeColor.LIME, DyeColor.LIGHT_BLUE, DyeColor.PURPLE, DyeColor.MAGENTA };
+
     private final LoopIterator<Color> iterator;
 
-    // TODO: 14.05.21 Reorder the colors to look nice
     public RainbowArmorTask() {
-        // TODO: 14.05.21 Can I maybe just call iterator() instead of collect() and cast to LoopIterator ??
-        iterator = new LoopIterator<>(Arrays.stream(DyeColor.values())
+        iterator = new LoopIterator<>(Arrays.stream(DYE_COLORS)
                 .map(DyeColor::getColor)
                 .collect(Collectors.toList()));
     }
