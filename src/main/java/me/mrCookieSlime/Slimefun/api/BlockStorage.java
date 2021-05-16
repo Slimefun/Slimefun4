@@ -203,8 +203,9 @@ public class BlockStorage {
                 }
 
                 String fileName = file.getName().replace(".sfb", "");
+                SlimefunItem item = SlimefunItem.getByID(fileName);
 
-                if (SlimefunPlugin.getRegistry().getTickerBlocks().contains(fileName)) {
+                if (item != null && item.isTicking() && !item.isDisabledIn(l.getWorld())) {
                     SlimefunPlugin.getTickerTask().enableTicker(l);
                 }
             }
@@ -682,7 +683,7 @@ public class BlockStorage {
         if (updateTicker) {
             SlimefunItem item = SlimefunItem.getByID(key);
 
-            if (item != null && item.isTicking() && value != null) {
+            if (item != null && value != null && item.isTicking() && !item.isDisabledIn(l.getWorld())) {
                 SlimefunPlugin.getTickerTask().enableTicker(l);
             }
         }
