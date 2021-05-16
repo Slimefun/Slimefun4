@@ -19,7 +19,8 @@ public enum LanguageFile {
     CATEGORIES("categories.yml"),
     RECIPES("recipes.yml"),
     RESOURCES("resources.yml"),
-    RESEARCHES("researches.yml");
+    RESEARCHES("researches.yml"),
+    SLIMEFUNITEMS("slimefunitems.yml");
 
     protected static final LanguageFile[] valuesCached = values();
 

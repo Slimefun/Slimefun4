@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
@@ -33,6 +34,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * This is an abstract parent class of {@link LocalizationService}.
@@ -281,6 +283,44 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         });
+    }
+
+    public ItemStack getLocalizedSlimefunItem(@Nonnull Player p, @Nonnull ItemStack itemStack) {
+        Validate.notNull(p, "Player cannot be null!");
+        Validate.notNull(itemStack, "ItemStack cannot be null!");
+
+        SlimefunItem sfitem = SlimefunItem.getByItem(itemStack);
+        return sfitem == null? itemStack : getLocalizedSlimefunItem(p, sfitem);
+    }
+
+    public ItemStack getLocalizedSlimefunItem(@Nonnull Player p, @Nonnull SlimefunItem sfitem) {
+        Validate.notNull(p, "Player cannot be null!");
+        Validate.notNull(sfitem, "Slimefun Item cannot be null!");
+
+        Language language = getLanguage(p);
+        NamespacedKey key = sfitem.getKey();
+
+        if (language == null || language.getFile(LanguageFile.SLIMEFUNITEMS) == null || !language.getFile(LanguageFile.SLIMEFUNITEMS).contains(key.getNamespace() + '.' + key.getKey())) {
+            language = getLanguage("en");
+        }
+
+        ItemStack itemStack = sfitem.getItem().clone();
+        FileConfiguration config = language.getFile(LanguageFile.SLIMEFUNITEMS);
+        if (!config.contains(key.getNamespace() + '.' + key.getKey())) {
+            return itemStack;
+        }
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColors.color(config.getString(key.getNamespace() + "." + key.getKey() + ".name")));
+        if (itemMeta.hasLore()) {
+            List<String> lore = config.getStringList(key.getNamespace() + "." + key.getKey() + ".lore");
+            for (int i = 0; i < lore.size(); i++) {
+                lore.set(i, ChatColors.color(lore.get(i)));
+            }
+            itemMeta.setLore(lore);
+        }
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
     }
 
     @Override

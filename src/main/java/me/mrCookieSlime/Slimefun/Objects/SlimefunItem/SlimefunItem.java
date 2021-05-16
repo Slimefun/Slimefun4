@@ -16,6 +16,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -123,6 +124,8 @@ public class SlimefunItem implements Placeable {
     private boolean ticking = false;
     private BlockTicker blockTicker;
 
+    private final NamespacedKey key;
+
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
      * 
@@ -166,6 +169,7 @@ public class SlimefunItem implements Placeable {
         this.recipeType = recipeType;
         this.recipe = recipe;
         this.recipeOutput = recipeOutput;
+        this.key = new NamespacedKey(SlimefunPlugin.instance(), this.id);
     }
 
     // Previously deprecated constructor, now only for internal purposes
@@ -181,6 +185,7 @@ public class SlimefunItem implements Placeable {
         this.id = id;
         this.recipeType = recipeType;
         this.recipe = recipe;
+        this.key = new NamespacedKey(SlimefunPlugin.instance(), this.id);
     }
 
     /**
@@ -427,6 +432,10 @@ public class SlimefunItem implements Placeable {
 
     public BlockTicker getBlockTicker() {
         return blockTicker;
+    }
+
+    public NamespacedKey getKey() {
+        return key;
     }
 
     /**

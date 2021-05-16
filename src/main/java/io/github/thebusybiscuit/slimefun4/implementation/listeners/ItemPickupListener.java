@@ -2,10 +2,15 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -48,6 +53,16 @@ public class ItemPickupListener implements Listener {
                 e.setCancelled(true);
                 e.getItem().remove();
             }
+        }
+    }
+
+    @EventHandler
+    public void onSlimefunItemPickup(EntityPickupItemEvent e) {
+        LivingEntity entity = e.getEntity();
+        if (entity instanceof Player) {
+            ItemStack item = e.getItem().getItemStack();
+            item = SlimefunPlugin.getLocalization().getLocalizedSlimefunItem((Player) entity, item);
+            e.getItem().setItemStack(item);
         }
     }
 }

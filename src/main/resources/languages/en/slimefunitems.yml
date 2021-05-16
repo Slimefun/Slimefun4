@@ -1,0 +1,2997 @@
+slimefun:
+  steel_plate:
+    name: '&7&lSteel Plate'
+  produce_collector:
+    name: '&bProduce Collector'
+    lore:
+      - ''
+      - '&fThis machine allows you to'
+      - '&fcollect produce from nearby animals.'
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &e⚡ &7512 J Buffer'
+      - '&8⇨ &e⚡ &732 J/s'
+  enhanced_crafting_table:
+    name: '&eEnhanced Crafting Table'
+    lore:
+      - ''
+      - '&aA regular Crafting Table cannot'
+      - '&ahold this massive Amount of Power...'
+  programmable_android_3_fisherman:
+    name: '&eEmpowered Programmable Android &7(Fisherman)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Fishing'
+      - '&8⇨ &7Success Rate: 30%'
+      - '&8⇨ &7Fuel Efficiency: 8.0x'
+  gold_pan:
+    name: '&6Gold Pan'
+    lore:
+      - ''
+      - '&eRight Click&7 to collect resources'
+      - '&7from Gravel'
+  gold_dust:
+    name: '&6Gold Dust'
+  ender_angel_talisman:
+    name: '&5Ender Talisman of the Angel'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it has a'
+      - '&f75% chance to prevent you'
+      - '&ffrom taking Fall Damage'
+  juicer:
+    name: '&aJuicer'
+    lore:
+      - ''
+      - '&aAllows you to create delicious Juice'
+  gps_control_panel:
+    name: '&bGPS Control Panel'
+    lore:
+      - ''
+      - '&fAllows you to track your Satellites'
+      - '&fand manage your Waypoints'
+  rainbow_wool:
+    name: '&5Rainbow Wool'
+    lore:
+      - ''
+      - '&dCycles through all Colors of the Rainbow!'
+  ancient_rune_soulbound:
+    name: '&7Ancient Rune &8&l[&5&lSoulbound&8&l]'
+    lore:
+      - '&eDrop this rune onto a dropped item to'
+      - '&5bind &ethat item to your soul.'
+      - ' '
+      - '&eIt is advised that you only use this rune'
+      - '&eon &6important &eitems.'
+      - ' '
+      - '&eItems bound to your soul won''t drop on death.'
+  pickaxe_of_vein_mining:
+    name: '&ePickaxe of Vein Mining'
+    lore:
+      - ''
+      - '&fThis Pickaxe will dig out'
+      - '&fwhole Veins of Ores...'
+  electric_press:
+    name: '&eElectric Press'
+    lore:
+      - ''
+      - '&aMedium Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &716 J/s'
+  glowstone_helmet:
+    name: '&e&lGlowstone Helmet'
+    lore:
+      - ''
+      - '&a&oShining like the sun!'
+      - ''
+      - '&9+ Night Vision'
+  glowstone_boots:
+    name: '&e&lGlowstone Boots'
+    lore:
+      - ''
+      - '&a&oShining like the sun!'
+      - ''
+      - '&9+ Night Vision'
+  bucket_of_fuel:
+    name: '&fBucket of Fuel'
+  soulbound_trident:
+    name: '&cSoulbound Trident'
+  advanced_industrial_miner:
+    name: '&cAdvanced Industrial Miner'
+    lore:
+      - ''
+      - '&fThis Multiblock will mine any Ores'
+      - '&fin a 11x11 area underneath it.'
+      - '&fPlace a bucket of fuel or lava in'
+      - '&fits chest to fuel this machine.'
+      - ''
+      - '&a+ Silk Touch'
+  slime_steel_helmet:
+    name: '&a&lSlime Helmet'
+    lore:
+      - '&7&oReinforced'
+      - ''
+      - '&a&oBouncy Feeling'
+  programmable_android_3_butcher:
+    name: '&eEmpowered Programmable Android &7(Butcher)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Slaughtering'
+      - '&8⇨ &7Damage: 20'
+      - '&8⇨ &7Fuel Efficiency: 8.0x'
+  beef_jerky:
+    name: '&6Beef Jerky'
+    lore:
+      - ''
+      - '&fExtra saturating!'
+  table_saw:
+    name: '&6Table Saw'
+    lore:
+      - ''
+      - '&aAllows you to get 8 planks from 1 Log'
+      - '&a(Works with all log types)'
+  chicken_jerky:
+    name: '&6Chicken Jerky'
+    lore:
+      - ''
+      - '&fExtra saturating!'
+  lava_talisman:
+    name: '&aTalisman of the Lava Walker'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it will'
+      - '&fgive you Fire Resistance'
+      - '&fas soon as you touch Lava'
+      - '&fbut will then be consumed'
+  animal_growth_accelerator:
+    name: '&bAnimal Growth Accelerator'
+    lore:
+      - ''
+      - '&fRuns on &aOrganic Food'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &e⚡ &71024 J Buffer'
+      - '&8⇨ &e⚡ &728 J/s'
+  reinforced_alloy_chestplate:
+    name: '&bReinforced Chestplate'
+  stone_chunk:
+    name: '&6Stone Chunk'
+  explosive_pickaxe:
+    name: '&eExplosive Pickaxe'
+    lore:
+      - ''
+      - '&fAllows you to mine a good bit'
+      - '&fof Blocks at once...'
+      - ''
+      - '&9Works with Fortune'
+  carbonado_jetboots:
+    name: '&9Jet Boots &7- &eVII'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bCarbonado'
+      - '&8⇨ &e⚡ &70 / 125 J'
+      - '&8⇨ &b⚡ &7Speed: &b0.7x'
+      - '&8⇨ &7Accuracy: &c99.9%'
+      - ''
+      - '&eCrouch&7 to use'
+  reactor_access_port:
+    name: '&2Reactor Access Port'
+    lore:
+      - ''
+      - '&fAllows you to interact with a Reactor'
+      - '&fvia Cargo Nodes, can also be used'
+      - '&fas a Buffer'
+      - ''
+      - '&8⇨ &eMust be placed &a3 Blocks &eabove the Reactor'
+  chain_chestplate:
+    name: Chainmail Chestplate
+  gold_4k:
+    name: '&fGold Ingot &7(4-Carat)'
+  book_binder:
+    name: '&6Book Binder'
+    lore:
+      - ''
+      - '&fBinds multiple enchanted books into one.'
+      - ''
+      - '&aMedium Machine'
+      - '&8⇨ &e⚡ &716 J/s'
+  rainbow_glazed_terracotta:
+    name: '&5Rainbow Glazed Terracotta'
+    lore:
+      - ''
+      - '&dCycles through all Colors of the Rainbow!'
+  auto_disenchanter:
+    name: '&5Auto Disenchanter'
+    lore:
+      - ''
+      - '&aMedium Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &718 J/s'
+  mutton_jerky:
+    name: '&6Mutton Jerky'
+    lore:
+      - ''
+      - '&fExtra saturating!'
+  zinc_ingot:
+    name: '&bZinc Ingot'
+  android_interface_items:
+    name: '&7Android Interface &9(Items)'
+    lore:
+      - ''
+      - '&fItems stored in an Android''s Inventory'
+      - '&fwill be inserted into this Interface'
+      - '&fwhen its Script tells them to do so'
+  cargo_node_output_advanced:
+    name: '&6Advanced Cargo Node &c(Output)'
+    lore:
+      - ''
+      - '&fCargo Output Pipe'
+  freezer_2:
+    name: '&bFreezer &7(&eII&7)'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b2.0x'
+      - '&8⇨ &e⚡ &7256 J Buffer'
+      - '&8⇨ &e⚡ &730 J/s'
+  bandage:
+    name: '&cBandage'
+    lore:
+      - ''
+      - '&aLevel II - Medical Supply'
+      - ''
+      - '&fRestores 4 Hearts'
+      - '&fExtinguishes Fire'
+      - ''
+      - '&eRight Click&7 to use'
+  pickaxe_of_containment:
+    name: '&cPickaxe of Containment'
+    lore:
+      - ''
+      - '&9Can pickup Spawners'
+  reinforced_alloy_leggings:
+    name: '&bReinforced Leggings'
+  power_crystal:
+    name: '&c&lPower Crystal'
+  staff_elemental_fire:
+    name: '&6Elemental Staff &7- &c&oFire'
+    lore:
+      - ''
+      - '&7Element: &c&oFire'
+  gold_12k_leggings:
+    name: '&6Golden Leggings &7(12-Carat)'
+  reinforced_alloy_multi_tool:
+    name: '&9Multi Tool &7- &eVI'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bReinforced Alloy'
+      - '&8⇨ &e⚡ &70 / 75 J'
+      - ''
+      - '&eRight Click&7 to use'
+      - '&eCrouch & Right Click&7 to switch modes'
+  gps_teleportation_matrix:
+    name: '&bGPS Teleporter Matrix'
+    lore:
+      - ''
+      - '&fThis is your Teleporter''s Main Component'
+      - '&fThis Matrix allows Players to choose from all'
+      - '&fWaypoints made by the Player who has placed'
+      - '&fthis Device.'
+  organic_food_beetroot:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Beetroot'
+  bronze_ingot:
+    name: '&bBronze Ingot'
+  soulbound_leggings:
+    name: '&cSoulbound Leggings'
+  boosted_uranium:
+    name: '&2Boosted Uranium'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &cVERY HIGH'
+      - '&8⇨ &4Hazmat Suit required!'
+  carbon_press_2:
+    name: '&cCarbon Press &7- &eII'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b3.0x'
+      - '&8⇨ &e⚡ &750 J/s'
+  carbon_press_3:
+    name: '&cCarbon Press &7- &eIII'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b15.0x'
+      - '&8⇨ &e⚡ &7180 J/s'
+  wizard_talisman:
+    name: '&aTalisman of the Wizard'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it allows you to'
+      - '&fobtain Fortune Level 4/5 however'
+      - '&fit also has a chance to lower the'
+      - '&fLevel of some Enchantments on your Item'
+  totem_of_undying:
+    name: Totem of Undying
+  energized_capacitor:
+    name: '&aEnergized Energy Capacitor'
+    lore:
+      - '&7Range: &c6 blocks'
+      - ''
+      - '&4End-Game Capacitor'
+      - '&8⇨ &e⚡ &7524288 J Capacity'
+  gold_12k_boots:
+    name: '&6Golden Boots &7(12-Carat)'
+  infused_elytra:
+    name: '&5Infused Elytra'
+  soulbound_axe:
+    name: '&cSoulbound Axe'
+  sweet_berry_juice:
+    name: '&cSweet Berry Juice'
+    lore:
+      - ''
+      - '&7&oRestores &b&o3.0 &7&oHunger'
+  anvil_talisman:
+    name: '&aTalisman of the Anvil'
+    lore:
+      - ''
+      - '&fEach Talisman can prevent'
+      - '&f1 Tool from breaking, but will then'
+      - '&fbe consumed'
+      - ''
+      - '&4&lWARNING:'
+      - '&4This Talisman does not work on'
+      - '&4Tools which are too powerful'
+      - '&4due to their complexity'
+  solar_panel:
+    name: '&9Photovoltaic Cell'
+    lore:
+      - ''
+      - '&7Important component for'
+      - '&7crafting a &bSolar Generator'
+  electro_magnet:
+    name: '&cElectromagnet'
+  pork_jerky:
+    name: '&6Pork Jerky'
+    lore:
+      - ''
+      - '&fExtra saturating!'
+  rainbow_concrete_halloween:
+    name: '&5Rainbow Concrete &7(Halloween)'
+    lore:
+      - ''
+      - '&c[&6Halloween Edition&c]'
+  salt:
+    name: '&fSalt'
+  magnet:
+    name: '&cMagnet'
+  staff_elemental:
+    name: '&6Elemental Staff'
+  slime_steel_boots:
+    name: '&a&lSlime Boots'
+    lore:
+      - '&7&oReinforced'
+      - ''
+      - '&a&oBouncy Feeling'
+      - ''
+      - '&9+ Jump Boost'
+      - '&9+ No Fall Damage'
+  fortune_cookie:
+    name: '&6Fortune Cookie'
+    lore:
+      - ''
+      - '&a&oTells you stuff about your Future :o'
+  organic_food_carrot:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Carrots'
+  basic_circuit_board:
+    name: '&bBasic Circuit Board'
+  programmable_android:
+    name: '&cProgrammable Android &7(Normal)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: None'
+      - '&8⇨ &7Fuel Efficiency: 1.0x'
+  whirlwind_talisman:
+    name: '&aTalisman of the Whirlwind'
+    lore:
+      - ''
+      - '&fHaving this Talisman'
+      - '&fin your Inventory will reflect'
+      - '&f60% of any projectiles fired at you.'
+      - '&e&oOnly a thrown Trident can pierce'
+      - '&e&othrough this layer of protection'
+  solder_jetpack:
+    name: '&9Electric Jetpack &7- &eII'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bSolder'
+      - '&8⇨ &e⚡ &70 / 30 J'
+      - '&8⇨ &7Thrust: &c0.4'
+      - ''
+      - '&eCrouch&7 to use'
+  soulbound_boots:
+    name: '&cSoulbound Boots'
+  pressure_chamber:
+    name: '&bPressure Chamber'
+    lore:
+      - ''
+      - '&aCompresses Items even further'
+  rainbow_glass_xmas:
+    name: '&5Rainbow Glass &7(Christmas)'
+    lore:
+      - ''
+      - '&a[&cC&ah&cr&ai&cs&at&cm&aa&cs&a &cE&ad&ci&at&ci&ao&cn&a]'
+  cactus_boots:
+    name: '&2Cactus Boots'
+  christmas_cake:
+    name: '&aC&ch&ar&ci&as&ct&am&ca&as&c &aC&ca&ak&ce'
+  ender_wizard_talisman:
+    name: '&5Ender Talisman of the Wizard'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it allows you to'
+      - '&fobtain Fortune Level 4/5 however'
+      - '&fit also has a chance to lower the'
+      - '&fLevel of some Enchantments on your Item'
+  ferrosilicon:
+    name: '&bFerrosilicon'
+  enhanced_furnace:
+    name: '&7Enhanced Furnace - &eI'
+    lore:
+      - ''
+      - '&7Processing Speed: &e1x'
+      - '&7Fuel Efficiency: &e1x'
+      - '&7Luck Multiplier: &e1x'
+  ancient_rune_air:
+    name: '&7Ancient Rune &8&l[&b&lAir&8&l]'
+  magical_zombie_pills:
+    name: '&6Magical Zombie Pills'
+    lore:
+      - ''
+      - '&eRight Click &7a Zombified Villager'
+      - '&eor &7a Zombified Piglin to'
+      - '&7instantly cure it from its curse'
+  reinforced_furnace:
+    name: '&7Reinforced Furnace'
+    lore:
+      - ''
+      - '&7Processing Speed: &e10x'
+      - '&7Fuel Efficiency: &e10x'
+      - '&7Luck Multiplier: &e3x'
+  auto_drier:
+    name: '&6Auto Drier'
+    lore:
+      - ''
+      - '&aMedium Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &710 J/s'
+  cargo_motor:
+    name: '&3Cargo Motor'
+    lore:
+      - ''
+      - '&7Important ingredient for items'
+      - '&7related to Cargo Management'
+  copper_ingot:
+    name: '&bCopper Ingot'
+  heated_pressure_chamber:
+    name: '&cHeated Pressure Chamber'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &710 J/s'
+  ender_lava_talisman:
+    name: '&5Ender Talisman of the Lava Walker'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it will'
+      - '&fgive you Fire Resistance'
+      - '&fas soon as you touch Lava'
+      - '&fbut will then be consumed'
+  armor_forge:
+    name: '&6Armor Forge'
+    lore:
+      - ''
+      - '&aGives you the ability to create powerful armor'
+  carrot_pie:
+    name: '&6Carrot Pie'
+  electric_ingot_factory:
+    name: '&cElectric Ingot Factory'
+    lore:
+      - ''
+      - '&eBasic Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &78 J/s'
+  ender_backpack:
+    name: '&6Ender Backpack'
+    lore:
+      - '&a&oA portable Ender Chest'
+      - ''
+      - '&eRight Click&7 to open'
+  fertilizer_kelp:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Dried Kelp'
+  magnesium_dust:
+    name: '&6Magnesium'
+  billon_jetpack:
+    name: '&9Electric Jetpack &7- &eIII'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bBillon'
+      - '&8⇨ &e⚡ &70 / 45 J'
+      - '&8⇨ &7Thrust: &c0.45'
+      - ''
+      - '&eCrouch&7 to use'
+  restored_backpack:
+    name: '&eRestored Backpack'
+    lore:
+      - ''
+      - '&7Retrieve your lost items'
+      - '&7ID: <ID>'
+      - ''
+      - '&eRight Click&7 to open'
+  enhanced_furnace_10:
+    name: '&7Enhanced Furnace - &eX'
+    lore:
+      - ''
+      - '&7Processing Speed: &e5x'
+      - '&7Fuel Efficiency: &e5x'
+      - '&7Luck Multiplier: &e2x'
+  ender_leggings:
+    name: '&5&lEnder Leggings'
+    lore:
+      - ''
+      - '&a&oSometimes its here, sometimes there!'
+  magical_glass:
+    name: '&6Magical Glass'
+    lore:
+      - ''
+      - '&a&oUsed for various Magical Gadgets'
+  gps_geo_scanner:
+    name: '&bGPS Geo-Scanner'
+    lore:
+      - ''
+      - '&fScans a Chunk for natural Resources'
+      - '&fsuch as &8Oil'
+  enhanced_furnace_11:
+    name: '&7Enhanced Furnace - &eXI'
+    lore:
+      - ''
+      - '&7Processing Speed: &e5x'
+      - '&7Fuel Efficiency: &e5x'
+      - '&7Luck Multiplier: &e3x'
+  christmas_apple_cider:
+    name: '&cApple Cider'
+    lore:
+      - ''
+      - '&7&oRestores &b&o7.0 &7&oHunger'
+  rainbow_glass_valentine:
+    name: '&5Rainbow Glass &7(Valentine''s Day)'
+    lore:
+      - ''
+      - '&5[&dValentine''s Day Edition&5]'
+  ancient_rune_earth:
+    name: '&7Ancient Rune &8&l[&c&lEarth&8&l]'
+  solder_jetboots:
+    name: '&9Jet Boots &7- &eII'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bSolder'
+      - '&8⇨ &e⚡ &70 / 30 J'
+      - '&8⇨ &b⚡ &7Speed: &b0.4x'
+      - '&8⇨ &7Accuracy: &660%'
+      - ''
+      - '&eCrouch&7 to use'
+  electric_press_2:
+    name: '&eElectric Press &7- &eII'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b3.0x'
+      - '&8⇨ &e⚡ &740 J/s'
+  small_uranium:
+    name: '&cSmall Chunk of Uranium'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &eMODERATE'
+      - '&8⇨ &4Hazmat Suit required!'
+  uranium:
+    name: '&4Uranium'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &2HIGH'
+      - '&8⇨ &4Hazmat Suit required!'
+  bee_boots:
+    name: '&e&lBee Boots'
+    lore:
+      - ''
+      - '&fBzzzzzzz'
+      - ''
+      - '&9+ Jump Boost'
+      - '&9+ No Fall Damage'
+  angel_talisman:
+    name: '&aTalisman of the Angel'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it has a'
+      - '&f75% chance to prevent you'
+      - '&ffrom taking Fall Damage'
+  silver_dust:
+    name: '&6Silver Dust'
+  rainbow_clay:
+    name: '&5Rainbow Clay'
+    lore:
+      - ''
+      - '&dCycles through all Colors of the Rainbow!'
+  rainbow_glazed_terracotta_valentine:
+    name: '&5Rainbow Glazed Terracotta &7(Valentine''s Day)'
+    lore:
+      - ''
+      - '&5[&dValentine''s Day Edition&5]'
+  essence_of_afterlife:
+    name: '&4Essence of Afterlife'
+  tiny_uranium:
+    name: '&cTiny Pile of Uranium'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &eLOW'
+  gilded_backpack:
+    name: '&eGilded Backpack'
+    lore:
+      - ''
+      - '&7Size: &e45'
+      - '&7ID: <ID>'
+      - ''
+      - '&eRight Click&7 to open'
+  carbon_press:
+    name: '&cCarbon Press'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &720 J/s'
+  electric_motor:
+    name: '&cElectric Motor'
+  kelp_cookie:
+    name: '&2Kelp Cookie'
+  night_vision_goggles:
+    name: '&aNight Vision Goggles'
+    lore:
+      - ''
+      - '&9+ Night Vision'
+  food_composter:
+    name: '&cFood Composter'
+    lore:
+      - ''
+      - '&fProduces &aOrganic Fertilizer'
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &7256 J Buffer'
+      - '&8⇨ &e⚡ &716 J/s'
+  smelters_pickaxe:
+    name: '&6Smelter''s Pickaxe'
+    lore:
+      - '&c&lAuto-Smelting'
+      - ''
+      - '&9Works with Fortune'
+  carrot_juice:
+    name: '&6Carrot Juice'
+    lore:
+      - ''
+      - '&7&oRestores &b&o3.0 &7&oHunger'
+  iron_dust:
+    name: '&6Iron Dust'
+  ancient_rune_water:
+    name: '&7Ancient Rune &8&l[&1&lWater&8&l]'
+  staff_elemental_storm:
+    name: '&6Elemental Staff &7- &8&oStorm'
+    lore:
+      - ''
+      - '&7Element: &8&oStorm'
+      - ''
+      - '&eRight Click&7 to summon a lightning'
+      - '&e8 Uses &7left'
+  programmable_android_farmer:
+    name: '&cProgrammable Android &7(Farmer)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Farming'
+      - '&8⇨ &7Fuel Efficiency: 1.0x'
+  auto_anvil_2:
+    name: '&7Auto Anvil &7Mk.II'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &7Repair Factor: 25%'
+      - '&8⇨ &e⚡ &732 J/s'
+  hook:
+    name: '&bHook'
+  organic_food_sweet_berries:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Sweet Berries'
+  ender_helmet:
+    name: '&5&lEnder Helmet'
+    lore:
+      - ''
+      - '&a&oSometimes its here, sometimes there!'
+  sword_of_beheading:
+    name: '&6Sword of Beheading'
+    lore:
+      - '&7Beheading II'
+      - ''
+      - '&fHas a chance to behead Mobs'
+      - '&f(even a higher chance for Wither Skeletons)'
+  ender_whirlwind_talisman:
+    name: '&5Ender Talisman of the Whirlwind'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fHaving this Talisman'
+      - '&fin your Inventory will reflect'
+      - '&f60% of any projectiles fired at you.'
+      - '&e&oOnly a thrown Trident can pierce'
+      - '&e&othrough this layer of protection'
+  magical_book_cover:
+    name: '&6Magical Book Cover'
+    lore:
+      - ''
+      - '&a&oUsed for various Magic Books'
+  portable_geo_scanner:
+    name: '&bPortable Geo-Scanner'
+    lore:
+      - ''
+      - '&fScans a Chunk for natural Resources'
+      - ''
+      - '&eRight Click&7 to scan'
+  caveman_talisman:
+    name: '&aTalisman of the Caveman'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your inventory it gives'
+      - '&fyou a 50% chance for a decent'
+      - '&fHaste buff when you mine any ore'
+  christmas_hot_chocolate:
+    name: '&6Hot Chocolate'
+    lore:
+      - ''
+      - '&7&oRestores &b&o7.0 &7&oHunger'
+  rainbow_clay_halloween:
+    name: '&5Rainbow Clay &7(Halloween)'
+    lore:
+      - ''
+      - '&c[&6Halloween Edition&c]'
+  infernal_bonemeal:
+    name: '&4Infernal Bonemeal'
+    lore:
+      - ''
+      - '&cSpeeds up the Growth of'
+      - '&cNether Warts as well'
+  synthetic_emerald:
+    name: '&bSynthetic Emerald'
+    lore:
+      - ''
+      - '&fThis item can be used to'
+      - '&ftrade with Villagers'
+  soulbound_bow:
+    name: '&cSoulbound Bow'
+  explosive_bow:
+    name: '&cExplosive Bow'
+    lore:
+      - '&fAny Arrows fired using this Bow'
+      - '&fwill launch hit enemys into the air'
+  vanilla_auto_crafter:
+    name: '&2Auto-Crafter &8(Vanilla)'
+    lore:
+      - ''
+      - '&fPlace this machine on top of a'
+      - '&fchest or similar and make it craft'
+      - '&fanything that can be crafted using a'
+      - '&fnormal &eCrafting Table'
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &e⚡ &716 J/Item'
+  ancient_rune_lightning:
+    name: '&7Ancient Rune &8&l[&e&lLightning&8&l]'
+  ender_warrior_talisman:
+    name: '&5Ender Talisman of the Warrior'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it gives'
+      - '&fyou Strength III whenever you get hit'
+      - '&fbut will then be consumed'
+  nickel_ingot:
+    name: '&bNickel Ingot'
+  fertilizer_wheat:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Wheat'
+  infused_hopper:
+    name: '&5Infused Hopper'
+    lore:
+      - ''
+      - '&fAutomatically picks up nearby Items in a 7x7x7'
+      - '&fRadius when placed.'
+  hardened_metal_ingot:
+    name: '&b&lHardened Metal'
+  block_placer:
+    name: '&aBlock Placer'
+    lore:
+      - ''
+      - '&fAll Blocks in this Dispenser'
+      - '&fwill automatically get placed'
+  silver_ingot:
+    name: '&bSilver Ingot'
+  large_capacitor:
+    name: '&aLarge Energy Capacitor'
+    lore:
+      - '&7Range: &c6 blocks'
+      - ''
+      - '&2Good Capacitor'
+      - '&8⇨ &e⚡ &78192 J Capacity'
+  plutonium:
+    name: '&7Plutonium'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &cVERY HIGH'
+      - '&8⇨ &4Hazmat Suit required!'
+  pulverized_ore:
+    name: '&6Pulverized Ore'
+  parachute:
+    name: '&f&lParachute'
+    lore:
+      - ''
+      - '&eCrouch&7 to use'
+  smeltery:
+    name: '&6Smeltery'
+    lore:
+      - ''
+      - '&fA high-temperature furnace'
+      - '&fthat allows you to smelt dusts'
+      - '&finto ingots and create alloys.'
+  soulbound_sword:
+    name: '&cSoulbound Sword'
+  christmas_egg_nog:
+    name: '&aEgg Nog'
+    lore:
+      - ''
+      - '&7&oRestores &b&o3.5 &7&oHunger'
+  lava_generator_2:
+    name: '&4Lava Generator &7(&eII&7)'
+    lore:
+      - ''
+      - '&6Advanced Generator'
+      - '&8⇨ &e⚡ &71024 J Buffer'
+      - '&8⇨ &e⚡ &740 J/s'
+  portable_dustbin:
+    name: '&6Portable Dustbin'
+    lore:
+      - '&fYour portable Item-Destroyer'
+      - ''
+      - '&eRight Click&7 to open'
+  glowstone_chestplate:
+    name: '&e&lGlowstone Chestplate'
+    lore:
+      - ''
+      - '&a&oShining like the sun!'
+      - ''
+      - '&9+ Night Vision'
+  reinforced_alloy_jetpack:
+    name: '&9Electric Jetpack &7- &eVI'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bReinforced Alloy'
+      - '&8⇨ &e⚡ &70 / 100 J'
+      - '&8⇨ &7Thrust: &c0.6'
+      - ''
+      - '&eCrouch&7 to use'
+  rainbow_concrete:
+    name: '&5Rainbow Concrete'
+    lore:
+      - ''
+      - '&dCycles through all Colors of the Rainbow!'
+  soulbound_shovel:
+    name: '&cSoulbound Shovel'
+  rainbow_glass_pane_valentine:
+    name: '&5Rainbow Glass Pane &7(Valentine''s Day)'
+    lore:
+      - ''
+      - '&5[&dValentine''s Day Edition&5]'
+  rainbow_clay_xmas:
+    name: '&5Rainbow Clay &7(Christmas)'
+    lore:
+      - ''
+      - '&a[&cC&ah&cr&ai&cs&at&cm&aa&cs&a &cE&ad&ci&at&ci&ao&cn&a]'
+  elytra_scale:
+    name: '&bElytra Scale'
+  gps_emergency_transmitter:
+    name: '&cGPS Emergency Transmitter'
+    lore:
+      - ''
+      - '&fCarrying this in your Inventory'
+      - '&fautomatically sets a Waypoint'
+      - '&fat your Location when you die.'
+  birthday_cake:
+    name: '&bBirthday Cake'
+  steel_jetboots:
+    name: '&9Jet Boots &7- &eIV'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bSteel'
+      - '&8⇨ &e⚡ &70 / 50 J'
+      - '&8⇨ &b⚡ &7Speed: &b0.5x'
+      - '&8⇨ &7Accuracy: &e70%'
+      - ''
+      - '&eCrouch&7 to use'
+  rainbow_glass:
+    name: '&5Rainbow Glass'
+    lore:
+      - ''
+      - '&dCycles through all Colors of the Rainbow!'
+  water_talisman:
+    name: '&aTalisman of the Water Breather'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it will'
+      - '&fgive you the ability'
+      - '&fto breath underwater as'
+      - '&fsoon as you start drowning'
+      - '&fbut will then be consumed'
+  cobalt_ingot:
+    name: '&9Cobalt Ingot'
+  blistering_ingot:
+    name: '&6Blistering Ingot &7(33%)'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &2HIGH'
+      - '&8⇨ &4Hazmat Suit required!'
+  organic_food_melon:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Melon'
+  fertilizer_cocoa:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Cocoa beans'
+  wise_talisman:
+    name: '&aTalisman of the Wise'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your inventory it gives'
+      - '&fyou a 20% chance of doubling'
+      - '&fany experience you obtain'
+  ender_caveman_talisman:
+    name: '&5Ender Talisman of the Caveman'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your inventory it gives'
+      - '&fyou a 50% chance for a decent'
+      - '&fHaste buff when you mine any ore'
+  lead_ingot:
+    name: '&bLead Ingot'
+  cactus_chestplate:
+    name: '&2Cactus Chestplate'
+  chain_leggings:
+    name: Chainmail Leggings
+  organic_food_wheat:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Wheat'
+  rainbow_glass_pane_halloween:
+    name: '&5Rainbow Glass Pane &7(Halloween)'
+    lore:
+      - ''
+      - '&c[&6Halloween Edition&c]'
+  nether_gold_pan:
+    name: '&4Nether Gold Pan'
+    lore:
+      - ''
+      - '&eRight Click&7 to collect resources'
+      - '&7from Soul Sand'
+  damascus_steel_chestplate:
+    name: '&7Damascus Steel Chestplate'
+  rainbow_concrete_valentine:
+    name: '&5Rainbow Concrete &7(Valentine''s Day)'
+    lore:
+      - ''
+      - '&5[&dValentine''s Day Edition&5]'
+  slime_boots:
+    name: '&a&lSlime Boots'
+    lore:
+      - ''
+      - '&a&oBouncy Feeling'
+      - ''
+      - '&9+ Jump Boost'
+      - '&9+ No Fall Damage'
+  fertilizer_beetroot:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Beetroot'
+  rainbow_wool_halloween:
+    name: '&5Rainbow Wool &7(Halloween)'
+    lore:
+      - ''
+      - '&c[&6Halloween Edition&c]'
+  damascus_steel_jetpack:
+    name: '&9Electric Jetpack &7- &eV'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bDamascus Steel'
+      - '&8⇨ &e⚡ &70 / 75 J'
+      - '&8⇨ &7Thrust: &c0.55'
+      - ''
+      - '&eCrouch&7 to use'
+  christmas_caramel:
+    name: '&6Caramel'
+  chain:
+    name: '&bChain'
+  programmable_android_butcher:
+    name: '&cProgrammable Android &7(Butcher)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Slaughtering'
+      - '&8⇨ &7Damage: 4'
+      - '&8⇨ &7Fuel Efficiency: 1.0x'
+  gold_20k:
+    name: '&fGold Ingot &7(20-Carat)'
+  nether_ice_coolant_cell:
+    name: '&6Nether Ice Coolant Cell'
+  damascus_steel_jetboots:
+    name: '&9Jet Boots &7- &eV'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bDamascus Steel'
+      - '&8⇨ &e⚡ &70 / 75 J'
+      - '&8⇨ &b⚡ &7Speed: &b0.55x'
+      - '&8⇨ &7Accuracy: &a75%'
+      - ''
+      - '&eCrouch&7 to use'
+  gps_teleporter_pylon:
+    name: '&5GPS Teleporter Pylon'
+    lore:
+      - ''
+      - '&7Teleporter Component'
+  heated_pressure_chamber_2:
+    name: '&cHeated Pressure Chamber &7- &eII'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b5.0x'
+      - '&8⇨ &e⚡ &744 J/s'
+  blank_rune:
+    name: '&8Blank Rune'
+  warrior_talisman:
+    name: '&aTalisman of the Warrior'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it gives'
+      - '&fyou Strength III whenever you get hit'
+      - '&fbut will then be consumed'
+  duralumin_ingot:
+    name: '&bDuralumin Ingot'
+  synthetic_shulker_shell:
+    name: '&dSynthetic Shulker Shell'
+    lore:
+      - ''
+      - '&fThis item can be used in a'
+      - '&fworkbench like a normal Shulker Shell'
+  small_capacitor:
+    name: '&aSmall Energy Capacitor'
+    lore:
+      - '&7Range: &c6 blocks'
+      - ''
+      - '&eBasic Capacitor'
+      - '&8⇨ &e⚡ &7128 J Capacity'
+  monster_jerky:
+    name: '&6Monster Jerky'
+    lore:
+      - ''
+      - '&a&oNo longer hungry'
+  ancient_altar:
+    name: '&dAncient Altar'
+    lore:
+      - ''
+      - '&5Multi-Block Altar for'
+      - '&5magical Crafting Processes'
+  christmas_chocolate_milk:
+    name: '&6Chocolate Milk'
+    lore:
+      - ''
+      - '&7&oRestores &b&o6.0 &7&oHunger'
+  android_interface_fuel:
+    name: '&7Android Interface &c(Fuel)'
+    lore:
+      - ''
+      - '&fItems stored in this Interface'
+      - '&fwill be inserted into an Android''s Fuel Slot'
+      - '&fwhen its Script tells them to do so'
+  crop_growth_accelerator:
+    name: '&aCrop Growth Accelerator'
+    lore:
+      - ''
+      - '&fRuns on &aOrganic Fertilizer'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &7Radius: 7x7'
+      - '&8⇨ &7Speed: &a3/time'
+      - '&8⇨ &e⚡ &71024 J Buffer'
+      - '&8⇨ &e⚡ &750 J/s'
+  sulfate:
+    name: '&6Sulfate'
+  large_backpack:
+    name: '&eLarge Backpack'
+    lore:
+      - ''
+      - '&7Size: &e27'
+      - '&7ID: <ID>'
+      - ''
+      - '&eRight Click&7 to open'
+  organic_food_apple:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Apple'
+  fertilizer_seeds:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Seeds'
+  gold_12k_helmet:
+    name: '&6Golden Helmet &7(12-Carat)'
+  chain_boots:
+    name: Chainmail Boots
+  crafting_motor:
+    name: '&6Crafting Motor'
+    lore:
+      - ''
+      - '&7Important component of Auto-Crafters'
+  elytra:
+    name: Elytra
+  silicon:
+    name: '&6Silicon'
+  electric_ingot_pulverizer:
+    name: '&cElectric Ingot Pulverizer'
+    lore:
+      - ''
+      - '&fPulverizes Ingots into Dust'
+      - ''
+      - '&aMedium Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &714 J/s'
+  gold_8k:
+    name: '&fGold Ingot &7(8-Carat)'
+  cargo_manager:
+    name: '&6Cargo Manager'
+    lore:
+      - ''
+      - '&fCore Component of an Item Transport Network'
+  carbon_chunk:
+    name: '&4Carbon Chunk'
+  brass_ingot:
+    name: '&bBrass Ingot'
+  slime_steel_chestplate:
+    name: '&a&lSlime Chestplate'
+    lore:
+      - '&7&oReinforced'
+      - ''
+      - '&a&oBouncy Feeling'
+  gold_22k:
+    name: '&fGold Ingot &7(22-Carat)'
+  magnesium_generator:
+    name: '&cMagnesium-powered Generator'
+    lore:
+      - ''
+      - '&aMedium Generator'
+      - '&8⇨ &e⚡ &7128 J Buffer'
+      - '&8⇨ &e⚡ &736 J/s'
+  gold_10k:
+    name: '&fGold Ingot &7(10-Carat)'
+  duralumin_multi_tool:
+    name: '&9Multi Tool &7- &eI'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bDuralumin'
+      - '&8⇨ &e⚡ &70 / 20 J'
+      - ''
+      - '&eRight Click&7 to use'
+      - '&eCrouch & Right Click&7 to switch modes'
+  charging_bench:
+    name: '&6Charging Bench'
+    lore:
+      - ''
+      - '&fCharges Items such as Jetpacks'
+      - ''
+      - '&eBasic Machine'
+      - '&8⇨ &e⚡ &7128 J Buffer'
+      - '&8⇨ &e⚡ &7Energy Loss: &c50%'
+  fire_talisman:
+    name: '&aTalisman of the Firefighter'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it will'
+      - '&fgive you Fire Resistance'
+      - '&fas soon as you start burning'
+      - '&fbut will then be consumed'
+  electrified_crucible_3:
+    name: '&cElectrified Crucible &7- &eIII'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b4.0x'
+      - '&8⇨ &e⚡ &7120 J/s'
+  electrified_crucible_2:
+    name: '&cElectrified Crucible &7- &eII'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b2.0x'
+      - '&8⇨ &e⚡ &780 J/s'
+  rainbow_wool_xmas:
+    name: '&5Rainbow Wool &7(Christmas)'
+    lore:
+      - ''
+      - '&a[&cC&ah&cr&ai&cs&at&cm&aa&cs&a &cE&ad&ci&at&ci&ao&cn&a]'
+  xp_collector:
+    name: '&aEXP Collector'
+    lore:
+      - ''
+      - '&fCollects nearby Exp and stores it'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &e⚡ &71024 J Buffer'
+      - '&8⇨ &e⚡ &720 J/s'
+  billon_ingot:
+    name: '&bBillon Ingot'
+  carbonado_multi_tool:
+    name: '&9Multi Tool &7- &eVII'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bCarbonado'
+      - '&8⇨ &e⚡ &70 / 100 J'
+      - ''
+      - '&eRight Click&7 to use'
+      - '&eCrouch & Right Click&7 to switch modes'
+  common_talisman:
+    name: '&6Common Talisman'
+  gold_24k_block:
+    name: '&fGold Block &7(24-Carat)'
+  scroll_of_dimensional_teleposition:
+    name: '&6Scroll of Dimensional Teleposition'
+    lore:
+      - ''
+      - '&cThis Scroll is capable of creating'
+      - '&ca temporary black Hole which pulls'
+      - '&cnearby Entities into itself and sends'
+      - '&cthem into another Dimension where'
+      - '&ceverything is turned around'
+      - ''
+      - '&fIn other words: Makes Entities turn by 180 Degrees'
+  reinforced_cloth:
+    name: '&bReinforced Cloth'
+    lore:
+      - ''
+      - '&fThis cloth has been reinforced'
+      - '&fwith &bLead &fto protect against'
+      - '&fradioactive substances'
+  splint:
+    name: '&cSplint'
+    lore:
+      - ''
+      - '&aLevel I - Medical Supply'
+      - ''
+      - '&fRestores 2 Hearts'
+      - ''
+      - '&eRight Click&7 to use'
+  climbing_pick:
+    name: '&bClimbing Pick'
+    lore:
+      - ''
+      - '&fAllows you to climb certain surfaces'
+      - '&fby right-clicking.'
+      - '&fEnchant this pick with Efficiency to'
+      - '&fclimb even faster!'
+  gilded_iron_helmet:
+    name: '&6Gilded Iron Helmet'
+  medium_backpack:
+    name: '&eBackpack'
+    lore:
+      - ''
+      - '&7Size: &e18'
+      - '&7ID: <ID>'
+      - ''
+      - '&eRight Click&7 to open'
+  billon_jetboots:
+    name: '&9Jet Boots &7- &eIII'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bBillon'
+      - '&8⇨ &e⚡ &70 / 40 J'
+      - '&8⇨ &b⚡ &7Speed: &b0.45x'
+      - '&8⇨ &7Accuracy: &665%'
+      - ''
+      - '&eCrouch&7 to use'
+  flask_of_knowledge:
+    name: '&cFlask of Knowledge'
+    lore:
+      - ''
+      - '&fAllows you to store some of'
+      - '&fyour Experience in a Bottle'
+      - '&7Cost: &a1 Level'
+  soulbound_helmet:
+    name: '&cSoulbound Helmet'
+  aluminum_brass_ingot:
+    name: '&bAluminum Brass Ingot'
+  fish_jerky:
+    name: '&6Fish Jerky'
+    lore:
+      - ''
+      - '&fExtra saturating!'
+  multimeter:
+    name: '&eMultimeter'
+    lore:
+      - ''
+      - '&fMeasures the Amount of stored'
+      - '&fEnergy in a Block'
+  tree_growth_accelerator:
+    name: '&aTree Growth Accelerator'
+    lore:
+      - ''
+      - '&fRuns on &aOrganic Fertilizer'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &7Radius: 9x9'
+      - '&8⇨ &7Speed: &a4/time'
+      - '&8⇨ &e⚡ &71024 J Buffer'
+      - '&8⇨ &e⚡ &748 J/s'
+  sifted_ore:
+    name: '&6Sifted Ore'
+  grandmas_walking_stick:
+    name: '&7Grandmas Walking Stick'
+  ancient_rune_fire:
+    name: '&7Ancient Rune &8&l[&4&lFire&8&l]'
+  solar_generator:
+    name: '&bSolar Generator'
+    lore:
+      - ''
+      - '&eBasic Generator'
+      - '&8⇨ &e⚡ &70 J Buffer'
+      - '&8⇨ &e⚡ &74 J/s'
+  auto_enchanter_2:
+    name: '&5Auto Enchanter &7- &eII'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b3.0x'
+      - '&8⇨ &e⚡ &748 J/s'
+  grandpas_walking_stick:
+    name: '&7Grandpas Walking Stick'
+  cobalt_pickaxe:
+    name: '&9Cobalt Pickaxe'
+  rainbow_glass_halloween:
+    name: '&5Rainbow Glass &7(Halloween)'
+    lore:
+      - ''
+      - '&c[&6Halloween Edition&c]'
+  ancient_rune_rainbow:
+    name: '&7Ancient Rune &8&l[&d&lRainbow&8&l]'
+  bee_wings:
+    name: '&e&lBee Wings'
+    lore:
+      - ' '
+      - '&fBzzzzzzz'
+      - ' '
+      - '&9Activates Slow falling'
+      - '&9when approaching the ground'
+  christmas_fruit_cake:
+    name: '&aF&cr&au&ci&at&c &aC&ca&ak&ce'
+  gold_6k:
+    name: '&fGold Ingot &7(6-Carat)'
+  electric_dust_washer_3:
+    name: '&3Electric Dust Washer &7(&eIII&7)'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b10.0x'
+      - '&8⇨ &e⚡ &730 J/s'
+  electric_dust_washer_2:
+    name: '&3Electric Dust Washer &7(&eII&7)'
+    lore:
+      - ''
+      - '&eBasic Machine'
+      - '&8⇨ &b⚡ &7Speed: &b2.0x'
+      - '&8⇨ &e⚡ &710 J/s'
+  cactus_helmet:
+    name: '&2Cactus Helmet'
+  gold_24k:
+    name: '&fGold Ingot &7(24-Carat)'
+  enhanced_furnace_6:
+    name: '&7Enhanced Furnace - &eVI'
+    lore:
+      - ''
+      - '&7Processing Speed: &e3x'
+      - '&7Fuel Efficiency: &e3x'
+      - '&7Luck Multiplier: &e2x'
+  gold_12k:
+    name: '&fGold Ingot &7(12-Carat)'
+  enhanced_furnace_7:
+    name: '&7Enhanced Furnace - &eVII'
+    lore:
+      - ''
+      - '&7Processing Speed: &e4x'
+      - '&7Fuel Efficiency: &e3x'
+      - '&7Luck Multiplier: &e2x'
+  enhanced_furnace_4:
+    name: '&7Enhanced Furnace - &eIV'
+    lore:
+      - ''
+      - '&7Processing Speed: &e3x'
+      - '&7Fuel Efficiency: &e2x'
+      - '&7Luck Multiplier: &e1x'
+  enhanced_furnace_5:
+    name: '&7Enhanced Furnace - &eV'
+    lore:
+      - ''
+      - '&7Processing Speed: &e3x'
+      - '&7Fuel Efficiency: &e2x'
+      - '&7Luck Multiplier: &e2x'
+  gilded_iron_boots:
+    name: '&6Gilded Iron Boots'
+  enhanced_furnace_2:
+    name: '&7Enhanced Furnace - &eII'
+    lore:
+      - ''
+      - '&7Processing Speed: &e2x'
+      - '&7Fuel Efficiency: &e1x'
+      - '&7Luck Multiplier: &e1x'
+  food_fabricator_2:
+    name: '&cFood Fabricator &7(&eII&7)'
+    lore:
+      - ''
+      - '&fProduces &aOrganic Food'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b6.0x'
+      - '&8⇨ &e⚡ &7512 J Buffer'
+      - '&8⇨ &e⚡ &748 J/s'
+  enhanced_furnace_3:
+    name: '&7Enhanced Furnace - &eIII'
+    lore:
+      - ''
+      - '&7Processing Speed: &e2x'
+      - '&7Fuel Efficiency: &e2x'
+      - '&7Luck Multiplier: &e1x'
+  christmas_chocolate_apple:
+    name: '&6Chocolate Apple'
+  zinc_dust:
+    name: '&6Zinc Dust'
+  easter_apple_pie:
+    name: '&fApple Pie'
+  crop_growth_accelerator_2:
+    name: '&aCrop Growth Accelerator &7(&eII&7)'
+    lore:
+      - ''
+      - '&fRuns on &aOrganic Fertilizer'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &7Radius: 9x9'
+      - '&8⇨ &7Speed: &a4/time'
+      - '&8⇨ &e⚡ &71024 J Buffer'
+      - '&8⇨ &e⚡ &760 J/s'
+  gps_activation_device_shared:
+    name: '&fGPS Activation Device &3(Shared)'
+    lore:
+      - ''
+      - '&fPlace this onto a Teleportation Matrix'
+      - '&fand step onto this Plate to activate'
+      - '&fthe Teleportation Process'
+  enhanced_furnace_8:
+    name: '&7Enhanced Furnace - &eVIII'
+    lore:
+      - ''
+      - '&7Processing Speed: &e4x'
+      - '&7Fuel Efficiency: &e4x'
+      - '&7Luck Multiplier: &e2x'
+  enhanced_furnace_9:
+    name: '&7Enhanced Furnace - &eIX'
+    lore:
+      - ''
+      - '&7Processing Speed: &e5x'
+      - '&7Fuel Efficiency: &e4x'
+      - '&7Luck Multiplier: &e2x'
+  ender_hunter_talisman:
+    name: '&5Ender Talisman of the Hunter'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it has'
+      - '&fa 20% chance of doubling'
+      - '&fall Drops from Mobs you kill'
+  cargo_node:
+    name: '&7Cargo Node &c(Connector)'
+    lore:
+      - ''
+      - '&fCargo Connector Pipe'
+  gilded_iron_chestplate:
+    name: '&6Gilded Iron Chestplate'
+  staff_elemental_wind:
+    name: '&6Elemental Staff &7- &b&oWind'
+    lore:
+      - ''
+      - '&7Element: &b&oWind'
+      - ''
+      - '&eRight Click&7 to launch yourself forward'
+  gps_marker_tool:
+    name: '&bGPS Marker Tool'
+    lore:
+      - ''
+      - '&fAllows you to set a Waypoint at'
+      - '&fthe Location you place this'
+  bound_backpack:
+    name: '&cSoulbound Backpack'
+    lore:
+      - ''
+      - '&7Size: &e36'
+      - '&7ID: <ID>'
+      - ''
+      - '&eRight Click&7 to open'
+  reinforced_alloy_boots:
+    name: '&bReinforced Boots'
+  pure_ore_cluster:
+    name: '&6Pure Ore Cluster'
+  electric_smeltery:
+    name: '&cElectric Smeltery'
+    lore:
+      - ''
+      - '&4Alloys-Only, doesn''t smelt Dust into Ingots'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &720 J/s'
+  synthetic_diamond:
+    name: '&bSynthetic Diamond'
+    lore:
+      - ''
+      - '&fThis item can be used in a'
+      - '&fworkbench and acts like a normal Diamond'
+  lava_crystal:
+    name: '&4Lava Crystal'
+  reinforced_alloy_jetboots:
+    name: '&9Jet Boots &7- &eVI'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bReinforced Alloy'
+      - '&8⇨ &e⚡ &70 / 100 J'
+      - '&8⇨ &b⚡ &7Speed: &b0.6x'
+      - '&8⇨ &7Accuracy: &c80%'
+      - ''
+      - '&eCrouch&7 to use'
+  hazmat_chestplate:
+    name: '&cHazmat Suit'
+    lore:
+      - ''
+      - '&7Allows you to walk through fire and lava'
+      - ''
+      - '&6Full set effects:'
+      - '&e- Radiation immunity'
+      - '&e- Bee Sting protection'
+  ore_crusher:
+    name: '&bOre Crusher'
+    lore:
+      - ''
+      - '&aCrushes ores to double them'
+  slime_helmet:
+    name: '&a&lSlime Helmet'
+    lore:
+      - ''
+      - '&a&oBouncy Feeling'
+  electrified_crucible:
+    name: '&cElectrified Crucible'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &748 J/s'
+  damascus_steel_helmet:
+    name: '&7Damascus Steel Helmet'
+  woven_backpack:
+    name: '&eWoven Backpack'
+    lore:
+      - ''
+      - '&7Size: &e36'
+      - '&7ID: <ID>'
+      - ''
+      - '&eRight Click&7 to open'
+  programmable_android_miner:
+    name: '&cProgrammable Android &7(Miner)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Mining'
+      - '&8⇨ &7Fuel Efficiency: 1.0x'
+  steel_thruster:
+    name: '&7&lSteel Thruster'
+  solder_multi_tool:
+    name: '&9Multi Tool &7- &eII'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bSolder'
+      - '&8⇨ &e⚡ &70 / 30 J'
+      - ''
+      - '&eRight Click&7 to use'
+      - '&eCrouch & Right Click&7 to switch modes'
+  trash_can_block:
+    name: '&3Trash Can'
+    lore:
+      - ''
+      - '&fWill destroy all Items put into it'
+  compressor:
+    name: '&bCompressor'
+    lore:
+      - ''
+      - '&aCompresses Items'
+  hercules_pickaxe:
+    name: '&9Hercules'' Pickaxe'
+    lore:
+      - ''
+      - '&fSo powerful that it'
+      - '&fcrushes all mined Ores'
+      - '&finto Dust...'
+  reinforced_alloy_helmet:
+    name: '&bReinforced Helmet'
+  ender_miner_talisman:
+    name: '&5Ender Talisman of the Miner'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it has'
+      - '&fa 20% chance of doubling'
+      - '&fall Ores you mine'
+  cargo_node_input:
+    name: '&7Cargo Node &c(Input)'
+    lore:
+      - ''
+      - '&fCargo Input Pipe'
+  tape_measure:
+    name: '&6Tape Measure'
+    lore:
+      - ''
+      - '&eCrouch & Right Click &7to set an anchor'
+      - '&eRight Click &7to measure'
+  cloth:
+    name: '&bCloth'
+  grind_stone:
+    name: '&bGrind Stone'
+    lore:
+      - ''
+      - '&aGrinds items down into other items'
+  gold_14k:
+    name: '&fGold Ingot &7(14-Carat)'
+  electric_furnace:
+    name: '&cElectric Furnace'
+    lore:
+      - ''
+      - '&eBasic Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &74 J/s'
+  iron_golem_assembler:
+    name: '&6Iron Golem Assembler'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &7Cooldown: &b30 Seconds'
+      - '&8⇨ &e⚡ &74096 J Buffer'
+      - '&8⇨ &e⚡ &72048 J/Golem'
+  wither_assembler:
+    name: '&5Wither Assembler'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &7Cooldown: &b30 Seconds'
+      - '&8⇨ &e⚡ &74096 J Buffer'
+      - '&8⇨ &e⚡ &74096 J/Wither'
+  auto_anvil:
+    name: '&7Auto Anvil'
+    lore:
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &7Repair Factor: 10%'
+      - '&8⇨ &e⚡ &724 J/s'
+  fertilizer_sweet_berries:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Sweet Berries'
+  programmable_android_woodcutter:
+    name: '&cProgrammable Android &7(Woodcutter)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Woodcutting'
+      - '&8⇨ &7Fuel Efficiency: 1.0x'
+  christmas_caramel_apple:
+    name: '&6Caramel Apple'
+  gps_transmitter:
+    name: '&bGPS Transmitter'
+    lore:
+      - ''
+      - '&8⇨ &e⚡ &716 J Buffer'
+      - '&8⇨ &e⚡ &72 J/s'
+  ore_washer:
+    name: '&6Ore Washer'
+    lore:
+      - ''
+      - '&aWashes Sifted Ore to filter Ores'
+      - '&aand gives you small Stone Chunks'
+  heating_coil:
+    name: '&cHeating Coil'
+  copper_wire:
+    name: '&6Copper Wire'
+    lore:
+      - ''
+      - '&6Crucial component in electric modules'
+  carbonado_edged_furnace:
+    name: '&7Carbonado Edged Furnace'
+    lore:
+      - ''
+      - '&7Processing Speed: &e20x'
+      - '&7Fuel Efficiency: &e10x'
+      - '&7Luck Multiplier: &e3x'
+  aluminum_bronze_ingot:
+    name: '&bAluminum Bronze Ingot'
+  cargo_node_output:
+    name: '&7Cargo Node &c(Output)'
+    lore:
+      - ''
+      - '&fCargo Output Pipe'
+  freezer:
+    name: '&bFreezer'
+    lore:
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &7256 J Buffer'
+      - '&8⇨ &e⚡ &718 J/s'
+  soulbound_elytra:
+    name: '&cSoulbound Elytra'
+  output_chest:
+    name: '&4Output Chest'
+    lore:
+      - ''
+      - '&c&oA basic machine will try to put'
+      - '&c&oitems in this chest if it''s placed'
+      - '&c&oadjacent to the dispenser.'
+  apple_juice:
+    name: '&cApple Juice'
+    lore:
+      - ''
+      - '&7&oRestores &b&o3.0 &7&oHunger'
+  organic_food_seeds:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Seeds'
+  duralumin_jetpack:
+    name: '&9Electric Jetpack &7- &eI'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bDuralumin'
+      - '&8⇨ &e⚡ &70 / 20 J'
+      - '&8⇨ &7Thrust: &c0.35'
+      - ''
+      - '&eCrouch&7 to use'
+  traveller_talisman:
+    name: '&aTalisman of the Traveller'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it gives'
+      - '&fyou a 60% Chance for a decent'
+      - '&fSpeed Buff when you start sprinting'
+  hardened_glass:
+    name: '&7Hardened Glass'
+    lore:
+      - ''
+      - '&fWithstands Explosions'
+  grappling_hook:
+    name: '&6Grappling Hook'
+    lore:
+      - ''
+      - '&eRight Click&7 to use'
+  programmable_android_2_fisherman:
+    name: '&cAdvanced Programmable Android &7(Fisherman)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Fishing'
+      - '&8⇨ &7Success Rate: 20%'
+      - '&8⇨ &7Fuel Efficiency: 1.5x'
+  miner_talisman:
+    name: '&aTalisman of the Miner'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it has'
+      - '&fa 20% chance of doubling'
+      - '&fall Ores you mine'
+  lead_dust:
+    name: '&6Lead Dust'
+  netherstar_reactor:
+    name: '&fNether Star Reactor'
+    lore:
+      - ''
+      - '&fRuns on Nether Stars'
+      - '&8⇨ &bMust be surrounded by Water'
+      - '&8⇨ &bMust be supplied with Nether Ice Coolant Cells'
+      - ''
+      - '&4End-Game Generator'
+      - '&8⇨ &e⚡ &732768 J Buffer'
+      - '&8⇨ &e⚡ &71024 J/s'
+      - '&8⇨ &4Causes nearby Entities to get Withered'
+  food_fabricator:
+    name: '&cFood Fabricator'
+    lore:
+      - ''
+      - '&fProduces &aOrganic Food'
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &7256 J Buffer'
+      - '&8⇨ &e⚡ &714 J/s'
+  christmas_present:
+    name: '&aC&ch&ar&ci&as&ct&am&ca&as&c &aP&cr&ae&cs&ae&cn&at'
+    lore:
+      - '&7From: &cTheBusyBiscuit'
+      - '&7To: &eYou'
+      - ''
+      - '&eRight Click&7 to open'
+  golden_apple_juice:
+    name: '&bGolden Apple Juice'
+  gold_16k:
+    name: '&fGold Ingot &7(16-Carat)'
+  solar_helmet:
+    name: '&bSolar Helmet'
+    lore:
+      - ''
+      - '&a&oCharges held Items and Armor'
+  synthetic_sapphire:
+    name: '&bSynthetic Sapphire'
+    lore:
+      - ''
+      - '&fThis item can be used in a'
+      - '&fworkbench and acts like Lapis Lazuli'
+  infused_magnet:
+    name: '&aInfused Magnet'
+    lore:
+      - ''
+      - '&fMagical infused Magnets'
+      - '&fattract nearby Items'
+      - '&fas long as it is somewhere in'
+      - '&fyour Inventory'
+      - ''
+      - '&7Hold &eShift&7 to pick up nearby Items'
+  boots_of_the_stomper:
+    name: '&bBoots of the Stomper'
+    lore:
+      - ''
+      - '&9All Fall Damage you receive'
+      - '&9will be applied to nearby Mobs/Players'
+      - ''
+      - '&9+ No Fall Damage'
+  bucket_of_oil:
+    name: '&fBucket of Oil'
+  christmas_apple_pie:
+    name: '&fApple Pie'
+  rainbow_clay_valentine:
+    name: '&5Rainbow Clay &7(Valentine''s Day)'
+    lore:
+      - ''
+      - '&5[&dValentine''s Day Edition&5]'
+  soulbound_hoe:
+    name: '&cSoulbound Hoe'
+  plastic_sheet:
+    name: '&fPlastic Sheet'
+  makeshift_smeltery:
+    name: '&eMakeshift Smeltery'
+    lore:
+      - ''
+      - '&fImprovised version of the Smeltery'
+      - '&fthat only allows you to'
+      - '&fsmelt dusts into ingots'
+  magician_talisman:
+    name: '&aTalisman of the Magician'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it gives'
+      - '&fyou a 80% Luck Bonus on Enchanting'
+      - '&fYou will sometimes get an Extra Enchantment'
+  steel_ingot:
+    name: '&bSteel Ingot'
+  duct_tape:
+    name: '&8Duct Tape'
+    lore:
+      - ''
+      - '&fYou can repair Items using this'
+      - '&fin an Auto-Anvil'
+  damascus_steel_ingot:
+    name: '&bDamascus Steel Ingot'
+  industrial_miner:
+    name: '&bIndustrial Miner'
+    lore:
+      - ''
+      - '&fThis Multiblock will mine any Ores'
+      - '&fin a 7x7 area underneath it.'
+      - '&fPlace coal or similar in its chest'
+      - '&fto fuel this machine.'
+  ender_water_talisman:
+    name: '&5Ender Talisman of the Water Breather'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it will'
+      - '&fgive you the ability'
+      - '&fto breath underwater as'
+      - '&fsoon as you start drowning'
+      - '&fbut will then be consumed'
+  vitamins:
+    name: '&cVitamins'
+    lore:
+      - ''
+      - '&aLevel III - Medical Supply'
+      - ''
+      - '&fRestores 4 Hearts'
+      - '&fExtinguishes Fire'
+      - '&fCures Poison/Wither/Radiation'
+      - ''
+      - '&eRight Click&7 to use'
+  ender_magician_talisman:
+    name: '&5Ender Talisman of the Magician'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it gives'
+      - '&fyou a 80% Luck Bonus on Enchanting'
+      - '&fYou will sometimes get an Extra Enchantment'
+  christmas_milk:
+    name: '&6Glass of Milk'
+    lore:
+      - ''
+      - '&7&oRestores &b&o2.5 &7&oHunger'
+  electric_gold_pan_3:
+    name: '&6Electric Gold Pan &7(&eIII&7)'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b10.0x'
+      - '&8⇨ &e⚡ &714 J/s'
+  ender_knight_talisman:
+    name: '&5Ender Talisman of the Knight'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it gives'
+      - '&fyou a 30% Chance for 5 Seconds of Regeneration'
+      - '&fwhenever You get hit'
+      - '&fbut will then be consumed'
+  hazmat_leggings:
+    name: '&cHazmat Suit Leggings'
+    lore:
+      - ''
+      - '&6Full set effects:'
+      - '&e- Radiation immunity'
+      - '&e- Bee Sting protection'
+  electric_gold_pan_2:
+    name: '&6Electric Gold Pan &7(&eII&7)'
+    lore:
+      - ''
+      - '&eBasic Machine'
+      - '&8⇨ &b⚡ &7Speed: &b3.0x'
+      - '&8⇨ &e⚡ &74 J/s'
+  damascus_steel_boots:
+    name: '&7Damascus Steel Boots'
+  necrotic_skull:
+    name: '&cNecrotic Skull'
+  easter_egg:
+    name: '&fEaster Egg'
+    lore:
+      - '&dHappy Easter! Have a surprise.'
+      - ''
+      - '&eRight Click&7 to open'
+  gilded_iron:
+    name: '&6&lGilded Iron'
+  elytra_cap:
+    name: '&5Elytra Cap'
+    lore:
+      - ''
+      - '&7This helmet will protect you from'
+      - '&7crashing while flying with an elytra.'
+  advanced_circuit_board:
+    name: '&bAdvanced Circuit Board'
+  cheese:
+    name: '&fCheese'
+  compressed_carbon:
+    name: '&cCompressed Carbon'
+  refinery:
+    name: '&cRefinery'
+    lore:
+      - ''
+      - '&fRefines Oil to create Fuel'
+  fertilizer_potato:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Potatoes'
+  gold_18k:
+    name: '&fGold Ingot &7(18-Carat)'
+  gilded_iron_leggings:
+    name: '&6Gilded Iron Leggings'
+  auto_enchanter:
+    name: '&5Auto Enchanter'
+    lore:
+      - ''
+      - '&aMedium Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &718 J/s'
+  hunter_talisman:
+    name: '&aTalisman of the Hunter'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it has'
+      - '&fa 20% chance of doubling'
+      - '&fall Drops from Mobs you kill'
+  ender_fire_talisman:
+    name: '&5Ender Talisman of the Firefighter'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it will'
+      - '&fgive you Fire Resistance'
+      - '&fas soon as you start burning'
+      - '&fbut will then be consumed'
+  strange_nether_goo:
+    name: '&5Strange Nether Goo'
+    lore:
+      - ''
+      - '&fA strange bio matter that'
+      - '&fcan be acquired from'
+      - '&fbartering with Piglins'
+  redstone_alloy:
+    name: '&cRedstone Alloy Ingot'
+  coal_generator_2:
+    name: '&cCoal Generator &7(&eII&7)'
+    lore:
+      - ''
+      - '&6Advanced Generator'
+      - '&8⇨ &e⚡ &7256 J Buffer'
+      - '&8⇨ &e⚡ &730 J/s'
+  blade_of_vampires:
+    name: '&cBlade of Vampires'
+    lore:
+      - '&7Life Steal I'
+      - ''
+      - '&fEverytime you attack something'
+      - '&fyou have a 45% chance to'
+      - '&frecover 2 Hearts of your Health'
+  magnesium_salt:
+    name: '&cMagnesium Salt'
+    lore:
+      - ''
+      - '&7A special type of fuel that can be'
+      - '&7used in a Magnesium-powered Generator'
+  medicine:
+    name: '&cMedicine'
+    lore:
+      - ''
+      - '&aLevel III - Medical Supply'
+      - ''
+      - '&fRestores 4 Hearts'
+      - '&fExtinguishes Fire'
+      - '&fCures Poison/Wither/Radiation'
+  broken_spawner:
+    name: '&cBroken Spawner'
+    lore:
+      - '&7Type: &b<Type>'
+      - ''
+      - '&cFractured, must be repaired in an Ancient Altar'
+  wither_proof_glass:
+    name: '&5Wither-Proof Glass'
+    lore:
+      - ''
+      - '&fWithstands Explosions'
+      - '&fWithstands Wither Bosses'
+  enriched_nether_ice:
+    name: '&eEnriched Nether Ice'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &cVERY HIGH'
+      - '&8⇨ &4Hazmat Suit required!'
+  ender_boots:
+    name: '&5&lEnder Boots'
+    lore:
+      - ''
+      - '&a&oSometimes its here, sometimes there!'
+      - ''
+      - '&9+ No Enderpearl Damage'
+  carbonado_edged_capacitor:
+    name: '&aCarbonado Edged Energy Capacitor'
+    lore:
+      - '&7Range: &c6 blocks'
+      - ''
+      - '&4End-Game Capacitor'
+      - '&8⇨ &e⚡ &765536 J Capacity'
+  magic_lump_3:
+    name: '&6Magical Lump &7- &eIII'
+    lore:
+      - ''
+      - '&c&oTier: III'
+  reactor_collant_cell:
+    name: '&bReactor Coolant Cell'
+  magic_lump_2:
+    name: '&6Magical Lump &7- &eII'
+    lore:
+      - ''
+      - '&c&oTier: II'
+  magic_lump_1:
+    name: '&6Magical Lump &7- &eI'
+    lore:
+      - ''
+      - '&c&oTier: I'
+  cooling_unit:
+    name: '&bCooling Unit'
+  glowstone_leggings:
+    name: '&e&lGlowstone Leggings'
+    lore:
+      - ''
+      - '&a&oShining like the sun!'
+      - ''
+      - '&9+ Night Vision'
+  battery:
+    name: '&6Battery'
+  ignition_chamber:
+    name: '&4Automatic Ignition Chamber'
+    lore:
+      - ''
+      - '&fPrevents the Smeltery from using up fire.'
+      - '&fJust fill it up with "Flint and Steel"'
+      - '&fand place it adjacent to the Smeltery''s dispenser'
+  magic_eye_of_ender:
+    name: '&6&lMagic Eye of Ender'
+    lore:
+      - '&4&lRequires full Ender Armor'
+      - ''
+      - '&eRight Click&7 to shoot an Ender Pearl'
+  icy_bow:
+    name: '&bIcy Bow'
+    lore:
+      - '&fAny Arrows fired using this Bow'
+      - '&fwill prevent hit enemys from moving'
+      - '&ffor 2 seconds'
+  fluid_pump:
+    name: '&9Fluid Pump'
+    lore:
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &e⚡ &732 J/Block'
+  explosive_shovel:
+    name: '&eExplosive Shovel'
+    lore:
+      - ''
+      - '&fAllows you to mine a good bit'
+      - '&fof diggable Blocks at once...'
+  scuba_helmet:
+    name: '&cScuba Helmet'
+    lore:
+      - ''
+      - '&7Allows you to breathe underwater'
+      - ''
+      - '&6Full set effects:'
+      - '&e- Radiation immunity'
+      - '&e- Bee Sting protection'
+  neptunium:
+    name: '&aNeptunium'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &2HIGH'
+      - '&8⇨ &4Hazmat Suit required!'
+  gps_transmitter_2:
+    name: '&cAdvanced GPS Transmitter'
+    lore:
+      - ''
+      - '&8⇨ &e⚡ &764 J Buffer'
+      - '&8⇨ &e⚡ &76 J/s'
+  rubber_boots:
+    name: '&cHazmat Boots'
+    lore:
+      - ''
+      - '&6Full set effects:'
+      - '&e- Radiation immunity'
+      - '&e- Bee Sting protection'
+  gps_transmitter_3:
+    name: '&4Carbonado GPS Transmitter'
+    lore:
+      - ''
+      - '&8⇨ &e⚡ &7256 J Buffer'
+      - '&8⇨ &e⚡ &722 J/s'
+  rainbow_glass_pane_xmas:
+    name: '&5Rainbow Glass Pane &7(Christmas)'
+    lore:
+      - ''
+      - '&a[&cC&ah&cr&ai&cs&at&cm&aa&cs&a &cE&ad&ci&at&ci&ao&cn&a]'
+  gps_transmitter_4:
+    name: '&eEnergized GPS Transmitter'
+    lore:
+      - ''
+      - '&8⇨ &e⚡ &71024 J Buffer'
+      - '&8⇨ &e⚡ &792 J/s'
+  tome_of_knowledge_sharing:
+    name: '&6Tome of Knowledge Sharing'
+    lore:
+      - '&7Owner: &bNone'
+      - ''
+      - '&eRight Click&7 to bind this Tome to yourself'
+      - ''
+      - ''
+      - '&eRight Click&7 to obtain all Researches by'
+      - '&7the previously assigned Owner'
+  electric_dust_washer:
+    name: '&3Electric Dust Washer'
+    lore:
+      - ''
+      - '&eBasic Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &76 J/s'
+  damascus_steel_leggings:
+    name: '&7Damascus Steel Leggings'
+  elevator_plate:
+    name: '&bElevator Plate'
+    lore:
+      - ''
+      - '&fPlace an Elevator Plate on every floor'
+      - '&fand you will be able to teleport between them.'
+      - ''
+      - '&eRight Click this Block &7to name it'
+  carbonado_jetpack:
+    name: '&9Electric Jetpack &7- &eVII'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bCarbonado'
+      - '&8⇨ &e⚡ &70 / 150 J'
+      - '&8⇨ &7Thrust: &c0.7'
+      - ''
+      - '&eCrouch&7 to use'
+  gold_12k_chestplate:
+    name: '&6Golden Chestplate &7(12-Carat)'
+  damascus_steel_multi_tool:
+    name: '&9Multi Tool &7- &eV'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bDamascus Steel'
+      - '&8⇨ &e⚡ &70 / 60 J'
+      - ''
+      - '&eRight Click&7 to use'
+      - '&eCrouch & Right Click&7 to switch modes'
+  electric_ore_grinder_3:
+    name: '&cElectric Ore Grinder &7(&eIII&7)'
+    lore:
+      - ''
+      - '&fWorks as an Ore Crusher and Grind Stone'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b10.0x'
+      - '&8⇨ &e⚡ &790 J/s'
+  carbonado:
+    name: '&b&lCarbonado'
+    lore:
+      - ''
+      - '&7&o"Black Diamond"'
+  electric_ore_grinder_2:
+    name: '&cElectric Ore Grinder &7(&eII&7)'
+    lore:
+      - ''
+      - '&fWorks as an Ore Crusher and Grind Stone'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b4.0x'
+      - '&8⇨ &e⚡ &730 J/s'
+  rainbow_glazed_terracotta_xmas:
+    name: '&5Rainbow Glazed Terracotta &7(Christmas)'
+    lore:
+      - ''
+      - '&a[&cC&ah&cr&ai&cs&at&cm&aa&cs&a &cE&ad&ci&at&ci&ao&cn&a]'
+  automated_panning_machine:
+    name: '&eAutomated Panning Machine'
+    lore:
+      - ''
+      - '&fA MultiBlock Version of the Gold Pan'
+      - '&fand Nether Gold Pan combined in one machine.'
+  rainbow_glass_pane:
+    name: '&5Rainbow Glass Pane'
+    lore:
+      - ''
+      - '&dCycles through all Colors of the Rainbow!'
+  chain_helmet:
+    name: Chainmail Helmet
+  electric_gold_pan:
+    name: '&6Electric Gold Pan'
+    lore:
+      - ''
+      - '&eBasic Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &72 J/s'
+  bee_leggings:
+    name: '&e&lBee Leggings'
+    lore:
+      - ' '
+      - '&fBzzzzzzz'
+  duralumin_jetboots:
+    name: '&9Jet Boots &7- &eI'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bDuralumin'
+      - '&8⇨ &e⚡ &70 / 20 J'
+      - '&8⇨ &b⚡ &7Speed: &b0.35x'
+      - '&8⇨ &7Accuracy: &c50%'
+      - ''
+      - '&eCrouch&7 to use'
+  hologram_projector:
+    name: '&bHologram Projector'
+    lore:
+      - ''
+      - '&fProjects an Editable Hologram'
+  wither_proof_obsidian:
+    name: '&5Wither-Proof Obsidian'
+    lore:
+      - ''
+      - '&fWithstands Explosions'
+      - '&fWithstands Wither Bosses'
+  rainbow_wool_valentine:
+    name: '&5Rainbow Wool &7(Valentine''s Day)'
+    lore:
+      - ''
+      - '&5[&dValentine''s Day Edition&5]'
+  slime_chestplate:
+    name: '&a&lSlime Chestplate'
+    lore:
+      - ''
+      - '&a&oBouncy Feeling'
+  energy_regulator:
+    name: '&6Energy Regulator'
+    lore:
+      - ''
+      - '&fCore Component of an Energy Network'
+  solder_ingot:
+    name: '&bSolder Ingot'
+  ancient_rune_ender:
+    name: '&7Ancient Rune &8&l[&5&lEnder&8&l]'
+  steel_multi_tool:
+    name: '&9Multi Tool &7- &eIV'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bSteel'
+      - '&8⇨ &e⚡ &70 / 50 J'
+      - ''
+      - '&eRight Click&7 to use'
+      - '&eCrouch & Right Click&7 to switch modes'
+  aluminum_ingot:
+    name: '&bAluminum Ingot'
+  reinforced_spawner:
+    name: '&bReinforced Spawner'
+    lore:
+      - '&7Type: &b<Type>'
+  billon_multi_tool:
+    name: '&9Multi Tool &7- &eIII'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bBillon'
+      - '&8⇨ &e⚡ &70 / 40 J'
+      - ''
+      - '&eRight Click&7 to use'
+      - '&eCrouch & Right Click&7 to switch modes'
+  blistering_ingot_2:
+    name: '&6Blistering Ingot &7(66%)'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &cVERY HIGH'
+      - '&8⇨ &4Hazmat Suit required!'
+  blistering_ingot_3:
+    name: '&6Blistering Ingot'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &cVERY HIGH'
+      - '&8⇨ &4Hazmat Suit required!'
+  tin_dust:
+    name: '&6Tin Dust'
+  diet_cookie:
+    name: '&6Diet Cookie'
+    lore:
+      - ''
+      - '&aA very &a&olightweight &acookie.'
+  composter:
+    name: '&aComposter'
+    lore:
+      - ''
+      - '&a&oCan convert various Materials over Time...'
+  christmas_cookie:
+    name: '&aC&ch&ar&ci&as&ct&am&ca&as&c &aC&co&ao&ck&ai&ce'
+  electric_ingot_factory_2:
+    name: '&cElectric Ingot Factory &7(&eII&7)'
+    lore:
+      - ''
+      - '&eBasic Machine'
+      - '&8⇨ &b⚡ &7Speed: &b2.0x'
+      - '&8⇨ &e⚡ &714 J/s'
+  electric_furnace_3:
+    name: '&cElectric Furnace &7- &eIII'
+    lore:
+      - ''
+      - '&aMedium Machine'
+      - '&8⇨ &b⚡ &7Speed: &b4.0x'
+      - '&8⇨ &e⚡ &710 J/s'
+  pickaxe_of_the_seeker:
+    name: '&aPickaxe of the Seeker'
+    lore:
+      - '&fWill always point you to the nearest Ore'
+      - '&fbut might get damaged when doing it'
+      - ''
+      - '&eRight Click&7 to be pointed to the nearest Ore'
+  medium_capacitor:
+    name: '&aMedium Energy Capacitor'
+    lore:
+      - '&7Range: &c6 blocks'
+      - ''
+      - '&6Average Capacitor'
+      - '&8⇨ &e⚡ &7512 J Capacity'
+  electric_ingot_factory_3:
+    name: '&cElectric Ingot Factory &7(&eIII&7)'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b8.0x'
+      - '&8⇨ &e⚡ &740 J/s'
+  electric_furnace_2:
+    name: '&cElectric Furnace &7- &eII'
+    lore:
+      - ''
+      - '&aMedium Machine'
+      - '&8⇨ &b⚡ &7Speed: &b2.0x'
+      - '&8⇨ &e⚡ &76 J/s'
+  fertilizer_melon:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Melon'
+  magic_sugar:
+    name: '&6Magic Sugar'
+    lore:
+      - ''
+      - '&a&oFeel the Power of Hermes!'
+  armor_auto_crafter:
+    name: '&2Auto-Crafter &8(Armor Forge)'
+    lore:
+      - ''
+      - '&fPlace this machine on top of a'
+      - '&fchest or similar and make it craft'
+      - '&fanything that can be crafted using an'
+      - '&eArmor Forge'
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &e⚡ &732 J/Item'
+  reinforced_alloy_ingot:
+    name: '&b&lReinforced Alloy Ingot'
+  steel_jetpack:
+    name: '&9Electric Jetpack &7- &eIV'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bSteel'
+      - '&8⇨ &e⚡ &70 / 60 J'
+      - '&8⇨ &7Thrust: &c0.5'
+      - ''
+      - '&eCrouch&7 to use'
+  lava_generator:
+    name: '&4Lava Generator'
+    lore:
+      - ''
+      - '&6Average Generator'
+      - '&8⇨ &e⚡ &7512 J Buffer'
+      - '&8⇨ &e⚡ &720 J/s'
+  rabbit_jerky:
+    name: '&6Rabbit Jerky'
+    lore:
+      - ''
+      - '&fExtra saturating!'
+  rainbow_concrete_xmas:
+    name: '&5Rainbow Concrete &7(Christmas)'
+    lore:
+      - ''
+      - '&a[&cC&ah&cr&ai&cs&at&cm&aa&cs&a &cE&ad&ci&at&ci&ao&cn&a]'
+  carbon:
+    name: '&eCarbon'
+  cooler:
+    name: '&bCooler'
+    lore:
+      - '&fAllows you to store Juices/Smoothies'
+      - '&fand automatically consumes them when you are hungry'
+      - '&fand you have this in your Inventory'
+      - ''
+      - '&7Size: &e27'
+      - '&7ID: <ID>'
+      - ''
+      - '&eRight Click&7 to open'
+  food_composter_2:
+    name: '&cFood Composter &7(&eII&7)'
+    lore:
+      - ''
+      - '&fProduces &aOrganic Fertilizer'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b10.0x'
+      - '&8⇨ &e⚡ &7512 J Buffer'
+      - '&8⇨ &e⚡ &752 J/s'
+  staff_elemental_water:
+    name: '&6Elemental Staff &7- &1&oWater'
+    lore:
+      - ''
+      - '&7Element: &1&oWater'
+      - ''
+      - '&eRight Click&7 to extinguish yourself'
+  auto_disenchanter_2:
+    name: '&5Auto Disenchanter &7- &eII'
+    lore:
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b3.0x'
+      - '&8⇨ &e⚡ &748 J/s'
+  melon_juice:
+    name: '&cMelon Juice'
+    lore:
+      - ''
+      - '&7&oRestores &b&o3.0 &7&oHunger'
+  butter:
+    name: '&fButter'
+  nuclear_reactor:
+    name: '&2Nuclear Reactor'
+    lore:
+      - ''
+      - '&fRequires Cooling!'
+      - '&8⇨ &bMust be surrounded by Water'
+      - '&8⇨ &bMust be supplied with Reactor Coolant Cells'
+      - ''
+      - '&4End-Game Generator'
+      - '&8⇨ &e⚡ &716384 J Buffer'
+      - '&8⇨ &e⚡ &7500 J/s'
+  ender_chestplate:
+    name: '&5&lEnder Chestplate'
+    lore:
+      - ''
+      - '&a&oSometimes its here, sometimes there!'
+  raw_carbonado:
+    name: '&bRaw Carbonado'
+  auto_breeder:
+    name: '&eAuto-Breeder'
+    lore:
+      - ''
+      - '&fRuns on &aOrganic Food'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &e⚡ &71024 J Buffer'
+      - '&8⇨ &e⚡ &760 J/Animal'
+  small_backpack:
+    name: '&eSmall Backpack'
+    lore:
+      - ''
+      - '&7Size: &e9'
+      - '&7ID: <ID>'
+      - ''
+      - '&eRight Click&7 to open'
+  programmable_android_2_farmer:
+    name: '&cAdvanced Programmable Android &7(Farmer)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Farming'
+      - '&8⇨ &7Fuel Efficiency: 1.5x'
+      - '&8⇨ &7Can also harvest Plants from ExoticGarden'
+  seismic_axe:
+    name: '&aSeismic Axe'
+    lore:
+      - ''
+      - '&7&oA portable Earthquake...'
+      - ''
+      - '&eRight Click&7 to use'
+  ender_lump_2:
+    name: '&5Ender Lump &7- &eII'
+    lore:
+      - ''
+      - '&c&oTier: II'
+  ender_lump_3:
+    name: '&5Ender Lump &7- &eIII'
+    lore:
+      - ''
+      - '&c&oTier: III'
+  ender_lump_1:
+    name: '&5Ender Lump &7- &eI'
+    lore:
+      - ''
+      - '&c&oTier: I'
+  copper_dust:
+    name: '&6Copper Dust'
+  programmable_android_fisherman:
+    name: '&cProgrammable Android &7(Fisherman)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Fishing'
+      - '&8⇨ &7Success Rate: 10%'
+      - '&8⇨ &7Fuel Efficiency: 1.0x'
+  crucible:
+    name: '&cCrucible'
+    lore:
+      - ''
+      - '&a&oUsed to smelt Items into Liquids'
+  wheat_flour:
+    name: '&fWheat Flour'
+  ancient_pedestal:
+    name: '&dAncient Pedestal'
+    lore:
+      - ''
+      - '&5Part of the Ancient Altar'
+  ender_wise_talisman:
+    name: '&5Ender Talisman of the Wise'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your inventory it gives'
+      - '&fyou a 20% chance of doubling'
+      - '&fany experience you obtain'
+  organic_food_kelp:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Dried Kelp'
+  organic_food_cocoa:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Cocoa Beans'
+  enhanced_auto_crafter:
+    name: '&2Auto-Crafter &8(Enhanced)'
+    lore:
+      - ''
+      - '&fPlace this machine on top of a'
+      - '&fchest or similar and make it craft'
+      - '&fanything that can be crafted using an'
+      - '&eEnhanced Crafting Table'
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &e⚡ &716 J/Item'
+  fertilizer_apple:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Apple'
+  soulbound_chestplate:
+    name: '&cSoulbound Chestplate'
+  knight_talisman:
+    name: '&aTalisman of the Knight'
+    lore:
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it gives'
+      - '&fyou a 30% Chance for 5 Seconds of Regeneration'
+      - '&fwhenever You get hit'
+      - '&fbut will then be consumed'
+  electric_ore_grinder:
+    name: '&cElectric Ore Grinder'
+    lore:
+      - ''
+      - '&fWorks as an Ore Crusher and Grind Stone'
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &712 J/s'
+  fertilizer_carrot:
+    name: '&aOrganic Fertilizer'
+    lore:
+      - '&7Content: &9Carrots'
+  bee_helmet:
+    name: '&e&lBee Helmet'
+    lore:
+      - ' '
+      - '&fBzzzzzzz'
+  auto_brewer:
+    name: '&6Auto Brewer'
+    lore:
+      - ''
+      - '&aMedium Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &712 J/s'
+  solar_generator_3:
+    name: '&4Carbonado Solar Generator'
+    lore:
+      - ''
+      - '&4End-Game Generator'
+      - '&8⇨ &e⚡ &70 J Buffer'
+      - '&8⇨ &e⚡ &764 J/s'
+  solar_generator_2:
+    name: '&cAdvanced Solar Generator'
+    lore:
+      - ''
+      - '&aMedium Generator'
+      - '&8⇨ &e⚡ &70 J Buffer'
+      - '&8⇨ &e⚡ &716 J/s'
+  slime_leggings:
+    name: '&a&lSlime Leggings'
+    lore:
+      - ''
+      - '&a&oBouncy Feeling'
+      - ''
+      - '&9+ Speed'
+  solar_generator_4:
+    name: '&eEnergized Solar Generator'
+    lore:
+      - ''
+      - '&9Works at Night'
+      - ''
+      - '&4End-Game Generator'
+      - '&8⇨ &e⚡ &70 J Buffer'
+      - '&8⇨ &e⚡ &7256 J/s (Day)'
+      - '&8⇨ &e⚡ &7128 J/s (Night)'
+  cactus_leggings:
+    name: '&2Cactus Leggings'
+  lumber_axe:
+    name: '&6Lumber Axe'
+    lore:
+      - '&a&oCuts down the whole Tree...'
+  can:
+    name: '&fTin Can'
+  energy_connector:
+    name: '&eEnergy Connector'
+    lore:
+      - '&7Range: &c6 blocks'
+      - ''
+      - '&fPlace this between machines'
+      - '&fand generators to connect them'
+      - '&fto your regulator.'
+  reinforced_plate:
+    name: '&7Reinforced Plate'
+  programmable_android_2:
+    name: '&cAdvanced Programmable Android &7(Normal)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: None'
+      - '&8⇨ &7Fuel Efficiency: 1.5x'
+  programmable_android_3:
+    name: '&eEmpowered Programmable Android &7(Normal)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: None'
+      - '&8⇨ &7Fuel Efficiency: 3.0x'
+  slime_steel_leggings:
+    name: '&a&lSlime Leggings'
+    lore:
+      - '&7&oReinforced'
+      - ''
+      - '&a&oBouncy Feeling'
+      - ''
+      - '&9+ Speed'
+  armored_jetboots:
+    name: '&9Armored Jet Boots'
+    lore:
+      - ''
+      - '&8⇨ &7Material: &bSteel'
+      - '&8⇨ &e⚡ &70 / 50 J'
+      - '&8⇨ &b⚡ &7Speed: &b0.45x'
+      - '&8⇨ &7Accuracy: &e70%'
+      - ''
+      - '&eCrouch&7 to use'
+  ender_traveller_talisman:
+    name: '&5Ender Talisman of the Traveller'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fWhile you have this Talisman'
+      - '&fin your Inventory it gives'
+      - '&fyou a 60% Chance for a decent'
+      - '&fSpeed Buff when you start sprinting'
+  magnesium_ingot:
+    name: '&bMagnesium Ingot'
+  aluminum_dust:
+    name: '&6Aluminum Dust'
+  magic_workbench:
+    name: '&6Magic Workbench'
+    lore:
+      - ''
+      - '&dInfuses Items with magical Energy'
+  portable_crafter:
+    name: '&6Portable Crafter'
+    lore:
+      - '&a&oA portable Crafting Table'
+      - ''
+      - '&eRight Click&7 to open'
+  ancient_rune_enchantment:
+    name: '&7Ancient Rune &8&l[&6&lEnchantment&8&l]'
+    lore:
+      - '&eDrop this rune onto a dropped item to'
+      - '&6enchant &ethat item with a random enchantment.'
+  gps_activation_device_personal:
+    name: '&fGPS Activation Device &a(Personal)'
+    lore:
+      - ''
+      - '&fPlace this onto a Teleportation Matrix'
+      - '&fand step onto this Plate to activate'
+      - '&fthe Teleportation Process'
+      - ''
+      - '&fThis Version only allows the Person who'
+      - '&fplaced this Device to use it'
+  combustion_reactor:
+    name: '&cCombustion Reactor'
+    lore:
+      - ''
+      - '&6Advanced Generator'
+      - '&8⇨ &e⚡ &7256 J Buffer'
+      - '&8⇨ &e⚡ &724 J/s'
+  big_capacitor:
+    name: '&aBig Energy Capacitor'
+    lore:
+      - '&7Range: &c6 blocks'
+      - ''
+      - '&aMedium Capacitor'
+      - '&8⇨ &e⚡ &71024 J Capacity'
+  electric_smeltery_2:
+    name: '&cElectric Smeltery &7- &eII'
+    lore:
+      - ''
+      - '&4Alloys-Only, doesn''t smelt Dust into Ingots'
+      - ''
+      - '&4End-Game Machine'
+      - '&8⇨ &b⚡ &7Speed: &b3.0x'
+      - '&8⇨ &e⚡ &740 J/s'
+  oil_pump:
+    name: '&4Oil Pump'
+    lore:
+      - ''
+      - '&7Pumps up Oil and fills it into Buckets'
+      - ''
+      - '&c&l! &cMake sure to Geo-Scan the Chunk first'
+  geo_miner:
+    name: '&6GEO Miner'
+    lore:
+      - ''
+      - '&eMines up resources from the chunk'
+      - '&eThese Resources cannot be mined with a pickaxe'
+      - ''
+      - '&6Advanced Machine'
+      - '&8⇨ &b⚡ &7Speed: &b1.0x'
+      - '&8⇨ &e⚡ &748 J/s'
+      - ''
+      - '&c&l! &cMake sure to Geo-Scan the Chunk first'
+  pumpkin_juice:
+    name: '&6Pumpkin Juice'
+    lore:
+      - ''
+      - '&7&oRestores &b&o3.0 &7&oHunger'
+  ender_anvil_talisman:
+    name: '&5Ender Talisman of the Anvil'
+    lore:
+      - '&7&oEnder Infused'
+      - ''
+      - ''
+      - '&fEach Talisman can prevent'
+      - '&f1 Tool from breaking, but will then'
+      - '&fbe consumed'
+      - ''
+      - '&4&lWARNING:'
+      - '&4This Talisman does not work on'
+      - '&4Tools which are too powerful'
+      - '&4due to their complexity'
+  coal_generator:
+    name: '&cCoal Generator'
+    lore:
+      - ''
+      - '&6Average Generator'
+      - '&8⇨ &e⚡ &764 J Buffer'
+      - '&8⇨ &e⚡ &716 J/s'
+  programmable_android_2_butcher:
+    name: '&cAdvanced Programmable Android &7(Butcher)'
+    lore:
+      - ''
+      - '&8⇨ &7Function: Slaughtering'
+      - '&8⇨ &7Damage: 8'
+      - '&8⇨ &7Fuel Efficiency: 1.5x'
+  nether_ice:
+    name: '&eNether Ice'
+    lore:
+      - ''
+      - '&a☢&7 Radiation level: &eMODERATE'
+      - '&8⇨ &4Hazmat Suit required!'
+  corinthian_bronze_ingot:
+    name: '&bCorinthian Bronze Ingot'
+  heavy_cream:
+    name: '&fHeavy Cream'
+  farmer_shoes:
+    name: '&eFarmer Shoes'
+    lore:
+      - ''
+      - '&6&oPrevents you from trampling your Crops'
+  bio_reactor:
+    name: '&2Bio Reactor'
+    lore:
+      - ''
+      - '&6Average Generator'
+      - '&8⇨ &e⚡ &7128 J Buffer'
+      - '&8⇨ &e⚡ &78 J/s'
+  organic_food_potato:
+    name: '&aOrganic Food'
+    lore:
+      - '&7Content: &9Potatoes'
+  ancient_rune_villagers:
+    name: '&7Ancient Rune &8&l[&4&lVillagers&8&l]'
+    lore:
+      - '&eRight click a villager to clear'
+      - '&etheir current job and trades.'
+      - '&eThe villager will start looking'
+      - '&efor a job again after some'
+      - '&etime has passed.'
+  android_memory_core:
+    name: '&bAndroid Memory Core'
+  tin_ingot:
+    name: '&bTin Ingot'
+  radiant_backpack:
+    name: '&eRadiant Backpack'
+    lore:
+      - ''
+      - '&7Size: &e54 (Double chest)'
+      - '&7ID: <ID>'
+      - ''
+      - '&eRight Click&7 to open'
+  crushed_ore:
+    name: '&6Crushed Ore'
+  rag:
+    name: '&cRag'
+    lore:
+      - ''
+      - '&aLevel I - Medical Supply'
+      - ''
+      - '&fRestores 2 Hearts'
+      - '&fExtinguishes Fire'
+      - ''
+      - '&eRight Click&7 to use'
+  rainbow_glazed_terracotta_halloween:
+    name: '&5Rainbow Glazed Terracotta &7(Halloween)'
+    lore:
+      - ''
+      - '&c[&6Halloween Edition&c]'
+  soulbound_pickaxe:
+    name: '&cSoulbound Pickaxe'

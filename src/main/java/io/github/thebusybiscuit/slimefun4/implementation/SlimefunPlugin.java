@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -62,40 +63,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraImpactListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.HopperListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemDropListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.MiningAndroidListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemConsumeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemInteractListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.AnvilListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.BrewingStandListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CartographyTableListener;
@@ -647,6 +614,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new TalismanListener(this);
         new SoulboundListener(this);
         new AutoCrafterListener(this);
+        new InventoryOpenListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
