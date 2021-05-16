@@ -341,8 +341,18 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Armor Update Task
         if (config.getBoolean("options.enable-armor-effects")) {
             boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
-            getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
-            getServer().getScheduler().runTaskTimerAsynchronously(this, new RainbowArmorTask(), 0L, 20L);
+            getServer().getScheduler().runTaskTimerAsynchronously(
+                    this,
+                    new ArmorTask(radioactiveFire),
+                    0L,
+                    config.getInt("options.armor-update-interval") * 20L
+            );
+            getServer().getScheduler().runTaskTimerAsynchronously(
+                    this,
+                    new RainbowArmorTask(),
+                    0L,
+                    config.getInt("options.rainbow-armor-update-interval") * 20L
+            );
         }
 
         // Starting our tasks

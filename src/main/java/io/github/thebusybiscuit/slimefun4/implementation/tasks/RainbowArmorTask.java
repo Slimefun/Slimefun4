@@ -23,7 +23,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
  */
 public class RainbowArmorTask extends AbstractArmorTask {
 
-    private static final DyeColor[] DYE_COLORS = { DyeColor.RED, DyeColor.ORANGE, DyeColor.YELLOW, DyeColor.LIME, DyeColor.LIGHT_BLUE, DyeColor.PURPLE, DyeColor.MAGENTA };
+    private static final DyeColor[] DYE_COLORS = {
+            DyeColor.RED,
+            DyeColor.ORANGE,
+            DyeColor.YELLOW,
+            DyeColor.LIME,
+            DyeColor.LIGHT_BLUE,
+            DyeColor.PURPLE,
+            DyeColor.MAGENTA
+    };
 
     private final LoopIterator<Color> iterator;
 
@@ -38,7 +46,7 @@ public class RainbowArmorTask extends AbstractArmorTask {
     @Override
     @ParametersAreNonnullByDefault
     protected void handleArmorPiece(Player p, SlimefunArmorPiece sfArmorPiece, ItemStack armorPiece) {
-        if (sfArmorPiece instanceof RainbowArmorPiece) {
+        if (sfArmorPiece instanceof RainbowArmorPiece && armorPiece.hasItemMeta()) {
             LeatherArmorMeta meta = (LeatherArmorMeta) armorPiece.getItemMeta();
             meta.setColor(currentColor);
             armorPiece.setItemMeta(meta);

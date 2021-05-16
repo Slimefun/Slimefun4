@@ -2609,8 +2609,8 @@ public final class SlimefunItemSetup {
         }
 
         new SlimefunItem(categories.magicalResources, SlimefunItems.RAINBOW_LEATHER, RecipeType.ANCIENT_ALTAR,
-        new ItemStack[] {new ItemStack(Material.RABBIT_HIDE), new ItemStack(Material.LEATHER), new ItemStack(Material.RABBIT_HIDE), new ItemStack(Material.LEATHER), SlimefunItems.RAINBOW_RUNE, new ItemStack(Material.LEATHER), new ItemStack(Material.RABBIT_HIDE), new ItemStack(Material.LEATHER), new ItemStack(Material.RABBIT_HIDE)},
-        new SlimefunItemStack(SlimefunItems.RAINBOW_LEATHER, 8))
+        new ItemStack[] { new ItemStack(Material.EMERALD), new ItemStack(Material.LEATHER), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.RABBIT_HIDE), SlimefunItems.RAINBOW_RUNE, new ItemStack(Material.RABBIT_HIDE), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.LEATHER), new ItemStack(Material.EMERALD) },
+        new SlimefunItemStack(SlimefunItems.RAINBOW_LEATHER, 4))
         .register(plugin);
 
         new ElytraCap(categories.magicalArmor, SlimefunItems.ELYTRA_CAP, RecipeType.ARMOR_FORGE,

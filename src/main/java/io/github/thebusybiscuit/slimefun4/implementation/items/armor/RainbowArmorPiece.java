@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
@@ -24,8 +26,10 @@ public class RainbowArmorPiece extends SlimefunArmorPiece {
      * @param recipeType the {@link RecipeType} that determines how this {@link RainbowArmorPiece} is crafted
      * @param recipe An Array representing the recipe of this {@link RainbowArmorPiece}
      */
+    @ParametersAreNonnullByDefault
     public RainbowArmorPiece(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe, new PotionEffect[0]);
+
         if (!SlimefunTag.LEATHER_ARMOR.isTagged(item.getType())) {
             throw new IllegalArgumentException("Rainbow armor needs to be a leather armor piece!");
         }
