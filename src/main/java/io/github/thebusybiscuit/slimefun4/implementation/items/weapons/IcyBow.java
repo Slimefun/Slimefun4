@@ -7,7 +7,6 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -21,6 +20,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * {@link LivingEntity} it hits.
  *
  * @author TheBusyBiscuit
+ * @author martinbrom
  *
  */
 public class IcyBow extends SlimefunBow {
@@ -36,7 +36,9 @@ public class IcyBow extends SlimefunBow {
         return (e, n) -> {
             if (n instanceof Player) {
                 Player p = (Player) n;
-                if (p.isBlocking() && e.getFinalDamage() == 0) {
+
+                // Fixes #3060 - Don't apply effects if the arrow was successfully blocked.
+                if (p.isBlocking() && e.getFinalDamage() <= 0) {
                     return;
                 }
             }

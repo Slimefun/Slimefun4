@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
@@ -234,7 +233,8 @@ public final class SlimefunGuideSettings {
      * in their {@link SlimefunGuide}.
      * If they enabled this setting, they will see fireworks when they unlock a {@link Research}.
      * 
-     * @param p The {@link Player}
+     * @param p
+     *            The {@link Player}
      * 
      * @return Whether this {@link Player} wants to see fireworks when unlocking a {@link Research}
      */
@@ -247,7 +247,8 @@ public final class SlimefunGuideSettings {
      * in their {@link SlimefunGuide}.
      * If they enabled this setting, they will see messages in chat about the progress of their {@link Research}.
      *
-     * @param p The {@link Player}
+     * @param p
+     *            The {@link Player}
      *
      * @return Whether this {@link Player} wants to info messages in chat when unlocking a {@link Research}
      */
@@ -259,18 +260,24 @@ public final class SlimefunGuideSettings {
      * Helper method to get the value of a {@link SlimefunGuideOption} that the {@link Player}
      * has set in their {@link SlimefunGuide}
      *
-     * @param p The {@link Player}
-     * @param cls Class of the {@link SlimefunGuideOption} to get the value of
-     * @param defaultValue Default value to return in case the option is not found at all or has no value set
-     * @param <T> Type of the {@link SlimefunGuideOption}
-     * @param <V> Type of the {@link SlimefunGuideOption} value
+     * @param p
+     *            The {@link Player}
+     * @param optionsClass
+     *            Class of the {@link SlimefunGuideOption} to get the value of
+     * @param defaultValue
+     *            Default value to return in case the option is not found at all or has no value set
+     * @param <T>
+     *            Type of the {@link SlimefunGuideOption}
+     * @param <V>
+     *            Type of the {@link SlimefunGuideOption} value
+     * 
      * @return The value of given {@link SlimefunGuideOption}
      */
     @Nonnull
-    private static <T extends SlimefunGuideOption<V>, V> V getOptionValue(@Nonnull Player p, @Nonnull Class<T> cls, @Nonnull V defaultValue) {
+    private static <T extends SlimefunGuideOption<V>, V> V getOptionValue(@Nonnull Player p, @Nonnull Class<T> optionsClass, @Nonnull V defaultValue) {
         for (SlimefunGuideOption<?> option : options) {
-            if (cls.isInstance(option)) {
-                T o = (T) option;
+            if (optionsClass.isInstance(option)) {
+                T o = optionsClass.cast(option);
                 ItemStack guide = SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE);
                 return o.getSelectedOption(p, guide).orElse(defaultValue);
             }
