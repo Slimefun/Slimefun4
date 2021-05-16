@@ -1,0 +1,229 @@
+---
+slimefun:
+  walking_sticks: Käppar
+  portable_crafter: Medtagbar Arbetsbänk
+  portable_dustbin: Medtagbar Soptunna
+  armor_forge: Rustnings Byggare
+  glowstone_armor: Glödstens Rustning
+  lumps: Klumpar och Magi
+  ender_backpack: Ender Ryggsäck
+  ender_armor: Ender Rustning
+  magic_eye_of_ender: Magiskt Ender Öga
+  magic_sugar: Magiskt Socker
+  slime_armor: Slem Rustning
+  sword_of_beheading: Dekapiterings Svärd
+  basic_circuit_board: Normalt Kretskort
+  advanced_circuit_board: Avancerat Kretskort
+  smeltery: Smältnings Station
+  steel: Järnåldern
+  misc_power_items: Viktiga kraft-relaterade Föremål
+  battery: Ditt första Batteri
+  steel_plate: Stålplåt
+  steel_thruster: Stål Raket-Motor
+  parachute: Fallskärm
+  grappling_hook: Gripklo
+  multitools: Multiverktyg
+  solar_panel_and_helmet: Sol Kraft
+  elemental_staff: Element Stavar
+  grind_stone: Slip Sten
+  cactus_armor: Kaktus Dräkt
+  gold_pan: Sil
+  magical_book_cover: Magisk Bokbindning
+  slimefun_metals: Nya Metaller
+  ore_crusher: Malmdubblare
+  bronze: Bronsskapelse
+  alloys: Avancerade Metaller
+  compressor_and_carbon: Kol Skapelse
+  gilded_iron_armor: Förgyld Järn Rustning
+  synthetic_diamond: Konstgjorda Diamanter
+  pressure_chamber: Tryckkammare
+  synthetic_sapphire: Konstgjorda Saffirer
+  damascus_steel: Damascusstål
+  damascus_steel_armor: Damascusstål Rustning
+  reinforced_alloy: Förstärkt Metall
+  carbonado: Svarta Diamanter
+  magic_workbench: Magisk Arbetsbänk
+  wind_staff: Vind Stav
+  reinforced_armor: Förstärkt Rustning
+  ore_washer: Malmtvättare
+  gold_carats: Rent Guld
+  silicon: Silicon Dalen
+  fire_staff: Eld Stav
+  smelters_pickaxe: Smältar Pickaxe
+  common_talisman: Vanlig Talisman
+  anvil_talisman: Städets Talisman
+  miner_talisman: Gruvarbetarens Talisman
+  hunter_talisman: Jägarens Talisman
+  lava_talisman: Lavavandrarens Talisman
+  water_talisman: Vattenandarens Talisman
+  angel_talisman: Ängelns Talisman
+  fire_talisman: Brandmannens Talisman
+  lava_crystal: Brinnande Situation
+  magician_talisman: Magikerns Talisman
+  traveller_talisman: Resenärens Talisman
+  warrior_talisman: Krigarens Talisman
+  knight_talisman: Riddarens Talisman
+  gilded_iron: Skinande Järn
+  synthetic_emerald: Falsk  Ädelsten
+  chainmail_armor: Ring Rustning
+  whirlwind_talisman: Tornadons Talisman
+  wizard_talisman: Trollkarlens Talisman
+  lumber_axe: Timmer yxa
+  hazmat_suit: Hazmat Dräkt
+  uranium: Radioaktiv
+  crushed_ore: Malmrengöring
+  redstone_alloy: Rödstens Metall
+  carbonado_tools: Topp Maskiner
+  first_aid: Första Hjälpen
+  gold_armor: Skinande Rustning
+  night_vision_googles: Mörkerseende Glasögon
+  pickaxe_of_containment: Fångnings Pickaxe
+  table_saw: Bordssåg
+  slime_steel_armor: Slemmig Stålrustning
+  blade_of_vampires: Vampyr Kniven
+  water_staff: Vatten Stav
+  24k_gold_block: Guld Stad
+  composter: Kompostjord
+  farmer_shoes: Bondeskor
+  explosive_tools: Explosiva Verktyg
+  automated_panning_machine: Automatiserad Sil
+  boots_of_the_stomper: Stamparens Skor
+  pickaxe_of_the_seeker: Letarens Pickaxe
+  backpacks: Ryggsäck
+  woven_backpack: Vävd Ryggsäck
+  crucible: Smältdegel
+  gilded_backpack: Förgylld Ryggsäck
+  armored_jetpack: Förstärkt Jetpack
+  ender_talismans: Ender Talismaner
+  nickel_and_cobalt: Flera Malmer
+  magnet: Magnetiska Metaller
+  infused_magnet: Ingjutna Magneter
+  cobalt_pickaxe: Snabb Pickaxe
+  essence_of_afterlife: Svartkonst
+  bound_backpack: Själsbunden Förvaring
+  jetboots: Jetskor
+  armored_jetboots: Förstärkta Jetskor
+  seismic_axe: Jordbävnings Yxa
+  pickaxe_of_vein_mining: Venhuggnings Pickaxe
+  bound_weapons: Själsbunda Vapen
+  bound_tools: Själsbunda Verktyg
+  bound_armor: Själsbunden Rustning
+  juicer: Delikata Drinkar
+  repaired_spawner: Reparera Spawners
+  enhanced_furnace: Förbättrad Ugn
+  more_enhanced_furnaces: Bättre Ugnar
+  high_tier_enhanced_furnaces: Hög-Klassad Ugn
+  reinforced_furnace: Förstärkt Ugn
+  carbonado_furnace: Kol Förstärkt Ugn
+  electric_motor: Upphettande
+  block_placer: Block Placerare
+  scroll_of_dimensional_teleposition: Vänder på grejer
+  tome_of_knowledge_sharing: Dela med vänner
+  flask_of_knowledge: XP Förvaring
+  hardened_glass: Motstår Explosioner
+  golden_apple_juice: Guld Dryck
+  cooler: Medtagbara Drycker
+  ancient_altar: Antikt Altare
+  wither_proof_obsidian: Wither-Säker Obsidian
+  ancient_runes: Elementala Runor
+  special_runes: Lila Runor
+  infernal_bonemeal: Djävulsk Benmjöl
+  rainbow_blocks: Regnbågs Block
+  infused_hopper: Ingjuten Hopper
+  wither_proof_glass: Wither-Säkert Glas
+  duct_tape: Silvertejp
+  plastic_sheet: Plast
+  android_memory_core: Minnes Kärna
+  oil: Olja
+  fuel: Bränsle
+  hologram_projector: Hologram
+  capacitors: Nivå 1 Kondensatorer
+  high_tier_capacitors: Nivå 2 Kondensatorer
+  solar_generators: Sol Kraftverk
+  electric_furnaces: Eldriven Ugn
+  electric_ore_grinding: Krossande och Slipande
+  heated_pressure_chamber: Upphettad Tryck-Kammare
+  coal_generator: Kol Generator
+  bio_reactor: Bio-Reaktor
+  auto_enchanting: Automatisk Förtrollning och Avförtrollning
+  auto_anvil: Automatiserat Städ
+  multimeter: Kraftmätare
+  gps_setup: Grundläggande GPS-installation
+  gps_emergency_transmitter: GPS Nöd Vägpunkt
+  programmable_androids: Programerbara  Androider
+  android_interfaces: Android Gränssnitt
+  geo_scanner: GEO-Skanningar
+  combustion_reactor: Förbränningsreaktor
+  teleporter: Teleportör Bas Komponenter
+  teleporter_activation_plates: Teleportör Activator
+  better_solar_generators: Uppgraderade Solgeneratorer
+  better_gps_transmitters: Uppgraderad Sändare
+  elevator: Hissar
+  energized_solar_generator: Hel-Tid Solkraft
+  energized_gps_transmitter: Top Klass Sändare
+  energy_regulator: Energi Nätverk 101
+  butcher_androids: Slaktar Androider
+  organic_food: Organisk Mat
+  auto_breeder: Automatiserad Matning
+  advanced_android: Avancerade Androider
+  advanced_butcher_android: Avancerade Androider - Slaktare
+  advanced_fisherman_android: Avancerade Androider - Fiskare
+  animal_growth_accelerator: Djurväxt Manipulation
+  xp_collector: XP Förvarare
+  organic_fertilizer: Organisk Gödningsmedel
+  crop_growth_accelerator: Grödväxt Acceleration
+  better_crop_growth_accelerator: Uppgraderad Grödväxt Accelerator
+  reactor_essentials: Reaktor Essentialer
+  nuclear_reactor: Kärnkraftverk
+  freezer: Mr.Frys
+  cargo_basics: Grunderna för Frakt
+  cargo_nodes: Lastuppsättning
+  electric_ingot_machines: Elektrisk Metalltackor Tillverkning
+  high_tier_electric_ingot_machines: Supersnabb Metalltackor Tillverkning
+  automated_crafting_chamber: Automatiserad Tillverkning
+  better_food_fabricator: Upgraderad Mat Tillverkning
+  reactor_access_port: Reaktor Interaktion
+  fluid_pump: Vätskepump
+  better_freezer: Uppgraderad Frys
+  boosted_uranium: Oändlig Cirkel
+  trash_can: Sopor
+  advanced_output_node: Avancerad Utmatnings-nod
+  carbon_press: Kolpress
+  electric_smeltery: Elektrisk Smältare
+  better_electric_furnace: Upgraderad Elektrisk Ugn
+  better_carbon_press: Upgraderad Kolpress
+  empowered_android: Kraftfulla Androider
+  empowered_butcher_android: Kraftfulla Androider - Slaktare
+  empowered_fisherman_android: Kraftfulla Androider - Fiskare
+  high_tier_carbon_press: Ultimat Kolpress
+  wither_assembler: Automatiserad Witherdödare
+  better_heated_pressure_chamber: Uppgraderad Upphettad Tryckkammare
+  elytra: Elytror
+  special_elytras: Speciella Elytror
+  electric_crucible: Elektrifierad Smältdegel
+  better_electric_crucibles: Varma Smältdegel
+  advanced_electric_smeltery: Avancerad Elektrisk Smältare
+  advanced_farmer_android: Avancerade Androider - Bonde
+  lava_generator: Lavagenerator
+  nether_ice: Nether Is Kylvätska
+  nether_star_reactor: Nether Stjärna Reaktor
+  blistering_ingots: Svidande Strålning
+  automatic_ignition_chamber: Automatisk Tändkammare
+  output_chest: Grundläggande maskineri utmatningskista
+  copper_wire: Förtunnad Ledningsförmåga
+  radiant_backpack: Strålnings Ryggsäck
+  auto_drier: En Torr Dag
+  diet_cookie: Diet Kaka
+  storm_staff: Storm Stav
+  soulbound_rune: Själsbunden Runa
+  geo_miner: GEO-Gruvarbetare
+  lightning_rune: Blixt Runa
+  charging_bench: Laddningsstation
+  nether_gold_pan: Nethersil
+  electric_press: Elektrisk Press
+  magnesium_generator: Kraft från Magnesium
+  kelp_cookie: Smaklig Brunalg
+  makeshift_smeltery: Improviserat Smältverk
+  tree_growth_accelerator: Snabbare Träd
+  industrial_miner: Industrilellt Gruvarbete
+  advanced_industrial_miner: Förbättrat Gruvarbete

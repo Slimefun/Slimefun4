@@ -1,0 +1,140 @@
+---
+slimefun:
+  multiblock:
+    lore:
+      - 'Construisez la structure comme'
+      - 'indiqué. Elle ne se fabrique pas.'
+  enhanced_crafting_table:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'dans une Enhanced Crafting Table.'
+      - 'Un établi normal ne suffira pas !'
+  armor_forge:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant une Armor Forge'
+  grind_stone:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant une Grind Stone'
+  smeltery:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'dans une Smeltery'
+  ore_crusher:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant un Ore Crusher'
+  mob_drop:
+    name: 'Butin de monstre'
+    lore:
+      - 'Tuez ce monstre afin'
+      - 'd''obtenir cet objet'
+  gold_pan:
+    lore:
+      - 'Utilisez un Gold Pan pour'
+      - 'obtenir cet objet'
+  compressor:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant un Compressor'
+  pressure_chamber:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant une Pressure Chamber'
+  ore_washer:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant un Ore Washer'
+  juicer:
+    lore:
+      - 'Fabriquez ce jus comme indiqué'
+      - 'en utilisant un Juicer'
+  magic_workbench:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant un Magic Workbench'
+  ancient_altar:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant un Ancient Altar.'
+      - 'Recherchez "Ancient Altar" pour plus d''informations'
+  heated_pressure_chamber:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant une Heated Pressure Chamber'
+  food_fabricator:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant un Food Fabricator'
+  food_composter:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant un Food Composter'
+  freezer:
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'à l''aide d''un Freezer'
+  geo_miner:
+    lore:
+      - 'Cet objet peut être collecté'
+      - 'en utilisant un GEO Miner'
+  nuclear_reactor:
+    name: 'Réacteur nucléaire'
+    lore:
+      - 'Cet objet est un sous-produit'
+      - 'de l''exploitation d''un réacteur nucléaire'
+  oil_pump:
+    name: 'Pompe à pétrole'
+    lore:
+      - 'Cet objet peut être collecté'
+      - 'en utilisant une pompe à pétrole'
+  pickaxe_of_containment:
+    name: 'Pioche de confinement'
+    lore:
+      - 'Ce bloc peut être obtenu'
+      - 'en minant un Spawner avec'
+      - 'la Pioche de confinement'
+  refinery:
+    name: 'Raffinerie'
+    lore:
+      - 'Fabriquer cet objet comme indiqué'
+      - 'en utilisant une raffinerie'
+minecraft:
+  shaped:
+    name: 'Fabrication en forme'
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'dans un établi normal.'
+      - 'La forme est importante.'
+  shapeless:
+    name: 'Fabrication sans forme'
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'dans un établi normal.'
+      - 'La forme n''a pas d''importance.'
+  furnace:
+    name: 'Recette de fourneau'
+    lore:
+      - 'Faites fondre cet objet dans un fourneau'
+      - 'pour fabriquer l''objet désiré'
+  blasting:
+    name: 'Recette de haut fourneau'
+    lore:
+      - 'Faites fondre cet objet dans un haut fourneau'
+      - 'pour fabriquer l''objet désiré'
+  smoking:
+    name: 'Recette de fumoir'
+    lore:
+      - 'Faites fondre cet objet dans un fumoir'
+      - 'pour fabriquer l''objet désiré'
+  campfire:
+    name: 'Recette de feu de camp'
+    lore:
+      - 'Faites fondre cet objet au-dessus d''un feu de camp'
+      - 'pour fabriquer l''objet désiré'
+  stonecutting:
+    name: 'Recette de tailleur de pierre'
+    lore:
+      - 'Fabriquez l''objet comme indiqué'
+      - 'en utilisant un tailleur de pierre'

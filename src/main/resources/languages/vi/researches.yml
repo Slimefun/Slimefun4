@@ -1,0 +1,252 @@
+---
+slimefun:
+  walking_sticks: Gậy đi bộ
+  portable_crafter: Bàn chế tạo di động
+  fortune_cookie: Bánh quy may mắn
+  portable_dustbin: Thùng rác di động
+  meat_jerky: Thịt Khô
+  armor_forge: Bàn chế tạo giáp
+  glowstone_armor: Giáp quang học
+  lumps: Những cục bướu phép
+  ender_backpack: Balô Ender
+  ender_armor: Giáp Ender
+  magic_eye_of_ender: Mắt Ender ma thuật
+  magic_sugar: Đường ma thuật
+  monster_jerky: Thịt quái quật khô
+  slime_armor: Giáp chất nhờn
+  sword_of_beheading: Kiếm chặt đầu
+  basic_circuit_board: Bảng mạch cơ bản
+  advanced_circuit_board: Bảng mạch tiên tiến
+  smeltery: Lò đút
+  steel: Thời đại thép
+  misc_power_items: Vật phẩm quan trọng liên quan đến năng lượng
+  battery: Viên Pin đầu tiên của bạn
+  steel_plate: Mạ thép
+  steel_thruster: Máy đẩy thép
+  parachute: Dù bay
+  grappling_hook: Cái Móc
+  jetpacks: Giáp phản lực
+  multitools: Đa công cụ
+  solar_panel_and_helmet: Năng lượng mặt trời ( ngôi sao )
+  elemental_staff: Trượng nguyên tố
+  grind_stone: Máy nghiền đá
+  cactus_armor: Bộ đồ xương rồng
+  gold_pan: Sàng vàng
+  magical_book_cover: Cuốn sách ma thuật liên kết
+  slimefun_metals: Kim loại mới
+  ore_crusher: Nhân đôi quặng
+  bronze: Tác phẩm đồng
+  alloys: Hợp kim cao cấp
+  compressor_and_carbon: Tác phẩm Carbon
+  gilded_iron_armor: Giáp sắt mạ vàng
+  synthetic_diamond: Kim cương tổng hợp
+  pressure_chamber: Buồng áp suất
+  synthetic_sapphire: Ngọc bích tổng hợp
+  damascus_steel: Thép Damascus
+  damascus_steel_armor: Giáp thép Damascus
+  reinforced_alloy: Hợp kim gia cố
+  carbonado: Kim cương đen
+  magic_workbench: Bài chế tạo-ma thuật
+  wind_staff: Trượng gió
+  reinforced_armor: Giáp gia cố
+  ore_washer: Máy rửa quặng
+  gold_carats: Vàng nguyên chất
+  silicon: Thung lũng Silicon
+  fire_staff: Trượng Lửa
+  smelters_pickaxe: Cúp nung
+  common_talisman: Bùa hộ mệnh thông thường
+  anvil_talisman: Bùa hộ mệnh của cái đe
+  miner_talisman: Bùa hộ mệnh của thợ mỏ
+  hunter_talisman: Bùa hộ mệnh của thợ săn
+  lava_talisman: Bùa hộ mệnh dung nham
+  water_talisman: Bùa hộ mệnh nước
+  angel_talisman: Bùa hộ mệnh thiên sứ
+  fire_talisman: Bùa hộ mệnh tránh lửa
+  caveman_talisman: Bùa thổ dân
+  wise_talisman: Bùa ma thuật của sự Tinh Khôn
+  lava_crystal: Pha lê dung nham
+  magician_talisman: Bùa hộ mệnh pháp sư
+  traveller_talisman: Bùa hộ mệnh du hành
+  warrior_talisman: Bùa hộ mệnh chiến binh
+  knight_talisman: Bùa hộ mệnh kỵ sỹ
+  gilded_iron: Sắt mạ vàng
+  synthetic_emerald: ngọc lục bảo tổng hợp
+  chainmail_armor: Giáp lưới
+  whirlwind_talisman: Bùa hộ mệnh vòi rồng
+  wizard_talisman: Bùa hộ mệnh Thuật Sĩ
+  lumber_axe: Búa đốn gỗ ( vjp )
+  hazmat_suit: Bộ đồ khử nhiễm
+  uranium: Phóng xạ
+  crushed_ore: Máy nghiền quặng
+  redstone_alloy: Hợp kim Đá đỏ
+  carbonado_tools: Công cụ kim cương đen
+  first_aid: Bộ sơ cứu
+  gold_armor: Bộ giáp sáng bóng
+  night_vision_googles: Kính nhìn đêm
+  pickaxe_of_containment: Cúp ngăn chặn
+  hercules_pickaxe: Cúp Thần Hercules
+  table_saw: Bàn cưa củi
+  slime_steel_armor: Giáp thép trơ
+  blade_of_vampires: Gươm ma cà rồng
+  water_staff: Trượng nước
+  24k_gold_block: Thành phố Vàng
+  composter: Khùng tổng hợp
+  farmer_shoes: Giầy làm nông
+  explosive_tools: Dụng cụ phát nổ
+  automated_panning_machine: Sàng vàng Tự động
+  boots_of_the_stomper: Giày cao cổ
+  pickaxe_of_the_seeker: Cúp tìm kiếm
+  backpacks: Ba lô
+  woven_backpack: Ba lô kết lại
+  crucible: Nồi nấu kim loại
+  gilded_backpack: Ba lô mạ vàng
+  armored_jetpack: Giáp phản lực
+  ender_talismans: Bùa hộ mệnh Ender
+  nickel_and_cobalt: Nhiều quặng khác
+  magnet: Nam Châm
+  infused_magnet: Nam châm truyền
+  cobalt_pickaxe: Cúp nhanh nhẹn
+  essence_of_afterlife: Bột hậu kiếp
+  bound_backpack: Balo Linh hồn
+  jetboots: Giày phản lực
+  armored_jetboots: Giày thép phản lực
+  seismic_axe: Rìu địa chấn
+  pickaxe_of_vein_mining: Cúp đào tĩnh mạch
+  bound_weapons: Vũ khí linh hồn
+  bound_tools: Dụng cụ linh hồn
+  bound_armor: Giáp linh hồn
+  juicer: Thức uống ngon
+  repaired_spawner: Lồng được sửa chữa
+  enhanced_furnace: Lò nung cường hóa
+  more_enhanced_furnaces: Lò nung tốt hơn
+  high_tier_enhanced_furnaces: Lò nung cao cấp
+  reinforced_furnace: Lò nung được gia cố
+  carbonado_furnace: Lò nung cạnh carbon
+  electric_motor: Động cơ điện
+  block_placer: Máy đặt khối
+  scroll_of_dimensional_teleposition: Cuộn giấy của sự xoay chuyển
+  special_bows: Cung đặc biệt
+  tome_of_knowledge_sharing: Bộ chia sẽ kiến thức
+  flask_of_knowledge: Bình lưu trữ kinh nghiệm
+  hardened_glass: Kính cứng
+  golden_apple_juice: Thuốc vàng
+  cooler: Máy uống di động
+  ancient_altar: Tế đài cổ đại
+  wither_proof_obsidian: Hắc diện thạch chống Wither
+  ancient_runes: Ngọc nguyên tố
+  special_runes: Ngọc tím
+  infernal_bonemeal: Phân bón âm phủ
+  rainbow_blocks: Khối cầu vòng
+  infused_hopper: Phễu thu hút
+  wither_proof_glass: Kính chống Wither
+  duct_tape: Băng dính
+  plastic_sheet: Nhựa
+  android_memory_core: Lõi máy móc
+  oil: Dầu
+  fuel: Nhiên liệu
+  hologram_projector: Ảnh ba chiều
+  capacitors: Tụ điện cấp 1
+  high_tier_capacitors: Tụ điện cấp 2
+  even_higher_tier_capacitors: Pin cấp 3
+  solar_generators: Máy sản xuất năng lượng mặt trời
+  electric_furnaces: Lò nung điện
+  electric_ore_grinding: Máy nghiền điện
+  heated_pressure_chamber: Buồng gia nhiệt
+  coal_generator: Máy phát điện bằng than
+  bio_reactor: Lò phản ứng sinh học
+  auto_enchanting: Phù phép tự động
+  auto_anvil: Đe tự động
+  multimeter: Máy đo công suất điện
+  gps_setup: Máy thiết lập GPS cơ bản
+  gps_emergency_transmitter: Điểm khẩn cấp GPS
+  programmable_androids: Android lập trình được
+  android_interfaces: Giao diện Android
+  geo_scanner: Máy quét GEO
+  combustion_reactor: Lò phản ứng đốt cháy
+  teleporter: Thành phần cơ sở dịch chuyển
+  teleporter_activation_plates: Kích hoạt dịch chuyển tức thời
+  better_solar_generators: Máy phát điện được nâng cấp
+  better_gps_transmitters: Máy phát được nâng cấp
+  elevator: Thang máy
+  energized_solar_generator: Máy phát điện toàn thời gian
+  energized_gps_transmitter: Máy phát cấp cao nhất
+  energy_regulator: Mạng năng lượng 101
+  energy_connectors: Đầu nối
+  butcher_androids: Android đồ tể
+  organic_food: Thực phẩm hữu cơ
+  auto_breeder: Máy cho ăn tự động
+  advanced_android: Android nâng cao
+  advanced_butcher_android: Android nâng cao - Đồ tể
+  advanced_fisherman_android: Android nâng cao - Câu cá
+  animal_growth_accelerator: Máy tăng trưởng động vật
+  xp_collector: Máy thu kinh nghiệm
+  organic_fertilizer: Phân hữu cơ
+  crop_growth_accelerator: Máy tăng trưởng cây trồng
+  better_crop_growth_accelerator: Máy tăng tưởng cây trồng nâng cấp
+  reactor_essentials: Lò phản ứng thiết yếu
+  nuclear_reactor: Nhà máy điện hạt nhân
+  freezer: Máy làm lạnh
+  cargo_basics: Máy dịch chuyển đồ cơ bản
+  cargo_nodes: Thiết lập máy dịch chuyển đồ
+  electric_ingot_machines: Máy chế tạo phôi điện
+  high_tier_electric_ingot_machines: Máy chế tạo phôi điện siêu tốc
+  automated_crafting_chamber: Chế tạo tự động
+  better_food_fabricator: Máy chế tạo thực phẩm nâng cấp
+  reactor_access_port: Lò phản ứng được tiếp xúc
+  fluid_pump: Máy bơm chất lỏng
+  better_freezer: Máy làm lạnh nâng cấp
+  boosted_uranium: Vòng tròn không kết thúc
+  trash_can: Rác
+  advanced_output_node: Nút đầu ra nâng cao
+  carbon_press: Máy ép carbon
+  electric_smeltery: Lò nung điện
+  better_electric_furnace: Lò nung điện nâng cấp
+  better_carbon_press: Máy ép carbon nâng cấp
+  empowered_android: Android siêu cấp
+  empowered_butcher_android: Android siêu cấp - Đồ tể
+  empowered_fisherman_android: Android siêu cấp - Câu cá
+  high_tier_carbon_press: Máy ép cacbon tối thượng
+  wither_assembler: Máy giết Wither tự động
+  better_heated_pressure_chamber: Máy áp suất nâng cấp
+  elytra: Cánh cứng
+  special_elytras: Cánh cứng đặc biệt
+  electric_crucible: Điện khí hóa
+  better_electric_crucibles: Máy nung đồ nóng
+  advanced_electric_smeltery: Lò rèn điện nâng cao
+  advanced_farmer_android: Android nâng cao - Nông phu
+  lava_generator: Máy phát điện bằng dung nham
+  nether_ice: Đá địa ngục làm mát
+  nether_star_reactor: Lò hạt nhân sao địa ngục
+  blistering_ingots: Chất phóng xạ Blistering
+  automatic_ignition_chamber: Máy đánh lửa tự động
+  output_chest: Rương máy móc đưa ra cơ bản
+  copper_wire: Dây dẫn điện đồng
+  radiant_backpack: Ba lô phát quang
+  auto_drier: Một Ngày Khô ráo
+  diet_cookie: Bánh quy ăn kiêng
+  storm_staff: Trượng Sét
+  soulbound_rune: Ngọc linh hồn
+  geo_miner: Máy khai thác GEO
+  lightning_rune: Ngọc của Sấm sét
+  totem_of_undying: Vật tổ của sự Bất tử
+  charging_bench: Bàn sạc
+  nether_gold_pan: Chảo vàng địa ngục
+  electric_press: Máy ép chạy bằng điện
+  magnesium_generator: Sức mạnh từ Magiê
+  kelp_cookie: Tảo bẹ Ngon
+  makeshift_smeltery: Lò rèn cải tiến
+  tree_growth_accelerator: Cây lớn nhanh hơn
+  industrial_miner: Máy đào công nghiệp
+  advanced_industrial_miner: Đào tốt hơn
+  magical_zombie_pills: Thuốc kháng khuẩn thây ma
+  auto_brewer: Lò thuốc công nghiệp
+  climbing_pick: Móc kéo
+  shulker_shell: Shulker tổng hợp
+  enchantment_rune: Đá cường hoá cổ
+  lead_clothing: Vải pha chì
+  tape_measure: Thước dây
+  iron_golem_assembler: Máy lắp Golem Sắt
+  villager_rune: Đá trao đổi
+  elytra_cap: Mũ lượn
+  bee_armor: Giáp ong
+  book_binder: Sách phù phép Ràng Buộc

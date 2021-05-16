@@ -30,13 +30,17 @@ class EnderTalisman extends Talisman {
 
     @Override
     void loadEnderTalisman() {
-        // Let's override that, otherwise we would be creating Ender Talismans
-        // for every Ender Talisman
+        /*
+         * Let's override that, otherwise we would be creating Ender Talismans
+         * for every Ender Talisman too.
+         */
     }
 
     @Override
     public void postRegister() {
-        // Let's override that, otherwise we would be creating Ender Talismans
-        // for every Ender Talisman
+        /*
+         * Let's override that, otherwise we would be creating Ender Talismans
+         * for every Ender Talisman too.
+         */
     }
 }

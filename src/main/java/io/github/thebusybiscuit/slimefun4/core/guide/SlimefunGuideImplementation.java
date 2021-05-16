@@ -3,12 +3,14 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
@@ -18,7 +20,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 /**
  * This interface is used for the different implementations that add behaviour
  * to the {@link SlimefunGuide}.
- * 
+ *
  * @author TheBusyBiscuit
  * 
  * @see SlimefunGuideMode
@@ -30,7 +32,7 @@ public interface SlimefunGuideImplementation {
     /**
      * Every {@link SlimefunGuideImplementation} can be associated with a
      * {@link SlimefunGuideMode}.
-     * 
+     *
      * @return The mode this {@link SlimefunGuideImplementation} represents
      */
     @Nonnull
@@ -40,22 +42,28 @@ public interface SlimefunGuideImplementation {
      * Returns the {@link ItemStack} representation for this {@link SlimefunGuideImplementation}.
      * In other words: The {@link ItemStack} you hold in your hand and that you use to
      * open your {@link SlimefunGuide}
-     * 
+     *
      * @return The {@link ItemStack} representation for this {@link SlimefunGuideImplementation}
      */
     @Nonnull
     ItemStack getItem();
 
+    @ParametersAreNonnullByDefault
     void openMainMenu(PlayerProfile profile, int page);
 
+    @ParametersAreNonnullByDefault
     void openCategory(PlayerProfile profile, Category category, int page);
 
+    @ParametersAreNonnullByDefault
     void openSearch(PlayerProfile profile, String input, boolean addToHistory);
 
+    @ParametersAreNonnullByDefault
     void displayItem(PlayerProfile profile, ItemStack item, int index, boolean addToHistory);
 
+    @ParametersAreNonnullByDefault
     void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory);
 
+    @ParametersAreNonnullByDefault
     default void unlockItem(Player p, SlimefunItem sfitem, Consumer<Player> callback) {
         Research research = sfitem.getResearch();
 
@@ -63,7 +71,9 @@ public interface SlimefunGuideImplementation {
             research.unlock(p, true, callback);
         } else {
             p.setLevel(p.getLevel() - research.getCost());
-            research.unlock(p, false, callback);
+
+            boolean skipLearningAnimation = SlimefunPlugin.getRegistry().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
+            research.unlock(p, skipLearningAnimation, callback);
         }
     }
 

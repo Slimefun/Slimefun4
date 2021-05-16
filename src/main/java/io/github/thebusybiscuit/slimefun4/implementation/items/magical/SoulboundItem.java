@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
@@ -23,6 +25,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class SoulboundItem extends SlimefunItem implements Soulbound, NotPlaceable {
 
+    @ParametersAreNonnullByDefault
     public SoulboundItem(Category category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
         super(category, item, type, recipe);
     }

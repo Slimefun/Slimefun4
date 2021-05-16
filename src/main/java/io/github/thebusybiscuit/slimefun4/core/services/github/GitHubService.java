@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -16,7 +17,6 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang.Validate;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
@@ -88,7 +88,12 @@ public class GitHubService {
         addContributor("nahkd123", "&aWinner of the 2020 Addon Jam");
 
         // Translators
-        new Translators(this);
+        try {
+            TranslatorsReader translators = new TranslatorsReader(this);
+            translators.load();
+        } catch (Exception x) {
+            SlimefunPlugin.logger().log(Level.SEVERE, "Failed to read 'translators.json'", x);
+        }
     }
 
     private void addContributor(@Nonnull String name, @Nonnull String role) {
@@ -103,7 +108,7 @@ public class GitHubService {
         Validate.notNull(minecraftName, "Minecraft username must not be null.");
         Validate.notNull(profileURL, "GitHub profile url must not be null.");
         Validate.notNull(role, "Role should not be null.");
-        Validate.isTrue(commits >= 0, "Commit count cannot be negative.");;
+        Validate.isTrue(commits >= 0, "Commit count cannot be negative.");
 
         String username = profileURL.substring(profileURL.lastIndexOf('/') + 1);
 
@@ -113,20 +118,31 @@ public class GitHubService {
         return contributor;
     }
 
+    @Nonnull
+    public Contributor addContributor(@Nonnull String username, @Nonnull String role, int commits) {
+        Validate.notNull(username, "Username must not be null.");
+        Validate.notNull(role, "Role should not be null.");
+        Validate.isTrue(commits >= 0, "Commit count cannot be negative.");
+
+        Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(username));
+        contributor.setContributions(role, commits);
+        return contributor;
+    }
+
     private void loadConnectors(boolean logging) {
         this.logging = logging;
         addDefaultContributors();
 
         // TheBusyBiscuit/Slimefun4 (multiple times because there may me multiple pages)
-        connectors.add(new ContributionsConnector(this, "code", 1, repository, "developer"));
-        connectors.add(new ContributionsConnector(this, "code2", 2, repository, "developer"));
-        connectors.add(new ContributionsConnector(this, "code3", 3, repository, "developer"));
+        connectors.add(new ContributionsConnector(this, "code", 1, repository, ContributorRole.DEVELOPER));
+        connectors.add(new ContributionsConnector(this, "code2", 2, repository, ContributorRole.DEVELOPER));
+        connectors.add(new ContributionsConnector(this, "code3", 3, repository, ContributorRole.DEVELOPER));
 
         // TheBusyBiscuit/Slimefun4-Wiki
-        connectors.add(new ContributionsConnector(this, "wiki", 1, "Slimefun/Wiki", "wiki"));
+        connectors.add(new ContributionsConnector(this, "wiki", 1, "Slimefun/Wiki", ContributorRole.WIKI_EDITOR));
 
         // TheBusyBiscuit/Slimefun4-Resourcepack
-        connectors.add(new ContributionsConnector(this, "resourcepack", 1, "Slimefun/Resourcepack", "resourcepack"));
+        connectors.add(new ContributionsConnector(this, "resourcepack", 1, "Slimefun/Resourcepack", ContributorRole.RESOURCEPACK_ARTIST));
 
         // Issues and Pull Requests
         connectors.add(new GitHubIssuesConnector(this, repository, (issues, pullRequests) -> {

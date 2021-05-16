@@ -51,7 +51,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link SurvivalSlimefunGuide} is the standard version of our {@link SlimefunGuide}.
@@ -144,7 +143,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         if (isSurvivalMode()) {
-            profile.getGuideHistory().clear();
+            GuideHistory history = profile.getGuideHistory();
+            history.clear();
+            history.setMainMenuPage(page);
         }
 
         ChestMenu menu = create(p);
@@ -287,7 +288,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private void displaySlimefunItem(ChestMenu menu, Category category, Player p, PlayerProfile profile, SlimefunItem sfitem, int page, int index) {
         Research research = sfitem.getResearch();
 
-        if (isSurvivalMode() && !Slimefun.hasPermission(p, sfitem, false)) {
+        if (isSurvivalMode() && !hasPermission(p, sfitem)) {
             List<String> message = SlimefunPlugin.getPermissionsService().getLore(sfitem);
             menu.addItem(index, new CustomItem(ChestMenuUtils.getNoPermissionItem(), sfitem.getItemName(), message.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
@@ -602,7 +603,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
                 if (action.isShiftClicked()) {
-                    openMainMenu(profile, 1);
+                    openMainMenu(profile, profile.getGuideHistory().getMainMenuPage());
                 } else {
                     history.goBack(this);
                 }
@@ -612,12 +613,14 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         } else {
             menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide"))));
             menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
-                openMainMenu(profile, 1);
+                openMainMenu(profile, profile.getGuideHistory().getMainMenuPage());
                 return false;
             });
         }
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private static ItemStack getDisplayItem(Player p, boolean isSlimefunRecipe, ItemStack item) {
         if (isSlimefunRecipe) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
@@ -626,13 +629,14 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 return item;
             }
 
-            String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&fNeeds to be unlocked elsewhere" : "&fNo Permission";
+            String lore = hasPermission(p, slimefunItem) ? "&fNeeds to be unlocked elsewhere" : "&fNo Permission";
             return slimefunItem.canUse(p, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", lore);
         } else {
             return item;
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void displayRecipes(Player p, PlayerProfile profile, ChestMenu menu, RecipeDisplayItem sfItem, int page) {
         List<ItemStack> recipes = sfItem.getDisplayRecipes();
 
@@ -691,8 +695,10 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         if ((i + (page * 18)) < recipes.size()) {
             ItemStack displayItem = recipes.get(i + (page * 18));
 
-            // We want to clone this item to avoid corrupting the original
-            // but we wanna make sure no stupid addon creator sneaked some nulls in here
+            /*
+             * We want to clone this item to avoid corrupting the original
+             * but we wanna make sure no stupid addon creator sneaked some nulls in here
+             */
             if (displayItem != null) {
                 displayItem = displayItem.clone();
             }
@@ -711,7 +717,13 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
     }
 
-    private ChestMenu create(Player p) {
+    @ParametersAreNonnullByDefault
+    private static boolean hasPermission(Player p, SlimefunItem item) {
+        return SlimefunPlugin.getPermissionsService().hasPermission(p, item);
+    }
+
+    @Nonnull
+    private ChestMenu create(@Nonnull Player p) {
         ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "guide.title.main"));
 
         menu.setEmptySlotsClickable(false);
@@ -719,6 +731,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         return menu;
     }
 
+    @ParametersAreNonnullByDefault
     private void printErrorMessage(Player p, Throwable x) {
         p.sendMessage(ChatColor.DARK_RED + "An internal server error has occurred. Please inform an admin, check the console for further info.");
         SlimefunPlugin.logger().log(Level.SEVERE, "An error has occurred while trying to open a SlimefunItem in the guide!", x);

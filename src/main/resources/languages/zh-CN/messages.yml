@@ -1,0 +1,349 @@
+---
+commands:
+  help: 显示此帮助
+  cheat: 直接拿取 Slimefun 物品
+  give: 给予玩家 Slimefun 物品
+  guide: 获取一本 Slimefun 指南书
+  teleporter: 查看其他玩家的公共传送点
+  versions: 显示 Slimefun 运行环境
+  search: 搜索 Slimefun 物品
+  open_guide: 使用命令打开 Slimefun 指南
+  stats: 查看玩家的统计数据
+  research:
+    description: 解锁/重置玩家的研究
+    reset: '&c你已重置了 %player% 的所有研究'
+    reset-target: '&c你的所有研究已被重置'
+  backpack:
+    description: 获取你其中一个背包的拷贝
+    invalid-id: '&4背包 ID 必须为非负数!'
+    player-never-joined: '&4找不到叫这个名字的玩家!'
+    backpack-does-not-exist: '&4你指定的背包不存在!'
+    restored-backpack-given: '&a你的背包已被恢复并且已经放入了你的物品栏!'
+  charge:
+    description: 为你手持的物品充电
+    charge-success: 充电完成!
+    not-rechargeable: 这个物品不能充电!
+  timings:
+    description: Slimefun 及其附属插件的性能报告
+    please-wait: '&e请稍等一会...结果马上就来!'
+    verbose-player: '&4该标记不能对玩家使用!'
+    unknown-flag: '&4未知标记: &c%flag%'
+placeholderapi:
+  profile-loading: '加载中...'
+guide:
+  locked: '已锁定'
+  work-in-progress: '该功能暂未推出!'
+  locked-category:
+    - '为了解锁这一类别'
+    - '你需要先解锁以下'
+    - '类别里的所有物品'
+  search:
+    message: '&b今天要搜些什么?'
+    name: '&7搜索...'
+    tooltip: '&b单击搜索物品'
+    inventory: '正在搜索: %item%'
+  tooltips:
+    open-category: '单击打开'
+    versions-notice: '在反馈问题时这些很重要!'
+    wiki: '在官方 Slimefun 维基上查看此物品'
+    recipes:
+      machine: '此机器可用的合成配方'
+      miner: '此采矿机可以获得的资源'
+      generator: '可用的燃料类型'
+      gold-pan: '你可以获得的资源'
+      climbing-pick: '你可以攀爬的平面'
+  cheat:
+    no-multiblocks: '&4你不能在作弊模式下获得多方块结构的机器, 必须按书中所示建造!'
+  pages:
+    previous: '上一页'
+    next: '下一页'
+  back:
+    title: '返回'
+    guide: '返回 Slimefun 指南'
+    settings: '返回设置面板'
+  languages:
+    updated: '&a成功修改语言为: &b%lang%'
+    selected-language: '目前使用的语言:'
+    select: '单击选中此语言'
+    select-default: '单击选中默认语言'
+    change: '单击选择要更改的语言'
+    description:
+      - '&7现在你可以修改 Slimefun'
+      - '&7展示的文本消息的语言了.'
+      - '&7注意: 物品中的文本'
+      - '&7暂时无法修改.'
+    translations:
+      name: '&a少了些什么?'
+      lore: '单击添加你自己的翻译'
+  title:
+    main: 'Slimefun 指南'
+    settings: '设置 & 详情'
+    languages: '选择你想要更改的语言'
+    credits: 'Slimefun4 贡献者'
+    wiki: 'Slimefun4 维基'
+    addons: 'Slimefun4 附属插件'
+    bugs: '问题反馈'
+    source: '源代码'
+    versions: '安装的版本'
+  credits:
+    commit: '提交'
+    commits: '提交次数'
+    profile-link: '单击访问他们的 Github 个人主页'
+    open: '单击查看贡献者名单'
+    description:
+      - '&7Slimefun 是一个开源的项目'
+      - '&7并且由玩家社区维护.'
+      - '&7在这几年中, 一共有 &e%contributors% &7人'
+      - '&7为 Slimefun 做出了贡献.'
+    roles:
+      developer: '&6开发者'
+      wiki: '&3Wiki 编辑者'
+      resourcepack: '&c材质制作者'
+      translator: '&9翻译者'
+messages:
+  not-researched: '&4你的知识还不足以理解这个物品'
+  not-enough-xp: '&4你没有足够的经验来解锁这个研究'
+  unlocked: '&b成功解锁研究 &7"%research%"'
+  only-players: '&4这个指令只能在游戏内使用'
+  unknown-player: '&4未知玩家: &c%player%'
+  no-permission: '&4你没有足够的权限这么做'
+  usage: '&4用法: &c%usage%'
+  not-online: '&4%player% &c不在线'
+  invalid-item: '&4%item% &c不是一个有效的物品名!'
+  invalid-amount: '&4%amount% &ci不是一个有效的数字 : 它必须大于 0!'
+  given-item: '&b你获得了 &a%amount% &7"%item%&7"'
+  give-item: '&b成功给予玩家 %player% &a%amount% &7"%item%&7"'
+  invalid-research: '&4%research% &c不是一个有效的研究名!'
+  give-research: '&b你成功解锁了玩家 %player% 的研究 &7"%research%&7"'
+  hungry: '&c你太饿了, 先吃点东西再试试吧!'
+  disabled-in-world: '&4&l这个物品在此世界已被禁用'
+  disabled-item: '&4&l这个物品已经被禁用了! 你是怎么得到它的?'
+  no-tome-yourself: '&c你不能对你自己使用 &4学识巨著 &c...'
+  multimeter: '&b已储存的能源: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4你不能使用 Slimefun 的物品和猪灵易物'
+  bee-suit-slow-fall: '&e你的蜂翅将会让你安全缓降'
+  multi-tool:
+    mode-change: '&b%device% 的模式已切换为: &9%mode%'
+    not-shears: '&c多功能工具 (Multi Tool) 不能作为剪刀使用!'
+  talisman:
+    anvil: '&a&o你的护身符使你的工具免于损坏'
+    miner: '&a&o你的护身符使矿物双倍掉落了'
+    hunter: '&a&o你的护身符使掉落物双倍掉落了'
+    lava: '&a&o你的护身符将你从岩浆中救了出来'
+    water: '&a&o你的护身符使你免于溺水'
+    angel: '&a&o你的护身符使你在信仰之跃时不受伤害'
+    fire: '&a&o你的护身符使你免受火焰伤害'
+    magician: '&a&o你的护身符赠送了你额外的附魔'
+    traveller: '&a&o你的护身符让你跑得更快了'
+    warrior: '&a&o你的护身符使你变强了'
+    knight: '&a&o你的护身符给予了你 5 秒的生命恢复'
+    whirlwind: '&a&o你的护身符反弹了所有射向你的投掷物'
+    wizard: '&a&o你的护身符随机提高了一个附魔的等级, 但其他的附魔等级将会下降'
+    caveman: '&a&o你的护身符给予了你急迫效果'
+    wise: '&a&o你的护身符让掉落的经验翻倍了'
+  soulbound-rune:
+    fail: '&c灵魂一次只能绑定一个物品.'
+    success: '&a物品绑定成功! 在你死亡后此物品将不会掉落.'
+  enchantment-rune:
+    fail: '&c你不能附魔这个物品.'
+    no-enchantment: '&c无法找到此物品可用的附魔属性.'
+    success: '&a成功为此物品添加了随机的可用附魔属性.'
+  research:
+    start: '&7古老的灵魂正向你低语其中的神秘!'
+    progress: '&7你逐渐开始理解研究 &b%research% &e(%progress%)'
+  tape-measure:
+    no-anchor: '&c在开始测量之前请先选定测量起点!'
+    wrong-world: '&c你设置的起点似乎在另一个世界!'
+    distance: '&7距离已测量, &e为: %distance%'
+    anchor-set: '&a成功在 &e %anchor% &a设置了测量起点'
+  climbing-pick:
+    dual-wielding: '&4你需要双手拿着攀岩镐才能使用!'
+    wrong-material: '&c你不能爬上这个平面. 查看指南书了解详情!'
+  fire-extinguish: '&7你灭掉了身上的火'
+  cannot-place: '&c你不能在这里放置方块!'
+  no-pvp: '&c你不能在这里攻击其他玩家!'
+  radiation: '&4你已经暴露在致命的辐射之下! &c快把辐射物品丢掉或者穿上防化服!'
+  opening-guide: '&b正在打开指南书, 请稍等...'
+  opening-backpack: '&b正在打开背包, 请稍等....'
+  no-iron-golem-heal: '&c这不是铁锭. 不能用来治疗铁傀儡!'
+  link-prompt: '&e单击此处:'
+  diet-cookie: '&e你感觉变轻了...'
+  fortune-cookie:
+    - '&7救救我! 我被困在了幸运饼干工厂里!'
+    - '&7你明天将会死在...     苦力怕的手下'
+    - '&7在你人生的某时某刻将会有坏事发生!!!'
+    - '&7下周你将会发现你不是在现实世界, 而是在游戏里!'
+    - '&7这块曲奇将在几秒内变得很好吃'
+    - '&7你很快将会死亡而且你最后听到的词将会是 "毁灭!!!"'
+    - '&7无论你要做什么, 都不要抱苦力怕... 我试过了. 感觉不错, 但不值得.'
+    - '&742. 答案是 42.'
+    - '&7一天一 Walshy, 麻烦远离我.'
+    - '&7永远不要直接往下挖!'
+    - '&7只是点皮肉伤!'
+    - '&7要总是看着生活中光明的一面!'
+    - '&7这一块其实是饼干而不是曲奇'
+    - '&7霓虹灯亮起来了!'
+machines:
+  pattern-not-found: '&e抱歉, 这不是正确的合成配方, 请检查发射器里放置物品的顺序.'
+  unknown-material: '&e抱歉, 我无法识别在发射器里的物品. 请按照合成配方放置物品.'
+  wrong-item: '&e抱歉, 我无法识别你右键的物品. 检查指南书看看哪些物品可以使用.'
+  full-inventory: '&e抱歉, 物品栏已经满了!'
+  in-use: '&c这个机器正在被其他玩家使用.'
+  ignition-chamber-no-flint: '&c自动点火机缺少打火石.'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4古代基座不足. 目前已摆放的基座数: &c(%pedestals% / 8)'
+    unknown-catalyst: '&4无效的催化剂! &c请按照合成配方正确摆放物品!'
+    unknown-recipe: '&4未知合成表! &c请按照合成配方正确摆放物品!'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4基座被挡住了! &c把基座上面的东西移开!'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7请写下想显示在全息文本上的话. &r(支持颜色代码)'
+    inventory-title: '全息图像编辑器'
+  ELEVATOR:
+    no-destinations: '&4找不到上下楼'
+    pick-a-floor: '&3- 选择一个楼层 -'
+    current-floor: '&e你现在所在的楼层:'
+    click-to-teleport: '&e单击 &7传送至楼层:'
+    enter-name: '&7请为你的楼层起个名字吧! &r(支持颜色代码)'
+    named: '&2成功将此层命名为: &r%floor%'
+  TELEPORTER:
+    teleporting: '&3传送中...'
+    teleported: '&3传送成功!'
+    cancelled: '&4传送被取消!'
+    invulnerability: '&b&l你获得了 30 秒的无敌效果!'
+    gui:
+      title: '你的传送点'
+      tooltip: '单击传送'
+      time: '预计时间'
+  GPS_CONTROL_PANEL:
+    title: 'GPS - 控制面板'
+    transmitters: '信号发射机详情'
+    waypoints: '传送点列表'
+  CARGO_NODES:
+    must-be-placed: '&4货运节点必须放置在箱子或机器上!'
+  INDUSTRIAL_MINER:
+    no-fuel: '&c你的工业矿机没有燃料了! 将燃料放入它上面的箱子里.'
+    piston-facing: '&c你的工业矿机需要放置一个向上的活塞!'
+    piston-space: '&c两个活塞的上方需要没有方块阻挡!'
+    destroyed: '&c你的工业矿机被拆除了.'
+    already-running: '&c这个工业矿机正在运行!'
+    full-chest: '&c你的工业矿机的箱子已经满了!'
+    no-permission: '&4你没有权限操作这台工业矿机!'
+    finished: '&e你的工业矿机采矿已完成! 总共开采了 %ores% 个矿石!'
+anvil:
+  not-working: '&4你不能在铁砧里使用 Slimefun 的物品'
+  mcmmo-salvaging: '&4你不能分解 Slimefun 物品!'
+brewing_stand:
+  not-working: '&4你不能在酿造台中使用 Slimefun 物品!'
+cartography_table:
+  not-working: '&4你不能在制图台中使用 Slimefun 物品!'
+villagers:
+  no-trading: '&4你不能用 Slimefun 的物品和村民交易!'
+backpack:
+  already-open: '&c抱歉, 这个背包已在别处打开了!'
+  no-stack: '&c你不能同时手持两个背包'
+workbench:
+  not-enhanced: '&4你不能在普通的工作台上使用 Slimefun 物品'
+cauldron:
+  no-discoloring: '&4你不能用炼药锅洗去 Slimefun 物品的颜色'
+gps:
+  deathpoint: '&4死亡点 &7%date%'
+  waypoint:
+    new: '&e给你的路径点起个名字吧 &7(支持彩色代码!)'
+    added: '&a成功添加了新的传送点'
+    max: '&4你已到达设置传送点个数的最大上限'
+    duplicate: '&4已经有相同名字的传送点了: &f%waypoint%'
+  insufficient-complexity:
+    - '&4GPS 网络复杂度不足: &c%complexity%'
+    - '&4a) 你还没有设置一个 GPS 网络'
+    - '&4b) 你的 GPS 网络复杂度不够, 多放置几个 GPS 信号发射机'
+  geo:
+    scan-required: '&4需要先进行 GEO 地形扫描! &c请先使用 GEO 地形扫描器!'
+inventory:
+  no-access: '&4你没有权限使用这个方块'
+android:
+  started: '&7机器人正在依照脚本运行'
+  stopped: '&7机器人停止了运行'
+  scripts:
+    already-uploaded: '&4你已经上传过这个脚本了.'
+    editor: '脚本编辑器'
+    too-long: '&c脚本长度已达上限, 你不能再编辑了!'
+    instructions:
+      START: '&2运行脚本'
+      REPEAT: '&9重复运行脚本'
+      WAIT: '&e等待 0.5s'
+      GO_FORWARD: '&7向前走'
+      GO_UP: '&7向上走'
+      GO_DOWN: '&7向下走'
+      TURN_LEFT: '&7左转'
+      TURN_RIGHT: '&7右转'
+      DIG_UP: '&b向上挖'
+      DIG_FORWARD: '&b向前挖'
+      DIG_DOWN: '&b向下挖'
+      MOVE_AND_DIG_UP: '&b向上挖并移动'
+      MOVE_AND_DIG_FORWARD: '&b向前挖并移动'
+      MOVE_AND_DIG_DOWN: '&b向下挖并移动'
+      ATTACK_MOBS_ANIMALS: '&4攻击 &c(怪物 & 动物)'
+      ATTACK_MOBS: '&4攻击 &c(怪物)'
+      ATTACK_ANIMALS: '&4攻击 &c(动物)'
+      ATTACK_ANIMALS_ADULT: '&4攻击 &c(成年动物)'
+      CHOP_TREE: '&c砍树并补种树苗'
+      CATCH_FISH: '&b钓鱼'
+      FARM_FORWARD: '&b自动采收并补种作物'
+      FARM_DOWN: '&b自动采收并补种下面的作物'
+      FARM_EXOTIC_FORWARD: '&b自动采收并补种所有作物'
+      FARM_EXOTIC_DOWN: '&b自动采收并补种下面的所有作物'
+      INTERFACE_ITEMS: '&9将物品栏里的物品放入面前的容器'
+      INTERFACE_FUEL: '&c从面前的容器中拿出燃料'
+    enter-name:
+      - ''
+      - '&e给你的脚本起个名字吧'
+      - ''
+    uploaded:
+      - '&b上传中...'
+      - '&a脚本上传成功!'
+    rating:
+      own: '&4你不能评价你自己的脚本!'
+      already: '&4你已经给这个脚本留下评价了!'
+languages:
+  default: '服务器默认语言'
+  en: '英语'
+  de: '德语'
+  fr: '法语'
+  it: '意大利语'
+  es: '西班牙语'
+  pl: '波兰语'
+  sv: '瑞典语'
+  nl: '荷兰语'
+  cs: '捷克语'
+  hu: '匈牙利语'
+  lv: '拉脱维亚语'
+  ru: '俄语'
+  sk: '斯洛伐克文'
+  zh-CN: '简体中文 (中国)'
+  zh-TW: '繁体中文 (台湾)'
+  vi: '越南文'
+  id: '印尼语'
+  el: '希腊语'
+  he: '希伯来语'
+  pt: '葡萄牙语 (葡萄牙)'
+  pt-BR: '葡萄牙语 (巴西)'
+  ar: '阿拉伯语'
+  af: '南非语'
+  da: '丹麦语'
+  fi: '芬兰语'
+  uk: '乌克兰语'
+  ms: '马来西亚语'
+  'no': '挪威语'
+  ja: '日语'
+  fa: '波斯语'
+  th: '泰语'
+  tl: '他加禄语'
+  ro: '罗马尼亚语'
+  bg: '保加利亚语'
+  ko: '韩语'
+  tr: '土耳其语'
+  hr: '克罗地亚语'
+  mk: '马其顿语'
+  sr: '塞尔维亚语'
+  be: '白俄罗斯语'

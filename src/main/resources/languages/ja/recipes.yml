@@ -1,0 +1,147 @@
+---
+slimefun:
+  multiblock:
+    name: 'マルチブロック'
+    lore:
+      - '図面通りに設置して建造する。'
+      - 'クラフトではありません！'
+  enhanced_crafting_table:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Enhanced Crafting Table'
+      - '通常の作業台では不十分です！'
+  armor_forge:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Armor Forge'
+  grind_stone:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Grind Stone'
+  smeltery:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Smeltery'
+  ore_crusher:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Ore Crusher'
+  mob_drop:
+    name: 'モブドロップ'
+    lore:
+      - 'モブを倒して'
+      - '入手するアイテム'
+  gold_pan:
+    lore:
+      - 'このアイテムの入手に使用する'
+      - '機械: Gold Pan'
+  compressor:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Compressor'
+  pressure_chamber:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Pressure Chamber'
+  ore_washer:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Ore Washer'
+  juicer:
+    lore:
+      - 'このジュースの作成に使用する'
+      - '機械: Juicer'
+  magic_workbench:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Magic Workbench'
+  ancient_altar:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Ancient Altar'
+      - '詳細はAncient Altarに記載'
+  heated_pressure_chamber:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Heated Pressure Chamber'
+  food_fabricator:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Food Fabricator'
+  food_composter:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Food Composter'
+  freezer:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Freezer'
+  geo_miner:
+    lore:
+      - 'このアイテムの採掘に使用する'
+      - '機械: GEO Miner'
+  nuclear_reactor:
+    lore:
+      - 'このアイテムを副産物として入手できる'
+      - '機械: Nuclear Reactor'
+  oil_pump:
+    lore:
+      - 'このアイテムの収集に使用する'
+      - '機械: Oil Pump'
+  pickaxe_of_containment:
+    lore:
+      - 'このブロックを入手するには'
+      - 'Pickaxe of Containmentを'
+      - '使用してスポナーを採掘する'
+  refinery:
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: Refinery'
+  barter_drop:
+    name: 'ピグリンとの物々交換'
+    lore:
+      - 'このアイテムは金インゴットを'
+      - 'ピグリンとの物々交換で入手'
+minecraft:
+  shaped:
+    name: '定形レシピ'
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: 作業台'
+      - '並べ方は固定'
+  shapeless:
+    name: '不定形レシピ'
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: 作業台'
+      - '並べ方は自由'
+  furnace:
+    name: 'かまどでの精錬'
+    lore:
+      - 'このアイテムの精錬に使用する'
+      - '機械: かまど'
+  blasting:
+    name: '溶鉱炉での精錬'
+    lore:
+      - 'このアイテムの精錬に使用する'
+      - '機械: 溶鉱炉'
+  smoking:
+    name: '燻製器'
+    lore:
+      - 'このアイテムの燻製に使用する'
+      - '機械: 燻製器'
+  campfire:
+    name: '焚き火'
+    lore:
+      - 'このアイテムの精錬に使用する'
+      - '機械: 焚き火'
+  stonecutting:
+    name: '石切台'
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: 石切台'
+  smithing:
+    name: '鍛冶台'
+    lore:
+      - 'このアイテムの作成に使用する'
+      - '機械: 鍛冶台'

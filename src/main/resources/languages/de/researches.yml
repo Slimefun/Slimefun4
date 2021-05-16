@@ -1,0 +1,258 @@
+---
+slimefun:
+  walking_sticks: Gehstöcke
+  portable_crafter: Eine Werkbank zum Mitnehmen
+  fortune_cookie: Glückskeks
+  portable_dustbin: Mobile Mülltonnen
+  meat_jerky: Dörrfleisch
+  armor_forge: Rüstungsherstellung
+  glowstone_armor: Glühende Rüstung
+  lumps: Magische Klumpen
+  ender_backpack: Ender-Rucksack
+  ender_armor: Ender-Rüstung
+  magic_eye_of_ender: Magisches Enderauge
+  magic_sugar: Magischer Zucker
+  monster_jerky: Gepökeltes Zombiefleisch
+  slime_armor: Schleimige Rüstung
+  sword_of_beheading: Köpfen mit Köpfchen
+  basic_circuit_board: Einfacher Schaltkreis
+  advanced_circuit_board: Fortgeschrittener Schaltkreis
+  smeltery: Schmelzofen
+  steel: Die Ära des Stahls
+  misc_power_items: Items mit Energie
+  battery: Deine erste Batterie
+  steel_plate: Stahlplatten
+  steel_thruster: Ein Triebwerk aus Stahl
+  parachute: Fallschirm
+  grappling_hook: Enterhaken
+  jetpacks: Jetpacks
+  multitools: Schweizer Taschenmesser
+  solar_panel_and_helmet: Solarhelm
+  elemental_staff: Stab der Elemente
+  grind_stone: Das Zermalmen von Items
+  cactus_armor: Eine Rüstung aus Kaktus
+  gold_pan: Goldgräber
+  magical_book_cover: Magischer Buchbinder
+  slimefun_metals: Neues Metall
+  ore_crusher: Doppelte Erze
+  bronze: Bronze
+  alloys: Meister der Legierungen
+  compressor_and_carbon: Karbon-Herstellung
+  gilded_iron_armor: Vergoldete Eisenrüstung
+  synthetic_diamond: Synthetische Diamanten
+  pressure_chamber: Druckkammer
+  synthetic_sapphire: Synthetische Sapphire
+  damascus_steel: Damaststahl
+  damascus_steel_armor: Damaststahlrüstung
+  reinforced_alloy: Verstärkte Legierung
+  carbonado: Schwarze Diamanten
+  magic_workbench: Magische Werkbank
+  wind_staff: ' Bezwinger der Lüfte'
+  reinforced_armor: Verstärkte Rüstung
+  ore_washer: Erze waschen
+  gold_carats: Hochwertiges Gold
+  silicon: Silikon
+  fire_staff: Bezwinger der Flammen
+  smelters_pickaxe: Eine Spitzhacke zum Dahinschmelzen
+  common_talisman: Gewöhnlicher Talisman
+  anvil_talisman: Talisman des Ambosses
+  miner_talisman: Talisman der Mine
+  hunter_talisman: Talisman des Jägers
+  lava_talisman: Schwimmen in Lava
+  water_talisman: Atmen wie ein Fisch
+  angel_talisman: Talisman des Engels
+  fire_talisman: Talisman des Feuerwehrmanns
+  caveman_talisman: Des Höhlenmenschen's Talisman
+  wise_talisman: Stein der Weisen
+  lava_crystal: Feurige Angelegenheit
+  magician_talisman: Talisman des Magiers
+  traveller_talisman: Talisman des Wanderers
+  warrior_talisman: Talisman des Kriegers
+  knight_talisman: Talisman des Ritters
+  gilded_iron: Glänzendes Eisen
+  synthetic_emerald: Falsche Edelsteine
+  chainmail_armor: Kettenrüstung
+  whirlwind_talisman: Talisman des Wirbelwindes
+  wizard_talisman: Talisman des Zauberers
+  lumber_axe: Holzfällen mit Stil
+  hazmat_suit: Gefahrenschutz
+  uranium: Radioaktives Material
+  crushed_ore: Erzpurifikation
+  redstone_alloy: Redstone-Legierung
+  carbonado_tools: Werkzeuge aus Carbonado
+  first_aid: Erste Hilfe Set
+  gold_armor: Glitzernde Rüstung
+  night_vision_googles: Nachtsichtgerät
+  pickaxe_of_containment: Eine Spitzhacke für Spawner
+  hercules_pickaxe: Die Kraft von Herkules
+  table_saw: Tischsäge
+  slime_steel_armor: Schleimiger Stahl
+  blade_of_vampires: Vampirklinge
+  water_staff: Wasserbändiger
+  24k_gold_block: Ein Palast aus Gold
+  composter: Kompostierung
+  farmer_shoes: Gartenarbeit
+  explosive_tools: Explosives Werkzeug
+  automated_panning_machine: Goldwaschen für Fortgeschrittene
+  boots_of_the_stomper: Stampfende Stiefel
+  pickaxe_of_the_seeker: Wer suchet, der findet
+  backpacks: Rucksäcke
+  woven_backpack: Stoff-Rucksack
+  crucible: Schmelztiegel
+  gilded_backpack: Vergoldeter Rucksack
+  armored_jetpack: Gepanzertes Jetpack
+  ender_talismans: Ender-Talisman
+  nickel_and_cobalt: Erzforscher
+  magnet: Magneten
+  infused_magnet: Verzauberter Magnet
+  cobalt_pickaxe: Eine schnelle Spitzhacke
+  essence_of_afterlife: Die Untoten
+  bound_backpack: Ein treuer Rucksack
+  jetboots: Raketenstiefel
+  armored_jetboots: Gepanzerte Raketenstiefel
+  seismic_axe: Die Erdbebenaxt
+  pickaxe_of_vein_mining: Minen im großen Stile
+  bound_weapons: Waffen zum Behalten
+  bound_tools: Werkzeuge zum Behalten
+  bound_armor: Rüstung zum Behalten
+  juicer: Leckere Säfte
+  repaired_spawner: Spawner reparieren
+  enhanced_furnace: Verbesserter Ofen
+  more_enhanced_furnaces: Noch bessere Öfen
+  high_tier_enhanced_furnaces: High-End-Öfen
+  reinforced_furnace: Verstärkter Ofen
+  carbonado_furnace: Carbonado-Ofen
+  electric_motor: Elektromotoren
+  block_placer: Automatisch Blöcke platzieren
+  scroll_of_dimensional_teleposition: Schwindelerregend
+  special_bows: Robin Hood
+  tome_of_knowledge_sharing: Erfahrungen teilen
+  flask_of_knowledge: Erfahrung lagern
+  hardened_glass: Verstärktes Glas
+  golden_apple_juice: Ein goldener Zaubertrank
+  cooler: Kühles zum Mitnehmen
+  ancient_altar: Alter Altar
+  wither_proof_obsidian: Anti-Wither Obsidian
+  ancient_runes: Antike Runen
+  special_runes: Lila Runen
+  infernal_bonemeal: Knochenmehl für Warzen
+  rainbow_blocks: Regenbogen
+  infused_hopper: Magischer Trichter
+  wither_proof_glass: Anti-Wither Glas
+  duct_tape: Panzerband
+  plastic_sheet: Plastik
+  android_memory_core: Roboterkern
+  oil: Schwarzes Gold
+  fuel: Fossile Brennstoffe
+  hologram_projector: Hologramme
+  capacitors: Einfache Kondensatoren
+  high_tier_capacitors: Verbesserte Kondensatoren
+  even_higher_tier_capacitors: Kondensatoren Stufe 3
+  solar_generators: Solarenergie
+  electric_furnaces: Elektrische Öfen
+  electric_ore_grinding: Zermalmen und Zerquetschen
+  heated_pressure_chamber: Beheizte Druckkammer
+  coal_generator: Kohleindustrie
+  bio_reactor: Biologisch abbaubar
+  auto_enchanting: Automatische Verzauberungen
+  auto_anvil: Automatischer Amboss
+  multimeter: Messgeräte
+  gps_setup: GPS-Netzwerke 101
+  gps_emergency_transmitter: Ein Wegweiser für alle Fälle
+  programmable_androids: Programmierbare Roboter
+  android_interfaces: Roboter-Interface
+  geo_scanner: GEO-Scanner
+  combustion_reactor: Verbrennungsmotor
+  teleporter: Teleportation
+  teleporter_activation_plates: Beam mich hoch!
+  better_solar_generators: Verbesserte Solargeneratoren
+  better_gps_transmitters: Verbesserte Satelliten
+  elevator: Aufzüge
+  energized_solar_generator: Solarkraft in der Nacht
+  energized_gps_transmitter: High-End-Satelliten
+  energy_regulator: Ein Netzwerk unter Strom
+  energy_connectors: Kupferkabel
+  butcher_androids: Killer-Roboter
+  organic_food: Viehfutter
+  auto_breeder: Futterautomaten
+  advanced_android: Verbesserte Roboter
+  advanced_butcher_android: Verbesserter Killerroboter
+  advanced_fisherman_android: Verbesserter Fischerroboter
+  animal_growth_accelerator: Wachstumsboost
+  xp_collector: Erfahrungssammler
+  organic_fertilizer: Organischer Dünger
+  crop_growth_accelerator: Beschleunigte Pflanzen
+  better_crop_growth_accelerator: Noch schnellere Pflanzen
+  reactor_essentials: Kraftwerke für Jedermann
+  nuclear_reactor: Kernkraftwerk
+  freezer: Eiskalt
+  cargo_basics: Cargo 101
+  cargo_nodes: Cargo-Knotenpunkte
+  electric_ingot_machines: Die Barrenfabrik
+  medium_tier_electric_ingot_machines: Schnelle Barrenfabrik
+  high_tier_electric_ingot_machines: Schnelle Barren
+  automated_crafting_chamber: Automatisches Craften
+  better_food_fabricator: Essen vom Fließband
+  reactor_access_port: Automatischer Reaktor
+  fluid_pump: Pumpe
+  better_freezer: Ein besserer Kühlschrank
+  boosted_uranium: Starkes Uran
+  trash_can: Mülltonne
+  advanced_output_node: Verbesserte Cargo-Knotenpunkte
+  carbon_press: Karbonpresse
+  electric_smeltery: Ein besserer Schmelzofen
+  better_electric_furnace: Verbesserter elektrischer Ofen
+  better_carbon_press: Bessere Karbonpresse
+  empowered_android: Hochenergetischer Roboter
+  empowered_butcher_android: Hochenergetischer Killerroboter
+  empowered_fisherman_android: Hochenergetischer Anglerroboter
+  high_tier_carbon_press: Ultimative Karbonpresse
+  wither_assembler: Ein automatisierter Wither
+  better_heated_pressure_chamber: Unter Druck
+  elytra: Gleitflügel
+  special_elytras: Verzauberte Gleitflügel
+  electric_crucible: Elektrischer Schmelztiegel
+  better_electric_crucibles: Verbesserter Schmelztiegel
+  advanced_electric_smeltery: Verbesserter elektrischer Schmelzofen
+  advanced_farmer_android: Verbesserter Farmroboter
+  lava_generator: Thermale Energie
+  nether_ice: Eis aus dem Nether
+  nether_star_reactor: Netherstern-Reaktor
+  blistering_ingots: Radioaktiv und glühend
+  automatic_ignition_chamber: Ein automatisierter Schmelzofen
+  output_chest: Einfache Auffangkiste
+  copper_wire: Kupferdrähte
+  radiant_backpack: Strahlender Rucksack
+  auto_drier: Ein trockener Tag
+  diet_cookie: Diätkekse
+  storm_staff: Die Stärke von Thor
+  soulbound_rune: Seelenbindung
+  geo_miner: GEO-Mining
+  lightning_rune: Rune des Blitzes
+  totem_of_undying: Das Totem der Untoten
+  charging_bench: Unter Strom
+  nether_gold_pan: Goldwäsche im Nether
+  electric_press: Elektrische Presse
+  magnesium_generator: Energie durch Magnesium
+  kelp_cookie: Süßer Seetang
+  makeshift_smeltery: Improvisierter Schmelzofen
+  tree_growth_accelerator: Schnelle Bäume
+  industrial_miner: Industrielle Erzförderung
+  advanced_industrial_miner: Verbesserter Erzabbau
+  magical_zombie_pills: De-Zombifikation/Anti-Zombi Medizin
+  auto_brewer: Automatischer Braustand
+  climbing_pick: Lara Craft
+  shulker_shell: Synthetische Shulkerschalen
+  enchantment_rune: Primitiver Zauber
+  lead_clothing: Kleidung aus Blei
+  tape_measure: Maßband
+  iron_golem_assembler: Eisengolems vom Fließband
+  villager_rune: Dorfbewohner wie neugeboren
+  elytra_cap: Harter Aufprall
+  bee_armor: Bienen-Rüstung
+  book_binder: Verzaubertes Bücherbinden
+  auto_crafting: Automatisierung vom Feinsten
+  produce_collector: Molkereibetrieb
+  improved_generators: Verbesserte Generatoren
+  ingredients_and_cheese: Eine Basis für jede Küche
+  medium_tier_auto_enchanting: Schnelle Verzauberungsmaschinen
