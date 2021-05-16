@@ -46,7 +46,7 @@ public class AncientAltarTask implements Runnable {
     private final AncientPedestal pedestalItem = (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem();
 
     private final Block altar;
-    private final int speed;
+    private final int stepDelay;
     private final Location dropLocation;
     private final ItemStack output;
     private final List<Block> pedestals;
@@ -60,10 +60,10 @@ public class AncientAltarTask implements Runnable {
     private final Player player;
 
     @ParametersAreNonnullByDefault
-    public AncientAltarTask(AncientAltarListener listener, Block altar, int speed, ItemStack output, List<Block> pedestals, List<ItemStack> items, Player player) {
+    public AncientAltarTask(AncientAltarListener listener, Block altar, int stepDelay, ItemStack output, List<Block> pedestals, List<ItemStack> items, Player player) {
         this.listener = listener;
         this.dropLocation = altar.getLocation().add(0.5, 1.3, 0.5);
-        this.speed = speed;
+        this.stepDelay = stepDelay;
         this.altar = altar;
         this.output = output;
         this.pedestals = pedestals;
@@ -102,7 +102,7 @@ public class AncientAltarTask implements Runnable {
         }
 
         this.stage += 1;
-        SlimefunPlugin.runSync(this, speed);
+        SlimefunPlugin.runSync(this, stepDelay);
     }
 
     private boolean checkLockedItems() {
