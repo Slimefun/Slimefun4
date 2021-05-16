@@ -40,6 +40,7 @@
 * Added the ability to disable auto (dis)enchanting with a lore - `use-ignored-lores` & `ignored-lores` in Items.yml
 * Added an option to turn off the "researching animation" in the `config.yml`
 * Added the option to turn off the "researching animation" within your Slimefun Guide
+* Added Portable Teleporter
 
 #### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
