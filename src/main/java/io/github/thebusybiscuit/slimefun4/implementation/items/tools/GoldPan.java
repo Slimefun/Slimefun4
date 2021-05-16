@@ -94,7 +94,9 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         randomizer.clear();
 
         for (GoldPanDrop setting : drops) {
-            randomizer.add(setting.getOutput(), setting.getValue());
+            if (setting.getValue() > 0) {
+                randomizer.add(setting.getOutput(), setting.getValue());
+            }
         }
     }
 
@@ -112,11 +114,13 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return item != null ? item : new ItemStack(Material.AIR);
     }
 
+    @Nonnull
     @Override
     public String getLabelLocalPath() {
         return "guide.tooltips.recipes.gold-pan";
     }
 
+    @Nonnull
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
@@ -158,6 +162,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         };
     }
 
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> recipes = new LinkedList<>();
