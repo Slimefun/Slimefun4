@@ -51,7 +51,7 @@ public class AutoCrafterListener implements Listener {
             SlimefunItem block = slimefunBlock.get();
 
             // Fixes #2957
-            if (block instanceof AbstractAutoCrafter && !block.canUse(e.getPlayer(), true)) {
+            if (block instanceof AbstractAutoCrafter && block.canUse(e.getPlayer(), true)) {
                 Optional<SlimefunItem> slimefunItem = e.getSlimefunItem();
 
                 if (!e.getPlayer().isSneaking() && slimefunItem.isPresent() && slimefunItem.get() instanceof Multimeter) {
