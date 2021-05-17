@@ -25,7 +25,7 @@ class ItemStackAndInteger {
 
     public ItemStackWrapper getItemStackWrapper() {
         if (wrapper == null && item != null) {
-            wrapper = new ItemStackWrapper(item);
+            wrapper = ItemStackWrapper.ofItem(item);
         }
 
         return wrapper;

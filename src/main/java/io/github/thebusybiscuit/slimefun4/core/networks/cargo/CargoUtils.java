@@ -152,7 +152,7 @@ final class CargoUtils {
             return null;
         }
 
-        ItemStackWrapper wrapper = new ItemStackWrapper(template);
+        ItemStackWrapper wrapper = ItemStackWrapper.ofItem(template);
 
         for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
             ItemStack is = menu.getItemInSlot(slot);
@@ -179,7 +179,7 @@ final class CargoUtils {
         int minSlot = range[0];
         int maxSlot = range[1];
 
-        ItemStackWrapper wrapper = new ItemStackWrapper(template);
+        ItemStackWrapper wrapper = ItemStackWrapper.ofItem(template);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
             // Changes to these ItemStacks are synchronized with the Item in the Inventory
@@ -279,7 +279,7 @@ final class CargoUtils {
             return stack;
         }
 
-        ItemStackWrapper wrapper = new ItemStackWrapper(stack);
+        ItemStackWrapper wrapper = ItemStackWrapper.ofItem(stack);
 
         for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, wrapper)) {
             ItemStack itemInSlot = menu.getItemInSlot(slot);
@@ -334,7 +334,7 @@ final class CargoUtils {
         int minSlot = range[0];
         int maxSlot = range[1];
 
-        ItemStackWrapper wrapper = new ItemStackWrapper(stack);
+        ItemStackWrapper wrapper = ItemStackWrapper.ofItem(stack);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
             // Changes to this ItemStack are synchronized with the Item in the Inventory
@@ -358,7 +358,7 @@ final class CargoUtils {
 
                         if (amount > maxStackSize) {
                             stack.setAmount(amount - maxStackSize);
-                            itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                            itemInSlot.setAmount(maxStackSize);
                             return stack;
                         } else {
                             itemInSlot.setAmount(Math.min(amount, maxStackSize));
