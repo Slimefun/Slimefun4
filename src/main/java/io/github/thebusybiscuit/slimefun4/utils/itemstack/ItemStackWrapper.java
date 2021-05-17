@@ -30,6 +30,19 @@ public final class ItemStackWrapper extends ItemStack {
     private final int amount;
     private final boolean hasItemMeta;
 
+    /**
+     * @deprecated This constructor is often misused leading to duplicate
+     * wrappers being made, used once, and then discarded.
+     * <p>
+     *     Use {@link #forceWrapItem(ItemStack)} to wrap an {@link ItemStack}
+     *     regardless of whether it has already been wrapped.
+     * </p>
+     * <p>
+     *     Use {@link #ofItem(ItemStack)} to wrap an {@link ItemStack} if
+     *     and only if it has not already been wrapped
+     * </p>
+     */
+    @Deprecated
     public ItemStackWrapper(@Nonnull ItemStack item) {
         super(item.getType());
         amount = item.getAmount();
@@ -44,6 +57,10 @@ public final class ItemStackWrapper extends ItemStack {
 
     public ItemStackWrapper(@Nonnull Material material) {
         this(new ItemStack(material));
+    }
+
+    public static @Nonnull ItemStackWrapper forceWrapItem(@Nonnull ItemStack itemStack) {
+        return new ItemStackWrapper(itemStack);
     }
 
     public static @Nonnull ItemStackWrapper ofItem(@Nonnull ItemStack itemStack) {
@@ -128,7 +145,7 @@ public final class ItemStackWrapper extends ItemStack {
 
         for (int i = 0; i < items.length; i++) {
             if (items[i] != null) {
-                array[i] = new ItemStackWrapper(items[i]);
+                array[i] = ofItem(items[i]);
             }
         }
 
@@ -150,7 +167,7 @@ public final class ItemStackWrapper extends ItemStack {
 
         for (ItemStack item : items) {
             if (item != null) {
-                list.add(new ItemStackWrapper(item));
+                list.add(ofItem(item));
             } else {
                 list.add(null);
             }
