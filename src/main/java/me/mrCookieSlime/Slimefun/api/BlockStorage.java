@@ -242,7 +242,7 @@ public class BlockStorage {
 
     private void loadInventories() {
         for (File file : new File("data-storage/Slimefun/stored-inventories").listFiles()) {
-            if (file.getName().endsWith(".sfi")) {
+            if (file.getName().startsWith(this.world.getName()) && file.getName().endsWith(".sfi")) {
                 try {
                     Location l = deserializeLocation(file.getName().replace(".sfi", ""));
                     
