@@ -12,7 +12,14 @@ class ItemStackAndInteger {
 
     ItemStackAndInteger(ItemStack item, int amount) {
         this.number = amount;
-        this.item = item;
+        if (item instanceof ItemStackWrapper) {
+            this.item = new ItemStack(item.getType(), item.getAmount());
+            if (item.hasItemMeta()) {
+                this.item.setItemMeta(item.getItemMeta());
+            }
+        } else {
+            this.item = item;
+        }
     }
 
     public int getInt() {
