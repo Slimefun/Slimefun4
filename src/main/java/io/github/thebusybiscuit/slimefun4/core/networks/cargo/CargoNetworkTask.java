@@ -112,7 +112,7 @@ class CargoNetworkTask implements Runnable {
             return;
         }
 
-        ItemStack stack = slot.getItem();
+        ItemStack stack = slot.getItemStackWrapper();
         int previousSlot = slot.getInt();
         List<Location> destinations = outputNodes.get(frequency);
 
