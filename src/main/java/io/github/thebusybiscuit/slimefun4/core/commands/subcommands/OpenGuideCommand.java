@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class OpenGuideCommand extends SubCommand {
 
+    @ParametersAreNonnullByDefault
     OpenGuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "open_guide", false);
     }
