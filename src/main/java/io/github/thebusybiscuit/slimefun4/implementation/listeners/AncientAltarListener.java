@@ -225,7 +225,7 @@ public class AncientAltarListener implements Listener {
 
                 b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1, 1);
 
-                AncientAltarTask task = new AncientAltarTask(this, b, altarItem.getSpeed(), result.get(), pedestals, consumed, p);
+                AncientAltarTask task = new AncientAltarTask(this, b, altarItem.getStepDelay(), result.get(), pedestals, consumed, p);
                 SlimefunPlugin.runSync(task, 10L);
             } else {
                 altars.remove(b);
