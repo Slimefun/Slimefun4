@@ -125,15 +125,12 @@ public final class ItemStackWrapper extends ItemStack {
      * will not check if the passed {@link ItemStack} has already been wrapped
      *
      * @param itemStack The {@link ItemStack} to wrap
-     * @return Returns <code>null</code> only if the passed ItemStack is <code>null</code>.
-     *         Otherwise: An {@link ItemStackWrapper} of the passed {@link ItemStack}
+     * @return Returns an {@link ItemStackWrapper} of the passed {@link ItemStack}
      * @see #wrap(ItemStack)
      */
-    @Nullable
-    public static ItemStackWrapper forceWrap(@Nullable ItemStack itemStack) {
-        if (itemStack == null) {
-            return null;
-        }
+    @Nonnull
+    public static ItemStackWrapper forceWrap(@Nonnull ItemStack itemStack) {
+        Validate.notNull(itemStack, "The ItemStack cannot be null!");
         return new ItemStackWrapper(itemStack);
     }
 
@@ -143,15 +140,13 @@ public final class ItemStackWrapper extends ItemStack {
      * is already an {@link ItemStackWrapper}
      *
      * @param itemStack The {@link ItemStack} to wrap
-     * @return Returns <code>null</code> only if the passed ItemStack is <code>null</code>.
-     *         Otherwise: An {@link ItemStackWrapper} of the passed {@link ItemStack}
+     * @return Returns an {@link ItemStackWrapper} of the passed {@link ItemStack}
      * @see #forceWrap(ItemStack)
      */
-    @Nullable
-    public static ItemStackWrapper wrap(@Nullable ItemStack itemStack) {
-        if (itemStack == null) {
-            return null;
-        } else if (itemStack instanceof ItemStackWrapper) {
+    @Nonnull
+    public static ItemStackWrapper wrap(@Nonnull ItemStack itemStack) {
+        Validate.notNull(itemStack, "The ItemStack cannot be null!");
+        if (itemStack instanceof ItemStackWrapper) {
             return (ItemStackWrapper) itemStack;
         }
         return new ItemStackWrapper(itemStack);
