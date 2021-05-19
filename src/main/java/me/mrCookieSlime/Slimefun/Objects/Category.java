@@ -43,7 +43,7 @@ public class Category implements Keyed {
     protected final List<SlimefunItem> items = new ArrayList<>();
     protected final NamespacedKey key;
     protected final ItemStack item;
-    protected final int tier;
+    protected int tier;
 
     /**
      * Constructs a new {@link Category} with the given {@link NamespacedKey} as an identifier
@@ -104,10 +104,49 @@ public class Category implements Keyed {
      */
     public void register(@Nonnull SlimefunAddon addon) {
         Validate.notNull(addon, "The Addon cannot be null");
+
+        if (isRegistered()) {
+            throw new UnsupportedOperationException("This Category has already been registered!");
+        }
+
         this.addon = addon;
 
         SlimefunPlugin.getRegistry().getCategories().add(this);
-        Collections.sort(SlimefunPlugin.getRegistry().getCategories(), Comparator.comparingInt(Category::getTier));
+        sortCategoriesByTier();
+    }
+
+    /**
+     * Returns the tier of this {@link Category}.
+     * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
+     * 
+     * @return the tier of this {@link Category}
+     */
+    public int getTier() {
+        return tier;
+    }
+
+    /**
+     * This sets the tier of this {@link Category}.
+     * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
+     * 
+     * @param tier
+     *            The tier for this {@link Category}
+     */
+    public void setTier(int tier) {
+        this.tier = tier;
+
+        // Refresh Category order if already registered.
+        if (isRegistered()) {
+            sortCategoriesByTier();
+        }
+    }
+
+    /**
+     * This refreshes the {@link Category} order.
+     */
+    private void sortCategoriesByTier() {
+        List<Category> categories = SlimefunPlugin.getRegistry().getCategories();
+        Collections.sort(categories, Comparator.comparingInt(Category::getTier));
     }
 
     /**
@@ -228,16 +267,6 @@ public class Category implements Keyed {
      */
     public boolean contains(@Nullable SlimefunItem item) {
         return item != null && items.contains(item);
-    }
-
-    /**
-     * Returns the tier of this {@link Category}.
-     * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
-     * 
-     * @return the tier of this {@link Category}
-     */
-    public int getTier() {
-        return tier;
     }
 
     @Override

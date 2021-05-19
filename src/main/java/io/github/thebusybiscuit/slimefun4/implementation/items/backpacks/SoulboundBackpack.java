@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
@@ -15,6 +17,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class SoulboundBackpack extends SlimefunBackpack implements Soulbound {
 
+    @ParametersAreNonnullByDefault
     public SoulboundBackpack(int size, Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(size, category, item, recipeType, recipe);
     }

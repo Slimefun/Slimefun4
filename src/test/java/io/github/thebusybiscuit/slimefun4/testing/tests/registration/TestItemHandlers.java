@@ -1,14 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.testing.tests.registration;
 
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bukkit.Material;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -20,9 +19,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.testing.mocks.MockItemHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
-public class TestItemHandlers {
+class TestItemHandlers {
 
     private static SlimefunPlugin plugin;
 
@@ -38,7 +36,8 @@ public class TestItemHandlers {
     }
 
     @Test
-    public void testIllegalItemHandlers() {
+    @DisplayName("Test validation for Item Handlers")
+    void testIllegalItemHandlers() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
@@ -48,7 +47,8 @@ public class TestItemHandlers {
     }
 
     @Test
-    public void testItemHandler() {
+    @DisplayName("Test calling an ItemHandler")
+    void testItemHandler() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
 
         MockItemHandler handler = new MockItemHandler();
@@ -68,7 +68,8 @@ public class TestItemHandlers {
     }
 
     @Test
-    public void testBowShootHandler() {
+    @DisplayName("Test validation for BowShootHandler")
+    void testBowShootHandler() {
         BowShootHandler handler = (e, n) -> {};
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "NOT_A_BOW", new CustomItem(Material.KELP, "&bNot a bow!"));
 
@@ -78,25 +79,5 @@ public class TestItemHandlers {
         SlimefunItem bow = TestUtilities.mockSlimefunItem(plugin, "A_BOW", new CustomItem(Material.BOW, "&bA bow!"));
         Optional<IncompatibleItemHandlerException> exception2 = handler.validate(bow);
         Assertions.assertFalse(exception2.isPresent());
-    }
-
-    @Test
-    public void testPublicHandler() {
-        ItemHandler handler = new MockItemHandler() {
-
-            @Override
-            public boolean isPrivate() {
-                return false;
-            }
-        };
-
-        Assertions.assertFalse(handler.isPrivate());
-
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PUBLIC_HANDLER_TEST", new CustomItem(Material.KELP, "&bHappy kelp"));
-        item.addItemHandler(handler);
-        item.register(plugin);
-
-        Map<Class<? extends ItemHandler>, Set<ItemHandler>> handlers = SlimefunPlugin.getRegistry().getPublicItemHandlers();
-        Assertions.assertTrue(handlers.get(handler.getIdentifier()).contains(handler));
     }
 }

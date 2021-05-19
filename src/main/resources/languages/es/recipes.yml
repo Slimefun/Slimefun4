@@ -1,0 +1,144 @@
+---
+slimefun:
+  multiblock:
+    lore:
+      - 'Construye la estructura tal como se muestra'
+      - 'como se muestra. No es una receta.'
+  enhanced_crafting_table:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'en una Enhanced Crafting Table.'
+      - '¡Una Tabla de Crafteo normal no servirá!'
+  armor_forge:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando una Armor Forge'
+  grind_stone:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando una Grind Stone'
+  smeltery:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando un Smeltery'
+  ore_crusher:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando un Ore Crusher'
+  mob_drop:
+    name: 'Botín de Mob'
+    lore:
+      - 'Mata ese Mob para'
+      - 'obtener este objeto.'
+  gold_pan:
+    lore:
+      - 'Usa un Gold Pan para'
+      - 'obtener este objeto.'
+  compressor:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando un Compressor'
+  pressure_chamber:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando un Pressure Chamber'
+  ore_washer:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando un Ore Washer'
+  juicer:
+    lore:
+      - 'Haz este jugo tal como se muestra'
+      - 'usando un Juicer'
+  magic_workbench:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'Usando una Magic Workbench'
+  ancient_altar:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando un Ancient Altar.'
+      - 'Busca Ancient Altar para mas info.'
+  heated_pressure_chamber:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando una Heated Pressure Chamber'
+  food_fabricator:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando un Food Fabricator'
+  food_composter:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando un Food Composter'
+  freezer:
+    lore:
+      - 'Congela este objeto tal como se muestra'
+      - 'usando un Freezer'
+  geo_miner:
+    lore:
+      - 'Este objeto se puede obtener'
+      - 'usando un GEO Miner'
+  nuclear_reactor:
+    lore:
+      - 'Este objeto es un suproducto generado'
+      - 'al correr un Nuclear Reactor'
+  oil_pump:
+    lore:
+      - 'Este objeto puede ser recogido'
+      - 'usando una Oil Pump'
+  pickaxe_of_containment:
+    lore:
+      - 'Este bloque puede ser obtenido'
+      - 'al minar un Generador con'
+      - 'el Pickaxe of Containment'
+  refinery:
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando una Refinery'
+  barter_drop:
+    lore:
+      - 'Tradea con Piglins usando'
+      - 'Lingotes de Oro para obtener este objeto'
+minecraft:
+  shaped:
+    name: 'Receta de Crafteo con forma'
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'en una Tabla de Crafteo normal,'
+      - 'la forma es importante.'
+  shapeless:
+    name: 'Receta de Crafteo sin forma'
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'en una Tabla de Crafteo normal'
+      - 'Esta receta no tiene forma.'
+  furnace:
+    name: 'Receta de Horno'
+    lore:
+      - 'Funde este objeto en un Horno'
+      - 'para obtener el objeto que buscas.'
+  blasting:
+    name: 'Receta de Alto Horno'
+    lore:
+      - 'Funde este objeto en un Alto Horno'
+      - 'para obtener el objeto que buscas.'
+  smoking:
+    name: 'Receta de Ahumador'
+    lore:
+      - 'Funde este objeto en un Ahumador'
+      - 'para obtener el objeto que buscas.'
+  campfire:
+    name: 'Receta de Hoguera'
+    lore:
+      - 'Funde este objeto sobre una Hoguera'
+      - 'para obtener el objeto que buscas.'
+  stonecutting:
+    name: 'Receta de Cortapiedras'
+    lore:
+      - 'Haz este objeto tal como se muestra'
+      - 'usando un Cortapiedras'
+  smithing:
+    lore:
+      - 'Haz este objeto como se muestra'
+      - 'usando una Smithing Table'

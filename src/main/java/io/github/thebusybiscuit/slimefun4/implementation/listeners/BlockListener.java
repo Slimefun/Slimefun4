@@ -30,11 +30,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent}
@@ -83,7 +80,7 @@ public class BlockListener implements Listener {
         ItemStack item = e.getItemInHand();
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-        if (sfItem != null && !(sfItem instanceof NotPlaceable) && Slimefun.isEnabled(e.getPlayer(), sfItem, true)) {
+        if (sfItem != null && !(sfItem instanceof NotPlaceable)) {
             if (!sfItem.canUse(e.getPlayer(), true)) {
                 e.setCancelled(true);
             } else {
@@ -157,22 +154,10 @@ public class BlockListener implements Listener {
         }
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-            SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getId());
+            sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(e, item, drops));
 
-            if (blockHandler != null) {
-                try {
-                    if (!blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK)) {
-                        e.setCancelled(true);
-                        return;
-                    }
-                } catch (Exception | LinkageError x) {
-                    sfItem.error("Something went wrong while triggering a BlockHandler", x);
-                }
-            } else {
-                sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(e, item, drops));
-                if (e.isCancelled()) {
-                    return;
-                }
+            if (e.isCancelled()) {
+                return;
             }
 
             drops.addAll(sfItem.getDrops());
@@ -219,30 +204,21 @@ public class BlockListener implements Listener {
             SlimefunItem sfItem = BlockStorage.check(blockAbove);
 
             if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-                SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getId());
+                /*
+                 * We create a dummy here to pass onto the BlockBreakHandler.
+                 * This will set the correct block context.
+                 */
+                BlockBreakEvent dummyEvent = new BlockBreakEvent(blockAbove, e.getPlayer());
+                List<ItemStack> drops = new ArrayList<>();
+                drops.addAll(sfItem.getDrops(e.getPlayer()));
 
-                if (blockHandler != null) {
-                    if (blockHandler.onBreak(e.getPlayer(), blockAbove, sfItem, UnregisterReason.PLAYER_BREAK)) {
-                        blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), BlockStorage.retrieve(blockAbove));
-                        blockAbove.setType(Material.AIR);
-                    }
-                } else {
-                    /*
-                     * We create a dummy here to pass onto the BlockBreakHandler.
-                     * This will set the correct block context.
-                     */
-                    BlockBreakEvent dummyEvent = new BlockBreakEvent(blockAbove, e.getPlayer());
-                    List<ItemStack> drops = new ArrayList<>();
-                    drops.addAll(sfItem.getDrops(e.getPlayer()));
+                sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
+                blockAbove.setType(Material.AIR);
 
-                    sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
-                    blockAbove.setType(Material.AIR);
-
-                    if (!dummyEvent.isCancelled() && dummyEvent.isDropItems()) {
-                        for (ItemStack drop : drops) {
-                            if (drop != null && !drop.getType().isAir()) {
-                                blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), drop);
-                            }
+                if (!dummyEvent.isCancelled() && dummyEvent.isDropItems()) {
+                    for (ItemStack drop : drops) {
+                        if (drop != null && !drop.getType().isAir()) {
+                            blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), drop);
                         }
                     }
                 }

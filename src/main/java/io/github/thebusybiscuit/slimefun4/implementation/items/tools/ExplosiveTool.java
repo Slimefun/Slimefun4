@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,15 +21,14 @@ import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEve
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -64,12 +64,12 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
             b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
 
             List<Block> blocks = findBlocks(b);
-            breakBlocks(p, tool, b, blocks, drops);
+            breakBlocks(e, p, tool, b, blocks, drops);
         };
     }
 
     @ParametersAreNonnullByDefault
-    private void breakBlocks(Player p, ItemStack item, Block b, List<Block> blocks, List<ItemStack> drops) {
+    private void breakBlocks(BlockBreakEvent e, Player p, ItemStack item, Block b, List<Block> blocks, List<ItemStack> drops) {
         List<Block> blocksToDestroy = new ArrayList<>();
 
         if (callExplosionEvent.getValue().booleanValue()) {
@@ -96,7 +96,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
 
         if (!event.isCancelled()) {
             for (Block block : blocksToDestroy) {
-                breakBlock(p, item, block, drops);
+                breakBlock(e, p, item, block, drops);
             }
         }
     }
@@ -141,7 +141,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
     }
 
     @ParametersAreNonnullByDefault
-    private void breakBlock(Player p, ItemStack item, Block b, List<ItemStack> drops) {
+    private void breakBlock(BlockBreakEvent e, Player p, ItemStack item, Block b, List<ItemStack> drops) {
         SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
         Material material = b.getType();
 
@@ -149,10 +149,24 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         SlimefunItem sfItem = BlockStorage.check(b);
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-            SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getId());
+            /*
+             * Fixes #2989
+             * We create a dummy here to pass onto the BlockBreakHandler.
+             * This will set the correct block context.
+             */
+            BlockBreakEvent dummyEvent = new BlockBreakEvent(b, e.getPlayer());
 
-            if (handler != null && !handler.onBreak(p, b, sfItem, UnregisterReason.PLAYER_BREAK)) {
-                drops.add(BlockStorage.retrieve(b));
+            /*
+             * Fixes #3036 and handling in general.
+             * Call the BlockBreakHandler if the block has one to allow for proper handling.
+             */
+            sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
+
+            // Make sure the event wasn't cancelled by the BlockBreakHandler.
+            if (!dummyEvent.isCancelled()) {
+                drops.addAll(sfItem.getDrops(p));
+                b.setType(Material.AIR);
+                BlockStorage.clearBlockInfo(b);
             }
         } else {
             b.breakNaturally(item);

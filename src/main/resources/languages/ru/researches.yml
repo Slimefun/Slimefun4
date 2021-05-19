@@ -1,0 +1,250 @@
+---
+slimefun:
+  walking_sticks: Мои любимые трости
+  portable_crafter: Портативный крафтер
+  fortune_cookie: Печенье судьбы
+  portable_dustbin: Портативный мусорный ящик
+  meat_jerky: Вяленое мясо
+  armor_forge: Изготовление доспехов
+  glowstone_armor: Светящаяся броня
+  lumps: Осколки Незера и Эндера
+  ender_backpack: Эндер-рюкзак
+  ender_armor: Эндер-броня
+  magic_eye_of_ender: Магическое око Эндера
+  magic_sugar: Волшебный сахар
+  monster_jerky: Вяленая плоть
+  slime_armor: Слизневая броня
+  sword_of_beheading: Меч обезглавливания
+  basic_circuit_board: Монтажная плата
+  advanced_circuit_board: Печатная плата
+  smeltery: Плавильня
+  steel: Стальной век
+  misc_power_items: Важные ресурсы для питания сети
+  battery: Ваша первая батарея
+  steel_plate: Стальное покрытие
+  steel_thruster: Стальной ускоритель
+  parachute: Парашют
+  grappling_hook: Крюк-кошка
+  jetpacks: Реактивные ранцы
+  multitools: Мультиинструменты
+  solar_panel_and_helmet: Солнечная энергия
+  elemental_staff: Стихийные посохи
+  grind_stone: Точильный камень
+  cactus_armor: Кактусовый костюм
+  gold_pan: Рудопромывочный лоток
+  magical_book_cover: Обложка магической книги
+  slimefun_metals: Новые металлы
+  ore_crusher: Разрушитель руд
+  bronze: Создание бронзы
+  alloys: Продвинутые сплавы
+  compressor_and_carbon: Создание углерода
+  gilded_iron_armor: Позолоченные железные доспехи
+  synthetic_diamond: Синтезированный алмаз
+  pressure_chamber: Барокамера
+  synthetic_sapphire: Синтетические сапфиры
+  damascus_steel: Слиток дамасской стали
+  damascus_steel_armor: Доспехи из дамасской стали
+  reinforced_alloy: Армированный сплав
+  carbonado: Карбонадо
+  magic_workbench: Магический верстак
+  wind_staff: Посох ветров
+  reinforced_armor: Армированная броня
+  ore_washer: Очиститель руд
+  gold_carats: Чистое золото
+  silicon: Силиконовая долина
+  fire_staff: Посох пламени
+  smelters_pickaxe: Плазменная кирка
+  common_talisman: Обычный талисман
+  anvil_talisman: Талисман кузнеца
+  miner_talisman: Талисман шахтёра
+  hunter_talisman: Талисман охотника
+  lava_talisman: Талисман покорителя лавы
+  water_talisman: Талисман покорителя воды
+  angel_talisman: Талисман ангела
+  fire_talisman: Талисман пожарного
+  caveman_talisman: Талисман шахтёра
+  lava_crystal: '«Огненная ситуация»'
+  magician_talisman: Талисман мага
+  traveller_talisman: Талисман путешественника
+  warrior_talisman: Талисман воина
+  knight_talisman: Талисман рыцаря
+  gilded_iron: '«Блестящее железо»'
+  synthetic_emerald: Фальшивый изумруд
+  chainmail_armor: Кольчужная броня
+  whirlwind_talisman: Талисман вихря
+  wizard_talisman: Талисман волшебника
+  lumber_axe: Топор дровосека
+  hazmat_suit: Костюм химзащиты
+  uranium: Радиоактивные штучки
+  crushed_ore: Очистка руды
+  redstone_alloy: Редстоуновый сплав
+  carbonado_tools: Высокоуровневые машины
+  first_aid: Первая помощь
+  gold_armor: '«Блестящие доспехи»'
+  night_vision_googles: Прибор ночного видения
+  pickaxe_of_containment: Кирка сдерживания
+  hercules_pickaxe: Геркулесовая кирка
+  table_saw: Лесопилка
+  slime_steel_armor: Слизистые стальные доспехи
+  blade_of_vampires: Вампирский клинок
+  water_staff: Посох морей
+  24k_gold_block: '«Эльдорадо»'
+  composter: Компостирование грязи
+  farmer_shoes: Фермерские ботинки
+  explosive_tools: Взрывные инструменты
+  automated_panning_machine: Автоматизированная рудопромывочная машина
+  boots_of_the_stomper: Сапожки путешественника
+  pickaxe_of_the_seeker: Кирка искателя
+  backpacks: Рюкзаки
+  woven_backpack: Тканевой рюкзак
+  crucible: Тигель
+  gilded_backpack: Позолоченный рюкзак
+  armored_jetpack: Бронированный реактивный ранец
+  ender_talismans: Эндер-талисманы
+  nickel_and_cobalt: Даже больше руд!
+  magnet: Магнитные металлы
+  infused_magnet: Магнит?
+  cobalt_pickaxe: Кобальтовая кирка
+  essence_of_afterlife: Некромантия
+  bound_backpack: Персональное хранилище
+  jetboots: Реактивные ботинки
+  armored_jetboots: Бронированные реактивные ботинки
+  seismic_axe: Сейсмический топор
+  pickaxe_of_vein_mining: Кирка жильного копания
+  bound_weapons: Персональное оружие
+  bound_tools: Персональные инструменты
+  bound_armor: Персональная броня
+  juicer: Вкусные напитки
+  repaired_spawner: Починка спавнеров
+  enhanced_furnace: Продвинутая печь
+  more_enhanced_furnaces: Улучшенные печи
+  high_tier_enhanced_furnaces: Высокоуровневая печь
+  reinforced_furnace: Усиленная печь
+  carbonado_furnace: Карбонадовая печь
+  electric_motor: '«Нагрев»'
+  block_placer: Размещатель блоков
+  scroll_of_dimensional_teleposition: Поворот вещей вокруг
+  special_bows: '«Робин Гуд»'
+  tome_of_knowledge_sharing: Поделиться с ближними
+  flask_of_knowledge: Хранилище опыта
+  hardened_glass: Покорение взрывов
+  golden_apple_juice: '«Золотое зелье»'
+  cooler: '«Переносной холодильник»'
+  ancient_altar: Древний алтарь
+  wither_proof_obsidian: Визеростойкий обсидиан
+  ancient_runes: Стихийные руны
+  special_runes: Особые руны
+  infernal_bonemeal: Незерская костная мука
+  rainbow_blocks: Радужные блоки
+  infused_hopper: Заряженная воронка
+  wither_proof_glass: Визеростойкое стекло
+  duct_tape: Скотч
+  plastic_sheet: Пластик
+  android_memory_core: Ядро памяти
+  oil: Нефть!
+  fuel: Топливо
+  hologram_projector: ГоЛоГрАмМы
+  capacitors: Маленький накопитель энергии
+  high_tier_capacitors: Средний накопитель энергии
+  even_higher_tier_capacitors: Большой накопитель энергии
+  solar_generators: Солнечная электростанция
+  electric_furnaces: Электрическая печь
+  electric_ore_grinding: Дробление и распыление
+  heated_pressure_chamber: Обогреваемая барокамера
+  coal_generator: Угольный генератор
+  bio_reactor: Биореактор
+  auto_enchanting: Автоматизированное зачаровывание и разачаровывание
+  auto_anvil: Автоматизированная наковальня
+  multimeter: Измерение мощности
+  gps_setup: Базовая GPS установка
+  gps_emergency_transmitter: GPS аварийная точка
+  programmable_androids: Программируемые Андроиды
+  android_interfaces: Андроид-интерфейсы
+  geo_scanner: Гоесканирование
+  combustion_reactor: Реактор внутреннего сгорания
+  teleporter: Базовые компоненты телепортера
+  teleporter_activation_plates: Активация телепортера
+  better_solar_generators: Модернизированные солнечные генераторы
+  better_gps_transmitters: Модернизированные передатчики
+  elevator: Лифтовая плита
+  energized_solar_generator: Солнечная энергия круглые сутки!
+  energized_gps_transmitter: Высокоуровневый передатчик
+  energy_regulator: Электрические сети
+  energy_connectors: Проводные соединения
+  butcher_androids: Андроид-мясник
+  organic_food: Органическая пища
+  auto_breeder: Автоматизированное размножение
+  advanced_android: Продвинутые Андроиды
+  advanced_butcher_android: Продвинутый Андроид-мясник
+  advanced_fisherman_android: Продвинутый Андроид-рыбак
+  animal_growth_accelerator: Ускоритель роста животных
+  xp_collector: Собиратель опыта
+  organic_fertilizer: Органические удобрения
+  crop_growth_accelerator: Ускорение роста растений
+  better_crop_growth_accelerator: Модернизированный ускоритель роста растений
+  reactor_essentials: Реакторные основы
+  nuclear_reactor: Атомная электростанция
+  freezer: Морозилка
+  cargo_basics: Основы грузовой сети
+  cargo_nodes: Установка грузовой сети
+  electric_ingot_machines: Электрический завод слитков
+  high_tier_electric_ingot_machines: Сверхбыстрый электрический завод слитков
+  automated_crafting_chamber: Автоматизированный крафт
+  better_food_fabricator: Улучшенная пищевая фабрика
+  reactor_access_port: Порт доступа к реактору
+  fluid_pump: Жидкостный насос
+  better_freezer: Улучшенная морозилка
+  boosted_uranium: '«Замкнутый круг»'
+  trash_can: Мусорка
+  advanced_output_node: Продвинутый грузовой узел
+  carbon_press: Углеродный пресс
+  electric_smeltery: Электрическая плавильня
+  better_electric_furnace: Модернизированная электрическая печь
+  better_carbon_press: Модернизированный углеродный пресс
+  empowered_android: Усиленные Андроиды
+  empowered_butcher_android: Усиленный Андроид-мясник
+  empowered_fisherman_android: Усиленный Андроид-рыбак
+  high_tier_carbon_press: Высокоуровневый углеродный пресс
+  wither_assembler: Образователь Визеров
+  better_heated_pressure_chamber: Модернизированная обогреваемая барокамера
+  elytra: Элитры
+  special_elytras: Особые элитры
+  electric_crucible: Электрический тигель
+  better_electric_crucibles: Горячие тигли
+  advanced_electric_smeltery: Модернизированная электрическая плавильня
+  advanced_farmer_android: Продвинутый Андроид-фермер
+  lava_generator: Лавовый генератор
+  nether_ice: Незерский хладагент
+  nether_star_reactor: Звёздный незерский реактор
+  blistering_ingots: Раскалённые слитки
+  automatic_ignition_chamber: Автоматизированная камера зажигания
+  output_chest: Выходной сундук
+  copper_wire: Медный провод
+  radiant_backpack: Рюкзак путешественника
+  auto_drier: '«День сушки»'
+  diet_cookie: Диетическое печенье
+  storm_staff: Штормовой посох
+  soulbound_rune: Персональная руна
+  geo_miner: Геокопатель
+  lightning_rune: Молниевая руна
+  totem_of_undying: Тотем бессмертия
+  charging_bench: Зарядное устройство-верстак
+  nether_gold_pan: Незерский рудопромывочный лоток
+  electric_press: Электрический пресс
+  magnesium_generator: Магниевое питание
+  kelp_cookie: Вкусная водоросль
+  makeshift_smeltery: Импровизированная плавильня
+  tree_growth_accelerator: Быстрорастущие деревья
+  industrial_miner: Промышленная добыча
+  advanced_industrial_miner: Улучшенная добыча
+  magical_zombie_pills: Дезомбификация
+  auto_brewer: Промышленная пивоварня
+  climbing_pick: Покоритель поверхностей
+  shulker_shell: Синтетические шалкеры
+  enchantment_rune: Древнее зачарование
+  lead_clothing: Свинцовое обмундирование
+  tape_measure: Рулетка
+  iron_golem_assembler: Образователь железных големов
+  villager_rune: Сбрасывание торговли
+  elytra_cap: Противоударная экипировка
+  bee_armor: Пчелиная броня

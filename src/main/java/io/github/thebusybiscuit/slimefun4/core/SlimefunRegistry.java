@@ -36,7 +36,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
@@ -70,6 +69,7 @@ public final class SlimefunRegistry {
     private boolean enableResearches;
     private boolean freeCreativeResearches;
     private boolean researchFireworks;
+    private boolean disableLearningAnimation;
     private boolean logDuplicateBlockEntries;
     private boolean talismanActionBarMessages;
 
@@ -92,7 +92,6 @@ public final class SlimefunRegistry {
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
     private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
-    private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 
     public void load(@Nonnull SlimefunPlugin plugin, @Nonnull Config cfg) {
         Validate.notNull(plugin, "The Plugin cannot be null!");
@@ -111,6 +110,7 @@ public final class SlimefunRegistry {
         backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility");
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
+        disableLearningAnimation = cfg.getBoolean("researches.disable-learning-animation");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
         talismanActionBarMessages = cfg.getBoolean("talismans.use-actionbar");
     }
@@ -241,6 +241,15 @@ public final class SlimefunRegistry {
     }
 
     /**
+     * Returns whether the research learning animations is disabled
+     *
+     * @return Whether the research learning animations is disabled
+     */
+    public boolean isLearningAnimationDisabled() {
+        return disableLearningAnimation;
+    }
+
+    /**
      * This method returns a {@link List} of every enabled {@link MultiBlock}.
      * 
      * @return A {@link List} containing every enabled {@link MultiBlock}
@@ -329,14 +338,15 @@ public final class SlimefunRegistry {
     }
 
     @Nonnull
-    public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getPublicItemHandlers() {
+    public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getGlobalItemHandlers() {
         return globalItemHandlers;
     }
 
-    @Deprecated
     @Nonnull
-    public Map<String, SlimefunBlockHandler> getBlockHandlers() {
-        return blockHandlers;
+    public Set<ItemHandler> getGlobalItemHandlers(@Nonnull Class<? extends ItemHandler> identifier) {
+        Validate.notNull(identifier, "The identifier for an ItemHandler cannot be null!");
+
+        return globalItemHandlers.computeIfAbsent(identifier, c -> new HashSet<>());
     }
 
     @Nonnull

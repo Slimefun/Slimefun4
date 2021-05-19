@@ -1,0 +1,150 @@
+---
+slimefun:
+  multiblock:
+    name: 'Multiblok'
+    lore:
+      - 'Bouw de getoonde structuur'
+      - 'zoals afgebeeld. Het wordt niet gemaakt in een Werkbank.'
+  enhanced_crafting_table:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'in een Enhanced Crafting Table.'
+      - 'Een normale Werkbank volstaat niet!'
+  armor_forge:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Armor Forge.'
+  grind_stone:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Grind Stone.'
+  smeltery:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Smeltery.'
+  ore_crusher:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Ore Crusher.'
+  mob_drop:
+    name: 'Monster buit'
+    lore:
+      - 'Dood dat monster om'
+      - 'dit voorwerp te verkrijgen.'
+  gold_pan:
+    lore:
+      - 'Gebruik een Gold Pan om'
+      - 'dit voorwerp te verkrijgen.'
+  compressor:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Compressor.'
+  pressure_chamber:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Pressure Chamber.'
+  ore_washer:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Ore Washer.'
+  juicer:
+    lore:
+      - 'Maak dit sap zoals afgebeeld'
+      - 'met behulp van een Juicer.'
+  magic_workbench:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Magic Workbench.'
+  ancient_altar:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Ancient Altar.'
+      - 'Zoek het Ancient Altar op voor meer info.'
+  heated_pressure_chamber:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Heated Pressure Chamber.'
+  food_fabricator:
+    name: ' Food Fabricator'
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'Met behulp van een Food Fabricator'
+  food_composter:
+    name: ' Food Composter'
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Food Composter.'
+  freezer:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Freezer'
+  geo_miner:
+    lore:
+      - 'Dit item kan worden verzameld'
+      - 'met behulp van een GEO Miner'
+  nuclear_reactor:
+    lore:
+      - 'Dit item is een bijproduct'
+      - 'als je een kernreactor gebruikt'
+  oil_pump:
+    lore:
+      - 'Dit item kan worden verzameld'
+      - 'door een Oil Pump te gebruiken'
+  pickaxe_of_containment:
+    name: 'de Pickaxe of Containment'
+    lore:
+      - 'Dit blok kan worden verzameld'
+      - 'door een Spawner te minen met'
+      - 'Pickaxe of Containment'
+  refinery:
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Refinery'
+  barter_drop:
+    name: 'Piglin ruilhandel drop'
+    lore:
+      - 'Ruil Goud met Piglins '
+      - 'Om dit item te verkrijgen'
+minecraft:
+  shaped:
+    name: 'Gevormd Verwerkingsrecept'
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'in een normale Werkbank.'
+      - 'De vorm is belangrijk.'
+  shapeless:
+    name: 'Vormloos Verwerkingsrecept'
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'in een normale Werkbank.'
+      - 'Dit recept is vormloos.'
+  furnace:
+    name: 'Ovenrecept'
+    lore:
+      - 'Smelt dit item in een Oven'
+      - 'om het gewenste item te maken.'
+  blasting:
+    name: 'Hoogovenrecept'
+    lore:
+      - 'Smelt dit item in een Hoogoven'
+      - 'om het gewenste item te maken.'
+  smoking:
+    name: 'Rokerrecept'
+    lore:
+      - 'Smelt dit item in een Roker'
+      - 'om het gewenste item te maken.'
+  campfire:
+    name: 'Kampvuurrecept'
+    lore:
+      - 'Smelt dit item boven een kampvuur'
+      - 'om het gewenste item te maken.'
+  stonecutting:
+    name: 'Steenzaagrecept'
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Steenzaag.'
+  smithing:
+    name: 'Smeedstafel recept'
+    lore:
+      - 'Maak dit item zoals afgebeeld'
+      - 'met behulp van een Smeedstafel'

@@ -1,0 +1,252 @@
+---
+slimefun:
+  walking_sticks: מקלות הליכה
+  portable_crafter: שולחן מלאכה נייד
+  fortune_cookie: עוגיית מזל
+  portable_dustbin: פח אשפה נייד
+  meat_jerky: בשר מלוח
+  armor_forge: יצירת שריון
+  glowstone_armor: שריון גלוסטון
+  lumps: גושים וקסמים
+  ender_backpack: תיק גב אנדר
+  ender_armor: שריון אנדר
+  magic_eye_of_ender: עין אנדר קסומה
+  magic_sugar: סוכר קסום
+  monster_jerky: בשר מפלצת מלוח
+  slime_armor: שריון רפש
+  sword_of_beheading: חרב העריפות
+  basic_circuit_board: לוח מגעים בסיסי
+  advanced_circuit_board: לוח מגעים מתקדם
+  smeltery: תנור התכה
+  steel: עידן הפלדה
+  misc_power_items: פריטים חשובים הקשורים לחשמל
+  battery: הסוללה הראשונה שלך
+  steel_plate: ציפוי פלדה
+  steel_thruster: דוחף פלדה
+  parachute: מצנח
+  grappling_hook: וו אחיזה
+  jetpacks: תרמיל רחיפה
+  multitools: רב כלים
+  solar_panel_and_helmet: אנרגיה סולארית
+  elemental_staff: חלקים יסודיים
+  grind_stone: אבן משחזת
+  cactus_armor: חליפת קקטוס
+  gold_pan: מסננת
+  magical_book_cover: כריכת ספרים קסומה
+  slimefun_metals: מתכות חדשות
+  ore_crusher: הכפלת עפרת
+  bronze: יצירת ברונזה
+  alloys: סגסוגות מתקדמות
+  compressor_and_carbon: יצירת פחמן
+  gilded_iron_armor: שריון ברזל מוזהב
+  synthetic_diamond: יהלומים סינתטיים
+  pressure_chamber: תא לחץ
+  synthetic_sapphire: ספיר סינטטי
+  damascus_steel: פלדת דמשק
+  damascus_steel_armor: שריון פלדת דמשק
+  reinforced_alloy: סגסוגת מחוזקת
+  carbonado: יהלומים שחורים
+  magic_workbench: שולחן מלאכה קסום
+  wind_staff: מטה רוח
+  reinforced_armor: שריון מחוזק
+  ore_washer: שוטף עופרת
+  gold_carats: זהב טהור
+  silicon: עמק הסיליקון
+  fire_staff: מטה אש
+  smelters_pickaxe: מכוש התכה
+  common_talisman: קמע נפוץ
+  anvil_talisman: קמע הסדן
+  miner_talisman: קמע הכורה
+  hunter_talisman: קמע הצייד
+  lava_talisman: קמע הולך הלבה
+  water_talisman: קמע נשימת המים
+  angel_talisman: קמע המלאך
+  fire_talisman: קמע לוחם האש
+  caveman_talisman: קמע איש המערות
+  wise_talisman: קמע של החכמה
+  lava_crystal: מצב לוהט
+  magician_talisman: קמע הקוסם
+  traveller_talisman: קמע המטייל
+  warrior_talisman: קמע הלוחם
+  knight_talisman: קמע האביר
+  gilded_iron: ברזל מבריק
+  synthetic_emerald: פנינה מזויפת
+  chainmail_armor: שריון שרשראות
+  whirlwind_talisman: קמע המערבולת
+  wizard_talisman: קמע המכשף
+  lumber_axe: גרזן עצים
+  hazmat_suit: חליפה רדיואקטיבית
+  uranium: רדיואקטיבי
+  crushed_ore: טיהור עפרת
+  redstone_alloy: סגסוגת רדסטון
+  carbonado_tools: מכונות ברמה עליונה
+  first_aid: עזרה ראשונה
+  gold_armor: שריון מבריק
+  night_vision_googles: משקפי ראיית לילה
+  pickaxe_of_containment: מקוש הכלה
+  hercules_pickaxe: מכוש הרקולס
+  table_saw: מסור שולחני
+  slime_steel_armor: שריון פלדה רזה
+  blade_of_vampires: להב הערפדים
+  water_staff: מטה מים
+  24k_gold_block: עיר מוזהבת
+  composter: עפר קומפוסטציה
+  farmer_shoes: נעלי איכר
+  explosive_tools: כלי נפץ
+  automated_panning_machine: מסננת אוטומטית
+  boots_of_the_stomper: מגפי הרוקע
+  pickaxe_of_the_seeker: מכוש המחפש
+  backpacks: תיקי גב
+  woven_backpack: תיק גב ארוג
+  crucible: כור היתוך
+  gilded_backpack: תיק גב מוזהב
+  armored_jetpack: תרמיל רחיפה משוריין
+  ender_talismans: קמעות אנדר
+  nickel_and_cobalt: עוד יותר עפרות
+  magnet: מתכות מגנטיות
+  infused_magnet: מגנטים חדורים
+  cobalt_pickaxe: מכוש מהירות
+  essence_of_afterlife: אוב
+  bound_backpack: מחסן נשמה
+  jetboots: נעלי סילון
+  armored_jetboots: נעלי סילון משוריינות
+  seismic_axe: גרזן סייסמי
+  pickaxe_of_vein_mining: מכוש של כרייה עורקית
+  bound_weapons: נשקי נשמה
+  bound_tools: כלי נשמה
+  bound_armor: שריון נשמה
+  juicer: משקאות טעימים
+  repaired_spawner: מתקן משריצים
+  enhanced_furnace: תנור משופר
+  more_enhanced_furnaces: תנורים יותר טובים
+  high_tier_enhanced_furnaces: תנור ברמה גבוהה
+  reinforced_furnace: תנור מחוזק
+  carbonado_furnace: תנור קרבונדו
+  electric_motor: מתחמם
+  block_placer: ממקם בלוקים
+  scroll_of_dimensional_teleposition: מסובב דברים
+  special_bows: רובין הוד
+  tome_of_knowledge_sharing: משתף עם חברים
+  flask_of_knowledge: מאגר ניסיון
+  hardened_glass: עמיד לפיצוצים
+  golden_apple_juice: שיקוי מוזהב
+  cooler: משקאות ניידים
+  ancient_altar: מזבח עתיק
+  wither_proof_obsidian: בזלת עמידה לוויד'ר
+  ancient_runes: רונות אלמנטריות
+  special_runes: רונות סגולות
+  infernal_bonemeal: אינפרנל בואונמיל
+  rainbow_blocks: בלוקים צבעוניים
+  infused_hopper: משפך חדור
+  wither_proof_glass: זכוכית עמידה לוויד'ר
+  duct_tape: נייר דבק
+  plastic_sheet: פלסטיק
+  android_memory_core: שבב זיכרון
+  oil: נפט
+  fuel: דלק
+  hologram_projector: הולוגרמות
+  capacitors: קבל רמה אחת
+  high_tier_capacitors: קבל רמה שנייה
+  even_higher_tier_capacitors: קבל רמה שלוש
+  solar_generators: לוח סולארי
+  electric_furnaces: תנור חשמלי
+  electric_ore_grinding: ריסוק וטחינה
+  heated_pressure_chamber: תא לחץ מחומם
+  coal_generator: גנרטור פחם
+  bio_reactor: גנרטור צמחים
+  auto_enchanting: כישוף והסרת כישוף אוטומטיים
+  auto_anvil: סדן אוטומטי
+  multimeter: וולט מטר
+  gps_setup: התקן ג'י פי אס בסיסי
+  gps_emergency_transmitter: ג'י פי אס חירום לנקודות ציון
+  programmable_androids: רובוטים ניתנים לתכנות
+  android_interfaces: ממשקים לרובוטים
+  geo_scanner: סורק גיאולוגי
+  combustion_reactor: גנרטור שריפה
+  teleporter: רכיבים בסיסיים למשגר
+  teleporter_activation_plates: הפעלת משגר
+  better_solar_generators: לוחות סולאריים משופרים
+  better_gps_transmitters: משדרים משודרגים
+  elevator: מעליות
+  energized_solar_generator: לוח סולארי בעוצמה מלאה
+  energized_gps_transmitter: משדר רמה אחרונה
+  energy_regulator: חיבור חשמל 101
+  energy_connectors: חיבור קווי
+  butcher_androids: רובוט שוחט
+  organic_food: אוכל אורגני
+  auto_breeder: מאכיל אוטומטי
+  advanced_android: רובוטים מתקדמים
+  advanced_butcher_android: רובוט מתקדם - שוחט
+  advanced_fisherman_android: רובוט מתקדם - דייג
+  animal_growth_accelerator: מניפולציה בגידול בעלי חיים
+  xp_collector: אספן ניסיון
+  organic_fertilizer: דשן אורגני
+  crop_growth_accelerator: מאיץ צמיחה
+  better_crop_growth_accelerator: מאיץ צמיחה משודרג
+  reactor_essentials: יסודות הכור
+  nuclear_reactor: תחנת כוח גרעינית
+  freezer: מר קפוא
+  cargo_basics: מטען בסיסי
+  cargo_nodes: התקן מטען
+  electric_ingot_machines: ייצור מטילים חשמלי
+  high_tier_electric_ingot_machines: ייצור מטלים מהיר מאוד
+  automated_crafting_chamber: יצירה אוטומטית
+  better_food_fabricator: ייצור מזון משודרג
+  reactor_access_port: תקשורת עם הכור
+  fluid_pump: משאבה
+  better_freezer: מקפיא משודרג
+  boosted_uranium: עיגול אינסופי
+  trash_can: אשפה
+  advanced_output_node: צומת פלט מתקדם
+  carbon_press: מכבש פחמן
+  electric_smeltery: תנור התכה חשמלי
+  better_electric_furnace: תנור חשמלי משודרג
+  better_carbon_press: מכבש פחמן משודרג
+  empowered_android: רובוטים רשאים
+  empowered_butcher_android: רובוטים רשאים - שוחטים
+  empowered_fisherman_android: רובוטים רשאים - דייג
+  high_tier_carbon_press: מכבש פחמן אולטימטיבי
+  wither_assembler: הורג וויד'ר אוטומטי
+  better_heated_pressure_chamber: תא לחץ מחמם משודרג
+  elytra: אלייטרות
+  special_elytras: אלייטרות מיוחדות
+  electric_crucible: כור היתוך חשמלי
+  better_electric_crucibles: כור היתוך חם
+  advanced_electric_smeltery: תנור התכה חשמלי משודרג
+  advanced_farmer_android: רובוט חוואי משודרג
+  lava_generator: גנרטור לבה
+  nether_ice: נוזל קירור מקרח גיהנום
+  nether_star_reactor: גנרטור כוכב גיהנום
+  blistering_ingots: חם מאוד
+  automatic_ignition_chamber: תא הצתה אוטומטי
+  output_chest: תיבת פלט מכונות בסיסיות
+  copper_wire: מוליכות מדוללת
+  radiant_backpack: תיק זוהר
+  auto_drier: יום יבש
+  diet_cookie: עוגיית דיאט
+  storm_staff: שרביט סופה
+  soulbound_rune: רונת נשמה
+  geo_miner: כורה גיאולוגי
+  lightning_rune: רונת ברק
+  totem_of_undying: טוטם אלמוות
+  charging_bench: עמדת טעינה
+  nether_gold_pan: מסנן זהב גיהנום
+  electric_press: מכבש חשמלי
+  magnesium_generator: אנרגיה ממגנזיום
+  kelp_cookie: אצה טעימה
+  makeshift_smeltery: תנור התכה מאולתר
+  tree_growth_accelerator: עצים מהירים יותר
+  industrial_miner: כורה תעשייתי
+  advanced_industrial_miner: כרייה טובה יותר
+  magical_zombie_pills: דה-זומביפיקציה
+  auto_brewer: מבשלה תעשייתית
+  climbing_pick: שודד בלוק
+  shulker_shell: שלקרים סנטטיים
+  enchantment_rune: כישוף עתיק
+  lead_clothing: בגדי עופרת
+  tape_measure: סרט מדידיה
+  iron_golem_assembler: גלמי ברזל אוטומטיים
+  villager_rune: אפס את עסקאות הכפרי
+  elytra_cap: גלגל שיניים מרסק
+  bee_armor: שריון דבורים
+  book_binder: כריכת ספר קסום

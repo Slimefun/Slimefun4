@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
 - [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
 - [Release Candidate 21 (14 Mar 2021)](#release-candidate-21-14-mar-2021)
 - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
@@ -22,7 +23,55 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## Release Candidate 23 (19 May 2021)
+
+#### Additions
+* Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
+* Added "8 Coal Blocks -> 9 Carbon" recipe to Compressor
+* Added "8 Coal Blocks -> 9 Carbon" recipe to Carbon Press
+* Added "Magical Lump Tier 2 -> 4 Magical Lump Tier 1" recipe to Grind Stone
+* Added "Magical Lump Tier 3 -> 4 Magical Lump Tier 2" recipe to Grind Stone
+* Added "Ender Lump Tier 2 -> 4 Ender Lump Tier 1" recipe to Grind Stone
+* Added "Ender Lump Tier 3 -> 4 Ender Lump Tier 2" recipe to Grind Stone
+* Added Tier 2 Auto-Enchanter
+* Added Tier 2 Auto-Disenchanter
+* (API) Added AsyncAutoEnchanterProcessEvent
+* (API) Added Category#setTier() to modify a category's position in the guide
+* Added the ability to disable auto (dis)enchanting with a lore - `use-ignored-lores` & `ignored-lores` in Items.yml
+* Added an option to turn off the "researching animation" in the `config.yml`
+* Added the option to turn off the "researching animation" within your Slimefun Guide
+* Added Portable Teleporter
+
+#### Changes
+* Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
+* Photovoltaic Cells can no longer be placed
+* Batteries can no longer be placed
+* Tin Cans can no longer be placed
+* Magical Glass can no longer be placed
+* (API) Removed deprecated "SlimefunBlockHandler"
+* Removed Automated Crafting Chamber
+* Memory and performance improvements for Cargo and Energy networks
+
+#### Fixes
+* Fixed #2987
+* Fixed #2989
+* Fixed #2977
+* Fixed #2999
+* Fixed #2593
+* Fixed #2937
+* Fixed #2927
+* Fixed #3007
+* Fixed #3012
+* Fixed #3013
+* Fixed #3027
+* Fixed #2978
+* Fixed #3041
+* Fixed #3036
+* Possibly fixed #2927
+* Fixed #3060
+
 ## Release Candidate 22 (18 Apr 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 
 #### Additions
 * Added Vanilla Auto-Crafter

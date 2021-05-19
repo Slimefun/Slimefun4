@@ -27,12 +27,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 public abstract class FlexCategory extends Category {
 
     @ParametersAreNonnullByDefault
-    public FlexCategory(NamespacedKey key, ItemStack item) {
+    protected FlexCategory(NamespacedKey key, ItemStack item) {
         this(key, item, 3);
     }
 
     @ParametersAreNonnullByDefault
-    public FlexCategory(NamespacedKey key, ItemStack item, int tier) {
+    protected FlexCategory(NamespacedKey key, ItemStack item, int tier) {
         super(key, item, tier);
     }
 

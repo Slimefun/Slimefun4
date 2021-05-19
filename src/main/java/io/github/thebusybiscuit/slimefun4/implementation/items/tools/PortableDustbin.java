@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -15,6 +17,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class PortableDustbin extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
+    @ParametersAreNonnullByDefault
     public PortableDustbin(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
