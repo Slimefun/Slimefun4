@@ -185,7 +185,7 @@ class CargoNetworkTask implements Runnable {
             Optional<Block> target = network.getAttachedBlock(output);
 
             if (target.isPresent()) {
-                ItemStackWrapper wrapper = ItemStackWrapper.ofItem(item);
+                ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
                 item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), smartFill, item, wrapper);
 
                 if (item == null) {

@@ -6,20 +6,13 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 class ItemStackAndInteger {
 
-    private final ItemStack item;
+    private ItemStack item;
     private ItemStackWrapper wrapper;
     private int number;
 
     ItemStackAndInteger(ItemStack item, int amount) {
         this.number = amount;
-        if (item instanceof ItemStackWrapper) {
-            this.item = new ItemStack(item.getType(), item.getAmount());
-            if (item.hasItemMeta()) {
-                this.item.setItemMeta(item.getItemMeta());
-            }
-        } else {
-            this.item = item;
-        }
+        this.item = item;
     }
 
     public int getInt() {
@@ -27,12 +20,13 @@ class ItemStackAndInteger {
     }
 
     public ItemStack getItem() {
+        initializeItem();
         return item;
     }
 
     public ItemStackWrapper getItemStackWrapper() {
         if (wrapper == null && item != null) {
-            wrapper = ItemStackWrapper.ofItem(item);
+            wrapper = ItemStackWrapper.wrap(item);
         }
 
         return wrapper;
@@ -40,6 +34,16 @@ class ItemStackAndInteger {
 
     public void add(int amount) {
         number += amount;
+    }
+
+    private void initializeItem() {
+        if (this.item instanceof ItemStackWrapper) {
+            ItemStack copy = new ItemStack(item.getType(), item.getAmount());
+            if (this.item.hasItemMeta()) {
+                copy.setItemMeta(this.item.getItemMeta());
+            }
+            this.item = copy;
+        }
     }
 
 }

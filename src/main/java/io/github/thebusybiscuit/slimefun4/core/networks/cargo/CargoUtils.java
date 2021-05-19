@@ -152,11 +152,11 @@ final class CargoUtils {
             return null;
         }
 
-        ItemStackWrapper wrapperTemplate = ItemStackWrapper.ofItem(template);
+        ItemStackWrapper wrapperTemplate = ItemStackWrapper.wrap(template);
 
         for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
             ItemStack is = menu.getItemInSlot(slot);
-            ItemStackWrapper wrapperItemInSlot = ItemStackWrapper.ofItem(is);
+            ItemStackWrapper wrapperItemInSlot = ItemStackWrapper.wrap(is);
 
             if (SlimefunUtils.isItemSimilar(wrapperItemInSlot, wrapperTemplate, true) && matchesFilter(network, node, wrapperItemInSlot)) {
                 if (is.getAmount() > template.getAmount()) {
@@ -180,12 +180,12 @@ final class CargoUtils {
         int minSlot = range[0];
         int maxSlot = range[1];
 
-        ItemStackWrapper wrapper = ItemStackWrapper.ofItem(template);
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(template);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
             // Changes to these ItemStacks are synchronized with the Item in the Inventory
             ItemStack itemInSlot = contents[slot];
-            ItemStackWrapper wrapperInSlot = ItemStackWrapper.ofItem(itemInSlot);
+            ItemStackWrapper wrapperInSlot = ItemStackWrapper.wrap(itemInSlot);
 
             if (SlimefunUtils.isItemSimilar(wrapperInSlot, wrapper, true, false) && matchesFilter(network, node, wrapperInSlot)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {

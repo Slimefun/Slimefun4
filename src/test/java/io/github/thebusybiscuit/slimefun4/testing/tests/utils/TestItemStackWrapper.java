@@ -34,7 +34,7 @@ class TestItemStackWrapper {
     @DisplayName("Test if an ItemStackWrappers can be compared properly (With ItemMeta)")
     void testEqualityWithItemMeta() {
         ItemStack item = new CustomItem(Material.LAVA_BUCKET, "&4SuperHot.exe", "", "&6Hello");
-        ItemStackWrapper wrapper = ItemStackWrapper.ofItem(item);
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
 
         Assertions.assertEquals(item.getType(), wrapper.getType());
         Assertions.assertEquals(item.hasItemMeta(), wrapper.hasItemMeta());
@@ -46,7 +46,7 @@ class TestItemStackWrapper {
     @DisplayName("Test if an ItemStackWrappers can be compared properly (No ItemMeta)")
     void testEqualityWithoutItemMeta() {
         ItemStack item = new ItemStack(Material.DIAMOND_AXE);
-        ItemStackWrapper wrapper = ItemStackWrapper.ofItem(item);
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
 
         Assertions.assertEquals(item.getType(), wrapper.getType());
         Assertions.assertEquals(item.hasItemMeta(), wrapper.hasItemMeta());
@@ -58,7 +58,7 @@ class TestItemStackWrapper {
     @DisplayName("Test if an ItemStackWrapper is immutable")
     void testImmutability() {
         ItemStack item = new CustomItem(Material.LAVA_BUCKET, "&4SuperHot.exe", "", "&6Hello");
-        ItemStackWrapper wrapper = ItemStackWrapper.ofItem(item);
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
 
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.setType(Material.BEDROCK));
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.setAmount(3));
@@ -72,12 +72,14 @@ class TestItemStackWrapper {
     @Test
     @DisplayName("Test if the ItemStackWrapper static method constructors are checking for nested wrapping properly")
     void testWrapperChecking() {
+        Assertions.assertNull(ItemStackWrapper.wrap(null));
+        Assertions.assertNull(ItemStackWrapper.forceWrap(null));
         ItemStack item = new CustomItem(Material.IRON_INGOT, "A Name", "line 1", "line2");
-        ItemStackWrapper wrapper = ItemStackWrapper.ofItem(item);
-        ItemStackWrapper secondWrap = ItemStackWrapper.ofItem(wrapper);
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
+        ItemStackWrapper secondWrap = ItemStackWrapper.wrap(wrapper);
         // We want to check that the wrapper returned is of reference equality
         Assertions.assertTrue(wrapper == secondWrap);
-        ItemStackWrapper forceSecondWrap = ItemStackWrapper.forceWrapItem(wrapper);
+        ItemStackWrapper forceSecondWrap = ItemStackWrapper.forceWrap(wrapper);
         // Want to check that the wrapper returned is of different reference equality
         Assertions.assertFalse(wrapper == forceSecondWrap);
         assertWrapped(wrapper, forceSecondWrap);
