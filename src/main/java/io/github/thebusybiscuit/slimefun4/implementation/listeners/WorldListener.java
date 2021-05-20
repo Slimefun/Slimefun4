@@ -4,9 +4,7 @@ import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
@@ -20,16 +18,14 @@ public class WorldListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler
     public void onWorldLoad(WorldLoadEvent e) {
-        System.out.println(ChatColor.RED+"SLIMEFUN- Loading world ... "+e.getWorld().getName());
         SlimefunPlugin.getWorldSettingsService().load(e.getWorld());
         BlockStorage.getOrCreate(e.getWorld());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler
     public void onWorldUnload(WorldUnloadEvent e) {
-        System.out.println(ChatColor.RED+"SLIMEFUN- Unloading world ... "+e.getWorld().getName());
         BlockStorage storage = BlockStorage.getStorage(e.getWorld());
 
         if (storage != null) {
