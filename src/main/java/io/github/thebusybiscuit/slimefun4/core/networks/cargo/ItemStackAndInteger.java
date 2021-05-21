@@ -4,13 +4,15 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
+import javax.annotation.Nonnull;
+
 class ItemStackAndInteger {
 
     private ItemStack item;
     private ItemStackWrapper wrapper;
     private int number;
 
-    ItemStackAndInteger(ItemStack item, int amount) {
+    ItemStackAndInteger(@Nonnull ItemStack item, int amount) {
         this.number = amount;
         this.item = item;
     }
@@ -19,13 +21,13 @@ class ItemStackAndInteger {
         return number;
     }
 
-    public ItemStack getItem() {
+    public @Nonnull ItemStack getItem() {
         initializeItem();
         return item;
     }
 
-    public ItemStackWrapper getItemStackWrapper() {
-        if (wrapper == null && item != null) {
+    public @Nonnull ItemStackWrapper getItemStackWrapper() {
+        if (wrapper == null) {
             wrapper = ItemStackWrapper.wrap(item);
         }
 

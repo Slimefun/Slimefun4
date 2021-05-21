@@ -72,8 +72,8 @@ class TestItemStackWrapper {
     @Test
     @DisplayName("Test if the ItemStackWrapper static method constructors are checking for nested wrapping properly")
     void testWrapperChecking() {
-        Assertions.assertNull(ItemStackWrapper.wrap(null));
-        Assertions.assertNull(ItemStackWrapper.forceWrap(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ItemStackWrapper.wrap(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ItemStackWrapper.forceWrap(null));
         ItemStack item = new CustomItem(Material.IRON_INGOT, "A Name", "line 1", "line2");
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         ItemStackWrapper secondWrap = ItemStackWrapper.wrap(wrapper);
