@@ -83,7 +83,7 @@ public class DirtyChestMenu extends ChestMenu {
             }
         }
 
-        return InvUtils.fits(toInventory(), new ItemStackWrapper(item), slots);
+        return InvUtils.fits(toInventory(), ItemStackWrapper.wrap(item), slots);
     }
 
     /**
@@ -92,8 +92,10 @@ public class DirtyChestMenu extends ChestMenu {
      * Items will be added either to any empty inventory slots or any partially filled slots, in which case
      * as many items as can fit will be added to that specific spot.
      *
-     * @param item  {@link ItemStack} to be added to the inventory
-     * @param slots Numbers of slots to add the {@link ItemStack} to
+     * @param item
+     *            {@link ItemStack} to be added to the inventory
+     * @param slots
+     *            Numbers of slots to add the {@link ItemStack} to
      * @return {@link ItemStack} with any items that did not fit into the inventory
      *         or null when everything had fit
      */
@@ -120,7 +122,7 @@ public class DirtyChestMenu extends ChestMenu {
                 int maxStackSize = Math.min(stack.getMaxStackSize(), toInventory().getMaxStackSize());
                 if (stack.getAmount() < maxStackSize) {
                     if (wrapper == null) {
-                        wrapper = new ItemStackWrapper(item);
+                        wrapper = ItemStackWrapper.wrap(item);
                     }
 
                     if (ItemUtils.canStack(wrapper, stack)) {

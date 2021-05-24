@@ -1,15 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.utils.itemstack;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This {@link ItemStack}, which is <b>not intended for actual usage</b>, caches its {@link ItemMeta}.
@@ -31,21 +31,9 @@ public final class ItemStackWrapper extends ItemStack {
     private final int amount;
     private final boolean hasItemMeta;
 
-    /**
-     * @deprecated This constructor is often misused leading to duplicate
-     * wrappers being made, used once, and then discarded.
-     * <p>
-     *     Use {@link #forceWrap(ItemStack)} to wrap an {@link ItemStack}
-     *     regardless of whether it has already been wrapped.
-     * </p>
-     * <p>
-     *     Use {@link #wrap(ItemStack)} to wrap an {@link ItemStack} if
-     *     and only if it has not already been wrapped
-     * </p>
-     */
-    @Deprecated
-    public ItemStackWrapper(@Nonnull ItemStack item) {
+    private ItemStackWrapper(@Nonnull ItemStack item) {
         super(item.getType());
+
         amount = item.getAmount();
         hasItemMeta = item.hasItemMeta();
 
@@ -54,10 +42,6 @@ public final class ItemStackWrapper extends ItemStack {
         } else {
             meta = null;
         }
-    }
-
-    public ItemStackWrapper(@Nonnull Material material) {
-        this(new ItemStack(material));
     }
 
     @Override
@@ -124,13 +108,14 @@ public final class ItemStackWrapper extends ItemStack {
      * Creates an {@link ItemStackWrapper} of an {@link ItemStack}. This method
      * will not check if the passed {@link ItemStack} has already been wrapped
      *
-     * @param itemStack The {@link ItemStack} to wrap
+     * @param itemStack
+     *            The {@link ItemStack} to wrap
      * @return Returns an {@link ItemStackWrapper} of the passed {@link ItemStack}
      * @see #wrap(ItemStack)
      */
-    @Nonnull
-    public static ItemStackWrapper forceWrap(@Nonnull ItemStack itemStack) {
+    public static @Nonnull ItemStackWrapper forceWrap(@Nonnull ItemStack itemStack) {
         Validate.notNull(itemStack, "The ItemStack cannot be null!");
+
         return new ItemStackWrapper(itemStack);
     }
 
@@ -139,16 +124,18 @@ public final class ItemStackWrapper extends ItemStack {
      * will return the the casted reference of the passed {@link ItemStack} if it
      * is already an {@link ItemStackWrapper}
      *
-     * @param itemStack The {@link ItemStack} to wrap
+     * @param itemStack
+     *            The {@link ItemStack} to wrap
      * @return Returns an {@link ItemStackWrapper} of the passed {@link ItemStack}
      * @see #forceWrap(ItemStack)
      */
-    @Nonnull
-    public static ItemStackWrapper wrap(@Nonnull ItemStack itemStack) {
+    public static @Nonnull ItemStackWrapper wrap(@Nonnull ItemStack itemStack) {
         Validate.notNull(itemStack, "The ItemStack cannot be null!");
+
         if (itemStack instanceof ItemStackWrapper) {
             return (ItemStackWrapper) itemStack;
         }
+
         return new ItemStackWrapper(itemStack);
     }
 
@@ -160,9 +147,9 @@ public final class ItemStackWrapper extends ItemStack {
      * 
      * @return An {@link ItemStackWrapper} array
      */
-    @Nonnull
-    public static ItemStackWrapper[] wrapArray(@Nonnull ItemStack[] items) {
+    public static @Nonnull ItemStackWrapper[] wrapArray(@Nonnull ItemStack[] items) {
         Validate.notNull(items, "The array must not be null!");
+
         ItemStackWrapper[] array = new ItemStackWrapper[items.length];
 
         for (int i = 0; i < items.length; i++) {
@@ -182,8 +169,7 @@ public final class ItemStackWrapper extends ItemStack {
      * 
      * @return An {@link ItemStackWrapper} array
      */
-    @Nonnull
-    public static List<ItemStackWrapper> wrapList(@Nonnull List<ItemStack> items) {
+    public static @Nonnull List<ItemStackWrapper> wrapList(@Nonnull List<ItemStack> items) {
         Validate.notNull(items, "The list must not be null!");
         List<ItemStackWrapper> list = new ArrayList<>(items.size());
 

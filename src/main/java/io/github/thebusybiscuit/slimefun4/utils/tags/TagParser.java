@@ -195,9 +195,8 @@ public class TagParser implements Keyed {
         }
     }
 
-    @Nonnull
     @Override
-    public NamespacedKey getKey() {
+    public @Nonnull NamespacedKey getKey() {
         return key;
     }
 
