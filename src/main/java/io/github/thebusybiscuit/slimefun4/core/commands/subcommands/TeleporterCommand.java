@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.BlockFace;
@@ -12,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class TeleporterCommand extends SubCommand {
 
+    @ParametersAreNonnullByDefault
     TeleporterCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "teleporter", false);
     }

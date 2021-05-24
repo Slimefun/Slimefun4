@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 import java.util.Collection;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -29,6 +30,7 @@ import net.md_5.bungee.api.chat.hover.content.Text;
  */
 class VersionsCommand extends SubCommand {
 
+    @ParametersAreNonnullByDefault
     VersionsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "versions", false);
     }

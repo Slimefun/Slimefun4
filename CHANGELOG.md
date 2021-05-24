@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 23 (TBD)](#release-candidate-23-tbd)
+- [Release Candidate 24 (TBD)](#release-candidate-24-tbd)
+- [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
 - [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
 - [Release Candidate 21 (14 Mar 2021)](#release-candidate-21-14-mar-2021)
 - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
@@ -23,7 +24,22 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 23 (TBD)
+## Release Candidate 24 (TBD)
+
+#### Additions
+* The speed of the Ancient Altar can now be configured in the `Items.yml` file
+
+#### Changes
+
+#### Fixes
+* Fixed #3064
+* Fixed #2964
+* Fixed #2979
+* Fixed a permissions issue with `/sf charge`
+* Fixed #3053
+
+## Release Candidate 23 (19 May 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
 
 #### Additions
 * Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
@@ -40,6 +56,7 @@
 * Added the ability to disable auto (dis)enchanting with a lore - `use-ignored-lores` & `ignored-lores` in Items.yml
 * Added an option to turn off the "researching animation" in the `config.yml`
 * Added the option to turn off the "researching animation" within your Slimefun Guide
+* Added Portable Teleporter
 
 #### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
@@ -67,6 +84,7 @@
 * Fixed #3041
 * Fixed #3036
 * Possibly fixed #2927
+* Fixed #3060
 
 ## Release Candidate 22 (18 Apr 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
