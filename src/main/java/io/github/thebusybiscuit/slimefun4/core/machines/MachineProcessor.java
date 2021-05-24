@@ -1,9 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.machines;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,8 +33,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class MachineProcessor<T extends MachineOperation> {
 
-    private final ReadWriteLock lock = new ReentrantReadWriteLock();
-    private final Map<BlockPosition, T> machines = new HashMap<>();
+    private final Map<BlockPosition, T> machines = new ConcurrentHashMap<>();
     private final MachineProcessHolder<T> owner;
 
     private ItemStack progressBar;
@@ -98,7 +95,7 @@ public class MachineProcessor<T extends MachineOperation> {
      */
     public boolean startOperation(@Nonnull Location loc, @Nonnull T operation) {
         Validate.notNull(loc, "The location must not be null");
-        Validate.notNull(operation, "The machine operation cannot be null");
+        Validate.notNull(operation, "The operation cannot be null");
 
         return startOperation(new BlockPosition(loc), operation);
     }
@@ -136,13 +133,7 @@ public class MachineProcessor<T extends MachineOperation> {
         Validate.notNull(pos, "The BlockPosition must not be null");
         Validate.notNull(operation, "The machine operation cannot be null");
 
-        lock.writeLock().lock();
-
-        try {
-            return machines.putIfAbsent(pos, operation) == null;
-        } finally {
-            lock.writeLock().unlock();
-        }
+        return machines.putIfAbsent(pos, operation) == null;
     }
 
     /**
@@ -189,13 +180,7 @@ public class MachineProcessor<T extends MachineOperation> {
     public T getOperation(@Nonnull BlockPosition pos) {
         Validate.notNull(pos, "The BlockPosition must not be null");
 
-        lock.readLock().lock();
-
-        try {
-            return machines.get(pos);
-        } finally {
-            lock.readLock().unlock();
-        }
+        return machines.get(pos);
     }
 
     /**
@@ -240,15 +225,7 @@ public class MachineProcessor<T extends MachineOperation> {
     public boolean endOperation(@Nonnull BlockPosition pos) {
         Validate.notNull(pos, "The BlockPosition cannot be null");
 
-        lock.writeLock().lock();
-
-        T operation;
-
-        try {
-            operation = machines.remove(pos);
-        } finally {
-            lock.writeLock().unlock();
-        }
+        T operation = machines.remove(pos);
 
         if (operation != null) {
             /*
