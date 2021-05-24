@@ -30,6 +30,7 @@
 * The speed of the Ancient Altar can now be configured in the `Items.yml` file
 
 #### Changes
+* Some performance optimizations to Cargo networks
 
 #### Fixes
 * Fixed #3064
