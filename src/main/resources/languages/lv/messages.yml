@@ -44,7 +44,6 @@ guide:
       resourcepack: '&cResursu pakas autors'
       translator: '&9Tulkotājs'
 messages:
-  not-researched: '&4Tev nav pietiekami zināšanas, lai šo saprastu'
   not-enough-xp: '&4Tev nav pietiekami daudz XP, lai šo atklātu'
   unlocked: '&bTu atklāji &7"%research%"'
   only-players: '&4Šī komanda ir pieejama tikai spēlētājiem'
