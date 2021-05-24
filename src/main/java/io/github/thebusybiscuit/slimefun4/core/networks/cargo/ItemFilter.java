@@ -189,7 +189,7 @@ class ItemFilter implements Predicate<ItemStack> {
              * If there is more than one potential match, create a wrapper to save
              * performance on the ItemMeta otherwise just use the item directly.
              */
-            ItemStack subject = potentialMatches == 1 ? item : new ItemStackWrapper(item);
+            ItemStack subject = potentialMatches == 1 ? item : ItemStackWrapper.wrap(item);
 
             /*
              * If there is only one match, we won't need to create a Wrapper
