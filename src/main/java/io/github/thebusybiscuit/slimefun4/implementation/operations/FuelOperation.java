@@ -9,6 +9,12 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 
+/**
+ * This {@link MachineOperation} represents the process of burning fuel.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class FuelOperation implements MachineOperation {
 
     private final ItemStack ingredient;
@@ -32,6 +38,7 @@ public class FuelOperation implements MachineOperation {
 
     @Override
     public void addProgress(int num) {
+        Validate.isTrue(num > 0, "Progress must be positive.");
         currentTicks += num;
     }
 

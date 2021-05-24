@@ -8,6 +8,12 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
+/**
+ * This {@link MachineOperation} represents a crafting process.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class CraftingOperation implements MachineOperation {
 
     private final ItemStack[] ingredients;
@@ -32,6 +38,7 @@ public class CraftingOperation implements MachineOperation {
 
     @Override
     public void addProgress(int num) {
+        Validate.isTrue(num > 0, "Progress must be positive.");
         currentTicks += num;
     }
 

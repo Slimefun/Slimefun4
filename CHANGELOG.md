@@ -27,9 +27,14 @@
 ## Release Candidate 24 (TBD)
 
 #### Additions
+* (API) Added AsyncMachineOperationFinishEvent
 * The speed of the Ancient Altar can now be configured in the `Items.yml` file
 
 #### Changes
+* (API) Refactored "Machine Process" API
+* (API) Deprecated AsyncGeneratorProcessCompleteEvent
+* (API) Deprecated AsyncMachineProcessCompleteEvent
+* (API) Deprecated AsyncReactorProcessCompleteEvent
 
 #### Fixes
 * Fixed #3064
@@ -64,7 +69,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
 * Tin Cans can no longer be placed
 * Magical Glass can no longer be placed
 * (API) Removed deprecated "SlimefunBlockHandler"
-* (API) Refactored "Machine Process" API
 * Removed Automated Crafting Chamber
 * Memory and performance improvements for Cargo and Energy networks
 
