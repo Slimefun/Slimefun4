@@ -101,7 +101,6 @@ guide:
       resourcepack: '&c材质制作者'
       translator: '&9翻译者'
 messages:
-  not-researched: '&4你的知识还不足以理解这个物品'
   not-enough-xp: '&4你没有足够的经验来解锁这个研究'
   unlocked: '&b成功解锁研究 &7"%research%"'
   only-players: '&4这个指令只能在游戏内使用'
