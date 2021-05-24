@@ -101,7 +101,6 @@ guide:
       resourcepack: '&cАртист на Ресурсни Пакети'
       translator: '&9Преводач'
 messages:
-  not-researched: '&4Нямате достатъчно познания, за да разберете това'
   not-enough-xp: '&4Нямате достатъчно XP, за да отключите това'
   unlocked: '&bТи отключи &7"%research%"'
   only-players: '&4Тази команда е само за Играчи'

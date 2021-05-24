@@ -93,7 +93,6 @@ guide:
       resourcepack: '&cTvůrce modifikačního balíčku'
       translator: '&9Překladatel'
 messages:
-  not-researched: '&4Ještě jsi nepostoupil tak daleko, abys pochopil tuhle věc'
   not-enough-xp: '&4Nemáš dostatek XP úrovní na to, abys vyzkoumal tuhle věc'
   unlocked: '&bMáš vyzkoumáno &7„%research%”'
   only-players: '&4Tenhle příkaz je jenom pro hráče'

@@ -99,7 +99,6 @@ guide:
       resourcepack: '&cNghệ sĩ gói tài nguyên'
       translator: '&9Đóng góp bản dịch'
 messages:
-  not-researched: '&4Bạn không có đủ kiến thức để hiểu điều này'
   not-enough-xp: '&4Bạn không có đủ kinh nghiệm để mở khóa'
   unlocked: '&bBạn đã mở khóa &7"%research%"'
   only-players: '&4Lệnh này chỉ dành cho người chơi'

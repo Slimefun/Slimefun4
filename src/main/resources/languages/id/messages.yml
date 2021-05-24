@@ -73,7 +73,6 @@ guide:
       resourcepack: '&cArtis Resourcepack'
       translator: '&9Penerjemah'
 messages:
-  not-researched: '&4Anda Tidak Memiliki Cukup Pengehatuan Untuk Mengetahui Ini'
   not-enough-xp: '&4Anda Tidak Memiliki Cukup XP untuk Membuka Ini'
   unlocked: '&bAnda Telah Membuka &7"%research%"'
   only-players: '&4Perintah Ini Hanya Untuk Para Pemain'

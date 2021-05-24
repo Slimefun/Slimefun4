@@ -101,7 +101,6 @@ guide:
       resourcepack: '&c אמן חבילת משאבים'
       translator: '&9מתרגם'
 messages:
-  not-researched: '&4אין לך מספיק ידע להבין זאת '
   not-enough-xp: "&4אין לך מספיק נקודות ניסיון\nכדי לפתוח את זה "
   unlocked: '&b אתה פתחת  %research% '
   only-players: '&4 פקודה זו מיועדת רק לשחקנים'

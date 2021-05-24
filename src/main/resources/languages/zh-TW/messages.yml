@@ -101,7 +101,6 @@ guide:
       resourcepack: '&7資源包製作人員'
       translator: '&9翻譯人員'
 messages:
-  not-researched: '&4你還沒有足夠的知識'
   not-enough-xp: '&4你沒有足夠的經驗值來解鎖這個'
   unlocked: '&b你已解鎖 &7“%research%”'
   only-players: '&4此命令只可由玩家發送'

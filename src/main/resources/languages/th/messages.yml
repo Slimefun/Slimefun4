@@ -67,7 +67,6 @@ guide:
       resourcepack: '&cผู้สร้างสรรค์ Resourcepack'
       translator: '&9นักแปล'
 messages:
-  not-researched: '&4คุณมีความรู้ไม่เพียงพอที่จะเข้าใจสิ่งนี้'
   not-enough-xp: '&4คุณมี XP ไม่เพียงพอที่จะปลดล็อก'
   unlocked: '&bคุณได้ปลดล็อค &7"%research%"'
   only-players: '&4คำสั่งนี้สำหรับผู้เล่นเท่านั้น'

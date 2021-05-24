@@ -99,7 +99,6 @@ guide:
       resourcepack: '&cArtista de Resourcepack'
       translator: '&9Traductor'
 messages:
-  not-researched: '&4No tienes conocimiento suficiente para entender esto.'
   not-enough-xp: '&4No tienes suficiente XP para desbloquear esto.'
   unlocked: '&bHas desbloqueado &7"%research%"'
   only-players: '&4Este comando es solo para jugadores.'
