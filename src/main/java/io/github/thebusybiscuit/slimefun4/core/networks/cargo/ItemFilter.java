@@ -115,7 +115,7 @@ class ItemFilter implements Predicate<ItemStack> {
                         ItemStack stack = menu.getItemInSlot(slot);
 
                         if (stack != null && stack.getType() != Material.AIR) {
-                            this.items.add(new ItemStackWrapper(stack));
+                            this.items.add(ItemStackWrapper.wrap(stack));
                         }
                     }
                 }

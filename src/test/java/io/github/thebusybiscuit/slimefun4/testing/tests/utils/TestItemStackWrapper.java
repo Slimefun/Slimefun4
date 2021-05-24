@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.testing.tests.utils;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
@@ -78,10 +80,10 @@ class TestItemStackWrapper {
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         ItemStackWrapper secondWrap = ItemStackWrapper.wrap(wrapper);
         // We want to check that the wrapper returned is of reference equality
-        Assertions.assertTrue(wrapper == secondWrap);
+        Assertions.assertSame(wrapper, secondWrap);
         ItemStackWrapper forceSecondWrap = ItemStackWrapper.forceWrap(wrapper);
         // Want to check that the wrapper returned is of different reference equality
-        Assertions.assertFalse(wrapper == forceSecondWrap);
+        Assertions.assertNotSame(wrapper, forceSecondWrap);
         assertWrapped(wrapper, forceSecondWrap);
     }
 
@@ -102,7 +104,7 @@ class TestItemStackWrapper {
         Assertions.assertEquals(wrappers.length, nestedWrap.length);
         for (int i = 0; i < wrappers.length; i++) {
             // We want to check that the wrapper returned is of reference equality
-            Assertions.assertTrue(wrappers[i] == nestedWrap[i]);
+            Assertions.assertSame(wrappers[i], nestedWrap[i]);
         }
     }
 
@@ -118,16 +120,17 @@ class TestItemStackWrapper {
             assertWrapped(items.get(i), wrappers.get(i));
         }
 
-        final List<ItemStackWrapper> nestedWrappers = ItemStackWrapper.wrapList((List<ItemStack>) wrappers);
+        @SuppressWarnings("unchecked")
+        List<ItemStackWrapper> nestedWrappers = ItemStackWrapper.wrapList((List<ItemStack>) wrappers);
 
         Assertions.assertEquals(wrappers.size(), nestedWrappers.size());
         for (int i = 0; i < items.size(); i++) {
             // We want to check that the wrapper returned is of reference equality
-            Assertions.assertTrue(wrappers.get(i) == nestedWrappers.get(i));
+            Assertions.assertSame(wrappers.get(i), nestedWrappers.get(i));
         }
     }
 
-    private void assertWrapped(ItemStack expected, ItemStack actual) {
+    private void assertWrapped(@Nullable ItemStack expected, @Nullable ItemStack actual) {
         if (expected == null) {
             Assertions.assertNull(actual);
         } else {

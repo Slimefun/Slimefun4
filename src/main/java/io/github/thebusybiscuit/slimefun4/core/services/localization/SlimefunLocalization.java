@@ -111,20 +111,20 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     protected abstract void addLanguage(@Nonnull String id, @Nonnull String texture);
 
     /**
-     * This will load every {@link SupportedLanguage} into memory.
+     * This will load every {@link LanguagePreset} into memory.
      * To be precise: It performs {@link #addLanguage(String, String)} for every
-     * value of {@link SupportedLanguage}.
+     * value of {@link LanguagePreset}.
      */
     protected void loadEmbeddedLanguages() {
-        for (SupportedLanguage lang : SupportedLanguage.values()) {
+        for (LanguagePreset lang : LanguagePreset.values()) {
             if (lang.isReadyForRelease() || SlimefunPlugin.getUpdater().getBranch() != SlimefunBranch.STABLE) {
-                addLanguage(lang.getLanguageId(), lang.getTexture());
+                addLanguage(lang.getLanguageCode(), lang.getTexture());
             }
         }
     }
 
     private @Nonnull FileConfiguration getDefaultFile(@Nonnull LanguageFile file) {
-        Language language = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
+        Language language = getLanguage(LanguagePreset.ENGLISH.getLanguageCode());
 
         if (language == null) {
             throw new IllegalStateException("Fallback language \"en\" is missing!");
