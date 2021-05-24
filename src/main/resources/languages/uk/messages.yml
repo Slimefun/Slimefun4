@@ -75,7 +75,6 @@ guide:
       resourcepack: '&cТекстурщик'
       translator: '&9Локалізатор'
 messages:
-  not-researched: '&4Вам бракує знань, щоб зрозуміти це'
   not-enough-xp: '&4У Вас недостатньо опиту, щоб дослідити це'
   unlocked: '&bВи дослідили &7"%research%"'
   only-players: '&4Ця команда доступна лише для гравців'
