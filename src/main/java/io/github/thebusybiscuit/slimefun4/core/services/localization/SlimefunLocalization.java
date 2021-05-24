@@ -140,7 +140,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     }
 
     @ParametersAreNonnullByDefault
-    private @Nonnull String getString(@Nullable Language language, LanguageFile file, String path) {
+    private @Nullable String getStringOrNull(@Nullable Language language, LanguageFile file, String path) {
         Validate.notNull(file, "You need to provide a LanguageFile!");
         Validate.notNull(path, "The path cannot be null!");
 
@@ -165,7 +165,13 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         String defaultValue = defaults.getString(path);
 
         // Return the default value or an error message
-        return defaultValue != null ? defaultValue : "Error: Missing string \"" + path + '"';
+        return defaultValue != null ? defaultValue : null;
+    }
+
+    @ParametersAreNonnullByDefault
+    private @Nonnull String getString(@Nullable Language language, LanguageFile file, String path) {
+        String string = getStringOrNull(language, file, path);
+        return string != null ? string : "Error: Missing string \"" + path + '"';
     }
 
     @ParametersAreNonnullByDefault
@@ -242,21 +248,21 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         Validate.notNull(p, "Player must not be null.");
         Validate.notNull(key, "NamespacedKey cannot be null.");
 
-        return getString(getLanguage(p), LanguageFile.RESEARCHES, key.getNamespace() + '.' + key.getKey());
+        return getStringOrNull(getLanguage(p), LanguageFile.RESEARCHES, key.getNamespace() + '.' + key.getKey());
     }
 
     public @Nullable String getCategoryName(@Nonnull Player p, @Nonnull NamespacedKey key) {
         Validate.notNull(p, "Player must not be null.");
         Validate.notNull(key, "NamespacedKey cannot be null!");
 
-        return getString(getLanguage(p), LanguageFile.CATEGORIES, key.getNamespace() + '.' + key.getKey());
+        return getStringOrNull(getLanguage(p), LanguageFile.CATEGORIES, key.getNamespace() + '.' + key.getKey());
     }
 
     public @Nullable String getResourceString(@Nonnull Player p, @Nonnull String key) {
         Validate.notNull(p, "Player should not be null!");
         Validate.notNull(key, "Message key should not be null!");
 
-        return getString(getLanguage(p), LanguageFile.RESOURCES, key);
+        return getStringOrNull(getLanguage(p), LanguageFile.RESOURCES, key);
     }
 
     public @Nullable ItemStack getRecipeTypeItem(@Nonnull Player p, @Nonnull RecipeType recipeType) {
