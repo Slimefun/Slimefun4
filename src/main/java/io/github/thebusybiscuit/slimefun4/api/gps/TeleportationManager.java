@@ -51,12 +51,24 @@ public final class TeleportationManager {
      */
     private final Set<UUID> teleporterUsers = new HashSet<>();
 
+    /**
+     * Opens the GUI of the teleporter and calculates the network complexity of the {@link Player}
+     *
+     * @param p {@link Player} to be teleported
+     * @param ownerUUID {@link UUID} of the {@link Player} who owns the teleporter device
+     * @param b {@link Block} from where the {@link Player} is being teleported
+     */
     @ParametersAreNonnullByDefault
-    public void openTeleporterGUI(Player p, UUID uuid, Block b, int complexity) {
+    public void openTeleporterGUI(Player p, UUID ownerUUID, Block b) {
+        openTeleporterGUI(p, ownerUUID, b, SlimefunPlugin.getGPSNetwork().getNetworkComplexity(ownerUUID));
+    }
+
+    @ParametersAreNonnullByDefault
+    public void openTeleporterGUI(Player p, UUID ownerUUID, Block b, int complexity) {
         if (teleporterUsers.add(p.getUniqueId())) {
             p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
 
-            PlayerProfile.fromUUID(uuid, profile -> {
+            PlayerProfile.fromUUID(ownerUUID, profile -> {
                 ChestMenu menu = new ChestMenu("&3Teleporter");
                 menu.addMenuCloseHandler(pl -> teleporterUsers.remove(pl.getUniqueId()));
 

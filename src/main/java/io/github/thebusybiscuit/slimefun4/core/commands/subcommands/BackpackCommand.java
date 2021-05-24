@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -11,10 +13,22 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.RestoredBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
+/**
+ * This command that allows for backpack retrieval in the event they are lost.
+ * The command accepts a name and id, if those match up it spawns a Medium Backpack
+ * with the correct lore set in the sender's inventory.
+ * 
+ * @author Sfiguz7
+ * 
+ * @see RestoredBackpack
+ *
+ */
 class BackpackCommand extends SubCommand {
 
+    @ParametersAreNonnullByDefault
     BackpackCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "backpack", false);
     }

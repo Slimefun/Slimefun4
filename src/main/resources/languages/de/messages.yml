@@ -75,6 +75,24 @@ guide:
     translations:
       name: '&aFehlt etwas?'
       lore: 'Klicke um eine Übersetzung hinzuzufügen'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bLern-Animation: &aAn'
+          - ''
+          - '&7Du kannst nun entscheiden, ob'
+          - '&7du eine Animation beim Freischalten von'
+          - '&7Items sehen wirst.'
+        click: '&eKlicke um die Lern-Animation zu deaktivieren'
+      disabled:
+        text:
+          - '&bLern-Animation: &4Aus'
+          - ''
+          - '&7Du kannst nun entscheiden, ob'
+          - '&7du eine Animation beim Freischalten von'
+          - '&7Items sehen wirst.'
+        click: '&eKlicke um die Lern-Animation zu aktivieren'
   title:
     main: 'Slimefun-Handbuch'
     settings: 'Einstellungen & Infos'
@@ -139,6 +157,11 @@ messages:
         - ''
         - '&eLeft Click &7to temporarily disable the recipe'
         - '&eRight Click &7to remove this recipe'
+      disabled:
+        - '&cDieses Rezept ist momentan deaktiviert'
+        - ''
+        - '&eLeft Click &7to re-enable this recipe'
+        - '&eRight Click &7to remove this recipe'
   talisman:
     anvil: '&a&oDein Talisman hat dein Werkzeug vor dem Zerfall gerettet'
     miner: '&a&oDein Talisman hat soeben die Drops verdoppelt'
@@ -197,6 +220,8 @@ messages:
     - '&7Always look on the bright side of life!'
     - '&7Ist das jetzt ein Keks, Cookie oder ein Biscuit?'
     - '&7Jetzt auch zuckerfrei!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cEs konnten keine Erze in deiner Nähe gefunden werden!'
 machines:
   pattern-not-found: '&eEs tut mir leid, aber ich konnte kein passendes Rezept finden.'
   unknown-material: '&eEs tut mir leid, aber ich erkenne das Item in meinem Werfer nicht, probier ein anderes Item aus.'
