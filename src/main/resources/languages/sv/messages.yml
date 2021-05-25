@@ -68,7 +68,6 @@ guide:
       resourcepack: '&cResurspaketskonstnär'
       translator: '&9Översättare'
 messages:
-  not-researched: '&4Du har inte tillräckligt mycket kunskap för att förstå detta'
   not-enough-xp: '&4Du har inte tillräckligt mycket XP för att låsa upp detta'
   unlocked: '&bDu har låst upp &7"%research%"'
   only-players: '&4Detta kommando är endast för spelare'

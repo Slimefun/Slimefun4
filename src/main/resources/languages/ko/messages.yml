@@ -75,7 +75,6 @@ guide:
       resourcepack: '&c리소스 팩 아티스트'
       translator: '&9번역가'
 messages:
-  not-researched: "&4너는 이것을 이해하기에 충분한 지식을 가지고 있지 않다.\n"
   not-enough-xp: "&4XP가 부족하여 이 잠금을 해제할 수 없습니다.\n"
   unlocked: '&7"%research%"&b의 잠금을 해제했습니다.'
   only-players: '&4이 명령은 플레이어 전용입니다.'

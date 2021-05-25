@@ -87,7 +87,6 @@ guide:
       - '&7Mga hanggang &e%contributors% &7na mga tao ang tumutulong sa'
       - '&7Slimefun sa buong lahat ng mga taong ito.'
 messages:
-  not-researched: '&4Kulang ang iyong Knowledge upang ito''y maintindihan.'
   not-enough-xp: '&4Kulang ang iyong XP upang ito''y ma-unlock.'
   unlocked: '&bNa-unlock mo ang &7"%research%"'
   only-players: '&4Ang command na ito ay para lamang sa Players.'

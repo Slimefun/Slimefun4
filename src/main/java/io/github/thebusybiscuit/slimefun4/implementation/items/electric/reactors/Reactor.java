@@ -23,9 +23,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
-import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
@@ -416,7 +414,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
         boolean requiresCoolant = operation.getProgress() % COOLANT_DURATION == 0;
 
         if (requiresCoolant) {
-            ItemStack coolant = new ItemStackWrapper(getCoolant());
+            ItemStack coolant = ItemStackWrapper.wrap(getCoolant());
 
             if (accessPort != null) {
                 for (int slot : getCoolantSlots()) {

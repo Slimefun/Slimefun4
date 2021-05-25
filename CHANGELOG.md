@@ -29,18 +29,23 @@
 #### Additions
 * (API) Added AsyncMachineOperationFinishEvent
 * The speed of the Ancient Altar can now be configured in the `Items.yml` file
+* The message "You do not have enough knowledge to understand this" now includes the name of the item you need to research.
 
 #### Changes
 * (API) Refactored "Machine Process" API
 * (API) Deprecated AsyncGeneratorProcessCompleteEvent
 * (API) Deprecated AsyncMachineProcessCompleteEvent
 * (API) Deprecated AsyncReactorProcessCompleteEvent
+* Some performance optimizations to Cargo networks
 
 #### Fixes
 * Fixed #3064
 * Fixed #2964
 * Fixed #2979
 * Fixed a permissions issue with `/sf charge`
+* Fixed #3053
+* Fixed #3075
+* Fixed recipe types showing missing string message
 
 ## Release Candidate 23 (19 May 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23

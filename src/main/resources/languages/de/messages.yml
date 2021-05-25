@@ -119,7 +119,7 @@ guide:
       resourcepack: '&cRessourcenpaket-Designer'
       translator: '&9Übersetzer'
 messages:
-  not-researched: '&4Du hast diesen Gegenstand noch nicht freigeschaltet!'
+  not-researched: '&4Dir fehlt die Weisheit um diesen Gegenstand zu verstehen. &cSchalte zuerst &f"%item%&f" &cfrei!'
   not-enough-xp: '&4Du hast nicht genügend Erfahrungspunkte, um dies freizuschalten'
   unlocked: '&bDu hast folgenden Erfahrungsgrad gewonnen: &7"%research%"'
   only-players: '&4Dieser Befehl ist nur für Spieler'
@@ -155,13 +155,13 @@ messages:
       enabled:
         - '&cDieses Rezept ist momentan deaktiviert'
         - ''
-        - '&eLeft Click &7to temporarily disable the recipe'
-        - '&eRight Click &7to remove this recipe'
+        - '&eLinksklick &7zum temporären deaktivieren des Rezeptes'
+        - '&eRechtsklick &7zum Entfernen dieses Rezeptes'
       disabled:
         - '&cDieses Rezept ist momentan deaktiviert'
         - ''
-        - '&eLeft Click &7to re-enable this recipe'
-        - '&eRight Click &7to remove this recipe'
+        - '&eLinksklick &7zum Re-aktivieren dieses Rezeptes'
+        - '&eRechtsklick &7zum Entfernen dieses Rezeptes'
   talisman:
     anvil: '&a&oDein Talisman hat dein Werkzeug vor dem Zerfall gerettet'
     miner: '&a&oDein Talisman hat soeben die Drops verdoppelt'
@@ -220,6 +220,7 @@ messages:
     - '&7Always look on the bright side of life!'
     - '&7Ist das jetzt ein Keks, Cookie oder ein Biscuit?'
     - '&7Jetzt auch zuckerfrei!'
+  above-limit-level: '&eEine Verzauberungsstufe über %level% kann nicht ent-/verzaubert werden!'
   pickaxe-of-the-seeker:
     no-ores: '&cEs konnten keine Erze in deiner Nähe gefunden werden!'
 machines:

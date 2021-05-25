@@ -44,48 +44,39 @@ public final class ChestMenuUtils {
 
     private static final MenuClickHandler CLICK_HANDLER = (p, s, i, a) -> false;
 
-    @Nonnull
-    public static ItemStack getBackground() {
+    public static @Nonnull ItemStack getBackground() {
         return UI_BACKGROUND;
     }
 
-    @Nonnull
-    public static ItemStack getNoPermissionItem() {
+    public static @Nonnull ItemStack getNoPermissionItem() {
         return NO_PERMISSION;
     }
 
-    @Nonnull
-    public static ItemStack getNotResearchedItem() {
+    public static @Nonnull ItemStack getNotResearchedItem() {
         return NOT_RESEARCHED;
     }
 
-    @Nonnull
-    public static ItemStack getInputSlotTexture() {
+    public static @Nonnull ItemStack getInputSlotTexture() {
         return INPUT_SLOT;
     }
 
-    @Nonnull
-    public static ItemStack getOutputSlotTexture() {
+    public static @Nonnull ItemStack getOutputSlotTexture() {
         return OUTPUT_SLOT;
     }
 
-    @Nonnull
-    public static MenuClickHandler getEmptyClickHandler() {
+    public static @Nonnull MenuClickHandler getEmptyClickHandler() {
         return CLICK_HANDLER;
     }
 
-    @Nonnull
-    public static ItemStack getBackButton(@Nonnull Player p, String... lore) {
+    public static @Nonnull ItemStack getBackButton(@Nonnull Player p, String... lore) {
         return new CustomItem(BACK_BUTTON, "&7\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"), lore);
     }
 
-    @Nonnull
-    public static ItemStack getMenuButton(@Nonnull Player p) {
+    public static @Nonnull ItemStack getMenuButton(@Nonnull Player p) {
         return new CustomItem(MENU_BUTTON, ChatColor.YELLOW + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.settings"), "", "&7\u21E8 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category"));
     }
 
-    @Nonnull
-    public static ItemStack getSearchButton(@Nonnull Player p) {
+    public static @Nonnull ItemStack getSearchButton(@Nonnull Player p) {
         return new CustomItem(SEARCH_BUTTON, meta -> {
             meta.setDisplayName(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "guide.search.name")));
 
@@ -95,13 +86,11 @@ public final class ChestMenuUtils {
         });
     }
 
-    @Nonnull
-    public static ItemStack getWikiButton() {
+    public static @Nonnull ItemStack getWikiButton() {
         return WIKI_BUTTON;
     }
 
-    @Nonnull
-    public static ItemStack getPreviousButton(@Nonnull Player p, int page, int pages) {
+    public static @Nonnull ItemStack getPreviousButton(@Nonnull Player p, int page, int pages) {
         if (pages == 1 || page == 1) {
             return new CustomItem(PREV_BUTTON_INACTIVE, meta -> {
                 meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
@@ -115,8 +104,7 @@ public final class ChestMenuUtils {
         }
     }
 
-    @Nonnull
-    public static ItemStack getNextButton(@Nonnull Player p, int page, int pages) {
+    public static @Nonnull ItemStack getNextButton(@Nonnull Player p, int page, int pages) {
         if (pages == 1 || page == pages) {
             return new CustomItem(NEXT_BUTTON_INACTIVE, meta -> {
                 meta.setDisplayName(ChatColor.DARK_GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
@@ -159,8 +147,7 @@ public final class ChestMenuUtils {
         menu.replaceExistingItem(slot, item);
     }
 
-    @Nonnull
-    public static String getProgressBar(int time, int total) {
+    public static @Nonnull String getProgressBar(int time, int total) {
         StringBuilder builder = new StringBuilder();
         float percentage = Math.round(((((total - time) * 100.0F) / total) * 100.0F) / 100.0F);
 

@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
  * @see Language
  *
  */
-enum SupportedLanguage {
+public enum LanguagePreset {
 
     ENGLISH("en", true, "a1701f21835a898b20759fb30a583a38b994abf60d3912ab4ce9f2311e74f72"),
     GERMAN("de", true, "5e7899b4806858697e283f084d9173fe487886453774626b24bd8cfecc77b3f"),
@@ -63,7 +63,7 @@ enum SupportedLanguage {
     private final String textureHash;
 
     @ParametersAreNonnullByDefault
-    SupportedLanguage(String id, boolean releaseReady, String textureHash) {
+    LanguagePreset(String id, boolean releaseReady, String textureHash) {
         this.id = id;
         this.releaseReady = releaseReady;
         this.textureHash = textureHash;
@@ -72,20 +72,19 @@ enum SupportedLanguage {
     /**
      * This returns the id of this {@link Language}.
      * 
-     * @return
+     * @return The language code
      */
-    @Nonnull
-    public String getLanguageId() {
+    public @Nonnull String getLanguageCode() {
         return id;
     }
 
     /**
-     * This returns whether this {@link SupportedLanguage} is "release-ready".
+     * This returns whether this {@link LanguagePreset} is "release-ready".
      * A release-ready {@link Language} will be available in RC builds of Slimefun.
      * 
      * @return Whether this {@link Language} is "release-ready"
      */
-    public boolean isReadyForRelease() {
+    boolean isReadyForRelease() {
         return releaseReady;
     }
 
@@ -97,8 +96,8 @@ enum SupportedLanguage {
      * 
      * @return The texture hash of this language
      */
-    @Nonnull
-    public String getTexture() {
+
+    public @Nonnull String getTexture() {
         return textureHash;
     }
 }

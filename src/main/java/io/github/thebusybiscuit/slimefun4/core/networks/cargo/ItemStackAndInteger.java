@@ -1,16 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
+import javax.annotation.Nonnull;
+
 class ItemStackAndInteger {
 
-    private final ItemStack item;
+    private ItemStack item;
     private ItemStackWrapper wrapper;
     private int number;
 
-    ItemStackAndInteger(ItemStack item, int amount) {
+    ItemStackAndInteger(@Nonnull ItemStack item, int amount) {
+        Validate.notNull(item, "Item cannot be null!");
         this.number = amount;
         this.item = item;
     }
@@ -19,13 +23,14 @@ class ItemStackAndInteger {
         return number;
     }
 
-    public ItemStack getItem() {
+    public @Nonnull ItemStack getItem() {
+        initializeItem();
         return item;
     }
 
-    public ItemStackWrapper getItemStackWrapper() {
-        if (wrapper == null && item != null) {
-            wrapper = new ItemStackWrapper(item);
+    public @Nonnull ItemStackWrapper getItemStackWrapper() {
+        if (wrapper == null) {
+            wrapper = ItemStackWrapper.wrap(item);
         }
 
         return wrapper;
@@ -33,6 +38,16 @@ class ItemStackAndInteger {
 
     public void add(int amount) {
         number += amount;
+    }
+
+    private void initializeItem() {
+        if (this.item instanceof ItemStackWrapper) {
+            ItemStack copy = new ItemStack(item.getType(), item.getAmount());
+            if (this.item.hasItemMeta()) {
+                copy.setItemMeta(this.item.getItemMeta());
+            }
+            this.item = copy;
+        }
     }
 
 }
