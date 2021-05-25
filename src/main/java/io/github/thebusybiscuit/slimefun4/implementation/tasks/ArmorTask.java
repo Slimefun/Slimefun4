@@ -173,7 +173,7 @@ public class ArmorTask implements Runnable {
 
         if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {
             // Performance optimization to reduce ItemMeta calls
-            itemStack = new ItemStackWrapper(item);
+            itemStack = ItemStackWrapper.wrap(item);
         }
 
         for (SlimefunItem radioactiveItem : radioactiveItems) {

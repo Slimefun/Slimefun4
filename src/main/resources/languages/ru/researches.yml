@@ -62,12 +62,13 @@ slimefun:
   water_talisman: Талисман покорителя воды
   angel_talisman: Талисман ангела
   fire_talisman: Талисман пожарного
-  lava_crystal: "«Огненная ситуация»"
+  caveman_talisman: Талисман шахтёра
+  lava_crystal: '«Огненная ситуация»'
   magician_talisman: Талисман мага
   traveller_talisman: Талисман путешественника
   warrior_talisman: Талисман воина
   knight_talisman: Талисман рыцаря
-  gilded_iron: "«Блестящее железо»"
+  gilded_iron: '«Блестящее железо»'
   synthetic_emerald: Фальшивый изумруд
   chainmail_armor: Кольчужная броня
   whirlwind_talisman: Талисман вихря
@@ -79,7 +80,7 @@ slimefun:
   redstone_alloy: Редстоуновый сплав
   carbonado_tools: Высокоуровневые машины
   first_aid: Первая помощь
-  gold_armor: "«Блестящие доспехи»"
+  gold_armor: '«Блестящие доспехи»'
   night_vision_googles: Прибор ночного видения
   pickaxe_of_containment: Кирка сдерживания
   hercules_pickaxe: Геркулесовая кирка
@@ -87,7 +88,7 @@ slimefun:
   slime_steel_armor: Слизистые стальные доспехи
   blade_of_vampires: Вампирский клинок
   water_staff: Посох морей
-  24k_gold_block: "«Эльдорадо»"
+  24k_gold_block: '«Эльдорадо»'
   composter: Компостирование грязи
   farmer_shoes: Фермерские ботинки
   explosive_tools: Взрывные инструменты
@@ -120,15 +121,15 @@ slimefun:
   high_tier_enhanced_furnaces: Высокоуровневая печь
   reinforced_furnace: Усиленная печь
   carbonado_furnace: Карбонадовая печь
-  electric_motor: "«Нагрев»"
+  electric_motor: '«Нагрев»'
   block_placer: Размещатель блоков
   scroll_of_dimensional_teleposition: Поворот вещей вокруг
-  special_bows: "«Робин Гуд»"
+  special_bows: '«Робин Гуд»'
   tome_of_knowledge_sharing: Поделиться с ближними
   flask_of_knowledge: Хранилище опыта
   hardened_glass: Покорение взрывов
-  golden_apple_juice: "«Золотое зелье»"
-  cooler: "«Переносной холодильник»"
+  golden_apple_juice: '«Золотое зелье»'
+  cooler: '«Переносной холодильник»'
   ancient_altar: Древний алтарь
   wither_proof_obsidian: Визеростойкий обсидиан
   ancient_runes: Стихийные руны
@@ -145,6 +146,7 @@ slimefun:
   hologram_projector: ГоЛоГрАмМы
   capacitors: Маленький накопитель энергии
   high_tier_capacitors: Средний накопитель энергии
+  even_higher_tier_capacitors: Большой накопитель энергии
   solar_generators: Солнечная электростанция
   electric_furnaces: Электрическая печь
   electric_ore_grinding: Дробление и распыление
@@ -168,6 +170,7 @@ slimefun:
   energized_solar_generator: Солнечная энергия круглые сутки!
   energized_gps_transmitter: Высокоуровневый передатчик
   energy_regulator: Электрические сети
+  energy_connectors: Проводные соединения
   butcher_androids: Андроид-мясник
   organic_food: Органическая пища
   auto_breeder: Автоматизированное размножение
@@ -191,7 +194,7 @@ slimefun:
   reactor_access_port: Порт доступа к реактору
   fluid_pump: Жидкостный насос
   better_freezer: Улучшенная морозилка
-  boosted_uranium: "«Замкнутый круг»"
+  boosted_uranium: '«Замкнутый круг»'
   trash_can: Мусорка
   advanced_output_node: Продвинутый грузовой узел
   carbon_press: Углеродный пресс
@@ -218,7 +221,7 @@ slimefun:
   output_chest: Выходной сундук
   copper_wire: Медный провод
   radiant_backpack: Рюкзак путешественника
-  auto_drier: "«День сушки»"
+  auto_drier: '«День сушки»'
   diet_cookie: Диетическое печенье
   storm_staff: Штормовой посох
   soulbound_rune: Персональная руна
@@ -236,15 +239,12 @@ slimefun:
   advanced_industrial_miner: Улучшенная добыча
   magical_zombie_pills: Дезомбификация
   auto_brewer: Промышленная пивоварня
+  climbing_pick: Покоритель поверхностей
+  shulker_shell: Синтетические шалкеры
   enchantment_rune: Древнее зачарование
   lead_clothing: Свинцовое обмундирование
   tape_measure: Рулетка
   iron_golem_assembler: Образователь железных големов
-  climbing_pick: Покоритель поверхностей
-  shulker_shell: Синтетические шалкеры
   villager_rune: Сбрасывание торговли
-  caveman_talisman: Талисман шахтёра
-  even_higher_tier_capacitors: Большой накопитель энергии
   elytra_cap: Противоударная экипировка
-  energy_connectors: Проводные соединения
   bee_armor: Пчелиная броня

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class DebugFishCommand extends SubCommand {
 
+    @ParametersAreNonnullByDefault
     DebugFishCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "debug_fish", true);
     }

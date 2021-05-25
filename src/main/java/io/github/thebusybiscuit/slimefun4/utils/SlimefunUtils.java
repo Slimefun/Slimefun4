@@ -204,7 +204,7 @@ public final class SlimefunUtils {
      * 
      * @return An {@link ItemStack} with this Head texture
      */
-    public static ItemStack getCustomHead(@Nonnull String texture) {
+    public static @Nonnull ItemStack getCustomHead(@Nonnull String texture) {
         Validate.notNull(texture, "The provided texture is null");
 
         if (SlimefunPlugin.instance() == null) {
@@ -232,7 +232,7 @@ public final class SlimefunUtils {
 
         // Performance optimization
         if (!(item instanceof SlimefunItemStack)) {
-            item = new ItemStackWrapper(item);
+            item = ItemStackWrapper.wrap(item);
         }
 
         for (ItemStack stack : inventory.getStorageContents()) {

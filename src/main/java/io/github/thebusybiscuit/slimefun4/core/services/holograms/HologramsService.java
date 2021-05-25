@@ -9,6 +9,7 @@ import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -105,7 +106,9 @@ public class HologramsService {
         Iterator<Hologram> iterator = cache.values().iterator();
 
         while (iterator.hasNext()) {
-            if (iterator.next().hasExpired()) {
+            Hologram hologram = iterator.next();
+
+            if (hologram.hasExpired()) {
                 iterator.remove();
             }
         }
@@ -142,27 +145,39 @@ public class HologramsService {
             if (n instanceof ArmorStand) {
                 PersistentDataContainer container = n.getPersistentDataContainer();
 
-                if (container.has(persistentDataKey, PersistentDataType.LONG)) {
-                    // Check if it is ours or a different one.
-                    if (container.get(persistentDataKey, PersistentDataType.LONG).equals(position.getPosition())) {
-                        return getAsHologram(position, n, container);
+                /*
+                 * Any hologram we created will have a persistent data key for identification.
+                 * Make sure that the value matches our BlockPosition.
+                 */
+                if (hasHologramData(container, position)) {
+                    if (hologram != null) {
+                        // Fixes #2927 - Remove any duplicates we find
+                        n.remove();
+                    } else {
+                        hologram = getAsHologram(position, n, container);
                     }
-                } else {
-                    // Set a persistent tag to re-identify the correct hologram later
-                    container.set(persistentDataKey, PersistentDataType.LONG, position.getPosition());
-                    return getAsHologram(position, n, container);
                 }
             }
         }
 
-        if (createIfNoneExists) {
+        if (hologram == null && createIfNoneExists) {
             // Spawn a new ArmorStand
             ArmorStand armorstand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
             PersistentDataContainer container = armorstand.getPersistentDataContainer();
 
             return getAsHologram(position, armorstand, container);
         } else {
-            return null;
+            return hologram;
+        }
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean hasHologramData(PersistentDataContainer container, BlockPosition position) {
+        if (container.has(persistentDataKey, PersistentDataType.LONG)) {
+            long value = container.get(persistentDataKey, PersistentDataType.LONG);
+            return value == position.getPosition();
+        } else {
+            return false;
         }
     }
 

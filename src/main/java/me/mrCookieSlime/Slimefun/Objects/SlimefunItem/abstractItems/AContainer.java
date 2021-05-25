@@ -419,7 +419,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             ItemStack item = inv.getItemInSlot(slot);
 
             if (item != null) {
-                inventory.put(slot, new ItemStackWrapper(item));
+                inventory.put(slot, ItemStackWrapper.wrap(item));
             }
         }
 

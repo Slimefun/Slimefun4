@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 import java.util.Collection;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -29,6 +30,19 @@ import net.md_5.bungee.api.chat.hover.content.Text;
  */
 class VersionsCommand extends SubCommand {
 
+    /**
+     * This is the Java version we recommend to use.
+     * Bump as necessary and adjust the warning.
+     */
+    private static final int RECOMMENDED_JAVA_VERSION = 16;
+
+    /**
+     * This is the notice that will be displayed when an
+     * older version of Java is detected.
+     */
+    private static final String JAVA_VERSION_NOTICE = "As of Minecraft 1.17 Java 16 will be required!";
+
+    @ParametersAreNonnullByDefault
     VersionsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "versions", false);
     }
@@ -102,13 +116,13 @@ class VersionsCommand extends SubCommand {
 
         int version = Integer.parseInt(javaVer);
 
-        if (version < 11) {
+        if (version < RECOMMENDED_JAVA_VERSION) {
             // @formatter:off
             builder.append("Java " + version).color(ChatColor.RED)
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
                     "Your Java version is out of date!\n!" +
-                    "You should use Java 11 or higher.\n" +
-                    "Paper will be dropping support for older versions with the release of Minecraft 1.17."
+                    "You should use Java " + RECOMMENDED_JAVA_VERSION + " or higher.\n" +
+                    JAVA_VERSION_NOTICE
                 )))
                 .append("\n")
                 .event((HoverEvent) null);

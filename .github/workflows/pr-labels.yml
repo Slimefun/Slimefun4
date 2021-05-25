@@ -10,7 +10,7 @@ jobs:
 
     name: Pull Request Labels
     runs-on: ubuntu-latest
-    if: github.repository == 'Slimefun/Slimefun4' && github.actor != 'gitlocalize-app[bot]'
+    if: github.repository == 'Slimefun/Slimefun4'
 
     steps:
       - uses: WalshyDev/pr-labels@v1.1
@@ -19,6 +19,7 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           renovate: '🚨 Dependency Update'
+          crowdin: '📄 Translations Update'
           feature: '🎈 Feature'
           fix: '✨ Fix'
           chore: '🧹 Chores'

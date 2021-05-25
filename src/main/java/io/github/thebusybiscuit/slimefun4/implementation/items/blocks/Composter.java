@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,13 +14,10 @@ import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
@@ -25,17 +25,15 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements RecipeDisplayItem {
 
-    private static final BlockFace[] outputFaces = { BlockFace.UP, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
     private final List<ItemStack> recipes;
 
+    @ParametersAreNonnullByDefault
     public Composter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
@@ -120,29 +118,10 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
         }
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private Optional<Inventory> findOutputChest(Block b, ItemStack output) {
-        for (BlockFace face : outputFaces) {
-            Block potentialOutput = b.getRelative(face);
-
-            if (potentialOutput.getType() == Material.CHEST) {
-                String id = BlockStorage.checkID(potentialOutput);
-
-                if (id != null && id.equals("OUTPUT_CHEST")) {
-                    // Found the output chest! Now, let's check if we can fit the product in it.
-                    BlockState state = PaperLib.getBlockState(potentialOutput, false).getState();
-
-                    if (state instanceof Chest) {
-                        Inventory inv = ((Chest) state).getInventory();
-
-                        if (InvUtils.fits(inv, output)) {
-                            return Optional.of(inv);
-                        }
-                    }
-                }
-            }
-        }
-
-        return Optional.empty();
+        return OutputChest.findOutputChestFor(b, output);
     }
 
     private ItemStack getOutput(Player p, ItemStack input) {

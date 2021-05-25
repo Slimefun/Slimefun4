@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.testing.tests.utils;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
@@ -34,7 +36,7 @@ class TestItemStackWrapper {
     @DisplayName("Test if an ItemStackWrappers can be compared properly (With ItemMeta)")
     void testEqualityWithItemMeta() {
         ItemStack item = new CustomItem(Material.LAVA_BUCKET, "&4SuperHot.exe", "", "&6Hello");
-        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
 
         Assertions.assertEquals(item.getType(), wrapper.getType());
         Assertions.assertEquals(item.hasItemMeta(), wrapper.hasItemMeta());
@@ -46,7 +48,7 @@ class TestItemStackWrapper {
     @DisplayName("Test if an ItemStackWrappers can be compared properly (No ItemMeta)")
     void testEqualityWithoutItemMeta() {
         ItemStack item = new ItemStack(Material.DIAMOND_AXE);
-        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
 
         Assertions.assertEquals(item.getType(), wrapper.getType());
         Assertions.assertEquals(item.hasItemMeta(), wrapper.hasItemMeta());
@@ -58,7 +60,7 @@ class TestItemStackWrapper {
     @DisplayName("Test if an ItemStackWrapper is immutable")
     void testImmutability() {
         ItemStack item = new CustomItem(Material.LAVA_BUCKET, "&4SuperHot.exe", "", "&6Hello");
-        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
 
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.setType(Material.BEDROCK));
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.setAmount(3));
@@ -67,6 +69,22 @@ class TestItemStackWrapper {
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.hashCode());
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.clone());
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.equals(wrapper));
+    }
+
+    @Test
+    @DisplayName("Test if the ItemStackWrapper static method constructors are checking for nested wrapping properly")
+    void testWrapperChecking() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ItemStackWrapper.wrap(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ItemStackWrapper.forceWrap(null));
+        ItemStack item = new CustomItem(Material.IRON_INGOT, "A Name", "line 1", "line2");
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
+        ItemStackWrapper secondWrap = ItemStackWrapper.wrap(wrapper);
+        // We want to check that the wrapper returned is of reference equality
+        Assertions.assertSame(wrapper, secondWrap);
+        ItemStackWrapper forceSecondWrap = ItemStackWrapper.forceWrap(wrapper);
+        // Want to check that the wrapper returned is of different reference equality
+        Assertions.assertNotSame(wrapper, forceSecondWrap);
+        assertWrapped(wrapper, forceSecondWrap);
     }
 
     @Test
@@ -80,22 +98,39 @@ class TestItemStackWrapper {
         for (int i = 0; i < items.length; i++) {
             assertWrapped(items[i], wrappers[i]);
         }
+
+        ItemStackWrapper[] nestedWrap = ItemStackWrapper.wrapArray(wrappers);
+
+        Assertions.assertEquals(wrappers.length, nestedWrap.length);
+        for (int i = 0; i < wrappers.length; i++) {
+            // We want to check that the wrapper returned is of reference equality
+            Assertions.assertSame(wrappers[i], nestedWrap[i]);
+        }
     }
 
     @Test
     @DisplayName("Test wrapping an ItemStack List")
     void testWrapList() {
         List<ItemStack> items = Arrays.asList(new ItemStack(Material.DIAMOND), null, new ItemStack(Material.EMERALD), new CustomItem(Material.REDSTONE, "&4Firey thing", "with lore :o"));
-        List<ItemStackWrapper> wrappers = ItemStackWrapper.wrapList(items);
+        List<? extends ItemStack> wrappers = ItemStackWrapper.wrapList(items);
 
         Assertions.assertEquals(items.size(), wrappers.size());
 
         for (int i = 0; i < items.size(); i++) {
             assertWrapped(items.get(i), wrappers.get(i));
         }
+
+        @SuppressWarnings("unchecked")
+        List<ItemStackWrapper> nestedWrappers = ItemStackWrapper.wrapList((List<ItemStack>) wrappers);
+
+        Assertions.assertEquals(wrappers.size(), nestedWrappers.size());
+        for (int i = 0; i < items.size(); i++) {
+            // We want to check that the wrapper returned is of reference equality
+            Assertions.assertSame(wrappers.get(i), nestedWrappers.get(i));
+        }
     }
 
-    private void assertWrapped(ItemStack expected, ItemStack actual) {
+    private void assertWrapped(@Nullable ItemStack expected, @Nullable ItemStack actual) {
         if (expected == null) {
             Assertions.assertNull(actual);
         } else {

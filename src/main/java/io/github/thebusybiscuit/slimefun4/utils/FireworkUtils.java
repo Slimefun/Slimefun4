@@ -23,7 +23,14 @@ import org.bukkit.inventory.meta.FireworkMeta;
  */
 public final class FireworkUtils {
 
-    private static final Color[] COLORS = { Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW };
+    // @formatter:off
+    private static final Color[] COLORS = {
+        Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA,
+        Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON,
+        Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE,
+        Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW
+    };
+    // @formatter:on
 
     private FireworkUtils() {}
 
@@ -31,8 +38,7 @@ public final class FireworkUtils {
         createFirework(l, color);
     }
 
-    @Nonnull
-    public static Firework createFirework(@Nonnull Location l, @Nonnull Color color) {
+    public static @Nonnull Firework createFirework(@Nonnull Location l, @Nonnull Color color) {
         Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
         FireworkMeta meta = fw.getFireworkMeta();
 
@@ -57,13 +63,33 @@ public final class FireworkUtils {
         }
     }
 
-    @Nonnull
-    public static FireworkEffect getRandomEffect(@Nonnull Random random, @Nonnull Color color) {
-        return FireworkEffect.builder().flicker(random.nextBoolean()).withColor(color).with(random.nextBoolean() ? Type.BALL : Type.BALL_LARGE).trail(random.nextBoolean()).build();
+    /**
+     * This returns a randomized {@link FireworkEffect} using the given {@link Color}.
+     * 
+     * @param random
+     *            The {@link Random} instance to use
+     * @param color
+     *            The {@link Color} of this {@link FireworkEffect}
+     * 
+     * @return A randomized {@link FireworkEffect}
+     */
+    public static @Nonnull FireworkEffect getRandomEffect(@Nonnull Random random, @Nonnull Color color) {
+        // @formatter:off
+        return FireworkEffect.builder()
+                .flicker(random.nextBoolean())
+                .withColor(color)
+                .with(random.nextBoolean() ? Type.BALL : Type.BALL_LARGE)
+                .trail(random.nextBoolean()
+        ).build();
+        // @formatter:on
     }
 
-    @Nonnull
-    private static Color getRandomColor() {
+    /**
+     * This returns a random {@link Color} for our {@link FireworkEffect}.
+     * 
+     * @return A random {@link Color}
+     */
+    private static @Nonnull Color getRandomColor() {
         return COLORS[ThreadLocalRandom.current().nextInt(COLORS.length)];
     }
 }

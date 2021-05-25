@@ -55,7 +55,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private final int[] inputBorder = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
-    private final ItemStack emptyBucket = new ItemStackWrapper(Material.BUCKET);
+    private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));
 
     @ParametersAreNonnullByDefault
     public FluidPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

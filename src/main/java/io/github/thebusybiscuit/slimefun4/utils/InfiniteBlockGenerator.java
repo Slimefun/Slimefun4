@@ -59,8 +59,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * 
      * @return The generated {@link Material} or null
      */
-    @Nullable
-    public Material getGeneratedMaterial() {
+    public @Nullable Material getGeneratedMaterial() {
         return material;
     }
 
@@ -143,8 +142,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * 
      * @return Our called {@link BlockFormEvent}
      */
-    @Nonnull
-    public BlockFormEvent callEvent(@Nonnull Block block) {
+    public @Nonnull BlockFormEvent callEvent(@Nonnull Block block) {
         Validate.notNull(block, "The Block cannot be null!");
         BlockState state = PaperLib.getBlockState(block, false).getState();
         BlockFormEvent event = new BlockFormEvent(block, state);
@@ -160,8 +158,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * 
      * @return An {@link InfiniteBlockGenerator} or null if none was found.
      */
-    @Nullable
-    public static InfiniteBlockGenerator findAt(@Nonnull Block b) {
+    public static @Nullable InfiniteBlockGenerator findAt(@Nonnull Block b) {
         Validate.notNull(b, "Cannot find a generator without a Location!");
 
         for (InfiniteBlockGenerator generator : valuesCached) {
