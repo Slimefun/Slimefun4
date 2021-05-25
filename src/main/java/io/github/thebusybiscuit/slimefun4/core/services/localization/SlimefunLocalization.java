@@ -171,11 +171,11 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     @ParametersAreNonnullByDefault
     private @Nonnull String getString(@Nullable Language language, LanguageFile file, String path) {
         String string = getStringOrNull(language, file, path);
-        return string != null ? string : "Error: Missing string \"" + path + '"';
+        return string != null ? string : "! Missing string \"" + path + '"';
     }
 
     @ParametersAreNonnullByDefault
-    private @Nonnull List<String> getStringList(@Nullable Language language, LanguageFile file, String path) {
+    private @Nullable List<String> getStringListOrNull(@Nullable Language language, LanguageFile file, String path) {
         Validate.notNull(file, "You need to provide a LanguageFile!");
         Validate.notNull(path, "The path cannot be null!");
 
@@ -200,7 +200,13 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         List<String> defaultValue = defaults.getStringList(path);
 
         // Return the default value or an error message
-        return !defaultValue.isEmpty() ? defaultValue : Arrays.asList("Error: Missing string \"" + path + '"');
+        return !defaultValue.isEmpty() ? defaultValue : null;
+    }
+
+    @ParametersAreNonnullByDefault
+    private @Nonnull List<String> getStringList(@Nullable Language language, LanguageFile file, String path) {
+        List<String> list = getStringListOrNull(language, file, path);
+        return list != null ? list : Arrays.asList("! Missing string \"" + path + '"');
     }
 
     @Override
@@ -265,7 +271,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         return getStringOrNull(getLanguage(p), LanguageFile.RESOURCES, key);
     }
 
-    public @Nullable ItemStack getRecipeTypeItem(@Nonnull Player p, @Nonnull RecipeType recipeType) {
+    public @Nonnull ItemStack getRecipeTypeItem(@Nonnull Player p, @Nonnull RecipeType recipeType) {
         Validate.notNull(p, "Player cannot be null!");
         Validate.notNull(recipeType, "Recipe type cannot be null!");
 
@@ -274,12 +280,20 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         NamespacedKey key = recipeType.getKey();
 
         return new CustomItem(item, meta -> {
-            String displayName = getString(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
-            meta.setDisplayName(ChatColor.AQUA + displayName);
+            String displayName = getStringOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
 
-            List<String> lore = getStringList(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".lore");
-            lore.replaceAll(line -> ChatColor.GRAY + line);
-            meta.setLore(lore);
+            // Set the display name if possible, else keep the default item name.
+            if (displayName != null) {
+                meta.setDisplayName(ChatColor.AQUA + displayName);
+            }
+
+            List<String> lore = getStringListOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".lore");
+
+            // Set the lore if possible, else keep the default lore.
+            if (lore != null) {
+                lore.replaceAll(line -> ChatColor.GRAY + line);
+                meta.setLore(lore);
+            }
 
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
