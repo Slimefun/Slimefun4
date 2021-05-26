@@ -439,8 +439,10 @@ public class SlimefunItem implements Placeable {
 
             preRegister();
 
-            if (recipe == null || recipe.length < 9) {
-                recipe = new ItemStack[] { null, null, null, null, null, null, null, null, null };
+            if (recipe == null) {
+                recipe = new ItemStack[9];
+            } else if (recipe.length < 9) {
+                recipe = Arrays.copyOf(recipe, 9);
             }
 
             SlimefunPlugin.getRegistry().getAllSlimefunItems().add(this);
