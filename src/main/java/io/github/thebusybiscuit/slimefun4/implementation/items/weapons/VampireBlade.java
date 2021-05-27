@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
-import io.github.thebusybiscuit.slimefun4.core.handlers.EntityHitHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemHitListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -29,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see SlimefunItemHitListener
  *
  */
-public class VampireBlade extends SimpleSlimefunItem<EntityHitHandler> {
+public class VampireBlade extends SimpleSlimefunItem<WeaponUseHandler> {
 
     private static final double HEALING_AMOUNT = 4.0;
 
@@ -42,9 +42,8 @@ public class VampireBlade extends SimpleSlimefunItem<EntityHitHandler> {
         addItemSetting(chance);
     }
 
-    @Nonnull
     @Override
-    public EntityHitHandler getItemHandler() {
+    public @Nonnull WeaponUseHandler getItemHandler() {
         return (e, p, item) -> {
             if (ThreadLocalRandom.current().nextInt(100) < getChance()) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
