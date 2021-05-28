@@ -36,6 +36,7 @@
 * (API) Deprecated AsyncGeneratorProcessCompleteEvent
 * (API) Deprecated AsyncMachineProcessCompleteEvent
 * (API) Deprecated AsyncReactorProcessCompleteEvent
+* Error-Reports now show the date and time they were generated at
 * Some performance optimizations to Cargo networks
 
 #### Fixes
@@ -46,6 +47,7 @@
 * Fixed #3053
 * Fixed #3075
 * Fixed recipe types showing missing string message
+* Fixed #3084
 
 ## Release Candidate 23 (19 May 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
