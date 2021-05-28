@@ -16,12 +16,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 class GiveCommand extends SubCommand {
 
     private static final String PLACEHOLDER_PLAYER = "%player%";
     private static final String PLACEHOLDER_ITEM = "%item%";
     private static final String PLACEHOLDER_AMOUNT = "%amount%";
 
+    @ParametersAreNonnullByDefault
     GiveCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "give", false);
     }

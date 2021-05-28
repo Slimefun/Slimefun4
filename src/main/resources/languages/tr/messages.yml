@@ -1,0 +1,333 @@
+---
+commands:
+  help: Yardım ekranını görüntüler
+  cheat: Hile Yapmanıza olanak sağlar
+  give: Birisine Slimefun Eşyası verir
+  guide: Kendinize bir Slimefun Rehberi verir
+  teleporter: Diğer Bir Oyuncunun Yer Noktalarına Bakın
+  versions: Yüklü tüm Eklentileri listeler
+  search: Rehberinizde belirtilen eşyayı arar
+  open_guide: Kitabı kullanmadan Slimefun Rehberini açar
+  stats: Oyuncu hakkında bazı İstatistikleri Gösterir
+  research:
+    description: Bir oyuncu için araştırmaların kilidini açma / sıfırlama
+    reset: '&c %player%''ın Bilgisini sıfırladınız'
+    reset-target: '&cBilginiz sıfırlandı'
+  backpack:
+    description: Varolan bir sırt çantasının kopyasını elde et
+    invalid-id: '&4Id negatif olmayan bir numara olmalı!'
+    player-never-joined: '&4Bu adda bir oyuncu bulunamadı!'
+    backpack-does-not-exist: '&4Böyle bir sırt çantası yok.'
+    restored-backpack-given: '&aSırt çantanız bulundu ve envanterinize teslim edildi!'
+  charge:
+    description: Elinizdeki eşyayı şarj eder
+    charge-success: Eşyanız şarz edildi!
+    not-rechargeable: Bu eşya şarz edilemez!
+guide:
+  locked: 'KİLİTLİ'
+  work-in-progress: 'Bu özellik henüz tamamlanmadı!'
+  locked-category:
+    - 'Bu kategoriyi açmak için'
+    - 'aşağıdaki kategorilerde bulunan'
+    - 'bütün eşyaları açın'
+  search:
+    message: '&bNe aramak istersiniz?'
+    name: '&7Ara...'
+    tooltip: '&bBir eşyayı aramak için tıklayın'
+    inventory: 'Eşya aranıyor: %item%'
+  tooltips:
+    open-category: 'Açmak için tıklayın'
+    versions-notice: 'Hata bildirirken bunlar çok önemlidir!'
+    wiki: 'Bu eşyayı Slimefun Wikisinde görüntüle'
+    recipes:
+      machine: 'Bu makinede üretilen tarifler'
+      miner: 'Bu madenciyle elde edebileceğin kaynaklar'
+      generator: 'Müsait yakıt türleri'
+      gold-pan: 'Elde edebileceğin kaynaklar'
+      climbing-pick: 'Tırmanılabilen yüzeyler'
+  cheat:
+    no-multiblocks: '&4Yapı Oluşturmada hile yapamazsınız, onları inşa etmelisiniz!'
+  pages:
+    previous: 'Önceki sayfa'
+    next: 'Sonraki sayfa'
+  back:
+    title: 'Geri'
+    guide: 'Slimefun Rehberine geri dön'
+    settings: 'Ayarlar Paneline geri dön'
+  languages:
+    updated: '&aDiliniz başarıyla ayarlandı: &b%lang%'
+    selected-language: 'Şuan seçili:'
+    select: 'Bu dili seçmek için tıklayın'
+    select-default: 'Varsayılan dili seçmek için tıklayın'
+    change: 'Yeni bir dil seçmek için tıklayın'
+    description:
+      - '&7Artık Slimefun içerisinde size'
+      - '&7sunulacak olan dilinizi'
+      - '&7değiştirebilirsiniz. Henüz eşyalar'
+      - '&7çevrilememektedir.'
+    translations:
+      name: '&aBir şeyler mi eksik?'
+      lore: 'Kendi çevirinizi eklemek için tıklayın'
+  title:
+    main: 'Slimefun Rehberi'
+    settings: 'Ayarlar & Bilgi'
+    languages: 'Tercih ettiğiniz dili seçin'
+    credits: 'Slimefun4 Katkıda Bulunanlar'
+    addons: 'Slimefun4 için Eklentiler'
+    bugs: 'Hata Raporları'
+    source: 'Kaynak Kodu'
+    versions: 'Yüklü sürümler'
+  credits:
+    commit: 'Geliştiirme'
+    commits: 'Geliştirmeler'
+    profile-link: 'GitHubdaki profillerini ziyaret etmek için tıklayın'
+    open: 'Bize katkıda bulunanları görmek için tıklayın'
+    description:
+      - '&7Slimefun açık kaynak kodlu bir projedir'
+      - '&7ve büyük bir topluluk tarafından geliştirilir.'
+      - '&e%contributors%&7den(dan) fazla kişi yıllar'
+      - '&7boyunca Slimefun''a katkıda bulundu.'
+    roles:
+      developer: '&6Geliştirici'
+      wiki: '&3Wiki Editörü'
+      resourcepack: '&cKaynak Paketi Tasarımcısı'
+      translator: '&9Çevirmen'
+messages:
+  not-enough-xp: '&4Bunun kilidini açmak için yeterli XP niz yok'
+  unlocked: '&bKilidini açtın &7"%research%"'
+  only-players: '&4Bu komut yalnızca oyuncular için'
+  unknown-player: '&4Bilinmeyen oyuncu: &c%player%'
+  no-permission: '&4Bunu yapmak için gerekli izniniz yok'
+  usage: '&4Kullanış: &c%usage%'
+  not-online: '&4%player% &coyunda değil!'
+  invalid-item: '&4%item% &cgeçerli bir eşya değil!'
+  invalid-amount: '&4%amount% &cgeçerli bir miktar değil : 0 dan büyük olmalı!'
+  given-item: '&a%amount% &badet &7"%item%&7" &bsana verildi.'
+  give-item: '&b%player% adlı oyuncuya &a%amount% &badet &7"%item%&7" &bverdin.'
+  invalid-research: '&4%research% &cgeçerli bir araştırma değil!'
+  give-research: '&b%player% adlı oyuncu için bir araştırmayı açtın: &7"%research%&7"'
+  hungry: '&cBunu yapmak için çok açsın!'
+  disabled-in-world: '&4&lBu eşya bu dünyada devre dışı bırakıldı.'
+  disabled-item: '&4&lBu eşya devre dışı bırakıldı! Bunu nasıl aldın?'
+  no-tome-yourself: '&4Tome of Knowledge &cı kendin için kullanamazsın...'
+  multimeter: '&bDepolanmış Enerji: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4Slimefun eşyalarıyla, piglinlerle ticaret yapamazsın'
+  multi-tool:
+    mode-change: '&b%device% modül değiştirildi: &9%mode%'
+    not-shears: '&cBir Multi Tool makas olarak kullanılamaz!'
+  talisman:
+    anvil: '&a&oTılsım aletinizi kırılmadan kurtardı'
+    miner: '&a&oTılsımın madenini ikiye katladı'
+    hunter: '&a&oTılsımın ganimetini ikiye katladı'
+    lava: '&a&oTılsımın seni yanarak ölmekten kurtardı'
+    water: '&a&oTılsımın seni boğulmaktan kurtardı'
+    angel: '&a&oTılsımın seni düşme hasarından kurtardı'
+    fire: '&a&oTılsımın seni yanarak ölmekten kurtardı'
+    magician: '&a&oTılsımın sana fazladan bir Büyü verdi'
+    traveller: '&a&oTılsımın sana bir Hız Artışı verdi'
+    warrior: '&a&oTılsımın bir süreliğine seni güçlendirdi'
+    knight: '&a&oTılsımın sana 5 Saniye Yenilenme verdi'
+    whirlwind: '&a&oTılsımın Mermiyi yansıttı'
+    wizard: '&a&oTılsımın sana daha yüksek seviye Servet verdi ama başka bir Büyünün seviyesini düşürmüş olabilir.'
+    caveman: '&a&oTılsımın sana acele efekti verdi'
+  soulbound-rune:
+    fail: '&cBir seferde sadece bir eşyayı ruhuna bağlayabilirsin.'
+    success: '&aBu eşyayı ruhuna başarıyla bağladın! Öldüğünde saklayacaksın.'
+  enchantment-rune:
+    fail: '&cYou eşyayı büyüleyemezsin.'
+    no-enchantment: '&cBu eşya için uygun bir büyü bulunamadı.'
+    success: '&aBaşarılı bir şekilde bu eşyaya rastgele bir büyü uyguladınız.'
+  research:
+    start: '&7Kadim Ruhlar gizemli kelimeleri kulağına fısıldıyor!'
+    progress: '&b%research% &7hakkında bazı şeyler merak etmeye başlıyorsun &e(%progress%)'
+  tape-measure:
+    no-anchor: '&cÖlçüm yapmadan önce bir nokta seçmelisiniz!'
+    wrong-world: '&cSeçtiğiniz nokta başka bir dünyada gözüküyor!'
+    distance: '&7Ölçüm yapıldı. &eUzaklık: %distance%'
+    anchor-set: '&aBaşarılı bir şekilde bir nokta seçildi:&e %anchor%'
+  climbing-pick:
+    dual-wielding: '&4Tırmanabilmek için her iki elinizde de Climbing Pick tutmanız gerekiyor!'
+    wrong-material: '&cBu yüzeye tırmanamazsınız. Daha çok bilgi için Slimefun Guide''a bakın!'
+  fire-extinguish: '&7Kendini söndürdün'
+  cannot-place: '&cBu bloğu oraya yerleştiremezsiniz!'
+  no-pvp: '&cBurada pvp yapamazsınız!'
+  radiation: '&4Ölümcül radyasyona maruz kaldınız! &cRadyoaktif maddeden kurtulun veya koruyucu takımın tamamını giyinin!'
+  opening-guide: '&bRehber açılıyor, bu birkaç saniye sürebilir...'
+  opening-backpack: '&bSırt çantası açılıyor, bu birkaç saniye sürebilir...'
+  no-iron-golem-heal: '&cBu bir Demir Külçe değil. Demir Golemleri iyileştirmek için bunu kullanamazsın!'
+  link-prompt: '&eBuraya tıklayın:'
+  diet-cookie: '&eKendinizi çok hafif hissetmeye başlıyorsunuz...'
+  fortune-cookie:
+    - '&7Bana yardım et, Şans Kurabiyesi Fabrikasında mahsur kaldım!'
+    - '&7Yarın öleceksiniz ... bir Creeper tarafından'
+    - '&7Hayatınızın bir noktasında kötü bir şey gerçekleşecek!!!'
+    - '&7Haftaya bunun gerçek dünya olmadığını fark edeceksiniz, bir bilgisayar oyunundasınız'
+    - '&7Bu kurabiye birkaç saniye içinde lezzetli olacak'
+    - '&7En son duyacağınız kelime "YOK EDİN!!!"'
+    - '&7Her ne yaparsan yap, Creeper a sarılma ... Denedim. İyi hissettiriyor, ama buna değmez.'
+    - '&742. Cevap 42.'
+    - '&7Bir Walshy bir gün sıkıntıları uzak tutacaktır.'
+    - '&7Hiçbir zaman doğrudan aşağıyı kazmayın!'
+    - '&7Bu ancak bir yara.'
+    - '&7Daima hayatın parlak tarafından bak!'
+    - '&7Bu aslında bir Bisküvi idi, Kurabiye değil.'
+    - '&7Neon levhalar ışık yayar!'
+machines:
+  pattern-not-found: '&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya doğru şekilde yerleştirin.'
+  unknown-material: '&eÜzgünüm, fırlatıcıdaki Eşyayı tanıyamadım. Lütfen bildiğim bir şey koy.'
+  wrong-item: '&eÜzgünüm, bana sağ tıkladığınız Eşyayı tanıyamadım. Tarifleri kontrol edin ve hangi Eşyaları kullanabileceğinizi görün.'
+  full-inventory: '&eÜzgünüm, envanterim çok dolu!'
+  in-use: '&cBu Bloğun envanteri şu anda farklı bir Oyuncu tarafından açıldı.'
+  ignition-chamber-no-flint: '&cAteşleme Odasında Çakmak eksik.'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4Altar, gerekli Sütun miktarı ile çevrili değil &c(%pedestals% / 8)'
+    unknown-catalyst: '&4Bilinmeyen Katalizör! &cDoğru Tarifi kullanın!'
+    unknown-recipe: '&4Bilinmeyen Tarif! &cDoğru Tarifi kullanın!'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Sütun tıkandı! &cSütunun üstündeki herhangi bir şeyi kaldırın!'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7Lütfen Sohbette istediğiniz Hologram Metnini yazın. &r(Renk Kodları destekleniyor!)'
+    inventory-title: 'Hologram Editörü'
+  ELEVATOR:
+    no-destinations: '&4Varış noktası bulunamadı'
+    pick-a-floor: '&3- Bir kat seçin -'
+    current-floor: '&eŞu anda bulunduğunuz kat:'
+    click-to-teleport: '&7Bu yere ışınlanmak için &eTıkla:'
+    enter-name: '&7Lütfen sohbette yeni katınız için bir ad yazın. &r(Renk kodları destekleniyor!)'
+    named: '&2Bu kat başarıyla isimlendirildi: &r%floor%'
+  TELEPORTER:
+    teleporting: '&3Işınlanılıyor...'
+    teleported: '&3Işınlanıldı!'
+    cancelled: '&4Işınlanma İptal Edildi!'
+    invulnerability: '&b&l30 saniye boyunca dokunulmazsın!'
+    gui:
+      title: 'Yer noktaların'
+      tooltip: 'Işınlanmak için tıklayın'
+      time: 'Tahmini süre'
+  GPS_CONTROL_PANEL:
+    title: 'GPS - Kontrol Paneli'
+    transmitters: 'Verici Genel Bakışı'
+    waypoints: 'Yer Noktası Genel Bakışı'
+  CARGO_NODES:
+    must-be-placed: '&4Mutlaka bir sandık veya makineye bağlanmalı!'
+  INDUSTRIAL_MINER:
+    no-fuel: '&cIndustrial Miner''ınızın yakıtı bitti! Yukarıdaki sandığa yakıt koyun.'
+    piston-facing: '&cIndustrial Miner''ınızın pistonu yukarıya bakmalı!'
+    piston-space: '&cHer iki pistonun da üstü boş olmalı!'
+    destroyed: '&cIndustrial Miner''ınız yok edilmiş.'
+    already-running: '&cBu Industrial Miner zaten çalışıyor!'
+    full-chest: '&cIndustrial Miner''ınızın sandığı dolu!'
+    no-permission: '&4Bir Industrial Miner kullanmak için yetkili değilsin!'
+    finished: '&eIndustrial Miner''ınızın işi bitti! Toplamda %ores% kadar maden buldu!'
+anvil:
+  not-working: '&4Slimefun eşyalarını örste kullanamazsın!'
+brewing_stand:
+  not-working: '&4Slimefun eşyalarını simya standında kullanamazsın!'
+cartography_table:
+  not-working: '&4Slimefun eşyalarını bir haritacılık masasında kullanamazsın!'
+villagers:
+  no-trading: '&4Köylülerle Slimefun eşyalarını kullanarak ticaret yapamazsın!'
+backpack:
+  already-open: '&cÜzgünüm, bu Sırt Çantası başka bir yerde açık!'
+  no-stack: '&cSırt Çantalarını istifleyemezsiniz'
+workbench:
+  not-enhanced: '&4Slimefun Eşyalarını normal bir üretim masasında kullanamazsınız'
+gps:
+  deathpoint: '&4Ölüm Noktası &7%date%'
+  waypoint:
+    new: '&eLütfen sohbette yeni yer noktanız için bir ad yazın. &7(Renk Kodları destekleniyor!)'
+    added: '&aYeni bir yer noktası başarıyla eklendi'
+    max: '&4Maksimum yer noktası sayısına ulaştınız'
+    duplicate: '&4Bu adla zaten bir yer noktası yarattınız: &f%waypoint%'
+  insufficient-complexity:
+    - '&4Yetersiz GPS Ağ Gücü: &c%complexity%'
+    - '&4a) Henüz bir GPS Ağı kurulumunuz yok'
+    - '&4b) GPS Ağınız yeterince güçlü değil'
+  geo:
+    scan-required: '&4GEO-Taraması gerekli! &cİlk önce bir GEO-Tarayıcı kullanarak bu bölgeyi tarayın!'
+inventory:
+  no-access: '&4Bu bloğa erişmenize izin verilmiyor'
+android:
+  started: '&7Androidiniz senaryoyu uygulamaya devam ediyor'
+  stopped: '&7Androidiniz senaryoyu duraklattı'
+  scripts:
+    already-uploaded: '&4Bu senaryo zaten yüklendi.'
+    editor: 'Senaryo Editörü'
+    instructions:
+      START: '&2Senaryoyu başlat'
+      REPEAT: '&9Senaryoyu Tekrar Et'
+      WAIT: '&e0.5s Bekle'
+      GO_FORWARD: '&7İleri Git'
+      GO_UP: '&7Yukarı Çık'
+      GO_DOWN: '&7Aşağıya İn'
+      TURN_LEFT: '&7Sola Dön'
+      TURN_RIGHT: '&7Sağa Dön'
+      DIG_UP: '&bYukarıyı Kaz'
+      DIG_FORWARD: '&bİleriyi Kaz'
+      DIG_DOWN: '&bAltını Kaz'
+      MOVE_AND_DIG_UP: '&bİlerle ve Yukarıyı Kaz'
+      MOVE_AND_DIG_FORWARD: '&bİlerle ve İleriyi Kaz'
+      MOVE_AND_DIG_DOWN: '&bİlerle ve Altını Kaz'
+      ATTACK_MOBS_ANIMALS: '&4Saldır &c(Canavarlar & Hayvanlar)'
+      ATTACK_MOBS: '&4Saldır &c(Canavarlar)'
+      ATTACK_ANIMALS: '&4Saldır &c(Hayvanlar)'
+      ATTACK_ANIMALS_ADULT: '&4Saldır &c(Hayvanlar &7[Yetişkin]&c)'
+      CHOP_TREE: '&cKes ve Ek'
+      CATCH_FISH: '&bBalık Tut'
+      FARM_FORWARD: '&bTopla ve Ek'
+      FARM_DOWN: '&bToplama ve Ekim &7(Altındaki blok)'
+      FARM_EXOTIC_FORWARD: '&bGelişmişce Topla ve Ek'
+      FARM_EXOTIC_DOWN: '&bGelişmişce Topla ve Ek &7(Altındaki blok)'
+      INTERFACE_ITEMS: '&9Envanter İçeriğini öndeki Arayüze aktar'
+      INTERFACE_FUEL: '&cÖndeki Arayüzden Yakıt çek'
+    enter-name:
+      - ''
+      - '&eLütfen senaryonuz için bir ad yazınız'
+      - ''
+    uploaded:
+      - '&bYükleniyor...'
+      - '&aSenaryon başarıyla yüklendi!'
+    rating:
+      own: '&4Kendi senaryonu oylayamazın!'
+      already: '&4Bu senaryo için zaten oy kullandın!'
+languages:
+  default: 'Sunucu Varsayılanı'
+  en: 'İngilizce'
+  de: 'Almanca'
+  fr: 'Fransızca'
+  it: 'İtalyanca'
+  es: 'İspanyolca'
+  pl: 'Lehçe'
+  sv: 'İsveççe'
+  nl: 'Flemenkçe'
+  cs: 'Çekce'
+  hu: 'Macarca'
+  lv: 'Letonyaca'
+  ru: 'Rusça'
+  sk: 'Slovakça'
+  zh-CN: 'Çince (Çin)'
+  zh-TW: 'Çince (Tayvan)'
+  vi: 'Vietnamca'
+  id: 'Endonezyaca'
+  el: 'Yunanca'
+  he: 'İbranice'
+  pt: 'Portekizce (Portekiz)'
+  pt-BR: 'Portekizce (Brezilya)'
+  ar: 'Arapça'
+  af: 'Afrikanca'
+  da: 'Danca'
+  fi: 'Fince'
+  uk: 'Ukraynaca'
+  ms: 'Malayca'
+  'no': 'Norveçce'
+  ja: 'Japonca'
+  fa: 'Persçe'
+  th: 'Tayca'
+  ro: 'Romanca'
+  bg: 'Bulgarca'
+  ko: 'Korece'
+  tr: 'Türkçe'
+  hr: 'Hırvatça'
+  mk: 'Makedonca'
+  sr: 'Sırpça'
+  be: 'Belarusça'

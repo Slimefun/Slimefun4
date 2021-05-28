@@ -1,0 +1,231 @@
+---
+slimefun:
+  walking_sticks: Vychádzkové paličky
+  portable_crafter: Prenosný crafter
+  fortune_cookie: Koláčik šťastia
+  portable_dustbin: Prenosný kôš
+  meat_jerky: Sušené mäso
+  armor_forge: Craftenie brnení
+  glowstone_armor: Glowstone Brnenie
+  lumps: Hrudky a kúzla
+  ender_backpack: Ender batoh
+  ender_armor: Ender Brnenie
+  magic_eye_of_ender: Magiké Oko Endu
+  magic_sugar: Magický cukor
+  monster_jerky: Sušené mäso z monštier
+  slime_armor: Slime brnenie
+  sword_of_beheading: Meč popráv
+  basic_circuit_board: Základná obvodová doska
+  advanced_circuit_board: Pokročilá obvodová doska
+  smeltery: Taviareň
+  steel: Vek ocele
+  misc_power_items: Dôležité  veci súvisiace s energiou
+  battery: Tvoja prvá baterka
+  steel_plate: Oceľové pokovovanie
+  steel_thruster: Oceľová tryska
+  parachute: Padák
+  grappling_hook: Kotviaci hák
+  jetpacks: Jetpacky
+  multitools: Viac nástrojov
+  solar_panel_and_helmet: Solárna energia
+  elemental_staff: Elementárne tyče
+  grind_stone: Brúsiaci kameň
+  cactus_armor: Kaktusový oblek
+  gold_pan: Zlatá panvica
+  magical_book_cover: Magická knižná väzba
+  slimefun_metals: Nové kovy
+  ore_crusher: Zdvojnásobenie rudy
+  bronze: Vytvorenie bronzu
+  alloys: Pokročilé zliatiny
+  compressor_and_carbon: Vytvorenie uhlíka
+  gilded_iron_armor: Pozlatené železné brnenie
+  synthetic_diamond: Umelé diamanty
+  pressure_chamber: Tlaková komora
+  synthetic_sapphire: Umelý zafír
+  damascus_steel: Damašská oceľ
+  damascus_steel_armor: Brnenie z Damašskej ocele
+  reinforced_alloy: Zosilnená zliatina
+  carbonado: Čierne diamanty
+  magic_workbench: Magický pracovný stôl
+  wind_staff: Veterná tyč
+  reinforced_armor: Vystužené brnenie
+  ore_washer: Čistenie rudy
+  gold_carats: Čisté zlato
+  fire_staff: Ohnivá palica
+  smelters_pickaxe: Vypekací krompáč
+  common_talisman: Obyčajný talizman
+  anvil_talisman: Talizman kovadliny
+  miner_talisman: Talizman baníka
+  hunter_talisman: Talizman lovca
+  lava_talisman: Talizman chodenia po láve
+  water_talisman: Talizman dýchania pod vodou
+  angel_talisman: Talizman anjela
+  fire_talisman: Talizman bojovníka s ohňom
+  lava_crystal: Horúca situácia
+  magician_talisman: Talizman kúzelníka
+  traveller_talisman: Talizman cestovateľa
+  warrior_talisman: Talizman bojovníka
+  knight_talisman: Talizman rytiera
+  gilded_iron: Žiarivé železo
+  synthetic_emerald: Falošný drahokam
+  chainmail_armor: Krúžkové brnenie
+  whirlwind_talisman: Talizman víchrice
+  wizard_talisman: Talizman čarodejníka
+  lumber_axe: Drevorubačská sekera
+  hazmat_suit: Hazmat oblek
+  uranium: Radioaktívne
+  crushed_ore: Očistenie rudy
+  redstone_alloy: Redstonová zliatina
+  carbonado_tools: Špičkové stroje
+  first_aid: Prvá pomoc
+  gold_armor: Lesklé brnenie
+  night_vision_googles: Okuliare s nočným videním
+  pickaxe_of_containment: Krompáč spawnerov
+  hercules_pickaxe: Herkulesov krompáč
+  table_saw: Stolová píla
+  slime_steel_armor: Sliznaté oceľové brnenie
+  blade_of_vampires: Čepeľ upírov
+  water_staff: Vodná palica
+  24k_gold_block: Zlaté mesto
+  composter: Kompostovanie zeme
+  farmer_shoes: Farmárové boty
+  explosive_tools: Výbušné nástroje
+  automated_panning_machine: Automatická zlatá panvica
+  boots_of_the_stomper: Topánky dupača
+  pickaxe_of_the_seeker: Krompáč hľadača
+  backpacks: Batohy
+  woven_backpack: Tkaný batoh
+  crucible: Taviareň
+  gilded_backpack: Pozlatený batoh
+  armored_jetpack: Obrnený jetpack
+  ender_talismans: Talizmany endu
+  nickel_and_cobalt: Ešte viac rúd
+  magnet: Magnetické kovy
+  infused_magnet: Infúzne magnety
+  cobalt_pickaxe: Rýchly krompáč
+  essence_of_afterlife: Čierna mágia
+  bound_backpack: Skladovanie duší
+  jetboots: Tryskové topánky
+  armored_jetboots: Obrnené tryskové topánky
+  seismic_axe: Seizmická sekera
+  pickaxe_of_vein_mining: Krompáč žílnej ťažby
+  bound_weapons: Zbrane naviazané na dušu
+  bound_tools: Nástroje naviazané na dušu
+  bound_armor: Brnenie naviazané na dušu
+  juicer: Lahodné nápoje
+  repaired_spawner: Opravovanie spawnerov
+  enhanced_furnace: Vylepšená pec
+  more_enhanced_furnaces: Lepšie  pece
+  high_tier_enhanced_furnaces: Špičková pec
+  reinforced_furnace: Zpevnená pec
+  carbonado_furnace: Pec z brúseného diamantu
+  electric_motor: Zahrievanie
+  block_placer: Pokladač blokov
+  scroll_of_dimensional_teleposition: Otočiť veci naopak
+  tome_of_knowledge_sharing: Delenie sa s kamarátmi
+  flask_of_knowledge: Uschovávanie XP
+  hardened_glass: Odolnosť voči výbuchu
+  golden_apple_juice: Zlatý elixír
+  cooler: Prenášanie nápojov
+  ancient_altar: Staroveký oltár
+  wither_proof_obsidian: Obsidian odolný voči witherom
+  ancient_runes: Runy živlov
+  special_runes: Fialové runy
+  infernal_bonemeal: Pekelná kostná múčka
+  rainbow_blocks: Dúhové bloky
+  infused_hopper: Infusovaný hopper
+  wither_proof_glass: Sklo odolné voči witherom
+  duct_tape: Lepiaca páska
+  plastic_sheet: Plast
+  android_memory_core: Pamäťové jadro
+  oil: Olej
+  fuel: Palivo
+  hologram_projector: Hologramy
+  capacitors: Kondenzátory úrovne 1
+  high_tier_capacitors: Kondenzátory úrovne 2
+  solar_generators: Slnečná elektráreň
+  electric_furnaces: Napájaná pec
+  electric_ore_grinding: Drvenie
+  heated_pressure_chamber: Vyhrievaná tlaková komora
+  coal_generator: Generátor na uhlie
+  bio_reactor: Bio-reaktor
+  auto_enchanting: Automatické enchantovanie a odoberanie enchantov
+  auto_anvil: Automatická kovadlina
+  multimeter: Meranie energie
+  gps_setup: Základné zapojenie GPS
+  gps_emergency_transmitter: Núdzový GPS waypoint
+  programmable_androids: Programovateľné androidy
+  android_interfaces: Rozhrania androidov
+  geo_scanner: GEO-skenovanie
+  combustion_reactor: Spaľovací reaktor
+  teleporter: Základné komponenty teleportera
+  teleporter_activation_plates: Aktivácia teleportera
+  better_solar_generators: Vylepšené solárne generátory
+  better_gps_transmitters: Vylepšené vysielače
+  elevator: Výťahy
+  energized_solar_generator: Stála slnečná energia
+  energized_gps_transmitter: Najvyššia úroveň vysielača
+  energy_regulator: Elektrická sieť 101
+  butcher_androids: Android mäsiar
+  organic_food: Organické jedlo
+  auto_breeder: Automatizované kŕmenie
+  advanced_android: Pokročilé androidy
+  advanced_butcher_android: Pokročilé androidy - mäsiar
+  advanced_fisherman_android: Pokročilé androidy -  rybár
+  animal_growth_accelerator: Manipulácia rastu zvierat
+  xp_collector: Zberač XP
+  organic_fertilizer: Organické hnojivo
+  crop_growth_accelerator: Urýchlovač rastu plodín
+  better_crop_growth_accelerator: Pokročilý urýchlovač rastu plodín
+  reactor_essentials: Základy reaktoru
+  nuclear_reactor: Jadrová elektráreň
+  freezer: Mraznička
+  cargo_basics: Základy prenosu
+  cargo_nodes: Nastavenie prenosu
+  electric_ingot_machines: Elektrická výroba ingotov
+  high_tier_electric_ingot_machines: Super rýchla výroba ingotu
+  automated_crafting_chamber: Automatizované craftenie
+  better_food_fabricator: Vylepšená výroba jedla
+  reactor_access_port: Interakcia s reaktorom
+  fluid_pump: Pumpa na tekutiny
+  better_freezer: Vylepšená mraznička
+  boosted_uranium: Nikdy nekončiaci kruh
+  trash_can: Odpad
+  advanced_output_node: Pokročilý výstupný uzol
+  carbon_press: Uhlíkový lis
+  electric_smeltery: Elektrická pec
+  better_electric_furnace: Vylepšená elektrická pec
+  better_carbon_press: Vylepšený uhlíkový lis
+  empowered_android: Posilnené Androidy
+  empowered_butcher_android: Posilnené Androidy - Mäsiar
+  empowered_fisherman_android: Posilnené Androidy - Rybár
+  high_tier_carbon_press: Ultimátny uhlíkový lis
+  wither_assembler: Automatizovaný zabijak witherov
+  better_heated_pressure_chamber: Vylepšená vyhrievaná tlaková komora
+  elytra: Elytry
+  special_elytras: Špeciálne elytry
+  electric_crucible: Elektrifikovaný téglik
+  better_electric_crucibles: Vyhrievaná taviareň
+  advanced_electric_smeltery: Pokročilá elektrická taviareň
+  advanced_farmer_android: Pokročilé Androidy - farmár
+  lava_generator: Generátor lávy
+  nether_ice: Chladivo - ľad z netheru
+  nether_star_reactor: Reaktor z Nether hviezdy
+  blistering_ingots: Radioaktivne ingoty
+  automatic_ignition_chamber: Automatická zapaľovacia komora
+  output_chest: Výstupná truhla zo základných strojov
+  copper_wire: Zriedená vodivosť
+  radiant_backpack: Žiariaci batoh
+  auto_drier: Suchý deň
+  diet_cookie: Diétny  koláčik
+  storm_staff: Palica  búrky
+  soulbound_rune: Runa duší
+  lightning_rune: Runa blesku
+  totem_of_undying: Totem večnosti
+  charging_bench: Nabíjacia stanica
+  nether_gold_pan: Zlatá panvica z netheru
+  electric_press: Elektrický lis
+  magnesium_generator: Energia z horčíka
+  kelp_cookie: Chutná riasa
+  makeshift_smeltery: Improvizované vypekanie
+  tree_growth_accelerator: Rýchlejší rast stromov

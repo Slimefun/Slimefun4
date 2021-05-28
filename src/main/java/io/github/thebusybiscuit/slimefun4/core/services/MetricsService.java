@@ -106,15 +106,19 @@ public class MetricsService {
         }
 
         try {
-            // Load the jar file into a child class loader using the SF PluginClassLoader
-            // as a parent.
+            /*
+             * Load the jar file into a child class loader using the Slimefun
+             * PluginClassLoader as a parent.
+             */
             moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricsModuleFile.toURI().toURL() }, plugin.getClass().getClassLoader());
             Class<?> metricsClass = moduleClassLoader.loadClass("dev.walshy.sfmetrics.MetricsModule");
 
             metricVersion = metricsClass.getPackage().getImplementationVersion();
 
-            // If it has not been newly downloaded, auto-updates are on AND there's a new version
-            // then cleanup, download and start
+            /*
+             * If it has not been newly downloaded, auto-updates are enabled
+             * AND there's a new version then cleanup, download and start
+             */
             if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(metricVersion)) {
                 plugin.getLogger().info("Cleaned up, now re-loading Metrics-Module!");
                 start();

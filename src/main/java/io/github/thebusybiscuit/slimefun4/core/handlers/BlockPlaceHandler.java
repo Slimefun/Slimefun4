@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.handlers;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -21,7 +23,7 @@ public abstract class BlockPlaceHandler implements ItemHandler {
 
     private final boolean allowBlockPlacers;
 
-    public BlockPlaceHandler(boolean allowBlockPlacers) {
+    protected BlockPlaceHandler(boolean allowBlockPlacers) {
         this.allowBlockPlacers = allowBlockPlacers;
     }
 
@@ -31,7 +33,7 @@ public abstract class BlockPlaceHandler implements ItemHandler {
      * @param e
      *            The corresponding {@link BlockPlaceEvent}
      */
-    public abstract void onPlayerPlace(BlockPlaceEvent e);
+    public abstract void onPlayerPlace(@Nonnull BlockPlaceEvent e);
 
     /**
      * This method is called whenever a {@link BlockPlacer} places this {@link Block}.
@@ -42,7 +44,7 @@ public abstract class BlockPlaceHandler implements ItemHandler {
      * @param e
      *            The corresponding {@link BlockPlacerPlaceEvent}
      */
-    public void onBlockPlacerPlace(BlockPlacerPlaceEvent e) {
+    public void onBlockPlacerPlace(@Nonnull BlockPlacerPlaceEvent e) {
         // This can be overridden, if necessary
     }
 
@@ -56,7 +58,7 @@ public abstract class BlockPlaceHandler implements ItemHandler {
     }
 
     @Override
-    public Class<? extends ItemHandler> getIdentifier() {
+    public final Class<? extends ItemHandler> getIdentifier() {
         return BlockPlaceHandler.class;
     }
 }

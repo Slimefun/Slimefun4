@@ -1,0 +1,217 @@
+---
+commands:
+  help: Rādīt šo palīdzības lapu
+  cheat: Ļauj iegūt mantas administratīvi
+  give: Iedot spēlētājiem Slimefun mantas
+  guide: Ļauj iegūt Slimefun recepšu grāmatu
+  teleporter: Redzēt citu spēlētāju galamērķu punktus
+  versions: Uzrāda uzstādītos paplašinājumus
+  search: Meklē attiecīgo mantu recepšu grāmatā
+  open_guide: Atver recepšu izvēlni bez grāmatas
+  stats: Rāda spēlētāja Slimefun statistiku
+  research:
+    description: Atvērt/Atiestatīt Slimefun atklājumus spēlētājam
+    reset: '&cJūs nodzēsāt zināšanas spēlētājam %player%'
+    reset-target: '&cTavas zināšanas tika nodzēstas'
+guide:
+  search:
+    message: '&bKo vēlaties meklēt?'
+    name: '&7Meklēt...'
+  cheat:
+    no-multiblocks: '&4Tu nevari krāpties Multiblokos, Tev ir tie jāizveido!'
+  pages:
+    previous: 'Iepriekšējā lapa'
+    next: 'Nākamā lapa'
+  languages:
+    updated: '&aTava valoda tika nomainīta uz &b%lang%'
+    select: 'Spied, lai izvēlētos šo valodu'
+    select-default: 'Spied, lai iestatītu noklusējuma valodu'
+    translations:
+      name: '&aKaut kas trūkst?'
+      lore: 'Spied, lai pievienotu pats savu tulkojumu'
+  title:
+    main: 'Slimefun grāmata'
+    settings: 'Iestatījumi un informācija'
+    languages: 'Izvēlies savu vēlamo valodu,'
+    credits: 'Slimefun4 Ieguldītāji'
+  credits:
+    commit: 'Ieguldījums'
+    commits: 'Ieguldījumi'
+    profile-link: 'Spied, lai apmeklētu GitHub profilu'
+    roles:
+      developer: '&6Izstrādātājs'
+      wiki: '&3Vikipēdijas redaktors'
+      resourcepack: '&cResursu pakas autors'
+      translator: '&9Tulkotājs'
+messages:
+  not-enough-xp: '&4Tev nav pietiekami daudz XP, lai šo atklātu'
+  unlocked: '&bTu atklāji &7"%research%"'
+  only-players: '&4Šī komanda ir pieejama tikai spēlētājiem'
+  unknown-player: '&4Nezināms spēlētājs: &c%player%'
+  no-permission: '&4Tev šo nav atļauts darīt'
+  usage: '&4Pamācība: &c%usage%'
+  not-online: '&4%player%&c nav pieslēdzies!'
+  invalid-item: '&4%item% &cneeksistē!'
+  invalid-amount: '&4%amount% &cnav pareizs daudzums : tam jābūt lielākam par 0!'
+  given-item: '&bTev iedeva &a%amount% &7"%item%&7"'
+  give-item: '&bTu iedevi %player% &a%amount% &7"%item%&7"'
+  invalid-research: '&4%research% &cis nav eksistējošs atklājums!'
+  give-research: '&bTu iedevi %player% atklājumu ar nosaukumu &7"%research%&7"'
+  hungry: '&cTu esi pārāk izsalcis, lai šo darītu!'
+  disabled-in-world: '&4&lŠis rīks ir aizliegts šajā pasaulē'
+  disabled-item: '&4&lŠī manta ir aizliegta! Kā Tu to dabūji?'
+  no-tome-yourself: '&cTu nevari lasīt pats savu &4zināšanu sējumu '
+  multimeter: '&bUzkrātā enerģija: &3%stored% &b/ &3%capacity%'
+  talisman:
+    anvil: '&a&oTavs talismans paglāba tavu rīku no plīšanas'
+    miner: '&a&oTavs talismans tikko dubultoja atalgojumu'
+    hunter: '&a&oTavs talismans tikko dubultoja atalgojumu'
+    lava: '&a&oTavs talismans tikko paglāba Tevi no sadegšanas'
+    water: '&a&oTavs talismans tikko paglāba Tevi no noslīkšanas'
+    angel: '&a&oTavs talismans tikko paglāba Tevi no krišanas bojājumiem'
+    fire: '&a&oTavs talismans tikko paglāba Tevi no nodegšanas'
+    magician: '&a&oTavs talismans tikko Tev iedeva papildus rīka uzlabojumu'
+    traveller: '&a&oTavs talismans tikko Tev sniedza ātruma uzlabojumu'
+    warrior: '&a&oTavs talismans tikko Tev palielināja spēku'
+    knight: '&a&oTavs talismans tikko Tev deva 5 sekunžu reģenerāciju'
+    whirlwind: '&a&oTavs talismans tikko atsita šāviņu'
+    wizard: '&a&oTavs talismans tikko Tev iedeva labāku laimes uzlabojumu, taču tas iespējams pasliktināja kādu citu uzlabojumu'
+  soulbound-rune:
+    fail: '&cTu vari vienlaicīgi dvēselei piesaistīt tikai vienu priekšmetu.'
+    success: '&aTu veiksmīgi piesaistīji šo priekšmetu savai dvēselei. Miršanas gadījumā, tā paliks tavā īpašumā.'
+  research:
+    start: '&7Senie gari iečukst mistiskos vārdus Tavā ausī!'
+    progress: '&7Tu sāc brīnīties par  &b%research% &e(%progress%)'
+  fire-extinguish: '&7Tu nodzēsi uguni no sevis'
+  cannot-place: '&cTu nevari šo bloku novietot šeit!'
+  no-pvp: '&cŠeit nedrīkst cīnīties!'
+  radiation: '&4Radiācija tevi nāvējoši ietekmējusi! &cVelc pilno pretradiācijas uzvalku, lai nodzēsta simptomus!'
+  opening-guide: '&bPamācības atvēršana var aizņemt pāris sekundes...'
+  opening-backpack: '&bSomas atvēršana var aizņemt pāris sekundes...'
+  no-iron-golem-heal: '&cTas nav dzelzs stienis. To šo nevari izmantot, lai sadziedētu dzelzs milzi!'
+  link-prompt: '&eSpied šeit:'
+  diet-cookie: '&eTu sāc palikt viegls...'
+  fortune-cookie:
+    - '&7Palīdzi man, esmu iesprostots laimes cepumu rūpnīcā!'
+    - '&cTevi rīt uzspridzinās krīpers'
+    - '&7Kādā Tavas dzīves brīdī notiks kaut kas slikts!!!'
+    - '&7Nākamnedēļ uzzināsi, ka esi simulācijā'
+    - '&7Šis cepums labi garšos pēc pāris sekundēm'
+    - '&7Pēdējais vārds, ko dzīrdēsi būs "IZNĪCINĀT!!!"'
+    - '&7Lai ko Tu arī darītu, neapskauj krīperu! Esmu to mēģinājis, un nav vērts.'
+    - '&742. Atbilde ir 42.'
+    - '&7Viens Walshy dienā neļaus problēmām pietuvoties'
+    - '&7Nekad neroc tieši uz leju!'
+    - '&7Tis but a flesh wound!'
+    - '&7Always look on the bright side of life!'
+    - '&7This one was actually a Biscuit and not a Cookie'
+    - '&7Neon signs are LIT!'
+machines:
+  pattern-not-found: '&eAtvaino, taču šī recepte netika atpazīta. Lūdzu, saliec ingredientus pareizā secībā.'
+  unknown-material: '&eAtvaino, taču šī recepte netika atpazīta. Lūdzu, ieliec kaut ko, ko es zinu.'
+  wrong-item: '&eAtvaino, taču es neatpazīstu priekšmetu, kuru Tu izmantoji, lai uzklikšķinātu uz manis. Paskaties receptes, lai uzzinātu kādus priekšmetus var izmantot.'
+  full-inventory: '&eAtvaino, mans inventārs ir pārpildīts!'
+  in-use: '&cKāds cits spēlētājs ir atvēris šī bloka inventāru.'
+  ignition-chamber-no-flint: '&cAizdedzes kamerai pietrūkst krams un tērauds.'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4Altārim apkārt nav pietiekami daudz pjedestāļu &c(%pedestals% / 8)'
+    unknown-catalyst: '&4Nezināma kataliste! &cIzmanto pareizo recepti!'
+    unknown-recipe: '&4Nezināma kataliste! &cIzmanto pareizo recepti!'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Pjedestālam ir traucēkļi! &cNojauc jebko, kas ir virs pjedestāla!'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7Ieraksti čatā vēlamo hologrammas tekstu čatā. &r(Krāsu kodi ir atbalstīti!)'
+  ELEVATOR:
+    no-destinations: '&4Nav atrasti galamērķi'
+    pick-a-floor: '&3- Izvēlies stāvu -'
+    current-floor: '&ePatreizējais stāvs:'
+    click-to-teleport: '&eSpied, &7lai teleportētos uz šo stāvu:'
+    enter-name: '&7Čatā ieraksti vēlamo stāvu. &r(Krāsu kodi ir atbalstīti!)'
+    named: '&2Stāvs nosaukts par &r%floor%'
+  TELEPORTER:
+    teleporting: '&3Teleportēju...'
+    teleported: '&3Teleportēts!'
+    cancelled: '&4Teleportēšanās atcelta!'
+    invulnerability: '&b&lTev ir piešķirtas 30 sekundes nemirstības.'
+  CARGO_NODES:
+    must-be-placed: '&4Vajag būt novietotam uz lādes vai iekārtas!'
+anvil:
+  not-working: '&4Tu nevari izmantot Slimefun mantas uz laktas!'
+backpack:
+  already-open: '&cAtvaino, soma ir atvērta citur!'
+  no-stack: '&cTu nevari stakot somas'
+workbench:
+  not-enhanced: '&4Tu nevari izmantot Slimefun mantas parastajā amatniecības solā.'
+gps:
+  deathpoint: '&4Nāves punkts&7%date%'
+  waypoint:
+    new: '&eČatā ieraksti galamērķa nosaukumu. &7(Krāsu kodi atbalstīti!)'
+    added: '&aVeiksmīgi pievienots jauns galapunkts'
+    max: '&4Ir sasniegts maksimālais galapunktu daudzums'
+  insufficient-complexity:
+    - '&4Nepietiekams GPS tīkla sarežģītības līmenis: &c%complexity%'
+    - '&4a) Tev vēl nav uzstādīts GPS tīkls'
+    - '&4b) Tavs GPS tīkls nav pietiekami sarežģīts'
+  geo:
+    scan-required: '&4GEO-Skenēšana ir nepieciešama! &cSākumā izskenē šo zemes gabalu ar GEO-Skeneri!'
+inventory:
+  no-access: '&4Tev nav atļauts pieķļut šim blokam'
+android:
+  started: '&7Tavs androīds atsāka sava skripta izpildi'
+  stopped: '&7Tavs androīds nopauzēja sava skripta izpildi'
+  scripts:
+    already-uploaded: '&4Skripts ir jau ielādēts.'
+    instructions:
+      START: '&2Sākt skriptu'
+      REPEAT: '&9Atkārtot skriptu'
+      WAIT: '&eGaidi pus sekundi'
+      GO_FORWARD: '&7Kustēties uz priekšu'
+      GO_UP: '&7Kustēties uz augšu'
+      GO_DOWN: '&7Kustēties uz leju'
+      TURN_LEFT: '&7Pagriezties pa kreisi'
+      TURN_RIGHT: '&7Pagriezties pa labi'
+      DIG_UP: '&bRakt uz augšu'
+      DIG_FORWARD: '&bRakt uz priekšu'
+      DIG_DOWN: '&bRakt uz leju'
+      MOVE_AND_DIG_UP: '&bIet & rakt uz augšu'
+      MOVE_AND_DIG_FORWARD: '&bIet & rakt uz priekšu'
+      MOVE_AND_DIG_DOWN: '&bIet & rakt uz leju'
+      ATTACK_MOBS_ANIMALS: '&4Sist &c(Ļaunos un labvēlīgos dzīvniekus)'
+      ATTACK_MOBS: '&4Sist &c(Ļaunos dzīvniekus)'
+      ATTACK_ANIMALS: '&4Sist &c(Dzīvniekus)'
+      ATTACK_ANIMALS_ADULT: '&4Sist &c(Dzīvniekus&7[Pieaugušos]&c)'
+      CHOP_TREE: '&cNocirst un iestādīt'
+      CATCH_FISH: '&bZvejot'
+      FARM_FORWARD: '&bNolasīt ražu un pārstādīt'
+      FARM_DOWN: '&bNolasīt ražu un pārstādīt &7(Bloks zem)'
+      FARM_EXOTIC_FORWARD: '&bPaplašināti nolasīt ražu un pārstādīt'
+      FARM_EXOTIC_DOWN: '&bPaplašināti nolasīt ražu un pārstādīt &7(Bloks zem)'
+      INTERFACE_ITEMS: '&9Pārsūtīt inventāra mantas uz konkrēto  saskarni'
+      INTERFACE_FUEL: '&cIzņemt degvielu no konkrētās saskarnes'
+    enter-name:
+      - ''
+      - '&eIeraksti skripta nosaukumu'
+      - ''
+    uploaded:
+      - '&bIelādē...'
+      - '&bSkripts veiksmīgi ielādēts!'
+    rating:
+      own: '&4Tu nevari novērtēt pats savu skriptu!'
+      already: '&4Tu jau esi novērtēijs šo skriptu!'
+languages:
+  default: 'Servera noklusējums'
+  en: 'Angļu valoda'
+  de: 'Vācu valoda'
+  fr: 'Franču valoda'
+  it: 'Itāļu valoda'
+  es: 'Spāņu valoda'
+  pl: 'Poļu valoda'
+  sv: 'Zviedru valoda'
+  nl: 'Nīderlandiešu valoda'
+  cs: 'Čehu valoda'
+  hu: 'Ungāru valoda'
+  lv: 'Latviešu valoda'
+  ru: 'Krievu valoda'
+  sk: 'Slovāku valoda'
+  zh-TW: 'Ķīniešu (Taivānas) valoda'
+  vi: 'Vjetnamiešu valoda'

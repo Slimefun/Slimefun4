@@ -34,13 +34,15 @@ class TestIntRangeSetting {
     @Test
     @DisplayName("Test Constructor validation")
     void testConstructorValidation() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntRangeSetting("test", min, -50, max));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "INT_RANGE_TEST_00", new CustomItem(Material.DIAMOND, "&cTest"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new IntRangeSetting(item, "test", min, -50, max));
     }
 
     @Test
     @DisplayName("Test min and max getters")
     void testMinMaxGetters() {
-        IntRangeSetting setting = new IntRangeSetting("test", min, 1, max);
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "INT_RANGE_TEST_0", new CustomItem(Material.DIAMOND, "&cTest"));
+        IntRangeSetting setting = new IntRangeSetting(item, "test", min, 1, max);
 
         Assertions.assertEquals(min, setting.getMinimum());
         Assertions.assertEquals(max, setting.getMaximum());
@@ -49,9 +51,9 @@ class TestIntRangeSetting {
     @Test
     @DisplayName("Test illegal values")
     void testIllegalValues() {
-        IntRangeSetting setting = new IntRangeSetting("test", min, 1, max);
-
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "INT_RANGE_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        IntRangeSetting setting = new IntRangeSetting(item, "test", min, 1, max);
+
         item.addItemSetting(setting);
         item.register(plugin);
 
@@ -63,9 +65,9 @@ class TestIntRangeSetting {
     @Test
     @DisplayName("Test allowed value")
     void testAllowedValue() {
-        IntRangeSetting setting = new IntRangeSetting("test", min, 1, max);
-
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "INT_RANGE_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
+        IntRangeSetting setting = new IntRangeSetting(item, "test", min, 1, max);
+
         item.addItemSetting(setting);
         item.register(plugin);
 

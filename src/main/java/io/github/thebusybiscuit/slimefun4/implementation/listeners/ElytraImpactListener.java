@@ -18,7 +18,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link Listener} for the {@link ElytraCap}.
@@ -57,7 +56,7 @@ public class ElytraImpactListener implements Listener {
                 if (helmet.isPresent()) {
                     SlimefunItem item = helmet.get();
 
-                    if (Slimefun.hasUnlocked(p, item, true) && profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
+                    if (item.canUse(p, true) && profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
                         e.setDamage(0);
                         p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
 

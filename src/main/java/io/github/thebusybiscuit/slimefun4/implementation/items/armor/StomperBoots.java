@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -33,6 +34,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class StomperBoots extends SlimefunItem {
 
+    @ParametersAreNonnullByDefault
     public StomperBoots(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
@@ -43,7 +45,7 @@ public class StomperBoots extends SlimefunItem {
      * @param fallDamageEvent
      *            The {@link EntityDamageEvent} in which the {@link Player} has taken fall damage
      */
-    public void stomp(EntityDamageEvent fallDamageEvent) {
+    public void stomp(@Nonnull EntityDamageEvent fallDamageEvent) {
         Player player = (Player) fallDamageEvent.getEntity();
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 2F);
         player.setVelocity(new Vector(0, 0.7, 0));
@@ -81,7 +83,8 @@ public class StomperBoots extends SlimefunItem {
      *
      * @return A {@link Vector} to determine the velocity for our {@link Entity}
      */
-    private Vector getShockwave(@Nonnull Location origin, @Nonnull Location target) {
+    @Nonnull
+    protected Vector getShockwave(@Nonnull Location origin, @Nonnull Location target) {
         // As the distance approaches zero we might slip into a "division by zero" when normalizing
         if (origin.distanceSquared(target) < 0.05) {
             return new Vector(0, 1, 0);

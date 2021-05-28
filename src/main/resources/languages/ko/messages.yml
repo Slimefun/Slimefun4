@@ -1,0 +1,302 @@
+---
+commands:
+  help: 이 도움말 화면을 표시합니다
+  cheat: 당신은 치트 아이템을 허용
+  give: 슬라임펀 아이템을 주다.
+  guide: Slimefun 가이드 책 제공
+  teleporter: 다른 플레이어의 웨이포인트 보기
+  versions: 설치된 모든 애드온 리스트
+  search: 주어진 기간 동안 가이드 검색
+  open_guide: 책을 사용하지 않고 슬라임펀 가이드 열기
+  stats: 플레이어에 대한 일부 통계 표시
+  research:
+    description: 플레이어에 대한 조사 잠금 해제/재설정
+    reset: '&c%player%의 지식을 재설정하셨습니다.'
+    reset-target: '&c지식이 재설정됨'
+  backpack:
+    description: 기존 배낭의 사본을 가져옵니다
+    invalid-id: '&4ID는 음수가 아닌 숫자 여야합니다!'
+    player-never-joined: '&4그 이름의 플레이어를 찾을 수 없습니다!'
+    backpack-does-not-exist: '&4지정된 배낭이 없습니다!'
+    restored-backpack-given: '&a배낭이 복원되어 인벤토리에 추가되었습니다!'
+guide:
+  locked: '잠금'
+  locked-category:
+    - '이 카테고리의 잠금을 해제하려면'
+    - '에서 모든 아이템의 잠금을 해제할 필요가 있다.'
+    - '다음 카테고리'
+  search:
+    message: '&b무엇을 검색하시겠습니까?'
+    name: '&7검색...'
+    tooltip: '&b아이템을 검색하려면 클릭하십시오.'
+    inventory: '검색중: %item%'
+  tooltips:
+    open-category: '열려면 클릭하십시오. '
+    versions-notice: '이것들은 버그를 보고할 때 매우 중요하다! '
+    wiki: '공식 Slimefun Wiki에서 이 항목보기'
+    recipes:
+      machine: '이 기계로 만든 조합법'
+      miner: '이 마이너로 얻을 수있는 자원'
+      generator: '사용 가능한 연료 유형'
+      gold-pan: '얻을 수 있는 리소스'
+  cheat:
+    no-multiblocks: '&4여러분은 멀티블록에서 컨닝을 할 수 없습니다. 여러분이 그것들을 만들어야 합니다!'
+  pages:
+    previous: '이전 페이지'
+    next: '다음 페이지'
+  back:
+    title: '뒤'
+    guide: 'Slimefun 가이드로 돌아 가기'
+    settings: '설정 패널로 돌아갑니다'
+  languages:
+    updated: '&a언어를 &b%lang%로 설정했습니다.'
+    selected-language: '현재 선택된 :'
+    select: '이 언어를 선택하려면 클릭하십시오.'
+    select-default: '기본 언어를 선택하려면 클릭하십시오.'
+    translations:
+      name: '&a 뭔가 빠졌습니까?'
+      lore: '사용자 자신의 변환을 추가하려면 클릭하십시오. '
+  title:
+    main: '슬라임펀 가이드'
+    settings: '설정 & 정보'
+    languages: '당신이 원하는 언어를 선택하십시오.'
+    credits: '슬라임펀4 기부자들입니다.'
+    wiki: 'Slimefun4 위키'
+    addons: 'Slimefun4의 애드온'
+    bugs: '버그 리포트'
+    source: '소스 코드'
+  credits:
+    commit: '커밋'
+    commits: '커밋'
+    profile-link: 'GitHub에서 해당 프로필을 방문하려면 클릭하십시오.'
+    roles:
+      developer: '&6개발자'
+      wiki: "&3위키 편집기\n"
+      resourcepack: '&c리소스 팩 아티스트'
+      translator: '&9번역가'
+messages:
+  not-enough-xp: "&4XP가 부족하여 이 잠금을 해제할 수 없습니다.\n"
+  unlocked: '&7"%research%"&b의 잠금을 해제했습니다.'
+  only-players: '&4이 명령은 플레이어 전용입니다.'
+  unknown-player: '&4알 수 없는 플레이어: &c%player%'
+  no-permission: '&4이 작업에 필요한 권한이 없습니다.'
+  usage: "&4사용량: &c%usage%\n"
+  not-online: '&4%player% &cis가 온라인 상태가 아닙니다!'
+  invalid-item: '&4%item% &cis가 올바른 아이템이 아닙니다!'
+  invalid-amount: '&4%amount% &cis 유효한 금액이 아닙니다. 0보다 커야 합니다!'
+  given-item: '&b당신은 &a%amount% &7"%item%&7"을 받았다.'
+  give-item: '&b%player% &a%amount% &7"%item%&7"을(를) 제공하셨습니다.'
+  invalid-research: "&4%research% &cis가 유효하지 않은 연구!\n"
+  give-research: '&b%player%에 Research &7"%research%&7"을(를) 제공했습니다. '
+  hungry: '&c당신은 그것을 하기에는 너무 배가 고파요!'
+  disabled-in-world: '&4&l이 아이템은 이 세상에서 사용할 수 없습니다'
+  disabled-item: '&4&l이 아이템을 사용할 수 없습니다! 어떻게 그런 걸 얻었어요?'
+  no-tome-yourself: '&c당신은 &4Tome of Knowledge &con은 직접 사용할 수 없습니다.'
+  multimeter: '&b저장된 에너지: &3%stored% &b/&3% capacity%'
+  piglin-barter: '&4슬라임 펀 아이템을 사용하여 piglins와 물물 교환을 할 수 없습니다'
+  talisman:
+    anvil: '&a&o당신의 탈리스맨이 당신의 도구가 부셔지는 것을 막아줬습니다.'
+    miner: '&a&o당신의 탈리스맨이 당신의 방울을 두 배로 늘렸어요'
+    hunter: '&a&o당신의 탈리스맨이 당신의 방울을 두 배로 늘렸어요'
+    lava: '&a&o당신의 탈리스맨은 당신을 용암에 타죽는 것으로부터 구했습니다.'
+    water: '&a&o당신의 탈리스맨이 당신을 익사로부터 구했어요'
+    angel: '&a&o당신의 탈리스맨이 당신을 낙상 피해로부터 구했습니다.'
+    fire: '&a&o당신의 탈리스맨은 당신을 불에 타죽는 것으로부터 구했습니다.'
+    magician: '&a&o당신의 탈리스맨이 당신에게 추가 약속을 했습니다.'
+    traveller: '&a&o당신의 탈리스맨이 당신에게 스피드 부스트를 주었습니다.'
+    warrior: '&a&o당신의 탈리스맨은 당신의 힘을 잠시 향상시켰습니다.'
+    knight: '&a&o당신의 탈리스맨은 당신에게 5초의 재생 시간을 주었습니다.'
+    whirlwind: "&a&o당신의 탈리스맨은 발사체를 반사했다.\n"
+    wizard: "&a&o당신의 탈리스맨은 당신에게 더 나은 행운 레벨을 주었지만, 아마도 몇몇 다른 인첸트 레벨도 낮췄을 것입니다.\n"
+  soulbound-rune:
+    fail: '&c한 번에 한 항목만 영혼에 묶을 수 있습니다.'
+    success: '&a이 아이템을 당신의 영혼에 성공적으로 묶었습니다! 당신은 죽을 때 그것을 간직할 것입니다.'
+  enchantment-rune:
+    fail: '&c이 아이템을 마법 부여 할 수 없습니다.'
+    no-enchantment: '&c이 항목에 해당하는 마법을 찾을 수 없습니다.'
+    success: '&a이 아이템에 무작위로 적용 가능한 마법 부여를 성공적으로 적용했습니다.'
+  research:
+    start: '&7고대의 정령들은 당신의 귀에 신비한 말을 속삭입니다!'
+    progress: '&b%research% &e(%progress%)&7에 대해 궁금해하기 시작합니다.'
+  tape-measure:
+    no-anchor: '&c측정을 시작하기 전에 앵커를 설정해야합니다!'
+    wrong-world: '&c앵커가 다른 세상에있는 것 같습니다.'
+    distance: '&7측정이 완료되었습니다. &e거리 : %distance%'
+    anchor-set: '&a앵커를 설정했습니다 : &e%anchor%'
+  fire-extinguish: '&7당신은 스스로를 소멸시켰습니다.'
+  cannot-place: '&c저 블럭은 그곳에 둘 수 없어요!'
+  no-pvp: '&c여기선 pvp 할 수 없어요!'
+  radiation: '&4당신은 치명적인 방사능에 노출되었습니다! &c방사성 물질을 제거하거나 전체 유해 물질 정장을 갖추세요!'
+  opening-guide: '&b가이드를 여는 데 몇 초 정도 걸릴 수 있습니다.'
+  opening-backpack: '&b배낭을 여는 데 몇 초 정도 걸릴 수 있습니다...'
+  no-iron-golem-heal: "&c그건 철괴가 아닙니다. 아이언 골렘을 치료하기 위해 이것을 사용할 수는 없습니다!\n"
+  link-prompt: '&e여기를 클릭:'
+  diet-cookie: "&e당신은 매우 가벼워지기 시작했어요...\n"
+  fortune-cookie:
+    - '&7도와주세요, 저는 행운 쿠키 공장에 갇혔어요!'
+    - '&7당신은 내일 죽을 거예요... 크리퍼에 의해서요.'
+    - '&7당신 인생의 어느 시점에 나쁜 일이 일어날 거예요!!!'
+    - '&7다음 주에 당신은 이것이 현실 세계가 아니라는 것을 알게 될 것입니다. 당신은 컴퓨터 게임에 빠져 있습니다.'
+    - '&7이 쿠키는 몇 초 안에 맛있을 거예요.'
+    - '&7마지막으로 듣게 될 말은 "EXTERMINATE!"입니다.!" '
+    - "&7무슨 일을 하든지, 크리퍼를 껴안지 마세요... 나는 그것을 시도해봤어요. 기분은 좋지만, 그럴 만한 가치는 없어요.\n"
+    - "&742. 정답은 42입니다.\n"
+    - "&7하루에 월시가 있으면 그 문제를 피할 수 있어요.\n"
+    - "&7절대 아래로 파고들지 마세요!\n"
+    - '&7살이지만 살 상처!'
+    - '&7항상 인생의 밝은면을 바라보세요!'
+    - '&7이것은 실제로 쿠키가 아닌 비스킷이었습니다.'
+    - '&7네온 사인이 LIT입니다!'
+machines:
+  pattern-not-found: '&e죄송합니다. 이 조합법를 인식할 수 없습니다. 디스펜서에 항목을 올바른 패턴으로 배치해 주십시오.'
+  unknown-material: '&e죄송합니다. 디스펜서에 있는 항목을 인식할 수 없습니다. 제가 알고 있는 아이템을 좀 넣어 주세요.'
+  wrong-item: '&e죄송합니다. 오른쪽 클릭하신 항목을 인식할 수 없습니다. 조합법를 확인하고 사용할 수 있는 항목을 확인합니다.'
+  full-inventory: "&e죄송합니다. 재고가 너무 꽉 찼습니다!\n"
+  in-use: '&c이 블록의 인벤토리는 현재 다른 플레이어에 의해 열립니다.'
+  ignition-chamber-no-flint: '&c점화 챔버에 라이터가 없습니다.'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4Altar는 필요한 수의 Pedestals &c(%pedestals% / 8)로 둘러싸여 있지 않습니다.\n"
+    unknown-catalyst: '&4알 수 없는 촉매입니다! &c대신 올바른 조합법를 사용하세요!'
+    unknown-recipe: '&4알 수 없는 조합법입니다! &c대신 올바른 조합법를 사용하세요!'
+  ANCIENT_PEDESTAL:
+    obstructed: "&4페달이 막혔어요! 받침대 위에 있는 것은 모두 &c제거&4하세요!\n"
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7원하는 홀로그램 텍스트를 대화 상자에 입력해 주십시오. &r(색상 코드가 지원됨!)'
+    inventory-title: '홀로그램 편집기'
+  ELEVATOR:
+    no-destinations: "&4대상을 찾을 수 없습니다.\n"
+    pick-a-floor: "&3- 바닥을 고르세요 -\n"
+    current-floor: '&e현재 사용 중인 층은 다음과 같습니다:'
+    click-to-teleport: '&e해당 층으로 텔레포트를 하실려면 클릭:'
+    enter-name: '&7원하는 플로어 이름을 채팅에 입력하십시오. &r(색상 코드가 지원됨!)'
+    named: '&2이 층의 이름을 성공적으로 지정함: &r%floor%'
+  TELEPORTER:
+    teleporting: '&3텔레포팅중...'
+    teleported: '&3텔레포트!'
+    cancelled: '&4텔레포트를 취소!'
+    invulnerability: '&b&l30초간의 불굴의 시간을 주셨습니다!'
+    gui:
+      title: '당신의 경유지'
+      tooltip: '텔레포트 클릭'
+      time: '예상시간'
+  GPS_CONTROL_PANEL:
+    title: 'GPS - 제어판'
+    transmitters: 'GPS 개요'
+    waypoints: '웨이포인트 개요'
+  CARGO_NODES:
+    must-be-placed: "&4상자 또는 기계 위에 놓아야 한다!\n"
+  INDUSTRIAL_MINER:
+    no-fuel: '&c귀하의 산업용 채광 장치의 연료가 부족합니다! 연료를 위 상자에 넣으십시오.'
+    piston-facing: '&c귀하의 산업용 채광 장치는 피스톤을 위로 향하게해야합니다!'
+    piston-space: '&c두 피스톤에는 그 위에 빈 블록이 있어야합니다!'
+    destroyed: '&c귀하의 산업 채광 장치가 파괴 된 것 같습니다.'
+    already-running: '&c이 산업용 채광 장치는 이미 실행 중입니다!'
+    full-chest: '&c산업용 채광 장치의 상자가 가득 찼습니다!'
+    no-permission: '&4여기에서 산업용 채광 장치를 운영 할 권한이없는 것 같습니다!'
+    finished: '&e산업용 채광 장치가 완료되었습니다! 총 광석 %ores%을 (를) 획득했습니다!'
+anvil:
+  not-working: '&4슬라임펀 아이템은 모루에서 사용할 수 없다!'
+backpack:
+  already-open: '&c죄송합니다. 이 백팩은 다른 곳에 열려 있습니다!'
+  no-stack: '&c백팩을 쌓을 수 없습니다.'
+workbench:
+  not-enhanced: '&4일반 작업대에서는 Slimefun 아이템을 사용할 수 없습니다.'
+gps:
+  deathpoint: '&4데스포인트 &7%date%'
+  waypoint:
+    new: "&e대화에서 새 waypoint 이름을 입력하십시오. &7(색상 코드 지원!)\n"
+    added: "&a새로운 waypoint를 성공적으로 추가\n"
+    max: "&4waypoint의 최대 양에 도달하셨습니다.\n"
+  insufficient-complexity:
+    - '&4GPS 네트워크의 복잡성 부족: &c%complexity%'
+    - "&4a)GPS 네트워크가 아직 설정되지 않음\n"
+    - "&4b) GPS 네트워크가 충분히 복잡하지 않습니다.\n"
+  geo:
+    scan-required: "&4GEO-Scan이 필요합니다! 먼저 GEO-Scanner를 사용하여 이 청크를 스캔하세요!\n"
+inventory:
+  no-access: '&4이 블록에 액세스할 수 없습니다.'
+android:
+  started: "&7Android가 스크립트 실행을 재개했습니다.\n"
+  stopped: "&7Android가 스크립트를 일시 중지했습니다.\n"
+  scripts:
+    already-uploaded: "&4이 스크립트는 이미 업로드되었습니다.\n"
+    editor: '스크립트 편집기'
+    instructions:
+      START: "&2시작 스크립트\n"
+      REPEAT: "&9반복 스크립트\n"
+      WAIT: "&e0.5초간 대기\n"
+      GO_FORWARD: '&7전진하다'
+      GO_UP: "&7위로 이동\n"
+      GO_DOWN: "&7아래로 이동\n"
+      TURN_LEFT: "&7왼쪽으로 돌다\n"
+      TURN_RIGHT: '&7오른쪽으로 돌다'
+      DIG_UP: '&b위로 파다'
+      DIG_FORWARD: '&b앞으로 파다'
+      DIG_DOWN: '&b아래로 파다'
+      MOVE_AND_DIG_UP: '&b위쪽으로 이동 & 파기'
+      MOVE_AND_DIG_FORWARD: '&b앞으로 이동 & 파기'
+      MOVE_AND_DIG_DOWN: '&b아래로 이동 & 파기'
+      ATTACK_MOBS_ANIMALS: "&4공격 &c(호스틸 몹 & 동물)\n"
+      ATTACK_MOBS: "&4공격 &c(호스틸 몹)\n"
+      ATTACK_ANIMALS: "&4공격 &c(동물)\n"
+      ATTACK_ANIMALS_ADULT: "&4공격 &c(동물&7[성인]&c)\n"
+      CHOP_TREE: "&c잘라내기 및 대체제\n"
+      CATCH_FISH: "&b캐치 피시\n"
+      FARM_FORWARD: "&b수확 및 대체품목\n"
+      FARM_DOWN: "&b수확 및 교체 &7(밑면 차단)\n"
+      FARM_EXOTIC_FORWARD: '&b고급 수집 및 복제품'
+      FARM_EXOTIC_DOWN: '&b고급 수집 및 복제품 &7(밑면 차단)'
+      INTERFACE_ITEMS: '&9인벤토리 내용을 대면 인터페이스로 푸시'
+      INTERFACE_FUEL: "&c대면된 인터페이스에서 연료 꺼내기\n"
+    enter-name:
+      - ''
+      - "&e스크립트의 이름을 입력하십시오.\n"
+      - ''
+    uploaded:
+      - '&b업로드중...'
+      - '& a 성공적으로 스크립트를 업로드했습니다!'
+    rating:
+      own: '& 4 자신의 스크립트를 평가할 수 없습니다!'
+      already: '& 4이 스크립트에 대한 평가를 이미 남겼습니다!'
+languages:
+  default: '서버 기본값'
+  en: '영어'
+  de: '독일어'
+  fr: '프랑스'
+  it: '이탈리아어'
+  es: '스페인어'
+  pl: '폴란드어'
+  sv: '스웨덴어'
+  nl: '네덜란드어'
+  cs: '체코어'
+  hu: '헝가리어'
+  lv: '라트비아어'
+  ru: '러시아어'
+  sk: '슬로바키아어'
+  zh-CN: '중국어 (중국)'
+  zh-TW: '중국어 (대만)'
+  vi: '베트남어'
+  id: '인도네시아어'
+  el: '그리스 어'
+  he: '헤브라이어'
+  pt: '포르투갈어 (포르투갈)'
+  pt-BR: '포르투갈어 (브라질)'
+  ar: '아라비아어'
+  af: '아프리카 어'
+  da: '덴마크어'
+  fi: '핀란드어'
+  uk: '우크라이나어'
+  ms: '말레이어'
+  'no': '노르웨이어'
+  ja: '일본어'
+  fa: '페르시아어'
+  th: '태국어'
+  tl: '타갈로그어'
+  ro: '루마니아어'
+  bg: '불가리아어'
+  ko: '한국어'
+  tr: '터키어'
+  hr: '크로아티아어'
+  mk: '마케도니아어'
+  sr: '세르비아어'
+  be: '벨로루시어'

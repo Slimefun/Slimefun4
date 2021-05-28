@@ -1,0 +1,300 @@
+---
+commands:
+  help: Ipapakita itong help screen.
+  cheat: Pinapayagan kang dayain ang mga Aytem sa Slimefun.
+  give: Nagbibigay ito ng mga Aytem sa Slimefun.
+  guide: Bibigyan ka nito ng Simefun Guide.
+  teleporter: Tingnan ang mga Waypoints ng mga Players.
+  versions: Ipapakita nito ang mga na-install na mga Addon sa Slimefun.
+  search: Hahanapin sa Guide ang binigyan na katawagan.
+  open_guide: Bubuksan nito ang Slimefun's guide na wala ang libro.
+  stats: Ipapakita ang hindi karamihan na estatistika ng Player.
+  research:
+    description: Iaunlock/Irereset ang mga Researches para sa Player.
+    reset: '&cNareset mo ang Knowledge para kay %player%.'
+    reset-target: '&cNareset ang iyong Knowledge.'
+  backpack:
+    description: Kunin ang kopya ng isang umiiral na backpack.
+    invalid-id: '&4Ang ID ay dapat merong isang negatibong numero!'
+    player-never-joined: '&4Walang nahanap na manlalaro na may pangalang iyon!'
+    backpack-does-not-exist: '&4Ang tinukoy na backpack ay hindi umiiral!'
+    restored-backpack-given: '&aAng iyong backpack ay naibalik at naidagdag sa iyong imbentaryo!'
+  charge:
+    description: I-chacharge ang item ng iyong hinahawakan.
+    charge-success: Na-charge na ang item!
+    not-rechargeable: Hindi puedeng i-charge ang item na ito.
+guide:
+  locked: 'NAKAKANDADO'
+  work-in-progress: 'Ang feature na ito ay hindi pa tapos!'
+  locked-category:
+    - 'Upang i-unlock ang kategoryang ito,'
+    - 'kailangang i-unlock ang lahat ng mga item mula sa'
+    - 'sumusunod na kategorya.'
+  search:
+    message: '&bAno ang hinahanap mo?'
+    name: '&7Hanap...'
+    tooltip: '&bI-click ito upang maghanap para sa isang item.'
+    inventory: 'Naghahanap para sa: %item%'
+  tooltips:
+    open-category: 'I-click ito para buksan.'
+    versions-notice: 'Napakahalaga ng mga ito kapag nag-uulat ng mga bug!'
+    wiki: 'Tingnan ang item na ito sa opisyal na Slimefun Wiki.'
+    recipes:
+      machine: 'Mga recipe na ginawa sa Makina na ito.'
+      miner: 'Mga mapagkukunan na maaari mong makuha sa Miner na ito.'
+      generator: 'Magagamit na mga uri ng gasolina.'
+      gold-pan: 'Mga mapagkukunan na maaari mong makuha.'
+      climbing-pick: 'Mga ibabaw na maaari mong akyatin'
+  cheat:
+    no-multiblocks: '&4Hindi ka puwedeng mag-daya sa Multiblocks, kailangan mo itong buoin!'
+  pages:
+    previous: 'Nakaraang pahina.'
+    next: 'Susunod na pahina.'
+  back:
+    title: 'Balik'
+    guide: 'Bumalik sa Slimefun Guide'
+    settings: 'Bumalik sa Settings Panel'
+  languages:
+    updated: '&aNapalitan na ang iyong wika sa: &b%lang%'
+    selected-language: 'Kasalukuyang pinili:'
+    select: 'I-click ito upang piliin ang wikang ito.'
+    select-default: 'I-click ito upang piliin ang default na wika.'
+    change: 'Mag-click upang pumili ng bagong wika.'
+    description:
+      - '&7Meron ka nang pagpipilian upang pumili'
+      - '&7ng wika kung saan ang Slimefun'
+      - '&7ay may ipapakita sa iyo. Ang mga'
+      - '&7items ay bawal pa i-translate sa ngayon.'
+    translations:
+      name: '&aMay kulang ba?'
+      lore: 'I-click ito upang magdagdag ng iyong sariling pagsasalin.'
+  title:
+    settings: 'Mga Settings & Impormasyon'
+    languages: 'Pumili ng gustong wika.'
+    credits: 'Ang mga tumulong sa Slimefun4'
+    wiki: 'Ang Slimefun4 Wiki'
+    addons: 'Ang mga Addons para sa Slimefun4'
+    bugs: 'Mga Bug Reports'
+    source: 'Ang Source Code'
+    versions: 'Mga na-install na versions'
+  credits:
+    commits: 'Mga Commits'
+    profile-link: 'I-click ito upang bisitahin ang kanilang profile sa GitHub.'
+    open: 'Pindutin ito upang makita ang aming mga nag-ambag'
+    description:
+      - '&7Ang Slimefun ay isang proyekto na bukas na mapagkukunan'
+      - '&7at pinapanatili ng isang malaking pamayanan ng mga tao.'
+      - '&7Mga hanggang &e%contributors% &7na mga tao ang tumutulong sa'
+      - '&7Slimefun sa buong lahat ng mga taong ito.'
+messages:
+  not-enough-xp: '&4Kulang ang iyong XP upang ito''y ma-unlock.'
+  unlocked: '&bNa-unlock mo ang &7"%research%"'
+  only-players: '&4Ang command na ito ay para lamang sa Players.'
+  unknown-player: '&4Hindi kilala na Player: &c%player%'
+  no-permission: '&4Wala kang permiso para gawin ito.'
+  usage: '&4Paggamit: &c%usage%'
+  not-online: '&cHindi online si &4%player%!'
+  invalid-item: '&cHindi valid ang &4%item%!'
+  invalid-amount: '&cHindi valid ang amount na &4%amount% : dapat ito''y mas mataas kaysa sa 0!'
+  given-item: '&bIka''y binigyan ng &a%amount% &7"%item%&7"'
+  give-item: '&bBinigyan mo si %player% ng &a%amount% &7"%item%&7"'
+  invalid-research: '&4%research% &cay hindi valid na Research!'
+  give-research: '&bBinigyan mo si %player% ng Research &7"%research%&7"'
+  hungry: '&cIkaw ay sobrang gutom para gawin ito!'
+  disabled-in-world: '&4&lDinisable ang Aytem sa world na ito.'
+  disabled-item: '&4&lDinisable ang Aytem na ito! Paano mo ito nakuha?'
+  no-tome-yourself: '&cHindi mo magagamit ang &4Tome of Knowledge &cpara sa''yo...'
+  multimeter: '&bTinagong Enerhiya: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4Hindi ka maaaring mag-barter sa mga piglins gamit ang mga item ng Slimefun.'
+  multi-tool:
+    mode-change: '&b%device% napalitan ang mode sa: &9%mode%'
+    not-shears: '&cBawal gamitin ang Multi-Tool bilang shears!'
+  talisman:
+    anvil: '&a&oAng iyong anting-anting ay niligtas ang iyong tool sa pagkasira.'
+    miner: '&a&oNa-doble ang drops dahil sa iyong anting-anting.'
+    hunter: '&a&oNa-doble ang drops dahil sa iyong anting-anting.'
+    lava: '&a&oNiligtas ka ng iyong anting-ating sa iyong pagkamatay sa apoy.'
+    water: '&a&oNiligtas ka ng iyong anting-anting sa pagkalunod.'
+    angel: '&a&oNiligtas ka ng iyong anting-anting sa pagkalaglag.'
+    fire: '&a&oNiligtas ka ng iyong anting-ating sa iyong pagkamatay sa apoy.'
+    magician: '&a&oBinigyan ka ng karagdagang Enchantment dahil sa iyong anting-anting.'
+    traveller: '&a&oBinigyan ka ng anting-anting mo ng Speed Boost!'
+    warrior: '&a&oBinigyan ka ng anting-anting mo ng Kalakasan nang mga ilang saglit.'
+    knight: '&a&oBinigyan ka ng 5 Seconds of Regeneration galing sa anting-anting mo.'
+    whirlwind: '&a&oTumilapon ang bala dahil sa iyong anting-anting.'
+    wizard: '&a&oBinigyan ka ng iyong anting-anting na mas magandang Fortune Level ngunit baka bumaba ang iba mong Enchantment Levels.'
+  soulbound-rune:
+    fail: '&cMaaari mo lang mabigkis ang isa lang na aytem sa iyong kaluluwa kada isang beses.'
+    success: '&aNabigkis mo ang aytem na ito sa iyong kaluluwa! Nandito lang ito sa''yo kapag ika''y namatay.'
+  enchantment-rune:
+    fail: '&cAng aytem na ito ay bawal i-enchant.'
+    no-enchantment: '&cHindi makahanap ng anuman na puwedeng enchantment para sa aytem na ito.'
+    success: '&aMatagumpay mong na-apply ang isang random na naaangkop na enchantment sa aytem na ito.'
+  research:
+    start: '&7Bumulong ang mga Ancient Spirit sa iyong mga tenga!'
+    progress: '&7Sinimulan mong malaman ang &b%research% &e(%progress%)'
+  tape-measure:
+    no-anchor: '&cKailangan mong magtakda ng isang angkla bago ka makapagsimula upang masukat!'
+    wrong-world: '&cAng iyong angkla ay tila nasa ibang mundo!'
+    distance: '&7Measurement taken. &eDistansiya: %distance%'
+    anchor-set: '&aMatagumpay na na-set ang angla:&e %anchor%'
+  climbing-pick:
+    dual-wielding: '&4Kailangan mong hawakan ang Climbing Picks ng dalawang kamay upang magamit ito!'
+    wrong-material: '&cHindi ka maaaring umakyat sa ibabaw na ito. Suriin ang iyong Slimefun Guide para sa karagdagang impormasyon!'
+  fire-extinguish: '&7Naibsan mo ang apoy sa''yo.'
+  cannot-place: '&cHindi mo puwedeng ilagay ang block jan!'
+  no-pvp: '&cBawal makipaglaban dito!'
+  radiation: '&4Na-expose ka sa nakakamatay na radiation! &cTanggalin ang radioactive aytem sa iyong inventory o isuot ang kompletong Hazmat Suit!'
+  opening-guide: '&bBinubuksan ang guide, maaari itong tumagal ng mga ilang segundo...'
+  opening-backpack: '&bBinubuksan ang backpack, maaari itong tumagal ng mga ilang segundo...'
+  no-iron-golem-heal: '&cHindi ito Iron Ingot. Hindi ito ginagamit para gumaling ang mga Iron Golems!'
+  link-prompt: '&ePindutin dito:'
+  diet-cookie: '&eNakakaramdam ka nang gaan sa iyong katawan...'
+  fortune-cookie:
+    - '&7Tulungan mo ako, nakulong ako sa Fortune Cookie Factory!'
+    - '&7Mamamatay ka bukas... dahil sa Creeper.'
+    - '&7Sa ilang punto ng iyong buhay, may mangyayaring masama.'
+    - '&7Sa susunod na linggo, mapapansin mo na hindi pala ito ang totoong mundo, nasa isang ka palang kompyuter game.'
+    - '&7Sasarap ang lasa ng cookie na ito ng ilang segundo.'
+    - '&7Ang maririnig mo na huling salita ay "PUKSAIN!!!"'
+    - '&7Kahit anong gawin mo, huwag mong yakapin ang Creeper... Nasubukan ko na ito. Ang sarap, ngunit hindi ito katumbas ng halaga.'
+    - '&742. Ang sagot ay 42.'
+    - '&7Ang isang Walshy sa isang araw ay maiiwasan ang problema.'
+    - '&7Huwag kang maghukay na diretso pababa!'
+    - '&7Ito ay ngunit isang sugat sa laman!'
+    - '&7Laging tumingin sa maliwanag na bahagi ng buhay!'
+    - '&7Biskwit pala ito at hindi ito siya Kukis.'
+    - '&7Ang astig ng mga Neon Signs!'
+machines:
+  pattern-not-found: '&ePasensiya na, hindi ko maintindihan ang Recipe na ito. Pakilagay ang mga Aytem sa tamang pattern sa loob ng Dispense.'
+  unknown-material: '&ePasensiya na, hindi ko maintindihan ang Aytem na ito sa Dispenser. Maglagay ka ng mga alam ko sa Dispenser.'
+  wrong-item: '&ePasensiya na, hindi ko maintindihan ang Aytem na kasama ang ni-right click mo. Paki-check ang Recipies at tingnan kung anong mga Aytem na puwede mong gamitin.'
+  full-inventory: '&ePasensiya na, dahil puno na ang aking inventory!'
+  in-use: '&cAng inventory ng Block na ito ay nakabukas na sa ibang Player.'
+  ignition-chamber-no-flint: '&cKulang ng Flint and Steel ang Ignition Chamber.'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4Hindi napalibutan ng pedestals ang altar &c(%pedestals% / 8)'
+    unknown-catalyst: '&4Hindi kilala ang Catalyst! &cGamitin na lamang ang tamang Recipe!'
+    unknown-recipe: '&4Hindi kilala ang Recipe! &cGamitin na lamang ang tamang Recipe!'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Barado ang Pedestal! &cTanggalin lahat ang mga gamit sa taas ng pedestal!'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7I-enter ang gusto mong makita sa Hologram Text galing sa Chat. &r(Supported ang Color Codes)'
+  ELEVATOR:
+    no-destinations: '&4Walang nahanap na mga patutunguhan.'
+    pick-a-floor: '&3- Pumili ng palapag -'
+    current-floor: '&eIto ang sahig na iyong naroroon:'
+    click-to-teleport: '&ePindutin ito &7para magteleport sa palapag na ito:'
+    enter-name: '&7I-enter ang gusto mong makita sa Hologram Text galing sa Chat. &r(Supported ang Color Codes)'
+    named: '&2Napangalanan na ang floor na: &r%floor%'
+  TELEPORTER:
+    cancelled: '&4Na-kansel ang teleportation!'
+    invulnerability: '&b&lBinigyan ka ng 30 segundo ng Invulnerability!'
+    gui:
+      title: 'Ang iyong mga waypoints.'
+      tooltip: 'I-click ito para mag-teleport.'
+      time: 'Tinatayang oras.'
+  CARGO_NODES:
+    must-be-placed: '&4Kailangang mailagay ito sa isang chest o makina!'
+  INDUSTRIAL_MINER:
+    no-fuel: '&cAng iyong Industrial Miner ay naubusan ng gasolina! Ilagay ang iyong gasolina sa chest.'
+    piston-facing: '&cAng iyong Industrial Miner ay nangangailangan ng mga piston upang humarap ito pataas!'
+    piston-space: '&cAng dalawang piston ay kailangang magkaroon ng isang walang laman na block sa itaas ng mga ito!'
+    destroyed: '&cAng iyong Industrial Miner ay nawasak.'
+    already-running: '&cAng Industrial Miner na ito ay gumagana na!'
+    full-chest: '&cAng chest ng iyong Industrial Miner ay puno na!'
+    no-permission: '&4Mukhang wala kang pahintulot upang mapatakbo ang isang Industrial Miner dito!'
+    finished: '&eTapos na ang iyong Industrial Miner! Nakuha nito ang isang kabuuang %ores% ore(s)!'
+anvil:
+  not-working: '&4Hindi puwedeng gamitin ang mga Slimefun Aytem sa isang Anvil!'
+  mcmmo-salvaging: '&4Bawal i-salvage ang mga Slimefun items!'
+brewing_stand:
+  not-working: '&4Hindi ka maaaring gumamit ng mga Item ng Slimefun sa Brewing Stand!'
+cartography_table:
+  not-working: '&4Hindi mo puedeng gamitin ang mga Slimefun items sa cartography table!'
+villagers:
+  no-trading: '&4Hindi ka maaaring mag-trade ng mga Slimefun Items sa mga villagers!'
+backpack:
+  already-open: '&cSorry, ang backpack na ito ay nakabukas na sa ibang lugar!'
+  no-stack: '&cHindi puwedeng i-stack ang mga Backpack.'
+workbench:
+  not-enhanced: '&4Hindi puwedeng gamitin ang mga Slimefun Aytem sa normal na workbench.'
+cauldron:
+  no-discoloring: '&4Hindi mo puedeng i-discolor ang Slimefun Armor.'
+gps:
+  deathpoint: '&4Kinamatayan &7%date%'
+  waypoint:
+    new: '&eMangyaring mag-type ng isang pangalan para sa iyong bagong waypoint sa chat. &7(Supported ang Color Codes!)'
+    added: '&aTagumpay ang pag-add ng bagong waypoint.'
+    max: '&4Naabot mo na ang maximum amount ng waypoints.'
+    duplicate: '&4Nakagawa ka na ng isang waypoint na pinangalanan: & f%waypoint%'
+  insufficient-complexity:
+    - '&4Kulang ang  GPS Network Complexity: &c%complexity%'
+    - '&4a) Wala ka pang GPS Network setup.'
+    - '&4b) Hindi pa complex ang iyong GPS Network!'
+  geo:
+    scan-required: '&4Kailagan ng GEO-Scan! &cI-scan muna ang chunk na ito gamit ng GEO-Scanner!'
+inventory:
+  no-access: '&4Hindi ka pinapayagan na i-access ang  block na ito.'
+android:
+  started: '&7Ang iyong Android ay nagpatuloy sa pagpapatakbo ng script nito.'
+  stopped: '&7Ang iyong Android ay naka-pause sa script na ito.'
+  scripts:
+    already-uploaded: '&4Na-upload na ang script na ito.'
+    instructions:
+      START: '&2Simulan ang Script.'
+      REPEAT: '&9Ulitin ang Script.'
+      WAIT: '&eHintay 0.5s'
+      GO_FORWARD: '&7Umabante.'
+      GO_UP: '&7Pataas.'
+      GO_DOWN: '&7Pababa.'
+      TURN_LEFT: '&7Lumiko pakaliwa.'
+      TURN_RIGHT: '&7Lumiko pakanan.'
+      DIG_UP: '&bMaghukay pataas.'
+      DIG_FORWARD: '&bMaghukay paabante.'
+      DIG_DOWN: '&bMaghukay pababa.'
+      MOVE_AND_DIG_UP: '&bGumalaw at Maghukay pataas.'
+      MOVE_AND_DIG_FORWARD: '&bGumalaw at Maghukay paabante.'
+      MOVE_AND_DIG_DOWN: '&bGumalaw at Maghukay pababa.'
+      ATTACK_MOBS_ANIMALS: '&4Atake &c(Mga matatapang na mobs at mga hayop)'
+      ATTACK_MOBS: '&4Atake &c(Mga matatapang na mobs)'
+      ATTACK_ANIMALS: '&4Atake &c(Mga hayop)'
+      ATTACK_ANIMALS_ADULT: '&4Atake &c(Mga hayop &7[Matanda]&c)'
+      CHOP_TREE: '&cTumaga at Magtanim'
+      CATCH_FISH: '&bMaghuli ng Isda'
+      FARM_FORWARD: '&bMag-ani at Magtanim'
+      FARM_DOWN: '&bMag-ani at Magtanim &7(Block sa ilalim)'
+      FARM_EXOTIC_FORWARD: '&bMasulong na Mag-ani at Magtanim'
+      FARM_EXOTIC_DOWN: '&bMasulong na Mag-ani at Magtanim &7(Block sa ilalim)'
+      INTERFACE_ITEMS: '&9Itulak ang Mga nilalaman ng Imbentaryo sa Interface'
+      INTERFACE_FUEL: '&cItulak ang fuel galing sa Interface'
+    enter-name:
+      - ''
+      - '&eMangyaring mag-type ng isang pangalan para sa iyong script'
+      - ''
+    uploaded:
+      - '&bUploading...'
+      - '&aTagumpay ang pag-upload ng script!'
+    rating:
+      own: '&4Hindi puwedeng i-marka ang sarili mong script!'
+      already: '&4Nakapag-iwan ka na ng marka para sa script na ito!'
+languages:
+  en: 'Ingles'
+  de: 'Aleman'
+  fr: 'Pranses'
+  it: 'Italyano'
+  es: 'Espanyol'
+  sv: 'Suweko'
+  ru: 'Ruso'
+  zh-CN: 'Intsik (China)'
+  zh-TW: 'Intsik (Taiwan)'
+  he: 'Hebreo'
+  pt: 'Portugues (Portugal)'
+  pt-BR: 'Portugues (Brazil)'
+  ar: 'Arabe'
+  af: 'Mga Afrikaans'
+  uk: 'Ukranian'
+  ja: 'Hapon'
+  tl: 'Tagalog/Filipino'
+  ko: 'Koreano'
+  tr: 'Turko'

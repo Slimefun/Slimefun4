@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
+// This class will be rewritten in the "Recipe Rewrite"
 public class MachineFuel implements Predicate<ItemStack> {
 
     private final int ticks;
@@ -27,7 +28,7 @@ public class MachineFuel implements Predicate<ItemStack> {
 
         this.ticks = seconds * 2;
         this.fuel = fuel;
-        this.wrapper = new ItemStackWrapper(fuel);
+        this.wrapper = ItemStackWrapper.wrap(fuel);
         this.output = output;
     }
 

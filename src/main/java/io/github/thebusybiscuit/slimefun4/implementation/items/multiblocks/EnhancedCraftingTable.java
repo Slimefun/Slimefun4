@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -20,11 +22,11 @@ import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class EnhancedCraftingTable extends AbstractCraftingTable {
 
+    @ParametersAreNonnullByDefault
     public EnhancedCraftingTable(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, BlockFace.SELF);
     }
@@ -43,7 +45,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
                 if (isCraftable(inv, inputs.get(i))) {
                     ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 
-                    if (Slimefun.hasUnlocked(p, output, true)) {
+                    if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
                         craft(inv, dispenser, p, b, output);
                     }
 
@@ -51,7 +53,11 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
                 }
             }
 
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
+            if (inv.isEmpty()) {
+                SlimefunPlugin.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+            } else {
+                SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
+            }
         }
     }
 

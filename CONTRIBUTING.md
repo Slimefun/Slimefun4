@@ -38,7 +38,7 @@ You can check out our [Developer Guide](https://github.com/Slimefun/Slimefun4/wi
 
 ## :earth_africa: 4. Pull Requests: Translations
 Another great way to contribute to Slimefun is by working on translations for the project.
-Slimefun's translation is available on [gitlocalize.com](https://gitlocalize.com/repo/3841).
+Slimefun's translation is available on [Crowdin](https://crowdin.com/project/slimefun).
 Just find a language you are fluent in and translate away. But make sure to submit a "Review Request" when you are done.
 One of our Language Moderators will review the changes and submit a Pull Request to the project for you.
 

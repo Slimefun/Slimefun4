@@ -1,0 +1,3 @@
+files:
+  - source: /src/main/resources/languages/en/*.yml
+    translation: /src/main/resources/languages/%osx_locale%/%original_file_name%

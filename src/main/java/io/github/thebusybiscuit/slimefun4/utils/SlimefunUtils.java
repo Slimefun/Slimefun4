@@ -14,7 +14,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -78,15 +80,29 @@ public final class SlimefunUtils {
 
     /**
      * This method checks whether the given {@link ItemStack} is considered {@link Soulbound}.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to check for
      * @return Whether the given item is soulbound
      */
     public static boolean isSoulbound(@Nullable ItemStack item) {
-        if (item == null || item.getType() == Material.AIR) {
-            return false;
-        } else {
+        return isSoulbound(item, null);
+    }
+
+    /**
+     * This method checks whether the given {@link ItemStack} is considered {@link Soulbound}.
+     * If the provided item is a {@link SlimefunItem} then this method will also check that the item
+     * is enabled in the provided {@link World}.
+     *
+     * @param item
+     *            The {@link ItemStack} to check for
+     * @param world
+     *            The {@link World} to check if the {@link SlimefunItem} is enabled in if applicable.
+     *            If {@code null} then this will not do a world check.
+     * @return Whether the given item is soulbound
+     */
+    public static boolean isSoulbound(@Nullable ItemStack item, @Nullable World world) {
+        if (item != null && item.getType() != Material.AIR) {
             ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
             if (hasSoulboundFlag(meta)) {
@@ -96,13 +112,17 @@ public final class SlimefunUtils {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
             if (sfItem instanceof Soulbound) {
-                return !sfItem.isDisabled();
+                if (world != null) {
+                    return !sfItem.isDisabledIn(world);
+                } else {
+                    return !sfItem.isDisabled();
+                }
             } else if (meta != null) {
                 return meta.hasLore() && meta.getLore().contains(SOULBOUND_LORE);
             }
 
-            return false;
         }
+        return false;
     }
 
     private static boolean hasSoulboundFlag(@Nullable ItemMeta meta) {
@@ -110,9 +130,7 @@ public final class SlimefunUtils {
             PersistentDataContainer container = meta.getPersistentDataContainer();
             NamespacedKey key = SlimefunPlugin.getRegistry().getSoulboundDataKey();
 
-            if (container.has(key, PersistentDataType.BYTE)) {
-                return true;
-            }
+            return container.has(key, PersistentDataType.BYTE);
         }
 
         return false;
@@ -186,7 +204,7 @@ public final class SlimefunUtils {
      * 
      * @return An {@link ItemStack} with this Head texture
      */
-    public static ItemStack getCustomHead(@Nonnull String texture) {
+    public static @Nonnull ItemStack getCustomHead(@Nonnull String texture) {
         Validate.notNull(texture, "The provided texture is null");
 
         if (SlimefunPlugin.instance() == null) {
@@ -214,7 +232,7 @@ public final class SlimefunUtils {
 
         // Performance optimization
         if (!(item instanceof SlimefunItemStack)) {
-            item = new ItemStackWrapper(item);
+            item = ItemStackWrapper.wrap(item);
         }
 
         for (ItemStack stack : inventory.getStorageContents()) {
@@ -356,6 +374,33 @@ public final class SlimefunUtils {
         Validate.isTrue(capacity > 0, "Capacity must be greater than zero!");
 
         SlimefunPlugin.runSync(new CapacitorTextureUpdateTask(l, charge, capacity));
+    }
+
+    /**
+     * This checks whether the {@link Player} is able to use the given {@link ItemStack}.
+     * It will always return <code>true</code> for non-Slimefun items.
+     * <p>
+     * If you already have an instance of {@link SlimefunItem}, please use {@link SlimefunItem#canUse(Player, boolean)}.
+     * 
+     * @param p
+     *            The {@link Player}
+     * @param item
+     *            The {@link ItemStack} to check
+     * @param sendMessage
+     *            Whether to send a message response to the {@link Player}
+     * 
+     * @return Whether the {@link Player} is able to use that item.
+     */
+    public static boolean canPlayerUseItem(@Nonnull Player p, @Nullable ItemStack item, boolean sendMessage) {
+        Validate.notNull(p, "The player cannot be null");
+
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+        if (sfItem != null) {
+            return sfItem.canUse(p, sendMessage);
+        } else {
+            return true;
+        }
     }
 
 }

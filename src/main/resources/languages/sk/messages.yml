@@ -1,0 +1,275 @@
+---
+commands:
+  help: Zobrazí túto pomocnú stránku
+  cheat: Umožňuje cheatovať itemy
+  give: Dajte niekomu nejaký Slimefun item
+  guide: Dá ti Slimefun príručku
+  teleporter: Pozrite si waypointy iného hráča
+  versions: Zoznam všetkých nainštalovaných doplnkov
+  search: Vyhľadá vo vašej príručke daný výraz
+  open_guide: Otovrí Slimefun príručku bez použitia knížky.
+  stats: Ukáže nejaké štatistiky o hráčovi
+  research:
+    description: Odomkne/ Resetuje prieskumy pre hráča
+    reset: '&cResetoval si %player%''s znalosť'
+    reset-target: '&cTvoja znalosť bola resetnutá'
+guide:
+  locked: 'ZAMKNUTÉ'
+  locked-category:
+    - 'Pre odomknutie tejto kategórie'
+    - 'budeš musieť odomknúť všetky itemy'
+    - 'z nasledujúcich kategórií'
+  search:
+    message: '&bČo by si chcel vyhľadať?'
+    name: '&7Hľadať...'
+    tooltip: '&bKlikni pre hľadanie itemu'
+    inventory: 'Hľadám: %item%'
+  tooltips:
+    open-category: 'Klikni pre otvorenie'
+    versions-notice: 'Toto je veľmi dôležité pri nahlasovaní bugov!'
+    wiki: 'Pozri si tento item na oficiálnej wiki slimefunu'
+    recipes:
+      machine: 'Recepty vytvárané týmto strojom'
+      miner: 'Materiály, ktoré môžeš získať s týmto minerom'
+      generator: 'Dostupné palivá'
+      gold-pan: 'Materiály, ktoré môžeš získať'
+  cheat:
+    no-multiblocks: '&4Nemôžeš cheatovať multiblocky, musíš ich postaviť!'
+  pages:
+    previous: 'Predošlá stránka'
+    next: 'Ďalšia stránka'
+  back:
+    title: 'Naspäť'
+    guide: 'Ísť naspäť do Slimefun príručky'
+    settings: 'Ísť naspäť do nastavení'
+  languages:
+    updated: '&aTvoj jazyk bol úspešne nastavený na: &b%lang%'
+    selected-language: 'Aktuálne vybraný jazyk: '
+    select: 'Klikni pre vybratie tohto jazyka'
+    select-default: 'Klikni pre nastavenie východzieho jazyka'
+    translations:
+      name: '&aNiečo chýba?'
+      lore: 'Klikni pre pridanie svojho prekladu'
+  title:
+    main: 'Slimefun príručka'
+    settings: 'Nastavenia a informácie'
+    languages: 'Nastav si preferovaný jazyk'
+    credits: 'Slimefun4 prispievatelia'
+    addons: 'Doplnky pre Slimefun4'
+    bugs: 'Report bugov'
+    source: 'Zdrojový kód'
+  credits:
+    commit: 'Úprava'
+    commits: 'Úprav'
+    profile-link: 'Klikni pre navštívenie profilu na GitHub-e'
+    roles:
+      developer: '&6Vývojár'
+      wiki: '&3Editor Wiki'
+      resourcepack: '&cNávrhár Resurcepacku'
+      translator: '&9Prekladateľ'
+messages:
+  not-enough-xp: '&4Nemáš dostatok XP na odomknutie'
+  unlocked: '&bOdomkol si &7"%research%"'
+  only-players: '&4Tento príkaz je iba pre hráčov'
+  unknown-player: '&4Neznámy hráč: &c%player%'
+  no-permission: '&4Na to nemáš potrebné oprávnenie'
+  usage: '&4Použitie: &c%usage%'
+  not-online: '&4%player% &cnie je online!'
+  invalid-item: '&4%item% &cnie je platný item!'
+  invalid-amount: '&4%amount% &cnie je platné množstvo: Musí byť väčšie ako 0!'
+  given-item: '&bBolo ti dané &a%amount% &7"%item%&7"'
+  give-item: '&bDal si %player% &a%amount% &7"%item%&7"'
+  invalid-research: '&4%research% &cnie je platný výskum!'
+  give-research: '&bDal si hráčovi %player% výskum &7"%research%&7"'
+  hungry: '&cSte príliš hladní na to!'
+  disabled-in-world: '&4&lTento item bol zakázaný v tomto svete'
+  disabled-item: '&4&lTento item bol zakázaný! Ako si ho vôbec dostal ? '
+  no-tome-yourself: '&cNemôžeš použiť &4Knihu vedomostí &cna seba...'
+  multimeter: '&bUložená energia: &3%stored% &b/ &3%capacity%'
+  talisman:
+    anvil: '&a&oTvoj Talizman zachránil tvoj nástroj pred zničením'
+    miner: '&a&oTvoj Talizman práve zdvojnásobil tvoj drop'
+    hunter: '&a&oTvoj Talizman práve zdvojnásobil tvoj drop'
+    lava: '&a&oTvoj Talizman ťa zachránil pred uhorením'
+    water: '&a&oTvoj Talizman ťa zachránil pred utopením'
+    angel: '&a&oTvoj Talizman ťa uchránil pred poškodením z pádu'
+    fire: '&a&oTvoj Talizman ťa zachránil pred uhorením'
+    magician: '&a&oTvoj Talizman ti dal Enchant naviac'
+    traveller: '&a&oTvoj Talizman ťa zrýchlil'
+    warrior: '&a&oTvoj Talizman ti zvýšil nachvíľu silu  '
+    knight: '&a&oTvoj Talizman ti dal regeneráciu na 5 sekúnd'
+    whirlwind: '&a&oTvoj Talizman odrazil strelu'
+    wizard: '&a&oTvoj Talizman ti dal lepší level šťastia ale možno znížil level ostatných enchantov'
+  soulbound-rune:
+    fail: '&cNaraz môžeš spájať iba jeden item s tvojou dušou.'
+    success: '&aÚspešne si si spojil tento item s tvojou dušou! Ostane ti keď zomrieš.'
+  research:
+    start: '&7Staroveké duše ti šepkajú tajomné slová do ucha!'
+    progress: '&7Začínaš rozmýšlať o &b%research% &e(%progress%)'
+  fire-extinguish: '&7Uhasil si sa'
+  cannot-place: '&cNemôžeš tam umiestniť blok!'
+  no-pvp: '&cTu nemôžeš útočiť na hráčov!'
+  radiation: '&4Bol si vystavený smrtiacej radiácií &cZbav sa rádioaktívneho itemu alebo si obleč kompletný hazmat oblek!'
+  opening-guide: '&bOtváram príručku, môže to trvať pár sekúnd...'
+  opening-backpack: '&bOtváram batoh, môže to trvať pár sekúnd...'
+  no-iron-golem-heal: '&cToto nie je železný ingot. Toto nemôžeš použiť na uzdravenie iron golema!'
+  link-prompt: '&eKlikni tu:'
+  diet-cookie: '&eZačínaš sa cítiť chudší...'
+  fortune-cookie:
+    - '&7Pomôž mi, som uväznený v továrni na koláčiky šťastia!'
+    - '&7Umrieš zajtra... creeperom'
+    - '&7V nejakom bode tvojho života sa stane niečo zlé !!!'
+    - '&7Budúci týždeň zistíš, že toto nie je skutočný svet ale že si v počítačovej hre'
+    - '&7Tento koláčik bude chutiť dobre o pár sekúnd'
+    - '&7Posledné slovo, ktoré budeš počuť bude "VYHLADIŤ!!!"'
+    - '&7Neobjímaj creepera... Ja som to vyskúšal. Je to fajn, ale nie je to toho hodné .'
+    - '&742. Odpoveď je 42.'
+    - '&7Uteč'
+    - '&7Nikdy nekop priamo pod seba!'
+    - '&7Tis but a flesh wound!'
+    - '&7Always look on the bright side of life!'
+    - '&7This one was actually a Biscuit and not a Cookie'
+    - '&7Neon signs are LIT!'
+machines:
+  pattern-not-found: '&ePrepáč, nedokážem rozpoznať tento recept. Prosím umiestni itemy v správnom vzore do dispensera.'
+  unknown-material: '&ePrepáč, nedokážem rozpoznať item v mojom dispenseri. Prosím vlož item, ktorý poznám.'
+  wrong-item: '&ePrepáč, nedokážem rozpoznať item s ktorým si na mňa klikol pravým tlačítkom. Pozri si recepty a pozri, ktoré itemy môžeš použiť.'
+  full-inventory: '&ePrepáč, môj inventár je preplnený!!!'
+  in-use: '&cInventár tohto bloku  má aktuálne otvorený iný hráč.'
+  ignition-chamber-no-flint: '&cV Ignition Chamber chýba zapalovač.'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4Oltár nie je obkolesený dostatočným počtom podstáv&c(%pedestals% / 8)'
+    unknown-catalyst: '&4Neznámy Catalyst! &cPouži správny recept!'
+    unknown-recipe: '&4Neznámy recept! &cPouži správny recept!'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Podstava je obstavaná! &cOdstráň všetko nad podstavou!'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7Prosím napíš text pre hologram do chatu. &r(Kódy farieb sú podporované!)'
+    inventory-title: 'Editor hologramu'
+  ELEVATOR:
+    no-destinations: '&4Nenájdený žiaden cieľ'
+    pick-a-floor: '&3- Výber podlažia  -'
+    current-floor: '&eToto je podlažie na ktorom sa práve nachádzaš:'
+    click-to-teleport: '&eKlikni &7pre teleportáciu na toto podlažie:'
+    enter-name: '&7Prosím zadaj meno pre podlažie do chatu. &r(Kódy farieb sú podporované!)'
+    named: '&2Úspešne pomenované podlažie:&r%floor%'
+  TELEPORTER:
+    teleporting: '&3Teleportujem...'
+    teleported: '&3Bol si teleportovaný!'
+    cancelled: '&4Teleport zrušený!'
+    invulnerability: '&b&lSi na 30 sekúnd nezraniteľný!'
+    gui:
+      title: 'Tvoje waypointy'
+      tooltip: 'Klikni pre teleport'
+      time: 'Odhadovaný čas'
+  GPS_CONTROL_PANEL:
+    title: 'Ovládací panel GPS'
+    transmitters: 'Prehľad vysielača'
+    waypoints: 'Prehľad waypointov'
+  CARGO_NODES:
+    must-be-placed: '&4Musí byť položená na truhlu alebo stroj!'
+anvil:
+  not-working: '&4Nemôžeš použiť Slimefun item v kovadline !'
+backpack:
+  already-open: '&cPrepáč, tento batoh je otvorený niekde inde!'
+  no-stack: '&cNemôžeš stackovať batohy'
+workbench:
+  not-enhanced: '&4Nemôžeš použiť Slimefun itemy v normálnom craftingu'
+gps:
+  deathpoint: '&4Miesto smrti &7%date%'
+  waypoint:
+    new: '&eProsím napíš meno pre tvoj nový waypoint do chatu. &7(Kódy farieb sú podporované!)'
+    added: '&aÚspešne pridaný nový waypoint'
+    max: '&4Dosiahol si maximálny počet waypointov'
+  insufficient-complexity:
+    - '&4Nedostatočná veľkosť siete: &c%complexity%'
+    - '&4a) Nemáš spustenú GPS sieť'
+    - '&4b)Tvoja GPS sieť nie je dostatočne veľká'
+  geo:
+    scan-required: '&4Je potrebný GEO-Scan! &cOskenuj tento chunk pomocou GEO-Scanner -u!'
+inventory:
+  no-access: '&4Nemáš opŕavnenie na otvorenie tohto bloku'
+android:
+  started: '&7Tvoj Android pokračuje vo svojom skripte'
+  stopped: '&7Tvoj Android pauzol svoj skript'
+  scripts:
+    already-uploaded: '&4Tento skript už bol nahraný.'
+    editor: 'Editor skriptu'
+    instructions:
+      START: '&2Začni skript'
+      REPEAT: '&9Opakuj skript'
+      WAIT: '&ePočkaj 0.5s'
+      GO_FORWARD: '&7Pohyb dopredu'
+      GO_UP: '&7Pohyb hore'
+      GO_DOWN: '&7Pohyb dole'
+      TURN_LEFT: '&7Otoč sa dolava'
+      TURN_RIGHT: '&7Otoč sa doprava'
+      DIG_UP: '&bKop hore'
+      DIG_FORWARD: '&bKop dopredu'
+      DIG_DOWN: '&bKop dole'
+      MOVE_AND_DIG_UP: '&bPohyb a ťaženie dohora'
+      MOVE_AND_DIG_FORWARD: '&bPohyb a ťaženie dopredu'
+      MOVE_AND_DIG_DOWN: '&bPohyb a ťaženie dolu'
+      ATTACK_MOBS_ANIMALS: '&4Zaútoč &c(nepriateľskí mobovia a zvieratá)'
+      ATTACK_MOBS: '&4Zaútoč &c(nepriateľskí mobovia)'
+      ATTACK_ANIMALS: '&4Zaútoč &c(Zvieratá)'
+      ATTACK_ANIMALS_ADULT: '&4Zaútoč &c(Zvieratá &7[dospelé]&c)'
+      CHOP_TREE: '&cVyťaž a zasaď'
+      CATCH_FISH: '&bChyť rybu'
+      FARM_FORWARD: '&bZober a zasaď'
+      FARM_DOWN: '&bZober a zasaď &7(blok pod sebou)'
+      FARM_EXOTIC_FORWARD: '&bPokročilé zbieranie a sadenie'
+      FARM_EXOTIC_DOWN: '&bPokročilé zbieranie a sadenie &7(blok pod sebou)'
+      INTERFACE_ITEMS: '&9Vyprázdni svoj inventár do rozhrania pred sebou'
+      INTERFACE_FUEL: '&cDoplň palivo z rozhrania pred sebou'
+    enter-name:
+      - ''
+      - '&eProsím napíš meno tvojho skriptu'
+      - ''
+    uploaded:
+      - '&bNahrávam...'
+      - '&aSkript bol úspešne nahraný!'
+    rating:
+      own: '&4Nemôžeš hodnotiť svoj skript!'
+      already: '&4Už si hodnotil tento skript!'
+languages:
+  default: 'Východzí jazyk servera'
+  en: 'Angličtina'
+  de: 'Nemčina'
+  fr: 'Francúzština'
+  it: 'Taliančina'
+  es: 'Španielčina'
+  pl: 'Poľština'
+  sv: 'Švédština'
+  nl: 'Holandčina'
+  cs: 'Čeština'
+  hu: 'Maďarčina'
+  lv: 'Lotyština'
+  ru: 'Ruština'
+  sk: 'Slovenčina'
+  zh-CN: 'Čínština (Čína)'
+  zh-TW: 'Čínština (Taiwan)'
+  vi: 'Vietnamčina'
+  id: 'Indonézčina'
+  el: 'Gréčtina'
+  he: 'Hebrejčina'
+  pt: 'Portugalština (Portugalsko)'
+  pt-BR: 'Portugalština (Brazília)'
+  ar: 'Arabčina'
+  af: 'Afrikánčina'
+  da: 'Dánčina'
+  fi: 'Fínština'
+  uk: 'Ukrajinčina'
+  ms: 'Malajština'
+  'no': 'Nórština'
+  ja: 'Japonština'
+  fa: 'Perština'
+  th: 'Thajčina'
+  ro: 'Rumunčina'
+  bg: 'Bulharčina'
+  ko: 'Kórejčina'
+  tr: 'Turečtina'
+  hr: 'Chorvátčina'
+  mk: 'Macedónčina'
+  sr: 'Srbština'
+  be: 'Bieloruština'

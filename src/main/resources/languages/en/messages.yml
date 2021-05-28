@@ -1,0 +1,452 @@
+commands:
+  help: Displays this help screen
+  cheat: Allows you to cheat Items
+  give: Give somebody some Slimefun Items
+  guide: Gives yourself a Slimefun Guide
+  teleporter: See other Player's Waypoints
+  versions: Lists all installed Addons
+  search: Searches your Guide for the given term
+  open_guide: Opens Slimefun's guide without using the book
+  stats: Shows some Stats about a Player
+
+  research:
+    description: Unlock/Reset researches for a player
+    reset: '&cYou have reset %player%''s Knowledge'
+    reset-target: '&cYour Knowledge has been reset'
+
+  backpack:
+    description: Retrieve a copy of an existing backpack
+    invalid-id: '&4The id must be a non-negative number!'
+    player-never-joined: '&4No player with that name could be found!'
+    backpack-does-not-exist: '&4The specified backpack does not exist!'
+    restored-backpack-given: '&aYour backpack has been restored and was added to your inventory!'
+
+  charge:
+    description: Charges the item you are holding
+    charge-success: Item has been charged!
+    not-rechargeable: This item can not be charged!
+
+  timings:
+    description: Timings for Slimefun and its addon
+    please-wait: '&ePlease wait a second... The results are coming in!'
+    verbose-player: '&4The verbose flag cannot be used by a Player!'
+    unknown-flag: '&4Unknown flag: &c%flag%'
+
+placeholderapi:
+  profile-loading: 'Loading...'
+
+guide:
+  locked: 'LOCKED'
+  work-in-progress: 'This feature is not fully finished yet!'
+
+  locked-category:
+  - 'To unlock this category you will'
+  - 'need to unlock all items from the'
+  - 'following categories'
+
+  search:
+    message: '&bWhat would you like to search for?'
+    name: '&7Search...'
+    tooltip: '&bClick to search for an item'
+    inventory: 'Searching for: %item%'
+
+  tooltips:
+    open-category: 'Click to open'
+    versions-notice: 'These are very important when reporting bugs!'
+    wiki: 'View this Item on the official Slimefun Wiki'
+
+    recipes:
+      machine: 'Recipes made in this Machine'
+      miner: 'Resources you can obtain with this Miner'
+      generator: 'Available types of fuel'
+      gold-pan: 'Resources you can obtain'
+      climbing-pick: 'Surfaces you can climb'
+
+  cheat:
+    no-multiblocks: '&4You cannot cheat in Multiblocks, you have to build them!'
+
+  pages:
+    previous: 'Previous page'
+    next: 'Next page'
+
+  back:
+    title: 'Back'
+    guide: 'Go back to the Slimefun Guide'
+    settings: 'Go back to the Settings Panel'
+
+  languages:
+    updated: '&aYour language was successfully set to: &b%lang%'
+    selected-language: 'Currently selected:'
+    select: 'Click to select this language'
+    select-default: 'Click to select the default language'
+    change: 'Click to select a new language'
+
+    description:
+    - '&7You now have the option to change'
+    - '&7the language in which Slimefun'
+    - '&7will be presented to you. Items'
+    - '&7cannot be translated for now.'
+
+    translations:
+      name: '&aIs something missing?'
+      lore: 'Click to add your own translation'
+
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bLearning Animation: &aYes'
+          - ''
+          - '&7You can now toggle whether you'
+          - '&7will see information about your pondering in chat'
+          - '&7upon researching an item.'
+        click: '&eClick to disable your learning animation'
+      disabled:
+        text:
+          - '&bLearning Animation: &4No'
+          - ''
+          - '&7You can now toggle whether you'
+          - '&7will see information about your pondering in chat'
+          - '&7upon researching an item.'
+        click: '&eClick to enable your learning animation'
+
+  title:
+    main: 'Slimefun Guide'
+    settings: 'Settings & Info'
+    languages: 'Select your preferred language'
+    credits: 'Slimefun4 Contributors'
+    wiki: 'Slimefun4 Wiki'
+    addons: 'Addons for Slimefun4'
+    bugs: 'Bug Reports'
+    source: 'Source Code'
+    versions: 'Installed versions'
+
+  credits:
+    commit: 'Commit'
+    commits: 'Commits'
+    profile-link: 'Click to visit their profile on GitHub'
+    open: 'Click to see our contributors'
+    description:
+    - '&7Slimefun is an open-source project'
+    - '&7and maintained by a large community of people.'
+    - '&7Over &e%contributors% &7people have worked on'
+    - '&7Slimefun throughout all these years.'
+
+    roles:
+      developer: '&6Developer'
+      wiki: '&3Wiki Editor'
+      resourcepack: '&cResourcepack Artist'
+      translator: '&9Translator'
+
+messages:
+  not-researched: '&4You do not have enough knowledge to understand this. &cYou will need to unlock &f"%item%&f"'
+  not-enough-xp: '&4You do not have enough XP to unlock this'
+  unlocked: '&bYou have unlocked &7"%research%"'
+  only-players: '&4This command is only for Players'
+  unknown-player: '&4Unknown Player: &c%player%'
+  no-permission: '&4You do not have the required permission to do this'
+  usage: '&4Usage: &c%usage%'
+  not-online: '&4%player% &cis not online!'
+  invalid-item: '&4%item% &cis not a valid Item!'
+  invalid-amount: '&4%amount% &cis not a valid amount : it must be higher than 0!'
+  given-item: '&bYou have been given &a%amount% &7"%item%&7"'
+  give-item: '&bYou have given %player% &a%amount% &7"%item%&7"'
+  invalid-research: '&4%research% &cis not a valid Research!'
+  give-research: '&bYou have given %player% the Research &7"%research%&7"'
+  hungry: '&cYou are too hungry to do that!'
+  disabled-in-world: '&4&lThis Item has been disabled in this world'
+  disabled-item: '&4&lThis Item has been disabled! How did you even get that?'
+  no-tome-yourself: '&cYou cannot use the &4Tome of Knowledge &con yourself...'
+  multimeter: '&bStored Energy: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4You cannot barter with piglins using Slimefun items'
+  bee-suit-slow-fall: '&eYour Bee Wings will help you to get back to the ground safe and slow'
+
+  multi-tool:
+    mode-change: '&b%device% mode changed to: &9%mode%'
+    not-shears: '&cA Multi Tool cannot be used as shears!'
+
+  auto-crafting:
+    select-a-recipe: '&eCrouch and Right-Click &7this block with the item you want it to craft.'
+    recipe-set: '&aYou have successfully set the recipe for this machine.'
+    recipe-removed: '&eYou have successfully removed the recipe from this machine. You can set a new recipe at any time!'
+    no-recipes: '&cWe could not find any valid recipes for the item you are holding.'
+    missing-chest: '&cMissing chest! Auto-Crafters need to be placed above a chest.'
+    select: 'Select this recipe'
+    temporarily-disabled: '&eThis Auto-Crafter was temporarily disabled. You can re-enable it at any time!'
+    re-enabled: '&eThis Auto-Crafter was re-enabled!'
+
+    tooltips:
+      enabled:
+      - '&aThis recipe is currently enabled'
+      - ''
+      - '&eLeft Click &7to temporarily disable the recipe'
+      - '&eRight Click &7to remove this recipe'
+      disabled:
+      - '&cThis recipe is currently disabled'
+      - ''
+      - '&eLeft Click &7to re-enable this recipe'
+      - '&eRight Click &7to remove this recipe'
+
+  talisman:
+    anvil: '&a&oYour Talisman saved your tool from breaking'
+    miner: '&a&oYour Talisman just doubled your drops'
+    hunter: '&a&oYour Talisman just doubled your drops'
+    lava: '&a&oYour Talisman saved you from burning to death'
+    water: '&a&oYour Talisman saved you from drowning'
+    angel: '&a&oYour Talisman saved you from taking fall damage'
+    fire: '&a&oYour Talisman saved you from burning to death'
+    magician: '&a&oYour Talisman gave you an additional Enchantment'
+    traveller: '&a&oYour Talisman gave you a Speed Boost'
+    warrior: '&a&oYour Talisman has improved your Strength for a While'
+    knight: '&a&oYour Talisman gave you 5 Seconds of Regeneration'
+    whirlwind: '&a&oYour Talisman reflected the Projectile'
+    wizard: '&a&oYour Talisman has given you a better Fortune Level but maybe also lowered some other Enchantment Levels'
+    caveman: '&a&oYour Talisman gave you haste'
+    wise: '&a&oYour Talisman has doubled your experience drops'
+
+  soulbound-rune:
+    fail: '&cYou can only bind one item to your soul at a time.'
+    success: '&aYou have successfully bound this item to your soul! You will keep it when you die.'
+
+  enchantment-rune:
+    fail: '&cYou cannot enchant this item.'
+    no-enchantment: '&cCouldn''t find any applicable enchantment for this item.'
+    success: '&aYou have successfully applied a random applicable enchantment to this item.'
+
+  research:
+    start: '&7The Ancient Spirits whisper mysterious words into your ear!'
+    progress: '&7You start to wonder about &b%research% &e(%progress%)'
+
+  tape-measure:
+    no-anchor: '&cYou need to set an anchor before you can start to measure!'
+    wrong-world: '&cYour anchor seems to be in a different world!'
+    distance: '&7Measurement taken. &eDistance: %distance%'
+    anchor-set: '&aSuccessfully set the anchor:&e %anchor%'
+
+  climbing-pick:
+    dual-wielding: '&4You need to hold Climbing Picks in both hands to use them!'
+    wrong-material: '&cYou cannot climb this surface. Check your Slimefun Guide for more info!'
+
+  fire-extinguish: '&7You have extinguished yourself'
+  cannot-place: '&cYou cannot place that block there!'
+  no-pvp: '&cYou cannot pvp in here!'
+  radiation: '&4You have been exposed to deadly radiation! &cGet rid of the radioactive item or equip the complete hazmat suit!'
+  opening-guide: '&bOpening guide, this may take a few seconds...'
+  opening-backpack: '&bOpening backpack, this may take a few seconds...'
+  no-iron-golem-heal: '&cThat is not an Iron Ingot. You cannot use this to heal Iron Golems!'
+  link-prompt: '&eClick here:'
+  diet-cookie: '&eYou are starting to feel very light...'
+
+  fortune-cookie:
+  - '&7Help me, I am trapped in a Fortune Cookie Factory!'
+  - '&7You will die tomorrow...     by a Creeper'
+  - '&7At some point in your Life something bad will happen!!!'
+  - '&7Next week you will notice that this is not the real world, you are in a computer game'
+  - '&7This cookie will taste good in a few seconds'
+  - '&7The last word you will hear is gonna be "EXTERMINATE!!!"'
+  - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s not worth it.'
+  - '&742. The answer is 42.'
+  - '&7A Walshy a day will keep the troubles away.'
+  - '&7Never dig straight down!'
+  - '&7Tis but a flesh wound!'
+  - '&7Always look on the bright side of life!'
+  - '&7This one was actually a Biscuit and not a Cookie'
+  - '&7Neon signs are LIT!'
+
+  above-limit-level: '&cCannot (dis)enchant an enchantment level higher than %level%!'
+
+  pickaxe-of-the-seeker:
+    no-ores: '&cCannot find any nearby ores!'
+
+machines:
+  pattern-not-found: '&eSorry, I could not recognize this Recipe. Please place the Items in the correct pattern into the Dispenser.'
+  unknown-material: '&eSorry, I could not recognize the Item in my dispenser. Please put something in that I know.'
+  wrong-item: '&eSorry, I could not recognize the Item you right clicked me with. Check the Recipes and see which Items you can use.'
+  full-inventory: '&eSorry, my inventory is too full!'
+  in-use: '&cThis Block''s inventory is currently opened by a different Player.'
+  ignition-chamber-no-flint: '&cIgnition Chamber is missing Flint and Steel.'
+  inventory-empty: '&6You have successfully constructed this Multiblock. Proceed by placing items inside the dispenser and click me again to craft the item you want!'
+
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4The Altar is not surrounded by the needed amount of Pedestals &c(%pedestals% / 8)'
+    unknown-catalyst: '&4Unknown Catalyst! &cUse the correct Recipe instead!'
+    unknown-recipe: '&4Unknown Recipe! &cUse the correct Recipe instead!'
+
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Pedestal is obstructed! &cRemove anything above the pedestal!'
+
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7Please enter your desired Hologram Text into your Chat. &r(Color Codes are supported!)'
+    inventory-title: 'Hologram Editor'
+
+  ELEVATOR:
+    no-destinations: '&4No destinations found'
+    pick-a-floor: '&3- Pick a floor -'
+    current-floor: '&eThis is the floor you are currently on:'
+    click-to-teleport: '&eClick &7to teleport to this floor:'
+    enter-name: '&7Please enter your desired floor name into your Chat. &r(Color Codes are supported!)'
+    named: '&2Successfully named this floor: &r%floor%'
+
+  TELEPORTER:
+    teleporting: '&3Teleporting...'
+    teleported: '&3Teleported!'
+    cancelled: '&4Teleportation cancelled!'
+    invulnerability: '&b&lYou have been given 30 seconds of Invulnerability!'
+
+    gui:
+      title: 'Your waypoints'
+      tooltip: 'Click to teleport'
+      time: 'Estimated time'
+
+  GPS_CONTROL_PANEL:
+    title: 'GPS - Control Panel'
+    transmitters: 'Transmitter Overview'
+    waypoints: 'Waypoint Overview'
+
+  CARGO_NODES:
+    must-be-placed: '&4Must be placed onto a chest or machine!'
+
+  INDUSTRIAL_MINER:
+    no-fuel: '&cYour Industrial Miner ran out of fuel! Put your fuel into the chest above.'
+    piston-facing: '&cYour Industrial Miner requires pistons to face upwards!'
+    piston-space: '&cThe two pistons need to have an empty block above them!'
+    destroyed: '&cYour Industrial Miner seems to have been destroyed.'
+    already-running: '&cThis Industrial Miner is already running!'
+    full-chest: '&cThe Chest of your Industrial Miner is full!'
+    no-permission: '&4You do not seem to have permission to operate an Industrial Miner here!'
+    finished: '&eYour Industrial Miner has finished! It obtained a total of %ores% ore(s)!'
+
+anvil:
+  not-working: '&4You cannot use Slimefun items in an anvil!'
+  mcmmo-salvaging: '&4You cannot salvage Slimefun items!'
+
+brewing_stand:
+  not-working: '&4You cannot use Slimefun items in a brewing stand!'
+
+cartography_table:
+  not-working: '&4You cannot use Slimefun items in a cartography table!'
+
+villagers:
+  no-trading: '&4You cannot trade Slimefun items with Villagers!'
+
+backpack:
+  already-open: '&cSorry, this Backpack is open somewhere else!'
+  no-stack: '&cYou cannot stack Backpacks'
+
+workbench:
+  not-enhanced: '&4You cannot use Slimefun items in a normal workbench'
+
+cauldron:
+  no-discoloring: '&4You cannot discolor Slimefun Armor'
+
+gps:
+  deathpoint: '&4Deathpoint &7%date%'
+  waypoint:
+    new: '&ePlease type in a name for your new waypoint in the chat. &7(Color Codes supported!)'
+    added: '&aSuccessfully added a new waypoint'
+    max: '&4You have reached the maximum amount of waypoints'
+    duplicate: '&4You have already created a waypoint named: &f%waypoint%'
+
+  insufficient-complexity:
+  - '&4Insufficient GPS Network Complexity: &c%complexity%'
+  - '&4a) You do not have a GPS Network setup yet'
+  - '&4b) Your GPS Network is not complex enough'
+
+  geo:
+    scan-required: '&4GEO-Scan required! &cScan this chunk using a GEO-Scanner first!'
+
+inventory:
+  no-access: '&4You are not permitted to access this block'
+
+android:
+  started: '&7Your Android resumed running its script'
+  stopped: '&7Your Android has paused its script'
+
+  scripts:
+    already-uploaded: '&4This script has already been uploaded.'
+    editor: 'Script Editor'
+    too-long: '&cThe script is too long to edit!'
+
+    instructions:
+      START: '&2Start Script'
+      REPEAT: '&9Repeat Script'
+      WAIT: '&eWait 0.5s'
+      GO_FORWARD: '&7Move forward'
+      GO_UP: '&7Move upwards'
+      GO_DOWN: '&7Move downwards'
+      TURN_LEFT: '&7Turn left'
+      TURN_RIGHT: '&7Turn right'
+      DIG_UP: '&bDig up'
+      DIG_FORWARD: '&bDig forward'
+      DIG_DOWN: '&bDig down'
+      MOVE_AND_DIG_UP: '&bMove & Dig upwards'
+      MOVE_AND_DIG_FORWARD: '&bMove & Dig forward'
+      MOVE_AND_DIG_DOWN: '&bMove & Dig downwards'
+      ATTACK_MOBS_ANIMALS: '&4Attack &c(Hostile Mobs & Animals)'
+      ATTACK_MOBS: '&4Attack &c(Hostile Mobs)'
+      ATTACK_ANIMALS: '&4Attack &c(Animals)'
+      ATTACK_ANIMALS_ADULT: '&4Attack &c(Animals &7[Adult]&c)'
+      CHOP_TREE: '&cChop and Replant'
+      CATCH_FISH: '&bCatch Fish'
+      FARM_FORWARD: '&bHarvest and Replant'
+      FARM_DOWN: '&bHarvest and Replant &7(Block underneath)'
+      FARM_EXOTIC_FORWARD: '&bAdvanced Harvest and Replant'
+      FARM_EXOTIC_DOWN: '&bAdvanced Harvest and Replant &7(Block underneath)'
+      INTERFACE_ITEMS: '&9Push Inventory Contents to the faced Interface'
+      INTERFACE_FUEL: '&cPull Fuel from the faced Interface'
+
+    enter-name:
+    - ''
+    - '&ePlease type in a name for your script'
+    - ''
+
+    uploaded:
+    - '&bUploading...'
+    - '&aSuccessfully uploaded your script!'
+
+    rating:
+      own: '&4You cannot rate your own script!'
+      already: '&4You have already left a Rating for this script!'
+
+languages:
+  default: 'Server-Default'
+  en: 'English'
+  de: 'German'
+  fr: 'French'
+  it: 'Italian'
+  es: 'Spanish'
+  pl: 'Polish'
+  sv: 'Swedish'
+  nl: 'Dutch'
+  cs: 'Czech'
+  hu: 'Hungarian'
+  lv: 'Latvian'
+  ru: 'Russian'
+  sk: 'Slovak'
+  zh-CN: 'Chinese (China)'
+  zh-TW: 'Chinese (Taiwan)'
+  vi: 'Vietnamese'
+  id: 'Indonesian'
+  el: 'Greek'
+  he: 'Hebrew'
+  pt: 'Portuguese (Portugal)'
+  pt-BR: 'Portuguese (Brazil)'
+  ar: 'Arabic'
+  af: 'Afrikaans'
+  da: 'Danish'
+  fi: 'Finnish'
+  uk: 'Ukrainian'
+  ms: 'Malay'
+  'no': 'Norwegian'
+  ja: 'Japanese'
+  fa: 'Persian'
+  th: 'Thai'
+  tl: 'Tagalog'
+  ro: 'Romanian'
+  bg: 'Bulgarian'
+  ko: 'Korean'
+  tr: 'Turkish'
+  hr: 'Croatian'
+  mk: 'Macedonian'
+  sr: 'Serbian'
+  be: 'Belarusian'

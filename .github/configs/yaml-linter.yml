@@ -23,4 +23,4 @@ rules:
   ## Trailing Spaces for language files are too common and these files are automated anyway
   trailing-spaces:
     ignore: |
-      /src/main/resources/languages/*.yml
+      /src/main/resources/languages/**/*.yml

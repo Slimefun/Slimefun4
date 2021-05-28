@@ -59,6 +59,8 @@ public class BlockStorage {
     private final Map<String, Config> blocksCache = new ConcurrentHashMap<>();
 
     private static int chunkChanges = 0;
+    private static boolean chunksLoaded = false;
+    private static boolean universalInventoriesLoaded = false;
 
     private int changes = 0;
     private AtomicBoolean isMarkedForRemoval = new AtomicBoolean(false);
@@ -214,6 +216,12 @@ public class BlockStorage {
     }
 
     private void loadChunks() {
+        if (chunksLoaded) {
+            return;
+        }
+
+        chunksLoaded = true;
+        
         File chunks = new File(PATH_CHUNKS + "chunks.sfc");
 
         if (chunks.exists()) {
@@ -237,6 +245,12 @@ public class BlockStorage {
             if (file.getName().startsWith(world.getName()) && file.getName().endsWith(".sfi")) {
                 try {
                     Location l = deserializeLocation(file.getName().replace(".sfi", ""));
+                    
+                    // We only want to only load this world's menus
+                    if (world != l.getWorld()) {
+                        continue;
+                    }
+                    
                     io.github.thebusybiscuit.cscorelib2.config.Config cfg = new io.github.thebusybiscuit.cscorelib2.config.Config(file);
                     BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
 
@@ -253,6 +267,12 @@ public class BlockStorage {
             }
         }
 
+        if (universalInventoriesLoaded) {
+            return;
+        }
+        
+        universalInventoriesLoaded = true;
+        
         for (File file : new File("data-storage/Slimefun/universal-inventories").listFiles()) {
             if (file.getName().endsWith(".sfi")) {
                 try {
@@ -417,19 +437,14 @@ public class BlockStorage {
      * @return the SlimefunItem's ItemStack corresponding to the block if it has one, otherwise null
      */
     @Nullable
-    public static ItemStack retrieve(Block block) {
-        if (!hasBlockInfo(block)) {
+    public static ItemStack retrieve(@Nonnull Block block) {
+        SlimefunItem item = check(block);
+
+        if (item == null) {
             return null;
         } else {
-            String id = getLocationInfo(block.getLocation(), "id");
-            SlimefunItem item = SlimefunItem.getByID(id);
             clearBlockInfo(block);
-
-            if (item == null) {
-                return null;
-            } else {
-                return item.getItem();
-            }
+            return item.getItem();
         }
     }
 
@@ -705,6 +720,11 @@ public class BlockStorage {
         return id == null ? null : SlimefunItem.getByID(id);
     }
 
+    public static boolean check(Block block, String slimefunItem) {
+        String id = checkID(block);
+        return id != null && id.equals(slimefunItem);
+    }
+
     @Nullable
     public static String checkID(@Nonnull Block b) {
         // Only access the BlockState when on the main thread
@@ -719,16 +739,8 @@ public class BlockStorage {
         return checkID(b.getLocation());
     }
 
-    public static boolean check(Block block, String slimefunItem) {
-        String id = checkID(block);
-        return id != null && id.equals(slimefunItem);
-    }
-
-    public static String checkID(Location l) {
-        if (!hasBlockInfo(l)) {
-            return null;
-        }
-
+    @Nullable
+    public static String checkID(@Nonnull Location l) {
         return getLocationInfo(l, "id");
     }
 
@@ -741,7 +753,7 @@ public class BlockStorage {
         return id != null && id.equals(slimefunItem);
     }
 
-    public static boolean isWorldLoaded(World world) {
+    public static boolean isWorldLoaded(@Nonnull World world) {
         return SlimefunPlugin.getRegistry().getWorlds().containsKey(world.getName());
     }
 

@@ -28,7 +28,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -117,7 +116,7 @@ public class ArmorTask implements Runnable {
                 SlimefunPlugin.runSync(() -> {
                     SlimefunArmorPiece slimefunArmor = armorpiece.getItem().get();
 
-                    if (Slimefun.hasUnlocked(p, slimefunArmor, true)) {
+                    if (slimefunArmor.canUse(p, true)) {
                         for (PotionEffect effect : slimefunArmor.getPotionEffects()) {
                             p.removePotionEffect(effect.getType());
                             p.addPotionEffect(effect);
@@ -138,7 +137,7 @@ public class ArmorTask implements Runnable {
 
         SlimefunItem item = SlimefunItem.getByItem(helmet);
 
-        if (item instanceof SolarHelmet && Slimefun.hasUnlocked(p, item, true)) {
+        if (item instanceof SolarHelmet && item.canUse(p, true)) {
             ((SolarHelmet) item).rechargeItems(p);
         }
     }
@@ -170,22 +169,22 @@ public class ArmorTask implements Runnable {
         }
 
         Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
-        ItemStack subject = item;
+        ItemStack itemStack = item;
 
         if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {
             // Performance optimization to reduce ItemMeta calls
-            subject = new ItemStackWrapper(item);
+            itemStack = ItemStackWrapper.wrap(item);
         }
 
         for (SlimefunItem radioactiveItem : radioactiveItems) {
-            if (radioactiveItem.isItem(subject) && Slimefun.isEnabled(p, radioactiveItem, true)) {
+            if (radioactiveItem.isItem(itemStack) && !radioactiveItem.isDisabledIn(p.getWorld())) {
                 // If the item is enabled in the world, then make radioactivity do its job
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
 
                 SlimefunPlugin.runSync(() -> {
                     p.addPotionEffects(radiationEffects);
 
-                    // if radiative fire is enabled
+                    // if radioactive fire is enabled, set them on fire
                     if (radioactiveFire) {
                         p.setFireTicks(400);
                     }

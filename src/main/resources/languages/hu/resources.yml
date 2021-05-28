@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: 'GEO-vizsgálat eredmények'
+  chunk: 'Vizsgált chunk'
+  world: 'Világ'
+  unit: 'egység'
+  units: 'egység'
+resources:
+  slimefun:
+    oil: 'Olaj'
+    nether_ice: 'Nether jég'
+    salt: 'Só'
+    uranium: 'Uránium'
+  slimefunorechunks:
+    iron_ore_chunk: 'Vasérctömb'
+    gold_ore_chunk: 'Aranyérc-tömb'
+    copper_ore_chunk: 'Rézérctömb'
+    tin_ore_chunk: 'Ónérctömb'
+    silver_ore_chunk: 'Ezüstérctömb'
+    aluminum_ore_chunk: 'Alumíniumérc-tömb'
+    lead_ore_chunk: 'Ólomérctömb'
+    zinc_ore_chunk: 'Cinkérctömb'
+    nickel_ore_chunk: 'Nikkelérctömb'
+    cobalt_ore_chunk: 'Kobaltérctömb'

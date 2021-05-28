@@ -15,8 +15,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * This {@link Event} is fired whenever a {@link Reactor} has completed its process.
  *
  * @author poma123
+ * 
+ * @deprecated This event is no longer fired. Use the {@link AsyncMachineOperationFinishEvent} instead.
  *
  */
+@Deprecated
 public class AsyncReactorProcessCompleteEvent extends AsyncMachineProcessCompleteEvent {
 
     private static final HandlerList handlers = new HandlerList();

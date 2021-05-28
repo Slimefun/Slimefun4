@@ -21,7 +21,8 @@ import org.bukkit.block.data.Waterlogged;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CropGrowthAccelerator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.CropGrowthAccelerator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
@@ -121,6 +122,12 @@ public enum SlimefunTag implements Tag<Material> {
     DIRT_VARIANTS,
 
     /**
+     * All soil blocks for a fungus to grow on.
+     * This includes all dirt variants, nylium and soul soil.
+     */
+    FUNGUS_SOIL,
+
+    /**
      * All variants of concrete powder.
      * Can you believe there is no tag for this already?
      */
@@ -185,6 +192,11 @@ public enum SlimefunTag implements Tag<Material> {
     INDUSTRIAL_MINER_ORES,
 
     /**
+     * All materials (ores) which can be doubled using a Miner {@link Talisman}.
+     */
+    MINER_TALISMAN_TRIGGERS,
+
+    /**
      * All materials (crops) which the {@link CropGrowthAccelerator} will recognize.
      */
     CROP_GROWTH_ACCELERATOR_BLOCKS,
@@ -210,8 +222,16 @@ public enum SlimefunTag implements Tag<Material> {
      */
     CAVEMAN_TALISMAN_TRIGGERS;
 
+    /**
+     * Lookup table for tag names.
+     */
     private static final Map<String, SlimefunTag> nameLookup = new HashMap<>();
-    public static final SlimefunTag[] valuesCache = values();
+
+    /**
+     * Speed up lookups by caching the values instead of creating a new array
+     * on every method call.
+     */
+    private static final SlimefunTag[] valuesCache = values();
 
     static {
         for (SlimefunTag tag : valuesCache) {
@@ -265,9 +285,8 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
-    @Nonnull
     @Override
-    public NamespacedKey getKey() {
+    public @Nonnull NamespacedKey getKey() {
         return key;
     }
 
@@ -288,9 +307,8 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
-    @Nonnull
     @Override
-    public Set<Material> getValues() {
+    public @Nonnull Set<Material> getValues() {
         if (additionalTags.isEmpty()) {
             return Collections.unmodifiableSet(includedMaterials);
         } else {
@@ -325,8 +343,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return An immutable {@link Set} of all sub tags.
      */
-    @Nonnull
-    public Set<Tag<Material>> getSubTags() {
+    public @Nonnull Set<Tag<Material>> getSubTags() {
         return Collections.unmodifiableSet(additionalTags);
     }
 
@@ -335,8 +352,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return A {@link Material} array for this {@link Tag}
      */
-    @Nonnull
-    public Material[] toArray() {
+    public @Nonnull Material[] toArray() {
         return getValues().toArray(new Material[0]);
     }
 
@@ -345,8 +361,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return A {@link Stream} of {@link Material Materials}
      */
-    @Nonnull
-    public Stream<Material> stream() {
+    public @Nonnull Stream<Material> stream() {
         return getValues().stream();
     }
 
@@ -361,8 +376,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return The {@link SlimefunTag} or null if it does not exist.
      */
-    @Nullable
-    public static SlimefunTag getTag(@Nonnull String value) {
+    public static @Nullable SlimefunTag getTag(@Nonnull String value) {
         Validate.notNull(value, "A tag cannot be null!");
 
         return nameLookup.get(value);

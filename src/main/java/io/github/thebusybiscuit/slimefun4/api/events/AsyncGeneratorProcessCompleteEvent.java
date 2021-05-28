@@ -16,7 +16,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  *
  * @author poma123
  *
+ * @deprecated This event is no longer fired. Use the {@link AsyncMachineOperationFinishEvent} instead.
+ *
  */
+@Deprecated
 public class AsyncGeneratorProcessCompleteEvent extends AsyncMachineProcessCompleteEvent {
 
     private static final HandlerList handlers = new HandlerList();

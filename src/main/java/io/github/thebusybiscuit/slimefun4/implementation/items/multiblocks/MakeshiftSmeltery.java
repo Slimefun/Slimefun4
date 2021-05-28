@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,8 +17,18 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link MakeshiftSmeltery} is a simpler version of the {@link Smeltery}.
+ * Its functionality is very limited and it cannot be used to smelt alloys.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Smeltery
+ *
+ */
 public class MakeshiftSmeltery extends AbstractSmeltery {
 
+    @ParametersAreNonnullByDefault
     public MakeshiftSmeltery(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, new ItemStack(Material.OAK_FENCE), null, new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
     }

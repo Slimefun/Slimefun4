@@ -1,0 +1,339 @@
+---
+commands:
+  help: Laat het hulpmenu zien
+  cheat: Geeft je toestemming om gratis spullen in het spel te brengen
+  give: Geef iemand een aantal Slimefun spullen
+  guide: Geef jezelf een Slimefun Handboek
+  teleporter: Bekijk de opgeslagen locaties van andere spelers
+  versions: Laat een lijst met alle geïnstalleerde uitbreidingen zien
+  search: Doorzoek de Slimefun handleiding voor een bepaald trefwoord
+  open_guide: Open de Slimefun handleiding zonder gebruik te maken van het Slimefun boek
+  stats: Laat een aantal statistieken van een speler zien
+  research:
+    description: Ontgrendel of herstart Slimefun kennissen van een speler
+    reset: '&cJe hebt %player%''s Slimefun kennis herstart'
+    reset-target: '&cJe Slimefun kennis is herstart'
+  backpack:
+    description: Krijg een kopie van een al bestaande rugzak
+    invalid-id: '&4Het id moet een positieve nummer zijn!'
+    player-never-joined: '&4Er is geen speler met die naam gevonden!'
+    backpack-does-not-exist: '& 4De opgegeven rugzak bestaat niet!'
+    restored-backpack-given: '&aJouw rugzak is hersteld en is toegevoegd aan jouw inventaris.'
+  charge:
+    description: Laad het item wat je vasthoud op
+    charge-success: Item is opgeladen!
+    not-rechargeable: Dit item kan niet opgeladen worden!
+placeholderapi:
+  profile-loading: 'Aan het laden...'
+guide:
+  locked: 'VERGRENDELD'
+  work-in-progress: 'Dit is nog niet helemaal klaar!'
+  locked-category:
+    - 'Om deze categorie te ontgrendelen zul je'
+    - 'alle items moeten ontgrendelen van de'
+    - 'volgende categorieën'
+  search:
+    message: '&bOp welk woord zou je willen zoeken?'
+    name: '&7Zoeken...'
+    tooltip: '&bKlik om naar een item te zoeken'
+    inventory: 'Zoeken naar: %item%'
+  tooltips:
+    open-category: 'Klik om te openen'
+    versions-notice: 'Deze zijn erg belangrijk voor het rapporteren van fouten!'
+    wiki: 'Bekijk dit voorwerp op de officiële Slimefun Wiki'
+    recipes:
+      machine: 'Recepten gemaakt in deze Machine'
+      miner: 'Grondstoffen die je met deze Miner kunt verkrijgen'
+      generator: 'Beschikbare soorten brandstof'
+      gold-pan: 'Grondstoffen die je kunt verkrijgen'
+      climbing-pick: 'Oppervlakken die je kunt beklimmen'
+  cheat:
+    no-multiblocks: '&4Je kan geen Slimefun machines in het spel brengen, je moet ze bouwen zoals aangegeven.'
+  pages:
+    previous: 'Vorige bladzijde'
+    next: 'Volgende bladzijde'
+  back:
+    title: 'Terug'
+    guide: 'Ga terug naar de Slimefun Handleiding'
+    settings: 'Ga terug naar Instellingen'
+  languages:
+    updated: '&aJe taal instelling is succesvol veranderd naar: &b%lang%'
+    selected-language: ' Op dit moment geselecteerd:'
+    select: 'Klik om deze taal te selecteren'
+    select-default: 'Klik om de standaard taal te selecteren'
+    change: 'Klik om een nieuwe taal te kiezen'
+    description:
+      - '&7Je hebt nu de mogelijkheid om de taal'
+      - '&7van Slimefun te veranderen'
+      - '&7aan jou wordt vertoond. Items'
+      - '&7kunnen momenteel niet vertaald worden.'
+    translations:
+      name: '&aOntbreekt er iets?'
+      lore: 'Klik om een eigen vertaling toe the voegen'
+  title:
+    main: 'Slimefun Handboek'
+    settings: 'Instellingen & Informatie'
+    languages: 'Kies een taal bij voorkeur'
+    credits: 'Slimefun4 Bijdragers'
+    addons: 'Uitbreidingen voor Slimefun4'
+    bugs: 'Fouten rapporteren'
+    versions: 'Geïnstalleerde versies'
+  credits:
+    commit: 'Bijdrage'
+    commits: 'Bijdragen'
+    profile-link: 'Klik om hun profielen op Github te bezoeken'
+    open: 'Klik om onze bijdragers te zien'
+    description:
+      - '&7Slimefun is een open-source project'
+      - '&7en wordt in stand gehouden door een grote gemeenschap van mensen.'
+      - '&7Meer dan &e%contributors% &7mensen hebben hieraan'
+      - '&7al deze jaren gewerkt.'
+    roles:
+      developer: '&6Ontwikkelaar'
+      wiki: '&3Wiki Ontwikkelaar'
+      resourcepack: '&cGrafische bundel Ontwikkelaar'
+      translator: '&9Vertaler'
+messages:
+  not-enough-xp: '&4Je hebt niet genoeg XP om dit te ontgrendelen'
+  unlocked: '&bJe hebt &7"%research%" ontgrendeld'
+  only-players: '&4Dit commando is alleen voor spelers'
+  unknown-player: '&4Onbepaalde speler: &c%player%'
+  no-permission: '&4Je hebt geen toestemming om deze actie uit te voeren'
+  usage: '&4Gebruik, zoals: &c%usage%'
+  not-online: '&4%player% &cis niet online!'
+  invalid-item: '&4%item% &cis geen geldig voorwerp!'
+  invalid-amount: '&4%amount% &cis geen geldige hoeveelheid: het moet meer zijn dan 0!'
+  given-item: '&bJe hebt &a%amount% keer &7"%item%&7" ontvangen'
+  give-item: '&bJe hebt %player% &a%amount% keer &7"%item%&7" gegeven'
+  invalid-research: '&4%research% &cis geen geldig Slimefun onderzoek'
+  give-research: '&bJe hebt %player% de kennis over &7"%research%&7" gegeven'
+  hungry: '&cJe hebt teveel honger om zoiets te doen!'
+  disabled-in-world: '&4&lDit voorwerp is uitgeschakeld in deze wereld'
+  disabled-item: '&4&lDit voorwerp is uitgeschakeld! Hoe heb je dat ooit verkregen?!'
+  no-tome-yourself: '&cJe kan deze &4Tome of Knowledge &con niet op jezelf gebruiken...'
+  multimeter: '&bOpgeslagen energie: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4Je kunt geen Slimefun spullen met piglins ruilen'
+  bee-suit-slow-fall: '&eJe Bee Wings zullen je helpen om weer veilig op de grond te komen'
+  multi-tool:
+    mode-change: '&b%device% mode veranderd naar: &9%mode%'
+    not-shears: '&cEen Mutli Tool kan niet gebruikt worden als een schaar!'
+  talisman:
+    anvil: '&a&oJe Talisman heeft voorkomen dat je uitrusting is gebroken'
+    miner: '&a&oJe Talisman heeft zonet de gewonnen mineralen verdubbeld'
+    hunter: '&a&oJe Talisman heeft zonet je buit verdubbeld'
+    lava: '&a&oJe Talisman heeft je gered van een vurige dood'
+    water: '&a&oJe Talisman heeft je gered van de verdrinkingsdood'
+    angel: '&a&oJe Talisman heeft je gered van val schade'
+    fire: '&a&oJe Talisman heeft je gered van een vurige dood'
+    magician: '&a&oJe Talisman heeft je een extra betovering gegeven'
+    traveller: '&a&oJe Talisman heeft je een snelheidsboost gegeven'
+    warrior: '&a&oJe Talisman heeft je kracht voor een tijdje verbeterd'
+    knight: '&a&oJe Talisman heeft je 5 seconden genezing gegeven'
+    whirlwind: '&a&oJe Talisman heeft het projectiel weerkaatst'
+    wizard: '&a&oJe Talisman heeft je een hoger level van geluk gegeven, maar heeft misschien ook de levels van andere betoveringen verlaagd'
+    caveman: '&a&oJe talisman gaf je haast'
+    wise: '&a&oJe Talisman heeft je verkregen experience punten verdubbeld'
+  soulbound-rune:
+    fail: '&cJe kan maar één voorwerp met je ziel verbinden op elk moment'
+    success: '&aJe hebt dit voorwerp succesvol met je ziel verbonden! Het blijft bij je als je dood gaat'
+  enchantment-rune:
+    fail: '&cJe kunt dit item niet betoveren.'
+    no-enchantment: '&cKon geen mogelijke betoveringen vinden voor dit item.'
+    success: '&aJe hebt succesvol een random betovering toegevoegd op dit item.'
+  research:
+    start: '& 7De wijze geesten fluisteren mysterieuze woorden in je hoofd!'
+    progress: '&7Je begint na te filosoferen over &b%research% &e(%progress%)'
+  tape-measure:
+    no-anchor: '&cJe hebt nog een anker nodig voordat je kunt meten!'
+    wrong-world: '&cJe anker lijkt in een andere wereld te zitten!'
+    distance: '&7Afstand gemeten. &eAfstand: %distance%'
+    anchor-set: '&aHet is gelukt om het anker in te stellen:&e %anchor%'
+  climbing-pick:
+    dual-wielding: '&4Je moet een klim-pickaxe in bijde handen hebben om hem te gebruiken!'
+    wrong-material: '&cJe kunt dit oppervlak niet beklimmen. Check je Slimefun Guide voor meer info!'
+  fire-extinguish: '&7Je hebt jezelf geblust! ...'
+  cannot-place: '&cJe kan dat blok daar niet plaatsen!'
+  no-pvp: '&cJe kan hier geen pvp aan gaan!'
+  radiation: '&4Je bent blootgesteld aan dodelijke straling! &cGooi het radioactieve voorwerp weg of draag een volledige hazmat suit!'
+  opening-guide: '&bBezig met het handboek openen, dit kan even duren...'
+  opening-backpack: '&bBezig met een rugzag openen, dit kan even duren...'
+  no-iron-golem-heal: '&cDat is geen ijzerstaaf! Je kan dit niet gebruiken om ijzeren golems te genezen!'
+  link-prompt: '&eKlik mij:'
+  diet-cookie: '&eJe begint je zo ligt als een veertje te voelen...'
+  fortune-cookie:
+    - '&7Hellup mij, ik zit vast in een gelukskoekjes-fabriek!'
+    - '&7Je overlijdt morgen...     door een creeper...'
+    - '&7Ooit gaat  er iets ergs gebeuren in je leven!!! Muhahaha'
+    - '&7Volgende week zal je eindelijk doorhebben dat dit niet de echte wereld is, maar een simulatie'
+    - '&7Dit koekje gaat over een paar seconden heerlijk smaken'
+    - '&7De laatste woorden die je ooit zal horen zijn "Voor mij is deze wereld alleen maar vals!"'
+    - '&7What je ook wilt worden, knuffels nooit een creeper... Ik heb het geprobeerd, maar het is het echt niet waard'
+    - '&742. Het antwoord op alles is 42'
+    - '&7A Walshy, één dag houdt alle problemen weg'
+    - '&7Graaf nooit recht naar beneden!'
+    - '&7Het is slechts een vleeswonde!'
+    - '&7Kijk altijd naar de blije kant van je leven!'
+    - '&7Deze was eigenlijk een biscuitje en geen koekje'
+    - '&7Neon borden zijn LIT!'
+machines:
+  pattern-not-found: '&eSorry, ik heb het recept niet herkend. Plaats astublieft de spullen in het correcte patroon in de dispenser'
+  unknown-material: '&eSorry, ik heb het object in mijn dispenser niet herkend. Plaats er astublieft iets in dat ik herken'
+  wrong-item: '& eSorry, ik heb het object waarmee je mij aan hebt geklikt niet herkend. Controleer de recepten en kijk welke spullen je kan gebruiken'
+  full-inventory: '&eSorry, mijn inventaris is te vol!'
+  in-use: '&cDit blok is al in gebruik door een andere speler'
+  ignition-chamber-no-flint: '&cDe ontstekingskamer heeft geen aansteker meer'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4Het altaar is niet omringt met het nodige aantal sokkels &c(%pedestals% / 8)'
+    unknown-catalyst: '&4Onbepaalde katalysator! &cGebruik het juiste recept'
+    unknown-recipe: '&4Onbepaald recept! &cGebruik het juiste recept'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Een sokkel is onderbroken! &cVerwijder alles boven de sokkel!'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7Type astublieft de gewenste text in het gespreksvenster. &r(Kleurcodes zijn ondersteund)'
+    inventory-title: 'Hologram-editor'
+  ELEVATOR:
+    no-destinations: '&4Geen doelen gevonden'
+    pick-a-floor: '&3- Kies een verdieping -'
+    current-floor: '&eDit is de verdieping waar je nu bent:'
+    click-to-teleport: '&eKlik &7om naar deze verdieping te gaan:'
+    enter-name: '&7Type astublieft de gewenste verdieping in het gespreksvenster. &r(Kleurcodes zijn ondersteund)'
+    named: '&2Deze verdieping succesvol vernoemt naar: &r%floor%'
+  TELEPORTER:
+    teleporting: '&3Bezig met teleporteren...'
+    teleported: '&3Geteleporteerd!'
+    cancelled: '&4Teleportatie geannuleerd!'
+    invulnerability: '&b&lJe hebt 30 seconden immuniteit ontvangen!'
+    gui:
+      title: 'Jouw locatiepunt'
+      tooltip: 'Klik om te teleporteren'
+      time: 'Geschatte tijd'
+  GPS_CONTROL_PANEL:
+    title: 'GPS - Configuratiescherm'
+    transmitters: 'Transmitter-overzicht'
+    waypoints: 'Waypoint-overzicht'
+  CARGO_NODES:
+    must-be-placed: '&4Dit moet geplaatst worden op een kist of op een machine!'
+  INDUSTRIAL_MINER:
+    no-fuel: '& cUw Industrial Miner heeft geen brandstof meer! Doe de brandstof in de kist erboven.'
+    piston-facing: '&cJe  Industrial Miner moet de duwmachines naar boven hebben!'
+    piston-space: '&cDe twee duwmachines moeten een leeg blok boven hem hebben!'
+    destroyed: '&cJouw Industrial Miner lijkt vernietigt te zijn!'
+    already-running: '&cDeze Industrial Miner draait al!'
+    full-chest: '&cDe kist van je Industrial Miner is vol!'
+    no-permission: '&4Het lijkt er op dat je geen permissie hebt om een Industrial Miner hier te laten werken!'
+    finished: '&eJe Industrial Miner is klaar! Het heeft in totaal %ores% grondstof(fen)! '
+anvil:
+  not-working: '&4Je kan geen Slimefun voorwerpen gebruiken in een aambeeld!'
+  mcmmo-salvaging: '&4Je kunt geen Slimefun items afbreken!'
+brewing_stand:
+  not-working: '&4Je kunt geen Slimefun spullen in een brouwstandaard doen!'
+cartography_table:
+  not-working: '&4Je kunt Slimefun items niet in een cartografie tafel gebruiken!'
+villagers:
+  no-trading: '&4Je kunt geen Slimefun spullen met villagers ruilen!'
+backpack:
+  already-open: '&cSorry, deze rugzak is al ergens anders geopend!'
+  no-stack: '&cJe kan geen rugzakken stapelen'
+workbench:
+  not-enhanced: '&4Je kan geen Slimefun voorwerpen in een normale werkbank gebruiken'
+cauldron:
+  no-discoloring: '&4Je kunt de kleur van Slimefun Bescherming niet er af halen'
+gps:
+  deathpoint: '&4Dode locatie &7%date%'
+  waypoint:
+    new: '&7Type astublieft de gewenste naam voor je locatiepunt in het gespreksvenster. &r(Kleurcodes zijn ondersteund)'
+    added: '&aEen nieuw locatiepunt is succesvol toegevoegd'
+    max: '&4Je hebt het maximum aantal locatiepunten bereikt'
+    duplicate: '&4Je hebt al een waypoint genaamd: &f%waypoint%'
+  insufficient-complexity:
+    - '&4Er is te weinig GPS netwerk complexiteit: &c%complexity%'
+    - '&4a) Je hebt nog geen GPS netwerk opgezet'
+    - '&4b) Je GPS netwerk is niet complex genoeg'
+  geo:
+    scan-required: '&4Een GEO-Scan is nodig! &cScan deze chunk eerst met behulp van een GEO-Scanner!'
+inventory:
+  no-access: '&4Je hebt geen toegang tot dit block'
+android:
+  started: '&7Je robot gaat weer door met het script'
+  stopped: '&7Je robot is gestopt met het script'
+  scripts:
+    already-uploaded: '&4Dit script is al geupload'
+    editor: 'Scripteditor'
+    too-long: '&cDe code is te lang om te kunnen editen!'
+    instructions:
+      START: '&2Start het script'
+      REPEAT: '&9Herhaal het script'
+      WAIT: '&eWacht een halve seconde (0.5s)'
+      GO_FORWARD: '&7Beweeg vooruit'
+      GO_UP: '&7Beweeg omhoog'
+      GO_DOWN: '&7Beweeg omlaag'
+      TURN_LEFT: '&7Sla links af'
+      TURN_RIGHT: '&7Sla rechts af'
+      DIG_UP: '&bGraaf omhoog'
+      DIG_FORWARD: '&bGraaf vooruit'
+      DIG_DOWN: '&bGraaf omlaag'
+      MOVE_AND_DIG_UP: '&bBeweeg & Graaf omhoog'
+      MOVE_AND_DIG_FORWARD: '&bBeweeg & Graaf vooruit'
+      MOVE_AND_DIG_DOWN: '&bBeweeg & Graaf omlaag'
+      ATTACK_MOBS_ANIMALS: '&4Val aan &c(Vijandelijke mobs & dieren)'
+      ATTACK_MOBS: '&4Val aan &c(Vijandelijke mobs)'
+      ATTACK_ANIMALS: '&4Val aan &c(Dieren)'
+      ATTACK_ANIMALS_ADULT: '&4Val aan &c(Dieren &7[volwassen]&c)'
+      CHOP_TREE: '&bHak en herplant'
+      CATCH_FISH: '&bVang vissen'
+      FARM_FORWARD: '&bOogst en herplant'
+      FARM_DOWN: '&bOogst en herplant &7(Onderliggende blok)'
+      FARM_EXOTIC_FORWARD: '&bGeavanceerde oogst and herplant'
+      FARM_EXOTIC_DOWN: '&bGeavanceerde oogst and herplant &7(Onderliggende blok)'
+      INTERFACE_ITEMS: '&9Geef inventaris aan de geconfronteerde interface'
+      INTERFACE_FUEL: '&cOntvang brandstof van de geconfronteerde interface'
+    enter-name:
+      - ''
+      - '&eType astublieft de gewenste naam in voor het script'
+      - ''
+    uploaded:
+      - '&bBezig met uploaden...'
+      - '&aHet script is succesvol geupload!'
+    rating:
+      own: '&4Je kan je eigen script geen waardering geven!'
+      already: '&4Je hebt aan een waardering achtergelaten voor dit script!'
+languages:
+  default: 'Server-Standaard'
+  en: 'Engels'
+  de: 'Duits'
+  fr: 'Frans'
+  it: 'Italiaans'
+  es: 'Spaans'
+  pl: 'Pools'
+  sv: 'Zweeds'
+  nl: 'Nederlands'
+  cs: 'Tsjechisch'
+  hu: 'Hongaars'
+  lv: 'Lets'
+  ru: 'Russisch'
+  sk: 'Slowaaks'
+  zh-CN: 'Chinees (China)'
+  zh-TW: 'Chinees (Taiwan)'
+  vi: 'Vietnamees'
+  id: 'Indonesisch'
+  el: 'Grieks'
+  he: 'Hebreeuws'
+  pt: 'Portugees  (Portugal)'
+  pt-BR: 'Portugees (Brazilië)'
+  ar: 'Arabisch'
+  da: 'Deens'
+  fi: 'Fins'
+  uk: 'Oekraïens'
+  ms: 'Maleis'
+  'no': 'Noors'
+  ja: 'Japans'
+  fa: 'Perzisch'
+  th: 'Thais'
+  ro: 'Roemeens'
+  bg: 'Bulgaars'
+  ko: 'Koreaans'
+  tr: 'Turks'
+  hr: 'Kroatisch'
+  mk: 'Macedonisch'
+  sr: 'Servisch'
+  be: 'Wit-Russisch/Russisch'

@@ -1,0 +1,346 @@
+---
+commands:
+  help: Hiển thị màn hình trợ giúp này
+  cheat: Cho phép bạn gian lận vật phẩm
+  give: Đưa cho ai đó vài món đồ Slimefun
+  guide: Cung cấp cho bạn một cuốn hướng dẫn Slimefun
+  teleporter: Xem các điểm dịch chuyển của người chơi khác
+  versions: Liệt kê tất cả các tiện ích mở rộng đã cài đặt
+  search: Tìm kiếm Hướng dẫn của bạn cho cụm từ đã cho
+  open_guide: Mở hướng dẫn của Slimefun mà không cần sử dụng sách
+  stats: Hiển thị một số thống kê về người chơi
+  research:
+    description: Mở khóa / Đặt lại nghiên cứu cho người chơi
+    reset: '&cBạn đã đặt lại Kiến thức của %player%'
+    reset-target: '&cKiến thức của bạn đã được đặt lại'
+  backpack:
+    description: Lấy bản sao của một ba lô đã có sẵn
+    invalid-id: '&4ID phải là số nguyên dương!'
+    player-never-joined: '&4Không tìm thấy người chơi với tên như vậy!'
+    backpack-does-not-exist: '&4Không tìm thấy ba lô đó!'
+    restored-backpack-given: '&aBa lô của bạn được khôi phục và được thêm vào túi đồ của bạn!'
+  charge:
+    description: Sạc vật phẩm bạn đang cầm
+    charge-success: Vật phẩm này đã sạc xong!
+    not-rechargeable: Vật phẩm này không thể sạc được!
+  timings:
+    description: Độ trễ của slimefun và addon của nó
+    please-wait: '&eVui lòng đợi một chút... Kết quả chuẩn bị đến!'
+    verbose-player: '&4Cờ dài này không thể sử dụng bới Người chơi!'
+    unknown-flag: '&4Không rõ cờ: &c%flag%'
+placeholderapi:
+  profile-loading: 'Đang tải...'
+guide:
+  locked: 'ĐÃ KHÓA'
+  work-in-progress: 'Tính năng này vẫn chưa hoàn thành!'
+  locked-category:
+    - 'Để mở khóa danh mục này, bạn'
+    - 'cần phải mở khóa các vật phẩm trong'
+    - 'danh mục sau'
+  search:
+    message: '&bBạn muốn tìm kiếm cái gì?'
+    name: '&7Tìm kiếm...'
+    tooltip: '&bBấm để tìm vật phẩm'
+    inventory: 'Đang tìm: %item%'
+  tooltips:
+    open-category: 'Nhấn vào đây để mở'
+    versions-notice: 'Đây là rất quan trọng khi báo cáo lỗi!'
+    wiki: 'Xem vật phẩm này trên trang wiki chính thức của Slimefun'
+    recipes:
+      machine: 'Các công thức được chế tạo ở máy này'
+      miner: 'Tài nguyên bạn có thể kiếm được với máy đào này'
+      generator: 'Các loại nguyên liệu có thể dùng'
+      gold-pan: 'Tài nguyên bạn có thể kiếm được'
+      climbing-pick: 'Những bề mặt bạn có thể leo lên'
+  cheat:
+    no-multiblocks: '&4Bạn không thể gian lận trong chế độ Đa khối, bạn phải xây dựng chúng!'
+  pages:
+    previous: 'Trang trước'
+    next: 'Trang tiếp theo'
+  back:
+    title: 'Quay lại'
+    guide: 'Quay trở lại Hướng dẫn Slimefun'
+    settings: 'Quay trở lại Bảng Cài đặt'
+  languages:
+    updated: '&aNgôn ngữ của bạn đã được đặt thành công: &b%lang%'
+    selected-language: 'Ngôn ngữ hiện đang chọn:'
+    select: 'Nhấn vào đây để chọn ngôn ngữ này'
+    select-default: 'Nhấn vào đây để chọn ngôn ngữ mặc định'
+    change: 'Nhấp để chọn ngôn ngữ mới'
+    description:
+      - '&7Bạn hiện có tùy chọn để thay đổi'
+      - '&7ngôn ngữ trong đó Slimefun'
+      - '&7sẽ được giới thiệu cho bạn. Vật phẩm'
+      - '&7hiện không thể dịch được.'
+    translations:
+      name: '&aThiếu một cái gì đó?'
+      lore: 'Nhấn vào đây để thêm bản dịch của riêng bạn'
+  title:
+    main: 'Hướng dẫn sử dụng Slimefun'
+    settings: 'Cài đặt và thông tin'
+    languages: 'Chọn ngôn ngữ ưa thích của bạn'
+    credits: 'Người đóng góp cho Slimefun4'
+    wiki: 'Tài liệu Slimefun4'
+    addons: 'Các bổ sung cho Slimefun4'
+    bugs: 'Báo cáo lỗi'
+    source: 'Mã nguồn'
+    versions: 'Phiên bản đã cài'
+  credits:
+    profile-link: 'Nhấp để truy cập hồ sơ của họ trên GitHub'
+    open: 'Nhấp để xem những người đóng góp của chúng tôi'
+    description:
+      - '&7Slimefun là một dự án mã nguồn mở'
+      - '&7và được duy trì bởi một cộng đồng lớn.'
+      - '&7Hơn &e%contributors% &7người đã làm việc'
+      - '&7Slimefun trong suốt những năm qua.'
+    roles:
+      developer: '&6Nhà phát triển'
+      wiki: '&3Người chỉnh sửa Wiki'
+      resourcepack: '&cNghệ sĩ gói tài nguyên'
+      translator: '&9Đóng góp bản dịch'
+messages:
+  not-enough-xp: '&4Bạn không có đủ kinh nghiệm để mở khóa'
+  unlocked: '&bBạn đã mở khóa &7"%research%"'
+  only-players: '&4Lệnh này chỉ dành cho người chơi'
+  unknown-player: '&4Người chơi chưa biết: &c%player%'
+  no-permission: '&4Bạn không có quyền để làm điều này'
+  usage: '&4Cách sử dụng: &c%usage%'
+  not-online: '&4%player% &cđang không trực tuyến!'
+  invalid-item: '&4%item% &ckhông phải là vật phẩm hợp lệ!'
+  invalid-amount: '&4%amount% &ckhông hợp lệ : phải lớn hơn 0!'
+  given-item: '&bBạn đã được nhận &a%amount% &7"%item%&7"'
+  give-item: '&bBạn đã gửi đến %player% &a%amount% &7"%item%&7"'
+  invalid-research: '&4%research% &ckhông phải là nghiên cứu hợp lệ!'
+  give-research: '&bBạn đã cho %player% nghiên cứu &7"%research%&7"'
+  hungry: '&cBạn quá đói để làm vậy!'
+  disabled-in-world: '&4&lVật phẩm này đã bị vô hiệu hóa ở thế giới này!'
+  disabled-item: '&4&lVật phẩm này đã bị vô hiệu hóa! Sao bạn có thể lấy được vật phẩm đó?'
+  no-tome-yourself: '&cBạn không thể sử dụng &4Bộ kiến thức &ccho chính bạn...'
+  multimeter: '&bNăng lượng được tích trữ: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4Bạn không thể trao đổi với piglin bằng vật phẩm của Slimefun'
+  bee-suit-slow-fall: '&eCánh ong của bạn sẽ giúp bạn tiếp đất an toàn và chậm'
+  multi-tool:
+    mode-change: '&b%device% chế độ thay đổi thành: &9%mode%'
+    not-shears: '&cA Đa dụng cụ này không thể sử dụng như cái kéo!'
+  talisman:
+    anvil: '&a&oBùa hộ mệnh của bạn đã lưu công cụ của bạn khỏi bị phá vỡ'
+    miner: '&a&oBùa hộ mệnh của bạn vừa nhân đôi vật phẩm rớt'
+    hunter: '&a&oBùa hộ mệnh của bạn vừa nhân đôi vật phẩm rớt'
+    lava: '&a&oBùa hộ mệnh của bạn cứu bạn khỏi bị thiêu chết'
+    water: '&a&oBùa hộ mệnh của bạn vừa cứu bạn khỏi đuối nước'
+    angel: '&a&oBùa hộ mệnh của bạn vừa cứu bạn khỏi bị sát thương khi rơi'
+    fire: '&a&oBùa hộ mệnh của bạn cứu bạn khỏi bị thiêu chết'
+    magician: '&a&oBùa hộ mệnh của bạn cho bạn một phù phép bổ sung'
+    traveller: '&a&oBùa hộ mệnh của bạn cho bạn hiệu ứng Chạy Nhanh'
+    warrior: '&a&oBùa hộ mệnh của bạn đã cải thiện Sức mạnh của bạn trong một thời gian'
+    knight: '&a&oBùa hộ mệnh của bạn đã cho bạn 5 giây hiệu ứng Hồi Máu'
+    whirlwind: '&a&oBùa hộ mệnhcủa bạn phản lại Phát Bắn'
+    wizard: '&a&oBùa hộ mệnh của bạn đã cho bạn một Cấp độ may mắn tốt hơn nhưng cũng có thể hạ thấp một số Cấp độ phù phép khác'
+    caveman: '&a&oBùa ma thuật của bạn cho bạn hiệu ứng Đào nhanh'
+    wise: '&a&oBùa ma thuật đã nhân đôi số kinh nghiệm của bạn'
+  soulbound-rune:
+    fail: '&cBạn chỉ có thể liên kết một vật phẩm với linh hồn của bạn trong cùng một thời điểm.'
+    success: '&aBạn đã liên kết thành công vật phẩm với linh hồn của bạn! Bạn sẽ giữ vật phẩm khi chết.'
+  enchantment-rune:
+    fail: '&cBạn không thể phù phép vật phẩm này.'
+    no-enchantment: '&cKhông thể tìm được bất kì loại phù phép nào phù hợp cho vật phẩm'
+    success: '&aBạn đã áp dụng thành công một loại phù phép ngẫu nhiên cho vật phẩm này.'
+  research:
+    start: '&7Các Linh Hồn Cổ Đại nói thì thầm những từ ngữ bí ẩn vào tai bạn! '
+    progress: '&7Bạn bắt đầu thắc mắc về: &b%research% &e(%progress%)'
+  tape-measure:
+    no-anchor: '&cBạn cần đặt neo trước khi có thể bắt đầu đo!'
+    wrong-world: '&cNeo của bạn dường như đang ở trong một thế giới khác!'
+    distance: "&7Đo lường được thực hiện.\n&eKhoảng cách: %distance%"
+    anchor-set: '&aĐặt thành công neo:&e%anchor%'
+  climbing-pick:
+    dual-wielding: '&4Bạn cần cầm Rìu leo ở cả 2 tay để dùng nó!'
+    wrong-material: '&cBạn không thể leo bề mặt này. Hãy xem hướng dẫn của Slimefun để biết thêm!'
+  fire-extinguish: '&7Bạn đã tự dập tắt lửa chính bản thân'
+  cannot-place: '&cBạn không thể đặt khối ở đó!'
+  no-pvp: '&cBạn không thể đánh nhau ở đây!'
+  radiation: '&4Bạn đã tiếp xúc với bức xạ chết người! &cLoại bỏ vật phẩm phóng xạ hoặc trang bị bộ đồ hazmat!'
+  opening-guide: '&bĐang mở hướng dẫn, việc này có thể mất một vài giây...'
+  opening-backpack: '&bĐang mở ba lô, việc này có thể mất một vài giây...'
+  no-iron-golem-heal: '&cĐây khỏi phải là Thỏi Sắt. Bạn không thể sử dụng thứ này để hồi máu cho Người Khổng Lồ Sắt!'
+  link-prompt: '&eẤn vào đây:'
+  diet-cookie: '&eBạn đang bắt đầu cảm thấy rất nhẹ...'
+  fortune-cookie:
+    - '&7Cứu tôi, tôi bị bẫy trong một Nhà Máy Bánh Quy May Mắn'
+    - '&7Bạn sẽ chết vào ngày mai... bởi Creeper'
+    - '&7Tại một số thời điểm trong cuộc sống của bạn một cái gì đó xấu sẽ xảy ra !!!'
+    - '&7Tuần tới bạn sẽ nhận thấy rằng đây không phải là thế giới thực, bạn đang ở trong một trò chơi trên máy tính'
+    - '&7Bánh quy này sẽ ngon trong vài giây'
+    - '&7Từ cuối cùng bạn được nghe là "TÀN SÁT!!!"'
+    - '&7Dù bạn làm gì, đừng ôm Creeper ... Tôi đã thử nó. Nó cảm thấy tốt, nhưng nó không đáng.'
+    - '&742. Câu trả lời là 42.'
+    - '&7Một Walshy mỗi ngày sẽ giữ những rắc rối đi.'
+    - '&7Không bao giờ đào thẳng xuống!'
+    - '&7Đó chỉ là một vết thương da thịt!'
+    - '&7Luôn nhìn theo hướng tích cực!'
+    - '&7 Cái này là bánh giòn chứ không phải bánh phồng'
+    - '&7Bảng đèn neon đẹp dữ!'
+machines:
+  pattern-not-found: '&eXin lỗi, tôi không thể nhận ra Công Thức này. Vui lòng đặt các vật phẩm với mẫu nhất định vào trong Máy Phân Phát.'
+  unknown-material: '&eXin lỗi, tôi không thể nhận ra vật phẩm trong máy phân phát. Vui lòng đặt thứ gì đó trong đó mà tôi biết.'
+  wrong-item: '&eXin lỗi, tôi không thể nhận ra vật phẩm mà bạn nhấp chuột phải vào tôi. Kiểm tra Công Thức và xem những vật phẩm nào bạn có thể sử dụng.'
+  full-inventory: '&eXin lỗi, kho đồ của tôi đã quá đầy!'
+  in-use: '&cKhối trong túi đồ này hiện đang được mở bởi người chơi khác.'
+  ignition-chamber-no-flint: '&cIgnition Chamber đang thiếu Bật Lửa.'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4Bàn thờ không được bao quanh bởi số lượng cần thiết của các bệ &c(%pedestals% / 8)'
+    unknown-catalyst: '&4Không rõ Chất Xúc Tác! &cSử dụng đúng công thức thay thế!'
+    unknown-recipe: '&4Không rõ Công Thức! &cSử dụng đúng công thức thay thế!'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Bệ bị cản trở! &cLoại bỏ bất kì thứ gì trên bệ!'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7Vui lòng nhập Văn Bản Ba Chiều mong muốn của bạn vào Khung trò chuyện. &r(Mã màu được hỗ trợ!)'
+    inventory-title: 'Trình chỉnh sửa ảnh ba chiều'
+  ELEVATOR:
+    no-destinations: '&4Không tìm thấy điểm đến'
+    pick-a-floor: '&4- Chọn một tầng -'
+    current-floor: '&eĐây là tầng mà bạn hiện đang ở:'
+    click-to-teleport: '&eẤn &7để dịch chuyển đến tầng:'
+    enter-name: '&7Vui lòng nhập tên tầng mong muốn của bạn vào Khung trò chuyện. &r(Mã màu được hỗ trợ)'
+    named: '&2Đặt tên thành công cho tầng này: &r%floor%'
+  TELEPORTER:
+    teleporting: '&3Đang dịch chuyển...'
+    teleported: '&3Đã dịch chuyển!'
+    cancelled: '&4Dịch chuyển bị hủy bỏ!'
+    invulnerability: '&b&lBạn đã được cho 30 giây Bất Tử!'
+    gui:
+      title: 'Địa điểm của bạn'
+      tooltip: 'Bấm để dịch chuyển'
+      time: 'Thời gian dự kiến'
+  GPS_CONTROL_PANEL:
+    title: 'GPS - Bảng điều khiển'
+    transmitters: 'Tổng quan về các máy phát tín hiệu'
+    waypoints: 'Tổng quan về các vị trí dịch chuyển'
+  CARGO_NODES:
+    must-be-placed: '&4Phải được đặt trên hòm hoặc máy!'
+  INDUSTRIAL_MINER:
+    no-fuel: '&cMáy đào công nghiệp của bạn hết nhiên liệu! Bỏ nhiên liệu vào rương ở trên.'
+    piston-facing: '&cMáy đào công nghiệp của bạn cần 2 pít-tông hướng lên trên!'
+    piston-space: '&cHai cái pít-tông cần hai khối không khí ở trên!'
+    destroyed: '&cMáy đào công nghiệp của bạn có vẻ như bị phá hủy.'
+    already-running: '&cMáy đào công nghiệp này đang chạy!'
+    full-chest: '&cRương của máy đào công nghiệp đã đầy!'
+    no-permission: '&4Có vẻ như bạn không có quyền để sử dụng máy đào ở đây!'
+    finished: '&eMáy đào công nghiệp của bạn đã chạy xong! Nó đã đào được %ores% khoáng sản(s)!'
+anvil:
+  not-working: '&4Bạn không thể sử dụng vật phẩm Slimefun trên cái đê!'
+  mcmmo-salvaging: '&4Bạn không thể phục hồi giáp của Slimefun!'
+brewing_stand:
+  not-working: '&4Bạn không thể sử dụng các vật phẩm Slimefun trong quầy pha chế thuốc!'
+cartography_table:
+  not-working: '&4Bạn không thể sử dụng vật phẩm sủa Slimefun trong bàn sửa bản đồ'
+villagers:
+  no-trading: '&4Bạn không thể trao đổi các  vật phẩm Slimefun với dân làng!'
+backpack:
+  already-open: '&cXin lỗi, cái Ba lô này đã được mở ở một nơi nào khác!'
+  no-stack: '&cBạn không thể xếp nhiều Ba lô lại với nhau'
+workbench:
+  not-enhanced: '&4Bạn không thể sử dụng vật phẩm Slimefun ở trên bàn làm việc thông thường'
+cauldron:
+  no-discoloring: '&4Bạn không thể đổi màu giáp của Slimefun'
+gps:
+  deathpoint: '&4Điểm chết &7%date%'
+  waypoint:
+    new: '&eVui lòng nhập tên cho điểm tham chiếu mới của bạn trên khung chat. &7(Mã màu được hỗ trợ!)'
+    added: '&aĐã thêm thành công một điểm tham chiếu mới'
+    max: '&4Bạn đã đạt đến số lượng điểm tham chiếu tối đa'
+    duplicate: '&4Bạn từng tạo vị trí dịch chuyển tên: &f%waypoint% &4rồi'
+  insufficient-complexity:
+    - '&4Độ phức tạp của mạng GPS không đủ: &c%complexity%'
+    - '&4a) Bạn chưa có thiết lập Mạng GPS'
+    - '&4b) Mạng GPS của bạn không đủ phức tạp'
+  geo:
+    scan-required: '&4Yêu cầu Quét GEO! &cQuét chunk này bằng Máy Quét GEO trước!'
+inventory:
+  no-access: '&4Bạn không được phép truy cập vào khối này'
+android:
+  started: '&7Thiết bị Android của bạn đã tiếp tục chạy đoạn mã của nó'
+  stopped: '&7Thiết bị Android của bạn đã dùng chạy đoạn mã của nó'
+  scripts:
+    already-uploaded: '&4Đoạn mã này đã được tải lên.'
+    editor: 'Trình chỉnh sửa kịch bản'
+    too-long: '&cĐoạn mã quá dài để chỉnh sửa!'
+    instructions:
+      START: '&2Bắt đầu chạy Đoạn Mã'
+      REPEAT: '&9Lặp lại Đoạn Mã'
+      WAIT: '&eĐợi 0.5s'
+      GO_FORWARD: '&7Đi thẳng'
+      GO_UP: '&7Đi lên'
+      GO_DOWN: '&7Đi xuống'
+      TURN_LEFT: '&7Rẽ trái'
+      TURN_RIGHT: '&7Rẽ phải'
+      DIG_UP: '&bĐào lên'
+      DIG_FORWARD: '&bĐào thẳng'
+      DIG_DOWN: '&bĐào xuống'
+      MOVE_AND_DIG_UP: '&bDi chuyển và đào lên'
+      MOVE_AND_DIG_FORWARD: '&bDi chuyển và đào thẳng'
+      MOVE_AND_DIG_DOWN: '&bDi chuyển và đào xuống'
+      ATTACK_MOBS_ANIMALS: '&4Tấn công &c(Mob và Động vật hung giữ)'
+      ATTACK_MOBS: '&4Tấn công &c(Các mob hung dữ)'
+      ATTACK_ANIMALS: '&4Tấn công &c(Động vật)'
+      ATTACK_ANIMALS_ADULT: '&4Tấn công &c(Động vật &7[Trường thành]&c)'
+      CHOP_TREE: '&cChặt và trồng lại'
+      CATCH_FISH: '&bBắt cá'
+      FARM_FORWARD: '&bThu hoạch và trồng lại'
+      FARM_DOWN: '&bThu hoạch và trồng lại &7(Khối bên dưới)'
+      FARM_EXOTIC_FORWARD: '&bThu hoạch và thay thế nâng cao'
+      FARM_EXOTIC_DOWN: '&bThu hoạch và thay thế nâng ca o&7(Khối ở dưới)'
+      INTERFACE_ITEMS: '&9Đẩy nội dung túi đồ lên giao diện'
+      INTERFACE_FUEL: '&cKéo nhiên liệu từ giao diện'
+    enter-name:
+      - ''
+      - '&eVui lòng nhập tên cho đoạn mã của bạn'
+      - ''
+    uploaded:
+      - '&bĐang tải lên...'
+      - '&aTải đoạn mã lên thành công!'
+    rating:
+      own: '&4Bạn không thể xếp hạng đoạn mã của chính mình!'
+      already: '&4Bạn đã để lại Xếp Hạng cho đoạn mã này!'
+languages:
+  default: 'Máy chủ-Mặc định'
+  en: 'Tiếng Anh'
+  de: 'Tiếng Đức'
+  fr: 'Tiếng Pháp'
+  it: 'Tiếng Ý'
+  es: 'Tiếng Tây Ban Nha'
+  pl: 'Tiếng Ba Lan'
+  sv: 'Tiếng Thụy Điển'
+  nl: 'Tiếng Hà Lan'
+  cs: 'Tiếng Séc'
+  hu: 'Tiếng Hungary'
+  lv: 'Tiếng Latvia'
+  ru: 'Tiếng Nga'
+  sk: 'Tiếng Slovak'
+  zh-CN: 'Tiếng Trung (Trung Quốc)'
+  zh-TW: 'Tiếng Trung Quốc (Đài Loan)'
+  vi: 'Tiếng Việt'
+  id: 'Tiếng Indonesia'
+  el: 'Tiếng Hy Lạp'
+  he: 'Tiếng Do Thái'
+  pt: 'Tiếng Bồ Đào Nha (Bồ Đào Nha)'
+  pt-BR: 'Tiếng Bồ Đào Nha (Brazil)'
+  ar: 'Tiếng Ả Rập'
+  af: 'Tiếng Nam Phi'
+  da: 'Tiếng Đan Mạch'
+  fi: 'Tiếng Phần Lan'
+  uk: 'Tiếng Ukraina'
+  ms: 'Tiếng Mã Lai'
+  'no': 'Tiếng Na Uy'
+  ja: 'Tiếng Nhật'
+  fa: 'Tiếng Ba Tư'
+  th: 'Tiếng Thái'
+  tl: 'Tiếng Filipino'
+  ro: 'Tiếng Rumani'
+  bg: 'Tiếng Bulgaria'
+  ko: 'Tiếng Hàn'
+  tr: 'Tiếng Thổ Nhĩ Kỳ'
+  hr: 'Tiếng Croatia'
+  mk: 'Tiếng Macedonia'
+  sr: 'Tiếng Serbia'
+  be: 'Tiếng Bêlarut'

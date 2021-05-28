@@ -32,13 +32,11 @@ public final class ChatUtils {
         sender.sendMessage("");
     }
 
-    @Nonnull
-    public static String removeColorCodes(@Nonnull String string) {
+    public static @Nonnull String removeColorCodes(@Nonnull String string) {
         return ChatColor.stripColor(ChatColors.color(string));
     }
 
-    @Nonnull
-    public static String crop(@Nonnull ChatColor color, @Nonnull String string) {
+    public static @Nonnull String crop(@Nonnull ChatColor color, @Nonnull String string) {
         if (ChatColor.stripColor(color + string).length() > 19) {
             return (color + ChatColor.stripColor(string)).substring(0, 18) + "...";
         } else {
@@ -46,8 +44,7 @@ public final class ChatUtils {
         }
     }
 
-    @Nonnull
-    public static String christmas(@Nonnull String text) {
+    public static @Nonnull String christmas(@Nonnull String text) {
         return ChatColors.alternating(text, ChatColor.GREEN, ChatColor.RED);
     }
 
@@ -68,8 +65,7 @@ public final class ChatUtils {
      * 
      * @return A human-friendly version of the given {@link String}
      */
-    @Nonnull
-    public static String humanize(@Nonnull String string) {
+    public static @Nonnull String humanize(@Nonnull String string) {
         StringBuilder builder = new StringBuilder();
         String[] segments = PatternUtils.UNDERSCORE.split(string.toLowerCase(Locale.ROOT));
 

@@ -1,8 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
 import org.bukkit.GameMode;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -41,10 +43,15 @@ public class ElytraCap extends SlimefunArmorPiece implements DamageableItem, Pro
     }
 
     @Override
-    public void damageItem(Player p, ItemStack item) {
+    public void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
         if (p.getGameMode() != GameMode.CREATIVE) {
             DamageableItem.super.damageItem(p, item);
         }
+    }
+
+    @Override
+    public boolean evaluateUnbreakingEnchantment(int unbreakingLevel) {
+        return UnbreakingAlgorithm.ARMOR.evaluate(unbreakingLevel);
     }
 
     @Nonnull

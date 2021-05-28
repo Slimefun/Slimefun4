@@ -32,16 +32,17 @@ class TestEnumSetting {
     @Test
     @DisplayName("Test Enum Getters")
     void testEnumGetters() {
-        EnumSetting<Material> setting = new EnumSetting<>("test", Material.class, Material.DIAMOND);
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_0", new CustomItem(Material.DIAMOND, "&cTest"));
+        EnumSetting<Material> setting = new EnumSetting<>(item, "test", Material.class, Material.DIAMOND);
         Assertions.assertArrayEquals(Material.values(), setting.getAllowedValues());
     }
 
     @Test
     @DisplayName("Test illegal values")
     void testIllegalValues() {
-        EnumSetting<Material> setting = new EnumSetting<>("test", Material.class, Material.DIAMOND);
-
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ENUM_SETTING_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        EnumSetting<Material> setting = new EnumSetting<>(item, "test", Material.class, Material.DIAMOND);
+
         item.addItemSetting(setting);
         item.register(plugin);
 
@@ -52,9 +53,9 @@ class TestEnumSetting {
     @Test
     @DisplayName("Test allowed value")
     void testAllowedValue() {
-        EnumSetting<Material> setting = new EnumSetting<>("test", Material.class, Material.DIAMOND);
-
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
+        EnumSetting<Material> setting = new EnumSetting<>(item, "test", Material.class, Material.DIAMOND);
+
         item.addItemSetting(setting);
         item.register(plugin);
 

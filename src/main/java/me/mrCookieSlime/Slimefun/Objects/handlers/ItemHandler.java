@@ -2,6 +2,8 @@ package me.mrCookieSlime.Slimefun.Objects.handlers;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
@@ -28,19 +30,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 public interface ItemHandler {
 
     /**
-     * This method is used to determine whether this {@link ItemHandler} can be
-     * safely associated with one particular {@link SlimefunItem}.
-     * 
-     * Should this {@link ItemHandler} not be private, then it will never be
-     * permanently linked to a {@link SlimefunItem}.
-     * 
-     * @return Whether this {@link ItemHandler} is considered private.
-     */
-    default boolean isPrivate() {
-        return true;
-    }
-
-    /**
      * This method is used to check whether a given {@link SlimefunItem} is compatible
      * with this {@link ItemHandler}, it will return an {@link IncompatibleItemHandlerException}
      * if the items are not compatible.
@@ -51,7 +40,8 @@ public interface ItemHandler {
      * @return An {@link Optional} describing the result, it will contain an {@link IncompatibleItemHandlerException}
      *         should there be an issue
      */
-    default Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
+    @Nonnull
+    default Optional<IncompatibleItemHandlerException> validate(@Nonnull SlimefunItem item) {
         return Optional.empty();
     }
 
@@ -61,5 +51,6 @@ public interface ItemHandler {
      * 
      * @return The {@link Class} identifier for this {@link ItemHandler}
      */
+    @Nonnull
     Class<? extends ItemHandler> getIdentifier();
 }

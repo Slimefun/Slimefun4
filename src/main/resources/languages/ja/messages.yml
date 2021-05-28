@@ -1,0 +1,340 @@
+---
+commands:
+  help: コマンドの使い方を表示
+  cheat: Slimefunガイドをチートモードで開く
+  give: 指定したプレイヤーにSlimefunアイテムを与える
+  guide: Slimefunガイドを取得
+  teleporter: 指定したプレイヤーのウェイポイントを表示
+  versions: バージョンについて
+  search: Slimefunガイド内を検索
+  open_guide: Slimefunガイドを開く
+  stats: プレイヤー情報を表示
+  research:
+    description: 指定したプレイヤーのリサーチ状況を操作
+    reset: '&c%player%のリサーチ状況を初期化しました'
+    reset-target: '&cリサーチ状況が初期化されました'
+  backpack:
+    description: 生成済みのバックパックを取り出します
+    invalid-id: '&4IDは非負整数にしてください！'
+    player-never-joined: '&4その名前のプレイヤーが見つかりません！'
+    backpack-does-not-exist: '&4指定したバックパックは存在しません！'
+    restored-backpack-given: '&aバックパックが返還されました！'
+  charge:
+    description: 手に持っているアイテムを充電する
+    charge-success: アイテムが充電されました！
+    not-rechargeable: このアイテムは充電できません！
+  timings:
+    description: Slimefunに関連する負荷の計測
+    please-wait: '&e数秒お待ちください… 負荷の測定中です！'
+    verbose-player: '&4プレイヤーはverboseフラグを使用できません！'
+    unknown-flag: '&4未知のフラグです: &c%flag%'
+placeholderapi:
+  profile-loading: 'ロード中…'
+guide:
+  locked: 'ロック中'
+  work-in-progress: 'まだこの項目は未完成です！'
+  locked-category:
+    - 'このカテゴリを開放するには'
+    - '以下のカテゴリの全アイテムを'
+    - 'リサーチしてください'
+  search:
+    message: '&b検索ワードをチャットで入力してください'
+    name: '&7検索…'
+    tooltip: '&bクリックでアイテムの検索'
+    inventory: '検索結果: %item%'
+  tooltips:
+    open-category: 'クリックで開く'
+    versions-notice: 'バグ報告をお願いします！'
+    wiki: 'このアイテムを公式Wikiで確認する'
+    recipes:
+      machine: '使用可能なレシピ'
+      miner: '採掘可能な資源'
+      generator: '使用可能な燃料'
+      gold-pan: '入手可能な資源'
+      climbing-pick: 'クライミング可能な地表'
+  cheat:
+    no-multiblocks: '&4マルチブロックは取得できません'
+  pages:
+    previous: '前のページ'
+    next: '次のページ'
+  back:
+    title: '戻る'
+    guide: 'Slimefunガイドへ戻る'
+    settings: '設定画面へ戻る'
+  languages:
+    updated: '&a言語設定を変更しました: &b%lang%'
+    selected-language: '選択中の言語:'
+    select: 'クリックでこの言語を選択'
+    select-default: 'クリックでデフォルトを選択'
+    change: 'クリックで新しく言語を指定'
+    description:
+      - '&7このオプションでは'
+      - '&7Slimefunで表示される言語を'
+      - '&7指定できます。アイテム名は'
+      - '&7現時点では翻訳できません。'
+    translations:
+      name: '&a他の言語をお探しですか？'
+      lore: 'クリックで他の言語に翻訳する'
+  title:
+    main: 'Slimefunガイド'
+    settings: '設定・情報'
+    languages: '言語の選択'
+    credits: 'Slimefun4 開発者'
+    addons: 'Slimefun4 アドオン'
+    bugs: 'バグ報告'
+    source: 'ソースコード'
+    versions: 'バージョン一覧'
+  credits:
+    profile-link: 'クリックでGitHubのプロファイルを開く'
+    open: 'クリックでコントリビュータを表示'
+    description:
+      - '&7Slimefunは多くのコミュニティの人々に支えられている'
+      - '&7オープンソースのプロジェクトです。'
+      - '&7数年にわたり&e%contributors%&7人以上の人々が，'
+      - '&7Slimefunに取り組んできました。'
+messages:
+  not-enough-xp: '&4リサーチの遂行に必要な経験値が足りません'
+  unlocked: '&bリサーチが完了しました &7"%research%"'
+  only-players: '&4プレイヤー専用コマンドです'
+  unknown-player: '&4プレイヤーが見つかりません: &c%player%'
+  no-permission: '&4権限がありません'
+  usage: '&4使用法: &c%usage%'
+  not-online: '&4%player% &cはオンラインではありません！'
+  invalid-item: '&4%item% &cは正しくないアイテムです'
+  invalid-amount: '&4%amount% &cの部分には、正の整数を指定してください'
+  given-item: '&b%item%を%amount%個与えられました'
+  give-item: '&b%player%に%item%を%amount%個与えました'
+  invalid-research: '&4%research%&cは正しくないリサーチです'
+  give-research: '&b%player%のリサーチ%research%を完了させました'
+  hungry: '&c空腹のため使えません'
+  disabled-in-world: '&4&lこのワールドでは使用できません'
+  disabled-item: '&4&lこのアイテムは無効化されています'
+  no-tome-yourself: '&c自身の&4Tome of Knowledge&cは使えません'
+  multimeter: '&bエネルギー残量: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4Slimefunアイテムはピグリンとの物々交換に使用できません'
+  bee-suit-slow-fall: '&e蜂の羽が着地を安全でゆっくりにした'
+  multi-tool:
+    mode-change: '&b%device% モード変更: &9%mode%'
+    not-shears: '&cMulti Toolはハサミとして利用できません！'
+  talisman:
+    anvil: '&a&oタリスマンがツールの損壊を防いだ'
+    miner: '&a&oタリスマンがドロップを倍にした'
+    hunter: '&a&oタリスマンがドロップを倍にした'
+    lava: '&a&oタリスマンが炎上から身を護った'
+    water: '&a&oタリスマンが水没から身を護った'
+    angel: '&a&oタリスマンが落下から身を護った'
+    fire: '&a&oタリスマンが炎上から身を護った'
+    magician: '&a&oタリスマンが追加エンチャントを付与した'
+    traveller: '&a&oタリスマンが加速効果を付与した'
+    warrior: '&a&oタリスマンが肉体を強化した'
+    knight: '&a&oタリスマンが再生効果を付与した'
+    whirlwind: '&a&oタリスマンが飛び道具から身を護った'
+    wizard: '&a&oタリスマンが高レベルの幸運を付与したが、他のエンチャントレベルは下がってしまった'
+    caveman: '&a&oタリスマンが採掘速度を上昇させた'
+    wise: '&a&oタリスマンが経験値のドロップを倍にした'
+  soulbound-rune:
+    fail: '&c一度に複数アイテムとのバインディングはできません'
+    success: '&aアイテムとのバインディングが確立した！リスポーン時に当該アイテムは手繰り寄せられます'
+  enchantment-rune:
+    fail: '&cこのアイテムにはエンチャントできません。'
+    no-enchantment: '&cこのアイテムに付与できるエンチャントが見つかりません。'
+    success: '&aこのアイテムに付与できるエンチャントをランダムに付与しました。'
+  research:
+    start: '&7どこからか古代の知識が聞こえてくる…'
+    progress: '&b%research%&7に取り組み始めた… &e(%progress%)'
+  tape-measure:
+    no-anchor: '&c計測するために、開始点を指定してください！'
+    wrong-world: '&cアンカーが別のワールドに指定されています！'
+    distance: '&7測定完了。&e距離: %distance%'
+    anchor-set: '&aアンカーを指定:&e %anchor%'
+  climbing-pick:
+    dual-wielding: '&4Climbing Pickを両手に持って使用！'
+    wrong-material: '&cこの地表はクライミングできません。Slimefunガイドを確認してください！'
+  fire-extinguish: '&7消火しました'
+  cannot-place: '&cこの場所には設置できません'
+  no-pvp: '&cpvpが許可されているワールドでのみ利用できます'
+  radiation: '&4多量に被ばくしている！ &c放射性物質を捨てるか、 Hazmat防具一式を装備しよう！'
+  opening-guide: '&bSlimefunガイドを開いている途中です、少々お待ちください…'
+  opening-backpack: '&bバックパックを開いている途中です、少々お待ちください…'
+  no-iron-golem-heal: '&c鉄インゴットではないので、アイアンゴーレムの回復には使えません！'
+  link-prompt: '&eクリックで開く:'
+  diet-cookie: '&e体が軽くなったように感じる…'
+  fortune-cookie:
+    - '&7フォーチュンクッキー工場に囚われたの、助けて！'
+    - '&7あなたは明日死ぬでしょう…     クリーパーによって…'
+    - '&7何か悪いことが起こりそう！！！'
+    - '&7来週、あなたはここが現実世界ではなく、ゲームの世界だと気付くはずです'
+    - '&7このクッキーは少し待つと美味しくなるでしょう'
+    - '&7あなたが最後に聞くことになるであろう言葉は「皆殺しだ！！！」'
+    - '&7絶対にクリーパーを抱きしめないでください…案外いい感じですが、全てを失います'
+    - '&7答えは……「42」です'
+    - '&7Walshyさえいれば、1日だけ全てうまくいきます'
+    - '&7直下掘りしないようにね！'
+    - '&7これはちょっとした切り傷です！'
+    - '&7常に前向きに生きていこう！'
+    - '&7これはビスケットなんかではなくクッキーに違いない'
+    - '&7ネオンサインが眩しい！'
+machines:
+  pattern-not-found: '&eレシピが確認できません、アイテムを正しく配置してください'
+  unknown-material: '&eアイテムを識別できません、レシピ通りに配置してください'
+  wrong-item: '&eそのアイテムは識別できません、レシピから正しいアイテムを確認してください'
+  full-inventory: '&eインベントリが一杯です！'
+  in-use: '&cこのブロックは他のプレイヤーが開いています'
+  ignition-chamber-no-flint: '&cIgnition Chamberに火打石と打ち金がありません'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4祭壇にAncient Pedestalが不足しています &c(%pedestals% / 8)'
+    unknown-catalyst: '&4不明な素材です！&c正しいレシピを使用してください'
+    unknown-recipe: '&4不明なレシピです！&c正しいレシピを使用してください'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Ancient Pedestalが塞がれています！&c上のブロックを破壊してください'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7指定したい文字列をチャットに入力してください&r（カラーコード対応）'
+    inventory-title: 'ホログラムエディタ'
+  ELEVATOR:
+    no-destinations: '&4他の階が見つかりません'
+    pick-a-floor: '&3- 行先の選択 -'
+    current-floor: '&e現在の階:'
+    click-to-teleport: '&eクリック&7でこの階に移動:'
+    enter-name: '&7指定したい階の名前をチャットで入力してください&r（カラーコード対応）'
+    named: '&2階の名前を変更しました: &r%floor%'
+  TELEPORTER:
+    teleporting: '&3テレポート中…'
+    teleported: '&3テレポート完了！'
+    cancelled: '&4テレポート中断！'
+    invulnerability: '&b&l30秒間の無敵が付与されました！'
+    gui:
+      title: 'あなたのウェイポイント'
+      tooltip: 'クリックでテレポート'
+      time: '推定時間'
+  GPS_CONTROL_PANEL:
+    title: 'GPSコントロールパネル'
+    transmitters: 'GPS送信機一覧'
+    waypoints: 'ウェイポイント一覧'
+  CARGO_NODES:
+    must-be-placed: '&4チェストや機械に対して設置してください！'
+  INDUSTRIAL_MINER:
+    no-fuel: '&cIndustrial Minerは燃料切れです！上のチェストに燃料を補充してください。'
+    piston-facing: '&cIndustrial Minerのピストンは上向きに設置してください！'
+    piston-space: '&cピストンの可動するスペースが必要です！'
+    destroyed: '&cIndustrial Minerは破壊されました。'
+    already-running: '&cこのIndustrial Minerは稼働中です！'
+    full-chest: '&cIndustrial Minerのチェストが一杯です！'
+    no-permission: '&4Industrial Minerを使う権限がありません！'
+    finished: '&eIndustrial Minerの稼働完了！合計で%ores%個の鉱石を入手しました！'
+anvil:
+  not-working: '&4Slimefunアイテムは金床を利用できません！'
+  mcmmo-salvaging: '&4Slimefunアイテムはサルベージできません！'
+brewing_stand:
+  not-working: '&4Slimefunアイテムは醸造台で使えません！'
+cartography_table:
+  not-working: '&4Slimefunアイテムは製図台を使用できません！'
+villagers:
+  no-trading: '&4Slimefunアイテムは村人との取引に使用できません！'
+backpack:
+  already-open: '&cこのバックパックはどこかで使用中です！'
+  no-stack: '&cバックパックはスタックされていると使用できません！'
+workbench:
+  not-enhanced: '&4Slimefunアイテムは作業台を利用できません！'
+cauldron:
+  no-discoloring: '&4Slimefunアイテムの脱色はできません'
+gps:
+  deathpoint: '&4死亡地点 &7%date%'
+  waypoint:
+    new: '&eウェイポイント名をチャットで入力してください&7（カラーコード対応）'
+    added: '&a新しいウェイポイントを登録しました'
+    max: '&4ウェイポイント数の上限に到達しています'
+    duplicate: '&4同じ名前のウェイポイントが存在します: &f%waypoint%'
+  insufficient-complexity:
+    - '&4GPSネットワークの複雑さ不足: &c%complexity%'
+    - '&4a) GPSネットワークをセットアップしていない'
+    - '&4b) GPSネットワークの複雑さが不足している'
+  geo:
+    scan-required: '&4惑星スキャンが必要です！&cGEO-Scannerでスキャンしてください！'
+inventory:
+  no-access: '&4アクセス権がありません'
+android:
+  started: '&7アンドロイド動作開始'
+  stopped: '&7アンドロイド動作停止'
+  scripts:
+    already-uploaded: '&4このスクリプトはアップロード済みです'
+    editor: 'スクリプトエディタ'
+    too-long: '&cこのスクリプトは長すぎて編集できません！'
+    instructions:
+      START: '&2開始'
+      REPEAT: '&9繰り返し'
+      WAIT: '&e0.5秒待機'
+      GO_FORWARD: '&7前へ移動'
+      GO_UP: '&7上へ移動'
+      GO_DOWN: '&7下へ移動'
+      TURN_LEFT: '&7左へ旋回'
+      TURN_RIGHT: '&7右へ旋回'
+      DIG_UP: '&b上を採掘'
+      DIG_FORWARD: '&b前を採掘'
+      DIG_DOWN: '&b下を採掘'
+      MOVE_AND_DIG_UP: '&b上へ移動・採掘'
+      MOVE_AND_DIG_FORWARD: '&b前へ移動・採掘'
+      MOVE_AND_DIG_DOWN: '&b下へ移動・採掘'
+      ATTACK_MOBS_ANIMALS: '&4攻撃&c（モンスター・動物）'
+      ATTACK_MOBS: '&4攻撃&c（モンスター）'
+      ATTACK_ANIMALS: '&4攻撃&c（動物）'
+      ATTACK_ANIMALS_ADULT: '&4攻撃&c（動物&7[親]&c）'
+      CHOP_TREE: '&c伐採・植林'
+      CATCH_FISH: '&b釣り'
+      FARM_FORWARD: '&b収穫・植え直し'
+      FARM_DOWN: '&b収穫・植え直し&7（下方）'
+      FARM_EXOTIC_FORWARD: '&bExoticGardenの収穫・植え直し'
+      FARM_EXOTIC_DOWN: '&bExoticGardenの収穫・植え直し&7（下方）'
+      INTERFACE_ITEMS: '&9所持アイテムをInterfaceに入れる'
+      INTERFACE_FUEL: '&c燃料をInterfaceから取り出す'
+    enter-name:
+      - ''
+      - '&eスクリプトの名前を入力してください'
+      - ''
+    uploaded:
+      - '&bアップロード中…'
+      - '&aスクリプトのアップロード完了！'
+    rating:
+      own: '&4自身のスクリプトは評価できません！'
+      already: '&4このスクリプトは評価済みです！'
+languages:
+  default: 'サーバデフォルト'
+  en: '英語'
+  de: 'ドイツ語'
+  fr: 'フランス語'
+  it: 'イタリア語'
+  es: 'スペイン語'
+  pl: 'ポーランド語'
+  sv: 'スウェーデン語'
+  nl: 'オランダ語'
+  cs: 'チェコ語'
+  hu: 'ハンガリー語'
+  lv: 'ラトビア語'
+  ru: 'ロシア語'
+  sk: 'スロバキア語'
+  zh-CN: '中国語（中国）'
+  zh-TW: '中国語（台湾）'
+  vi: 'ベトナム語'
+  id: 'インドネシア語'
+  el: 'ギリシャ語'
+  he: 'ヘブライ語'
+  pt: 'ポルトガル語（ポルトガル）'
+  pt-BR: 'ポルトガル語（ブラジル）'
+  ar: 'アラビア語'
+  af: 'アフリカーンス語'
+  da: 'デンマーク語'
+  fi: 'フィンランド語'
+  uk: 'ウクライナ語'
+  ms: 'マレー語'
+  'no': 'ノルウェー語'
+  ja: '日本語'
+  fa: 'ペルシア語'
+  th: 'タイ語'
+  tl: 'タガログ語'
+  ro: 'ルーマニア語'
+  bg: 'ブルガリア語'
+  ko: '韓国語'
+  tr: 'トルコ語'
+  hr: 'クロアチア語'
+  mk: 'マケドニア語'
+  sr: 'セルビア語'
+  be: 'ベラルーシ語'

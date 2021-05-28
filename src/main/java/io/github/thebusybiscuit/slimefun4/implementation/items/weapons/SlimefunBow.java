@@ -23,7 +23,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public abstract class SlimefunBow extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public SlimefunBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
+    protected SlimefunBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
         super(category, item, RecipeType.MAGIC_WORKBENCH, recipe);
     }
 

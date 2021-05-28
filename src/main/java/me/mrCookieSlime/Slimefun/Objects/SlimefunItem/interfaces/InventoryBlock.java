@@ -10,13 +10,13 @@ import org.bukkit.inventory.Inventory;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 /**
  * 
- * @deprecated This interface is not designed to be used by addons.
+ * @deprecated This interface is not designed to be used by addons. The entire inventory system will be replaced
+ *             eventually.
  *
  */
 public interface InventoryBlock {
@@ -60,7 +60,11 @@ public interface InventoryBlock {
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || (SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES) && Slimefun.hasUnlocked(p, item, false));
+                if (p.hasPermission("slimefun.inventory.bypass")) {
+                    return true;
+                } else {
+                    return item.canUse(p, false) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
+                }
             }
         };
     }

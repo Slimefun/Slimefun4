@@ -163,7 +163,7 @@ class TestCategories {
         Category category = new Category(new NamespacedKey(plugin, "parent"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
         category.register(plugin);
 
-        LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey());
+        LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked2"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey());
         locked.register(plugin);
 
         // No Items, so it should be unlocked

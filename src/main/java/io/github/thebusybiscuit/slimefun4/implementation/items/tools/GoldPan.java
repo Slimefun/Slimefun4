@@ -94,11 +94,9 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         randomizer.clear();
 
         for (GoldPanDrop setting : drops) {
-            randomizer.add(setting.getOutput(), setting.getValue());
-        }
-
-        if (randomizer.sumWeights() < 100) {
-            randomizer.add(new ItemStack(Material.AIR), 100 - randomizer.sumWeights());
+            if (setting.getValue() > 0) {
+                randomizer.add(setting.getOutput(), setting.getValue());
+            }
         }
     }
 
@@ -110,14 +108,19 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      */
     @Nonnull
     public ItemStack getRandomOutput() {
-        return randomizer.getRandom();
+        ItemStack item = randomizer.getRandom();
+
+        // Fixes #2804
+        return item != null ? item : new ItemStack(Material.AIR);
     }
 
+    @Nonnull
     @Override
     public String getLabelLocalPath() {
         return "guide.tooltips.recipes.gold-pan";
     }
 
+    @Nonnull
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
@@ -126,12 +129,14 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             if (block.isPresent()) {
                 Block b = block.get();
 
+                // Check the clicked block type and for protections
                 if (b.getType() == getTargetMaterial() && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
                     ItemStack output = getRandomOutput();
 
                     b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
                     b.setType(Material.AIR);
 
+                    // Make sure that the randomly selected item is not air
                     if (output.getType() != Material.AIR) {
                         b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
                     }
@@ -148,6 +153,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      *
      * @return the {@link EntityInteractHandler} of this {@link SlimefunItem}
      */
+    @Nonnull
     public EntityInteractHandler onEntityInteract() {
         return (e, item, offHand) -> {
             if (!(e.getRightClicked() instanceof ItemFrame)) {
@@ -156,6 +162,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         };
     }
 
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> recipes = new LinkedList<>();

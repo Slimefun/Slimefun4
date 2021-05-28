@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 
@@ -34,10 +34,28 @@ public class PermissionsService {
 
     public PermissionsService(@Nonnull SlimefunPlugin plugin) {
         config = new Config(plugin, "permissions.yml");
-        config.getConfiguration().options().header("This file is used to assign permission nodes to items from Slimefun or any of its addons.\nTo assign an item a certain permission node you simply have to set the 'permission' attribute\nto your desired permission node. You can also customize the text that is displayed when a Player does not have that permission.");
+
+        // @formatter:off
+        config.getConfiguration().options().header(
+            "This file is used to assign permission nodes to items from Slimefun or any of its addons.\n" +
+            "To assign an item a certain permission node you simply have to set the 'permission' attribute\n" +
+            "to your desired permission node.\n" +
+            "You can also customize the text that is displayed when a Player does not have that permission."
+        );
+        // @formatter:on
+
         config.getConfiguration().options().copyHeader(true);
     }
 
+    /**
+     * This method registers the given {@link Iterable} of {@link SlimefunItem}s
+     * for use with this {@link PermissionsService}.
+     * 
+     * @param items
+     *            An {@link Iterable} of {@link SlimefunItem}s to register
+     * @param save
+     *            Whether to save the default values to our permissions file
+     */
     public void register(@Nonnull Iterable<SlimefunItem> items, boolean save) {
         for (SlimefunItem item : items) {
             if (item != null) {
@@ -122,10 +140,18 @@ public class PermissionsService {
         config.save();
     }
 
+    /**
+     * This returns the lore to display for a given {@link SlimefunItem} when a {@link Player}
+     * does not have the required permission node.
+     * 
+     * @param item
+     *            The {@link SlimefunItem}
+     * 
+     * @return The configured lore to display
+     */
     @Nonnull
     public List<String> getLore(@Nonnull SlimefunItem item) {
-        List<String> lore = config.getStringList(item.getId() + ".lore");
-        return lore == null ? Arrays.asList("LORE NOT FOUND") : lore;
+        return config.getStringList(item.getId() + ".lore");
     }
 
 }

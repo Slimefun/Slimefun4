@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -49,8 +51,9 @@ public class IndustrialMiner extends MultiBlockMachine {
 
     private final int range;
     private final boolean silkTouch;
-    private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>("can-mine-ancient-debris", false);
+    private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>(this, "can-mine-ancient-debris", false);
 
+    @ParametersAreNonnullByDefault
     public IndustrialMiner(Category category, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
         super(category, item, new ItemStack[] { null, null, null, new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial) }, BlockFace.UP);
 

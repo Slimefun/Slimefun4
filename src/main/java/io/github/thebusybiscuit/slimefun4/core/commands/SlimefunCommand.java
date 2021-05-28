@@ -54,8 +54,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
         commands.addAll(SlimefunSubCommands.getAllCommands(this));
     }
 
-    @Nonnull
-    public SlimefunPlugin getPlugin() {
+    public @Nonnull SlimefunPlugin getPlugin() {
         return plugin;
     }
 
@@ -64,8 +63,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
      * 
      * @return A {@link Map} holding the amount of times each command was run
      */
-    @Nonnull
-    public Map<SubCommand, Integer> getCommandUsage() {
+    public @Nonnull Map<SubCommand, Integer> getCommandUsage() {
         return commandUsage;
     }
 
@@ -117,9 +115,12 @@ public class SlimefunCommand implements CommandExecutor, Listener {
      * 
      * @return A {@link List} containing every {@link SubCommand}
      */
-    @Nonnull
-    public List<String> getSubCommandNames() {
-        return commands.stream().map(SubCommand::getName).collect(Collectors.toList());
+    public @Nonnull List<String> getSubCommandNames() {
+        // @formatter:off
+        return commands.stream()
+                .map(SubCommand::getName)
+                .collect(Collectors.toList());
+        // @formatter:on
     }
 
 }

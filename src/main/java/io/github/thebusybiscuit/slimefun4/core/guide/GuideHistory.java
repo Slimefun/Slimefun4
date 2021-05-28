@@ -28,6 +28,7 @@ public class GuideHistory {
 
     private final PlayerProfile profile;
     private final Deque<GuideEntry<?>> queue = new LinkedList<>();
+    private int mainMenuPage = 1;
 
     /**
      * This creates a new {@link GuideHistory} for the given {@link PlayerProfile}
@@ -45,6 +46,27 @@ public class GuideHistory {
      */
     public void clear() {
         queue.clear();
+    }
+
+    /**
+     * This method sets the page of the main menu of this {@link GuideHistory}
+     * 
+     * @param page
+     *            The current page of the main menu that should be stored
+     */
+    public void setMainMenuPage(int page) {
+        Validate.isTrue(page >= 1, "page must be greater than 0!");
+
+        mainMenuPage = page;
+    }
+
+    /**
+     * This returns the current main menu page of this {@link GuideHistory}
+     * 
+     * @return The main menu page of this {@link GuideHistory}
+     */
+    public int getMainMenuPage() {
+        return mainMenuPage;
     }
 
     /**
@@ -165,7 +187,7 @@ public class GuideHistory {
 
     private <T> void open(@Nonnull SlimefunGuideImplementation guide, @Nullable GuideEntry<T> entry) {
         if (entry == null) {
-            guide.openMainMenu(profile, 1);
+            guide.openMainMenu(profile, mainMenuPage);
         } else if (entry.getIndexedObject() instanceof Category) {
             guide.openCategory(profile, (Category) entry.getIndexedObject(), entry.getPage());
         } else if (entry.getIndexedObject() instanceof SlimefunItem) {

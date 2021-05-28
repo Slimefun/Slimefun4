@@ -26,7 +26,6 @@ import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
@@ -44,7 +43,7 @@ public class Category implements Keyed {
     protected final List<SlimefunItem> items = new ArrayList<>();
     protected final NamespacedKey key;
     protected final ItemStack item;
-    protected final int tier;
+    protected int tier;
 
     /**
      * Constructs a new {@link Category} with the given {@link NamespacedKey} as an identifier
@@ -90,7 +89,8 @@ public class Category implements Keyed {
     }
 
     @Override
-    public NamespacedKey getKey() {
+    @Nonnull
+    public final NamespacedKey getKey() {
         return key;
     }
 
@@ -104,10 +104,49 @@ public class Category implements Keyed {
      */
     public void register(@Nonnull SlimefunAddon addon) {
         Validate.notNull(addon, "The Addon cannot be null");
+
+        if (isRegistered()) {
+            throw new UnsupportedOperationException("This Category has already been registered!");
+        }
+
         this.addon = addon;
 
         SlimefunPlugin.getRegistry().getCategories().add(this);
-        Collections.sort(SlimefunPlugin.getRegistry().getCategories(), Comparator.comparingInt(Category::getTier));
+        sortCategoriesByTier();
+    }
+
+    /**
+     * Returns the tier of this {@link Category}.
+     * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
+     * 
+     * @return the tier of this {@link Category}
+     */
+    public int getTier() {
+        return tier;
+    }
+
+    /**
+     * This sets the tier of this {@link Category}.
+     * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
+     * 
+     * @param tier
+     *            The tier for this {@link Category}
+     */
+    public void setTier(int tier) {
+        this.tier = tier;
+
+        // Refresh Category order if already registered.
+        if (isRegistered()) {
+            sortCategoriesByTier();
+        }
+    }
+
+    /**
+     * This refreshes the {@link Category} order.
+     */
+    private void sortCategoriesByTier() {
+        List<Category> categories = SlimefunPlugin.getRegistry().getCategories();
+        Collections.sort(categories, Comparator.comparingInt(Category::getTier));
     }
 
     /**
@@ -226,18 +265,22 @@ public class Category implements Keyed {
      * 
      * @return Whether the given {@link SlimefunItem} was found in this {@link Category}
      */
-    public boolean contains(SlimefunItem item) {
+    public boolean contains(@Nullable SlimefunItem item) {
         return item != null && items.contains(item);
     }
 
-    /**
-     * Returns the tier of this {@link Category}.
-     * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
-     * 
-     * @return the tier of this {@link Category}
-     */
-    public int getTier() {
-        return tier;
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj instanceof Category) {
+            return ((Category) obj).getKey().equals(getKey());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public final int hashCode() {
+        return key.hashCode();
     }
 
     @Override
@@ -258,7 +301,7 @@ public class Category implements Keyed {
      */
     public boolean isHidden(@Nonnull Player p) {
         for (SlimefunItem slimefunItem : getItems()) {
-            if (!slimefunItem.isHidden() && Slimefun.isEnabled(p, slimefunItem, false)) {
+            if (!slimefunItem.isHidden() && !slimefunItem.isDisabledIn(p.getWorld())) {
                 return false;
             }
         }

@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: 'תוצאות סריקת - GEO'
+  chunk: 'חלקה סרוקה'
+  world: 'עולם'
+  unit: 'יחידה'
+  units: 'יחידות'
+resources:
+  slimefun:
+    oil: 'שמן'
+    nether_ice: 'קרח גיהינום '
+    salt: 'מלח'
+    uranium: 'אורניום'
+  slimefunorechunks:
+    iron_ore_chunk: 'נתח עפרת ברזל'
+    gold_ore_chunk: 'נתח עפרת זהב'
+    copper_ore_chunk: 'נתח עפרת נחושת'
+    tin_ore_chunk: 'נתח עפרת בדיל'
+    silver_ore_chunk: 'נתח עפרת כסף'
+    aluminum_ore_chunk: 'נתח עפרת אלומיניום'
+    lead_ore_chunk: 'נתח עופרת'
+    zinc_ore_chunk: 'נתח עפרת אבץ'
+    nickel_ore_chunk: 'נתח עפרת ניקל'
+    cobalt_ore_chunk: 'נתח עופרת קובלט'

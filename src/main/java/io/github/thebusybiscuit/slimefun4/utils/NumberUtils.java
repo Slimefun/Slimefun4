@@ -44,13 +44,11 @@ public final class NumberUtils {
      * 
      * @return The formatted String
      */
-    @Nonnull
-    public static String formatBigNumber(int number) {
+    public static @Nonnull String formatBigNumber(int number) {
         return NumberFormat.getNumberInstance(Locale.US).format(number);
     }
 
-    @Nonnull
-    public static String getCompactDouble(double value) {
+    public static @Nonnull String getCompactDouble(double value) {
         if (value < 0) {
             // Negative numbers are a special case
             return '-' + getCompactDouble(-value);
@@ -86,8 +84,7 @@ public final class NumberUtils {
      * 
      * @return The {@link LocalDateTime} for the given input
      */
-    @Nonnull
-    public static LocalDateTime parseGitHubDate(@Nonnull String date) {
+    public static @Nonnull LocalDateTime parseGitHubDate(@Nonnull String date) {
         Validate.notNull(date, "Provided date was null");
         return LocalDateTime.parse(date.substring(0, date.length() - 1));
     }
@@ -102,8 +99,7 @@ public final class NumberUtils {
      * 
      * @return A representative {@link ChatColor}
      */
-    @Nonnull
-    public static ChatColor getColorFromPercentage(float percentage) {
+    public static @Nonnull ChatColor getColorFromPercentage(float percentage) {
         if (percentage < 16.0F) {
             return ChatColor.DARK_RED;
         } else if (percentage < 32.0F) {
@@ -133,8 +129,7 @@ public final class NumberUtils {
      * 
      * @return The elapsed time as a {@link String}
      */
-    @Nonnull
-    public static String getElapsedTime(@Nonnull LocalDateTime date) {
+    public static @Nonnull String getElapsedTime(@Nonnull LocalDateTime date) {
         return getElapsedTime(LocalDateTime.now(), date);
     }
 
@@ -155,8 +150,7 @@ public final class NumberUtils {
      * 
      * @return The elapsed time as a {@link String}
      */
-    @Nonnull
-    public static String getElapsedTime(@Nonnull LocalDateTime current, @Nonnull LocalDateTime priorDate) {
+    public static @Nonnull String getElapsedTime(@Nonnull LocalDateTime current, @Nonnull LocalDateTime priorDate) {
         Validate.notNull(current, "Provided current date was null");
         Validate.notNull(priorDate, "Provided past date was null");
 
@@ -173,8 +167,7 @@ public final class NumberUtils {
         }
     }
 
-    @Nonnull
-    public static String getTimeLeft(int seconds) {
+    public static @Nonnull String getTimeLeft(int seconds) {
         String timeleft = "";
 
         int minutes = (int) (seconds / 60L);
@@ -207,8 +200,7 @@ public final class NumberUtils {
         }
     }
 
-    @Nonnull
-    public static String getAsMillis(long nanoseconds) {
+    public static @Nonnull String getAsMillis(long nanoseconds) {
         if (nanoseconds == 0) {
             return "0ms";
         }
@@ -223,8 +215,7 @@ public final class NumberUtils {
         }
     }
 
-    @Nonnull
-    public static String roundDecimalNumber(double number) {
+    public static @Nonnull String roundDecimalNumber(double number) {
         return DECIMAL_FORMAT.format(number);
     }
 

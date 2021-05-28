@@ -5,7 +5,7 @@ on:
     branches:
     - master
     paths:
-    - 'src/main/resources/languages/**_en.yml'
+    - 'src/main/resources/languages/en/**.yml'
 
 jobs:
   notify:
@@ -18,6 +18,6 @@ jobs:
       - name: Discord Notification
         uses: Ilshidur/action-discord@master
         with:
-          args: '<@&665202905271369776> Slimefun4''s language files were changed and require to be updated! https://gitlocalize.com/repo/3841'
+          args: '<@&665202905271369776> New strings have been added to Slimefun4''s language files. You can translate them at https://crowdin.com/project/slimefun'
         env:
           DISCORD_WEBHOOK: ${{ secrets.TRANSLATOR_WEBHOOK }}

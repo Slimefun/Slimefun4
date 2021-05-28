@@ -1,0 +1,390 @@
+---
+commands:
+  help: Zeigt diesen Infotext an
+  cheat: Ermöglicht das Cheaten von Items
+  give: Gibt jemandem ein bestimmtes Item
+  guide: Gibt dir das Slimefun-Handbuch
+  teleporter: Erlaubt es dir Wegpunkte anderer Spieler anzusehen
+  versions: Eine Liste aller installierter Addons
+  search: Durchsucht dein Slimefun-Handbuch nach einem Begriff
+  open_guide: Öffnet das Slimefun-Handbuch
+  stats: Zeigt einige Statistiken über einen Spieler
+  research:
+    description: Verändert den Erfahrungsgrad eines Spielers
+    reset: '&cDu hast soeben %player%''s Erfahrungsgrad zurückgesetzt'
+    reset-target: '&cDein Erfahrungsgrad wurde zurückgesetzt'
+  backpack:
+    description: Gibt eine Kopie eines existierenden Rucksacks
+    invalid-id: '&4Die id muss eine nicht-negative ganze Zahl sein!'
+    player-never-joined: '&4Es konnte kein Spieler mit diesem Namen gefunden werden!'
+    backpack-does-not-exist: '&4Der angegebene Rucksack konnte nicht gefunden werden!'
+    restored-backpack-given: '&aDein Rucksack wurde erfolgreich wiederhergestellt und deinem Inventar hinzugefügt!'
+  charge:
+    description: Lädt das Item in deiner Hand auf
+    charge-success: Dein Item wurde erfolgreich aufgeladen!
+    not-rechargeable: Dieses Item kann nicht aufgeladen werden!
+  timings:
+    description: Performance-Info für Slimefun und dessen Addons
+    please-wait: '&eEine Sekunde Geduld bitte... Die Ergebnisse werden aufbereitet!'
+    verbose-player: '&4Das "verbose" Argument kann nicht von Spielern verwendet werden.'
+    unknown-flag: '&4Unbekanntes Argument: &c%flag%'
+placeholderapi:
+  profile-loading: 'Lade...'
+guide:
+  locked: 'GESPERRT'
+  work-in-progress: 'Dieses Feature befindet sich noch in der Testphase!'
+  locked-category:
+    - 'Um diese Kategorie freizuschalten,'
+    - 'müssen zuerst sämtliche Items der'
+    - 'folgenden Kategorien freigeschaltet werden'
+  search:
+    message: '&bWonach möchtest du suchen?'
+    name: '&7Suche...'
+    tooltip: '&bKlicke um die Suche zu starten'
+    inventory: 'Suche nach: %item%'
+  tooltips:
+    open-category: 'Klicke zum Öffnen'
+    versions-notice: 'Dies ist sehr wichtig bei Fehlermeldungen!'
+    wiki: 'Besuche das offizielle Slimefun-Wiki'
+    recipes:
+      machine: 'Rezepte dieser Maschine'
+      miner: 'Ressourcen, die mit dieser Maschine gewonnen werden können'
+      generator: 'Mögliche Treibstoffquellen'
+      gold-pan: 'Ressourcen, die hiermit gewonnen werden können'
+      climbing-pick: 'Oberflächen zum Klettern'
+  cheat:
+    no-multiblocks: '&4Multiblöcke müssen gebaut werden! Du kannst dir diese nicht geben.'
+  pages:
+    previous: 'Vorherige Seite'
+    next: 'Nächste Seite'
+  back:
+    title: 'Zurück'
+    guide: 'Gehe zurück zum Slimefun-Handbuch'
+    settings: 'Gehe zurück zu den Einstellungen'
+  languages:
+    updated: '&aFolgende Sprache wurde ausgewählt: &b%lang%'
+    selected-language: 'Aktuell ausgewählt:'
+    select: 'Klicke hier um diese Sprache auszuwählen'
+    select-default: 'Klicke hier um die Standardsprache auszuwählen'
+    change: 'Klicke um die Sprache zu ändern'
+    description:
+      - '&7Hier kannst du deine Spracheinstellungen'
+      - '&7verwalten. Derzeit umfasst dies'
+      - '&7jedoch nur bestimmte Nachrichten,'
+      - '&7Items können noch nicht übersetzt werden.'
+    translations:
+      name: '&aFehlt etwas?'
+      lore: 'Klicke um eine Übersetzung hinzuzufügen'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bLern-Animation: &aAn'
+          - ''
+          - '&7Du kannst nun entscheiden, ob'
+          - '&7du eine Animation beim Freischalten von'
+          - '&7Items sehen wirst.'
+        click: '&eKlicke um die Lern-Animation zu deaktivieren'
+      disabled:
+        text:
+          - '&bLern-Animation: &4Aus'
+          - ''
+          - '&7Du kannst nun entscheiden, ob'
+          - '&7du eine Animation beim Freischalten von'
+          - '&7Items sehen wirst.'
+        click: '&eKlicke um die Lern-Animation zu aktivieren'
+  title:
+    main: 'Slimefun-Handbuch'
+    settings: 'Einstellungen & Infos'
+    languages: 'Wähle deine bevorzugte Sprache'
+    credits: 'Slimefun4: Mitwirkende'
+    wiki: 'Slimefun4-Wiki'
+    addons: 'Addons für Slimefun4'
+    bugs: 'Fehlermeldungen'
+    source: 'Quellcode'
+    versions: 'Installierte Versionen'
+  credits:
+    commit: 'Beitrag'
+    commits: 'Beiträge'
+    profile-link: 'Klick um mich auf GitHub zu sehen'
+    open: 'Klicke um Mitwirkende zu sehen'
+    description:
+      - '&7Slimefun ist ein Open-Source Projekt'
+      - '&7und wird von einer riesigen Community entwickelt.'
+      - '&7Über &e%contributors% &7Personen haben bereits'
+      - '&7an Slimefun mitgewirkt.'
+    roles:
+      developer: '&6Entwickler'
+      wiki: '&3Wiki-Editor'
+      resourcepack: '&cRessourcenpaket-Designer'
+      translator: '&9Übersetzer'
+messages:
+  not-researched: '&4Dir fehlt die Weisheit um diesen Gegenstand zu verstehen. &cSchalte zuerst &f"%item%&f" &cfrei!'
+  not-enough-xp: '&4Du hast nicht genügend Erfahrungspunkte, um dies freizuschalten'
+  unlocked: '&bDu hast folgenden Erfahrungsgrad gewonnen: &7"%research%"'
+  only-players: '&4Dieser Befehl ist nur für Spieler'
+  unknown-player: '&4Unbekannter Spieler: &c%player%'
+  no-permission: '&4Du hast nicht die benötigten Rechte hierfür'
+  usage: '&4Korrekte Schreibweise: &c%usage%'
+  not-online: '&4%player% &cist derzeit nicht online!'
+  invalid-item: '&4%item% &cist kein gültiges Item!'
+  invalid-amount: '&4%amount% &cist keine gültige Anzahl! Sie muss höher als 0 sein!'
+  given-item: '&bDir wurde &a%amount% &7mal "%item%&7" gegeben'
+  give-item: '&bDu hast %player% &a%amount% &7"%item%&7" gegeben'
+  invalid-research: '&4%research% &cist kein gültiger Erfahrungsgrad!'
+  give-research: '&bDu hast %player% den Erfahrungsgrad &7"%research%&7" vergeben'
+  hungry: '&cDu bist zu hungrig, um dies zu tun!'
+  disabled-in-world: '&4&lDieses Item wurde in dieser Welt deaktiviert!'
+  disabled-item: '&4&lDieses Item wurde von einem Server-Administrator deaktiviert!'
+  no-tome-yourself: '&cDu kannst dieses Item nicht an dir selbst anwenden...'
+  multimeter: '&bGespeicherte Energie: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4Du kannst Piglins keine Slimefun-Gegenständen anbieten!'
+  bee-suit-slow-fall: '&eDeine Bienenflügel haben dir eine sichere Landung ermöglicht'
+  multi-tool:
+    mode-change: '&bDer Modus von deinem Multi-Tool wurde geändert zu: &9%mode%'
+    not-shears: '&cEinMulti Tool kann nicht als Schere verwendet werden!'
+  auto-crafting:
+    recipe-set: '&aDu hast das Rezept für diese Maschine erfolgreich gesetzt.'
+    recipe-removed: '&eDu hast das Rezept erfolgreich von dieser Maschine entfernt. Du kannst jederzeit ein neues Rezept festlegen!'
+    no-recipes: '&cWir konnten keine gültigen Rezepte für diesen Gegenstand finden.'
+    missing-chest: '&cFehlende Truhe! Auto-Crafter müssen über einer Truhe platziert werden.'
+    select: 'Dieses Rezept auswählen'
+    temporarily-disabled: '&eDieser Auto-Crafter wurde vorübergehend deaktiviert. Du kannst ihn jederzeit wieder aktivieren!'
+    re-enabled: '&eDieser Auto-Crafter wurde reaktiviert!'
+    tooltips:
+      enabled:
+        - '&cDieses Rezept ist momentan deaktiviert'
+        - ''
+        - '&eLinksklick &7zum temporären deaktivieren des Rezeptes'
+        - '&eRechtsklick &7zum Entfernen dieses Rezeptes'
+      disabled:
+        - '&cDieses Rezept ist momentan deaktiviert'
+        - ''
+        - '&eLinksklick &7zum Re-aktivieren dieses Rezeptes'
+        - '&eRechtsklick &7zum Entfernen dieses Rezeptes'
+  talisman:
+    anvil: '&a&oDein Talisman hat dein Werkzeug vor dem Zerfall gerettet'
+    miner: '&a&oDein Talisman hat soeben die Drops verdoppelt'
+    hunter: '&a&oDein Talisman hat soeben die Drops verdoppelt'
+    lava: '&a&oDein Talisman hat dich vor dem Verbrennen gerettet'
+    water: '&a&oDein Talisman hat dich vor dem Ertrinken gerettet'
+    angel: '&a&oDein Talisman hat dich davor bewahrt Fallschaden zu erleiden'
+    fire: '&a&oDein Talisman hat dich vor dem Verbrennen gerettet'
+    magician: '&a&oDein Talisman hat dir eine zusätzliche Verzauberung verliehen'
+    traveller: '&a&oDein Talisman hat dir einen Geschwindigkeitsboost gegeben'
+    warrior: '&a&oDein Talisman hat dir einen temporären Stärkebonus gegeben'
+    knight: '&a&oDein Talisman hat dir 5 Sekunden Regeneration gegeben'
+    whirlwind: '&a&oDein Talisman hat soeben ein Projektil reflektiert'
+    wizard: '&a&oDein Talisman hat dein Glück-Level erhöht aber möglicherweise das Level einer anderen Verzauberung vermindert'
+    caveman: '&a&oDein Talisman hat dir einen Abbau-Boost verschafft'
+    wise: '&a&oDein Talisman hat soeben deine Erfahrungspunkte verdoppelt'
+  soulbound-rune:
+    fail: '&cDu kannst nicht mehrere Items auf einmal an deine Seele binden'
+    success: '&aDu hast dieses Item erfolgreich an deine Seele gebunden! Solltest du sterben, wirst du es nun behalten.'
+  enchantment-rune:
+    fail: '&cDieser Gegenstand kann nicht verzaubert werden'
+    no-enchantment: '&cEs konnten keine gültigen Verzauberungen für diesen Gegenstand gefunden werden'
+    success: '&aDieser Gegenstand wurde erfolgreich mit einer zufälligen Verzauberung aufgebessert!'
+  research:
+    start: '&7Mysteriöse Worte flüstert man dir in dein Ohr!'
+    progress: '&7Du beginnst über &b%research% &7nachzudenken &e(%progress%)'
+  tape-measure:
+    no-anchor: '&cDu musst zuerst einen Ankerpunkt setzen bevor du messen kannst!'
+    wrong-world: '&cDein Ankerpunkt scheint sich in einer anderen Dimension zu befinden!'
+    distance: '&7Messung erfolgreich. &eDistanz: %distance%'
+    anchor-set: '&aErfolgreich den Ankerpunkt gesetzt:&e %anchor%'
+  climbing-pick:
+    dual-wielding: '&4Du musst zum Klettern einen KletterPickel in beiden Händen halten!'
+    wrong-material: '&cDu kannst nicht an dieser Wand klettern. Erkundige dich im Slimefun Guide für mehr Infos!'
+  fire-extinguish: '&7Das Feuer wurde erfolgreich gelöscht'
+  cannot-place: '&cDu kannst hier keine Blöcke platzieren!'
+  no-pvp: '&cDu kannst andere Spieler hier nicht verletzen!'
+  radiation: '&4Du wurdest radioaktiver Strahlung ausgesetzt! &cZiehe einen vollständigen Hazmat Suit an oder werde das radioaktive Item schnleunigst los!'
+  opening-guide: '&bÖffne dein Handbuch, dies kann eventuell ein paar Sekunden dauern...'
+  opening-backpack: '&bÖffne deinen Rucksack, dies kann eventuell ein paar Sekunden dauern...'
+  no-iron-golem-heal: '&cDas ist kein Eisenbarren. Du kannst dieses Item nicht verwenden um Eisengolems zu reparieren!'
+  link-prompt: '&eKlicke hier:'
+  diet-cookie: '&eDu beginnst dich sehr leicht zu fühlen...'
+  fortune-cookie:
+    - '&7Hilfe, ich bin in einer Glückskeks-Fabrik gefangen!'
+    - '&7Morgen könntest du sterben... durch einen Creeper'
+    - '&7Irgendwann im Leben passiert auch mal etwas schlechtes!!!'
+    - '&7Irgendwann fällt dir auf, dass dies nicht die echte Welt ist. Es ist alles nur ein Computerspiel.'
+    - '&7Dieser Keks wird in ein paar Sekunden gut schmecken'
+    - '&7"ELIMINIEREN!!!!!" wird das letzte Wort sein, welches du hören wirst.'
+    - '&7Umarme keine Creeper... Es fühlt sich gut an, ich habe es ausprobiert, aber es ist es nicht wert.'
+    - '&742. Die Antwort ist 42.'
+    - '&7Ein Walshy am Tag, hält die Sorgen fern. (Insiderwitz)'
+    - '&7Grabe niemals direkt nach unten!'
+    - '&7Das ist nur ein Kratzer!'
+    - '&7Always look on the bright side of life!'
+    - '&7Ist das jetzt ein Keks, Cookie oder ein Biscuit?'
+    - '&7Jetzt auch zuckerfrei!'
+  above-limit-level: '&eEine Verzauberungsstufe über %level% kann nicht ent-/verzaubert werden!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cEs konnten keine Erze in deiner Nähe gefunden werden!'
+machines:
+  pattern-not-found: '&eEs tut mir leid, aber ich konnte kein passendes Rezept finden.'
+  unknown-material: '&eEs tut mir leid, aber ich erkenne das Item in meinem Werfer nicht, probier ein anderes Item aus.'
+  wrong-item: '&eEs tut mir leid, aber ich erkenne das Item in deiner Hand nicht, probier ein anderes Item aus.'
+  full-inventory: '&eDieses Inventar ist bereits voll!'
+  in-use: '&cDiese Maschine wird derzeit von einem anderen Spieler verwendet.'
+  ignition-chamber-no-flint: '&cAlle Feuerzeuge wurden aufgebraucht!'
+  inventory-empty: '&6Du hast erfolgreich einen Multiblock erschaffen! Fahre fort indem du Gegenstände in den Werfer platzierst und klicke mich erneut um den gewünschten Gegenstand herzustellen!'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)'
+    unknown-catalyst: '&4Unbekannter Katalysator!'
+    unknown-recipe: '&4Unbekanntes Rezept!'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Der Sockel wurde blockiert! &cBitte entferne den Block über jedem jedem Sockel!'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7Bitte gebe ins Chatfenser einen Text für dieses Hologram ein. &r(Farbcodes werden unterstützt!)'
+    inventory-title: 'Hologrammeditor'
+  ELEVATOR:
+    no-destinations: '&4Es konnten keine weiteren Etagen gefunden werden'
+    pick-a-floor: '&3- Wähle eine Etage -'
+    current-floor: '&eDeine aktuelle Etage:'
+    click-to-teleport: '&eKlicke hier &7um zu dieser Etage zu teleportieren:'
+    enter-name: '&7Bitte gebe ins Chatfenser einen Namen für diese Etage ein. &r(Farbcodes werden unterstützt!)'
+    named: '&2Diese Etage wurde erfolgreich &r"%floor%&r" &2genannt'
+  TELEPORTER:
+    teleporting: '&3Du wirst teleportiert...'
+    teleported: '&3Erfolgreich teleportiert!'
+    cancelled: '&4Teleportation abgebrochen!'
+    invulnerability: '&b&lDu bist nun für 30 Sekunden unverwundbar!'
+    gui:
+      title: 'Deine Wegpunkte'
+      tooltip: 'Klicke zum teleportieren'
+      time: 'Voraussichtliche Dauer'
+  GPS_CONTROL_PANEL:
+    title: 'GPS - Kontrolltafel'
+    transmitters: 'Satelliten-Übersicht'
+    waypoints: 'Wegpunkte-Übersicht'
+  CARGO_NODES:
+    must-be-placed: '&4Dieser Block muss an die Seite einer Maschine oder Kiste platziert werden!'
+  INDUSTRIAL_MINER:
+    no-fuel: '&cDein Industrial Miner hat keinen Treibstoff mehr! Platziere den benötigten Treibstoff in die Kiste.'
+    piston-facing: '&cEinIndustrial Miner erfordert Kolben, die nach oben zeigen!'
+    piston-space: '&cDie Blöcke über den Kolben müssen leer bleiben!'
+    destroyed: '&cDein Industrial Miner scheint zerstört worden zu sein.'
+    already-running: '&cDieser Industrial Miner wird bereits verwendet!'
+    full-chest: '&cDie Kiste deines Industrial Miner ist vollgelaufen!'
+    no-permission: '&4Du scheinst nicht die benötigten Rechte zu haben, um in diesem Gebiet einen Industrial Miner zu verwenden.'
+    finished: '&eDein Industrial Miner ist fertig! Es wurde(n) insgesamt %ores% Erz(e) gefunden!'
+anvil:
+  not-working: '&4Items von Slimefun können nicht in einem Amboss verwendet werden!'
+  mcmmo-salvaging: '&4Du kannst Slimefun-Items nicht ausschlachten!'
+brewing_stand:
+  not-working: '&4Items von Slimefun können nicht zum Brauen verwendet werden!'
+cartography_table:
+  not-working: '&4Slimefun Items können nicht in einem Kartentisch verwendet werden!'
+villagers:
+  no-trading: '&4Items von Slimefun können nicht zum Handeln verwendet werden!'
+backpack:
+  already-open: '&cDieser Rucksack wird derzeit von jemand anderem benutzt!'
+  no-stack: '&cRucksäcke dürfen nicht gestapelt werden'
+workbench:
+  not-enhanced: '&4Dieses Item kann nicht in einer normalen Werkbank genutzt werden'
+cauldron:
+  no-discoloring: '&4Du kannst Slimefun-Rüstung nicht entfärben'
+gps:
+  deathpoint: '&4Todespunkt &7%date%'
+  waypoint:
+    new: '&eBitte gebe ins Chatfenser einen Namen für deinen Wegpunkt ein. &7(Farbcodes werden unterstützt!)'
+    added: '&aEin neuer Wegpunkt wurde hinzugefügt'
+    max: '&4Du hast die maximale Anzahl an Wegpunkten erreicht'
+    duplicate: '&4Es existiert bereits ein Wegpunkt mit folgendem Namen: &f%waypoint%'
+  insufficient-complexity:
+    - '&4Unzureichende Komplexität deines GPS-Netzwerkes! Folgende Komplexität wird benötigt: &c%complexity%'
+    - '&4a) Vielleicht hast du gar kein GPS-Netzwerk'
+    - '&4b) Oder dein GPS-Netzwerk ist nicht komplex genug'
+  geo:
+    scan-required: '&4GEO-Scan benötigt! &cScanne diesen Chunk mit einem GEO-Scanner!'
+inventory:
+  no-access: '&4Du kannst nicht auf diesen Block zugreifen'
+android:
+  started: '&7Dein Android hat sein Skript fortgesetzt'
+  stopped: '&7Dein Android hat sein Skript pausiert'
+  scripts:
+    already-uploaded: '&4Dieses Skript wurde bereits hochgeladen.'
+    editor: 'Skripteditor'
+    too-long: '&cDieses Skript ist zu lang, um es zu bearbeiten!'
+    instructions:
+      START: '&2Start des Skripts'
+      REPEAT: '&9Neubeginn des Skripts'
+      WAIT: '&eWarte 0.5 Sekunden'
+      GO_FORWARD: '&7Gehe vorwärts'
+      GO_UP: '&7Gehe nach oben'
+      GO_DOWN: '&7Gehe nach unten'
+      TURN_LEFT: '&7Drehung nach links'
+      TURN_RIGHT: '&7Drehung nach rechts'
+      DIG_UP: '&bGrabe nach oben'
+      DIG_FORWARD: '&bGrabe vorwärts'
+      DIG_DOWN: '&bGrabe nach unten'
+      MOVE_AND_DIG_UP: '&bGehe & Grabe nach oben'
+      MOVE_AND_DIG_FORWARD: '&bGehe & Grabe vorwärts'
+      MOVE_AND_DIG_DOWN: '&bGehe & Grabe nach unten'
+      ATTACK_MOBS_ANIMALS: '&4Angreifen &c(Monster & Tiere)'
+      ATTACK_MOBS: '&4Angreifen &c(Nur Monster)'
+      ATTACK_ANIMALS: '&4Angreifen &c(Nur Tiere)'
+      ATTACK_ANIMALS_ADULT: '&4Angreifen &c(Nur ausgewachsene Tiere)'
+      CHOP_TREE: '&cBaum fällen und nachpflanzen'
+      CATCH_FISH: '&bAngeln'
+      FARM_FORWARD: '&bErnten und Nachpflanzen'
+      FARM_DOWN: '&bErnten und Nachpflanzen &7(Unterer Block)'
+      FARM_EXOTIC_FORWARD: '&bErnten und Nachpflanzen (Fortgeschritten)'
+      FARM_EXOTIC_DOWN: '&bErnten und Nachpflanzen (Fortgeschritten und unterer Block)'
+      INTERFACE_ITEMS: '&9Items ins vorliegende Interface bewegen'
+      INTERFACE_FUEL: '&cTreibstoff aus dem vorliegenden Interface nehmen'
+    enter-name:
+      - ''
+      - '&eBitte gebe einen Namen für dein Skript ins Chatfenster ein'
+      - ''
+    uploaded:
+      - '&bLade dein Skript hoch...'
+      - '&aDein Skript wurde erfolgreich hochgeladen!'
+    rating:
+      own: '&4Du kannst nicht dein eigenes Skript bewerten!'
+      already: '&4Du hast dieses Skript bereits bewertet!'
+languages:
+  default: 'Server-Standard'
+  en: 'Englisch'
+  de: 'Deutsch'
+  fr: 'Französisch'
+  it: 'Italienisch'
+  es: 'Spanisch'
+  pl: 'Polnisch'
+  sv: 'Schwedisch'
+  nl: 'Niederländisch'
+  cs: 'Tschechisch'
+  hu: 'Ungarisch'
+  lv: 'Lettisch'
+  ru: 'Russisch'
+  sk: 'Slowakisch'
+  zh-CN: 'Chinesisch (China)'
+  zh-TW: 'Chinesisch (Taiwan)'
+  vi: 'Vietnamesisch'
+  id: 'Indonesisch'
+  el: 'Griechisch'
+  he: 'Hebräisch'
+  pt: 'Portugiesisch (Portugal)'
+  pt-BR: 'Portugiesisch (Brasilien)'
+  ar: 'Arabisch'
+  af: 'Afrikaans'
+  da: 'Dänisch'
+  fi: 'Finnisch'
+  uk: 'Ukrainisch'
+  ms: 'Malaiisch'
+  'no': 'Norwegisch'
+  ja: 'Japanisch'
+  fa: 'Persisch'
+  th: 'Thailändisch'
+  tl: 'Tagalog'
+  ro: 'Rumänisch'
+  bg: 'Bulgarisch'
+  ko: 'Koreanisch'
+  tr: 'Türkisch'
+  hr: 'Kroatisch'
+  mk: 'Mazedonisch'
+  sr: 'Serbisch'
+  be: 'Belarusisch'

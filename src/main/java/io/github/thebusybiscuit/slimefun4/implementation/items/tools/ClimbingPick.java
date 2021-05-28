@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
@@ -57,8 +58,9 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     private static final double EFFICIENCY_MODIFIER = 0.125;
     private static final long COOLDOWN = 4;
 
-    private final ItemSetting<Boolean> dualWielding = new ItemSetting<>("dual-wielding", true);
-    private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
+    private final ItemSetting<Boolean> dualWielding = new ItemSetting<>(this, "dual-wielding", true);
+    private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>(this, "damage-on-use", true);
+
     private final Map<Material, ClimbableSurface> surfaces = new EnumMap<>(Material.class);
     private final Set<UUID> users = new HashSet<>();
 
@@ -86,7 +88,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     }
 
     protected void addSurface(@Nonnull Material type, double defaultValue) {
-        ClimbableSurface surface = new ClimbableSurface(type, defaultValue);
+        ClimbableSurface surface = new ClimbableSurface(this, type, defaultValue);
         addItemSetting(surface);
         surfaces.put(type, surface);
     }
@@ -234,7 +236,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     }
 
     @Override
-    public void damageItem(Player p, ItemStack item) {
+    public void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
         if (p.getGameMode() != GameMode.CREATIVE) {
             DamageableItem.super.damageItem(p, item);
         }

@@ -1,0 +1,271 @@
+---
+commands:
+  help: Pokazuje ten ekran pomocy
+  cheat: Daje graczowi przedmioty Slimefun.
+  give: Daj graczowi przedmioty Slimefun
+  guide: Daje ci przewodnik Slimefun
+  teleporter: Zobacz punkty lokalizacji innych graczy
+  versions: Wyświetla listę wszystkich zainstalowanych dodatków
+  search: Przeszukuje twój przewodnik dla podanego terminu
+  open_guide: Otwiera przewodnik Slimefun bez korzystania z książki
+  stats: Pokazuje niektóre statystyki dotyczące gracza
+  research:
+    description: Odblokuj/Zresetuj badania dla gracza
+    reset: '&cZresetowano wiedzę gracza %player%'
+    reset-target: '&c Twoja wiedza została zresetowana'
+guide:
+  locked: 'Zablokowany'
+  locked-category:
+    - 'Aby odblokować tę kategorię, będziesz'
+    - 'Musisz odblokować wszystkie przedmioty z'
+    - 'Następujące kategorie'
+  search:
+    message: '&bCo chcesz wyszukać?'
+    name: '&7Szukaj...'
+    tooltip: '&bKliknij, aby wyszukać przedmiot'
+    inventory: 'Wyszukiwanie dla: % item%'
+  tooltips:
+    open-category: 'Kliknij, aby otworzyć'
+    versions-notice: 'Jest to bardzo ważne przy zgłaszaniu błędów!'
+    wiki: 'Zobacz ten przedmiot na oficjalnej stronie Wiki Slimefun'
+    recipes:
+      machine: 'Przepisy wykonane w tym urządzeniu'
+      miner: 'Zasoby, które możesz uzyskać za pomocą tego Górnika'
+      generator: 'Dostępne rodzaje paliwa'
+      gold-pan: 'Zasoby, które możesz zdobyć'
+  cheat:
+    no-multiblocks: '&4Nie możesz otrzymać Multibloków, musisz je zbudować!'
+  pages:
+    previous: 'Poprzednia strona'
+    next: 'Kolejna strona'
+  back:
+    title: 'Wstecz'
+    guide: 'Wróć Do Przewodnika Slimefun'
+    settings: 'Wróć Do Panelu Ustawień'
+  languages:
+    updated: '&aTwój język został pomyślnie ustawiony na: &b%lang%'
+    selected-language: 'Aktualnie wybrane:'
+    select: 'Kliknij, aby wybrać ten język'
+    select-default: 'Kliknij, aby wybrać domyślny język'
+    translations:
+      name: '&aCzegoś brakuje?'
+      lore: 'Kliknij, aby dodać własne tłumaczenie'
+  title:
+    main: 'Przewodnik Slimefun'
+    settings: 'Ustawienia i informacje'
+    languages: 'Wybierz preferowany język'
+    credits: 'Autorzy Slimefun4'
+    wiki: 'Wiki Slimefun4'
+    addons: 'Dodatki dla Slimefun4'
+    bugs: 'Zgłaszanie błędów'
+    source: 'Kod Źródłowy'
+  credits:
+    commit: 'Rejestracja zmian'
+    commits: 'Rejestracje zmian'
+    profile-link: 'Kliknij, aby odwiedzić ich profil na GitHub'
+    roles:
+      wiki: '&3Edytor Wiki'
+      resourcepack: '&cArtysta paczki zasobów'
+      translator: '&9Tłumacz'
+messages:
+  not-enough-xp: '&4Nie masz wystarczająco doświadczenia, aby to odblokować'
+  unlocked: '&bOdblokowano &7"%research%"'
+  only-players: '&4To polecenie dotyczy tylko graczy'
+  unknown-player: '&4Nieznany gracz: &c%player%'
+  no-permission: '&4Brak uprawnień'
+  usage: '&4Użycie: &c%usage%'
+  not-online: '&4%player% &cnie jest online!'
+  invalid-item: '&4%item% &cnie jest poprawnym przedmiotem!'
+  invalid-amount: '&4%amount% &cnie jest prawidłową ilością: ilość musi być większa od 0!'
+  given-item: '&bOtrzymano &a%amount% &7"%item%&7"'
+  give-item: '&bDodano przedmiot do plecaka gracza %player%: &a%amount% &7"%item%&7"'
+  invalid-research: '&4%research% &cnie jest poprawnym Badaniem!'
+  give-research: '&bOdblokowano badanie &7"%research%&7" dla gracza %player%'
+  hungry: '&cJesteś zbyt głodny, żeby to zrobić!'
+  disabled-in-world: '&4&lTen przedmiot został wyłączony na tym świecie'
+  disabled-item: '&4&l Ten przedmiot został wyłączony! Jak to w ogóle dostałeś(-aś)?'
+  no-tome-yourself: '&cNie możesz używać &4Księgi wiedzy &cna samym sobie...'
+  multimeter: '&bZmagazynowana energia: &3%stored% &b/ &3%capacity%'
+  talisman:
+    anvil: '&a&oTwój talizman uratował twoje narzędzie przed złamaniem'
+    miner: '&a&oTwój talizman podwoił twoje znaleziska'
+    hunter: '&a&oTwój talizman podwoił twoje znaleziska'
+    lava: '&a&oTwój talizman uratował cię przed spaleniem na śmierć'
+    water: '&a&oTwój talizman uratował cię przed utonięciem'
+    angel: '&a&oTwój talizman uratował cię przed odniesieniem obrażeń od upadku'
+    fire: '&a&oTwój talizman uratował cię przed spaleniem na śmierć'
+    magician: '&a&oTwój talizman dał ci dodatkowe zaklęcie'
+    traveller: '&a&oTwój talizman dał ci przyspieszenie prędkości'
+    warrior: '&a&oTwój talizman na pewien czas poprawił twoją siłę'
+    knight: '&a&oTwój talizman dał ci 5 sekund regeneracji'
+    whirlwind: '&a&oTwój talizman odbił pocisk'
+    wizard: '&a&oTwój talizman zapewnił ci lepszy poziom Szczęścia, ale może także obniżył niektóre inne poziomy zaklinania'
+  soulbound-rune:
+    fail: '&cMożesz powiązać tylko jeden przedmiot ze swoją duszą na raz.'
+    success: '&aPomyślnie powiązałeś(-aś) ten przedmiot ze swoją duszą! Zatrzymasz go, gdy umrzesz.'
+  research:
+    start: '&7Starożytne duchy szepczą ci do ucha tajemnicze słowa!'
+    progress: '&7 Zaczynasz się zastanawiać nad &b%research% &e(%progress%)'
+  fire-extinguish: '&7Ty masz zgasły siebie.'
+  cannot-place: '&cNie możesz umieścić tam tego bloku!'
+  no-pvp: '&c Nie możesz tutaj bić innych graczy!'
+  radiation: '&4Zostałeś(-aś) narażony na śmiertelne promieniowanie! &c Pozbądź się radioaktywnego przedmiotu lub załóż kombinezon materiałów niebezpiecznych!'
+  opening-guide: '&bOtwieranie przewodnika, może to potrwać kilka sekund...'
+  opening-backpack: '&bOtwieranie plecaka, może to potrwać kilka sekund...'
+  no-iron-golem-heal: '&cTo nie jest sztabka żelaza. Nie możesz tego użyć do leczenia Żelaznych Golemów!'
+  link-prompt: '&eKliknij tutaj:'
+  diet-cookie: '&eZaczynasz czuć się bardzo lekko...'
+  fortune-cookie:
+    - '&7Pomóż mi, jestem uwięziony w fabryce ciastek z wróżbami!'
+    - '&7Jutro umrzesz... przez Creepera'
+    - '&7W pewnym momencie w twoim życiu wydarzy się coś złego!'
+    - '&7W następnym tygodniu zauważysz, że to nie jest prawdziwe życie, i że jesteś w grze komputerowej'
+    - '&7To ciastko będzie dobrze smakowało za kilka sekund'
+    - '&7Ostatnim słowem, które usłyszysz, będzie „WYTĘPIĆ!!!”'
+    - '&7Cokolwiek robisz, nie przytulaj Creepera... Próbowałem. Czuje się dobrze, ale to nie jest tego warte.'
+    - '&742. Odpowiedź to 42.'
+    - '&7Walshy dziennie pomoże uniknąć kłopotów.'
+    - '&7Nigdy nie kop prosto w dół!'
+    - '&7Tis but a flesh wound!'
+    - '&7Always look on the bright side of life!'
+    - '&7This one was actually a Biscuit and not a Cookie'
+    - '&7Neon signs are LIT!'
+machines:
+  pattern-not-found: '&ePrzepraszamy, nie można rozpoznać tego przepisu. Umieść przedmioty we właściwym wzorze w Dozowniku.'
+  unknown-material: '&ePrzepraszamy, nie można rozpoznać przedmiotu w tym Dozowniku. Proszę włożyć coś, co znam.'
+  wrong-item: '&ePrzepraszamy, nie można rozpoznać przedmiotu, którym kliknąłeś(-aś) mnie prawym przyciskiem myszy. Sprawdź przepisy i zobacz, jakich przedmiotów możesz użyć.'
+  full-inventory: '&eEkwipunek jest pełny!'
+  in-use: '&cEkwipunek tego bloku jest na razie otworzony przez innego gracza.'
+  ignition-chamber-no-flint: '&cDo Komory Zapłonowej brakuje Krzesiwa.'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: '&4Ołtarz nie jest otoczony potrzebną ilością cokołów &c(%pedestals% / 8)'
+    unknown-catalyst: '&4Nieznany katalizator! &cZamiast tego użyj prawidłowego przepisu!'
+    unknown-recipe: '&4Nieznany przepis! &cZamiast tego użyj prawidłowego przepisu!'
+  ANCIENT_PEDESTAL:
+    obstructed: '&4Piedestał jest zablokowany! &cUsuń wszystko nad piedestałem!'
+  HOLOGRAM_PROJECTOR:
+    enter-text: '&7Wprowadź żądany tekst hologramu na czacie. &r(Kody kolorów są obsługiwane!)'
+    inventory-title: 'Edytor hologramów'
+  ELEVATOR:
+    no-destinations: '&4Nie znaleziono miejsc docelowych'
+    pick-a-floor: '&3- Wybierz piętro-'
+    current-floor: '&eTo jest piętro, na którym aktualnie jesteś:'
+    click-to-teleport: '&eKliknij &7aby teleportować się na to piętro:'
+    enter-name: '&7Wprowadź żądaną nazwę piętra na czacie. &r(Kody kolorów są obsługiwane!)'
+    named: '&2Pomyślnie nazwano podłogę: &r% floor%'
+  TELEPORTER:
+    teleporting: '&3Teleportuje...'
+    teleported: '&3Przeteleportowano!'
+    cancelled: '&4Teleportacja anulowana!'
+    invulnerability: '&b&l Otrzymałeś(-aś) 30 sekund Niewrażliwości!'
+    gui:
+      title: 'Twoje punkty trasy'
+      tooltip: 'Kliknij, aby się teleportować'
+      time: 'Szacowany czas'
+  GPS_CONTROL_PANEL:
+    title: 'GPS - Panel sterowania'
+    transmitters: 'Transmiter Przegląd'
+    waypoints: 'Waypoint Przegląd'
+  CARGO_NODES:
+    must-be-placed: '&4Musi być umieszczony na skrzyni lub maszynie!'
+anvil:
+  not-working: '&4Nie możesz używać przedmiotów Slimefun w kowadle!'
+backpack:
+  already-open: '&cPrzepraszamy, ten plecak jest otwarty gdzie indziej!'
+  no-stack: '&cNie możesz stakować plecaków'
+workbench:
+  not-enhanced: '&4Nie można używać przedmiotów Slimefun w zwykłym stole warsztatowym'
+gps:
+  deathpoint: '&4Punkt śmierci &7%date%'
+  waypoint:
+    new: '&eProszę wpisać nazwę swojego nowego punktu trasy na czacie. &7(Kody kolorów są obsługiwane!)'
+    added: '&aPomyślnie dodano nowy punkt trasy'
+    max: '&4Osiągnięto maksymalną liczbę punktów trasy'
+  insufficient-complexity:
+    - '&4Niewystarczająca złożoność sieci GPS: &c%complexity%'
+    - '&4a) Nie masz jeszcze skonfigurowanej sieci GPS'
+    - '&4b) Twoja sieć GPS nie jest wystarczająco złożona'
+  geo:
+    scan-required: '&4Wymagany jest skan GEO-Skan! &cNajpierw zeskanuj ten fragment za pomocą skanera GEO!'
+inventory:
+  no-access: '&4Nie masz dostępu do tego bloku'
+android:
+  started: '&7Twój Android wznowił swój skrypt'
+  stopped: '&7Twój Android wstrzymał swój skrypt'
+  scripts:
+    already-uploaded: '&4Ten skrypt został już przesłany.'
+    editor: 'Edytor skryptów'
+    instructions:
+      START: '&2Uruchom skrypt'
+      REPEAT: '&9 Powtórz skrypt'
+      WAIT: '&ePoczekaj 0.5s'
+      GO_FORWARD: '&7Idź do przodu'
+      GO_UP: '&7Idź do góry'
+      GO_DOWN: '&7Idź w dół'
+      TURN_LEFT: '&7Skręć w lewo'
+      TURN_RIGHT: '&7Skręć w prawo'
+      DIG_UP: '&bKop w górę'
+      DIG_FORWARD: '&bKop do przodu'
+      DIG_DOWN: '&bKop w dół'
+      MOVE_AND_DIG_UP: '&bIdź i kop w górę'
+      MOVE_AND_DIG_FORWARD: '&bIdź i kop do przodu'
+      MOVE_AND_DIG_DOWN: '&bIdź i kop w dół'
+      ATTACK_MOBS_ANIMALS: '&4Atakuj &c(Wrogie Moby i Zwierzęta)'
+      ATTACK_MOBS: '&4Atakuj &c(Wrogie Moby)'
+      ATTACK_ANIMALS: '&4Atakuj &c(Zwierzęta)'
+      ATTACK_ANIMALS_ADULT: '&4Atakuj &c(Zwierzęta &7[Dorosłe]&c)'
+      CHOP_TREE: '&cTnij drzewo i posadź sadzonkę'
+      CATCH_FISH: '&bŁów ryby'
+      FARM_FORWARD: '&bZbieraj i posadź z powrotem'
+      FARM_DOWN: '&bZbieraj i posadź z powrotem &7(Blok pod spodem)'
+      FARM_EXOTIC_FORWARD: '&6Zaawansowanie zbieraj i posadź z powrotem'
+      FARM_EXOTIC_DOWN: '&bZaawansowanie zbieraj i posadź z powrotem &7(Blok pod spodem)'
+      INTERFACE_ITEMS: '&9Wyślij zawartość ekwipunku do Interfejsu w obecnym kierunku'
+      INTERFACE_FUEL: '&cOtrzymaj paliwo z Interfejsu w obecnym kierunku'
+    enter-name:
+      - ''
+      - '&eProszę wpisać nazwę dla tego skryptu'
+      - ''
+    uploaded:
+      - '&bPrzesyłanie...'
+      - '&aPomyślnie przesłano twój skrypt!'
+    rating:
+      own: '&4Nie możesz ocenić własnego skryptu!'
+      already: '&4Oceniłeś już ten skrypt!'
+languages:
+  default: 'Domyślny serwera'
+  en: 'Język angielski'
+  de: 'Niemiecki'
+  fr: 'Francuski'
+  it: 'Włoski'
+  es: 'Hiszpański'
+  pl: 'Polski'
+  sv: 'Szwedzki'
+  nl: 'Holenderski'
+  cs: 'Czeski'
+  hu: 'Węgierski'
+  lv: 'Łotewski'
+  ru: 'Rosyjski'
+  sk: 'Słowacki'
+  zh-CN: 'Chiński (Chiny)'
+  zh-TW: 'Chiński (Tajwan)'
+  vi: 'Wietnamski'
+  id: 'Indonezyjski'
+  el: 'Grecki'
+  he: 'Hebrajski'
+  pt: 'Portugalski (Portugalia)'
+  pt-BR: 'Portugalski (Brazylia)'
+  ar: 'Arabski (Arabic)'
+  af: 'Afrykański (Afrikaans)'
+  da: 'Duński (Danish)'
+  fi: 'Fiński (Finnish)'
+  uk: 'Ukraiński (Ukrainian)'
+  ms: 'Malajski (Malay)'
+  'no': 'Norweski'
+  ja: 'Japonia'
+  fa: 'Perski'
+  th: 'Tajski'
+  ro: 'Rumuński'
+  bg: 'Bułgarski'
+  ko: 'Koreański'
+  tr: 'Turecki'

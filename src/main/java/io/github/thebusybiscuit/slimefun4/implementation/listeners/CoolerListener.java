@@ -21,7 +21,6 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} listens for a {@link FoodLevelChangeEvent} or an {@link EntityDamageEvent} for starvation
@@ -74,7 +73,7 @@ public class CoolerListener implements Listener {
 
         for (ItemStack item : p.getInventory().getContents()) {
             if (cooler.isItem(item)) {
-                if (Slimefun.hasUnlocked(p, cooler, true)) {
+                if (cooler.canUse(p, true)) {
                     takeJuiceFromCooler(p, item);
                 } else {
                     return;

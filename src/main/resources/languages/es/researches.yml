@@ -1,0 +1,245 @@
+---
+slimefun:
+  walking_sticks: Bastones
+  portable_crafter: Mesa de Crafteo Portatil
+  fortune_cookie: Galleta de la Fortuna
+  portable_dustbin: Bote de Basura Portatil
+  meat_jerky: Carne Seca
+  armor_forge: Forja de Armaduras
+  glowstone_armor: Armadura de Piedra Luminosa
+  lumps: Masas y Magia
+  ender_backpack: Mochila Ender
+  ender_armor: Armadura de Ender
+  magic_eye_of_ender: Ojo Mágico de Ender
+  magic_sugar: Azúcar Mágica
+  monster_jerky: Jamón de Monstruo
+  slime_armor: Armadura de Slime
+  sword_of_beheading: Espada Decapitadora
+  basic_circuit_board: Placa de Circuito Básico
+  advanced_circuit_board: Placa de Circuito Avanzada
+  smeltery: Taller de Fundición
+  steel: Edad de Acero
+  misc_power_items: Objetos importantes relacionados con la energía
+  battery: Tu primera Batería
+  steel_plate: Placa de Acero
+  steel_thruster: Propulsor de Acero
+  parachute: Paracaídas
+  grappling_hook: Gancho
+  multitools: Multi Herramientas
+  solar_panel_and_helmet: Energía solar
+  elemental_staff: Bastónes Elementales
+  grind_stone: Piedra de Moler
+  cactus_armor: Armadura de Cactus
+  gold_pan: Colador
+  magical_book_cover: Portada de Libro Mágico
+  slimefun_metals: Nuevos Metales
+  ore_crusher: Duplicador de Minerales
+  bronze: Creación de Bronce
+  alloys: Aleaciones Avanzadas
+  compressor_and_carbon: Creaciones de Carbón
+  gilded_iron_armor: Armadura de Hierro Brillante
+  synthetic_diamond: Diamantes Sintéticos
+  pressure_chamber: Cámara de Presión
+  synthetic_sapphire: Zafiros Sintéticos
+  damascus_steel: Acero de Damasco
+  damascus_steel_armor: Armadura de Damasco
+  reinforced_alloy: Aleación Reforzada
+  carbonado: Diamantes Negros
+  magic_workbench: Mesa de Trabajo Mágica
+  wind_staff: Bastón de Aire
+  reinforced_armor: Armadura Reforzada
+  ore_washer: Tamizador
+  gold_carats: Oro Puro
+  fire_staff: Vara de Fuego
+  smelters_pickaxe: Pico Fundidor
+  common_talisman: Talismán Común
+  anvil_talisman: Talismán del Herrero
+  miner_talisman: Talismán del Minero
+  hunter_talisman: Talismán del Cazador
+  lava_talisman: Talismán del Caminante de Lava
+  water_talisman: Talismán del Pez
+  angel_talisman: Talismán del Ángel
+  fire_talisman: Talismán del Bombero
+  wise_talisman: Talismán del Sabio
+  lava_crystal: Situación Ardiente
+  magician_talisman: Talismán del Mago
+  traveller_talisman: Talismán del Explorador
+  warrior_talisman: Talismán del Guerrero
+  knight_talisman: Talismán del Caballero
+  gilded_iron: Hierro Brillante
+  synthetic_emerald: Gema Falsa
+  chainmail_armor: Armadura de Cota de Malla
+  whirlwind_talisman: Talismán del Tornado
+  wizard_talisman: Talismán del Hechizero
+  lumber_axe: Hacha de Leñador
+  hazmat_suit: Traje Haz-Mat
+  uranium: Radioactivo
+  crushed_ore: Purificación de Minerales
+  redstone_alloy: Aleación de Redstone
+  carbonado_tools: Máquinas de Punta
+  first_aid: Primeros Auxilios
+  gold_armor: Armadura Resplandeciente
+  night_vision_googles: Lentes de Visión Nocturna
+  pickaxe_of_containment: Pico de Contención
+  hercules_pickaxe: Pico de Hércules
+  table_saw: Sierra
+  slime_steel_armor: Armadura de Acero Pegajoso
+  blade_of_vampires: Espada Vampírica
+  water_staff: Bastón de Agua
+  24k_gold_block: El Dorado
+  composter: Compostando Tierra
+  farmer_shoes: Zapatos de Granjero
+  explosive_tools: Herramientas Explosivas
+  automated_panning_machine: Gold Pan Automatizado
+  boots_of_the_stomper: Botas del Mamút
+  pickaxe_of_the_seeker: Pico del Buscador
+  backpacks: Mochilas
+  woven_backpack: Mochila Tejida
+  crucible: Crisol
+  gilded_backpack: Mochila Reforzada
+  armored_jetpack: Jetpack Blindado
+  ender_talismans: Talismán de Ender
+  nickel_and_cobalt: Aún más Minerales
+  magnet: Metales Magnéticos
+  infused_magnet: Imánes Aleados
+  cobalt_pickaxe: Pico Veloz
+  essence_of_afterlife: Necromancia
+  bound_backpack: Almacenamiento Ligado
+  jetboots: Botas Jet
+  armored_jetboots: Botas Jet Blindadas
+  seismic_axe: Hacha Sísmica
+  pickaxe_of_vein_mining: Pico de Menas
+  bound_weapons: Armas Ligadas
+  bound_tools: Herramientas Ligadas
+  bound_armor: Armadura Ligada
+  juicer: Bebidas Deliciosas
+  repaired_spawner: Spawners Reparados
+  enhanced_furnace: Horno Mejorado
+  more_enhanced_furnaces: Mejores Hornos
+  high_tier_enhanced_furnaces: Horno de Alto Nivel
+  reinforced_furnace: Horno Reforzado
+  carbonado_furnace: Horno de Carbonado
+  electric_motor: Calentando Motores
+  block_placer: Colocador de Bloques
+  scroll_of_dimensional_teleposition: Volteando cosas por aquí
+  tome_of_knowledge_sharing: Compartiendo con amigos
+  flask_of_knowledge: Almacenamiento de EXP
+  hardened_glass: Resistiendo Explosiones
+  golden_apple_juice: Poción Dorada
+  cooler: Bebidas Portables
+  ancient_altar: Altar Antiguo
+  wither_proof_obsidian: Obsidiana contra Withers
+  ancient_runes: Runas Elementales
+  special_runes: Runas Púrpuras
+  infernal_bonemeal: Polvo de Hueso Infernal
+  rainbow_blocks: Bloques Arcoíris
+  infused_hopper: Tolva Aleada
+  wither_proof_glass: Vidrio contra Withers
+  duct_tape: Cinta Adhesiva
+  plastic_sheet: Plástico
+  android_memory_core: Núcleo de Memoria
+  oil: Aceite
+  fuel: Combustible
+  hologram_projector: Hologramas
+  capacitors: Capacitador LVL I
+  high_tier_capacitors: Capacitador LVL II
+  even_higher_tier_capacitors: Capacitores Tier 3
+  solar_generators: Generador Solar
+  electric_furnaces: Horno Eléctrico
+  electric_ore_grinding: Triturar y Moler
+  heated_pressure_chamber: Máquina de Presión Caliente
+  coal_generator: Generador de Carbón
+  bio_reactor: Reactor Biológico
+  auto_enchanting: Encantar y Desencantar Automático
+  auto_anvil: Yunque Automático
+  multimeter: Medidor de Potencia
+  gps_setup: Configuración GPS Básica
+  gps_emergency_transmitter: Waypoint GPS de Emergencia
+  programmable_androids: Androide Programable
+  android_interfaces: Interfaz de Androide
+  geo_scanner: GEO-Escaner
+  combustion_reactor: Reactor de Combustión
+  teleporter: Componentes Base de Teletransportador
+  teleporter_activation_plates: Activación de Teletransportador
+  better_solar_generators: Paneles Solares Mejorados
+  better_gps_transmitters: Transmisores Mejorados
+  elevator: Elevadores
+  energized_solar_generator: Energía Solar a Tiempo Completo
+  energized_gps_transmitter: Transmisor de Punta
+  energy_regulator: Redes Energéticas 101
+  energy_connectors: Conexiones Instaladas
+  butcher_androids: Androides Carniceros
+  organic_food: Comida Organica
+  auto_breeder: Auto-Alimentacion
+  advanced_android: Androides Avanzados
+  advanced_butcher_android: Androides Avanzados - Carnicero
+  advanced_fisherman_android: Androides Avanzados - Pescador
+  animal_growth_accelerator: Manipulación del Crecimiento Animal
+  xp_collector: Recolector de EXP
+  organic_fertilizer: Fertilizante Orgánico
+  crop_growth_accelerator: Acelerador de Cultivos
+  better_crop_growth_accelerator: Acelerador de Cultivos Mejorado
+  reactor_essentials: Esenciales de Reactores
+  nuclear_reactor: Planta de Energía Nuclear
+  freezer: Congelador
+  cargo_basics: Fundamentos de Cargas
+  cargo_nodes: Configuración de Carga
+  electric_ingot_machines: Fabricación Eléctrica de Lingotes
+  high_tier_electric_ingot_machines: Lingotes Super Rápidos
+  automated_crafting_chamber: Crafteo Automatizado
+  better_food_fabricator: Fabricación de Alimentos Mejorado
+  reactor_access_port: Interactua con tú Reactor
+  fluid_pump: Bomba de Liquidos
+  better_freezer: Congelador Mejorado
+  boosted_uranium: Círculo Interminable
+  trash_can: Basurero
+  advanced_output_node: Nodo de Salida Avanzado
+  carbon_press: Prensa de Carbón
+  electric_smeltery: Fundición Eléctrica
+  better_electric_furnace: Horno Eléctrico Mejorado
+  better_carbon_press: Prensa de Carbón Mejorada
+  empowered_android: Androides Potenciados
+  empowered_butcher_android: Androides Potenciados - Carnicero
+  empowered_fisherman_android: Androides Potenciados - Pescador
+  high_tier_carbon_press: Carbón Prensado Definitivo
+  wither_assembler: Mata Withers Automatizado
+  better_heated_pressure_chamber: Maquina de Presión Caliente Mejorada
+  special_elytras: Elytras Especiales
+  electric_crucible: Crisól Electrificado
+  better_electric_crucibles: Crisoles Calientes
+  advanced_electric_smeltery: Fundición Eléctrica Avanzada
+  advanced_farmer_android: Androides Avanzados - Granjero
+  lava_generator: Generador de Lava
+  nether_ice: Refrigerante de Hielo del Nether
+  nether_star_reactor: Reactor de Estrella del Nether
+  blistering_ingots: Radiación Burbujeante
+  automatic_ignition_chamber: Cámara de Ignición Automática
+  output_chest: Cofre de Salida de Máquinas Básicas
+  copper_wire: Conductividad de Baja Potencia
+  radiant_backpack: Mochila Radiante
+  auto_drier: Un día seco
+  diet_cookie: Galleta Dietética
+  storm_staff: Bastón de las Tormentas
+  soulbound_rune: Runa de Alma
+  geo_miner: GEO-Minador
+  lightning_rune: Runa de Rayos
+  totem_of_undying: Tótem de la Inmortalidad
+  charging_bench: Mesa de Carga
+  nether_gold_pan: Colador del Nether
+  electric_press: Prensa Eléctrica
+  magnesium_generator: Poder de Magnesio
+  kelp_cookie: Algas Sabrosas
+  makeshift_smeltery: Fundición Improvisada
+  tree_growth_accelerator: Árboles Veloces
+  industrial_miner: Minería Industrial
+  advanced_industrial_miner: Minería Mejorada
+  magical_zombie_pills: De-Zombificación
+  auto_brewer: Alquimia Industrial
+  shulker_shell: Shulkers Sintéticos
+  enchantment_rune: Encantamiento Antiguo
+  lead_clothing: Ropa de Plomo
+  tape_measure: Cinta Métrica
+  iron_golem_assembler: Iron Golems Automáticos
+  villager_rune: Restablece los Intercambios de los Aldeanos
+  elytra_cap: Equipo de choque
+  bee_armor: Armadura de Abeja

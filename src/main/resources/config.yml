@@ -26,6 +26,7 @@ guide:
 researches:
   free-in-creative-mode: true
   enable-fireworks: true
+  disable-learning-animation: false
 
 URID:
   info-delay: 3000
@@ -38,9 +39,8 @@ networks:
   enable-visualizer: true
   delete-excess-items: false
 
-items:
-  talismans: true
-  soulbound: true
+talismans:
+  use-actionbar: true
 
 metrics:
   auto-update: true
