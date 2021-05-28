@@ -7,6 +7,7 @@ import java.util.OptionalInt;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,7 +17,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
@@ -55,9 +58,12 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     private static final int[] OUTPUT_SLOTS = { 29, 30, 31, 32, 33, 38, 39, 40, 41, 42 };
 
     private static final int PROCESSING_TIME = 14;
-    private static final int ENERGY_CONSUMPTION = 24;
 
     private final MachineProcessor<MiningOperation> processor = new MachineProcessor<>(this);
+
+    private int energyConsumedPerTick = -1;
+    private int energyCapacity = -1;
+    private int processingSpeed = -1;
 
     @ParametersAreNonnullByDefault
     public GEOMiner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -71,6 +77,113 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     @Override
     public MachineProcessor<MiningOperation> getMachineProcessor() {
         return processor;
+    }
+
+    /**
+     * This method returns the max amount of electricity this machine can hold.
+     * 
+     * @return The max amount of electricity this Block can store.
+     */
+    @Override
+    public int getCapacity() {
+        return energyCapacity;
+    }
+
+    /**
+     * This method returns the amount of energy that is consumed per operation.
+     * 
+     * @return The rate of energy consumption
+     */
+    public int getEnergyConsumption() {
+        return energyConsumedPerTick;
+    }
+
+    /**
+     * This method returns the speed at which this machine will operate.
+     * This can be implemented on an instantiation-level to create different tiers
+     * of machines.
+     * 
+     * @return The speed of this machine
+     */
+    public int getSpeed() {
+        return processingSpeed;
+    }
+
+    /**
+     * This sets the energy capacity for this machine.
+     * This method <strong>must</strong> be called before registering the item
+     * and only before registering.
+     * 
+     * @param capacity
+     *            The amount of energy this machine can store
+     * 
+     * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
+     */
+    public final GEOMiner setCapacity(int capacity) {
+        Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
+
+        if (getState() == ItemState.UNREGISTERED) {
+            this.energyCapacity = capacity;
+            return this;
+        } else {
+            throw new IllegalStateException("You cannot modify the capacity after the Item was registered.");
+        }
+    }
+
+    /**
+     * This sets the speed of this machine.
+     * 
+     * @param speed
+     *            The speed multiplier for this machine, must be above zero
+     * 
+     * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
+     */
+    public final GEOMiner setProcessingSpeed(int speed) {
+        Validate.isTrue(speed > 0, "The speed must be greater than zero!");
+
+        this.processingSpeed = speed;
+        return this;
+    }
+
+    /**
+     * This method sets the energy consumed by this machine per tick.
+     * 
+     * @param energyConsumption
+     *            The energy consumed per tick
+     * 
+     * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
+     */
+    public final GEOMiner setEnergyConsumption(int energyConsumption) {
+        Validate.isTrue(energyConsumption > 0, "The energy consumption must be greater than zero!");
+        Validate.isTrue(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
+        Validate.isTrue(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
+
+        this.energyConsumedPerTick = energyConsumption;
+        return this;
+    }
+
+    @Override
+    public void register(@Nonnull SlimefunAddon addon) {
+        this.addon = addon;
+
+        if (getCapacity() <= 0) {
+            warn("The capacity has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
+        }
+
+        if (getEnergyConsumption() <= 0) {
+            warn("The energy consumption has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyConsumption(...)' before registering!");
+        }
+
+        if (getSpeed() <= 0) {
+            warn("The processing speed has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setProcessingSpeed(...)' before registering!");
+        }
+
+        if (getCapacity() > 0 && getEnergyConsumption() > 0 && getSpeed() > 0) {
+            super.register(addon);
+        }
     }
 
     @Nonnull
@@ -128,20 +241,14 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         return displayRecipes;
     }
 
-    @Nonnull
     @Override
-    public String getLabelLocalPath() {
+    public @Nonnull String getLabelLocalPath() {
         return "guide.tooltips.recipes.miner";
     }
 
     @Override
     public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
-    }
-
-    @Override
-    public int getCapacity() {
-        return 512;
     }
 
     protected void constructMenu(@Nonnull BlockMenuPreset preset) {
@@ -195,12 +302,12 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
             if (!operation.isFinished()) {
                 processor.updateProgressBar(inv, 4, operation);
 
-                if (getCharge(b.getLocation()) < ENERGY_CONSUMPTION) {
+                if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                     return;
                 }
 
-                removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
-                operation.addProgress(1);
+                removeCharge(b.getLocation(), getEnergyConsumption());
+                operation.addProgress(getSpeed());
             } else {
                 inv.replaceExistingItem(4, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
                 inv.pushItem(operation.getResult(), OUTPUT_SLOTS);

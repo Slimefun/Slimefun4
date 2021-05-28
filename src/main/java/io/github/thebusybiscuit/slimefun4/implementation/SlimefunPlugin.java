@@ -120,6 +120,7 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
@@ -133,7 +134,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * Our static instance of {@link SlimefunPlugin}.
-     * Make sure to clean this up in {@link #onDisable()} !
+     * Make sure to clean this up in {@link #onDisable()}!
      */
     private static SlimefunPlugin instance;
 

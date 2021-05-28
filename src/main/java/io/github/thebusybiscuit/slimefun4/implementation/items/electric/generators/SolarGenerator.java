@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -33,6 +35,7 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     private final int dayEnergy;
     private final int nightEnergy;
 
+    @ParametersAreNonnullByDefault
     public SolarGenerator(Category category, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
