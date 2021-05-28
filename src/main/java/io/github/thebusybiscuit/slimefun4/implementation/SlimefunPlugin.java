@@ -57,7 +57,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfile
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
@@ -121,9 +120,6 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
@@ -422,9 +418,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Terminate our Plugin instance
         setInstance(null);
 
-        // Clean up any static fields
-        cleanUp();
-
         /**
          * Close all inventories on the server to prevent item dupes
          * (Incase some idiot uses /reload)
@@ -463,23 +456,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         } else {
             return NumberUtils.roundDecimalNumber(ms) + "ms";
         }
-    }
-
-    /**
-     * Cleaning up our static fields prevents memory leaks from a reload.
-     * 
-     * @deprecated These static Maps should really be removed at some point...
-     */
-    @Deprecated
-    private static void cleanUp() {
-        AContainer.processing = null;
-        AContainer.progress = null;
-
-        AGenerator.processing = null;
-        AGenerator.progress = null;
-
-        Reactor.processing = null;
-        Reactor.progress = null;
     }
 
     /**

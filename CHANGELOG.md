@@ -27,10 +27,15 @@
 ## Release Candidate 24 (TBD)
 
 #### Additions
+* (API) Added AsyncMachineOperationFinishEvent
 * The speed of the Ancient Altar can now be configured in the `Items.yml` file
 * The message "You do not have enough knowledge to understand this" now includes the name of the item you need to research.
 
 #### Changes
+* (API) Refactored "Machine Process" API
+* (API) Deprecated AsyncGeneratorProcessCompleteEvent
+* (API) Deprecated AsyncMachineProcessCompleteEvent
+* (API) Deprecated AsyncReactorProcessCompleteEvent
 * Some performance optimizations to Cargo networks
 
 #### Fixes
