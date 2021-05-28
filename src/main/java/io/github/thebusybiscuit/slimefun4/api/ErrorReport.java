@@ -47,7 +47,6 @@ public class ErrorReport<T extends Throwable> {
 
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
     private static final AtomicInteger count = new AtomicInteger(0);
-    private static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private SlimefunAddon addon;
     private T throwable;
@@ -88,7 +87,7 @@ public class ErrorReport<T extends Throwable> {
     public ErrorReport(T throwable, Location l, SlimefunItem item) {
         this(throwable, item.getAddon(), stream -> {
 
-            stream.println("Error Generated: " + formatter.format(new Date()));
+            stream.println("Error Generated: " + dateFormat.format(LocalDateTime.now()));
             stream.println("Block Info:");
             stream.println("  World: " + l.getWorld().getName());
             stream.println("  X: " + l.getBlockX());
