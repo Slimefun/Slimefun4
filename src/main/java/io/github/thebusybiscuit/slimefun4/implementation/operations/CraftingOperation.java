@@ -29,7 +29,7 @@ public class CraftingOperation implements MachineOperation {
     public CraftingOperation(@Nonnull ItemStack[] ingredients, @Nonnull ItemStack[] results, int totalTicks) {
         Validate.notEmpty(ingredients, "The Ingredients array cannot be empty or null");
         Validate.notEmpty(results, "The results array cannot be empty or null");
-        Validate.isTrue(totalTicks > 0, "The amount of total ticks must be a positive integer");
+        Validate.isTrue(totalTicks >= 0, "The amount of total ticks must be a positive integer or zero, received: " + totalTicks);
 
         this.ingredients = ingredients;
         this.results = results;
@@ -42,13 +42,11 @@ public class CraftingOperation implements MachineOperation {
         currentTicks += num;
     }
 
-    @Nonnull
-    public ItemStack[] getIngredients() {
+    public @Nonnull ItemStack[] getIngredients() {
         return ingredients;
     }
 
-    @Nonnull
-    public ItemStack[] getResults() {
+    public @Nonnull ItemStack[] getResults() {
         return results;
     }
 

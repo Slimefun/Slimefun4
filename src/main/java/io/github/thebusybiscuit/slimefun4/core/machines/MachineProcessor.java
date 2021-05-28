@@ -55,8 +55,7 @@ public class MachineProcessor<T extends MachineOperation> {
      * 
      * @return The owner / holder
      */
-    @Nonnull
-    public MachineProcessHolder<T> getOwner() {
+    public @Nonnull MachineProcessHolder<T> getOwner() {
         return owner;
     }
 
@@ -66,8 +65,7 @@ public class MachineProcessor<T extends MachineOperation> {
      * 
      * @return The progress bar icon or null
      */
-    @Nullable
-    public ItemStack getProgressBar() {
+    public @Nullable ItemStack getProgressBar() {
         return progressBar;
     }
 
@@ -144,8 +142,7 @@ public class MachineProcessor<T extends MachineOperation> {
      * 
      * @return The current {@link MachineOperation} or null.
      */
-    @Nullable
-    public T getOperation(@Nonnull Location loc) {
+    public @Nullable T getOperation(@Nonnull Location loc) {
         Validate.notNull(loc, "The location cannot be null");
 
         return getOperation(new BlockPosition(loc));
@@ -159,8 +156,7 @@ public class MachineProcessor<T extends MachineOperation> {
      * 
      * @return The current {@link MachineOperation} or null.
      */
-    @Nullable
-    public T getOperation(@Nonnull Block b) {
+    public @Nullable T getOperation(@Nonnull Block b) {
         Validate.notNull(b, "The Block cannot be null");
 
         return getOperation(new BlockPosition(b));
@@ -176,8 +172,7 @@ public class MachineProcessor<T extends MachineOperation> {
      * 
      * @return The current {@link MachineOperation} or null.
      */
-    @Nullable
-    public T getOperation(@Nonnull BlockPosition pos) {
+    public @Nullable T getOperation(@Nonnull BlockPosition pos) {
         Validate.notNull(pos, "The BlockPosition must not be null");
 
         return machines.get(pos);

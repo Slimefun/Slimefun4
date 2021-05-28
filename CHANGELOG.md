@@ -48,6 +48,7 @@
 * Fixed #3075
 * Fixed recipe types showing missing string message
 * Fixed #3084
+* Fixed #3085
 
 ## Release Candidate 23 (19 May 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
