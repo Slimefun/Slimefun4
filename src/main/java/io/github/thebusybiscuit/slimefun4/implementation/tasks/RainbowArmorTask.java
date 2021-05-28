@@ -1,17 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Color;
-import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.RainbowArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
@@ -23,32 +18,18 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
  */
 public class RainbowArmorTask extends AbstractArmorTask {
 
-    private static final DyeColor[] DYE_COLORS = {
-            DyeColor.RED,
-            DyeColor.ORANGE,
-            DyeColor.YELLOW,
-            DyeColor.LIME,
-            DyeColor.LIGHT_BLUE,
-            DyeColor.PURPLE,
-            DyeColor.MAGENTA
-    };
-
-    private final LoopIterator<Color> iterator;
-
-    private Color currentColor = DYE_COLORS[0].getColor();
-
-    public RainbowArmorTask() {
-        iterator = new LoopIterator<>(Arrays.stream(DYE_COLORS)
-                .map(DyeColor::getColor)
-                .collect(Collectors.toList()));
-    }
+    private long currentColorIndex = 0;
 
     @Override
     @ParametersAreNonnullByDefault
     protected void handleArmorPiece(Player p, SlimefunArmorPiece sfArmorPiece, ItemStack armorPiece) {
         if (sfArmorPiece instanceof RainbowArmorPiece && armorPiece.hasItemMeta()) {
+            RainbowArmorPiece rainbowArmorPiece = (RainbowArmorPiece) sfArmorPiece;
+            Color[] colors = rainbowArmorPiece.getColors();
+            Color newColor = colors[(int) (currentColorIndex % colors.length)];
+
             LeatherArmorMeta meta = (LeatherArmorMeta) armorPiece.getItemMeta();
-            meta.setColor(currentColor);
+            meta.setColor(newColor);
             armorPiece.setItemMeta(meta);
         }
     }
@@ -60,6 +41,7 @@ public class RainbowArmorTask extends AbstractArmorTask {
 
     @Override
     protected void handleTick() {
-        currentColor = iterator.next();
+        currentColorIndex++;
     }
+
 }
