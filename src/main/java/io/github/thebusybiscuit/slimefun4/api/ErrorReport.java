@@ -3,11 +3,9 @@ package io.github.thebusybiscuit.slimefun4.api;
 import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -86,8 +84,6 @@ public class ErrorReport<T extends Throwable> {
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, Location l, SlimefunItem item) {
         this(throwable, item.getAddon(), stream -> {
-
-            stream.println("Error Generated: " + dateFormat.format(LocalDateTime.now()));
             stream.println("Block Info:");
             stream.println("  World: " + l.getWorld().getName());
             stream.println("  X: " + l.getBlockX());
@@ -170,6 +166,9 @@ public class ErrorReport<T extends Throwable> {
         count.incrementAndGet();
 
         try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8.name())) {
+            stream.println();
+
+            stream.println("Error Generated: " + dateFormat.format(LocalDateTime.now()));
             stream.println();
 
             stream.println("Java Environment:");
