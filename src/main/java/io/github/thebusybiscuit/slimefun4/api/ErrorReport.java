@@ -89,7 +89,7 @@ public class ErrorReport<T extends Throwable> {
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            stream.println(formatter.format(date));
+            stream.println("Error Generated: " + formatter.format(new Date()));
             stream.println("Block Info:");
             stream.println("  World: " + l.getWorld().getName());
             stream.println("  X: " + l.getBlockX());
