@@ -166,8 +166,6 @@ public class ErrorReport<T extends Throwable> {
         count.incrementAndGet();
 
         try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8.name())) {
-            stream.println();
-
             stream.println("Error Generated: " + dateFormat.format(LocalDateTime.now()));
             stream.println();
 
