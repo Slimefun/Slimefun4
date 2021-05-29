@@ -39,8 +39,13 @@ public class MiningOperation implements MachineOperation {
         currentTicks += num;
     }
 
-    @Nonnull
-    public ItemStack getResult() {
+    /**
+     * This returns the result of this operation, the {@link ItemStack}
+     * that will be returned in the end.
+     * 
+     * @return The result of this operation
+     */
+    public @Nonnull ItemStack getResult() {
         return result;
     }
 
