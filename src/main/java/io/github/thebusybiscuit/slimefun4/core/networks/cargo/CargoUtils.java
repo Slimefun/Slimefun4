@@ -185,8 +185,11 @@ final class CargoUtils {
         for (int slot = minSlot; slot < maxSlot; slot++) {
             // Changes to these ItemStacks are synchronized with the Item in the Inventory
             ItemStack itemInSlot = contents[slot];
-            ItemStackWrapper wrapperInSlot = ItemStackWrapper.wrap(itemInSlot);
+            if (itemInSlot == null || itemInSlot.getType().isAir()) {
+                continue;
+            }
 
+            ItemStackWrapper wrapperInSlot = ItemStackWrapper.wrap(itemInSlot);
             if (SlimefunUtils.isItemSimilar(wrapperInSlot, wrapper, true, false) && matchesFilter(network, node, wrapperInSlot)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {
                     itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
