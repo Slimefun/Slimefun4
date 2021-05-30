@@ -185,7 +185,7 @@ final class CargoUtils {
         for (int slot = minSlot; slot < maxSlot; slot++) {
             // Changes to these ItemStacks are synchronized with the Item in the Inventory
             ItemStack itemInSlot = contents[slot];
-            if (itemInSlot == null || itemInSlot.getType() == Material.AIR) {
+            if (itemInSlot == null || itemInSlot.getType().isAir()) {
                 continue;
             }
 
