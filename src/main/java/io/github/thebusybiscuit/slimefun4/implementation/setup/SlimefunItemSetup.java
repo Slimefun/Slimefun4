@@ -433,7 +433,7 @@ public final class SlimefunItemSetup {
             new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}
         }, plugin);
 
-        DyeColor[] RAINBOW_ARMOR_COLORS = {
+        DyeColor[] rainbowArmorColors = {
                 DyeColor.RED,
                 DyeColor.ORANGE,
                 DyeColor.YELLOW,
@@ -442,6 +442,7 @@ public final class SlimefunItemSetup {
                 DyeColor.PURPLE,
                 DyeColor.MAGENTA
         };
+
         new RainbowArmorPiece(categories.magicalArmor, SlimefunItems.RAINBOW_HELMET, RecipeType.ARMOR_FORGE,
         new ItemStack[] { SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER, null, null, null },
         RAINBOW_ARMOR_COLORS)
