@@ -43,6 +43,16 @@ public abstract class AbstractArmorTask implements Runnable {
     }
 
     /**
+     * Schedules this {@link AbstractArmorTask} to run every {@code tickInterval} ticks
+     *
+     * @param plugin The {@link SlimefunPlugin}
+     * @param tickInterval Delay between two "runs" of this task in ticks
+     */
+    public final void schedule(SlimefunPlugin plugin, long tickInterval) {
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this, 0L, tickInterval);
+    }
+
+    /**
      * Method to handle behavior for pieces of armor.
      * It is called per-player and per piece of armor.
      *
