@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
+import java.util.Arrays;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -42,13 +44,9 @@ public class RainbowArmorPiece extends SlimefunArmorPiece {
             throw new IllegalArgumentException("Rainbow armor needs to be a leather armor piece!");
         }
 
-        int length = dyeColors.length;
-        Color[] colors = new Color[length];
-        for (int i = 0; i < length; i++) {
-            colors[i] = dyeColors[i].getColor();
-        }
-
-        this.colors = colors;
+        colors = Arrays.stream(dyeColors)
+                .map(DyeColor::getColor)
+                .toArray(Color[]::new);
     }
 
     /**

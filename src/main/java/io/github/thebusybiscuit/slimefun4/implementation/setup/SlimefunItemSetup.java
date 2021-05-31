@@ -445,22 +445,22 @@ public final class SlimefunItemSetup {
 
         new RainbowArmorPiece(categories.magicalArmor, SlimefunItems.RAINBOW_HELMET, RecipeType.ARMOR_FORGE,
         new ItemStack[] { SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER, null, null, null },
-        RAINBOW_ARMOR_COLORS)
+        rainbowArmorColors)
         .register(plugin);
 
         new RainbowArmorPiece(categories.magicalArmor, SlimefunItems.RAINBOW_CHESTPLATE, RecipeType.ARMOR_FORGE,
         new ItemStack[] { SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER },
-        RAINBOW_ARMOR_COLORS)
+        rainbowArmorColors)
         .register(plugin);
 
         new RainbowArmorPiece(categories.magicalArmor, SlimefunItems.RAINBOW_LEGGINGS, RecipeType.ARMOR_FORGE,
         new ItemStack[] { SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER },
-        RAINBOW_ARMOR_COLORS)
+        rainbowArmorColors)
         .register(plugin);
 
         new RainbowArmorPiece(categories.magicalArmor, SlimefunItems.RAINBOW_BOOTS, RecipeType.ARMOR_FORGE,
         new ItemStack[] { null, null, null, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER },
-        RAINBOW_ARMOR_COLORS)
+        rainbowArmorColors)
         .register(plugin);
 
         registerArmorSet(categories.armor, SlimefunItems.DAMASCUS_STEEL_INGOT, new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_HELMET, SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, SlimefunItems.DAMASCUS_STEEL_LEGGINGS, SlimefunItems.DAMASCUS_STEEL_BOOTS}, "DAMASCUS_STEEL", false, new PotionEffect[0][0], plugin);
