@@ -59,9 +59,8 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         super(category, item, recipeType, recipe);
     }
 
-    @Nullable
     @Override
-    protected MachineRecipe findNextRecipe(BlockMenu menu) {
+    protected @Nullable MachineRecipe findNextRecipe(BlockMenu menu) {
         ItemStack input1 = menu.getItemInSlot(getInputSlots()[0]);
         ItemStack input2 = menu.getItemInSlot(getInputSlots()[1]);
 
@@ -102,9 +101,8 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         }
     }
 
-    @Nullable
     @ParametersAreNonnullByDefault
-    private ItemStack brew(Material input, Material potionType, PotionMeta potion) {
+    private @Nullable ItemStack brew(Material input, Material potionType, PotionMeta potion) {
         PotionData data = potion.getBasePotionData();
 
         PotionType type = data.getType();
@@ -157,15 +155,13 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         return mat == Material.POTION || mat == Material.SPLASH_POTION || mat == Material.LINGERING_POTION;
     }
 
-    @Nonnull
     @Override
-    public ItemStack getProgressBar() {
+    public @Nonnull ItemStack getProgressBar() {
         return new ItemStack(Material.FISHING_ROD);
     }
 
-    @Nonnull
     @Override
-    public String getMachineIdentifier() {
+    public @Nonnull String getMachineIdentifier() {
         return "AUTO_BREWER";
     }
 }
