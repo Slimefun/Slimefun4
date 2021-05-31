@@ -124,7 +124,7 @@ public class AutoBrewer extends AContainer implements NotHopperable {
             PotionType fermented = fermentations.get(type);
 
             if (fermented != null) {
-                potion.setBasePotionData(new PotionData(fermented, false, false));
+                potion.setBasePotionData(new PotionData(fermented, data.isExtended(), data.isUpgraded()));
                 return new ItemStack(potionType);
             }
         } else if (input == Material.REDSTONE && type.isExtendable()) {
