@@ -30,7 +30,7 @@ researches:
 
 URID:
   info-delay: 3000
-  custom-ticker-delay: 12
+  custom-ticker-delay: 10
   enable-tickers: true
 
 networks:
