@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -19,7 +18,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * 
  * @author Mooy1
  * 
- * @see VampireBlade
+ * @see WeaponUseHandler
  *
  */
 public class SlimefunItemHitListener implements Listener {

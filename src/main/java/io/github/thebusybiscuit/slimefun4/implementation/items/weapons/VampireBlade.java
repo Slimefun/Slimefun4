@@ -15,7 +15,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemHitListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -25,8 +24,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * who damages another {@link LivingEntity} with this sword.
  * 
  * @author TheBusyBiscuit
- * 
- * @see SlimefunItemHitListener
  *
  */
 public class VampireBlade extends SimpleSlimefunItem<WeaponUseHandler> {
