@@ -256,11 +256,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             PaperLib.suggestPaper(this);
         }
 
-        // Disabling backwards-compatibility for fresh Slimefun installs
+        // If the server has no "data-storage" folder, it's _probably_ a new install. So mark it for metrics.
         if (!new File("data-storage/Slimefun").exists()) {
-            config.setValue("options.backwards-compatibility", false);
-            config.save();
-
             isNewlyInstalled = true;
         }
 
