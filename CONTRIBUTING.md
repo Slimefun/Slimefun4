@@ -168,10 +168,20 @@ public @Nullable String getString() {
 }
 ```
 * Comments should never go on the same line as code! Always above or below.
+* When you deviate from this style, add formatter comments and explain why. Example:
+```java
+// @formatter:off - This array represents a 3x3 grid and should be shown as such.
+String[] arrays = {
+    "1", "2", "3",
+    "4", "5", "6",
+    "7", "8", "9"
+};
+// @formatter:off
+```
 * Make sure that empty lines are truly empty, they should not contain any whitespace characters.
 * Empty blocks like constructors should not occupy more than one line. (e.g. `private MyClass() {}`)
 * Modifiers for classes and fields must follow this order:<br>
-`(public/protected/private) (abstract) (static) (final)`
+`[public/protected/private] [abstract] [static] [final]`
 * We recommend using horizontal whitespaces like this:
   * In variable assignments: `int x = 123;`
   * In a for-loop: `for (int i = 0; i < 10; i++) {`
