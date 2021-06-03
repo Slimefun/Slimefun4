@@ -102,8 +102,10 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
                         SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);
                         return recipe;
                     } else {
-                        // Move the empty bucket to the output slot to prevent this
-                        // from immediately starting all over again (to prevent lag)
+                        /*
+                         * Move the empty bucket to the output slot to prevent this
+                         * from immediately starting all over again (to prevent lag)
+                         */
                         ItemStack item = inv.getItemInSlot(slot).clone();
                         inv.replaceExistingItem(slot, null);
                         inv.pushItem(item, getOutputSlots());
