@@ -160,7 +160,13 @@ if (something) {
 ```
 * if/else statements should always include a bracket, please avoid one-line statements. (e.g. Avoid doing: `if (x == 0) return;`)
 * We do not enforce any particular width or column limit, just try to prevent your lines from becoming too long. But please avoid line-wrapping.
-* Annotations for methods or fields should never go on the same line, place them on the line above.
+* Annotations that target the return type of the method should be inline. Annotations which target the method itself should be written in the line above:
+```java
+@Override // <- Describes the method itself. `@Nullable` describes only the return type.
+public @Nullable String getString() {
+  // [...]
+}
+```
 * Comments should never go on the same line as code! Always above or below.
 * Make sure that empty lines are truly empty, they should not contain any whitespace characters.
 * Empty blocks like constructors should not occupy more than one line. (e.g. `private MyClass() {}`)

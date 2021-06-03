@@ -46,8 +46,9 @@ public class ErrorReport<T extends Throwable> {
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
     private static final AtomicInteger count = new AtomicInteger(0);
 
-    private SlimefunAddon addon;
-    private T throwable;
+    private final SlimefunAddon addon;
+    private final T throwable;
+
     private File file;
 
     /**
@@ -137,8 +138,7 @@ public class ErrorReport<T extends Throwable> {
      *
      * @return The {@link File} for this {@link ErrorReport}
      */
-    @Nonnull
-    public File getFile() {
+    public @Nonnull File getFile() {
         return file;
     }
 
@@ -147,8 +147,7 @@ public class ErrorReport<T extends Throwable> {
      *
      * @return The {@link Throwable}
      */
-    @Nonnull
-    public T getThrown() {
+    public @Nonnull T getThrown() {
         return throwable;
     }
 
@@ -243,8 +242,7 @@ public class ErrorReport<T extends Throwable> {
         }
     }
 
-    @Nonnull
-    private static File getNewFile() {
+    private static @Nonnull File getNewFile() {
         String path = "plugins/Slimefun/error-reports/" + dateFormat.format(LocalDateTime.now());
         File newFile = new File(path + ".err");
 
