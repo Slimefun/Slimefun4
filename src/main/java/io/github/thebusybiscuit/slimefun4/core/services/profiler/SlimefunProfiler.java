@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
@@ -221,9 +222,11 @@ public class SlimefunProfiler {
 
         totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();
 
-        // We log how many milliseconds have been ticked, and how many ticks have passed
-        // This is so when bStats requests the average timings, they're super quick to figure out
-        totalMsTicked.addAndGet((long) (totalElapsedTime / 1e6));
+        /*
+         * We log how many milliseconds have been ticked, and how many ticks have passed
+         * This is so when bStats requests the average timings, they're super quick to figure out
+         */
+        totalMsTicked.addAndGet(TimeUnit.NANOSECONDS.toMillis(totalElapsedTime));
         ticksPassed.incrementAndGet();
 
         if (!requests.isEmpty()) {
@@ -401,11 +404,16 @@ public class SlimefunProfiler {
         return NumberUtils.getAsMillis(time);
     }
 
-    public long collectAverageTimings() {
-        double d = (double) totalMsTicked.get() / ticksPassed.get();
+    /**
+     * Get and reset the average millisecond timing for this {@link SlimefunProfiler}.
+     *
+     * @return The average millisecond timing for this {@link SlimefunProfiler}.
+     */
+    public long getAndResetAverageTimings() {
+        long l = totalMsTicked.get() / ticksPassed.get();
         totalMsTicked.set(0);
         ticksPassed.set(0);
 
-        return (long) d;
+        return l;
     }
 }
