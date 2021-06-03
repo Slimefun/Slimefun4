@@ -176,7 +176,7 @@ String[] arrays = {
     "4", "5", "6",
     "7", "8", "9"
 };
-// @formatter:off
+// @formatter:on
 ```
 * Make sure that empty lines are truly empty, they should not contain any whitespace characters.
 * Empty blocks like constructors should not occupy more than one line. (e.g. `private MyClass() {}`)
