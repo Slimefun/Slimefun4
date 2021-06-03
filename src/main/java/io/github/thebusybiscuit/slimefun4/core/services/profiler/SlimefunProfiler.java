@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -82,6 +83,9 @@ public class SlimefunProfiler {
 
     private final Map<ProfiledBlock, Long> timings = new ConcurrentHashMap<>();
     private final Queue<PerformanceInspector> requests = new ConcurrentLinkedQueue<>();
+
+    private final AtomicLong totalMsTicked = new AtomicLong();
+    private final AtomicInteger ticksPassed = new AtomicInteger();
 
     /**
      * This method terminates the {@link SlimefunProfiler}.
@@ -186,7 +190,7 @@ public class SlimefunProfiler {
         // Wait for all timing results to come in
         while (!isProfiling && queued.get() > 0) {
             try {
-                /**
+                /*
                  * Since we got more than one Thread in our pool,
                  * blocking this one is (hopefully) completely fine
                  */
@@ -216,6 +220,11 @@ public class SlimefunProfiler {
         }
 
         totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();
+
+        // We log how much ms has been ticked and how many ticks have passed.
+        // This is so when bStats requests the average timings, they're super quick to figure out
+        totalMsTicked.addAndGet((long) (totalElapsedTime / 1e6));
+        ticksPassed.incrementAndGet();
 
         if (!requests.isEmpty()) {
             PerformanceSummary summary = new PerformanceSummary(this, totalElapsedTime, timings.size());
@@ -366,30 +375,37 @@ public class SlimefunProfiler {
      * @return Whether timings of this {@link Block} have been collected
      */
     public boolean hasTimings(@Nonnull Block b) {
-        Validate.notNull("Cannot get timings for a null Block");
+        Validate.notNull(b, "Cannot get timings for a null Block");
 
         return timings.containsKey(new ProfiledBlock(b));
     }
 
     public String getTime(@Nonnull Block b) {
-        Validate.notNull("Cannot get timings for a null Block");
+        Validate.notNull(b, "Cannot get timings for a null Block");
 
         long time = timings.getOrDefault(new ProfiledBlock(b), 0L);
         return NumberUtils.getAsMillis(time);
     }
 
     public String getTime(@Nonnull Chunk chunk) {
-        Validate.notNull("Cannot get timings for a null Chunk");
+        Validate.notNull(chunk, "Cannot get timings for a null Chunk");
 
         long time = getByChunk().getOrDefault(chunk.getWorld().getName() + " (" + chunk.getX() + ',' + chunk.getZ() + ')', 0L);
         return NumberUtils.getAsMillis(time);
     }
 
     public String getTime(@Nonnull SlimefunItem item) {
-        Validate.notNull("Cannot get timings for a null SlimefunItem");
+        Validate.notNull(item, "Cannot get timings for a null SlimefunItem");
 
         long time = getByItem().getOrDefault(item.getId(), 0L);
         return NumberUtils.getAsMillis(time);
     }
 
+    public long collectAverageTimings() {
+        double d = (double) totalMsTicked.get() / ticksPassed.get();
+        totalMsTicked.set(0);
+        ticksPassed.set(0);
+
+        return (long) d;
+    }
 }
