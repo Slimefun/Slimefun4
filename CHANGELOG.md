@@ -29,6 +29,7 @@
 
 #### Additions
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
+* (API) Added WeaponUseHandler
 
 #### Changes
 * (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
