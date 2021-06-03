@@ -285,9 +285,8 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
-    @Nonnull
     @Override
-    public NamespacedKey getKey() {
+    public @Nonnull NamespacedKey getKey() {
         return key;
     }
 
@@ -308,9 +307,8 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
-    @Nonnull
     @Override
-    public Set<Material> getValues() {
+    public @Nonnull Set<Material> getValues() {
         if (additionalTags.isEmpty()) {
             return Collections.unmodifiableSet(includedMaterials);
         } else {
@@ -345,8 +343,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return An immutable {@link Set} of all sub tags.
      */
-    @Nonnull
-    public Set<Tag<Material>> getSubTags() {
+    public @Nonnull Set<Tag<Material>> getSubTags() {
         return Collections.unmodifiableSet(additionalTags);
     }
 
@@ -355,8 +352,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return A {@link Material} array for this {@link Tag}
      */
-    @Nonnull
-    public Material[] toArray() {
+    public @Nonnull Material[] toArray() {
         return getValues().toArray(new Material[0]);
     }
 
@@ -365,8 +361,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return A {@link Stream} of {@link Material Materials}
      */
-    @Nonnull
-    public Stream<Material> stream() {
+    public @Nonnull Stream<Material> stream() {
         return getValues().stream();
     }
 
@@ -381,8 +376,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return The {@link SlimefunTag} or null if it does not exist.
      */
-    @Nullable
-    public static SlimefunTag getTag(@Nonnull String value) {
+    public static @Nullable SlimefunTag getTag(@Nonnull String value) {
         Validate.notNull(value, "A tag cannot be null!");
 
         return nameLookup.get(value);

@@ -93,7 +93,6 @@ guide:
       resourcepack: '&cKaynak Paketi Tasarımcısı'
       translator: '&9Çevirmen'
 messages:
-  not-researched: '&4Bunu anlayacak kadar bilgin yok'
   not-enough-xp: '&4Bunun kilidini açmak için yeterli XP niz yok'
   unlocked: '&bKilidini açtın &7"%research%"'
   only-players: '&4Bu komut yalnızca oyuncular için'

@@ -136,8 +136,7 @@ public enum HeadTexture {
      * 
      * @return The associated texture hash
      */
-    @Nonnull
-    public String getTexture() {
+    public @Nonnull String getTexture() {
         return texture;
     }
 
@@ -148,8 +147,7 @@ public enum HeadTexture {
      * 
      * @return The {@link UUID} for this {@link HeadTexture}
      */
-    @Nonnull
-    public UUID getUniqueId() {
+    public @Nonnull UUID getUniqueId() {
         return uuid;
     }
 
@@ -158,8 +156,7 @@ public enum HeadTexture {
      * 
      * @return A custom head {@link ItemStack}
      */
-    @Nonnull
-    public ItemStack getAsItemStack() {
+    public @Nonnull ItemStack getAsItemStack() {
         return SlimefunUtils.getCustomHead(getTexture());
     }
 

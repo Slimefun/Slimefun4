@@ -98,7 +98,6 @@ guide:
       resourcepack: '&cForráscsomag művész'
       translator: '&9Fordító'
 messages:
-  not-researched: '&4Nincs elég ismereted, hogy megértsd ezt'
   not-enough-xp: '&4Nincs elég XP-d ennek a feloldásához'
   unlocked: '&7"%research%" &bfeloldva'
   only-players: '&4Ezt a parancsot csak játékosok használhatják'

@@ -139,7 +139,7 @@ guide:
       translator: '&9Translator'
 
 messages:
-  not-researched: '&4You do not have enough knowledge to understand this'
+  not-researched: '&4You do not have enough knowledge to understand this. &cYou will need to unlock &f"%item%&f"'
   not-enough-xp: '&4You do not have enough XP to unlock this'
   unlocked: '&bYou have unlocked &7"%research%"'
   only-players: '&4This command is only for Players'

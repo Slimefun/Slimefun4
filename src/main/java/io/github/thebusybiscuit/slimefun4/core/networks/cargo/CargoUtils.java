@@ -152,12 +152,13 @@ final class CargoUtils {
             return null;
         }
 
-        ItemStackWrapper wrapper = new ItemStackWrapper(template);
+        ItemStackWrapper wrapperTemplate = ItemStackWrapper.wrap(template);
 
         for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
             ItemStack is = menu.getItemInSlot(slot);
+            ItemStackWrapper wrapperItemInSlot = ItemStackWrapper.wrap(is);
 
-            if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(network, node, is)) {
+            if (SlimefunUtils.isItemSimilar(wrapperItemInSlot, wrapperTemplate, true) && matchesFilter(network, node, wrapperItemInSlot)) {
                 if (is.getAmount() > template.getAmount()) {
                     is.setAmount(is.getAmount() - template.getAmount());
                     menu.replaceExistingItem(slot, is);
@@ -179,13 +180,17 @@ final class CargoUtils {
         int minSlot = range[0];
         int maxSlot = range[1];
 
-        ItemStackWrapper wrapper = new ItemStackWrapper(template);
+        ItemStackWrapper wrapper = ItemStackWrapper.wrap(template);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
             // Changes to these ItemStacks are synchronized with the Item in the Inventory
             ItemStack itemInSlot = contents[slot];
+            if (itemInSlot == null || itemInSlot.getType().isAir()) {
+                continue;
+            }
 
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && matchesFilter(network, node, itemInSlot)) {
+            ItemStackWrapper wrapperInSlot = ItemStackWrapper.wrap(itemInSlot);
+            if (SlimefunUtils.isItemSimilar(wrapperInSlot, wrapper, true, false) && matchesFilter(network, node, wrapperInSlot)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {
                     itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
                     return template;
@@ -252,7 +257,7 @@ final class CargoUtils {
     }
 
     @Nullable
-    static ItemStack insert(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, boolean smartFill, ItemStack stack) {
+    static ItemStack insert(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, boolean smartFill, ItemStack stack, ItemStackWrapper wrapper) {
         if (!matchesFilter(network, node, stack)) {
             return stack;
         }
@@ -264,7 +269,7 @@ final class CargoUtils {
                 Inventory inventory = inventories.get(target.getLocation());
 
                 if (inventory != null) {
-                    return insertIntoVanillaInventory(stack, smartFill, inventory);
+                    return insertIntoVanillaInventory(stack, wrapper, smartFill, inventory);
                 }
 
                 BlockState state = PaperLib.getBlockState(target, false).getState();
@@ -272,14 +277,12 @@ final class CargoUtils {
                 if (state instanceof InventoryHolder) {
                     inventory = ((InventoryHolder) state).getInventory();
                     inventories.put(target.getLocation(), inventory);
-                    return insertIntoVanillaInventory(stack, smartFill, inventory);
+                    return insertIntoVanillaInventory(stack, wrapper, smartFill, inventory);
                 }
             }
 
             return stack;
         }
-
-        ItemStackWrapper wrapper = new ItemStackWrapper(stack);
 
         for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, wrapper)) {
             ItemStack itemInSlot = menu.getItemInSlot(slot);
@@ -320,7 +323,7 @@ final class CargoUtils {
     }
 
     @Nullable
-    private static ItemStack insertIntoVanillaInventory(@Nonnull ItemStack stack, boolean smartFill, @Nonnull Inventory inv) {
+    private static ItemStack insertIntoVanillaInventory(@Nonnull ItemStack stack, @Nonnull ItemStackWrapper wrapper, boolean smartFill, @Nonnull Inventory inv) {
         /*
          * If the Inventory does not accept this Item Type, bounce the item back.
          * Example: Shulker boxes within shulker boxes (fixes #2662)
@@ -333,8 +336,6 @@ final class CargoUtils {
         int[] range = getInputSlotRange(inv, stack);
         int minSlot = range[0];
         int maxSlot = range[1];
-
-        ItemStackWrapper wrapper = new ItemStackWrapper(stack);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
             // Changes to this ItemStack are synchronized with the Item in the Inventory
@@ -358,7 +359,7 @@ final class CargoUtils {
 
                         if (amount > maxStackSize) {
                             stack.setAmount(amount - maxStackSize);
-                            itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                            itemInSlot.setAmount(maxStackSize);
                             return stack;
                         } else {
                             itemInSlot.setAmount(Math.min(amount, maxStackSize));

@@ -65,7 +65,6 @@ guide:
       developer: '&6Sviluppatori'
       translator: '&9Traduttori'
 messages:
-  not-researched: '&4Non hai abbastanza conoscenze per capirlo!'
   not-enough-xp: '&4Non hai abbastanza EXP per sbloccarlo'
   unlocked: '&bHai sbloccato &7 "%research%"'
   only-players: '&4Questo comando è solo per i players'

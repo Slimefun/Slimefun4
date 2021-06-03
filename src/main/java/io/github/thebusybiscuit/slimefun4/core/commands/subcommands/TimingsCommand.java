@@ -24,6 +24,7 @@ class TimingsCommand extends SubCommand {
     private static final String FLAG_PREFIX = "--";
     private final Set<String> flags = new HashSet<>(Arrays.asList("verbose"));
 
+    @ParametersAreNonnullByDefault
     TimingsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "timings", false);
     }

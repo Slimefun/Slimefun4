@@ -69,7 +69,6 @@ guide:
       resourcepack: '&cمصمم رسوم'
       translator: '&9مترجم'
 messages:
-  not-researched: '&4لا تملك خبرة لفهم هذا الأمر'
   not-enough-xp: '&4ليس لديك خبرة لفتح هذا'
   unlocked: '&bتم فتح &7"%research%"'
   only-players: '&4هذا الأمر لللاعبين فقط'

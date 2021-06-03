@@ -68,7 +68,6 @@ guide:
       resourcepack: '&cNávrhár Resurcepacku'
       translator: '&9Prekladateľ'
 messages:
-  not-researched: '&4Nemáš toľko vedomostí aby si tomu porozumel'
   not-enough-xp: '&4Nemáš dostatok XP na odomknutie'
   unlocked: '&bOdomkol si &7"%research%"'
   only-players: '&4Tento príkaz je iba pre hráčov'

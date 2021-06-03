@@ -89,8 +89,7 @@ public enum MinecraftVersion {
      * 
      * @return The name of this {@link MinecraftVersion}
      */
-    @Nonnull
-    public String getName() {
+    public @Nonnull String getName() {
         return name;
     }
 

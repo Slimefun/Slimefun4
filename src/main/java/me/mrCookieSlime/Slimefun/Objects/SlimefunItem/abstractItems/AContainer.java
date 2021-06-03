@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -22,12 +20,14 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -44,17 +44,15 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
-public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
+// TODO: Replace this with "AbstractContainer" and "AbstractElectricalMachine" classes.
+public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent, MachineProcessHolder<CraftingOperation> {
 
     private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
     private static final int[] BORDER_IN = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private static final int[] BORDER_OUT = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
-    // These will be replaced by proper recipe handler
-    public static Map<Block, MachineRecipe> processing = new ConcurrentHashMap<>();
-    public static Map<Block, Integer> progress = new ConcurrentHashMap<>();
-
     protected final List<MachineRecipe> recipes = new ArrayList<>();
+    private final MachineProcessor<CraftingOperation> processor = new MachineProcessor<>(this);
 
     private int energyConsumedPerTick = -1;
     private int energyCapacity = -1;
@@ -64,6 +62,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     protected AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
+        processor.setProgressBar(getProgressBar());
         createPreset(this, getInventoryTitle(), this::constructMenu);
 
         addItemHandler(onBlockBreak());
@@ -82,9 +81,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                     inv.dropItems(b.getLocation(), getOutputSlots());
                 }
 
-                progress.remove(b);
-                processing.remove(b);
+                processor.endOperation(b);
             }
+
         };
     }
 
@@ -92,6 +91,11 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     protected AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         this(category, item, recipeType, recipe);
         this.recipeOutput = recipeOutput;
+    }
+
+    @Override
+    public MachineProcessor<CraftingOperation> getMachineProcessor() {
+        return processor;
     }
 
     protected void constructMenu(BlockMenuPreset preset) {
@@ -313,14 +317,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         return EnergyNetComponentType.CONSUMER;
     }
 
-    public MachineRecipe getProcessing(Block b) {
-        return processing.get(b);
-    }
-
-    public boolean isProcessing(Block b) {
-        return getProcessing(b) != null;
-    }
-
     public void registerRecipe(MachineRecipe recipe) {
         recipe.setTicks(recipe.getTicks() / getSpeed());
         recipes.add(recipe);
@@ -352,38 +348,29 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
     protected void tick(Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
+        CraftingOperation currentOperation = processor.getOperation(b);
 
-        if (isProcessing(b)) {
-
+        if (currentOperation != null) {
             if (takeCharge(b.getLocation())) {
 
-                int timeleft = progress.get(b);
-
-                if (timeleft > 0) {
-                    ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
-
-                    progress.put(b, timeleft - 1);
+                if (!currentOperation.isFinished()) {
+                    processor.updateProgressBar(inv, 22, currentOperation);
+                    currentOperation.addProgress(1);
                 } else {
-
                     inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
-                    for (ItemStack output : processing.get(b).getOutput()) {
+                    for (ItemStack output : currentOperation.getResults()) {
                         inv.pushItem(output.clone(), getOutputSlots());
                     }
 
-                    Bukkit.getPluginManager().callEvent(new AsyncMachineProcessCompleteEvent(b.getLocation(), AContainer.this, getProcessing(b)));
-
-                    progress.remove(b);
-                    processing.remove(b);
+                    processor.endOperation(b);
                 }
             }
-
         } else {
             MachineRecipe next = findNextRecipe(inv);
 
             if (next != null) {
-                processing.put(b, next);
-                progress.put(b, next.getTicks());
+                processor.startOperation(b, new CraftingOperation(next));
             }
         }
     }
@@ -419,7 +406,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             ItemStack item = inv.getItemInSlot(slot);
 
             if (item != null) {
-                inventory.put(slot, new ItemStackWrapper(item));
+                inventory.put(slot, ItemStackWrapper.wrap(item));
             }
         }
 

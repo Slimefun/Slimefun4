@@ -7,6 +7,7 @@ import java.util.OptionalInt;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,20 +17,28 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.MiningOperation;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -42,22 +51,143 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
  *
  * @see GEOResource
  */
-public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramOwner {
+public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyNetComponent, InventoryBlock, HologramOwner, MachineProcessHolder<MiningOperation> {
 
     private static final int[] BORDER = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 53 };
     private static final int[] OUTPUT_BORDER = { 19, 20, 21, 22, 23, 24, 25, 28, 34, 37, 43, 46, 47, 48, 49, 50, 51, 52 };
     private static final int[] OUTPUT_SLOTS = { 29, 30, 31, 32, 33, 38, 39, 40, 41, 42 };
+
     private static final int PROCESSING_TIME = 14;
+
+    private final MachineProcessor<MiningOperation> processor = new MachineProcessor<>(this);
+
+    private int energyConsumedPerTick = -1;
+    private int energyCapacity = -1;
+    private int processingSpeed = -1;
 
     @ParametersAreNonnullByDefault
     public GEOMiner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        addItemHandler(onPlace());
+        processor.setProgressBar(new ItemStack(Material.DIAMOND_PICKAXE));
+        createPreset(this, getItemName(), this::constructMenu);
+        addItemHandler(onBlockPlace(), onBlockBreak());
+    }
+
+    @Override
+    public MachineProcessor<MiningOperation> getMachineProcessor() {
+        return processor;
+    }
+
+    /**
+     * This method returns the max amount of electricity this machine can hold.
+     * 
+     * @return The max amount of electricity this Block can store.
+     */
+    @Override
+    public int getCapacity() {
+        return energyCapacity;
+    }
+
+    /**
+     * This method returns the amount of energy that is consumed per operation.
+     * 
+     * @return The rate of energy consumption
+     */
+    public int getEnergyConsumption() {
+        return energyConsumedPerTick;
+    }
+
+    /**
+     * This method returns the speed at which this machine will operate.
+     * This can be implemented on an instantiation-level to create different tiers
+     * of machines.
+     * 
+     * @return The speed of this machine
+     */
+    public int getSpeed() {
+        return processingSpeed;
+    }
+
+    /**
+     * This sets the energy capacity for this machine.
+     * This method <strong>must</strong> be called before registering the item
+     * and only before registering.
+     * 
+     * @param capacity
+     *            The amount of energy this machine can store
+     * 
+     * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
+     */
+    public final GEOMiner setCapacity(int capacity) {
+        Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
+
+        if (getState() == ItemState.UNREGISTERED) {
+            this.energyCapacity = capacity;
+            return this;
+        } else {
+            throw new IllegalStateException("You cannot modify the capacity after the Item was registered.");
+        }
+    }
+
+    /**
+     * This sets the speed of this machine.
+     * 
+     * @param speed
+     *            The speed multiplier for this machine, must be above zero
+     * 
+     * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
+     */
+    public final GEOMiner setProcessingSpeed(int speed) {
+        Validate.isTrue(speed > 0, "The speed must be greater than zero!");
+
+        this.processingSpeed = speed;
+        return this;
+    }
+
+    /**
+     * This method sets the energy consumed by this machine per tick.
+     * 
+     * @param energyConsumption
+     *            The energy consumed per tick
+     * 
+     * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
+     */
+    public final GEOMiner setEnergyConsumption(int energyConsumption) {
+        Validate.isTrue(energyConsumption > 0, "The energy consumption must be greater than zero!");
+        Validate.isTrue(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
+        Validate.isTrue(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
+
+        this.energyConsumedPerTick = energyConsumption;
+        return this;
+    }
+
+    @Override
+    public void register(@Nonnull SlimefunAddon addon) {
+        this.addon = addon;
+
+        if (getCapacity() <= 0) {
+            warn("The capacity has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
+        }
+
+        if (getEnergyConsumption() <= 0) {
+            warn("The energy consumption has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyConsumption(...)' before registering!");
+        }
+
+        if (getSpeed() <= 0) {
+            warn("The processing speed has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setProcessingSpeed(...)' before registering!");
+        }
+
+        if (getCapacity() > 0 && getEnergyConsumption() > 0 && getSpeed() > 0) {
+            super.register(addon);
+        }
     }
 
     @Nonnull
-    private BlockPlaceHandler onPlace() {
+    private BlockPlaceHandler onBlockPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
@@ -68,36 +198,21 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
     }
 
     @Nonnull
-    @Override
-    protected BlockBreakHandler onBlockBreak() {
+    private BlockBreakHandler onBlockBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
             public void onBlockBreak(@Nonnull Block b) {
                 removeHologram(b);
-
                 BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
-                    inv.dropItems(b.getLocation(), getOutputSlots());
+                    inv.dropItems(b.getLocation(), OUTPUT_SLOTS);
                 }
 
-                progress.remove(b);
-                processing.remove(b);
+                processor.endOperation(b);
             }
         };
-    }
-
-    @Nonnull
-    @Override
-    public String getMachineIdentifier() {
-        return "GEO_MINER";
-    }
-
-    @Nonnull
-    @Override
-    public ItemStack getProgressBar() {
-        return new ItemStack(Material.DIAMOND_PICKAXE);
     }
 
     @Nonnull
@@ -126,13 +241,16 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
         return displayRecipes;
     }
 
-    @Nonnull
     @Override
-    public String getLabelLocalPath() {
+    public @Nonnull String getLabelLocalPath() {
         return "guide.tooltips.recipes.miner";
     }
 
     @Override
+    public EnergyNetComponentType getEnergyComponentType() {
+        return EnergyNetComponentType.CONSUMER;
+    }
+
     protected void constructMenu(@Nonnull BlockMenuPreset preset) {
         for (int i : BORDER) {
             preset.addItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
@@ -144,7 +262,7 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
 
         preset.addItem(4, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
 
-        for (int i : getOutputSlots()) {
+        for (int i : OUTPUT_SLOTS) {
             preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
 
                 @Override
@@ -161,27 +279,40 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
     }
 
     @Override
+    public void preRegister() {
+        addItemHandler(new BlockTicker() {
+
+            @Override
+            public void tick(Block b, SlimefunItem sf, Config data) {
+                GEOMiner.this.tick(b);
+            }
+
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
+        });
+    }
+
     protected void tick(@Nonnull Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
+        MiningOperation operation = processor.getOperation(b);
 
-        if (isProcessing(b)) {
-            int timeleft = progress.get(b);
-
-            if (timeleft > 0) {
-                ChestMenuUtils.updateProgressbar(inv, 4, timeleft, processing.get(b).getTicks(), getProgressBar());
+        if (operation != null) {
+            if (!operation.isFinished()) {
+                processor.updateProgressBar(inv, 4, operation);
 
                 if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                     return;
                 }
 
                 removeCharge(b.getLocation(), getEnergyConsumption());
-                progress.put(b, timeleft - 1);
+                operation.addProgress(getSpeed());
             } else {
                 inv.replaceExistingItem(4, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-                inv.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
+                inv.pushItem(operation.getResult(), OUTPUT_SLOTS);
 
-                progress.remove(b);
-                processing.remove(b);
+                processor.endOperation(b);
             }
         } else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4)) {
             updateHologram(b, "&4GEO-Scan required!");
@@ -202,14 +333,11 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
 
                 int supplies = optional.getAsInt();
                 if (supplies > 0) {
-                    MachineRecipe r = new MachineRecipe(PROCESSING_TIME / getSpeed(), new ItemStack[0], new ItemStack[] { resource.getItem().clone() });
-
-                    if (!inv.fits(r.getOutput()[0], getOutputSlots())) {
+                    if (!inv.fits(resource.getItem(), OUTPUT_SLOTS)) {
                         return;
                     }
 
-                    processing.put(b, r);
-                    progress.put(b, r.getTicks());
+                    processor.startOperation(b, new MiningOperation(resource.getItem().clone(), PROCESSING_TIME));
                     SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies - 1);
                     updateHologram(b, "&7Mining: &r" + resource.getName());
                     return;

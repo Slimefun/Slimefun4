@@ -68,7 +68,6 @@ guide:
       resourcepack: '&cArtysta paczki zasobów'
       translator: '&9Tłumacz'
 messages:
-  not-researched: '&4Nie masz wystarczającej wiedzy, aby to zrozumieć'
   not-enough-xp: '&4Nie masz wystarczająco doświadczenia, aby to odblokować'
   unlocked: '&bOdblokowano &7"%research%"'
   only-players: '&4To polecenie dotyczy tylko graczy'

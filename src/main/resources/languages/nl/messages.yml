@@ -94,7 +94,6 @@ guide:
       resourcepack: '&cGrafische bundel Ontwikkelaar'
       translator: '&9Vertaler'
 messages:
-  not-researched: '&4Je hebt niet genoeg Slimefun kennis om dit te begrijpen'
   not-enough-xp: '&4Je hebt niet genoeg XP om dit te ontgrendelen'
   unlocked: '&bJe hebt &7"%research%" ontgrendeld'
   only-players: '&4Dit commando is alleen voor spelers'
