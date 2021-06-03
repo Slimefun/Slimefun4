@@ -31,20 +31,7 @@ public final class ItemStackWrapper extends ItemStack {
     private final int amount;
     private final boolean hasItemMeta;
 
-    /**
-     * @deprecated This constructor is often misused leading to duplicate
-     * wrappers being made, used once, and then discarded.
-     * <p>
-     *     Use {@link #forceWrap(ItemStack)} to wrap an {@link ItemStack}
-     *     regardless of whether it has already been wrapped.
-     * </p>
-     * <p>
-     *     Use {@link #wrap(ItemStack)} to wrap an {@link ItemStack} if
-     *     and only if it has not already been wrapped
-     * </p>
-     */
-    @Deprecated
-    public ItemStackWrapper(@Nonnull ItemStack item) {
+    private ItemStackWrapper(@Nonnull ItemStack item) {
         super(item.getType());
 
         amount = item.getAmount();

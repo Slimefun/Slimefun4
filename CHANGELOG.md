@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 25 (TBD)](#release-candidate-25-tbd)
 - [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
 - [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
 - [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
@@ -24,7 +25,21 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## Release Candidate 25 (TBD)
+
+#### Additions
+* Added "4 Charcoal -> 1 Coal" recipe to the Compressor
+
+#### Changes
+* (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
+* (API) Removed AsyncGeneratorProcessCompleteEvent
+* (API) Removed AsyncMachineProcessCompleteEvent
+* (API) Removed AsyncReactorProcessCompleteEvent
+
+#### Fixes
+
 ## Release Candidate 24 (03 Jun 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
 
 #### Additions
 * (API) Added AsyncMachineOperationFinishEvent

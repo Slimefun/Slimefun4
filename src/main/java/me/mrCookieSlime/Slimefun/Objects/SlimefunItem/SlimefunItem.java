@@ -185,19 +185,6 @@ public class SlimefunItem implements Placeable {
 
     /**
      * Returns the identifier of this {@link SlimefunItem}.
-     * 
-     * @deprecated This method has been renamed to {@link #getId()}.
-     *
-     * @return the identifier of this {@link SlimefunItem}
-     */
-    @Nonnull
-    @Deprecated
-    public final String getID() {
-        return getId();
-    }
-
-    /**
-     * Returns the identifier of this {@link SlimefunItem}.
      *
      * @return the identifier of this {@link SlimefunItem}
      */
