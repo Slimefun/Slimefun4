@@ -221,7 +221,7 @@ public class SlimefunProfiler {
 
         totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();
 
-        // We log how much ms has been ticked and how many ticks have passed.
+        // We log how many milliseconds have been ticked, and how many ticks have passed
         // This is so when bStats requests the average timings, they're super quick to figure out
         totalMsTicked.addAndGet((long) (totalElapsedTime / 1e6));
         ticksPassed.incrementAndGet();
