@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.ChatColor;
@@ -128,11 +130,11 @@ public class RecipeType implements Keyed {
         }
     }
 
-    public ItemStack toItem() {
+    public @Nullable ItemStack toItem() {
         return this.item;
     }
 
-    public ItemStack getItem(Player p) {
+    public @Nonnull ItemStack getItem(Player p) {
         return SlimefunPlugin.getLocalization().getRecipeTypeItem(p, this);
     }
 
@@ -141,7 +143,7 @@ public class RecipeType implements Keyed {
     }
 
     @Override
-    public final NamespacedKey getKey() {
+    public final @Nonnull NamespacedKey getKey() {
         return key;
     }
 

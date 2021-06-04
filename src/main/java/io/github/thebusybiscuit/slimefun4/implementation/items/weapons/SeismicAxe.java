@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -42,7 +45,10 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable, DamageableItem {
 
     private static final float STRENGTH = 1.2F;
+    private static final float HEIGHT = 0.9F;
     private static final float DAMAGE = 6;
+    private static final float MIN_PLAYER_DISTANCE = 0.2F;
+    private static final float MAX_GROUND_DISTANCE = 1.5F;
     private static final int RANGE = 10;
 
     @ParametersAreNonnullByDefault
@@ -55,25 +61,33 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
         return e -> {
             Player p = e.getPlayer();
             List<Block> blocks = p.getLineOfSight(null, RANGE);
+            Set<UUID> pushedEntities = new HashSet<>();
 
+            // Skip the first two, too close to the player.
             for (int i = 2; i < blocks.size(); i++) {
                 Block ground = findGround(blocks.get(i));
                 Location groundLocation = ground.getLocation();
 
                 ground.getWorld().playEffect(groundLocation, Effect.STEP_SOUND, ground.getType());
 
-                if (ground.getRelative(BlockFace.UP).getType() == Material.AIR) {
-                    Location loc = ground.getRelative(BlockFace.UP).getLocation().add(0.5, 0.0, 0.5);
-                    FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlockData());
-                    block.setDropItem(false);
-                    block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-                    block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance(), "fake_block"));
+                // Check if they have room above.
+                Block blockAbove = ground.getRelative(BlockFace.UP);
+
+                if (blockAbove.getType().isAir()) {
+                    createJumpingBlock(ground, blockAbove, i);
                 }
 
                 for (Entity n : ground.getChunk().getEntities()) {
-                    if (n instanceof LivingEntity && n.getType() != EntityType.ARMOR_STAND && n.getLocation().distance(groundLocation) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
+                    // @formatter:off
+                    if (
+                        n instanceof LivingEntity && n.getType() != EntityType.ARMOR_STAND
+                        && !n.getUniqueId().equals(p.getUniqueId())
+                        && canReach(p.getLocation(), n.getLocation(), groundLocation)
+                        && pushedEntities.add(n.getUniqueId())
+                    ) {
                         pushEntity(p, n);
                     }
+                    // @formatter:on
                 }
             }
 
@@ -84,7 +98,31 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
     }
 
     @ParametersAreNonnullByDefault
+    private void createJumpingBlock(Block ground, Block blockAbove, int index) {
+        Location loc = ground.getRelative(BlockFace.UP).getLocation().add(0.5, 0.0, 0.5);
+        FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlockData());
+        block.setDropItem(false);
+        block.setVelocity(new Vector(0, 0.4 + index * 0.01, 0));
+        block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance(), "fake_block"));
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean canReach(Location playerLocation, Location entityLocation, Location groundLocation) {
+        // Too far away from ground
+        double maxGroundDistanceSquared = MAX_GROUND_DISTANCE * MAX_GROUND_DISTANCE;
+
+        // Fixes #3086 - Too close to Player, knockback may be NaN.
+        double minPlayerDistanceSquared = MIN_PLAYER_DISTANCE * MIN_PLAYER_DISTANCE;
+
+        // @formatter:off
+        return entityLocation.distanceSquared(groundLocation) < maxGroundDistanceSquared 
+            && playerLocation.distanceSquared(entityLocation) > minPlayerDistanceSquared;
+        // @formatter:on
+    }
+
+    @ParametersAreNonnullByDefault
     private void pushEntity(Player p, Entity entity) {
+        // Only damage players when PVP is enabled, other entities are fine.
         if (entity.getType() != EntityType.PLAYER || p.getWorld().getPVP()) {
             EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, entity, DamageCause.ENTITY_ATTACK, DAMAGE);
             Bukkit.getPluginManager().callEvent(event);
@@ -93,16 +131,24 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
             if (!event.isCancelled()) {
                 Vector vector = entity.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
                 vector.multiply(STRENGTH);
-                vector.setY(0.9);
-                entity.setVelocity(vector);
+                vector.setY(HEIGHT);
+
+                try {
+                    entity.setVelocity(vector);
+                } catch (IllegalArgumentException x) {
+                    /*
+                     * Printing the actual vector here is much more verbose than just
+                     * getting "x is not finite". See #3086
+                     */
+                    error("Exception while trying to set velocity: " + vector, x);
+                }
 
                 ((LivingEntity) entity).damage(event.getDamage());
             }
         }
     }
 
-    @Nonnull
-    private Block findGround(@Nonnull Block b) {
+    private @Nonnull Block findGround(@Nonnull Block b) {
         if (b.getType() == Material.AIR) {
             for (int y = 0; y < b.getY(); y++) {
                 Block block = b.getRelative(0, -y, 0);

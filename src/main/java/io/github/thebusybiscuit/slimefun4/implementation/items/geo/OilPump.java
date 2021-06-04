@@ -31,6 +31,8 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     private final GEOResource oil;
 
+    private final ItemStack emptyBucket = new ItemStack(Material.BUCKET);
+
     @ParametersAreNonnullByDefault
     public OilPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -71,7 +73,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     @Override
     public List<ItemStack> getDisplayRecipes() {
-        return Arrays.asList(new ItemStack(Material.BUCKET), SlimefunItems.OIL_BUCKET);
+        return Arrays.asList(emptyBucket, SlimefunItems.OIL_BUCKET);
     }
 
     @Override
@@ -90,18 +92,20 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
             Block b = inv.getBlock();
 
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true, false)) {
+                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), emptyBucket, true, false)) {
                     OptionalInt supplies = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (supplies.isPresent() && supplies.getAsInt() > 0) {
-                        MachineRecipe recipe = new MachineRecipe(26, new ItemStack[0], new ItemStack[] { SlimefunItems.OIL_BUCKET });
+                        MachineRecipe recipe = new MachineRecipe(26, new ItemStack[] { emptyBucket }, new ItemStack[] { SlimefunItems.OIL_BUCKET });
 
                         inv.consumeItem(slot);
                         SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);
                         return recipe;
                     } else {
-                        // Move the empty bucket to the output slot to prevent this
-                        // from immediately starting all over again (to prevent lag)
+                        /*
+                         * Move the empty bucket to the output slot to prevent this
+                         * from immediately starting all over again (to prevent lag)
+                         */
                         ItemStack item = inv.getItemInSlot(slot).clone();
                         inv.replaceExistingItem(slot, null);
                         inv.pushItem(item, getOutputSlots());

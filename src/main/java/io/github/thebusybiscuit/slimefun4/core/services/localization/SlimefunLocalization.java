@@ -14,6 +14,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -275,8 +276,14 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         Validate.notNull(p, "Player cannot be null!");
         Validate.notNull(recipeType, "Recipe type cannot be null!");
 
-        Language language = getLanguage(p);
         ItemStack item = recipeType.toItem();
+        
+        if (item == null) {
+            // Fixes #3088
+            return new ItemStack(Material.AIR);
+        }
+        
+        Language language = getLanguage(p);
         NamespacedKey key = recipeType.getKey();
 
         return new CustomItem(item, meta -> {

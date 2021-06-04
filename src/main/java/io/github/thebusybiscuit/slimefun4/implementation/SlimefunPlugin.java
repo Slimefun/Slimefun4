@@ -58,11 +58,9 @@ import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundService;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
@@ -91,11 +89,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemHitListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemConsumeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemInteractListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.AnvilListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.BrewingStandListener;
@@ -123,8 +121,6 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
@@ -138,7 +134,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * Our static instance of {@link SlimefunPlugin}.
-     * Make sure to clean this up in {@link #onDisable()} !
+     * Make sure to clean this up in {@link #onDisable()}!
      */
     private static SlimefunPlugin instance;
 
@@ -262,13 +258,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             PaperLib.suggestPaper(this);
         }
 
-        // Disabling backwards-compatibility for fresh Slimefun installs
-        if (!new File("data-storage/Slimefun").exists()) {
-            config.setValue("options.backwards-compatibility", false);
-            config.save();
-
-            isNewlyInstalled = true;
-        }
+        // If the server has no "data-storage" folder, it's _probably_ a new install. So mark it for metrics.
+        isNewlyInstalled = !new File("data-storage/Slimefun").exists();
 
         // Creating all necessary Folders
         getLogger().log(Level.INFO, "Creating directories...");
@@ -426,9 +417,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Terminate our Plugin instance
         setInstance(null);
 
-        // Clean up any static fields
-        cleanUp();
-
         /**
          * Close all inventories on the server to prevent item dupes
          * (Incase some idiot uses /reload)
@@ -467,23 +455,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         } else {
             return NumberUtils.roundDecimalNumber(ms) + "ms";
         }
-    }
-
-    /**
-     * Cleaning up our static fields prevents memory leaks from a reload.
-     * 
-     * @deprecated These static Maps should really be removed at some point...
-     */
-    @Deprecated
-    private static void cleanUp() {
-        AContainer.processing = null;
-        AContainer.progress = null;
-
-        AGenerator.processing = null;
-        AGenerator.progress = null;
-
-        Reactor.processing = null;
-        Reactor.progress = null;
     }
 
     /**
@@ -649,6 +620,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new TalismanListener(this);
         new SoulboundListener(this);
         new AutoCrafterListener(this);
+        new SlimefunItemHitListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
@@ -662,7 +634,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
 
         // Item-specific Listeners
-        new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
         new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem());
         new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
