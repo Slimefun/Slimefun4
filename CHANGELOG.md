@@ -319,6 +319,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
 * Added a startup warning for when CS-CoreLib is still installed
 * (API) Added WeaponUseHandler
+<<<<<<< HEAD
 * Added support for Minecraft 1.17
 * Added "Deepslate -> Lava" recipe to the Crucible
 * Added "Cobbled Deepslate -> Lava" recipe to the Crucible
@@ -330,6 +331,10 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 * Added "Raw Copper -> Copper Dust" recipe to the Ore Crusher
 * Debug Fish can now read Slimefun Tags for vanilla blocks
 * The Icy Bow now gives a freezing effect on 1.17
+=======
+* Added sound effects for Slime Boots
+* Added `sounds.yml` file to configure sound effects for Slimefun
+>>>>>>> 2dbace3e0 (Update CHANGELOG.md)
 
 #### Changes
 * (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
