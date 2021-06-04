@@ -30,6 +30,8 @@
 #### Additions
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
 * (API) Added WeaponUseHandler
+* Added sound effects for Slime Boots
+* Added `sounds.yml` file to configure sound effects for Slimefun
 
 #### Changes
 * (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
@@ -46,8 +48,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
 * (API) Added AsyncMachineOperationFinishEvent
 * The speed of the Ancient Altar can now be configured in the `Items.yml` file
 * The message "You do not have enough knowledge to understand this" now includes the name of the item you need to research.
-* Added sound effects for Slime Boots
-* Added sounds.yml file to configure all sound effects
 
 #### Changes
 * (API) Refactored "Machine Process" API
