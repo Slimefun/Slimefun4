@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,9 +20,9 @@ import java.util.WeakHashMap;
  *
  * @author md5sha256
  */
-final class TickingBlocks {
+final class TickerCollection {
 
-    private final Map<World, Set<Long>> blocks = Collections.synchronizedMap(new WeakHashMap<>());
+    private final Cache<World, Set<Long>> blocks = CacheBuilder.newBuilder().weakKeys().build();
 
     /**
      * Get the compressed {@link BlockPosition BlockPositions} mapped to a given {@link World}.
@@ -29,26 +31,9 @@ final class TickingBlocks {
      * @param world The world
      * @return Returns a {@link Set} of {@link Long Longs} which are compressed {@link BlockPosition BlockPositions}
      *
-     * @see #getBlocksCopy()
      */
     public @Nonnull Set<Long> getBlocks(@Nonnull World world) {
-        return blocks.computeIfAbsent(world, (unused) -> Collections.synchronizedSet(new HashSet<>()));
-    }
-
-    /**
-     * Get a copy of the blocks mapped to a given {@link World} in the form of {@link BlockPosition BlockPositions}
-     * The returned {@link Set} is guaranteed to be a copy; however, it is not guaranteed to be thread-safe.
-     *
-     * @param world The world
-     * @return Returns a {@link Set} of {@link BlockPosition BlockPositions}
-     * @see #getBlocksCopy()
-     */
-    public @Nonnull Set<BlockPosition> getBlocksCopy(@Nonnull World world) {
-        Collection<Long> compressed = blocks.get(world);
-        if (compressed == null) {
-            return Collections.emptySet();
-        }
-        return convertToBlockPosition(world, compressed);
+        return blocks.asMap().computeIfAbsent(world, unused -> Collections.synchronizedSet(new HashSet<>()));
     }
 
     /**
@@ -56,43 +41,10 @@ final class TickingBlocks {
      * The returned {@link Set} is not guaranteed to be thread-safe.
      *
      * @return Returns a {@link Set} of {@link BlockPosition BlockPositions}
-     * @see #getBlocksCopy(World)
-     */
-    public @Nonnull Set<BlockPosition> getBlocksCopy() {
-        Set<BlockPosition> positions = new HashSet<>();
-        for (Map.Entry<World, Set<Long>> entry : blocks.entrySet()) {
-            World world = entry.getKey();
-            Set<BlockPosition> converted = convertToBlockPosition(world, entry.getValue());
-            positions.addAll(converted);
-        }
-        return positions;
-    }
-
-    /**
-     * Get a copy of all the blocks in a given {@link World} in the form of {@link BlockPosition BlockPositions}
-     * The returned {@link Set} is not guaranteed to be thread-safe.
-     *
-     * @return Returns a {@link Set} of {@link BlockPosition BlockPositions}
-     * @see #getBlocksAsLocations()
-     */
-    public @Nonnull Set<Location> getBlocksAsLocations(@Nonnull World world) {
-        Collection<Long> compressed = blocks.get(world);
-        if (compressed == null) {
-            return Collections.emptySet();
-        }
-        return convertToLocation(world, compressed);
-    }
-
-    /**
-     * Get a copy of all the blocks stored in the form of {@link BlockPosition BlockPositions}
-     * The returned {@link Set} is not guaranteed to be thread-safe.
-     *
-     * @return Returns a {@link Set} of {@link BlockPosition BlockPositions}
-     * @see #getBlocksAsLocations(World)
      */
     public @Nonnull Set<Location> getBlocksAsLocations() {
         Set<Location> locations = new HashSet<>();
-        for (Map.Entry<World, Set<Long>> entry : blocks.entrySet()) {
+        for (Map.Entry<World, Set<Long>> entry : blocks.asMap().entrySet()) {
             World world = entry.getKey();
             Set<Location> converted = convertToLocation(world, entry.getValue());
             locations.addAll(converted);
@@ -100,26 +52,50 @@ final class TickingBlocks {
         return locations;
     }
 
+    /**
+     * Add a location to this ticker collection, duplicates will be ignored.
+     *
+     * @param block The block to add
+     * @see #addBlock(Location)
+     */
     public void addBlock(@Nonnull BlockPosition block) {
         getBlocks(block.getWorld()).add(block.getPosition());
     }
 
+    /**
+     * Add a location to this ticker collection, duplicates will be ignored.
+     *
+     * @param location The location of the block to add
+     * @see #addBlock(BlockPosition)
+     */
     public void addBlock(@Nonnull Location location) {
         addBlock(new BlockPosition(location));
     }
 
+    /**
+     * Remove a block from this ticker collection
+     *
+     * @param block The block to remove
+     * @see #removeBlock(Location)
+     */
     public void removeBlock(@Nonnull BlockPosition block) {
         World world = block.getWorld();
-        Collection<Long> positions = blocks.get(world);
+        Collection<Long> positions = blocks.getIfPresent(world);
         if (positions == null) {
             return;
         }
         positions.remove(block.getPosition());
         if (positions.isEmpty()) {
-            blocks.remove(world);
+            blocks.invalidate(world);
         }
     }
 
+    /**
+     * Remove a location from this ticker collection.
+     *
+     * @param location The location of the block to remove
+     * @see #removeBlock(BlockPosition)
+     */
     public void removeBlock(@Nonnull Location location) {
         removeBlock(new BlockPosition(location));
     }
@@ -129,27 +105,15 @@ final class TickingBlocks {
      * @param key The world to clear the key for
      */
     public void clear(@Nonnull World key) {
-        blocks.remove(key);
+        blocks.invalidate(key);
     }
 
     /**
      * Clear all entries from this instance
      */
     public void clear() {
-        blocks.clear();
+        blocks.invalidateAll();
     }
-
-    private static @Nonnull Set<BlockPosition> convertToBlockPosition(@Nonnull World world, @Nonnull Collection<Long> raw) {
-        if (raw.isEmpty()) {
-            return Collections.emptySet();
-        }
-        Set<BlockPosition> positions = new HashSet<>(raw.size());
-        for (long compressed : raw) {
-            positions.add(new BlockPosition(world, compressed));
-        }
-        return positions;
-    }
-
 
     private static @Nonnull Set<Location> convertToLocation(@Nonnull World world, @Nonnull Collection<Long> raw) {
         Set<Location> locations = new HashSet<>(raw.size());

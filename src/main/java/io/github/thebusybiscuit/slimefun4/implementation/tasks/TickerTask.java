@@ -70,7 +70,7 @@ public final class TickerTask {
     /**
      * This Map holds all currently actively ticking locations.
      */
-    private final TickingBlocks tickingBlocks = new TickingBlocks();
+    private final TickerCollection tickerCollection = new TickerCollection();
 
     /**
      * This Map tracks how many bugs have occurred in a given Location.
@@ -287,7 +287,7 @@ public final class TickerTask {
             }
 
             if (!halted) {
-                Collection<Location> toTick = tickingBlocks.getBlocksAsLocations();
+                Collection<Location> toTick = tickerCollection.getBlocksAsLocations();
                 tickLocations(tickers, toTick);
             }
 
@@ -489,7 +489,7 @@ public final class TickerTask {
         Validate.notNull(l, "Location cannot be null!");
         Validate.notNull(l.getWorld(), "Location must have a world!");
 
-        tickingBlocks.addBlock(l);
+        tickerCollection.addBlock(l);
     }
 
     /**
@@ -503,6 +503,6 @@ public final class TickerTask {
         Validate.notNull(l, "Location cannot be null!");
         Validate.notNull(l.getWorld(), "Location must have a world!");
 
-        tickingBlocks.removeBlock(l);
+        tickerCollection.removeBlock(l);
     }
 }
