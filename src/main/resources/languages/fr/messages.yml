@@ -28,6 +28,8 @@ commands:
     please-wait: '&eAttendez s''il vous plaît, les résultats arrivent !'
     verbose-player: '&4Ce flag ne peux pas être utiliser par un joueur!'
     unknown-flag: '&4Flag inconnu: &c%flag%'
+placeholderapi:
+  profile-loading: 'Chargement...'
 guide:
   locked: 'VERROUILLÉ'
   work-in-progress: 'Cette fonctionnalité n''est pas encore complètement terminée !'
@@ -73,6 +75,24 @@ guide:
     translations:
       name: '&aIl manque quelque chose ?'
       lore: 'Cliquez pour ajouter votre propre traduction'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bAnimation d''apprentissage : &aOui'
+          - ''
+          - '&7Vous pouvez maintenant activer/désactiver si vous'
+          - '&7affichera des informations sur votre méditation dans le chat'
+          - '&7après avoir recherché un objet.'
+        click: '&eCliquez pour désactiver votre animation d''apprentissage'
+      disabled:
+        text:
+          - '&bAnimation d''apprentissage : &aOui'
+          - ''
+          - '&7Vous pouvez maintenant activer/désactiver si vous'
+          - '&7affichera des informations sur votre méditation dans le chat'
+          - '&7après avoir recherché un objet.'
+        click: '&eCliquez pour désactiver votre animation d''apprentissage'
   title:
     main: 'Guide Slimefun'
     settings: 'Paramètres et informations'
@@ -99,6 +119,7 @@ guide:
       resourcepack: '&cArtiste du pack de ressource'
       translator: '&9Traducteur'
 messages:
+  not-researched: '&4Vous n''avez pas suffisamment de connaissances pour comprendre ceci'
   not-enough-xp: '&4Vous n''avez pas suffisamment d''XP pour déverrouiller ceci'
   unlocked: '&bVous avez déverrouillé &7"%research%"'
   only-players: '&4Cette commande est réservée aux joueurs'
@@ -122,6 +143,26 @@ messages:
   multi-tool:
     mode-change: 'Le mode de &b%device% a été changé : &9%mode%'
     not-shears: '&cLe MultiTool ne peut pas être utilisé comme cisaille !'
+  auto-crafting:
+    select-a-recipe: '&eAccroupissez-vous et faites un clic droit &7avec le bloc que vous souhaiteriez fabriquer.'
+    recipe-set: '&aVous avez correctement configuré la recette pour cette machine.'
+    recipe-removed: '&eVous avez correctement supprimé la recette de cette machine. Vous pouvez remettre une nouvelle recette à tout moment!'
+    no-recipes: '&cNous n''avons trouvé aucune recette valide pour l''item que vous tenez en main.'
+    missing-chest: '&cCoffre manquant ! Les Auto-Crafters doivent être placés au-dessus d''un coffre.'
+    select: 'Sélectionner cette recette'
+    temporarily-disabled: '&eCet Auto-Crafter a été temporairement désactivé. Vous pouvez le réactiver à tout moment !'
+    re-enabled: '&eCet Auto-Crafteur a été réactivé !'
+    tooltips:
+      enabled:
+        - '&aCette recette est actuellement activée'
+        - ''
+        - '&eClic gauche &7pour désactiver temporairement la recette'
+        - '&eClic droit &7pour supprimer cette recette'
+      disabled:
+        - '&cCette recette est actuellement désactivée'
+        - ''
+        - '&eClic gauche &7pour réactiver cette recette'
+        - '&eClic droit &7pour supprimer cette recette'
   talisman:
     anvil: '&a&oVotre Talisman a empêché votre outil de casser'
     miner: '&a&oVotre talisman a doublé votre drop'
@@ -180,6 +221,9 @@ messages:
     - '&7Regarde le bon coté des choses !'
     - '&7C''était pas un Cookie... mais un biscuit.'
     - '&7Les panneaux lumineux sont allumé  !'
+  above-limit-level: '&cImpossible de (dés)enchanter un niveau d''enchantement supérieur à %level%!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cImpossible de trouver des minerais à proximité !'
 machines:
   pattern-not-found: '&eDésolé, je ne reconnais pas cette recette. Veuillez disposer les objets correctement dans le distributeur.'
   unknown-material: '&eDésolé, je ne reconnais pas l''objet dans le distributeur. Veuillez y placer quelque chose que je connais.'
@@ -187,6 +231,7 @@ machines:
   full-inventory: '&eDésolé, mon inventaire est plein !'
   in-use: '&cL''inventaire de ce bloc est déjà ouvert par un autre joueur.'
   ignition-chamber-no-flint: '&cLa chambre d''allumage n''a pas de briquet.'
+  inventory-empty: '&6Vous avez correctement construit ce Multiblock. Continuez en plaçant des items dans le distributeur et cliquez-moi à nouveau pour fabriquer l''objet que vous voulez !'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4L''autel n''est pas entouré du bon nombre de piédestaux &c(%pedestals% / 8)'
     unknown-catalyst: '&4Catalyseur inconnu ! &cVeuillez utiliser la bonne recette !'
@@ -264,6 +309,7 @@ android:
   scripts:
     already-uploaded: '&4Ce script a déjà été upload.'
     editor: 'Éditeur de script'
+    too-long: '&cLe script est trop long pour être édité !'
     instructions:
       START: '&2Exécuter le script'
       REPEAT: '&9Répéter le script'
@@ -325,6 +371,7 @@ languages:
   pt: 'Portugais (Portugal)'
   pt-BR: 'Portugais (Brésil)'
   ar: 'Arabe'
+  af: 'Africain'
   da: 'Danois'
   fi: 'Finnois'
   uk: 'Ukrainien'
@@ -333,6 +380,7 @@ languages:
   ja: 'Japonais'
   fa: 'Persan'
   th: 'Thaï'
+  tl: 'Tagalog'
   ro: 'Roumain'
   bg: 'Bulgare'
   ko: 'Coréen'
