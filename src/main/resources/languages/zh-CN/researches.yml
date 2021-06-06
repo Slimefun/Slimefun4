@@ -189,6 +189,7 @@ slimefun:
   cargo_basics: 基础货运
   cargo_nodes: 货运设施
   electric_ingot_machines: 电力铸铁
+  medium_tier_electric_ingot_machines: 高速电力铸铁
   high_tier_electric_ingot_machines: 更好的电力铸铁
   automated_crafting_chamber: 自动化合成
   better_food_fabricator: 更好的食品加工
@@ -250,3 +251,9 @@ slimefun:
   elytra_cap: 无伤落地
   bee_armor: 蜜蜂服
   book_binder: 附魔融合
+  auto_crafting: 自动化合成
+  produce_collector: 自动化挤奶
+  improved_generators: 改良版发电机
+  ingredients_and_cheese: Slimefun 厨房
+  medium_tier_auto_enchanting: 高速自动附魔/祛魔
+  portable_teleporter: 从任何地方传送
