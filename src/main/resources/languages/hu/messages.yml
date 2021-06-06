@@ -28,6 +28,8 @@ commands:
     please-wait: '&eKérjük várj... Érkeznek az eredmények!'
     verbose-player: '&4A részletes megjelenítés flag nem használható játékosként!'
     unknown-flag: '&4Ismeretlen flag: &c%flag%'
+placeholderapi:
+  profile-loading: 'Betöltés...'
 guide:
   locked: 'LEZÁRVA'
   work-in-progress: 'Ez a funkció még nem készült el teljesen!'
@@ -73,11 +75,30 @@ guide:
     translations:
       name: '&aHiányzik valami?'
       lore: 'Kattints saját fordítás hozzáadásához'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bTanulási Animációk:&aBe'
+          - ''
+          - '&7Kiválaszthatja hogy'
+          - '&7szeretné-e látni a a csevegésben'
+          - '&7a kitanulás állapotát százalékjelben.'
+        click: '&eKattints ide hogy kikapcsold a tanulási animációd'
+      disabled:
+        text:
+          - '&bTanulási Animációk:&aKi'
+          - ''
+          - '&7Kiválaszthatja hogy'
+          - '&7szeretné-e látni a a csevegésben'
+          - '&7a kitanulás állapotát százalékjelben.'
+        click: '&eKattints hogy bekapcsold a tanulási animációd'
   title:
     main: 'Slimefun Útmutató'
     settings: 'Beállítások és Információk'
     languages: 'Válaszd ki a kívánt nyelvet'
     credits: 'Slimefun4 közreműködők'
+    wiki: 'Slimefun4 Wiki'
     addons: 'A Slimefun4 kiegészítői'
     bugs: 'Hibajelentések'
     source: 'Forráskód'
@@ -98,6 +119,7 @@ guide:
       resourcepack: '&cForráscsomag művész'
       translator: '&9Fordító'
 messages:
+  not-researched: '&4Nincs elég tudásod, hogy megértsd ezt.&cFel kel még oldanod ezt a tárgyat: &f"%item%&f"'
   not-enough-xp: '&4Nincs elég XP-d ennek a feloldásához'
   unlocked: '&7"%research%" &bfeloldva'
   only-players: '&4Ezt a parancsot csak játékosok használhatják'
@@ -121,6 +143,26 @@ messages:
   multi-tool:
     mode-change: '&b%device% mód átállítva: &9%mode%'
     not-shears: '&cA Multi Tool nem használható óllóként!'
+  auto-crafting:
+    select-a-recipe: '&eGuggolj le és jobb kattints &7erre a blokkra azzal a tárgyal amiből készíteni szeretnél.'
+    recipe-set: '&aSikeresen beállítottad a receptet erre a gépre.'
+    recipe-removed: '&eSikeresen törölted a receptet ebből a gépből. Bármikor beállíthatsz új recepteket!'
+    no-recipes: '&cNem találtunk érvényes receptet a kezedbe lévő tárgyra.'
+    missing-chest: '&cHiányzó láda! Az Autómatikus Barkácsolóknak szükségük van egy ládára feléjük.'
+    select: 'Válaszd ki ezt a receptet'
+    temporarily-disabled: '&eEz az Autómatikus Barkácsoló ideiglenesen ki van kapcsolva. Bármikor bekapcsolhatod!'
+    re-enabled: '&eAutómata barkácsoló visszakapcsolva!'
+    tooltips:
+      enabled:
+        - '&aEz a recept jelenleg be van kapcsolva'
+        - ''
+        - '&eBal kattintás, &7hogy ideiglenesen kikapcsold a receptet'
+        - '&eJobb kattintás, &7hogy töröld a receptet'
+      disabled:
+        - '&cEz a recept jelenleg ki van kapcsolva'
+        - ''
+        - '&eBal kattintás, &7hogy újra bekapcsold ezt a receptet'
+        - '&eJobb kattintás, &7hogy töröld ezt a receptet'
   talisman:
     anvil: '&a&oA talizmánod megmentette az eszközöd az eltöréstől'
     miner: '&a&oA talizmánod megduplázta a dobott tárgyakat'
@@ -179,6 +221,9 @@ messages:
     - '&7Mindig nézd az élet jó oldalát!'
     - '&7Ez valójában keksz volt, és nem süti'
     - '&7A neon táblák VILÁGÍTANAK!'
+  above-limit-level: '&cNem adhatsz vagy törölhetsz egy varázslatot, melynek a szintje nagyobb, mint %level%!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cNem találhatók a közelben ércek!'
 machines:
   pattern-not-found: '&eSajnálom, nem ismerem fel ezt a receptet. Kérlek, helyezd a tárgyakat a megfelelő mintában az adagolóba.'
   unknown-material: '&eSajnálom, nem tudtam felismerni a tárgyat az adagolóban. Kérlek tegyél bele valamit, amit ismerek.'
@@ -186,6 +231,7 @@ machines:
   full-inventory: '&eSajnálom, tele az eszköztáram!'
   in-use: '&cEnnek a blokknak az eszköztárát éppen megnyitotta egy másik játékos.'
   ignition-chamber-no-flint: '&cAz Ignition Chamber-ből hiányzik a kovakő és acél.'
+  inventory-empty: '&6Sikeresen elkészítettél egy multiblokkot. Tegyél tárgyakat a kidobóba és kattints rám újra, hogy elkészítsd a tárgyat, ami szeretnél!'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4Az Altar körül nincs elég Pedestal, ami szükséges a működéséhez &c(%pedestals% / 8)'
     unknown-catalyst: '&4Ismeretlen katalizátor! &cEhelyett használd a helyes receptet!'
@@ -325,6 +371,7 @@ languages:
   pt: 'Portugál (Portugália)'
   pt-BR: 'Portugál (Brazília)'
   ar: 'Arab'
+  af: 'Afrikai'
   da: 'Dán'
   fi: 'Finn'
   uk: 'Ukrán'
@@ -332,6 +379,8 @@ languages:
   'no': 'Norvég'
   ja: 'Japán'
   fa: 'Perzsa'
+  th: 'Thaiföldi'
+  tl: 'Filippínói {Tagalog}'
   ro: 'Román'
   bg: 'Bolgár'
   ko: 'Koreai'
