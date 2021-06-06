@@ -29,6 +29,7 @@
 
 #### Additions
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
+* Added a startup warning for when CS-CoreLib is still installed
 * (API) Added WeaponUseHandler
 
 #### Changes
