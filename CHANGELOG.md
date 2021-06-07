@@ -39,6 +39,7 @@
 * (API) Removed AsyncReactorProcessCompleteEvent
 
 #### Fixes
+* Fixed 3105
 
 ## Release Candidate 24 (03 Jun 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
