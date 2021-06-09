@@ -30,6 +30,12 @@ public class PressureChamber extends MultiBlockMachine {
     }
 
     @Override
+    public void registerDefaultRecipes(List<ItemStack> recipes) {
+        recipes.add(new ItemStack(Material.CHARCOAL, 5));
+        recipes.add(new ItemStack(Material.COAL));
+    }
+
+    @Override
     public List<ItemStack> getDisplayRecipes() {
         return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
     }
