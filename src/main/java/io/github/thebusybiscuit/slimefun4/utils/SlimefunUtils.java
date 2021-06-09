@@ -294,15 +294,20 @@ public final class SlimefunUtils {
             return false;
         } else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
             return false;
-        } else if (itemMeta instanceof PotionMeta && sfitemMeta instanceof PotionMeta) {
-            return ((PotionMeta) itemMeta).getBasePotionData().hashCode() == ((PotionMeta) sfitemMeta).getBasePotionData().hashCode();
-        } else if (!checkLore) {
-            return true;
-        } else if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
-            return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
-        } else {
-            return !itemMeta.hasLore() && !sfitemMeta.hasLore();
         }
+
+        if (checkLore) {
+            if (itemMeta.hasLore() && sfitemMeta.hasLore() && !equalsLore(itemMeta.getLore(), sfitemMeta.getLore())
+                || itemMeta.hasLore() != sfitemMeta.hasLore()) {
+                return false;
+            }
+        }
+
+        if (itemMeta instanceof PotionMeta && sfitemMeta instanceof PotionMeta) {
+            return ((PotionMeta) itemMeta).getBasePotionData().equals(((PotionMeta) sfitemMeta).getBasePotionData());
+        }
+
+        return true;
     }
 
     /**
