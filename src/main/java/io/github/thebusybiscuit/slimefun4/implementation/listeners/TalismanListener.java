@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -335,8 +336,8 @@ public class TalismanListener implements Listener {
 
                         // We do not want to dupe blocks
                         if (!droppedItem.getType().isBlock()) {
-                            int amount = Math.max(1, (dropAmount * 2) - droppedItem.getAmount());
-                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(droppedItem, amount));
+                            droppedItem.setAmount(Math.max(1, dropAmount * 2));
+                            drop.setItemStack(droppedItem);
                             doubledDrops = true;
                         }
                     }
@@ -350,6 +351,21 @@ public class TalismanListener implements Listener {
                             talisman.sendMessage(e.getPlayer());
                         }
                     }
+                }
+            }
+        }
+
+        /* Has to be after Talisman of Miner otherwise it wont double drops */
+        if (Talisman.trigger(e, SlimefunItems.TALISMAN_TELEKINESIS, false)) {
+            List<Item> drops = e.getItems();
+
+            for (int i = 0; i < drops.size(); i++) {
+                HashMap<Integer, ItemStack> failedDrops = e.getPlayer().getInventory().addItem(drops.get(i).getItemStack());
+
+                if (failedDrops.size() > 0) {
+                    e.getItems().get(i).setItemStack(failedDrops.get(0));
+                } else {
+                    e.getItems().remove(i);
                 }
             }
         }
