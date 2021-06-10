@@ -110,47 +110,6 @@ public class TalismanListener implements Listener {
         }
     }
 
-    private void onProjectileDamage(@Nonnull EntityDamageByEntityEvent e) {
-        // "Fixes" #1022 - We just ignore Tridents now.
-        if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
-            Projectile projectile = (Projectile) e.getDamager();
-
-            if (Talisman.trigger(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
-                Player p = (Player) e.getEntity();
-                returnProjectile(p, projectile);
-            }
-        }
-    }
-
-    /**
-     * This method is used for the {@link Talisman} of the whirlwind, it returns a copy
-     * of a {@link Projectile} that was fired at a {@link Player}.
-     * 
-     * @param p
-     *            The {@link Player} who was hit
-     * @param projectile
-     *            The {@link Projectile} that hit this {@link Player}
-     */
-    private void returnProjectile(@Nonnull Player p, @Nonnull Projectile projectile) {
-        Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
-        Location loc = p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ());
-
-        Projectile returnedProjectile = (Projectile) p.getWorld().spawnEntity(loc, projectile.getType());
-        returnedProjectile.setShooter(projectile.getShooter());
-        returnedProjectile.setVelocity(direction);
-
-        if (projectile instanceof AbstractArrow) {
-            AbstractArrow firedArrow = (AbstractArrow) projectile;
-            AbstractArrow returnedArrow = (AbstractArrow) returnedProjectile;
-
-            returnedArrow.setDamage(firedArrow.getDamage());
-            returnedArrow.setPickupStatus(firedArrow.getPickupStatus());
-            returnedArrow.setPierceLevel(firedArrow.getPierceLevel());
-        }
-
-        projectile.remove();
-    }
-
     @EventHandler(ignoreCancelled = true)
     public void onKill(EntityDeathEvent e) {
         if (e.getDrops().isEmpty() || e.getEntity().getKiller() == null) {
@@ -181,45 +140,6 @@ public class TalismanListener implements Listener {
                 }
             }
         }
-    }
-
-    @Nonnull
-    @ParametersAreNonnullByDefault
-    private Collection<ItemStack> getExtraDrops(LivingEntity entity, Collection<ItemStack> drops) {
-        List<ItemStack> items = new ArrayList<>(drops);
-
-        // Prevent duplication of items stored inside a Horse's chest
-        if (entity instanceof ChestedHorse) {
-            ChestedHorse horse = (ChestedHorse) entity;
-
-            if (horse.isCarryingChest()) {
-                // The chest is not included in getStorageContents()
-                items.remove(new ItemStack(Material.CHEST));
-
-                for (ItemStack item : horse.getInventory().getStorageContents()) {
-                    items.remove(item);
-                }
-            }
-        }
-
-        /*
-         * WARNING: This check is broken as entities now set their
-         * equipment to NULL before calling the event!
-         * 
-         * It prevents duplication of handheld items or armor.
-         */
-        EntityEquipment equipment = entity.getEquipment();
-
-        if (equipment != null) {
-            for (ItemStack item : equipment.getArmorContents()) {
-                items.remove(item);
-            }
-
-            items.remove(equipment.getItemInMainHand());
-            items.remove(equipment.getItemInOffHand());
-        }
-
-        return items;
     }
 
     @EventHandler
@@ -409,6 +329,86 @@ public class TalismanListener implements Listener {
         if (SlimefunTag.CAVEMAN_TALISMAN_TRIGGERS.isTagged(e.getBlock().getType())) {
             Talisman.trigger(e, SlimefunItems.TALISMAN_CAVEMAN);
         }
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    private Collection<ItemStack> getExtraDrops(LivingEntity entity, Collection<ItemStack> drops) {
+        List<ItemStack> items = new ArrayList<>(drops);
+
+        // Prevent duplication of items stored inside a Horse's chest
+        if (entity instanceof ChestedHorse) {
+            ChestedHorse horse = (ChestedHorse) entity;
+
+            if (horse.isCarryingChest()) {
+                // The chest is not included in getStorageContents()
+                items.remove(new ItemStack(Material.CHEST));
+
+                for (ItemStack item : horse.getInventory().getStorageContents()) {
+                    items.remove(item);
+                }
+            }
+        }
+
+        /*
+         * WARNING: This check is broken as entities now set their
+         * equipment to NULL before calling the event!
+         * 
+         * It prevents duplication of handheld items or armor.
+         */
+        EntityEquipment equipment = entity.getEquipment();
+
+        if (equipment != null) {
+            for (ItemStack item : equipment.getArmorContents()) {
+                items.remove(item);
+            }
+
+            items.remove(equipment.getItemInMainHand());
+            items.remove(equipment.getItemInOffHand());
+        }
+
+        return items;
+    }
+
+    private void onProjectileDamage(@Nonnull EntityDamageByEntityEvent e) {
+        // "Fixes" #1022 - We just ignore Tridents now.
+        if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
+            Projectile projectile = (Projectile) e.getDamager();
+
+            if (Talisman.trigger(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
+                Player p = (Player) e.getEntity();
+                returnProjectile(p, projectile);
+            }
+        }
+    }
+
+    /**
+     * This method is used for the {@link Talisman} of the whirlwind, it returns a copy
+     * of a {@link Projectile} that was fired at a {@link Player}.
+     * 
+     * @param p
+     *            The {@link Player} who was hit
+     * @param projectile
+     *            The {@link Projectile} that hit this {@link Player}
+     */
+    private void returnProjectile(@Nonnull Player p, @Nonnull Projectile projectile) {
+        Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
+        Location loc = p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ());
+
+        Projectile returnedProjectile = (Projectile) p.getWorld().spawnEntity(loc, projectile.getType());
+        returnedProjectile.setShooter(projectile.getShooter());
+        returnedProjectile.setVelocity(direction);
+
+        if (projectile instanceof AbstractArrow) {
+            AbstractArrow firedArrow = (AbstractArrow) projectile;
+            AbstractArrow returnedArrow = (AbstractArrow) returnedProjectile;
+
+            returnedArrow.setDamage(firedArrow.getDamage());
+            returnedArrow.setPickupStatus(firedArrow.getPickupStatus());
+            returnedArrow.setPierceLevel(firedArrow.getPierceLevel());
+        }
+
+        projectile.remove();
     }
 
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
