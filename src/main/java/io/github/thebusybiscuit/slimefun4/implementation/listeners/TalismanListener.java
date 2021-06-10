@@ -42,7 +42,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.events.AncientAltarCraftEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
@@ -368,6 +368,17 @@ public class TalismanListener implements Listener {
                     e.getItems().remove(i);
                 }
             }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onAncientAltarCraft(AncientAltarCraftEvent e) {
+        HashMap<Integer, ItemStack> failedDrops = e.getPlayer().getInventory().addItem(e.getItem());
+
+        if (failedDrops.size() > 0) {
+            e.setItem(failedDrops.get(0));
+        } else {
+            e.setCancelled(true);
         }
     }
 
