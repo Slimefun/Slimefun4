@@ -13,6 +13,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.ArmorStand;
@@ -43,6 +44,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.api.events.AncientAltarCraftEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
@@ -366,6 +368,26 @@ public class TalismanListener implements Listener {
                     e.getItems().get(i).setItemStack(failedDrops.get(0));
                 } else {
                     e.getItems().remove(i);
+                }
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onExplosivePickBreak(ExplosiveToolBreakBlocksEvent e) {
+        List<Block> blocks = e.getAdditionalBlocks();
+        blocks.add(e.getPrimaryBlock());
+
+        for (Block b : blocks) {
+            Collection<ItemStack> drops = b.getDrops(e.getItemInHand());
+
+            for (ItemStack drop : drops) {
+                HashMap<Integer, ItemStack> failedDrops = e.getPlayer().getInventory().addItem(drop);
+
+                if (failedDrops.size() > 0) {
+                    // replace existing drops to new ItemStack
+                } else {
+                    // Find a way to remove drops
                 }
             }
         }
