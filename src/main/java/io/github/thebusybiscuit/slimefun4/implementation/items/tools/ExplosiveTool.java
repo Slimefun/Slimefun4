@@ -174,5 +174,4 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
 
         damageItem(p, item);
     }
-
 }
