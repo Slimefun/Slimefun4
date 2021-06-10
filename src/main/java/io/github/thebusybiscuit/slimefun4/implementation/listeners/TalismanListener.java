@@ -51,6 +51,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * This {@link Listener} is responsible for handling any {@link Event}
@@ -328,6 +330,20 @@ public class TalismanListener implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         if (SlimefunTag.CAVEMAN_TALISMAN_TRIGGERS.isTagged(e.getBlock().getType())) {
             Talisman.trigger(e, SlimefunItems.TALISMAN_CAVEMAN);
+        } else if (Talisman.trigger(e, SlimefunItems.TALISMAN_TELEKINESIS)) {
+            SlimefunItem sfItem = BlockStorage.check(e.getBlock());
+
+            if (sfItem != null) {
+                for (ItemStack drop : sfItem.getDrops(e.getPlayer())) {
+                    HashMap<Integer, ItemStack> failedDrops = e.getPlayer().getInventory().addItem(drop);
+
+                    if (failedDrops.size() > 0) {
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), failedDrops.get(0));
+                    }
+                }
+
+                e.setDropItems(false);
+            }
         }
     }
 
