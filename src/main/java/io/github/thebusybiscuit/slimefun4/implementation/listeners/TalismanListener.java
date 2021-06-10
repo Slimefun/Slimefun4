@@ -330,7 +330,7 @@ public class TalismanListener implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         if (SlimefunTag.CAVEMAN_TALISMAN_TRIGGERS.isTagged(e.getBlock().getType())) {
             Talisman.trigger(e, SlimefunItems.TALISMAN_CAVEMAN);
-        } else if (Talisman.trigger(e, SlimefunItems.TALISMAN_TELEKINESIS)) {
+        } else if (Talisman.trigger(e, SlimefunItems.TALISMAN_TELEKINESIS, false)) {
             SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
             if (sfItem != null) {
