@@ -31,6 +31,15 @@
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
 * Added a startup warning for when CS-CoreLib is still installed
 * (API) Added WeaponUseHandler
+* Added support for Minecraft 1.17
+* Added "Deepslate -> Lava" recipe to the Crucible
+* Added "Cobbled Deepslate -> Lava" recipe to the Crucible
+* Added "Tuff -> Lava" recipe to the Crucible
+* Added "Copper Ingot -> Copper Dust" recipe to the Ingot Pulverizer
+* Added Goats as a milk source for the Produce Collector
+* Added "Raw Iron -> Iron Dust" recipe to the Ore Crusher
+* Added "Raw Gold -> Gold Dust" recipe to the Ore Crusher
+* Added "Raw Copper -> Copper Dust" recipe to the Ore Crusher
 
 #### Changes
 * (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
