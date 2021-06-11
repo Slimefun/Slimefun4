@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -150,7 +151,10 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
 
     private @Nonnull Block findGround(@Nonnull Block b) {
         if (b.getType() == Material.AIR) {
-            for (int y = 0; y < b.getY(); y++) {
+            int minY = SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)
+                ? b.getWorld().getMinHeight() : 0;
+
+            for (int y = minY; y < b.getY(); y++) {
                 Block block = b.getRelative(0, -y, 0);
 
                 if (block.getType() != Material.AIR) {
