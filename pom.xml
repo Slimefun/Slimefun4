@@ -26,7 +26,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Spigot properties -->
-        <spigot.version>1.16.5</spigot.version>
+        <spigot.version>1.17</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -371,8 +371,8 @@
         <!-- Shaded packages -->
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
-            <artifactId>CS-CoreLib2</artifactId>
-            <version>0.31.0</version>
+            <artifactId>cscorelib2</artifactId>
+            <version>0.32.0_3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

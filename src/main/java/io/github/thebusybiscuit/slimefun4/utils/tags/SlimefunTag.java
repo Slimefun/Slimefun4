@@ -325,7 +325,7 @@ public enum SlimefunTag implements Tag<Material> {
 
     public boolean isEmpty() {
         if (!includedMaterials.isEmpty()) {
-            /**
+            /*
              * Without even needing to generate a Set we can safely
              * return false if there are directly included Materials
              */
