@@ -9,11 +9,15 @@ import java.util.function.Predicate;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Goat;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MushroomCow;
 import org.bukkit.inventory.ItemStack;
@@ -55,13 +59,17 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected void registerDefaultRecipes() {
-        // Milk from adult cows
+        // Milk from adult cows and goats
         addProduce(new AnimalProduce(new ItemStack(Material.BUCKET), new ItemStack(Material.MILK_BUCKET), n -> {
-            if (n instanceof Cow) {
-                return ((Cow) n).isAdult();
+            //@formatter:off
+            if (n instanceof Cow
+                || (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17) && n instanceof Goat)
+            ) {
+                return ((Ageable) n).isAdult();
             } else {
                 return false;
             }
+            //@formatter:on
         }));
 
         // Mushroom Stew from Mooshrooms
@@ -104,10 +112,13 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
 
         displayRecipes.add(new CustomItem(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
+        displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
+
+        displayRecipes.add(new CustomItem(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
         displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
 
         displayRecipes.add(new CustomItem(Material.BOWL, null, "&fRequires &bMooshroom &fnearby"));
@@ -117,7 +128,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    protected MachineRecipe findNextRecipe(@Nonnull BlockMenu inv) {
+    protected @Nonnull MachineRecipe findNextRecipe(@Nonnull BlockMenu inv) {
         for (int slot : getInputSlots()) {
             for (AnimalProduce produce : animalProduces) {
                 ItemStack item = inv.getItemInSlot(slot);
@@ -126,7 +137,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
                     continue;
                 }
 
-                if (isAnimalNearby(inv.getBlock(), produce::test)) {
+                if (isAnimalNearby(inv.getBlock(), produce)) {
                     inv.consumeItem(slot);
                     return produce;
                 }
@@ -152,12 +163,12 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    public String getMachineIdentifier() {
+    public @Nonnull String getMachineIdentifier() {
         return "PRODUCE_COLLECTOR";
     }
 
     @Override
-    public ItemStack getProgressBar() {
+    public @Nonnull ItemStack getProgressBar() {
         return new ItemStack(Material.SHEARS);
     }
 

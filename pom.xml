@@ -372,7 +372,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>cscorelib2</artifactId>
-            <version>0.32.0_3</version>
+            <version>0.32.0_6</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
