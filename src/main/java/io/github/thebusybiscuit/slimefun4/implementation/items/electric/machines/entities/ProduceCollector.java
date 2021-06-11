@@ -43,6 +43,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * Providing it with a bucket and a nearby {@link Cow} will allow you to obtain milk.
  * 
  * @author TheBusyBiscuit
+ * @author Walshy
  *
  */
 public class ProduceCollector extends AContainer implements RecipeDisplayItem {
@@ -61,15 +62,13 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     protected void registerDefaultRecipes() {
         // Milk from adult cows and goats
         addProduce(new AnimalProduce(new ItemStack(Material.BUCKET), new ItemStack(Material.MILK_BUCKET), n -> {
-            //@formatter:off
-            if (n instanceof Cow
-                || (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17) && n instanceof Goat)
-            ) {
+            MinecraftVersion version = SlimefunPlugin.getMinecraftVersion();
+
+            if (n instanceof Cow || (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && n instanceof Goat)) {
                 return ((Ageable) n).isAdult();
             } else {
                 return false;
             }
-            //@formatter:on
         }));
 
         // Mushroom Stew from Mooshrooms
