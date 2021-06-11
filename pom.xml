@@ -371,8 +371,8 @@
         <!-- Shaded packages -->
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
-            <artifactId>cscorelib2</artifactId>
-            <version>0.32.0_6</version>
+            <artifactId>CS-CoreLib</artifactId>
+            <version>0.32.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

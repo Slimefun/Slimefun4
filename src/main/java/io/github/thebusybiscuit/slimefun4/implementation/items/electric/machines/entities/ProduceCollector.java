@@ -118,8 +118,10 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
         displayRecipes.add(new CustomItem(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
         displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
 
-        displayRecipes.add(new CustomItem(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
-        displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            displayRecipes.add(new CustomItem(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
+            displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
+        }
 
         displayRecipes.add(new CustomItem(Material.BOWL, null, "&fRequires &bMooshroom &fnearby"));
         displayRecipes.add(new ItemStack(Material.MUSHROOM_STEW));

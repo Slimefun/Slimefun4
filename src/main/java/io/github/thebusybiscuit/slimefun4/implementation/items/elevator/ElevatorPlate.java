@@ -9,7 +9,6 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
