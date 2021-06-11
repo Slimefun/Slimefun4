@@ -151,7 +151,7 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
 
     private @Nonnull Block findGround(@Nonnull Block b) {
         if (b.getType() == Material.AIR) {
-            for (int y = 0; y < b.getY(); y++) {
+            for (int y = 0; b.getY() - y > WorldUtils.getMinHeight(b.getWorld()); y++) {
                 Block block = b.getRelative(0, -y, 0);
 
                 if (block.getType() != Material.AIR) {
