@@ -1,11 +1,7 @@
 {
-	"values" : [
-		{
-			"id" : "#minecraft:gold_ores",
-			"required" : false
-		},
-		"minecraft:gold_ore",
-		"minecraft:iron_ore",
-		"#slimefun:fortune_compatible_ores"
-	]
+    "values" : [
+        "#slimefun:stone_ores",
+        "#slimefun:deepslate_ores",
+        "#slimefun:nether_ores"
+    ]
 }
