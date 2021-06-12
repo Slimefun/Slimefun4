@@ -116,6 +116,17 @@ public class OreCrusher extends MultiBlockMachine {
             displayRecipes.add(new ItemStack(Material.GILDED_BLACKSTONE));
             displayRecipes.add(doubleOres.getGoldNuggets());
         }
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            displayRecipes.add(new ItemStack(Material.RAW_IRON));
+            displayRecipes.add(SlimefunItems.IRON_DUST);
+
+            displayRecipes.add(new ItemStack(Material.RAW_COPPER));
+            displayRecipes.add(SlimefunItems.COPPER_DUST);
+
+            displayRecipes.add(new ItemStack(Material.RAW_GOLD));
+            displayRecipes.add(SlimefunItems.GOLD_DUST);
+        }
     }
 
     @Override

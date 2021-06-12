@@ -54,9 +54,12 @@ public final class TeleportationManager {
     /**
      * Opens the GUI of the teleporter and calculates the network complexity of the {@link Player}
      *
-     * @param p {@link Player} to be teleported
-     * @param ownerUUID {@link UUID} of the {@link Player} who owns the teleporter device
-     * @param b {@link Block} from where the {@link Player} is being teleported
+     * @param p
+     *            {@link Player} to be teleported
+     * @param ownerUUID
+     *            {@link UUID} of the {@link Player} who owns the teleporter device
+     * @param b
+     *            {@link Block} from where the {@link Player} is being teleported
      */
     @ParametersAreNonnullByDefault
     public void openTeleporterGUI(Player p, UUID ownerUUID, Block b) {

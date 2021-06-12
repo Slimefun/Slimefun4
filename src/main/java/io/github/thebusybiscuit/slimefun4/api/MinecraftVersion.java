@@ -37,6 +37,13 @@ public enum MinecraftVersion {
     MINECRAFT_1_16(16, "1.16.x"),
 
     /**
+     * This constant represents Minecraft (Java Edition) Version 1.17
+     * (The "Caves & Cliffs: Part I" Update)
+     *
+     */
+    MINECRAFT_1_17(17, "1.17.x"),
+
+    /**
      * This constant represents an exceptional state in which we were unable
      * to identify the Minecraft Version we are using
      */

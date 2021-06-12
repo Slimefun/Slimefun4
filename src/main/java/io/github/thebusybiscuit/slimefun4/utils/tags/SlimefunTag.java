@@ -50,9 +50,19 @@ public enum SlimefunTag implements Tag<Material> {
     ORES,
 
     /**
-     * All minecraft ores that can be affected by fortune.
+     * All vanilla overworld ores.
      */
-    FORTUNE_COMPATIBLE_ORES,
+    STONE_ORES,
+
+    /**
+     * All deepslate ore variants.
+     */
+    DEEPSLATE_ORES,
+
+    /**
+     * All nether ores.
+     */
+    NETHER_ORES,
 
     /**
      * All Shulker boxes, normal and colored.
@@ -325,7 +335,7 @@ public enum SlimefunTag implements Tag<Material> {
 
     public boolean isEmpty() {
         if (!includedMaterials.isEmpty()) {
-            /**
+            /*
              * Without even needing to generate a Set we can safely
              * return false if there are directly included Materials
              */
