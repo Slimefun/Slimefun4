@@ -12,6 +12,7 @@ import io.papermc.lib.PaperLib;
  * This enum holds all versions of Minecraft that we currently support.
  * 
  * @author TheBusyBiscuit
+ * @author Walshy
  * 
  * @see SlimefunPlugin
  *
@@ -38,7 +39,7 @@ public enum MinecraftVersion {
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.17
-     * (The "Caves & Cliffs: Part I" Update)
+     * (The "Caves and Cliffs: Part I" Update)
      *
      */
     MINECRAFT_1_17(17, "1.17.x"),
