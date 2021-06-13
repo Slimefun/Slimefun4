@@ -83,4 +83,9 @@ public final class LoreBuilder {
         return "&7Range: &c" + blocks + " blocks";
     }
 
+    @Nonnull
+    public static String usesLeft(int usesLeft) {
+        return "&e" + usesLeft + ' ' + (usesLeft > 1 ? "Uses" : "Use") + " &7left";
+    }
+
 }
