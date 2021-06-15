@@ -2023,7 +2023,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new VanillaItem(categories.magicalGadgets, new ItemStack(Material.TRIDENT), "TRIDENT", RecipeType.ANCIENT_ALTAR,
-        new ItemStack[] { SlimefunItems.MAGIC_LUMP_3, SlimefunItems.WATER_RUNE, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.WATER_RUNE, new ItemStack(Material.DIAMOND_SWORD), SlimefunItems.WATER_RUNE, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.WATER_RUNE, SlimefunItems.MAGIC_LUMP_3})
+        new ItemStack[] { SlimefunItems.MAGIC_LUMP_3, SlimefunItems.WATER_RUNE, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.WATER_RUNE, new ItemStack(Material.DIAMOND_SWORD), SlimefunItems.WATER_RUNE, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.NETHER_STAR), SlimefunItems.MAGIC_LUMP_3})
         .register(plugin);
 
         new VanillaItem(categories.magicalGadgets, new ItemStack(Material.TOTEM_OF_UNDYING), "TOTEM_OF_UNDYING", RecipeType.ANCIENT_ALTAR,
