@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
@@ -36,6 +38,10 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> {
 
+    private static final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance(), "uses_left");
+
+    private int maxUseCount = -1;
+
     @ParametersAreNonnullByDefault
     public LimitedUseItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe, null);
@@ -45,11 +51,28 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
 
     /**
      * Returns the number of times this item can be used.
-     * Must be greater than zero.
      *
      * @return The number of times this item can be used.
      */
-    protected abstract int getMaxUseCount();
+    public final int getMaxUseCount() {
+        return maxUseCount;
+    }
+
+    /**
+     * Sets the maximum number of times this item can be used.
+     * The number must be greater than zero.
+     *
+     * @param count The maximum number of times this item can be used.
+     */
+    public final void setMaxUseCount(int count) {
+        Validate.isTrue(count > 0, "The maximum use count must be greater than zero!");
+
+        if (getState() == ItemState.UNREGISTERED) {
+            maxUseCount = count;
+        } else {
+            throw new IllegalStateException("You cannot modify the maximum use count after the Item was registered.");
+        }
+    }
 
     /**
      * Returns the {@link NamespacedKey} under which will the amount of uses left stored.
@@ -57,7 +80,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      * @return The {@link NamespacedKey} to store/load the amount of uses
      */
     protected @Nonnull NamespacedKey getStorageKey() {
-        return new NamespacedKey(SlimefunPlugin.instance(), "uses_left");
+        return usageKey;
     }
 
     @Override
@@ -102,6 +125,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void updateItemLore(ItemStack item, ItemMeta meta, int usesLeft) {
         List<String> lore = meta.getLore();
 

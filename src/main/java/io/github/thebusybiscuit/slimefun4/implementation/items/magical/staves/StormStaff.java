@@ -39,11 +39,8 @@ public class StormStaff extends LimitedUseItem {
     @ParametersAreNonnullByDefault
     public StormStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-    }
 
-    @Override
-    protected int getMaxUseCount() {
-        return MAX_USES;
+        setMaxUseCount(MAX_USES);
     }
 
     @Override
