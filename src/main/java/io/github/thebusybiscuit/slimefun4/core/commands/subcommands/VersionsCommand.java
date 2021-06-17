@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.papermc.lib.PaperLib;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -103,18 +104,7 @@ class VersionsCommand extends SubCommand {
     }
 
     private void addJavaVersion(@Nonnull ComponentBuilder builder) {
-        String javaVer = System.getProperty("java.version");
-
-        if (javaVer.startsWith("1.")) {
-            javaVer = javaVer.substring(2);
-        }
-
-        // If it's like 11.0.1.3 or 8.0_275
-        if (javaVer.indexOf('.') != -1) {
-            javaVer = javaVer.substring(0, javaVer.indexOf('.'));
-        }
-
-        int version = Integer.parseInt(javaVer);
+        int version = NumberUtils.getJavaVersion();
 
         if (version < RECOMMENDED_JAVA_VERSION) {
             // @formatter:off
