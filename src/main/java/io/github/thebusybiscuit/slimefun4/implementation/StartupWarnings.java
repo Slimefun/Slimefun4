@@ -62,16 +62,16 @@ final class StartupWarnings {
     static void oldJavaVersion(Logger logger) {
         int javaVersion = NumberUtils.getJavaVersion();
 
-        logger.log(Level.SEVERE, BORDER);
-        logger.log(Level.SEVERE, PREFIX + "Your Java version (Java {0}) is out of date.", javaVersion);
-        logger.log(Level.SEVERE, PREFIX);
-        logger.log(Level.SEVERE, PREFIX + "We recommend you to update to Java 16.");
-        logger.log(Level.SEVERE, PREFIX + "Java 16 is required as of Minecraft 1.17 and");
-        logger.log(Level.SEVERE, PREFIX + "we would like to utilise all the new features");
-        logger.log(Level.SEVERE, PREFIX + "that come with it as soon as possible.");
-        logger.log(Level.SEVERE, PREFIX + "Slimefun will also require Java 16 in");
-        logger.log(Level.SEVERE, PREFIX + "the foreseeable future, so please update!");
-        logger.log(Level.SEVERE, BORDER);
+        logger.log(Level.WARNING, BORDER);
+        logger.log(Level.WARNING, PREFIX + "Your Java version (Java {0}) is out of date.", javaVersion);
+        logger.log(Level.WARNING, PREFIX);
+        logger.log(Level.WARNING, PREFIX + "We recommend you to update to Java 16.");
+        logger.log(Level.WARNING, PREFIX + "Java 16 is required as of Minecraft 1.17 and");
+        logger.log(Level.WARNING, PREFIX + "we would like to utilise all the new features");
+        logger.log(Level.WARNING, PREFIX + "that come with it as soon as possible.");
+        logger.log(Level.WARNING, PREFIX + "Slimefun will also require Java 16 in");
+        logger.log(Level.WARNING, PREFIX + "the foreseeable future, so please update!");
+        logger.log(Level.WARNING, BORDER);
     }
 
 }
