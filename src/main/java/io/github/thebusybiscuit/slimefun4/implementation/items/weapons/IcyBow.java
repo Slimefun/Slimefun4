@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -40,6 +42,10 @@ public class IcyBow extends SlimefunBow {
                 // Fixes #3060 - Don't apply effects if the arrow was successfully blocked.
                 if (p.isBlocking() && e.getFinalDamage() <= 0) {
                     return;
+                }
+
+                if(SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)){
+                    p.setFreezeTicks(30 * 2);
                 }
             }
 
