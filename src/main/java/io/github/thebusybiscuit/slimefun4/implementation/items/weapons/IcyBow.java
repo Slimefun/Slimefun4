@@ -44,8 +44,8 @@ public class IcyBow extends SlimefunBow {
                     return;
                 }
 
-                if(SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)){
-                    p.setFreezeTicks(30 * 2);
+                if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+                    p.setFreezeTicks(60);
                 }
             }
             n.getWorld().playEffect(n.getLocation(), Effect.STEP_SOUND, Material.ICE);
