@@ -41,6 +41,7 @@
 * Added "Raw Gold -> Gold Dust" recipe to the Ore Crusher
 * Added "Raw Copper -> Copper Dust" recipe to the Ore Crusher
 * Debug Fish can now read Slimefun Tags for vanilla blocks
+* The Icy Bow now gives a freezing effect on 1.17
 
 #### Changes
 * (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
