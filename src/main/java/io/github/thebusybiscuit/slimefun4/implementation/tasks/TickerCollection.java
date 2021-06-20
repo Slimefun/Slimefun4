@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

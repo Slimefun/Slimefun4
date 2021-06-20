@@ -66,7 +66,6 @@ public final class TickerTask {
      */
     private static final long MAX_WAIT_TIME = 1_500_000L;
 
-
     /**
      * This Map holds all currently actively ticking locations.
      */
