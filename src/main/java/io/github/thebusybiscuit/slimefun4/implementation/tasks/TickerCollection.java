@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import java.util.WeakHashMap;
  *
  * @author md5sha256
  */
+@ThreadSafe
 final class TickerCollection {
 
     private final Cache<World, Set<Long>> blocks = CacheBuilder.newBuilder().weakKeys().build();
