@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
 - [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
 - [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
 - [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
@@ -24,7 +25,36 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## Release Candidate 25 (20 Jun 2021)
+
+#### Additions
+* Added "4 Charcoal -> 1 Coal" recipe to the Compressor
+* Added a startup warning for when CS-CoreLib is still installed
+* (API) Added WeaponUseHandler
+* Added support for Minecraft 1.17
+* Added "Deepslate -> Lava" recipe to the Crucible
+* Added "Cobbled Deepslate -> Lava" recipe to the Crucible
+* Added "Tuff -> Lava" recipe to the Crucible
+* Added "Copper Ingot -> Copper Dust" recipe to the Ingot Pulverizer
+* Added Goats as a milk source for the Produce Collector
+* Added "Raw Iron -> Iron Dust" recipe to the Ore Crusher
+* Added "Raw Gold -> Gold Dust" recipe to the Ore Crusher
+* Added "Raw Copper -> Copper Dust" recipe to the Ore Crusher
+* Debug Fish can now read Slimefun Tags for vanilla blocks
+* The Icy Bow now gives a freezing effect on 1.17
+
+#### Changes
+* (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
+* (API) Removed AsyncGeneratorProcessCompleteEvent
+* (API) Removed AsyncMachineProcessCompleteEvent
+* (API) Removed AsyncReactorProcessCompleteEvent
+
+#### Fixes
+* Fixed #3105
+* Fixed #3116
+
 ## Release Candidate 24 (03 Jun 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
 
 #### Additions
 * (API) Added AsyncMachineOperationFinishEvent

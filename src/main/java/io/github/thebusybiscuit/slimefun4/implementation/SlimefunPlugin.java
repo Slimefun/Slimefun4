@@ -60,7 +60,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
@@ -90,10 +89,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBoots
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemConsumeListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemHitListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemInteractListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.AnvilListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.BrewingStandListener;
@@ -256,17 +255,26 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             PaperLib.suggestPaper(this);
         }
 
+        // Check if CS-CoreLib is installed (it is no longer needed)
+        if (getServer().getPluginManager().getPlugin("CS-CoreLib") != null) {
+            StartupWarnings.discourageCSCoreLib(getLogger());
+        }
+
         // If the server has no "data-storage" folder, it's _probably_ a new install. So mark it for metrics.
         isNewlyInstalled = !new File("data-storage/Slimefun").exists();
 
         // Creating all necessary Folders
         getLogger().log(Level.INFO, "Creating directories...");
         createDirectories();
+
+        // Load various config settings into our cache
         registry.load(this, config);
 
         // Set up localization
         getLogger().log(Level.INFO, "Loading language files...");
-        local = new LocalizationService(this, config.getString("options.chat-prefix"), config.getString("options.language"));
+        String chatPrefix = config.getString("options.chat-prefix");
+        String serverDefaultLanguage = config.getString("options.language");
+        local = new LocalizationService(this, chatPrefix, serverDefaultLanguage);
 
         int networkSize = config.getInt("networks.max-size");
 
@@ -474,15 +482,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         try {
             // First check if they still use the unsupported CraftBukkit software.
             if (!PaperLib.isSpigot() && Bukkit.getName().equals("CraftBukkit")) {
-                getLogger().log(Level.SEVERE, "###############################################");
-                getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
-                getLogger().log(Level.SEVERE, "### CraftBukkit is no longer supported!");
-                getLogger().log(Level.SEVERE, "###");
-                getLogger().log(Level.SEVERE, "### Slimefun requires you to use Spigot, Paper or");
-                getLogger().log(Level.SEVERE, "### any supported fork of Spigot or Paper.");
-                getLogger().log(Level.SEVERE, "### (We recommend Paper)");
-                getLogger().log(Level.SEVERE, "###############################################");
-
+                StartupWarnings.invalidServerSoftware(getLogger());
                 return true;
             }
 
@@ -499,14 +499,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 }
 
                 // Looks like you are using an unsupported Minecraft Version
-                getLogger().log(Level.SEVERE, "#############################################");
-                getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
-                getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
-                getLogger().log(Level.SEVERE, "###");
-                getLogger().log(Level.SEVERE, "### You are using Minecraft 1.{0}.x", version);
-                getLogger().log(Level.SEVERE, "### but Slimefun {0} requires you to be using", getDescription().getVersion());
-                getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
-                getLogger().log(Level.SEVERE, "#############################################");
+                StartupWarnings.invalidMinecraftVersion(getLogger(), version, getDescription().getVersion());
                 return true;
             } else {
                 getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using? ({0})", Bukkit.getVersion());
@@ -539,7 +532,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      * 
      * @return A {@link Collection} of all compatible minecraft versions as strings
      */
-    private @Nonnull Collection<String> getSupportedVersions() {
+    static final @Nonnull Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
         for (MinecraftVersion version : MinecraftVersion.values()) {
@@ -617,6 +610,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new TalismanListener(this);
         new SoulboundListener(this);
         new AutoCrafterListener(this);
+        new SlimefunItemHitListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
@@ -630,7 +624,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
 
         // Item-specific Listeners
-        new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
         new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem());
         new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());

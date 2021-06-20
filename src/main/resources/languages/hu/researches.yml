@@ -125,6 +125,7 @@ slimefun:
   electric_motor: Felmelegítés
   block_placer: Blokk lehelyező
   scroll_of_dimensional_teleposition: Megfordítja a dolgokat
+  special_bows: Robin Hood
   tome_of_knowledge_sharing: Megosztás barátokkal
   flask_of_knowledge: XP-tároló
   hardened_glass: Robbanások ellen
@@ -188,6 +189,7 @@ slimefun:
   cargo_basics: Szállítmánykezelés alapjai
   cargo_nodes: Szállítmánykezelés beállítása
   electric_ingot_machines: Elektromos öntvénygyártás
+  medium_tier_electric_ingot_machines: Gyors Ötvözetgyártás
   high_tier_electric_ingot_machines: Szupergyors öntvénygyártás
   automated_crafting_chamber: Automatizált barkácsolás
   better_food_fabricator: Továbbfejlesztett élelmiszergyártás
@@ -239,6 +241,7 @@ slimefun:
   advanced_industrial_miner: Jobb bányászat
   magical_zombie_pills: Zombi átváltoztató
   auto_brewer: Ipari sörgyár
+  climbing_pick: Blokk Támadó
   shulker_shell: Szintetikus shulkerek
   enchantment_rune: Ősi enchantolás
   lead_clothing: Ólom ruházat
@@ -247,3 +250,10 @@ slimefun:
   villager_rune: Falusiak alaphelyzetbe állítása
   elytra_cap: Ütközésvédelem
   bee_armor: Méhpáncél
+  book_binder: Varázskönyv Kötés
+  auto_crafting: Automatizált Barkácsolás
+  produce_collector: Autómatizált Fejés
+  improved_generators: Fejlesztett Generátorok
+  ingredients_and_cheese: Slimefun Konyha
+  medium_tier_auto_enchanting: Gyors Automata Varázslás és Varázslat törlése
+  portable_teleporter: Teleportálás bárhonnan

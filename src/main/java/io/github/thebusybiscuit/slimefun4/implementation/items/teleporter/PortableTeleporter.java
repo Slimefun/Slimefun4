@@ -48,8 +48,7 @@ public class PortableTeleporter extends SimpleSlimefunItem<ItemUseHandler> imple
 
             if (removeItemCharge(item, cost.getValue())) {
                 Player p = e.getPlayer();
-                SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI(
-                        p, p.getUniqueId(), p.getLocation().getBlock().getRelative(BlockFace.DOWN));
+                SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI(p, p.getUniqueId(), p.getLocation().getBlock().getRelative(BlockFace.DOWN));
             }
         };
     }
