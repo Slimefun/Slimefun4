@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -13,7 +13,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Memory efficient, synchronized collection of {@link BlockPosition BlockPositions} used by the
@@ -24,7 +25,7 @@ import java.util.WeakHashMap;
 @ThreadSafe
 final class TickerCollection {
 
-    private final Cache<World, Set<Long>> blocks = CacheBuilder.newBuilder().weakKeys().build();
+    private final Map<UUID, Set<Long>> blocks = new ConcurrentHashMap<>();
 
     /**
      * Get the compressed {@link BlockPosition BlockPositions} mapped to a given {@link World}.
@@ -35,7 +36,7 @@ final class TickerCollection {
      *
      */
     public @Nonnull Set<Long> getBlocks(@Nonnull World world) {
-        return blocks.asMap().computeIfAbsent(world, unused -> Collections.synchronizedSet(new HashSet<>()));
+        return blocks.computeIfAbsent(world.getUID(), unused -> Collections.synchronizedSet(new HashSet<>()));
     }
 
     /**
@@ -46,8 +47,10 @@ final class TickerCollection {
      */
     public @Nonnull Set<Location> getBlocksAsLocations() {
         Set<Location> locations = new HashSet<>();
-        for (Map.Entry<World, Set<Long>> entry : blocks.asMap().entrySet()) {
-            World world = entry.getKey();
+        blocks.keySet().removeIf(uid -> Bukkit.getWorld(uid) == null);
+        for (Map.Entry<UUID, Set<Long>> entry : blocks.entrySet()) {
+            World world = Bukkit.getWorld(entry.getKey());
+            // assert world != null
             Set<Location> converted = convertToLocation(world, entry.getValue());
             locations.addAll(converted);
         }
@@ -82,13 +85,13 @@ final class TickerCollection {
      */
     public void removeBlock(@Nonnull BlockPosition block) {
         World world = block.getWorld();
-        Collection<Long> positions = blocks.getIfPresent(world);
+        Collection<Long> positions = blocks.get(world.getUID());
         if (positions == null) {
             return;
         }
         positions.remove(block.getPosition());
         if (positions.isEmpty()) {
-            blocks.invalidate(world);
+            blocks.remove(world.getUID());
         }
     }
 
@@ -107,14 +110,14 @@ final class TickerCollection {
      * @param key The world to clear the key for
      */
     public void clear(@Nonnull World key) {
-        blocks.invalidate(key);
+        blocks.remove(key.getUID());
     }
 
     /**
      * Clear all entries from this instance
      */
     public void clear() {
-        blocks.invalidateAll();
+        blocks.clear();
     }
 
     private static @Nonnull Set<Location> convertToLocation(@Nonnull World world, @Nonnull Collection<Long> raw) {
