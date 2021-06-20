@@ -110,8 +110,7 @@ public class PlayerProfile {
      * 
      * @return The cached armor for this {@link Player}
      */
-    @Nonnull
-    public HashedArmorpiece[] getArmor() {
+    public @Nonnull HashedArmorpiece[] getArmor() {
         return armor;
     }
 
@@ -121,8 +120,7 @@ public class PlayerProfile {
      * 
      * @return The {@link Config} associated with this {@link PlayerProfile}
      */
-    @Nonnull
-    public Config getConfig() {
+    public @Nonnull Config getConfig() {
         return configFile;
     }
 
@@ -131,8 +129,7 @@ public class PlayerProfile {
      * 
      * @return The {@link UUID} of our {@link PlayerProfile}
      */
-    @Nonnull
-    public UUID getUUID() {
+    public @Nonnull UUID getUUID() {
         return uuid;
     }
 
@@ -211,8 +208,7 @@ public class PlayerProfile {
      * 
      * @return A {@code Hashset<Research>} of all Researches this {@link Player} has unlocked
      */
-    @Nonnull
-    public Set<Research> getResearches() {
+    public @Nonnull Set<Research> getResearches() {
         return ImmutableSet.copyOf(researches);
     }
 
@@ -222,8 +218,7 @@ public class PlayerProfile {
      * 
      * @return A {@link List} containing every {@link Waypoint}
      */
-    @Nonnull
-    public List<Waypoint> getWaypoints() {
+    public @Nonnull List<Waypoint> getWaypoints() {
         return ImmutableList.copyOf(waypoints);
     }
 
@@ -283,8 +278,7 @@ public class PlayerProfile {
         dirty = true;
     }
 
-    @Nonnull
-    public PlayerBackpack createBackpack(int size) {
+    public @Nonnull PlayerBackpack createBackpack(int size) {
         IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !configFile.contains("backpacks." + i + ".size"));
         int id = stream.findFirst().getAsInt();
 
@@ -294,8 +288,7 @@ public class PlayerProfile {
         return backpack;
     }
 
-    @Nonnull
-    public Optional<PlayerBackpack> getBackpack(int id) {
+    public @Nonnull Optional<PlayerBackpack> getBackpack(int id) {
         if (id < 0) {
             throw new IllegalArgumentException("Backpacks cannot have negative ids!");
         }
@@ -313,8 +306,7 @@ public class PlayerProfile {
         return Optional.empty();
     }
 
-    @Nonnull
-    public String getTitle() {
+    public @Nonnull String getTitle() {
         List<String> titles = SlimefunPlugin.getRegistry().getResearchRanks();
 
         float fraction = (float) researches.size() / SlimefunPlugin.getRegistry().getResearches().size();
@@ -344,8 +336,7 @@ public class PlayerProfile {
      * 
      * @return The {@link Player} of this {@link PlayerProfile} or null
      */
-    @Nullable
-    public Player getPlayer() {
+    public @Nullable Player getPlayer() {
         return Bukkit.getPlayer(getUUID());
     }
 
@@ -355,8 +346,7 @@ public class PlayerProfile {
      * 
      * @return The {@link GuideHistory} of this {@link Player}
      */
-    @Nonnull
-    public GuideHistory getGuideHistory() {
+    public @Nonnull GuideHistory getGuideHistory() {
         return guideHistory;
     }
 
@@ -431,13 +421,11 @@ public class PlayerProfile {
      * 
      * @return An {@link Optional} describing the result
      */
-    @Nonnull
-    public static Optional<PlayerProfile> find(@Nonnull OfflinePlayer p) {
+    public static @Nonnull Optional<PlayerProfile> find(@Nonnull OfflinePlayer p) {
         return Optional.ofNullable(SlimefunPlugin.getRegistry().getPlayerProfiles().get(p.getUniqueId()));
     }
 
-    @Nonnull
-    public static Iterator<PlayerProfile> iterator() {
+    public static @Nonnull Iterator<PlayerProfile> iterator() {
         return SlimefunPlugin.getRegistry().getPlayerProfiles().values().iterator();
     }
 

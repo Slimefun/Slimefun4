@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -27,6 +29,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -99,6 +103,26 @@ public class DebugFishListener implements Listener {
                 sendInfo(p, b);
             } catch (Exception x) {
                 SlimefunPlugin.logger().log(Level.SEVERE, "An Exception occurred while using a Debug-Fish", x);
+            }
+        } else {
+            // Read applicable Slimefun tags
+            Set<SlimefunTag> tags = new HashSet<>();
+
+            for (SlimefunTag tag : SlimefunTag.values()) {
+                if (tag.isTagged(b.getType())) {
+                    tags.add(tag);
+                }
+            }
+
+            if (!tags.isEmpty()) {
+                p.sendMessage(" ");
+                p.sendMessage(ChatColors.color("&dSlimefun tags for: &e") + b.getType().name());
+
+                for (SlimefunTag tag : tags) {
+                    p.sendMessage(ChatColors.color("&d* &e") + tag.name());
+                }
+
+                p.sendMessage(" ");
             }
         }
     }

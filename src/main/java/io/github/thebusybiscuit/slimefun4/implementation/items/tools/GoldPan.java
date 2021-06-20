@@ -61,13 +61,11 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      * 
      * @return The {@link Material} this {@link GoldPan} can be used on
      */
-    @Nonnull
-    protected Material getTargetMaterial() {
+    public @Nonnull Material getInputMaterial() {
         return Material.GRAVEL;
     }
 
-    @Nonnull
-    protected Set<GoldPanDrop> getGoldPanDrops() {
+    protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
         settings.add(new GoldPanDrop(this, "chance.FLINT", 40, new ItemStack(Material.FLINT)));
@@ -94,7 +92,9 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         randomizer.clear();
 
         for (GoldPanDrop setting : drops) {
-            randomizer.add(setting.getOutput(), setting.getValue());
+            if (setting.getValue() > 0) {
+                randomizer.add(setting.getOutput(), setting.getValue());
+            }
         }
     }
 
@@ -112,11 +112,13 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return item != null ? item : new ItemStack(Material.AIR);
     }
 
+    @Nonnull
     @Override
     public String getLabelLocalPath() {
         return "guide.tooltips.recipes.gold-pan";
     }
 
+    @Nonnull
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
@@ -126,7 +128,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
                 Block b = block.get();
 
                 // Check the clicked block type and for protections
-                if (b.getType() == getTargetMaterial() && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+                if (b.getType() == getInputMaterial() && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
                     ItemStack output = getRandomOutput();
 
                     b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -158,13 +160,14 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         };
     }
 
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> recipes = new LinkedList<>();
 
         for (GoldPanDrop drop : drops) {
             if (drop.getValue() > 0) {
-                recipes.add(new ItemStack(getTargetMaterial()));
+                recipes.add(new ItemStack(getInputMaterial()));
                 recipes.add(drop.getOutput());
             }
         }

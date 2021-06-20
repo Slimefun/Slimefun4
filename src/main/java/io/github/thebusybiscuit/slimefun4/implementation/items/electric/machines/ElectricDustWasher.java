@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,22 +16,24 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+/**
+ * The {@link ElectricDustWasher} serves as an electrical {@link OreWasher}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see OreWasher
+ *
+ */
 public class ElectricDustWasher extends AContainer {
 
-    private OreWasher oreWasher;
+    private final OreWasher oreWasher = SlimefunItems.ORE_WASHER.getItem(OreWasher.class);
     private final boolean legacyMode;
 
+    @ParametersAreNonnullByDefault
     public ElectricDustWasher(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-dust-washer");
-    }
-
-    @Override
-    public void preRegister() {
-        super.preRegister();
-
-        oreWasher = (OreWasher) SlimefunItems.ORE_WASHER.getItem();
     }
 
     @Override
@@ -46,14 +50,14 @@ public class ElectricDustWasher extends AContainer {
                 }
 
                 ItemStack dust = oreWasher.getRandomDust();
-                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { dust });
+                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.SIFTED_ORE }, new ItemStack[] { dust });
 
                 if (!legacyMode || menu.fits(recipe.getOutput()[0], getOutputSlots())) {
                     menu.consumeItem(slot);
                     return recipe;
                 }
             } else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
-                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
+                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.PULVERIZED_ORE }, new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
 
                 if (menu.fits(recipe.getOutput()[0], getOutputSlots())) {
                     menu.consumeItem(slot);

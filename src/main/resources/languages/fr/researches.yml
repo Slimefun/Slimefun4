@@ -25,7 +25,7 @@ slimefun:
   steel_thruster: Propulseur en acier
   parachute: Parachute
   grappling_hook: Grappin
-  jetpacks: Jetpacks
+  jetpacks: Jetpack
   multitools: Multi outils
   solar_panel_and_helmet: Énergie solaire
   elemental_staff: Sceptres élémentaires
@@ -33,7 +33,7 @@ slimefun:
   cactus_armor: Combinaison en cactus
   gold_pan: Orpailleur
   magical_book_cover: Reliure de livre magique
-  slimefun_metals: 'Nouveaux métaux '
+  slimefun_metals: Nouveaux métaux
   ore_crusher: Doublage de minerai
   bronze: Création en bronze
   alloys: Alliages avancés
@@ -50,8 +50,8 @@ slimefun:
   wind_staff: Sceptre de vent
   reinforced_armor: Armure renforcée
   ore_washer: Nettoyeur de minerai
-  gold_carats: 'Or pur '
-  silicon: Silicon Valley
+  gold_carats: Or pur
+  silicon: Vallée du Silicium
   fire_staff: Sceptre de feu
   smelters_pickaxe: Pioche enflammée
   common_talisman: Talisman commun
@@ -62,6 +62,8 @@ slimefun:
   water_talisman: Talisman de l'Apnée
   angel_talisman: Talisman de l'Ange
   fire_talisman: Talisman du Pompier
+  caveman_talisman: Talisman de l'Homme des cavernes
+  wise_talisman: Talisman du Sage
   lava_crystal: Situation Ardente
   magician_talisman: Talisman du Magicien
   traveller_talisman: Talisman du Voyageur
@@ -72,7 +74,7 @@ slimefun:
   chainmail_armor: Armure en côte de maille
   whirlwind_talisman: Talisman du Tourbillon
   wizard_talisman: Talisman du Sorcier
-  lumber_axe: 'Hache du bûcheron '
+  lumber_axe: Hache du bûcheron
   hazmat_suit: Combinaison Hazmat
   uranium: Radioactif
   crushed_ore: Purification des minerais
@@ -90,7 +92,7 @@ slimefun:
   24k_gold_block: Cité d’Or
   composter: Composte
   farmer_shoes: Chaussure du fermier
-  explosive_tools: 'Outils explosifs '
+  explosive_tools: Outils explosifs
   automated_panning_machine: Orpailleur automatique
   boots_of_the_stomper: Bottes du Stomper
   pickaxe_of_the_seeker: Pioche du chercheur
@@ -145,6 +147,7 @@ slimefun:
   hologram_projector: Hologrammes
   capacitors: Condensateur de niveau 1
   high_tier_capacitors: Condensateur de niveau 2
+  even_higher_tier_capacitors: Condensateurs de niveau 3
   solar_generators: Centrale solaire
   electric_furnaces: Fourneau électrique
   electric_ore_grinding: Concassage et broyage
@@ -168,6 +171,7 @@ slimefun:
   energized_solar_generator: Énergie solaire 24h/24
   energized_gps_transmitter: Émetteur de haut niveau
   energy_regulator: Les réseaux électriques pour les nuls
+  energy_connectors: Connexions filaires
   butcher_androids: Androïdes Boucher
   organic_food: Nourriture bio
   auto_breeder: Mangeoire automatisée
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: La cargaison pour les nuls
   cargo_nodes: Dispositif de cargaison
   electric_ingot_machines: Fabrication électrique de lingots
+  medium_tier_electric_ingot_machines: Fabrication de Lingot Rapide
   high_tier_electric_ingot_machines: Fabrication électrique super rapide de lingots
   automated_crafting_chamber: Fabrication automatisée
   better_food_fabricator: Fabrication d'aliments améliorés
@@ -236,15 +241,19 @@ slimefun:
   advanced_industrial_miner: Exploitation minière améliorée
   magical_zombie_pills: Dé-Zombification
   auto_brewer: Brasserie industrielle
+  climbing_pick: Piolet d'escalade
+  shulker_shell: Carapace de Shulker synthétique
   enchantment_rune: Enchantement ancien
   lead_clothing: Vêtements de plomb
   tape_measure: Mètre à ruban
   iron_golem_assembler: Golems de fer automatisés
-  climbing_pick: Piolet d'escalade
-  shulker_shell: Carapace de Shulker synthétique
   villager_rune: Réinitialiser les échanges des villageois
-  caveman_talisman: Talisman de l'Homme des cavernes
-  even_higher_tier_capacitors: Condensateurs de niveau 3
   elytra_cap: Matériel d'urgence
-  energy_connectors: Connexions filaires
   bee_armor: Armure d'abeille
+  book_binder: Liaison de livre d'enchantement
+  auto_crafting: Fabrication automatique
+  produce_collector: Traitement automatique
+  improved_generators: Générateurs Améliorés
+  ingredients_and_cheese: Cuisine de Slimefun
+  medium_tier_auto_enchanting: Enchantement et désenchantement automatique rapide
+  portable_teleporter: Téléportation depuis n'importe où

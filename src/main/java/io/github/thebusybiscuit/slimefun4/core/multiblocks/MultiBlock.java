@@ -38,11 +38,13 @@ public class MultiBlock {
     private static final Set<Tag<Material>> SUPPORTED_TAGS = new HashSet<>();
 
     static {
+        // Allow variations of different types of wood to be used
         SUPPORTED_TAGS.add(Tag.LOGS);
         SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
         SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
         SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
 
+        // Add Soul Fire support on 1.16
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             SUPPORTED_TAGS.add(Tag.FIRE);
         }
@@ -131,12 +133,9 @@ public class MultiBlock {
 
             // This ensures that the Industrial Miner is still recognized while operating
             if (a == Material.PISTON) {
-                return a == b || b == Material.MOVING_PISTON;
-            }
-
-            // This ensures that the Industrial Miner is still recognized while operating
-            if (b == Material.PISTON) {
-                return a == b || a == Material.MOVING_PISTON;
+                return b == Material.PISTON || b == Material.MOVING_PISTON;
+            } else if (b == Material.PISTON) {
+                return a == Material.MOVING_PISTON;
             }
 
             if (b != a) {

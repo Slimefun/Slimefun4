@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -39,6 +40,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private static final double RANGE = 1.5;
 
+    @ParametersAreNonnullByDefault
     public SoulboundRune(Category category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
         super(category, item, type, recipe);
     }
@@ -112,7 +114,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
      * 
      * @return Whether this {@link Entity} is compatible
      */
-    private boolean findCompatibleItem(Entity entity) {
+    private boolean findCompatibleItem(@Nonnull Entity entity) {
         if (entity instanceof Item) {
             Item item = (Item) entity;
 

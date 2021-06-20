@@ -38,7 +38,6 @@ public class Contributor {
     private final TriStateOptional<String> headTexture = TriStateOptional.createNew();
 
     private Optional<UUID> uuid = Optional.empty();
-    private boolean immutable = false;
 
     /**
      * This creates a new {@link Contributor} with the given ingame name and GitHub profile.
@@ -84,9 +83,7 @@ public class Contributor {
         Validate.notNull(role, "The role cannot be null!");
         Validate.isTrue(commits >= 0, "Contributions cannot be negative");
 
-        if (!immutable || role.startsWith("translator,")) {
-            contributions.put(role, commits);
-        }
+        contributions.put(role, commits);
     }
 
     /**
@@ -258,14 +255,5 @@ public class Contributor {
      */
     public int getPosition() {
         return -getTotalContributions();
-    }
-
-    /**
-     * This marks this {@link Contributor} as immutable.
-     * Immutable {@link Contributor Contributors} will no longer be assigned any contributions.
-     * This is useful when you want to prevent some commits from counting twice.
-     */
-    public void setImmutable() {
-        immutable = true;
     }
 }

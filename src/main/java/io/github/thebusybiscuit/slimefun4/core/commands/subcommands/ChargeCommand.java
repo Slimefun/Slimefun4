@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 class ChargeCommand extends SubCommand {
 
+    @ParametersAreNonnullByDefault
     ChargeCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "charge", false);
     }
@@ -31,10 +34,11 @@ class ChargeCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
-            if (sender.hasPermission("slimefun.charge.command")) {
+            if (sender.hasPermission("slimefun.command.charge")) {
                 Player p = (Player) sender;
                 ItemStack item = p.getInventory().getItemInMainHand();
                 SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+
                 if (slimefunItem instanceof Rechargeable) {
                     Rechargeable rechargeableItem = (Rechargeable) slimefunItem;
                     rechargeableItem.setItemCharge(item, rechargeableItem.getMaxItemCharge(item));

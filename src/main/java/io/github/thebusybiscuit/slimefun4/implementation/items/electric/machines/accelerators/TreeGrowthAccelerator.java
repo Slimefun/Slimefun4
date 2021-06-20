@@ -31,7 +31,7 @@ public class TreeGrowthAccelerator extends AbstractGrowthAccelerator {
     private static final int RADIUS = 9;
 
     // We wanna strip the Slimefun Item id here
-    private static final ItemStack organicFertilizer = new ItemStackWrapper(SlimefunItems.FERTILIZER);
+    private static final ItemStack organicFertilizer = ItemStackWrapper.wrap(SlimefunItems.FERTILIZER);
 
     public TreeGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

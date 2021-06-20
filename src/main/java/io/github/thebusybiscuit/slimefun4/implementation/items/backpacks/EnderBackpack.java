@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Sound;
 import org.bukkit.block.EnderChest;
 import org.bukkit.entity.Player;
@@ -22,6 +24,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class EnderBackpack extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
+    @ParametersAreNonnullByDefault
     public EnderBackpack(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }

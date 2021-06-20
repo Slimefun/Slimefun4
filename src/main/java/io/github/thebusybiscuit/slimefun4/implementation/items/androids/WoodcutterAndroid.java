@@ -67,15 +67,16 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
     private void breakLog(Block log, Block android, BlockMenu menu, BlockFace face) {
         ItemStack drop = new ItemStack(log.getType());
 
-        if (menu.fits(drop, getOutputSlots())) {
-            menu.pushItem(drop, getOutputSlots());
-            log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+        // We try to push the log into the android's inventory, but nothing happens if it does not fit
+        menu.pushItem(drop, getOutputSlots());
 
-            if (log.getY() == android.getRelative(face).getY()) {
-                replant(log);
-            } else {
-                log.setType(Material.AIR);
-            }
+        log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+
+        // If the android just chopped the bottom log, we replant the appropriate sapling
+        if (log.getY() == android.getRelative(face).getY()) {
+            replant(log);
+        } else {
+            log.setType(Material.AIR);
         }
     }
 

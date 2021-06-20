@@ -206,8 +206,7 @@ public enum ColoredMaterial {
      * 
      * @return An ordered {@link List} of {@link Material Materials}
      */
-    @Nonnull
-    public List<Material> asList() {
+    public @Nonnull List<Material> asList() {
         return list;
     }
 
@@ -219,8 +218,7 @@ public enum ColoredMaterial {
      * 
      * @return The {@link Material} at that index
      */
-    @Nonnull
-    public Material get(int index) {
+    public @Nonnull Material get(int index) {
         Validate.isTrue(index >= 0 && index < 16, "The index must be between 0 and 15 (inclusive).");
 
         return list.get(index);
@@ -234,8 +232,7 @@ public enum ColoredMaterial {
      * 
      * @return The {@link Material} with that {@link DyeColor}
      */
-    @Nonnull
-    public Material get(@Nonnull DyeColor color) {
+    public @Nonnull Material get(@Nonnull DyeColor color) {
         Validate.notNull(color, "Color cannot be null!");
 
         return get(color.ordinal());

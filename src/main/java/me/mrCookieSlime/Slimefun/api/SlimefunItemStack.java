@@ -172,8 +172,7 @@ public class SlimefunItemStack extends CustomItem {
      * 
      * @return The {@link SlimefunItem} id for this {@link SlimefunItemStack}
      */
-    @Nonnull
-    public final String getItemId() {
+    public final @Nonnull String getItemId() {
         return id;
     }
 
@@ -183,8 +182,7 @@ public class SlimefunItemStack extends CustomItem {
      *
      * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
      */
-    @Nullable
-    public SlimefunItem getItem() {
+    public @Nullable SlimefunItem getItem() {
         return SlimefunItem.getByID(id);
     }
 
@@ -202,14 +200,13 @@ public class SlimefunItemStack extends CustomItem {
      * 
      * @return The {@link SlimefunItem} this {@link SlimefunItem} represents, casted to the given type
      */
-    @Nullable
-    public <T extends SlimefunItem> T getItem(@Nonnull Class<T> type) {
+
+    public @Nullable <T extends SlimefunItem> T getItem(@Nonnull Class<T> type) {
         SlimefunItem item = getItem();
         return type.isInstance(item) ? type.cast(item) : null;
     }
 
-    @Nonnull
-    public ImmutableItemMeta getImmutableMeta() {
+    public @Nonnull ImmutableItemMeta getImmutableMeta() {
         return immutableMeta;
     }
 
@@ -243,13 +240,11 @@ public class SlimefunItemStack extends CustomItem {
         locked = true;
     }
 
-    @Nonnull
-    public Optional<String> getSkullTexture() {
+    public @Nonnull Optional<String> getSkullTexture() {
         return Optional.ofNullable(texture);
     }
 
-    @Nullable
-    public String getDisplayName() {
+    public @Nullable String getDisplayName() {
         if (immutableMeta == null) {
             // Just to be extra safe
             return null;
@@ -258,8 +253,7 @@ public class SlimefunItemStack extends CustomItem {
         return immutableMeta.getDisplayName().orElse(null);
     }
 
-    @Nonnull
-    private static ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
+    private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
         if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             return new ItemStack(Material.PLAYER_HEAD);
         }
@@ -267,15 +261,15 @@ public class SlimefunItemStack extends CustomItem {
         return SkullItem.fromBase64(getTexture(id, texture));
     }
 
-    @Nonnull
-    private static String getTexture(@Nonnull String id, @Nonnull String texture) {
+    private static @Nonnull String getTexture(@Nonnull String id, @Nonnull String texture) {
         Validate.notNull(id, "The id cannot be null");
         Validate.notNull(texture, "The texture cannot be null");
 
         if (texture.startsWith("ey")) {
             return texture;
         } else if (PatternUtils.HEXADECIMAL.matcher(texture).matches()) {
-            return Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
+            String value = "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}";
+            return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
         } else {
             throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
         }
@@ -291,12 +285,18 @@ public class SlimefunItemStack extends CustomItem {
         return "SlimefunItemStack (" + id + (getAmount() > 1 ? (" x " + getAmount()) : "") + ')';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final boolean equals(Object obj) {
         // We don't want people to override this, it should use the super method
         return super.equals(obj);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final int hashCode() {
         // We don't want people to override this, it should use the super method

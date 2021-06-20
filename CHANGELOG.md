@@ -1,5 +1,8 @@
 # Table of contents
-- [Release Candidate 23 (TBD)](#release-candidate-23-tbd)
+- [Release Candidate 26 (TBD)](#release-candidate-26-tbd)
+- [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
+- [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
+- [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
 - [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
 - [Release Candidate 21 (14 Mar 2021)](#release-candidate-21-14-mar-2021)
 - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
@@ -23,28 +26,124 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 23 (TBD)
+## Release Candidate 26 (TBD)
+
+#### Additions
+
+#### Changes
+
+#### Fixes
+
+## Release Candidate 25 (20 Jun 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
+
+#### Additions
+* Added "4 Charcoal -> 1 Coal" recipe to the Compressor
+* Added a startup warning for when CS-CoreLib is still installed
+* (API) Added WeaponUseHandler
+* Added support for Minecraft 1.17
+* Added "Deepslate -> Lava" recipe to the Crucible
+* Added "Cobbled Deepslate -> Lava" recipe to the Crucible
+* Added "Tuff -> Lava" recipe to the Crucible
+* Added "Copper Ingot -> Copper Dust" recipe to the Ingot Pulverizer
+* Added Goats as a milk source for the Produce Collector
+* Added "Raw Iron -> Iron Dust" recipe to the Ore Crusher
+* Added "Raw Gold -> Gold Dust" recipe to the Ore Crusher
+* Added "Raw Copper -> Copper Dust" recipe to the Ore Crusher
+* Debug Fish can now read Slimefun Tags for vanilla blocks
+* The Icy Bow now gives a freezing effect on 1.17
+
+#### Changes
+* (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
+* (API) Removed AsyncGeneratorProcessCompleteEvent
+* (API) Removed AsyncMachineProcessCompleteEvent
+* (API) Removed AsyncReactorProcessCompleteEvent
+
+#### Fixes
+* Fixed #3105
+* Fixed #3116
+
+## Release Candidate 24 (03 Jun 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
+
+#### Additions
+* (API) Added AsyncMachineOperationFinishEvent
+* The speed of the Ancient Altar can now be configured in the `Items.yml` file
+* The message "You do not have enough knowledge to understand this" now includes the name of the item you need to research.
+
+#### Changes
+* (API) Refactored "Machine Process" API
+* (API) Deprecated AsyncGeneratorProcessCompleteEvent
+* (API) Deprecated AsyncMachineProcessCompleteEvent
+* (API) Deprecated AsyncReactorProcessCompleteEvent
+* Error-Reports now show the date and time they were generated at
+* Some performance optimizations to Cargo networks
+
+#### Fixes
+* Fixed #3064
+* Fixed #2964
+* Fixed #2979
+* Fixed a permissions issue with `/sf charge`
+* Fixed #3053
+* Fixed #3075
+* Fixed recipe types showing missing string message
+* Fixed #3084
+* Fixed #3085
+* Fixed #3088
+* Fixed #3087
+* Fixed #3091
+* Fixed #3086
+* Fixed #3093
+* Fixed #3095
+
+## Release Candidate 23 (19 May 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
 
 #### Additions
 * Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
 * Added "8 Coal Blocks -> 9 Carbon" recipe to Compressor
 * Added "8 Coal Blocks -> 9 Carbon" recipe to Carbon Press
+* Added "Magical Lump Tier 2 -> 4 Magical Lump Tier 1" recipe to Grind Stone
+* Added "Magical Lump Tier 3 -> 4 Magical Lump Tier 2" recipe to Grind Stone
+* Added "Ender Lump Tier 2 -> 4 Ender Lump Tier 1" recipe to Grind Stone
+* Added "Ender Lump Tier 3 -> 4 Ender Lump Tier 2" recipe to Grind Stone
 * Added Tier 2 Auto-Enchanter
 * Added Tier 2 Auto-Disenchanter
+* (API) Added AsyncAutoEnchanterProcessEvent
 * (API) Added Category#setTier() to modify a category's position in the guide
 * Added the ability to disable auto (dis)enchanting with a lore - `use-ignored-lores` & `ignored-lores` in Items.yml
+* Added an option to turn off the "researching animation" in the `config.yml`
+* Added the option to turn off the "researching animation" within your Slimefun Guide
+* Added Portable Teleporter
 
 #### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
 * Photovoltaic Cells can no longer be placed
+* Batteries can no longer be placed
+* Tin Cans can no longer be placed
+* Magical Glass can no longer be placed
 * (API) Removed deprecated "SlimefunBlockHandler"
 * Performance improvements
 * Removed Automated Crafting Chamber
+* Memory and performance improvements for Cargo and Energy networks
 
 #### Fixes
 * Fixed #2987
 * Fixed #2989
 * Fixed #2977
+* Fixed #2999
+* Fixed #2593
+* Fixed #2937
+* Fixed #2927
+* Fixed #3007
+* Fixed #3012
+* Fixed #3013
+* Fixed #3027
+* Fixed #2978
+* Fixed #3041
+* Fixed #3036
+* Possibly fixed #2927
+* Fixed #3060
 
 ## Release Candidate 22 (18 Apr 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22

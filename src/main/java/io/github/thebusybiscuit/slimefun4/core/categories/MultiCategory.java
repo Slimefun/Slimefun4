@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -74,8 +75,10 @@ public class MultiCategory extends FlexCategory {
 
     @ParametersAreNonnullByDefault
     private void openGuide(Player p, PlayerProfile profile, SlimefunGuideMode mode, int page) {
+        GuideHistory history = profile.getGuideHistory();
+
         if (mode == SlimefunGuideMode.SURVIVAL_MODE) {
-            profile.getGuideHistory().add(this, page);
+            history.add(this, page);
         }
 
         ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "guide.title.main"));
@@ -87,7 +90,7 @@ public class MultiCategory extends FlexCategory {
 
         menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide"))));
         menu.addMenuClickHandler(1, (pl, s, is, action) -> {
-            SlimefunGuide.openMainMenu(profile, mode, 1);
+            SlimefunGuide.openMainMenu(profile, mode, history.getMainMenuPage());
             return false;
         });
 

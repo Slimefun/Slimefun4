@@ -3,7 +3,14 @@
 		"minecraft:dirt",
 		"minecraft:coarse_dirt",
 		"minecraft:grass_block",
-		"minecraft:grass_path",
+		{
+			"id": "minecraft:grass_path",
+			"required": false
+		},
+		{
+			"id": "minecraft:dirt_path",
+			"required": false
+		},
 		"minecraft:farmland",
 		"minecraft:podzol",
 		"minecraft:mycelium"

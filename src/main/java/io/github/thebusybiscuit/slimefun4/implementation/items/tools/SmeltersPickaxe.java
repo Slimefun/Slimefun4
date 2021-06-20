@@ -39,10 +39,10 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<ToolUseHandler> implemen
             Block b = e.getBlock();
 
             if (SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
-                Collection<ItemStack> blockDrops = b.getDrops(getItem());
+                Collection<ItemStack> blockDrops = b.getDrops(tool);
 
                 for (ItemStack drop : blockDrops) {
-                    if (drop != null && drop.getType() != Material.AIR) {
+                    if (drop != null && !drop.getType().isAir()) {
                         smelt(b, drop, fortune);
                         drops.add(drop);
                     }
@@ -60,8 +60,10 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<ToolUseHandler> implemen
         if (furnaceOutput.isPresent()) {
             b.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
             drop.setType(furnaceOutput.get().getType());
-            drop.setAmount(fortune);
         }
+
+        // Fixes #3116
+        drop.setAmount(fortune);
     }
 
     @Override

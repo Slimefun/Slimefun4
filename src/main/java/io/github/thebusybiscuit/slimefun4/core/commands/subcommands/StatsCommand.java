@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import java.util.Optional;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -14,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class StatsCommand extends SubCommand {
 
+    @ParametersAreNonnullByDefault
     StatsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "stats", false);
     }

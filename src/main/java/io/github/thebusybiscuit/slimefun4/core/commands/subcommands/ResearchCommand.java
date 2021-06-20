@@ -3,6 +3,9 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,6 +21,7 @@ class ResearchCommand extends SubCommand {
     private static final String PLACEHOLDER_PLAYER = "%player%";
     private static final String PLACEHOLDER_RESEARCH = "%research%";
 
+    @ParametersAreNonnullByDefault
     ResearchCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "research", false);
     }
@@ -57,6 +61,7 @@ class ResearchCommand extends SubCommand {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void giveResearch(CommandSender sender, Player p, String input) {
         Optional<Research> research = getResearchFromString(input);
 
@@ -70,6 +75,7 @@ class ResearchCommand extends SubCommand {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void researchAll(CommandSender sender, PlayerProfile profile, Player p) {
         for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
             if (!profile.hasUnlocked(res)) {
@@ -80,6 +86,7 @@ class ResearchCommand extends SubCommand {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void reset(PlayerProfile profile, Player p) {
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
             profile.setResearched(research, false);
@@ -88,7 +95,8 @@ class ResearchCommand extends SubCommand {
         SlimefunPlugin.getLocalization().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()));
     }
 
-    private Optional<Research> getResearchFromString(String input) {
+    @Nonnull
+    private Optional<Research> getResearchFromString(@Nonnull String input) {
         if (!input.contains(":")) {
             return Optional.empty();
         }

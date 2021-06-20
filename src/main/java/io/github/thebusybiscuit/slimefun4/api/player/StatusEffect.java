@@ -33,9 +33,8 @@ public class StatusEffect implements Keyed {
         this.key = key;
     }
 
-    @Nonnull
     @Override
-    public NamespacedKey getKey() {
+    public @Nonnull NamespacedKey getKey() {
         return key;
     }
 
@@ -120,8 +119,7 @@ public class StatusEffect implements Keyed {
      *            The {@link Player} to check for
      * @return An {@link OptionalInt} that describes the result
      */
-    @Nonnull
-    public OptionalInt getLevel(@Nonnull Player p) {
+    public @Nonnull OptionalInt getLevel(@Nonnull Player p) {
         Optional<String> optional = PersistentDataAPI.getOptionalString(p, getKey());
 
         if (optional.isPresent()) {

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,6 +22,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class SyntheticEmerald extends SlimefunItem {
 
+    @ParametersAreNonnullByDefault
     public SyntheticEmerald(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
