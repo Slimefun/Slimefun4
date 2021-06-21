@@ -26,12 +26,12 @@ public class RadioactivityListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuit(@Nonnull PlayerQuitEvent e){
+    public void onPlayerQuit(@Nonnull PlayerQuitEvent e) {
         RadioactivityTask.removePlayer(e.getPlayer());
     }
 
     @EventHandler
-    public void onPlayerDeath(@Nonnull PlayerDeathEvent e){
+    public void onPlayerDeath(@Nonnull PlayerDeathEvent e) {
         RadioactivityTask.removePlayer(e.getEntity());
     }
 }
