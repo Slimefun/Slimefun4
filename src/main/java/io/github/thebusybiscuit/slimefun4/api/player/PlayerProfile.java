@@ -477,7 +477,7 @@ public class PlayerProfile {
                 }
 
                 for (ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
-                    if (protectionType == type) {
+                    if (protectionType.equals(type)) {
                         if (setId == null) {
                             return true;
                         } else if (setId.equals(protectedArmor.getArmorSetId())) {

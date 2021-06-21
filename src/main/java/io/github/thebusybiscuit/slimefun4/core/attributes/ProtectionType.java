@@ -12,21 +12,22 @@ import org.bukkit.entity.Bee;
  * @see ProtectiveArmor
  *
  */
-public enum ProtectionType {
+@SuppressWarnings("InstantiationOfUtilityClass")
+public final class ProtectionType {
 
     /**
      * This damage type represents damage inflicted by {@link Radioactive} materials.
      */
-    RADIATION,
+    public static final ProtectionType RADIATION = new ProtectionType();
 
     /**
      * This damage type represents damage caused by a {@link Bee}
      */
-    BEES,
+    public static final ProtectionType BEES = new ProtectionType();
 
     /**
      * This damage type represents damage caused by flying into a wall with an elytra
      */
-    FLYING_INTO_WALL;
+    public static final ProtectionType FLYING_INTO_WALL = new ProtectionType();
 
 }
