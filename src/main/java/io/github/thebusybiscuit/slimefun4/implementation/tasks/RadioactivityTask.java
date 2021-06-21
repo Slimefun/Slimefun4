@@ -152,10 +152,11 @@ public class RadioactivityTask implements Runnable {
         BLINDNESS(50),
         FAST_DAMAGE(75),
         IMMINENT_DEATH(100);
+
         private final int minExposure;
+
         Symptom(int minExposure){
             this.minExposure = minExposure;
         }
     }
 }
-
