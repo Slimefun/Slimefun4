@@ -59,7 +59,7 @@ public class RadioactivityTask implements Runnable {
 
     @Override
     public void run() {
-        for (Player p : Bukkit.getOnlinePlayers()){
+        for (Player p : Bukkit.getOnlinePlayers()) {
             if (!p.isValid() || p.isDead()) {
                 continue;
             }
@@ -68,7 +68,7 @@ public class RadioactivityTask implements Runnable {
         }
     }
 
-    private void handleRadiation(@Nonnull Player p, @Nonnull PlayerProfile profile){
+    private void handleRadiation(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
         if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) return;
         Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
@@ -85,16 +85,16 @@ public class RadioactivityTask implements Runnable {
                     // Performance optimization to reduce ItemMeta calls
                     tmpItem = ItemStackWrapper.wrap(tmpItem);
                 }
-                for (SlimefunItem i : radioactiveItems){
-                    if (i.isItem(tmpItem)){
+                for (SlimefunItem i : radioactiveItems) {
+                    if (i.isItem(tmpItem)) {
                         exposureTotal += tmpItem.getAmount() * ((RadioactiveItem) i).getRadioactivity().getExposureModifier();
                     }
                 }
             }
         }
         int exposureLevelBefore = radioactivityLevel.getOrDefault(uuid, 0);
-        if (exposureTotal > 0){
-            if (exposureLevelBefore == 0){
+        if (exposureTotal > 0) {
+            if (exposureLevelBefore == 0) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
             }
             radioactivityLevel.put(uuid, Math.min(exposureLevelBefore + exposureTotal, 100));
@@ -102,12 +102,12 @@ public class RadioactivityTask implements Runnable {
             radioactivityLevel.put(uuid, Math.max(exposureLevelBefore - 1, 0));
         }
         int exposureLevelAfter = radioactivityLevel.getOrDefault(uuid, 0);
-        for (Symptom symptom : SYMPTOMS){
-            if (symptom.minExposure <= exposureLevelAfter){
+        for (Symptom symptom : SYMPTOMS) {
+            if (symptom.minExposure <= exposureLevelAfter) {
                 applySymptom(symptom, p);
             }
         }
-        if (exposureLevelAfter > 0 || exposureLevelBefore > 0){
+        if (exposureLevelAfter > 0 || exposureLevelBefore > 0) {
             String msg = SlimefunPlugin.getLocalization().getMessage(p, "actionbar.radiation")
                     .replace("%level%", "" + exposureLevelAfter);
             p.spigot().sendMessage(
@@ -127,7 +127,7 @@ public class RadioactivityTask implements Runnable {
      * @param s Symptom to apply
      * @param p Player to apply to
      */
-    private void applySymptom(@Nonnull Symptom s, @Nonnull Player p){
+    private void applySymptom(@Nonnull Symptom s, @Nonnull Player p) {
         SlimefunPlugin.runSync(() -> {
             switch (s) {
                 case SLOW: {
@@ -166,7 +166,7 @@ public class RadioactivityTask implements Runnable {
 
         private final int minExposure;
 
-        Symptom(int minExposure){
+        Symptom(int minExposure) {
             this.minExposure = minExposure;
         }
     }
