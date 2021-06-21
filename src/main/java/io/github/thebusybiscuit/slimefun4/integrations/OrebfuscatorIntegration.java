@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockBreakEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import net.imprex.orebfuscator.api.OrebfuscatorService;
@@ -59,5 +60,10 @@ public class OrebfuscatorIntegration implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onReactorExplode(ReactorExplodeEvent event) {
         this.service.deobfuscate(Arrays.asList(event.getLocation().getBlock()));
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onMultiBlockBreak(MultiBlockBreakEvent event) {
+        this.service.deobfuscate(event.getBlocks());
     }
 }

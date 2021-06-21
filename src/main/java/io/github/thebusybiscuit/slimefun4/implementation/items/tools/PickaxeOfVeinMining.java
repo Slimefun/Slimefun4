@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockBreakEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
@@ -47,7 +49,13 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
         return (e, tool, fortune, drops) -> {
             if (SlimefunTag.PICKAXE_OF_VEIN_MINING_BLOCKS.isTagged(e.getBlock().getType())) {
                 List<Block> blocks = Vein.find(e.getBlock(), maxBlocks.getValue(), b -> SlimefunTag.PICKAXE_OF_VEIN_MINING_BLOCKS.isTagged(b.getType()));
-                breakBlocks(e.getPlayer(), blocks, fortune, tool);
+
+                MultiBlockBreakEvent event = new MultiBlockBreakEvent(e.getPlayer(), e.getBlock(), blocks);
+                Bukkit.getServer().getPluginManager().callEvent(event);
+
+                if (!event.isCancelled()) {
+                    breakBlocks(e.getPlayer(), blocks, fortune, tool);
+                }
             }
         };
     }
