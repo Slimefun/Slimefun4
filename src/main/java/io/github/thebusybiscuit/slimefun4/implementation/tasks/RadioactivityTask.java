@@ -32,7 +32,7 @@ import java.util.UUID;
  *
  */
 public class RadioactivityTask implements Runnable {
-    private static final HashMap<UUID, Double> radioactivityLevel = new HashMap<>();
+    private static final HashMap<UUID, Integer> radioactivityLevel = new HashMap<>();
     public static void removePlayer(Player p){
         radioactivityLevel.remove(p.getUniqueId());
     }
@@ -56,16 +56,14 @@ public class RadioactivityTask implements Runnable {
                 continue;
             }
 
-            PlayerProfile.get(p, profile -> {
-                handleRadiation(p, profile);
-            });
+            PlayerProfile.get(p, profile -> handleRadiation(p, profile));
         }
     }
 
     private void handleRadiation(@Nonnull Player p, @Nonnull PlayerProfile prof){
         Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
         if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) return;
-        double exposureTotal = 0;
+        int exposureTotal = 0;
         UUID u = p.getUniqueId();
         if (!prof.hasFullProtectionAgainst(ProtectionType.RADIATION)){
             for (ItemStack item : p.getInventory()) {
@@ -78,12 +76,12 @@ public class RadioactivityTask implements Runnable {
                 }
                 for (SlimefunItem i: radioactiveItems){
                     if (i.isItem(tmpItem)){
-                        exposureTotal += ((double) tmpItem.getAmount()) * ((RadioactiveItem) i).getRadioactivity().exposureModifier;
+                        exposureTotal += tmpItem.getAmount() * ((RadioactiveItem) i).getRadioactivity().exposureModifier;
                     }
                 }
             }
         }
-        double exposureLevelBefore = radioactivityLevel.getOrDefault(u, 0d);
+        int exposureLevelBefore = radioactivityLevel.getOrDefault(u, 0);
         if (exposureTotal > 0){
             if (exposureLevelBefore == 0){
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation-exposed");
@@ -92,7 +90,7 @@ public class RadioactivityTask implements Runnable {
         } else if (exposureLevelBefore > 0) {
             radioactivityLevel.put(u, Math.max(exposureLevelBefore - 1, 0));
         }
-        double exposureLevelAfter = radioactivityLevel.getOrDefault(u, 0d);
+        int exposureLevelAfter = radioactivityLevel.getOrDefault(u, 0);
         for (Symptom symptom: Symptom.values()){
             if (symptom.minExposure <= exposureLevelAfter){
                 applySymptom(symptom, p);
@@ -153,8 +151,8 @@ public class RadioactivityTask implements Runnable {
         BLINDNESS(50),
         FAST_DAMAGE(75),
         IMMINENT_DEATH(100);
-        private final double minExposure;
-        Symptom(double minExposure){
+        private final int minExposure;
+        Symptom(int minExposure){
             this.minExposure = minExposure;
         }
     }

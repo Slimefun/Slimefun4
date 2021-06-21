@@ -48,9 +48,10 @@ public enum Radioactivity {
     VERY_DEADLY(ChatColor.DARK_RED, 10);
 
     private final ChatColor color;
-    public final double exposureModifier;
-    Radioactivity(@Nonnull ChatColor color, @Nonnull double exposureModifier) {
-        this.color = color; this.exposureModifier = exposureModifier;
+    public final int exposureModifier;
+    Radioactivity(@Nonnull ChatColor color, int exposureModifier) {
+        this.color = color;
+        this.exposureModifier = exposureModifier;
     }
 
     @Nonnull
