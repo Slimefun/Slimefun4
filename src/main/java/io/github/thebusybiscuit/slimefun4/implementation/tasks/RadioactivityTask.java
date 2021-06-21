@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
@@ -100,7 +101,7 @@ public class RadioactivityTask implements Runnable {
             p.spigot().sendMessage(
                     ChatMessageType.ACTION_BAR,
                     new ComponentBuilder().append(
-                            ChatColor.translateAlternateColorCodes('&',
+                            ChatColors.color(
                                     SlimefunPlugin.getLocalization().getMessage(p, "actionbar.radiation")
                                             .replace("%level%", "" + exposureLevelAfter)
                             )
