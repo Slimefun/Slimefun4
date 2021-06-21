@@ -26,7 +26,7 @@ public class RadioactivityListener implements Listener {
     }
 
     @EventHandler
-    public void playerDisconnect(PlayerQuitEvent e){
+    public void onPlayerQuit(@Nonnull PlayerQuitEvent e){
         RadioactivityTask.removePlayer(e.getPlayer());
     }
 
