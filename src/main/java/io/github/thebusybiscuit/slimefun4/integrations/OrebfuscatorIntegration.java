@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
@@ -42,12 +43,12 @@ public class OrebfuscatorIntegration implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockPlacerPlace(BlockPlacerPlaceEvent event) {
         this.service.deobfuscate(Arrays.asList(event.getBlock(), event.getBlockPlacer()));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onExplosiveToolBreakBlocks(ExplosiveToolBreakBlocksEvent event) {
         Set<Block> blocks = new HashSet<>();
         blocks.addAll(event.getAdditionalBlocks());
@@ -55,7 +56,7 @@ public class OrebfuscatorIntegration implements Listener {
         this.service.deobfuscate(blocks);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onReactorExplode(ReactorExplodeEvent event) {
         this.service.deobfuscate(Arrays.asList(event.getLocation().getBlock()));
     }
