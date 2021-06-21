@@ -1,12 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -17,14 +15,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -74,30 +70,35 @@ public class RadioactivityTask implements Runnable {
                 }
             }
         }
-        double v2 = radioactivityLevel.getOrDefault(u, 0d);
+        double exposureLevelBefore = radioactivityLevel.getOrDefault(u, 0d);
         if (exposureTotal > 0){
-            if (v2 == 0){
+            if (exposureLevelBefore == 0){
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation-exposed");
             }
-            double v = v2 + exposureTotal;
-            radioactivityLevel.put(u, Math.min(v, 100));
-        } else if (v2 > 0) {
-            radioactivityLevel.put(u, Math.max(v2 - 1, 0));
+            radioactivityLevel.put(u, Math.min(exposureLevelBefore + exposureTotal, 100));
+        } else if (exposureLevelBefore > 0) {
+            radioactivityLevel.put(u, Math.max(exposureLevelBefore - 1, 0));
         }
-        double s = radioactivityLevel.getOrDefault(u, 0d);
-        for (CurrentSymptom symptom: CurrentSymptom.values()){
-            if (symptom.minExposure <= s){
+        double exposureLevelAfter = radioactivityLevel.getOrDefault(u, 0d);
+        for (Symptom symptom: Symptom.values()){
+            if (symptom.minExposure <= exposureLevelAfter){
                 applySymptom(symptom, p);
             }
         }
-        if (s > 0 || v2 > 0){
+        if (exposureLevelAfter > 0 || exposureLevelBefore > 0){
             p.spigot().sendMessage(
                     ChatMessageType.ACTION_BAR,
-                    new ComponentBuilder().append(ChatColor.translateAlternateColorCodes('&', SlimefunPlugin.getLocalization().getMessage(p, "actionbar.radiation").replace("%level%", "" + s))).create()
+                    new ComponentBuilder().append(ChatColor.translateAlternateColorCodes('&', SlimefunPlugin.getLocalization().getMessage(p, "actionbar.radiation").replace("%level%", "" + exposureLevelAfter))).create()
             );
         }
     }
-    private void applySymptom(@Nonnull CurrentSymptom s, @Nonnull Player p){
+    /**
+     * Applies a symptom to the player.
+     *
+     * @param s Symptom to apply
+     * @param p Player to apply to
+     */
+    private void applySymptom(@Nonnull Symptom s, @Nonnull Player p){
         SlimefunPlugin.runSync(() -> {
             switch (s) {
                 case SLOW: {
@@ -123,14 +124,17 @@ public class RadioactivityTask implements Runnable {
             }
         });
     }
-    private enum CurrentSymptom {
+    private enum Symptom {
+        /**
+         * An enum of potential radiation symptoms.
+         */
         SLOW(10),
         SLOW_DAMAGE(25),
         BLINDNESS(50),
         FAST_DAMAGE(75),
         IMMINENT_DEATH(100);
         private final double minExposure;
-        CurrentSymptom(double minExposure){
+        Symptom(double minExposure){
             this.minExposure = minExposure;
         }
     }
