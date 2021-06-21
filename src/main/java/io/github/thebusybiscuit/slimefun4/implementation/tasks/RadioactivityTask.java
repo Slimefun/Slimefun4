@@ -64,8 +64,7 @@ public class RadioactivityTask implements Runnable {
     @Override
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!p.isValid() ||
-                    p.isDead()) {
+            if (!p.isValid() || p.isDead()) {
                 continue;
             }
 
