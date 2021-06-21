@@ -71,9 +71,12 @@ public class RadioactivityTask implements Runnable {
     private void handleRadiation(@Nonnull Player p, @Nonnull PlayerProfile profile){
         Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
         if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) return;
+        Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
+
         int exposureTotal = 0;
         UUID uuid = p.getUniqueId();
-        if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)){
+
+        if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
             for (ItemStack item : p.getInventory()) {
                 if (item == null || item.getType() == Material.AIR) continue;
                 ItemStack tmpItem = item;
