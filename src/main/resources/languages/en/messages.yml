@@ -231,7 +231,7 @@ messages:
   fire-extinguish: '&7You have extinguished yourself'
   cannot-place: '&cYou cannot place that block there!'
   no-pvp: '&cYou cannot pvp in here!'
-  radiation-exposed: '&4You have been exposed to radiation! &cGet rid of the radioactive item or equip the complete hazmat suit!'
+  radiation: '&4You have been exposed to radiation! &cGet rid of the radioactive item or equip the complete hazmat suit!'
   opening-guide: '&bOpening guide, this may take a few seconds...'
   opening-backpack: '&bOpening backpack, this may take a few seconds...'
   no-iron-golem-heal: '&cThat is not an Iron Ingot. You cannot use this to heal Iron Golems!'

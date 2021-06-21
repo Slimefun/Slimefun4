@@ -31,7 +31,7 @@ public class RadioactivityListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDeaath(@Nonnull PlayerDeathEvent e){
+    public void onPlayerDeath(@Nonnull PlayerDeathEvent e){
         RadioactivityTask.removePlayer(e.getEntity());
     }
 }
