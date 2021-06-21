@@ -48,12 +48,14 @@ public enum Radioactivity {
     VERY_DEADLY(ChatColor.DARK_RED, 10);
 
     private final ChatColor color;
-    public final int exposureModifier;
+    private final int exposureModifier;
     Radioactivity(@Nonnull ChatColor color, int exposureModifier) {
         this.color = color;
         this.exposureModifier = exposureModifier;
     }
-
+    public int getExposureModifier(){
+        return exposureModifier;
+    }
     @Nonnull
     public String getLore() {
         return ChatColor.GREEN + "\u2622" + ChatColor.GRAY + " Radiation level: " + color + toString().replace('_', ' ');

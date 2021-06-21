@@ -34,9 +34,6 @@ import java.util.UUID;
 public class RadioactivityTask implements Runnable {
     private static final Symptom[] SYMPTOMS = Symptom.values();
     private static final HashMap<UUID, Integer> radioactivityLevel = new HashMap<>();
-    public static void removePlayer(Player p){
-        radioactivityLevel.remove(p.getUniqueId());
-    }
     //@formatter:off
     private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER,
             SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
@@ -55,6 +52,11 @@ public class RadioactivityTask implements Runnable {
             3
     );
     //@formatter:on
+
+    public static void removePlayer(Player p){
+        radioactivityLevel.remove(p.getUniqueId());
+    }
+
     @Override
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()){
@@ -82,7 +84,7 @@ public class RadioactivityTask implements Runnable {
                 }
                 for (SlimefunItem i : radioactiveItems){
                     if (i.isItem(tmpItem)){
-                        exposureTotal += tmpItem.getAmount() * ((RadioactiveItem) i).getRadioactivity().exposureModifier;
+                        exposureTotal += tmpItem.getAmount() * ((RadioactiveItem) i).getRadioactivity().getExposureModifier();
                     }
                 }
             }
