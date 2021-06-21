@@ -1,0 +1,151 @@
+name: Bug Report
+description: Report a Bug or an Issue with Slimefun 4.
+labels: ['🎯 Needs testing', '🐞 Bug Report']
+
+body:
+- type: markdown
+  attributes:
+    value: |
+      ## 👋 Welcome to the Slimefun Bug Tracker
+      If you need any help to identify the problem, visit our [Discord server](https://discord.gg/slimefun) and see if others experience a similar issue.
+      Also take a look at our [Troubleshooting Guide](https://github.com/Slimefun/Slimefun4/wiki/How-to-report-bugs) and the list of [existing Issues](https://github.com/Slimefun/Slimefun4/issues).
+      <br /><strong><i>Fields marked with an asterisk (*) are required.</i></strong>
+      <br />
+
+- id: checklist
+  type: checkboxes
+  attributes:
+    label: '❗ Checklist'
+    description: Please go through this checklist before creating the issue.
+    options:
+    - label: I am using the official english version of Slimefun and did not modify the jar.
+      required: true
+    - label: I am using an up to date "DEV" (not "RC") version of Slimefun.
+      required: true
+    - label: I am aware that issues related to Slimefun addons need to be reported on their bug trackers and not here.
+      required: true
+    - label: I searched for similar open issues and could not find an existing bug report on this.
+      required: true
+
+- id: description
+  type: textarea
+  validations:
+    required: true
+  attributes:
+    label: '📍 Description'
+    description: |
+      A clear and detailed description of what went wrong.
+      The more information you can provide, the easier we can handle this problem.
+    placeholder: |
+      When doing [...] I experienced [...], I am pretty sure this is not intended and should be fixed.
+
+- id: reproduction-steps
+  type: textarea
+  validations:
+    required: true
+  attributes:
+    label: '📑 Reproduction Steps'
+    description: |
+      Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
+    placeholder: |
+      1. Do [...]
+      2. Then do [...]
+      3. Now [...] happens
+
+- id: expected-behaviour
+  type: textarea
+  validations:
+    required: true
+  attributes:
+    label: '💡 Expected Behavior'
+    description: |
+      What were you expecting to happen?
+      What do you think would have been the correct behaviour?
+    placeholder: |
+      I expected [...] to happen.
+
+- id: media
+  type: textarea
+  attributes:
+    label: '📷 Screenshots / Videos'
+    description: |
+      The best way to illustrate in an issue is by recording a Video or taking a Screenshot.
+      If you can capture any footage of the bug happening, it would help us out a lot!
+    placeholder: |
+      Drag and drop an image or video onto this field to upload it.
+
+- id: server-log
+  type: input
+  attributes:
+    label: '📜 Server Log'
+    description: |
+      Take a look at your Server Log and upload any error messages from Slimefun to a pasting site (e.g. https://pastebin.com/).
+      If you are unsure about it, post your full log, you can find it under /logs/latest.log
+    placeholder: https://pastebin.com/...
+
+- id: error-reports
+  type: input
+  attributes:
+    label: '📂 `/error-reports/` folder'
+    description: |
+      Check the folder `/plugins/Slimefun/error-reports/` and upload any files inside that folder to a pasting site (e.g. https://pastebin.com/).
+    placeholder: https://pastebin.com/...
+
+- id: server-software
+  type: dropdown
+  validations:
+    required: true
+  attributes:
+    label: '💻 Server Software'
+    description: 'Please select the software your Server is running on'
+    options:
+      - Spigot
+      - Paper
+      - Tuinity
+      - Yatopia
+      - Purpur
+      - Airplane
+      - Other (please specify in your description)
+
+- id: minecraft-version
+  type: dropdown
+  validations:
+    required: true
+  attributes:
+    label: '🎮 Minecraft Version'
+    description: 'Please select the Minecraft version of the server'
+    options:
+      - 1.17.x
+      - 1.16.x
+      - 1.15.x
+      - 1.14.x
+      - (Older versions are not supported)
+
+- id: slimefun-version
+  type: textarea
+  validations:
+    required: true
+  attributes:
+    label: '⭐ Slimefun version'
+    description: |
+      **"latest" is not a version number, we need the exact version.**
+      We recommend running "/sf versions" and uploading a screenshot of that.
+      Make sure that the screenshot covers the entire output of that command.
+    placeholder: Slimefun version [...]
+
+- id: other-versions
+  type: textarea
+  attributes:
+    label: '🧭 Other plugins'
+    description: |
+      If your issue is related to another plugin, make sure to include this here!
+    placeholder: The issue is related to plugin [...], version [...]
+
+- type: markdown
+  attributes:
+    value: |
+      ## ❤️ Thank you for submitting your bug report!
+      If you find any additional info that can help to identify this problem, don't hesitate to comment on your issue!
+      Any additional info can help us fix this bug faster.
+      In the meantime, try visiting our [Discord server](https://discord.gg/slimefun).
+      Perhaps someone else has experienced a similar issue.
