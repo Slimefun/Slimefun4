@@ -69,7 +69,6 @@ public class RadioactivityTask implements Runnable {
     }
 
     private void handleRadiation(@Nonnull Player p, @Nonnull PlayerProfile profile){
-        Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
         if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) return;
         Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
 
