@@ -34,7 +34,7 @@ public class Vitamins extends MedicalSupply<ItemUseHandler> {
             e.cancel();
             p.setFireTicks(0);
             clearNegativeEffects(p);
-            RadioactivityTask.radioactivityLevel.remove(e.getPlayer().getUniqueId());
+            RadioactivityTask.removePlayer(e.getPlayer());
             heal(p);
         };
     }

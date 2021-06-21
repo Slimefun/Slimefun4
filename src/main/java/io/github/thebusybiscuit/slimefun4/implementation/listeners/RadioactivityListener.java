@@ -20,15 +20,18 @@ import javax.annotation.Nonnull;
  *
  */
 public class RadioactivityListener implements Listener {
+
     public RadioactivityListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
     @EventHandler
     public void playerDisconnect(PlayerQuitEvent e){
-        RadioactivityTask.radioactivityLevel.remove(e.getPlayer().getUniqueId());
+        RadioactivityTask.removePlayer(e.getPlayer());
     }
+
     @EventHandler
     public void death(PlayerDeathEvent e){
-        RadioactivityTask.radioactivityLevel.remove(e.getEntity().getUniqueId());
+        RadioactivityTask.removePlayer(e.getEntity());
     }
 }

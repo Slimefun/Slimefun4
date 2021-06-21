@@ -32,11 +32,23 @@ import java.util.UUID;
  *
  */
 public class RadioactivityTask implements Runnable {
-    public static HashMap<UUID, Double> radioactivityLevel = new HashMap<>();
-    private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER, SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20, 1);
-    private final PotionEffect WITHER2 = new PotionEffect(PotionEffectType.WITHER, SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20, 4);
-    private final PotionEffect BLINDNESS = new PotionEffect(PotionEffectType.BLINDNESS, SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 40, 0);
-    private final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW, SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20, 3);
+    private static final HashMap<UUID, Double> radioactivityLevel = new HashMap<>();
+    public static void removePlayer(Player p){
+        radioactivityLevel.remove(p.getUniqueId());
+    }
+    private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER,
+            SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
+            1);
+    private final PotionEffect WITHER2 = new PotionEffect(PotionEffectType.WITHER,
+            SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
+            4);
+    private final PotionEffect BLINDNESS = new PotionEffect(PotionEffectType.BLINDNESS,
+            SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 40,
+            0);
+    private final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW,
+            SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
+            3);
+
     @Override
     public void run() {
         for (Player p: Bukkit.getOnlinePlayers()){
@@ -49,6 +61,7 @@ public class RadioactivityTask implements Runnable {
             });
         }
     }
+
     private void handleRadiation(@Nonnull Player p, @Nonnull PlayerProfile prof){
         Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
         if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) return;
@@ -88,10 +101,16 @@ public class RadioactivityTask implements Runnable {
         if (exposureLevelAfter > 0 || exposureLevelBefore > 0){
             p.spigot().sendMessage(
                     ChatMessageType.ACTION_BAR,
-                    new ComponentBuilder().append(ChatColor.translateAlternateColorCodes('&', SlimefunPlugin.getLocalization().getMessage(p, "actionbar.radiation").replace("%level%", "" + exposureLevelAfter))).create()
+                    new ComponentBuilder().append(
+                            ChatColor.translateAlternateColorCodes('&',
+                                    SlimefunPlugin.getLocalization().getMessage(p, "actionbar.radiation")
+                                            .replace("%level%", "" + exposureLevelAfter)
+                            )
+                    ).create()
             );
         }
     }
+
     /**
      * Applies a symptom to the player.
      *
@@ -124,6 +143,7 @@ public class RadioactivityTask implements Runnable {
             }
         });
     }
+
     private enum Symptom {
         /**
          * An enum of potential radiation symptoms.
