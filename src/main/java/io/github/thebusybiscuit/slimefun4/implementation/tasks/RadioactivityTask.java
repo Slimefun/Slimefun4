@@ -34,36 +34,38 @@ import java.util.UUID;
 public class RadioactivityTask implements Runnable {
     private static final Symptom[] SYMPTOMS = Symptom.values();
     private static final HashMap<UUID, Integer> radioactivityLevel = new HashMap<>();
+    private final int duration = SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20;
     //@formatter:off
     private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER,
-            SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
+            duration,
             1
     );
     
     private final PotionEffect WITHER2 = new PotionEffect(PotionEffectType.WITHER,
-            SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
+            duration,
             4
     );
     
     private final PotionEffect BLINDNESS = new PotionEffect(PotionEffectType.BLINDNESS,
-            SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 40,
+            duration,
             0
     );
     
     private final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW,
-            SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
+            duration,
             3
     );
     //@formatter:on
 
-    public static void removePlayer(Player p){
+    public static void removePlayer(@Nonnull Player p){
         radioactivityLevel.remove(p.getUniqueId());
     }
 
     @Override
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!p.isValid() || p.isDead()) {
+            if (!p.isValid() ||
+                    p.isDead()) {
                 continue;
             }
 
@@ -72,7 +74,8 @@ public class RadioactivityTask implements Runnable {
     }
 
     private void handleRadiation(@Nonnull Player p, @Nonnull PlayerProfile profile) {
-        if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) return;
+        if (p.getGameMode() == GameMode.CREATIVE ||
+                p.getGameMode() == GameMode.SPECTATOR) return;
         Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
 
         int exposureTotal = 0;
@@ -80,7 +83,8 @@ public class RadioactivityTask implements Runnable {
 
         if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
             for (ItemStack item : p.getInventory()) {
-                if (item == null || item.getType() == Material.AIR) continue;
+                if (item == null ||
+                        item.getType() == Material.AIR) continue;
                 ItemStack tmpItem = item;
 
                 if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {

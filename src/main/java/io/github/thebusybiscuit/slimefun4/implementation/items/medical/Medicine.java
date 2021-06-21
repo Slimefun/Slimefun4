@@ -22,7 +22,7 @@ public class Medicine extends MedicalSupply<ItemConsumptionHandler> {
         return (e, p, item) -> {
             p.setFireTicks(0);
             clearNegativeEffects(p);
-            RadioactivityTask.removePlayer(e.getPlayer());
+            RadioactivityTask.removePlayer(p);
             heal(p);
         };
     }
