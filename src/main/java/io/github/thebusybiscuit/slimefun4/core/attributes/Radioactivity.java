@@ -53,6 +53,7 @@ public enum Radioactivity {
         this.color = color;
         this.exposureModifier = exposureModifier;
     }
+    
     public int getExposureModifier() {
         return exposureModifier;
     }

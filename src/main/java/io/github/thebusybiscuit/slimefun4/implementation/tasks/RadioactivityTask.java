@@ -39,14 +39,17 @@ public class RadioactivityTask implements Runnable {
             SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
             1
     );
+    
     private final PotionEffect WITHER2 = new PotionEffect(PotionEffectType.WITHER,
             SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
             4
     );
+    
     private final PotionEffect BLINDNESS = new PotionEffect(PotionEffectType.BLINDNESS,
             SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 40,
             0
     );
+    
     private final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW,
             SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20,
             3
@@ -85,6 +88,7 @@ public class RadioactivityTask implements Runnable {
                     // Performance optimization to reduce ItemMeta calls
                     tmpItem = ItemStackWrapper.wrap(tmpItem);
                 }
+                
                 for (SlimefunItem i : radioactiveItems) {
                     if (i.isItem(tmpItem)) {
                         exposureTotal += tmpItem.getAmount() * ((RadioactiveItem) i).getRadioactivity().getExposureModifier();
@@ -92,6 +96,7 @@ public class RadioactivityTask implements Runnable {
                 }
             }
         }
+        
         int exposureLevelBefore = radioactivityLevel.getOrDefault(uuid, 0);
         if (exposureTotal > 0) {
             if (exposureLevelBefore == 0) {
@@ -101,22 +106,19 @@ public class RadioactivityTask implements Runnable {
         } else if (exposureLevelBefore > 0) {
             radioactivityLevel.put(uuid, Math.max(exposureLevelBefore - 1, 0));
         }
+        
         int exposureLevelAfter = radioactivityLevel.getOrDefault(uuid, 0);
         for (Symptom symptom : SYMPTOMS) {
             if (symptom.minExposure <= exposureLevelAfter) {
                 applySymptom(symptom, p);
             }
         }
+        
         if (exposureLevelAfter > 0 || exposureLevelBefore > 0) {
             String msg = SlimefunPlugin.getLocalization().getMessage(p, "actionbar.radiation")
                     .replace("%level%", "" + exposureLevelAfter);
-            p.spigot().sendMessage(
-                    ChatMessageType.ACTION_BAR,
-                    new ComponentBuilder().append(
-                            ChatColors.color(
-                                    msg
-                            )
-                    ).create()
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                    new ComponentBuilder().append(ChatColors.color(msg)).create()
             );
         }
     }
