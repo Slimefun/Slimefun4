@@ -1,11 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -39,6 +42,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> {
 
     private static final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance(), "uses_left");
+    private static final Pattern REGEX = Pattern.compile(ChatColors.color("&e[0-9]+ Uses &7left"));
 
     private int maxUseCount = -1;
 
@@ -63,12 +67,14 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      * The number must be greater than zero.
      *
      * @param count The maximum number of times this item can be used.
+     * @return The {@link LimitedUseItem} for chaining of setters
      */
-    public final void setMaxUseCount(int count) {
+    public final @Nonnull LimitedUseItem setMaxUseCount(int count) {
         Validate.isTrue(count > 0, "The maximum use count must be greater than zero!");
 
         if (getState() == ItemState.UNREGISTERED) {
             maxUseCount = count;
+            return this;
         } else {
             throw new IllegalStateException("You cannot modify the maximum use count after the Item was registered.");
         }
@@ -116,6 +122,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
             if (usesLeft == 1) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
                 item.setAmount(0);
+                item.setType(Material.AIR);
             } else {
                 usesLeft--;
                 pdc.set(key, PersistentDataType.INTEGER, usesLeft);
@@ -129,11 +136,19 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
     private void updateItemLore(ItemStack item, ItemMeta meta, int usesLeft) {
         List<String> lore = meta.getLore();
 
+        String newLine = ChatColors.color(LoreBuilder.usesLeft(usesLeft));
         if (lore != null && !lore.isEmpty()) {
-            // replace the last line
-            lore.set(lore.size() - 1, ChatColors.color(LoreBuilder.usesLeft(usesLeft)));
-            meta.setLore(lore);
-
+            // find the correct line
+            for (int i = 0; i < lore.size(); i++) {
+                if (REGEX.matcher(lore.get(i)).matches()) {
+                    lore.set(i, newLine);
+                    meta.setLore(lore);
+                    item.setItemMeta(meta);
+                    return;
+                }
+            }
+        } else {
+            meta.setLore(Collections.singletonList(newLine));
             item.setItemMeta(meta);
         }
     }
