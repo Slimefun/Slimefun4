@@ -289,6 +289,6 @@ public class IntegrationsManager {
     }
 
     public boolean isOrebfuscatorInstalled() {
-		return isOrebfuscatorInstalled;
-	}
+        return isOrebfuscatorInstalled;
+    }
 }

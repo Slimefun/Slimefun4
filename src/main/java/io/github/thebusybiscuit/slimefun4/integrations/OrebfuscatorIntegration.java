@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.RegisteredServiceProvider;
 
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
@@ -38,8 +37,7 @@ public class OrebfuscatorIntegration implements Listener {
 	 * Init orebfuscation service and register listener
 	 */
     public void register() {
-        RegisteredServiceProvider<OrebfuscatorService> provider = Bukkit.getServer().getServicesManager().getRegistration(OrebfuscatorService.class);
-        this.service = provider.getProvider();
+        this.service = Bukkit.getServer().getServicesManager().getRegistration(OrebfuscatorService.class).getProvider();
 
         Bukkit.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
