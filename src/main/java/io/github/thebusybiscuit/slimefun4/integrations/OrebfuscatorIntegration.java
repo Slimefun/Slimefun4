@@ -18,6 +18,13 @@ import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import net.imprex.orebfuscator.api.OrebfuscatorService;
 
+/**
+ * 
+ * This handles block breaks with orebfuscator
+ * 
+ * @author NgLoader
+ *
+ */
 public class OrebfuscatorIntegration implements Listener {
 
 	private final SlimefunPlugin plugin;
@@ -27,6 +34,9 @@ public class OrebfuscatorIntegration implements Listener {
         this.plugin = plugin;
     }
 
+	/**
+	 * Init orebfuscation service and register listener
+	 */
     public void register() {
         RegisteredServiceProvider<OrebfuscatorService> provider = Bukkit.getServer().getServicesManager().getRegistration(OrebfuscatorService.class);
         this.service = provider.getProvider();
