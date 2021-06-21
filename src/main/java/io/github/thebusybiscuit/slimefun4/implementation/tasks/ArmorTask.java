@@ -40,39 +40,18 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class ArmorTask implements Runnable {
 
-    private final Set<PotionEffect> radiationEffects;
-    private final boolean radioactiveFire;
-
     /**
      * This creates a new {@link ArmorTask}.
-     * 
-     * @param radioactiveFire
-     *            Whether radiation also causes a {@link Player} to burn
      */
-    public ArmorTask(boolean radioactiveFire) {
-        this.radioactiveFire = radioactiveFire;
-
-        Set<PotionEffect> effects = new HashSet<>();
-        effects.add(new PotionEffect(PotionEffectType.WITHER, 400, 2));
-        effects.add(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
-        effects.add(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
-        effects.add(new PotionEffect(PotionEffectType.WEAKNESS, 400, 2));
-        effects.add(new PotionEffect(PotionEffectType.SLOW, 400, 1));
-        effects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
-        radiationEffects = Collections.unmodifiableSet(effects);
+    public ArmorTask() {
     }
 
     /**
      * This returns a {@link Set} of {@link PotionEffect PotionEffects} which get applied to
      * a {@link Player} when they are exposed to deadly radiation.
-     * 
+     *
      * @return The {@link Set} of {@link PotionEffect PotionEffects} applied upon radioactive contact
      */
-    @Nonnull
-    public Set<PotionEffect> getRadiationEffects() {
-        return radiationEffects;
-    }
-
     @Override
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -89,8 +68,6 @@ public class ArmorTask implements Runnable {
                 if (hasSunlight(p)) {
                     checkForSolarHelmet(p);
                 }
-
-                checkForRadiation(p, profile);
             });
         }
     }
@@ -151,49 +128,5 @@ public class ArmorTask implements Runnable {
         }
 
         return (world.getTime() < 12300 || world.getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15;
-    }
-
-    private void checkForRadiation(@Nonnull Player p, @Nonnull PlayerProfile profile) {
-        if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
-            for (ItemStack item : p.getInventory()) {
-                if (checkAndApplyRadiation(p, item)) {
-                    break;
-                }
-            }
-        }
-    }
-
-    private boolean checkAndApplyRadiation(@Nonnull Player p, @Nullable ItemStack item) {
-        if (item == null || item.getType() == Material.AIR) {
-            return false;
-        }
-
-        Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
-        ItemStack itemStack = item;
-
-        if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {
-            // Performance optimization to reduce ItemMeta calls
-            itemStack = ItemStackWrapper.wrap(item);
-        }
-
-        for (SlimefunItem radioactiveItem : radioactiveItems) {
-            if (radioactiveItem.isItem(itemStack) && !radioactiveItem.isDisabledIn(p.getWorld())) {
-                // If the item is enabled in the world, then make radioactivity do its job
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
-
-                SlimefunPlugin.runSync(() -> {
-                    p.addPotionEffects(radiationEffects);
-
-                    // if radioactive fire is enabled, set them on fire
-                    if (radioactiveFire) {
-                        p.setFireTicks(400);
-                    }
-                });
-
-                return true;
-            }
-        }
-
-        return false;
     }
 }
