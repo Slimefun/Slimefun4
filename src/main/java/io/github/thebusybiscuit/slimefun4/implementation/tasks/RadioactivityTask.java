@@ -35,27 +35,10 @@ public class RadioactivityTask implements Runnable {
     private static final Symptom[] SYMPTOMS = Symptom.values();
     private static final HashMap<UUID, Integer> radioactivityLevel = new HashMap<>();
     private final int duration = SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20;
-    //@formatter:off
-    private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER,
-            duration,
-            1
-    );
-    
-    private final PotionEffect WITHER2 = new PotionEffect(PotionEffectType.WITHER,
-            duration,
-            4
-    );
-    
-    private final PotionEffect BLINDNESS = new PotionEffect(PotionEffectType.BLINDNESS,
-            duration,
-            0
-    );
-    
-    private final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW,
-            duration,
-            3
-    );
-    //@formatter:on
+    private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER, duration, 1);
+    private final PotionEffect WITHER2 = new PotionEffect(PotionEffectType.WITHER, duration, 4);
+    private final PotionEffect BLINDNESS = new PotionEffect(PotionEffectType.BLINDNESS, duration, 0);
+    private final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW, duration, 3);
 
     public static void removePlayer(@Nonnull Player p){
         radioactivityLevel.remove(p.getUniqueId());
@@ -65,7 +48,7 @@ public class RadioactivityTask implements Runnable {
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!p.isValid() ||
-                    p.isDead()) {
+                p.isDead()) {
                 continue;
             }
 
@@ -84,18 +67,16 @@ public class RadioactivityTask implements Runnable {
         if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
             for (ItemStack item : p.getInventory()) {
                 if (item == null ||
-                        item.getType() == Material.AIR) continue;
+                    item.getType().isAir()) continue;
                 ItemStack tmpItem = item;
 
                 if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {
                     // Performance optimization to reduce ItemMeta calls
                     tmpItem = ItemStackWrapper.wrap(tmpItem);
                 }
-                
-                for (SlimefunItem i : radioactiveItems) {
-                    if (i.isItem(tmpItem)) {
-                        exposureTotal += tmpItem.getAmount() * ((RadioactiveItem) i).getRadioactivity().getExposureModifier();
-                    }
+                SlimefunItem sfItem = SlimefunItem.getByItem(tmpItem);
+                if (sfItem instanceof RadioactiveItem){
+                    exposureTotal += tmpItem.getAmount() * ((RadioactiveItem) sfItem).getRadioactivity().getExposureModifier();
                 }
             }
         }

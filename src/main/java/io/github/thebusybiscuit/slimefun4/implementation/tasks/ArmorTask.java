@@ -31,13 +31,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  *
  */
 public class ArmorTask implements Runnable {
-
-    /**
-     * This creates a new {@link ArmorTask}.
-     */
-    public ArmorTask() {
-    }
-
     /**
      * This returns a {@link Set} of {@link PotionEffect PotionEffects} which get applied to
      * a {@link Player} when they are exposed to deadly radiation.
