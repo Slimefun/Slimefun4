@@ -11,7 +11,6 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -112,7 +111,7 @@ public class RadioactivityTask implements Runnable {
                     p.addPotionEffect(SLOW);
                     break;
                 }
-                case SLOW_DAMAGE: {
+                case WITHER_LOW: {
                     p.addPotionEffect(WITHER);
                     break;
                 }
@@ -120,7 +119,7 @@ public class RadioactivityTask implements Runnable {
                     p.addPotionEffect(BLINDNESS);
                     break;
                 }
-                case FAST_DAMAGE: {
+                case WITHER_HIGH: {
                     p.addPotionEffect(WITHER2);
                     break;
                 }
@@ -137,9 +136,9 @@ public class RadioactivityTask implements Runnable {
          * An enum of potential radiation symptoms.
          */
         SLOW(10),
-        SLOW_DAMAGE(25),
+        WITHER_LOW(25),
         BLINDNESS(50),
-        FAST_DAMAGE(75),
+        WITHER_HIGH(75),
         IMMINENT_DEATH(100);
 
         private final int minExposure;

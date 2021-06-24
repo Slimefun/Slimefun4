@@ -20,14 +20,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 class TestArmorTask {
@@ -72,37 +69,8 @@ class TestArmorTask {
     @ParameterizedTest
     @DisplayName("Test Radiation and Hazmat Suits")
     @MethodSource("cartesianBooleans")
-    void testRadiactivity(boolean hazmat, boolean radioactiveFire) throws InterruptedException {
+    void testRadioactivity(boolean hazmat) throws InterruptedException {
         // TODO: Add checks for newer radiation system
-
-        /*Player player = server.addPlayer();
-        TestUtilities.awaitProfile(player);
-
-        // Setting the time to noon, to exclude the Solar Helmet check
-        player.getWorld().setTime(16000);
-
-        Category category = TestUtilities.getCategory(plugin, "hazmat_suit_test");
-        SlimefunItemStack item = new SlimefunItemStack("MOCK_URANIUM_" + String.valueOf(hazmat).toUpperCase(Locale.ROOT) + "_" + String.valueOf(radioactiveFire).toUpperCase(Locale.ROOT), Material.EMERALD, "&aHi, I am deadly");
-        new RadioactiveItem(category, Radioactivity.VERY_DEADLY, item, RecipeType.NULL, new ItemStack[9]).register(plugin);
-
-        player.getInventory().setItemInMainHand(item.clone());
-        player.getInventory().setItemInOffHand(new ItemStack(Material.EMERALD_ORE));
-
-        if (hazmat) {
-            SlimefunItemStack chestplate = new SlimefunItemStack("MOCK_HAZMAT_SUIT_" + String.valueOf(radioactiveFire).toUpperCase(Locale.ROOT), Material.LEATHER_CHESTPLATE, "&4Hazmat Prototype");
-            MockHazmatSuit armor = new MockHazmatSuit(category, chestplate);
-            armor.register(plugin);
-
-            player.getInventory().setChestplate(chestplate.clone());
-        }
-
-        ArmorTask task = new ArmorTask(radioactiveFire);
-        task.run();
-
-        // Check if the Player is suffering from radiation
-        boolean radiation = player.getActivePotionEffects().containsAll(task.getRadiationEffects());
-        Assertions.assertEquals(!hazmat, radiation);
-        Assertions.assertEquals(!hazmat && radioactiveFire, player.getFireTicks() > 0);*/
     }
 
     /**
