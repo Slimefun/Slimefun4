@@ -40,7 +40,7 @@ public class RadioactivityTask implements Runnable {
     private final PotionEffect BLINDNESS = new PotionEffect(PotionEffectType.BLINDNESS, duration, 0);
     private final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW, duration, 3);
 
-    public static void removePlayer(@Nonnull Player p){
+    public static void removePlayer(@Nonnull Player p) {
         radioactivityLevel.remove(p.getUniqueId());
     }
 
@@ -57,9 +57,8 @@ public class RadioactivityTask implements Runnable {
 
     private void handleRadiation(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) {
-         return;
+            return;
         }
-        Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
 
         int exposureTotal = 0;
         UUID uuid = p.getUniqueId();
@@ -69,15 +68,9 @@ public class RadioactivityTask implements Runnable {
                 if (item == null || item.getType() == Material.AIR) {
                     continue;
                 }
-                ItemStack tmpItem = item;
-
-                if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {
-                    // Performance optimization to reduce ItemMeta calls
-                    tmpItem = ItemStackWrapper.wrap(tmpItem);
-                }
-                SlimefunItem sfItem = SlimefunItem.getByItem(tmpItem);
-                if (sfItem instanceof RadioactiveItem){
-                    exposureTotal += tmpItem.getAmount() * ((RadioactiveItem) sfItem).getRadioactivity().getExposureModifier();
+                SlimefunItem sfItem = SlimefunItem.getByItem(item);
+                if (sfItem instanceof RadioactiveItem) {
+                    exposureTotal += item.getAmount() * ((RadioactiveItem) sfItem).getRadioactivity().getExposureModifier();
                 }
             }
         }
