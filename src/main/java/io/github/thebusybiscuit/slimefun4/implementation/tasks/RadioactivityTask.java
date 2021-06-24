@@ -6,9 +6,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
@@ -21,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -33,7 +31,7 @@ import java.util.UUID;
  */
 public class RadioactivityTask implements Runnable {
     private static final Symptom[] SYMPTOMS = Symptom.values();
-    private static final HashMap<UUID, Integer> radioactivityLevel = new HashMap<>();
+    private static final Map<UUID, Integer> radioactivityLevel = new HashMap<>();
     private final int duration = SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20;
     private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER, duration, 1);
     private final PotionEffect WITHER2 = new PotionEffect(PotionEffectType.WITHER, duration, 4);
@@ -65,7 +63,7 @@ public class RadioactivityTask implements Runnable {
 
         if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
             for (ItemStack item : p.getInventory()) {
-                if (item == null || item.getType() == Material.AIR) {
+                if (item == null || item.getType().isAir()) {
                     continue;
                 }
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
@@ -82,7 +80,7 @@ public class RadioactivityTask implements Runnable {
             }
             radioactivityLevel.put(uuid, Math.min(exposureLevelBefore + exposureTotal, 100));
         } else if (exposureLevelBefore > 0) {
-            radioactivityLevel.put(uuid, Math.max(exposureLevelBefore - 1, 0));
+            radioactivityLevel.put(uuid, exposureLevelBefore - 1);
         }
         
         int exposureLevelAfter = radioactivityLevel.getOrDefault(uuid, 0);
