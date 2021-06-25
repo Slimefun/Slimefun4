@@ -32,6 +32,7 @@ import java.util.UUID;
  *
  */
 public class RadioactivityTask implements Runnable {
+
     private static final Symptom[] SYMPTOMS = Symptom.values();
     private final int duration = SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20;
     private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER, duration, 1);

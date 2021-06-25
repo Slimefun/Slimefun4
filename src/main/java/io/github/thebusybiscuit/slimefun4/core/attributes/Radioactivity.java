@@ -49,6 +49,7 @@ public enum Radioactivity {
 
     private final ChatColor color;
     private final int exposureModifier;
+
     Radioactivity(@Nonnull ChatColor color, int exposureModifier) {
         this.color = color;
         this.exposureModifier = exposureModifier;
