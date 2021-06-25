@@ -46,16 +46,16 @@ class MiningTask implements Runnable {
     private final IndustrialMiner miner;
     private final UUID owner;
 
-    private int fuel = 0;
-    private int ores = 0;
-    private boolean running = false;
-
     private final Block chest;
     private final Block[] pistons;
 
     private final BlockPosition start;
     private final BlockPosition end;
     private final int height;
+
+    private boolean running = false;
+    private int fuel = 0;
+    private int ores = 0;
 
     private int x;
     private int z;

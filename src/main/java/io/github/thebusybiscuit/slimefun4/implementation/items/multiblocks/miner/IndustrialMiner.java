@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
@@ -27,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -49,9 +51,9 @@ public class IndustrialMiner extends MultiBlockMachine {
     protected final Map<Location, MiningTask> activeMiners = new HashMap<>();
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
 
-    private final int range;
-    private final boolean silkTouch;
     private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>(this, "can-mine-ancient-debris", false);
+    private final boolean silkTouch;
+    private final int range;
 
     @ParametersAreNonnullByDefault
     public IndustrialMiner(Category category, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
@@ -115,7 +117,7 @@ public class IndustrialMiner extends MultiBlockMachine {
      * 
      * @return The outcome when mining this ore
      */
-    public ItemStack getOutcome(Material ore) {
+    public @Nonnull ItemStack getOutcome(@Nonnull Material ore) {
         if (hasSilkTouch()) {
             return new ItemStack(ore);
         }
@@ -149,8 +151,10 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @param item
      *            The item that shall be consumed
      */
-    public void addFuelType(int ores, ItemStack item) {
+    public void addFuelType(int ores, @Nonnull ItemStack item) {
         Validate.isTrue(ores > 1 && ores % 2 == 0, "The amount of ores must be at least 2 and a multiple of 2.");
+        Validate.notNull(item, "The fuel item cannot be null");
+
         fuelTypes.add(new MachineFuel(ores / 2, item));
     }
 
@@ -190,11 +194,11 @@ public class IndustrialMiner extends MultiBlockMachine {
         Block start = b.getRelative(-mod, -1, -mod);
         Block end = b.getRelative(mod, -1, mod);
 
-        MiningTask instance = new MiningTask(this, p.getUniqueId(), chest, pistons, start, end);
-        instance.start(b);
+        MiningTask task = new MiningTask(this, p.getUniqueId(), chest, pistons, start, end);
+        task.start(b);
     }
 
-    private Block[] findPistons(Block chest) {
+    private @Nonnull Block[] findPistons(@Nonnull Block chest) {
         Block northern = chest.getRelative(BlockFace.NORTH);
 
         if (northern.getType() == Material.PISTON) {
@@ -212,7 +216,7 @@ public class IndustrialMiner extends MultiBlockMachine {
      * 
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
-    public boolean canMine(Material type) {
+    public boolean canMine(@Nonnull Material type) {
         if (SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type)) {
             return true;
         } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {

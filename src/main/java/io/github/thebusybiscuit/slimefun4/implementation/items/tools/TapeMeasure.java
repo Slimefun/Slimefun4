@@ -24,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -45,7 +46,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
     }
 
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             e.cancel();
 
@@ -90,9 +91,8 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
         }
     }
 
-    @Nonnull
     @ParametersAreNonnullByDefault
-    public Optional<Location> getAnchor(Player p, ItemStack item) {
+    public @Nonnull Optional<Location> getAnchor(Player p, ItemStack item) {
         ItemMeta meta = item.getItemMeta();
 
         String data = meta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
@@ -119,7 +119,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
     }
 
     @ParametersAreNonnullByDefault
-    public OptionalDouble getDistance(Player p, ItemStack item, Block block) {
+    public @Nonnull OptionalDouble getDistance(Player p, ItemStack item, Block block) {
         Optional<Location> anchor = getAnchor(p, item);
 
         if (anchor.isPresent()) {
