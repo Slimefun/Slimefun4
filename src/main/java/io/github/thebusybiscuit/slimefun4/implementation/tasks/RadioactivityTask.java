@@ -1,13 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.player.StatusEffect;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.RadiationSymptom;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -20,9 +20,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * The {@link RadioactivityTask} handles radioactivity for
@@ -33,12 +30,7 @@ import java.util.UUID;
  */
 public class RadioactivityTask implements Runnable {
 
-    private static final Symptom[] SYMPTOMS = Symptom.values();
-    private final int duration = SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20;
-    private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER, duration, 1);
-    private final PotionEffect WITHER2 = new PotionEffect(PotionEffectType.WITHER, duration, 4);
-    private final PotionEffect BLINDNESS = new PotionEffect(PotionEffectType.BLINDNESS, duration, 0);
-    private final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW, duration, 3);
+    private static final RadiationSymptom[] SYMPTOMS = RadiationSymptom.values();
     private static StatusEffect RADIATION_EFFECT;
 
     {
@@ -91,9 +83,9 @@ public class RadioactivityTask implements Runnable {
         }
         
         int exposureLevelAfter = RADIATION_EFFECT.getLevel(p).orElse(0);
-        for (Symptom symptom : SYMPTOMS) {
-            if (symptom.minExposure <= exposureLevelAfter) {
-                applySymptom(symptom, p);
+        for (RadiationSymptom symptom : SYMPTOMS) {
+            if (symptom.shouldApply(exposureLevelAfter)) {
+                symptom.apply(p);
             }
         }
         
@@ -103,56 +95,6 @@ public class RadioactivityTask implements Runnable {
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                     new ComponentBuilder().append(ChatColors.color(msg)).create()
             );
-        }
-    }
-
-    /**
-     * Applies a symptom to the player.
-     *
-     * @param s Symptom to apply
-     * @param p Player to apply to
-     */
-    private void applySymptom(@Nonnull Symptom s, @Nonnull Player p) {
-        SlimefunPlugin.runSync(() -> {
-            switch (s) {
-                case SLOW: {
-                    p.addPotionEffect(SLOW);
-                    break;
-                }
-                case WITHER_LOW: {
-                    p.addPotionEffect(WITHER);
-                    break;
-                }
-                case BLINDNESS: {
-                    p.addPotionEffect(BLINDNESS);
-                    break;
-                }
-                case WITHER_HIGH: {
-                    p.addPotionEffect(WITHER2);
-                    break;
-                }
-                case IMMINENT_DEATH: {
-                    p.setHealth(0);
-                    break;
-                }
-            }
-        });
-    }
-
-    private enum Symptom {
-        /**
-         * An enum of potential radiation symptoms.
-         */
-        SLOW(10),
-        WITHER_LOW(25),
-        BLINDNESS(50),
-        WITHER_HIGH(75),
-        IMMINENT_DEATH(100);
-
-        private final int minExposure;
-
-        Symptom(int minExposure) {
-            this.minExposure = minExposure;
         }
     }
 }

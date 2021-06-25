@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.RadioactivityTask;
 
 /**
  * This enum holds all available levels of {@link Radioactivity}.
@@ -54,10 +55,18 @@ public enum Radioactivity {
         this.color = color;
         this.exposureModifier = exposureModifier;
     }
-    
+
+    /**
+     * This method returns the amount of exposure applied
+     * to a player every run of the {@link RadioactivityTask}
+     * for this radiation level.
+     *
+     * @return The exposure amount applied per run.
+     */
     public int getExposureModifier() {
         return exposureModifier;
     }
+
     @Nonnull
     public String getLore() {
         return ChatColor.GREEN + "\u2622" + ChatColor.GRAY + " Radiation level: " + color + toString().replace('_', ' ');
