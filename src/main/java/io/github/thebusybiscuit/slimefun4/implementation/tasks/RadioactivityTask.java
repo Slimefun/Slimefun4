@@ -29,6 +29,7 @@ import java.util.UUID;
  *
  */
 public class RadioactivityTask implements Runnable {
+
     private static final Symptom[] SYMPTOMS = Symptom.values();
     private static final Map<UUID, Integer> radioactivityLevel = new HashMap<>();
     private final int duration = SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20;
