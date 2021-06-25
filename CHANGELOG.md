@@ -29,6 +29,7 @@
 ## Release Candidate 26 (TBD)
 
 #### Additions
+* Diamonds can now be ground into Carbon using a Grind Stone
 
 #### Changes
 
