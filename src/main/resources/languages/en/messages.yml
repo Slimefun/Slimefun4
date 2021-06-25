@@ -137,7 +137,8 @@ guide:
       wiki: '&3Wiki Editor'
       resourcepack: '&cResourcepack Artist'
       translator: '&9Translator'
-
+actionbar:
+  radiation: '&6Radiation Exposure Level: &c%level%&7/&e100'
 messages:
   not-researched: '&4You do not have enough knowledge to understand this. &cYou will need to unlock &f"%item%&f"'
   not-enough-xp: '&4You do not have enough XP to unlock this'
@@ -230,7 +231,7 @@ messages:
   fire-extinguish: '&7You have extinguished yourself'
   cannot-place: '&cYou cannot place that block there!'
   no-pvp: '&cYou cannot pvp in here!'
-  radiation: '&4You have been exposed to deadly radiation! &cGet rid of the radioactive item or equip the complete hazmat suit!'
+  radiation: '&4You have been exposed to radiation! &cGet rid of the radioactive item or equip the complete hazmat suit!'
   opening-guide: '&bOpening guide, this may take a few seconds...'
   opening-backpack: '&bOpening backpack, this may take a few seconds...'
   no-iron-golem-heal: '&cThat is not an Iron Ingot. You cannot use this to heal Iron Golems!'
