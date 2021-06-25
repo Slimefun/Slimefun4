@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -54,7 +55,7 @@ public class PressureChamber extends MultiBlockMachine {
                             removing.setAmount(convert.getAmount());
                             inv.removeItem(removing);
 
-                            craft(p, b, output, outputInv);
+                            craft(p, b, output, outputInv, disp);
                         } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
@@ -67,7 +68,7 @@ public class PressureChamber extends MultiBlockMachine {
         }
     }
 
-    private void craft(Player p, Block b, ItemStack output, Inventory outputInv) {
+    private void craft(Player p, Block b, ItemStack output, Inventory outputInv, Dispenser dispenser) {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
@@ -79,9 +80,16 @@ public class PressureChamber extends MultiBlockMachine {
 
                 if (j < 3) {
                     p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1F, 1F);
-                } else {
+                } else if (InvUtils.fits(outputInv, output)) {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                     outputInv.addItem(output);
+                } else if (InvUtils.fits(dispenser.getInventory(), output)) {
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    dispenser.getInventory().addItem(output);
+                } else {
+                    // fallback
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);
                 }
             }, i * 20L);
         }

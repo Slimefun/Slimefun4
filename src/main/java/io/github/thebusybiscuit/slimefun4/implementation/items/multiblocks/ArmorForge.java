@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -44,7 +45,7 @@ public class ArmorForge extends AbstractCraftingTable {
                     ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(p, output, inv, dispenser);
+                        craft(p, output, inv, disp);
                     }
 
                     return;
@@ -70,9 +71,9 @@ public class ArmorForge extends AbstractCraftingTable {
     }
 
     @ParametersAreNonnullByDefault
-    private void craft(Player p, ItemStack output, Inventory inv, Block dispenser) {
+    private void craft(Player p, ItemStack output, Inventory inv, Dispenser dispenser) {
         Inventory fakeInv = createVirtualInventory(inv);
-        Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
+        Inventory outputInv = findOutputInventory(output, dispenser.getBlock(), inv, fakeInv);
 
         if (outputInv != null) {
             for (int j = 0; j < 9; j++) {
@@ -89,9 +90,16 @@ public class ArmorForge extends AbstractCraftingTable {
                 SlimefunPlugin.runSync(() -> {
                     if (current < 3) {
                         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
-                    } else {
+                    } else if (InvUtils.fits(outputInv, output)) {
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                         outputInv.addItem(output);
+                    } else if (InvUtils.fits(dispenser.getInventory(), output)) {
+                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                        dispenser.getInventory().addItem(output);
+                    } else {
+                        // fallback
+                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                        dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);
                     }
                 }, j * 20L);
             }

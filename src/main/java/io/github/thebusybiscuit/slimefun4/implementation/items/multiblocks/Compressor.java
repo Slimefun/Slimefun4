@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -72,7 +73,7 @@ public class Compressor extends MultiBlockMachine {
                             removing.setAmount(recipeInput.getAmount());
                             inv.removeItem(removing);
 
-                            craft(p, output, outputInv);
+                            craft(p, output, outputInv, disp);
                         } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
@@ -86,16 +87,23 @@ public class Compressor extends MultiBlockMachine {
         }
     }
 
-    private void craft(Player p, ItemStack output, Inventory outputInv) {
+    private void craft(Player p, ItemStack output, Inventory outputInv, Dispenser dispenser) {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
             SlimefunPlugin.runSync(() -> {
                 if (j < 3) {
                     p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
-                } else {
+                } else if (InvUtils.fits(outputInv, output)) {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                     outputInv.addItem(output);
+                } else if (InvUtils.fits(dispenser.getInventory(), output)) {
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    dispenser.getInventory().addItem(output);
+                } else {
+                    // fallback
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);
                 }
             }, i * 20L);
         }

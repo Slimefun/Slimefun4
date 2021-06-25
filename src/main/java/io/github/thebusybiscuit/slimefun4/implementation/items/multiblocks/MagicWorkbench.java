@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -53,7 +54,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
                     ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(inv, dispenser, p, b, output);
+                        craft(inv, disp, p, b, output);
                     }
 
                     return;
@@ -68,9 +69,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
         }
     }
 
-    private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {
+    private void craft(Inventory inv, Dispenser dispenser, Player p, Block b, ItemStack output) {
         Inventory fakeInv = createVirtualInventory(inv);
-        Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
+        Inventory outputInv = findOutputInventory(output, dispenser.getBlock(), inv, fakeInv);
 
         if (outputInv != null) {
             SlimefunItem sfItem = SlimefunItem.getByItem(output);
@@ -89,13 +90,13 @@ public class MagicWorkbench extends AbstractCraftingTable {
                 }
             }
 
-            startAnimation(p, b, outputInv, output);
+            startAnimation(p, b, outputInv, output, dispenser);
         } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 
-    private void startAnimation(Player p, Block b, Inventory inv, ItemStack output) {
+    private void startAnimation(Player p, Block b, Inventory inv, ItemStack output, Dispenser dispenser) {
         for (int j = 0; j < 4; j++) {
             int current = j;
             SlimefunPlugin.runSync(() -> {
@@ -104,9 +105,16 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
                 if (current < 3) {
                     p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F);
-                } else {
+                } else if (InvUtils.fits(inv, output)) {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                     inv.addItem(output);
+                } else if (InvUtils.fits(dispenser.getInventory(), output)) {
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    dispenser.getInventory().addItem(output);
+                } else {
+                    // fallback
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);
                 }
             }, j * 20L);
         }
