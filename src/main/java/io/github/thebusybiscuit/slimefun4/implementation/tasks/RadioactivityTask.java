@@ -1,7 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.player.StatusEffect;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -11,6 +13,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -30,15 +33,20 @@ import java.util.UUID;
  */
 public class RadioactivityTask implements Runnable {
     private static final Symptom[] SYMPTOMS = Symptom.values();
-    private static final Map<UUID, Integer> radioactivityLevel = new HashMap<>();
     private final int duration = SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20;
     private final PotionEffect WITHER = new PotionEffect(PotionEffectType.WITHER, duration, 1);
     private final PotionEffect WITHER2 = new PotionEffect(PotionEffectType.WITHER, duration, 4);
     private final PotionEffect BLINDNESS = new PotionEffect(PotionEffectType.BLINDNESS, duration, 0);
     private final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW, duration, 3);
+    private static StatusEffect RADIATION_EFFECT;
+
+    {
+        assert SlimefunPlugin.instance() != null;
+        RADIATION_EFFECT = new StatusEffect(new NamespacedKey(SlimefunPlugin.instance(), "radiation"));
+    }
 
     public static void removePlayer(@Nonnull Player p) {
-        radioactivityLevel.remove(p.getUniqueId());
+        RADIATION_EFFECT.clear(p);
     }
 
     @Override
@@ -58,7 +66,6 @@ public class RadioactivityTask implements Runnable {
         }
 
         int exposureTotal = 0;
-        UUID uuid = p.getUniqueId();
 
         if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
             for (ItemStack item : p.getInventory()) {
@@ -72,17 +79,17 @@ public class RadioactivityTask implements Runnable {
             }
         }
         
-        int exposureLevelBefore = radioactivityLevel.getOrDefault(uuid, 0);
+        int exposureLevelBefore = RADIATION_EFFECT.getLevel(p).orElse(0);
         if (exposureTotal > 0) {
             if (exposureLevelBefore == 0) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
             }
-            radioactivityLevel.put(uuid, Math.min(exposureLevelBefore + exposureTotal, 100));
+            RADIATION_EFFECT.addPermanent(p, Math.min(exposureLevelBefore + exposureTotal, 100));
         } else if (exposureLevelBefore > 0) {
-            radioactivityLevel.put(uuid, exposureLevelBefore - 1);
+            RADIATION_EFFECT.addPermanent(p, RADIATION_EFFECT.getLevel(p).orElse(1) - 1);
         }
         
-        int exposureLevelAfter = radioactivityLevel.getOrDefault(uuid, 0);
+        int exposureLevelAfter = RADIATION_EFFECT.getLevel(p).orElse(0);
         for (Symptom symptom : SYMPTOMS) {
             if (symptom.minExposure <= exposureLevelAfter) {
                 applySymptom(symptom, p);
