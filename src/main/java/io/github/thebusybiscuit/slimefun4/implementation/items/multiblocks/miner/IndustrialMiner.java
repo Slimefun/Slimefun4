@@ -41,12 +41,12 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author TheBusyBiscuit
  * 
  * @see AdvancedIndustrialMiner
- * @see ActiveMiner
+ * @see MiningTask
  *
  */
 public class IndustrialMiner extends MultiBlockMachine {
 
-    protected final Map<Location, ActiveMiner> activeMiners = new HashMap<>();
+    protected final Map<Location, MiningTask> activeMiners = new HashMap<>();
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
 
     private final int range;
@@ -190,7 +190,7 @@ public class IndustrialMiner extends MultiBlockMachine {
         Block start = b.getRelative(-mod, -1, -mod);
         Block end = b.getRelative(mod, -1, mod);
 
-        ActiveMiner instance = new ActiveMiner(this, p.getUniqueId(), chest, pistons, start, end);
+        MiningTask instance = new MiningTask(this, p.getUniqueId(), chest, pistons, start, end);
         instance.start(b);
     }
 
