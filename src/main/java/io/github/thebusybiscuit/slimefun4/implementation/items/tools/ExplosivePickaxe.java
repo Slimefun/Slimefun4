@@ -7,8 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 /**
  * The {@link ExplosivePickaxe} is a pickaxe which can destroy {@link Block}s

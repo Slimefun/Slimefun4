@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Lists;
+package io.github.thebusybiscuit.slimefun4.api.recipes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 
-// This class will be reworked and relocated in the "Recipe Rewrite"
+// TODO: Remove this class and rewrite the recipe system
 public class RecipeType implements Keyed {
 
     public static final RecipeType MULTIBLOCK = new RecipeType(new NamespacedKey(SlimefunPlugin.instance(), "multiblock"), new CustomItem(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));

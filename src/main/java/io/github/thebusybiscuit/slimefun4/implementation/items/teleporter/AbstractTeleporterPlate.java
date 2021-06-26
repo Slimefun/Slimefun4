@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 
 /**
  * The {@link AbstractTeleporterPlate} is the abstract super class

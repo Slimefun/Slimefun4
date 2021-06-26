@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.MobDropListener;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 
 /**
  * This interface, when attached to a {@link SlimefunItem}, provides an easy method for adding

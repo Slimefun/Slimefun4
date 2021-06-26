@@ -9,8 +9,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 
 /**
  * This class represents a {@link SlimefunItem} that is a Bow.

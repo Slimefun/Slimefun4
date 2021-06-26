@@ -8,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 
 /**
  * An {@link ElementalRune} is a very simple and basic crafting component
