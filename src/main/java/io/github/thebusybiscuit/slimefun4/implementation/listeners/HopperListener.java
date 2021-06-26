@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryType;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 

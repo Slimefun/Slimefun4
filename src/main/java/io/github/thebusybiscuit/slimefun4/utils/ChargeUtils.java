@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -17,6 +16,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**

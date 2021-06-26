@@ -35,6 +35,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoice
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.papermc.lib.PaperLib;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 /**

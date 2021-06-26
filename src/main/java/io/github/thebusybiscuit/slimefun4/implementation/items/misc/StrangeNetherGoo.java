@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
 
+import java.util.Optional;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import java.util.Optional;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;

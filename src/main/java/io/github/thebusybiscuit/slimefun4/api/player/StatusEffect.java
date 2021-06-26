@@ -6,12 +6,12 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
  * A very simple API that is meant for adding/getting/clearing custom status effects

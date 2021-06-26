@@ -15,10 +15,11 @@ import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
 
-import dev.lone.itemsadder.api.ItemsAdder;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+
+import dev.lone.itemsadder.api.ItemsAdder;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}

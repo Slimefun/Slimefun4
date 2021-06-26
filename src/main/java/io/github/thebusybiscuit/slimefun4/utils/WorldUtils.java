@@ -2,10 +2,11 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.apache.commons.lang.Validate;
 import org.bukkit.World;
+
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This class holds utilities for {@link World}. This will become especially useful with the changes

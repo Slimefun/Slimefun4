@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
-import io.github.thebusybiscuit.slimefun4.utils.ChargeUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.MultiTool;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ChargingBench;
+import io.github.thebusybiscuit.slimefun4.utils.ChargeUtils;
 
 /**
  * A {@link Rechargeable} {@link SlimefunItem} can hold energy and is able to

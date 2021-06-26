@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
@@ -10,9 +13,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 public class CoalGenerator extends AGenerator {
 

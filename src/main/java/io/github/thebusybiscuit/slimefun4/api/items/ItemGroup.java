@@ -68,7 +68,8 @@ public class ItemGroup implements Keyed {
      * @param item
      *            The {@link ItemStack} that is used to display this {@link ItemGroup}
      * @param tier
-     *            The tier of this {@link ItemGroup}, higher tiers will make this {@link ItemGroup} appear further down in
+     *            The tier of this {@link ItemGroup}, higher tiers will make this {@link ItemGroup} appear further down
+     *            in
      *            the {@link SlimefunGuide}
      */
     @ParametersAreNonnullByDefault

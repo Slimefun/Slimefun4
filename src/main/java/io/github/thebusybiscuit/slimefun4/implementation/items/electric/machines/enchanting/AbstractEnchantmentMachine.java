@@ -1,10 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -17,10 +21,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * This is a super class of the {@link AutoEnchanter} and {@link AutoDisenchanter} which is

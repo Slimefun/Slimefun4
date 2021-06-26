@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
 import me.minebuilders.clearlag.Clearlag;
 import me.minebuilders.clearlag.events.EntityRemoveEvent;
 
