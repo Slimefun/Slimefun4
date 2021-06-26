@@ -29,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * @see SeasonalItemGroup
  *
  */
-class DefaultCategories {
+class DefaultItemGroups {
 
     // Standard Categories
     protected final ItemGroup weapons = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "weapons"), new CustomItem(SlimefunItems.BLADE_OF_VAMPIRES, "&7Weapons"), 1);

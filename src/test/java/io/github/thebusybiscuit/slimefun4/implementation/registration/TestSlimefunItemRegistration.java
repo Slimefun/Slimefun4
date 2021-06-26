@@ -95,17 +95,17 @@ class TestSlimefunItemRegistration {
         // null should not be a valid argument
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.setCategory(null));
 
-        ItemGroup category = item.getCategory();
+        ItemGroup category = item.getItemGroup();
         ItemGroup category2 = new ItemGroup(new NamespacedKey(plugin, "test2"), new CustomItem(Material.OBSIDIAN, "&6Test 2"));
 
         Assertions.assertTrue(category.contains(item));
         Assertions.assertFalse(category2.contains(item));
-        Assertions.assertEquals(category, item.getCategory());
+        Assertions.assertEquals(category, item.getItemGroup());
 
         item.setCategory(category2);
         Assertions.assertFalse(category.contains(item));
         Assertions.assertTrue(category2.contains(item));
-        Assertions.assertEquals(category2, item.getCategory());
+        Assertions.assertEquals(category2, item.getItemGroup());
     }
 
     @Test
@@ -116,21 +116,21 @@ class TestSlimefunItemRegistration {
         item.register(plugin);
         item.load();
 
-        ItemGroup category = item.getCategory();
+        ItemGroup category = item.getItemGroup();
 
         Assertions.assertTrue(item.isHidden());
         Assertions.assertFalse(category.contains(item));
-        Assertions.assertEquals(category, item.getCategory());
+        Assertions.assertEquals(category, item.getItemGroup());
 
         item.setHidden(false);
         Assertions.assertFalse(item.isHidden());
         Assertions.assertTrue(category.contains(item));
-        Assertions.assertEquals(category, item.getCategory());
+        Assertions.assertEquals(category, item.getItemGroup());
 
         item.setHidden(true);
         Assertions.assertTrue(item.isHidden());
         Assertions.assertFalse(category.contains(item));
-        Assertions.assertEquals(category, item.getCategory());
+        Assertions.assertEquals(category, item.getItemGroup());
 
         // Do nothing if the value hasn't changed
         item.setHidden(true);

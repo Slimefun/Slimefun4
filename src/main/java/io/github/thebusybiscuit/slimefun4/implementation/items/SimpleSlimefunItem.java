@@ -32,13 +32,13 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 public abstract class SimpleSlimefunItem<T extends ItemHandler> extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    protected SimpleSlimefunItem(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected SimpleSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @ParametersAreNonnullByDefault
-    protected SimpleSlimefunItem(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    protected SimpleSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
     @Override

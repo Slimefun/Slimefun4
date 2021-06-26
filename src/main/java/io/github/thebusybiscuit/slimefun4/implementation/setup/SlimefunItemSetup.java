@@ -231,7 +231,7 @@ public final class SlimefunItemSetup {
         }
 
         registeredItems = true;
-        DefaultCategories categories = new DefaultCategories();
+        DefaultItemGroups categories = new DefaultItemGroups();
 
         // @formatter:off (We will need to refactor this one day)
         new SlimefunItem(categories.weapons, SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,

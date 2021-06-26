@@ -118,7 +118,7 @@ class TestCategories {
         item.register(plugin);
         item.load();
 
-        ItemGroup category = item.getCategory();
+        ItemGroup category = item.getItemGroup();
 
         Assertions.assertTrue(category.contains(item));
         Assertions.assertFalse(category.contains(null));

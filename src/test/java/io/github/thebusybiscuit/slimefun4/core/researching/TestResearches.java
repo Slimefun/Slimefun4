@@ -201,7 +201,7 @@ class TestResearches {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
 
-        research.unlockFromGuide(guide, player, profile, sfItem, sfItem.getCategory(), 0);
+        research.unlockFromGuide(guide, player, profile, sfItem, sfItem.getItemGroup(), 0);
 
         server.getPluginManager().assertEventFired(PlayerPreResearchEvent.class, event -> {
             Assertions.assertEquals(player, event.getPlayer());

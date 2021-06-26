@@ -95,7 +95,7 @@ public class SlimefunItem implements Placeable {
     /**
      * This is the {@link ItemGroup} in which this {@link SlimefunItem} can be found.
      */
-    private ItemGroup category;
+    private ItemGroup itemGroup;
 
     /**
      * This is a reference to the associated {@link Research}, can be null.
@@ -122,7 +122,7 @@ public class SlimefunItem implements Placeable {
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
      * 
-     * @param category
+     * @param itemGroup
      *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
      * @param item
      *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
@@ -132,14 +132,14 @@ public class SlimefunItem implements Placeable {
      *            An Array representing the recipe of this {@link SlimefunItem}
      */
     @ParametersAreNonnullByDefault
-    public SlimefunItem(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        this(category, item, recipeType, recipe, null);
+    public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, item, recipeType, recipe, null);
     }
 
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
      * 
-     * @param category
+     * @param itemGroup
      *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
      * @param item
      *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
@@ -151,12 +151,12 @@ public class SlimefunItem implements Placeable {
      *            The result of crafting this item
      */
     @ParametersAreNonnullByDefault
-    public SlimefunItem(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        Validate.notNull(category, "'category' is not allowed to be null!");
+    public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        Validate.notNull(itemGroup, "'itemGroup' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
         Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
 
-        this.category = category;
+        this.itemGroup = itemGroup;
         this.itemStackTemplate = item;
         this.id = item.getItemId();
         this.recipeType = recipeType;
@@ -166,13 +166,13 @@ public class SlimefunItem implements Placeable {
 
     // Previously deprecated constructor, now only for internal purposes
     @ParametersAreNonnullByDefault
-    protected SlimefunItem(ItemGroup category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-        Validate.notNull(category, "'category' is not allowed to be null!");
+    protected SlimefunItem(ItemGroup itemGroup, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+        Validate.notNull(itemGroup, "'itemGroup' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
         Validate.notNull(id, "'id' is not allowed to be null!");
         Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
 
-        this.category = category;
+        this.itemGroup = itemGroup;
         this.itemStackTemplate = item;
         this.id = id;
         this.recipeType = recipeType;
@@ -217,8 +217,8 @@ public class SlimefunItem implements Placeable {
      * 
      * @return The {@link ItemGroup} that this {@link SlimefunItem} belongs to
      */
-    public @Nonnull ItemGroup getCategory() {
-        return category;
+    public @Nonnull ItemGroup getItemGroup() {
+        return itemGroup;
     }
 
     public @Nonnull ItemStack[] getRecipe() {
@@ -340,9 +340,9 @@ public class SlimefunItem implements Placeable {
 
             if (state == ItemState.ENABLED) {
                 if (hidden) {
-                    category.remove(this);
+                    itemGroup.remove(this);
                 } else {
-                    category.add(this);
+                    itemGroup.add(this);
                 }
             }
         }
@@ -501,8 +501,8 @@ public class SlimefunItem implements Placeable {
      */
     private final void onEnable() {
         // Register the Category too if it hasn't been registered yet
-        if (!category.isRegistered()) {
-            category.register(addon);
+        if (!itemGroup.isRegistered()) {
+            itemGroup.register(addon);
         }
 
         // Send out deprecation warnings for any classes or interfaces
@@ -677,10 +677,10 @@ public class SlimefunItem implements Placeable {
     public void setCategory(@Nonnull ItemGroup category) {
         Validate.notNull(category, "The Category is not allowed to be null!");
 
-        this.category.remove(this);
+        this.itemGroup.remove(this);
         category.add(this);
 
-        this.category = category;
+        this.itemGroup = category;
     }
 
     /**
@@ -764,7 +764,7 @@ public class SlimefunItem implements Placeable {
      */
     public void load() {
         if (!hidden) {
-            category.add(this);
+            itemGroup.add(this);
         }
 
         recipeType.register(recipe, getRecipeOutput());

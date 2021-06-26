@@ -350,7 +350,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             if (!slimefunItem.isHidden() && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = new CustomItem(slimefunItem.getItem(), meta -> {
-                    ItemGroup category = slimefunItem.getCategory();
+                    ItemGroup category = slimefunItem.getItemGroup();
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + category.getDisplayName(p)));
                     meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
                 });
