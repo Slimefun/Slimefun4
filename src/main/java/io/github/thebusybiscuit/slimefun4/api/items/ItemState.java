@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * Defines whether a SlimefunItem is enabled, disabled or fall-back to its vanilla behavior.

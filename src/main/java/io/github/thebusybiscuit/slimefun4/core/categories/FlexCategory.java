@@ -9,14 +9,14 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * A {@link FlexCategory} is a {@link Category} inside the {@link SlimefunGuide} that can
+ * A {@link FlexCategory} is a {@link ItemGroup} inside the {@link SlimefunGuide} that can
  * be completely modified.
  * It cannot hold any {@link SlimefunItem} but can be completely overridden
  * to perform any action upon being opened.
@@ -24,7 +24,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  *
  */
-public abstract class FlexCategory extends Category {
+public abstract class FlexCategory extends ItemGroup {
 
     @ParametersAreNonnullByDefault
     protected FlexCategory(NamespacedKey key, ItemStack item) {

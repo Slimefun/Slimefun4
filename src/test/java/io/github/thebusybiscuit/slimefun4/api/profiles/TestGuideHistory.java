@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -18,8 +20,6 @@ import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 class TestGuideHistory {
 
@@ -120,9 +120,9 @@ class TestGuideHistory {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
 
-        Category category = new Category(new NamespacedKey(plugin, "category_guide_history"), new CustomItem(Material.BEDROCK, "&4Can't touch this"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "category_guide_history"), new CustomItem(Material.BEDROCK, "&4Can't touch this"));
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> history.add((Category) null, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> history.add((ItemGroup) null, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> history.add(category, -20));
 
         Assertions.assertEquals(0, history.size());

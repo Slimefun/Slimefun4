@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -16,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 class TestRadioactiveItem {
 
@@ -37,7 +37,7 @@ class TestRadioactiveItem {
     @EnumSource(value = Radioactivity.class)
     @DisplayName("Test radioactive items being radioactive")
     void testWikiPages(Radioactivity radioactivity) {
-        Category category = TestUtilities.getCategory(plugin, "radioactivity_test");
+        ItemGroup category = TestUtilities.getCategory(plugin, "radioactivity_test");
         SlimefunItemStack stack = new SlimefunItemStack("RADIOACTIVE_" + radioactivity.name(), Material.EMERALD, "&4Radioactive!!!", "Imagine dragons");
         RadioactiveItem item = new RadioactiveItem(category, radioactivity, stack, RecipeType.NULL, new ItemStack[9]);
 

@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -27,8 +29,6 @@ import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 class TestVillagerTradingListener {
 
@@ -86,7 +86,7 @@ class TestVillagerTradingListener {
 
     @Test
     void testTradingWithSyntheticEmerald() {
-        Category category = TestUtilities.getCategory(plugin, "shiny_emeralds");
+        ItemGroup category = TestUtilities.getCategory(plugin, "shiny_emeralds");
         SlimefunItemStack stack = new SlimefunItemStack("FAKE_EMERALD", Material.EMERALD, "&aTrade me");
         SyntheticEmerald item = new SyntheticEmerald(category, stack, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[9]);
         item.register(plugin);

@@ -9,10 +9,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 /**
  * The {@link NetherGoldPan} is a variant of the regular {@link GoldPan}
@@ -24,7 +24,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 public class NetherGoldPan extends GoldPan {
 
     @ParametersAreNonnullByDefault
-    public NetherGoldPan(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetherGoldPan(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 

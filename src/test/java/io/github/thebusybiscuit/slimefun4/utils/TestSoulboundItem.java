@@ -10,14 +10,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 class TestSoulboundItem {
 
@@ -81,7 +81,7 @@ class TestSoulboundItem {
     @Test
     @DisplayName("Test that soulbound Slimefun Items are soulbound")
     void testSoulboundSlimefunItem() {
-        SlimefunItem item = new SoulboundMock(new Category(new NamespacedKey(plugin, "soulbound_category"), new CustomItem(Material.REDSTONE, "&4Walshrus forever")));
+        SlimefunItem item = new SoulboundMock(new ItemGroup(new NamespacedKey(plugin, "soulbound_category"), new CustomItem(Material.REDSTONE, "&4Walshrus forever")));
         item.register(plugin);
 
         Assertions.assertTrue(SlimefunUtils.isSoulbound(item.getItem()));
@@ -89,7 +89,7 @@ class TestSoulboundItem {
 
     private class SoulboundMock extends SlimefunItem implements Soulbound {
 
-        public SoulboundMock(Category category) {
+        public SoulboundMock(ItemGroup category) {
             super(category, new SlimefunItemStack("MOCK_SOULBOUND", Material.REDSTONE, "&4Almighty Redstone"), RecipeType.NULL, new ItemStack[9]);
         }
 

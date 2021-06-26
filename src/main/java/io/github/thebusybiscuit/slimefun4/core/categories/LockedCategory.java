@@ -15,31 +15,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * Represents a {@link Category} that cannot be opened until the parent category/categories
+ * Represents a {@link ItemGroup} that cannot be opened until the parent category/categories
  * are fully unlocked.
  * <p>
- * See {@link Category} for the complete documentation.
+ * See {@link ItemGroup} for the complete documentation.
  * 
  * @author TheBusyBiscuit
  * 
- * @see Category
+ * @see ItemGroup
  * @see SeasonalCategory
  * 
  */
-public class LockedCategory extends Category {
+public class LockedCategory extends ItemGroup {
 
     private final NamespacedKey[] keys;
-    private final Set<Category> parents = new HashSet<>();
+    private final Set<ItemGroup> parents = new HashSet<>();
 
     /**
      * The basic constructor for a LockedCategory.
-     * Like {@link Category}, the default tier is automatically set to 3.
+     * Like {@link ItemGroup}, the default tier is automatically set to 3.
      * 
      * @param key
      *            A unique identifier for this category
@@ -87,7 +87,7 @@ public class LockedCategory extends Category {
             }
         }
 
-        for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
+        for (ItemGroup category : SlimefunPlugin.getRegistry().getCategories()) {
             if (namespacedKeys.remove(category.getKey())) {
                 addParent(category);
             }
@@ -103,24 +103,24 @@ public class LockedCategory extends Category {
      * 
      * @return the list of parent categories
      * 
-     * @see #addParent(Category)
-     * @see #removeParent(Category)
+     * @see #addParent(ItemGroup)
+     * @see #removeParent(ItemGroup)
      */
     @Nonnull
-    public Set<Category> getParents() {
+    public Set<ItemGroup> getParents() {
         return parents;
     }
 
     /**
-     * Adds a parent {@link Category} to this {@link LockedCategory}.
+     * Adds a parent {@link ItemGroup} to this {@link LockedCategory}.
      * 
      * @param category
-     *            The {@link Category} to add as a parent
+     *            The {@link ItemGroup} to add as a parent
      *
      * @see #getParents()
-     * @see #removeParent(Category)
+     * @see #removeParent(ItemGroup)
      */
-    public void addParent(Category category) {
+    public void addParent(ItemGroup category) {
         if (category == this || category == null) {
             throw new IllegalArgumentException("Category '" + item.getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
         }
@@ -129,15 +129,15 @@ public class LockedCategory extends Category {
     }
 
     /**
-     * Removes a {@link Category} from the parents of this {@link LockedCategory}.
+     * Removes a {@link ItemGroup} from the parents of this {@link LockedCategory}.
      * 
      * @param category
-     *            The {@link Category} to remove from the parents of this {@link LockedCategory}
+     *            The {@link ItemGroup} to remove from the parents of this {@link LockedCategory}
      * 
      * @see #getParents()
-     * @see #addParent(Category)
+     * @see #addParent(ItemGroup)
      */
-    public void removeParent(@Nonnull Category category) {
+    public void removeParent(@Nonnull ItemGroup category) {
         parents.remove(category);
     }
 
@@ -155,7 +155,7 @@ public class LockedCategory extends Category {
         Validate.notNull(p, "The player cannot be null!");
         Validate.notNull(profile, "The Profile cannot be null!");
 
-        for (Category category : parents) {
+        for (ItemGroup category : parents) {
             for (SlimefunItem item : category.getItems()) {
                 // Check if the Player has researched every item (if the item is enabled)
                 if (!item.isDisabledIn(p.getWorld()) && item.hasResearch() && !profile.hasUnlocked(item.getResearch())) {

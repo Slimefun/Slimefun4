@@ -26,7 +26,9 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
@@ -36,8 +38,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -56,7 +57,7 @@ public final class SlimefunRegistry {
     private final List<SlimefunItem> slimefunItems = new ArrayList<>();
     private final List<SlimefunItem> enabledItems = new ArrayList<>();
 
-    private final List<Category> categories = new ArrayList<>();
+    private final List<ItemGroup> categories = new ArrayList<>();
     private final List<MultiBlock> multiblocks = new LinkedList<>();
 
     private final List<Research> researches = new LinkedList<>();
@@ -164,12 +165,12 @@ public final class SlimefunRegistry {
     }
 
     /**
-     * This returns a {@link List} containing every enabled {@link Category}.
+     * This returns a {@link List} containing every enabled {@link ItemGroup}.
      * 
-     * @return {@link List} containing every enabled {@link Category}
+     * @return {@link List} containing every enabled {@link ItemGroup}
      */
     @Nonnull
-    public List<Category> getCategories() {
+    public List<ItemGroup> getCategories() {
         return categories;
     }
 

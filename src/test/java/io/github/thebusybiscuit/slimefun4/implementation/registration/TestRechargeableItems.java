@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -17,8 +19,6 @@ import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class TestRechargeableItems {
 
@@ -121,7 +121,7 @@ public class TestRechargeableItems {
     }
 
     private RechargeableMock mock(String id, float capacity) {
-        Category category = TestUtilities.getCategory(plugin, "rechargeable");
+        ItemGroup category = TestUtilities.getCategory(plugin, "rechargeable");
         return new RechargeableMock(category, new SlimefunItemStack(id, new CustomItem(Material.REDSTONE_LAMP, "&3" + id)), capacity);
     }
 
@@ -129,7 +129,7 @@ public class TestRechargeableItems {
 
         private final float capacity;
 
-        protected RechargeableMock(Category category, SlimefunItemStack item, float capacity) {
+        protected RechargeableMock(ItemGroup category, SlimefunItemStack item, float capacity) {
             super(category, item, RecipeType.NULL, new ItemStack[9]);
             this.capacity = capacity;
         }

@@ -16,14 +16,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 class TestGuideOpening {
 
@@ -62,7 +62,7 @@ class TestGuideOpening {
     @Test
     @DisplayName("Test if a Category can be opened from the History")
     void testOpenCategory() throws InterruptedException {
-        Category category = new Category(new NamespacedKey(plugin, "history_category"), new CustomItem(Material.BLUE_TERRACOTTA, "&9Testy test"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "history_category"), new CustomItem(Material.BLUE_TERRACOTTA, "&9Testy test"));
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
         PlayerProfile profile = prepare(guide, history -> history.add(category, 1));

@@ -15,8 +15,8 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This Service is responsible for handling the {@link Permission} of a

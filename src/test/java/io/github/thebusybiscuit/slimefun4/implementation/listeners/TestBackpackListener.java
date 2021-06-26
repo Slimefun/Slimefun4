@@ -29,6 +29,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -41,7 +42,6 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 class TestBackpackListener {
 
@@ -86,7 +86,7 @@ class TestBackpackListener {
         PlayerBackpack backpack = profile.createBackpack(size);
         listener.setBackpackId(player, item, 2, backpack.getId());
 
-        Category category = new Category(new NamespacedKey(plugin, "test_backpacks"), new CustomItem(Material.CHEST, "&4Test Backpacks"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), new CustomItem(Material.CHEST, "&4Test Backpacks"));
         SlimefunBackpack slimefunBackpack = new SlimefunBackpack(size, category, item, RecipeType.NULL, new ItemStack[9]);
         slimefunBackpack.register(plugin);
 

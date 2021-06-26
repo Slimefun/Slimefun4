@@ -10,14 +10,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This is a static utility class that provides convenient access to the methods
@@ -83,7 +83,7 @@ public final class SlimefunGuide {
     }
 
     @ParametersAreNonnullByDefault
-    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideMode mode, int selectedPage) {
+    public static void openCategory(PlayerProfile profile, ItemGroup category, SlimefunGuideMode mode, int selectedPage) {
         SlimefunPlugin.getRegistry().getSlimefunGuide(mode).openCategory(profile, category, selectedPage);
     }
 

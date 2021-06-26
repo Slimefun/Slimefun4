@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import me.mrCookieSlime.Slimefun.Objects.Category;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 
 /**
- * The {@link SubCategory} is a child {@link Category} of the
+ * The {@link SubCategory} is a child {@link ItemGroup} of the
  * {@link MultiCategory}.
  * 
  * @author TheBusyBiscuit
@@ -20,7 +20,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
  * @see MultiCategory
  *
  */
-public class SubCategory extends Category {
+public class SubCategory extends ItemGroup {
 
     private final MultiCategory multiCategory;
 

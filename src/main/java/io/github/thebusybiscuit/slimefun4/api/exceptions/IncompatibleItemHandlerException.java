@@ -5,8 +5,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * An {@link IncompatibleItemHandlerException} is thrown whenever a {@link Plugin} tried

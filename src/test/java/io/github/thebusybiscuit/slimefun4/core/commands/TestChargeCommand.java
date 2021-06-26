@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -18,8 +20,6 @@ import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 class TestChargeCommand {
 
@@ -40,7 +40,7 @@ class TestChargeCommand {
     @Test
     @DisplayName("Test if /sf charge charges the item the player is holding")
     void testCommand() {
-        Category category = TestUtilities.getCategory(plugin, "rechargeable");
+        ItemGroup category = TestUtilities.getCategory(plugin, "rechargeable");
         SlimefunItemStack RECHARGEABLE_ITEM = new SlimefunItemStack("SF_CHARGE_TEST_ITEM", Material.REDSTONE_BLOCK, "Rechargeable Item", "This isn't real", LoreBuilder.powerCharged(0, 100));
         new RechargeableMock(category, RECHARGEABLE_ITEM, RecipeType.NULL, new ItemStack[9]).register(plugin);
 
@@ -62,7 +62,7 @@ class TestChargeCommand {
 
     private class RechargeableMock extends SlimefunItem implements Rechargeable {
 
-        public RechargeableMock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        public RechargeableMock(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
             super(category, item, recipeType, recipe);
         }
 

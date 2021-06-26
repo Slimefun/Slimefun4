@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.bukkit.Effect;
@@ -15,7 +16,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 /**
  * The {@link IcyBow} is a special kind of bow which slows down any
@@ -28,7 +28,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 public class IcyBow extends SlimefunBow {
 
     @ParametersAreNonnullByDefault
-    public IcyBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
+    public IcyBow(ItemGroup category, SlimefunItemStack item, ItemStack[] recipe) {
         super(category, item, recipe);
     }
 

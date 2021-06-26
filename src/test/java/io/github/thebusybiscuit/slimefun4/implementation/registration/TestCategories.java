@@ -14,6 +14,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
@@ -27,8 +29,6 @@ import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 class TestCategories {
 
@@ -49,7 +49,7 @@ class TestCategories {
     @Test
     @DisplayName("Test the Getters for Category")
     void testCategoryGetters() {
-        Category category = new Category(new NamespacedKey(plugin, "getter_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "getter_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
 
         Assertions.assertEquals(3, category.getTier());
         Assertions.assertEquals(new NamespacedKey(SlimefunPlugin.instance(), "getter_test"), category.getKey());
@@ -64,7 +64,7 @@ class TestCategories {
     @Test
     @DisplayName("Test adding an item to a Category")
     void testAddItem() {
-        Category category = new Category(new NamespacedKey(plugin, "items_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "items_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_ITEMS_TEST_ITEM", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
         item.setCategory(category);
         item.register(plugin);
@@ -83,7 +83,7 @@ class TestCategories {
     @Test
     @DisplayName("Test hidden Categories")
     void testHidden() {
-        Category category = new Category(new NamespacedKey(plugin, "hiddenCategory"), new ItemStack(Material.BEACON));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "hiddenCategory"), new ItemStack(Material.BEACON));
         Player player = server.addPlayer();
 
         // Empty Categories are also hidden
@@ -118,7 +118,7 @@ class TestCategories {
         item.register(plugin);
         item.load();
 
-        Category category = item.getCategory();
+        ItemGroup category = item.getCategory();
 
         Assertions.assertTrue(category.contains(item));
         Assertions.assertFalse(category.contains(null));
@@ -132,10 +132,10 @@ class TestCategories {
     void testLockedCategoriesParents() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
-        Category category = new Category(new NamespacedKey(plugin, "unlocked"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "unlocked"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
         category.register(plugin);
 
-        Category unregistered = new Category(new NamespacedKey(plugin, "unregistered"), new CustomItem(Material.EMERALD, "&5I am unregistered"));
+        ItemGroup unregistered = new ItemGroup(new NamespacedKey(plugin, "unregistered"), new CustomItem(Material.EMERALD, "&5I am unregistered"));
 
         LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey(), unregistered.getKey());
         locked.register(plugin);
@@ -161,7 +161,7 @@ class TestCategories {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
-        Category category = new Category(new NamespacedKey(plugin, "parent"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "parent"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
         category.register(plugin);
 
         LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked2"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey());

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects;
+package io.github.thebusybiscuit.slimefun4.api.items;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,6 @@ import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
@@ -36,7 +35,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see SeasonalCategory
  * 
  */
-public class Category implements Keyed {
+public class ItemGroup implements Keyed {
 
     private SlimefunAddon addon;
 
@@ -46,34 +45,34 @@ public class Category implements Keyed {
     protected int tier;
 
     /**
-     * Constructs a new {@link Category} with the given {@link NamespacedKey} as an identifier
+     * Constructs a new {@link ItemGroup} with the given {@link NamespacedKey} as an identifier
      * and the given {@link ItemStack} as its display item.
      * The tier is set to a default value of {@code 3}.
      * 
      * @param key
-     *            The {@link NamespacedKey} that is used to identify this {@link Category}
+     *            The {@link NamespacedKey} that is used to identify this {@link ItemGroup}
      * @param item
-     *            The {@link ItemStack} that is used to display this {@link Category}
+     *            The {@link ItemStack} that is used to display this {@link ItemGroup}
      */
     @ParametersAreNonnullByDefault
-    public Category(NamespacedKey key, ItemStack item) {
+    public ItemGroup(NamespacedKey key, ItemStack item) {
         this(key, item, 3);
     }
 
     /**
-     * Constructs a new {@link Category} with the given {@link NamespacedKey} as an identifier
+     * Constructs a new {@link ItemGroup} with the given {@link NamespacedKey} as an identifier
      * and the given {@link ItemStack} as its display item.
      * 
      * @param key
-     *            The {@link NamespacedKey} that is used to identify this {@link Category}
+     *            The {@link NamespacedKey} that is used to identify this {@link ItemGroup}
      * @param item
-     *            The {@link ItemStack} that is used to display this {@link Category}
+     *            The {@link ItemStack} that is used to display this {@link ItemGroup}
      * @param tier
-     *            The tier of this {@link Category}, higher tiers will make this {@link Category} appear further down in
+     *            The tier of this {@link ItemGroup}, higher tiers will make this {@link ItemGroup} appear further down in
      *            the {@link SlimefunGuide}
      */
     @ParametersAreNonnullByDefault
-    public Category(NamespacedKey key, ItemStack item, int tier) {
+    public ItemGroup(NamespacedKey key, ItemStack item, int tier) {
         Validate.notNull(key, "A Category's NamespacedKey must not be null!");
         Validate.notNull(item, "A Category's ItemStack must not be null!");
 
@@ -100,7 +99,7 @@ public class Category implements Keyed {
      * By default, a category is automatically registered when a {@link SlimefunItem} was added to it.
      * 
      * @param addon
-     *            The {@link SlimefunAddon} that wants to register this {@link Category}
+     *            The {@link SlimefunAddon} that wants to register this {@link ItemGroup}
      */
     public void register(@Nonnull SlimefunAddon addon) {
         Validate.notNull(addon, "The Addon cannot be null");
@@ -116,21 +115,21 @@ public class Category implements Keyed {
     }
 
     /**
-     * Returns the tier of this {@link Category}.
-     * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
+     * Returns the tier of this {@link ItemGroup}.
+     * The tier determines the position of this {@link ItemGroup} in the {@link SlimefunGuide}.
      * 
-     * @return the tier of this {@link Category}
+     * @return the tier of this {@link ItemGroup}
      */
     public int getTier() {
         return tier;
     }
 
     /**
-     * This sets the tier of this {@link Category}.
-     * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
+     * This sets the tier of this {@link ItemGroup}.
+     * The tier determines the position of this {@link ItemGroup} in the {@link SlimefunGuide}.
      * 
      * @param tier
-     *            The tier for this {@link Category}
+     *            The tier for this {@link ItemGroup}
      */
     public void setTier(int tier) {
         this.tier = tier;
@@ -142,15 +141,15 @@ public class Category implements Keyed {
     }
 
     /**
-     * This refreshes the {@link Category} order.
+     * This refreshes the {@link ItemGroup} order.
      */
     private void sortCategoriesByTier() {
-        List<Category> categories = SlimefunPlugin.getRegistry().getCategories();
-        Collections.sort(categories, Comparator.comparingInt(Category::getTier));
+        List<ItemGroup> categories = SlimefunPlugin.getRegistry().getCategories();
+        Collections.sort(categories, Comparator.comparingInt(ItemGroup::getTier));
     }
 
     /**
-     * This returns the {@link SlimefunAddon} which has registered this {@link Category}.
+     * This returns the {@link SlimefunAddon} which has registered this {@link ItemGroup}.
      * Or null if it has not been registered yet.
      * 
      * @return The {@link SlimefunAddon} or null if unregistered
@@ -161,10 +160,10 @@ public class Category implements Keyed {
     }
 
     /**
-     * Adds the given {@link SlimefunItem} to this {@link Category}.
+     * Adds the given {@link SlimefunItem} to this {@link ItemGroup}.
      * 
      * @param item
-     *            the {@link SlimefunItem} that should be added to this {@link Category}
+     *            the {@link SlimefunItem} that should be added to this {@link ItemGroup}
      */
     public void add(@Nonnull SlimefunItem item) {
         Validate.notNull(item, "Cannot add null Items to a Category!");
@@ -178,10 +177,10 @@ public class Category implements Keyed {
     }
 
     /**
-     * Removes the given {@link SlimefunItem} from this {@link Category}.
+     * Removes the given {@link SlimefunItem} from this {@link ItemGroup}.
      * 
      * @param item
-     *            the {@link SlimefunItem} that should be removed from this {@link Category}
+     *            the {@link SlimefunItem} that should be removed from this {@link ItemGroup}
      */
     public void remove(@Nonnull SlimefunItem item) {
         Validate.notNull(item, "Cannot remove null from a Category!");
@@ -189,13 +188,13 @@ public class Category implements Keyed {
     }
 
     /**
-     * This method returns a localized display item of this {@link Category}
+     * This method returns a localized display item of this {@link ItemGroup}
      * for the specified {@link Player}.
      * 
      * @param p
      *            The Player to create this {@link ItemStack} for
      * 
-     * @return A localized display item for this {@link Category}
+     * @return A localized display item for this {@link ItemGroup}
      */
     @Nonnull
     public ItemStack getItem(@Nonnull Player p) {
@@ -218,9 +217,9 @@ public class Category implements Keyed {
 
     /**
      * This method makes Walshy happy.
-     * It adds a way to get the name of a {@link Category} without localization nor coloring.
+     * It adds a way to get the name of a {@link ItemGroup} without localization nor coloring.
      * 
-     * @return The unlocalized name of this {@link Category}
+     * @return The unlocalized name of this {@link ItemGroup}
      */
     @Nonnull
     public String getUnlocalizedName() {
@@ -228,13 +227,13 @@ public class Category implements Keyed {
     }
 
     /**
-     * This returns the localized display name of this {@link Category} for the given {@link Player}.
+     * This returns the localized display name of this {@link ItemGroup} for the given {@link Player}.
      * The method will fall back to {@link #getUnlocalizedName()} if no translation was found.
      * 
      * @param p
      *            The {@link Player} who to translate the name for
      * 
-     * @return The localized name of this {@link Category}
+     * @return The localized name of this {@link ItemGroup}
      */
     @Nonnull
     public String getDisplayName(@Nonnull Player p) {
@@ -248,7 +247,7 @@ public class Category implements Keyed {
     }
 
     /**
-     * Returns all instances of {@link SlimefunItem} bound to this {@link Category}.
+     * Returns all instances of {@link SlimefunItem} bound to this {@link ItemGroup}.
      * 
      * @return the list of SlimefunItems bound to this category
      */
@@ -258,12 +257,12 @@ public class Category implements Keyed {
     }
 
     /**
-     * This method returns whether a given {@link SlimefunItem} exists in this {@link Category}.
+     * This method returns whether a given {@link SlimefunItem} exists in this {@link ItemGroup}.
      * 
      * @param item
      *            The {@link SlimefunItem} to find
      * 
-     * @return Whether the given {@link SlimefunItem} was found in this {@link Category}
+     * @return Whether the given {@link SlimefunItem} was found in this {@link ItemGroup}
      */
     public boolean contains(@Nullable SlimefunItem item) {
         return item != null && items.contains(item);
@@ -271,8 +270,8 @@ public class Category implements Keyed {
 
     @Override
     public final boolean equals(Object obj) {
-        if (obj instanceof Category) {
-            return ((Category) obj).getKey().equals(getKey());
+        if (obj instanceof ItemGroup) {
+            return ((ItemGroup) obj).getKey().equals(getKey());
         } else {
             return false;
         }
@@ -289,7 +288,7 @@ public class Category implements Keyed {
     }
 
     /**
-     * This method checks whether this {@link Category} will be hidden for the specified
+     * This method checks whether this {@link ItemGroup} will be hidden for the specified
      * {@link Player}.
      * 
      * Categories are hidden if all of their items have been disabled.
@@ -297,7 +296,7 @@ public class Category implements Keyed {
      * @param p
      *            The {@link Player} to check for
      * 
-     * @return Whether this {@link Category} will be hidden to the given {@link Player}
+     * @return Whether this {@link ItemGroup} will be hidden to the given {@link Player}
      */
     public boolean isHidden(@Nonnull Player p) {
         for (SlimefunItem slimefunItem : getItems()) {
@@ -310,10 +309,10 @@ public class Category implements Keyed {
     }
 
     /**
-     * This method returns whether this {@link Category} has been registered yet.
+     * This method returns whether this {@link ItemGroup} has been registered yet.
      * More specifically: Whether {@link #register(SlimefunAddon)} was called or not.
      * 
-     * @return Whether this {@link Category} has been registered
+     * @return Whether this {@link ItemGroup} has been registered
      */
     public boolean isRegistered() {
         return SlimefunPlugin.getRegistry().getCategories().contains(this);

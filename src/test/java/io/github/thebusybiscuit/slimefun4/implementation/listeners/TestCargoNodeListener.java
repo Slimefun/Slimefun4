@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoInputNode;
@@ -25,7 +26,6 @@ import io.github.thebusybiscuit.slimefun4.test.providers.SlimefunItemsSource;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 class TestCargoNodeListener {
 
@@ -67,7 +67,7 @@ class TestCargoNodeListener {
         Block b = l.getBlock();
         Block against = b.getRelative(BlockFace.DOWN);
 
-        Category category = TestUtilities.getCategory(plugin, "cargo_test");
+        ItemGroup category = TestUtilities.getCategory(plugin, "cargo_test");
         SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE", new CustomItem(Material.PLAYER_HEAD, "&4Cargo node!"));
         CargoInputNode node = new CargoInputNode(category, item, RecipeType.NULL, new ItemStack[9], null);
         node.register(plugin);
@@ -86,7 +86,7 @@ class TestCargoNodeListener {
         Block b = l.getBlock();
         b.setType(Material.GRASS);
 
-        Category category = TestUtilities.getCategory(plugin, "cargo_test");
+        ItemGroup category = TestUtilities.getCategory(plugin, "cargo_test");
         SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE_2", new CustomItem(Material.PLAYER_HEAD, "&4Cargo node!"));
         CargoInputNode node = new CargoInputNode(category, item, RecipeType.NULL, new ItemStack[9], null);
         node.register(plugin);

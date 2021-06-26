@@ -13,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -21,7 +22,6 @@ import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 class TestBeeListener {
 
@@ -49,7 +49,7 @@ class TestBeeListener {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
         if (hasArmor) {
-            Category category = TestUtilities.getCategory(plugin, "bee_suit_test");
+            ItemGroup category = TestUtilities.getCategory(plugin, "bee_suit_test");
             SlimefunItemStack chestplate = new SlimefunItemStack("MOCK_BEE_SUIT", Material.LEATHER_CHESTPLATE, "&cBee Suit Prototype");
             MockBeeProtectionSuit armor = new MockBeeProtectionSuit(category, chestplate);
             armor.register(plugin);

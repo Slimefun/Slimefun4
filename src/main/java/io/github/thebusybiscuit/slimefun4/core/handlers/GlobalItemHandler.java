@@ -4,8 +4,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
 /**
  * A {@link GlobalItemHandler} is a special type of {@link ItemHandler}

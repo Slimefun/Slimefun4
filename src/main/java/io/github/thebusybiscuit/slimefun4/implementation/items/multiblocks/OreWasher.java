@@ -19,14 +19,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
-
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 /**
  * The {@link OreWasher} is a special {@link MultiBlockMachine} which allows you to
@@ -55,7 +54,7 @@ public class OreWasher extends MultiBlockMachine {
     private final boolean legacyMode;
 
     @ParametersAreNonnullByDefault
-    public OreWasher(Category category, SlimefunItemStack item) {
+    public OreWasher(ItemGroup category, SlimefunItemStack item) {
         // @formatter:off
         super(category, item, new ItemStack[] {
             null, new ItemStack(Material.DISPENSER), null,

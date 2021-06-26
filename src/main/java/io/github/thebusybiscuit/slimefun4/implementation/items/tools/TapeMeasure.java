@@ -20,6 +20,7 @@ import org.bukkit.persistence.PersistentDataType;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
@@ -27,7 +28,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 /**
  * The {@link TapeMeasure} is used to measure the distance between two {@link Block Blocks}.
@@ -41,7 +41,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
     private final DecimalFormat format = new DecimalFormat("##.###");
 
     @ParametersAreNonnullByDefault
-    public TapeMeasure(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public TapeMeasure(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 

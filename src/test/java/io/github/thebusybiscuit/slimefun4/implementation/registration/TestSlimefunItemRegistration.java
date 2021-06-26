@@ -10,14 +10,14 @@ import org.junit.jupiter.api.Test;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 class TestSlimefunItemRegistration {
 
@@ -95,8 +95,8 @@ class TestSlimefunItemRegistration {
         // null should not be a valid argument
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.setCategory(null));
 
-        Category category = item.getCategory();
-        Category category2 = new Category(new NamespacedKey(plugin, "test2"), new CustomItem(Material.OBSIDIAN, "&6Test 2"));
+        ItemGroup category = item.getCategory();
+        ItemGroup category2 = new ItemGroup(new NamespacedKey(plugin, "test2"), new CustomItem(Material.OBSIDIAN, "&6Test 2"));
 
         Assertions.assertTrue(category.contains(item));
         Assertions.assertFalse(category2.contains(item));
@@ -116,7 +116,7 @@ class TestSlimefunItemRegistration {
         item.register(plugin);
         item.load();
 
-        Category category = item.getCategory();
+        ItemGroup category = item.getCategory();
 
         Assertions.assertTrue(item.isHidden());
         Assertions.assertFalse(category.contains(item));

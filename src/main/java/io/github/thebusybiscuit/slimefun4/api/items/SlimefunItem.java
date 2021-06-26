@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
+package io.github.thebusybiscuit.slimefun4.api.items;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,10 +32,6 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandler
 import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
@@ -53,7 +49,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 /**
@@ -97,9 +92,9 @@ public class SlimefunItem implements Placeable {
     private ItemState state = ItemState.UNREGISTERED;
 
     /**
-     * This is the {@link Category} in which this {@link SlimefunItem} can be found.
+     * This is the {@link ItemGroup} in which this {@link SlimefunItem} can be found.
      */
-    private Category category;
+    private ItemGroup category;
 
     /**
      * This is a reference to the associated {@link Research}, can be null.
@@ -127,7 +122,7 @@ public class SlimefunItem implements Placeable {
      * This creates a new {@link SlimefunItem} from the given arguments.
      * 
      * @param category
-     *            The {@link Category} this {@link SlimefunItem} belongs to
+     *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
      * @param item
      *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
      * @param recipeType
@@ -136,7 +131,7 @@ public class SlimefunItem implements Placeable {
      *            An Array representing the recipe of this {@link SlimefunItem}
      */
     @ParametersAreNonnullByDefault
-    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public SlimefunItem(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(category, item, recipeType, recipe, null);
     }
 
@@ -144,7 +139,7 @@ public class SlimefunItem implements Placeable {
      * This creates a new {@link SlimefunItem} from the given arguments.
      * 
      * @param category
-     *            The {@link Category} this {@link SlimefunItem} belongs to
+     *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
      * @param item
      *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
      * @param recipeType
@@ -155,7 +150,7 @@ public class SlimefunItem implements Placeable {
      *            The result of crafting this item
      */
     @ParametersAreNonnullByDefault
-    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+    public SlimefunItem(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
         Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
@@ -170,7 +165,7 @@ public class SlimefunItem implements Placeable {
 
     // Previously deprecated constructor, now only for internal purposes
     @ParametersAreNonnullByDefault
-    protected SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+    protected SlimefunItem(ItemGroup category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
         Validate.notNull(id, "'id' is not allowed to be null!");
@@ -216,12 +211,12 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * This returns the {@link Category} of our {@link SlimefunItem}, every {@link SlimefunItem}
-     * is associated with exactly one {@link Category}.
+     * This returns the {@link ItemGroup} of our {@link SlimefunItem}, every {@link SlimefunItem}
+     * is associated with exactly one {@link ItemGroup}.
      * 
-     * @return The {@link Category} that this {@link SlimefunItem} belongs to
+     * @return The {@link ItemGroup} that this {@link SlimefunItem} belongs to
      */
-    public @Nonnull Category getCategory() {
+    public @Nonnull ItemGroup getCategory() {
         return category;
     }
 
@@ -501,7 +496,7 @@ public class SlimefunItem implements Placeable {
      * This method is called when this {@link SlimefunItem} is currently being registered
      * and we are certain that it will be enabled.
      * 
-     * <strong>This method is for internal purposes, like {@link Category} registration only</strong>
+     * <strong>This method is for internal purposes, like {@link ItemGroup} registration only</strong>
      */
     private final void onEnable() {
         // Register the Category too if it hasn't been registered yet
@@ -673,12 +668,12 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * This sets the {@link Category} in which this {@link SlimefunItem} will be displayed.
+     * This sets the {@link ItemGroup} in which this {@link SlimefunItem} will be displayed.
      * 
      * @param category
-     *            The new {@link Category}
+     *            The new {@link ItemGroup}
      */
-    public void setCategory(@Nonnull Category category) {
+    public void setCategory(@Nonnull ItemGroup category) {
         Validate.notNull(category, "The Category is not allowed to be null!");
 
         this.category.remove(this);

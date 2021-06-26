@@ -4,11 +4,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * An {@link AlloyIngot} is a blend of different metals and resources.
@@ -22,7 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 public class AlloyIngot extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public AlloyIngot(Category category, SlimefunItemStack item, ItemStack[] recipe) {
+    public AlloyIngot(ItemGroup category, SlimefunItemStack item, ItemStack[] recipe) {
         super(category, item, RecipeType.SMELTERY, recipe);
     }
 

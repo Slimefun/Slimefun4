@@ -20,14 +20,14 @@ import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockSlimefunItem;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public final class TestUtilities {
 
@@ -44,20 +44,20 @@ public final class TestUtilities {
     }
 
     @ParametersAreNonnullByDefault
-    public static @Nonnull Category getCategory(Plugin plugin, String name) {
-        return new Category(new NamespacedKey(plugin, name), new CustomItem(Material.NETHER_STAR, "&4Test Category"));
+    public static @Nonnull ItemGroup getCategory(Plugin plugin, String name) {
+        return new ItemGroup(new NamespacedKey(plugin, name), new CustomItem(Material.NETHER_STAR, "&4Test Category"));
     }
 
     @ParametersAreNonnullByDefault
     public static @Nonnull SlimefunItem mockSlimefunItem(Plugin plugin, String id, ItemStack item) {
-        Category category = new Category(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
 
         return new MockSlimefunItem(category, item, id);
     }
 
     @ParametersAreNonnullByDefault
     public static @Nonnull VanillaItem mockVanillaItem(Plugin plugin, Material type, boolean enabled) {
-        Category category = new Category(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
         VanillaItem item = new VanillaItem(category, new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
         SlimefunPlugin.getItemCfg().setValue(type.name() + ".enabled", enabled);
         return item;

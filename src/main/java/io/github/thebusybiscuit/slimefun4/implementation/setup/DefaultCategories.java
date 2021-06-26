@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -13,18 +14,17 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 /**
- * This class holds a reference to every {@link Category}
+ * This class holds a reference to every {@link ItemGroup}
  * found in Slimefun itself.
  * 
- * Addons should use their own {@link Category} hence why the visible of this class was now
+ * Addons should use their own {@link ItemGroup} hence why the visible of this class was now
  * changed to package-private. Only {@link SlimefunItemSetup} has access to this class.
  * 
  * @author TheBusyBiscuit
  * 
- * @see Category
+ * @see ItemGroup
  * @see LockedCategory
  * @see SeasonalCategory
  *
@@ -32,28 +32,28 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 class DefaultCategories {
 
     // Standard Categories
-    protected final Category weapons = new Category(new NamespacedKey(SlimefunPlugin.instance(), "weapons"), new CustomItem(SlimefunItems.BLADE_OF_VAMPIRES, "&7Weapons"), 1);
-    protected final Category tools = new Category(new NamespacedKey(SlimefunPlugin.instance(), "tools"), new CustomItem(SlimefunItems.SMELTERS_PICKAXE, "&7Tools"), 1);
-    protected final Category usefulItems = new Category(new NamespacedKey(SlimefunPlugin.instance(), "items"), new CustomItem(SlimefunItems.BACKPACK_MEDIUM, "&7Useful Items"), 1);
-    protected final Category basicMachines = new Category(new NamespacedKey(SlimefunPlugin.instance(), "basic_machines"), new CustomItem(SlimefunItems.ENHANCED_CRAFTING_TABLE, "&7Basic Machines"), 1);
-    protected final Category food = new Category(new NamespacedKey(SlimefunPlugin.instance(), "food"), new CustomItem(SlimefunItems.FORTUNE_COOKIE, "&7Food"), 2);
-    protected final Category armor = new Category(new NamespacedKey(SlimefunPlugin.instance(), "armor"), new CustomItem(SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, "&7Armor"), 2);
+    protected final ItemGroup weapons = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "weapons"), new CustomItem(SlimefunItems.BLADE_OF_VAMPIRES, "&7Weapons"), 1);
+    protected final ItemGroup tools = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "tools"), new CustomItem(SlimefunItems.SMELTERS_PICKAXE, "&7Tools"), 1);
+    protected final ItemGroup usefulItems = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "items"), new CustomItem(SlimefunItems.BACKPACK_MEDIUM, "&7Useful Items"), 1);
+    protected final ItemGroup basicMachines = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "basic_machines"), new CustomItem(SlimefunItems.ENHANCED_CRAFTING_TABLE, "&7Basic Machines"), 1);
+    protected final ItemGroup food = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "food"), new CustomItem(SlimefunItems.FORTUNE_COOKIE, "&7Food"), 2);
+    protected final ItemGroup armor = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "armor"), new CustomItem(SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, "&7Armor"), 2);
 
     // Magical
-    protected final Category magicalResources = new Category(new NamespacedKey(SlimefunPlugin.instance(), "magical_items"), new CustomItem(SlimefunItems.ENDER_RUNE, "&7Magical Items"), 2);
-    protected final Category magicalGadgets = new Category(new NamespacedKey(SlimefunPlugin.instance(), "magical_gadgets"), new CustomItem(SlimefunItems.INFUSED_ELYTRA, "&7Magical Gadgets"), 3);
-    protected final Category magicalArmor = new Category(new NamespacedKey(SlimefunPlugin.instance(), "magical_armor"), new CustomItem(SlimefunItems.ENDER_HELMET, "&7Magical Armor"), 2);
+    protected final ItemGroup magicalResources = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "magical_items"), new CustomItem(SlimefunItems.ENDER_RUNE, "&7Magical Items"), 2);
+    protected final ItemGroup magicalGadgets = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "magical_gadgets"), new CustomItem(SlimefunItems.INFUSED_ELYTRA, "&7Magical Gadgets"), 3);
+    protected final ItemGroup magicalArmor = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "magical_armor"), new CustomItem(SlimefunItems.ENDER_HELMET, "&7Magical Armor"), 2);
 
     // Resources and tech stuff
-    protected final Category misc = new Category(new NamespacedKey(SlimefunPlugin.instance(), "misc"), new CustomItem(SlimefunItems.TIN_CAN, "&7Miscellaneous"), 2);
-    protected final Category technicalComponents = new Category(new NamespacedKey(SlimefunPlugin.instance(), "tech_misc"), new CustomItem(SlimefunItems.HEATING_COIL, "&7Technical Components"), 2);
-    protected final Category technicalGadgets = new Category(new NamespacedKey(SlimefunPlugin.instance(), "technical_gadgets"), new CustomItem(SlimefunItems.STEEL_JETPACK, "&7Technical Gadgets"), 3);
-    protected final Category resources = new Category(new NamespacedKey(SlimefunPlugin.instance(), "resources"), new CustomItem(SlimefunItems.SYNTHETIC_SAPPHIRE, "&7Resources"), 1);
+    protected final ItemGroup misc = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "misc"), new CustomItem(SlimefunItems.TIN_CAN, "&7Miscellaneous"), 2);
+    protected final ItemGroup technicalComponents = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "tech_misc"), new CustomItem(SlimefunItems.HEATING_COIL, "&7Technical Components"), 2);
+    protected final ItemGroup technicalGadgets = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "technical_gadgets"), new CustomItem(SlimefunItems.STEEL_JETPACK, "&7Technical Gadgets"), 3);
+    protected final ItemGroup resources = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "resources"), new CustomItem(SlimefunItems.SYNTHETIC_SAPPHIRE, "&7Resources"), 1);
 
     // Locked Categories
     protected final LockedCategory electricity = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "electricity"), new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&bEnergy and Electricity"), 4, basicMachines.getKey());
     protected final LockedCategory androids = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "androids"), new CustomItem(SlimefunItems.PROGRAMMABLE_ANDROID, "&cProgrammable Androids"), 4, basicMachines.getKey());
-    protected final Category cargo = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "cargo"), new CustomItem(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines.getKey());
+    protected final ItemGroup cargo = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "cargo"), new CustomItem(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines.getKey());
     protected final LockedCategory gps = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "gps"), new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&bGPS-based Machines"), 4, basicMachines.getKey());
 
     // Seasonal Categories

@@ -19,11 +19,11 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
@@ -41,7 +41,7 @@ public class TableSaw extends MultiBlockMachine {
 
     private final List<ItemStack> displayedRecipes = new ArrayList<>();
 
-    public TableSaw(Category category, SlimefunItemStack item) {
+    public TableSaw(ItemGroup category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null }, BlockFace.SELF);
 
         for (Material log : Tag.LOGS.getValues()) {

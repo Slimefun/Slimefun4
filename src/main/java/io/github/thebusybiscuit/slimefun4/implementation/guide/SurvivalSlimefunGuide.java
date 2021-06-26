@@ -29,6 +29,8 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
@@ -49,8 +51,6 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * The {@link SurvivalSlimefunGuide} is the standard version of our {@link SlimefunGuide}.
@@ -103,19 +103,19 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     /**
-     * Returns a {@link List} of visible {@link Category} instances that the {@link SlimefunGuide} would display.
+     * Returns a {@link List} of visible {@link ItemGroup} instances that the {@link SlimefunGuide} would display.
      *
      * @param p
      *            The {@link Player} who opened his {@link SlimefunGuide}
      * @param profile
      *            The {@link PlayerProfile} of the {@link Player}
-     * @return a {@link List} of visible {@link Category} instances
+     * @return a {@link List} of visible {@link ItemGroup} instances
      */
     @Nonnull
-    protected List<Category> getVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
-        List<Category> categories = new LinkedList<>();
+    protected List<ItemGroup> getVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+        List<ItemGroup> categories = new LinkedList<>();
 
-        for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
+        for (ItemGroup category : SlimefunPlugin.getRegistry().getCategories()) {
             try {
                 if (!category.isHidden(p) && (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getMode()))) {
                     categories.add(category);
@@ -149,7 +149,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-        List<Category> categories = getVisibleCategories(p, profile);
+        List<ItemGroup> categories = getVisibleCategories(p, profile);
 
         int index = 9;
         createHeader(p, profile, menu);
@@ -159,7 +159,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         while (target < (categories.size() - 1) && index < CATEGORY_SIZE + 9) {
             target++;
 
-            Category category = categories.get(target);
+            ItemGroup category = categories.get(target);
             displayCategory(menu, p, profile, category, index);
 
             index++;
@@ -192,7 +192,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         menu.open(p);
     }
 
-    private void displayCategory(ChestMenu menu, Player p, PlayerProfile profile, Category category, int index) {
+    private void displayCategory(ChestMenu menu, Player p, PlayerProfile profile, ItemGroup category, int index) {
         if (!(category instanceof LockedCategory) || !isSurvivalMode() || ((LockedCategory) category).hasUnlocked(p, profile)) {
             menu.addItem(index, category.getItem(p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
@@ -209,7 +209,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             lore.add("");
 
-            for (Category parent : ((LockedCategory) category).getParents()) {
+            for (ItemGroup parent : ((LockedCategory) category).getParents()) {
                 lore.add(parent.getItem(p).getItemMeta().getDisplayName());
             }
 
@@ -219,7 +219,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public void openCategory(PlayerProfile profile, Category category, int page) {
+    public void openCategory(PlayerProfile profile, ItemGroup category, int page) {
         Player p = profile.getPlayer();
 
         if (p == null) {
@@ -285,7 +285,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         menu.open(p);
     }
 
-    private void displaySlimefunItem(ChestMenu menu, Category category, Player p, PlayerProfile profile, SlimefunItem sfitem, int page, int index) {
+    private void displaySlimefunItem(ChestMenu menu, ItemGroup category, Player p, PlayerProfile profile, SlimefunItem sfitem, int page, int index) {
         Research research = sfitem.getResearch();
 
         if (isSurvivalMode() && !hasPermission(p, sfitem)) {
@@ -349,7 +349,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             if (!slimefunItem.isHidden() && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = new CustomItem(slimefunItem.getItem(), meta -> {
-                    Category category = slimefunItem.getCategory();
+                    ItemGroup category = slimefunItem.getCategory();
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + category.getDisplayName(p)));
                     meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
                 });
