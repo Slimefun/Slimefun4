@@ -282,7 +282,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     @Nonnull
     public SlimefunItem getSlimefunItem() {
-        return SlimefunItem.getByID(id);
+        return SlimefunItem.getById(id);
     }
 
     @Nullable

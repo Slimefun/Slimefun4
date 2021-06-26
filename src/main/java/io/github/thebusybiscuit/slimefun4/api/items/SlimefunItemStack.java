@@ -211,7 +211,7 @@ public class SlimefunItemStack extends ItemStack {
      * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
      */
     public @Nullable SlimefunItem getItem() {
-        return SlimefunItem.getByID(id);
+        return SlimefunItem.getById(id);
     }
 
     /**

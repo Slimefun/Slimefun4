@@ -150,7 +150,7 @@ public class BlockListener implements Listener {
             Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData(e.getBlock());
 
             if (blockData.isPresent()) {
-                sfItem = SlimefunItem.getByID(blockData.get());
+                sfItem = SlimefunItem.getById(blockData.get());
             }
         }
 

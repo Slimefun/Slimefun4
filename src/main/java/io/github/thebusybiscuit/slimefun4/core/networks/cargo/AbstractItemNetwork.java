@@ -201,7 +201,7 @@ abstract class AbstractItemNetwork extends Network {
     }
 
     private void collectImportRequests(Map<Location, Inventory> inventories) {
-        SlimefunItem item = SlimefunItem.getByID("CT_IMPORT_BUS");
+        SlimefunItem item = SlimefunItem.getById("CT_IMPORT_BUS");
 
         for (Location bus : imports) {
             long timestamp = SlimefunPlugin.getProfiler().newEntry();
@@ -228,7 +228,7 @@ abstract class AbstractItemNetwork extends Network {
     }
 
     private void collectExportRequests(Map<Location, Inventory> inventories) {
-        SlimefunItem item = SlimefunItem.getByID("CT_EXPORT_BUS");
+        SlimefunItem item = SlimefunItem.getById("CT_EXPORT_BUS");
 
         for (Location bus : exports) {
             long timestamp = SlimefunPlugin.getProfiler().newEntry();
@@ -299,7 +299,7 @@ abstract class AbstractItemNetwork extends Network {
         // gonna use no more than one terminal anyway, so this might be fine
         long timestamp = System.nanoTime();
         Location firstTerminal = null;
-        SlimefunItem item = SlimefunItem.getByID("CHEST_TERMINAL");
+        SlimefunItem item = SlimefunItem.getById("CHEST_TERMINAL");
         List<ItemStackAndInteger> items = findAvailableItems(providers);
 
         try {

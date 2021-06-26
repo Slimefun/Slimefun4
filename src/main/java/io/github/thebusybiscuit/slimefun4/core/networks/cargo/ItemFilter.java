@@ -80,7 +80,7 @@ class ItemFilter implements Predicate<ItemStack> {
         // Store the returned Config instance to avoid heavy calls
         Config blockData = BlockStorage.getLocationInfo(b.getLocation());
         String id = blockData.getString("id");
-        SlimefunItem item = SlimefunItem.getByID(id);
+        SlimefunItem item = SlimefunItem.getById(id);
         BlockMenu menu = BlockStorage.getInventory(b.getLocation());
 
         if (!(item instanceof CargoNode) || menu == null) {

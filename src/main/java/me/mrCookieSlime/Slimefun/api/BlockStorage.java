@@ -700,7 +700,7 @@ public class BlockStorage {
         cfg.setValue(serializeLocation(l), value);
 
         if (updateTicker) {
-            SlimefunItem item = SlimefunItem.getByID(key);
+            SlimefunItem item = SlimefunItem.getById(key);
 
             if (item != null && item.isTicking() && value != null) {
                 SlimefunPlugin.getTickerTask().enableTicker(l);
@@ -711,13 +711,13 @@ public class BlockStorage {
     @Nullable
     public static SlimefunItem check(@Nonnull Block b) {
         String id = checkID(b);
-        return id == null ? null : SlimefunItem.getByID(id);
+        return id == null ? null : SlimefunItem.getById(id);
     }
 
     @Nullable
     public static SlimefunItem check(@Nonnull Location l) {
         String id = checkID(l);
-        return id == null ? null : SlimefunItem.getByID(id);
+        return id == null ? null : SlimefunItem.getById(id);
     }
 
     public static boolean check(Block block, String slimefunItem) {

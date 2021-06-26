@@ -153,7 +153,7 @@ public class TickerTask implements Runnable {
 
     private void tickLocation(@Nonnull Set<BlockTicker> tickers, @Nonnull Location l) {
         Config data = BlockStorage.getLocationInfo(l);
-        SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
+        SlimefunItem item = SlimefunItem.getById(data.getString("id"));
 
         if (item != null && item.getBlockTicker() != null) {
             try {

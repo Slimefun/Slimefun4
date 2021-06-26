@@ -20,7 +20,7 @@ class MultiToolMode {
 
     @Nullable
     SlimefunItem getItem() {
-        return SlimefunItem.getByID(item.getValue());
+        return SlimefunItem.getById(item.getValue());
     }
 
     boolean isEnabled() {

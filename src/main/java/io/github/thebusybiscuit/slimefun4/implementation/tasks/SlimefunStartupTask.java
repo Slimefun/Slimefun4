@@ -70,7 +70,7 @@ public class SlimefunStartupTask implements Runnable {
 
     private boolean isEnabled(String... itemIds) {
         for (String id : itemIds) {
-            SlimefunItem item = SlimefunItem.getByID(id);
+            SlimefunItem item = SlimefunItem.getById(id);
 
             if (item != null && !item.isDisabled()) {
                 return true;

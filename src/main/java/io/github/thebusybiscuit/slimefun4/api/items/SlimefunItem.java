@@ -586,7 +586,7 @@ public class SlimefunItem implements Placeable {
      * This method checks for id conflicts.
      */
     private void checkForConflicts() {
-        SlimefunItem conflictingItem = getByID(id);
+        SlimefunItem conflictingItem = getById(id);
 
         if (conflictingItem != null) {
             throw new IdConflictException(this, conflictingItem);
@@ -1117,7 +1117,7 @@ public class SlimefunItem implements Placeable {
         return getId().hashCode();
     }
 
-    public static @Nullable SlimefunItem getByID(@Nonnull String id) {
+    public static @Nullable SlimefunItem getById(@Nonnull String id) {
         return SlimefunPlugin.getRegistry().getSlimefunItemIds().get(id);
     }
 
@@ -1127,13 +1127,13 @@ public class SlimefunItem implements Placeable {
         }
 
         if (item instanceof SlimefunItemStack) {
-            return getByID(((SlimefunItemStack) item).getItemId());
+            return getById(((SlimefunItemStack) item).getItemId());
         }
 
         Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
 
         if (itemID.isPresent()) {
-            return getByID(itemID.get());
+            return getById(itemID.get());
         }
 
         // Backwards compatibility

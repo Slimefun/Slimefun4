@@ -47,7 +47,7 @@ class TestSlimefunItemRegistration {
         Assertions.assertEquals(ItemState.ENABLED, item.getState());
         Assertions.assertFalse(item.isDisabled());
         Assertions.assertEquals(id, item.getId());
-        Assertions.assertEquals(item, SlimefunItem.getByID(id));
+        Assertions.assertEquals(item, SlimefunItem.getById(id));
     }
 
     @Test

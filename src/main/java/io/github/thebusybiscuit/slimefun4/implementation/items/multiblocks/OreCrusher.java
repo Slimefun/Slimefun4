@@ -217,12 +217,12 @@ public class OreCrusher extends MultiBlockMachine {
             quartz.setAmount(value ? 2 : 1);
             goldNuggets.setAmount(value ? 8 : 4);
 
-            SlimefunItem ironDust = SlimefunItem.getByID("IRON_DUST");
+            SlimefunItem ironDust = SlimefunItem.getById("IRON_DUST");
             if (ironDust != null) {
                 ironDust.setRecipeOutput(new SlimefunItemStack(SlimefunItems.IRON_DUST, value ? 2 : 1));
             }
 
-            SlimefunItem goldDust = SlimefunItem.getByID("GOLD_DUST");
+            SlimefunItem goldDust = SlimefunItem.getById("GOLD_DUST");
             if (goldDust != null) {
                 goldDust.setRecipeOutput(new SlimefunItemStack(SlimefunItems.GOLD_DUST, value ? 2 : 1));
             }

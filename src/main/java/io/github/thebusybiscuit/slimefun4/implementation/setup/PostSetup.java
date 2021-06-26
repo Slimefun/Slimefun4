@@ -49,7 +49,7 @@ public final class PostSetup {
             JsonObject json = element.getAsJsonObject();
 
             for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
-                SlimefunItem item = SlimefunItem.getByID(entry.getKey());
+                SlimefunItem item = SlimefunItem.getById(entry.getKey());
 
                 if (item != null) {
                     item.addOfficialWikipage(entry.getValue().getAsString());

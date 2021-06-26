@@ -122,7 +122,7 @@ public class RecipeType implements Keyed {
         if (consumer != null) {
             consumer.accept(recipe, result);
         } else {
-            SlimefunItem slimefunItem = SlimefunItem.getByID(this.machine);
+            SlimefunItem slimefunItem = SlimefunItem.getById(this.machine);
 
             if (slimefunItem instanceof MultiBlockMachine) {
                 ((MultiBlockMachine) slimefunItem).addRecipe(recipe, result);
@@ -139,7 +139,7 @@ public class RecipeType implements Keyed {
     }
 
     public SlimefunItem getMachine() {
-        return SlimefunItem.getByID(machine);
+        return SlimefunItem.getById(machine);
     }
 
     @Override
