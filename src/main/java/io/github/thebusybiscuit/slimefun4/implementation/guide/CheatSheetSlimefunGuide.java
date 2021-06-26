@@ -13,8 +13,8 @@ import org.bukkit.inventory.Recipe;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -53,7 +53,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
         List<ItemGroup> categories = new LinkedList<>();
 
         for (ItemGroup category : SlimefunPlugin.getRegistry().getCategories()) {
-            if (!(category instanceof FlexCategory)) {
+            if (!(category instanceof FlexItemGroup)) {
                 categories.add(category);
             }
         }

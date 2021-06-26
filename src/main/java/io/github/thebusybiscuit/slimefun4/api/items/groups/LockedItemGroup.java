@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.categories;
+package io.github.thebusybiscuit.slimefun4.api.items.groups;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,10 +29,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  * @author TheBusyBiscuit
  * 
  * @see ItemGroup
- * @see SeasonalCategory
+ * @see SeasonalItemGroup
  * 
  */
-public class LockedCategory extends ItemGroup {
+public class LockedItemGroup extends ItemGroup {
 
     private final NamespacedKey[] keys;
     private final Set<ItemGroup> parents = new HashSet<>();
@@ -50,7 +50,7 @@ public class LockedCategory extends ItemGroup {
      * 
      */
     @ParametersAreNonnullByDefault
-    public LockedCategory(NamespacedKey key, ItemStack item, NamespacedKey... parents) {
+    public LockedItemGroup(NamespacedKey key, ItemStack item, NamespacedKey... parents) {
         this(key, item, 3, parents);
     }
 
@@ -68,7 +68,7 @@ public class LockedCategory extends ItemGroup {
      * 
      */
     @ParametersAreNonnullByDefault
-    public LockedCategory(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
+    public LockedItemGroup(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
         super(key, item, tier);
         Validate.noNullElements(parents, "A LockedCategory must not have any 'null' parents!");
 
@@ -99,7 +99,7 @@ public class LockedCategory extends ItemGroup {
     }
 
     /**
-     * Gets the list of parent categories for this {@link LockedCategory}.
+     * Gets the list of parent categories for this {@link LockedItemGroup}.
      * 
      * @return the list of parent categories
      * 
@@ -112,7 +112,7 @@ public class LockedCategory extends ItemGroup {
     }
 
     /**
-     * Adds a parent {@link ItemGroup} to this {@link LockedCategory}.
+     * Adds a parent {@link ItemGroup} to this {@link LockedItemGroup}.
      * 
      * @param category
      *            The {@link ItemGroup} to add as a parent
@@ -129,10 +129,10 @@ public class LockedCategory extends ItemGroup {
     }
 
     /**
-     * Removes a {@link ItemGroup} from the parents of this {@link LockedCategory}.
+     * Removes a {@link ItemGroup} from the parents of this {@link LockedItemGroup}.
      * 
      * @param category
-     *            The {@link ItemGroup} to remove from the parents of this {@link LockedCategory}
+     *            The {@link ItemGroup} to remove from the parents of this {@link LockedItemGroup}
      * 
      * @see #getParents()
      * @see #addParent(ItemGroup)

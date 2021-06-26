@@ -31,10 +31,10 @@ import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
-import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
@@ -117,7 +117,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (ItemGroup category : SlimefunPlugin.getRegistry().getCategories()) {
             try {
-                if (!category.isHidden(p) && (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getMode()))) {
+                if (!category.isHidden(p) && (!(category instanceof FlexItemGroup) || ((FlexItemGroup) category).isVisible(p, profile, getMode()))) {
                     categories.add(category);
                 }
             } catch (Exception | LinkageError x) {
@@ -193,7 +193,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     private void displayCategory(ChestMenu menu, Player p, PlayerProfile profile, ItemGroup category, int index) {
-        if (!(category instanceof LockedCategory) || !isSurvivalMode() || ((LockedCategory) category).hasUnlocked(p, profile)) {
+        if (!(category instanceof LockedItemGroup) || !isSurvivalMode() || ((LockedItemGroup) category).hasUnlocked(p, profile)) {
             menu.addItem(index, category.getItem(p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 openCategory(profile, category, 1);
@@ -209,7 +209,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             lore.add("");
 
-            for (ItemGroup parent : ((LockedCategory) category).getParents()) {
+            for (ItemGroup parent : ((LockedItemGroup) category).getParents()) {
                 lore.add(parent.getItem(p).getItemMeta().getDisplayName());
             }
 
@@ -226,8 +226,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        if (category instanceof FlexCategory) {
-            ((FlexCategory) category).open(p, profile, getMode());
+        if (category instanceof FlexItemGroup) {
+            ((FlexItemGroup) category).open(p, profile, getMode());
             return;
         }
 

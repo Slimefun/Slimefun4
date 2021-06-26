@@ -7,8 +7,8 @@ import org.bukkit.NamespacedKey;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
-import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.SeasonalItemGroup;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -25,8 +25,8 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * @author TheBusyBiscuit
  * 
  * @see ItemGroup
- * @see LockedCategory
- * @see SeasonalCategory
+ * @see LockedItemGroup
+ * @see SeasonalItemGroup
  *
  */
 class DefaultCategories {
@@ -51,16 +51,16 @@ class DefaultCategories {
     protected final ItemGroup resources = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "resources"), new CustomItem(SlimefunItems.SYNTHETIC_SAPPHIRE, "&7Resources"), 1);
 
     // Locked Categories
-    protected final LockedCategory electricity = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "electricity"), new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&bEnergy and Electricity"), 4, basicMachines.getKey());
-    protected final LockedCategory androids = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "androids"), new CustomItem(SlimefunItems.PROGRAMMABLE_ANDROID, "&cProgrammable Androids"), 4, basicMachines.getKey());
-    protected final ItemGroup cargo = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "cargo"), new CustomItem(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines.getKey());
-    protected final LockedCategory gps = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "gps"), new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&bGPS-based Machines"), 4, basicMachines.getKey());
+    protected final LockedItemGroup electricity = new LockedItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "electricity"), new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&bEnergy and Electricity"), 4, basicMachines.getKey());
+    protected final LockedItemGroup androids = new LockedItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "androids"), new CustomItem(SlimefunItems.PROGRAMMABLE_ANDROID, "&cProgrammable Androids"), 4, basicMachines.getKey());
+    protected final ItemGroup cargo = new LockedItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "cargo"), new CustomItem(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines.getKey());
+    protected final LockedItemGroup gps = new LockedItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "gps"), new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&bGPS-based Machines"), 4, basicMachines.getKey());
 
     // Seasonal Categories
-    protected final SeasonalCategory christmas = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance(), "christmas"), Month.DECEMBER, 1, new CustomItem(SlimefunUtils.getCustomHead("215ba31cde2671b8f176de6a9ffd008035f0590d63ee240be6e8921cd2037a45"), ChatUtils.christmas("Christmas") + " &7(December only)"));
-    protected final SeasonalCategory valentinesDay = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance(), "valentines_day"), Month.FEBRUARY, 2, new CustomItem(SlimefunUtils.getCustomHead("55d89431d14bfef2060461b4a3565614dc51115c001fae2508e8684bc0ae6a80"), "&dValentine's Day" + " &7(14th February)"));
-    protected final SeasonalCategory easter = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance(), "easter"), Month.APRIL, 2, new CustomItem(HeadTexture.EASTER_EGG.getAsItemStack(), "&6Easter" + " &7(April)"));
-    protected final SeasonalCategory birthday = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance(), "birthday"), Month.OCTOBER, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)"));
-    protected final SeasonalCategory halloween = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance(), "halloween"), Month.OCTOBER, 1, new CustomItem(Material.JACK_O_LANTERN, "&6&lHalloween &7(31st October)"));
+    protected final SeasonalItemGroup christmas = new SeasonalItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "christmas"), Month.DECEMBER, 1, new CustomItem(SlimefunUtils.getCustomHead("215ba31cde2671b8f176de6a9ffd008035f0590d63ee240be6e8921cd2037a45"), ChatUtils.christmas("Christmas") + " &7(December only)"));
+    protected final SeasonalItemGroup valentinesDay = new SeasonalItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "valentines_day"), Month.FEBRUARY, 2, new CustomItem(SlimefunUtils.getCustomHead("55d89431d14bfef2060461b4a3565614dc51115c001fae2508e8684bc0ae6a80"), "&dValentine's Day" + " &7(14th February)"));
+    protected final SeasonalItemGroup easter = new SeasonalItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "easter"), Month.APRIL, 2, new CustomItem(HeadTexture.EASTER_EGG.getAsItemStack(), "&6Easter" + " &7(April)"));
+    protected final SeasonalItemGroup birthday = new SeasonalItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "birthday"), Month.OCTOBER, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)"));
+    protected final SeasonalItemGroup halloween = new SeasonalItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "halloween"), Month.OCTOBER, 1, new CustomItem(Material.JACK_O_LANTERN, "&6&lHalloween &7(31st October)"));
 
 }

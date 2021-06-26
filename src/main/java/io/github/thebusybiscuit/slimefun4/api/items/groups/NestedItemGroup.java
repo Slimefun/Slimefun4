@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.categories;
+package io.github.thebusybiscuit.slimefun4.api.items.groups;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,45 +20,46 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
-public class MultiCategory extends FlexCategory {
+public class NestedItemGroup extends FlexItemGroup {
 
-    private static final int CATEGORY_SIZE = 36;
-    private final List<SubCategory> subCategories = new ArrayList<>();
+    private static final int GROUP_SIZE = 36;
+    private final List<SubItemGroup> subGroups = new ArrayList<>();
 
     @ParametersAreNonnullByDefault
-    public MultiCategory(NamespacedKey key, ItemStack item) {
+    public NestedItemGroup(NamespacedKey key, ItemStack item) {
         this(key, item, 3);
     }
 
     @ParametersAreNonnullByDefault
-    public MultiCategory(NamespacedKey key, ItemStack item, int tier) {
+    public NestedItemGroup(NamespacedKey key, ItemStack item, int tier) {
         super(key, item, tier);
     }
 
     /**
-     * This will add the given {@link SubCategory} to this {@link MultiCategory}.
+     * This will add the given {@link SubItemGroup} to this {@link NestedItemGroup}.
      * 
      * @param category
-     *            The {@link SubCategory} to add.
+     *            The {@link SubItemGroup} to add.
      */
-    public void addSubCategory(@Nonnull SubCategory category) {
-        Validate.notNull(category, "The Category cannot be null!");
+    public void addSubGroup(@Nonnull SubItemGroup category) {
+        Validate.notNull(category, "The sub item group cannot be null!");
 
-        subCategories.add(category);
+        subGroups.add(category);
     }
 
     /**
-     * This will remove the given {@link SubCategory} from this {@link MultiCategory} (if present).
+     * This will remove the given {@link SubItemGroup} from this {@link NestedItemGroup} (if present).
      * 
      * @param category
-     *            The {@link SubCategory} to remove.
+     *            The {@link SubItemGroup} to remove.
      */
-    public void removeSubCategory(@Nonnull SubCategory category) {
-        Validate.notNull(category, "The Category cannot be null!");
+    public void removeSubGroup(@Nonnull SubItemGroup category) {
+        Validate.notNull(category, "The sub item group cannot be null!");
 
-        subCategories.remove(category);
+        subGroups.remove(category);
     }
 
     @Override
@@ -96,12 +97,12 @@ public class MultiCategory extends FlexCategory {
 
         int index = 9;
 
-        int target = (CATEGORY_SIZE * (page - 1)) - 1;
+        int target = (GROUP_SIZE * (page - 1)) - 1;
 
-        while (target < (subCategories.size() - 1) && index < CATEGORY_SIZE + 9) {
+        while (target < (subGroups.size() - 1) && index < GROUP_SIZE + 9) {
             target++;
 
-            SubCategory category = subCategories.get(target);
+            SubItemGroup category = subGroups.get(target);
             menu.addItem(index, category.getItem(p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 SlimefunGuide.openCategory(profile, category, mode, 1);
@@ -111,7 +112,7 @@ public class MultiCategory extends FlexCategory {
             index++;
         }
 
-        int pages = target == subCategories.size() - 1 ? page : (subCategories.size() - 1) / CATEGORY_SIZE + 1;
+        int pages = target == subGroups.size() - 1 ? page : (subGroups.size() - 1) / GROUP_SIZE + 1;
 
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {

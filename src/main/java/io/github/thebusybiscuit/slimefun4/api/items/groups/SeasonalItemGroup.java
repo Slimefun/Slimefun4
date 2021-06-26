@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.categories;
+package io.github.thebusybiscuit.slimefun4.api.items.groups;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -20,14 +20,14 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
  * @author TheBusyBiscuit
  * 
  * @see ItemGroup
- * @see LockedCategory
+ * @see LockedItemGroup
  */
-public class SeasonalCategory extends ItemGroup {
+public class SeasonalItemGroup extends ItemGroup {
 
     private final Month month;
 
     /**
-     * The constructor for a {@link SeasonalCategory}.
+     * The constructor for a {@link SeasonalItemGroup}.
      * 
      * @param key
      *            The {@link NamespacedKey} that is used to identify this {@link ItemGroup}
@@ -39,7 +39,7 @@ public class SeasonalCategory extends ItemGroup {
      *            The display item for this category
      */
     @ParametersAreNonnullByDefault
-    public SeasonalCategory(NamespacedKey key, Month month, int tier, ItemStack item) {
+    public SeasonalItemGroup(NamespacedKey key, Month month, int tier, ItemStack item) {
         super(key, item, tier);
         Validate.notNull(month, "The Month cannot be null");
 
@@ -47,9 +47,9 @@ public class SeasonalCategory extends ItemGroup {
     }
 
     /**
-     * This method returns the {@link Month} in which this {@link SeasonalCategory} will appear.
+     * This method returns the {@link Month} in which this {@link SeasonalItemGroup} will appear.
      * 
-     * @return the {@link Month} in which this {@link SeasonalCategory} appears
+     * @return the {@link Month} in which this {@link SeasonalItemGroup} appears
      */
     @Nonnull
     public Month getMonth() {

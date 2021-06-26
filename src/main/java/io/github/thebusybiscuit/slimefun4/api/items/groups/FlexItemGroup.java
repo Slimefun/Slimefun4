@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.categories;
+package io.github.thebusybiscuit.slimefun4.api.items.groups;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 
 /**
- * A {@link FlexCategory} is a {@link ItemGroup} inside the {@link SlimefunGuide} that can
+ * A {@link FlexItemGroup} is a {@link ItemGroup} inside the {@link SlimefunGuide} that can
  * be completely modified.
  * It cannot hold any {@link SlimefunItem} but can be completely overridden
  * to perform any action upon being opened.
@@ -24,20 +24,20 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
  * @author TheBusyBiscuit
  *
  */
-public abstract class FlexCategory extends ItemGroup {
+public abstract class FlexItemGroup extends ItemGroup {
 
     @ParametersAreNonnullByDefault
-    protected FlexCategory(NamespacedKey key, ItemStack item) {
+    protected FlexItemGroup(NamespacedKey key, ItemStack item) {
         this(key, item, 3);
     }
 
     @ParametersAreNonnullByDefault
-    protected FlexCategory(NamespacedKey key, ItemStack item, int tier) {
+    protected FlexItemGroup(NamespacedKey key, ItemStack item, int tier) {
         super(key, item, tier);
     }
 
     /**
-     * This method returns whether this {@link FlexCategory} is visible under the given context.
+     * This method returns whether this {@link FlexItemGroup} is visible under the given context.
      * Implementing this method gives full flexibility over who can see the Category when and where.
      * 
      * @param p
@@ -45,20 +45,20 @@ public abstract class FlexCategory extends ItemGroup {
      * @param profile
      *            The {@link PlayerProfile} of the {@link Player}
      * @param layout
-     *            The {@link SlimefunGuideMode} in which this {@link FlexCategory} is viewed
+     *            The {@link SlimefunGuideMode} in which this {@link FlexItemGroup} is viewed
      * 
-     * @return Whether to display this {@link FlexCategory}
+     * @return Whether to display this {@link FlexItemGroup}
      */
     @ParametersAreNonnullByDefault
     public abstract boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideMode layout);
 
     /**
-     * This method is called when a {@link Player} opens this {@link FlexCategory}.
+     * This method is called when a {@link Player} opens this {@link FlexItemGroup}.
      * This is an abstract method which needs to be implemented in order to determine what this
-     * {@link FlexCategory} should actually do as it cannot hold any items.
+     * {@link FlexItemGroup} should actually do as it cannot hold any items.
      * 
      * @param p
-     *            The {@link Player} who wants to open this {@link FlexCategory}
+     *            The {@link Player} who wants to open this {@link FlexItemGroup}
      * @param profile
      *            The corresponding {@link PlayerProfile} for that {@link Player}
      * @param layout

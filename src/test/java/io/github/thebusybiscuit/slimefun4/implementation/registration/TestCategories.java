@@ -17,10 +17,10 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.SeasonalItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
-import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
-import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -130,14 +130,14 @@ class TestCategories {
     @Test
     @DisplayName("Test LockedCategory parental locking")
     void testLockedCategoriesParents() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
         ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "unlocked"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
         category.register(plugin);
 
         ItemGroup unregistered = new ItemGroup(new NamespacedKey(plugin, "unregistered"), new CustomItem(Material.EMERALD, "&5I am unregistered"));
 
-        LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey(), unregistered.getKey());
+        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey(), unregistered.getKey());
         locked.register(plugin);
 
         Assertions.assertTrue(locked.getParents().contains(category));
@@ -159,12 +159,12 @@ class TestCategories {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
         ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "parent"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
         category.register(plugin);
 
-        LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked2"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey());
+        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked2"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey());
         locked.register(plugin);
 
         // No Items, so it should be unlocked
@@ -192,7 +192,7 @@ class TestCategories {
     void testSeasonalCategories() {
         // Category with current Month
         Month month = LocalDate.now().getMonth();
-        SeasonalCategory category = new SeasonalCategory(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItem(Material.NETHER_STAR, "&cSeasonal Test"));
+        SeasonalItemGroup category = new SeasonalItemGroup(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItem(Material.NETHER_STAR, "&cSeasonal Test"));
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "SEASONAL_ITEM", new CustomItem(Material.NETHER_STAR, "&dSeasonal Test Star"));
         item.setCategory(category);
         item.register(plugin);
@@ -204,14 +204,14 @@ class TestCategories {
         Assertions.assertFalse(category.isHidden(player));
 
         // Category with future Month
-        SeasonalCategory category2 = new SeasonalCategory(category.getKey(), month.plus(6), 1, new CustomItem(Material.MILK_BUCKET, "&dSeasonal Test"));
+        SeasonalItemGroup category2 = new SeasonalItemGroup(category.getKey(), month.plus(6), 1, new CustomItem(Material.MILK_BUCKET, "&dSeasonal Test"));
         Assertions.assertTrue(category2.isHidden(player));
     }
 
     @Test
     @DisplayName("Test the FlexCategory")
     void testFlexCategory() {
-        FlexCategory category = new FlexCategory(new NamespacedKey(plugin, "flex"), new CustomItem(Material.REDSTONE, "&4Weird flex but ok")) {
+        FlexItemGroup category = new FlexItemGroup(new NamespacedKey(plugin, "flex"), new CustomItem(Material.REDSTONE, "&4Weird flex but ok")) {
 
             @Override
             public void open(Player p, PlayerProfile profile, SlimefunGuideMode layout) {

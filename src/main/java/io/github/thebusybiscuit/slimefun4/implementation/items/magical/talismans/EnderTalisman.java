@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  */
 class EnderTalisman extends Talisman {
 
-    private static final LockedCategory ENDER_TALISMANS_CATEGORY = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "ender_talismans"), new CustomItem(SlimefunItems.ENDER_TALISMAN, "&7Talismans - &aTier II"), 3, Talisman.TALISMANS_CATEGORY.getKey());
+    private static final LockedItemGroup ENDER_TALISMANS_CATEGORY = new LockedItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "ender_talismans"), new CustomItem(SlimefunItems.ENDER_TALISMAN, "&7Talismans - &aTier II"), 3, Talisman.TALISMANS_CATEGORY.getKey());
 
     @ParametersAreNonnullByDefault
     public EnderTalisman(Talisman parent, SlimefunItemStack item) {

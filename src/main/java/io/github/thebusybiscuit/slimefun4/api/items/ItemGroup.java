@@ -21,8 +21,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
-import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.SeasonalItemGroup;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
@@ -31,8 +31,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  * 
  * @author TheBusyBiscuit
  *
- * @see LockedCategory
- * @see SeasonalCategory
+ * @see LockedItemGroup
+ * @see SeasonalItemGroup
  * 
  */
 public class ItemGroup implements Keyed {
@@ -205,7 +205,7 @@ public class ItemGroup implements Keyed {
                 name = item.getItemMeta().getDisplayName();
             }
 
-            if (this instanceof SeasonalCategory) {
+            if (this instanceof SeasonalItemGroup) {
                 meta.setDisplayName(ChatColor.GOLD + name);
             } else {
                 meta.setDisplayName(ChatColor.YELLOW + name);
