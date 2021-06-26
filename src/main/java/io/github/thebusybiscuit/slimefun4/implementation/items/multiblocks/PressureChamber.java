@@ -70,6 +70,7 @@ public class PressureChamber extends MultiBlockMachine {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
+
     @ParametersAreNonnullByDefault
     private void craft(Player p, Block b, ItemStack output, Inventory outputInv, Dispenser dispenser) {
         for (int i = 0; i < 4; i++) {
