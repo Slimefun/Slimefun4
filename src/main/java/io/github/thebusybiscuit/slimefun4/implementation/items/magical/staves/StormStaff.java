@@ -33,8 +33,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class StormStaff extends LimitedUseItem {
 
-    private static final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance(), "stormstaff_usage");
     public static final int MAX_USES = 8;
+
+    private final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance(), "stormstaff_usage");
 
     @ParametersAreNonnullByDefault
     public StormStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

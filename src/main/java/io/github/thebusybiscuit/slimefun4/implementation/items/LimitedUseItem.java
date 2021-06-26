@@ -19,11 +19,11 @@ import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -41,8 +41,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> {
 
-    private static final NamespacedKey usageKey = new NamespacedKey(SlimefunPlugin.instance(), "uses_left");
-    private static final Pattern REGEX = Pattern.compile(ChatColors.color("&e[0-9]+ Uses &7left"));
+    private final NamespacedKey defaultUsageKey = new NamespacedKey(SlimefunPlugin.instance(), "uses_left");
 
     private int maxUseCount = -1;
 
@@ -72,12 +71,8 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
     public final @Nonnull LimitedUseItem setMaxUseCount(int count) {
         Validate.isTrue(count > 0, "The maximum use count must be greater than zero!");
 
-        if (getState() == ItemState.UNREGISTERED) {
-            maxUseCount = count;
-            return this;
-        } else {
-            throw new IllegalStateException("You cannot modify the maximum use count after the Item was registered.");
-        }
+        maxUseCount = count;
+        return this;
     }
 
     /**
@@ -86,7 +81,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      * @return The {@link NamespacedKey} to store/load the amount of uses
      */
     protected @Nonnull NamespacedKey getStorageKey() {
-        return usageKey;
+        return defaultUsageKey;
     }
 
     @Override
@@ -140,7 +135,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
         if (lore != null && !lore.isEmpty()) {
             // find the correct line
             for (int i = 0; i < lore.size(); i++) {
-                if (REGEX.matcher(lore.get(i)).matches()) {
+                if (PatternUtils.USES_LEFT_LORE.matcher(lore.get(i)).matches()) {
                     lore.set(i, newLine);
                     meta.setLore(lore);
                     item.setItemMeta(meta);
