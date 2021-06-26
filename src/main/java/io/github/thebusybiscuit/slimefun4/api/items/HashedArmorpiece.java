@@ -95,8 +95,7 @@ public final class HashedArmorpiece {
      * 
      * @return An {@link Optional} describing the result
      */
-    @Nonnull
-    public Optional<SlimefunArmorPiece> getItem() {
+    public @Nonnull Optional<SlimefunArmorPiece> getItem() {
         return item;
     }
 

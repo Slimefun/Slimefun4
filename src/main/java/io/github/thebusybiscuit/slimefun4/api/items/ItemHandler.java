@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.handlers;
+package io.github.thebusybiscuit.slimefun4.api.items;
 
 import java.util.Optional;
 

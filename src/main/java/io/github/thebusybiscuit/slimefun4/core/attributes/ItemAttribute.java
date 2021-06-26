@@ -2,8 +2,9 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 /**
  * An empty interface that only serves the purpose of bundling together all

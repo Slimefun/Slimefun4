@@ -87,8 +87,7 @@ public class ItemSetting<T> {
      * 
      * @return The key under which this setting is stored (relative to the {@link SlimefunItem})
      */
-    @Nonnull
-    public String getKey() {
+    public @Nonnull String getKey() {
         return key;
     }
 
@@ -97,8 +96,7 @@ public class ItemSetting<T> {
      * 
      * @return The associated {@link SlimefunItem}
      */
-    @Nonnull
-    protected SlimefunItem getItem() {
+    protected @Nonnull SlimefunItem getItem() {
         return item;
     }
 
@@ -107,8 +105,7 @@ public class ItemSetting<T> {
      * 
      * @return The current value
      */
-    @Nonnull
-    public T getValue() {
+    public @Nonnull T getValue() {
         if (value != null) {
             return value;
         } else {
@@ -122,8 +119,7 @@ public class ItemSetting<T> {
      * 
      * @return The default value
      */
-    @Nonnull
-    public T getDefaultValue() {
+    public @Nonnull T getDefaultValue() {
         return defaultValue;
     }
 
@@ -145,8 +141,7 @@ public class ItemSetting<T> {
      * 
      * @return An error message which is displayed when this {@link ItemSetting} is misconfigured.
      */
-    @Nonnull
-    protected String getErrorMessage() {
+    protected @Nonnull String getErrorMessage() {
         return "Only '" + defaultValue.getClass().getSimpleName() + "' values are allowed!";
     }
 

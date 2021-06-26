@@ -539,7 +539,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      * 
      * @return A {@link Collection} of all compatible minecraft versions as strings
      */
-    static final @Nonnull Collection<String> getSupportedVersions() {
+    static @Nonnull Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
         for (MinecraftVersion version : MinecraftVersion.values()) {
@@ -966,7 +966,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         validateInstance();
         String pluginName = instance.getName();
 
-        // @formatter:off
+        // @formatter:off - Collect any Plugin that (soft)-depends on Slimefun
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins()).filter(plugin -> {
             PluginDescriptionFile description = plugin.getDescription();
             return description.getDepend().contains(pluginName) || description.getSoftDepend().contains(pluginName);
@@ -992,6 +992,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         Validate.notNull(runnable, "Cannot run null");
         Validate.isTrue(delay >= 0, "The delay cannot be negative");
 
+        // Run the task instantly within a Unit Test
         if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             runnable.run();
             return null;
@@ -1019,6 +1020,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     public static @Nullable BukkitTask runSync(@Nonnull Runnable runnable) {
         Validate.notNull(runnable, "Cannot run null");
 
+        // Run the task instantly within a Unit Test
         if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             runnable.run();
             return null;

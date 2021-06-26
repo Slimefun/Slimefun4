@@ -7,8 +7,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 /**
  * This {@link ItemHandler} is called when a {@link Block} is broken with a {@link SlimefunItem}
