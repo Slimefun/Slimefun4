@@ -39,8 +39,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> {
 
+    public static final String USES_LEFT_SUFFIX = ChatColors.color("Uses &7left");
+
     private final NamespacedKey defaultUsageKey = new NamespacedKey(SlimefunPlugin.instance(), "uses_left");
-    private final String usesLeftSuffix = ChatColors.color("Uses &7left");
 
     private int maxUseCount = -1;
 
@@ -134,7 +135,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
         if (lore != null && !lore.isEmpty()) {
             // find the correct line
             for (int i = 0; i < lore.size(); i++) {
-                if (lore.get(i).endsWith(usesLeftSuffix)) {
+                if (lore.get(i).endsWith(USES_LEFT_SUFFIX)) {
                     lore.set(i, newLine);
                     meta.setLore(lore);
                     item.setItemMeta(meta);
