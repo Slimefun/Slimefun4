@@ -104,23 +104,20 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      * 
      * @return a random {@link ItemStack} obtained by this {@link GoldPan}
      */
-    @Nonnull
-    public ItemStack getRandomOutput() {
+    public @Nonnull ItemStack getRandomOutput() {
         ItemStack item = randomizer.getRandom();
 
         // Fixes #2804
         return item != null ? item : new ItemStack(Material.AIR);
     }
 
-    @Nonnull
     @Override
-    public String getLabelLocalPath() {
+    public @Nonnull String getLabelLocalPath() {
         return "guide.tooltips.recipes.gold-pan";
     }
 
-    @Nonnull
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Optional<Block> block = e.getClickedBlock();
 
@@ -151,8 +148,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      *
      * @return the {@link EntityInteractHandler} of this {@link SlimefunItem}
      */
-    @Nonnull
-    public EntityInteractHandler onEntityInteract() {
+    public @Nonnull EntityInteractHandler onEntityInteract() {
         return (e, item, offHand) -> {
             if (!(e.getRightClicked() instanceof ItemFrame)) {
                 e.setCancelled(true);
@@ -160,9 +156,8 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         };
     }
 
-    @Nonnull
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> recipes = new LinkedList<>();
 
         for (GoldPanDrop drop : drops) {

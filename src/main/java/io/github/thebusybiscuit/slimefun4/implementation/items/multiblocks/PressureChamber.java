@@ -3,7 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -26,6 +28,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class PressureChamber extends MultiBlockMachine {
 
+    @ParametersAreNonnullByDefault
     public PressureChamber(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON) }, BlockFace.UP);
     }
@@ -67,7 +70,7 @@ public class PressureChamber extends MultiBlockMachine {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
-
+    @ParametersAreNonnullByDefault
     private void craft(Player p, Block b, ItemStack output, Inventory outputInv, Dispenser dispenser) {
         for (int i = 0; i < 4; i++) {
             int j = i;
