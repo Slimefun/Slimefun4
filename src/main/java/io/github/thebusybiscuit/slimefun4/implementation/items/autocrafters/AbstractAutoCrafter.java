@@ -37,7 +37,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -96,8 +96,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     protected AbstractAutoCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        recipeStorageKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_key");
-        recipeEnabledKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_enabled");
+        recipeStorageKey = new NamespacedKey(Slimefun.instance(), "recipe_key");
+        recipeEnabledKey = new NamespacedKey(Slimefun.instance(), "recipe_enabled");
 
         addItemHandler(new BlockTicker() {
 
@@ -131,8 +131,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
         // Check if we have a valid chest below
         if (!isValidInventory(b.getRelative(BlockFace.DOWN))) {
-            SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.missing-chest");
-        } else if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
+            Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.missing-chest");
+        } else if (Slimefun.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
             if (p.isSneaking()) {
                 // Select a new recipe
                 updateRecipe(b, p);
@@ -141,14 +141,14 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
                 if (recipe == null) {
                     // Prompt the User to crouch
-                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.select-a-recipe");
+                    Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.select-a-recipe");
                 } else {
                     // Show the current recipe
                     showRecipe(p, b, recipe);
                 }
             }
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access");
+            Slimefun.getLocalization().sendMessage(p, "inventory.no-access");
         }
     }
 
@@ -294,7 +294,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);
 
         if (recipe.isEnabled()) {
-            menu.addItem(49, new CustomItem(Material.BARRIER, SlimefunPlugin.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.enabled")));
+            menu.addItem(49, new CustomItem(Material.BARRIER, Slimefun.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.enabled")));
             menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
                 if (action.isRightClicked()) {
                     deleteRecipe(pl, b);
@@ -305,7 +305,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 return false;
             });
         } else {
-            menu.addItem(49, new CustomItem(HeadTexture.EXCLAMATION_MARK.getAsItemStack(), SlimefunPlugin.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.disabled")));
+            menu.addItem(49, new CustomItem(HeadTexture.EXCLAMATION_MARK.getAsItemStack(), Slimefun.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.disabled")));
             menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
                 if (action.isRightClicked()) {
                     deleteRecipe(pl, b);
@@ -340,10 +340,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         if (state instanceof Skull) {
             if (enabled) {
                 PersistentDataAPI.remove((Skull) state, recipeEnabledKey);
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.re-enabled");
+                Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.re-enabled");
             } else {
                 PersistentDataAPI.setByte((Skull) state, recipeEnabledKey, (byte) 1);
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.temporarily-disabled");
+                Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.temporarily-disabled");
             }
         }
     }
@@ -353,7 +353,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         setSelectedRecipe(b, null);
         p.closeInventory();
         p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
-        SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-removed");
+        Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-removed");
     }
 
     /**
@@ -488,7 +488,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             case POTION:
                 return new ItemStack(Material.GLASS_BOTTLE);
             default:
-                MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
+                MinecraftVersion minecraftVersion = Slimefun.getMinecraftVersion();
 
                 // Honey does not exist in 1.14
                 if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15) && type == Material.HONEY_BOTTLE) {

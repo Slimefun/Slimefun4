@@ -33,12 +33,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 public class Talisman extends SlimefunItem {
 
-    protected static final ItemGroup TALISMANS_CATEGORY = new ItemGroup(new NamespacedKey(SlimefunPlugin.instance(), "talismans"), new CustomItem(SlimefunItems.COMMON_TALISMAN, "&7Talismans - &aTier I"), 2);
+    protected static final ItemGroup TALISMANS_CATEGORY = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), new CustomItem(SlimefunItems.COMMON_TALISMAN, "&7Talismans - &aTier I"), 2);
 
     private final SlimefunItemStack enderTalisman;
 
@@ -136,7 +136,7 @@ public class Talisman extends SlimefunItem {
 
     void loadEnderTalisman() {
         EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(getEnderVariant());
-        Optional<Research> research = Research.getResearch(new NamespacedKey(SlimefunPlugin.instance(), "ender_talismans"));
+        Optional<Research> research = Research.getResearch(new NamespacedKey(Slimefun.instance(), "ender_talismans"));
 
         if (talisman != null && research.isPresent()) {
             talisman.setResearch(research.get());
@@ -274,12 +274,12 @@ public class Talisman extends SlimefunItem {
             try {
                 String messageKey = "messages.talisman." + getMessageSuffix();
 
-                if (SlimefunPlugin.getRegistry().useActionbarForTalismans()) {
+                if (Slimefun.getRegistry().useActionbarForTalismans()) {
                     // Use the actionbar
-                    SlimefunPlugin.getLocalization().sendActionbarMessage(p, messageKey, false);
+                    Slimefun.getLocalization().sendActionbarMessage(p, messageKey, false);
                 } else {
                     // Send the message via chat
-                    SlimefunPlugin.getLocalization().sendMessage(p, messageKey, true);
+                    Slimefun.getLocalization().sendMessage(p, messageKey, true);
                 }
             } catch (Exception x) {
                 error("An Exception was thrown while trying to send a Talisman message", x);

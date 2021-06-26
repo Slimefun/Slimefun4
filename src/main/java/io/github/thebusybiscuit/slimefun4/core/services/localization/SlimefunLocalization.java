@@ -30,7 +30,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -47,7 +47,7 @@ import net.md_5.bungee.api.chat.TextComponent;
  */
 public abstract class SlimefunLocalization extends Localization implements Keyed {
 
-    protected SlimefunLocalization(@Nonnull SlimefunPlugin plugin) {
+    protected SlimefunLocalization(@Nonnull Slimefun plugin) {
         super(plugin);
     }
 
@@ -119,7 +119,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
      */
     protected void loadEmbeddedLanguages() {
         for (LanguagePreset lang : LanguagePreset.values()) {
-            if (lang.isReadyForRelease() || SlimefunPlugin.getUpdater().getBranch() != SlimefunBranch.STABLE) {
+            if (lang.isReadyForRelease() || Slimefun.getUpdater().getBranch() != SlimefunBranch.STABLE) {
                 addLanguage(lang.getLanguageCode(), lang.getTexture());
             }
         }
@@ -346,7 +346,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     @Override
     @ParametersAreNonnullByDefault
     public void sendMessage(CommandSender recipient, String key, boolean addPrefix, UnaryOperator<String> function) {
-        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+        if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             return;
         }
 

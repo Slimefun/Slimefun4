@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -54,7 +54,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                     return true;
                 }
 
-                SlimefunPlugin.runSync(() -> activate(p, item), 20L);
+                Slimefun.runSync(() -> activate(p, item), 20L);
 
                 return true;
             }
@@ -80,7 +80,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                 // This lightning is just an effect, it deals no damage.
                 l.getWorld().strikeLightningEffect(l);
 
-                SlimefunPlugin.runSync(() -> {
+                Slimefun.runSync(() -> {
                     // Being sure entities are still valid and not picked up or whatsoever.
                     if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
 
@@ -93,13 +93,13 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                         SlimefunUtils.setSoulbound(itemStack, true);
                         l.getWorld().dropItemNaturally(l, itemStack);
 
-                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.soulbound-rune.success", true);
+                        Slimefun.getLocalization().sendMessage(p, "messages.soulbound-rune.success", true);
                     } else {
-                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.soulbound-rune.fail", true);
+                        Slimefun.getLocalization().sendMessage(p, "messages.soulbound-rune.fail", true);
                     }
                 }, 10L);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.soulbound-rune.fail", true);
+                Slimefun.getLocalization().sendMessage(p, "messages.soulbound-rune.fail", true);
             }
         }
     }

@@ -14,7 +14,7 @@ import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This is just a helper {@link ItemStack} class for the {@link SlimefunGuide} {@link ItemStack}.
@@ -41,8 +41,8 @@ public class SlimefunGuideItem extends ItemStack {
 
         meta.setLore(lore);
 
-        PersistentDataAPI.setString(meta, SlimefunPlugin.getRegistry().getGuideDataKey(), type.name());
-        SlimefunPlugin.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
+        PersistentDataAPI.setString(meta, Slimefun.getRegistry().getGuideDataKey(), type.name());
+        Slimefun.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
 
         setItemMeta(meta);
     }

@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * The {@link MultiTool} is an electric device which can mimic
@@ -90,7 +90,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
 
                 SlimefunItem selectedItem = modes.get(index).getItem();
                 String itemName = selectedItem != null ? selectedItem.getItemName() : "Unknown";
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.multi-tool.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
+                Slimefun.getLocalization().sendMessage(p, "messages.multi-tool.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
                 selectedMode.put(p.getUniqueId(), index);
             }
         };
@@ -100,7 +100,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
     private ToolUseHandler getToolUseHandler() {
         return (e, tool, fortune, drops) -> {
             // Multi Tools cannot be used as shears
-            SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
+            Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
             e.setCancelled(true);
         };
     }
@@ -113,7 +113,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
                 case MUSHROOM_COW:
                 case SHEEP:
                 case SNOWMAN:
-                    SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
+                    Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
                     e.setCancelled(true);
                     break;
                 default:

@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class WitherListener implements Listener {
 
-    public WitherListener(@Nonnull SlimefunPlugin plugin) {
+    public WitherListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

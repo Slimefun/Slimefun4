@@ -44,7 +44,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
@@ -96,7 +96,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
 
                 if (!open) {
-                    SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+                    Slimefun.getLocalization().sendMessage(p, "inventory.no-access", true);
                 }
 
                 return open;
@@ -106,7 +106,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             public void newInstance(BlockMenu menu, Block b) {
                 menu.replaceExistingItem(15, new CustomItem(HeadTexture.SCRIPT_START.getAsItemStack(), "&aStart/Continue"));
                 menu.addMenuClickHandler(15, (p, slot, item, action) -> {
-                    SlimefunPlugin.getLocalization().sendMessage(p, "android.started", true);
+                    Slimefun.getLocalization().sendMessage(p, "android.started", true);
                     BlockStorage.addBlockInfo(b, "paused", "false");
                     p.closeInventory();
                     return false;
@@ -115,14 +115,14 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 menu.replaceExistingItem(17, new CustomItem(HeadTexture.SCRIPT_PAUSE.getAsItemStack(), "&4Pause"));
                 menu.addMenuClickHandler(17, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
-                    SlimefunPlugin.getLocalization().sendMessage(p, "android.stopped", true);
+                    Slimefun.getLocalization().sendMessage(p, "android.stopped", true);
                     return false;
                 });
 
                 menu.replaceExistingItem(16, new CustomItem(HeadTexture.ENERGY_REGULATOR.getAsItemStack(), "&bMemory Core", "", "&8\u21E8 &7Click to open the Script Editor"));
                 menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
-                    SlimefunPlugin.getLocalization().sendMessage(p, "android.stopped", true);
+                    Slimefun.getLocalization().sendMessage(p, "android.stopped", true);
                     openScriptEditor(p, b);
                     return false;
                 });
@@ -239,10 +239,10 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @ParametersAreNonnullByDefault
     public void openScript(Player p, Block b, String sourceCode) {
-        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + Slimefun.getLocalization().getMessage(p, "android.scripts.editor"));
         menu.setEmptySlotsClickable(false);
 
-        menu.addItem(0, new CustomItem(Instruction.START.getItem(), SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+        menu.addItem(0, new CustomItem(Instruction.START.getItem(), Slimefun.getLocalization().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
             // Fixes #2937
@@ -271,7 +271,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 }
 
                 int slot = i + (hasFreeSlot ? 1 : 0);
-                menu.addItem(slot, new CustomItem(Instruction.REPEAT.getItem(), SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+                menu.addItem(slot, new CustomItem(Instruction.REPEAT.getItem(), Slimefun.getLocalization().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
                 menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                     BlockMenu inv = BlockStorage.getInventory(b);
                     // Fixes #2937
@@ -286,12 +286,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 Instruction instruction = Instruction.getInstruction(script[i]);
 
                 if (instruction == null) {
-                    SlimefunPlugin.instance().getLogger().log(Level.WARNING, "Failed to parse Android instruction: {0}, maybe your server is out of date?", script[i]);
+                    Slimefun.instance().getLogger().log(Level.WARNING, "Failed to parse Android instruction: {0}, maybe your server is out of date?", script[i]);
                     return;
                 }
 
                 ItemStack stack = instruction.getItem();
-                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.instructions." + instruction.name()), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
+                menu.addItem(i, new CustomItem(stack, Slimefun.getLocalization().getMessage(p, "android.scripts.instructions." + instruction.name()), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     if (action.isRightClicked() && action.isShiftClicked()) {
                         if (script.length == 54) {
@@ -436,12 +436,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     try {
                         if (action.isShiftClicked()) {
                             if (script.isAuthor(player)) {
-                                SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.own", true);
+                                Slimefun.getLocalization().sendMessage(player, "android.scripts.rating.own", true);
                             } else if (script.canRate(player)) {
                                 script.rate(player, !action.isRightClicked());
                                 openScriptDownloader(player, b, page);
                             } else {
-                                SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.already", true);
+                                Slimefun.getLocalization().sendMessage(player, "android.scripts.rating.already", true);
                             }
                         } else if (!action.isRightClicked()) {
                             script.download();
@@ -449,7 +449,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                             openScriptEditor(player, b);
                         }
                     } catch (Exception x) {
-                        SlimefunPlugin.logger().log(Level.SEVERE, "An Exception was thrown when a User tried to download a Script!", x);
+                        Slimefun.logger().log(Level.SEVERE, "An Exception was thrown when a User tried to download a Script!", x);
                     }
 
                     return false;
@@ -473,24 +473,24 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             }
 
             if (script.getSourceCode().equals(code)) {
-                SlimefunPlugin.getLocalization().sendMessage(p, "android.scripts.already-uploaded", true);
+                Slimefun.getLocalization().sendMessage(p, "android.scripts.already-uploaded", true);
                 return;
             }
         }
 
         p.closeInventory();
-        SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.enter-name");
+        Slimefun.getLocalization().sendMessages(p, "android.scripts.enter-name");
         int id = nextId;
 
-        ChatInput.waitForPlayer(SlimefunPlugin.instance(), p, msg -> {
+        ChatInput.waitForPlayer(Slimefun.instance(), p, msg -> {
             Script.upload(p, getAndroidType(), id, msg, code);
-            SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.uploaded");
+            Slimefun.getLocalization().sendMessages(p, "android.scripts.uploaded");
             openScriptDownloader(p, b, page);
         });
     }
 
     public void openScriptEditor(Player p, Block b) {
-        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + Slimefun.getLocalization().getMessage(p, "android.scripts.editor"));
         menu.setEmptySlotsClickable(false);
 
         menu.addItem(1, new CustomItem(HeadTexture.SCRIPT_FORWARD.getAsItemStack(), "&2> Edit Script", "", "&aEdits your current Script"));
@@ -502,7 +502,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     openScript(pl, b, getScript(b.getLocation()));
                 } else {
                     pl.closeInventory();
-                    SlimefunPlugin.getLocalization().sendMessage(pl, "android.scripts.too-long");
+                    Slimefun.getLocalization().sendMessage(pl, "android.scripts.too-long");
                 }
             } else {
                 pl.closeInventory();
@@ -555,7 +555,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     }
 
     protected void editInstruction(Player p, Block b, String[] script, int index) {
-        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + Slimefun.getLocalization().getMessage(p, "android.scripts.editor"));
         ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
         menu.setEmptySlotsClickable(false);
@@ -568,7 +568,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
         int i = 10;
         for (Instruction instruction : getValidScriptInstructions()) {
-            menu.addItem(i, new CustomItem(instruction.getItem(), SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.instructions." + instruction.name())), (pl, slot, item, action) -> {
+            menu.addItem(i, new CustomItem(instruction.getItem(), Slimefun.getLocalization().getMessage(p, "android.scripts.instructions." + instruction.name())), (pl, slot, item, action) -> {
                 String code = addInstruction(script, index, instruction);
                 setScript(b.getLocation(), code);
                 openScript(p, b, code);
@@ -706,7 +706,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 Instruction instruction = Instruction.getInstruction(script[index]);
 
                 if (instruction == null) {
-                    SlimefunPlugin.instance().getLogger().log(Level.WARNING, "Failed to parse Android instruction: {0}, maybe your server is out of date?", script[index]);
+                    Slimefun.instance().getLogger().log(Level.WARNING, "Failed to parse Android instruction: {0}, maybe your server is out of date?", script[index]);
                     return;
                 }
 
@@ -897,7 +897,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             });
 
             block.setBlockData(blockData);
-            SlimefunPlugin.runSync(() -> SkullBlock.setFromBase64(block, texture));
+            Slimefun.runSync(() -> SkullBlock.setFromBase64(block, texture));
 
             b.setType(Material.AIR);
             BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());

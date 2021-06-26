@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This class contains various utilities related to numbers and number formatting.
@@ -276,7 +276,7 @@ public final class NumberUtils {
         if (PatternUtils.NUMERIC.matcher(javaVer).matches()) {
             return Integer.parseInt(javaVer);
         } else {
-            SlimefunPlugin.logger().log(Level.SEVERE, "Error: Cannot identify Java version - {0}", javaVer);
+            Slimefun.logger().log(Level.SEVERE, "Error: Cannot identify Java version - {0}", javaVer);
             return 0;
         }
     }

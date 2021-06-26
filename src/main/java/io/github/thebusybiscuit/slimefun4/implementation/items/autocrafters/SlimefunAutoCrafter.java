@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.papermc.lib.PaperLib;
@@ -95,11 +95,11 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
                     ChestMenuUtils.drawBackground(menu, background);
                     ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);
 
-                    menu.addItem(49, new CustomItem(Material.CRAFTING_TABLE, ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.select")));
+                    menu.addItem(49, new CustomItem(Material.CRAFTING_TABLE, ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "messages.auto-crafting.select")));
                     menu.addMenuClickHandler(49, (pl, stack, slot, action) -> {
                         setSelectedRecipe(b, recipe);
                         p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
-                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-set");
+                        Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-set");
                         showRecipe(p, b, recipe);
                         return false;
                     });
@@ -114,11 +114,11 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
                         task.start(menu.toInventory());
                     }
                 } else {
-                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
+                    Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
                 }
             }
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
+            Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
         }
     }
 }

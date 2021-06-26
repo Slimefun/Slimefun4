@@ -130,13 +130,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  *
  * @author TheBusyBiscuit
  */
-public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
+public final class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     /**
-     * Our static instance of {@link SlimefunPlugin}.
+     * Our static instance of {@link Slimefun}.
      * Make sure to clean this up in {@link #onDisable()}!
      */
-    private static SlimefunPlugin instance;
+    private static Slimefun instance;
 
     /**
      * Keep track of which {@link MinecraftVersion} we are on.
@@ -187,9 +187,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final SlimefunBowListener bowListener = new SlimefunBowListener();
 
     /**
-     * Our default constructor for {@link SlimefunPlugin}.
+     * Our default constructor for {@link Slimefun}.
      */
-    public SlimefunPlugin() {
+    public Slimefun() {
         super();
     }
 
@@ -206,7 +206,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      *            A {@link File} for this {@link Plugin}
      */
     @ParametersAreNonnullByDefault
-    public SlimefunPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+    public Slimefun(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
         super(loader, description, dataFolder, file);
 
         // This is only invoked during a Unit Test
@@ -439,15 +439,15 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     /**
-     * This is a private internal method to set the de-facto instance of {@link SlimefunPlugin}.
+     * This is a private internal method to set the de-facto instance of {@link Slimefun}.
      * Having this as a seperate method ensures the seperation between static and non-static fields.
      * It also makes sonarcloud happy :)
      * Only ever use it during {@link #onEnable()} or {@link #onDisable()}.
      * 
      * @param pluginInstance
-     *            Our instance of {@link SlimefunPlugin} or null
+     *            Our instance of {@link Slimefun} or null
      */
-    private static void setInstance(@Nullable SlimefunPlugin pluginInstance) {
+    private static void setInstance(@Nullable Slimefun pluginInstance) {
         instance = pluginInstance;
     }
 
@@ -684,12 +684,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     /**
-     * This returns the global instance of {@link SlimefunPlugin}.
+     * This returns the global instance of {@link Slimefun}.
      * This may return null if the {@link Plugin} was disabled.
      *
-     * @return The {@link SlimefunPlugin} instance
+     * @return The {@link Slimefun} instance
      */
-    public static @Nullable SlimefunPlugin instance() {
+    public static @Nullable Slimefun instance() {
         return instance;
     }
 

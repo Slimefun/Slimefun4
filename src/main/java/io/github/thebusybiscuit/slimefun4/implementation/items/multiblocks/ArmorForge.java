@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
@@ -52,9 +52,9 @@ public class ArmorForge extends AbstractCraftingTable {
             }
 
             if (inv.isEmpty()) {
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+                Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
+                Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
             }
         }
     }
@@ -86,7 +86,7 @@ public class ArmorForge extends AbstractCraftingTable {
             for (int j = 0; j < 4; j++) {
                 int current = j;
 
-                SlimefunPlugin.runSync(() -> {
+                Slimefun.runSync(() -> {
                     if (current < 3) {
                         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
                     } else {
@@ -97,7 +97,7 @@ public class ArmorForge extends AbstractCraftingTable {
             }
 
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 

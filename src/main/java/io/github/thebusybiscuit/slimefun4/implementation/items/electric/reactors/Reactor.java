@@ -30,7 +30,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
@@ -102,7 +102,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
+                return p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
             }
 
             @Override
@@ -333,7 +333,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
         boolean explosion = explosionsQueue.contains(l);
 
         if (explosion) {
-            SlimefunPlugin.runSync(() -> {
+            Slimefun.runSync(() -> {
                 ReactorExplodeEvent event = new ReactorExplodeEvent(l, Reactor.this);
                 Bukkit.getPluginManager().callEvent(event);
 
@@ -349,7 +349,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     }
 
     private void checkForWaterBlocks(Location l) {
-        SlimefunPlugin.runSync(() -> {
+        Slimefun.runSync(() -> {
             /*
              * We will pick a surrounding block at random and see if this is water.
              * If it isn't, then we will make it explode.

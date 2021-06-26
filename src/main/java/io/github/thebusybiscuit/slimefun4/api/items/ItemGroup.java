@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.SeasonalItemGroup;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
@@ -111,7 +111,7 @@ public class ItemGroup implements Keyed {
 
         this.addon = addon;
 
-        SlimefunPlugin.getRegistry().getCategories().add(this);
+        Slimefun.getRegistry().getCategories().add(this);
         sortCategoriesByTier();
     }
 
@@ -145,7 +145,7 @@ public class ItemGroup implements Keyed {
      * This refreshes the {@link ItemGroup} order.
      */
     private void sortCategoriesByTier() {
-        List<ItemGroup> categories = SlimefunPlugin.getRegistry().getCategories();
+        List<ItemGroup> categories = Slimefun.getRegistry().getCategories();
         Collections.sort(categories, Comparator.comparingInt(ItemGroup::getTier));
     }
 
@@ -200,7 +200,7 @@ public class ItemGroup implements Keyed {
     @Nonnull
     public ItemStack getItem(@Nonnull Player p) {
         return new CustomItem(item, meta -> {
-            String name = SlimefunPlugin.getLocalization().getCategoryName(p, getKey());
+            String name = Slimefun.getLocalization().getCategoryName(p, getKey());
 
             if (name == null) {
                 name = item.getItemMeta().getDisplayName();
@@ -212,7 +212,7 @@ public class ItemGroup implements Keyed {
                 meta.setDisplayName(ChatColor.YELLOW + name);
             }
 
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category")));
+            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-category")));
         });
     }
 
@@ -238,7 +238,7 @@ public class ItemGroup implements Keyed {
      */
     @Nonnull
     public String getDisplayName(@Nonnull Player p) {
-        String localized = SlimefunPlugin.getLocalization().getCategoryName(p, getKey());
+        String localized = Slimefun.getLocalization().getCategoryName(p, getKey());
 
         if (localized != null) {
             return localized;
@@ -316,7 +316,7 @@ public class ItemGroup implements Keyed {
      * @return Whether this {@link ItemGroup} has been registered
      */
     public boolean isRegistered() {
-        return SlimefunPlugin.getRegistry().getCategories().contains(this);
+        return Slimefun.getRegistry().getCategories().contains(this);
     }
 
 }

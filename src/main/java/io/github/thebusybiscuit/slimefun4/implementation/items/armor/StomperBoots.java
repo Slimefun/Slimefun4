@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * The Boots of the Stomper are boots which damage nearby enemies whenever the {@link Player}
@@ -56,7 +56,7 @@ public class StomperBoots extends SlimefunItem {
                 entity.setVelocity(velocity);
 
                 // Check if it's not a Player or if PvP is enabled
-                if (!(entity instanceof Player) || (player.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(player, entity.getLocation(), ProtectableAction.ATTACK_PLAYER))) {
+                if (!(entity instanceof Player) || (player.getWorld().getPVP() && Slimefun.getProtectionManager().hasPermission(player, entity.getLocation(), ProtectableAction.ATTACK_PLAYER))) {
                     EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(player, entity, DamageCause.ENTITY_ATTACK, fallDamageEvent.getDamage() / 2);
                     Bukkit.getPluginManager().callEvent(event);
 

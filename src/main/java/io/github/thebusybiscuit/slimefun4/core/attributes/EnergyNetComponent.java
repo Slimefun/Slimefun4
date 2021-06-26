@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -141,7 +141,7 @@ public interface EnergyNetComponent extends ItemAttribute {
                 }
             }
         } catch (Exception | LinkageError x) {
-            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "Exception while trying to set the energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
+            Slimefun.logger().log(Level.SEVERE, x, () -> "Exception while trying to set the energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
         }
     }
 
@@ -168,7 +168,7 @@ public interface EnergyNetComponent extends ItemAttribute {
                 }
             }
         } catch (Exception | LinkageError x) {
-            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "Exception while trying to add an energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
+            Slimefun.logger().log(Level.SEVERE, x, () -> "Exception while trying to add an energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
         }
     }
 
@@ -195,7 +195,7 @@ public interface EnergyNetComponent extends ItemAttribute {
                 }
             }
         } catch (Exception | LinkageError x) {
-            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "Exception while trying to remove an energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
+            Slimefun.logger().log(Level.SEVERE, x, () -> "Exception while trying to remove an energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
         }
     }
 

@@ -14,7 +14,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 public class GPSControlPanel extends SimpleSlimefunItem<BlockUseHandler> {
@@ -34,9 +34,9 @@ public class GPSControlPanel extends SimpleSlimefunItem<BlockUseHandler> {
 
             if (block.isPresent()) {
                 if (hasAccess(p, block.get().getLocation())) {
-                    SlimefunPlugin.getGPSNetwork().openTransmitterControlPanel(p);
+                    Slimefun.getGPSNetwork().openTransmitterControlPanel(p);
                 } else {
-                    SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+                    Slimefun.getLocalization().sendMessage(p, "inventory.no-access", true);
                 }
             }
         };
@@ -44,6 +44,6 @@ public class GPSControlPanel extends SimpleSlimefunItem<BlockUseHandler> {
 
     @ParametersAreNonnullByDefault
     private boolean hasAccess(Player p, Location l) {
-        return p.hasPermission("slimefun.gps.bypass") || (SlimefunPlugin.getProtectionManager().hasPermission(p, l, ProtectableAction.INTERACT_BLOCK));
+        return p.hasPermission("slimefun.gps.bypass") || (Slimefun.getProtectionManager().hasPermission(p, l, ProtectableAction.INTERACT_BLOCK));
     }
 }

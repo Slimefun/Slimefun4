@@ -29,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.IgnitionChamber;
 import io.papermc.lib.PaperLib;
 
@@ -96,7 +96,7 @@ public class Smeltery extends AbstractSmeltery {
 
                 p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.ignition-chamber-no-flint", true);
+                Slimefun.getLocalization().sendMessage(p, "machines.ignition-chamber-no-flint", true);
 
                 Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
                 fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());

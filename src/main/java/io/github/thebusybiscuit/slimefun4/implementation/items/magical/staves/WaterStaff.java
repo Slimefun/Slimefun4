@@ -10,7 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -33,7 +33,7 @@ public class WaterStaff extends SimpleSlimefunItem<ItemUseHandler> {
             Player p = e.getPlayer();
 
             p.setFireTicks(0);
-            SlimefunPlugin.getLocalization().sendMessage(p, "messages.fire-extinguish", true);
+            Slimefun.getLocalization().sendMessage(p, "messages.fire-extinguish", true);
         };
     }
 

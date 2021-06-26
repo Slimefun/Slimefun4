@@ -15,7 +15,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -36,7 +36,7 @@ public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
     @Override
     public ItemConsumptionHandler getItemHandler() {
         return (e, p, item) -> {
-            List<String> messages = SlimefunPlugin.getLocalization().getMessages(p, "messages.fortune-cookie");
+            List<String> messages = Slimefun.getLocalization().getMessages(p, "messages.fortune-cookie");
             String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
 
             p.sendMessage(ChatColors.color(message));

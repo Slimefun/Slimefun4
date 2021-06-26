@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
@@ -34,7 +34,7 @@ public final class SlimefunGuide {
 
     @Nonnull
     public static ItemStack getItem(@Nonnull SlimefunGuideMode design) {
-        return SlimefunPlugin.getRegistry().getSlimefunGuide(design).getItem();
+        return Slimefun.getRegistry().getSlimefunGuide(design).getItem();
     }
 
     public static void openCheatMenu(@Nonnull Player p) {
@@ -54,7 +54,7 @@ public final class SlimefunGuide {
     }
 
     public static void openGuide(@Nonnull Player p, @Nonnull SlimefunGuideMode mode) {
-        if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
+        if (!Slimefun.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
             return;
         }
 
@@ -62,7 +62,7 @@ public final class SlimefunGuide {
 
         if (optional.isPresent()) {
             PlayerProfile profile = optional.get();
-            SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getSlimefunGuide(mode);
+            SlimefunGuideImplementation guide = Slimefun.getRegistry().getSlimefunGuide(mode);
             profile.getGuideHistory().openLastEntry(guide);
         } else {
             openMainMenuAsync(p, mode, 1);
@@ -71,35 +71,35 @@ public final class SlimefunGuide {
 
     @ParametersAreNonnullByDefault
     private static void openMainMenuAsync(Player player, SlimefunGuideMode mode, int selectedPage) {
-        if (!PlayerProfile.get(player, profile -> SlimefunPlugin.runSync(() -> openMainMenu(profile, mode, selectedPage)))) {
-            SlimefunPlugin.getLocalization().sendMessage(player, "messages.opening-guide");
+        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, mode, selectedPage)))) {
+            Slimefun.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }
 
     @ParametersAreNonnullByDefault
     public static void openMainMenu(PlayerProfile profile, SlimefunGuideMode mode, int selectedPage) {
-        SlimefunPlugin.getRegistry().getSlimefunGuide(mode).openMainMenu(profile, selectedPage);
+        Slimefun.getRegistry().getSlimefunGuide(mode).openMainMenu(profile, selectedPage);
     }
 
     @ParametersAreNonnullByDefault
     public static void openCategory(PlayerProfile profile, ItemGroup category, SlimefunGuideMode mode, int selectedPage) {
-        SlimefunPlugin.getRegistry().getSlimefunGuide(mode).openCategory(profile, category, selectedPage);
+        Slimefun.getRegistry().getSlimefunGuide(mode).openCategory(profile, category, selectedPage);
     }
 
     @ParametersAreNonnullByDefault
     public static void openSearch(PlayerProfile profile, String input, SlimefunGuideMode mode, boolean addToHistory) {
-        SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getSlimefunGuide(mode);
+        SlimefunGuideImplementation guide = Slimefun.getRegistry().getSlimefunGuide(mode);
         guide.openSearch(profile, input, addToHistory);
     }
 
     @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
-        SlimefunPlugin.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, 0, addToHistory);
+        Slimefun.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, 0, addToHistory);
     }
 
     @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
-        SlimefunPlugin.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, addToHistory);
+        Slimefun.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, addToHistory);
     }
 
     /**

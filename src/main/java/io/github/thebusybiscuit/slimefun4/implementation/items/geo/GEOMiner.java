@@ -32,7 +32,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.operations.MiningOperation;
 
@@ -233,7 +233,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new LinkedList<>();
 
-        for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
+        for (GEOResource resource : Slimefun.getRegistry().getGEOResources().values()) {
             if (resource.isObtainableFromGEOMiner()) {
                 displayRecipes.add(new CustomItem(resource.getItem(), ChatColor.RESET + resource.getName()));
             }
@@ -323,9 +323,9 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     }
 
     private void start(@Nonnull Block b, @Nonnull BlockMenu inv) {
-        for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
+        for (GEOResource resource : Slimefun.getRegistry().getGEOResources().values()) {
             if (resource.isObtainableFromGEOMiner()) {
-                OptionalInt optional = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
+                OptionalInt optional = Slimefun.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                 if (!optional.isPresent()) {
                     updateHologram(b, "&4GEO-Scan required!");
@@ -339,7 +339,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
                     }
 
                     processor.startOperation(b, new MiningOperation(resource.getItem().clone(), PROCESSING_TIME));
-                    SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies - 1);
+                    Slimefun.getGPSNetwork().getResourceManager().setSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies - 1);
                     updateHologram(b, "&7Mining: &r" + resource.getName());
                     return;
                 }

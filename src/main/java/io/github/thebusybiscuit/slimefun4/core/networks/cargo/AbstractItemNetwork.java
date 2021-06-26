@@ -33,7 +33,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -82,7 +82,7 @@ abstract class AbstractItemNetwork extends Network {
     protected Map<Location, ItemFilter> filterCache = new HashMap<>();
 
     protected AbstractItemNetwork(Location regulator) {
-        super(SlimefunPlugin.getNetworkManager(), regulator);
+        super(Slimefun.getNetworkManager(), regulator);
     }
 
     protected Optional<Block> getAttachedBlock(Location l) {
@@ -204,7 +204,7 @@ abstract class AbstractItemNetwork extends Network {
         SlimefunItem item = SlimefunItem.getById("CT_IMPORT_BUS");
 
         for (Location bus : imports) {
-            long timestamp = SlimefunPlugin.getProfiler().newEntry();
+            long timestamp = Slimefun.getProfiler().newEntry();
             BlockMenu menu = BlockStorage.getInventory(bus);
 
             if (menu.getItemInSlot(17) == null) {
@@ -223,7 +223,7 @@ abstract class AbstractItemNetwork extends Network {
                 itemRequests.add(new ItemRequest(bus, 17, menu.getItemInSlot(17), ItemTransportFlow.INSERT));
             }
 
-            SlimefunPlugin.getProfiler().closeEntry(bus, item, timestamp);
+            Slimefun.getProfiler().closeEntry(bus, item, timestamp);
         }
     }
 
@@ -231,7 +231,7 @@ abstract class AbstractItemNetwork extends Network {
         SlimefunItem item = SlimefunItem.getById("CT_EXPORT_BUS");
 
         for (Location bus : exports) {
-            long timestamp = SlimefunPlugin.getProfiler().newEntry();
+            long timestamp = Slimefun.getProfiler().newEntry();
             BlockMenu menu = BlockStorage.getInventory(bus);
 
             ItemStack itemSlot17 = menu.getItemInSlot(17);
@@ -264,7 +264,7 @@ abstract class AbstractItemNetwork extends Network {
                 }
             }
 
-            SlimefunPlugin.getProfiler().closeEntry(bus, item, timestamp);
+            Slimefun.getProfiler().closeEntry(bus, item, timestamp);
         }
     }
 
@@ -328,7 +328,7 @@ abstract class AbstractItemNetwork extends Network {
         }
 
         if (firstTerminal != null) {
-            return SlimefunPlugin.getProfiler().closeEntry(firstTerminal, item, timestamp);
+            return Slimefun.getProfiler().closeEntry(firstTerminal, item, timestamp);
         } else {
             return System.nanoTime() - timestamp;
         }

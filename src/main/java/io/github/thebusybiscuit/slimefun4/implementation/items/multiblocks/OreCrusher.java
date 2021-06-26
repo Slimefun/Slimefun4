@@ -26,7 +26,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
@@ -119,7 +119,7 @@ public class OreCrusher extends MultiBlockMachine {
         // @formatter:on
 
         // Gold ore variants (1.16+)
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             displayRecipes.add(new ItemStack(Material.NETHER_GOLD_ORE));
             displayRecipes.add(doubleOres.getGoldNuggets());
 
@@ -128,7 +128,7 @@ public class OreCrusher extends MultiBlockMachine {
         }
 
         // Raw metal ores (1.17+)
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             displayRecipes.add(new ItemStack(Material.RAW_IRON));
             displayRecipes.add(SlimefunItems.IRON_DUST);
 
@@ -140,7 +140,7 @@ public class OreCrusher extends MultiBlockMachine {
         }
 
         // Deepslate Ores (1.17+)
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             // @formatter:off
             displayRecipes.addAll(Arrays.asList(
                 new ItemStack(Material.DEEPSLATE_COAL_ORE), doubleOres.getCoal(),
@@ -181,7 +181,7 @@ public class OreCrusher extends MultiBlockMachine {
                                 outputInv.addItem(adding);
                                 p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);
                             } else {
-                                SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                                Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                             }
                         }
 
@@ -190,7 +190,7 @@ public class OreCrusher extends MultiBlockMachine {
                 }
             }
 
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
 

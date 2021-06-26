@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
@@ -56,7 +56,7 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
                         if (outputInv != null) {
                             craft(p, b, inv, inputs.get(i), output, outputInv);
                         } else {
-                            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
                     }
 
@@ -64,7 +64,7 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
                 }
             }
 
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
 

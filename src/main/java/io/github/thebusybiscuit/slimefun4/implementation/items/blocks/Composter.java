@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
@@ -81,7 +81,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                 Player p = e.getPlayer();
                 Block b = block.get();
 
-                if (p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK)) {
+                if (p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK)) {
                     ItemStack input = e.getItem();
                     ItemStack output = getOutput(p, input);
 
@@ -98,9 +98,9 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                             pushItem(b, output.clone());
                         });
 
-                        tasks.execute(SlimefunPlugin.instance());
+                        tasks.execute(Slimefun.instance());
                     } else {
-                        SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
+                        Slimefun.getLocalization().sendMessage(p, "machines.wrong-item", true);
                     }
                 }
             }

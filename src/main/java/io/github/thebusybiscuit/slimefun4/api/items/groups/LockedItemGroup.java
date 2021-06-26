@@ -18,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * Represents a {@link ItemGroup} that cannot be opened until the parent category/categories
@@ -87,14 +87,14 @@ public class LockedItemGroup extends ItemGroup {
             }
         }
 
-        for (ItemGroup category : SlimefunPlugin.getRegistry().getCategories()) {
+        for (ItemGroup category : Slimefun.getRegistry().getCategories()) {
             if (namespacedKeys.remove(category.getKey())) {
                 addParent(category);
             }
         }
 
         for (NamespacedKey key : namespacedKeys) {
-            SlimefunPlugin.logger().log(Level.INFO, "Parent \"{0}\" for Category \"{1}\" was not found, probably just disabled.", new Object[] { key, getKey() });
+            Slimefun.logger().log(Level.INFO, "Parent \"{0}\" for Category \"{1}\" was not found, probably just disabled.", new Object[] { key, getKey() });
         }
     }
 

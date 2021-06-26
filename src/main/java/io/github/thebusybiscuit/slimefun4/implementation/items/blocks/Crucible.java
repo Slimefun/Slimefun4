@@ -27,7 +27,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -90,7 +90,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             items.add(new ItemStack(Material.LAVA_BUCKET));
         }
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             items.add(new ItemStack(Material.BLACKSTONE, 8));
             items.add(new ItemStack(Material.LAVA_BUCKET));
 
@@ -98,7 +98,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             items.add(new ItemStack(Material.LAVA_BUCKET));
         }
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             items.add(new ItemStack(Material.COBBLED_DEEPSLATE, 12));
             items.add(new ItemStack(Material.LAVA_BUCKET));
 
@@ -123,7 +123,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                 Player p = e.getPlayer();
                 Block b = optional.get();
 
-                if (p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK)) {
+                if (p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK)) {
                     ItemStack input = e.getItem();
                     Block block = b.getRelative(BlockFace.UP);
 
@@ -131,7 +131,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                         boolean water = Tag.LEAVES.isTagged(input.getType());
                         generateLiquid(block, water);
                     } else {
-                        SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
+                        Slimefun.getLocalization().sendMessage(p, "machines.wrong-item", true);
                     }
                 }
             }
@@ -179,7 +179,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             block.setType(level == 0 || level == 8 ? Material.OBSIDIAN : Material.STONE);
             block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
         } else {
-            SlimefunPlugin.runSync(() -> placeLiquid(block, isWater), 50L);
+            Slimefun.runSync(() -> placeLiquid(block, isWater), 50L);
         }
     }
 
@@ -194,7 +194,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             block.getWorld().playSound(block.getLocation(), water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1F, 1F);
         } else {
             int finalLevel = 7 - level;
-            SlimefunPlugin.runSync(() -> runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, finalLevel), 50L);
+            Slimefun.runSync(() -> runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, finalLevel), 50L);
         }
     }
 
@@ -233,7 +233,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         block.setBlockData(le, false);
 
         if (times < 8) {
-            SlimefunPlugin.runSync(() -> runPostTask(block, sound, times + 1), 50L);
+            Slimefun.runSync(() -> runPostTask(block, sound, times + 1), 50L);
         } else {
             block.getWorld().playSound(block.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
         }

@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
@@ -60,7 +60,7 @@ public final class SlimefunGuideSettings {
 
     @ParametersAreNonnullByDefault
     public static void openSettings(Player p, ItemStack guide) {
-        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "guide.title.settings"));
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.settings"));
 
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -75,7 +75,7 @@ public final class SlimefunGuideSettings {
 
     @ParametersAreNonnullByDefault
     private static void addHeader(Player p, ChestMenu menu, ItemStack guide) {
-        LocalizationService locale = SlimefunPlugin.getLocalization();
+        LocalizationService locale = Slimefun.getLocalization();
 
         // @formatter:off
         menu.addItem(0, new CustomItem(SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE),
@@ -90,7 +90,7 @@ public final class SlimefunGuideSettings {
             return false;
         });
 
-        GitHubService github = SlimefunPlugin.getGitHubService();
+        GitHubService github = Slimefun.getGitHubService();
 
         List<String> contributorsLore = new ArrayList<>();
         contributorsLore.add("");
@@ -116,7 +116,7 @@ public final class SlimefunGuideSettings {
             "&7&o" + locale.getMessage(p, "guide.tooltips.versions-notice"),
             "",
             "&fMinecraft: &a" + Bukkit.getBukkitVersion(),
-            "&fSlimefun: &a" + SlimefunPlugin.getVersion()),
+            "&fSlimefun: &a" + Slimefun.getVersion()),
             ChestMenuUtils.getEmptyClickHandler()
         );
         // @formatter:on
@@ -169,7 +169,7 @@ public final class SlimefunGuideSettings {
             "&7this plugin truly shine. Go check them out, some",
             "&7of them may be exactly what you were missing out on!",
             "",
-            "&7Installed on this Server: &b" + SlimefunPlugin.getInstalledAddons().size(),
+            "&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(),
             "",
             "&7\u21E8 &eClick to see all available addons for Slimefun4"
         ));
@@ -181,7 +181,7 @@ public final class SlimefunGuideSettings {
             return false;
         });
 
-        if (SlimefunPlugin.getUpdater().getBranch().isOfficial()) {
+        if (Slimefun.getUpdater().getBranch().isOfficial()) {
             // @formatter:off
             menu.addItem(49, new CustomItem(Material.REDSTONE_TORCH,
                 "&4" + locale.getMessage(p, "guide.title.bugs"),

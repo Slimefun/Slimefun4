@@ -12,7 +12,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
@@ -31,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.
 public class AutoCrafterListener implements Listener {
 
     @ParametersAreNonnullByDefault
-    public AutoCrafterListener(SlimefunPlugin plugin) {
+    public AutoCrafterListener(Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

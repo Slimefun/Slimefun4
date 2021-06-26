@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
@@ -25,18 +25,18 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class SlimefunStartupTask implements Runnable {
 
-    private final SlimefunPlugin plugin;
+    private final Slimefun plugin;
     private final Runnable runnable;
 
     /**
-     * This initializes our {@link SlimefunStartupTask} for the given {@link SlimefunPlugin}.
+     * This initializes our {@link SlimefunStartupTask} for the given {@link Slimefun}.
      * 
      * @param plugin
-     *            The main instance of our {@link SlimefunPlugin}
+     *            The main instance of our {@link Slimefun}
      * @param runnable
      *            A {@link Runnable} containing additional operations that need to be run
      */
-    public SlimefunStartupTask(@Nonnull SlimefunPlugin plugin, @Nonnull Runnable runnable) {
+    public SlimefunStartupTask(@Nonnull Slimefun plugin, @Nonnull Runnable runnable) {
         this.plugin = plugin;
         this.runnable = runnable;
     }
@@ -49,13 +49,13 @@ public class SlimefunStartupTask implements Runnable {
         PostSetup.loadItems();
 
         // Load all worlds
-        SlimefunPlugin.getWorldSettingsService().load(Bukkit.getWorlds());
+        Slimefun.getWorldSettingsService().load(Bukkit.getWorlds());
 
         for (World world : Bukkit.getWorlds()) {
             try {
                 new BlockStorage(world);
             } catch (Exception x) {
-                SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Error occurred while trying to load World \"" + world.getName() + "\" for Slimefun v" + SlimefunPlugin.getVersion());
+                Slimefun.logger().log(Level.SEVERE, x, () -> "An Error occurred while trying to load World \"" + world.getName() + "\" for Slimefun v" + Slimefun.getVersion());
             }
         }
 

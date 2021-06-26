@@ -15,7 +15,7 @@ import org.bukkit.Bukkit;
 
 import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
 import io.github.thebusybiscuit.cscorelib2.players.TooManyRequestsException;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This {@link GitHubTask} represents a {@link Runnable} that is run every X minutes.
@@ -67,9 +67,9 @@ class GitHubTask implements Runnable {
             }
         }
 
-        if (requests >= MAX_REQUESTS_PER_MINUTE && SlimefunPlugin.instance() != null && SlimefunPlugin.instance().isEnabled()) {
+        if (requests >= MAX_REQUESTS_PER_MINUTE && Slimefun.instance() != null && Slimefun.instance().isEnabled()) {
             // Slow down API requests and wait a minute after more than x requests were made
-            Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance(), this::grabTextures, 2 * 60 * 20L);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 2 * 60 * 20L);
         }
 
         for (GitHubConnector connector : gitHubService.getConnectors()) {
@@ -100,18 +100,18 @@ class GitHubTask implements Runnable {
                 contributor.setTexture(null);
             } catch (IOException x) {
                 // Too many requests
-                SlimefunPlugin.logger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
-                SlimefunPlugin.logger().log(Level.WARNING, "This usually means mojang.com is temporarily down or started to rate-limit this connection, this is not an error message!");
+                Slimefun.logger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
+                Slimefun.logger().log(Level.WARNING, "This usually means mojang.com is temporarily down or started to rate-limit this connection, this is not an error message!");
 
                 // Retry after 5 minutes if it was rate-limiting
                 if (x.getMessage().contains("429")) {
-                    Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance(), this::grabTextures, 5 * 60 * 20L);
+                    Bukkit.getScheduler().runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 5 * 60 * 20L);
                 }
 
                 return -1;
             } catch (TooManyRequestsException x) {
-                SlimefunPlugin.logger().log(Level.WARNING, "Received a rate-limit from mojang.com, retrying in 4 minutes");
-                Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance(), this::grabTextures, 4 * 60 * 20L);
+                Slimefun.logger().log(Level.WARNING, "Received a rate-limit from mojang.com, retrying in 4 minutes");
+                Bukkit.getScheduler().runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 4 * 60 * 20L);
 
                 return -1;
             }

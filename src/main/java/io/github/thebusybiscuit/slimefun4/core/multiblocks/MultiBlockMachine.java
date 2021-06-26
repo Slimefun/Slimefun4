@@ -29,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
 
 /**
@@ -95,7 +95,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
 
     @Override
     public void postRegister() {
-        SlimefunPlugin.getRegistry().getMultiBlocks().add(multiblock);
+        Slimefun.getRegistry().getMultiBlocks().add(multiblock);
     }
 
     @Override
@@ -114,7 +114,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     protected @Nonnull MultiBlockInteractionHandler getInteractionHandler() {
         return (p, mb, b) -> {
             if (mb.equals(getMultiBlock())) {
-                if (canUse(p, true) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK)) {
+                if (canUse(p, true) && Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK)) {
                     onInteract(p, b);
                 }
 

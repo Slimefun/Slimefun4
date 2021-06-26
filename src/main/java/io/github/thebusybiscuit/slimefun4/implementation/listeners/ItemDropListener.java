@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * Listens to the {@link PlayerDropItemEvent} to call any {@link ItemDropHandler}.
@@ -20,13 +20,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  */
 public class ItemDropListener implements Listener {
 
-    public ItemDropListener(@Nonnull SlimefunPlugin plugin) {
+    public ItemDropListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent e) {
-        SlimefunRegistry registry = SlimefunPlugin.getRegistry();
+        SlimefunRegistry registry = Slimefun.getRegistry();
 
         for (ItemHandler handler : registry.getGlobalItemHandlers(ItemDropHandler.class)) {
             if (((ItemDropHandler) handler).onItemDrop(e, e.getPlayer(), e.getItemDrop())) {

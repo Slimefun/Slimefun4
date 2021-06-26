@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -34,7 +34,7 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
     @Override
     public ItemConsumptionHandler getItemHandler() {
         return (e, p, item) -> {
-            SlimefunPlugin.getLocalization().sendMessage(p, "messages.diet-cookie");
+            Slimefun.getLocalization().sendMessage(p, "messages.diet-cookie");
             p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
 
             if (p.hasPotionEffect(PotionEffectType.LEVITATION)) {

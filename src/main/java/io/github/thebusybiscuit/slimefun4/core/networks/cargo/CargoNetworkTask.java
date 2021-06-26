@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -59,7 +59,7 @@ class CargoNetworkTask implements Runnable {
     @ParametersAreNonnullByDefault
     CargoNetworkTask(CargoNet network, Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs, Set<Location> chestTerminalInputs, Set<Location> chestTerminalOutputs) {
         this.network = network;
-        this.manager = SlimefunPlugin.getNetworkManager();
+        this.manager = Slimefun.getNetworkManager();
 
         this.inputs = inputs;
         this.outputs = outputs;
@@ -73,7 +73,7 @@ class CargoNetworkTask implements Runnable {
 
         try {
             // Chest Terminal Code
-            if (SlimefunPlugin.getIntegrations().isChestTerminalInstalled()) {
+            if (Slimefun.getIntegrations().isChestTerminalInstalled()) {
                 network.handleItemRequests(inventories, chestTerminalInputs, chestTerminalOutputs);
             }
 
@@ -90,20 +90,20 @@ class CargoNetworkTask implements Runnable {
                 attachedBlock.ifPresent(block -> routeItems(input, block, entry.getValue(), outputs));
 
                 // This will prevent this timings from showing up for the Cargo Manager
-                timestamp += SlimefunPlugin.getProfiler().closeEntry(entry.getKey(), inputNode, nodeTimestamp);
+                timestamp += Slimefun.getProfiler().closeEntry(entry.getKey(), inputNode, nodeTimestamp);
             }
 
             // Chest Terminal Code
-            if (SlimefunPlugin.getIntegrations().isChestTerminalInstalled()) {
+            if (Slimefun.getIntegrations().isChestTerminalInstalled()) {
                 // This will deduct any CT timings and attribute them towards the actual terminal
                 timestamp += network.updateTerminals(chestTerminalInputs);
             }
         } catch (Exception | LinkageError x) {
-            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking a Cargo network @ " + new BlockPosition(network.getRegulator()));
+            Slimefun.logger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking a Cargo network @ " + new BlockPosition(network.getRegulator()));
         }
 
         // Submit a timings report
-        SlimefunPlugin.getProfiler().closeEntry(network.getRegulator(), SlimefunItems.CARGO_MANAGER.getItem(), timestamp);
+        Slimefun.getProfiler().closeEntry(network.getRegulator(), SlimefunItems.CARGO_MANAGER.getItem(), timestamp);
     }
 
     @ParametersAreNonnullByDefault

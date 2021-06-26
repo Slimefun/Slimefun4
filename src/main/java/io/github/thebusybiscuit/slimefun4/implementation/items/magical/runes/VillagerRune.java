@@ -18,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -38,7 +38,7 @@ public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
     @Override
     public EntityInteractHandler getItemHandler() {
         return (e, item, offhand) -> {
-            if (e.isCancelled() || !SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), e.getRightClicked().getLocation(), ProtectableAction.INTERACT_ENTITY)) {
+            if (e.isCancelled() || !Slimefun.getProtectionManager().hasPermission(e.getPlayer(), e.getRightClicked().getLocation(), ProtectableAction.INTERACT_ENTITY)) {
                 // They don't have permission to use it in this area
                 return;
             }

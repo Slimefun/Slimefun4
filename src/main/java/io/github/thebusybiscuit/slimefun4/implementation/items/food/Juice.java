@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
@@ -87,15 +87,15 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
     private void removeGlassBottle(Player p, ItemStack item) {
         if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
             if (p.getInventory().getItemInMainHand().getAmount() == 1) {
-                SlimefunPlugin.runSync(() -> p.getEquipment().getItemInMainHand().setAmount(0));
+                Slimefun.runSync(() -> p.getEquipment().getItemInMainHand().setAmount(0));
             } else {
-                SlimefunPlugin.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
+                Slimefun.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
             }
         } else if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
             if (p.getInventory().getItemInOffHand().getAmount() == 1) {
-                SlimefunPlugin.runSync(() -> p.getEquipment().getItemInOffHand().setAmount(0));
+                Slimefun.runSync(() -> p.getEquipment().getItemInOffHand().setAmount(0));
             } else {
-                SlimefunPlugin.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
+                Slimefun.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
             }
         }
     }

@@ -32,7 +32,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -75,7 +75,7 @@ public final class SlimefunUtils {
      *            The context in which this {@link Item} was flagged
      */
     public static void markAsNoPickup(@Nonnull Item item, @Nonnull String context) {
-        item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(SlimefunPlugin.instance(), context));
+        item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(Slimefun.instance(), context));
     }
 
     /**
@@ -128,7 +128,7 @@ public final class SlimefunUtils {
     private static boolean hasSoulboundFlag(@Nullable ItemMeta meta) {
         if (meta != null) {
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            NamespacedKey key = SlimefunPlugin.getRegistry().getSoulboundDataKey();
+            NamespacedKey key = Slimefun.getRegistry().getSoulboundDataKey();
 
             return container.has(key, PersistentDataType.BYTE);
         }
@@ -159,7 +159,7 @@ public final class SlimefunUtils {
         ItemMeta meta = item.getItemMeta();
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        NamespacedKey key = SlimefunPlugin.getRegistry().getSoulboundDataKey();
+        NamespacedKey key = Slimefun.getRegistry().getSoulboundDataKey();
 
         if (makeSoulbound && !isSoulbound) {
             container.set(key, PersistentDataType.BYTE, (byte) 1);
@@ -207,11 +207,11 @@ public final class SlimefunUtils {
     public static @Nonnull ItemStack getCustomHead(@Nonnull String texture) {
         Validate.notNull(texture, "The provided texture is null");
 
-        if (SlimefunPlugin.instance() == null) {
+        if (Slimefun.instance() == null) {
             throw new PrematureCodeException("You cannot instantiate a custom head before Slimefun was loaded.");
         }
 
-        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+        if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             // com.mojang.authlib.GameProfile does not exist in a Test Environment
             return new ItemStack(Material.PLAYER_HEAD);
         }
@@ -267,7 +267,7 @@ public final class SlimefunUtils {
             ItemMeta itemMeta = item.getItemMeta();
 
             if (sfitem instanceof SlimefunItemStack) {
-                Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
+                Optional<String> id = Slimefun.getItemDataService().getItemData(itemMeta);
 
                 if (id.isPresent()) {
                     return id.get().equals(((SlimefunItemStack) sfitem).getItemId());
@@ -373,7 +373,7 @@ public final class SlimefunUtils {
         Validate.notNull(l, "Cannot update a texture for null");
         Validate.isTrue(capacity > 0, "Capacity must be greater than zero!");
 
-        SlimefunPlugin.runSync(new CapacitorTextureUpdateTask(l, charge, capacity));
+        Slimefun.runSync(new CapacitorTextureUpdateTask(l, charge, capacity));
     }
 
     /**

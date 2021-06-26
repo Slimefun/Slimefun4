@@ -19,7 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This Service is responsible for applying custom model data to any {@link SlimefunItemStack}
@@ -93,7 +93,7 @@ public class CustomTextureService {
     }
 
     private void loadDefaultValues() {
-        InputStream inputStream = SlimefunPlugin.class.getResourceAsStream("/item-models.yml");
+        InputStream inputStream = Slimefun.class.getResourceAsStream("/item-models.yml");
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(reader);
@@ -102,7 +102,7 @@ public class CustomTextureService {
                 config.setDefaultValue(key, cfg.getInt(key));
             }
         } catch (Exception e) {
-            SlimefunPlugin.logger().log(Level.SEVERE, "Failed to load default item-models.yml file", e);
+            Slimefun.logger().log(Level.SEVERE, "Failed to load default item-models.yml file", e);
         }
     }
 

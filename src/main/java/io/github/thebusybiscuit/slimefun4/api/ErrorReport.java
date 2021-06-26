@@ -23,7 +23,7 @@ import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -69,7 +69,7 @@ public class ErrorReport<T extends Throwable> {
         this.throwable = throwable;
         this.addon = addon;
 
-        SlimefunPlugin.runSync(() -> print(printer));
+        Slimefun.runSync(() -> print(printer));
     }
 
     /**
@@ -183,7 +183,7 @@ public class ErrorReport<T extends Throwable> {
             stream.println();
 
             stream.println("Slimefun Environment:");
-            stream.println("  Slimefun v" + SlimefunPlugin.getVersion());
+            stream.println("  Slimefun v" + Slimefun.getVersion());
             stream.println("  Caused by: " + addon.getName() + " v" + addon.getPluginVersion());
             stream.println();
 
@@ -219,7 +219,7 @@ public class ErrorReport<T extends Throwable> {
 
             addon.getLogger().log(Level.WARNING, "");
         } catch (Exception x) {
-            addon.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
+            addon.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving an Error-Report for Slimefun " + Slimefun.getVersion());
         }
     }
 

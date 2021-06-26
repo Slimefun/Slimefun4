@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
@@ -70,18 +70,18 @@ public final class ChestMenuUtils {
     }
 
     public static @Nonnull ItemStack getBackButton(@Nonnull Player p, String... lore) {
-        return new CustomItem(BACK_BUTTON, "&7\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"), lore);
+        return new CustomItem(BACK_BUTTON, "&7\u21E6 " + Slimefun.getLocalization().getMessage(p, "guide.back.title"), lore);
     }
 
     public static @Nonnull ItemStack getMenuButton(@Nonnull Player p) {
-        return new CustomItem(MENU_BUTTON, ChatColor.YELLOW + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.settings"), "", "&7\u21E8 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category"));
+        return new CustomItem(MENU_BUTTON, ChatColor.YELLOW + Slimefun.getLocalization().getMessage(p, "guide.title.settings"), "", "&7\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-category"));
     }
 
     public static @Nonnull ItemStack getSearchButton(@Nonnull Player p) {
         return new CustomItem(SEARCH_BUTTON, meta -> {
-            meta.setDisplayName(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "guide.search.name")));
+            meta.setDisplayName(ChatColors.color(Slimefun.getLocalization().getMessage(p, "guide.search.name")));
 
-            List<String> lore = Arrays.asList("", ChatColor.GRAY + "\u21E8 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.search.tooltip"));
+            List<String> lore = Arrays.asList("", ChatColor.GRAY + "\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.search.tooltip"));
             lore.replaceAll(ChatColors::color);
             meta.setLore(lore);
         });
@@ -94,12 +94,12 @@ public final class ChestMenuUtils {
     public static @Nonnull ItemStack getPreviousButton(@Nonnull Player p, int page, int pages) {
         if (pages == 1 || page == 1) {
             return new CustomItem(PREV_BUTTON_INACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
+                meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + Slimefun.getLocalization().getMessage(p, "guide.pages.previous"));
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         } else {
             return new CustomItem(PREV_BUTTON_ACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
+                meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + Slimefun.getLocalization().getMessage(p, "guide.pages.previous"));
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         }
@@ -108,12 +108,12 @@ public final class ChestMenuUtils {
     public static @Nonnull ItemStack getNextButton(@Nonnull Player p, int page, int pages) {
         if (pages == 1 || page == pages) {
             return new CustomItem(NEXT_BUTTON_INACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.DARK_GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
+                meta.setDisplayName(ChatColor.DARK_GRAY + Slimefun.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         } else {
             return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.WHITE + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
+                meta.setDisplayName(ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         }

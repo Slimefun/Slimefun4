@@ -17,7 +17,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -410,7 +410,7 @@ final class CargoUtils {
         if (lazy) {
             return stack != null && Tag.LOGS.isTagged(stack.getType());
         } else {
-            return SlimefunPlugin.getMinecraftRecipeService().isSmeltable(stack);
+            return Slimefun.getMinecraftRecipeService().isSmeltable(stack);
         }
     }
 

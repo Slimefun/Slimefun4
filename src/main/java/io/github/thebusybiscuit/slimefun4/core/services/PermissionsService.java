@@ -16,7 +16,7 @@ import org.bukkit.permissions.Permission;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This Service is responsible for handling the {@link Permission} of a
@@ -32,7 +32,7 @@ public class PermissionsService {
     private final Map<String, String> permissions = new HashMap<>();
     private final Config config;
 
-    public PermissionsService(@Nonnull SlimefunPlugin plugin) {
+    public PermissionsService(@Nonnull Slimefun plugin) {
         config = new Config(plugin, "permissions.yml");
 
         // @formatter:off

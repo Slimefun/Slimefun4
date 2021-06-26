@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
@@ -225,7 +225,7 @@ public final class SlimefunItemSetup {
 
     private SlimefunItemSetup() {}
 
-    public static void setup(@Nonnull SlimefunPlugin plugin) {
+    public static void setup(@Nonnull Slimefun plugin) {
         if (registeredItems) {
             throw new UnsupportedOperationException("Slimefun Items can only be registered once!");
         }
@@ -2559,7 +2559,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.SILICON, new ItemStack(Material.YELLOW_DYE), SlimefunItems.SILICON, new ItemStack(Material.YELLOW_DYE), new ItemStack(Material.STRING), new ItemStack(Material.YELLOW_DYE), SlimefunItems.GILDED_IRON, new ItemStack(Material.YELLOW_DYE), SlimefunItems.SILICON})
         .register(plugin);
         
-        MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
+        MinecraftVersion minecraftVersion = Slimefun.getMinecraftVersion();
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new SlimefunItem(categories.magicalArmor, SlimefunItems.BEE_HELMET, RecipeType.ARMOR_FORGE,

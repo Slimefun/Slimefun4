@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
@@ -49,7 +49,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
                 UUID uuid = UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
 
                 if (p.getUniqueId().equals(uuid)) {
-                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.no-tome-yourself");
+                    Slimefun.getLocalization().sendMessage(p, "messages.no-tome-yourself");
                     return;
                 }
 

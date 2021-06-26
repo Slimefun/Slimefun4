@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.presets.SlimefunItemTest;
 
@@ -22,12 +22,12 @@ import be.seeseemelk.mockbukkit.entity.PlayerMock;
 class TestMonsterJerky implements SlimefunItemTest<MonsterJerky> {
 
     private static ServerMock server;
-    private static SlimefunPlugin plugin;
+    private static Slimefun plugin;
 
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        plugin = MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(Slimefun.class);
     }
 
     @AfterAll
@@ -36,7 +36,7 @@ class TestMonsterJerky implements SlimefunItemTest<MonsterJerky> {
     }
 
     @Override
-    public MonsterJerky registerSlimefunItem(SlimefunPlugin plugin, String id) {
+    public MonsterJerky registerSlimefunItem(Slimefun plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.ROTTEN_FLESH, "&5Test Monster Jerky");
         MonsterJerky jerky = new MonsterJerky(TestUtilities.getCategory(plugin, "monster_jerky"), item, RecipeType.NULL, new ItemStack[9]);
         jerky.register(plugin);

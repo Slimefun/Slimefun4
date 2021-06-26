@@ -32,7 +32,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
@@ -140,7 +140,7 @@ public class BlockPlacer extends SlimefunItem {
 
         // Get the corresponding OfflinePlayer
         OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(owner));
-        return SlimefunPlugin.getProtectionManager().hasPermission(player, target, ProtectableAction.PLACE_BLOCK);
+        return Slimefun.getProtectionManager().hasPermission(player, target, ProtectableAction.PLACE_BLOCK);
     }
 
     /**
@@ -240,7 +240,7 @@ public class BlockPlacer extends SlimefunItem {
     @ParametersAreNonnullByDefault
     private void schedulePlacement(Block b, Inventory inv, ItemStack item, Runnable runnable) {
         // We need to delay this due to Dispenser-Inventory synchronization issues in Spigot.
-        SlimefunPlugin.runSync(() -> {
+        Slimefun.runSync(() -> {
             // Make sure the Block has not been occupied yet
             if (b.isEmpty()) {
                 // Only remove 1 item.

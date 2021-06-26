@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
@@ -54,9 +54,9 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
             }
 
             if (inv.isEmpty()) {
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+                Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
+                Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
             }
         }
     }
@@ -85,7 +85,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
             outputInv.addItem(output);
 
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 

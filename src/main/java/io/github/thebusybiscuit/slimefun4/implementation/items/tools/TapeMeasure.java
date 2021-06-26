@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -36,7 +36,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
  */
 public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
-    private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance(), "anchor");
+    private final NamespacedKey key = new NamespacedKey(Slimefun.instance(), "anchor");
     private final DecimalFormat format = new DecimalFormat("##.###");
 
     @ParametersAreNonnullByDefault
@@ -74,7 +74,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
         meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, json.toString());
 
         String anchor = block.getX() + " | " + block.getY() + " | " + block.getZ();
-        SlimefunPlugin.getLocalization().sendMessage(p, "messages.tape-measure.anchor-set", msg -> msg.replace("%anchor%", anchor));
+        Slimefun.getLocalization().sendMessage(p, "messages.tape-measure.anchor-set", msg -> msg.replace("%anchor%", anchor));
 
         item.setItemMeta(meta);
     }
@@ -86,7 +86,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
         if (distance.isPresent()) {
             p.playSound(block.getLocation(), Sound.ITEM_BOOK_PUT, 1, 0.7F);
             String label = format.format(distance.getAsDouble());
-            SlimefunPlugin.getLocalization().sendMessage(p, "messages.tape-measure.distance", msg -> msg.replace("%distance%", label));
+            Slimefun.getLocalization().sendMessage(p, "messages.tape-measure.distance", msg -> msg.replace("%distance%", label));
         }
     }
 
@@ -108,11 +108,11 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
                 Location loc = new Location(p.getWorld(), x, y, z);
                 return Optional.of(loc);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.tape-measure.wrong-world");
+                Slimefun.getLocalization().sendMessage(p, "messages.tape-measure.wrong-world");
                 return Optional.empty();
             }
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(p, "messages.tape-measure.no-anchor");
+            Slimefun.getLocalization().sendMessage(p, "messages.tape-measure.no-anchor");
             return Optional.empty();
         }
     }

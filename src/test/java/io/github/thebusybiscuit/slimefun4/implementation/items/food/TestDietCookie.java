@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.presets.SlimefunItemTest;
 
@@ -23,12 +23,12 @@ import be.seeseemelk.mockbukkit.entity.PlayerMock;
 class TestDietCookie implements SlimefunItemTest<DietCookie> {
 
     private static ServerMock server;
-    private static SlimefunPlugin plugin;
+    private static Slimefun plugin;
 
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        plugin = MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(Slimefun.class);
     }
 
     @AfterAll
@@ -37,7 +37,7 @@ class TestDietCookie implements SlimefunItemTest<DietCookie> {
     }
 
     @Override
-    public DietCookie registerSlimefunItem(SlimefunPlugin plugin, String id) {
+    public DietCookie registerSlimefunItem(Slimefun plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.COOKIE, "&5Test Cookie");
         DietCookie cookie = new DietCookie(TestUtilities.getCategory(plugin, "diet_cookie"), item, RecipeType.NULL, new ItemStack[9]);
         cookie.register(plugin);

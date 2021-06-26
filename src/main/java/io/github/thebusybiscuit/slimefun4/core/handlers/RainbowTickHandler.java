@@ -15,7 +15,7 @@ import org.bukkit.block.data.type.GlassPane;
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
 import io.github.thebusybiscuit.slimefun4.utils.ColoredMaterial;
 
@@ -70,7 +70,7 @@ public class RainbowTickHandler extends BlockTicker {
      * @return Whether the array contained any {@link GlassPane} materials
      */
     private boolean containsGlassPanes(@Nonnull List<Material> materials) {
-        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+        if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             // BlockData is not available to us during Unit Tests :/
             return false;
         }

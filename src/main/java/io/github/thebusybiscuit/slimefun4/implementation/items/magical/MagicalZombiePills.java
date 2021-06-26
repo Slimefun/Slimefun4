@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -54,7 +54,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         return (e, item, offhand) -> {
             Entity entity = e.getRightClicked();
 
-            if (e.isCancelled() || !SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), entity.getLocation(), ProtectableAction.INTERACT_ENTITY)) {
+            if (e.isCancelled() || !Slimefun.getProtectionManager().hasPermission(e.getPlayer(), entity.getLocation(), ProtectableAction.INTERACT_ENTITY)) {
                 // They don't have permission to use it in this area
                 return;
             }
@@ -64,7 +64,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
             if (entity instanceof ZombieVillager) {
                 useItem(p, item);
                 healZombieVillager((ZombieVillager) entity, p);
-            } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie) {
+            } else if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie) {
                 useItem(p, item);
                 healZombifiedPiglin((PigZombie) entity);
             }
@@ -91,7 +91,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
     private void healZombieVillager(@Nonnull ZombieVillager zombieVillager, @Nonnull Player p) {
         zombieVillager.setConversionTime(1);
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             zombieVillager.setConversionPlayer(p);
         }
     }

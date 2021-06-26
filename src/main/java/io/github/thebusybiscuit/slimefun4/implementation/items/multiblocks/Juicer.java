@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
@@ -71,7 +71,7 @@ public class Juicer extends MultiBlockMachine {
                             p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
                             p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
                         } else {
-                            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
 
                         return;
@@ -79,7 +79,7 @@ public class Juicer extends MultiBlockMachine {
                 }
             }
 
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
 

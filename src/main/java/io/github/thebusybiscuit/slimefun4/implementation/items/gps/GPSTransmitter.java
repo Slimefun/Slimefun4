@@ -20,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -63,7 +63,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
             public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
                 Location l = e.getBlock().getLocation();
                 UUID owner = UUID.fromString(BlockStorage.getLocationInfo(l, "owner"));
-                SlimefunPlugin.getGPSNetwork().updateTransmitter(l, owner, false);
+                Slimefun.getGPSNetwork().updateTransmitter(l, owner, false);
             }
         };
     }
@@ -82,10 +82,10 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
                 UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
 
                 if (charge >= getEnergyConsumption()) {
-                    SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, true);
+                    Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), owner, true);
                     removeCharge(b.getLocation(), getEnergyConsumption());
                 } else {
-                    SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
+                    Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
                 }
             }
 

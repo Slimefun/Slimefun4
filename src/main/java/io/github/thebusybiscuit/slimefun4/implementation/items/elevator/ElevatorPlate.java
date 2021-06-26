@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -127,7 +127,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         List<ElevatorFloor> floors = getFloors(b);
 
         if (floors.size() < 2) {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.ELEVATOR.no-destinations", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.ELEVATOR.no-destinations", true);
         } else {
             openFloorSelector(b, floors, p, 1);
         }
@@ -135,7 +135,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     @ParametersAreNonnullByDefault
     private void openFloorSelector(Block b, List<ElevatorFloor> floors, Player p, int page) {
-        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.pick-a-floor"));
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "machines.ELEVATOR.pick-a-floor"));
         menu.setEmptySlotsClickable(false);
 
         int index = GUI_SIZE * (page - 1);
@@ -148,13 +148,13 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
                 menu.addItem(i, new CustomItem(
                     Material.COMPASS,
                     ChatColor.GRAY.toString() + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
-                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor.getName()
+                    Slimefun.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor.getName()
                 ), ChestMenuUtils.getEmptyClickHandler());
             } else {
                 menu.addItem(i, new CustomItem(
                     Material.PAPER,
                     ChatColor.GRAY.toString() + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
-                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor.getName()
+                    Slimefun.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor.getName()
                 ), (player, slot, itemStack, clickAction) -> {
                     teleport(player, floor);
                     return false;
@@ -187,7 +187,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     @ParametersAreNonnullByDefault
     private void teleport(Player player, ElevatorFloor floor) {
-        SlimefunPlugin.runSync(() -> {
+        Slimefun.runSync(() -> {
             users.add(player.getUniqueId());
 
             float yaw = player.getEyeLocation().getYaw() + 180;
@@ -215,14 +215,14 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
             pl.closeInventory();
             pl.sendMessage("");
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.ELEVATOR.enter-name");
+            Slimefun.getLocalization().sendMessage(p, "machines.ELEVATOR.enter-name");
             pl.sendMessage("");
 
             ChatUtils.awaitInput(pl, message -> {
                 BlockStorage.addBlockInfo(b, DATA_KEY, message.replace(ChatColor.COLOR_CHAR, '&'));
 
                 pl.sendMessage("");
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.ELEVATOR.named", msg -> msg.replace("%floor%", message));
+                Slimefun.getLocalization().sendMessage(p, "machines.ELEVATOR.named", msg -> msg.replace("%floor%", message));
                 pl.sendMessage("");
 
                 openEditor(pl, b);

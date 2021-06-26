@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
@@ -33,7 +33,7 @@ public class ElectricFurnace extends AContainer implements NotHopperable {
 
     @Override
     public void registerDefaultRecipes() {
-        SlimefunPlugin.getMinecraftRecipeService().subscribe(snapshot -> {
+        Slimefun.getMinecraftRecipeService().subscribe(snapshot -> {
             for (FurnaceRecipe recipe : snapshot.getRecipes(FurnaceRecipe.class)) {
                 RecipeChoice choice = recipe.getInputChoice();
 

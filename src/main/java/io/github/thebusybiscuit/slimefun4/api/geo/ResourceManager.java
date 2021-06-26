@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -54,9 +54,9 @@ public class ResourceManager {
      * This will create a new {@link ResourceManager}.
      * 
      * @param plugin
-     *            Our {@link SlimefunPlugin} instance
+     *            Our {@link Slimefun} instance
      */
-    public ResourceManager(@Nonnull SlimefunPlugin plugin) {
+    public ResourceManager(@Nonnull Slimefun plugin) {
         config = new Config(plugin, "resources.yml");
     }
 
@@ -72,7 +72,7 @@ public class ResourceManager {
         Validate.notNull(resource.getKey(), "GEO-Resources must have a NamespacedKey which is not null");
 
         // Resources may only be registered once
-        if (SlimefunPlugin.getRegistry().getGEOResources().containsKey(resource.getKey())) {
+        if (Slimefun.getRegistry().getGEOResources().containsKey(resource.getKey())) {
             throw new IllegalArgumentException("GEO-Resource \"" + resource.getKey() + "\" has already been registered!");
         }
 
@@ -80,10 +80,10 @@ public class ResourceManager {
         boolean enabled = config.getOrSetDefault(key + ".enabled", true);
 
         if (enabled) {
-            SlimefunPlugin.getRegistry().getGEOResources().add(resource);
+            Slimefun.getRegistry().getGEOResources().add(resource);
         }
 
-        if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
+        if (Slimefun.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
             config.save();
         }
     }
@@ -212,23 +212,23 @@ public class ResourceManager {
      *            The page to display
      */
     public void scan(@Nonnull Player p, @Nonnull Block block, int page) {
-        if (SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {
-            SlimefunPlugin.getLocalization().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));
+        if (Slimefun.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {
+            Slimefun.getLocalization().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));
             return;
         }
 
         int x = block.getX() >> 4;
         int z = block.getZ() >> 4;
 
-        String title = "&4" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.results");
+        String title = "&4" + Slimefun.getLocalization().getResourceString(p, "tooltips.results");
         ChestMenu menu = new ChestMenu(title);
 
         for (int slot : backgroundSlots) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(4, new CustomItem(HeadTexture.MINECRAFT_CHUNK.getAsItemStack(), ChatColor.YELLOW + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
-        List<GEOResource> resources = new ArrayList<>(SlimefunPlugin.getRegistry().getGEOResources().values());
+        menu.addItem(4, new CustomItem(HeadTexture.MINECRAFT_CHUNK.getAsItemStack(), ChatColor.YELLOW + Slimefun.getLocalization().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + Slimefun.getLocalization().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
+        List<GEOResource> resources = new ArrayList<>(Slimefun.getRegistry().getGEOResources().values());
         resources.sort(Comparator.comparing(a -> a.getName(p).toLowerCase(Locale.ROOT)));
 
         int index = 10;
@@ -238,7 +238,7 @@ public class ResourceManager {
             GEOResource resource = resources.get(i);
             OptionalInt optional = getSupplies(resource, block.getWorld(), x, z);
             int supplies = optional.isPresent() ? optional.getAsInt() : generate(resource, block.getWorld(), x, z);
-            String suffix = SlimefunPlugin.getLocalization().getResourceString(p, supplies == 1 ? "tooltips.unit" : "tooltips.units");
+            String suffix = Slimefun.getLocalization().getResourceString(p, supplies == 1 ? "tooltips.unit" : "tooltips.units");
 
             ItemStack item = new CustomItem(resource.getItem(), "&f" + resource.getName(p), "&8\u21E8 &e" + supplies + ' ' + suffix);
 

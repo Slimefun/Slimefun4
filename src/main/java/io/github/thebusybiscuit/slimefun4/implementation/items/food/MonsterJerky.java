@@ -10,7 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -30,7 +30,7 @@ public class MonsterJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     @Override
     public ItemConsumptionHandler getItemHandler() {
-        return (e, p, item) -> SlimefunPlugin.runSync(() -> {
+        return (e, p, item) -> Slimefun.runSync(() -> {
             if (p.hasPotionEffect(PotionEffectType.HUNGER)) {
                 p.removePotionEffect(PotionEffectType.HUNGER);
             }

@@ -28,7 +28,7 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
@@ -54,7 +54,7 @@ public class SlimefunItemStack extends ItemStack {
         Validate.notNull(id, "The Item id must never be null!");
         Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
 
-        if (SlimefunPlugin.instance() == null) {
+        if (Slimefun.instance() == null) {
             throw new PrematureCodeException("A SlimefunItemStack must never be be created before your Plugin was enabled.");
         }
 
@@ -62,8 +62,8 @@ public class SlimefunItemStack extends ItemStack {
 
         ItemMeta meta = getItemMeta();
 
-        SlimefunPlugin.getItemDataService().setItemData(meta, id);
-        SlimefunPlugin.getItemTextureService().setTexture(meta, id);
+        Slimefun.getItemDataService().setItemData(meta, id);
+        Slimefun.getItemTextureService().setTexture(meta, id);
 
         setItemMeta(meta);
     }
@@ -282,7 +282,7 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
-        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+        if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             return new ItemStack(Material.PLAYER_HEAD);
         }
 

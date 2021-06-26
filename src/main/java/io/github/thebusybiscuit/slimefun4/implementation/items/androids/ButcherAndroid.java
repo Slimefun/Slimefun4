@@ -14,7 +14,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 public class ButcherAndroid extends ProgrammableAndroid {
 
@@ -56,10 +56,10 @@ public class ButcherAndroid extends ProgrammableAndroid {
 
             if (attack) {
                 if (n.hasMetadata(METADATA_KEY)) {
-                    n.removeMetadata(METADATA_KEY, SlimefunPlugin.instance());
+                    n.removeMetadata(METADATA_KEY, Slimefun.instance());
                 }
 
-                n.setMetadata(METADATA_KEY, new FixedMetadataValue(SlimefunPlugin.instance(), new AndroidInstance(this, b)));
+                n.setMetadata(METADATA_KEY, new FixedMetadataValue(Slimefun.instance(), new AndroidInstance(this, b)));
 
                 ((LivingEntity) n).damage(damage);
                 break;

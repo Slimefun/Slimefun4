@@ -14,7 +14,7 @@ import org.bukkit.event.block.BlockDispenseEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -31,7 +31,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class DispenserListener implements Listener {
 
-    public DispenserListener(@Nonnull SlimefunPlugin plugin) {
+    public DispenserListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

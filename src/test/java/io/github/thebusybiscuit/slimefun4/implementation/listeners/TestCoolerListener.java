@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
@@ -40,7 +40,7 @@ class TestCoolerListener {
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        SlimefunPlugin plugin = MockBukkit.load(SlimefunPlugin.class);
+        Slimefun plugin = MockBukkit.load(Slimefun.class);
 
         ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "cooler_test"), new CustomItem(Material.SNOWBALL, "Mr. Freeze"));
         SlimefunItemStack item = new SlimefunItemStack("TEST_COOLER", Material.SNOWBALL, "&6Test Cooler", "", "&7ID: <ID>");

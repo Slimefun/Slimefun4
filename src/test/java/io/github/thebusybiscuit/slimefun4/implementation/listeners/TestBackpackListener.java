@@ -34,7 +34,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -47,13 +47,13 @@ class TestBackpackListener {
 
     private static final int BACKPACK_SIZE = 27;
     private static ServerMock server;
-    private static SlimefunPlugin plugin;
+    private static Slimefun plugin;
     private static BackpackListener listener;
 
     @BeforeAll
     public static void load() throws TagMisconfigurationException {
         server = MockBukkit.mock();
-        plugin = MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(Slimefun.class);
         SlimefunTag.reloadAll();
 
         listener = new BackpackListener();

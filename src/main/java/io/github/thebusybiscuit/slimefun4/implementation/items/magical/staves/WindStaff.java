@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -57,7 +57,7 @@ public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
                 p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1);
                 p.setFallDistance(0F);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.hungry", true);
+                Slimefun.getLocalization().sendMessage(p, "messages.hungry", true);
             }
         };
     }

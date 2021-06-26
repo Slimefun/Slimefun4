@@ -28,7 +28,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
@@ -183,7 +183,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     @Override
     public void onInteract(Player p, Block b) {
         if (activeMiners.containsKey(b.getLocation())) {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.INDUSTRIAL_MINER.already-running");
+            Slimefun.getLocalization().sendMessage(p, "machines.INDUSTRIAL_MINER.already-running");
             return;
         }
 
@@ -219,7 +219,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     public boolean canMine(@Nonnull Material type) {
         if (SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type)) {
             return true;
-        } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+        } else if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             return type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue();
 
         }

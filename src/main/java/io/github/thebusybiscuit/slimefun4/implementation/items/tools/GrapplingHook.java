@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
 
@@ -58,7 +58,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
             UUID uuid = p.getUniqueId();
             boolean isConsumed = consumeOnUse.getValue() && p.getGameMode() != GameMode.CREATIVE;
 
-            if (!e.getClickedBlock().isPresent() && !SlimefunPlugin.getGrapplingHookListener().isGrappling(uuid)) {
+            if (!e.getClickedBlock().isPresent() && !Slimefun.getGrapplingHookListener().isGrappling(uuid)) {
                 e.cancel();
 
                 if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
@@ -86,7 +86,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 bat.setLeashHolder(arrow);
 
                 boolean state = item.getType() != Material.SHEARS;
-                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(p, arrow, bat, state, despawnTicks.getValue(), isConsumed);
+                Slimefun.getGrapplingHookListener().addGrapplingHook(p, arrow, bat, state, despawnTicks.getValue(), isConsumed);
             }
         };
     }

@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * Represents 1 {@link SlimefunArmorPiece} of the Hazmat armor set.
@@ -33,7 +33,7 @@ public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveAr
         super(category, item, recipeType, recipe, effects);
 
         types = new ProtectionType[] { ProtectionType.BEES, ProtectionType.RADIATION };
-        namespacedKey = new NamespacedKey(SlimefunPlugin.instance(), "hazmat_suit");
+        namespacedKey = new NamespacedKey(Slimefun.instance(), "hazmat_suit");
     }
 
     @Override

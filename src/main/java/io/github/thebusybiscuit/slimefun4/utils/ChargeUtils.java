@@ -17,7 +17,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This is just a simple helper class to provide static methods to the {@link Rechargeable}
@@ -45,7 +45,7 @@ public final class ChargeUtils {
         BigDecimal decimal = BigDecimal.valueOf(charge).setScale(2, RoundingMode.HALF_UP);
         float value = decimal.floatValue();
 
-        NamespacedKey key = SlimefunPlugin.getRegistry().getItemChargeDataKey();
+        NamespacedKey key = Slimefun.getRegistry().getItemChargeDataKey();
         meta.getPersistentDataContainer().set(key, PersistentDataType.FLOAT, value);
 
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
@@ -66,7 +66,7 @@ public final class ChargeUtils {
     public static float getCharge(@Nonnull ItemMeta meta) {
         Validate.notNull(meta, "Meta cannot be null!");
 
-        NamespacedKey key = SlimefunPlugin.getRegistry().getItemChargeDataKey();
+        NamespacedKey key = Slimefun.getRegistry().getItemChargeDataKey();
         PersistentDataContainer container = meta.getPersistentDataContainer();
         Float value = container.get(key, PersistentDataType.FLOAT);
 

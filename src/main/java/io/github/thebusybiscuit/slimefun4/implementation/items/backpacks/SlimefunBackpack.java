@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -74,7 +74,7 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
         return e -> {
             e.cancel();
 
-            BackpackListener listener = SlimefunPlugin.getBackpackListener();
+            BackpackListener listener = Slimefun.getBackpackListener();
 
             if (listener != null) {
                 listener.openBackpack(e.getPlayer(), e.getItem(), this);

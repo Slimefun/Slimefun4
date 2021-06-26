@@ -20,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
@@ -61,9 +61,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
             }
 
             if (inv.isEmpty()) {
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+                Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
+                Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
             }
         }
     }
@@ -91,14 +91,14 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
             startAnimation(p, b, outputInv, output);
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 
     private void startAnimation(Player p, Block b, Inventory inv, ItemStack output) {
         for (int j = 0; j < 4; j++) {
             int current = j;
-            SlimefunPlugin.runSync(() -> {
+            Slimefun.runSync(() -> {
                 p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
                 p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
 

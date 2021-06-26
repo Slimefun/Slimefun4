@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -27,7 +27,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestMultiblockListener {
 
-    private static SlimefunPlugin plugin;
+    private static Slimefun plugin;
     private static MultiBlockListener listener;
     private static MultiBlock multiblock;
     private static ServerMock server;
@@ -35,11 +35,11 @@ class TestMultiblockListener {
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        plugin = MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(Slimefun.class);
         listener = new MultiBlockListener(plugin);
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_LISTENER_TEST", new CustomItem(Material.DIAMOND, "&9Some multiblock item"));
         multiblock = new MultiBlock(item, new Material[] { null, Material.EMERALD_BLOCK, null, null, Material.DIAMOND_BLOCK, null, null, Material.LAPIS_BLOCK, null }, BlockFace.SELF);
-        SlimefunPlugin.getRegistry().getMultiBlocks().add(multiblock);
+        Slimefun.getRegistry().getMultiBlocks().add(multiblock);
     }
 
     @AfterAll

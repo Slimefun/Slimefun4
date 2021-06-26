@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockSlimefunItem;
 
@@ -58,7 +58,7 @@ public final class TestUtilities {
     public static @Nonnull VanillaItem mockVanillaItem(Plugin plugin, Material type, boolean enabled) {
         ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
         VanillaItem item = new VanillaItem(category, new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
-        SlimefunPlugin.getItemCfg().setValue(type.name() + ".enabled", enabled);
+        Slimefun.getItemCfg().setValue(type.name() + ".enabled", enabled);
         return item;
     }
 

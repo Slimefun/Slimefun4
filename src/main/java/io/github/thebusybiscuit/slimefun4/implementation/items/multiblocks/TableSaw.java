@@ -22,7 +22,7 @@ import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
 
 /**
@@ -70,7 +70,7 @@ public class TableSaw extends MultiBlockMachine {
         ItemStack output = getOutputFromMaterial(item.getType());
 
         if (output == null) {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.wrong-item", true);
             return;
         }
 

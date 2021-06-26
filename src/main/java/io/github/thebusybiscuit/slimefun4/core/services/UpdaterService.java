@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
@@ -25,9 +25,9 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 public class UpdaterService {
 
     /**
-     * Our {@link SlimefunPlugin} instance.
+     * Our {@link Slimefun} instance.
      */
-    private final SlimefunPlugin plugin;
+    private final Slimefun plugin;
 
     /**
      * Our {@link Updater} implementation.
@@ -41,7 +41,7 @@ public class UpdaterService {
     private final SlimefunBranch branch;
 
     /**
-     * This will create a new {@link UpdaterService} for the given {@link SlimefunPlugin}.
+     * This will create a new {@link UpdaterService} for the given {@link Slimefun}.
      * The {@link File} should be the result of the getFile() operation of that {@link Plugin}.
      *
      * @param plugin
@@ -51,7 +51,7 @@ public class UpdaterService {
      * @param file
      *            The {@link File} of this {@link Plugin}
      */
-    public UpdaterService(@Nonnull SlimefunPlugin plugin, @Nonnull String version, @Nonnull File file) {
+    public UpdaterService(@Nonnull Slimefun plugin, @Nonnull String version, @Nonnull File file) {
         this.plugin = plugin;
         Updater autoUpdater = null;
 
@@ -135,7 +135,7 @@ public class UpdaterService {
      * @return Whether the {@link Updater} is enabled
      */
     public boolean isEnabled() {
-        return SlimefunPlugin.getCfg().getBoolean("options.auto-update") && updater != null;
+        return Slimefun.getCfg().getBoolean("options.auto-update") && updater != null;
     }
 
     /**

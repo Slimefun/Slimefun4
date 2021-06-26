@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
@@ -59,14 +59,14 @@ public class PressureChamber extends MultiBlockMachine {
 
                             craft(p, b, output, outputInv);
                         } else {
-                            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
 
                         return;
                     }
                 }
             }
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
 
@@ -75,7 +75,7 @@ public class PressureChamber extends MultiBlockMachine {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
-            SlimefunPlugin.runSync(() -> {
+            Slimefun.runSync(() -> {
                 p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
                 p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
                 p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);

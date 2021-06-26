@@ -15,7 +15,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraImpactListener;
 import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
 
@@ -34,7 +34,7 @@ public class ElytraCap extends SlimefunArmorPiece implements DamageableItem, Pro
     public ElytraCap(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe, null);
 
-        key = new NamespacedKey(SlimefunPlugin.instance(), "elytra_armor");
+        key = new NamespacedKey(Slimefun.instance(), "elytra_armor");
     }
 
     @Override

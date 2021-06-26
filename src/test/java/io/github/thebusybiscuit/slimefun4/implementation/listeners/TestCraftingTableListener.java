@@ -23,7 +23,7 @@ import org.mockito.Mockito;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
@@ -33,14 +33,14 @@ import be.seeseemelk.mockbukkit.ServerMock;
 
 public class TestCraftingTableListener {
 
-    private static SlimefunPlugin plugin;
+    private static Slimefun plugin;
     private static CraftingTableListener listener;
     private static ServerMock server;
 
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        plugin = MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(Slimefun.class);
         listener = new CraftingTableListener(plugin);
     }
 

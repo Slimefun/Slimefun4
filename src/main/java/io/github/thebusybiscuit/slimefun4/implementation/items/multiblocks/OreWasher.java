@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
@@ -63,7 +63,7 @@ public class OreWasher extends MultiBlockMachine {
         }, BlockFace.SELF);
         // @formatter:on
 
-        legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-ore-washer");
+        legacyMode = Slimefun.getCfg().getBoolean("options.legacy-ore-washer");
     }
 
     @Override
@@ -140,7 +140,7 @@ public class OreWasher extends MultiBlockMachine {
                     }
                 }
             }
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
 
@@ -155,7 +155,7 @@ public class OreWasher extends MultiBlockMachine {
             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
             b.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 

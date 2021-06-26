@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
 
 /**
@@ -31,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuit
  */
 public class MobDropListener implements Listener {
 
-    public MobDropListener(@Nonnull SlimefunPlugin plugin) {
+    public MobDropListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -41,7 +41,7 @@ public class MobDropListener implements Listener {
             Player p = e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
 
-            Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops().get(e.getEntityType());
+            Set<ItemStack> customDrops = Slimefun.getRegistry().getMobDrops().get(e.getEntityType());
 
             if (customDrops != null && !customDrops.isEmpty()) {
                 for (ItemStack drop : customDrops) {

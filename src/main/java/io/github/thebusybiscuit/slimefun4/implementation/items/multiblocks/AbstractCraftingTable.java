@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -105,7 +105,7 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
 
                     PlayerProfile.get(p, profile -> {
                         int backpackId = profile.createBackpack(size).getId();
-                        SlimefunPlugin.getBackpackListener().setBackpackId(p, output, target, backpackId);
+                        Slimefun.getBackpackListener().setBackpackId(p, output, target, backpackId);
                     });
 
                     break;

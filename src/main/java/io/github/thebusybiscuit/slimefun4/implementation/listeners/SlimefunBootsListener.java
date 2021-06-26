@@ -17,7 +17,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.EnderBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.FarmerShoes;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.LongFallBoots;
@@ -35,7 +35,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.StomperBoot
  */
 public class SlimefunBootsListener implements Listener {
 
-    public SlimefunBootsListener(@Nonnull SlimefunPlugin plugin) {
+    public SlimefunBootsListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

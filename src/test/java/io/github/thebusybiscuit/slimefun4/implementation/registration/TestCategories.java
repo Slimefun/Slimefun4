@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -33,12 +33,12 @@ import be.seeseemelk.mockbukkit.ServerMock;
 class TestCategories {
 
     private static ServerMock server;
-    private static SlimefunPlugin plugin;
+    private static Slimefun plugin;
 
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        plugin = MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(Slimefun.class);
     }
 
     @AfterAll
@@ -52,7 +52,7 @@ class TestCategories {
         ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "getter_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
 
         Assertions.assertEquals(3, category.getTier());
-        Assertions.assertEquals(new NamespacedKey(SlimefunPlugin.instance(), "getter_test"), category.getKey());
+        Assertions.assertEquals(new NamespacedKey(Slimefun.instance(), "getter_test"), category.getKey());
         Assertions.assertEquals("Testing", category.getUnlocalizedName());
         Assertions.assertEquals(0, category.getItems().size());
 
@@ -90,7 +90,7 @@ class TestCategories {
         Assertions.assertTrue(category.isHidden(player));
 
         SlimefunItem disabledItem = TestUtilities.mockSlimefunItem(plugin, "DISABLED_CATEGORY_ITEM", new CustomItem(Material.BEETROOT, "&4Disabled"));
-        SlimefunPlugin.getItemCfg().setValue("DISABLED_CATEGORY_ITEM.enabled", false);
+        Slimefun.getItemCfg().setValue("DISABLED_CATEGORY_ITEM.enabled", false);
         disabledItem.setCategory(category);
         disabledItem.register(plugin);
         disabledItem.load();
@@ -174,7 +174,7 @@ class TestCategories {
         item.register(plugin);
         item.load();
 
-        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        Slimefun.getRegistry().setResearchingEnabled(true);
         Research research = new Research(new NamespacedKey(plugin, "cant_touch_this"), 432432, "MC Hammer", 90);
         research.addItems(item);
         research.register();

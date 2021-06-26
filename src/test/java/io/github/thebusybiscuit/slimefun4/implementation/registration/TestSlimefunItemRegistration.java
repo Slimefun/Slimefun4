@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
@@ -21,12 +21,12 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 
 class TestSlimefunItemRegistration {
 
-    private static SlimefunPlugin plugin;
+    private static Slimefun plugin;
 
     @BeforeAll
     public static void load() {
         MockBukkit.mock();
-        plugin = MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(Slimefun.class);
     }
 
     @AfterAll
@@ -54,7 +54,7 @@ class TestSlimefunItemRegistration {
     @DisplayName("Test disabled SlimefunItem being disabled")
     void testDisabledItem() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DISABLED_ITEM", new CustomItem(Material.DIAMOND, "&cTest"));
-        SlimefunPlugin.getItemCfg().setValue("DISABLED_ITEM.enabled", false);
+        Slimefun.getItemCfg().setValue("DISABLED_ITEM.enabled", false);
         item.register(plugin);
 
         Assertions.assertEquals(ItemState.DISABLED, item.getState());
