@@ -16,6 +16,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 import be.seeseemelk.mockbukkit.MockBukkit;

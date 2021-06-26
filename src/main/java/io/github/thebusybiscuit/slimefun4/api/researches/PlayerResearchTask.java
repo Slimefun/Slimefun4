@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.researching;
+package io.github.thebusybiscuit.slimefun4.api.researches;
 
 import java.util.function.Consumer;
 
