@@ -49,17 +49,15 @@ final class TickerCollection {
         blocks.keySet().removeIf(uid -> Bukkit.getWorld(uid) == null);
         for (Map.Entry<UUID, Set<Long>> entry : blocks.entrySet()) {
             World world = Bukkit.getWorld(entry.getKey());
-            // assert world != null
-            Set<Location> converted = convertToLocation(world, entry.getValue());
-            locations.addAll(converted);
+            locations.addAll(convertToLocation(world, entry.getValue()));
         }
         return locations;
     }
 
     /**
-     * Add a location to this ticker collection, duplicates will be ignored.
+     * Add a {@link BlockPosition} to this ticker collection, duplicates will be ignored.
      *
-     * @param block The block to add
+     * @param block The {@link BlockPosition} to add
      * @see #addBlock(Location)
      */
     public void addBlock(@Nonnull BlockPosition block) {
@@ -67,9 +65,9 @@ final class TickerCollection {
     }
 
     /**
-     * Add a location to this ticker collection, duplicates will be ignored.
+     * Add a {@link Location} to this ticker collection, duplicates will be ignored.
      *
-     * @param location The location of the block to add
+     * @param location The {@link Location} of the block to add
      * @see #addBlock(BlockPosition)
      */
     public void addBlock(@Nonnull Location location) {
@@ -77,9 +75,9 @@ final class TickerCollection {
     }
 
     /**
-     * Remove a block from this ticker collection
+     * Remove a {@link BlockPosition} from this ticker collection. If the collection is empty after a successful removal then this will also remove the underline {@link Set} for this {@link World}.
      *
-     * @param block The block to remove
+     * @param block The {@link BlockPosition} to remove
      * @see #removeBlock(Location)
      */
     public void removeBlock(@Nonnull BlockPosition block) {
@@ -95,9 +93,9 @@ final class TickerCollection {
     }
 
     /**
-     * Remove a location from this ticker collection.
+     * Remove a {@link Location} from this ticker collection.
      *
-     * @param location The location of the block to remove
+     * @param location The {@link Location} of the block to remove
      * @see #removeBlock(BlockPosition)
      */
     public void removeBlock(@Nonnull Location location) {
@@ -106,7 +104,8 @@ final class TickerCollection {
 
     /**
      * Clear all the blocks for a given {@link World}
-     * @param key The world to clear the key for
+     *
+     * @param key The {@link World} to remove blocks from
      */
     public void clear(@Nonnull World key) {
         blocks.remove(key.getUID());

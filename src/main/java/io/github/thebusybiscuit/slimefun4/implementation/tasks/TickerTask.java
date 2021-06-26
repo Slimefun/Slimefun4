@@ -99,11 +99,11 @@ public final class TickerTask {
 
 
     /**
-     *  These are "Queues" of blocks that need to be removed or moved.
-     *  <p>
-     *  Whilst the {@link ConcurrentHashMap} implementation is thread-safe,
-     *  the {@link Location Locations} are not. Therefore, the internal copy of the locations
-     *  should be treated as <strong>read only</strong> and never exposed externally.
+     * These are "Queues" of blocks that need to be removed or moved.
+     * <p>
+     * Whilst the {@link ConcurrentHashMap} implementation is thread-safe,
+     * the {@link Location Locations} are not. Therefore, the internal copy of the locations
+     * should be treated as <strong>read only</strong> and never exposed externally.
      */
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
@@ -321,7 +321,7 @@ public final class TickerTask {
     }
 
     /**
-     * Executes all tasks in a given {@link Collection} of locations
+     * Executes all tasks in a given {@link Collection} of {@link Location locations}
      */
     private void tickLocations(Collection<BlockTicker> tickers, @Nonnull Collection<Location> locations) {
         for (Location l : locations) {
