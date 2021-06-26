@@ -73,7 +73,7 @@ public class Compressor extends MultiBlockMachine {
                             removing.setAmount(recipeInput.getAmount());
                             inv.removeItem(removing);
 
-                            craft(p, output, outputInv, disp);
+                            craft(p, output, disp);
                         } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
@@ -88,23 +88,24 @@ public class Compressor extends MultiBlockMachine {
     }
 
     @ParametersAreNonnullByDefault
-    private void craft(Player p, ItemStack output, Inventory outputInv, Dispenser dispenser) {
+    private void craft(Player p, ItemStack output, Dispenser dispenser) {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
             SlimefunPlugin.runSync(() -> {
                 if (j < 3) {
                     p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
-                } else if (InvUtils.fits(outputInv, output)) {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    outputInv.addItem(output);
-                } else if (InvUtils.fits(dispenser.getInventory(), output)) {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    dispenser.getInventory().addItem(output);
                 } else {
-                    // fallback
+                    Inventory outputInv = findOutputInventory(output, dispenser.getBlock(), dispenser.getInventory());
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);
+                    if (outputInv != null) {
+                        outputInv.addItem(output);
+                    } else if (InvUtils.fits(dispenser.getInventory(), output)) {
+                        dispenser.getInventory().addItem(output);
+                    } else {
+                        // fallback
+                        dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);
+                    }
                 }
             }, i * 20L);
         }

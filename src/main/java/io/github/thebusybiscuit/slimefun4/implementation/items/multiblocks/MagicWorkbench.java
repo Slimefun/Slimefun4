@@ -91,31 +91,31 @@ public class MagicWorkbench extends AbstractCraftingTable {
                 }
             }
 
-            startAnimation(p, b, outputInv, output, dispenser);
+            startAnimation(p, b, output, dispenser);
         } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 
-    private void startAnimation(Player p, Block b, Inventory inv, ItemStack output, Dispenser dispenser) {
+    private void startAnimation(Player p, Block b, ItemStack output, Dispenser dispenser) {
         for (int j = 0; j < 4; j++) {
             int current = j;
             SlimefunPlugin.runSync(() -> {
                 p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
                 p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
-
                 if (current < 3) {
                     p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F);
-                } else if (InvUtils.fits(inv, output)) {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    inv.addItem(output);
-                } else if (InvUtils.fits(dispenser.getInventory(), output)) {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    dispenser.getInventory().addItem(output);
                 } else {
-                    // fallback
+                    Inventory outputInv = findOutputInventory(output, dispenser.getBlock(), dispenser.getInventory());
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);
+                    if (outputInv != null) {
+                        outputInv.addItem(output);
+                    } else if (InvUtils.fits(dispenser.getInventory(), output)) {
+                        dispenser.getInventory().addItem(output);
+                    } else {
+                        // fallback
+                        dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);
+                    }
                 }
             }, j * 20L);
         }
