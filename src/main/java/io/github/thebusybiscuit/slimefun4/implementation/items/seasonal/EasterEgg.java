@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.seasonal;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
@@ -39,7 +40,7 @@ public class EasterEgg extends SimpleSlimefunItem<ItemUseHandler> {
     }
 
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             e.cancel();
 

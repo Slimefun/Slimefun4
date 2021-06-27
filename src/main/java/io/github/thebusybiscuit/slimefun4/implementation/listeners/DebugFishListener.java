@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -106,7 +106,7 @@ public class DebugFishListener implements Listener {
             }
         } else {
             // Read applicable Slimefun tags
-            Set<SlimefunTag> tags = new HashSet<>();
+            Set<SlimefunTag> tags = EnumSet.noneOf(SlimefunTag.class);
 
             for (SlimefunTag tag : SlimefunTag.values()) {
                 if (tag.isTagged(b.getType())) {

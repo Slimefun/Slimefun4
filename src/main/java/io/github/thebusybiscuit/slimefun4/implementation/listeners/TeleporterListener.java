@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.elevator.Elevator
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.AbstractTeleporterPlate;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Teleporter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.TeleporterPylon;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -26,13 +27,19 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * This {@link Listener} is responsible for the {@link Teleporter} (and {@link ElevatorPlate}).
  * 
  * @author TheBusyBiscuit
+ * @author Walshy
  * @author Sfiguz7
  * @author SoSeDiK
  *
  */
 public class TeleporterListener implements Listener {
 
-    private final BlockFace[] faces = { BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST };
+    // @formatter:off
+    private final BlockFace[] faces = {
+        BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST,
+        BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST
+    };
+    // @formatter:on
 
     public TeleporterListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -48,6 +55,11 @@ public class TeleporterListener implements Listener {
         SlimefunItem item = BlockStorage.check(b);
         Player p = e.getPlayer();
 
+        // Fixes #2966 - Check if Players can use these
+        if (item == null || !item.canUse(p, true)) {
+            return;
+        }
+
         if (item instanceof ElevatorPlate) {
             // Pressure plate was an elevator
             ElevatorPlate elevator = SlimefunItems.ELEVATOR_PLATE.getItem(ElevatorPlate.class);
@@ -59,7 +71,7 @@ public class TeleporterListener implements Listener {
             if (teleporter instanceof Teleporter && checkForPylons(b.getRelative(BlockFace.DOWN))) {
                 Block block = b.getRelative(BlockFace.DOWN);
                 UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
-                SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI(p, owner, block);
+                SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI(p, owner, block, SlimefunPlugin.getGPSNetwork().getNetworkComplexity(owner));
             }
         }
     }

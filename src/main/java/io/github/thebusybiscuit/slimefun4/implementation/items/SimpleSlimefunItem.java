@@ -7,6 +7,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -51,7 +52,6 @@ public abstract class SimpleSlimefunItem<T extends ItemHandler> extends Slimefun
      * 
      * @return The {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
-    @Nonnull
-    public abstract T getItemHandler();
+    public abstract @Nonnull T getItemHandler();
 
 }
