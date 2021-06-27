@@ -40,7 +40,7 @@ final class TickerCollection {
 
     /**
      * Get a copy of all the blocks stored in the form of {@link BlockPosition BlockPositions}
-     * The returned {@link Set} is not guaranteed to be thread-safe.
+     * The returned {@link Set} is not thread-safe.
      *
      * @return Returns a {@link Set} of {@link BlockPosition BlockPositions}
      */
