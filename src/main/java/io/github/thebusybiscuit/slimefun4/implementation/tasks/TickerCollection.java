@@ -121,10 +121,8 @@ final class TickerCollection {
     private static @Nonnull Set<Location> convertToLocation(@Nonnull World world, @Nonnull Collection<Long> raw) {
         Set<Location> locations = new HashSet<>(raw.size());
         for (long compressed : raw) {
-            int x = (int) (compressed >> 38);
-            int y = (int) (compressed & 0XFFF);
-            int z = (int) (compressed << 26 >> 38);
-            locations.add(new Location(world, x, y, z));
+            int[] decompressed = BlockPosition.decompress(compressed);
+            locations.add(new Location(world, decompressed[0], decompressed[1], decompressed[2]));
         }
         return locations;
     }
