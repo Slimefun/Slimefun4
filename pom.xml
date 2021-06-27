@@ -372,7 +372,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.32.0</version>
+            <version>0.32.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
