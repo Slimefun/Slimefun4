@@ -106,12 +106,13 @@ public class MagicWorkbench extends AbstractCraftingTable {
                 if (current < 3) {
                     p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F);
                 } else {
-                    Inventory outputInv = findOutputInventory(output, dispenser.getBlock(), dispenser.getInventory());
+                    Inventory dispInv = dispenser.getInventory();
+                    Inventory outputInv = findOutputInventory(output, dispenser.getBlock(), dispInv);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                     if (outputInv != null) {
                         outputInv.addItem(output);
-                    } else if (InvUtils.fits(dispenser.getInventory(), output)) {
-                        dispenser.getInventory().addItem(output);
+                    } else if (InvUtils.fits(dispInv, output)) {
+                        dispInv.addItem(output);
                     } else {
                         // fallback
                         dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);

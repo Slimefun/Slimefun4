@@ -96,12 +96,13 @@ public class Compressor extends MultiBlockMachine {
                 if (j < 3) {
                     p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
                 } else {
-                    Inventory outputInv = findOutputInventory(output, dispenser.getBlock(), dispenser.getInventory());
+                    Inventory dispInv = dispenser.getInventory();
+                    Inventory outputInv = findOutputInventory(output, dispenser.getBlock(), dispInv);
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                     if (outputInv != null) {
                         outputInv.addItem(output);
-                    } else if (InvUtils.fits(dispenser.getInventory(), output)) {
-                        dispenser.getInventory().addItem(output);
+                    } else if (InvUtils.fits(dispInv, output)) {
+                        dispInv.addItem(output);
                     } else {
                         // fallback
                         dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);

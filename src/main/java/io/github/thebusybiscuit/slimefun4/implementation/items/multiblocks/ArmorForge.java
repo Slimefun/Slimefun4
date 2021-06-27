@@ -91,12 +91,13 @@ public class ArmorForge extends AbstractCraftingTable {
                     if (current < 3) {
                         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
                     } else {
-                        Inventory outputInv2 = findOutputInventory(output, dispenser.getBlock(), dispenser.getInventory());
+                        Inventory dispInv = dispenser.getInventory();
+                        Inventory outputInv2 = findOutputInventory(output, dispenser.getBlock(), dispInv);
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                         if (outputInv2 != null) {
                             outputInv2.addItem(output);
-                        } else if (InvUtils.fits(dispenser.getInventory(), output)) {
-                            dispenser.getInventory().addItem(output);
+                        } else if (InvUtils.fits(dispInv, output)) {
+                            dispInv.addItem(output);
                         } else {
                             // fallback
                             dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), output);
