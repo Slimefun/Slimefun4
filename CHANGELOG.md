@@ -29,10 +29,13 @@
 ## Release Candidate 26 (TBD)
 
 #### Additions
+* Diamonds can now be ground into Carbon using a Grind Stone
+* Deepslate ores can now be doubled using an Ore Crusher
 
 #### Changes
 
 #### Fixes
+* Fixed #2966
 
 ## Release Candidate 25 (20 Jun 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
