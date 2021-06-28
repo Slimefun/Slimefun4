@@ -10,7 +10,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.LimitedUseItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -75,7 +74,7 @@ public final class LoreBuilder {
     }
 
     public static @Nonnull String usesLeft(int usesLeft) {
-        return "&e" + usesLeft + " " + LimitedUseItem.USES_LEFT_SUFFIX;
+        return "&e" + usesLeft + ' ' + (usesLeft > 1 ? "Uses" : "Use") + " &7left";
     }
 
 }

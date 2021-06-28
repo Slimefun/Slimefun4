@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -38,8 +39,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see StormStaff
  */
 public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> {
-
-    public static final String USES_LEFT_SUFFIX = ChatColors.color("Uses &7left");
 
     private final NamespacedKey defaultUsageKey = new NamespacedKey(SlimefunPlugin.instance(), "uses_left");
     private int maxUseCount = -1;
@@ -134,7 +133,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
         if (lore != null && !lore.isEmpty()) {
             // find the correct line
             for (int i = 0; i < lore.size(); i++) {
-                if (lore.get(i).endsWith(USES_LEFT_SUFFIX)) {
+                if (PatternUtils.USES_LEFT_LORE.matcher(lore.get(i)).matches()) {
                     lore.set(i, newLine);
                     meta.setLore(lore);
                     item.setItemMeta(meta);
