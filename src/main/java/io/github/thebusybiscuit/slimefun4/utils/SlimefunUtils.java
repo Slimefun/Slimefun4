@@ -297,8 +297,10 @@ public final class SlimefunUtils {
         }
 
         if (checkLore) {
-            if (itemMeta.hasLore() && sfitemMeta.hasLore() && !equalsLore(itemMeta.getLore(), sfitemMeta.getLore())
-                || itemMeta.hasLore() != sfitemMeta.hasLore()) {
+            if (itemMeta.hasLore() && sfitemMeta.hasLore() && !equalsLore(itemMeta.getLore(), sfitemMeta.getLore())) {
+                return false;
+            }
+            else if (itemMeta.hasLore() != sfitemMeta.hasLore()) {
                 return false;
             }
         }
