@@ -42,7 +42,6 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
     public static final String USES_LEFT_SUFFIX = ChatColors.color("Uses &7left");
 
     private final NamespacedKey defaultUsageKey = new NamespacedKey(SlimefunPlugin.instance(), "uses_left");
-
     private int maxUseCount = -1;
 
     @ParametersAreNonnullByDefault
