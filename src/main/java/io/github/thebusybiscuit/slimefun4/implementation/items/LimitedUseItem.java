@@ -45,7 +45,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
 
     @ParametersAreNonnullByDefault
     public LimitedUseItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe, null);
+        super(category, item, recipeType, recipe);
 
         addItemHandler(getItemHandler());
     }

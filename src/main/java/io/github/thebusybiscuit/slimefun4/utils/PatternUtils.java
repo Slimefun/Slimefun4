@@ -16,8 +16,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
  */
 public final class PatternUtils {
 
-    private PatternUtils() {
-    }
+    private PatternUtils() {}
 
     public static final Pattern COLON = Pattern.compile(":");
     public static final Pattern SEMICOLON = Pattern.compile(";");
