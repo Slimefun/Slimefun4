@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -123,7 +124,6 @@ public enum SoundEffect {
          * So we need to check this first.
          */
         this.defaultSound = sound.getKey().getKey();
-
         this.defaultVolume = volume;
         this.defaultPitch = pitch;
     }
