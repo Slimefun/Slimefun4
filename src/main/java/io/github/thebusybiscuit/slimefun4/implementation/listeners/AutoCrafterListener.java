@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
@@ -42,6 +43,15 @@ public class AutoCrafterListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+    public boolean clickEventRecipeUnlockedCheck(PlayerRightClickEvent e) {
+        for (Recipe recipe : SlimefunPlugin.getMinecraftRecipeService().getRecipesFor(e.getItem())) {
+            if (!(recipe instanceof Keyed) && !e.getPlayer().hasDiscoveredRecipe(((Keyed) recipe).getKey())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @EventHandler
     public void onInteract(PlayerRightClickEvent e) {
         Optional<Block> clickedBlock = e.getClickedBlock();
@@ -66,16 +76,7 @@ public class AutoCrafterListener implements Listener {
                 }
 
                 // Check if the recipe of the item is disabled.
-                boolean unlocked = true;
-                for (Recipe recipe : Bukkit.getRecipesFor(e.getItem())) {
-                    if (!e.getPlayer().hasDiscoveredRecipe(((Keyed) recipe).getKey())) {
-                        unlocked = false;
-                        break;
-                    }
-                }
-
-                if (e.getPlayer().getWorld().getGameRuleValue(GameRule.DO_LIMITED_CRAFTING) && !unlocked) {
-                    e.cancel();
+                if (e.getPlayer().getWorld().getGameRuleValue(GameRule.DO_LIMITED_CRAFTING) && clickEventRecipeUnlockedCheck(e)) {
                     SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.auto-crafting.recipe-disabled");
                     return;
                 }
