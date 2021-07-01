@@ -1,14 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.GameRule;
+import org.bukkit.Keyed;
+import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -16,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.Abst
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import org.bukkit.inventory.Recipe;
 
 /**
  * This {@link Listener} is responsible for providing interactions to the auto crafters.
@@ -38,6 +45,11 @@ public class AutoCrafterListener implements Listener {
     @EventHandler
     public void onInteract(PlayerRightClickEvent e) {
         Optional<Block> clickedBlock = e.getClickedBlock();
+        List<Recipe> recipes = org.bukkit.Bukkit.getRecipesFor(e.getItem());
+        Player p = e.getPlayer();
+        World w = p.getWorld();
+        NamespacedKey recipeKey;
+        Boolean unlocked = true;
 
         // We want to make sure we used the main hand, the interaction was not cancelled and a Block was clicked.
         if (e.getHand() == EquipmentSlot.HAND && e.useBlock() != Result.DENY && clickedBlock.isPresent()) {
@@ -58,6 +70,20 @@ public class AutoCrafterListener implements Listener {
                     return;
                 }
 
+                // Check if the recipe of the item is disabled.
+                for (Recipe recipe : recipes) {
+                    recipeKey = ((Keyed) recipe).getKey();
+                    if (!p.hasDiscoveredRecipe(recipeKey)) {
+                        unlocked = false;
+                    }
+                }
+
+                if (w.getGameRuleValue(GameRule.DO_LIMITED_CRAFTING) && !unlocked){
+                    e.cancel();
+                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-disabled");
+                    return;
+                }
+
                 // Prevent blocks from being placed, food from being eaten, etc...
                 e.cancel();
 
@@ -72,5 +98,4 @@ public class AutoCrafterListener implements Listener {
             }
         }
     }
-
 }
