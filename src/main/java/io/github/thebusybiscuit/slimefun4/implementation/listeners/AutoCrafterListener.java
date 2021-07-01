@@ -45,7 +45,7 @@ public class AutoCrafterListener implements Listener {
 
     public boolean clickEventRecipeUnlockedCheck(PlayerRightClickEvent e) {
         for (Recipe recipe : SlimefunPlugin.getMinecraftRecipeService().getRecipesFor(e.getItem())) {
-            if (!(recipe instanceof Keyed) && !e.getPlayer().hasDiscoveredRecipe(((Keyed) recipe).getKey())) {
+            if (recipe instanceof Keyed && !e.getPlayer().hasDiscoveredRecipe(((Keyed) recipe).getKey())) {
                 return false;
             }
         }
