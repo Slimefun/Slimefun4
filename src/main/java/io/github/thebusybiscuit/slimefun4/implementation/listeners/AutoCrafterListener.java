@@ -45,8 +45,6 @@ public class AutoCrafterListener implements Listener {
     @EventHandler
     public void onInteract(PlayerRightClickEvent e) {
         Optional<Block> clickedBlock = e.getClickedBlock();
-        NamespacedKey recipeKey;
-        boolean unlocked = true;
 
         // We want to make sure we used the main hand, the interaction was not cancelled and a Block was clicked.
         if (e.getHand() == EquipmentSlot.HAND && e.useBlock() != Result.DENY && clickedBlock.isPresent()) {
@@ -68,9 +66,9 @@ public class AutoCrafterListener implements Listener {
                 }
 
                 // Check if the recipe of the item is disabled.
+                boolean unlocked = true;
                 for (Recipe recipe : Bukkit.getRecipesFor(e.getItem())) {
-                    recipeKey = ((Keyed) recipe).getKey();
-                    if (!e.getPlayer().hasDiscoveredRecipe(recipeKey)) {
+                    if (!e.getPlayer().hasDiscoveredRecipe(((Keyed) recipe).getKey())) {
                         unlocked = false;
                         break;
                     }
