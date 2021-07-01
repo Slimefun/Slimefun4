@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -21,7 +22,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.Enha
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-import static org.bukkit.Bukkit.getRecipesFor;
+import org.bukkit.Bukkit;
 
 /**
  * This {@link Listener} is responsible for providing interactions to the auto crafters.
@@ -67,7 +68,7 @@ public class AutoCrafterListener implements Listener {
                 }
 
                 // Check if the recipe of the item is disabled.
-                for (Recipe recipe : getRecipesFor(e.getItem())) {
+                for (Recipe recipe : Bukkit.getRecipesFor(e.getItem())) {
                     recipeKey = ((Keyed) recipe).getKey();
                     if (!e.getPlayer().hasDiscoveredRecipe(recipeKey)) {
                         unlocked = false;
