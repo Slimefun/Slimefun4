@@ -19,6 +19,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2.3.4
+
     - name: Set up Java JDK 11
       uses: actions/setup-java@v2.1.0
       with:
@@ -26,8 +27,16 @@ jobs:
         java-version: '11'
         java-package: jdk
         architecture: x64
+
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
     - name: Run Discord Webhook
-      uses: Slimefun/discord-webhook@master
+      uses: baked-libs/discord-webhook@master
       with:
         id: ${{ secrets.DISCORD_WEBHOOK_ID }}
         token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
