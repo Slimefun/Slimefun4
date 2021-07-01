@@ -1,11 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.core.services.sounds;
 
+import java.util.Locale;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -23,43 +25,42 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  * @see SoundConfiguration
  *
  */
-@SuppressWarnings("java:S1192") // Ignore warnings about re-used string literals.
 public enum SoundEffect {
 
-    ARMOR_FORGE_FINISH_SOUND("block.anvil.use", 1F, 1F),
-    ARMOR_FORGE_WORKING_SOUND("entity.arrow.hit_player", 1F, 1F),
-    AUTOMATED_PANNING_MACHINE_FAIL_SOUND("entity.armor_stand.break", 1F, 1F),
-    AUTOMATED_PANNING_MACHINE_SUCCESS_SOUND("entity.arrow.hit_player", 1F, 1F),
+    ARMOR_FORGE_FINISH_SOUND(Sound.BLOCK_ANVIL_USE, 1F, 1F),
+    ARMOR_FORGE_WORKING_SOUND(Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F),
+    AUTOMATED_PANNING_MACHINE_FAIL_SOUND(Sound.ENTITY_ARMOR_STAND_BREAK, 1F, 1F),
+    AUTOMATED_PANNING_MACHINE_SUCCESS_SOUND(Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F),
     BEE_BOOTS_FALL_SOUND("block.honey_block.fall", 1F, 1F),
-    DIET_COOKIE_CONSUME_SOUND("entity.generic.eat", 1F, 1F),
-    ENDER_BACKPACK_OPEN_SOUND("entity.enderman.teleport", 1F, 1F),
-    ENHANCED_CRAFTING_TABLE_CRAFT_SOUND("block.wooden_button.click_on", 1F, 1F),
-    ELYTRA_CAP_IMPACT_SOUND("block.stone.hit", 1F, 1F),
-    EXPLOSIVE_BOW_HIT_SOUND("entity.generic.explode", 1F, 1F),
-    FISHERMAN_ANDROID_FISHING_SOUND("entity.player.splash", 0.3F, 0.7F),
-    FLASK_OF_KNOWLEDGE_FILLUP_SOUND("entity.experience_orb.pickup", 1F, 0.5F),
-    INFUSED_HOPPER_TELEPORT_SOUND("entity.enderman.teleport", 0.5F, 2F),
-    INFUSED_MAGNET_TELEPORT_SOUND("entity.enderman.teleport", 0.25F, 0.9F),
+    DIET_COOKIE_CONSUME_SOUND(Sound.ENTITY_GENERIC_EAT, 1F, 1F),
+    ENDER_BACKPACK_OPEN_SOUND(Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F),
+    ENHANCED_CRAFTING_TABLE_CRAFT_SOUND(Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F),
+    ELYTRA_CAP_IMPACT_SOUND(Sound.BLOCK_STONE_HIT, 1F, 1F),
+    EXPLOSIVE_BOW_HIT_SOUND(Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F),
+    FISHERMAN_ANDROID_FISHING_SOUND(Sound.ENTITY_PLAYER_SPLASH, 0.3F, 0.7F),
+    FLASK_OF_KNOWLEDGE_FILLUP_SOUND(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F),
+    INFUSED_HOPPER_TELEPORT_SOUND(Sound.ENTITY_ENDERMAN_TELEPORT, 0.5F, 2F),
+    INFUSED_MAGNET_TELEPORT_SOUND(Sound.ENTITY_ENDERMAN_TELEPORT, 0.25F, 0.9F),
     IRON_GOLEM_ASSEMBLER_ASSEMBLE_SOUND("entity.iron_golem.repair", 0.5F, 1F),
-    JETBOOTS_THRUST_SOUND("entity.tnt.primed", 0.25F, 1F),
-    JETPACK_THRUST_SOUND("entity.generic.explode", 0.25F, 1F),
-    JUICER_USE_SOUND("entity.player.splash", 1F, 1F),
-    MAGICAL_EYE_OF_ENDER_USE_SOUND("entity.enderman.teleport", 1F, 1F),
-    MAGIC_SUGAR_CONSUME_SOUND("entity.generic.eat", 1F, 1F),
-    PLAYER_RESEARCHING_SOUND("entity.bat.takeoff", 0.7F, 1F),
-    PORTABLE_CRAFTER_OPEN_SOUND("block.wooden_button.click_on", 1F, 1F),
-    PRESSURE_CHAMBER_FINISH_SOUND("entity.arrow.hit_player", 1F, 1F),
-    PRESSURE_CHAMBER_WORKING_SOUND("entity.tnt.primed", 1F, 1F),
-    SLIME_BOOTS_FALL_SOUND("block.slime_block.fall", 1F, 1F),
-    SMELTERY_CRAFT_SOUND("block.lava.pop", 1F, 1F),
-    SOULBOUND_RUNE_RITUAL_SOUND("entity.generic.explode", 0.3F, 1F),
-    SPLINT_CONSUME_SOUND("entity.skeleton.hurt", 1F, 1F),
-    TOME_OF_KNOWLEDGE_USE_SOUND("entity.player.levelup", 1F, 1F),
-    TRASH_CAN_OPEN_SOUND("block.anvil.land", 1F, 1F),
-    VAMPIRE_BLADE_HEALING_SOUND("entity.arrow.hit_player", 0.7F, 0.7F),
-    VILLAGER_RUNE_TRANSFORM_SOUND("entity.villager.celebrate", 1F, 1.4F),
-    VITAMINS_CONSUME_SOUND("entity.generic.eat", 1F, 1F),
-    WIND_STAFF_USE_SOUND("entity.tnt.primed", 1F, 1F);
+    JETBOOTS_THRUST_SOUND(Sound.ENTITY_TNT_PRIMED, 0.25F, 1F),
+    JETPACK_THRUST_SOUND(Sound.ENTITY_GENERIC_EXPLODE, 0.25F, 1F),
+    JUICER_USE_SOUND(Sound.ENTITY_PLAYER_SPLASH, 1F, 1F),
+    MAGICAL_EYE_OF_ENDER_USE_SOUND(Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F),
+    MAGIC_SUGAR_CONSUME_SOUND(Sound.ENTITY_GENERIC_EAT, 1F, 1F),
+    PLAYER_RESEARCHING_SOUND(Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F),
+    PORTABLE_CRAFTER_OPEN_SOUND(Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F),
+    PRESSURE_CHAMBER_FINISH_SOUND(Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F),
+    PRESSURE_CHAMBER_WORKING_SOUND(Sound.ENTITY_TNT_PRIMED, 1F, 1F),
+    SLIME_BOOTS_FALL_SOUND(Sound.BLOCK_SLIME_BLOCK_FALL, 1F, 1F),
+    SMELTERY_CRAFT_SOUND(Sound.BLOCK_LAVA_POP, 1F, 1F),
+    SOULBOUND_RUNE_RITUAL_SOUND(Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F),
+    SPLINT_CONSUME_SOUND(Sound.ENTITY_SKELETON_HURT, 1F, 1F),
+    TOME_OF_KNOWLEDGE_USE_SOUND(Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F),
+    TRASH_CAN_OPEN_SOUND(Sound.BLOCK_ANVIL_LAND, 1F, 1F),
+    VAMPIRE_BLADE_HEALING_SOUND(Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F),
+    VILLAGER_RUNE_TRANSFORM_SOUND(Sound.ENTITY_VILLAGER_CELEBRATE, 1F, 1.4F),
+    VITAMINS_CONSUME_SOUND(Sound.ENTITY_GENERIC_EAT, 1F, 1F),
+    WIND_STAFF_USE_SOUND(Sound.ENTITY_TNT_PRIMED, 1F, 1F);
 
     private final String defaultSound;
     private final float defaultVolume;
@@ -75,8 +76,26 @@ public enum SoundEffect {
         this.defaultPitch = pitch;
     }
 
-    @Nullable
-    private SoundConfiguration getConfiguration() {
+    SoundEffect(@Nonnull Sound sound, float volume, float pitch) {
+        Validate.notNull(sound, "The Sound id cannot be null!");
+        Validate.isTrue(volume >= 0, "The volume cannot be a negative number.");
+        Validate.isTrue(pitch >= 0.5, "A pitch below 0.5 has no effect on the sound.");
+
+        /*
+         * Only Minecraft 1.16+ implements Keyed for Sound.
+         * So we need to check this first.
+         */
+        if (sound instanceof Keyed) {
+            this.defaultSound = sound.getKey().getKey();
+        } else {
+            this.defaultSound = sound.name().toLowerCase(Locale.ROOT).replace('_', '.');
+        }
+
+        this.defaultVolume = volume;
+        this.defaultPitch = pitch;
+    }
+
+    private @Nullable SoundConfiguration getConfiguration() {
         SoundConfiguration config = SlimefunPlugin.getSoundService().getConfiguration(this);
 
         if (config == null) {
@@ -139,8 +158,7 @@ public enum SoundEffect {
      * 
      * @return The default sound id.
      */
-    @Nonnull
-    String getDefaultSoundId() {
+    public @Nonnull String getDefaultSoundId() {
         return defaultSound;
     }
 

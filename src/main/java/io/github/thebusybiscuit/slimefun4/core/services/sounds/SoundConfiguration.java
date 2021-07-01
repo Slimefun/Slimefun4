@@ -23,8 +23,7 @@ public class SoundConfiguration {
         this.pitch = pitch;
     }
 
-    @Nonnull
-    public String getSoundId() {
+    public @Nonnull String getSoundId() {
         return sound;
     }
 

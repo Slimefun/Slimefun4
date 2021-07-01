@@ -98,8 +98,7 @@ public class SoundService {
      * 
      * @return The corresponding {@link SoundConfiguration}. This may be null if something went wrong
      */
-    @Nullable
-    public SoundConfiguration getConfiguration(@Nonnull SoundEffect sound) {
+    public @Nullable SoundConfiguration getConfiguration(@Nonnull SoundEffect sound) {
         Validate.notNull(sound, "The sound must not be null!");
         return soundMap.get(sound);
     }
