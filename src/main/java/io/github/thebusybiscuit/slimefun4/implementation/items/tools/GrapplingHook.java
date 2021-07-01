@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
@@ -22,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -51,7 +53,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
     }
 
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
             UUID uuid = p.getUniqueId();

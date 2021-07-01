@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -96,7 +97,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         LinkedList<ElevatorFloor> floors = new LinkedList<>();
         int index = 0;
 
-        for (int y = 0; y < b.getWorld().getMaxHeight(); y++) {
+        for (int y = WorldUtils.getMinHeight(b.getWorld()); y < b.getWorld().getMaxHeight(); y++) {
             if (y == b.getY()) {
                 String name = ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), DATA_KEY));
                 floors.addFirst(new ElevatorFloor(name, index, b));

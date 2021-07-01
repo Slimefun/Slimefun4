@@ -277,12 +277,12 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         Validate.notNull(recipeType, "Recipe type cannot be null!");
 
         ItemStack item = recipeType.toItem();
-        
+
         if (item == null) {
             // Fixes #3088
             return new ItemStack(Material.AIR);
         }
-        
+
         Language language = getLanguage(p);
         NamespacedKey key = recipeType.getKey();
 

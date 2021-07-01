@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
@@ -13,15 +14,16 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.TrashCan;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
- * The {@link PortableDustbin} is a portable version of the {@link TrashCan}.
- * It allows you to void items.
- * When right clicking it will open a temporary {@link Inventory} in which you can put items.
- * The items will be discarded when the {@link Inventory} is closed.
+ * The {@link PortableDustbin} is one of the oldest items in Slimefun.
+ * It simply opens an empty {@link Inventory} in which you can dump any
+ * unwanted {@link ItemStack}. When closing the {@link Inventory}, all items
+ * will be voided.
  * 
  * @author TheBusyBiscuit
  * 
@@ -36,7 +38,7 @@ public class PortableDustbin extends SimpleSlimefunItem<ItemUseHandler> implemen
     }
 
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             e.cancel();
 

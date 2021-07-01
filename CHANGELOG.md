@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 25 (TBD)](#release-candidate-25-tbd)
+- [Release Candidate 26 (TBD)](#release-candidate-26-tbd)
+- [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
 - [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
 - [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
 - [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
@@ -25,13 +26,38 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 25 (TBD)
+## Release Candidate 26 (TBD)
+
+#### Additions
+* Diamonds can now be ground into Carbon using a Grind Stone
+* Deepslate ores can now be doubled using an Ore Crusher
+* Tridents can now be crafted
+* Added sound effects for Slime Boots
+* Added `sounds.yml` file to configure sound effects for Slimefun
+
+#### Changes
+
+#### Fixes
+* Fixed #2966
+
+## Release Candidate 25 (20 Jun 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 
 #### Additions
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
+* Added a startup warning for when CS-CoreLib is still installed
 * (API) Added WeaponUseHandler
-* Added sound effects for Slime Boots
-* Added `sounds.yml` file to configure sound effects for Slimefun
+* Added support for Minecraft 1.17
+* Added "Deepslate -> Lava" recipe to the Crucible
+* Added "Cobbled Deepslate -> Lava" recipe to the Crucible
+* Added "Tuff -> Lava" recipe to the Crucible
+* Added "Copper Ingot -> Copper Dust" recipe to the Ingot Pulverizer
+* Added Goats as a milk source for the Produce Collector
+* Added "Raw Iron -> Iron Dust" recipe to the Ore Crusher
+* Added "Raw Gold -> Gold Dust" recipe to the Ore Crusher
+* Added "Raw Copper -> Copper Dust" recipe to the Ore Crusher
+* Debug Fish can now read Slimefun Tags for vanilla blocks
+* The Icy Bow now gives a freezing effect on 1.17
 
 #### Changes
 * (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
@@ -40,6 +66,8 @@
 * (API) Removed AsyncReactorProcessCompleteEvent
 
 #### Fixes
+* Fixed #3105
+* Fixed #3116
 
 ## Release Candidate 24 (03 Jun 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24

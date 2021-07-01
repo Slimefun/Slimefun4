@@ -6,12 +6,15 @@ import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
+
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This class contains various utilities related to numbers and number formatting.
@@ -255,6 +258,26 @@ public final class NumberUtils {
             return max;
         } else {
             return value;
+        }
+    }
+
+    public static int getJavaVersion() {
+        String javaVer = System.getProperty("java.version");
+
+        if (javaVer.startsWith("1.")) {
+            javaVer = javaVer.substring(2);
+        }
+
+        // If it's like 11.0.1.3 or 8.0_275
+        if (javaVer.indexOf('.') != -1) {
+            javaVer = javaVer.substring(0, javaVer.indexOf('.'));
+        }
+
+        if (PatternUtils.NUMERIC.matcher(javaVer).matches()) {
+            return Integer.parseInt(javaVer);
+        } else {
+            SlimefunPlugin.logger().log(Level.SEVERE, "Error: Cannot identify Java version - {0}", javaVer);
+            return 0;
         }
     }
 }

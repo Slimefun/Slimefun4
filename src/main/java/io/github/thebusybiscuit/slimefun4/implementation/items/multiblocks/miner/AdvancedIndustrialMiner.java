@@ -15,7 +15,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author TheBusyBiscuit
  * 
  * @see IndustrialMiner
- * @see ActiveMiner
+ * @see MiningTask
  *
  */
 public class AdvancedIndustrialMiner extends IndustrialMiner {

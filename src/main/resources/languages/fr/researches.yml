@@ -23,7 +23,9 @@ slimefun:
   battery: Votre première pile
   steel_plate: Placage en acier
   steel_thruster: Propulseur en acier
+  parachute: Parachute
   grappling_hook: Grappin
+  jetpacks: Jetpack
   multitools: Multi outils
   solar_panel_and_helmet: Énergie solaire
   elemental_staff: Sceptres élémentaires
@@ -49,6 +51,7 @@ slimefun:
   reinforced_armor: Armure renforcée
   ore_washer: Nettoyeur de minerai
   gold_carats: Or pur
+  silicon: Vallée du Silicium
   fire_staff: Sceptre de feu
   smelters_pickaxe: Pioche enflammée
   common_talisman: Talisman commun
@@ -60,6 +63,7 @@ slimefun:
   angel_talisman: Talisman de l'Ange
   fire_talisman: Talisman du Pompier
   caveman_talisman: Talisman de l'Homme des cavernes
+  wise_talisman: Talisman du Sage
   lava_crystal: Situation Ardente
   magician_talisman: Talisman du Magicien
   traveller_talisman: Talisman du Voyageur
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: La cargaison pour les nuls
   cargo_nodes: Dispositif de cargaison
   electric_ingot_machines: Fabrication électrique de lingots
+  medium_tier_electric_ingot_machines: Fabrication de Lingot Rapide
   high_tier_electric_ingot_machines: Fabrication électrique super rapide de lingots
   automated_crafting_chamber: Fabrication automatisée
   better_food_fabricator: Fabrication d'aliments améliorés
@@ -245,3 +250,10 @@ slimefun:
   villager_rune: Réinitialiser les échanges des villageois
   elytra_cap: Matériel d'urgence
   bee_armor: Armure d'abeille
+  book_binder: Liaison de livre d'enchantement
+  auto_crafting: Fabrication automatique
+  produce_collector: Traitement automatique
+  improved_generators: Générateurs Améliorés
+  ingredients_and_cheese: Cuisine de Slimefun
+  medium_tier_auto_enchanting: Enchantement et désenchantement automatique rapide
+  portable_teleporter: Téléportation depuis n'importe où

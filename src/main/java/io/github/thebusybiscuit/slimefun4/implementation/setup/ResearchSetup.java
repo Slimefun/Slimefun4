@@ -288,6 +288,7 @@ public final class ResearchSetup {
         register("ingredients_and_cheese", 276, "Slimefun Cuisine", 5, SlimefunItems.SALT, SlimefunItems.WHEAT_FLOUR, SlimefunItems.HEAVY_CREAM, SlimefunItems.CHEESE, SlimefunItems.BUTTER);
         register("medium_tier_auto_enchanting", 277, "Fast Automatic Enchanting and Disenchanting", 48, SlimefunItems.AUTO_ENCHANTER_2, SlimefunItems.AUTO_DISENCHANTER_2);
         register("portable_teleporter", 278, "Teleportation from Anywhere", 42, SlimefunItems.PORTABLE_TELEPORTER);
+        register("trident", 279, "Trident", 20, new ItemStack(Material.TRIDENT));
     }
 
     @ParametersAreNonnullByDefault
