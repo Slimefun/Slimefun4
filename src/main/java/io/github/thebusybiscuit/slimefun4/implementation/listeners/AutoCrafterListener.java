@@ -28,11 +28,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * See Issue #2896 with the {@link EnhancedAutoCrafter}, any {@link SlimefunItem} which
  * overrides the right click functonality would be ignored.
  * This {@link Listener} resolves that issue.
- * 
- * @author TheBusyBiscuit
- * 
- * @see EnhancedAutoCrafter
  *
+ * @author TheBusyBiscuit
+ * @see EnhancedAutoCrafter
  */
 public class AutoCrafterListener implements Listener {
 
@@ -73,14 +71,14 @@ public class AutoCrafterListener implements Listener {
                     return;
                 }
 
+                // Prevent blocks from being placed, food from being eaten, etc...
+                e.cancel();
+
                 // Check if the recipe of the item is disabled.
                 if (e.getPlayer().getWorld().getGameRuleValue(GameRule.DO_LIMITED_CRAFTING) && hasUnlockedRecipe(e.getPlayer(), e.getItem())) {
                     SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.auto-crafting.recipe-unavailable");
                     return;
                 }
-
-                // Prevent blocks from being placed, food from being eaten, etc...
-                e.cancel();
 
                 // Fixes 2896 - Forward the interaction before items get handled.
                 AbstractAutoCrafter crafter = (AbstractAutoCrafter) block;
