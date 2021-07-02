@@ -5,15 +5,15 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -22,8 +22,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.Abst
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-
-import org.bukkit.Bukkit;
 
 /**
  * This {@link Listener} is responsible for providing interactions to the auto crafters.
@@ -43,9 +41,9 @@ public class AutoCrafterListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public boolean clickEventRecipeUnlockedCheck(PlayerRightClickEvent e) {
-        for (Recipe recipe : SlimefunPlugin.getMinecraftRecipeService().getRecipesFor(e.getItem())) {
-            if (recipe instanceof Keyed && !e.getPlayer().hasDiscoveredRecipe(((Keyed) recipe).getKey())) {
+    private boolean hasUnlockedRecipe(@Nonnull Player p, @Nonnull ItemStack item) {
+        for (Recipe recipe : SlimefunPlugin.getMinecraftRecipeService().getRecipesFor(item)) {
+            if (recipe instanceof Keyed && !p.hasDiscoveredRecipe(((Keyed) recipe).getKey())) {
                 return false;
             }
         }
@@ -76,8 +74,8 @@ public class AutoCrafterListener implements Listener {
                 }
 
                 // Check if the recipe of the item is disabled.
-                if (e.getPlayer().getWorld().getGameRuleValue(GameRule.DO_LIMITED_CRAFTING) && clickEventRecipeUnlockedCheck(e)) {
-                    SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.auto-crafting.recipe-disabled");
+                if (e.getPlayer().getWorld().getGameRuleValue(GameRule.DO_LIMITED_CRAFTING) && hasUnlockedRecipe(e.getPlayer(), e.getItem())) {
+                    SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.auto-crafting.recipe-unavailable");
                     return;
                 }
 
