@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Container;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -170,21 +171,21 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
      *
      * @param outputItem
      *          A crafted {@link ItemStack} from {@link MultiBlockMachine}
-     * @param dispenser
-     *          Our {@link Dispenser} from {@link MultiBlockMachine}
+     * @param container
+     *          Our {@link Container} from {@link MultiBlockMachine}
      *
      */
-    protected void handleCraftedItem(ItemStack outputItem, Dispenser dispenser) {
-        Inventory dispInv = dispenser.getInventory();
-        Inventory outputInv = findOutputInventory(outputItem, dispenser.getBlock(), dispInv);
+    protected void handleCraftedItem(ItemStack outputItem, Container container) {
+        Inventory containerInv = container.getInventory();
+        Inventory outputInv = findOutputInventory(outputItem, container.getBlock(), containerInv);
 
         if (outputInv != null) {
             outputInv.addItem(outputItem);
-        } else if (InvUtils.fits(dispInv, outputItem)) {
-            dispInv.addItem(outputItem);
+        } else if (InvUtils.fits(containerInv, outputItem)) {
+            containerInv.addItem(outputItem);
         } else {
             // fallback
-            dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), outputItem);
+            container.getWorld().dropItemNaturally(container.getLocation(), outputItem);
         }
     }
 
