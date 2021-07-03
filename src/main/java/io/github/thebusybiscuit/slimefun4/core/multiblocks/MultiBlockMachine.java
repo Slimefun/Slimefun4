@@ -14,7 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.type.Dispenser;
+import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -162,6 +162,29 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
             return dispInv;
         } else {
             return outputChest.orElse(null);
+        }
+    }
+
+    /**
+     * This method handles a output {@link ItemStack} from the {@link MultiBlockMachine} which has a crafting delay
+     *
+     * @param outputItem
+     *          A crafted {@link ItemStack} from {@link MultiBlockMachine}
+     * @param dispenser
+     *          Our {@link Dispenser} from {@link MultiBlockMachine}
+     *
+     */
+    protected void handleCraftedItem(ItemStack outputItem, Dispenser dispenser) {
+        Inventory dispInv = dispenser.getInventory();
+        Inventory outputInv = findOutputInventory(outputItem, dispenser.getBlock(), dispInv);
+
+        if (outputInv != null) {
+            outputInv.addItem(outputItem);
+        } else if (InvUtils.fits(dispInv, outputItem)) {
+            dispInv.addItem(outputItem);
+        } else {
+            // fallback
+            dispenser.getWorld().dropItemNaturally(dispenser.getLocation(), outputItem);
         }
     }
 
