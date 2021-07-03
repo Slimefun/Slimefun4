@@ -175,6 +175,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
      *          Our {@link Container} from {@link MultiBlockMachine}
      *
      */
+    @ParametersAreNonnullByDefault
     protected void handleCraftedItem(ItemStack outputItem, Container container) {
         Inventory containerInv = container.getInventory();
         Inventory outputInv = findOutputInventory(outputItem, container.getBlock(), containerInv);
