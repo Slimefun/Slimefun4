@@ -251,7 +251,6 @@ public final class TickerTask {
         /*
          * If the plugin has been disabled,
          * do not schedule the next execution.
-         *
          */
         if (!plugin.isEnabled()) {
             return;
