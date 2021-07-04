@@ -174,7 +174,9 @@ messages:
     select: 'Select this recipe'
     temporarily-disabled: '&eThis Auto-Crafter was temporarily disabled. You can re-enable it at any time!'
     re-enabled: '&eThis Auto-Crafter was re-enabled!'
-    recipe-unavailable: '&cThis item is either disabled on your server, or you have not unlocked it yet. (Craft the item in a crafting table if you have not done it before to unlock the recipe.)'
+    recipe-unavailable: |
+      '&cThis item is either disabled on your server, or you have not unlocked it yet.'
+      '&7Try crafting the item if you have not done this before to unlock the recipe.'
 
     tooltips:
       enabled:
