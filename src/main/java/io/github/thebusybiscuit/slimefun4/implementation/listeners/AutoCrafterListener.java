@@ -75,7 +75,7 @@ public class AutoCrafterListener implements Listener {
                 e.cancel();
 
                 // Check if the recipe of the item is disabled.
-                if (e.getPlayer().getWorld().getGameRuleValue(GameRule.DO_LIMITED_CRAFTING) && hasUnlockedRecipe(e.getPlayer(), e.getItem())) {
+                if (e.getPlayer().getWorld().getGameRuleValue(GameRule.DO_LIMITED_CRAFTING) && !hasUnlockedRecipe(e.getPlayer(), e.getItem())) {
                     SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.auto-crafting.recipe-unavailable");
                     return;
                 }
