@@ -172,7 +172,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
      * @param outputItem
      *          A crafted {@link ItemStack} from {@link MultiBlockMachine}
      * @param container
-     *          Our {@link Container} from {@link MultiBlockMachine}
+     *          Our main {@link Container} from {@link MultiBlockMachine}
      *
      */
     @ParametersAreNonnullByDefault
