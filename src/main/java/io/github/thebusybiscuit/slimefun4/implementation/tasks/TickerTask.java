@@ -249,8 +249,17 @@ public final class TickerTask {
         /*
          * If the plugin has been disabled,
          * do not schedule the next execution.
+         *
+         * Additionally, shutdown the async executor
+         * if that has not already been done so.
+         * We do not this TickerTask instance to be
+         * reused following plugin shutdown. Therefore,
+         * we shutdown the ExecutorService.
          */
         if (!plugin.isEnabled()) {
+            if (!asyncExecutor.isShutdown()) {
+                asyncExecutor.shutdown();
+            }
             return;
         }
 
