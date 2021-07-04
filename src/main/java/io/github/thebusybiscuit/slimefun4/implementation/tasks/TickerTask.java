@@ -423,6 +423,7 @@ public final class TickerTask {
      * it will not block for the async tasks
      */
     public synchronized void halt() {
+        SlimefunPlugin.logger().info("Stopping TickerTask, this may take a few seconds or up to a minute...");
         /*
          * Mark the ticker as halted so that #tick won't attempt to schedule another task
          */
@@ -434,11 +435,12 @@ public final class TickerTask {
         running = false;
         // Process async tasks and shutdown the asyncExecutor
         asyncExecutor.shutdown();
+        asyncExecutor.awaitTermination(1, TimeUnit.MINUTES);
         // Process remaining sync tasks
         while (!syncTasks.isEmpty()) {
             syncTasks.poll().run();
         }
-
+    SlimefunPlugin.logger().info("Stopped TickerTask!");
     }
 
     @ParametersAreNonnullByDefault
