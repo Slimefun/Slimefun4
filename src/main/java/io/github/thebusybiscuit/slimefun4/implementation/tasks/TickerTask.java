@@ -440,7 +440,7 @@ public final class TickerTask {
         while (!syncTasks.isEmpty()) {
             syncTasks.poll().run();
         }
-    SlimefunPlugin.logger().info("Stopped TickerTask!");
+        SlimefunPlugin.logger().info("Stopped TickerTask!");
     }
 
     @ParametersAreNonnullByDefault
