@@ -50,7 +50,7 @@ final class TickerThreadFactory implements ThreadFactory {
     }
 
     private @Nonnull String nextThreadName() {
-        return String.format("Slimefun Ticker Thread-%d", threadNumber.getAndIncrement());
+        return "Slimefun Ticker Thread-" + threadNumber.getAndIncrement();
     }
 
 }
