@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nonnull;
 
@@ -15,6 +16,8 @@ import javax.annotation.Nonnull;
  *
  */
 final class TickerThreadFactory implements ThreadFactory {
+
+    private final AtomicInteger threadNumber = new AtomicInteger();
 
     private final int threadCount;
 
@@ -43,7 +46,11 @@ final class TickerThreadFactory implements ThreadFactory {
      */
     @Override
     public Thread newThread(@Nonnull Runnable runnable) {
-        return new Thread(runnable, "Slimefun Ticker Thread");
+        return new Thread(runnable, nextThreadName());
+    }
+
+    private @Nonnull String nextThreadName() {
+        return "Slimefun Ticker Thread-" + threadNumber.getAndIncrement();
     }
 
 }

@@ -240,7 +240,9 @@ public final class TickerTask {
          * We're not done with the synchronous tickers yet.
          * Give the server a breather and let it progress one tick.
          */
-        Bukkit.getScheduler().runTaskLater(plugin, this::processSyncTasks, 2L);
+        if (!halted) {
+            Bukkit.getScheduler().runTaskLater(plugin, this::processSyncTasks, 2L);
+        }
     }
 
     private void finish() {
@@ -416,9 +418,29 @@ public final class TickerTask {
 
     /**
      * This method orders the {@link TickerTask} to be halted.
+     * Once halted the task <strong>cannot</strong> be un-halted.
+     * This method will block until all sync tasks are processed; however,
+     * it will not block for the async tasks
      */
     public synchronized void halt() {
+        SlimefunPlugin.logger().info("Stopping TickerTask, this may take a few seconds or up to a minute...");
+        /*
+         * Mark the ticker as halted so that #tick won't attempt to schedule another task
+         */
         halted = true;
+        tick();
+        /*
+         * Mark running after #tick so #processAsyncTasks gets scheduled
+         */
+        running = false;
+        // Process async tasks and shutdown the asyncExecutor
+        asyncExecutor.shutdown();
+        asyncExecutor.awaitTermination(1, TimeUnit.MINUTES);
+        // Process remaining sync tasks
+        while (!syncTasks.isEmpty()) {
+            syncTasks.poll().run();
+        }
+        SlimefunPlugin.logger().info("Stopped TickerTask!");
     }
 
     @ParametersAreNonnullByDefault
