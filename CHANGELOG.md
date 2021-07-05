@@ -37,7 +37,7 @@
 
 #### Fixes
 * Fixed #2966
-* Fixed Auto-Crafers bypassing the `doLimitedCrafting` gamerule
+* Fixed Auto-Crafters bypassing the `doLimitedCrafting` gamerule
 
 ## Release Candidate 25 (20 Jun 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
