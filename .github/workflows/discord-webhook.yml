@@ -36,7 +36,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Run Discord Webhook
-      uses: baked-libs/discord-webhook@master
+      uses: baked-libs/discord-webhook@1.5.1
       with:
         id: ${{ secrets.DISCORD_WEBHOOK_ID }}
         token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
