@@ -126,7 +126,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
 * Tin Cans can no longer be placed
 * Magical Glass can no longer be placed
 * (API) Removed deprecated "SlimefunBlockHandler"
-* Performance improvements
 * Removed Automated Crafting Chamber
 * Memory and performance improvements for Cargo and Energy networks
 
