@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -391,6 +392,29 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         return false;
     }
 
+    public boolean inventoryAvailable(@Nonnull Inventory inv, @Nonnull ItemStack resultItem) {
+
+        if(inv.firstEmpty() < 0){
+
+            for (ItemStack matchingItem : inv.getContents()) {
+                // Checks if any item stack that is not full that is the same type as the result.
+                if (
+                        ((!(resultItem instanceof SlimefunItemStack) && resultItem.isSimilar(matchingItem))
+                        || ((resultItem instanceof SlimefunItemStack) && SlimefunUtils.isItemSimilar(matchingItem, resultItem, true)))
+                        && matchingItem.getAmount() < matchingItem.getMaxStackSize()
+                ){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Returns true if the first empty slot in the inventory is >= 0, which means there is an empty slot.
+        else {
+            return true;
+        }
+    }
+
     /**
      * This method performs a crafting operation.
      * It will attempt to fulfill the provided {@link AbstractRecipe} using
@@ -414,8 +438,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             return false;
         }
 
-        // Check if we have an empty slot
-        if (inv.firstEmpty() != -1) {
+        // Check if the inventory have any available space
+        if (inventoryAvailable(inv, recipe.getResult())) {
             Map<Integer, Integer> itemQuantities = new HashMap<>();
 
             for (Predicate<ItemStack> predicate : recipe.getIngredients()) {
