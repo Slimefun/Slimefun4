@@ -8,8 +8,6 @@ on:
     - 'src/**'
     - 'pom.xml'
   pull_request:
-    branches:
-    - master
     paths:
     - 'src/**'
     - 'pom.xml'
