@@ -435,7 +435,11 @@ public final class TickerTask {
         running = false;
         // Process async tasks and shutdown the asyncExecutor
         asyncExecutor.shutdown();
-        asyncExecutor.awaitTermination(1, TimeUnit.MINUTES);
+        try {
+            asyncExecutor.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException ex) {
+            SlimefunPlugin.logger().log(Level.SEVERE, ex, () -> "Failed to shutdown the async executor");
+        }
         // Process remaining sync tasks
         while (!syncTasks.isEmpty()) {
             syncTasks.poll().run();
