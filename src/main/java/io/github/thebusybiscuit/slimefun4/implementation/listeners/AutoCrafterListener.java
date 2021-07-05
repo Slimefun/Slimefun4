@@ -2,13 +2,19 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.GameRule;
+import org.bukkit.Keyed;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -22,17 +28,24 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * See Issue #2896 with the {@link EnhancedAutoCrafter}, any {@link SlimefunItem} which
  * overrides the right click functonality would be ignored.
  * This {@link Listener} resolves that issue.
- * 
- * @author TheBusyBiscuit
- * 
- * @see EnhancedAutoCrafter
  *
+ * @author TheBusyBiscuit
+ * @see EnhancedAutoCrafter
  */
 public class AutoCrafterListener implements Listener {
 
     @ParametersAreNonnullByDefault
     public AutoCrafterListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
+    private boolean hasUnlockedRecipe(@Nonnull Player p, @Nonnull ItemStack item) {
+        for (Recipe recipe : SlimefunPlugin.getMinecraftRecipeService().getRecipesFor(item)) {
+            if (recipe instanceof Keyed && !p.hasDiscoveredRecipe(((Keyed) recipe).getKey())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @EventHandler
@@ -61,6 +74,12 @@ public class AutoCrafterListener implements Listener {
                 // Prevent blocks from being placed, food from being eaten, etc...
                 e.cancel();
 
+                // Check if the recipe of the item is disabled.
+                if (e.getPlayer().getWorld().getGameRuleValue(GameRule.DO_LIMITED_CRAFTING) && !hasUnlockedRecipe(e.getPlayer(), e.getItem())) {
+                    SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.auto-crafting.recipe-unavailable");
+                    return;
+                }
+
                 // Fixes 2896 - Forward the interaction before items get handled.
                 AbstractAutoCrafter crafter = (AbstractAutoCrafter) block;
 
@@ -72,5 +91,4 @@ public class AutoCrafterListener implements Listener {
             }
         }
     }
-
 }
