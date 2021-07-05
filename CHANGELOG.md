@@ -31,6 +31,7 @@
 #### Additions
 * Diamonds can now be ground into Carbon using a Grind Stone
 * Deepslate ores can now be doubled using an Ore Crusher
+* Tridents can now be crafted
 
 #### Changes
 
