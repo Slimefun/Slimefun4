@@ -398,11 +398,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
             for (ItemStack matchingItem : inv.getContents()) {
                 // Checks if any item stack that is not full that is the same type as the result.
-                if (
-                        ((!(resultItem instanceof SlimefunItemStack) && resultItem.isSimilar(matchingItem))
-                        || ((resultItem instanceof SlimefunItemStack) && SlimefunUtils.isItemSimilar(matchingItem, resultItem, true)))
-                        && matchingItem.getAmount() < matchingItem.getMaxStackSize()
-                ){
+                if (((!(resultItem instanceof SlimefunItemStack) && resultItem.isSimilar(matchingItem)) || ((resultItem instanceof SlimefunItemStack) && SlimefunUtils.isItemSimilar(matchingItem, resultItem, true))) && matchingItem.getAmount() < matchingItem.getMaxStackSize()){
                     return true;
                 }
             }
