@@ -185,19 +185,6 @@ public class SlimefunItem implements Placeable {
 
     /**
      * Returns the identifier of this {@link SlimefunItem}.
-     * 
-     * @deprecated This method has been renamed to {@link #getId()}.
-     *
-     * @return the identifier of this {@link SlimefunItem}
-     */
-    @Nonnull
-    @Deprecated
-    public final String getID() {
-        return getId();
-    }
-
-    /**
-     * Returns the identifier of this {@link SlimefunItem}.
      *
      * @return the identifier of this {@link SlimefunItem}
      */
@@ -305,7 +292,7 @@ public class SlimefunItem implements Placeable {
      * @return An {@link Optional} describing the result
      */
     @SuppressWarnings("unchecked")
-    public <T> @Nonnull Optional<ItemSetting<T>> getItemSetting(@Nonnull String key, @Nonnull Class<T> c) {
+    public @Nonnull <T> Optional<ItemSetting<T>> getItemSetting(@Nonnull String key, @Nonnull Class<T> c) {
         for (ItemSetting<?> setting : itemSettings) {
             if (setting.getKey().equals(key) && setting.isType(c)) {
                 return Optional.of((ItemSetting<T>) setting);

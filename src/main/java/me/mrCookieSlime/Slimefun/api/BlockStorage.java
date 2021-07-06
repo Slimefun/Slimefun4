@@ -221,7 +221,7 @@ public class BlockStorage {
         }
 
         chunksLoaded = true;
-        
+
         File chunks = new File(PATH_CHUNKS + "chunks.sfc");
 
         if (chunks.exists()) {
@@ -245,12 +245,12 @@ public class BlockStorage {
             if (file.getName().startsWith(world.getName()) && file.getName().endsWith(".sfi")) {
                 try {
                     Location l = deserializeLocation(file.getName().replace(".sfi", ""));
-                    
+
                     // We only want to only load this world's menus
                     if (world != l.getWorld()) {
                         continue;
                     }
-                    
+
                     io.github.thebusybiscuit.cscorelib2.config.Config cfg = new io.github.thebusybiscuit.cscorelib2.config.Config(file);
                     BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
 
@@ -270,9 +270,9 @@ public class BlockStorage {
         if (universalInventoriesLoaded) {
             return;
         }
-        
+
         universalInventoriesLoaded = true;
-        
+
         for (File file : new File("data-storage/Slimefun/universal-inventories").listFiles()) {
             if (file.getName().endsWith(".sfi")) {
                 try {

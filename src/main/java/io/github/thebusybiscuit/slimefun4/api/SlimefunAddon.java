@@ -50,8 +50,7 @@ public interface SlimefunAddon {
      * 
      * @return The Name of this {@link SlimefunAddon}
      */
-    @Nonnull
-    default String getName() {
+    default @Nonnull String getName() {
         return getJavaPlugin().getName();
     }
 
@@ -61,8 +60,7 @@ public interface SlimefunAddon {
      * 
      * @return The version of this {@link SlimefunAddon}
      */
-    @Nonnull
-    default String getPluginVersion() {
+    default @Nonnull String getPluginVersion() {
         return getJavaPlugin().getDescription().getVersion();
     }
 
@@ -72,8 +70,7 @@ public interface SlimefunAddon {
      * 
      * @return The {@link Logger} of this {@link SlimefunAddon}
      */
-    @Nonnull
-    default Logger getLogger() {
+    default @Nonnull Logger getLogger() {
         return getJavaPlugin().getLogger();
     }
 

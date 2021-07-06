@@ -99,8 +99,7 @@ public abstract class Network {
      * 
      * @return The assigned type of {@link NetworkComponent} for this {@link Location}
      */
-    @Nullable
-    public abstract NetworkComponent classifyLocation(@Nonnull Location l);
+    public abstract @Nullable NetworkComponent classifyLocation(@Nonnull Location l);
 
     /**
      * This method is called whenever a {@link Location} in this {@link Network} changes
@@ -175,8 +174,7 @@ public abstract class Network {
         }
     }
 
-    @Nullable
-    private NetworkComponent getCurrentClassification(@Nonnull Location l) {
+    private @Nullable NetworkComponent getCurrentClassification(@Nonnull Location l) {
         if (regulatorNodes.contains(l)) {
             return NetworkComponent.REGULATOR;
         } else if (connectorNodes.contains(l)) {
@@ -259,8 +257,7 @@ public abstract class Network {
      * 
      * @return The {@link Location} of our regulator
      */
-    @Nonnull
-    public Location getRegulator() {
+    public @Nonnull Location getRegulator() {
         return regulator;
     }
 

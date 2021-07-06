@@ -1,84 +1,102 @@
 ---
 slimefun:
   multiblock:
+    name: 'Multi-block'
     lore:
       - 'Construisez la structure comme'
       - 'indiqué. Elle ne se fabrique pas.'
   enhanced_crafting_table:
+    name: 'Table de craft améliorée'
     lore:
       - 'Fabriquez cet objet comme indiqué'
       - 'dans une Enhanced Crafting Table.'
       - 'Un établi normal ne suffira pas !'
   armor_forge:
+    name: 'Forge d''Armure'
     lore:
       - 'Fabriquez cet objet comme indiqué'
-      - 'en utilisant une Armor Forge'
+      - 'en utilisant une Forge d''Armure'
   grind_stone:
+    name: 'Meule'
     lore:
       - 'Fabriquez cet objet comme indiqué'
-      - 'en utilisant une Grind Stone'
+      - 'en utilisant une Meule'
   smeltery:
+    name: 'Fonderie'
     lore:
       - 'Fabriquez cet objet comme indiqué'
-      - 'dans une Smeltery'
+      - 'en utilisant une Fonderie'
   ore_crusher:
+    name: 'Broyeur de minerai'
     lore:
       - 'Fabriquez cet objet comme indiqué'
-      - 'en utilisant un Ore Crusher'
+      - 'en utilisant un broyeur de minerai'
   mob_drop:
     name: 'Butin de monstre'
     lore:
       - 'Tuez ce monstre afin'
       - 'd''obtenir cet objet'
   gold_pan:
+    name: 'Poêle en or'
     lore:
-      - 'Utilisez un Gold Pan pour'
+      - 'Utilisez une casserole d''or pour'
       - 'obtenir cet objet'
   compressor:
+    name: 'Compresseur'
     lore:
       - 'Fabriquez cet objet comme indiqué'
-      - 'en utilisant un Compressor'
+      - 'en utilisant un compresseur'
   pressure_chamber:
+    name: 'Chambre sous pression'
     lore:
       - 'Fabriquez cet objet comme indiqué'
-      - 'en utilisant une Pressure Chamber'
+      - 'en utilisant une chambre de pression'
   ore_washer:
+    name: 'Laveuse de minerai'
     lore:
       - 'Fabriquez cet objet comme indiqué'
-      - 'en utilisant un Ore Washer'
+      - 'utiliser une laveuse de minerai'
   juicer:
+    name: 'Extracteur de jus'
     lore:
       - 'Fabriquez ce jus comme indiqué'
       - 'en utilisant un Juicer'
   magic_workbench:
+    name: 'Etablie magique'
     lore:
       - 'Fabriquez cet objet comme indiqué'
       - 'en utilisant un Magic Workbench'
   ancient_altar:
+    name: 'Autel ancien'
     lore:
       - 'Fabriquez cet objet comme indiqué'
       - 'en utilisant un Ancient Altar.'
       - 'Recherchez "Ancient Altar" pour plus d''informations'
   heated_pressure_chamber:
+    name: 'Chambre sous pression chauffée'
     lore:
       - 'Fabriquez cet objet comme indiqué'
       - 'en utilisant une Heated Pressure Chamber'
   food_fabricator:
+    name: 'Fabricateur de nourriture'
     lore:
       - 'Fabriquez cet objet comme indiqué'
       - 'en utilisant un Food Fabricator'
   food_composter:
+    name: 'Compositeur alimentaire'
     lore:
       - 'Fabriquez cet objet comme indiqué'
-      - 'en utilisant un Food Composter'
+      - 'en utilisant un composter alimentaire'
   freezer:
+    name: 'Congélateur'
     lore:
       - 'Fabriquez cet objet comme indiqué'
-      - 'à l''aide d''un Freezer'
+      - 'en utilisant un congélateur'
   geo_miner:
+    name: 'GEO-mineur'
     lore:
       - 'Cet objet peut être collecté'
-      - 'en utilisant un GEO Miner'
+      - 'en utilisant un GEO-Mineur'
   nuclear_reactor:
     name: 'Réacteur nucléaire'
     lore:
@@ -100,6 +118,11 @@ slimefun:
     lore:
       - 'Fabriquer cet objet comme indiqué'
       - 'en utilisant une raffinerie'
+  barter_drop:
+    name: 'Drop d''échange avec un piglin'
+    lore:
+      - 'Échanger avec les piglins en utilisant'
+      - 'Un lingots d''or pour obtenir cet objet'
 minecraft:
   shaped:
     name: 'Fabrication en forme'
@@ -138,3 +161,8 @@ minecraft:
     lore:
       - 'Fabriquez l''objet comme indiqué'
       - 'en utilisant un tailleur de pierre'
+  smithing:
+    name: 'Recette de la Table de Forge'
+    lore:
+      - 'Fabriquez cet objet comme indiqué'
+      - 'en utilisant une table de forge'
