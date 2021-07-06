@@ -9,12 +9,10 @@ jobs:
 
     name: SonarCloud Scanner
     runs-on: ubuntu-latest
+
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-    ## Only run the sonarcloud scanner if a token is present
-    if: ${{ env.SONAR_TOKEN != 0 }}
 
     steps:
       - name: Checkout repository
@@ -44,3 +42,4 @@ jobs:
 
       - name: SonarCloud analysis
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        if: ${{ env.SONAR_TOKEN != 0 }}
