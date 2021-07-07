@@ -31,11 +31,13 @@
 #### Additions
 * Diamonds can now be ground into Carbon using a Grind Stone
 * Deepslate ores can now be doubled using an Ore Crusher
+* Tridents can now be crafted
 
 #### Changes
 
 #### Fixes
 * Fixed #2966
+* Fixed Auto-Crafters bypassing the `doLimitedCrafting` gamerule
 
 ## Release Candidate 25 (20 Jun 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
