@@ -214,7 +214,7 @@ public final class TickerTask {
                      * expect the task to shutdown.
                      * We will continue blocking until we reach our end element.
                      */
-                    if (plugin.isEnabled()) {
+                    if (!plugin.isEnabled()) {
                         break;
                     }
                 } else if (task == END_ELEMENT) {
