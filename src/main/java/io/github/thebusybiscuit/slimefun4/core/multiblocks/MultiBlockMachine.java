@@ -9,6 +9,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -186,7 +188,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
             containerInv.addItem(outputItem);
         } else {
             // fallback
-            container.getWorld().dropItemNaturally(container.getLocation(), outputItem);
+            SlimefunUtils.spawnItem(container.getLocation(), outputItem, ItemSpawnReason.MULTIBLOCK_MACHINE_OVERFLOW, true);
         }
     }
 
