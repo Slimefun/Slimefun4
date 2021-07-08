@@ -12,7 +12,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -55,9 +54,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * This is the abstract super class for our auto crafters.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see VanillaAutoCrafter
  * @see EnhancedAutoCrafter
  *
@@ -86,11 +85,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     // @formatter:off
     protected final int[] background = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-        9, 10, 14, 15, 16, 17,
-        18, 19, 23, 25, 26,
-        27, 28, 32, 33, 34, 35,
-        36, 37, 38, 39, 40, 41, 42, 43, 44
+            0, 1, 2, 3, 4, 5, 6, 7, 8,
+            9, 10, 14, 15, 16, 17,
+            18, 19, 23, 25, 26,
+            27, 28, 32, 33, 34, 35,
+            36, 37, 38, 39, 40, 41, 42, 43, 44
     };
     // @formatter:on
 
@@ -120,7 +119,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * <p>
      * Do not call this method directly, see our {@link AutoCrafterListener} for the intended
      * use case.
-     * 
+     *
      * @param b
      *            The {@link Block} that was clicked
      * @param p
@@ -156,7 +155,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This method performs one tick for the {@link AbstractAutoCrafter}.
-     * 
+     *
      * @param b
      *            The block for this {@link AbstractAutoCrafter}
      * @param data
@@ -195,10 +194,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * where the Auto Crafter could be placed upon.
      * Right now this only supports chests and a few select tile entities but it can change or
      * be overridden in the future.
-     * 
+     *
      * @param block
      *            The {@link Block} to check
-     * 
+     *
      * @return Whether that {@link Block} has a valid {@link Inventory}
      */
     protected boolean isValidInventory(@Nonnull Block block) {
@@ -217,10 +216,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     /**
      * This method returns the currently selected {@link AbstractRecipe} for the given
      * {@link Block}.
-     * 
+     *
      * @param b
      *            The {@link Block}
-     * 
+     *
      * @return The currently selected {@link AbstractRecipe} or null
      */
     @Nullable
@@ -230,7 +229,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * This method is called when a {@link Player} right clicks the {@link AbstractAutoCrafter}
      * while holding the shift button.
      * Use it to choose the {@link AbstractRecipe}.
-     * 
+     *
      * @param b
      *            The {@link Block} which was clicked
      * @param p
@@ -241,7 +240,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     /**
      * This method sets the selected {@link AbstractRecipe} for the given {@link Block}.
      * The recipe will be stored using the {@link PersistentDataAPI}.
-     * 
+     *
      * @param b
      *            The {@link Block} to store the data on
      * @param recipe
@@ -274,7 +273,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This shows the given {@link AbstractRecipe} to the {@link Player} in a preview window.
-     * 
+     *
      * @param p
      *            The {@link Player}
      * @param b
@@ -360,12 +359,12 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This method checks whether the given {@link Predicate} matches the provided {@link ItemStack}.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to check
      * @param predicate
      *            The {@link Predicate}
-     * 
+     *
      * @return Whether the {@link Predicate} matches the {@link ItemStack}
      */
     @ParametersAreNonnullByDefault
@@ -394,41 +393,18 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         return false;
     }
 
-    public boolean inventoryAvailable(@Nonnull Inventory inv, @Nonnull ItemStack resultItem) {
-
-        if(inv.firstEmpty() < 0){
-
-            for (ItemStack matchingItem : inv.getContents()) {
-                // Checks if any item stack that is not full that is the same type as the result.
-                if (
-                        ((!(resultItem instanceof SlimefunItemStack) && resultItem.isSimilar(matchingItem))
-                        || ((resultItem instanceof SlimefunItemStack) && SlimefunUtils.isItemSimilar(matchingItem, resultItem, true)))
-                        && matchingItem.getAmount() < matchingItem.getMaxStackSize()
-                ){
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // Returns true if the first empty slot in the inventory is >= 0, which means there is an empty slot.
-        else {
-            return true;
-        }
-    }
-
     /**
      * This method performs a crafting operation.
      * It will attempt to fulfill the provided {@link AbstractRecipe} using
      * the given {@link Inventory}.
      * This will consume items and add the result to the {@link Inventory}.
      * This method does not handle energy consumption.
-     * 
+     *
      * @param inv
      *            The {@link Inventory} to take resources from
      * @param recipe
      *            The {@link AbstractRecipe} to craft
-     * 
+     *
      * @return Whether this crafting operation was successful or not
      */
     public boolean craft(@Nonnull Inventory inv, @Nonnull AbstractRecipe recipe) {
@@ -440,8 +416,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             return false;
         }
 
-        // Check if the inventory have any available space
-        if (inventoryAvailable(inv, recipe.getResult())) {
+        // Check if we have an empty slot
+        if (inv.firstEmpty() != -1) {
             Map<Integer, Integer> itemQuantities = new HashMap<>();
 
             for (Predicate<ItemStack> predicate : recipe.getIngredients()) {
@@ -494,10 +470,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * However we cannot use this method as it is only available in the latest 1.16 snapshots
      * of Spigot, not even on earlier 1.16 builds...
      * But this gives us more control over the leftovers anyway!
-     * 
+     *
      * @param item
      *            The {@link ItemStack} that is being consumed
-     * 
+     *
      * @return The leftover item or null if the item is fully consumed
      */
     @Nullable
@@ -526,7 +502,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This method returns the max amount of electricity this machine can hold.
-     * 
+     *
      * @return The max amount of electricity this Block can store.
      */
     @Override
@@ -536,7 +512,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This method returns the amount of energy that is consumed per operation.
-     * 
+     *
      * @return The rate of energy consumption
      */
     public int getEnergyConsumption() {
@@ -547,10 +523,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * This sets the energy capacity for this machine.
      * This method <strong>must</strong> be called before registering the item
      * and only before registering.
-     * 
+     *
      * @param capacity
      *            The amount of energy this machine can store
-     * 
+     *
      * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
      */
     @Nonnull
@@ -567,10 +543,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This method sets the energy consumed by this machine per tick.
-     * 
+     *
      * @param energyConsumption
      *            The energy consumed per tick
-     * 
+     *
      * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
      */
     @Nonnull
@@ -606,5 +582,3 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     @Override
     public final EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
-    }
-}
