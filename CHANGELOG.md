@@ -33,6 +33,7 @@
 * Deepslate ores can now be doubled using an Ore Crusher
 * Tridents can now be crafted
 * The Industrial Miner can now mine up to the minimum world limit (previously only until y=0)
+* (API) Added SlimefunItemSpawnEvent and ItemSpawnReason
 
 #### Changes
 
