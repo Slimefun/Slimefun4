@@ -95,7 +95,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             public boolean canOpen(Block b, Player p) {
                 boolean isOwner = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
 
-                if (isOwner || AndroidShareMenu.isTrustedUsers(b, p.getUniqueId())) {
+                if (isOwner || AndroidShareMenu.isTrustedUser(b, p.getUniqueId())) {
                     return true;
                 } else {
                     SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
@@ -132,7 +132,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
                     SlimefunPlugin.getLocalization().sendMessage(p, "android.stopped", true);
-                    AndroidShareMenu.openShareMenu(p, b, 0);
+                    AndroidShareMenu.openShareMenu(p, b, 1);
                     return false;
                 });
             }

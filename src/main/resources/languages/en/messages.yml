@@ -390,17 +390,17 @@ android:
       already: '&4You have already left a Rating for this script!'
   access-manager:
     title: '&bAndroid Access Manager'
-    subtitle: '&8\u21E8 &7Click to open Access Manager'
+    subtitle: '&8\u21E8 &7Click to open the Access Manager'
 
     menu:
-      add-player-title: '&aAdd trust player'
+      add-player-title: '&aAdd a trusted player'
       add-player: '&aLeft Click > Add player'
       delete-player: '&cLeft Click > Delete player'
 
     messages:
       input: 'Please input the player name you want to add.'
       cannot-find-player: '&cCannot find specific player: %player%'
-      is-trusted-player: '&aPlayer %player% has already been trusted player!'
+      is-trusted-player: '&aPlayer %player% is already trusted!'
       is-not-trusted-player: "&cPlayer %player% isn't a trusted player!"
       cannot-add-yourself: '&cYou cannot add yourself!'
       add-success: '&aAdded trusted player %player% successfully.'
