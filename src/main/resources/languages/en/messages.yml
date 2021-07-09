@@ -401,7 +401,7 @@ android:
       input: 'Please input the player name you want to add.'
       cannot-find-player: '&cCannot find specific player: %player%'
       is-trusted-player: '&aPlayer %player% has already been trusted player!'
-      is-not-trusted-player: '&cPlayer %player% isn't a trusted player!'
+      is-not-trusted-player: "&cPlayer %player% isn't a trusted player!"
       cannot-add-yourself: '&cYou cannot add yourself!'
       add-success: '&aAdded trusted player %player% successfully.'
       delete-success: '&aDeleted trusted player %player% successfully.'
