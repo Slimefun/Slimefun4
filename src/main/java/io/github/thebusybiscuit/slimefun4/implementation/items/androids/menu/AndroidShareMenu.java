@@ -152,6 +152,11 @@ public final class AndroidShareMenu {
 			@Nonnull OfflinePlayer p,
 			@Nonnull Block android,
 			@Nonnull List<String> users) {
+		Validate.notNull(owner, "The android cannot be null!");
+		Validate.notNull(p, "The target player cannot be null!");
+		Validate.notNull(android, "The android block cannot be null!");
+		Validate.notNull(users, "The trusted users list cannot be null!");
+
 		if (users.contains(p.getUniqueId().toString())) {
 			SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.is-trusted-player", msg -> msg.replace("%player%", p.getName()));
 		} else if (owner.getUniqueId() == p.getUniqueId()) {
@@ -169,6 +174,11 @@ public final class AndroidShareMenu {
 			@Nonnull OfflinePlayer p,
 			@Nonnull Block android,
 			@Nonnull List<String> users) {
+		Validate.notNull(owner, "The android cannot be null!");
+		Validate.notNull(p, "The target player cannot be null!");
+		Validate.notNull(android, "The android block cannot be null!");
+		Validate.notNull(users, "The trusted users list cannot be null!");
+
 		if (users.contains(p.getUniqueId().toString())) {
 			users.remove(p.getUniqueId().toString());
 			SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.delete-success", msg -> msg.replace("%player%", p.getName()));
@@ -186,7 +196,15 @@ public final class AndroidShareMenu {
 	 * @return trusted player list
 	 */
 	private @Nonnull static List<String> parseBlockInfoToList(@Nonnull String value) {
-		return Arrays.asList(value.replace("[", "").replace("]", "").split(", "));
+		Validate.notNull(value, "The trusted player list cannot be null!");
+
+		String replacedText = value.replace("[", "").replace("]", "");
+
+		if (replacedText.isEmpty()) {
+			return Collections.emptyList();
+		} else {
+			return Arrays.asList(replacedText.split(", "));
+		}
 	}
 
 	/**
@@ -196,6 +214,8 @@ public final class AndroidShareMenu {
 	 * @return Trusted users
 	 */
 	public @Nonnull static List<String> getTrustedUsers(@Nonnull Block b) {
+		Validate.notNull(b, "The android block cannot be null!");
+
 		String list = BlockStorage.getLocationInfo(b.getLocation(), key);
 
 		// Checks for old Android
@@ -215,6 +235,9 @@ public final class AndroidShareMenu {
 	 * @return whether is the trusted user of android or not
 	 */
 	public static boolean isTrustedUsers(@Nonnull Block b, @Nonnull UUID uuid) {
+		Validate.notNull(b, "The android block cannot be null!");
+		Validate.notNull(uuid, "The UUID of player to check cannot be null!");
+
 		String trustUsers = BlockStorage.getLocationInfo(b.getLocation(), key);
 
 		if (trustUsers == null) {
