@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.menu.AndroidShareMenu;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -92,13 +93,14 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
+                boolean isOwner = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
 
-                if (!open) {
+                if (isOwner || AndroidShareMenu.isTrustedUsers(b, p.getUniqueId())) {
+                    return true;
+                } else {
                     SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+                    return false;
                 }
-
-                return open;
             }
 
             @Override
@@ -123,6 +125,14 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     BlockStorage.addBlockInfo(b, "paused", "true");
                     SlimefunPlugin.getLocalization().sendMessage(p, "android.stopped", true);
                     openScriptEditor(p, b);
+                    return false;
+                });
+
+                menu.replaceExistingItem(25, new CustomItem(Material.PLAYER_HEAD, "&bAndroid Access Manager", "", "&8\u21E8 &7Click to open Access Manager"));
+                menu.addMenuClickHandler(25, (p, slot, item, action) -> {
+                    BlockStorage.addBlockInfo(b, "paused", "true");
+                    SlimefunPlugin.getLocalization().sendMessage(p, "android.stopped", true);
+                    AndroidShareMenu.openShareMenu(p, b, 0);
                     return false;
                 });
             }
