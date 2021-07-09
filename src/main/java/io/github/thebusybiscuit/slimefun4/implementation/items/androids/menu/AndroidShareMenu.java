@@ -47,7 +47,8 @@ public final class AndroidShareMenu {
 	 * @param b android
 	 * @param page page
 	 */
-	public static @ParametersAreNonnullByDefault void openShareMenu(Player p, Block b, int page) {
+	@ParametersAreNonnullByDefault
+	public static void openShareMenu(Player p, Block b, int page) {
 		Validate.notNull(p, "The player cannot be null!");
 		Validate.notNull(b, "The android block cannot be null!");
 		Validate.isTrue(page > 0, "The page must be above or equals 0!");
@@ -154,7 +155,8 @@ public final class AndroidShareMenu {
 		menu.open(p);
 	}
 
-	private static @ParametersAreNonnullByDefault void addPlayer(
+	@ParametersAreNonnullByDefault
+	private static void addPlayer(
 			Player owner,
 			OfflinePlayer p,
 			Block android,
@@ -176,7 +178,8 @@ public final class AndroidShareMenu {
 		}
 	}
 
-	private static @ParametersAreNonnullByDefault void removePlayer(
+	@ParametersAreNonnullByDefault
+	private static void removePlayer(
 			Player owner,
 			OfflinePlayer p,
 			Block android,
@@ -241,7 +244,8 @@ public final class AndroidShareMenu {
 	 * @param uuid user's UUID
 	 * @return whether is the trusted user of android or not
 	 */
-	public static @ParametersAreNonnullByDefault boolean isTrustedUser(Block b, UUID uuid) {
+	@ParametersAreNonnullByDefault
+	public static boolean isTrustedUser(Block b, UUID uuid) {
 		Validate.notNull(b, "The android block cannot be null!");
 		Validate.notNull(uuid, "The UUID of player to check cannot be null!");
 
