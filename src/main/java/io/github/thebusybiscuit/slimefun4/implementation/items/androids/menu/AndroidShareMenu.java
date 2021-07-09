@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +47,7 @@ public final class AndroidShareMenu {
 	 * @param b android
 	 * @param page page
 	 */
-	public static void openShareMenu(@Nonnull Player p, @Nonnull Block b, int page) {
+	public static @ParametersAreNonnullByDefault void openShareMenu(Player p, Block b, int page) {
 		Validate.notNull(p, "The player cannot be null!");
 		Validate.notNull(b, "The android block cannot be null!");
 		Validate.isTrue(page > 0, "The page must be above or equals 0!");
@@ -153,11 +154,11 @@ public final class AndroidShareMenu {
 		menu.open(p);
 	}
 
-	private static void addPlayer(
-			@Nonnull Player owner,
-			@Nonnull OfflinePlayer p,
-			@Nonnull Block android,
-			@Nonnull List<String> users) {
+	private static @ParametersAreNonnullByDefault void addPlayer(
+			Player owner,
+			OfflinePlayer p,
+			Block android,
+			List<String> users) {
 		Validate.notNull(owner, "The android cannot be null!");
 		Validate.notNull(p, "The target player cannot be null!");
 		Validate.notNull(android, "The android block cannot be null!");
@@ -175,11 +176,11 @@ public final class AndroidShareMenu {
 		}
 	}
 
-	private static void removePlayer(
-			@Nonnull Player owner,
-			@Nonnull OfflinePlayer p,
-			@Nonnull Block android,
-			@Nonnull List<String> users) {
+	private static @ParametersAreNonnullByDefault void removePlayer(
+			Player owner,
+			OfflinePlayer p,
+			Block android,
+			List<String> users) {
 		Validate.notNull(owner, "The android cannot be null!");
 		Validate.notNull(p, "The target player cannot be null!");
 		Validate.notNull(android, "The android block cannot be null!");
@@ -240,7 +241,7 @@ public final class AndroidShareMenu {
 	 * @param uuid user's UUID
 	 * @return whether is the trusted user of android or not
 	 */
-	public static boolean isTrustedUser(@Nonnull Block b, @Nonnull UUID uuid) {
+	public static @ParametersAreNonnullByDefault boolean isTrustedUser(Block b, UUID uuid) {
 		Validate.notNull(b, "The android block cannot be null!");
 		Validate.notNull(uuid, "The UUID of player to check cannot be null!");
 
