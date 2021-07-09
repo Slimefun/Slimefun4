@@ -52,6 +52,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
 
     private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>(this, "can-mine-ancient-debris", false);
+    private final ItemSetting<Boolean> canMineDeepslateOres = new ItemSetting<>(this, "can-mine-deepslate-ores", false);
     private final boolean silkTouch;
     private final int range;
 
@@ -64,6 +65,7 @@ public class IndustrialMiner extends MultiBlockMachine {
 
         registerDefaultFuelTypes();
         addItemSetting(canMineAncientDebris);
+        addItemSetting(canMineDeepslateOres);
     }
 
     /**
@@ -217,14 +219,15 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
     public boolean canMine(@Nonnull Material type) {
-        if (SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type)) {
-            return true;
-        } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            return type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue();
-
+        if (type == Material.ANCIENT_DEBRIS) {
+            return canMineAncientDebris.getValue() && SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16);
         }
 
-        return false;
+        if (SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
+            return canMineDeepslateOres.getValue() && SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17);
+        }
+
+        return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type);
     }
 
 }
