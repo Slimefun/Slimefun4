@@ -51,7 +51,7 @@ public final class AndroidShareMenu {
 		Validate.notNull(b, "The android block cannot be null!");
 		Validate.isTrue(page >= 0, "The page must be above or equals 0!");
 
-		ChestMenu menu = new ChestMenu(SlimefunPlugin.instance(), "&bAndroid Access Manager");
+		ChestMenu menu = new ChestMenu(SlimefunPlugin.instance(), SlimefunPlugin.getLocalization().getMessage("android.access-manager.title"));
 
 		menu.setEmptySlotsClickable(false);
 
@@ -72,13 +72,13 @@ public final class AndroidShareMenu {
 		// Draw background end
 
 		// Add trusted player slot
-		menu.addItem(0, new CustomItem(HeadTexture.SCRIPT_UP.getAsItemStack(), "&aAdd trust player", ""));
+		menu.addItem(0, new CustomItem(HeadTexture.SCRIPT_UP.getAsItemStack(), SlimefunPlugin.getLocalization().getMessage("android.access-manager.menu.add-player-title"), SlimefunPlugin.getLocalization().getMessage("android.access-manager.menu.add-player")));
 		menu.addMenuClickHandler(
 				0,
 				(p1, slot, item, cursor, action) -> {
 					p1.closeInventory();
 
-					p1.sendMessage("Please input the player name you want to add.");
+					SlimefunPlugin.getLocalization().sendMessage(p1, "android.access-manager.messages.input");
 
 					ChatUtils.awaitInput(
 							p1,
@@ -86,7 +86,7 @@ public final class AndroidShareMenu {
 								Player target = Bukkit.getPlayerExact(message);
 
 								if (target == null) {
-									p1.sendMessage("Cannot find specific player: " + message);
+									SlimefunPlugin.getLocalization().sendMessage(p1, "android.access-manager.messages.cannot-find-player", msg -> msg.replace("%player%", p1.getName()));
 								} else {
 									addPlayer(p1, target, b, users);
 								}
@@ -103,7 +103,7 @@ public final class AndroidShareMenu {
 				OfflinePlayer current = Bukkit.getOfflinePlayer(UUID.fromString(displayUsers.get(index)));
 				menu.addItem(
 						slot,
-						new CustomItem(SkullItem.fromPlayer(current), "&b" + current.getName(), "&cLeft Click > Delete player"));
+						new CustomItem(SkullItem.fromPlayer(current), "&b" + current.getName(), SlimefunPlugin.getLocalization().getMessage("android.access-manager.menu.delete-player")));
 				menu.addMenuClickHandler(
 						slot,
 						(p1, slot1, item, cursor, action) -> {
@@ -153,12 +153,12 @@ public final class AndroidShareMenu {
 			@Nonnull Block android,
 			@Nonnull List<String> users) {
 		if (users.contains(p.getUniqueId().toString())) {
-			owner.sendMessage("Player " + p.getName() + " has already been trusted player!");
+			SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.is-trusted-player", msg -> msg.replace("%player%", p.getName()));
 		} else if (owner.getUniqueId() == p.getUniqueId()) {
-			owner.sendMessage("You cannot add yourself!");
+			SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.cannot-add-yourself");
 		} else {
 			users.add(p.getUniqueId().toString());
-			owner.sendMessage("Add trusted player " + p.getName() + " successfully");
+			SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.add-success", msg -> msg.replace("%player%", p.getName()));
 
 			BlockStorage.addBlockInfo(android, key, users.toString());
 		}
@@ -171,12 +171,11 @@ public final class AndroidShareMenu {
 			@Nonnull List<String> users) {
 		if (users.contains(p.getUniqueId().toString())) {
 			users.remove(p.getUniqueId().toString());
-			boolean result = users.remove(p.getUniqueId().toString());
-			owner.sendMessage("Delete trusted player " + p.getName() + " " + (result ? "successfully" : "failed"));
+			SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.delete-success", msg -> msg.replace("%player%", p.getName()));
 
 			BlockStorage.addBlockInfo(android, key, users.toString());
 		} else {
-			owner.sendMessage("The player isn't in trust players list!");
+			SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.is-not-trusted-player", msg -> msg.replace("%player%", p.getName()));
 		}
 	}
 

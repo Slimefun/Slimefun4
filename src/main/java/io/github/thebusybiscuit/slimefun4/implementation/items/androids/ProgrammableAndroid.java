@@ -128,7 +128,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     return false;
                 });
 
-                menu.replaceExistingItem(25, new CustomItem(Material.PLAYER_HEAD, "&bAndroid Access Manager", "", "&8\u21E8 &7Click to open Access Manager"));
+                menu.replaceExistingItem(25, new CustomItem(Material.PLAYER_HEAD, SlimefunPlugin.getLocalization().getMessage("android.access-manager.title"), "", SlimefunPlugin.getLocalization().getMessage("android.access-manager.subtitle")));
                 menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
                     SlimefunPlugin.getLocalization().sendMessage(p, "android.stopped", true);
