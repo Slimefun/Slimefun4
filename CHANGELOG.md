@@ -34,6 +34,7 @@
 * Tridents can now be crafted
 * The Industrial Miner can now mine up to the minimum world limit (previously only until y=0)
 * (API) Added SlimefunItemSpawnEvent and ItemSpawnReason
+* Added "Amethyst Block -> 4 Amethyst Shards" recipe to the Grind Stone
 
 #### Changes
 
