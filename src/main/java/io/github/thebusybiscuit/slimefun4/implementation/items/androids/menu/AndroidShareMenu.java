@@ -13,11 +13,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.apache.commons.lang.Validate;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -75,26 +73,22 @@ public final class AndroidShareMenu {
 
 		// Add trusted player slot
 		menu.addItem(0, new CustomItem(HeadTexture.SCRIPT_UP.getAsItemStack(), SlimefunPlugin.getLocalization().getMessage("android.access-manager.menu.add-player-title"), SlimefunPlugin.getLocalization().getMessage("android.access-manager.menu.add-player")));
-		menu.addMenuClickHandler(
-				0,
-				(p1, slot, item, cursor, action) -> {
-					p1.closeInventory();
+		menu.addMenuClickHandler(0, (p1, slot, item, cursor, action) -> {
+			p1.closeInventory();
 
-					SlimefunPlugin.getLocalization().sendMessage(p1, "android.access-manager.messages.input");
+			SlimefunPlugin.getLocalization().sendMessage(p1, "android.access-manager.messages.input");
 
-					ChatUtils.awaitInput(
-							p1,
-							message -> {
-								Player target = Bukkit.getPlayerExact(message);
+			ChatUtils.awaitInput(p1, message -> {
+				Player target = Bukkit.getPlayerExact(message);
 
-								if (target == null) {
-									SlimefunPlugin.getLocalization().sendMessage(p1, "android.access-manager.messages.cannot-find-player", msg -> msg.replace("%player%", p1.getName()));
-								} else {
-									addPlayer(p1, target, b, users);
-								}
-							});
-					return false;
-				});
+				if (target == null) {
+					SlimefunPlugin.getLocalization().sendMessage(p1, "android.access-manager.messages.cannot-find-player", msg -> msg.replace("%player%", p1.getName()));
+				} else {
+					addPlayer(p1, target, b, users);
+				}
+			});
+			return false;
+		});
 
 		// Display added trusted player(s)
 		if (!users.isEmpty()) {
@@ -103,64 +97,51 @@ public final class AndroidShareMenu {
 			for (int index = 0; index < displayUsers.size(); index++) {
 				int slot = index + DISPLAY_START_SLOT;
 				OfflinePlayer current = Bukkit.getOfflinePlayer(UUID.fromString(displayUsers.get(index)));
-				menu.addItem(
-						slot,
-						new CustomItem(SkullItem.fromPlayer(current), "&b" + current.getName(), SlimefunPlugin.getLocalization().getMessage("android.access-manager.menu.delete-player")));
-				menu.addMenuClickHandler(
-						slot,
-						(p1, slot1, item, cursor, action) -> {
-							if (action.isLeftClick()) {
-								removePlayer(p1, current, b, users);
-							}
+				menu.addItem(slot, new CustomItem(SkullItem.fromPlayer(current), "&b" + current.getName(), SlimefunPlugin.getLocalization().getMessage("android.access-manager.menu.delete-player")));
+				menu.addMenuClickHandler(slot, (p1, slot1, item, cursor, action) -> {
+					if (action.isLeftClick()) {
+						removePlayer(p1, current, b, users);
+					}
 
-							return false;
-						});
+					return false;
+				});
 			}
 		}
 
 		if (pages > 0) {
 			menu.addItem(47, ChestMenuUtils.getPreviousButton(p, page, pages));
-			menu.addMenuClickHandler(
-					46,
-					(pl, slot, item, cursor, action) -> {
-						int previousPage = page - 1;
-						if (previousPage < 1) {
-							previousPage = pages;
-						}
+			menu.addMenuClickHandler(46, (pl, slot, item, cursor, action) -> {
+				int previousPage = page - 1;
+				if (previousPage < 1) {
+					previousPage = pages;
+				}
 
-						if (previousPage != page) {
-							openShareMenu(p, b, previousPage);
-						}
-
-						return false;
-					});
+				if (previousPage != page) {
+					openShareMenu(p, b, previousPage);
+				}
+				return false;
+			});
 
 			menu.addItem(51, ChestMenuUtils.getNextButton(p, page, pages));
-			menu.addMenuClickHandler(
-					50,
-					(pl, slot, item, cursor, action) -> {
-						int nextPage = page + 1;
+			menu.addMenuClickHandler(50, (pl, slot, item, cursor, action) -> {
+				int nextPage = page + 1;
 
-						if (nextPage > pages) {
-							nextPage = 1;
-						}
+				if (nextPage > pages) {
+					nextPage = 1;
+				}
 
-						if (nextPage != page) {
-							openShareMenu(p, b, nextPage);
-						}
-						return false;
-					});
+				if (nextPage != page) {
+					openShareMenu(p, b, nextPage);
+				}
+				return false;
+			});
 		}
 
 		menu.open(p);
 	}
 
 	@ParametersAreNonnullByDefault
-	private static void addPlayer(
-			Player owner,
-			OfflinePlayer p,
-			Block android,
-			List<String> users) {
+	private static void addPlayer(Player owner, OfflinePlayer p, Block android, List<String> users) {
 		Validate.notNull(owner, "The android cannot be null!");
 		Validate.notNull(p, "The target player cannot be null!");
 		Validate.notNull(android, "The android block cannot be null!");
@@ -179,11 +160,7 @@ public final class AndroidShareMenu {
 	}
 
 	@ParametersAreNonnullByDefault
-	private static void removePlayer(
-			Player owner,
-			OfflinePlayer p,
-			Block android,
-			List<String> users) {
+	private static void removePlayer(Player owner, OfflinePlayer p, Block android, List<String> users) {
 		Validate.notNull(owner, "The android cannot be null!");
 		Validate.notNull(p, "The target player cannot be null!");
 		Validate.notNull(android, "The android block cannot be null!");
