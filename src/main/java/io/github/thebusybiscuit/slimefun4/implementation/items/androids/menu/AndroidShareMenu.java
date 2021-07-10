@@ -8,21 +8,24 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.Programm
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import io.papermc.lib.PaperLib;
 
 import org.apache.commons.lang.Validate;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.logging.Level;
 
 /**
  * The {@link AndroidShareMenu} is responsibility to handle trusted user using the {@link
@@ -34,7 +37,7 @@ import java.util.UUID;
 public final class AndroidShareMenu {
     private static final int DISPLAY_START_SLOT = 9;
     private static final int DISPLAY_END_SLOT = 45;
-    private static final String BLOCK_INFO_KEY = "share-users";
+    private static final NamespacedKey BLOCK_INFO_KEY = new NamespacedKey(SlimefunPlugin.instance(), "share-users");
 
     private AndroidShareMenu() {}
 
@@ -122,20 +125,18 @@ public final class AndroidShareMenu {
             });
 
             menu.addItem(51, ChestMenuUtils.getNextButton(p, page, pages));
-            menu.addMenuClickHandler(
-                    50,
-                    (pl, slot, item, cursor, action) -> {
-                        int nextPage = page + 1;
+            menu.addMenuClickHandler(50, (pl, slot, item, cursor, action) -> {
+                int nextPage = page + 1;
 
-                        if (nextPage > pages) {
-                            nextPage = 1;
-                        }
+                if (nextPage > pages) {
+                    nextPage = 1;
+                }
 
-                        if (nextPage != page) {
-                            openShareMenu(p, b, nextPage);
-                        }
-                        return false;
-                    });
+                if (nextPage != page) {
+                    openShareMenu(p, b, nextPage);
+                }
+                return false;
+            });
         }
 
         menu.open(p);
@@ -156,7 +157,7 @@ public final class AndroidShareMenu {
             users.add(p.getUniqueId().toString());
             SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.add-success", msg -> msg.replace("%player%", p.getName()));
 
-            BlockStorage.addBlockInfo(android, BLOCK_INFO_KEY, users.toString());
+            setValue(android.getState(), users.toString());
         }
     }
 
@@ -171,7 +172,7 @@ public final class AndroidShareMenu {
             users.remove(p.getUniqueId().toString());
             SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.delete-success", msg -> msg.replace("%player%", p.getName()));
 
-            BlockStorage.addBlockInfo(android, BLOCK_INFO_KEY, users.toString());
+            setValue(android.getState(), users.toString());
         } else {
             SlimefunPlugin.getLocalization().sendMessage(owner, "android.access-manager.messages.is-not-trusted-player", msg -> msg.replace("%player%", p.getName()));
         }
@@ -204,15 +205,15 @@ public final class AndroidShareMenu {
     public @Nonnull static List<String> getTrustedUsers(@Nonnull Block b) {
         Validate.notNull(b, "The android block cannot be null!");
 
-        String list = BlockStorage.getLocationInfo(b.getLocation(), BLOCK_INFO_KEY);
+        Optional<String> trustUsers = getValue(b.getState());
 
         // Checks for old Android
-        if (list == null) {
-            BlockStorage.addBlockInfo(b, "share-users", Collections.emptyList().toString());
+        if (!trustUsers.isPresent()) {
+            setValue(b.getState(), Collections.emptyList().toString());
             return Collections.emptyList();
         }
 
-        return parseBlockInfoToList(list);
+        return parseBlockInfoToList(trustUsers.get());
     }
 
     /**
@@ -227,12 +228,42 @@ public final class AndroidShareMenu {
         Validate.notNull(b, "The android block cannot be null!");
         Validate.notNull(uuid, "The UUID of player to check cannot be null!");
 
-        String trustUsers = BlockStorage.getLocationInfo(b.getLocation(), BLOCK_INFO_KEY);
+        Optional<String> trustUsers = getValue(b.getState());
 
-        if (trustUsers == null) {
-            return false;
+        return trustUsers.map(s -> s.contains(uuid.toString())).orElse(false);
+    }
+
+    private static void setValue(@Nonnull BlockState state, @Nonnull String value) {
+        Validate.notNull(state, "The android block state cannot be null!");
+        Validate.notNull(value, "The data value cannot be null!");
+
+        if (!(state instanceof TileState)) {
+            return;
         }
 
-        return trustUsers.contains(uuid.toString());
+        try {
+            PersistentDataContainer container = ((TileState) state).getPersistentDataContainer();
+            container.set(BLOCK_INFO_KEY, PersistentDataType.STRING, value);
+            state.update();
+        } catch (Exception x) {
+            SlimefunPlugin.logger().log(Level.SEVERE, "Please check if your Server Software is up to date!");
+
+            String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
+            SlimefunPlugin.logger().log(Level.SEVERE, () -> serverSoftware + " | " + Bukkit.getVersion() + " | " + Bukkit.getBukkitVersion());
+
+            SlimefunPlugin.logger().log(Level.SEVERE, "An Exception was thrown while trying to set Persistent Data for a Block", x);
+        }
+    }
+
+    private @Nonnull static Optional<String> getValue(@Nonnull BlockState state) {
+        Validate.notNull(state, "The android block state cannot be null!");
+
+        if (!(state instanceof TileState)) {
+            return Optional.empty();
+        }
+
+        PersistentDataContainer container = ((TileState) state).getPersistentDataContainer();
+
+        return Optional.ofNullable(container.get(BLOCK_INFO_KEY, PersistentDataType.STRING));
     }
 }
