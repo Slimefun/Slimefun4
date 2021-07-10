@@ -92,7 +92,7 @@ public final class AndroidShareMenu {
 
         // Display added trusted player(s)
         if (!users.isEmpty()) {
-            List<String> displayUsers = users.subList(page, Math.min(users.size() - 1, DISPLAY_END_SLOT));
+            List<String> displayUsers = users.subList(page - 1, Math.min(users.size() - 1, DISPLAY_END_SLOT));
 
             for (int index = 0; index < displayUsers.size(); index++) {
                 int slot = index + DISPLAY_START_SLOT;
