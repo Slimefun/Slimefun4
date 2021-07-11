@@ -147,7 +147,7 @@ public class IndustrialMiner extends MultiBlockMachine {
                 case NETHER_QUARTZ_ORE:
                     return new ItemStack(Material.QUARTZ);
                 case NETHER_GOLD_ORE:
-                    return new ItemStack(Material.GOLD_NUGGET,2 + random.nextInt(4));
+                    return new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
                 case COPPER_ORE:
                 case DEEPSLATE_COPPER_ORE:
                     return new ItemStack(Material.RAW_COPPER);
@@ -176,7 +176,7 @@ public class IndustrialMiner extends MultiBlockMachine {
                 case NETHER_QUARTZ_ORE:
                     return new ItemStack(Material.QUARTZ);
                 case NETHER_GOLD_ORE:
-                    return new ItemStack(Material.GOLD_NUGGET,2 + random.nextInt(4));
+                    return new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
                 default:
                     // This includes Iron and Gold ore (and Ancient Debris)
                     return new ItemStack(ore);
