@@ -151,6 +151,19 @@ public class OreCrusher extends MultiBlockMachine {
                 new ItemStack(Material.DEEPSLATE_EMERALD_ORE), doubleOres.getEmerald()
             ));
             // @formatter:on
+
+            // More deepslate ores and copper ore
+            displayRecipes.add(new ItemStack(Material.DEEPSLATE_IRON_ORE));
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.IRON_DUST, isOreDoublingEnabled() ? 2 : 1));
+
+            displayRecipes.add(new ItemStack(Material.DEEPSLATE_GOLD_ORE));
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, isOreDoublingEnabled() ? 2 : 1));
+
+            displayRecipes.add(new ItemStack(Material.DEEPSLATE_COPPER_ORE));
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
+
+            displayRecipes.add(new ItemStack(Material.COPPER_ORE));
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
         }
     }
 
