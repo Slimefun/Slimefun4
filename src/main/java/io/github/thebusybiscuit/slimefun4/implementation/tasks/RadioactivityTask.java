@@ -2,22 +2,19 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.api.player.StatusEffect;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.RadiationSymptom;
+import io.github.thebusybiscuit.slimefun4.utils.RadiationSymptom;
+import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nonnull;
 
@@ -30,17 +27,7 @@ import javax.annotation.Nonnull;
  */
 public class RadioactivityTask implements Runnable {
 
-    private static final RadiationSymptom[] SYMPTOMS = RadiationSymptom.values();
-    private static StatusEffect RADIATION_EFFECT;
-
-    {
-        assert SlimefunPlugin.instance() != null;
-        RADIATION_EFFECT = new StatusEffect(new NamespacedKey(SlimefunPlugin.instance(), "radiation"));
-    }
-
-    public static void removePlayer(@Nonnull Player p) {
-        RADIATION_EFFECT.clear(p);
-    }
+    private final RadiationSymptom[] SYMPTOMS = RadiationSymptom.values();
 
     @Override
     public void run() {
@@ -72,17 +59,17 @@ public class RadioactivityTask implements Runnable {
             }
         }
         
-        int exposureLevelBefore = RADIATION_EFFECT.getLevel(p).orElse(0);
+        int exposureLevelBefore = RadiationUtils.getExposure(p);
         if (exposureTotal > 0) {
             if (exposureLevelBefore == 0) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
             }
-            RADIATION_EFFECT.addPermanent(p, Math.min(exposureLevelBefore + exposureTotal, 100));
+            RadiationUtils.addToPlayer(p, exposureTotal);
         } else if (exposureLevelBefore > 0) {
-            RADIATION_EFFECT.addPermanent(p, RADIATION_EFFECT.getLevel(p).orElse(1) - 1);
+            RadiationUtils.removeFromPlayer(p, 1);
         }
         
-        int exposureLevelAfter = RADIATION_EFFECT.getLevel(p).orElse(0);
+        int exposureLevelAfter = RadiationUtils.getExposure(p);
         for (RadiationSymptom symptom : SYMPTOMS) {
             if (symptom.shouldApply(exposureLevelAfter)) {
                 symptom.apply(p);

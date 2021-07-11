@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.RadioactivityTask;
+import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -25,11 +25,11 @@ public class RadioactivityListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(@Nonnull PlayerQuitEvent e) {
-        RadioactivityTask.removePlayer(e.getPlayer());
+        RadiationUtils.clearFromPlayer(e.getPlayer());
     }
 
     @EventHandler
     public void onPlayerDeath(@Nonnull PlayerDeathEvent e) {
-        RadioactivityTask.removePlayer(e.getEntity());
+        RadiationUtils.clearFromPlayer(e.getEntity());
     }
 }

@@ -65,13 +65,6 @@ class TestArmorTask {
         Assertions.assertTrue(player.getActivePotionEffects().containsAll(Arrays.asList(effects)));
     }
 
-    @ParameterizedTest
-    @DisplayName("Test Radiation and Hazmat Suits")
-    @MethodSource("cartesianBooleans")
-    void testRadioactivity(boolean hazmat) throws InterruptedException {
-        // TODO: Add checks for newer radiation system
-    }
-
     /**
      * This returns an {@link Arguments} {@link Stream} of boolean combinations.
      * It performs a cartesian product on two boolean sets.
