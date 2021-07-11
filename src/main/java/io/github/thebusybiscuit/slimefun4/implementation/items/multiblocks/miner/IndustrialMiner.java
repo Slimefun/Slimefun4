@@ -171,6 +171,7 @@ public class IndustrialMiner extends MultiBlockMachine {
             case NETHER_QUARTZ_ORE:
                 return new ItemStack(Material.QUARTZ);
             default:
+                // This includes Iron and Gold ore (and Ancient Debris)
                 return new ItemStack(ore);
         }
     }
