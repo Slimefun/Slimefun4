@@ -178,20 +178,18 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
      *          A crafted {@link ItemStack} from {@link MultiBlockMachine}
      * @param block
      *          Main {@link Block} of our {@link Container} from {@link MultiBlockMachine}
+     * @param blockInv
+     *          The {@link Inventory} of our {@link Container}
      *
      */
     @ParametersAreNonnullByDefault
-    protected void handleCraftedItem(ItemStack outputItem, Block block) {
-        BlockState state = PaperLib.getBlockState(block, false).getState();
-        Validate.isTrue(state instanceof Container);
-        Container container = (Container) state;
-        Inventory containerInv = container.getInventory();
-        Inventory outputInv = findOutputInventory(outputItem, block, containerInv);
+    protected void handleCraftedItem(ItemStack outputItem, Block block, Inventory blockInv) {
+        Inventory outputInv = findOutputInventory(outputItem, block, blockInv);
 
         if (outputInv != null) {
             outputInv.addItem(outputItem);
-        } else if (InvUtils.fits(containerInv, outputItem)) {
-            containerInv.addItem(outputItem);
+        } else if (InvUtils.fits(blockInv, outputItem)) {
+            blockInv.addItem(outputItem);
         } else {
             // fallback
             SlimefunUtils.spawnItem(block.getLocation(), outputItem, ItemSpawnReason.MULTIBLOCK_MACHINE_OVERFLOW, true);
