@@ -126,6 +126,37 @@ public class IndustrialMiner extends MultiBlockMachine {
 
         Random random = ThreadLocalRandom.current();
 
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            // In 1.17, breaking metal ores should get raw metals. Also support deepslate ores.
+            switch (ore) {
+                case DEEPSLATE_COAL_ORE:
+                    return new ItemStack(Material.COAL);
+                case DEEPSLATE_DIAMOND_ORE:
+                    return new ItemStack(Material.DIAMOND);
+                case DEEPSLATE_EMERALD_ORE:
+                    return new ItemStack(Material.EMERALD);
+                case DEEPSLATE_REDSTONE_ORE:
+                    return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
+                case DEEPSLATE_LAPIS_ORE:
+                    return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+                case COPPER_ORE:
+                case DEEPSLATE_COPPER_ORE:
+                    return new ItemStack(Material.RAW_COPPER);
+                case IRON_ORE:
+                case DEEPSLATE_IRON_ORE:
+                    return new ItemStack(Material.RAW_IRON);
+                case GOLD_ORE:
+                case DEEPSLATE_GOLD_ORE:
+                    return new ItemStack(Material.RAW_GOLD);
+            }
+        }
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            // In 1.16, breaking nether gold ores should get gold nuggets
+            if (ore == Material.NETHER_GOLD_ORE) {
+                return new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
+            }
+        }
+
         switch (ore) {
             case COAL_ORE:
                 return new ItemStack(Material.COAL);
@@ -133,12 +164,12 @@ public class IndustrialMiner extends MultiBlockMachine {
                 return new ItemStack(Material.DIAMOND);
             case EMERALD_ORE:
                 return new ItemStack(Material.EMERALD);
-            case NETHER_QUARTZ_ORE:
-                return new ItemStack(Material.QUARTZ);
             case REDSTONE_ORE:
                 return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
             case LAPIS_ORE:
                 return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+            case NETHER_QUARTZ_ORE:
+                return new ItemStack(Material.QUARTZ);
             default:
                 // This includes Iron and Gold ore (and Ancient Debris)
                 return new ItemStack(ore);
