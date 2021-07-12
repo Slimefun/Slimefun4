@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
@@ -30,6 +31,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHan
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -173,14 +176,17 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
      *
      * @param outputItem
      *          A crafted {@link ItemStack} from {@link MultiBlockMachine}
-     * @param container
-     *          Our main {@link Container} from {@link MultiBlockMachine}
+     * @param block
+     *          Main {@link Block} of our {@link Container} from {@link MultiBlockMachine}
      *
      */
     @ParametersAreNonnullByDefault
-    protected void handleCraftedItem(ItemStack outputItem, Container container) {
+    protected void handleCraftedItem(ItemStack outputItem, Block block) {
+        BlockState state = PaperLib.getBlockState(block, false).getState();
+        Validate.isTrue(state instanceof Container);
+        Container container = (Container) state;
         Inventory containerInv = container.getInventory();
-        Inventory outputInv = findOutputInventory(outputItem, container.getBlock(), containerInv);
+        Inventory outputInv = findOutputInventory(outputItem, block, containerInv);
 
         if (outputInv != null) {
             outputInv.addItem(outputItem);
@@ -188,7 +194,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
             containerInv.addItem(outputItem);
         } else {
             // fallback
-            SlimefunUtils.spawnItem(container.getLocation(), outputItem, ItemSpawnReason.MULTIBLOCK_MACHINE_OVERFLOW, true);
+            SlimefunUtils.spawnItem(block.getLocation(), outputItem, ItemSpawnReason.MULTIBLOCK_MACHINE_OVERFLOW, true);
         }
     }
 

@@ -53,7 +53,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
                     ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(inv, disp, p, b, output);
+                        craft(inv, dispenser, p, b, output);
                     }
 
                     return;
@@ -69,9 +69,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
     }
 
     @ParametersAreNonnullByDefault
-    private void craft(Inventory inv, Dispenser dispenser, Player p, Block b, ItemStack output) {
+    private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {
         Inventory fakeInv = createVirtualInventory(inv);
-        Inventory outputInv = findOutputInventory(output, dispenser.getBlock(), inv, fakeInv);
+        Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
 
         if (outputInv != null) {
             SlimefunItem sfItem = SlimefunItem.getByItem(output);
@@ -90,18 +90,19 @@ public class MagicWorkbench extends AbstractCraftingTable {
                 }
             }
 
-            startAnimation(p, b, output, dispenser);
+            startAnimation(p, b, dispenser, output);
         } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 
-    private void startAnimation(Player p, Block b, ItemStack output, Dispenser dispenser) {
+    private void startAnimation(Player p, Block b, Block dispenser, ItemStack output) {
         for (int j = 0; j < 4; j++) {
             int current = j;
             SlimefunPlugin.runSync(() -> {
                 p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
                 p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
+
                 if (current < 3) {
                     p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F);
                 } else {
