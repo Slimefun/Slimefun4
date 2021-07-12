@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
@@ -31,8 +30,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHan
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
-import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
