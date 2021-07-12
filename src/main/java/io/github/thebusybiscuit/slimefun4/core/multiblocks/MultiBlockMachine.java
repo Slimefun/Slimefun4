@@ -185,11 +185,13 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
 
         if (outputInv != null) {
             outputInv.addItem(outputItem);
-        } else if (InvUtils.fits(blockInv, outputItem)) {
-            blockInv.addItem(outputItem);
         } else {
-            // fallback
-            SlimefunUtils.spawnItem(block.getLocation(), outputItem, ItemSpawnReason.MULTIBLOCK_MACHINE_OVERFLOW, true);
+            ItemStack rest = blockInv.addItem(outputItem).get(0);
+
+            // fallback: drop item
+            if (rest != null) {
+                SlimefunUtils.spawnItem(block.getLocation(), rest, ItemSpawnReason.MULTIBLOCK_MACHINE_OVERFLOW, true);
+            }
         }
     }
 
