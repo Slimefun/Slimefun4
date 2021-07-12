@@ -38,6 +38,7 @@
 * Added an option to the IndustrialMiner to configure if they can mine deepslate ores
 
 #### Changes
+* The Industrial Miner now properly drops raw ores in 1.17+ instead of ore blocks
 
 #### Fixes
 * Fixed #2966
