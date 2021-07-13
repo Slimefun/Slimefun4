@@ -233,6 +233,11 @@ public class TalismanListener implements Listener {
                         break;
                     }
                 }
+
+                // Validate broken item is on offhand.
+                if (e.getBrokenItem().equals(inv.getItemInOffHand())) {
+                    slot = 41;
+                }
             }
 
             ItemStack item = e.getBrokenItem().clone();
