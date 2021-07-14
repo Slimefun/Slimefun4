@@ -10,7 +10,6 @@ import org.bukkit.plugin.Plugin;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.updater.GitHubBuildsUpdater;
 import io.github.bakedlibs.dough.updater.PluginUpdater;
-import io.github.thebusybiscuit.cscorelib2.updater.Updater;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
