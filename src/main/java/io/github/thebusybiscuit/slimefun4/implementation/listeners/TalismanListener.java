@@ -223,20 +223,20 @@ public class TalismanListener implements Listener {
     public void onItemBreak(PlayerItemBreakEvent e) {
         if (Talisman.trigger(e, SlimefunItems.TALISMAN_ANVIL)) {
             PlayerInventory inv = e.getPlayer().getInventory();
+
             int slot = inv.getHeldItemSlot();
 
             // Did the tool in our hand break or was it an armor piece?
             if (!e.getBrokenItem().equals(inv.getItemInMainHand())) {
-                for (int s : armorSlots) {
-                    if (e.getBrokenItem().equals(inv.getItem(s))) {
-                        slot = s;
-                        break;
-                    }
-                }
-
-                // Validate broken item is on offhand.
                 if (e.getBrokenItem().equals(inv.getItemInOffHand())) {
                     slot = 40;
+                } else {
+                    for (int s : armorSlots) {
+                        if (e.getBrokenItem().equals(inv.getItem(s))) {
+                            slot = s;
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -247,9 +247,9 @@ public class TalismanListener implements Listener {
                 ((Damageable) meta).setDamage(0);
             }
 
-            item.setItemMeta(meta);
-
             int itemSlot = slot;
+
+            item.setItemMeta(meta);
 
             // Update the item forcefully
             SlimefunPlugin.runSync(() -> inv.setItem(itemSlot, item), 1L);
