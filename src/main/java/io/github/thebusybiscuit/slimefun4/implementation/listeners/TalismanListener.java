@@ -247,9 +247,9 @@ public class TalismanListener implements Listener {
                 ((Damageable) meta).setDamage(0);
             }
 
-            int itemSlot = slot;
-
             item.setItemMeta(meta);
+
+            int itemSlot = slot;
 
             // Update the item forcefully
             SlimefunPlugin.runSync(() -> inv.setItem(itemSlot, item), 1L);
