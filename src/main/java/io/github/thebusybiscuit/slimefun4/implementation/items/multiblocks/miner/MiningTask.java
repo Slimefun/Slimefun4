@@ -24,10 +24,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;

@@ -31,12 +31,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.sk89q.worldedit.blocks.SkullBlock;
-
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.bakedlibs.dough.skins.PlayerHead;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -898,7 +898,11 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             });
 
             block.setBlockData(blockData);
-            Slimefun.runSync(() -> SkullBlock.setFromBase64(block, texture));
+
+            Slimefun.runSync(() -> {
+                PlayerSkin skin = PlayerSkin.fromBase64(texture);
+                PlayerHead.setSkin(block, skin, true);
+            });
 
             b.setType(Material.AIR);
             BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());

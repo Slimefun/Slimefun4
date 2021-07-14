@@ -21,9 +21,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import com.sk89q.worldedit.blocks.SkullBlock;
-
 import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
@@ -95,8 +94,8 @@ public class DebugFishListener implements Listener {
             Slimefun.runSync(() -> {
                 Block block = b.getRelative(face);
                 block.setType(Material.PLAYER_HEAD);
-                SkullBlock.setFromHash(block, HeadTexture.MISSING_TEXTURE.getTexture());
 
+                PlayerHead.setSkin(block, HeadTexture.MISSING_TEXTURE.getAsSkin(), true);
                 p.playSound(block.getLocation(), Sound.BLOCK_BAMBOO_PLACE, 1, 1);
             }, 2L);
         } else if (BlockStorage.hasBlockInfo(b)) {

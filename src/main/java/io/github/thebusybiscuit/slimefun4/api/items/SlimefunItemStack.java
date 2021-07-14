@@ -24,7 +24,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.bakedlibs.dough.skins.PlayerHead;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
@@ -286,7 +287,8 @@ public class SlimefunItemStack extends ItemStack {
             return new ItemStack(Material.PLAYER_HEAD);
         }
 
-        return SkullItem.fromBase64(getTexture(id, texture));
+        PlayerSkin skin = PlayerSkin.fromBase64(getTexture(id, texture));
+        return PlayerHead.getItemStack(skin);
     }
 
     private static @Nonnull String getTexture(@Nonnull String id, @Nonnull String texture) {

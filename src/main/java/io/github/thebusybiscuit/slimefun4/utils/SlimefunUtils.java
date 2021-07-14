@@ -26,7 +26,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.bakedlibs.dough.skins.PlayerHead;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemSpawnEvent;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
@@ -225,7 +226,8 @@ public final class SlimefunUtils {
             base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
         }
 
-        return SkullItem.fromBase64(base64);
+        PlayerSkin skin = PlayerSkin.fromBase64(base64);
+        return PlayerHead.getItemStack(skin);
     }
 
     public static boolean containsSimilarItem(Inventory inventory, ItemStack item, boolean checkLore) {
