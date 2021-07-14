@@ -38,7 +38,7 @@ class TestSlimefunItemRegistration {
     @DisplayName("Test SlimefunItem registering properly")
     void testSuccessfulRegistration() {
         String id = "TEST_ITEM";
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, id, new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, id, new CustomItemStack(Material.DIAMOND, "&cTest"));
 
         Assertions.assertEquals(ItemState.UNREGISTERED, item.getState());
 
@@ -53,7 +53,7 @@ class TestSlimefunItemRegistration {
     @Test
     @DisplayName("Test disabled SlimefunItem being disabled")
     void testDisabledItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DISABLED_ITEM", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DISABLED_ITEM", new CustomItemStack(Material.DIAMOND, "&cTest"));
         Slimefun.getItemCfg().setValue("DISABLED_ITEM.enabled", false);
         item.register(plugin);
 
@@ -75,10 +75,10 @@ class TestSlimefunItemRegistration {
     @Test
     @DisplayName("Test id conflicts being handled with an exception")
     void testIdConflict() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DUPLICATE_ID", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DUPLICATE_ID", new CustomItemStack(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
-        SlimefunItem item2 = TestUtilities.mockSlimefunItem(plugin, "DUPLICATE_ID", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item2 = TestUtilities.mockSlimefunItem(plugin, "DUPLICATE_ID", new CustomItemStack(Material.DIAMOND, "&cTest"));
         Assertions.assertThrows(IdConflictException.class, () -> item2.register(plugin));
 
         Assertions.assertEquals(ItemState.ENABLED, item.getState());
@@ -88,7 +88,7 @@ class TestSlimefunItemRegistration {
     @Test
     @DisplayName("Test Category registration when registering an item")
     void testCategoryRegistration() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
         item.register(plugin);
         item.load();
 
@@ -96,7 +96,7 @@ class TestSlimefunItemRegistration {
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.setCategory(null));
 
         ItemGroup category = item.getItemGroup();
-        ItemGroup category2 = new ItemGroup(new NamespacedKey(plugin, "test2"), new CustomItem(Material.OBSIDIAN, "&6Test 2"));
+        ItemGroup category2 = new ItemGroup(new NamespacedKey(plugin, "test2"), new CustomItemStack(Material.OBSIDIAN, "&6Test 2"));
 
         Assertions.assertTrue(category.contains(item));
         Assertions.assertFalse(category2.contains(item));
@@ -111,7 +111,7 @@ class TestSlimefunItemRegistration {
     @Test
     @DisplayName("Test hidden items being hidden")
     void testHiddenItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "HIDDEN_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "HIDDEN_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
         item.setHidden(true);
         item.register(plugin);
         item.load();

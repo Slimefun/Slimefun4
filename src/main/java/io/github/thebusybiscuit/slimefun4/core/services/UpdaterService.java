@@ -7,8 +7,9 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.bakedlibs.dough.updater.GitHubBuildsUpdater;
+import io.github.bakedlibs.dough.updater.PluginUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -32,7 +33,7 @@ public class UpdaterService {
     /**
      * Our {@link Updater} implementation.
      */
-    private final Updater updater;
+    private final PluginUpdater updater;
 
     /**
      * The {@link SlimefunBranch} we are currently on.
@@ -53,7 +54,7 @@ public class UpdaterService {
      */
     public UpdaterService(@Nonnull Slimefun plugin, @Nonnull String version, @Nonnull File file) {
         this.plugin = plugin;
-        Updater autoUpdater = null;
+        PluginUpdater autoUpdater = null;
 
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.

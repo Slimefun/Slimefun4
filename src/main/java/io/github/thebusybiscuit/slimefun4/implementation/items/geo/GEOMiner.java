@@ -16,7 +16,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -235,7 +235,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
         for (GEOResource resource : Slimefun.getRegistry().getGEOResources().values()) {
             if (resource.isObtainableFromGEOMiner()) {
-                displayRecipes.add(new CustomItem(resource.getItem(), ChatColor.RESET + resource.getName()));
+                displayRecipes.add(new CustomItemStack(resource.getItem(), ChatColor.RESET + resource.getName()));
             }
         }
 
@@ -254,14 +254,14 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
     protected void constructMenu(@Nonnull BlockMenuPreset preset) {
         for (int i : BORDER) {
-            preset.addItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
+            preset.addItem(i, new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
         }
 
         for (int i : OUTPUT_BORDER) {
-            preset.addItem(i, new CustomItem(Material.ORANGE_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
+            preset.addItem(i, new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
         }
 
-        preset.addItem(4, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
+        preset.addItem(4, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
 
         for (int i : OUTPUT_SLOTS) {
             preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
@@ -310,7 +310,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
                 removeCharge(b.getLocation(), getEnergyConsumption());
                 operation.addProgress(getSpeed());
             } else {
-                inv.replaceExistingItem(4, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
+                inv.replaceExistingItem(4, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
                 inv.pushItem(operation.getResult(), OUTPUT_SLOTS);
 
                 processor.endOperation(b);

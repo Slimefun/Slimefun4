@@ -8,7 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 
-import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
+import com.sk89q.worldedit.blocks.SkullBlock;
+
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.papermc.lib.PaperLib;

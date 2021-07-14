@@ -66,7 +66,7 @@ public class TestGrindstoneListener {
 
     @Test
     public void testGrindStoneWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ENCHANTED_MOCK_BOOK", new CustomItem(Material.ENCHANTED_BOOK, "&6Mock"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ENCHANTED_MOCK_BOOK", new CustomItemStack(Material.ENCHANTED_BOOK, "&6Mock"));
         item.register(plugin);
 
         InventoryClickEvent event = mockGrindStoneEvent(item.getItem());

@@ -23,7 +23,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
+import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
@@ -43,7 +43,7 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 public class SlimefunItemStack extends ItemStack {
 
     private String id;
-    private ImmutableItemMeta immutableMeta;
+    private ItemMetaSnapshot itemMetaSnapshot;
 
     private boolean locked = false;
     private String texture = null;
@@ -234,14 +234,14 @@ public class SlimefunItemStack extends ItemStack {
         return type.isInstance(item) ? type.cast(item) : null;
     }
 
-    public @Nonnull ImmutableItemMeta getImmutableMeta() {
-        return immutableMeta;
+    public @Nonnull ItemMetaSnapshot getItemMetaSnapshot() {
+        return itemMetaSnapshot;
     }
 
     @Override
     public boolean setItemMeta(ItemMeta meta) {
         validate();
-        immutableMeta = new ImmutableItemMeta(meta);
+        itemMetaSnapshot = new ItemMetaSnapshot(meta);
 
         return super.setItemMeta(meta);
     }
@@ -273,12 +273,12 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     public @Nullable String getDisplayName() {
-        if (immutableMeta == null) {
+        if (itemMetaSnapshot == null) {
             // Just to be extra safe
             return null;
         }
 
-        return immutableMeta.getDisplayName().orElse(null);
+        return itemMetaSnapshot.getDisplayName().orElse(null);
     }
 
     private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {

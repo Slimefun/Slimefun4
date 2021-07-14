@@ -86,7 +86,7 @@ class TestBackpackListener {
         PlayerBackpack backpack = profile.createBackpack(size);
         listener.setBackpackId(player, item, 2, backpack.getId());
 
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), new CustomItem(Material.CHEST, "&4Test Backpacks"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), new CustomItemStack(Material.CHEST, "&4Test Backpacks"));
         SlimefunBackpack slimefunBackpack = new SlimefunBackpack(size, category, item, RecipeType.NULL, new ItemStack[9]);
         slimefunBackpack.register(plugin);
 
@@ -102,15 +102,15 @@ class TestBackpackListener {
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(null, null, 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, null, 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new ItemStack(Material.REDSTONE), 1, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItem(Material.REDSTONE, "Hi", "lore"), 1, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItem(Material.REDSTONE, "Hi", "lore", "no id"), 1, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItemStack(Material.REDSTONE, "Hi", "lore"), 1, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItemStack(Material.REDSTONE, "Hi", "lore", "no id"), 1, 1));
     }
 
     @Test
     @DisplayName("Test if backpack id is properly applied to the lore")
     void testSetId() throws InterruptedException {
         Player player = server.addPlayer();
-        ItemStack item = new CustomItem(Material.CHEST, "&cA mocked Backpack", "", "&7Size: &e" + BACKPACK_SIZE, "&7ID: <ID>", "", "&7&eRight Click&7 to open");
+        ItemStack item = new CustomItemStack(Material.CHEST, "&cA mocked Backpack", "", "&7Size: &e" + BACKPACK_SIZE, "&7ID: <ID>", "", "&7&eRight Click&7 to open");
 
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         int id = profile.createBackpack(BACKPACK_SIZE).getId();

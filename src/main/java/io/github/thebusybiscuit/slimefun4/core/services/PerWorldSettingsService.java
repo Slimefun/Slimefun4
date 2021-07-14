@@ -17,8 +17,8 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.World;
 
-import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
-import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.bakedlibs.dough.collections.OptionalMap;
+import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;

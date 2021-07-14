@@ -49,7 +49,7 @@ class TestSoulboundItem {
     @Test
     @DisplayName("Test whether an Item can be marked as soulbound")
     void testSetSoulbound() {
-        ItemStack item = new CustomItem(Material.DIAMOND, "&cI wanna be soulbound!");
+        ItemStack item = new CustomItemStack(Material.DIAMOND, "&cI wanna be soulbound!");
 
         Assertions.assertFalse(SlimefunUtils.isSoulbound(item));
 
@@ -65,7 +65,7 @@ class TestSoulboundItem {
     @Test
     @DisplayName("Make sure that marking an item as soulbound twice has no effect")
     void testDoubleCalls() {
-        ItemStack item = new CustomItem(Material.DIAMOND, "&cI wanna be soulbound!");
+        ItemStack item = new CustomItemStack(Material.DIAMOND, "&cI wanna be soulbound!");
 
         SlimefunUtils.setSoulbound(item, true);
         SlimefunUtils.setSoulbound(item, true);
@@ -81,7 +81,7 @@ class TestSoulboundItem {
     @Test
     @DisplayName("Test that soulbound Slimefun Items are soulbound")
     void testSoulboundSlimefunItem() {
-        SlimefunItem item = new SoulboundMock(new ItemGroup(new NamespacedKey(plugin, "soulbound_category"), new CustomItem(Material.REDSTONE, "&4Walshrus forever")));
+        SlimefunItem item = new SoulboundMock(new ItemGroup(new NamespacedKey(plugin, "soulbound_category"), new CustomItemStack(Material.REDSTONE, "&4Walshrus forever")));
         item.register(plugin);
 
         Assertions.assertTrue(SlimefunUtils.isSoulbound(item.getItem()));

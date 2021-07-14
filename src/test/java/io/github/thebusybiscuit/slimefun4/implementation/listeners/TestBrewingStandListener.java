@@ -67,7 +67,7 @@ public class TestBrewingStandListener {
 
     @Test
     public void testBrewingWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_POWDER", new CustomItem(Material.BLAZE_POWDER, "&6Magic Mock Powder"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_POWDER", new CustomItemStack(Material.BLAZE_POWDER, "&6Magic Mock Powder"));
         item.register(plugin);
 
         InventoryClickEvent event = mockBrewingEvent(item.getItem());

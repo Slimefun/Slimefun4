@@ -6,7 +6,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -27,12 +27,12 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
         return (e, tool, fortune, drops) -> {
             if (SlimefunTag.ORES.isTagged(e.getBlock().getType())) {
                 if (e.getBlock().getType() == Material.IRON_ORE) {
-                    drops.add(new CustomItem(SlimefunItems.IRON_DUST, 2));
+                    drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
                 } else if (e.getBlock().getType() == Material.GOLD_ORE) {
-                    drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
+                    drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
                 } else {
                     for (ItemStack drop : e.getBlock().getDrops(tool)) {
-                        drops.add(new CustomItem(drop, drop.getAmount() * 2));
+                        drops.add(new CustomItemStack(drop, drop.getAmount() * 2));
                     }
                 }
             }

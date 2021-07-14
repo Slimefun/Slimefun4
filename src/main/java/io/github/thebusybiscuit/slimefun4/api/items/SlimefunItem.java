@@ -22,8 +22,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 
-import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.bakedlibs.dough.collections.OptionalMap;
+import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
@@ -883,7 +883,7 @@ public class SlimefunItem implements Placeable {
      */
     public final @Nonnull String getItemName() {
         if (itemStackTemplate instanceof SlimefunItemStack) {
-            Optional<String> name = ((SlimefunItemStack) itemStackTemplate).getImmutableMeta().getDisplayName();
+            Optional<String> name = ((SlimefunItemStack) itemStackTemplate).getItemMetaSnapshot().getDisplayName();
 
             if (name.isPresent()) {
                 return name.get();

@@ -42,7 +42,7 @@ class TestCoolerListener {
         server = MockBukkit.mock();
         Slimefun plugin = MockBukkit.load(Slimefun.class);
 
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "cooler_test"), new CustomItem(Material.SNOWBALL, "Mr. Freeze"));
+        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "cooler_test"), new CustomItemStack(Material.SNOWBALL, "Mr. Freeze"));
         SlimefunItemStack item = new SlimefunItemStack("TEST_COOLER", Material.SNOWBALL, "&6Test Cooler", "", "&7ID: <ID>");
         cooler = new Cooler(18, category, item, RecipeType.NULL, new ItemStack[9]);
         cooler.register(plugin);

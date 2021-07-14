@@ -15,7 +15,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
+import io.github.bakedlibs.dough.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 

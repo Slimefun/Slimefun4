@@ -56,7 +56,7 @@ public class TestCartographyTableListener {
 
     @Test
     public void testCartographyTableWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_PAPER", new CustomItem(Material.PAPER, "&6Mock"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_PAPER", new CustomItemStack(Material.PAPER, "&6Mock"));
         item.register(plugin);
 
         InventoryClickEvent event = mockCartographyTableEvent(item.getItem());

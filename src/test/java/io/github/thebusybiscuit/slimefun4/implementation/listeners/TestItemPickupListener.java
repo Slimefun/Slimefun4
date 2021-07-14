@@ -83,9 +83,9 @@ class TestItemPickupListener {
         ItemStack stack;
 
         if (flag) {
-            stack = new CustomItem(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
+            stack = new CustomItemStack(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
         } else {
-            stack = new CustomItem(Material.DIAMOND, "&5Just a normal named diamond");
+            stack = new CustomItemStack(Material.DIAMOND, "&5Just a normal named diamond");
         }
 
         AtomicBoolean removed = new AtomicBoolean(false);
@@ -111,9 +111,9 @@ class TestItemPickupListener {
         ItemStack stack;
 
         if (flag) {
-            stack = new CustomItem(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
+            stack = new CustomItemStack(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
         } else {
-            stack = new CustomItem(Material.DIAMOND, "&5Just a normal named diamond");
+            stack = new CustomItemStack(Material.DIAMOND, "&5Just a normal named diamond");
         }
 
         AtomicBoolean removed = new AtomicBoolean(false);

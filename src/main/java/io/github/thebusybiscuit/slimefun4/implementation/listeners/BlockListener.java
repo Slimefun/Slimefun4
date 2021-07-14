@@ -23,7 +23,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
@@ -170,7 +170,7 @@ public class BlockListener implements Listener {
     private void dropItems(BlockBreakEvent e, List<ItemStack> drops) {
         if (!drops.isEmpty() && !e.isCancelled()) {
             // Notify plugins like CoreProtect
-            Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), ProtectableAction.BREAK_BLOCK);
+            Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.BREAK_BLOCK);
 
             // Fixes #2560
             if (e.isDropItems()) {

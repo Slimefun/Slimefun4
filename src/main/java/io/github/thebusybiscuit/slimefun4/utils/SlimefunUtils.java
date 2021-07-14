@@ -276,7 +276,7 @@ public final class SlimefunUtils {
                     return id.get().equals(((SlimefunItemStack) sfitem).getItemId());
                 }
 
-                ImmutableItemMeta meta = ((SlimefunItemStack) sfitem).getImmutableMeta();
+                ImmutableItemMeta meta = ((SlimefunItemStack) sfitem).getItemMetaSnapshot();
                 return equalsItemMeta(itemMeta, meta, checkLore);
             } else if (sfitem.hasItemMeta()) {
                 return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);

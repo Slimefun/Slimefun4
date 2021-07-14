@@ -29,8 +29,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -59,7 +59,7 @@ abstract class AbstractItemNetwork extends Network {
     private static final int[] TERMINAL_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42 };
     private static final int TERMINAL_OUT_SLOT = 17;
 
-    private final ItemStack terminalPlaceholderItem = new CustomItem(Material.BARRIER, "&4No Item cached");
+    private final ItemStack terminalPlaceholderItem = new CustomItemStack(Material.BARRIER, "&4No Item cached");
 
     protected final Set<Location> terminals = new HashSet<>();
     protected final Set<Location> imports = new HashSet<>();
@@ -175,13 +175,13 @@ abstract class AbstractItemNetwork extends Network {
                     if (stack == null) {
                         stack = is;
                     } else {
-                        stack = new CustomItem(stack, stack.getAmount() + is.getAmount());
+                        stack = new CustomItemStack(stack, stack.getAmount() + is.getAmount());
                     }
 
                     if (is.getAmount() == item.getAmount()) {
                         break;
                     } else {
-                        item = new CustomItem(item, item.getAmount() - is.getAmount());
+                        item = new CustomItemStack(item, item.getAmount() - is.getAmount());
                     }
                 }
             }
@@ -193,7 +193,7 @@ abstract class AbstractItemNetwork extends Network {
             if (prev == null) {
                 terminal.replaceExistingItem(slot, stack);
             } else {
-                terminal.replaceExistingItem(slot, new CustomItem(stack, stack.getAmount() + prev.getAmount()));
+                terminal.replaceExistingItem(slot, new CustomItemStack(stack, stack.getAmount() + prev.getAmount()));
             }
         }
 
@@ -247,7 +247,7 @@ abstract class AbstractItemNetwork extends Network {
                     ItemStack template = menu.getItemInSlot(slot);
 
                     if (template != null) {
-                        items.add(new CustomItem(template, 1));
+                        items.add(new CustomItemStack(template, 1));
                     }
                 }
 
@@ -387,7 +387,7 @@ abstract class AbstractItemNetwork extends Network {
             terminal.replaceExistingItem(slot, stack);
             terminal.addMenuClickHandler(slot, (p, sl, is, action) -> {
                 int amount = item.getInt() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getInt();
-                ItemStack requestedItem = new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1);
+                ItemStack requestedItem = new CustomItemStack(item.getItem(), action.isRightClicked() ? amount : 1);
                 itemRequests.add(new ItemRequest(l, 44, requestedItem, ItemTransportFlow.WITHDRAW));
                 return false;
             });

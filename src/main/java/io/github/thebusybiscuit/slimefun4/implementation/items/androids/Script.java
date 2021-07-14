@@ -19,8 +19,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
@@ -145,7 +145,7 @@ public final class Script {
             lore.add("&eShift + Right Click &fto leave a negative Rating");
         }
 
-        return new CustomItem(android.getItem(), "&b" + getName(), lore.toArray(new String[0]));
+        return new CustomItemStack(android.getItem(), "&b" + getName(), lore.toArray(new String[0]));
     }
 
     @Nonnull

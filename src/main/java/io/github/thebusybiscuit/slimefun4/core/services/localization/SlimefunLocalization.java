@@ -23,9 +23,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -287,7 +287,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         Language language = getLanguage(p);
         NamespacedKey key = recipeType.getKey();
 
-        return new CustomItem(item, meta -> {
+        return new CustomItemStack(item, meta -> {
             String displayName = getStringOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
 
             // Set the display name if possible, else keep the default item name.
