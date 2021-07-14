@@ -64,9 +64,9 @@ public class RadioactivityTask implements Runnable {
             if (exposureLevelBefore == 0) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
             }
-            RadiationUtils.addToPlayer(p, exposureTotal);
+            RadiationUtils.addExposure(p, exposureTotal);
         } else if (exposureLevelBefore > 0) {
-            RadiationUtils.removeFromPlayer(p, 1);
+            RadiationUtils.removeExposure(p, 1);
         }
         
         int exposureLevelAfter = RadiationUtils.getExposure(p);

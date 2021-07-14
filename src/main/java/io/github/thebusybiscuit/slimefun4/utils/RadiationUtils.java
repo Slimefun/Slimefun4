@@ -18,21 +18,31 @@ import java.util.Objects;
  * @see RadiationSymptom
  */
 public class RadiationUtils {
-    private static final StatusEffect RADIATION_EFFECT = new StatusEffect(new NamespacedKey(Objects.requireNonNull(SlimefunPlugin.instance()), "radiation"));
-    public static void clearFromPlayer(@Nonnull Player p){
+    private static final StatusEffect RADIATION_EFFECT = new StatusEffect(new NamespacedKey(SlimefunPlugin.instance(), "radiation"));
+
+    private RadiationUtils(){}
+
+    public static void clearExposure(@Nonnull Player p){
         Validate.notNull(p, "The player cannot be null");
+
         RADIATION_EFFECT.clear(p);
     }
-    public static void addToPlayer(@Nonnull Player p, int exposure){
-        Validate.notNull(p, "The player cannot be null");
-        RADIATION_EFFECT.addPermanent(p, Math.max(RADIATION_EFFECT.getLevel(p).orElse(0) + exposure, 100));
-    }
-    public static void removeFromPlayer(@Nonnull Player p, int exposure){
-        Validate.notNull(p, "The player cannot be null");
-        RADIATION_EFFECT.addPermanent(p, Math.min(RADIATION_EFFECT.getLevel(p).orElse(0) - exposure, 0));
-    }
+
     public static int getExposure(@Nonnull Player p){
         Validate.notNull(p, "The player cannot be null");
+
         return RADIATION_EFFECT.getLevel(p).orElse(0);
+    }
+
+    public static void addExposure(@Nonnull Player p, int exposure){
+        Validate.notNull(p, "The player cannot be null");
+
+        RADIATION_EFFECT.addPermanent(p, Math.max(RADIATION_EFFECT.getLevel(p).orElse(0) + exposure, 100));
+    }
+
+    public static void removeExposure(@Nonnull Player p, int exposure){
+        Validate.notNull(p, "The player cannot be null");
+
+        RADIATION_EFFECT.addPermanent(p, Math.min(RADIATION_EFFECT.getLevel(p).orElse(0) - exposure, 0));
     }
 }

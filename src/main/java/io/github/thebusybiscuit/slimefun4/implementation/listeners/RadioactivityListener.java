@@ -25,11 +25,11 @@ public class RadioactivityListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(@Nonnull PlayerQuitEvent e) {
-        RadiationUtils.clearFromPlayer(e.getPlayer());
+        RadiationUtils.clearExposure(e.getPlayer());
     }
 
     @EventHandler
     public void onPlayerDeath(@Nonnull PlayerDeathEvent e) {
-        RadiationUtils.clearFromPlayer(e.getEntity());
+        RadiationUtils.clearExposure(e.getEntity());
     }
 }
