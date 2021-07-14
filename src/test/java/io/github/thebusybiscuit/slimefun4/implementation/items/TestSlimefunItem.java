@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -109,7 +109,7 @@ class TestSlimefunItem {
     @DisplayName("Test SlimefunItem#isItem(...)")
     @ValueSource(booleans = { true, false })
     void testIsItem(boolean compatibility) {
-        CustomItem item = new CustomItemStack(Material.BEACON, "&cItem Test");
+        ItemStack item = new CustomItemStack(Material.BEACON, "&cItem Test");
         String id = "IS_ITEM_TEST" + (compatibility ? "_COMPATIBLE" : "");
         SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, id, item);
         sfItem.register(plugin);

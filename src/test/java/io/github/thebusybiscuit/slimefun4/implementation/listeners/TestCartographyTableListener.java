@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -26,7 +26,7 @@ import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
-public class TestCartographyTableListener {
+class TestCartographyTableListener {
 
     private static Slimefun plugin;
     private static CartographyTableListener listener;
@@ -55,7 +55,7 @@ public class TestCartographyTableListener {
     }
 
     @Test
-    public void testCartographyTableWithSlimefunItem() {
+    void testCartographyTableWithSlimefunItem() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_PAPER", new CustomItemStack(Material.PAPER, "&6Mock"));
         item.register(plugin);
 
@@ -64,7 +64,7 @@ public class TestCartographyTableListener {
     }
 
     @Test
-    public void testCartographyTableWithVanillaItem() {
+    void testCartographyTableWithVanillaItem() {
         VanillaItem item = TestUtilities.mockVanillaItem(plugin, Material.PAPER, true);
         item.register(plugin);
 

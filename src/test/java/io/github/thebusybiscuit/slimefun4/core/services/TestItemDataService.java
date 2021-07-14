@@ -34,14 +34,14 @@ class TestItemDataService {
     @Test
     @DisplayName("Test CustomItemDataService constructor")
     void testInitialization() {
-        CustomItemDataService service = new CustomItemStackDataService(plugin, "test");
+        CustomItemDataService service = new CustomItemDataService(plugin, "test");
         Assertions.assertEquals(new NamespacedKey(plugin, "test"), service.getKey());
     }
 
     @Test
     @DisplayName("Test setting item data for an ItemStack")
     void testSetDataItem() {
-        CustomItemDataService service = new CustomItemStackDataService(plugin, "test");
+        CustomItemDataService service = new CustomItemDataService(plugin, "test");
         ItemStack item = new ItemStack(Material.EMERALD);
 
         service.setItemData(item, "Hello World");
@@ -54,7 +54,7 @@ class TestItemDataService {
     @Test
     @DisplayName("Test setting item data for an ItemMeta")
     void testSetDataItemMeta() {
-        CustomItemDataService service = new CustomItemStackDataService(plugin, "test");
+        CustomItemDataService service = new CustomItemDataService(plugin, "test");
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta meta = item.getItemMeta();
         service.setItemData(meta, "Hello World");

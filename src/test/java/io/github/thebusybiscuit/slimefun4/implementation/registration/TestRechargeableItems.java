@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -20,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 
-public class TestRechargeableItems {
+class TestRechargeableItems {
 
     private static Slimefun plugin;
 
@@ -36,7 +36,7 @@ public class TestRechargeableItems {
     }
 
     @Test
-    public void testInvalidItems() {
+    void testInvalidItems() {
         Rechargeable rechargeable = mock("INVALID_CHARGING_TEST", 1);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.getItemCharge(null));
@@ -53,7 +53,7 @@ public class TestRechargeableItems {
     }
 
     @Test
-    public void testSetItemCharge() {
+    void testSetItemCharge() {
         Rechargeable rechargeable = mock("CHARGING_TEST", 10);
         ItemStack item = new CustomItemStack(Material.REDSTONE_ORE, "&4Chargeable Item", "", LoreBuilder.powerCharged(0, 10));
 
@@ -67,7 +67,7 @@ public class TestRechargeableItems {
     }
 
     @Test
-    public void testItemChargeBounds() {
+    void testItemChargeBounds() {
         Rechargeable rechargeable = mock("CHARGING_BOUNDS_TEST", 10);
         ItemStack item = new CustomItemStack(Material.REDSTONE_BLOCK, "&4Chargeable Item with bounds", "", LoreBuilder.powerCharged(0, 10));
 
@@ -81,7 +81,7 @@ public class TestRechargeableItems {
     }
 
     @Test
-    public void testAddItemCharge() {
+    void testAddItemCharge() {
         Rechargeable rechargeable = mock("CHARGING_BOUNDS_TEST", 10);
         ItemStack item = new CustomItemStack(Material.REDSTONE_BLOCK, "&4Chargeable Item with additions", "", LoreBuilder.powerCharged(0, 10));
 
@@ -92,7 +92,7 @@ public class TestRechargeableItems {
     }
 
     @Test
-    public void testAddItemChargeWithoutLore() {
+    void testAddItemChargeWithoutLore() {
         Rechargeable rechargeable = mock("CHARGING_NO_LORE_TEST", 10);
         ItemStack item = new CustomItemStack(Material.REDSTONE_BLOCK, "&4Chargeable Item with no lore");
 
@@ -106,7 +106,7 @@ public class TestRechargeableItems {
     }
 
     @Test
-    public void testRemoveItemCharge() {
+    void testRemoveItemCharge() {
         Rechargeable rechargeable = mock("CHARGING_BOUNDS_TEST", 10);
         ItemStack item = new CustomItemStack(Material.REDSTONE_BLOCK, "&4Chargeable Item with removal", "", LoreBuilder.powerCharged(0, 10));
 

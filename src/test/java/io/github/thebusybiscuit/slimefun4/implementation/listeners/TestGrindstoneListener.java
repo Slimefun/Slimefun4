@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
@@ -30,7 +30,7 @@ import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
-public class TestGrindstoneListener {
+class TestGrindstoneListener {
 
     private static Slimefun plugin;
     private static GrindstoneListener listener;
@@ -59,13 +59,13 @@ public class TestGrindstoneListener {
     }
 
     @Test
-    public void testGrindStoneWithoutSlimefunItems() {
+    void testGrindStoneWithoutSlimefunItems() {
         InventoryClickEvent event = mockGrindStoneEvent(new ItemStack(Material.ENCHANTED_BOOK));
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 
     @Test
-    public void testGrindStoneWithSlimefunItem() {
+    void testGrindStoneWithSlimefunItem() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ENCHANTED_MOCK_BOOK", new CustomItemStack(Material.ENCHANTED_BOOK, "&6Mock"));
         item.register(plugin);
 
@@ -74,7 +74,7 @@ public class TestGrindstoneListener {
     }
 
     @Test
-    public void testGrindStoneWithVanillaItem() {
+    void testGrindStoneWithVanillaItem() {
         VanillaItem item = TestUtilities.mockVanillaItem(plugin, Material.ENCHANTED_BOOK, true);
         item.register(plugin);
 
@@ -84,7 +84,7 @@ public class TestGrindstoneListener {
 
     @ParameterizedTest
     @EnumSource(SlimefunGuideMode.class)
-    public void testGrindStoneWithSlimefunGuide(SlimefunGuideMode layout) {
+    void testGrindStoneWithSlimefunGuide(SlimefunGuideMode layout) {
         InventoryClickEvent event = mockGrindStoneEvent(SlimefunGuide.getItem(layout));
         Assertions.assertEquals(Result.DENY, event.getResult());
     }
