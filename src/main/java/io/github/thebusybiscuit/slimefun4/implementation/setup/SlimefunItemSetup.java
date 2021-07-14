@@ -2022,6 +2022,10 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.ELYTRA), SlimefunItems.ELYTRA_SCALE, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.FLASK_OF_KNOWLEDGE})
         .register(plugin);
 
+        new VanillaItem(categories.magicalGadgets, new ItemStack(Material.TRIDENT), "TRIDENT", RecipeType.ANCIENT_ALTAR,
+        new ItemStack[] { new ItemStack(Material.NAUTILUS_SHELL), SlimefunItems.REINFORCED_ALLOY_INGOT, new ItemStack(Material.NAUTILUS_SHELL), SlimefunItems.STAFF_WATER, new ItemStack(Material.DIAMOND_SWORD), SlimefunItems.STAFF_WATER, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.NETHER_STAR), SlimefunItems.MAGIC_LUMP_3})
+        .register(plugin);
+
         new VanillaItem(categories.magicalGadgets, new ItemStack(Material.TOTEM_OF_UNDYING), "TOTEM_OF_UNDYING", RecipeType.ANCIENT_ALTAR,
         new ItemStack[] {SlimefunItems.ESSENCE_OF_AFTERLIFE, new ItemStack(Material.EMERALD_BLOCK), SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.COMMON_TALISMAN, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, new ItemStack(Material.EMERALD_BLOCK), SlimefunItems.ESSENCE_OF_AFTERLIFE})
         .register(plugin);

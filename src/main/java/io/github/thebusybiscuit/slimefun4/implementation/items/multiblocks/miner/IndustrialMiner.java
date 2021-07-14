@@ -52,6 +52,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
 
     private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>(this, "can-mine-ancient-debris", false);
+    private final ItemSetting<Boolean> canMineDeepslateOres = new ItemSetting<>(this, "can-mine-deepslate-ores", true);
     private final boolean silkTouch;
     private final int range;
 
@@ -64,6 +65,7 @@ public class IndustrialMiner extends MultiBlockMachine {
 
         registerDefaultFuelTypes();
         addItemSetting(canMineAncientDebris);
+        addItemSetting(canMineDeepslateOres);
     }
 
     /**
@@ -122,7 +124,40 @@ public class IndustrialMiner extends MultiBlockMachine {
             return new ItemStack(ore);
         }
 
+        MinecraftVersion minecraftVersion = Slimefun.getMinecraftVersion();
         Random random = ThreadLocalRandom.current();
+
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            // In 1.17, breaking metal ores should get raw metals. Also support deepslate ores.
+            switch (ore) {
+                case DEEPSLATE_COAL_ORE:
+                    return new ItemStack(Material.COAL);
+                case DEEPSLATE_DIAMOND_ORE:
+                    return new ItemStack(Material.DIAMOND);
+                case DEEPSLATE_EMERALD_ORE:
+                    return new ItemStack(Material.EMERALD);
+                case DEEPSLATE_REDSTONE_ORE:
+                    return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
+                case DEEPSLATE_LAPIS_ORE:
+                    return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+                case COPPER_ORE:
+                case DEEPSLATE_COPPER_ORE:
+                    return new ItemStack(Material.RAW_COPPER);
+                case IRON_ORE:
+                case DEEPSLATE_IRON_ORE:
+                    return new ItemStack(Material.RAW_IRON);
+                case GOLD_ORE:
+                case DEEPSLATE_GOLD_ORE:
+                    return new ItemStack(Material.RAW_GOLD);
+                default:
+                    break;
+            }
+        }
+
+        // In 1.16, breaking nether gold ores should get gold nuggets
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16) && ore == Material.NETHER_GOLD_ORE) {
+            return new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
+        }
 
         switch (ore) {
             case COAL_ORE:
@@ -131,12 +166,12 @@ public class IndustrialMiner extends MultiBlockMachine {
                 return new ItemStack(Material.DIAMOND);
             case EMERALD_ORE:
                 return new ItemStack(Material.EMERALD);
-            case NETHER_QUARTZ_ORE:
-                return new ItemStack(Material.QUARTZ);
             case REDSTONE_ORE:
                 return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
             case LAPIS_ORE:
                 return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+            case NETHER_QUARTZ_ORE:
+                return new ItemStack(Material.QUARTZ);
             default:
                 // This includes Iron and Gold ore (and Ancient Debris)
                 return new ItemStack(ore);
@@ -159,12 +194,12 @@ public class IndustrialMiner extends MultiBlockMachine {
     }
 
     @Override
-    public String getLabelLocalPath() {
+    public @Nonnull String getLabelLocalPath() {
         return "guide.tooltips.recipes.generator";
     }
 
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> list = new ArrayList<>();
 
         for (MachineFuel fuel : fuelTypes) {
@@ -217,14 +252,15 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
     public boolean canMine(@Nonnull Material type) {
-        if (SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type)) {
-            return true;
-        } else if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            return type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue();
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
 
+        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16) && type == Material.ANCIENT_DEBRIS) {
+            return canMineAncientDebris.getValue();
+        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
+            return canMineDeepslateOres.getValue();
+        } else {
+            return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type);
         }
-
-        return false;
     }
 
 }

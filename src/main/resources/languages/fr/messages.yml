@@ -152,6 +152,9 @@ messages:
     select: 'Sélectionner cette recette'
     temporarily-disabled: '&eCet Auto-Crafter a été temporairement désactivé. Vous pouvez le réactiver à tout moment !'
     re-enabled: '&eCet Auto-Crafteur a été réactivé !'
+    recipe-unavailable: |
+      &cCet objet est soit désactivé sur votre serveur, soit vous ne l'avez pas encore débloqué.
+      &7Essayez de fabriquer l'objet si vous ne l'avez pas fait avant pour déverrouiller la recette.
     tooltips:
       enabled:
         - '&aCette recette est actuellement activée'

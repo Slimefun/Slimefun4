@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -18,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
  * The {@link ChristmasPresent} is a seasonal {@link SlimefunItem} that drops a random
@@ -53,7 +55,7 @@ public class ChristmasPresent extends SimpleSlimefunItem<ItemUseHandler> impleme
 
                 Block b = block.getRelative(e.getClickedFace());
                 ItemStack gift = gifts[ThreadLocalRandom.current().nextInt(gifts.length)].clone();
-                b.getWorld().dropItemNaturally(b.getLocation(), gift);
+                SlimefunUtils.spawnItem(b.getLocation(), gift, ItemSpawnReason.CHRISTMAS_PRESENT_OPENED, true);
             });
         };
     }
