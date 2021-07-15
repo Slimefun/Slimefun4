@@ -1,11 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -13,8 +14,8 @@ import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
 
-import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
-import io.github.thebusybiscuit.cscorelib2.players.TooManyRequestsException;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
+import io.github.bakedlibs.dough.skins.UUIDLookup;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
@@ -38,6 +39,12 @@ class GitHubTask implements Runnable {
 
     @Override
     public void run() {
+
+        if (Bukkit.isPrimaryThread()) {
+            Slimefun.logger().log(Level.SEVERE, "The contributors task may never run on the main Thread!");
+            return;
+        }
+
         connectAndCache();
         grabTextures();
     }
@@ -98,7 +105,7 @@ class GitHubTask implements Runnable {
             } catch (IllegalArgumentException x) {
                 // There cannot be a texture found because it is not a valid MC username
                 contributor.setTexture(null);
-            } catch (IOException x) {
+            } catch (Exception x) {
                 // Too many requests
                 Slimefun.logger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
                 Slimefun.logger().log(Level.WARNING, "This usually means mojang.com is temporarily down or started to rate-limit this connection, this is not an error message!");
@@ -109,28 +116,24 @@ class GitHubTask implements Runnable {
                 }
 
                 return -1;
-            } catch (TooManyRequestsException x) {
-                Slimefun.logger().log(Level.WARNING, "Received a rate-limit from mojang.com, retrying in 4 minutes");
-                Bukkit.getScheduler().runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 4 * 60 * 20L);
-
-                return -1;
             }
         }
 
         return 0;
     }
 
-    @Nullable
-    private String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws TooManyRequestsException, IOException {
+    private @Nullable String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws InterruptedException, ExecutionException {
         Optional<UUID> uuid = contributor.getUniqueId();
 
         if (!uuid.isPresent()) {
-            uuid = MinecraftAccount.getUUID(contributor.getMinecraftName());
+            CompletableFuture<UUID> future = UUIDLookup.forUsername(Slimefun.instance(), contributor.getMinecraftName());
+            uuid = Optional.ofNullable(future.get());
             uuid.ifPresent(contributor::setUniqueId);
         }
 
         if (uuid.isPresent()) {
-            Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
+            CompletableFuture<PlayerSkin> future = PlayerSkin.fromPlayerUUID(Slimefun.instance(), uuid.get());
+            Optional<String> skin = Optional.of(future.get().toString());
             skins.put(contributor.getMinecraftName(), skin.orElse(""));
             return skin.orElse(null);
         } else {

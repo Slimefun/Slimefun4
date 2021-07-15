@@ -18,7 +18,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
@@ -45,7 +44,7 @@ public class TableSaw extends MultiBlockMachine {
         super(category, item, new ItemStack[] { null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null }, BlockFace.SELF);
 
         for (Material log : Tag.LOGS.getValues()) {
-            Optional<Material> planks = MaterialConverter.getPlanksFromLog(log);
+            Optional<Material> planks = getPlanks(log);
 
             if (planks.isPresent()) {
                 displayedRecipes.add(new ItemStack(log));
@@ -57,6 +56,11 @@ public class TableSaw extends MultiBlockMachine {
             displayedRecipes.add(new ItemStack(plank));
             displayedRecipes.add(new ItemStack(Material.STICK, 4));
         }
+    }
+
+    private @Nonnull Optional<Material> getPlanks(@Nonnull Material log) {
+        // TODO: Return plank for corresponding log
+        return Optional.empty();
     }
 
     @Override
@@ -82,10 +86,9 @@ public class TableSaw extends MultiBlockMachine {
         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
     }
 
-    @Nullable
-    private ItemStack getOutputFromMaterial(@Nonnull Material item) {
+    private @Nullable ItemStack getOutputFromMaterial(@Nonnull Material item) {
         if (Tag.LOGS.isTagged(item)) {
-            Optional<Material> planks = MaterialConverter.getPlanksFromLog(item);
+            Optional<Material> planks = getPlanks(item);
 
             if (planks.isPresent()) {
                 return new ItemStack(planks.get(), 8);
