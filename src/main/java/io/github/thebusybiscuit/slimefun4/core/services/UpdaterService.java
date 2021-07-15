@@ -9,10 +9,9 @@ import org.bukkit.plugin.Plugin;
 
 import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.updater.GitHubBuildsUpdater;
-import io.github.bakedlibs.dough.updater.PluginUpdater;
+import io.github.bakedlibs.dough.versions.PrefixedVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
  * This Class represents our {@link Updater} Service.
@@ -32,7 +31,7 @@ public class UpdaterService {
     /**
      * Our {@link Updater} implementation.
      */
-    private final PluginUpdater updater;
+    private final GitHubBuildsUpdater updater;
 
     /**
      * The {@link SlimefunBranch} we are currently on.
@@ -53,7 +52,7 @@ public class UpdaterService {
      */
     public UpdaterService(@Nonnull Slimefun plugin, @Nonnull String version, @Nonnull File file) {
         this.plugin = plugin;
-        PluginUpdater autoUpdater = null;
+        GitHubBuildsUpdater autoUpdater = null;
 
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.
@@ -62,7 +61,6 @@ public class UpdaterService {
             // If we are using a development build, we want to switch to our custom
             try {
                 autoUpdater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/master");
-
             } catch (Exception x) {
                 plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
             }
@@ -91,8 +89,7 @@ public class UpdaterService {
      *
      * @return The branch this build of Slimefun is on.
      */
-    @Nonnull
-    public SlimefunBranch getBranch() {
+    public @Nonnull SlimefunBranch getBranch() {
         return branch;
     }
 
@@ -104,8 +101,9 @@ public class UpdaterService {
      * @return The build number of this Slimefun.
      */
     public int getBuildNumber() {
-        if (updater != null && PatternUtils.NUMERIC.matcher(this.updater.getLocalVersion()).matches()) {
-            return Integer.parseInt(updater.getLocalVersion());
+        if (updater != null) {
+            PrefixedVersion version = updater.getCurrentVersion();
+            return version.getNumericVersion();
         }
 
         return -1;
