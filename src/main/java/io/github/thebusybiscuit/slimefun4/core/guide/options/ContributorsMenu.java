@@ -12,12 +12,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -99,7 +99,7 @@ final class ContributorsMenu {
             String info = entry.getKey();
 
             if (!info.startsWith("&")) {
-                String[] segments = PatternUtils.COMMA.split(info);
+                String[] segments = CommonPatterns.COMMA.split(info);
                 info = Slimefun.getLocalization().getMessage(p, "guide.credits.roles." + segments[0]);
 
                 if (segments.length == 2) {

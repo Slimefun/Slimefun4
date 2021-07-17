@@ -23,6 +23,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
 import io.github.bakedlibs.dough.skins.PlayerHead;
 import io.github.bakedlibs.dough.skins.PlayerSkin;
@@ -31,7 +32,6 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
  * The {@link SlimefunItemStack} functions as the base for any
@@ -297,7 +297,7 @@ public class SlimefunItemStack extends ItemStack {
 
         if (texture.startsWith("ey")) {
             return texture;
-        } else if (PatternUtils.HEXADECIMAL.matcher(texture).matches()) {
+        } else if (CommonPatterns.HEXADECIMAL.matcher(texture).matches()) {
             String value = "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}";
             return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
         } else {

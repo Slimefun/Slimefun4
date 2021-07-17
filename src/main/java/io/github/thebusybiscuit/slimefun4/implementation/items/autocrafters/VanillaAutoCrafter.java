@@ -24,6 +24,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -33,7 +34,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -67,7 +67,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
             String value = container.get(recipeStorageKey, PersistentDataType.STRING);
 
             if (value != null) {
-                String[] values = PatternUtils.COLON.split(value);
+                String[] values = CommonPatterns.COLON.split(value);
 
                 /*
                  * Normally this constructor should not be used.

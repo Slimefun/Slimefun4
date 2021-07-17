@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.common.PlayerList;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -17,7 +18,6 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 class GiveCommand extends SubCommand {
 
@@ -83,7 +83,7 @@ class GiveCommand extends SubCommand {
         int amount = 1;
 
         if (args.length == 4) {
-            if (PatternUtils.NUMERIC.matcher(args[3]).matches()) {
+            if (CommonPatterns.NUMERIC.matcher(args[3]).matches()) {
                 amount = Integer.parseInt(args[3]);
             } else {
                 return 0;

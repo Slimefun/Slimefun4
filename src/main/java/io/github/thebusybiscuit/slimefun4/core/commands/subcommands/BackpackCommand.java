@@ -8,13 +8,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.RestoredBackpack;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
  * This command that allows for backpack retrieval in the event they are lost.
@@ -47,7 +47,7 @@ class BackpackCommand extends SubCommand {
                     return;
                 }
 
-                if (!PatternUtils.NUMERIC.matcher(args[2]).matches()) {
+                if (!CommonPatterns.NUMERIC.matcher(args[2]).matches()) {
                     Slimefun.getLocalization().sendMessage(sender, "commands.backpack.invalid-id");
                     return;
                 }

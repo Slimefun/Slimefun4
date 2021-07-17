@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
@@ -42,7 +43,6 @@ import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
  * A class that can store a Player's {@link Research} progress for caching purposes.
@@ -439,9 +439,9 @@ public class PlayerProfile {
 
         for (String line : item.getItemMeta().getLore()) {
             if (line.startsWith(ChatColors.color("&7ID: ")) && line.indexOf('#') != -1) {
-                String[] splitLine = PatternUtils.HASH.split(line);
+                String[] splitLine = CommonPatterns.HASH.split(line);
 
-                if (PatternUtils.NUMERIC.matcher(splitLine[1]).matches()) {
+                if (CommonPatterns.NUMERIC.matcher(splitLine[1]).matches()) {
                     id = OptionalInt.of(Integer.parseInt(splitLine[1]));
                     uuid = splitLine[0].replace(ChatColors.color("&7ID: "), "");
                 }

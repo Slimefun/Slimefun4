@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -26,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
@@ -119,7 +119,7 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
             for (String line : backpack.getItemMeta().getLore()) {
                 if (line.startsWith(ChatColors.color("&7ID: ")) && line.contains("#")) {
                     String id = line.replace(ChatColors.color("&7ID: "), "");
-                    String[] idSplit = PatternUtils.HASH.split(id);
+                    String[] idSplit = CommonPatterns.HASH.split(id);
 
                     PlayerProfile.fromUUID(UUID.fromString(idSplit[0]), profile -> {
                         Optional<PlayerBackpack> optional = profile.getBackpack(Integer.parseInt(idSplit[1]));

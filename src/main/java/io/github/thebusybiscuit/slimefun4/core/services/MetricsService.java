@@ -15,8 +15,8 @@ import javax.annotation.Nullable;
 
 import org.bukkit.plugin.Plugin;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 import kong.unirest.GetRequest;
 import kong.unirest.HttpResponse;
@@ -168,7 +168,7 @@ public class MetricsService {
      * @return if there is an update available.
      */
     public boolean checkForUpdate(@Nullable String currentVersion) {
-        if (currentVersion == null || !PatternUtils.NUMERIC.matcher(currentVersion).matches()) {
+        if (currentVersion == null || !CommonPatterns.NUMERIC.matcher(currentVersion).matches()) {
             return false;
         }
 

@@ -34,10 +34,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -91,7 +91,7 @@ public class BlockStorage {
 
     private static Location deserializeLocation(String l) {
         try {
-            String[] components = PatternUtils.SEMICOLON.split(l);
+            String[] components = CommonPatterns.SEMICOLON.split(l);
             if (components.length != 4) {
                 return null;
             }
@@ -229,7 +229,7 @@ public class BlockStorage {
 
             for (String key : cfg.getKeys(false)) {
                 try {
-                    if (world.getName().equals(PatternUtils.SEMICOLON.split(key)[0])) {
+                    if (world.getName().equals(CommonPatterns.SEMICOLON.split(key)[0])) {
                         BlockInfoConfig data = new BlockInfoConfig(parseJSON(cfg.getString(key)));
                         Slimefun.getRegistry().getChunks().put(key, data);
                     }

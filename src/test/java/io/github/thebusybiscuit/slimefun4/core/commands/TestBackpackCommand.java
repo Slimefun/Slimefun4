@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -76,7 +76,7 @@ class TestBackpackCommand {
 
         server.execute("slimefun", player, "backpack", player.getName(), id).assertSucceeded();
 
-        if (PatternUtils.NUMERIC.matcher(id).matches()) {
+        if (CommonPatterns.NUMERIC.matcher(id).matches()) {
             Assertions.assertFalse(hasBackpack(player, Integer.parseInt(id)));
         }
     }

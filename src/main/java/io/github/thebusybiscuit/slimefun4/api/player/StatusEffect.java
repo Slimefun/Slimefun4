@@ -10,8 +10,8 @@ import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
  * A very simple API that is meant for adding/getting/clearing custom status effects
@@ -97,7 +97,7 @@ public class StatusEffect implements Keyed {
         Optional<String> optional = PersistentDataAPI.getOptionalString(p, getKey());
 
         if (optional.isPresent()) {
-            String[] data = PatternUtils.SEMICOLON.split(optional.get());
+            String[] data = CommonPatterns.SEMICOLON.split(optional.get());
             long timestamp = Long.parseLong(data[1]);
 
             if (timestamp == 0 || timestamp >= System.currentTimeMillis()) {
@@ -123,7 +123,7 @@ public class StatusEffect implements Keyed {
         Optional<String> optional = PersistentDataAPI.getOptionalString(p, getKey());
 
         if (optional.isPresent()) {
-            String[] data = PatternUtils.SEMICOLON.split(optional.get());
+            String[] data = CommonPatterns.SEMICOLON.split(optional.get());
             return OptionalInt.of(Integer.parseInt(data[0]));
         } else {
             return OptionalInt.empty();

@@ -33,6 +33,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.skins.PlayerHead;
@@ -49,7 +50,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
@@ -255,7 +255,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             return false;
         });
 
-        String[] script = PatternUtils.DASH.split(sourceCode);
+        String[] script = CommonPatterns.DASH.split(sourceCode);
 
         for (int i = 1; i < script.length; i++) {
             int index = i;
@@ -499,7 +499,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             String script = BlockStorage.getLocationInfo(b.getLocation()).getString("script");
             // Fixes #2937
             if (script != null) {
-                if (PatternUtils.DASH.split(script).length <= MAX_SCRIPT_LENGTH) {
+                if (CommonPatterns.DASH.split(script).length <= MAX_SCRIPT_LENGTH) {
                     openScript(pl, b, getScript(b.getLocation()));
                 } else {
                     pl.closeInventory();
@@ -594,7 +594,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         Validate.notNull(script, "No script given");
         Validate.isTrue(script.startsWith(Instruction.START.name() + '-'), "A script must begin with a 'START' token.");
         Validate.isTrue(script.endsWith('-' + Instruction.REPEAT.name()), "A script must end with a 'REPEAT' token.");
-        Validate.isTrue(PatternUtils.DASH.split(script).length <= MAX_SCRIPT_LENGTH, "Scripts may not have more than " + MAX_SCRIPT_LENGTH + " segments");
+        Validate.isTrue(CommonPatterns.DASH.split(script).length <= MAX_SCRIPT_LENGTH, "Scripts may not have more than " + MAX_SCRIPT_LENGTH + " segments");
 
         BlockStorage.addBlockInfo(l, "script", script);
     }
@@ -694,7 +694,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 consumeFuel(b, menu);
             } else {
                 String code = data.getString("script");
-                String[] script = PatternUtils.DASH.split(code == null ? DEFAULT_SCRIPT : code);
+                String[] script = CommonPatterns.DASH.split(code == null ? DEFAULT_SCRIPT : code);
 
                 String indexData = data.getString("index");
                 int index = (indexData == null ? 0 : Integer.parseInt(indexData)) + 1;

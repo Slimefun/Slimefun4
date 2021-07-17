@@ -16,11 +16,11 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -261,7 +261,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
         if (frequency == null) {
             return 0;
-        } else if (!PatternUtils.NUMERIC.matcher(frequency).matches()) {
+        } else if (!CommonPatterns.NUMERIC.matcher(frequency).matches()) {
             Slimefun.logger().log(Level.SEVERE, () -> "Failed to parse a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + ',' + node.getBlockY() + ',' + node.getBlockZ() + "): " + frequency);
             return 0;
         } else {

@@ -25,6 +25,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
 import io.github.bakedlibs.dough.skins.PlayerHead;
 import io.github.bakedlibs.dough.skins.PlayerSkin;
@@ -222,7 +223,7 @@ public final class SlimefunUtils {
 
         String base64 = texture;
 
-        if (PatternUtils.HEXADECIMAL.matcher(texture).matches()) {
+        if (CommonPatterns.HEXADECIMAL.matcher(texture).matches()) {
             base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
         }
 

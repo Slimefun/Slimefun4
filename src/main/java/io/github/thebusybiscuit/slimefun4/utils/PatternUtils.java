@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import java.util.regex.Pattern;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 /**
  * This class is created for common-use patterns used in things such as {@link String#split(String)}. <br>
@@ -18,18 +18,7 @@ public final class PatternUtils {
 
     private PatternUtils() {}
 
-    public static final Pattern COLON = Pattern.compile(":");
-    public static final Pattern SEMICOLON = Pattern.compile(";");
-    public static final Pattern HASH = Pattern.compile("#");
-    public static final Pattern COMMA = Pattern.compile(",");
     public static final Pattern SLASH_SEPARATOR = Pattern.compile(" / ");
-    public static final Pattern DASH = Pattern.compile("-");
-    public static final Pattern UNDERSCORE = Pattern.compile("_");
-    public static final Pattern ASCII = Pattern.compile("[A-Za-z \"_]+");
-    public static final Pattern HEXADECIMAL = Pattern.compile("[A-Fa-f0-9]+");
-    public static final Pattern NUMERIC = Pattern.compile("[0-9]+");
-
-    public static final Pattern NUMBER_SEPARATOR = Pattern.compile("[,.]");
 
     public static final Pattern MINECRAFT_MATERIAL = Pattern.compile("minecraft:[a-z_]+");
     public static final Pattern MINECRAFT_TAG = Pattern.compile("#minecraft:[a-z_]+");

@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.skins.PlayerSkin;
 
 /**
@@ -127,7 +128,7 @@ public enum HeadTexture {
 
     HeadTexture(@Nonnull String texture) {
         Validate.notNull(texture, "Texture cannot be null");
-        Validate.isTrue(PatternUtils.HEXADECIMAL.matcher(texture).matches(), "Textures must be in hexadecimal.");
+        Validate.isTrue(CommonPatterns.HEXADECIMAL.matcher(texture).matches(), "Textures must be in hexadecimal.");
 
         this.texture = texture;
         this.uuid = UUID.nameUUIDFromBytes(texture.getBytes(StandardCharsets.UTF_8));

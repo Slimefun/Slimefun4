@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
@@ -67,7 +68,7 @@ public final class ChatUtils {
      */
     public static @Nonnull String humanize(@Nonnull String string) {
         StringBuilder builder = new StringBuilder();
-        String[] segments = PatternUtils.UNDERSCORE.split(string.toLowerCase(Locale.ROOT));
+        String[] segments = CommonPatterns.UNDERSCORE.split(string.toLowerCase(Locale.ROOT));
 
         builder.append(Character.toUpperCase(segments[0].charAt(0))).append(segments[0].substring(1));
 
