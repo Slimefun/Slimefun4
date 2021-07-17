@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -32,6 +33,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChes
  * 
  * @author dniym
  * @author svr333
+ * @author TheBusyBiscuit
  * 
  * @see MultiBlockMachine
  *
@@ -40,8 +42,9 @@ public class TableSaw extends MultiBlockMachine {
 
     private final List<ItemStack> displayedRecipes = new ArrayList<>();
 
-    public TableSaw(ItemGroup category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null }, BlockFace.SELF);
+    @ParametersAreNonnullByDefault
+    public TableSaw(ItemGroup group, SlimefunItemStack item) {
+        super(group, item, new ItemStack[] { null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null }, BlockFace.SELF);
 
         for (Material log : Tag.LOGS.getValues()) {
             Optional<Material> planks = getPlanks(log);
@@ -59,8 +62,9 @@ public class TableSaw extends MultiBlockMachine {
     }
 
     private @Nonnull Optional<Material> getPlanks(@Nonnull Material log) {
-        // TODO: Return plank for corresponding log
-        return Optional.empty();
+        String materialName = log.name().replace("STRIPPED_", "");
+        materialName = materialName.substring(0, materialName.lastIndexOf('_')) + "_PLANKS";
+        return Optional.ofNullable(Material.getMaterial(materialName));
     }
 
     @Override
