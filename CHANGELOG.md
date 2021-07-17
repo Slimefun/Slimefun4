@@ -36,6 +36,7 @@
 * (API) Added SlimefunItemSpawnEvent and ItemSpawnReason
 * Added "Amethyst Block -> 4 Amethyst Shards" recipe to the Grind Stone
 * Added an option to the IndustrialMiner to configure if they can mine deepslate ores
+* (API) Added `LimitedUseItem`
 
 #### Changes
 * The Industrial Miner now properly drops raw ores in 1.17+ instead of ore blocks
@@ -43,6 +44,8 @@
 #### Fixes
 * Fixed #2966
 * Fixed Auto-Crafters bypassing the `doLimitedCrafting` gamerule
+* Fixed "Talisman of Anvil" having issues with off-hand items
+* Fixed #3136
 
 ## Release Candidate 25 (20 Jun 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
