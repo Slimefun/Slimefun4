@@ -223,16 +223,28 @@ public class TalismanListener implements Listener {
     public void onItemBreak(PlayerItemBreakEvent e) {
         if (Talisman.trigger(e, SlimefunItems.TALISMAN_ANVIL)) {
             PlayerInventory inv = e.getPlayer().getInventory();
-            int slot = inv.getHeldItemSlot();
+
+            ItemStack brokenItem = e.getBrokenItem();
+
+            int slot = -1;
 
             // Did the tool in our hand break or was it an armor piece?
-            if (!e.getBrokenItem().equals(inv.getItemInMainHand())) {
+            if (brokenItem.equals(inv.getItemInMainHand())) {
+                slot = inv.getHeldItemSlot();
+            } else if (brokenItem.equals(inv.getItemInOffHand())) {
+                slot = 40;
+            } else {
                 for (int s : armorSlots) {
                     if (e.getBrokenItem().equals(inv.getItem(s))) {
                         slot = s;
                         break;
                     }
                 }
+            }
+
+            // No item found, just return.
+            if (slot < 0) {
+                return;
             }
 
             ItemStack item = e.getBrokenItem().clone();
