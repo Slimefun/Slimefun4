@@ -14,7 +14,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.type.Dispenser;
+import org.bukkit.block.Container;
+import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -22,11 +23,13 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -162,6 +165,33 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
             return dispInv;
         } else {
             return outputChest.orElse(null);
+        }
+    }
+
+    /**
+     * This method handles an output {@link ItemStack} from the {@link MultiBlockMachine} which has a crafting delay
+     *
+     * @param outputItem
+     *          A crafted {@link ItemStack} from {@link MultiBlockMachine}
+     * @param block
+     *          Main {@link Block} of our {@link Container} from {@link MultiBlockMachine}
+     * @param blockInv
+     *          The {@link Inventory} of our {@link Container}
+     *
+     */
+    @ParametersAreNonnullByDefault
+    protected void handleCraftedItem(ItemStack outputItem, Block block, Inventory blockInv) {
+        Inventory outputInv = findOutputInventory(outputItem, block, blockInv);
+
+        if (outputInv != null) {
+            outputInv.addItem(outputItem);
+        } else {
+            ItemStack rest = blockInv.addItem(outputItem).get(0);
+
+            // fallback: drop item
+            if (rest != null) {
+                SlimefunUtils.spawnItem(block.getLocation(), rest, ItemSpawnReason.MULTIBLOCK_MACHINE_OVERFLOW, true);
+            }
         }
     }
 

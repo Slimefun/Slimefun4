@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemSpawnEvent;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.ChristmasPresent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.EasterEgg;
@@ -39,12 +40,18 @@ public enum ItemSpawnReason {
     CARGO_OVERFLOW,
 
     /**
-     * THe {@link ItemStack} is dropped as the result of an opened {@link ChristmasPresent}.
+     * The {@link ItemStack} is dropped as the result of a {@link MultiBlockMachine}
+     * overflowing.
+     */
+    MULTIBLOCK_MACHINE_OVERFLOW,
+
+    /**
+     * The {@link ItemStack} is dropped as the result of an opened {@link ChristmasPresent}.
      */
     CHRISTMAS_PRESENT_OPENED,
 
     /**
-     * THe {@link ItemStack} is dropped as the result of an opened {@link EasterEgg}.
+     * The {@link ItemStack} is dropped as the result of an opened {@link EasterEgg}.
      */
     EASTER_EGG_OPENED,
 

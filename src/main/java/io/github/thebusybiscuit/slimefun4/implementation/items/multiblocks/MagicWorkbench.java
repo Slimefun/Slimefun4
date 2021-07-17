@@ -68,6 +68,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {
         Inventory fakeInv = createVirtualInventory(inv);
         Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
@@ -89,13 +90,13 @@ public class MagicWorkbench extends AbstractCraftingTable {
                 }
             }
 
-            startAnimation(p, b, outputInv, output);
+            startAnimation(p, b, inv, dispenser, output);
         } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 
-    private void startAnimation(Player p, Block b, Inventory inv, ItemStack output) {
+    private void startAnimation(Player p, Block b, Inventory dispInv, Block dispenser, ItemStack output) {
         for (int j = 0; j < 4; j++) {
             int current = j;
             SlimefunPlugin.runSync(() -> {
@@ -106,7 +107,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
                     p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F);
                 } else {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    inv.addItem(output);
+                    handleCraftedItem(output, dispenser, dispInv);
                 }
             }, j * 20L);
         }
