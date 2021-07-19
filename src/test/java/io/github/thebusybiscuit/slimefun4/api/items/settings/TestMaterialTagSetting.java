@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.items.settings;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.HashSet;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -68,7 +70,7 @@ class TestMaterialTagSetting {
         item.register(plugin);
 
         List<String> tagContents = tag.getValues().stream().map(Material::name).collect(Collectors.toList());
-        Assertions.assertIterableEquals(tagContents, setting.getValue());
+		assertThat("Two list is different", new HashSet<>(tagContents).equals(new HashSet<>(setting.getValue())));
 
         List<String> materials = Arrays.asList(Material.REDSTONE.name(), Material.DIAMOND.name());
         setting.update(materials);
