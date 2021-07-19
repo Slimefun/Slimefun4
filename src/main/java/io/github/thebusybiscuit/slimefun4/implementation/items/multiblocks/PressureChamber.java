@@ -57,7 +57,7 @@ public class PressureChamber extends MultiBlockMachine {
                             removing.setAmount(convert.getAmount());
                             inv.removeItem(removing);
 
-                            craft(p, b, output, outputInv);
+                            craft(p, b, output, inv, dispBlock);
                         } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
@@ -71,7 +71,7 @@ public class PressureChamber extends MultiBlockMachine {
     }
 
     @ParametersAreNonnullByDefault
-    private void craft(Player p, Block b, ItemStack output, Inventory outputInv) {
+    private void craft(Player p, Block b, ItemStack output, Inventory dispInv, Block dispenser) {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
@@ -85,7 +85,7 @@ public class PressureChamber extends MultiBlockMachine {
                     SoundEffect.PRESSURE_CHAMBER_WORKING_SOUND.playAt(b);
                 } else {
                     SoundEffect.PRESSURE_CHAMBER_FINISH_SOUND.playAt(b);
-                    outputInv.addItem(output);
+                    handleCraftedItem(output, dispenser, dispInv);
                 }
             }, i * 20L);
         }

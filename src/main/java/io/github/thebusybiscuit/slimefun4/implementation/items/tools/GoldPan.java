@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
@@ -26,6 +27,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricGoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.AutomatedPanningMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -133,7 +136,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
                     // Make sure that the randomly selected item is not air
                     if (output.getType() != Material.AIR) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
+                        SlimefunUtils.spawnItem(b.getLocation(), output.clone(), ItemSpawnReason.GOLD_PAN_USE, true);
                     }
                 }
             }

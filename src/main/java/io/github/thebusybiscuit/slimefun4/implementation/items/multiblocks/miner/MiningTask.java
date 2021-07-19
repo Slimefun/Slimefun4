@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -28,6 +29,7 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
@@ -180,8 +182,9 @@ class MiningTask implements Runnable {
                 Block furnace = chest.getRelative(BlockFace.DOWN);
                 furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, Material.STONE);
 
-                for (int y = height; y > 0; y--) {
-                    Block b = start.getWorld().getBlockAt(x, y, z);
+                World world = start.getWorld();
+                for (int y = height; y > WorldUtils.getMinHeight(world); y--) {
+                    Block b = world.getBlockAt(x, y, z);
 
                     if (!SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(owner), b, ProtectableAction.BREAK_BLOCK)) {
                         stop(MinerStoppingReason.NO_PERMISSION);
@@ -213,7 +216,7 @@ class MiningTask implements Runnable {
     }
 
     /**
-     * This advanced the {@link IndustrialMiner} to the next column
+     * This advances the {@link IndustrialMiner} to the next column
      */
     private void nextColumn() {
         if (x < end.getX()) {

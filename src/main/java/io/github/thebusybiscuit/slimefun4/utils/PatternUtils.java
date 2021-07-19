@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import java.util.regex.Pattern;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+
 /**
  * This class is created for common-use patterns used in things such as {@link String#split(String)}. <br>
  * Every time something like {@link String#split(String)} is called it will compile a {@link Pattern},
@@ -32,4 +34,7 @@ public final class PatternUtils {
     public static final Pattern MINECRAFT_MATERIAL = Pattern.compile("minecraft:[a-z_]+");
     public static final Pattern MINECRAFT_TAG = Pattern.compile("#minecraft:[a-z_]+");
     public static final Pattern SLIMEFUN_TAG = Pattern.compile("#slimefun:[a-z_]+");
+
+    public static final Pattern USES_LEFT_LORE = Pattern.compile(ChatColors.color("&e[0-9]+ Uses? &7left"));
+
 }
