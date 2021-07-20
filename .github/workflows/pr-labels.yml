@@ -13,7 +13,7 @@ jobs:
     if: github.repository == 'Slimefun/Slimefun4'
 
     steps:
-      - uses: WalshyDev/pr-labels@v1.1
+      - uses: baked-libs/pull-request-labels@v1.1
         id: labeller
         name: Apply labels based on branch
         with:

@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,6 +27,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class PressureChamber extends MultiBlockMachine {
 
+    @ParametersAreNonnullByDefault
     public PressureChamber(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON) }, BlockFace.UP);
     }
@@ -54,7 +57,7 @@ public class PressureChamber extends MultiBlockMachine {
                             removing.setAmount(convert.getAmount());
                             inv.removeItem(removing);
 
-                            craft(p, b, output, outputInv);
+                            craft(p, b, output, inv, dispBlock);
                         } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
@@ -67,7 +70,8 @@ public class PressureChamber extends MultiBlockMachine {
         }
     }
 
-    private void craft(Player p, Block b, ItemStack output, Inventory outputInv) {
+    @ParametersAreNonnullByDefault
+    private void craft(Player p, Block b, ItemStack output, Inventory dispInv, Block dispenser) {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
@@ -81,7 +85,7 @@ public class PressureChamber extends MultiBlockMachine {
                     p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1F, 1F);
                 } else {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    outputInv.addItem(output);
+                    handleCraftedItem(output, dispenser, dispInv);
                 }
             }, i * 20L);
         }

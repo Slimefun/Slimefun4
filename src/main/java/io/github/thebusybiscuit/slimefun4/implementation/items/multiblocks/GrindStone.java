@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -80,6 +81,11 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.QUARTZ_BLOCK));
         recipes.add(new ItemStack(Material.QUARTZ, 4));
 
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            recipes.add(new ItemStack(Material.AMETHYST_BLOCK));
+            recipes.add(new ItemStack(Material.AMETHYST_SHARD, 4));
+        }
+
         recipes.add(SlimefunItems.MAGIC_LUMP_2);
         recipes.add(new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_1, 4));
 
@@ -91,6 +97,9 @@ public class GrindStone extends MultiBlockMachine {
 
         recipes.add(SlimefunItems.ENDER_LUMP_3);
         recipes.add(new SlimefunItemStack(SlimefunItems.ENDER_LUMP_2, 4));
+
+        recipes.add(new ItemStack(Material.DIAMOND));
+        recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -129,7 +130,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    protected @Nonnull MachineRecipe findNextRecipe(@Nonnull BlockMenu inv) {
+    protected @Nullable MachineRecipe findNextRecipe(@Nonnull BlockMenu inv) {
         for (int slot : getInputSlots()) {
             for (AnimalProduce produce : animalProduces) {
                 ItemStack item = inv.getItemInSlot(slot);

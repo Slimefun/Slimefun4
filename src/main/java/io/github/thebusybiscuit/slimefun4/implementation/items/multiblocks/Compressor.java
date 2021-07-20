@@ -72,7 +72,7 @@ public class Compressor extends MultiBlockMachine {
                             removing.setAmount(recipeInput.getAmount());
                             inv.removeItem(removing);
 
-                            craft(p, output, outputInv);
+                            craft(p, output, dispBlock, inv);
                         } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
@@ -86,7 +86,8 @@ public class Compressor extends MultiBlockMachine {
         }
     }
 
-    private void craft(Player p, ItemStack output, Inventory outputInv) {
+    @ParametersAreNonnullByDefault
+    private void craft(Player p, ItemStack output, Block dispenser, Inventory dispInv) {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
@@ -95,7 +96,7 @@ public class Compressor extends MultiBlockMachine {
                     p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
                 } else {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    outputInv.addItem(output);
+                    handleCraftedItem(output, dispenser, dispInv);
                 }
             }, i * 20L);
         }

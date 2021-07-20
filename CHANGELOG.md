@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
 - [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
 - [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
 - [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
@@ -25,7 +26,29 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## Release Candidate 26 (20 Jul 2021)
+
+#### Additions
+* Diamonds can now be ground into Carbon using a Grind Stone
+* Deepslate ores can now be doubled using an Ore Crusher
+* Tridents can now be crafted
+* The Industrial Miner can now mine up to the minimum world limit (previously only until y=0)
+* (API) Added SlimefunItemSpawnEvent and ItemSpawnReason
+* Added "Amethyst Block -> 4 Amethyst Shards" recipe to the Grind Stone
+* Added an option to the IndustrialMiner to configure if they can mine deepslate ores
+* (API) Added `LimitedUseItem`
+
+#### Changes
+* The Industrial Miner now properly drops raw ores in 1.17+ instead of ore blocks
+
+#### Fixes
+* Fixed #2966
+* Fixed Auto-Crafters bypassing the `doLimitedCrafting` gamerule
+* Fixed "Talisman of Anvil" having issues with off-hand items
+* Fixed #3136
+
 ## Release Candidate 25 (20 Jun 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 
 #### Additions
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor

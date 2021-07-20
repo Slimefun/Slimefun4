@@ -47,14 +47,13 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
         super(category, item, recipe, trigger);
     }
 
-    @Nonnull
-    protected Inventory createVirtualInventory(@Nonnull Inventory inv) {
+    protected @Nonnull Inventory createVirtualInventory(@Nonnull Inventory inv) {
         Inventory fakeInv = Bukkit.createInventory(null, 9, "Fake Inventory");
 
         for (int j = 0; j < inv.getContents().length; j++) {
             ItemStack stack = inv.getContents()[j];
 
-            /**
+            /*
              * Fixes #2103 - Properly simulating the consumption
              * (which may leave behind empty buckets or glass bottles)
              */
@@ -115,8 +114,7 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
         }
     }
 
-    @Nonnull
-    private Optional<String> retrieveID(@Nullable ItemStack backpack, int size) {
+    private @Nonnull Optional<String> retrieveID(@Nullable ItemStack backpack, int size) {
         if (backpack != null) {
             for (String line : backpack.getItemMeta().getLore()) {
                 if (line.startsWith(ChatColors.color("&7ID: ")) && line.contains("#")) {

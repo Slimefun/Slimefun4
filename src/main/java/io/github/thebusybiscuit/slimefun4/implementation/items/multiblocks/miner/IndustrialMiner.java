@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
@@ -27,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -41,17 +43,18 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author TheBusyBiscuit
  * 
  * @see AdvancedIndustrialMiner
- * @see ActiveMiner
+ * @see MiningTask
  *
  */
 public class IndustrialMiner extends MultiBlockMachine {
 
-    protected final Map<Location, ActiveMiner> activeMiners = new HashMap<>();
+    protected final Map<Location, MiningTask> activeMiners = new HashMap<>();
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
 
-    private final int range;
-    private final boolean silkTouch;
     private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>(this, "can-mine-ancient-debris", false);
+    private final ItemSetting<Boolean> canMineDeepslateOres = new ItemSetting<>(this, "can-mine-deepslate-ores", true);
+    private final boolean silkTouch;
+    private final int range;
 
     @ParametersAreNonnullByDefault
     public IndustrialMiner(Category category, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
@@ -62,6 +65,7 @@ public class IndustrialMiner extends MultiBlockMachine {
 
         registerDefaultFuelTypes();
         addItemSetting(canMineAncientDebris);
+        addItemSetting(canMineDeepslateOres);
     }
 
     /**
@@ -115,12 +119,43 @@ public class IndustrialMiner extends MultiBlockMachine {
      * 
      * @return The outcome when mining this ore
      */
-    public ItemStack getOutcome(Material ore) {
+    public @Nonnull ItemStack getOutcome(@Nonnull Material ore) {
         if (hasSilkTouch()) {
             return new ItemStack(ore);
         }
 
         Random random = ThreadLocalRandom.current();
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            // In 1.17, breaking metal ores should get raw metals. Also support deepslate ores.
+            switch (ore) {
+                case DEEPSLATE_COAL_ORE:
+                    return new ItemStack(Material.COAL);
+                case DEEPSLATE_DIAMOND_ORE:
+                    return new ItemStack(Material.DIAMOND);
+                case DEEPSLATE_EMERALD_ORE:
+                    return new ItemStack(Material.EMERALD);
+                case DEEPSLATE_REDSTONE_ORE:
+                    return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
+                case DEEPSLATE_LAPIS_ORE:
+                    return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+                case COPPER_ORE:
+                case DEEPSLATE_COPPER_ORE:
+                    return new ItemStack(Material.RAW_COPPER);
+                case IRON_ORE:
+                case DEEPSLATE_IRON_ORE:
+                    return new ItemStack(Material.RAW_IRON);
+                case GOLD_ORE:
+                case DEEPSLATE_GOLD_ORE:
+                    return new ItemStack(Material.RAW_GOLD);
+            }
+        }
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            // In 1.16, breaking nether gold ores should get gold nuggets
+            if (ore == Material.NETHER_GOLD_ORE) {
+                return new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
+            }
+        }
 
         switch (ore) {
             case COAL_ORE:
@@ -129,12 +164,12 @@ public class IndustrialMiner extends MultiBlockMachine {
                 return new ItemStack(Material.DIAMOND);
             case EMERALD_ORE:
                 return new ItemStack(Material.EMERALD);
-            case NETHER_QUARTZ_ORE:
-                return new ItemStack(Material.QUARTZ);
             case REDSTONE_ORE:
                 return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
             case LAPIS_ORE:
                 return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+            case NETHER_QUARTZ_ORE:
+                return new ItemStack(Material.QUARTZ);
             default:
                 // This includes Iron and Gold ore (and Ancient Debris)
                 return new ItemStack(ore);
@@ -149,18 +184,20 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @param item
      *            The item that shall be consumed
      */
-    public void addFuelType(int ores, ItemStack item) {
+    public void addFuelType(int ores, @Nonnull ItemStack item) {
         Validate.isTrue(ores > 1 && ores % 2 == 0, "The amount of ores must be at least 2 and a multiple of 2.");
+        Validate.notNull(item, "The fuel item cannot be null");
+
         fuelTypes.add(new MachineFuel(ores / 2, item));
     }
 
     @Override
-    public String getLabelLocalPath() {
+    public @Nonnull String getLabelLocalPath() {
         return "guide.tooltips.recipes.generator";
     }
 
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> list = new ArrayList<>();
 
         for (MachineFuel fuel : fuelTypes) {
@@ -190,11 +227,11 @@ public class IndustrialMiner extends MultiBlockMachine {
         Block start = b.getRelative(-mod, -1, -mod);
         Block end = b.getRelative(mod, -1, mod);
 
-        ActiveMiner instance = new ActiveMiner(this, p.getUniqueId(), chest, pistons, start, end);
-        instance.start(b);
+        MiningTask task = new MiningTask(this, p.getUniqueId(), chest, pistons, start, end);
+        task.start(b);
     }
 
-    private Block[] findPistons(Block chest) {
+    private @Nonnull Block[] findPistons(@Nonnull Block chest) {
         Block northern = chest.getRelative(BlockFace.NORTH);
 
         if (northern.getType() == Material.PISTON) {
@@ -212,15 +249,17 @@ public class IndustrialMiner extends MultiBlockMachine {
      * 
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
-    public boolean canMine(Material type) {
-        if (SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type)) {
-            return true;
-        } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            return type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue();
-
+    public boolean canMine(@Nonnull Material type) {
+        MinecraftVersion version = SlimefunPlugin.getMinecraftVersion();
+        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16) && type == Material.ANCIENT_DEBRIS) {
+            return canMineAncientDebris.getValue();
         }
 
-        return false;
+        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
+            return canMineDeepslateOres.getValue();
+        }
+
+        return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type);
     }
 
 }

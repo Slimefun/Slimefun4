@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -107,8 +108,18 @@ public class OreCrusher extends MultiBlockMachine {
     public void postRegister() {
         super.postRegister();
 
-        displayRecipes.addAll(Arrays.asList(new ItemStack(Material.COAL_ORE), doubleOres.getCoal(), new ItemStack(Material.LAPIS_ORE), doubleOres.getLapisLazuli(), new ItemStack(Material.REDSTONE_ORE), doubleOres.getRedstone(), new ItemStack(Material.DIAMOND_ORE), doubleOres.getDiamond(), new ItemStack(Material.EMERALD_ORE), doubleOres.getEmerald(), new ItemStack(Material.NETHER_QUARTZ_ORE), doubleOres.getNetherQuartz()));
+        // @formatter:off
+        displayRecipes.addAll(Arrays.asList(
+            new ItemStack(Material.COAL_ORE), doubleOres.getCoal(),
+            new ItemStack(Material.LAPIS_ORE), doubleOres.getLapisLazuli(),
+            new ItemStack(Material.REDSTONE_ORE), doubleOres.getRedstone(),
+            new ItemStack(Material.DIAMOND_ORE), doubleOres.getDiamond(),
+            new ItemStack(Material.EMERALD_ORE), doubleOres.getEmerald(),
+            new ItemStack(Material.NETHER_QUARTZ_ORE), doubleOres.getNetherQuartz()
+        ));
+        // @formatter:on
 
+        // Gold ore variants (1.16+)
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             displayRecipes.add(new ItemStack(Material.NETHER_GOLD_ORE));
             displayRecipes.add(doubleOres.getGoldNuggets());
@@ -117,6 +128,7 @@ public class OreCrusher extends MultiBlockMachine {
             displayRecipes.add(doubleOres.getGoldNuggets());
         }
 
+        // Raw metal ores (1.17+)
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             displayRecipes.add(new ItemStack(Material.RAW_IRON));
             displayRecipes.add(SlimefunItems.IRON_DUST);
@@ -126,6 +138,32 @@ public class OreCrusher extends MultiBlockMachine {
 
             displayRecipes.add(new ItemStack(Material.RAW_GOLD));
             displayRecipes.add(SlimefunItems.GOLD_DUST);
+        }
+
+        // Deepslate Ores (1.17+)
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            // @formatter:off
+            displayRecipes.addAll(Arrays.asList(
+                new ItemStack(Material.DEEPSLATE_COAL_ORE), doubleOres.getCoal(),
+                new ItemStack(Material.DEEPSLATE_LAPIS_ORE), doubleOres.getLapisLazuli(),
+                new ItemStack(Material.DEEPSLATE_REDSTONE_ORE), doubleOres.getRedstone(),
+                new ItemStack(Material.DEEPSLATE_DIAMOND_ORE), doubleOres.getDiamond(),
+                new ItemStack(Material.DEEPSLATE_EMERALD_ORE), doubleOres.getEmerald()
+            ));
+            // @formatter:on
+
+            // More deepslate ores and copper ore
+            displayRecipes.add(new ItemStack(Material.DEEPSLATE_IRON_ORE));
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.IRON_DUST, isOreDoublingEnabled() ? 2 : 1));
+
+            displayRecipes.add(new ItemStack(Material.DEEPSLATE_GOLD_ORE));
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, isOreDoublingEnabled() ? 2 : 1));
+
+            displayRecipes.add(new ItemStack(Material.DEEPSLATE_COPPER_ORE));
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
+
+            displayRecipes.add(new ItemStack(Material.COPPER_ORE));
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
         }
     }
 
@@ -180,7 +218,7 @@ public class OreCrusher extends MultiBlockMachine {
         private final ItemStack quartz = new ItemStack(Material.QUARTZ, 1);
         private final ItemStack goldNuggets = new ItemStack(Material.GOLD_NUGGET, 4);
 
-        public DoubleOreSetting(@Nonnull OreCrusher oreCrusher) {
+        DoubleOreSetting(@Nonnull OreCrusher oreCrusher) {
             super(oreCrusher, "double-ores", true);
         }
 
@@ -195,12 +233,12 @@ public class OreCrusher extends MultiBlockMachine {
 
             SlimefunItem ironDust = SlimefunItem.getByID("IRON_DUST");
             if (ironDust != null) {
-                ironDust.setRecipeOutput(new CustomItem(SlimefunItems.IRON_DUST, value ? 2 : 1));
+                ironDust.setRecipeOutput(new SlimefunItemStack(SlimefunItems.IRON_DUST, value ? 2 : 1));
             }
 
             SlimefunItem goldDust = SlimefunItem.getByID("GOLD_DUST");
             if (goldDust != null) {
-                goldDust.setRecipeOutput(new CustomItem(SlimefunItems.GOLD_DUST, value ? 2 : 1));
+                goldDust.setRecipeOutput(new SlimefunItemStack(SlimefunItems.GOLD_DUST, value ? 2 : 1));
             }
         }
 
@@ -216,31 +254,31 @@ public class OreCrusher extends MultiBlockMachine {
             apply(getValue());
         }
 
-        public ItemStack getCoal() {
+        public @Nonnull ItemStack getCoal() {
             return coal;
         }
 
-        public ItemStack getLapisLazuli() {
+        public @Nonnull ItemStack getLapisLazuli() {
             return lapis;
         }
 
-        public ItemStack getRedstone() {
+        public @Nonnull ItemStack getRedstone() {
             return redstone;
         }
 
-        public ItemStack getDiamond() {
+        public @Nonnull ItemStack getDiamond() {
             return diamond;
         }
 
-        public ItemStack getEmerald() {
+        public @Nonnull ItemStack getEmerald() {
             return emerald;
         }
 
-        public ItemStack getNetherQuartz() {
+        public @Nonnull ItemStack getNetherQuartz() {
             return quartz;
         }
 
-        public ItemStack getGoldNuggets() {
+        public @Nonnull ItemStack getGoldNuggets() {
             return goldNuggets;
         }
 
