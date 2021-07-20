@@ -46,33 +46,33 @@ jobs:
         draft: false
         prerelease: false
         body: |
-## 💾  Download link
-This release candidate of Slimefun4 can be downloaded here:
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/Slimefun4-${{ github.event.inputs.number }}.jar
+          ## 💾  Download link
+          This release candidate of Slimefun4 can be downloaded here:
+          https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/Slimefun4-${{ github.event.inputs.number }}.jar
 
-### ❓ How to install Slimefun
-Simply drag & drop the Slimefun4 jar file into the `/plugins/` directory of your server.
-If you need any help installing Slimefun, feel free to check out our wiki article on [How to install Slimefun](https://github.com/Slimefun/Slimefun4/wiki/Installing-Slimefun).
+          ### ❓ How to install Slimefun
+          Simply drag & drop the Slimefun4 jar file into the `/plugins/` directory of your server.
+          If you need any help installing Slimefun, feel free to check out our wiki article on [How to install Slimefun](https://github.com/Slimefun/Slimefun4/wiki/Installing-Slimefun).
 
-## 📝 Change log
-You can find a short summary of all the changes that are included in this release right here:
-https://github.com/Slimefun/Slimefun4/blob/master/CHANGELOG.md#release-candidate-${{ github.event.inputs.number }}-${{ github.event.inputs.release_date }}
+          ## 📝 Change log
+          You can find a short summary of all the changes that are included in this release right here:
+          https://github.com/Slimefun/Slimefun4/blob/master/CHANGELOG.md#release-candidate-${{ github.event.inputs.number }}-${{ github.event.inputs.release_date }}
 
-## 📦  Maven dependency reference
-If you want to develop an addon for Slimefun ([Developer Reference](https://github.com/Slimefun/Slimefun4/wiki/Developer-Guide)), then you can build your project against this specific version of Slimefun using the following `pom.xml` dependency:
-```xml
-<repositories>
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-</repositories>
+          ## 📦  Maven dependency reference
+          If you want to develop an addon for Slimefun ([Developer Reference](https://github.com/Slimefun/Slimefun4/wiki/Developer-Guide)), then you can build your project against this specific version of Slimefun using the following `pom.xml` dependency:
+          ```xml
+          <repositories>
+            <repository>
+              <id>jitpack.io</id>
+              <url>https://jitpack.io</url>
+            </repository>
+          </repositories>
 
-<dependencies>
-  <dependency>
-    <groupId>com.github.Slimefun</groupId>
-    <artifactId>Slimefun4</artifactId>
-    <version>RC-${{ github.event.inputs.number }}</version>
-  </dependency>
-</dependencies>
-```
+          <dependencies>
+            <dependency>
+              <groupId>com.github.Slimefun</groupId>
+              <artifactId>Slimefun4</artifactId>
+              <version>RC-${{ github.event.inputs.number }}</version>
+            </dependency>
+          </dependencies>
+          ```
