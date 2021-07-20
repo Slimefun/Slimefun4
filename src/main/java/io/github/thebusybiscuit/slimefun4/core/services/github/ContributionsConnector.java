@@ -75,6 +75,7 @@ class ContributionsConnector extends GitHubConnector {
         aliases.put("ramdon-person", "ramdon_person");
         aliases.put("NCBPFluffyBear", "FluffyBear_");
         aliases.put("martinbrom", "OneTime97");
+        aliases.put("LilBC", "Lil_BC");
     }
 
     /**

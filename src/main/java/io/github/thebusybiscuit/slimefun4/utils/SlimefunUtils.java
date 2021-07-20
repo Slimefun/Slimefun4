@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
@@ -27,13 +28,16 @@ import org.bukkit.persistence.PersistentDataType;
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemSpawnEvent;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -401,6 +405,59 @@ public final class SlimefunUtils {
         } else {
             return true;
         }
+    }
+
+    /**
+     * Helper method to spawn an {@link ItemStack}.
+     * This method automatically calls a {@link SlimefunItemSpawnEvent} to allow
+     * other plugins to catch the item being dropped.
+     * 
+     * @param loc
+     *            The {@link Location} where to drop the item
+     * @param item
+     *            The {@link ItemStack} to drop
+     * @param reason
+     *            The {@link ItemSpawnReason} why the item is being dropped
+     * @param addRandomOffset
+     *            Whether a random offset should be added (see {@link World#dropItemNaturally(Location, ItemStack)})
+     * 
+     * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
+     */
+    @ParametersAreNonnullByDefault
+    public static @Nullable Item spawnItem(Location loc, ItemStack item, ItemSpawnReason reason, boolean addRandomOffset) {
+        SlimefunItemSpawnEvent event = new SlimefunItemSpawnEvent(loc, item, reason);
+        SlimefunPlugin.instance().getServer().getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()) {
+            World world = event.getLocation().getWorld();
+
+            if (addRandomOffset) {
+                return world.dropItemNaturally(event.getLocation(), event.getItemStack());
+            } else {
+                return world.dropItem(event.getLocation(), event.getItemStack());
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Helper method to spawn an {@link ItemStack}.
+     * This method automatically calls a {@link SlimefunItemSpawnEvent} to allow
+     * other plugins to catch the item being dropped.
+     * 
+     * @param loc
+     *            The {@link Location} where to drop the item
+     * @param item
+     *            The {@link ItemStack} to drop
+     * @param reason
+     *            The {@link ItemSpawnReason} why the item is being dropped
+     * 
+     * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
+     */
+    @ParametersAreNonnullByDefault
+    public static @Nullable Item spawnItem(Location loc, ItemStack item, ItemSpawnReason reason) {
+        return spawnItem(loc, item, reason, false);
     }
 
 }

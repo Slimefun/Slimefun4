@@ -151,6 +151,9 @@ messages:
     select: 'Dieses Rezept auswählen'
     temporarily-disabled: '&eDieser Auto-Crafter wurde vorübergehend deaktiviert. Du kannst ihn jederzeit wieder aktivieren!'
     re-enabled: '&eDieser Auto-Crafter wurde reaktiviert!'
+    recipe-unavailable: |
+      &cDieses Item ist entweder auf deinem Server deaktiviert oder du hast es noch nicht freigeschaltet.
+      &7Versuche das Item herzustellen, wenn du dies noch nicht getan hast, um das Rezept freizuschalten.
     tooltips:
       enabled:
         - '&cDieses Rezept ist momentan deaktiviert'

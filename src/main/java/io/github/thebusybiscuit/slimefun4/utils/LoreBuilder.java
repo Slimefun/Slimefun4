@@ -33,54 +33,48 @@ public final class LoreBuilder {
 
     private LoreBuilder() {}
 
-    @Nonnull
-    public static String radioactive(@Nonnull Radioactivity radioactivity) {
+    public static @Nonnull String radioactive(@Nonnull Radioactivity radioactivity) {
         return radioactivity.getLore();
     }
 
-    @Nonnull
-    public static String machine(@Nonnull MachineTier tier, @Nonnull MachineType type) {
+    public static @Nonnull String machine(@Nonnull MachineTier tier, @Nonnull MachineType type) {
         return tier + " " + type;
     }
 
-    @Nonnull
-    public static String speed(float speed) {
+    public static @Nonnull String speed(float speed) {
         return "&8\u21E8 &b\u26A1 &7Speed: &b" + speed + 'x';
     }
 
-    @Nonnull
-    public static String powerBuffer(int power) {
+    public static @Nonnull String powerBuffer(int power) {
         return power(power, " Buffer");
     }
 
-    @Nonnull
-    public static String powerPerSecond(int power) {
+    public static @Nonnull String powerPerSecond(int power) {
         return power(power, "/s");
     }
 
-    @Nonnull
-    public static String power(int power, @Nonnull String suffix) {
+    public static @Nonnull String power(int power, @Nonnull String suffix) {
         return "&8\u21E8 &e\u26A1 &7" + power + " J" + suffix;
     }
 
-    @Nonnull
-    public static String powerCharged(int charge, int capacity) {
+    public static @Nonnull String powerCharged(int charge, int capacity) {
         return "&8\u21E8 &e\u26A1 &7" + charge + " / " + capacity + " J";
     }
 
-    @Nonnull
-    public static String material(@Nonnull String material) {
+    public static @Nonnull String material(@Nonnull String material) {
         return "&8\u21E8 &7Material: &b" + material;
     }
 
-    @Nonnull
-    public static String hunger(double value) {
+    public static @Nonnull String hunger(double value) {
         return "&7&oRestores &b&o" + hungerFormat.format(value) + " &7&oHunger";
     }
 
-    @Nonnull
-    public static String range(int blocks) {
+    public static @Nonnull String range(int blocks) {
         return "&7Range: &c" + blocks + " blocks";
+    }
+
+    public static @Nonnull String usesLeft(int usesLeft) {
+        return "&e" + usesLeft + ' ' + (usesLeft > 1 ? "Uses" : "Use") + " &7left";
     }
 
 }

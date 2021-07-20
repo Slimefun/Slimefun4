@@ -97,6 +97,17 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             items.add(new ItemStack(Material.LAVA_BUCKET));
         }
 
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            items.add(new ItemStack(Material.COBBLED_DEEPSLATE, 12));
+            items.add(new ItemStack(Material.LAVA_BUCKET));
+
+            items.add(new ItemStack(Material.DEEPSLATE, 10));
+            items.add(new ItemStack(Material.LAVA_BUCKET));
+
+            items.add(new ItemStack(Material.TUFF, 8));
+            items.add(new ItemStack(Material.LAVA_BUCKET));
+        }
+
         return items;
     }
 

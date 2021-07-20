@@ -21,6 +21,7 @@ import org.bukkit.util.Vector;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -57,8 +58,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         addItemHandler(onBreak());
     }
 
-    @Nonnull
-    private BlockBreakHandler onBreak() {
+    private @Nonnull BlockBreakHandler onBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
@@ -79,12 +79,11 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     @Override
-    public BlockDispenseHandler getItemHandler() {
+    public @Nonnull BlockDispenseHandler getItemHandler() {
         return (e, d, block, machine) -> e.setCancelled(true);
     }
 
-    @Nonnull
-    public Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
+    public @Nonnull Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
         Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
 
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
@@ -107,8 +106,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         }
     }
 
-    @Nonnull
-    public ItemStack getOriginalItemStack(@Nonnull Item item) {
+    public @Nonnull ItemStack getOriginalItemStack(@Nonnull Item item) {
         ItemStack stack = item.getItemStack().clone();
         String customName = item.getCustomName();
 
@@ -142,12 +140,14 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             ItemUtils.consumeItem(hand, false);
         }
 
-        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem);
-        entity.setVelocity(new Vector(0, 0.1, 0));
-        entity.setCustomNameVisible(true);
-        entity.setCustomName(nametag);
-        SlimefunUtils.markAsNoPickup(entity, "altar_item");
-        p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
-    }
+        Item entity = SlimefunUtils.spawnItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM);
 
+        if (entity != null) {
+            entity.setVelocity(new Vector(0, 0.1, 0));
+            entity.setCustomNameVisible(true);
+            entity.setCustomName(nametag);
+            SlimefunUtils.markAsNoPickup(entity, "altar_item");
+            p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
+        }
+    }
 }
