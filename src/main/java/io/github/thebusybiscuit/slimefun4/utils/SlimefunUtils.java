@@ -295,9 +295,11 @@ public final class SlimefunUtils {
         } else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
             return false;
         } else if (checkLore) {
-            if (itemMeta.hasLore() && sfitemMeta.hasLore() && !equalsLore(itemMeta.getLore(), sfitemMeta.getLore())) {
+            boolean hasItemMetaLore = itemMeta.hasLore();
+            boolean hasSfItemMetaLore = sfitemMeta.hasLore();
+            if (hasItemMetaLore && hasSfItemMetaLore && !equalsLore(itemMeta.getLore(), sfitemMeta.getLore())) {
                 return false;
-            } else if (itemMeta.hasLore() != sfitemMeta.hasLore()) {
+            } else if (hasItemMetaLore != hasSfItemMetaLore) {
                 return false;
             }
         }
