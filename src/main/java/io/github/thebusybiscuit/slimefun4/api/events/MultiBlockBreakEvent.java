@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.block.Block;
@@ -14,26 +15,28 @@ import org.bukkit.event.HandlerList;
 /**
  * This {@link Event} is called when a {@link Player} breaks multiply blocks.
  * 
- * @author NgLoader
+ * @author TheBusyBiscuit
  *
  */
-public class AndroidBlockBreakEvent extends Event implements Cancellable {
+public class MultiBlockBreakEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
+    private final Player player;
     private final Block clickedBlock;
     private final List<Block> blocks;
     private boolean cancelled;
 
     @ParametersAreNonnullByDefault
-    public AndroidBlockBreakEvent(Block clicked, List<Block> blocks) {
+    public MultiBlockBreakEvent(@Nullable Player player, Block clicked, List<Block> blocks) {
+    	this.player = player;
         this.clickedBlock = clicked;
         this.blocks = blocks;
     }
 
     /**
      * This returns the specific {@link Block} that was breaked.
-     *
+     * 
      * @return The {@link Block} that was breaked
      */
     @Nonnull
@@ -43,13 +46,18 @@ public class AndroidBlockBreakEvent extends Event implements Cancellable {
 
     /**
      * This returns the list of all breaking blocks.
-     *
+     * 
      * @return A list of {@link Block}
      */
     @Nonnull
     public List<Block> getBlocks() {
-        return this.blocks;
-    }
+		return this.blocks;
+	}
+
+    @Nullable
+    public Player getPlayer() {
+		return this.player;
+	}
 
     @Override
     public boolean isCancelled() {
@@ -71,4 +79,5 @@ public class AndroidBlockBreakEvent extends Event implements Cancellable {
     public HandlerList getHandlers() {
         return getHandlerList();
     }
+
 }
