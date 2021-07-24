@@ -40,7 +40,7 @@ public class OrebfuscatorIntegration implements Listener {
     public void register() {
         this.service = Bukkit.getServer().getServicesManager().getRegistration(OrebfuscatorService.class).getProvider();
 
-        Bukkit.getServer().getPluginManager().registerEvents(this, this.plugin);
+        plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
