@@ -32,9 +32,12 @@
 #### Additions
 
 #### Changes
+* Copper wire can no longer be placed down
+* Slimefun chains can no longer be placed down
 
 #### Fixes
 * Fixed #3164
+* Fixed #3177
 
 ## Release Candidate 26 (20 Jul 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
