@@ -30,6 +30,7 @@
 ## Release Candidate 27 (TBD)
 
 #### Additions
+* A couple more items have their wiki page linked ingame now
 
 #### Changes
 * Copper wire can no longer be placed down
@@ -38,6 +39,7 @@
 #### Fixes
 * Fixed #3164
 * Fixed #3177
+* Fixed unbreakable Flint and Steel still being damaged in Ignition Chambers
 
 ## Release Candidate 26 (20 Jul 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
