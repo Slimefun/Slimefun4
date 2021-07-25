@@ -656,7 +656,7 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.HOLOGRAM_PROJECTOR, 3))
         .register(plugin);
 
-        new SlimefunItem(categories.misc, SlimefunItems.CHAIN, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.misc, SlimefunItems.CHAIN, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null, null}, 
         new SlimefunItemStack(SlimefunItems.CHAIN, 8))
         .register(plugin);
@@ -1335,7 +1335,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE})
         .register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, SlimefunItems.COPPER_WIRE, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.technicalComponents, SlimefunItems.COPPER_WIRE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, null, null, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, null, null, null}, 
         new SlimefunItemStack(SlimefunItems.COPPER_WIRE, 8))
         .register(plugin);
