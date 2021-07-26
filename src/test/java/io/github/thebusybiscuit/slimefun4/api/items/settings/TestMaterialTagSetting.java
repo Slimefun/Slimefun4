@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -70,7 +69,7 @@ class TestMaterialTagSetting {
         item.register(plugin);
 
         List<String> tagContents = tag.getValues().stream().map(Material::name).collect(Collectors.toList());
-		assertThat("Two list is different", new HashSet<>(tagContents).equals(new HashSet<>(setting.getValue())));
+		Assertions.assertTrue(new HashSet<>(tagContents).equals(new HashSet<>(setting.getValue())));
 
         List<String> materials = Arrays.asList(Material.REDSTONE.name(), Material.DIAMOND.name());
         setting.update(materials);

@@ -367,12 +367,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-		<dependency>
-    		<groupId>org.hamcrest</groupId>
-    		<artifactId>hamcrest</artifactId>
-    		<version>2.2</version>
-    		<scope>test</scope>
-		</dependency>
 
         <!-- Shaded packages -->
         <dependency>
