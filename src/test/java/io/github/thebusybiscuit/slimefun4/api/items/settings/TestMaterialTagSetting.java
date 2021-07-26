@@ -69,7 +69,7 @@ class TestMaterialTagSetting {
         item.register(plugin);
 
         List<String> tagContents = tag.getValues().stream().map(Material::name).collect(Collectors.toList());
-		Assertions.assertTrue(new HashSet<>(tagContents).equals(new HashSet<>(setting.getValue())));
+        Assertions.assertTrue(new HashSet<>(tagContents).equals(new HashSet<>(setting.getValue())));
 
         List<String> materials = Arrays.asList(Material.REDSTONE.name(), Material.DIAMOND.name());
         setting.update(materials);
