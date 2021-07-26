@@ -31,6 +31,7 @@
 
 #### Additions
 * A couple more items have their wiki page linked ingame now
+* Added Orebfuscation compatibility
 
 #### Changes
 * Copper wire can no longer be placed down
