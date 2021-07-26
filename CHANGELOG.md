@@ -36,6 +36,7 @@
 #### Changes
 * Copper wire can no longer be placed down
 * Slimefun chains can no longer be placed down
+* (API) FlexCategories can now also appear in non-survival Slimefun guides
 
 #### Fixes
 * Fixed #3164
