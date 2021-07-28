@@ -103,7 +103,7 @@ public class UpdaterService {
     public int getBuildNumber() {
         if (updater != null) {
             PrefixedVersion version = updater.getCurrentVersion();
-            return version.getNumericVersion();
+            return version.getVersionNumber();
         }
 
         return -1;
