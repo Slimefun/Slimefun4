@@ -46,31 +46,29 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
      *            The {@link Player} who opened his {@link SlimefunGuide}
      * @param profile
      *            The {@link PlayerProfile} of the {@link Player}
+     *            
      * @return a {@link List} of visible {@link ItemGroup} instances
      */
-    @Nonnull
     @Override
-    protected List<ItemGroup> getVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
-        List<ItemGroup> categories = new LinkedList<>();
+    protected List<ItemGroup> getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+        List<ItemGroup> groups = new LinkedList<>();
 
-        for (ItemGroup category : Slimefun.getRegistry().getCategories()) {
-            if (!(category instanceof FlexItemGroup)) {
-                categories.add(category);
+        for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
+            if (!(group instanceof FlexItemGroup) || ((FlexItemGroup) group).isVisible(p, profile, getMode())) {
+                groups.add(group);
             }
         }
 
-        return categories;
+        return groups;
     }
 
-    @Nonnull
     @Override
-    public SlimefunGuideMode getMode() {
+    public @Nonnull SlimefunGuideMode getMode() {
         return SlimefunGuideMode.CHEAT_MODE;
     }
 
-    @Nonnull
     @Override
-    public ItemStack getItem() {
+    public @Nonnull ItemStack getItem() {
         return item;
     }
 

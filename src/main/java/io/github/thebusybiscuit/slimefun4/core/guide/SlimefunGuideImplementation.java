@@ -52,7 +52,7 @@ public interface SlimefunGuideImplementation {
     void openMainMenu(PlayerProfile profile, int page);
 
     @ParametersAreNonnullByDefault
-    void openCategory(PlayerProfile profile, ItemGroup category, int page);
+    void openItemGroup(PlayerProfile profile, ItemGroup group, int page);
 
     @ParametersAreNonnullByDefault
     void openSearch(PlayerProfile profile, String input, boolean addToHistory);

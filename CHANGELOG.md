@@ -31,15 +31,18 @@
 
 #### Additions
 * A couple more items have their wiki page linked ingame now
+* Added Orebfuscator compatibility
 
 #### Changes
 * Copper wire can no longer be placed down
 * Slimefun chains can no longer be placed down
+* (API) FlexCategories can now also appear in non-survival Slimefun guides
 
 #### Fixes
 * Fixed #3164
 * Fixed #3177
 * Fixed unbreakable Flint and Steel still being damaged in Ignition Chambers
+* Fixed #2677
 
 ## Release Candidate 26 (20 Jul 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26

@@ -55,6 +55,7 @@ public class IntegrationsManager {
     private boolean isMcMMOInstalled = false;
     private boolean isClearLagInstalled = false;
     private boolean isItemsAdderInstalled = false;
+    private boolean isOrebfuscatorInstalled = false;
 
     // Addon support
     private boolean isChestTerminalInstalled = false;
@@ -140,6 +141,12 @@ public class IntegrationsManager {
         } catch (Exception | LinkageError x) {
             Slimefun.logger().log(Level.WARNING, x, () -> "Failed to load Protection plugin integrations for Slimefun v" + Slimefun.getVersion());
         }
+
+        // Orebfuscator Integration
+        load("Orebfuscator", integration -> {
+            new OrebfuscatorIntegration(plugin).register();
+            isOrebfuscatorInstalled = true;
+        });
 
         isChestTerminalInstalled = isAddonInstalled("ChestTerminal");
     }
@@ -282,4 +289,7 @@ public class IntegrationsManager {
         return isChestTerminalInstalled;
     }
 
+    public boolean isOrebfuscatorInstalled() {
+        return isOrebfuscatorInstalled;
+    }
 }

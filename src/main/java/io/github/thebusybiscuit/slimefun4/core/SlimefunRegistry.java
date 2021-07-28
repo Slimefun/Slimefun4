@@ -169,8 +169,7 @@ public final class SlimefunRegistry {
      * 
      * @return {@link List} containing every enabled {@link ItemGroup}
      */
-    @Nonnull
-    public List<ItemGroup> getCategories() {
+    public @Nonnull List<ItemGroup> getAllItemGroups() {
         return categories;
     }
 
@@ -179,8 +178,7 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link List} containing every {@link SlimefunItem}
      */
-    @Nonnull
-    public List<SlimefunItem> getAllSlimefunItems() {
+    public @Nonnull List<SlimefunItem> getAllSlimefunItems() {
         return slimefunItems;
     }
 

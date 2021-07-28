@@ -87,7 +87,7 @@ public class LockedItemGroup extends ItemGroup {
             }
         }
 
-        for (ItemGroup category : Slimefun.getRegistry().getCategories()) {
+        for (ItemGroup category : Slimefun.getRegistry().getAllItemGroups()) {
             if (namespacedKeys.remove(category.getKey())) {
                 addParent(category);
             }

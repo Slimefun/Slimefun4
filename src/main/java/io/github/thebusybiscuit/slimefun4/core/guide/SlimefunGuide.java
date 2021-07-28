@@ -83,7 +83,7 @@ public final class SlimefunGuide {
 
     @ParametersAreNonnullByDefault
     public static void openCategory(PlayerProfile profile, ItemGroup category, SlimefunGuideMode mode, int selectedPage) {
-        Slimefun.getRegistry().getSlimefunGuide(mode).openCategory(profile, category, selectedPage);
+        Slimefun.getRegistry().getSlimefunGuide(mode).openItemGroup(profile, category, selectedPage);
     }
 
     @ParametersAreNonnullByDefault

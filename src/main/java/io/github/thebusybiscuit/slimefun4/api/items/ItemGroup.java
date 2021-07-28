@@ -111,7 +111,7 @@ public class ItemGroup implements Keyed {
 
         this.addon = addon;
 
-        Slimefun.getRegistry().getCategories().add(this);
+        Slimefun.getRegistry().getAllItemGroups().add(this);
         sortCategoriesByTier();
     }
 
@@ -145,7 +145,7 @@ public class ItemGroup implements Keyed {
      * This refreshes the {@link ItemGroup} order.
      */
     private void sortCategoriesByTier() {
-        List<ItemGroup> categories = Slimefun.getRegistry().getCategories();
+        List<ItemGroup> categories = Slimefun.getRegistry().getAllItemGroups();
         Collections.sort(categories, Comparator.comparingInt(ItemGroup::getTier));
     }
 
@@ -316,7 +316,7 @@ public class ItemGroup implements Keyed {
      * @return Whether this {@link ItemGroup} has been registered
      */
     public boolean isRegistered() {
-        return Slimefun.getRegistry().getCategories().contains(this);
+        return Slimefun.getRegistry().getAllItemGroups().contains(this);
     }
 
 }

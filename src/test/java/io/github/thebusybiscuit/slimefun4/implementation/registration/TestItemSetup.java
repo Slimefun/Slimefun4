@@ -77,7 +77,7 @@ class TestItemSetup {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/en/categories.yml"), StandardCharsets.UTF_8))) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 
-            for (ItemGroup category : Slimefun.getRegistry().getCategories()) {
+            for (ItemGroup category : Slimefun.getRegistry().getAllItemGroups()) {
                 String path = category.getKey().getNamespace() + '.' + category.getKey().getKey();
                 Assertions.assertTrue(config.contains(path));
             }

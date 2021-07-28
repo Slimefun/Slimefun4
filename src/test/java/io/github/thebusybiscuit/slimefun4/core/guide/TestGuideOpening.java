@@ -66,7 +66,7 @@ class TestGuideOpening {
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
         PlayerProfile profile = prepare(guide, history -> history.add(category, 1));
-        Mockito.verify(guide).openCategory(profile, category, 1);
+        Mockito.verify(guide).openItemGroup(profile, category, 1);
     }
 
     @Test
