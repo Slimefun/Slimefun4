@@ -203,6 +203,7 @@ public class BlockListener implements Listener {
         if (SlimefunTag.SENSITIVE_MATERIALS.isTagged(blockAbove.getType())) {
             SlimefunItem sfItem = BlockStorage.check(blockAbove);
 
+            List<ItemStack> finalDrops = new ArrayList<>();
             if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
                 /*
                  * We create a dummy here to pass onto the BlockBreakHandler.
@@ -213,18 +214,23 @@ public class BlockListener implements Listener {
                 drops.addAll(sfItem.getDrops(e.getPlayer()));
 
                 sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
-                blockAbove.setType(Material.AIR);
 
                 if (!dummyEvent.isCancelled() && dummyEvent.isDropItems()) {
-                    for (ItemStack drop : drops) {
-                        if (drop != null && !drop.getType().isAir()) {
-                            blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), drop);
-                        }
-                    }
+                    finalDrops = drops;
                 }
 
                 // Fixes #2944 - Don't forget to clear the Block Data
                 BlockStorage.clearBlockInfo(blockAbove);
+            } else {
+                finalDrops.addAll(blockAbove.getDrops());
+            }
+
+            blockAbove.setType(Material.AIR);
+
+            for (ItemStack drop : finalDrops) {
+                if (drop != null && !drop.getType().isAir()) {
+                    blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), drop);
+                }
             }
         }
     }

@@ -3,6 +3,9 @@
 		"#minecraft:saplings",
 		"#slimefun:torches",
 		"#slimefun:pressure_plates",
-		"minecraft:cake"
+		"minecraft:cake",
+		"minecraft:redstone_wire",
+		"minecraft:repeater",
+		"minecraft:comparator"
 	]
 }
