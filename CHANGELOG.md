@@ -43,6 +43,7 @@
 * Fixed #3177
 * Fixed unbreakable Flint and Steel still being damaged in Ignition Chambers
 * Fixed #2677
+* Fixed Auto-Disenchanter exploit using mcMMO's "super ability" tools
 
 ## Release Candidate 26 (20 Jul 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26

@@ -11,14 +11,18 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
+import com.gmail.nossr50.util.skills.SkillUtils;
 
-import dev.lone.itemsadder.api.ItemsAdder;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
+
+import dev.lone.itemsadder.api.ItemsAdder;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
@@ -223,8 +227,7 @@ public class IntegrationsManager {
      * 
      * @return Our instanceof of the {@link ProtectionManager}
      */
-    @Nonnull
-    public ProtectionManager getProtectionManager() {
+    public @Nonnull ProtectionManager getProtectionManager() {
         return protectionManager;
     }
 
@@ -262,6 +265,25 @@ public class IntegrationsManager {
         }
 
         return false;
+    }
+
+    /**
+     * This method removes any temporary enchantments from the given {@link ItemStack}.
+     * Some plugins apply enchantments for a short amount of time and remove it later.
+     * We don't want these items to be exploited using an {@link AutoDisenchanter} for example,
+     * so we want to be able to strip those temporary enchantments in advance.
+     * 
+     * @param item
+     *            The {@link ItemStack}
+     */
+    public void removeTemporaryEnchantments(@Nonnull ItemStack item) {
+        if (isMcMMOInstalled) {
+            try {
+                SkillUtils.removeAbilityBuff(item);
+            } catch (Exception | LinkageError x) {
+                logError("mcMMO", x);
+            }
+        }
     }
 
     public boolean isPlaceholderAPIInstalled() {
