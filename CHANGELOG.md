@@ -32,6 +32,7 @@
 #### Additions
 * A couple more items have their wiki page linked ingame now
 * Added Orebfuscator compatibility
+* You can now "sneak + left click" to only break one block at a time when using an explosive pickaxe or shovel
 
 #### Changes
 * Copper wire can no longer be placed down
