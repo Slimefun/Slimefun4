@@ -114,6 +114,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.RadioactivityTask;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.RainbowArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
@@ -347,8 +349,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         // Armor Update Task
         if (config.getBoolean("options.enable-armor-effects")) {
-            getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
-            getServer().getScheduler().runTaskTimerAsynchronously(this, new RadioactivityTask(), 0L, config.getOrSetDefault("options.radiation-update-interval", 1) * 20L);
+            new ArmorTask().schedule(this, config.getInt("options.armor-update-interval") * 20L);
+            new RadiationTask().schedule(this, config.getInt("options.radiation-update-interval") * 20L);
+            new RainbowArmorTask().schedule(this, config.getInt("options.rainbow-armor-update-interval") * 20L);
         }
 
         // Starting our tasks

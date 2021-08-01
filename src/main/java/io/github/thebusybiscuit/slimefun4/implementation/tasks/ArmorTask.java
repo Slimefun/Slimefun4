@@ -6,13 +6,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -30,7 +30,27 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  *
  */
-public class ArmorTask implements Runnable {
+public class ArmorTask extends AbstractArmorTask {
+
+    private final Set<PotionEffect> radiationEffects;
+
+    /**
+     * This creates a new {@link ArmorTask}.
+     * 
+     * @param radioactiveFire
+     *            Whether radiation also causes a {@link Player} to burn
+     */
+    public ArmorTask() {
+        Set<PotionEffect> effects = new HashSet<>();
+        effects.add(new PotionEffect(PotionEffectType.WITHER, 400, 2));
+        effects.add(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
+        effects.add(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
+        effects.add(new PotionEffect(PotionEffectType.WEAKNESS, 400, 2));
+        effects.add(new PotionEffect(PotionEffectType.SLOW, 400, 1));
+        effects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
+        radiationEffects = Collections.unmodifiableSet(effects);
+    }
+
     /**
      * This returns a {@link Set} of {@link PotionEffect PotionEffects} which get applied to
      * a {@link Player} when they are exposed to deadly radiation.
@@ -55,38 +75,27 @@ public class ArmorTask implements Runnable {
                 }
             });
         }
+  
+    @ParametersAreNonnullByDefault
+    protected void handleArmorPiece(Player p, SlimefunArmorPiece sfArmorPiece, ItemStack armorPiece) {
+        for (PotionEffect effect : sfArmorPiece.getPotionEffects()) {
+            p.removePotionEffect(effect.getType());
+            p.addPotionEffect(effect);
+        }
     }
 
+    @Override
     @ParametersAreNonnullByDefault
-    private void handleSlimefunArmor(Player p, ItemStack[] armor, HashedArmorpiece[] cachedArmor) {
-        for (int slot = 0; slot < 4; slot++) {
-            ItemStack item = armor[slot];
-            HashedArmorpiece armorpiece = cachedArmor[slot];
-
-            if (armorpiece.hasDiverged(item)) {
-                SlimefunItem sfItem = SlimefunItem.getByItem(item);
-
-                if (!(sfItem instanceof SlimefunArmorPiece)) {
-                    // If it isn't actually Armor, then we won't care about it.
-                    sfItem = null;
-                }
-
-                armorpiece.update(item, sfItem);
-            }
-
-            if (item != null && armorpiece.getItem().isPresent()) {
-                SlimefunPlugin.runSync(() -> {
-                    SlimefunArmorPiece slimefunArmor = armorpiece.getItem().get();
-
-                    if (slimefunArmor.canUse(p, true)) {
-                        for (PotionEffect effect : slimefunArmor.getPotionEffects()) {
-                            p.removePotionEffect(effect.getType());
-                            p.addPotionEffect(effect);
-                        }
-                    }
-                });
-            }
+    protected void handlePlayer(Player p, PlayerProfile profile) {
+        if (hasSunlight(p)) {
+            checkForSolarHelmet(p);
         }
+
+        checkForRadiation(p, profile);
+    }
+
+    @Override
+    protected void handleTick() {
     }
 
     private void checkForSolarHelmet(@Nonnull Player p) {

@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.Repairable;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -79,9 +80,8 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
         return null;
     }
 
-    @Nullable
     @ParametersAreNonnullByDefault
-    private MachineRecipe disenchant(BlockMenu menu, ItemStack item, ItemStack book) {
+    private @Nullable MachineRecipe disenchant(BlockMenu menu, ItemStack item, ItemStack book) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
 
         // Find enchantments

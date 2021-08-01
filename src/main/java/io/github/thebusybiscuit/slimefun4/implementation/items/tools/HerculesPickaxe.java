@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
@@ -10,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -22,7 +24,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
     }
 
     @Override
-    public ToolUseHandler getItemHandler() {
+    public @Nonnull ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
             if (SlimefunTag.ORES.isTagged(e.getBlock().getType())) {
                 if (e.getBlock().getType() == Material.IRON_ORE) {

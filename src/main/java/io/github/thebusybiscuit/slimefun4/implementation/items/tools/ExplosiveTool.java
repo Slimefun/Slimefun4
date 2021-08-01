@@ -58,13 +58,16 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
     public ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
             Player p = e.getPlayer();
-            Block b = e.getBlock();
 
-            b.getWorld().createExplosion(b.getLocation(), 0);
-            b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
+            if (!p.isSneaking()) {
+                Block b = e.getBlock();
 
-            List<Block> blocks = findBlocks(b);
-            breakBlocks(e, p, tool, b, blocks, drops);
+                b.getWorld().createExplosion(b.getLocation(), 0);
+                b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
+
+                List<Block> blocks = findBlocks(b);
+                breakBlocks(e, p, tool, b, blocks, drops);
+            }
         };
     }
 

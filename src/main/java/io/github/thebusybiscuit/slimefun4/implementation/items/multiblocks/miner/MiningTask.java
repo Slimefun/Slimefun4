@@ -3,12 +3,16 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.mine
 import java.util.UUID;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -25,7 +29,9 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 
 /**
@@ -37,14 +43,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
  * @see AdvancedIndustrialMiner
  *
  */
-class ActiveMiner implements Runnable {
+class MiningTask implements Runnable {
 
     private final IndustrialMiner miner;
     private final UUID owner;
-
-    private int fuel = 0;
-    private int ores = 0;
-    private boolean running = false;
 
     private final Block chest;
     private final Block[] pistons;
@@ -53,10 +55,15 @@ class ActiveMiner implements Runnable {
     private final BlockPosition end;
     private final int height;
 
+    private boolean running = false;
+    private int fuel = 0;
+    private int ores = 0;
+
     private int x;
     private int z;
 
-    public ActiveMiner(IndustrialMiner miner, UUID owner, Block chest, Block[] pistons, Block start, Block end) {
+    @ParametersAreNonnullByDefault
+    MiningTask(IndustrialMiner miner, UUID owner, Block chest, Block[] pistons, Block start, Block end) {
         this.miner = miner;
         this.owner = owner;
 
@@ -77,7 +84,7 @@ class ActiveMiner implements Runnable {
      * @param b
      *            The {@link Block} which marks the center of this {@link IndustrialMiner}
      */
-    public void start(Block b) {
+    void start(@Nonnull Block b) {
         miner.activeMiners.put(b.getLocation(), this);
         running = true;
 
@@ -87,7 +94,7 @@ class ActiveMiner implements Runnable {
     /**
      * This method stops the {@link IndustrialMiner}.
      */
-    public void stop() {
+    void stop() {
         running = false;
         miner.activeMiners.remove(chest.getRelative(BlockFace.DOWN).getLocation());
     }
@@ -96,14 +103,14 @@ class ActiveMiner implements Runnable {
      * This method stops the {@link IndustrialMiner} with an error message.
      * The error message is a path to the location in Slimefun's localization files.
      * 
-     * @param error
-     *            The error message to send
+     * @param reason
+     *            The reason why we stop
      */
-    public void stop(String error) {
+    void stop(@Nonnull MinerStoppingReason reason) {
         Player p = Bukkit.getPlayer(owner);
 
         if (p != null) {
-            SlimefunPlugin.getLocalization().sendMessage(p, error);
+            SlimefunPlugin.getLocalization().sendMessage(p, reason.getErrorMessage());
         }
 
         stop();
@@ -117,12 +124,14 @@ class ActiveMiner implements Runnable {
 
         if (fuel <= 0) {
             // This Miner has not enough fuel.
-            stop("machines.INDUSTRIAL_MINER.no-fuel");
+            stop(MinerStoppingReason.NO_FUEL);
             return;
         }
 
-        // This is our warm up animation
-        // The pistons will push after another in decreasing intervals
+        /*
+         * This is our warm up animation.
+         * The pistons will push after another in decreasing intervals
+         */
         TaskQueue queue = new TaskQueue();
 
         queue.thenRun(4, () -> setPistonState(pistons[0], true));
@@ -173,11 +182,12 @@ class ActiveMiner implements Runnable {
                 Block furnace = chest.getRelative(BlockFace.DOWN);
                 furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, Material.STONE);
 
-                for (int y = height; y > 0; y--) {
-                    Block b = start.getWorld().getBlockAt(x, y, z);
+                World world = start.getWorld();
+                for (int y = height; y > WorldUtils.getMinHeight(world); y--) {
+                    Block b = world.getBlockAt(x, y, z);
 
                     if (!SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(owner), b, ProtectableAction.BREAK_BLOCK)) {
-                        stop("machines.INDUSTRIAL_MINER.no-permission");
+                        stop(MinerStoppingReason.NO_PERMISSION);
                         return;
                     }
 
@@ -206,7 +216,7 @@ class ActiveMiner implements Runnable {
     }
 
     /**
-     * This advanced the {@link IndustrialMiner} to the next column
+     * This advances the {@link IndustrialMiner} to the next column
      */
     private void nextColumn() {
         if (x < end.getX()) {
@@ -240,7 +250,7 @@ class ActiveMiner implements Runnable {
      * 
      * @return Whether the operation was successful
      */
-    private boolean push(ItemStack item) {
+    private boolean push(@Nonnull ItemStack item) {
         if (fuel < 1) {
             // Restock fuel
             fuel = consumeFuel();
@@ -258,18 +268,18 @@ class ActiveMiner implements Runnable {
                         inv.addItem(item);
                         return true;
                     } else {
-                        stop("machines.INDUSTRIAL_MINER.chest-full");
+                        stop(MinerStoppingReason.CHEST_FULL);
                     }
                 } else {
                     // I won't question how this happened...
-                    stop("machines.INDUSTRIAL_MINER.destroyed");
+                    stop(MinerStoppingReason.STRUCTURE_DESTROYED);
                 }
             } else {
                 // The chest has been destroyed
-                stop("machines.INDUSTRIAL_MINER.destroyed");
+                stop(MinerStoppingReason.STRUCTURE_DESTROYED);
             }
         } else {
-            stop("machines.INDUSTRIAL_MINER.no-fuel");
+            stop(MinerStoppingReason.NO_FUEL);
         }
 
         return false;
@@ -293,7 +303,7 @@ class ActiveMiner implements Runnable {
         return 0;
     }
 
-    private int consumeFuel(Inventory inv) {
+    private int consumeFuel(@Nonnull Inventory inv) {
         for (int i = 0; i < inv.getSize(); i++) {
             for (MachineFuel fuelType : miner.fuelTypes) {
                 ItemStack item = inv.getContents()[i];
@@ -313,7 +323,7 @@ class ActiveMiner implements Runnable {
         return 0;
     }
 
-    private void setPistonState(Block block, boolean extended) {
+    private void setPistonState(@Nonnull Block block, boolean extended) {
         if (!running) {
             return;
         }
@@ -338,15 +348,15 @@ class ActiveMiner implements Runnable {
                         setExtended(block, piston, extended);
                     } else {
                         // The pistons must be facing upwards
-                        stop("machines.INDUSTRIAL_MINER.piston-facing");
+                        stop(MinerStoppingReason.PISTON_WRONG_DIRECTION);
                     }
                 } else {
                     // The pistons must be facing upwards
-                    stop("machines.INDUSTRIAL_MINER.piston-space");
+                    stop(MinerStoppingReason.PISTON_NO_SPACE);
                 }
             } else {
                 // The piston has been destroyed
-                stop("machines.INDUSTRIAL_MINER.destroyed");
+                stop(MinerStoppingReason.STRUCTURE_DESTROYED);
             }
         } catch (Exception e) {
             SlimefunPlugin.logger().log(Level.SEVERE, e, () -> "An Error occurred while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
@@ -354,7 +364,7 @@ class ActiveMiner implements Runnable {
         }
     }
 
-    private void setExtended(Block block, Piston piston, boolean extended) {
+    private void setExtended(@Nonnull Block block, @Nonnull Piston piston, boolean extended) {
         piston.setExtended(extended);
         block.setBlockData(piston, false);
 

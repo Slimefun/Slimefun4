@@ -152,6 +152,9 @@ messages:
     select: 'Válaszd ki ezt a receptet'
     temporarily-disabled: '&eEz az Autómatikus Barkácsoló ideiglenesen ki van kapcsolva. Bármikor bekapcsolhatod!'
     re-enabled: '&eAutómata barkácsoló visszakapcsolva!'
+    recipe-unavailable: |
+      &cEz a tárgy vagy ki van kapcsolva a szerveren, vagy még nem oldottad fel.
+      &7Próbáld meg elkészíteni a tárgyat, ha még nem tetted volna, hogy felold a receptet.
     tooltips:
       enabled:
         - '&aEz a recept jelenleg be van kapcsolva'
