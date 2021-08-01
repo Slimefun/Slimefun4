@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.items.settings;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.HashSet;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -68,7 +69,7 @@ class TestMaterialTagSetting {
         item.register(plugin);
 
         List<String> tagContents = tag.getValues().stream().map(Material::name).collect(Collectors.toList());
-        Assertions.assertIterableEquals(tagContents, setting.getValue());
+        Assertions.assertTrue(new HashSet<>(tagContents).equals(new HashSet<>(setting.getValue())));
 
         List<String> materials = Arrays.asList(Material.REDSTONE.name(), Material.DIAMOND.name());
         setting.update(materials);
