@@ -24,6 +24,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public final class LoreBuilder {
 
     public static final String HAZMAT_SUIT_REQUIRED = "&8\u21E8 &4Hazmat Suit required!";
+    public static final String RAINBOW = "&dCycles through all Colors of the Rainbow!";
 
     public static final String RIGHT_CLICK_TO_USE = "&eRight Click&7 to use";
     public static final String RIGHT_CLICK_TO_OPEN = "&eRight Click&7 to open";
