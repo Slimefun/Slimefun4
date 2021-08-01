@@ -10,9 +10,9 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.radiation.RadiationSymptom;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
-import io.github.thebusybiscuit.slimefun4.utils.RadiationSymptom;
 import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;

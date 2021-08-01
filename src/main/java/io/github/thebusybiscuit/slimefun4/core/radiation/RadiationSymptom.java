@@ -1,13 +1,14 @@
-package io.github.thebusybiscuit.slimefun4.utils;
+package io.github.thebusybiscuit.slimefun4.core.radiation;
 
+import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
 
 /**
  * An enum of potential radiation symptoms.
@@ -20,6 +21,7 @@ import javax.annotation.Nonnull;
  * @see RadiationUtils
  */
 public enum RadiationSymptom {
+
     SLOW(10, PotionEffectType.SLOW, 3),
     WITHER_LOW(25, PotionEffectType.WITHER, 0),
     BLINDNESS(50, PotionEffectType.BLINDNESS, 4),
@@ -33,6 +35,7 @@ public enum RadiationSymptom {
         Validate.notNull(type, "The effect type cannot be null");
         Validate.isTrue(minExposure > 0, "The minimum exposure must not be greater than 0.");
         Validate.isTrue(level >= 0, "The status effect level must be non-negative.");
+
         this.minExposure = minExposure;
         this.potionEffect = new PotionEffect(type, SlimefunPlugin.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20, level);
     }
@@ -40,10 +43,11 @@ public enum RadiationSymptom {
     /**
      * This method applies the symptom to a player.
      *
-     * @param p The player
+     * @param p
+     *            The player
      */
 
-    public void apply(@Nonnull Player p){
+    public void apply(@Nonnull Player p) {
         Validate.notNull(p, "The player cannot be null");
         SlimefunPlugin.runSync(() -> p.addPotionEffect(potionEffect));
     }
@@ -52,11 +56,12 @@ public enum RadiationSymptom {
      * This method returns if this symptom
      * should be applied.
      *
-     * @param exposure Exposure level
+     * @param exposure
+     *            Exposure level
      *
      * @return If the symptom should be applied
      */
-    public boolean shouldApply(int exposure){
+    public boolean shouldApply(int exposure) {
         return exposure >= minExposure;
     }
 }
