@@ -84,6 +84,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.MiningAndroid
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.RadioactivityListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
@@ -108,7 +109,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.MobDro
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.PiglinListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.RadioactivityTask;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
@@ -124,7 +127,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-
 /**
  * This is the main class of Slimefun.
  * This is where all the magic starts, take a look around.
@@ -347,9 +349,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         // Armor Update Task
         if (config.getBoolean("options.enable-armor-effects")) {
-            boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
-
-            new ArmorTask(radioactiveFire).schedule(this, config.getInt("options.armor-update-interval") * 20L);
+            new ArmorTask().schedule(this, config.getInt("options.armor-update-interval") * 20L);
+            new RadiationTask().schedule(this, config.getInt("options.radiation-update-interval") * 20L);
             new RainbowArmorTask().schedule(this, config.getInt("options.rainbow-armor-update-interval") * 20L);
         }
 
@@ -636,6 +637,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Item-specific Listeners
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
         new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem());
+        new RadioactivityListener(this);
         new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
         grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
         bowListener.register(this);
