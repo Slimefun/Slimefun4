@@ -381,7 +381,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         int pages = (scripts.size() / 45) + 1;
 
         for (int i = 45; i < 54; i++) {
-            menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
+            menu.addItem(i, ChestMenuUtils.getBackground());
             menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
         }
 
