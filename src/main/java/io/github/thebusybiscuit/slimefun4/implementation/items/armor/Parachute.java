@@ -5,7 +5,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ParachuteTask;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;

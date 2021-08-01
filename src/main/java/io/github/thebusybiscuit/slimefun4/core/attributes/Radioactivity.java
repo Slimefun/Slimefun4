@@ -4,7 +4,8 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.RadioactivityTask;
+
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
 
 /**
  * This enum holds all available levels of {@link Radioactivity}.
@@ -58,7 +59,7 @@ public enum Radioactivity {
 
     /**
      * This method returns the amount of exposure applied
-     * to a player every run of the {@link RadioactivityTask}
+     * to a player every run of the {@link RadiationTask}
      * for this radiation level.
      *
      * @return The exposure amount applied per run.

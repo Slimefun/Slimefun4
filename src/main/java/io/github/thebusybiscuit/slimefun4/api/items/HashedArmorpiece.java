@@ -12,7 +12,8 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -26,7 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  *
  * @see SlimefunArmorPiece
- * @see ArmorTask
+ * @see SlimefunArmorTask
  */
 public final class HashedArmorpiece {
 

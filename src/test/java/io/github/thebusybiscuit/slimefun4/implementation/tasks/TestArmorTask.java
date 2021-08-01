@@ -22,6 +22,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -59,7 +60,7 @@ class TestArmorTask {
 
         player.getInventory().setHelmet(helmet.clone());
         player.getInventory().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
-        new ArmorTask().run();
+        new SlimefunArmorTask().run();
 
         // Check if all Potion Effects were applied
         Assertions.assertTrue(player.getActivePotionEffects().containsAll(Arrays.asList(effects)));
