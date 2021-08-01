@@ -18,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  *
  * @see RadiationSymptom
  */
-public class RadiationUtils {
+public final class RadiationUtils {
 
     private static final StatusEffect RADIATION_EFFECT = new StatusEffect(new NamespacedKey(SlimefunPlugin.instance(), "radiation"));
     private static final int MAX_EXPOSURE_LEVEL = 100;

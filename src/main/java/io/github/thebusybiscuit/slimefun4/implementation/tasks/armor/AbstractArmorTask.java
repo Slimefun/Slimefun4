@@ -34,9 +34,7 @@ public abstract class AbstractArmorTask implements Runnable {
                 continue;
             }
 
-            PlayerProfile.get(p, profile -> {
-                onPlayerTick(p, profile);
-            });
+            PlayerProfile.get(p, profile -> onPlayerTick(p, profile));
         }
 
         onTick();
