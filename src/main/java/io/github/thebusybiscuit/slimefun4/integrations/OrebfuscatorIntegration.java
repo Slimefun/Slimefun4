@@ -25,18 +25,18 @@ import net.imprex.orebfuscator.api.OrebfuscatorService;
  * @author NgLoader
  *
  */
-public class OrebfuscatorIntegration implements Listener {
+class OrebfuscatorIntegration implements Listener {
 
-	private final SlimefunPlugin plugin;
-	private OrebfuscatorService service;
+    private final SlimefunPlugin plugin;
+    private OrebfuscatorService service;
 
-	public OrebfuscatorIntegration(@Nonnull SlimefunPlugin plugin) {
+    OrebfuscatorIntegration(@Nonnull SlimefunPlugin plugin) {
         this.plugin = plugin;
     }
 
-	/**
-	 * Init orebfuscation service and register listener
-	 */
+    /**
+     * Init orebfuscation service and register listener
+     */
     public void register() {
         this.service = Bukkit.getServer().getServicesManager().getRegistration(OrebfuscatorService.class).getProvider();
 

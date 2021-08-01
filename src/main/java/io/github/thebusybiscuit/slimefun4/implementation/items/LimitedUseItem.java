@@ -23,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -44,7 +45,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
     private int maxUseCount = -1;
 
     @ParametersAreNonnullByDefault
-    public LimitedUseItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected LimitedUseItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         addItemHandler(getItemHandler());
@@ -63,7 +64,9 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      * Sets the maximum number of times this item can be used.
      * The number must be greater than zero.
      *
-     * @param count The maximum number of times this item can be used.
+     * @param count
+     *            The maximum number of times this item can be used.
+     * 
      * @return The {@link LimitedUseItem} for chaining of setters
      */
     public final @Nonnull LimitedUseItem setMaxUseCount(int count) {

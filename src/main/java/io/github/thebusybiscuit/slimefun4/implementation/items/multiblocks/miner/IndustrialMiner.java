@@ -125,8 +125,9 @@ public class IndustrialMiner extends MultiBlockMachine {
         }
 
         Random random = ThreadLocalRandom.current();
+        MinecraftVersion version = SlimefunPlugin.getMinecraftVersion();
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             // In 1.17, breaking metal ores should get raw metals. Also support deepslate ores.
             switch (ore) {
                 case DEEPSLATE_COAL_ORE:
@@ -148,13 +149,14 @@ public class IndustrialMiner extends MultiBlockMachine {
                 case GOLD_ORE:
                 case DEEPSLATE_GOLD_ORE:
                     return new ItemStack(Material.RAW_GOLD);
+                default:
+                    break;
             }
         }
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            // In 1.16, breaking nether gold ores should get gold nuggets
-            if (ore == Material.NETHER_GOLD_ORE) {
-                return new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
-            }
+
+        // In 1.16, breaking nether gold ores should get gold nuggets
+        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16) && ore == Material.NETHER_GOLD_ORE) {
+            return new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
         }
 
         switch (ore) {
