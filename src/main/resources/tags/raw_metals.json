@@ -1,0 +1,16 @@
+{
+    "values" : [
+        {
+            "id" : "minecraft:raw_iron",
+            "required" : false
+        },
+        {
+            "id" : "minecraft:raw_gold",
+            "required" : false
+        },
+        {
+            "id" : "minecraft:raw_copper",
+            "required" : false
+        }
+    ]
+}

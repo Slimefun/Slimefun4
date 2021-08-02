@@ -65,6 +65,11 @@ public enum SlimefunTag implements Tag<Material> {
     NETHER_ORES,
 
     /**
+     * All raw metals in 1.17+
+     */
+    RAW_METALS,
+
+    /**
      * All Shulker boxes, normal and colored.
      */
     SHULKER_BOXES,
