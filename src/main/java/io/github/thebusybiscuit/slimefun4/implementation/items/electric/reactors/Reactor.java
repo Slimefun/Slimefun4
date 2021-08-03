@@ -185,7 +185,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
     private void constructMenu(@Nonnull BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : border_1) {
@@ -407,8 +407,8 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
      *            The {@link Inventory} of this {@link Reactor}
      * @param accessPort
      *            The {@link ReactorAccessPort}, if available
-     * @param timeleft
-     *            The time left
+     * @param operation
+     *            The {@link FuelOperation} of this {@link Reactor}
      * 
      * @return Whether the {@link Reactor} was successfully cooled, if not it should explode
      */
