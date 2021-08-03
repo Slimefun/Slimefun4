@@ -21,6 +21,7 @@ import org.bukkit.block.data.Waterlogged;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFurnace;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.CropGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
@@ -235,7 +236,12 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials (ores) which trigger the Talisman of the Caveman.
      */
-    CAVEMAN_TALISMAN_TRIGGERS;
+    CAVEMAN_TALISMAN_TRIGGERS,
+
+    /**
+     * All materials which benefit from the luck multiplier of {@link EnhancedFurnace}
+     */
+    LUCK_MULTIPLIER_MATERIALS;
 
     /**
      * Lookup table for tag names.

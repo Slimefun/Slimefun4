@@ -15,7 +15,6 @@ import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFurnace;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -69,9 +68,7 @@ public class EnhancedFurnaceListener implements Listener {
 
             if (state instanceof Furnace) {
                 FurnaceInventory inventory = ((Furnace) state).getInventory();
-                Material smelting = inventory.getSmelting().getType();
-                boolean multiplier = SlimefunTag.ORES.isTagged(smelting) || SlimefunTag.RAW_METALS.isTagged(smelting);
-
+                boolean multiplier = SlimefunTag.LUCK_MULTIPLIER_MATERIALS.isTagged(inventory.getSmelting().getType());
                 int amount = multiplier ? ((EnhancedFurnace) sfItem).getRandomOutputAmount() : 1;
                 Optional<ItemStack> result = SlimefunPlugin.getMinecraftRecipeService().getFurnaceOutput(inventory.getSmelting());
 
