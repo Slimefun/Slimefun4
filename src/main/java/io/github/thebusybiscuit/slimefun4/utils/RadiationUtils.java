@@ -40,14 +40,14 @@ public final class RadiationUtils {
     public static void addExposure(@Nonnull Player p, int exposure) {
         Validate.notNull(p, "The player cannot be null");
 
-        int level = Math.max(RADIATION_EFFECT.getLevel(p).orElse(0) + exposure, MAX_EXPOSURE_LEVEL);
+        int level = Math.min(RADIATION_EFFECT.getLevel(p).orElse(0) + exposure, MAX_EXPOSURE_LEVEL);
         RADIATION_EFFECT.addPermanent(p, level);
     }
 
     public static void removeExposure(@Nonnull Player p, int exposure) {
         Validate.notNull(p, "The player should not be null");
 
-        int level = Math.min(RADIATION_EFFECT.getLevel(p).orElse(0) - exposure, 0);
+        int level = Math.max(RADIATION_EFFECT.getLevel(p).orElse(0) - exposure, 0);
         RADIATION_EFFECT.addPermanent(p, level);
     }
 }

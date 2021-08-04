@@ -33,7 +33,7 @@ public enum RadiationSymptom {
 
     RadiationSymptom(int minExposure, @Nonnull PotionEffectType type, int level) {
         Validate.notNull(type, "The effect type cannot be null");
-        Validate.isTrue(minExposure > 0, "The minimum exposure must not be greater than 0.");
+        Validate.isTrue(minExposure > 0, "The minimum exposure must be greater than 0.");
         Validate.isTrue(level >= 0, "The status effect level must be non-negative.");
 
         this.minExposure = minExposure;
