@@ -33,6 +33,7 @@
 * A couple more items have their wiki page linked ingame now
 * Added Orebfuscator compatibility
 * You can now "sneak + left click" to only break one block at a time when using an explosive pickaxe or shovel
+* The luck effect from Enhanced Furnaces now also applies to Raw Ore
 
 #### Changes
 * Copper wire can no longer be placed down
@@ -45,6 +46,7 @@
 * Fixed unbreakable Flint and Steel still being damaged in Ignition Chambers
 * Fixed #2677
 * Fixed Auto-Disenchanter exploit using mcMMO's "super ability" tools
+* Fixed #3190
 
 ## Release Candidate 26 (20 Jul 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
