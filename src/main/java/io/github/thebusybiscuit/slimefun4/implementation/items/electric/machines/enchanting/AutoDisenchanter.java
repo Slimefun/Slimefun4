@@ -80,9 +80,8 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
         return null;
     }
 
-    @Nullable
     @ParametersAreNonnullByDefault
-    private MachineRecipe disenchant(BlockMenu menu, ItemStack item, ItemStack book) {
+    private @Nullable MachineRecipe disenchant(BlockMenu menu, ItemStack item, ItemStack book) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
 
         // Find enchantments

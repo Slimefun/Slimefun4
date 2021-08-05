@@ -9,7 +9,9 @@ import org.bukkit.inventory.ItemStack;
 
 import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.events.skills.salvage.McMMOPlayerSalvageCheckEvent;
+import com.gmail.nossr50.util.skills.SkillUtils;
 
+import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -49,6 +51,15 @@ class McMMOIntegration implements Listener {
         if (!isSalvageable(e.getSalvageItem())) {
             e.setCancelled(true);
             Slimefun.getLocalization().sendMessage(e.getPlayer(), "anvil.mcmmo-salvaging");
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onAutoDisenchant(AutoDisenchantEvent e) {
+        try {
+            SkillUtils.removeAbilityBuff(e.getItem());
+        } catch (Exception | LinkageError x) {
+            Slimefun.getIntegrations().logError("mcMMO", x);
         }
     }
 
