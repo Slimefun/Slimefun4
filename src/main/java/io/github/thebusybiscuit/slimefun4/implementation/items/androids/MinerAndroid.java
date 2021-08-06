@@ -102,8 +102,9 @@ public class MinerAndroid extends ProgrammableAndroid {
     protected void moveAndDig(Block b, BlockMenu menu, BlockFace face, Block block) {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
-        if (!block.getWorld().getWorldBorder().isInside(block.getLocation()))
+        if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
         	return;
+        }
         
         if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
