@@ -43,6 +43,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
     @Override
     protected boolean chopTree(Block b, BlockMenu menu, BlockFace face) {
         Block target = b.getRelative(face);
+
         if (!target.getWorld().getWorldBorder().isInside(target.getLocation())) {
             return true;
         }
