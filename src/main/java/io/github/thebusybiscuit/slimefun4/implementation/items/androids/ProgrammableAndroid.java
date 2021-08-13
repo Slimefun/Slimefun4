@@ -890,7 +890,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         if (block.getY() > 0 && block.getY() < block.getWorld().getMaxHeight() && block.isEmpty()) {
             
             if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
-        	    return;
+                return;
             }
             
             BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
