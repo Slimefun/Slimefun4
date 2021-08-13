@@ -110,7 +110,7 @@ public class MinerAndroid extends ProgrammableAndroid {
                 }
 
                 // We only want to break non-Slimefun blocks
-                if (!BlockStorage.hasBlockInfo(block)) {   
+                if (!BlockStorage.hasBlockInfo(block)) {
                     breakBlock(menu, drops, block);
                     move(b, face, block);
                 }
