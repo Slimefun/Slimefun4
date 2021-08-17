@@ -85,7 +85,6 @@ public final class SlimefunUtils {
         // It is also one indication used by third party plugins to know if it's a custom item.
         // Fixes #3203
         item.setPickupDelay(Short.MAX_VALUE);
-        SlimefunPlugin.instance().getLogger().info("Set pickup delay");
     }
 
     /**
