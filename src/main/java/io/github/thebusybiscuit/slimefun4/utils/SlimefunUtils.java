@@ -81,6 +81,11 @@ public final class SlimefunUtils {
      */
     public static void markAsNoPickup(@Nonnull Item item, @Nonnull String context) {
         item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(SlimefunPlugin.instance(), context));
+        // Max the pickup delay - This makes it so no Player can pick up items ever without need for an event
+        // It is also one indication used by third party plugins to know if it's a custom item.
+        // Fixes #3203
+        item.setPickupDelay(Short.MAX_VALUE);
+        SlimefunPlugin.instance().getLogger().info("Set pickup delay");
     }
 
     /**
