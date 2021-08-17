@@ -39,6 +39,7 @@
 * Copper wire can no longer be placed down
 * Slimefun chains can no longer be placed down
 * (API) FlexCategories can now also appear in non-survival Slimefun guides
+* Display items from Ancient Altars should no longer despawn so easily/fast
 
 #### Fixes
 * Fixed #3164
@@ -47,6 +48,7 @@
 * Fixed #2677
 * Fixed Auto-Disenchanter exploit using mcMMO's "super ability" tools
 * Fixed #3190
+* Fixed #3203
 
 ## Release Candidate 26 (20 Jul 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
