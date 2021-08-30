@@ -87,7 +87,6 @@ public class MinerAndroid extends ProgrammableAndroid {
 
                 // We only want to break non-Slimefun blocks
                 if (!BlockStorage.hasBlockInfo(block)) {
-                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     breakBlock(menu, drops, block);
                 }
             }
@@ -112,7 +111,6 @@ public class MinerAndroid extends ProgrammableAndroid {
 
                 // We only want to break non-Slimefun blocks
                 if (!BlockStorage.hasBlockInfo(block)) {
-                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     breakBlock(menu, drops, block);
                     move(b, face, block);
                 }
@@ -126,6 +124,13 @@ public class MinerAndroid extends ProgrammableAndroid {
 
     @ParametersAreNonnullByDefault
     private void breakBlock(BlockMenu menu, Collection<ItemStack> drops, Block block) {
+        
+        if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
+            return;
+        }
+        
+        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+        
         // Push our drops to the inventory
         for (ItemStack drop : drops) {
             menu.pushItem(drop, getOutputSlots());

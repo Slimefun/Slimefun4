@@ -888,6 +888,11 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     @ParametersAreNonnullByDefault
     protected void move(Block b, BlockFace face, Block block) {
         if (block.getY() > 0 && block.getY() < block.getWorld().getMaxHeight() && block.isEmpty()) {
+            
+            if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
+                return;
+            }
+            
             BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
                 if (data instanceof Rotatable) {
                     Rotatable rotatable = ((Rotatable) data);
