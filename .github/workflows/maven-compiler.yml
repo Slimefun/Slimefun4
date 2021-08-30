@@ -9,6 +9,7 @@ on:
     - 'pom.xml'
   pull_request:
     paths:
+    - '.github/workflows/**'
     - 'src/**'
     - 'pom.xml'
 
