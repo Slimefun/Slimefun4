@@ -436,9 +436,18 @@ public final class TickerTask {
         // Process async tasks and shutdown the asyncExecutor
         asyncExecutor.shutdown();
         try {
-            asyncExecutor.awaitTermination(1, TimeUnit.MINUTES);
+            if (!asyncExecutor.awaitTermination(1, TimeUnit.MINUTES)) {
+                asyncExecutor.shutdownNow();
+                if (!asyncExecutor.awaitTermination(1, TimeUnit.MINUTES)) {
+                    SlimefunPlugin.logger().log(Level.SEVERE, "Failed to terminate async tasks");
+                }
+            }
         } catch (InterruptedException ex) {
             SlimefunPlugin.logger().log(Level.SEVERE, ex, () -> "Failed to shutdown the async executor");
+            /*
+             * When the exception is fired, the Thread is un-marked as interrupted, so we re-mark it.
+             */
+            Thread.currentThread().interrupt();
         }
         // Process remaining sync tasks
         while (!syncTasks.isEmpty()) {
