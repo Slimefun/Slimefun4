@@ -216,12 +216,6 @@ public class BlockStorage {
     }
 
     private void loadChunks() {
-        if (chunksLoaded) {
-            return;
-        }
-
-        chunksLoaded = true;
-
         File chunks = new File(PATH_CHUNKS + "chunks.sfc");
 
         if (chunks.exists()) {
@@ -358,6 +352,7 @@ public class BlockStorage {
 
     public void saveAndRemove() {
         save();
+        saveChunks();
         isMarkedForRemoval.set(true);
     }
 
