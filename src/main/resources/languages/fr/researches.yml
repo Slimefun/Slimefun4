@@ -31,7 +31,7 @@ slimefun:
   elemental_staff: Sceptres élémentaires
   grind_stone: Meule
   cactus_armor: Combinaison en cactus
-  gold_pan: Orpailleur
+  gold_pan: Tamis
   magical_book_cover: Reliure de livre magique
   slimefun_metals: Nouveaux métaux
   ore_crusher: Doublage de minerai
@@ -93,7 +93,7 @@ slimefun:
   composter: Composte
   farmer_shoes: Chaussure du fermier
   explosive_tools: Outils explosifs
-  automated_panning_machine: Orpailleur automatique
+  automated_panning_machine: Tamiseur automatique
   boots_of_the_stomper: Bottes du Stomper
   pickaxe_of_the_seeker: Pioche du chercheur
   backpacks: Sac-à-dos
@@ -232,7 +232,7 @@ slimefun:
   lightning_rune: Rune de foudre
   totem_of_undying: Totem d'invulnérabilité
   charging_bench: Station de recharge
-  nether_gold_pan: Orpailleur du Nether
+  nether_gold_pan: Tamis du Nether
   electric_press: Presse électrique
   magnesium_generator: Puissance du magnésium
   kelp_cookie: Algues délicieuses

@@ -38,6 +38,10 @@ public class FarmerAndroid extends ProgrammableAndroid {
         BlockData data = block.getBlockData();
         ItemStack drop = null;
 
+        if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
+            return;
+        }
+        
         if (data instanceof Ageable && ((Ageable) data).getAge() >= ((Ageable) data).getMaximumAge()) {
             drop = getDropFromCrop(blockType);
         }

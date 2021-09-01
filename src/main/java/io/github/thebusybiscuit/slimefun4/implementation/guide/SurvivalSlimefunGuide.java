@@ -636,8 +636,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 return item;
             }
 
-            String lore = hasPermission(p, slimefunItem) ? "&fNeeds to be unlocked elsewhere" : "&fNo Permission";
-            return slimefunItem.canUse(p, false) ? item : new CustomItemStack(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", lore);
+            String lore = hasPermission(p, slimefunItem) ? "&fNeeds to be unlocked in " + slimefunItem.getCategory().getDisplayName(p) : "&fNo Permission";
+            return slimefunItem.canUse(p, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", lore);
         } else {
             return item;
         }
