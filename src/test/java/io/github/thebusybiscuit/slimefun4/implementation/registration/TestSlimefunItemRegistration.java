@@ -93,7 +93,7 @@ class TestSlimefunItemRegistration {
         item.load();
 
         // null should not be a valid argument
-        Assertions.assertThrows(IllegalArgumentException.class, () -> item.setCategory(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> item.setItemGroup(null));
 
         ItemGroup category = item.getItemGroup();
         ItemGroup category2 = new ItemGroup(new NamespacedKey(plugin, "test2"), new CustomItemStack(Material.OBSIDIAN, "&6Test 2"));
@@ -102,7 +102,7 @@ class TestSlimefunItemRegistration {
         Assertions.assertFalse(category2.contains(item));
         Assertions.assertEquals(category, item.getItemGroup());
 
-        item.setCategory(category2);
+        item.setItemGroup(category2);
         Assertions.assertFalse(category.contains(item));
         Assertions.assertTrue(category2.contains(item));
         Assertions.assertEquals(category2, item.getItemGroup());

@@ -66,7 +66,7 @@ class TestCategories {
     void testAddItem() {
         ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "items_test"), new CustomItemStack(Material.DIAMOND_AXE, "&6Testing"));
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_ITEMS_TEST_ITEM", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
-        item.setCategory(category);
+        item.setItemGroup(category);
         item.register(plugin);
         item.load();
 
@@ -74,7 +74,7 @@ class TestCategories {
         Assertions.assertEquals(1, category.getItems().size());
 
         // Size must still be 1 since we disallow duplicates
-        item.setCategory(category);
+        item.setItemGroup(category);
 
         Assertions.assertEquals(1, category.getItems().size());
         Assertions.assertThrows(IllegalArgumentException.class, () -> category.add(null));
@@ -91,7 +91,7 @@ class TestCategories {
 
         SlimefunItem disabledItem = TestUtilities.mockSlimefunItem(plugin, "DISABLED_CATEGORY_ITEM", new CustomItemStack(Material.BEETROOT, "&4Disabled"));
         Slimefun.getItemCfg().setValue("DISABLED_CATEGORY_ITEM.enabled", false);
-        disabledItem.setCategory(category);
+        disabledItem.setItemGroup(category);
         disabledItem.register(plugin);
         disabledItem.load();
 
@@ -99,7 +99,7 @@ class TestCategories {
         Assertions.assertTrue(category.isHidden(player));
 
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_HIDDEN_TEST", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
-        item.setCategory(category);
+        item.setItemGroup(category);
         item.setHidden(true);
         item.register(plugin);
         item.load();
@@ -194,7 +194,7 @@ class TestCategories {
         Month month = LocalDate.now().getMonth();
         SeasonalItemGroup category = new SeasonalItemGroup(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItemStack(Material.NETHER_STAR, "&cSeasonal Test"));
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "SEASONAL_ITEM", new CustomItemStack(Material.NETHER_STAR, "&dSeasonal Test Star"));
-        item.setCategory(category);
+        item.setItemGroup(category);
         item.register(plugin);
         item.load();
 
