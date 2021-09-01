@@ -59,7 +59,6 @@ public class BlockStorage {
     private final Map<String, Config> blocksCache = new ConcurrentHashMap<>();
 
     private static int chunkChanges = 0;
-    private static boolean chunksLoaded = false;
     private static boolean universalInventoriesLoaded = false;
 
     private int changes = 0;
