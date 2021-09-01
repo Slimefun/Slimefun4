@@ -674,7 +674,7 @@ public class SlimefunItem implements Placeable {
      * @param category
      *            The new {@link ItemGroup}
      */
-    public void setCategory(@Nonnull ItemGroup category) {
+    public void setItemGroup(@Nonnull ItemGroup category) {
         Validate.notNull(category, "The Category is not allowed to be null!");
 
         this.itemGroup.remove(this);
