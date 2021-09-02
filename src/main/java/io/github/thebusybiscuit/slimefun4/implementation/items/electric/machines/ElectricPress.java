@@ -77,6 +77,15 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             addRecipe(16, new ItemStack(Material.NETHERITE_INGOT, 9), new ItemStack(Material.NETHERITE_BLOCK));
         }
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            addRecipe(4, new ItemStack(Material.AMETHYST_SHARD, 4), new ItemStack(Material.AMETHYST_BLOCK));
+
+            addRecipe(5, new ItemStack(Material.COPPER_INGOT, 9), new ItemStack(Material.COPPER_BLOCK));
+            addRecipe(5, new ItemStack(Material.RAW_IRON, 9), new ItemStack(Material.RAW_IRON_BLOCK));
+            addRecipe(5, new ItemStack(Material.RAW_GOLD, 9), new ItemStack(Material.RAW_GOLD_BLOCK));
+            addRecipe(5, new ItemStack(Material.RAW_COPPER, 9), new ItemStack(Material.RAW_COPPER_BLOCK));
+        }
     }
 
     @ParametersAreNonnullByDefault
