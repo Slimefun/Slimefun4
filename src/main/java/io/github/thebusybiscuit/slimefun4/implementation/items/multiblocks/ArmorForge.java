@@ -51,7 +51,7 @@ public class ArmorForge extends AbstractCraftingTable {
                 }
             }
 
-            if (inv.isEmpty()) {
+            if (SlimefunUtils.isInventoryEmpty(inv)) {
                 Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
             } else {
                 Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
