@@ -485,7 +485,7 @@ public final class SlimefunUtils {
      * @return True if the inventory is empty and false otherwise
      */
     public static boolean isInventoryEmpty(@Nonnull Inventory inventory) {
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             return inventory.isEmpty();
         } else {
             for (ItemStack is : inventory.getStorageContents()) {
