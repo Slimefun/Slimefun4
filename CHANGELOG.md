@@ -29,17 +29,38 @@
 
 ## Release Candidate 27 (TBD)
 
+### **Breaking Changes (API)**
+This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
+
+* Category has been renamed to ItemGroup.
+All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun4.api.items.groups`
+* The SlimefunItem class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The SlimefunItemStack class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The ItemHandler class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The RecipeType class has been relocated to `io.github.thebusybiscuit.slimefun4.api.recipes`
+* Research classes have been moved from `io.github.thebusybiscuit.slimefun4.core.researching` to `io.github.thebusybiscuit.slimefun4.api.researches`
+* The main class `SlimefunPlugin` was renamed to `Slimefun`
+* CS-CoreLib2 was removed and replaced by dough
+
 #### Additions
 * A couple more items have their wiki page linked ingame now
 * Added Orebfuscator compatibility
 * You can now "sneak + left click" to only break one block at a time when using an explosive pickaxe or shovel
 * The luck effect from Enhanced Furnaces now also applies to Raw Ore
+* Androids now respect the world border
+* Added 1.17 items to the Electric Press
+  * Added 4 "Amethyst Shard -> 1 Amethyst Block" recipe to Electric Press
+  * Added 9 "Copper Ingot -> 1 Copper Block" recipe to Electric Press
+  * Added 9 "Raw Iron -> 1 Raw Iron Block" recipe to Electric Press
+  * Added 9 "Raw Gold -> 1 Raw Gold Block" recipe to Electric Press
+  * Added 9 "Raw Copper -> 1 Raw Copper Block" recipe to Electric Press
 
 #### Changes
 * Copper wire can no longer be placed down
 * Slimefun chains can no longer be placed down
 * (API) FlexCategories can now also appear in non-survival Slimefun guides
 * Display items from Ancient Altars should no longer despawn so easily/fast
+* Research message was modified to also show the category of the item
 
 #### Fixes
 * Fixed #3164
@@ -49,6 +70,8 @@
 * Fixed Auto-Disenchanter exploit using mcMMO's "super ability" tools
 * Fixed #3190
 * Fixed #3203
+* Fixed #3225
+* Fixed #3206
 
 ## Release Candidate 26 (20 Jul 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
