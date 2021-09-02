@@ -34,8 +34,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAnd
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ProgrammableAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.WoodcutterAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
-import io.github.thebusybiscuit.slimefun4.implementation.items.armor._lump
-Boots;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.EnderBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.FarmerShoes;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.HazmatArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.LongFallBoots;
