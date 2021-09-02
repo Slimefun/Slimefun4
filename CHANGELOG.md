@@ -1,5 +1,5 @@
 # Table of contents
-- [Release Candidate 27 (TBD)](#release-candidate-27-tbd)
+- [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
 - [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
 - [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
 - [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
@@ -27,13 +27,13 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 27 (TBD)
+## Release Candidate 27 (03 Sep 2021)
 
 ### **Breaking Changes (API)**
 This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
 
 * Category has been renamed to ItemGroup.
-All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun4.api.items.groups`
+* All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun4.api.items.groups`
 * The SlimefunItem class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
 * The SlimefunItemStack class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
 * The ItemHandler class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
@@ -47,13 +47,12 @@ All Category / ItemGroup variants have been relocated to `io.github.thebusybiscu
 * Added Orebfuscator compatibility
 * You can now "sneak + left click" to only break one block at a time when using an explosive pickaxe or shovel
 * The luck effect from Enhanced Furnaces now also applies to Raw Ore
-* Androids now respect the world border
-* Added 1.17 items to the Electric Press
-  * Added 4 "Amethyst Shard -> 1 Amethyst Block" recipe to Electric Press
-  * Added 9 "Copper Ingot -> 1 Copper Block" recipe to Electric Press
-  * Added 9 "Raw Iron -> 1 Raw Iron Block" recipe to Electric Press
-  * Added 9 "Raw Gold -> 1 Raw Gold Block" recipe to Electric Press
-  * Added 9 "Raw Copper -> 1 Raw Copper Block" recipe to Electric Press
+* Locked items will now show the category in which they should be unlocked from
+* Added 4 "Amethyst Shard -> 1 Amethyst Block" recipe to Electric Press
+* Added 9 "Copper Ingot -> 1 Copper Block" recipe to Electric Press
+* Added 9 "Raw Iron -> 1 Raw Iron Block" recipe to Electric Press
+* Added 9 "Raw Gold -> 1 Raw Gold Block" recipe to Electric Press
+* Added 9 "Raw Copper -> 1 Raw Copper Block" recipe to Electric Press
 
 #### Changes
 * Copper wire can no longer be placed down
@@ -72,6 +71,7 @@ All Category / ItemGroup variants have been relocated to `io.github.thebusybiscu
 * Fixed #3203
 * Fixed #3225
 * Fixed #3206
+* Fixed androids not respecting Worldborders
 
 ## Release Candidate 26 (20 Jul 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
