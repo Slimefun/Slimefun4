@@ -17,9 +17,9 @@ import org.bukkit.plugin.Plugin;
 import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
 import com.gmail.nossr50.util.skills.SkillUtils;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
+import io.github.bakedlibs.dough.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 
 import dev.lone.itemsadder.api.ItemsAdder;
@@ -32,15 +32,15 @@ import dev.lone.itemsadder.api.ItemsAdder;
  * 
  * @author TheBusyBiscuit
  * 
- * @see SlimefunPlugin
+ * @see Slimefun
  *
  */
 public class IntegrationsManager {
 
     /**
-     * This is our instance of {@link SlimefunPlugin}.
+     * This is our instance of {@link Slimefun}.
      */
-    protected final SlimefunPlugin plugin;
+    protected final Slimefun plugin;
 
     /**
      * Our {@link ProtectionManager} instance.
@@ -67,9 +67,9 @@ public class IntegrationsManager {
      * This initializes the {@link IntegrationsManager}
      * 
      * @param plugin
-     *            Our instance of {@link SlimefunPlugin}
+     *            Our instance of {@link Slimefun}
      */
-    public IntegrationsManager(@Nonnull SlimefunPlugin plugin) {
+    public IntegrationsManager(@Nonnull Slimefun plugin) {
         this.plugin = plugin;
     }
 
@@ -142,7 +142,7 @@ public class IntegrationsManager {
             // Load Protection plugin integrations
             protectionManager = new ProtectionManager(plugin.getServer());
         } catch (Exception | LinkageError x) {
-            SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Failed to load Protection plugin integrations for Slimefun v" + SlimefunPlugin.getVersion());
+            Slimefun.logger().log(Level.WARNING, x, () -> "Failed to load Protection plugin integrations for Slimefun v" + Slimefun.getVersion());
         }
 
         // Orebfuscator Integration
@@ -164,7 +164,7 @@ public class IntegrationsManager {
      */
     private boolean isAddonInstalled(@Nonnull String addon) {
         if (plugin.getServer().getPluginManager().isPluginEnabled(addon)) {
-            SlimefunPlugin.logger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
+            Slimefun.logger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
             return true;
         } else {
             return false;
@@ -188,10 +188,10 @@ public class IntegrationsManager {
 
         if (externalPlugin != null) {
             String version = externalPlugin.getDescription().getVersion();
-            SlimefunPlugin.logger().log(Level.WARNING, "Is {0} v{1} up to date?", new Object[] { name, version });
-            SlimefunPlugin.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with \"" + name + " v" + version + "\"");
+            Slimefun.logger().log(Level.WARNING, "Is {0} v{1} up to date?", new Object[] { name, version });
+            Slimefun.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with \"" + name + " v" + version + "\"");
         } else {
-            SlimefunPlugin.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with the plugin \"" + name + "\"");
+            Slimefun.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with the plugin \"" + name + "\"");
         }
     }
 
@@ -209,14 +209,14 @@ public class IntegrationsManager {
 
         if (integration != null && integration.isEnabled()) {
             String version = integration.getDescription().getVersion();
-            SlimefunPlugin.logger().log(Level.INFO, "Hooked into Plugin: {0} v{1}", new Object[] { pluginName, version });
+            Slimefun.logger().log(Level.INFO, "Hooked into Plugin: {0} v{1}", new Object[] { pluginName, version });
 
             try {
                 // Run our callback
                 consumer.accept(integration);
             } catch (Exception | LinkageError x) {
-                SlimefunPlugin.logger().log(Level.WARNING, "Maybe consider updating {0} or Slimefun?", pluginName);
-                SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Failed to hook into " + pluginName + " v" + version);
+                Slimefun.logger().log(Level.WARNING, "Maybe consider updating {0} or Slimefun?", pluginName);
+                Slimefun.logger().log(Level.WARNING, x, () -> "Failed to hook into " + pluginName + " v" + version);
             }
         }
     }

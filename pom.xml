@@ -66,7 +66,7 @@
             <url>https://papermc.io/repo/repository/maven-public</url>
         </repository>
         <repository>
-            <!-- CS-CoreLib2, ItemsAdder -->
+            <!-- ItemsAdder -->
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -197,8 +197,8 @@
                     <!-- Relocate these to avoid clashes and conflicts -->
                     <relocations>
                         <relocation>
-                            <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
-                            <shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
+                            <pattern>io.github.bakedlibs.dough</pattern>
+                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.dough</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
@@ -344,6 +344,34 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Shaded packages -->
+        <dependency>
+            <groupId>io.github.baked-libs</groupId>
+            <artifactId>dough-api</artifactId>
+            <version>1.0.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.6</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.11.12</version>
+            <scope>compile</scope>
+
+            <exclusions>
+                <exclusion>
+                    <!-- No need to shade Gson, Spigot does that already -->
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -369,34 +397,6 @@
                     <!-- prevents us from using inconsistent annotations -->
                     <groupId>org.jetbrains</groupId>
                     <artifactId>annotations</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Shaded packages -->
-        <dependency>
-            <groupId>com.github.thebusybiscuit</groupId>
-            <artifactId>CS-CoreLib2</artifactId>
-            <version>0.32.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.6</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.konghq</groupId>
-            <artifactId>unirest-java</artifactId>
-            <version>3.11.13</version>
-            <scope>compile</scope>
-
-            <exclusions>
-                <exclusion>
-                    <!-- No need to shade Gson, Spigot does that already -->
-                    <groupId>com.google.code.gson</groupId>
-                    <artifactId>gson</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

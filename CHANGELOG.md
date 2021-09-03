@@ -1,5 +1,5 @@
 # Table of contents
-- [Release Candidate 27 (TBD)](#release-candidate-27-tbd)
+- [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
 - [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
 - [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
 - [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
@@ -27,7 +27,20 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 27 (TBD)
+## Release Candidate 27 (03 Sep 2021)
+
+### **Breaking Changes (API)**
+This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
+
+* Category has been renamed to ItemGroup.
+* All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun4.api.items.groups`
+* The SlimefunItem class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The SlimefunItemStack class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The ItemHandler class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The RecipeType class has been relocated to `io.github.thebusybiscuit.slimefun4.api.recipes`
+* Research classes have been moved from `io.github.thebusybiscuit.slimefun4.core.researching` to `io.github.thebusybiscuit.slimefun4.api.researches`
+* The main class `SlimefunPlugin` was renamed to `Slimefun`
+* CS-CoreLib2 was removed and replaced by dough
 
 #### Additions
 * A couple more items have their wiki page linked ingame now
@@ -46,6 +59,7 @@
 * Slimefun chains can no longer be placed down
 * (API) FlexCategories can now also appear in non-survival Slimefun guides
 * Display items from Ancient Altars should no longer despawn so easily/fast
+* Research message was modified to also show the category of the item
 
 #### Fixes
 * Fixed #3164
