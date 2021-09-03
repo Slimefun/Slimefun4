@@ -27,7 +27,8 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
- * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
+ * Represents an item group, which structure
+ * multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
  * 
  * @author TheBusyBiscuit
  *
@@ -74,8 +75,8 @@ public class ItemGroup implements Keyed {
      */
     @ParametersAreNonnullByDefault
     public ItemGroup(NamespacedKey key, ItemStack item, int tier) {
-        Validate.notNull(key, "A Category's NamespacedKey must not be null!");
-        Validate.notNull(item, "A Category's ItemStack must not be null!");
+        Validate.notNull(key, "An item group's NamespacedKey must not be null!");
+        Validate.notNull(item, "An item group's ItemStack must not be null!");
 
         this.item = item;
         this.key = key;
@@ -95,9 +96,10 @@ public class ItemGroup implements Keyed {
     }
 
     /**
-     * Registers this category.
+     * Registers this {@link ItemGroup}.
      * <p>
-     * By default, a category is automatically registered when a {@link SlimefunItem} was added to it.
+     * By default, an {@link ItemGroup} is automatically registered when
+     * a {@link SlimefunItem} was added to it.
      * 
      * @param addon
      *            The {@link SlimefunAddon} that wants to register this {@link ItemGroup}
@@ -106,7 +108,7 @@ public class ItemGroup implements Keyed {
         Validate.notNull(addon, "The Addon cannot be null");
 
         if (isRegistered()) {
-            throw new UnsupportedOperationException("This Category has already been registered!");
+            throw new UnsupportedOperationException("This ItemGroup has already been registered!");
         }
 
         this.addon = addon;
@@ -135,7 +137,7 @@ public class ItemGroup implements Keyed {
     public void setTier(int tier) {
         this.tier = tier;
 
-        // Refresh Category order if already registered.
+        // Refresh ItemGroup order if already registered.
         if (isRegistered()) {
             sortCategoriesByTier();
         }
@@ -167,7 +169,7 @@ public class ItemGroup implements Keyed {
      *            the {@link SlimefunItem} that should be added to this {@link ItemGroup}
      */
     public void add(@Nonnull SlimefunItem item) {
-        Validate.notNull(item, "Cannot add null Items to a Category!");
+        Validate.notNull(item, "Cannot add null Items to an ItemGroup!");
 
         if (items.contains(item)) {
             // Ignore duplicate entries
@@ -184,7 +186,7 @@ public class ItemGroup implements Keyed {
      *            the {@link SlimefunItem} that should be removed from this {@link ItemGroup}
      */
     public void remove(@Nonnull SlimefunItem item) {
-        Validate.notNull(item, "Cannot remove null from a Category!");
+        Validate.notNull(item, "Cannot remove null from an ItemGroup!");
         items.remove(item);
     }
 
@@ -250,7 +252,7 @@ public class ItemGroup implements Keyed {
     /**
      * Returns all instances of {@link SlimefunItem} bound to this {@link ItemGroup}.
      * 
-     * @return the list of SlimefunItems bound to this category
+     * @return the list of SlimefunItems bound to this {@link ItemGroup}
      */
     @Nonnull
     public List<SlimefunItem> getItems() {

@@ -38,7 +38,7 @@ class TestPortableDustbin implements SlimefunItemTest<PortableDustbin> {
     @Override
     public PortableDustbin registerSlimefunItem(Slimefun plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.BUCKET, "&4Test Dustbin");
-        PortableDustbin dustbin = new PortableDustbin(TestUtilities.getCategory(plugin, "dustbin"), item, RecipeType.NULL, new ItemStack[9]);
+        PortableDustbin dustbin = new PortableDustbin(TestUtilities.getItemGroup(plugin, "dustbin"), item, RecipeType.NULL, new ItemStack[9]);
         dustbin.register(plugin);
         return dustbin;
     }

@@ -40,7 +40,7 @@ class TestChargeCommand {
     @Test
     @DisplayName("Test if /sf charge charges the item the player is holding")
     void testCommand() {
-        ItemGroup category = TestUtilities.getCategory(plugin, "rechargeable");
+        ItemGroup category = TestUtilities.getItemGroup(plugin, "rechargeable");
         SlimefunItemStack RECHARGEABLE_ITEM = new SlimefunItemStack("SF_CHARGE_TEST_ITEM", Material.REDSTONE_BLOCK, "Rechargeable Item", "This isn't real", LoreBuilder.powerCharged(0, 100));
         new RechargeableMock(category, RECHARGEABLE_ITEM, RecipeType.NULL, new ItemStack[9]).register(plugin);
 

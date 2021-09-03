@@ -37,7 +37,7 @@ class TestMeatJerky implements SlimefunItemTest<MeatJerky> {
     @Override
     public MeatJerky registerSlimefunItem(Slimefun plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.COOKED_BEEF, "&5Test Jerky");
-        MeatJerky meat = new MeatJerky(TestUtilities.getCategory(plugin, "test_jerky"), item, RecipeType.NULL, new ItemStack[9]);
+        MeatJerky meat = new MeatJerky(TestUtilities.getItemGroup(plugin, "test_jerky"), item, RecipeType.NULL, new ItemStack[9]);
         meat.register(plugin);
         return meat;
     }

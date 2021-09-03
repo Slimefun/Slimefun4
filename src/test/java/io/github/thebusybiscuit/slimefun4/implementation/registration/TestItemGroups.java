@@ -30,7 +30,7 @@ import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
-class TestCategories {
+class TestItemGroups {
 
     private static ServerMock server;
     private static Slimefun plugin;
@@ -47,8 +47,8 @@ class TestCategories {
     }
 
     @Test
-    @DisplayName("Test the Getters for Category")
-    void testCategoryGetters() {
+    @DisplayName("Test the Getters for ItemGroup")
+    void testItemGroupGetters() {
         ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "getter_test"), new CustomItemStack(Material.DIAMOND_AXE, "&6Testing"));
 
         Assertions.assertEquals(3, category.getTier());
@@ -62,10 +62,10 @@ class TestCategories {
     }
 
     @Test
-    @DisplayName("Test adding an item to a Category")
+    @DisplayName("Test adding an item to a ItemGroup")
     void testAddItem() {
         ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "items_test"), new CustomItemStack(Material.DIAMOND_AXE, "&6Testing"));
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_ITEMS_TEST_ITEM", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUPS_TEST_ITEM", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
         item.setItemGroup(category);
         item.register(plugin);
         item.load();
@@ -81,96 +81,96 @@ class TestCategories {
     }
 
     @Test
-    @DisplayName("Test hidden Categories")
+    @DisplayName("Test hidden Item Groups")
     void testHidden() {
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "hiddenCategory"), new ItemStack(Material.BEACON));
+        ItemGroup group = new ItemGroup(new NamespacedKey(plugin, "hiddenItemGroup"), new ItemStack(Material.BEACON));
         Player player = server.addPlayer();
 
-        // Empty Categories are also hidden
-        Assertions.assertTrue(category.isHidden(player));
+        // Empty Item Groups are also hidden
+        Assertions.assertTrue(group.isHidden(player));
 
-        SlimefunItem disabledItem = TestUtilities.mockSlimefunItem(plugin, "DISABLED_CATEGORY_ITEM", new CustomItemStack(Material.BEETROOT, "&4Disabled"));
-        Slimefun.getItemCfg().setValue("DISABLED_CATEGORY_ITEM.enabled", false);
-        disabledItem.setItemGroup(category);
+        SlimefunItem disabledItem = TestUtilities.mockSlimefunItem(plugin, "DISABLED_ITEM_GROUP_ITEM", new CustomItemStack(Material.BEETROOT, "&4Disabled"));
+        Slimefun.getItemCfg().setValue("DISABLED_ITEM_GROUP_ITEM.enabled", false);
+        disabledItem.setItemGroup(group);
         disabledItem.register(plugin);
         disabledItem.load();
 
-        // A disabled Item should also make the Category hide
-        Assertions.assertTrue(category.isHidden(player));
+        // A disabled Item should also make the ItemGroup hide
+        Assertions.assertTrue(group.isHidden(player));
 
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_HIDDEN_TEST", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
-        item.setItemGroup(category);
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUP_HIDDEN_TEST", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
+        item.setItemGroup(group);
         item.setHidden(true);
         item.register(plugin);
         item.load();
 
-        // A hidden Item should also make the Category hide
-        Assertions.assertTrue(category.isHidden(player));
+        // A hidden Item should also make the ItemGroup hide
+        Assertions.assertTrue(group.isHidden(player));
 
         item.setHidden(false);
-        Assertions.assertFalse(category.isHidden(player));
+        Assertions.assertFalse(group.isHidden(player));
     }
 
     @Test
-    @DisplayName("Test Category#contains")
+    @DisplayName("Test ItemGroup#contains")
     void testContains() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_TEST_ITEM_2", new CustomItemStack(Material.BOW, "&6Test Bow"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUP_TEST_ITEM_2", new CustomItemStack(Material.BOW, "&6Test Bow"));
         item.register(plugin);
         item.load();
 
-        ItemGroup category = item.getItemGroup();
+        ItemGroup group = item.getItemGroup();
 
-        Assertions.assertTrue(category.contains(item));
-        Assertions.assertFalse(category.contains(null));
+        Assertions.assertTrue(group.contains(item));
+        Assertions.assertFalse(group.contains(null));
 
         // Unregistered Item
-        Assertions.assertFalse(category.contains(TestUtilities.mockSlimefunItem(plugin, "NULL", new ItemStack(Material.BEDROCK))));
+        Assertions.assertFalse(group.contains(TestUtilities.mockSlimefunItem(plugin, "NULL", new ItemStack(Material.BEDROCK))));
     }
 
     @Test
-    @DisplayName("Test LockedCategory parental locking")
-    void testLockedCategoriesParents() {
+    @DisplayName("Test LockedItemGroup parental locking")
+    void testLockedItemGroupsParents() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "unlocked"), new CustomItemStack(Material.EMERALD, "&5I am SHERlocked"));
-        category.register(plugin);
+        ItemGroup group = new ItemGroup(new NamespacedKey(plugin, "unlocked"), new CustomItemStack(Material.EMERALD, "&5I am SHERlocked"));
+        group.register(plugin);
 
         ItemGroup unregistered = new ItemGroup(new NamespacedKey(plugin, "unregistered"), new CustomItemStack(Material.EMERALD, "&5I am unregistered"));
 
-        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey(), unregistered.getKey());
+        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), group.getKey(), unregistered.getKey());
         locked.register(plugin);
 
-        Assertions.assertTrue(locked.getParents().contains(category));
+        Assertions.assertTrue(locked.getParents().contains(group));
         Assertions.assertFalse(locked.getParents().contains(unregistered));
 
-        locked.removeParent(category);
-        Assertions.assertFalse(locked.getParents().contains(category));
+        locked.removeParent(group);
+        Assertions.assertFalse(locked.getParents().contains(group));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> locked.addParent(locked));
         Assertions.assertThrows(IllegalArgumentException.class, () -> locked.addParent(null));
 
-        locked.addParent(category);
-        Assertions.assertTrue(locked.getParents().contains(category));
+        locked.addParent(group);
+        Assertions.assertTrue(locked.getParents().contains(group));
     }
 
     @Test
-    @DisplayName("Test an unlocked LockedCategory")
-    void testLockedCategoriesUnlocking() throws InterruptedException {
+    @DisplayName("Test an unlocked LockedItemGroup")
+    void testLockedItemGroupsUnlocking() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "parent"), new CustomItemStack(Material.EMERALD, "&5I am SHERlocked"));
-        category.register(plugin);
+        ItemGroup group = new ItemGroup(new NamespacedKey(plugin, "parent"), new CustomItemStack(Material.EMERALD, "&5I am SHERlocked"));
+        group.register(plugin);
 
-        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked2"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey());
+        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked2"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), group.getKey());
         locked.register(plugin);
 
         // No Items, so it should be unlocked
         Assertions.assertTrue(locked.hasUnlocked(player, profile));
 
-        SlimefunItem item = new SlimefunItem(category, new SlimefunItemStack("LOCKED_CATEGORY_TEST", new CustomItemStack(Material.LANTERN, "&6Test Item for locked categories")), RecipeType.NULL, new ItemStack[9]);
+        SlimefunItem item = new SlimefunItem(group, new SlimefunItemStack("LOCKED_CATEGORY_TEST", new CustomItemStack(Material.LANTERN, "&6Test Item for locked categories")), RecipeType.NULL, new ItemStack[9]);
         item.register(plugin);
         item.load();
 
@@ -188,30 +188,30 @@ class TestCategories {
     }
 
     @Test
-    @DisplayName("Test a seasonal Category")
-    void testSeasonalCategories() {
+    @DisplayName("Test a seasonal ItemGroup")
+    void ItemGroups() {
         // Category with current Month
         Month month = LocalDate.now().getMonth();
-        SeasonalItemGroup category = new SeasonalItemGroup(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItemStack(Material.NETHER_STAR, "&cSeasonal Test"));
+        SeasonalItemGroup group = new SeasonalItemGroup(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItemStack(Material.NETHER_STAR, "&cSeasonal Test"));
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "SEASONAL_ITEM", new CustomItemStack(Material.NETHER_STAR, "&dSeasonal Test Star"));
-        item.setItemGroup(category);
+        item.setItemGroup(group);
         item.register(plugin);
         item.load();
 
         Player player = server.addPlayer();
 
-        Assertions.assertEquals(month, category.getMonth());
-        Assertions.assertFalse(category.isHidden(player));
+        Assertions.assertEquals(month, group.getMonth());
+        Assertions.assertFalse(group.isHidden(player));
 
         // Category with future Month
-        SeasonalItemGroup category2 = new SeasonalItemGroup(category.getKey(), month.plus(6), 1, new CustomItemStack(Material.MILK_BUCKET, "&dSeasonal Test"));
+        SeasonalItemGroup category2 = new SeasonalItemGroup(group.getKey(), month.plus(6), 1, new CustomItemStack(Material.MILK_BUCKET, "&dSeasonal Test"));
         Assertions.assertTrue(category2.isHidden(player));
     }
 
     @Test
-    @DisplayName("Test the FlexCategory")
+    @DisplayName("Test the FlexItemGroup")
     void testFlexCategory() {
-        FlexItemGroup category = new FlexItemGroup(new NamespacedKey(plugin, "flex"), new CustomItemStack(Material.REDSTONE, "&4Weird flex but ok")) {
+        FlexItemGroup group = new FlexItemGroup(new NamespacedKey(plugin, "flex"), new CustomItemStack(Material.REDSTONE, "&4Weird flex but ok")) {
 
             @Override
             public void open(Player p, PlayerProfile profile, SlimefunGuideMode layout) {
@@ -225,11 +225,11 @@ class TestCategories {
         };
 
         Player player = server.addPlayer();
-        Assertions.assertFalse(category.isHidden(player));
+        Assertions.assertFalse(group.isHidden(player));
 
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> category.add(null));
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> category.contains(null));
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> category.remove(null));
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> category.getItems());
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> group.add(null));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> group.contains(null));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> group.remove(null));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> group.getItems());
     }
 }

@@ -72,6 +72,7 @@ This RC brings a lot of breaking changes to the API. For more info on why we did
 * Fixed #3225
 * Fixed #3206
 * Fixed androids not respecting Worldborders
+* Fixed Ender Lumps showing an incorrect recipe in the guide
 
 ## Release Candidate 26 (20 Jul 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26

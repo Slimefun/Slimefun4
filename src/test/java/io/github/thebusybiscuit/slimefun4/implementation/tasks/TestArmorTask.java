@@ -59,7 +59,7 @@ class TestArmorTask {
         PotionEffect[] effects = { new PotionEffect(PotionEffectType.SPEED, 50, 3), new PotionEffect(PotionEffectType.SATURATION, 128, 12) };
 
         SlimefunItemStack helmet = new SlimefunItemStack("HELMET_FLEX", Material.IRON_HELMET, "&bSuper cool Helmet");
-        SlimefunArmorPiece armor = new SlimefunArmorPiece(TestUtilities.getCategory(plugin, "armor_test"), helmet, RecipeType.NULL, new ItemStack[9], effects);
+        SlimefunArmorPiece armor = new SlimefunArmorPiece(TestUtilities.getItemGroup(plugin, "armor_test"), helmet, RecipeType.NULL, new ItemStack[9], effects);
         armor.register(plugin);
 
         player.getInventory().setHelmet(helmet.clone());
@@ -80,7 +80,7 @@ class TestArmorTask {
         // Setting the time to noon, to exclude the Solar Helmet check
         player.getWorld().setTime(16000);
 
-        ItemGroup category = TestUtilities.getCategory(plugin, "hazmat_suit_test");
+        ItemGroup category = TestUtilities.getItemGroup(plugin, "hazmat_suit_test");
         SlimefunItemStack item = new SlimefunItemStack("MOCK_URANIUM_" + String.valueOf(hazmat).toUpperCase(Locale.ROOT) + "_" + String.valueOf(radioactiveFire).toUpperCase(Locale.ROOT), Material.EMERALD, "&aHi, I am deadly");
         new RadioactiveItem(category, Radioactivity.VERY_DEADLY, item, RecipeType.NULL, new ItemStack[9]).register(plugin);
 

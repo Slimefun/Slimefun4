@@ -43,7 +43,7 @@ public final class TestUtilities {
     }
 
     @ParametersAreNonnullByDefault
-    public static @Nonnull ItemGroup getCategory(Plugin plugin, String name) {
+    public static @Nonnull ItemGroup getItemGroup(Plugin plugin, String name) {
         return new ItemGroup(new NamespacedKey(plugin, name), new CustomItemStack(Material.NETHER_STAR, "&4Test Category"));
     }
 

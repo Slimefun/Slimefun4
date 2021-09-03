@@ -203,7 +203,7 @@ class TestAutoCrafter {
     @Nonnull
     private AbstractAutoCrafter getVanillaAutoCrafter() {
         SlimefunItemStack item = new SlimefunItemStack("MOCK_AUTO_CRAFTER", Material.CRAFTING_TABLE, "Mock Auto Crafter");
-        return new VanillaAutoCrafter(TestUtilities.getCategory(plugin, "auto_crafter"), item, RecipeType.NULL, new ItemStack[9]);
+        return new VanillaAutoCrafter(TestUtilities.getItemGroup(plugin, "auto_crafter"), item, RecipeType.NULL, new ItemStack[9]);
     }
 
 }

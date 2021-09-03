@@ -38,7 +38,7 @@ class TestMonsterJerky implements SlimefunItemTest<MonsterJerky> {
     @Override
     public MonsterJerky registerSlimefunItem(Slimefun plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.ROTTEN_FLESH, "&5Test Monster Jerky");
-        MonsterJerky jerky = new MonsterJerky(TestUtilities.getCategory(plugin, "monster_jerky"), item, RecipeType.NULL, new ItemStack[9]);
+        MonsterJerky jerky = new MonsterJerky(TestUtilities.getItemGroup(plugin, "monster_jerky"), item, RecipeType.NULL, new ItemStack[9]);
         jerky.register(plugin);
         return jerky;
     }

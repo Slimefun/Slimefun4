@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
- * Represents a {@link ItemGroup} that cannot be opened until the parent category/categories
+ * Represents a {@link ItemGroup} that cannot be opened until the parent group(s)
  * are fully unlocked.
  * <p>
  * See {@link ItemGroup} for the complete documentation.
@@ -38,15 +38,15 @@ public class LockedItemGroup extends ItemGroup {
     private final Set<ItemGroup> parents = new HashSet<>();
 
     /**
-     * The basic constructor for a LockedCategory.
+     * The basic constructor for a LockedItemGroup.
      * Like {@link ItemGroup}, the default tier is automatically set to 3.
      * 
      * @param key
-     *            A unique identifier for this category
+     *            A unique identifier for this group
      * @param item
-     *            The display item for this category
+     *            The display item for this group
      * @param parents
-     *            The parent categories for this category
+     *            The parent categories for this group
      * 
      */
     @ParametersAreNonnullByDefault
@@ -55,22 +55,22 @@ public class LockedItemGroup extends ItemGroup {
     }
 
     /**
-     * The constructor for a LockedCategory.
+     * The constructor for a LockedItemGroup.
      * 
      * @param key
-     *            A unique identifier for this category
+     *            A unique identifier for this group
      * @param item
-     *            The display item for this category
+     *            The display item for this group
      * @param tier
-     *            The tier of this category
+     *            The tier of this group
      * @param parents
-     *            The parent categories for this category
+     *            The parent categories for this group
      * 
      */
     @ParametersAreNonnullByDefault
     public LockedItemGroup(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
         super(key, item, tier);
-        Validate.noNullElements(parents, "A LockedCategory must not have any 'null' parents!");
+        Validate.noNullElements(parents, "A LockedItemGroup must not have any 'null' parents!");
 
         this.keys = parents;
     }
@@ -94,51 +94,50 @@ public class LockedItemGroup extends ItemGroup {
         }
 
         for (NamespacedKey key : namespacedKeys) {
-            Slimefun.logger().log(Level.INFO, "Parent \"{0}\" for Category \"{1}\" was not found, probably just disabled.", new Object[] { key, getKey() });
+            Slimefun.logger().log(Level.INFO, "Parent \"{0}\" for LockedItemGroup \"{1}\" was not found, probably just disabled.", new Object[] { key, getKey() });
         }
     }
 
     /**
-     * Gets the list of parent categories for this {@link LockedItemGroup}.
+     * Gets the list of parent item groups for this {@link LockedItemGroup}.
      * 
-     * @return the list of parent categories
+     * @return the list of parent item groups
      * 
      * @see #addParent(ItemGroup)
      * @see #removeParent(ItemGroup)
      */
-    @Nonnull
-    public Set<ItemGroup> getParents() {
+    public @Nonnull Set<ItemGroup> getParents() {
         return parents;
     }
 
     /**
      * Adds a parent {@link ItemGroup} to this {@link LockedItemGroup}.
      * 
-     * @param category
+     * @param group
      *            The {@link ItemGroup} to add as a parent
      *
      * @see #getParents()
      * @see #removeParent(ItemGroup)
      */
-    public void addParent(ItemGroup category) {
-        if (category == this || category == null) {
-            throw new IllegalArgumentException("Category '" + item.getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
+    public void addParent(ItemGroup group) {
+        if (group == this || group == null) {
+            throw new IllegalArgumentException("ItemGroup '" + item.getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
         }
 
-        parents.add(category);
+        parents.add(group);
     }
 
     /**
      * Removes a {@link ItemGroup} from the parents of this {@link LockedItemGroup}.
      * 
-     * @param category
+     * @param group
      *            The {@link ItemGroup} to remove from the parents of this {@link LockedItemGroup}
      * 
      * @see #getParents()
      * @see #addParent(ItemGroup)
      */
-    public void removeParent(@Nonnull ItemGroup category) {
-        parents.remove(category);
+    public void removeParent(@Nonnull ItemGroup group) {
+        parents.remove(group);
     }
 
     /**
@@ -155,8 +154,8 @@ public class LockedItemGroup extends ItemGroup {
         Validate.notNull(p, "The player cannot be null!");
         Validate.notNull(profile, "The Profile cannot be null!");
 
-        for (ItemGroup category : parents) {
-            for (SlimefunItem item : category.getItems()) {
+        for (ItemGroup parent : parents) {
+            for (SlimefunItem item : parent.getItems()) {
                 // Check if the Player has researched every item (if the item is enabled)
                 if (!item.isDisabledIn(p.getWorld()) && item.hasResearch() && !profile.hasUnlocked(item.getResearch())) {
                     return false;

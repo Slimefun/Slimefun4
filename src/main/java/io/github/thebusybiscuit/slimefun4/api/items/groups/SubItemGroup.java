@@ -22,7 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
  */
 public class SubItemGroup extends ItemGroup {
 
-    private final NestedItemGroup multiCategory;
+    private final NestedItemGroup parentItemGroup;
 
     @ParametersAreNonnullByDefault
     public SubItemGroup(NamespacedKey key, NestedItemGroup parent, ItemStack item) {
@@ -33,9 +33,9 @@ public class SubItemGroup extends ItemGroup {
     public SubItemGroup(NamespacedKey key, NestedItemGroup parent, ItemStack item, int tier) {
         super(key, item, tier);
 
-        Validate.notNull(parent, "The parent category cannot be null");
+        Validate.notNull(parent, "The parent group cannot be null");
 
-        multiCategory = parent;
+        parentItemGroup = parent;
         parent.addSubGroup(this);
     }
 
@@ -48,17 +48,16 @@ public class SubItemGroup extends ItemGroup {
         return true;
     }
 
-    @Nonnull
-    public final NestedItemGroup getParent() {
-        return multiCategory;
+    public final @Nonnull NestedItemGroup getParent() {
+        return parentItemGroup;
     }
 
     @Override
     public final void register(@Nonnull SlimefunAddon addon) {
         super.register(addon);
 
-        if (!multiCategory.isRegistered()) {
-            multiCategory.register(addon);
+        if (!parentItemGroup.isRegistered()) {
+            parentItemGroup.register(addon);
         }
     }
 

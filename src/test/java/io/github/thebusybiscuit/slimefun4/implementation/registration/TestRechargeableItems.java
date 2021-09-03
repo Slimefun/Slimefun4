@@ -121,7 +121,7 @@ class TestRechargeableItems {
     }
 
     private RechargeableMock mock(String id, float capacity) {
-        ItemGroup category = TestUtilities.getCategory(plugin, "rechargeable");
+        ItemGroup category = TestUtilities.getItemGroup(plugin, "rechargeable");
         return new RechargeableMock(category, new SlimefunItemStack(id, new CustomItemStack(Material.REDSTONE_LAMP, "&3" + id)), capacity);
     }
 

@@ -66,7 +66,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
  */
 public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
-    private static final int CATEGORY_SIZE = 36;
+    private static final int MAX_ITEM_GROUPS = 36;
     private static final Sound sound = Sound.ITEM_BOOK_PAGE_TURN;
 
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
@@ -128,9 +128,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 SlimefunAddon addon = group.getAddon();
 
                 if (addon != null) {
-                    addon.getLogger().log(Level.SEVERE, x, () -> "Could not display Category: " + group);
+                    addon.getLogger().log(Level.SEVERE, x, () -> "Could not display item group: " + group);
                 } else {
-                    Slimefun.logger().log(Level.SEVERE, x, () -> "Could not display Category: " + group);
+                    Slimefun.logger().log(Level.SEVERE, x, () -> "Could not display item group: " + group);
                 }
             }
         }
@@ -153,23 +153,23 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-        List<ItemGroup> categories = getVisibleItemGroups(p, profile);
+        List<ItemGroup> itemGroups = getVisibleItemGroups(p, profile);
 
         int index = 9;
         createHeader(p, profile, menu);
 
-        int target = (CATEGORY_SIZE * (page - 1)) - 1;
+        int target = (MAX_ITEM_GROUPS * (page - 1)) - 1;
 
-        while (target < (categories.size() - 1) && index < CATEGORY_SIZE + 9) {
+        while (target < (itemGroups.size() - 1) && index < MAX_ITEM_GROUPS + 9) {
             target++;
 
-            ItemGroup category = categories.get(target);
-            showItemGroup(menu, p, profile, category, index);
+            ItemGroup group = itemGroups.get(target);
+            showItemGroup(menu, p, profile, group, index);
 
             index++;
         }
 
-        int pages = target == categories.size() - 1 ? page : (categories.size() - 1) / CATEGORY_SIZE + 1;
+        int pages = target == itemGroups.size() - 1 ? page : (itemGroups.size() - 1) / MAX_ITEM_GROUPS + 1;
 
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
@@ -245,7 +245,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         addBackButton(menu, 1, p, profile);
 
-        int pages = (category.getItems().size() - 1) / CATEGORY_SIZE + 1;
+        int pages = (category.getItems().size() - 1) / MAX_ITEM_GROUPS + 1;
 
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
@@ -270,9 +270,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         });
 
         int index = 9;
-        int categoryIndex = CATEGORY_SIZE * (page - 1);
+        int categoryIndex = MAX_ITEM_GROUPS * (page - 1);
 
-        for (int i = 0; i < CATEGORY_SIZE; i++) {
+        for (int i = 0; i < MAX_ITEM_GROUPS; i++) {
             int target = categoryIndex + i;
 
             if (target >= category.getItems().size()) {

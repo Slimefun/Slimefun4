@@ -32,11 +32,11 @@ public class SeasonalItemGroup extends ItemGroup {
      * @param key
      *            The {@link NamespacedKey} that is used to identify this {@link ItemGroup}
      * @param month
-     *            The month when the category should be displayed (from 1 = January ; to 12 = December)
+     *            The month when the {@link ItemGroup} should be displayed (from 1 = January ; to 12 = December)
      * @param tier
-     *            The tier of this category
+     *            The tier of this {@link ItemGroup}
      * @param item
-     *            The display item for this category
+     *            The display item for this {@link ItemGroup}
      */
     @ParametersAreNonnullByDefault
     public SeasonalItemGroup(NamespacedKey key, Month month, int tier, ItemStack item) {
@@ -51,8 +51,7 @@ public class SeasonalItemGroup extends ItemGroup {
      * 
      * @return the {@link Month} in which this {@link SeasonalItemGroup} appears
      */
-    @Nonnull
-    public Month getMonth() {
+    public @Nonnull Month getMonth() {
         return month;
     }
 

@@ -46,7 +46,7 @@ class TestTapeMeasure implements SlimefunItemTest<TapeMeasure> {
     @Override
     public TapeMeasure registerSlimefunItem(Slimefun plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.PLAYER_HEAD, "&5Test Pick", id);
-        TapeMeasure tapeMeasure = new TapeMeasure(TestUtilities.getCategory(plugin, "tape_measure"), item, RecipeType.NULL, new ItemStack[9]);
+        TapeMeasure tapeMeasure = new TapeMeasure(TestUtilities.getItemGroup(plugin, "tape_measure"), item, RecipeType.NULL, new ItemStack[9]);
         tapeMeasure.register(plugin);
         return tapeMeasure;
     }

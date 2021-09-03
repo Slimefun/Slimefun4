@@ -76,7 +76,7 @@ public class Research implements Keyed {
     }
 
     @Override
-    public NamespacedKey getKey() {
+    public @Nonnull NamespacedKey getKey() {
         return key;
     }
 
@@ -114,8 +114,7 @@ public class Research implements Keyed {
      * 
      * @return The localized Name of this {@link Research}.
      */
-    @Nonnull
-    public String getName(@Nonnull Player p) {
+    public @Nonnull String getName(@Nonnull Player p) {
         String localized = Slimefun.getLocalization().getResearchName(p, key);
         return localized != null ? localized : name;
     }

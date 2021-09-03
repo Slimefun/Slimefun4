@@ -41,25 +41,25 @@ public class NestedItemGroup extends FlexItemGroup {
     /**
      * This will add the given {@link SubItemGroup} to this {@link NestedItemGroup}.
      * 
-     * @param category
+     * @param group
      *            The {@link SubItemGroup} to add.
      */
-    public void addSubGroup(@Nonnull SubItemGroup category) {
-        Validate.notNull(category, "The sub item group cannot be null!");
+    public void addSubGroup(@Nonnull SubItemGroup group) {
+        Validate.notNull(group, "The sub item group cannot be null!");
 
-        subGroups.add(category);
+        subGroups.add(group);
     }
 
     /**
      * This will remove the given {@link SubItemGroup} from this {@link NestedItemGroup} (if present).
      * 
-     * @param category
+     * @param group
      *            The {@link SubItemGroup} to remove.
      */
-    public void removeSubGroup(@Nonnull SubItemGroup category) {
-        Validate.notNull(category, "The sub item group cannot be null!");
+    public void removeSubGroup(@Nonnull SubItemGroup group) {
+        Validate.notNull(group, "The sub item group cannot be null!");
 
-        subGroups.remove(category);
+        subGroups.remove(group);
     }
 
     @Override

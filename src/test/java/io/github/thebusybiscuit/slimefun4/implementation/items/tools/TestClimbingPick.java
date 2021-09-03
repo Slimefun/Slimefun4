@@ -55,7 +55,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     @Override
     public ClimbingPick registerSlimefunItem(Slimefun plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.IRON_PICKAXE, "&5Test Pick", id);
-        ClimbingPick pick = new ClimbingPick(TestUtilities.getCategory(plugin, "climbing_pick"), item, RecipeType.NULL, new ItemStack[9]) {
+        ClimbingPick pick = new ClimbingPick(TestUtilities.getItemGroup(plugin, "climbing_pick"), item, RecipeType.NULL, new ItemStack[9]) {
 
             @Override
             public boolean isDualWieldingEnabled() {

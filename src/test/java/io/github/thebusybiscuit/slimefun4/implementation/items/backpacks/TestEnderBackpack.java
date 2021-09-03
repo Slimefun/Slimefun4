@@ -37,7 +37,7 @@ class TestEnderBackpack implements SlimefunItemTest<EnderBackpack> {
     @Override
     public EnderBackpack registerSlimefunItem(Slimefun plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.ENDER_CHEST, "&5Test Ender Backpack");
-        EnderBackpack backpack = new EnderBackpack(TestUtilities.getCategory(plugin, "ender_backpack"), item, RecipeType.NULL, new ItemStack[9]);
+        EnderBackpack backpack = new EnderBackpack(TestUtilities.getItemGroup(plugin, "ender_backpack"), item, RecipeType.NULL, new ItemStack[9]);
         backpack.register(plugin);
         return backpack;
     }

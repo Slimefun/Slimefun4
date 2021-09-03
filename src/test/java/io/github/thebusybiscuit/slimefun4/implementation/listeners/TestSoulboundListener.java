@@ -61,7 +61,7 @@ class TestSoulboundListener {
         PlayerMock player = server.addPlayer();
 
         SlimefunItemStack item = new SlimefunItemStack("SOULBOUND_ITEM_" + (enabled ? "ENABLED" : "DISABLED"), Material.DIAMOND_SWORD, "&5Soulbound Sword");
-        SoulboundItem soulboundItem = new SoulboundItem(TestUtilities.getCategory(plugin, "soulbound"), item, RecipeType.NULL, new ItemStack[9]);
+        SoulboundItem soulboundItem = new SoulboundItem(TestUtilities.getItemGroup(plugin, "soulbound"), item, RecipeType.NULL, new ItemStack[9]);
         soulboundItem.register(plugin);
 
         if (!enabled) {

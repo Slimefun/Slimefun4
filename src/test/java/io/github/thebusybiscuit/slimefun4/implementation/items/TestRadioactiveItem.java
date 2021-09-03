@@ -37,7 +37,7 @@ class TestRadioactiveItem {
     @EnumSource(value = Radioactivity.class)
     @DisplayName("Test radioactive items being radioactive")
     void testWikiPages(Radioactivity radioactivity) {
-        ItemGroup category = TestUtilities.getCategory(plugin, "radioactivity_test");
+        ItemGroup category = TestUtilities.getItemGroup(plugin, "radioactivity_test");
         SlimefunItemStack stack = new SlimefunItemStack("RADIOACTIVE_" + radioactivity.name(), Material.EMERALD, "&4Radioactive!!!", "Imagine dragons");
         RadioactiveItem item = new RadioactiveItem(category, radioactivity, stack, RecipeType.NULL, new ItemStack[9]);
 

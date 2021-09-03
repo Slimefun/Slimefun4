@@ -39,7 +39,7 @@ class TestDietCookie implements SlimefunItemTest<DietCookie> {
     @Override
     public DietCookie registerSlimefunItem(Slimefun plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.COOKIE, "&5Test Cookie");
-        DietCookie cookie = new DietCookie(TestUtilities.getCategory(plugin, "diet_cookie"), item, RecipeType.NULL, new ItemStack[9]);
+        DietCookie cookie = new DietCookie(TestUtilities.getItemGroup(plugin, "diet_cookie"), item, RecipeType.NULL, new ItemStack[9]);
         cookie.register(plugin);
         return cookie;
     }
