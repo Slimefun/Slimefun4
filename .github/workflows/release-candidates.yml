@@ -7,7 +7,7 @@ on:
         description: 'RC number (e.g. 15)'
         required: true
       release_date:
-        description: 'Date of release (e.g. 12 apr 2021)'
+        description: 'Date of release (e.g. 12-apr-2021)'
         required: true
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
         ref: 'stable'
 
     - name: Merge latest commits into 'stable'
-      uses: devmasx/merge-branch@v1.3.1
+      uses: devmasx/merge-branch@1.4.0
       with:
         type: now
         from_branch: 'master'

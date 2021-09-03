@@ -19,8 +19,9 @@ import org.bukkit.Tag;
 import org.bukkit.block.data.Waterlogged;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFurnace;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.CropGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
@@ -63,6 +64,11 @@ public enum SlimefunTag implements Tag<Material> {
      * All nether ores.
      */
     NETHER_ORES,
+
+    /**
+     * All raw metals in 1.17+
+     */
+    RAW_METALS,
 
     /**
      * All Shulker boxes, normal and colored.
@@ -230,7 +236,12 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials (ores) which trigger the Talisman of the Caveman.
      */
-    CAVEMAN_TALISMAN_TRIGGERS;
+    CAVEMAN_TALISMAN_TRIGGERS,
+
+    /**
+     * All materials which benefit from the luck multiplier of {@link EnhancedFurnace}
+     */
+    ENHANCED_FURNACE_LUCK_MATERIALS;
 
     /**
      * Lookup table for tag names.
@@ -256,10 +267,10 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * This constructs a new {@link SlimefunTag}.
      * The {@link NamespacedKey} will be automatically inferred using
-     * {@link SlimefunPlugin} and {@link #name()}.
+     * {@link Slimefun} and {@link #name()}.
      */
     SlimefunTag() {
-        key = new NamespacedKey(SlimefunPlugin.instance(), name().toLowerCase(Locale.ROOT));
+        key = new NamespacedKey(Slimefun.instance(), name().toLowerCase(Locale.ROOT));
     }
 
     /**
