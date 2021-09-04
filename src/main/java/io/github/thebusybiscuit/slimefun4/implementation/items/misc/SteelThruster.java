@@ -25,8 +25,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 public class SteelThruster extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public SteelThruster(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public SteelThruster(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onRightClickBlock(), onRightClickEntity());
     }

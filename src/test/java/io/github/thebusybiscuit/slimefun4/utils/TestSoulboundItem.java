@@ -89,8 +89,8 @@ class TestSoulboundItem {
 
     private class SoulboundMock extends SlimefunItem implements Soulbound {
 
-        public SoulboundMock(ItemGroup category) {
-            super(category, new SlimefunItemStack("MOCK_SOULBOUND", Material.REDSTONE, "&4Almighty Redstone"), RecipeType.NULL, new ItemStack[9]);
+        public SoulboundMock(ItemGroup itemGroup) {
+            super(itemGroup, new SlimefunItemStack("MOCK_SOULBOUND", Material.REDSTONE, "&4Almighty Redstone"), RecipeType.NULL, new ItemStack[9]);
         }
 
     }

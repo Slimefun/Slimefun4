@@ -22,8 +22,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 public class ExplosivePickaxe extends ExplosiveTool {
 
     @ParametersAreNonnullByDefault
-    public ExplosivePickaxe(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ExplosivePickaxe(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
 }

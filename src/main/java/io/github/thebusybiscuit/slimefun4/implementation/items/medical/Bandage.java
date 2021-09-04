@@ -30,8 +30,8 @@ public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
     private final int healingLevel;
 
     @ParametersAreNonnullByDefault
-    public Bandage(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public Bandage(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         this.healingLevel = healingLevel;
     }

@@ -67,9 +67,9 @@ class TestCargoNodeListener {
         Block b = l.getBlock();
         Block against = b.getRelative(BlockFace.DOWN);
 
-        ItemGroup category = TestUtilities.getItemGroup(plugin, "cargo_test");
+        ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "cargo_test");
         SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE", new CustomItemStack(Material.PLAYER_HEAD, "&4Cargo node!"));
-        CargoInputNode node = new CargoInputNode(category, item, RecipeType.NULL, new ItemStack[9], null);
+        CargoInputNode node = new CargoInputNode(itemGroup, item, RecipeType.NULL, new ItemStack[9], null);
         node.register(plugin);
 
         BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), against, item, player, true, EquipmentSlot.HAND);
@@ -86,9 +86,9 @@ class TestCargoNodeListener {
         Block b = l.getBlock();
         b.setType(Material.GRASS);
 
-        ItemGroup category = TestUtilities.getItemGroup(plugin, "cargo_test");
+        ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "cargo_test");
         SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE_2", new CustomItemStack(Material.PLAYER_HEAD, "&4Cargo node!"));
-        CargoInputNode node = new CargoInputNode(category, item, RecipeType.NULL, new ItemStack[9], null);
+        CargoInputNode node = new CargoInputNode(itemGroup, item, RecipeType.NULL, new ItemStack[9], null);
         node.register(plugin);
 
         BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), b, item, player, true, EquipmentSlot.HAND);

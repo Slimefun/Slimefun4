@@ -16,8 +16,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 public class Vitamins extends MedicalSupply<ItemUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public Vitamins(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, 8, item, recipeType, recipe);
+    public Vitamins(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, 8, item, recipeType, recipe);
     }
 
     @Override

@@ -21,8 +21,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 public class FarmerShoes extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public FarmerShoes(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public FarmerShoes(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
 }

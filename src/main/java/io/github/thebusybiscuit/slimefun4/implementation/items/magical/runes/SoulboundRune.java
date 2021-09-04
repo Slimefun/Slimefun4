@@ -41,8 +41,8 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
     private static final double RANGE = 1.5;
 
     @ParametersAreNonnullByDefault
-    public SoulboundRune(ItemGroup category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
-        super(category, item, type, recipe);
+    public SoulboundRune(ItemGroup itemGroup, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
+        super(itemGroup, item, type, recipe);
     }
 
     @Override

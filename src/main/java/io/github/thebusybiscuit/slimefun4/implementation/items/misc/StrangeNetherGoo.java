@@ -44,8 +44,8 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
     private final ItemSetting<Integer> chance = new IntRangeSetting(this, "barter-chance", 0, 7, 100);
 
     @ParametersAreNonnullByDefault
-    public StrangeNetherGoo(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public StrangeNetherGoo(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(chance);
         addItemHandler(onRightClickEntity());

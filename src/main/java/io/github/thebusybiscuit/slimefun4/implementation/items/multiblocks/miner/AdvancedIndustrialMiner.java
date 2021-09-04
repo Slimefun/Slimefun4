@@ -21,8 +21,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
  */
 public class AdvancedIndustrialMiner extends IndustrialMiner {
 
-    public AdvancedIndustrialMiner(ItemGroup category, SlimefunItemStack item) {
-        super(category, item, Material.DIAMOND_BLOCK, true, 5);
+    public AdvancedIndustrialMiner(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, Material.DIAMOND_BLOCK, true, 5);
     }
 
     @Override

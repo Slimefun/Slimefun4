@@ -24,8 +24,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class ChargingBench extends AContainer {
 
-    public ChargingBench(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ChargingBench(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

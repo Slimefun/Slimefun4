@@ -86,8 +86,8 @@ class TestSlimefunItemRegistration {
     }
 
     @Test
-    @DisplayName("Test Category registration when registering an item")
-    void testCategoryRegistration() {
+    @DisplayName("Test ItemGroup registration when registering an item")
+    void testItemGroupRegistration() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
         item.register(plugin);
         item.load();
@@ -95,17 +95,17 @@ class TestSlimefunItemRegistration {
         // null should not be a valid argument
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.setItemGroup(null));
 
-        ItemGroup category = item.getItemGroup();
-        ItemGroup category2 = new ItemGroup(new NamespacedKey(plugin, "test2"), new CustomItemStack(Material.OBSIDIAN, "&6Test 2"));
+        ItemGroup itemGroup = item.getItemGroup();
+        ItemGroup itemGroup2 = new ItemGroup(new NamespacedKey(plugin, "test2"), new CustomItemStack(Material.OBSIDIAN, "&6Test 2"));
 
-        Assertions.assertTrue(category.contains(item));
-        Assertions.assertFalse(category2.contains(item));
-        Assertions.assertEquals(category, item.getItemGroup());
+        Assertions.assertTrue(itemGroup.contains(item));
+        Assertions.assertFalse(itemGroup2.contains(item));
+        Assertions.assertEquals(itemGroup, item.getItemGroup());
 
-        item.setItemGroup(category2);
-        Assertions.assertFalse(category.contains(item));
-        Assertions.assertTrue(category2.contains(item));
-        Assertions.assertEquals(category2, item.getItemGroup());
+        item.setItemGroup(itemGroup2);
+        Assertions.assertFalse(itemGroup.contains(item));
+        Assertions.assertTrue(itemGroup2.contains(item));
+        Assertions.assertEquals(itemGroup2, item.getItemGroup());
     }
 
     @Test
@@ -116,25 +116,25 @@ class TestSlimefunItemRegistration {
         item.register(plugin);
         item.load();
 
-        ItemGroup category = item.getItemGroup();
+        ItemGroup itemGroup = item.getItemGroup();
 
         Assertions.assertTrue(item.isHidden());
-        Assertions.assertFalse(category.contains(item));
-        Assertions.assertEquals(category, item.getItemGroup());
+        Assertions.assertFalse(itemGroup.contains(item));
+        Assertions.assertEquals(itemGroup, item.getItemGroup());
 
         item.setHidden(false);
         Assertions.assertFalse(item.isHidden());
-        Assertions.assertTrue(category.contains(item));
-        Assertions.assertEquals(category, item.getItemGroup());
+        Assertions.assertTrue(itemGroup.contains(item));
+        Assertions.assertEquals(itemGroup, item.getItemGroup());
 
         item.setHidden(true);
         Assertions.assertTrue(item.isHidden());
-        Assertions.assertFalse(category.contains(item));
-        Assertions.assertEquals(category, item.getItemGroup());
+        Assertions.assertFalse(itemGroup.contains(item));
+        Assertions.assertEquals(itemGroup, item.getItemGroup());
 
         // Do nothing if the value hasn't changed
         item.setHidden(true);
         Assertions.assertTrue(item.isHidden());
-        Assertions.assertFalse(category.contains(item));
+        Assertions.assertFalse(itemGroup.contains(item));
     }
 }

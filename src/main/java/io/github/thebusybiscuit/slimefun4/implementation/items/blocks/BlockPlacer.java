@@ -56,8 +56,8 @@ public class BlockPlacer extends SlimefunItem {
     private final ItemSetting<List<String>> unplaceableBlocks = new MaterialTagSetting(this, "unplaceable-blocks", SlimefunTag.UNBREAKABLE_MATERIALS);
 
     @ParametersAreNonnullByDefault
-    public BlockPlacer(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public BlockPlacer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(unplaceableBlocks);
 

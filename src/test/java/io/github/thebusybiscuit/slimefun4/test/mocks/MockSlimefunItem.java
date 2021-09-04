@@ -9,8 +9,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 public class MockSlimefunItem extends SlimefunItem {
 
-    public MockSlimefunItem(ItemGroup category, ItemStack item, String id) {
-        super(category, new SlimefunItemStack(id, item), RecipeType.NULL, new ItemStack[9]);
+    public MockSlimefunItem(ItemGroup itemGroup, ItemStack item, String id) {
+        super(itemGroup, new SlimefunItemStack(id, item), RecipeType.NULL, new ItemStack[9]);
     }
 
 }

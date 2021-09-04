@@ -29,8 +29,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 public class PortableDustbin extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
     @ParametersAreNonnullByDefault
-    public PortableDustbin(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public PortableDustbin(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

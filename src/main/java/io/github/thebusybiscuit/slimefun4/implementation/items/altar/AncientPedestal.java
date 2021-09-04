@@ -51,8 +51,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
     @ParametersAreNonnullByDefault
-    public AncientPedestal(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         addItemHandler(onBreak());
     }

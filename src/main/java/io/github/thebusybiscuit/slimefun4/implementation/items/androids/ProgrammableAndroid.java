@@ -78,8 +78,8 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     private final int tier;
 
     @ParametersAreNonnullByDefault
-    public ProgrammableAndroid(ItemGroup category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ProgrammableAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         this.tier = tier;
         texture = item.getSkullTexture().orElse(null);
@@ -424,10 +424,10 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         });
 
         int index = 0;
-        int categoryIndex = 45 * (page - 1);
+        int itemGroupIndex = 45 * (page - 1);
 
         for (int i = 0; i < 45; i++) {
-            int target = categoryIndex + i;
+            int target = itemGroupIndex + i;
 
             if (target >= scripts.size()) {
                 break;

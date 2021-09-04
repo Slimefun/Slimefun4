@@ -41,8 +41,8 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
     private static final ItemStack organicFood = ItemStackWrapper.wrap(SlimefunItems.ORGANIC_FOOD);
 
     @ParametersAreNonnullByDefault
-    public AutoBreeder(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public AutoBreeder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onBreak());
         createPreset(this, this::constructMenu);

@@ -54,8 +54,8 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     private final Set<AnimalProduce> animalProduces = new HashSet<>();
 
     @ParametersAreNonnullByDefault
-    public ProduceCollector(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ProduceCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(range);
     }

@@ -40,13 +40,13 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
     private final List<PotionEffect> effects;
 
     @ParametersAreNonnullByDefault
-    public Juice(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        this(category, item, recipeType, recipe, null);
+    public Juice(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, item, recipeType, recipe, null);
     }
 
     @ParametersAreNonnullByDefault
-    public Juice(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public Juice(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         ItemMeta meta = item.getItemMeta();
 

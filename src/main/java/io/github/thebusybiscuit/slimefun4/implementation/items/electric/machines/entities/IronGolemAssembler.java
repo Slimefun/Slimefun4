@@ -30,8 +30,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 public class IronGolemAssembler extends AbstractEntityAssembler<IronGolem> {
 
     @ParametersAreNonnullByDefault
-    public IronGolemAssembler(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public IronGolemAssembler(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

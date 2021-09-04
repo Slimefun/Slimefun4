@@ -25,8 +25,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 public class GPSMarkerTool extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
     @ParametersAreNonnullByDefault
-    public GPSMarkerTool(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public GPSMarkerTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

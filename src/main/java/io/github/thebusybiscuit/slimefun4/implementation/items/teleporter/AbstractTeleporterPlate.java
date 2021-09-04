@@ -29,8 +29,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterLis
 public abstract class AbstractTeleporterPlate extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    protected AbstractTeleporterPlate(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected AbstractTeleporterPlate(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     /**

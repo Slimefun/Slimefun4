@@ -37,8 +37,8 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     private final int nightEnergy;
 
     @ParametersAreNonnullByDefault
-    public SolarGenerator(ItemGroup category, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         this.dayEnergy = dayEnergy;
         this.nightEnergy = nightEnergy;

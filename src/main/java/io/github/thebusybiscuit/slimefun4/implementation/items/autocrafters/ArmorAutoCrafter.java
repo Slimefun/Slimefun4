@@ -24,8 +24,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Armor
 public class ArmorAutoCrafter extends SlimefunAutoCrafter {
 
     @ParametersAreNonnullByDefault
-    public ArmorAutoCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe, RecipeType.ARMOR_FORGE);
+    public ArmorAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe, RecipeType.ARMOR_FORGE);
     }
 
 }

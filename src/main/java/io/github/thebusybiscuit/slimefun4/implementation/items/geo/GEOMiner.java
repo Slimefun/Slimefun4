@@ -68,8 +68,8 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     private int processingSpeed = -1;
 
     @ParametersAreNonnullByDefault
-    public GEOMiner(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public GEOMiner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         processor.setProgressBar(new ItemStack(Material.DIAMOND_PICKAXE));
         createPreset(this, getItemName(), this::constructMenu);

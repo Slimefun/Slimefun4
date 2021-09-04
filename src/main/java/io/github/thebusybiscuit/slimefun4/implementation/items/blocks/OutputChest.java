@@ -46,8 +46,8 @@ public class OutputChest extends SlimefunItem {
     // @formatter:on
 
     @ParametersAreNonnullByDefault
-    public OutputChest(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public OutputChest(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(new VanillaInventoryDropHandler<>(Chest.class));
     }

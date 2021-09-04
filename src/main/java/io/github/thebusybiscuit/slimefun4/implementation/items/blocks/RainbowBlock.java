@@ -22,8 +22,8 @@ public class RainbowBlock extends SimpleSlimefunItem<RainbowTickHandler> {
     private final RainbowTickHandler ticker;
 
     @ParametersAreNonnullByDefault
-    public RainbowBlock(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, RainbowTickHandler ticker) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public RainbowBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, RainbowTickHandler ticker) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         this.ticker = ticker;
     }

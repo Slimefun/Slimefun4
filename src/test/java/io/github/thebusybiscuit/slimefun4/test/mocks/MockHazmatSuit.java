@@ -16,8 +16,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
 public class MockHazmatSuit extends SlimefunArmorPiece implements ProtectiveArmor {
 
     @ParametersAreNonnullByDefault
-    public MockHazmatSuit(ItemGroup category, SlimefunItemStack item) {
-        super(category, item, RecipeType.NULL, new ItemStack[9], new PotionEffect[0]);
+    public MockHazmatSuit(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, RecipeType.NULL, new ItemStack[9], new PotionEffect[0]);
     }
 
     @Override

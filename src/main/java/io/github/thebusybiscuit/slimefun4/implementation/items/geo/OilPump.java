@@ -35,8 +35,8 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
     private final ItemStack emptyBucket = new ItemStack(Material.BUCKET);
 
     @ParametersAreNonnullByDefault
-    public OilPump(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public OilPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         oil = Slimefun.getRegistry().getGEOResources().get(new NamespacedKey(Slimefun.instance(), "oil")).orElse(null);
 

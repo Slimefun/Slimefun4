@@ -50,8 +50,8 @@ public class ReactorAccessPort extends SlimefunItem {
     private final int[] outputBorder = { 30, 31, 32, 39, 41, 48, 50 };
 
     @ParametersAreNonnullByDefault
-    public ReactorAccessPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ReactorAccessPort(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onBreak());
 

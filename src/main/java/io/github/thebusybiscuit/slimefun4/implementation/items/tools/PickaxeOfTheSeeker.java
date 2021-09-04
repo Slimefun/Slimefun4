@@ -32,8 +32,8 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
     private final ItemSetting<Integer> maxRange = new IntRangeSetting(this, "max-range", 1, 5, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
-    public PickaxeOfTheSeeker(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public PickaxeOfTheSeeker(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(maxRange);
     }

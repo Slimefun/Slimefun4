@@ -18,8 +18,8 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 public class SoulboundBackpack extends SlimefunBackpack implements Soulbound {
 
     @ParametersAreNonnullByDefault
-    public SoulboundBackpack(int size, ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(size, category, item, recipeType, recipe);
+    public SoulboundBackpack(int size, ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(size, itemGroup, item, recipeType, recipe);
     }
 
 }

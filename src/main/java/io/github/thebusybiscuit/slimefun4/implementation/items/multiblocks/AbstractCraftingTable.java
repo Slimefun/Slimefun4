@@ -43,8 +43,8 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 abstract class AbstractCraftingTable extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
-    AbstractCraftingTable(ItemGroup category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
-        super(category, item, recipe, trigger);
+    AbstractCraftingTable(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
+        super(itemGroup, item, recipe, trigger);
     }
 
     protected @Nonnull Inventory createVirtualInventory(@Nonnull Inventory inv) {

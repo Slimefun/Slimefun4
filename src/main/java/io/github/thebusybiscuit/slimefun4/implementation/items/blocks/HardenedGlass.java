@@ -24,8 +24,8 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 public class HardenedGlass extends WitherProofBlock {
 
     @ParametersAreNonnullByDefault
-    public HardenedGlass(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public HardenedGlass(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
 }

@@ -102,10 +102,10 @@ public class NestedItemGroup extends FlexItemGroup {
         while (target < (subGroups.size() - 1) && index < GROUP_SIZE + 9) {
             target++;
 
-            SubItemGroup category = subGroups.get(target);
-            menu.addItem(index, category.getItem(p));
+            SubItemGroup itemGroup = subGroups.get(target);
+            menu.addItem(index, itemGroup.getItem(p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-                SlimefunGuide.openCategory(profile, category, mode, 1);
+                SlimefunGuide.openItemGroup(profile, itemGroup, mode, 1);
                 return false;
             });
 

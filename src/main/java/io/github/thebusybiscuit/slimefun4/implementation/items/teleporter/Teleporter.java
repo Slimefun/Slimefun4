@@ -30,8 +30,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class Teleporter extends SimpleSlimefunItem<BlockPlaceHandler> {
 
     @ParametersAreNonnullByDefault
-    public Teleporter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public Teleporter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

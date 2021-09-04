@@ -47,8 +47,8 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
     private final RecipeType targetRecipeType;
 
     @ParametersAreNonnullByDefault
-    protected SlimefunAutoCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, RecipeType targetRecipeType) {
-        super(category, item, recipeType, recipe);
+    protected SlimefunAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, RecipeType targetRecipeType) {
+        super(itemGroup, item, recipeType, recipe);
 
         this.targetRecipeType = targetRecipeType;
     }

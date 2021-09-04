@@ -21,8 +21,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 public class LongFallBoots extends SlimefunArmorPiece {
 
     @ParametersAreNonnullByDefault
-    public LongFallBoots(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
-        super(category, item, recipeType, recipe, effects);
+    public LongFallBoots(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
+        super(itemGroup, item, recipeType, recipe, effects);
     }
 
 }

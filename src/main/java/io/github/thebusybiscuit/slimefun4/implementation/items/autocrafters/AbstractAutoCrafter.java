@@ -93,8 +93,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     // @formatter:on
 
     @ParametersAreNonnullByDefault
-    protected AbstractAutoCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected AbstractAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         recipeStorageKey = new NamespacedKey(Slimefun.instance(), "recipe_key");
         recipeEnabledKey = new NamespacedKey(Slimefun.instance(), "recipe_enabled");

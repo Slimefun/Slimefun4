@@ -26,8 +26,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 public class BrokenSpawner extends AbstractMonsterSpawner implements NotPlaceable {
 
     @ParametersAreNonnullByDefault
-    public BrokenSpawner(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public BrokenSpawner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onRightClick());
     }

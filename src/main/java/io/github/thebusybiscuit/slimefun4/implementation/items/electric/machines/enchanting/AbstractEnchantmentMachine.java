@@ -41,8 +41,8 @@ abstract class AbstractEnchantmentMachine extends AContainer {
     private final ItemSetting<List<String>> ignoredLores = new ItemSetting<>(this, "ignored-lores", Collections.singletonList("&7- &cCan't be used in " + this.getItemName()));
 
     @ParametersAreNonnullByDefault
-    protected AbstractEnchantmentMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected AbstractEnchantmentMachine(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(useLevelLimit);
         addItemSetting(levelLimit);

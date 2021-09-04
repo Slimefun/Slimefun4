@@ -57,7 +57,7 @@ public class SeasonalItemGroup extends ItemGroup {
 
     @Override
     public boolean isHidden(@Nonnull Player p) {
-        // Hide this Category if the month differs
+        // Hide this ItemGroup if the month differs
         if (month != LocalDate.now().getMonth()) {
             return true;
         }

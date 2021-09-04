@@ -62,8 +62,8 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     private final Set<UUID> users = new HashSet<>();
 
     @ParametersAreNonnullByDefault
-    public ElevatorPlate(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public ElevatorPlate(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         addItemHandler(onPlace());
     }

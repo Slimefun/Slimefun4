@@ -67,8 +67,8 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
     private int lifetime = 0;
 
     @ParametersAreNonnullByDefault
-    protected AbstractEntityAssembler(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected AbstractEntityAssembler(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         new BlockMenuPreset(getId(), item.getItemMetaSnapshot().getDisplayName().orElse("Entity Assembler")) {
 

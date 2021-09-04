@@ -80,16 +80,16 @@ class TestArmorTask {
         // Setting the time to noon, to exclude the Solar Helmet check
         player.getWorld().setTime(16000);
 
-        ItemGroup category = TestUtilities.getItemGroup(plugin, "hazmat_suit_test");
+        ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "hazmat_suit_test");
         SlimefunItemStack item = new SlimefunItemStack("MOCK_URANIUM_" + String.valueOf(hazmat).toUpperCase(Locale.ROOT) + "_" + String.valueOf(radioactiveFire).toUpperCase(Locale.ROOT), Material.EMERALD, "&aHi, I am deadly");
-        new RadioactiveItem(category, Radioactivity.VERY_DEADLY, item, RecipeType.NULL, new ItemStack[9]).register(plugin);
+        new RadioactiveItem(itemGroup, Radioactivity.VERY_DEADLY, item, RecipeType.NULL, new ItemStack[9]).register(plugin);
 
         player.getInventory().setItemInMainHand(item.clone());
         player.getInventory().setItemInOffHand(new ItemStack(Material.EMERALD_ORE));
 
         if (hazmat) {
             SlimefunItemStack chestplate = new SlimefunItemStack("MOCK_HAZMAT_SUIT_" + String.valueOf(radioactiveFire).toUpperCase(Locale.ROOT), Material.LEATHER_CHESTPLATE, "&4Hazmat Prototype");
-            MockHazmatSuit armor = new MockHazmatSuit(category, chestplate);
+            MockHazmatSuit armor = new MockHazmatSuit(itemGroup, chestplate);
             armor.register(plugin);
 
             player.getInventory().setChestplate(chestplate.clone());

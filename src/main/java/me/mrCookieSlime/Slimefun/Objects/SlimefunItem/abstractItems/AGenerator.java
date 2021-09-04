@@ -54,8 +54,8 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
     private int energyCapacity = -1;
 
     @ParametersAreNonnullByDefault
-    protected AGenerator(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected AGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         processor.setProgressBar(getProgressBar());
 

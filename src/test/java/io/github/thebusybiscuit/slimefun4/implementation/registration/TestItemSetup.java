@@ -72,13 +72,13 @@ class TestItemSetup {
 
     @Test
     @Order(value = 4)
-    @DisplayName("Test whether every Category is added to the translation files")
-    void testCategoryTranslations() throws IOException {
+    @DisplayName("Test whether every ItemGroup is added to the translation files")
+    void testItemGroupTranslations() throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/en/categories.yml"), StandardCharsets.UTF_8))) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 
-            for (ItemGroup category : Slimefun.getRegistry().getAllItemGroups()) {
-                String path = category.getKey().getNamespace() + '.' + category.getKey().getKey();
+            for (ItemGroup itemGroup : Slimefun.getRegistry().getAllItemGroups()) {
+                String path = itemGroup.getKey().getNamespace() + '.' + itemGroup.getKey().getKey();
                 Assertions.assertTrue(config.contains(path));
             }
         }

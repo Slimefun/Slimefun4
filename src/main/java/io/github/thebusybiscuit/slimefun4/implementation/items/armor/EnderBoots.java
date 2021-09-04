@@ -20,8 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 public class EnderBoots extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public EnderBoots(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public EnderBoots(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
-
 }

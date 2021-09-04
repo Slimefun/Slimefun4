@@ -30,8 +30,8 @@ public class Capacitor extends SlimefunItem implements EnergyNetComponent {
     private final int capacity;
 
     @ParametersAreNonnullByDefault
-    public Capacitor(ItemGroup category, int capacity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public Capacitor(ItemGroup itemGroup, int capacity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         this.capacity = capacity;
     }

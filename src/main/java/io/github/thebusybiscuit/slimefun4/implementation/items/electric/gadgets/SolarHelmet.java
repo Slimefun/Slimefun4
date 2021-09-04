@@ -34,8 +34,8 @@ public class SolarHelmet extends SlimefunItem {
     private final ItemSetting<Double> charge;
 
     @ParametersAreNonnullByDefault
-    public SolarHelmet(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double defaultChargingLevel) {
-        super(category, item, recipeType, recipe);
+    public SolarHelmet(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double defaultChargingLevel) {
+        super(itemGroup, item, recipeType, recipe);
 
         if (defaultChargingLevel <= 0) {
             throw new IllegalArgumentException("A Solar Helmet must have a positive charging level!");
