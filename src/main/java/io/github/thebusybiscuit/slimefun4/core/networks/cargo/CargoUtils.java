@@ -338,26 +338,27 @@ final class CargoUtils {
         int minSlot = range[0];
         int maxSlot = range[1];
 
+        // store the first empty slot for smart filling mode
+        int slotCandidate = -1;
+
         for (int slot = minSlot; slot < maxSlot; slot++) {
             // Changes to this ItemStack are synchronized with the Item in the Inventory
             ItemStack itemInSlot = contents[slot];
-
-            if (itemInSlot == null) {
-                inv.setItem(slot, stack);
-                return null;
-            } else {
-                int currentAmount = itemInSlot.getAmount();
-                int maxStackSize = itemInSlot.getType().getMaxStackSize();
-
-                if (!smartFill && currentAmount == maxStackSize) {
-                    // Skip full stacks - Performance optimization for non-smartfill nodes
-                    continue;
-                }
-
-                if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
-                    if (currentAmount < maxStackSize) {
+            
+            if (smartFill) {
+                if (itemInSlot == null) {
+                    if (slotCandidate == -1) {
+                        slotCandidate = slot;
+                    }
+                } else {
+                    int currentAmount = itemInSlot.getAmount();
+                    int maxStackSize = itemInSlot.getType().getMaxStackSize();
+                    // stop when found the first available slot
+                    if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
+                        if (currentAmount == maxStackSize) {
+                            return stack;
+                        }
                         int amount = currentAmount + stack.getAmount();
-
                         if (amount > maxStackSize) {
                             stack.setAmount(amount - maxStackSize);
                             itemInSlot.setAmount(maxStackSize);
@@ -366,13 +367,41 @@ final class CargoUtils {
                             itemInSlot.setAmount(Math.min(amount, maxStackSize));
                             return null;
                         }
-                    } else if (smartFill) {
+                    }
+                }
+                continue;
+            }
+
+            // non-smartfill nodes
+            if (itemInSlot == null) {
+                inv.setItem(slot, stack);
+                return null;
+            } else {
+                int currentAmount = itemInSlot.getAmount();
+                int maxStackSize = itemInSlot.getType().getMaxStackSize();
+
+                if (currentAmount == maxStackSize) {
+                    // Skip full stacks
+                    continue;
+                }
+
+                if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
+                    int amount = currentAmount + stack.getAmount();
+                    if (amount > maxStackSize) {
+                        stack.setAmount(amount - maxStackSize);
+                        itemInSlot.setAmount(maxStackSize);
                         return stack;
+                    } else {
+                        itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                        return null;
                     }
                 }
             }
         }
-
+        if (slotCandidate != -1) {
+            inv.setItem(slotCandidate, stack);
+            return null;
+        }
         return stack;
     }
 
