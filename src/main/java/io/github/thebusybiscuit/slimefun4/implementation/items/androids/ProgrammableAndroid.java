@@ -424,10 +424,10 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         });
 
         int index = 0;
-        int itemGroupIndex = 45 * (page - 1);
+        int categoryIndex = 45 * (page - 1);
 
         for (int i = 0; i < 45; i++) {
-            int target = itemGroupIndex + i;
+            int target = categoryIndex + i;
 
             if (target >= scripts.size()) {
                 break;
