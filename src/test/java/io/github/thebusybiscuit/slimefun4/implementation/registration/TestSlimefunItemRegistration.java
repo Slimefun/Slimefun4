@@ -88,7 +88,7 @@ class TestSlimefunItemRegistration {
     @Test
     @DisplayName("Test ItemGroup registration when registering an item")
     void testItemGroupRegistration() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEMGROUP_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
         item.register(plugin);
         item.load();
 

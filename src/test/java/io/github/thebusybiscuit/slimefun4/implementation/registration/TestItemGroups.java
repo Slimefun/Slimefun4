@@ -170,7 +170,7 @@ class TestItemGroups {
         // No Items, so it should be unlocked
         Assertions.assertTrue(locked.hasUnlocked(player, profile));
 
-        SlimefunItem item = new SlimefunItem(group, new SlimefunItemStack("LOCKED_CATEGORY_TEST", new CustomItemStack(Material.LANTERN, "&6Test Item for locked categories")), RecipeType.NULL, new ItemStack[9]);
+        SlimefunItem item = new SlimefunItem(group, new SlimefunItemStack("LOCKED_ITEMGROUP_TEST", new CustomItemStack(Material.LANTERN, "&6Test Item for locked categories")), RecipeType.NULL, new ItemStack[9]);
         item.register(plugin);
         item.load();
 

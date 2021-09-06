@@ -120,7 +120,7 @@ class TestGuideHistory {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
 
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "category_guide_history"), new CustomItemStack(Material.BEDROCK, "&4Can't touch this"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "itemgroup_guide_history"), new CustomItemStack(Material.BEDROCK, "&4Can't touch this"));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> history.add((ItemGroup) null, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> history.add(itemGroup, -20));
