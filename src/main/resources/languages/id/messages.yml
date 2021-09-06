@@ -21,17 +21,12 @@ commands:
     restored-backpack-given: '&a Backpack Anda telah di tambahkan ke inventory Anda!'
 guide:
   locked: 'TERKUNCI'
-  locked-category:
-    - 'Untuk membuka kategori ini anda'
-    - 'harus membuka semua barang dari'
-    - 'kategori berikut'
   search:
     message: '&bApa Yang Anda Ingi Cari ?'
     name: '&7Cari...'
     tooltip: '&bKlik untuk mencari sebuah barang'
     inventory: 'Hasil pencarian: %item%'
   tooltips:
-    open-category: 'Klik untuk membuka'
     versions-notice: 'Melaporkan kesalahan program sangatlah penting!'
     wiki: 'Lihat benda ini di wiki resmi Slimefun'
     recipes:
