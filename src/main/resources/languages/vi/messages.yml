@@ -33,17 +33,12 @@ placeholderapi:
 guide:
   locked: 'ĐÃ KHÓA'
   work-in-progress: 'Tính năng này vẫn chưa hoàn thành!'
-  locked-category:
-    - 'Để mở khóa danh mục này, bạn'
-    - 'cần phải mở khóa các vật phẩm trong'
-    - 'danh mục sau'
   search:
     message: '&bBạn muốn tìm kiếm cái gì?'
     name: '&7Tìm kiếm...'
     tooltip: '&bBấm để tìm vật phẩm'
     inventory: 'Đang tìm: %item%'
   tooltips:
-    open-category: 'Nhấn vào đây để mở'
     versions-notice: 'Đây là rất quan trọng khi báo cáo lỗi!'
     wiki: 'Xem vật phẩm này trên trang wiki chính thức của Slimefun'
     recipes:
