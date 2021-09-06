@@ -15,17 +15,12 @@ commands:
     reset-target: '&cتم تصفير أبحاثك'
 guide:
   locked: 'مغلق'
-  locked-category:
-    - 'لفتح هذه الفئة يجب'
-    - 'أن تفتح كل العناصر في'
-    - 'الفئات التالية'
   search:
     message: '&bعما تريد البحث؟'
     name: '&7بحث...'
     tooltip: '&bانقر للبحث عن عنصر'
     inventory: 'البحث عن: %item%'
   tooltips:
-    open-category: 'اضغط للفتح'
     versions-notice: 'هذه القيم مهمة جدا أثناء الإبلاغ عن أخطاء!'
     wiki: 'عرض هذا العنصر في الويكي الرسمي لسلايم فان'
     recipes:
