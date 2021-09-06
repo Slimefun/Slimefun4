@@ -42,13 +42,13 @@ class TestCoolerListener {
         server = MockBukkit.mock();
         Slimefun plugin = MockBukkit.load(Slimefun.class);
 
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "cooler_test"), new CustomItemStack(Material.SNOWBALL, "Mr. Freeze"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "cooler_test"), new CustomItemStack(Material.SNOWBALL, "Mr. Freeze"));
         SlimefunItemStack item = new SlimefunItemStack("TEST_COOLER", Material.SNOWBALL, "&6Test Cooler", "", "&7ID: <ID>");
-        cooler = new Cooler(18, category, item, RecipeType.NULL, new ItemStack[9]);
+        cooler = new Cooler(18, itemGroup, item, RecipeType.NULL, new ItemStack[9]);
         cooler.register(plugin);
 
         SlimefunItemStack juiceItem = new SlimefunItemStack("TEST_JUICE", Color.RED, new PotionEffect(PotionEffectType.HEALTH_BOOST, 6, 0), "&4Test Juice");
-        juice = new Juice(category, juiceItem, RecipeType.NULL, new ItemStack[9]);
+        juice = new Juice(itemGroup, juiceItem, RecipeType.NULL, new ItemStack[9]);
         juice.register(plugin);
 
         listener = new CoolerListener(plugin, cooler);

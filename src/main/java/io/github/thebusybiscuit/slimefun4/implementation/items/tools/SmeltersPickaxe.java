@@ -30,8 +30,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class SmeltersPickaxe extends SimpleSlimefunItem<ToolUseHandler> implements DamageableItem {
 
     @ParametersAreNonnullByDefault
-    public SmeltersPickaxe(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public SmeltersPickaxe(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

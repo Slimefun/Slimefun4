@@ -49,35 +49,35 @@ class TestItemGroups {
     @Test
     @DisplayName("Test the Getters for ItemGroup")
     void testItemGroupGetters() {
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "getter_test"), new CustomItemStack(Material.DIAMOND_AXE, "&6Testing"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "getter_test"), new CustomItemStack(Material.DIAMOND_AXE, "&6Testing"));
 
-        Assertions.assertEquals(3, category.getTier());
-        Assertions.assertEquals(new NamespacedKey(Slimefun.instance(), "getter_test"), category.getKey());
-        Assertions.assertEquals("Testing", category.getUnlocalizedName());
-        Assertions.assertEquals(0, category.getItems().size());
+        Assertions.assertEquals(3, itemGroup.getTier());
+        Assertions.assertEquals(new NamespacedKey(Slimefun.instance(), "getter_test"), itemGroup.getKey());
+        Assertions.assertEquals("Testing", itemGroup.getUnlocalizedName());
+        Assertions.assertEquals(0, itemGroup.getItems().size());
 
-        Assertions.assertNull(category.getAddon());
-        category.register(plugin);
-        Assertions.assertEquals(plugin, category.getAddon());
+        Assertions.assertNull(itemGroup.getAddon());
+        itemGroup.register(plugin);
+        Assertions.assertEquals(plugin, itemGroup.getAddon());
     }
 
     @Test
     @DisplayName("Test adding an item to a ItemGroup")
     void testAddItem() {
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "items_test"), new CustomItemStack(Material.DIAMOND_AXE, "&6Testing"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "items_test"), new CustomItemStack(Material.DIAMOND_AXE, "&6Testing"));
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUPS_TEST_ITEM", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
-        item.setItemGroup(category);
+        item.setItemGroup(itemGroup);
         item.register(plugin);
         item.load();
 
-        Assertions.assertTrue(category.getItems().contains(item));
-        Assertions.assertEquals(1, category.getItems().size());
+        Assertions.assertTrue(itemGroup.getItems().contains(item));
+        Assertions.assertEquals(1, itemGroup.getItems().size());
 
         // Size must still be 1 since we disallow duplicates
-        item.setItemGroup(category);
+        item.setItemGroup(itemGroup);
 
-        Assertions.assertEquals(1, category.getItems().size());
-        Assertions.assertThrows(IllegalArgumentException.class, () -> category.add(null));
+        Assertions.assertEquals(1, itemGroup.getItems().size());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> itemGroup.add(null));
     }
 
     @Test
@@ -170,7 +170,7 @@ class TestItemGroups {
         // No Items, so it should be unlocked
         Assertions.assertTrue(locked.hasUnlocked(player, profile));
 
-        SlimefunItem item = new SlimefunItem(group, new SlimefunItemStack("LOCKED_CATEGORY_TEST", new CustomItemStack(Material.LANTERN, "&6Test Item for locked categories")), RecipeType.NULL, new ItemStack[9]);
+        SlimefunItem item = new SlimefunItem(group, new SlimefunItemStack("LOCKED_ITEMGROUP_TEST", new CustomItemStack(Material.LANTERN, "&6Test Item for locked categories")), RecipeType.NULL, new ItemStack[9]);
         item.register(plugin);
         item.load();
 
@@ -190,7 +190,7 @@ class TestItemGroups {
     @Test
     @DisplayName("Test a seasonal ItemGroup")
     void ItemGroups() {
-        // Category with current Month
+        // ItemGroup with current Month
         Month month = LocalDate.now().getMonth();
         SeasonalItemGroup group = new SeasonalItemGroup(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItemStack(Material.NETHER_STAR, "&cSeasonal Test"));
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "SEASONAL_ITEM", new CustomItemStack(Material.NETHER_STAR, "&dSeasonal Test Star"));
@@ -203,14 +203,14 @@ class TestItemGroups {
         Assertions.assertEquals(month, group.getMonth());
         Assertions.assertFalse(group.isHidden(player));
 
-        // Category with future Month
-        SeasonalItemGroup category2 = new SeasonalItemGroup(group.getKey(), month.plus(6), 1, new CustomItemStack(Material.MILK_BUCKET, "&dSeasonal Test"));
-        Assertions.assertTrue(category2.isHidden(player));
+        // ItemGroup with future Month
+        SeasonalItemGroup itemGroup2 = new SeasonalItemGroup(group.getKey(), month.plus(6), 1, new CustomItemStack(Material.MILK_BUCKET, "&dSeasonal Test"));
+        Assertions.assertTrue(itemGroup2.isHidden(player));
     }
 
     @Test
     @DisplayName("Test the FlexItemGroup")
-    void testFlexCategory() {
+    void testFlexItemGroup() {
         FlexItemGroup group = new FlexItemGroup(new NamespacedKey(plugin, "flex"), new CustomItemStack(Material.REDSTONE, "&4Weird flex but ok")) {
 
             @Override

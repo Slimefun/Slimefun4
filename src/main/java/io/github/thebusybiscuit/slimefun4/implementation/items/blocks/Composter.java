@@ -34,8 +34,8 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
     private final List<ItemStack> recipes;
 
     @ParametersAreNonnullByDefault
-    public Composter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public Composter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         recipes = getMachineRecipes();
     }

@@ -43,8 +43,8 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
     protected final Set<MachineFuel> fuelTypes = new HashSet<>();
 
     @ParametersAreNonnullByDefault
-    protected AbstractEnergyProvider(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected AbstractEnergyProvider(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     /**

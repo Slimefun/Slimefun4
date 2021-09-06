@@ -79,8 +79,8 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>(this);
 
     @ParametersAreNonnullByDefault
-    protected Reactor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected Reactor(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         processor.setProgressBar(getProgressBar());
 

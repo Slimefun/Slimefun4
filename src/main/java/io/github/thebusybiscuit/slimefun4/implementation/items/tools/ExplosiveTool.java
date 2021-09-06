@@ -48,8 +48,8 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
     private final ItemSetting<Boolean> callExplosionEvent = new ItemSetting<>(this, "call-explosion-event", false);
 
     @ParametersAreNonnullByDefault
-    public ExplosiveTool(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ExplosiveTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(damageOnUse, callExplosionEvent);
     }

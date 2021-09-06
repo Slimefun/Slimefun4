@@ -57,8 +57,8 @@ public class IndustrialMiner extends MultiBlockMachine {
     private final int range;
 
     @ParametersAreNonnullByDefault
-    public IndustrialMiner(ItemGroup category, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
-        super(category, item, new ItemStack[] { null, null, null, new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial) }, BlockFace.UP);
+    public IndustrialMiner(ItemGroup itemGroup, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
+        super(itemGroup, item, new ItemStack[] { null, null, null, new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial) }, BlockFace.UP);
 
         this.range = range;
         this.silkTouch = silkTouch;

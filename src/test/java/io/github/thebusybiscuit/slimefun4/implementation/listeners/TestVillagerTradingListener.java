@@ -86,9 +86,9 @@ class TestVillagerTradingListener {
 
     @Test
     void testTradingWithSyntheticEmerald() {
-        ItemGroup category = TestUtilities.getItemGroup(plugin, "shiny_emeralds");
+        ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "shiny_emeralds");
         SlimefunItemStack stack = new SlimefunItemStack("FAKE_EMERALD", Material.EMERALD, "&aTrade me");
-        SyntheticEmerald item = new SyntheticEmerald(category, stack, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[9]);
+        SyntheticEmerald item = new SyntheticEmerald(itemGroup, stack, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[9]);
         item.register(plugin);
 
         InventoryClickEvent event = mockClickEvent(item.getItem());

@@ -25,8 +25,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 public class PortableCrafter extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
     @ParametersAreNonnullByDefault
-    public PortableCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public PortableCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

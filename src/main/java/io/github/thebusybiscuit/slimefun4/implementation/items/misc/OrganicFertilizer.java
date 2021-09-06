@@ -27,8 +27,8 @@ public class OrganicFertilizer extends SlimefunItem {
     public static final int OUTPUT = 2;
 
     @ParametersAreNonnullByDefault
-    public OrganicFertilizer(ItemGroup category, SlimefunItemStack item, SlimefunItemStack ingredient) {
-        super(category, item, RecipeType.FOOD_COMPOSTER, new ItemStack[] { ingredient, null, null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT));
+    public OrganicFertilizer(ItemGroup itemGroup, SlimefunItemStack item, SlimefunItemStack ingredient) {
+        super(itemGroup, item, RecipeType.FOOD_COMPOSTER, new ItemStack[] { ingredient, null, null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT));
     }
 
 }

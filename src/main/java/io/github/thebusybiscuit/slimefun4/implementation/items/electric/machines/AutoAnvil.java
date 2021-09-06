@@ -26,8 +26,8 @@ public class AutoAnvil extends AContainer {
 
     private final int repairFactor;
 
-    public AutoAnvil(ItemGroup category, int repairFactor, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public AutoAnvil(ItemGroup itemGroup, int repairFactor, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         this.repairFactor = repairFactor;
     }

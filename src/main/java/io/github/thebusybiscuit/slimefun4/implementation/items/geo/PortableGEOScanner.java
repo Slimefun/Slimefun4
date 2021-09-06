@@ -17,8 +17,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 public class PortableGEOScanner extends SimpleSlimefunItem<ItemUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public PortableGEOScanner(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public PortableGEOScanner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

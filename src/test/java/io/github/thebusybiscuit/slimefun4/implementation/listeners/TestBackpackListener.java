@@ -86,8 +86,8 @@ class TestBackpackListener {
         PlayerBackpack backpack = profile.createBackpack(size);
         listener.setBackpackId(player, item, 2, backpack.getId());
 
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), new CustomItemStack(Material.CHEST, "&4Test Backpacks"));
-        SlimefunBackpack slimefunBackpack = new SlimefunBackpack(size, category, item, RecipeType.NULL, new ItemStack[9]);
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), new CustomItemStack(Material.CHEST, "&4Test Backpacks"));
+        SlimefunBackpack slimefunBackpack = new SlimefunBackpack(size, itemGroup, item, RecipeType.NULL, new ItemStack[9]);
         slimefunBackpack.register(plugin);
 
         listener.openBackpack(player, item, slimefunBackpack);

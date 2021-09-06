@@ -65,8 +65,8 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     private final Set<UUID> users = new HashSet<>();
 
     @ParametersAreNonnullByDefault
-    public ClimbingPick(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ClimbingPick(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
         addItemSetting(dualWielding, damageOnUse);
         addDefaultSurfaces();
     }

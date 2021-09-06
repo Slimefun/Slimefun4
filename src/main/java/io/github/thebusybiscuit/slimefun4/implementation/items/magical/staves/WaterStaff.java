@@ -23,8 +23,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 public class WaterStaff extends SimpleSlimefunItem<ItemUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public WaterStaff(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public WaterStaff(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

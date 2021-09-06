@@ -23,8 +23,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class FarmerAndroid extends ProgrammableAndroid {
 
     @ParametersAreNonnullByDefault
-    public FarmerAndroid(ItemGroup category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, tier, item, recipeType, recipe);
+    public FarmerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeType, recipe);
     }
 
     @Override

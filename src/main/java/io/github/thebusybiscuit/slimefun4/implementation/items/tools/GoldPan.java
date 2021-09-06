@@ -52,8 +52,8 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     private final Set<GoldPanDrop> drops = new HashSet<>();
 
     @ParametersAreNonnullByDefault
-    public GoldPan(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public GoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         drops.addAll(getGoldPanDrops());
         addItemSetting(drops.toArray(new GoldPanDrop[0]));

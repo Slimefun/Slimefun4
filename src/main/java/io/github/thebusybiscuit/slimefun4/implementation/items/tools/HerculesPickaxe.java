@@ -18,8 +18,8 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public HerculesPickaxe(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public HerculesPickaxe(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

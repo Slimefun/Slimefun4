@@ -28,8 +28,8 @@ import io.papermc.lib.PaperLib;
 public class Compressor extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
-    public Compressor(ItemGroup category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON) }, BlockFace.SELF);
+    public Compressor(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON) }, BlockFace.SELF);
     }
 
     @Override

@@ -31,8 +31,8 @@ public class ElectricDustWasher extends AContainer {
     private final boolean legacyMode;
 
     @ParametersAreNonnullByDefault
-    public ElectricDustWasher(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ElectricDustWasher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         legacyMode = Slimefun.getCfg().getBoolean("options.legacy-dust-washer");
     }

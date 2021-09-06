@@ -38,7 +38,7 @@ public abstract class FlexItemGroup extends ItemGroup {
 
     /**
      * This method returns whether this {@link FlexItemGroup} is visible under the given context.
-     * Implementing this method gives full flexibility over who can see the Category when and where.
+     * Implementing this method gives full flexibility over who can see the ItemGroup when and where.
      * 
      * @param p
      *            The {@link Player} who opened his {@link SlimefunGuide}
@@ -78,22 +78,22 @@ public abstract class FlexItemGroup extends ItemGroup {
 
     @Override
     public final void add(@Nonnull SlimefunItem item) {
-        throw new UnsupportedOperationException("You cannot add items to a FlexCategory!");
+        throw new UnsupportedOperationException("You cannot add items to a FlexItemGroup!");
     }
 
     @Override
     public final @Nonnull List<SlimefunItem> getItems() {
-        throw new UnsupportedOperationException("A FlexCategory has no items!");
+        throw new UnsupportedOperationException("A FlexItemGroup has no items!");
     }
 
     @Override
     public final boolean contains(SlimefunItem item) {
-        throw new UnsupportedOperationException("A FlexCategory has no items!");
+        throw new UnsupportedOperationException("A FlexItemGroup has no items!");
     }
 
     @Override
     public final void remove(@Nonnull SlimefunItem item) {
-        throw new UnsupportedOperationException("A FlexCategory has no items, so there is nothing remove!");
+        throw new UnsupportedOperationException("A FlexItemGroup has no items, so there is nothing remove!");
     }
 
 }

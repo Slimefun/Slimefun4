@@ -23,8 +23,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradi
 public class SyntheticEmerald extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public SyntheticEmerald(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public SyntheticEmerald(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         setUseableInWorkbench(true);
     }

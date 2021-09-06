@@ -59,8 +59,8 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));
 
     @ParametersAreNonnullByDefault
-    public FluidPump(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public FluidPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onBreak());
         createPreset(this, this::constructMenu);

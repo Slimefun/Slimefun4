@@ -40,8 +40,8 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
     private final DecimalFormat format = new DecimalFormat("##.###");
 
     @ParametersAreNonnullByDefault
-    public TapeMeasure(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public TapeMeasure(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

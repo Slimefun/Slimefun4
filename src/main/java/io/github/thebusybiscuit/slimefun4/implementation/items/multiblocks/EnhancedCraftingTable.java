@@ -27,8 +27,8 @@ import io.papermc.lib.PaperLib;
 public class EnhancedCraftingTable extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
-    public EnhancedCraftingTable(ItemGroup category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, BlockFace.SELF);
+    public EnhancedCraftingTable(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, BlockFace.SELF);
     }
 
     @Override

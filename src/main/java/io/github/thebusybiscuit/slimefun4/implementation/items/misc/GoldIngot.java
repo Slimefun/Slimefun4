@@ -30,8 +30,8 @@ public class GoldIngot extends SlimefunItem {
     private final int caratRating;
 
     @ParametersAreNonnullByDefault
-    public GoldIngot(ItemGroup category, int caratRating, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public GoldIngot(ItemGroup itemGroup, int caratRating, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         Validate.isTrue(caratRating > 0, "Carat rating must be above zero.");
         Validate.isTrue(caratRating <= 24, "Carat rating cannot go above 24.");

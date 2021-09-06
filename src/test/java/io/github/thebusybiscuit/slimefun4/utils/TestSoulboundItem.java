@@ -81,7 +81,7 @@ class TestSoulboundItem {
     @Test
     @DisplayName("Test that soulbound Slimefun Items are soulbound")
     void testSoulboundSlimefunItem() {
-        SlimefunItem item = new SoulboundMock(new ItemGroup(new NamespacedKey(plugin, "soulbound_category"), new CustomItemStack(Material.REDSTONE, "&4Walshrus forever")));
+        SlimefunItem item = new SoulboundMock(new ItemGroup(new NamespacedKey(plugin, "soulbound_itemgroup"), new CustomItemStack(Material.REDSTONE, "&4Walshrus forever")));
         item.register(plugin);
 
         Assertions.assertTrue(SlimefunUtils.isSoulbound(item.getItem()));
@@ -89,8 +89,8 @@ class TestSoulboundItem {
 
     private class SoulboundMock extends SlimefunItem implements Soulbound {
 
-        public SoulboundMock(ItemGroup category) {
-            super(category, new SlimefunItemStack("MOCK_SOULBOUND", Material.REDSTONE, "&4Almighty Redstone"), RecipeType.NULL, new ItemStack[9]);
+        public SoulboundMock(ItemGroup itemGroup) {
+            super(itemGroup, new SlimefunItemStack("MOCK_SOULBOUND", Material.REDSTONE, "&4Almighty Redstone"), RecipeType.NULL, new ItemStack[9]);
         }
 
     }

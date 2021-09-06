@@ -24,8 +24,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlo
 public class TeleporterPylon extends RainbowBlock {
 
     @ParametersAreNonnullByDefault
-    public TeleporterPylon(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput, new RainbowTickHandler(Material.CYAN_STAINED_GLASS, Material.PURPLE_STAINED_GLASS));
+    public TeleporterPylon(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput, new RainbowTickHandler(Material.CYAN_STAINED_GLASS, Material.PURPLE_STAINED_GLASS));
     }
 
 }

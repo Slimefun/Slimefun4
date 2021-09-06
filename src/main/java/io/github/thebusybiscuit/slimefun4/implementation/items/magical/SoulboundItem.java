@@ -26,8 +26,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundList
 public class SoulboundItem extends SlimefunItem implements Soulbound, NotPlaceable {
 
     @ParametersAreNonnullByDefault
-    public SoulboundItem(ItemGroup category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
-        super(category, item, type, recipe);
+    public SoulboundItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
+        super(itemGroup, item, type, recipe);
     }
 
 }

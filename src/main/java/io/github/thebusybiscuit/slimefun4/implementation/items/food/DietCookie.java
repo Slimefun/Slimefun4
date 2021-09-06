@@ -27,8 +27,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     @ParametersAreNonnullByDefault
-    public DietCookie(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public DietCookie(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

@@ -39,8 +39,8 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
     private final int efficiency;
     private final int fortuneLevel;
 
-    public EnhancedFurnace(ItemGroup category, int speed, int efficiency, int fortune, SlimefunItemStack item, ItemStack[] recipe) {
-        super(category, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+    public EnhancedFurnace(ItemGroup itemGroup, int speed, int efficiency, int fortune, SlimefunItemStack item, ItemStack[] recipe) {
+        super(itemGroup, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
 
         this.speed = speed - 1;
         this.efficiency = efficiency - 1;

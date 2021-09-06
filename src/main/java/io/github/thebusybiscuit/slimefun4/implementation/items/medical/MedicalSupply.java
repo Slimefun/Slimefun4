@@ -25,8 +25,8 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
     private final int healAmount;
 
     @ParametersAreNonnullByDefault
-    protected MedicalSupply(ItemGroup category, int healAmount, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected MedicalSupply(ItemGroup itemGroup, int healAmount, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         this.healAmount = healAmount;
 

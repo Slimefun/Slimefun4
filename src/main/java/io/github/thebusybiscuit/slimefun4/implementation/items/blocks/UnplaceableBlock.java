@@ -27,13 +27,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 public class UnplaceableBlock extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
     @ParametersAreNonnullByDefault
-    public UnplaceableBlock(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public UnplaceableBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @ParametersAreNonnullByDefault
-    public UnplaceableBlock(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public UnplaceableBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
     @Override

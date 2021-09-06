@@ -33,8 +33,8 @@ public class TrashCan extends SlimefunItem implements InventoryBlock {
     private final ItemStack background = new CustomItemStack(Material.RED_STAINED_GLASS_PANE, " ");
 
     @ParametersAreNonnullByDefault
-    public TrashCan(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public TrashCan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         createPreset(this, this::constructMenu);
     }

@@ -54,9 +54,9 @@ public class OreWasher extends MultiBlockMachine {
     private final boolean legacyMode;
 
     @ParametersAreNonnullByDefault
-    public OreWasher(ItemGroup category, SlimefunItemStack item) {
+    public OreWasher(ItemGroup itemGroup, SlimefunItemStack item) {
         // @formatter:off
-        super(category, item, new ItemStack[] {
+        super(itemGroup, item, new ItemStack[] {
             null, new ItemStack(Material.DISPENSER), null,
             null, new ItemStack(Material.OAK_FENCE), null,
             null, new ItemStack(Material.CAULDRON), null

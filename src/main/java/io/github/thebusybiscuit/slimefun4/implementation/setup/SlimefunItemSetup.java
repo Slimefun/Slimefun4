@@ -2633,7 +2633,7 @@ public final class SlimefunItemSetup {
     }
 
     @ParametersAreNonnullByDefault
-    private static void registerArmorSet(ItemGroup category, ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, PotionEffect[][] effects, SlimefunAddon addon) {
+    private static void registerArmorSet(ItemGroup itemGroup, ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, PotionEffect[][] effects, SlimefunAddon addon) {
         String[] components = new String[] { "_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS" };
         List<ItemStack[]> recipes = new ArrayList<>();
 
@@ -2644,11 +2644,11 @@ public final class SlimefunItemSetup {
 
         for (int i = 0; i < 4; i++) {
             if (vanilla) {
-                new VanillaItem(category, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
+                new VanillaItem(itemGroup, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
             } else if (i < effects.length && effects[i].length > 0) {
-                new SlimefunArmorPiece(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(addon);
+                new SlimefunArmorPiece(itemGroup, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(addon);
             } else {
-                new SlimefunItem(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
+                new SlimefunItem(itemGroup, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
             }
         }
     }

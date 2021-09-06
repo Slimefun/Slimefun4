@@ -28,8 +28,8 @@ import io.papermc.lib.PaperLib;
 public class MagicWorkbench extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
-    public MagicWorkbench(ItemGroup category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, BlockFace.UP);
+    public MagicWorkbench(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, BlockFace.UP);
     }
 
     @Override

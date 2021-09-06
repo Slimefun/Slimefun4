@@ -35,8 +35,8 @@ public class EasterEgg extends SimpleSlimefunItem<ItemUseHandler> {
     private final ItemStack[] gifts;
 
     @ParametersAreNonnullByDefault
-    public EasterEgg(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, ItemStack... gifts) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public EasterEgg(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, ItemStack... gifts) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         this.gifts = gifts;
     }

@@ -22,8 +22,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smelt
 public class AlloyIngot extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public AlloyIngot(ItemGroup category, SlimefunItemStack item, ItemStack[] recipe) {
-        super(category, item, RecipeType.SMELTERY, recipe);
+    public AlloyIngot(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe) {
+        super(itemGroup, item, RecipeType.SMELTERY, recipe);
     }
 
 }

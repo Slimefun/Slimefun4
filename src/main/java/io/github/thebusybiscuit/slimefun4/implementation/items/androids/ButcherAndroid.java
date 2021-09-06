@@ -20,8 +20,8 @@ public class ButcherAndroid extends ProgrammableAndroid {
 
     private static final String METADATA_KEY = "android_killer";
 
-    public ButcherAndroid(ItemGroup category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, tier, item, recipeType, recipe);
+    public ButcherAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeType, recipe);
     }
 
     @Override

@@ -28,8 +28,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 public class IcyBow extends SlimefunBow {
 
     @ParametersAreNonnullByDefault
-    public IcyBow(ItemGroup category, SlimefunItemStack item, ItemStack[] recipe) {
-        super(category, item, recipe);
+    public IcyBow(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe) {
+        super(itemGroup, item, recipe);
     }
 
     @Nonnull

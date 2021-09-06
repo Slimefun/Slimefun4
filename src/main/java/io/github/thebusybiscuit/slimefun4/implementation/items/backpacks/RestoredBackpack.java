@@ -28,12 +28,12 @@ public class RestoredBackpack extends SlimefunBackpack {
     /**
      * This will create a new {@link SlimefunBackpack} with the given arguments.
      *
-     * @param category
-     *            the category to bind this {@link SlimefunBackpack} to
+     * @param itemGroup
+     *            the {@Link ItemGroup} to bind this {@link SlimefunBackpack} to
      */
     @ParametersAreNonnullByDefault
-    public RestoredBackpack(@Nonnull ItemGroup category) {
-        super(54, category, SlimefunItems.RESTORED_BACKPACK, RecipeType.NULL, new ItemStack[9]);
+    public RestoredBackpack(@Nonnull ItemGroup itemGroup) {
+        super(54, itemGroup, SlimefunItems.RESTORED_BACKPACK, RecipeType.NULL, new ItemStack[9]);
 
         this.hidden = true;
     }

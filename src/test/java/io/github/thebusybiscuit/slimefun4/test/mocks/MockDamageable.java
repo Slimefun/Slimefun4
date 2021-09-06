@@ -18,8 +18,8 @@ public class MockDamageable extends SlimefunItem implements DamageableItem {
     private final boolean itemDamageable;
 
     @ParametersAreNonnullByDefault
-    public MockDamageable(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, boolean damageable) {
-        super(category, item, recipeType, recipe);
+    public MockDamageable(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, boolean damageable) {
+        super(itemGroup, item, recipeType, recipe);
         itemDamageable = damageable;
     }
 

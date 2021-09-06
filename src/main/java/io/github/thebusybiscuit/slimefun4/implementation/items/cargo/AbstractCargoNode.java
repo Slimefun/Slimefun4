@@ -41,8 +41,8 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
     protected static final String FREQUENCY = "frequency";
 
     @ParametersAreNonnullByDefault
-    AbstractCargoNode(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    AbstractCargoNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         new BlockMenuPreset(getId(), ChatUtils.removeColorCodes(item.getItemMeta().getDisplayName())) {
 

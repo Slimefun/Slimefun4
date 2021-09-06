@@ -32,8 +32,8 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
     private final int capacity;
 
     @ParametersAreNonnullByDefault
-    protected GPSTransmitter(ItemGroup category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected GPSTransmitter(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
         this.capacity = 4 << (2 * tier);
 
         addItemHandler(onPlace(), onBreak());

@@ -20,8 +20,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 public class Splint extends SimpleSlimefunItem<ItemUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public Splint(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public Splint(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
     @Override

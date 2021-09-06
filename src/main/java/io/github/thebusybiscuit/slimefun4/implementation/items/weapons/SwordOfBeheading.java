@@ -44,8 +44,8 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
     private final ItemSetting<Integer> chancePlayer = new IntRangeSetting(this, "chance.PLAYER", 0, 70, 100);
 
     @ParametersAreNonnullByDefault
-    public SwordOfBeheading(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public SwordOfBeheading(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(chanceZombie, chanceSkeleton, chanceWitherSkeleton, chanceCreeper, chancePlayer);
     }

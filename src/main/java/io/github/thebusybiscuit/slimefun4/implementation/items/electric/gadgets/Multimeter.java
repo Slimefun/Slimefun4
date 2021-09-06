@@ -31,8 +31,8 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public Multimeter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public Multimeter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

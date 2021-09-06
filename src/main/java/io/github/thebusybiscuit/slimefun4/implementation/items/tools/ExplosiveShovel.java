@@ -26,8 +26,8 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 public class ExplosiveShovel extends ExplosiveTool {
 
     @ParametersAreNonnullByDefault
-    public ExplosiveShovel(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ExplosiveShovel(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

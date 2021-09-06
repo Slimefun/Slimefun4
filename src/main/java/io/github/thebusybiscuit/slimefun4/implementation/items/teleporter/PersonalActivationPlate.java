@@ -27,8 +27,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class PersonalActivationPlate extends AbstractTeleporterPlate {
 
     @ParametersAreNonnullByDefault
-    public PersonalActivationPlate(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public PersonalActivationPlate(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onPlace());
     }

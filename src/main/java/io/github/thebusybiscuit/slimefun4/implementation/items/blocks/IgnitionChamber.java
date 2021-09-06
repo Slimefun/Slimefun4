@@ -50,8 +50,8 @@ public class IgnitionChamber extends SlimefunItem {
     // @formatter:on
 
     @ParametersAreNonnullByDefault
-    public IgnitionChamber(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public IgnitionChamber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(new VanillaInventoryDropHandler<>(Dropper.class));
     }

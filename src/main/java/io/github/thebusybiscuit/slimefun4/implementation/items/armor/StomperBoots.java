@@ -35,8 +35,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 public class StomperBoots extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public StomperBoots(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public StomperBoots(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     /**

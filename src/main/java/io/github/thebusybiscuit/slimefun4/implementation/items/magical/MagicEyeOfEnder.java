@@ -27,8 +27,8 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public MagicEyeOfEnder(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public MagicEyeOfEnder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

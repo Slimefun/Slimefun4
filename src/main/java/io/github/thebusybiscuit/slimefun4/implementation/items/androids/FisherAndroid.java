@@ -20,8 +20,8 @@ public class FisherAndroid extends ProgrammableAndroid {
 
     private final RandomizedSet<ItemStack> fishingLoot = new RandomizedSet<>();
 
-    public FisherAndroid(ItemGroup category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, tier, item, recipeType, recipe);
+    public FisherAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeType, recipe);
 
         // Fish
         for (Material fish : Tag.ITEMS_FISHES.getValues()) {

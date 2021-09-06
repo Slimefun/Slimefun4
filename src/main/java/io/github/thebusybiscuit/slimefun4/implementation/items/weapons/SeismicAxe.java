@@ -53,8 +53,8 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
     private static final int RANGE = 10;
 
     @ParametersAreNonnullByDefault
-    public SeismicAxe(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public SeismicAxe(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

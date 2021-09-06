@@ -49,8 +49,8 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     private final List<ItemStack> recipes;
 
     @ParametersAreNonnullByDefault
-    public Crucible(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public Crucible(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         recipes = getMachineRecipes();
         addItemSetting(allowWaterInNether);

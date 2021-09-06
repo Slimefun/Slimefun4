@@ -39,7 +39,7 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
     /**
      * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
      * 
-     * @param category
+     * @param itemGroup
      *            The {@link ItemGroup} of this {@link SlimefunItem}
      * @param radioactivity
      *            the level of {@link Radioactivity}
@@ -51,14 +51,14 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      *            The recipe of how to craft this {@link SlimefunItem}
      */
     @ParametersAreNonnullByDefault
-    public RadioactiveItem(ItemGroup category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        this(category, radioactivity, item, recipeType, recipe, null);
+    public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, radioactivity, item, recipeType, recipe, null);
     }
 
     /**
      * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
      * 
-     * @param category
+     * @param itemGroup
      *            The {@link ItemGroup} of this {@link SlimefunItem}
      * @param radioactivity
      *            the level of {@link Radioactivity}
@@ -72,8 +72,8 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      *            The recipe output
      */
     @ParametersAreNonnullByDefault
-    public RadioactiveItem(ItemGroup category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         this.radioactivity = radioactivity;
         addItemHandler(onRightClick());

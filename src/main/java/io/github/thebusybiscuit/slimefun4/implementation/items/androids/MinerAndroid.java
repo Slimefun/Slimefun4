@@ -58,8 +58,8 @@ public class MinerAndroid extends ProgrammableAndroid {
     private final ItemSetting<Boolean> applyOptimizations = new ItemSetting<>(this, "reduced-block-updates", true);
 
     @ParametersAreNonnullByDefault
-    public MinerAndroid(ItemGroup category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, tier, item, recipeType, recipe);
+    public MinerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeType, recipe);
 
         addItemSetting(firesEvent, applyOptimizations);
     }

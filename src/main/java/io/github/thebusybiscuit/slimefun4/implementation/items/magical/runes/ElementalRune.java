@@ -23,13 +23,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAlta
 public class ElementalRune extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public ElementalRune(ItemGroup category, SlimefunItemStack item, ItemStack[] recipe) {
-        this(category, item, recipe, null);
+    public ElementalRune(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe) {
+        this(itemGroup, item, recipe, null);
     }
 
     @ParametersAreNonnullByDefault
-    public ElementalRune(ItemGroup category, SlimefunItemStack item, ItemStack[] recipe, @Nullable ItemStack recipeResult) {
-        super(category, item, RecipeType.ANCIENT_ALTAR, recipe, recipeResult);
+    public ElementalRune(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, @Nullable ItemStack recipeResult) {
+        super(itemGroup, item, RecipeType.ANCIENT_ALTAR, recipe, recipeResult);
     }
 
 }

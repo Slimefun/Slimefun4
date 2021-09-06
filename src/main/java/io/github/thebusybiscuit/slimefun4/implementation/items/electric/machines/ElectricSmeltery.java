@@ -45,8 +45,8 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
     private static final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
     @ParametersAreNonnullByDefault
-    public ElectricSmeltery(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ElectricSmeltery(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         new BlockMenuPreset(getId(), getItemName()) {
 
