@@ -33,17 +33,12 @@ placeholderapi:
 guide:
   locked: 'GESPERRT'
   work-in-progress: 'Dieses Feature befindet sich noch in der Testphase!'
-  locked-category:
-    - 'Um diese Kategorie freizuschalten,'
-    - 'müssen zuerst sämtliche Items der'
-    - 'folgenden Kategorien freigeschaltet werden'
   search:
     message: '&bWonach möchtest du suchen?'
     name: '&7Suche...'
     tooltip: '&bKlicke um die Suche zu starten'
     inventory: 'Suche nach: %item%'
   tooltips:
-    open-category: 'Klicke zum Öffnen'
     versions-notice: 'Dies ist sehr wichtig bei Fehlermeldungen!'
     wiki: 'Besuche das offizielle Slimefun-Wiki'
     recipes:
