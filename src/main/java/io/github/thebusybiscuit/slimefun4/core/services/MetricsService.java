@@ -41,9 +41,9 @@ public class MetricsService {
     private static final String API_URL = "https://api.github.com/";
 
     /**
-     * The Name of our repository
+     * The Name of our repository - Version 2 of this repo (due to big breaking changes)
      */
-    private static final String REPO_NAME = "MetricsModule";
+    private static final String REPO_NAME = "MetricsModule2";
 
     /**
      * The URL pointing towards the /releases/ endpoint of our
