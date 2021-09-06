@@ -49,8 +49,8 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
     private static final String OFFSET_PARAMETER = "offset";
 
     @ParametersAreNonnullByDefault
-    public HologramProjector(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public HologramProjector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         addItemHandler(onPlace(), onRightClick(), onBreak());
     }

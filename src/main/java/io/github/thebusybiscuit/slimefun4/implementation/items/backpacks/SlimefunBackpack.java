@@ -33,8 +33,8 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
     private final int size;
 
     @ParametersAreNonnullByDefault
-    public SlimefunBackpack(int size, ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public SlimefunBackpack(int size, ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         this.size = size;
     }

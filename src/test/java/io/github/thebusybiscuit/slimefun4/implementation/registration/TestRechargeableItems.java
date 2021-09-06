@@ -121,16 +121,16 @@ class TestRechargeableItems {
     }
 
     private RechargeableMock mock(String id, float capacity) {
-        ItemGroup category = TestUtilities.getItemGroup(plugin, "rechargeable");
-        return new RechargeableMock(category, new SlimefunItemStack(id, new CustomItemStack(Material.REDSTONE_LAMP, "&3" + id)), capacity);
+        ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "rechargeable");
+        return new RechargeableMock(itemGroup, new SlimefunItemStack(id, new CustomItemStack(Material.REDSTONE_LAMP, "&3" + id)), capacity);
     }
 
     private class RechargeableMock extends SlimefunItem implements Rechargeable {
 
         private final float capacity;
 
-        protected RechargeableMock(ItemGroup category, SlimefunItemStack item, float capacity) {
-            super(category, item, RecipeType.NULL, new ItemStack[9]);
+        protected RechargeableMock(ItemGroup itemGroup, SlimefunItemStack item, float capacity) {
+            super(itemGroup, item, RecipeType.NULL, new ItemStack[9]);
             this.capacity = capacity;
         }
 
@@ -138,7 +138,5 @@ class TestRechargeableItems {
         public float getMaxItemCharge(ItemStack item) {
             return capacity;
         }
-
     }
-
 }

@@ -41,8 +41,8 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     private final ItemStack soulSand = new ItemStack(Material.SOUL_SAND);
 
     @ParametersAreNonnullByDefault
-    public ElectricGoldPan(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ElectricGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

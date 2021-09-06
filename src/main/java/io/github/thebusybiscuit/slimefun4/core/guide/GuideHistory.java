@@ -74,13 +74,13 @@ public class GuideHistory {
      * Should the {@link ItemGroup} already be the last element in this {@link GuideHistory},
      * then the entry will be overridden with the new page.
      * 
-     * @param category
+     * @param itemGroup
      *            The {@link ItemGroup} that should be added to this {@link GuideHistory}
      * @param page
      *            The current page of the {@link ItemGroup} that should be stored
      */
-    public void add(@Nonnull ItemGroup category, int page) {
-        refresh(category, page);
+    public void add(@Nonnull ItemGroup itemGroup, int page) {
+        refresh(itemGroup, page);
     }
 
     /**

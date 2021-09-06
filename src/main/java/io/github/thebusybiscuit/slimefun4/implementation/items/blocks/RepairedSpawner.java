@@ -34,8 +34,8 @@ public class RepairedSpawner extends AbstractMonsterSpawner {
     private final ItemSetting<Boolean> allowSpawnEggs = new ItemSetting<>(this, "allow-spawn-eggs", true);
 
     @ParametersAreNonnullByDefault
-    public RepairedSpawner(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public RepairedSpawner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(allowSpawnEggs);
 

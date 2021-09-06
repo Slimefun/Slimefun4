@@ -56,8 +56,8 @@ public class AutoBrewer extends AContainer implements NotHopperable {
     }
 
     @ParametersAreNonnullByDefault
-    public AutoBrewer(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public AutoBrewer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

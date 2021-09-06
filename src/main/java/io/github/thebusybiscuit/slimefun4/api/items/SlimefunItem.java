@@ -500,7 +500,7 @@ public class SlimefunItem implements Placeable {
      * <strong>This method is for internal purposes, like {@link ItemGroup} registration only</strong>
      */
     private final void onEnable() {
-        // Register the Category too if it hasn't been registered yet
+        // Register the ItemGroup too if it hasn't been registered yet
         if (!itemGroup.isRegistered()) {
             itemGroup.register(addon);
         }
@@ -671,16 +671,16 @@ public class SlimefunItem implements Placeable {
     /**
      * This sets the {@link ItemGroup} in which this {@link SlimefunItem} will be displayed.
      * 
-     * @param category
+     * @param itemGroup
      *            The new {@link ItemGroup}
      */
-    public void setItemGroup(@Nonnull ItemGroup category) {
-        Validate.notNull(category, "The Category is not allowed to be null!");
+    public void setItemGroup(@Nonnull ItemGroup itemGroup) {
+        Validate.notNull(itemGroup, "The ItemGroup is not allowed to be null!");
 
         this.itemGroup.remove(this);
-        category.add(this);
+        itemGroup.add(this);
 
-        this.itemGroup = category;
+        this.itemGroup = itemGroup;
     }
 
     /**

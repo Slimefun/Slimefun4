@@ -25,13 +25,13 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 public class WitherProofBlock extends SlimefunItem implements WitherProof {
 
     @ParametersAreNonnullByDefault
-    public WitherProofBlock(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public WitherProofBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @ParametersAreNonnullByDefault
-    public WitherProofBlock(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public WitherProofBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
     @Override

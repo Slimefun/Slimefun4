@@ -28,8 +28,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class CargoManager extends SlimefunItem implements HologramOwner {
 
     @ParametersAreNonnullByDefault
-    public CargoManager(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public CargoManager(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onBreak());
     }

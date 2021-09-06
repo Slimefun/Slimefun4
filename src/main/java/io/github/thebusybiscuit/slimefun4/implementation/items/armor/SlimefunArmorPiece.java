@@ -17,8 +17,8 @@ public class SlimefunArmorPiece extends SlimefunItem {
     private final PotionEffect[] effects;
 
     @ParametersAreNonnullByDefault
-    public SlimefunArmorPiece(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable PotionEffect[] effects) {
-        super(category, item, recipeType, recipe);
+    public SlimefunArmorPiece(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable PotionEffect[] effects) {
+        super(itemGroup, item, recipeType, recipe);
 
         this.effects = effects == null ? new PotionEffect[0] : effects;
     }

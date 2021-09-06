@@ -114,23 +114,23 @@ class TestGuideHistory {
     }
 
     @Test
-    @DisplayName("Test adding a Category to Guide History")
-    void testCategory() throws InterruptedException {
+    @DisplayName("Test adding an ItemGroup to Guide History")
+    void testItemGroup() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
 
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "category_guide_history"), new CustomItemStack(Material.BEDROCK, "&4Can't touch this"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "itemgroup_guide_history"), new CustomItemStack(Material.BEDROCK, "&4Can't touch this"));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> history.add((ItemGroup) null, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> history.add(category, -20));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> history.add(itemGroup, -20));
 
         Assertions.assertEquals(0, history.size());
-        history.add(category, 1);
+        history.add(itemGroup, 1);
         Assertions.assertEquals(1, history.size());
 
         // This should not add a new entry but rather only update the page
-        history.add(category, 2);
+        history.add(itemGroup, 2);
         Assertions.assertEquals(1, history.size());
     }
 

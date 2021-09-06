@@ -33,7 +33,7 @@ placeholderapi:
 guide:
   locked: '已锁定'
   work-in-progress: '该功能暂未推出!'
-  locked-category:
+  locked-itemgroup:
     - '为了解锁这一类别'
     - '你需要先解锁以下'
     - '类别里的所有物品'
@@ -43,7 +43,7 @@ guide:
     tooltip: '&b单击搜索物品'
     inventory: '正在搜索: %item%'
   tooltips:
-    open-category: '单击打开'
+    open-itemgroup: '单击打开'
     versions-notice: '在反馈问题时这些很重要!'
     wiki: '在官方 Slimefun 维基上查看此物品'
     recipes:

@@ -32,8 +32,8 @@ import io.papermc.lib.PaperLib;
 abstract class AbstractSmeltery extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
-    protected AbstractSmeltery(ItemGroup category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
-        super(category, item, recipe, trigger);
+    protected AbstractSmeltery(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
+        super(itemGroup, item, recipe, trigger);
     }
 
     @Override

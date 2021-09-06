@@ -39,8 +39,8 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
     private final float capacity;
 
     @ParametersAreNonnullByDefault
-    public MultiTool(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, float capacity, String... items) {
-        super(category, item, recipeType, recipe);
+    public MultiTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, float capacity, String... items) {
+        super(itemGroup, item, recipeType, recipe);
 
         for (int i = 0; i < items.length; i++) {
             modes.add(new MultiToolMode(this, i, items[i]));

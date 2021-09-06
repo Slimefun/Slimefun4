@@ -38,8 +38,8 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
     private final ItemSetting<Integer> maxBlocks = new IntRangeSetting(this, "max-blocks", 1, 16, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
-    public PickaxeOfVeinMining(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public PickaxeOfVeinMining(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
         addItemSetting(maxBlocks);
     }
 

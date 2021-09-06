@@ -33,8 +33,8 @@ public class VampireBlade extends SimpleSlimefunItem<WeaponUseHandler> {
     private final ItemSetting<Integer> chance = new IntRangeSetting(this, "chance", 0, 45, 100);
 
     @ParametersAreNonnullByDefault
-    public VampireBlade(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public VampireBlade(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(chance);
     }

@@ -27,8 +27,7 @@ public class OrganicFood extends SlimefunItem {
     public static final int OUTPUT = 2;
 
     @ParametersAreNonnullByDefault
-    public OrganicFood(ItemGroup category, SlimefunItemStack item, Material ingredient) {
-        super(category, item, RecipeType.FOOD_FABRICATOR, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(ingredient), null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT));
+    public OrganicFood(ItemGroup itemGroup, SlimefunItemStack item, Material ingredient) {
+        super(itemGroup, item, RecipeType.FOOD_FABRICATOR, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(ingredient), null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT));
     }
-
 }

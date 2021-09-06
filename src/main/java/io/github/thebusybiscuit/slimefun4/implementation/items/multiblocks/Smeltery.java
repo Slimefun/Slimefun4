@@ -49,8 +49,8 @@ public class Smeltery extends AbstractSmeltery {
     private final ItemSetting<Integer> fireBreakingChance = new IntRangeSetting(this, "fire-breaking-chance", 0, 34, 100);
 
     @ParametersAreNonnullByDefault
-    public Smeltery(ItemGroup category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
+    public Smeltery(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
 
         addItemSetting(fireBreakingChance);
     }

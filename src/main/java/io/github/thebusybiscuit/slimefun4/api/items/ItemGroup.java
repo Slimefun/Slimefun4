@@ -202,7 +202,7 @@ public class ItemGroup implements Keyed {
     @Nonnull
     public ItemStack getItem(@Nonnull Player p) {
         return new CustomItemStack(item, meta -> {
-            String name = Slimefun.getLocalization().getCategoryName(p, getKey());
+            String name = Slimefun.getLocalization().getItemGroupName(p, getKey());
 
             if (name == null) {
                 name = item.getItemMeta().getDisplayName();
@@ -214,7 +214,7 @@ public class ItemGroup implements Keyed {
                 meta.setDisplayName(ChatColor.YELLOW + name);
             }
 
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-category")));
+            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
         });
     }
 
@@ -240,7 +240,7 @@ public class ItemGroup implements Keyed {
      */
     @Nonnull
     public String getDisplayName(@Nonnull Player p) {
-        String localized = Slimefun.getLocalization().getCategoryName(p, getKey());
+        String localized = Slimefun.getLocalization().getItemGroupName(p, getKey());
 
         if (localized != null) {
             return localized;

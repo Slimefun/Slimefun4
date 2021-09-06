@@ -24,8 +24,8 @@ public class CargoInputNode extends AbstractFilterNode {
     private static final String SMART_FILL_MODE = "smart-fill";
 
     @ParametersAreNonnullByDefault
-    public CargoInputNode(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public CargoInputNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
     @Override

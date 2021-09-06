@@ -44,20 +44,20 @@ public final class TestUtilities {
 
     @ParametersAreNonnullByDefault
     public static @Nonnull ItemGroup getItemGroup(Plugin plugin, String name) {
-        return new ItemGroup(new NamespacedKey(plugin, name), new CustomItemStack(Material.NETHER_STAR, "&4Test Category"));
+        return new ItemGroup(new NamespacedKey(plugin, name), new CustomItemStack(Material.NETHER_STAR, "&4Test ItemGroup"));
     }
 
     @ParametersAreNonnullByDefault
     public static @Nonnull SlimefunItem mockSlimefunItem(Plugin plugin, String id, ItemStack item) {
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItemStack(Material.EMERALD, "&4Test Category"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItemStack(Material.EMERALD, "&4Test ItemGroup"));
 
-        return new MockSlimefunItem(category, item, id);
+        return new MockSlimefunItem(itemGroup, item, id);
     }
 
     @ParametersAreNonnullByDefault
     public static @Nonnull VanillaItem mockVanillaItem(Plugin plugin, Material type, boolean enabled) {
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItemStack(Material.EMERALD, "&4Test Category"));
-        VanillaItem item = new VanillaItem(category, new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItemStack(Material.EMERALD, "&4Test ItemGroup"));
+        VanillaItem item = new VanillaItem(itemGroup, new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
         Slimefun.getItemCfg().setValue(type.name() + ".enabled", enabled);
         return item;
     }

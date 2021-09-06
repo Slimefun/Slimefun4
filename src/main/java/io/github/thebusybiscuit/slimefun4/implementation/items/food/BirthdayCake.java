@@ -20,8 +20,8 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 public class BirthdayCake extends SlimefunItem implements NotPlaceable {
 
     @ParametersAreNonnullByDefault
-    public BirthdayCake(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public BirthdayCake(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
 }

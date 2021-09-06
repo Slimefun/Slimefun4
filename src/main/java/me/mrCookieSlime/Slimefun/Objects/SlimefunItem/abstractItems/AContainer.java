@@ -60,8 +60,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private int processingSpeed = -1;
 
     @ParametersAreNonnullByDefault
-    protected AContainer(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected AContainer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         processor.setProgressBar(getProgressBar());
         createPreset(this, getInventoryTitle(), this::constructMenu);
@@ -89,8 +89,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     }
 
     @ParametersAreNonnullByDefault
-    protected AContainer(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        this(category, item, recipeType, recipe);
+    protected AContainer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        this(itemGroup, item, recipeType, recipe);
         this.recipeOutput = recipeOutput;
     }
 

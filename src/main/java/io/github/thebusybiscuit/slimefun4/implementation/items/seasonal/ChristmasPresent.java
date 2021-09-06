@@ -35,8 +35,8 @@ public class ChristmasPresent extends SimpleSlimefunItem<ItemUseHandler> impleme
     private final ItemStack[] gifts;
 
     @ParametersAreNonnullByDefault
-    public ChristmasPresent(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack... gifts) {
-        super(category, item, recipeType, recipe);
+    public ChristmasPresent(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack... gifts) {
+        super(itemGroup, item, recipeType, recipe);
 
         this.gifts = gifts;
     }

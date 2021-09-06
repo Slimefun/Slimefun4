@@ -25,8 +25,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterLi
 public class EnhancedAutoCrafter extends SlimefunAutoCrafter {
 
     @ParametersAreNonnullByDefault
-    public EnhancedAutoCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe, RecipeType.ENHANCED_CRAFTING_TABLE);
+    public EnhancedAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe, RecipeType.ENHANCED_CRAFTING_TABLE);
     }
 
 }

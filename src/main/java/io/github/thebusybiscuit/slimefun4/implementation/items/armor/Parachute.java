@@ -27,8 +27,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
 public class Parachute extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public Parachute(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+    public Parachute(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
     }
 
 }

@@ -47,8 +47,8 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
     private static final String DATA_KEY = "stored-exp";
 
     @ParametersAreNonnullByDefault
-    public ExpCollector(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ExpCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         createPreset(this, this::constructMenu);
 

@@ -28,8 +28,8 @@ import io.papermc.lib.PaperLib;
 public class PressureChamber extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
-    public PressureChamber(ItemGroup category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON) }, BlockFace.UP);
+    public PressureChamber(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, new ItemStack[] { new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON) }, BlockFace.UP);
     }
 
     @Override

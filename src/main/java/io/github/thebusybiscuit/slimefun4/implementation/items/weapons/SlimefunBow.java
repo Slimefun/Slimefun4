@@ -23,8 +23,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 public abstract class SlimefunBow extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    protected SlimefunBow(ItemGroup category, SlimefunItemStack item, ItemStack[] recipe) {
-        super(category, item, RecipeType.MAGIC_WORKBENCH, recipe);
+    protected SlimefunBow(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe) {
+        super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe);
     }
 
     @Override

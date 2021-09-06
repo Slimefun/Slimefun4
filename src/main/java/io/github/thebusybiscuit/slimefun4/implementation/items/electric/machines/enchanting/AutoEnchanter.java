@@ -40,8 +40,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class AutoEnchanter extends AbstractEnchantmentMachine {
 
     @ParametersAreNonnullByDefault
-    public AutoEnchanter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public AutoEnchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

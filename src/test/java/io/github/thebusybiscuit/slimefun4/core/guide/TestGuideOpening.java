@@ -60,13 +60,13 @@ class TestGuideOpening {
     }
 
     @Test
-    @DisplayName("Test if a Category can be opened from the History")
-    void testOpenCategory() throws InterruptedException {
-        ItemGroup category = new ItemGroup(new NamespacedKey(plugin, "history_category"), new CustomItemStack(Material.BLUE_TERRACOTTA, "&9Testy test"));
+    @DisplayName("Test if an ItemGroup can be opened from the History")
+    void testOpenItemGroup() throws InterruptedException {
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "history_itemgroup"), new CustomItemStack(Material.BLUE_TERRACOTTA, "&9Testy test"));
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
-        PlayerProfile profile = prepare(guide, history -> history.add(category, 1));
-        Mockito.verify(guide).openItemGroup(profile, category, 1);
+        PlayerProfile profile = prepare(guide, history -> history.add(itemGroup, 1));
+        Mockito.verify(guide).openItemGroup(profile, itemGroup, 1);
     }
 
     @Test

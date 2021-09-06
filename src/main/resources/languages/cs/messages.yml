@@ -28,7 +28,7 @@ placeholderapi:
 guide:
   locked: 'ZAMČENO'
   work-in-progress: 'Tato funkce ještě není zcela dokončena!'
-  locked-category:
+  locked-itemgroup:
     - 'Chceš-li odemknout tuto kategorii,'
     - 'je potřeba odemknout všechny předměty'
     - 'z předchozích kategorií'
@@ -38,7 +38,7 @@ guide:
     tooltip: '&bKlikni pro vyhledání předmětu'
     inventory: 'Hledání: %item%'
   tooltips:
-    open-category: 'Klikni pro otevření'
+    open-itemgroup: 'Klikni pro otevření'
     versions-notice: 'To jsou velmi důležité při hlášení chyb!'
     wiki: 'Zobrazit tento předmět na oficiální Slimefun Wiki'
     recipes:

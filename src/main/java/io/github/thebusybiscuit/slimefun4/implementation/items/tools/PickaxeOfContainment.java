@@ -39,8 +39,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public PickaxeOfContainment(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public PickaxeOfContainment(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

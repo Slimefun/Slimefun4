@@ -28,13 +28,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors
 public class CoolantCell extends UnplaceableBlock {
 
     @ParametersAreNonnullByDefault
-    public CoolantCell(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        this(category, item, recipeType, recipe, null);
+    public CoolantCell(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, item, recipeType, recipe, null);
     }
 
     @ParametersAreNonnullByDefault
-    public CoolantCell(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public CoolantCell(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
 }

@@ -26,8 +26,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListene
 public class Cooler extends SlimefunBackpack {
 
     @ParametersAreNonnullByDefault
-    public Cooler(int size, ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(size, category, item, recipeType, recipe);
+    public Cooler(int size, ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(size, itemGroup, item, recipeType, recipe);
     }
 
     @Override

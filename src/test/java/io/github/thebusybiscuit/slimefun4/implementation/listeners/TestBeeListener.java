@@ -49,9 +49,9 @@ class TestBeeListener {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
         if (hasArmor) {
-            ItemGroup category = TestUtilities.getItemGroup(plugin, "bee_suit_test");
+            ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "bee_suit_test");
             SlimefunItemStack chestplate = new SlimefunItemStack("MOCK_BEE_SUIT", Material.LEATHER_CHESTPLATE, "&cBee Suit Prototype");
-            MockBeeProtectionSuit armor = new MockBeeProtectionSuit(category, chestplate);
+            MockBeeProtectionSuit armor = new MockBeeProtectionSuit(itemGroup, chestplate);
             armor.register(plugin);
 
             player.getInventory().setChestplate(chestplate.clone());

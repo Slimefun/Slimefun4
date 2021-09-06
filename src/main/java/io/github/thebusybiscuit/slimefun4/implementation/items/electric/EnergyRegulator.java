@@ -34,8 +34,8 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 public class EnergyRegulator extends SlimefunItem implements HologramOwner {
 
     @ParametersAreNonnullByDefault
-    public EnergyRegulator(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public EnergyRegulator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onBreak());
     }

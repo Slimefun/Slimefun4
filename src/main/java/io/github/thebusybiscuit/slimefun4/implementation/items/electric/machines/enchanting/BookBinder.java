@@ -35,8 +35,8 @@ public class BookBinder extends AContainer {
     private final ItemSetting<Integer> customMaxLevel = new IntRangeSetting(this, "custom-max-level", 0, 15, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
-    public BookBinder(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public BookBinder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(bypassVanillaMaxLevel, hasCustomMaxLevel, customMaxLevel);
     }

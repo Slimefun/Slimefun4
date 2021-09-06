@@ -45,8 +45,8 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
     private final Map<Material, List<Enchantment>> applicableEnchantments = new EnumMap<>(Material.class);
 
     @ParametersAreNonnullByDefault
-    public EnchantmentRune(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public EnchantmentRune(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         for (Material mat : Material.values()) {
             List<Enchantment> enchantments = new ArrayList<>();

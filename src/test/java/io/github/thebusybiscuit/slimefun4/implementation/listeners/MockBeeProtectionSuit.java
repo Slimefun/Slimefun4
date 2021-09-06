@@ -13,8 +13,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
 
 class MockBeeProtectionSuit extends SlimefunArmorPiece implements ProtectiveArmor {
 
-    public MockBeeProtectionSuit(ItemGroup category, SlimefunItemStack item) {
-        super(category, item, RecipeType.NULL, new ItemStack[9], new PotionEffect[0]);
+    public MockBeeProtectionSuit(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, RecipeType.NULL, new ItemStack[9], new PotionEffect[0]);
     }
 
     @Override

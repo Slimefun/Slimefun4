@@ -199,24 +199,24 @@ public class Research implements Keyed {
      *            The {@link PlayerProfile} of that {@link Player}.
      * @param sfItem
      *            The {@link SlimefunItem} on which the {@link Player} clicked.
-     * @param category
+     * @param itemGroup
      *            The {@link ItemGroup} where the {@link Player} was.
      * @param page
      *            The page number of where the {@link Player} was in the {@link ItemGroup};
      *
      */
     @ParametersAreNonnullByDefault
-    public void unlockFromGuide(SlimefunGuideImplementation guide, Player player, PlayerProfile profile, SlimefunItem sfItem, ItemGroup category, int page) {
+    public void unlockFromGuide(SlimefunGuideImplementation guide, Player player, PlayerProfile profile, SlimefunItem sfItem, ItemGroup itemGroup, int page) {
         if (!Slimefun.getRegistry().getCurrentlyResearchingPlayers().contains(player.getUniqueId())) {
             if (profile.hasUnlocked(this)) {
-                guide.openItemGroup(profile, category, page);
+                guide.openItemGroup(profile, itemGroup, page);
             } else {
                 PlayerPreResearchEvent event = new PlayerPreResearchEvent(player, this, sfItem);
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (!event.isCancelled()) {
                     if (this.canUnlock(player)) {
-                        guide.unlockItem(player, sfItem, pl -> guide.openItemGroup(profile, category, page));
+                        guide.unlockItem(player, sfItem, pl -> guide.openItemGroup(profile, itemGroup, page));
                     } else {
                         Slimefun.getLocalization().sendMessage(player, "messages.not-enough-xp", true);
                     }

@@ -27,8 +27,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 public class WitherAssembler extends AbstractEntityAssembler<Wither> {
 
     @ParametersAreNonnullByDefault
-    public WitherAssembler(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public WitherAssembler(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

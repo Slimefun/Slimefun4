@@ -45,8 +45,8 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
     private final ItemSetting<Double> radius = new DoubleRangeSetting(this, "radius", 0.1, 3.5, Double.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
-    public InfusedHopper(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public InfusedHopper(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(silent, radius, toggleable);
 

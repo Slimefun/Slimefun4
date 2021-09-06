@@ -29,8 +29,8 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 public class HeatedPressureChamber extends AContainer {
 
     @ParametersAreNonnullByDefault
-    public HeatedPressureChamber(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public HeatedPressureChamber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         new BlockMenuPreset(getId(), getItemName()) {
 

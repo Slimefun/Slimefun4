@@ -35,8 +35,8 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 public abstract class AbstractMonsterSpawner extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    AbstractMonsterSpawner(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    AbstractMonsterSpawner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     /**

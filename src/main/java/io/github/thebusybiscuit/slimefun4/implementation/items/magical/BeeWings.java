@@ -25,8 +25,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.BeeWingsTask;
 public class BeeWings extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public BeeWings(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public BeeWings(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
 }

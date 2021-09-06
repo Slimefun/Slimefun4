@@ -21,8 +21,8 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
     // We wanna strip the Slimefun Item id here
     private static final ItemStack organicFertilizer = ItemStackWrapper.wrap(SlimefunItems.FERTILIZER);
 
-    protected CropGrowthAccelerator(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected CropGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     public abstract int getEnergyConsumption();
