@@ -33,7 +33,7 @@ placeholderapi:
 guide:
   locked: 'VERROUILLÉ'
   work-in-progress: 'Cette fonctionnalité n''est pas encore complètement terminée !'
-  locked-category:
+  locked-itemgroup:
     - 'Pour déverrouiller cette catégorie, vous devrez'
     - 'déverrouiller tous les objets des'
     - 'catégories suivantes'
@@ -43,7 +43,7 @@ guide:
     tooltip: '&bCliquez pour rechercher un objet'
     inventory: 'Rechercher: %item%'
   tooltips:
-    open-category: 'Cliquez pour ouvrir'
+    open-itemgroup: 'Cliquez pour ouvrir'
     versions-notice: 'Ces informations sont très importantes lorsque vous rapportez des bugs !'
     wiki: 'Voir cet objet sur le wiki officiel de Slimefun'
     recipes:
