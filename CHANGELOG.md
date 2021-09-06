@@ -1,5 +1,5 @@
 # Table of contents
-- [Release Candidate 28 (TBD)](#release-candidate-28-tbd)
+- [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
 - [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
 - [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
 - [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
@@ -28,13 +28,11 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 28 (TBD)
-
-#### Additions
-
-#### Changes
+## Release Candidate 28 (06 Sep 2021)
 
 #### Fixes
+* Fixed Metrics
+* Fixed some naming conventions and localization keys for RC-27
 
 ## Release Candidate 27 (03 Sep 2021)
 
