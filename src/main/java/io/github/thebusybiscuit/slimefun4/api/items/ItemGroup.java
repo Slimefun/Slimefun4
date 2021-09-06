@@ -214,7 +214,7 @@ public class ItemGroup implements Keyed {
                 meta.setDisplayName(ChatColor.YELLOW + name);
             }
 
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-category")));
+            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
         });
     }
 

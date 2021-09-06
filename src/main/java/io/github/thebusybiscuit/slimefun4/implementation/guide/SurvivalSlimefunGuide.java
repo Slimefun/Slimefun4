@@ -207,7 +207,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             List<String> lore = new ArrayList<>();
             lore.add("");
 
-            for (String line : Slimefun.getLocalization().getMessages(p, "guide.locked-category")) {
+            for (String line : Slimefun.getLocalization().getMessages(p, "guide.locked-itemgroup")) {
                 lore.add(ChatColor.WHITE + line);
             }
 
@@ -505,7 +505,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         Optional<String> wiki = item.getWikipage();
 
         if (wiki.isPresent()) {
-            menu.addItem(8, new CustomItemStack(Material.KNOWLEDGE_BOOK, ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-category")));
+            menu.addItem(8, new CustomItemStack(Material.KNOWLEDGE_BOOK, ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
                 pl.closeInventory();
                 ChatUtils.sendURL(pl, wiki.get());
