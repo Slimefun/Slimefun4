@@ -268,6 +268,28 @@ public class IntegrationsManager {
     }
 
     /**
+     * This checks if one of our third party integrations defines a given
+     * {@link ItemStack} as custom.
+     * 
+     * @param item
+     *            The {@link ItemStack} to check
+     * 
+     * @return Whether this {@link ItemStack} is a custom item
+     */
+    @SuppressWarnings("deprecation")
+    public boolean isCustomItem(@Nonnull ItemStack item) {
+        if (isItemsAdderInstalled) {
+            try {
+                return ItemsAdder.isCustomItem(item);
+            } catch (Exception | LinkageError x) {
+                logError("ItemsAdder", x);
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * This method removes any temporary enchantments from the given {@link ItemStack}.
      * Some plugins apply enchantments for a short amount of time and remove it later.
      * We don't want these items to be exploited using an {@link AutoDisenchanter} for example,
