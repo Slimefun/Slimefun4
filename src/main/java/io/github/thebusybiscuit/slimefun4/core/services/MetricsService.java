@@ -15,8 +15,9 @@ import javax.annotation.Nullable;
 
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 import kong.unirest.GetRequest;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -40,9 +41,14 @@ public class MetricsService {
     private static final String API_URL = "https://api.github.com/";
 
     /**
-     * The Name of our repository
+     * The Name of our repository - Version 2 of this repo (due to big breaking changes)
      */
-    private static final String REPO_NAME = "MetricsModule";
+    private static final String REPO_NAME = "MetricsModule2";
+    
+    /**
+     * The name of the metrics jar file.
+     */
+    private static final String JAR_NAME = "MetricsModule";
 
     /**
      * The URL pointing towards the /releases/ endpoint of our
@@ -56,7 +62,7 @@ public class MetricsService {
      */
     private static final String DOWNLOAD_URL = "https://github.com/Slimefun/" + REPO_NAME + "/releases/download";
 
-    private final SlimefunPlugin plugin;
+    private final Slimefun plugin;
     private final File parentFolder;
     private final File metricsModuleFile;
 
@@ -79,9 +85,9 @@ public class MetricsService {
      * This constructs a new instance of our {@link MetricsService}.
      * 
      * @param plugin
-     *            Our {@link SlimefunPlugin} instance
+     *            Our {@link Slimefun} instance
      */
-    public MetricsService(@Nonnull SlimefunPlugin plugin) {
+    public MetricsService(@Nonnull Slimefun plugin) {
         this.plugin = plugin;
         this.parentFolder = new File(plugin.getDataFolder(), "cache" + File.separatorChar + "modules");
 
@@ -89,7 +95,7 @@ public class MetricsService {
             parentFolder.mkdirs();
         }
 
-        this.metricsModuleFile = new File(parentFolder, REPO_NAME + ".jar");
+        this.metricsModuleFile = new File(parentFolder, JAR_NAME + ".jar");
     }
 
     /**
@@ -97,7 +103,7 @@ public class MetricsService {
      */
     public void start() {
         if (!metricsModuleFile.exists()) {
-            plugin.getLogger().info(REPO_NAME + " does not exist, downloading...");
+            plugin.getLogger().info(JAR_NAME + " does not exist, downloading...");
 
             if (!download(getLatestVersion())) {
                 plugin.getLogger().warning("Failed to start metrics as the file could not be downloaded.");
@@ -130,7 +136,7 @@ public class MetricsService {
             String version = metricsClass.getPackage().getImplementationVersion();
 
             // This is required to be sync due to bStats.
-            SlimefunPlugin.runSync(() -> {
+            Slimefun.runSync(() -> {
                 try {
                     start.invoke(null);
                     plugin.getLogger().info("Metrics build #" + version + " started.");
@@ -167,7 +173,7 @@ public class MetricsService {
      * @return if there is an update available.
      */
     public boolean checkForUpdate(@Nullable String currentVersion) {
-        if (currentVersion == null || !PatternUtils.NUMERIC.matcher(currentVersion).matches()) {
+        if (currentVersion == null || !CommonPatterns.NUMERIC.matcher(currentVersion).matches()) {
             return false;
         }
 
@@ -227,7 +233,7 @@ public class MetricsService {
             }
 
             AtomicInteger lastPercentPosted = new AtomicInteger();
-            GetRequest request = Unirest.get(DOWNLOAD_URL + "/" + version + "/" + REPO_NAME + ".jar");
+            GetRequest request = Unirest.get(DOWNLOAD_URL + "/" + version + "/" + JAR_NAME + ".jar");
 
             HttpResponse<File> response = request.downloadMonitor((b, fileName, bytesWritten, totalBytes) -> {
                 int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
@@ -239,7 +245,7 @@ public class MetricsService {
             }).asFile(file.getPath());
 
             if (response.isSuccess()) {
-                plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { REPO_NAME, version });
+                plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { JAR_NAME, version });
 
                 // Replace the metric file with the new one
                 cleanUp();
@@ -276,6 +282,6 @@ public class MetricsService {
      * @return True if the current server has metrics auto-updates enabled.
      */
     public boolean hasAutoUpdates() {
-        return SlimefunPlugin.instance().getConfig().getBoolean("metrics.auto-update");
+        return Slimefun.instance().getConfig().getBoolean("metrics.auto-update");
     }
 }

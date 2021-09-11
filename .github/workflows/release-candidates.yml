@@ -24,7 +24,7 @@ jobs:
         ref: 'stable'
 
     - name: Merge latest commits into 'stable'
-      uses: devmasx/merge-branch@v1.3.1
+      uses: devmasx/merge-branch@1.4.0
       with:
         type: now
         from_branch: 'master'

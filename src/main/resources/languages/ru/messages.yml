@@ -26,7 +26,7 @@ commands:
 guide:
   locked: 'ЗАБЛОКИРОВАНО'
   work-in-progress: 'Эта функция ещё не полностью завершена!'
-  locked-category:
+  locked-itemgroup:
     - 'Для начала Вы должны'
     - 'разблокировать все предметы'
     - 'из следующих категорий'
@@ -36,7 +36,7 @@ guide:
     tooltip: '&bНажмите для поиска предмета'
     inventory: 'Поиск: %item%'
   tooltips:
-    open-category: 'Нажмите, чтобы открыть'
+    open-itemgroup: 'Нажмите, чтобы открыть'
     versions-notice: 'Это очень важно, когда Вы сообщаете об ошибках!'
     wiki: 'Просмотреть этот предмет на официальной Slimefun Вики'
     recipes:

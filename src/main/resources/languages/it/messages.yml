@@ -15,7 +15,7 @@ commands:
     reset-target: '&cLa tua conoscenza è stata resettata'
 guide:
   locked: 'BLOCCATO'
-  locked-category:
+  locked-itemgroup:
     - 'Per sbloccare questa categoria'
     - 'è necessario sbloccare tutti gli elementi dalle'
     - 'seguenti categorie'
@@ -25,7 +25,7 @@ guide:
     tooltip: '&bClicca per cercare un elemento'
     inventory: 'Ricerca di: %item%'
   tooltips:
-    open-category: 'Clicca per aprire'
+    open-itemgroup: 'Clicca per aprire'
     versions-notice: 'Questi sono molto importanti quando stai reportando dei bugs!'
     wiki: 'Visualizza questo elemento sulla Wiki ufficiale di Slimefun'
     recipes:

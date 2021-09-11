@@ -16,24 +16,24 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 @TestMethodOrder(value = OrderAnnotation.class)
 class TestItemSetup {
 
-    private static SlimefunPlugin plugin;
+    private static Slimefun plugin;
 
     @BeforeAll
     public static void load() {
         MockBukkit.mock();
-        plugin = MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(Slimefun.class);
     }
 
     @AfterAll
@@ -58,7 +58,7 @@ class TestItemSetup {
     @Order(value = 2)
     @DisplayName("Assert all Items enabled")
     void testNoDisabledItems() {
-        for (SlimefunItem item : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
+        for (SlimefunItem item : Slimefun.getRegistry().getAllSlimefunItems()) {
             Assertions.assertNotEquals(ItemState.UNREGISTERED, item.getState(), item.toString() + " was not registered?");
         }
     }
@@ -72,13 +72,13 @@ class TestItemSetup {
 
     @Test
     @Order(value = 4)
-    @DisplayName("Test whether every Category is added to the translation files")
-    void testCategoryTranslations() throws IOException {
+    @DisplayName("Test whether every ItemGroup is added to the translation files")
+    void testItemGroupTranslations() throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/en/categories.yml"), StandardCharsets.UTF_8))) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 
-            for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
-                String path = category.getKey().getNamespace() + '.' + category.getKey().getKey();
+            for (ItemGroup itemGroup : Slimefun.getRegistry().getAllItemGroups()) {
+                String path = itemGroup.getKey().getNamespace() + '.' + itemGroup.getKey().getKey();
                 Assertions.assertTrue(config.contains(path));
             }
         }

@@ -39,7 +39,7 @@ guide:
   locked: 'LOCKED'
   work-in-progress: 'This feature is not fully finished yet!'
 
-  locked-category:
+  locked-itemgroup:
   - 'To unlock this category you will'
   - 'need to unlock all items from the'
   - 'following categories'
@@ -51,7 +51,7 @@ guide:
     inventory: 'Searching for: %item%'
 
   tooltips:
-    open-category: 'Click to open'
+    open-itemgroup: 'Click to open'
     versions-notice: 'These are very important when reporting bugs!'
     wiki: 'View this Item on the official Slimefun Wiki'
 

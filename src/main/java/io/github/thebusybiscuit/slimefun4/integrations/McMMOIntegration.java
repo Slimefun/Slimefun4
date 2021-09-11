@@ -9,11 +9,13 @@ import org.bukkit.inventory.ItemStack;
 
 import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.events.skills.salvage.McMMOPlayerSalvageCheckEvent;
+import com.gmail.nossr50.util.skills.SkillUtils;
 
+import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This handles all integrations with {@link mcMMO}.
@@ -23,9 +25,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 class McMMOIntegration implements Listener {
 
-    private final SlimefunPlugin plugin;
+    private final Slimefun plugin;
 
-    McMMOIntegration(@Nonnull SlimefunPlugin plugin) {
+    McMMOIntegration(@Nonnull Slimefun plugin) {
         this.plugin = plugin;
     }
 
@@ -39,7 +41,7 @@ class McMMOIntegration implements Listener {
         try {
             mcMMO.getPlaceStore().setTrue(e.getBlock());
         } catch (Exception | LinkageError x) {
-            SlimefunPlugin.getIntegrations().logError("mcMMO", x);
+            Slimefun.getIntegrations().logError("mcMMO", x);
         }
     }
 
@@ -48,7 +50,16 @@ class McMMOIntegration implements Listener {
         // Prevent Slimefun items from being salvaged
         if (!isSalvageable(e.getSalvageItem())) {
             e.setCancelled(true);
-            SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "anvil.mcmmo-salvaging");
+            Slimefun.getLocalization().sendMessage(e.getPlayer(), "anvil.mcmmo-salvaging");
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onAutoDisenchant(AutoDisenchantEvent e) {
+        try {
+            SkillUtils.removeAbilityBuff(e.getItem());
+        } catch (Exception | LinkageError x) {
+            Slimefun.getIntegrations().logError("mcMMO", x);
         }
     }
 

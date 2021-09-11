@@ -5,11 +5,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * An {@link ElementalRune} is a very simple and basic crafting component
@@ -23,13 +23,13 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class ElementalRune extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public ElementalRune(Category category, SlimefunItemStack item, ItemStack[] recipe) {
-        this(category, item, recipe, null);
+    public ElementalRune(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe) {
+        this(itemGroup, item, recipe, null);
     }
 
     @ParametersAreNonnullByDefault
-    public ElementalRune(Category category, SlimefunItemStack item, ItemStack[] recipe, @Nullable ItemStack recipeResult) {
-        super(category, item, RecipeType.ANCIENT_ALTAR, recipe, recipeResult);
+    public ElementalRune(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, @Nullable ItemStack recipeResult) {
+        super(itemGroup, item, RecipeType.ANCIENT_ALTAR, recipe, recipeResult);
     }
 
 }

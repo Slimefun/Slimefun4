@@ -21,7 +21,7 @@ commands:
     restored-backpack-given: '&a배낭이 복원되어 인벤토리에 추가되었습니다!'
 guide:
   locked: '잠금'
-  locked-category:
+  locked-itemgroup:
     - '이 카테고리의 잠금을 해제하려면'
     - '에서 모든 아이템의 잠금을 해제할 필요가 있다.'
     - '다음 카테고리'
@@ -31,7 +31,7 @@ guide:
     tooltip: '&b아이템을 검색하려면 클릭하십시오.'
     inventory: '검색중: %item%'
   tooltips:
-    open-category: '열려면 클릭하십시오. '
+    open-itemgroup: '열려면 클릭하십시오. '
     versions-notice: '이것들은 버그를 보고할 때 매우 중요하다! '
     wiki: '공식 Slimefun Wiki에서 이 항목보기'
     recipes:
