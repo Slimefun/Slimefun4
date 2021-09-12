@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.bakedlibs.dough.collections.Pair;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.PlayerPerformanceInspector;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -65,10 +67,17 @@ class PerformanceSummary {
             int count = profiler.getBlocksOfId(entry.getKey());
             String time = NumberUtils.getAsMillis(entry.getValue());
 
-            if (count > 1) {
+            if (count > 1 && sender.getOrderType() != SummaryOrderType.AVERAGE) {
                 String average = NumberUtils.getAsMillis(entry.getValue() / count);
 
                 return entry.getKey() + " - " + count + "x (" + time + " | avg: " + average + ')';
+            } else if (count > 1 && sender.getOrderType() == SummaryOrderType.AVERAGE) {
+                String total = NumberUtils.getAsMillis(items.entrySet().stream()
+                    .filter(e -> e.getKey().equals(entry.getKey()))
+                    .mapToLong(Entry::getValue)
+                    .sum());
+
+                return entry.getKey() + " - " + count + "x (" + time + " | total: " + total + ')';
             } else {
                 return entry.getKey() + " - " + count + "x (" + time + ')';
             }
@@ -92,7 +101,7 @@ class PerformanceSummary {
     @ParametersAreNonnullByDefault
     private void summarizeTimings(int count, String name, PerformanceInspector inspector, Map<String, Long> map, Function<Map.Entry<String, Long>, String> formatter) {
         Stream<Map.Entry<String, Long>> stream = map.entrySet().stream();
-        List<Entry<String, Long>> results = stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
+        List<Entry<String, Long>> results = sortTimings(inspector, stream);
         String prefix = count + " " + name + (count != 1 ? 's' : "");
 
         if (inspector instanceof PlayerPerformanceInspector) {
@@ -189,7 +198,7 @@ class PerformanceSummary {
 
         builder.append(" - ");
 
-        builder.append(rating.getColor() + ChatUtils.humanize(rating.name()));
+        builder.append(rating.getColor()).append(ChatUtils.humanize(rating.name()));
 
         builder.append(ChatColor.GRAY);
         builder.append(" (");
@@ -199,4 +208,26 @@ class PerformanceSummary {
         return builder.toString();
     }
 
+    @ParametersAreNonnullByDefault
+    private List<Entry<String, Long>> sortTimings(PerformanceInspector inspector, Stream<Map.Entry<String, Long>> stream) {
+        if (inspector.getOrderType() == SummaryOrderType.HIGHEST) {
+            return stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
+        } else if (inspector.getOrderType() == SummaryOrderType.LOWEST) {
+            return stream.sorted(Comparator.comparingLong(Entry::getValue))
+                .collect(Collectors.toList());
+        } else {
+            return stream
+                .map(entry -> {
+                    int count = profiler.getBlocksOfId(entry.getKey());
+                    long avg = count > 0 ? entry.getValue() / count : entry.getValue();
+
+                    return new Pair<>(entry.getKey(), avg);
+                })
+                .collect(Collectors.toMap(Pair::getFirstValue, Pair::getSecondValue))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toList());
+        }
+    }
 }
