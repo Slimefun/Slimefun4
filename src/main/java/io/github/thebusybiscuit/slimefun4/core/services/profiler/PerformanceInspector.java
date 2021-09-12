@@ -43,5 +43,5 @@ public interface PerformanceInspector {
      *
      * @return The order type for the summary of timings.
      */
-    SummaryOrderType getOrderType();
+    @Nonnull SummaryOrderType getOrderType();
 }

@@ -76,7 +76,7 @@ public class ConsolePerformanceInspector implements PerformanceInspector {
      * {@inheritDoc}
      */
     @Override
-    public SummaryOrderType getOrderType() {
+    public @Nonnull SummaryOrderType getOrderType() {
         return orderType;
     }
 

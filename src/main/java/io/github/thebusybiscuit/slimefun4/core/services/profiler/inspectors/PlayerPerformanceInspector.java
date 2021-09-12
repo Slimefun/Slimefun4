@@ -78,7 +78,7 @@ public class PlayerPerformanceInspector implements PerformanceInspector {
      * {@inheritDoc}
      */
     @Override
-    public SummaryOrderType getOrderType() {
+    public @Nonnull SummaryOrderType getOrderType() {
         return orderType;
     }
 
