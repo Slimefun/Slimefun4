@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +8,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.bakedlibs.dough.collections.Pair;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.PlayerPerformanceInspector;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
