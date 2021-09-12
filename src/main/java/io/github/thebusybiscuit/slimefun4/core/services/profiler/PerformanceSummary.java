@@ -2,9 +2,11 @@ package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -100,8 +102,8 @@ class PerformanceSummary {
 
     @ParametersAreNonnullByDefault
     private void summarizeTimings(int count, String name, PerformanceInspector inspector, Map<String, Long> map, Function<Map.Entry<String, Long>, String> formatter) {
-        Stream<Map.Entry<String, Long>> stream = map.entrySet().stream();
-        List<Entry<String, Long>> results = sortTimings(inspector, stream);
+        Set<Entry<String, Long>> entrySet = map.entrySet();
+        List<Entry<String, Long>> results = sortTimings(inspector, entrySet);
         String prefix = count + " " + name + (count != 1 ? 's' : "");
 
         if (inspector instanceof PlayerPerformanceInspector) {
@@ -209,23 +211,24 @@ class PerformanceSummary {
     }
 
     @ParametersAreNonnullByDefault
-    private List<Entry<String, Long>> sortTimings(PerformanceInspector inspector, Stream<Map.Entry<String, Long>> stream) {
+    private List<Entry<String, Long>> sortTimings(PerformanceInspector inspector, Set<Map.Entry<String, Long>> entrySet) {
         if (inspector.getOrderType() == SummaryOrderType.HIGHEST) {
-            return stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
+            return entrySet.stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toList());
         } else if (inspector.getOrderType() == SummaryOrderType.LOWEST) {
-            return stream.sorted(Comparator.comparingLong(Entry::getValue))
+            return entrySet.stream()
+                .sorted(Comparator.comparingLong(Entry::getValue))
                 .collect(Collectors.toList());
         } else {
-            return stream
-                .map(entry -> {
-                    int count = profiler.getBlocksOfId(entry.getKey());
-                    long avg = count > 0 ? entry.getValue() / count : entry.getValue();
+            final Map<String, Long> map = new HashMap<>();
+            for (Entry<String, Long> entry : entrySet) {
+                int count = profiler.getBlocksOfId(entry.getKey());
+                long avg = count > 0 ? entry.getValue() / count : entry.getValue();
 
-                    return new Pair<>(entry.getKey(), avg);
-                })
-                .collect(Collectors.toMap(Pair::getFirstValue, Pair::getSecondValue))
-                .entrySet()
-                .stream()
+                map.put(entry.getKey(), avg);
+            }
+            return map.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toList());
         }
