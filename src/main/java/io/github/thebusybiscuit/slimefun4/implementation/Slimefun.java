@@ -101,6 +101,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.Cart
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CauldronListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.SmithingTableListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.BeeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.EntityInteractionListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.FireworksListener;
@@ -610,6 +611,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new CauldronListener(this);
         new GrindstoneListener(this);
         new CartographyTableListener(this);
+        new SmithingTableListener(this);
         new ButcherAndroidListener(this);
         new MiningAndroidListener(this);
         new NetworkListener(this, networkManager);
