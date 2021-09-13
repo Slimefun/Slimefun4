@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -25,15 +27,35 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
     @Override
     public @Nonnull ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
-            if (SlimefunTag.ORES.isTagged(e.getBlock().getType())) {
-                if (e.getBlock().getType() == Material.IRON_ORE) {
-                    drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
-                } else if (e.getBlock().getType() == Material.GOLD_ORE) {
-                    drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
-                } else {
-                    for (ItemStack drop : e.getBlock().getDrops(tool)) {
-                        drops.add(new CustomItemStack(drop, drop.getAmount() * 2));
+            Material mat = e.getBlock().getType();
+
+            if (SlimefunTag.ORES.isTagged(mat)) {
+                if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+                    switch(mat) {
+                        case DEEPSLATE_IRON_ORE:
+                            drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
+                            break;
+                        case DEEPSLATE_GOLD_ORE:
+                            drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
+                            break;
+                        case COPPER_ORE:
+                        case DEEPSLATE_COPPER_ORE:
+                            drops.add(new CustomItemStack(SlimefunItems.COPPER_DUST, 2));
+                            break;
                     }
+                }
+
+                switch(mat) {
+                    case IRON_ORE:
+                        drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
+                        break;
+                    case GOLD_ORE:
+                        drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
+                        break;
+                    default:
+                        for (ItemStack drop : e.getBlock().getDrops(tool)) {
+                            drops.add(new CustomItemStack(drop, drop.getAmount() * 2));
+                        }
                 }
             }
         };
