@@ -18,7 +18,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  * cartography table.
  * 
  * @author Sefiraat
- *
  */
 public class SmithingTableListener implements SlimefunCraftingListener {
 
@@ -28,7 +27,7 @@ public class SmithingTableListener implements SlimefunCraftingListener {
 
     @EventHandler(ignoreCancelled = true)
     public void onSmith(InventoryClickEvent e) {
-        if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.SMITHING) {
+        if (e.getInventory().getType() == InventoryType.SMITHING && e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player &&) {
             ItemStack itemStack = e.getInventory().getContents()[1];
 
             if (isUnallowed(itemStack)) {
@@ -36,7 +35,5 @@ public class SmithingTableListener implements SlimefunCraftingListener {
                 Slimefun.getLocalization().sendMessage(e.getWhoClicked(), "smithing_table.not-working", true);
             }
         }
-
     }
-
 }
