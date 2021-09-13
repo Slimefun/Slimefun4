@@ -27,7 +27,7 @@ public class SmithingTableListener implements SlimefunCraftingListener {
 
     @EventHandler(ignoreCancelled = true)
     public void onSmith(InventoryClickEvent e) {
-        if (e.getInventory().getType() == InventoryType.SMITHING && e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player &&) {
+        if (e.getInventory().getType() == InventoryType.SMITHING && e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player) {
             ItemStack itemStack = e.getInventory().getContents()[1];
 
             if (isUnallowed(itemStack)) {
