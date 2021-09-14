@@ -1,12 +1,12 @@
 {
-	"values" : [
-		"#minecraft:saplings",
-		"#minecraft:carpets",
-		"#slimefun:torches",
-		"#slimefun:pressure_plates",
-		"minecraft:cake",
-		"minecraft:redstone_wire",
-		"minecraft:repeater",
-		"minecraft:comparator"
-	]
+    "values" : [
+        "#minecraft:saplings",
+        "#minecraft:carpets",
+        "#slimefun:torches",
+        "#slimefun:pressure_plates",
+        "minecraft:cake",
+        "minecraft:redstone_wire",
+        "minecraft:repeater",
+        "minecraft:comparator"
+    ]
 }
