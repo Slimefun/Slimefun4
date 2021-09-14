@@ -58,6 +58,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
                         for (ItemStack drop : e.getBlock().getDrops(tool)) {
                             drops.add(new CustomItemStack(drop, drop.getAmount() * 2));
                         }
+                        break;
                 }
             }
         };
