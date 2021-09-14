@@ -20,6 +20,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Steerable;
 import org.bukkit.entity.Trident;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -196,6 +197,14 @@ public class TalismanListener implements Listener {
                 for (ItemStack item : horse.getInventory().getStorageContents()) {
                     items.remove(item);
                 }
+            }
+        }
+
+        if (entity instanceof Steerable) {
+            Steerable steerableEntity = (Steerable) entity;
+
+            if (steerableEntity.hasSaddle()) {
+                items.remove(new ItemStack(Material.SADDLE));
             }
         }
 
