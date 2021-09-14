@@ -15,7 +15,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This {@link Listener} prevents any {@link SlimefunItem} from being used in a
- * cartography table.
+ * smithing table.
  * 
  * @author Sefiraat
  */
