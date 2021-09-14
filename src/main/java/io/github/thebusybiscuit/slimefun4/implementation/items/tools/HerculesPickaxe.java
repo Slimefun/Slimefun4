@@ -42,6 +42,8 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
                         case DEEPSLATE_COPPER_ORE:
                             drops.add(new CustomItemStack(SlimefunItems.COPPER_DUST, 2));
                             break;
+                        default:
+                            break;
                     }
                 }
 
