@@ -68,12 +68,9 @@ class PerformanceSummary {
 
                 return entry.getKey() + " - " + count + "x (" + time + " | avg: " + average + ')';
             } else if (count > 1 && sender.getOrderType() == SummaryOrderType.AVERAGE) {
-                String total = NumberUtils.getAsMillis(items.entrySet().stream()
-                    .filter(e -> e.getKey().equals(entry.getKey()))
-                    .mapToLong(Entry::getValue)
-                    .sum());
+                String average = NumberUtils.getAsMillis(entry.getValue() / count);
 
-                return entry.getKey() + " - " + count + "x (" + time + " | total: " + total + ')';
+                return entry.getKey() + " - " + count + "x (" + average + " | total: " + time + ')';
             } else {
                 return entry.getKey() + " - " + count + "x (" + time + ')';
             }
