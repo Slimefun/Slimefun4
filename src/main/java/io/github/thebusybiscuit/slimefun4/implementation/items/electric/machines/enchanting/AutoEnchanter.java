@@ -95,7 +95,10 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
         for (Map.Entry<Enchantment, Integer> entry : meta.getStoredEnchants().entrySet()) {
             if (entry.getKey().canEnchantItem(target)) {
                 if (isEnchantmentLevelAllowed(entry.getValue())) {
-                    enchantments.put(entry.getKey(), entry.getValue());
+                    // if needs to be nested or it will crash the enchanter
+                    if (target.getEnchantmentLevel(entry.getKey()) < entry.getValue()) {
+                        enchantments.put(entry.getKey(), entry.getValue());
+                    }
                 } else if (!menu.toInventory().getViewers().isEmpty()) {
                     showEnchantmentLevelWarning(menu);
                     return null;
@@ -139,5 +142,4 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
     public String getMachineIdentifier() {
         return "AUTO_ENCHANTER";
     }
-
 }
