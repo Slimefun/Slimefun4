@@ -47,10 +47,9 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
  * This utility class holds method that are directly linked to Slimefun.
  * It provides a very crucial method for {@link ItemStack} comparison, as well as a simple method
  * to check if an {@link ItemStack} is {@link Soulbound} or not.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Walshy
- *
  */
 public final class SlimefunUtils {
 
@@ -62,7 +61,7 @@ public final class SlimefunUtils {
     /**
      * This method quickly returns whether an {@link Item} was marked as "no_pickup" by
      * a Slimefun device.
-     * 
+     *
      * @param item
      *            The {@link Item} to query
      * @return Whether the {@link Item} is excluded from being picked up
@@ -74,7 +73,7 @@ public final class SlimefunUtils {
     /**
      * This will prevent the given {@link Item} from being picked up.
      * This is useful for display items which the {@link AncientPedestal} uses.
-     * 
+     *
      * @param item
      *            The {@link Item} to prevent from being picked up
      * @param context
@@ -159,7 +158,7 @@ public final class SlimefunUtils {
      *            The {@link ItemStack} you want to add/remove Soulbound from.
      * @param makeSoulbound
      *            If they item should be soulbound.
-     * 
+     *
      * @see #isSoulbound(ItemStack)
      */
     public static void setSoulbound(@Nullable ItemStack item, boolean makeSoulbound) {
@@ -197,10 +196,10 @@ public final class SlimefunUtils {
 
     /**
      * This method checks whether the given {@link ItemStack} is radioactive.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to check
-     * 
+     *
      * @return Whether this {@link ItemStack} is radioactive or not
      */
     public static boolean isRadioactive(@Nullable ItemStack item) {
@@ -210,10 +209,10 @@ public final class SlimefunUtils {
     /**
      * This method returns an {@link ItemStack} for the given texture.
      * The result will be a Player Head with this texture.
-     * 
+     *
      * @param texture
      *            The texture for this head (base64 or hash)
-     * 
+     *
      * @return An {@link ItemStack} with this Head texture
      */
     public static @Nonnull ItemStack getCustomHead(@Nonnull String texture) {
@@ -288,6 +287,19 @@ public final class SlimefunUtils {
 
                 ItemMetaSnapshot meta = ((SlimefunItemStack) sfitem).getItemMetaSnapshot();
                 return equalsItemMeta(itemMeta, meta, checkLore);
+            } else if (sfitem instanceof ItemStackWrapper && sfitem.hasItemMeta()) {
+                // Slimefun items may be ItemStackWrapper's in the context of cargo so let's try to do
+                // an ID comparison before meta comparison
+                ItemMeta possibleSfItemMeta = sfitem.getItemMeta();
+                Optional<String> possibleSfItemId = Slimefun.getItemDataService().getItemData(possibleSfItemMeta);
+                Optional<String> itemId = Slimefun.getItemDataService().getItemData(itemMeta);
+
+                if (possibleSfItemId.isPresent() && itemId.isPresent()) {
+                    return possibleSfItemId.get().equals(itemId.get());
+                } else {
+                    return equalsItemMeta(itemMeta, possibleSfItemMeta, checkLore);
+                }
+
             } else if (sfitem.hasItemMeta()) {
                 return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);
             } else {
@@ -343,12 +355,12 @@ public final class SlimefunUtils {
     /**
      * This checks if the two provided lores are equal.
      * This method will ignore any lines such as the soulbound one.
-     * 
+     *
      * @param lore1
      *            The first lore
      * @param lore2
      *            The second lore
-     * 
+     *
      * @return Whether the two lores are equal
      */
     public static boolean equalsLore(@Nonnull List<String> lore1, @Nonnull List<String> lore2) {
@@ -402,14 +414,14 @@ public final class SlimefunUtils {
      * It will always return <code>true</code> for non-Slimefun items.
      * <p>
      * If you already have an instance of {@link SlimefunItem}, please use {@link SlimefunItem#canUse(Player, boolean)}.
-     * 
+     *
      * @param p
      *            The {@link Player}
      * @param item
      *            The {@link ItemStack} to check
      * @param sendMessage
      *            Whether to send a message response to the {@link Player}
-     * 
+     *
      * @return Whether the {@link Player} is able to use that item.
      */
     public static boolean canPlayerUseItem(@Nonnull Player p, @Nullable ItemStack item, boolean sendMessage) {
@@ -428,7 +440,7 @@ public final class SlimefunUtils {
      * Helper method to spawn an {@link ItemStack}.
      * This method automatically calls a {@link SlimefunItemSpawnEvent} to allow
      * other plugins to catch the item being dropped.
-     * 
+     *
      * @param loc
      *            The {@link Location} where to drop the item
      * @param item
@@ -437,7 +449,7 @@ public final class SlimefunUtils {
      *            The {@link ItemSpawnReason} why the item is being dropped
      * @param addRandomOffset
      *            Whether a random offset should be added (see {@link World#dropItemNaturally(Location, ItemStack)})
-     * 
+     *
      * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
      */
     @ParametersAreNonnullByDefault
@@ -462,14 +474,14 @@ public final class SlimefunUtils {
      * Helper method to spawn an {@link ItemStack}.
      * This method automatically calls a {@link SlimefunItemSpawnEvent} to allow
      * other plugins to catch the item being dropped.
-     * 
+     *
      * @param loc
      *            The {@link Location} where to drop the item
      * @param item
      *            The {@link ItemStack} to drop
      * @param reason
      *            The {@link ItemSpawnReason} why the item is being dropped
-     * 
+     *
      * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
      */
     @ParametersAreNonnullByDefault
