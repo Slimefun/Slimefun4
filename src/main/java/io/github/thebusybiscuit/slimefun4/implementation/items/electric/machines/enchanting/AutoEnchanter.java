@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,6 +16,7 @@ import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncAutoEnchanterProcessEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -40,7 +40,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class AutoEnchanter extends AbstractEnchantmentMachine {
 
-    private final ItemSetting<Boolean> overrideExistingEnchantsLvl= new ItemSetting<>(this, "override-existing-enchants-lvl", true);
+    private final ItemSetting<Boolean> overrideExistingEnchantsLvl= new ItemSetting<>(this, "override-existing-enchants-lvl", false);
 
     @ParametersAreNonnullByDefault
     public AutoEnchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -108,8 +108,10 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
             }
         }
 
-        // If override is false, remove those with lower level so we don't override existing enchants
-        // This also removes those with the same level so they aren't accounted for enchanting time
+        /*
+         * If override is false, remove those with lower level so we don't override existing enchants
+         * This also removes those with the same level so they aren't accounted for enchanting time
+         */
         if (!overrideExistingEnchantsLvl.getValue()) {
             enchantments.entrySet().removeIf(e -> target.getEnchantmentLevel(e.getKey()) >= e.getValue());
         }
