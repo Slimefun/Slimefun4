@@ -18,17 +18,17 @@ public enum AndroidFuelSource {
     /**
      * This {@link ProgrammableAndroid} runs on solid fuel, e.g. Wood or coal
      */
-    SOLID("", "&fThis Android runs on solid Fuel", "&fe.g. Coal, Wood, etc..."),
+    SOLID("", "&fCet Androïde fonctionne avec du carburant solide", "&fe.g. charbon, bois, etc..."),
 
     /**
      * This {@link ProgrammableAndroid} runs on liquid fuel, e.g. Fuel, Oil or Lava
      */
-    LIQUID("", "&fThis Android runs on liquid Fuel", "&fe.g. Lava, Oil, Fuel, etc..."),
+    LIQUID("", "&fCet Androïde fonctionna vec du carburant liquide", "&fe.g. Lave, pétrole, carburants, etc..."),
 
     /**
      * This {@link ProgrammableAndroid} runs on nuclear fuel, e.g. Uranium
      */
-    NUCLEAR("", "&fThis Android runs on radioactive Fuel", "&fe.g. Uranium, Neptunium or Boosted Uranium");
+    NUCLEAR("", "&fCet Androïde fonctionne avec du carburant radioactif", "&fe.g. Uranium, neptunium ou uranium enrichi");
 
     private final String[] lore;
 
@@ -43,7 +43,7 @@ public enum AndroidFuelSource {
      */
     @Nonnull
     public ItemStack getItem() {
-        return new CustomItemStack(HeadTexture.GENERATOR.getAsItemStack(), "&8\u21E9 &cFuel Input &8\u21E9", lore);
+        return new CustomItemStack(HeadTexture.GENERATOR.getAsItemStack(), "&8\u21E9 &cAlimentation en carburant&8\u21E9", lore);
     }
 
 }

@@ -41,8 +41,8 @@ class ElevatorFloor {
      *            The {@link Block} of this floor
      */
     public ElevatorFloor(@Nonnull String name, int number, @Nonnull Block block) {
-        Validate.notNull(name, "An ElevatorFloor must have a name");
-        Validate.notNull(block, "An ElevatorFloor must have a block");
+        Validate.notNull(name, "Un étage d'élévateur doit avoir un nom");
+        Validate.notNull(block, "Un étage d'élévateur doit avoir un bloc");
 
         this.name = name;
         this.number = number;

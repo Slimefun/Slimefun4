@@ -130,19 +130,19 @@ public final class Script {
     @Nonnull
     ItemStack getAsItemStack(@Nonnull ProgrammableAndroid android, @Nonnull Player p) {
         List<String> lore = new LinkedList<>();
-        lore.add("&7by &f" + getAuthor());
+        lore.add("&7Par &f" + getAuthor());
         lore.add("");
-        lore.add("&7Downloads: &f" + getDownloads());
-        lore.add("&7Rating: " + getScriptRatingPercentage());
+        lore.add("&7Téléchargement: &f" + getDownloads());
+        lore.add("&7Note: " + getScriptRatingPercentage());
         lore.add("&a" + getUpvotes() + " \u263A &7| &4\u2639 " + getDownvotes());
         lore.add("");
-        lore.add("&eLeft Click &fto download this Script");
-        lore.add("&4(This will override your current Script)");
+        lore.add("&eClic gauche &fpour télécharger ce Script");
+        lore.add("&4(Cela va écraser le Script actuel)");
 
         if (canRate(p)) {
             lore.add("");
-            lore.add("&eShift + Left Click &fto leave a positive Rating");
-            lore.add("&eShift + Right Click &fto leave a negative Rating");
+            lore.add("&eShift + Clic gauche &fpour laisser une bonne note");
+            lore.add("&eShift + Clic droit &fpour laisser une mauvaise note");
         }
 
         return new CustomItemStack(android.getItem(), "&b" + getName(), lore.toArray(new String[0]));
@@ -254,12 +254,12 @@ public final class Script {
     public static void upload(Player p, AndroidType androidType, int id, String name, String code) {
         Config config = new Config("plugins/Slimefun/scripts/" + androidType.name() + '/' + p.getName() + ' ' + id + ".sfs");
 
-        config.setValue("author", p.getUniqueId().toString());
-        config.setValue("author_name", p.getName());
-        config.setValue("name", ChatUtils.removeColorCodes(name));
+        config.setValue("Auteur", p.getUniqueId().toString());
+        config.setValue("Nom d'auteur", p.getName());
+        config.setValue("Nom", ChatUtils.removeColorCodes(name));
         config.setValue("code", code);
-        config.setValue("downloads", 0);
-        config.setValue("android", androidType.name());
+        config.setValue("Téléchargements", 0);
+        config.setValue("Androïde", androidType.name());
         config.setValue("rating.positive", new ArrayList<String>());
         config.setValue("rating.negative", new ArrayList<String>());
         config.save();

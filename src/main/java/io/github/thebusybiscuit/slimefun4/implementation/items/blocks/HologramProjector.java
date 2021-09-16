@@ -62,7 +62,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
                 Block b = e.getBlockPlaced();
-                BlockStorage.addBlockInfo(b, "text", "Edit me via the Projector");
+                BlockStorage.addBlockInfo(b, "text", "Édite moi via le projecteur");
                 BlockStorage.addBlockInfo(b, OFFSET_PARAMETER, "0.5");
                 BlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
 

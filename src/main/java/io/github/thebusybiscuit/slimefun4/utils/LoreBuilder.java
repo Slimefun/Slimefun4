@@ -23,11 +23,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
  */
 public final class LoreBuilder {
 
-    public static final String HAZMAT_SUIT_REQUIRED = "&8\u21E8 &4Hazmat Suit required!";
+    public static final String HAZMAT_SUIT_REQUIRED = "&8\u21E8 &4Combinaison anti-radiations requise!";
 
-    public static final String RIGHT_CLICK_TO_USE = "&eRight Click&7 to use";
-    public static final String RIGHT_CLICK_TO_OPEN = "&eRight Click&7 to open";
-    public static final String CROUCH_TO_USE = "&eCrouch&7 to use";
+    public static final String RIGHT_CLICK_TO_USE = "&eClic-droit&7 pour utiliser";
+    public static final String RIGHT_CLICK_TO_OPEN = "&eClic-droit&7 pour ouvrir";
+    public static final String CROUCH_TO_USE = "&eS'accroupir&7 pour utiliser";
 
     private static final DecimalFormat hungerFormat = new DecimalFormat("#.0", DecimalFormatSymbols.getInstance(Locale.ROOT));
 
@@ -38,15 +38,15 @@ public final class LoreBuilder {
     }
 
     public static @Nonnull String machine(@Nonnull MachineTier tier, @Nonnull MachineType type) {
-        return tier + " " + type;
+        return type + " " + tier;
     }
 
     public static @Nonnull String speed(float speed) {
-        return "&8\u21E8 &b\u26A1 &7Speed: &b" + speed + 'x';
+        return "&8\u21E8 &b\u26A1 &7Vitesse: &b" + speed + 'x';
     }
 
     public static @Nonnull String powerBuffer(int power) {
-        return power(power, " Buffer");
+        return power(power, " Tampon");
     }
 
     public static @Nonnull String powerPerSecond(int power) {
@@ -62,19 +62,19 @@ public final class LoreBuilder {
     }
 
     public static @Nonnull String material(@Nonnull String material) {
-        return "&8\u21E8 &7Material: &b" + material;
+        return "&8\u21E8 &7Materiaux: &b" + material;
     }
 
     public static @Nonnull String hunger(double value) {
-        return "&7&oRestores &b&o" + hungerFormat.format(value) + " &7&oHunger";
+        return "&7&oRestaure &b&o" + hungerFormat.format(value) + " &7&opoints de satiété";
     }
 
     public static @Nonnull String range(int blocks) {
-        return "&7Range: &c" + blocks + " blocks";
+        return "&7Portée: &c" + blocks + " blocs";
     }
 
     public static @Nonnull String usesLeft(int usesLeft) {
-        return "&e" + usesLeft + ' ' + (usesLeft > 1 ? "Uses" : "Use") + " &7left";
+        return "&e" + usesLeft + ' ' + (usesLeft > 1 ? "utilisations restantes" : "utilisation restante");
     }
 
 }
