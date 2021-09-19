@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.collect.Sets;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,6 +25,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
  */
 public class NetherGoldPan extends GoldPan {
 
+    private final Set<Material> inputMaterials = Sets.newHashSet(Material.SOUL_SAND, Material.SOUL_SOIL);
+
     @ParametersAreNonnullByDefault
     public NetherGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -30,12 +34,7 @@ public class NetherGoldPan extends GoldPan {
 
     @Override
     public @Nonnull Set<Material> getInputMaterials() {
-        Set<Material> materials = new HashSet<>();
-
-        materials.add(Material.SOUL_SAND);
-        materials.add(Material.SOUL_SOIL);
-
-        return materials;
+        return inputMaterials;
     }
 
     @Override

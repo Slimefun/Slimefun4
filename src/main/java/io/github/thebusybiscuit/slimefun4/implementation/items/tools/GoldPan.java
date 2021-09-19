@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.collect.Sets;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -49,6 +51,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
 
     private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
+    private final Set<Material> inputMaterials = Sets.newHashSet(Material.GRAVEL);
     private final Set<GoldPanDrop> drops = new HashSet<>();
 
     @ParametersAreNonnullByDefault
@@ -66,11 +69,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      * @return The {@link Material} this {@link GoldPan} can be used on
      */
     public @Nonnull Set<Material> getInputMaterials() {
-        Set<Material> materials = new HashSet<>();
-
-        materials.add(Material.GRAVEL);
-
-        return materials;
+        return inputMaterials;
     }
 
     protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
@@ -191,7 +190,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      */
     public @Nonnull boolean isCorrectInputMaterial(Material material) {
         for (Material m : getInputMaterials()) {
-            if (SlimefunUtils.isItemSimilar(new ItemStack(material), new ItemStack(m), true, false)) {
+            if (material == m) {
                 return true;
             }
         }
