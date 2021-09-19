@@ -61,15 +61,16 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
     @Override
     public void onInteract(Player p, Block b) {
         ItemStack input = p.getInventory().getItemInMainHand();
+        boolean isGoldPanInput = goldPan.isCorrectInputMaterial(input.getType());
 
-        if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.GRAVEL), true, false) || SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true, false)) {
+        if (isGoldPanInput || netherGoldPan.isCorrectInputMaterial(input.getType())) {
             Material material = input.getType();
 
             if (p.getGameMode() != GameMode.CREATIVE) {
                 ItemUtils.consumeItem(input, false);
             }
 
-            ItemStack output = material == Material.GRAVEL ? goldPan.getRandomOutput() : netherGoldPan.getRandomOutput();
+            ItemStack output = isGoldPanInput ? goldPan.getRandomOutput() : netherGoldPan.getRandomOutput();
             TaskQueue queue = new TaskQueue();
 
             queue.thenRepeatEvery(20, 5, () -> b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, material));
@@ -95,5 +96,4 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
             Slimefun.getLocalization().sendMessage(p, "machines.wrong-item", true);
         }
     }
-
 }

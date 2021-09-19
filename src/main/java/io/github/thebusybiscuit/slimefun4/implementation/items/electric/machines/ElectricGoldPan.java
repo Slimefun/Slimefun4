@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,9 +38,6 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     private final GoldPan goldPan = SlimefunItems.GOLD_PAN.getItem(GoldPan.class);
     private final GoldPan netherGoldPan = SlimefunItems.NETHER_GOLD_PAN.getItem(GoldPan.class);
 
-    private final ItemStack gravel = new ItemStack(Material.GRAVEL);
-    private final ItemStack soulSand = new ItemStack(Material.SOUL_SAND);
-
     @ParametersAreNonnullByDefault
     public ElectricGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -69,23 +67,27 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
         for (int slot : getInputSlots()) {
             ItemStack item = menu.getItemInSlot(slot);
 
-            if (SlimefunUtils.isItemSimilar(item, gravel, true, false)) {
+            if (item == null || item.getType() == Material.AIR) {
+                continue;
+            }
+
+            if (goldPan.isCorrectInputMaterial(item.getType())) {
                 ItemStack output = goldPan.getRandomOutput();
-                MachineRecipe recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { gravel }, new ItemStack[] { output });
+
+                MachineRecipe recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { new ItemStack(item.getType()) }, new ItemStack[] { output });
 
                 if (output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
                     menu.consumeItem(slot);
                     return recipe;
                 }
-            } else if (SlimefunUtils.isItemSimilar(item, soulSand, true, false)) {
+            } else if (netherGoldPan.isCorrectInputMaterial(item.getType())) {
                 ItemStack output = netherGoldPan.getRandomOutput();
-                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { soulSand }, new ItemStack[] { output });
+                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { new ItemStack(item.getType()) }, new ItemStack[] { output });
 
                 if (output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
                     menu.consumeItem(slot);
                     return recipe;
                 }
-
             }
         }
 
@@ -106,5 +108,4 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     public String getMachineIdentifier() {
         return "ELECTRIC_GOLD_PAN";
     }
-
 }

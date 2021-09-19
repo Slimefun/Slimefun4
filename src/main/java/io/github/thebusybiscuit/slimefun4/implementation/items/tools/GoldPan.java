@@ -61,12 +61,16 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     }
 
     /**
-     * This method returns the target {@link Material} for this {@link GoldPan}.
+     * This method returns the target {@link Material}s for this {@link GoldPan}.
      * 
      * @return The {@link Material} this {@link GoldPan} can be used on
      */
-    public @Nonnull Material getInputMaterial() {
-        return Material.GRAVEL;
+    public @Nonnull Set<Material> getInputMaterials() {
+        Set<Material> materials = new HashSet<>();
+
+        materials.add(Material.GRAVEL);
+
+        return materials;
     }
 
     protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
@@ -128,8 +132,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             if (block.isPresent()) {
                 Block b = block.get();
 
-                // Check the clicked block type and for protections
-                if (b.getType() == getInputMaterial() && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Interaction.BREAK_BLOCK)) {
+                if (isCorrectInputMaterial(b.getType()) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Interaction.BREAK_BLOCK)) {
                     ItemStack output = getRandomOutput();
 
                     b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -165,8 +168,12 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         List<ItemStack> recipes = new LinkedList<>();
 
         for (GoldPanDrop drop : drops) {
-            if (drop.getValue() > 0) {
-                recipes.add(new ItemStack(getInputMaterial()));
+            if (drop.getValue() <= 0) {
+                continue;
+            }
+
+            for (Material material : getInputMaterials()) {
+                recipes.add(new ItemStack(material));
                 recipes.add(drop.getOutput());
             }
         }
@@ -174,4 +181,21 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return recipes;
     }
 
+    /**
+     * This is a helper method to determine whether the input item was a valid item.
+     *
+     * @param material
+     *              The {@link Material} that was input.
+     *
+     * @return whether or not the provided material is allowed.
+     */
+    public @Nonnull boolean isCorrectInputMaterial(Material material) {
+        for (Material m : getInputMaterials()) {
+            if (SlimefunUtils.isItemSimilar(new ItemStack(material), new ItemStack(m), true, false)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

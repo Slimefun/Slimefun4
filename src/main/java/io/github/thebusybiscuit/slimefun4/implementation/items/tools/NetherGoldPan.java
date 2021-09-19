@@ -29,8 +29,13 @@ public class NetherGoldPan extends GoldPan {
     }
 
     @Override
-    public @Nonnull Material getInputMaterial() {
-        return Material.SOUL_SAND;
+    public @Nonnull Set<Material> getInputMaterials() {
+        Set<Material> materials = new HashSet<>();
+
+        materials.add(Material.SOUL_SAND);
+        materials.add(Material.SOUL_SOIL);
+
+        return materials;
     }
 
     @Override
