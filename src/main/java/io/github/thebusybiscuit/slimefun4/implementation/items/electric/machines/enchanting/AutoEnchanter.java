@@ -16,6 +16,7 @@ import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncAutoEnchanterProcessEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -39,9 +40,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class AutoEnchanter extends AbstractEnchantmentMachine {
 
+    private final ItemSetting<Boolean> overrideExistingEnchantsLvl= new ItemSetting<>(this, "override-existing-enchants-lvl", false);
+
     @ParametersAreNonnullByDefault
     public AutoEnchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+
+        addItemSetting(overrideExistingEnchantsLvl);
     }
 
     @Override
@@ -101,6 +106,14 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
                     return null;
                 }
             }
+        }
+
+        /*
+         * If override is false, remove those with lower level so we don't override existing enchants
+         * This also removes those with the same level so they aren't accounted for enchanting time
+         */
+        if (!overrideExistingEnchantsLvl.getValue()) {
+            enchantments.entrySet().removeIf(e -> target.getEnchantmentLevel(e.getKey()) >= e.getValue());
         }
 
         // Check if we found any valid enchantments
