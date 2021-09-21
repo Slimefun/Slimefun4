@@ -436,6 +436,11 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.closeInventory();
         }
+
+        // FIXED
+        // Nag author: 'The Slimefun 4 Community' of 'Slimefun' about the following: This plugin is not properly shutting down its async tasks when it is being shut down.
+        // This task may throw errors during the final shutdown logs and might not complete before process dies.
+        Bukkit.getScheduler().cancelTasks(this);
     }
 
     /**
