@@ -201,6 +201,7 @@ public final class SlimefunUtils {
      *
      * @param item
      *            The {@link ItemStack} to check
+     *
      * @return Whether this {@link ItemStack} is radioactive or not
      */
     public static boolean isRadioactive(@Nullable ItemStack item) {
@@ -213,6 +214,7 @@ public final class SlimefunUtils {
      *
      * @param texture
      *            The texture for this head (base64 or hash)
+     *
      * @return An {@link ItemStack} with this Head texture
      */
     public static @Nonnull ItemStack getCustomHead(@Nonnull String texture) {
@@ -478,17 +480,16 @@ public final class SlimefunUtils {
      * other plugins to catch the item being dropped.
      *
      * @param loc
-     *          The {@link Location} where to drop the item
+     *            The {@link Location} where to drop the item
      * @param item
-     *          The {@link ItemStack} to drop
+     *            The {@link ItemStack} to drop
      * @param reason
-     *          The {@link ItemSpawnReason} why the item is being dropped
+     *            The {@link ItemSpawnReason} why the item is being dropped
      *
      * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
      */
     @ParametersAreNonnullByDefault
-    public static @Nullable
-    Item spawnItem(Location loc, ItemStack item, ItemSpawnReason reason) {
+    public static @Nullable Item spawnItem(Location loc, ItemStack item, ItemSpawnReason reason) {
         return spawnItem(loc, item, reason, false);
     }
 
