@@ -159,7 +159,8 @@ public final class SlimefunUtils {
      * @param item
      *            The {@link ItemStack} you want to add/remove Soulbound from.
      * @param makeSoulbound
-     *            If they item should be soulbound.
+     *            If the item should be soulbound.
+     *
      * @see #isSoulbound(ItemStack)
      */
     public static void setSoulbound(@Nullable ItemStack item, boolean makeSoulbound) {
@@ -211,7 +212,7 @@ public final class SlimefunUtils {
      * The result will be a Player Head with this texture.
      *
      * @param texture
-     *              The texture for this head (base64 or hash)
+     *            The texture for this head (base64 or hash)
      * @return An {@link ItemStack} with this Head texture
      */
     public static @Nonnull ItemStack getCustomHead(@Nonnull String texture) {
@@ -308,8 +309,8 @@ public final class SlimefunUtils {
 
             if (itemMeta.hasLore() && itemLore.isPresent() && !itemMeta.getLore().equals(itemLore.get())) {
                 return false;
-            } else {
-                return itemMeta.hasLore() == itemLore.isPresent();
+            } else if (itemMeta.hasLore() != itemLore.isPresent()) {
+                return false;
             }
         }
 
@@ -450,6 +451,7 @@ public final class SlimefunUtils {
      *            The {@link ItemSpawnReason} why the item is being dropped
      * @param addRandomOffset
      *            Whether a random offset should be added (see {@link World#dropItemNaturally(Location, ItemStack)})
+     *
      * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
      */
     @ParametersAreNonnullByDefault
@@ -475,9 +477,13 @@ public final class SlimefunUtils {
      * This method automatically calls a {@link SlimefunItemSpawnEvent} to allow
      * other plugins to catch the item being dropped.
      *
-     * @param loc    The {@link Location} where to drop the item
-     * @param item   The {@link ItemStack} to drop
-     * @param reason The {@link ItemSpawnReason} why the item is being dropped
+     * @param loc
+     *          The {@link Location} where to drop the item
+     * @param item
+     *          The {@link ItemStack} to drop
+     * @param reason
+     *          The {@link ItemSpawnReason} why the item is being dropped
+     *
      * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
      */
     @ParametersAreNonnullByDefault
