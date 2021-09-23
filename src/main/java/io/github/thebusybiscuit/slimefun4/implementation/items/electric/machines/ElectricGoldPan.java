@@ -10,11 +10,11 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -35,19 +35,32 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
+    private final ItemSetting<Boolean> overrideOutputLimit = new ItemSetting<>(this, "override-output-limit", false);
+
     private final GoldPan goldPan = SlimefunItems.GOLD_PAN.getItem(GoldPan.class);
     private final GoldPan netherGoldPan = SlimefunItems.NETHER_GOLD_PAN.getItem(GoldPan.class);
 
     private final ItemStack gravel = new ItemStack(Material.GRAVEL);
     private final ItemStack soulSand = new ItemStack(Material.SOUL_SAND);
 
-    private final boolean legacyMode;
-
     @ParametersAreNonnullByDefault
     public ElectricGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+        addItemSetting(overrideOutputLimit);
+    }
 
-        legacyMode = Slimefun.getCfg().getBoolean("options.legacy-gold-pan");
+    /**
+     * This returns whether the {@link ElectricGoldPan} will stop proccessing inputs
+     * if both output slots contain items or if that default behavior should be
+     * overriden and allow the {@link ElectricGoldPan} to continue processing inputs
+     * even if both output slots are occupied. Note this option will allow players
+     * to force specific outputs from the {@link ElectricGoldPan} but can be
+     * necessary when a server has disabled cargo networks.
+     * 
+     * @return If output limits are overriden
+     */
+    public boolean isOutputLimitOverriden() {
+        return overrideOutputLimit.getValue();
     }
 
     @Override
@@ -67,7 +80,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected MachineRecipe findNextRecipe(BlockMenu menu) {
-        if (!legacyMode && !hasFreeSlot(menu)) {
+        if (!isOutputLimitOverriden() && !hasFreeSlot(menu)) {
             return null;
         }
 
