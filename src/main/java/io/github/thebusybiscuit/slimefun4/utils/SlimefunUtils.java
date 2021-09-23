@@ -309,7 +309,7 @@ public final class SlimefunUtils {
         } else if (checkLore) {
             Optional<List<String>> itemLore = meta.getLore();
 
-            if (itemMeta.hasLore() && itemLore.isPresent() && !itemMeta.getLore().equals(itemLore.get())) {
+            if (itemMeta.hasLore() && itemLore.isPresent() && !equalsLore(itemMeta.getLore(), itemLore.get())) {
                 return false;
             } else if (itemMeta.hasLore() != itemLore.isPresent()) {
                 return false;
