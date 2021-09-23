@@ -289,6 +289,21 @@ public final class SlimefunUtils {
 
                 ItemMetaSnapshot meta = ((SlimefunItemStack) sfitem).getItemMetaSnapshot();
                 return equalsItemMeta(itemMeta, meta, checkLore);
+            } else if (sfitem instanceof ItemStackWrapper && sfitem.hasItemMeta()) {
+                /*
+                 * Cargo optimization (PR #3258)
+                 * 
+                 * Slimefun items may be ItemStackWrapper's in the context of cargo
+                 * so let's try to do an ID comparison before meta comparison
+                 */
+                ItemMeta possibleSfItemMeta = sfitem.getItemMeta();
+
+                // Prioritize SlimefunItem id comparison over ItemMeta comparison
+                if (Slimefun.getItemDataService().hasEqualItemData(possibleSfItemMeta, itemMeta)) {
+                    return true;
+                } else {
+                    return equalsItemMeta(itemMeta, possibleSfItemMeta, checkLore);
+                }
             } else if (sfitem.hasItemMeta()) {
                 return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);
             } else {
@@ -333,8 +348,11 @@ public final class SlimefunUtils {
         } else if (checkLore) {
             boolean hasItemMetaLore = itemMeta.hasLore();
             boolean hasSfItemMetaLore = sfitemMeta.hasLore();
-            if (hasItemMetaLore && hasSfItemMetaLore && !equalsLore(itemMeta.getLore(), sfitemMeta.getLore())) {
-                return false;
+
+            if (hasItemMetaLore && hasSfItemMetaLore) {
+                if (!equalsLore(itemMeta.getLore(), sfitemMeta.getLore())) {
+                    return false;
+                }
             } else if (hasItemMetaLore != hasSfItemMetaLore) {
                 return false;
             }
@@ -497,7 +515,8 @@ public final class SlimefunUtils {
      * Helper method to check if an Inventory is empty (has no items in "storage"). If the MC version is 1.16 or above
      * this will call {@link Inventory#isEmpty()} (Which calls MC code resulting in a faster method).
      *
-     * @param inventory The {@link Inventory} to check.
+     * @param inventory
+     *            The {@link Inventory} to check.
      * @return True if the inventory is empty and false otherwise
      */
     public static boolean isInventoryEmpty(@Nonnull Inventory inventory) {

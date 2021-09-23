@@ -159,7 +159,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
     @Override
     public boolean test(@Nonnull ItemStack item) {
-        /**
+        /*
          * An empty Filter does not need to be iterated over.
          * We can just return our default value in this scenario.
          */
@@ -201,7 +201,7 @@ class ItemFilter implements Predicate<ItemStack> {
                     /*
                      * The filter has found a match, we can return the opposite
                      * of our default value. If we exclude items, this is where we
-                     * would return false. Otherwise we return true.
+                     * would return false. Otherwise, we return true.
                      */
                     return !rejectOnMatch;
                 }
