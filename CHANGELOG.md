@@ -32,6 +32,7 @@
 ## Release Candidate 29 (TBD)
 
 #### Additions
+* Added support for deepslate ores and copper with the Hercules' Pickaxe
 
 #### Changes
 * Massive performance improvements for Cargo networks
