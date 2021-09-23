@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -40,9 +41,13 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     private final ItemStack gravel = new ItemStack(Material.GRAVEL);
     private final ItemStack soulSand = new ItemStack(Material.SOUL_SAND);
 
+    private final boolean legacyMode;
+
     @ParametersAreNonnullByDefault
     public ElectricGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+
+        legacyMode = Slimefun.getCfg().getBoolean("options.legacy-gold-pan");
     }
 
     @Override
@@ -62,7 +67,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected MachineRecipe findNextRecipe(BlockMenu menu) {
-        if (!hasFreeSlot(menu)) {
+        if (!legacyMode && !hasFreeSlot(menu)) {
             return null;
         }
 
