@@ -22,6 +22,8 @@ public class ElectrifiedCrucible extends AContainer {
     @Override
     protected void registerDefaultRecipes() {
         registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.COBBLESTONE, 16) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+        registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.NETHERRACK, 16) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+        registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.STONE, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
         registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.TERRACOTTA, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
         registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.OBSIDIAN) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
 
