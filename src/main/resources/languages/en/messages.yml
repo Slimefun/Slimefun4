@@ -329,6 +329,9 @@ brewing_stand:
 cartography_table:
   not-working: '&4You cannot use Slimefun items in a cartography table!'
 
+smithing_table:
+  not-working: '&4You cannot use a Slimefun item as a smithing material!'
+
 villagers:
   no-trading: '&4You cannot trade Slimefun items with Villagers!'
 
