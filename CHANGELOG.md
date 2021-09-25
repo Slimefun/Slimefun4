@@ -33,6 +33,8 @@
 
 #### Additions
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
+* The Electric Crucible now also accepts Netherrack
+* The Electric Crucible now also accepts Stone
 
 #### Changes
 * Massive performance improvements for Cargo networks
@@ -41,6 +43,7 @@
 * Fixed #3218
 * Fixed #3241
 * Fixed #3248
+* Fixed #3273
 
 ## Release Candidate 28 (06 Sep 2021)
 
