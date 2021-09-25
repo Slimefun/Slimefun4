@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -40,6 +41,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * 
  * @author Redemption198
  * @author TheBusyBiscuit
+ * @author StarWishsama
  * 
  * @see AncientAltar
  * @see AncientAltarListener
@@ -49,6 +51,16 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
+
+    /**
+     * Stores the item which pedestal is displaying.
+     */
+    private @Nullable Item currentDisplayItem;
+
+    /**
+     * Pedestal item watcher task ID
+     */
+    private int itemWatcherTaskID;
 
     @ParametersAreNonnullByDefault
     public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -73,6 +85,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
                         stack.remove();
                     }
                 }
+
+                stopWatcher();
             }
         };
     }
@@ -83,6 +97,11 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     public @Nonnull Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
+        // Returns stored display item if exists.
+        if (currentDisplayItem != null && currentDisplayItem.isValid()) {
+            return Optional.of(currentDisplayItem);
+        }
+
         Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
 
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
@@ -134,14 +153,44 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             ItemUtils.consumeItem(hand, false);
         }
 
-        Item entity = SlimefunUtils.spawnItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM);
+        Location spawnLocation = b.getLocation().add(0.5, 1.2, 0.5);
+
+        Item entity = SlimefunUtils.spawnItem(spawnLocation, displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM);
 
         if (entity != null) {
             entity.setVelocity(new Vector(0, 0.1, 0));
             entity.setCustomNameVisible(true);
             entity.setCustomName(nametag);
+            entity.setInvulnerable(false);
             SlimefunUtils.markAsNoPickup(entity, "altar_item");
             p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
+        }
+
+        currentDisplayItem = entity;
+
+        /**
+         * Fixes #3147
+         *
+         * Running a watcher to teleport the item not in pedestal back
+         * to spawn location.
+         */
+        itemWatcherTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Slimefun.instance(), () -> {
+            if (currentDisplayItem != null
+                    && currentDisplayItem.isValid()
+                    && currentDisplayItem.getLocation().distance(b.getLocation()) > 2
+            ) {
+                currentDisplayItem.teleport(spawnLocation);
+            }
+        }, 5 * 20L, 5 * 20L);
+    }
+
+    /**
+     * Stop the pedestal item watcher.
+     */
+    public void stopWatcher() {
+        if (itemWatcherTaskID != 0) {
+            Bukkit.getScheduler().cancelTask(itemWatcherTaskID);
+            itemWatcherTaskID = 0;
         }
     }
 }

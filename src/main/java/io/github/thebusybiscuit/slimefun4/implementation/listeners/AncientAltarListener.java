@@ -49,6 +49,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * 
  * @author Redemption198
  * @author TheBusyBiscuit
+ * @author StarWishsama
  *
  */
 public class AncientAltarListener implements Listener {
@@ -156,6 +157,7 @@ public class AncientAltarListener implements Listener {
             Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
 
             entity.remove();
+            pedestalItem.stopWatcher();
             p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity));
             p.playSound(pedestal.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
         }
