@@ -44,6 +44,7 @@
 * Fixed #3241
 * Fixed #3248
 * Fixed #3273
+* Fixed an exploit regarding the Smithing Table
 
 ## Release Candidate 28 (06 Sep 2021)
 
