@@ -191,6 +191,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         if (itemWatcherTaskID != 0) {
             Bukkit.getScheduler().cancelTask(itemWatcherTaskID);
             itemWatcherTaskID = 0;
+            currentDisplayItem = null;
         }
     }
 }
