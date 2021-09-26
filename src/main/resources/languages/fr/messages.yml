@@ -282,6 +282,8 @@ brewing_stand:
   not-working: '&4Vous ne pouvez pas utiliser d''objets Slimefun dans un alambic!'
 cartography_table:
   not-working: '&4Vous ne pouvez pas utiliser d''objets Slimefun dans une table de cartographie !'
+smithing_table:
+  not-working: '&4Vous ne pouvez pas utiliser un objet Slimefun comme matériau de forge!'
 villagers:
   no-trading: '&4Vous ne pouvez pas échanger des objets Slimefun avec les villageois !'
 backpack:
