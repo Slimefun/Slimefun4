@@ -15,17 +15,12 @@ commands:
     reset-target: '&cTvoja znalosť bola resetnutá'
 guide:
   locked: 'ZAMKNUTÉ'
-  locked-itemgroup:
-    - 'Pre odomknutie tejto kategórie'
-    - 'budeš musieť odomknúť všetky itemy'
-    - 'z nasledujúcich kategórií'
   search:
     message: '&bČo by si chcel vyhľadať?'
     name: '&7Hľadať...'
     tooltip: '&bKlikni pre hľadanie itemu'
     inventory: 'Hľadám: %item%'
   tooltips:
-    open-itemgroup: 'Klikni pre otvorenie'
     versions-notice: 'Toto je veľmi dôležité pri nahlasovaní bugov!'
     wiki: 'Pozri si tento item na oficiálnej wiki slimefunu'
     recipes:
