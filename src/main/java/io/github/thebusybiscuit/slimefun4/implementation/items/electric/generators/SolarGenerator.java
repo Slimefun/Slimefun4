@@ -65,7 +65,7 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     }
 
     @Override
-    public final int getCapacity() {
+    public int getCapacity() {
         return 0;
     }
 
