@@ -152,6 +152,9 @@ messages:
     select: '选中此合成配方'
     temporarily-disabled: '&e成功关闭了自动合成机 (Auto-Crafter). 你可以随时重新启动它!'
     re-enabled: '&e成功重启了自动合成机 (Auto-Crafter)!'
+    recipe-unavailable: |
+      &c此物品无法使用. 可能是因为你没有解锁它, 或者物品被服务器禁用了.
+      &7如果你还没有解锁该物品, 请先解锁然后再合成.
     tooltips:
       enabled:
         - '&a正在使用此合成配方'
@@ -279,6 +282,8 @@ brewing_stand:
   not-working: '&4你不能在酿造台中使用 Slimefun 物品!'
 cartography_table:
   not-working: '&4你不能在制图台中使用 Slimefun 物品!'
+smithing_table:
+  not-working: '&4你不能使用Slimefun物品作为锻造材料！'
 villagers:
   no-trading: '&4你不能用 Slimefun 的物品和村民交易!'
 backpack:
