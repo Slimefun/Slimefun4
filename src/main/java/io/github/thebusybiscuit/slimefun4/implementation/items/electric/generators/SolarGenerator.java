@@ -35,13 +35,20 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
 
     private final int dayEnergy;
     private final int nightEnergy;
+    private final int capacity;
 
     @ParametersAreNonnullByDefault
-    public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int capacity) {
         super(itemGroup, item, recipeType, recipe);
 
         this.dayEnergy = dayEnergy;
         this.nightEnergy = nightEnergy;
+        this.capacity = capacity;
+    }
+
+    @ParametersAreNonnullByDefault
+    public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, dayEnergy, nightEnergy, item, recipeType, recipe, 0);
     }
 
     /**
@@ -65,8 +72,8 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     }
 
     @Override
-    public final int getCapacity() {
-        return 0;
+    public int getCapacity() {
+        return capacity;
     }
 
     @Override
