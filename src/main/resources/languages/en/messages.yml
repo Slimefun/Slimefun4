@@ -165,6 +165,9 @@ messages:
     mode-change: '&b%device% mode changed to: &9%mode%'
     not-shears: '&cA Multi Tool cannot be used as shears!'
 
+  explosive-pick:
+    mode-change: '&bExplosive mode changed to: &9%mode%'
+
   auto-crafting:
     select-a-recipe: '&eCrouch and Right-Click &7this block with the item you want it to craft.'
     recipe-set: '&aYou have successfully set the recipe for this machine.'

@@ -1,7 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -26,9 +29,9 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -42,10 +45,11 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @see ExplosiveShovel
  *
  */
-public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPlaceable, DamageableItem {
+public class ExplosiveTool extends SlimefunItem implements NotPlaceable, DamageableItem {
 
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>(this, "damage-on-use", true);
     private final ItemSetting<Boolean> callExplosionEvent = new ItemSetting<>(this, "call-explosion-event", false);
+    private final Map<UUID, Boolean> selectedMode = new HashMap<>();
 
     @ParametersAreNonnullByDefault
     public ExplosiveTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -55,12 +59,11 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
     }
 
     @Nonnull
-    @Override
-    public ToolUseHandler getItemHandler() {
+    public ToolUseHandler getToolUseHandler() {
         return (e, tool, fortune, drops) -> {
             Player p = e.getPlayer();
 
-            if (!p.isSneaking()) {
+            if (selectedMode.getOrDefault(p.getUniqueId(), true)) {
                 Block b = e.getBlock();
 
                 b.getWorld().createExplosion(b.getLocation(), 0);
@@ -68,6 +71,19 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
 
                 List<Block> blocks = findBlocks(b);
                 breakBlocks(e, p, tool, b, blocks, drops);
+            }
+        };
+    }
+
+    @Nonnull
+    protected ItemUseHandler getItemUseHandler() {
+        return e -> {
+            Player p = e.getPlayer();
+            boolean explosiveMode = selectedMode.getOrDefault(p.getUniqueId(), true);
+            if (p.isSneaking()) {
+                boolean finalExplosiveMode = !explosiveMode;
+                Slimefun.getLocalization().sendMessage(p, "messages.explosive-pick.mode-change", true, msg -> msg.replace("%mode%", String.valueOf(finalExplosiveMode)));
+                selectedMode.put(p.getUniqueId(), finalExplosiveMode);
             }
         };
     }
@@ -177,6 +193,14 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         }
 
         damageItem(p, item);
+    }
+
+    @Override
+    public void preRegister() {
+        super.preRegister();
+
+        addItemHandler(getItemUseHandler());
+        addItemHandler(getToolUseHandler());
     }
 
 }
