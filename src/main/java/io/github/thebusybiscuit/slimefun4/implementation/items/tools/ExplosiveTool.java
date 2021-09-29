@@ -1,10 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -12,6 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -32,9 +30,9 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bukkit.persistence.PersistentDataType;
 
 /**
  * This {@link SlimefunItem} is a super class for items like the {@link ExplosivePickaxe} or {@link ExplosiveShovel}.
@@ -45,25 +43,25 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @see ExplosiveShovel
  *
  */
-public class ExplosiveTool extends SlimefunItem implements NotPlaceable, DamageableItem {
+public abstract class ExplosiveTool extends SlimefunItem implements NotPlaceable, DamageableItem {
 
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>(this, "damage-on-use", true);
     private final ItemSetting<Boolean> callExplosionEvent = new ItemSetting<>(this, "call-explosion-event", false);
-    private final Map<UUID, Boolean> selectedMode = new HashMap<>();
 
     @ParametersAreNonnullByDefault
     public ExplosiveTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-
         addItemSetting(damageOnUse, callExplosionEvent);
     }
+
+    protected abstract NamespacedKey getNamespacedKey();
 
     @Nonnull
     public ToolUseHandler getToolUseHandler() {
         return (e, tool, fortune, drops) -> {
             Player p = e.getPlayer();
 
-            if (selectedMode.getOrDefault(p.getUniqueId(), true)) {
+            if (p.getPersistentDataContainer().getOrDefault(getNamespacedKey(), PersistentDataType.BYTE, (byte)1) == (byte)1) {
                 Block b = e.getBlock();
 
                 b.getWorld().createExplosion(b.getLocation(), 0);
@@ -79,11 +77,11 @@ public class ExplosiveTool extends SlimefunItem implements NotPlaceable, Damagea
     protected ItemUseHandler getItemUseHandler() {
         return e -> {
             Player p = e.getPlayer();
-            boolean explosiveMode = selectedMode.getOrDefault(p.getUniqueId(), true);
             if (p.isSneaking()) {
-                boolean finalExplosiveMode = !explosiveMode;
-                Slimefun.getLocalization().sendMessage(p, "messages.explosive-pick.mode-change", true, msg -> msg.replace("%mode%", String.valueOf(finalExplosiveMode)));
-                selectedMode.put(p.getUniqueId(), finalExplosiveMode);
+                byte explosiveMode = p.getPersistentDataContainer().getOrDefault(getNamespacedKey(), PersistentDataType.BYTE, (byte)1);
+                byte finalExplosiveMode = (byte)(explosiveMode^1);
+                Slimefun.getLocalization().sendMessage(p, "messages.explosive-pick.mode-change", true, msg -> msg.replace("%mode%", finalExplosiveMode == (byte)1 ? "true" : "false"));
+                p.getPersistentDataContainer().set(getNamespacedKey(), PersistentDataType.BYTE, finalExplosiveMode);
             }
         };
     }
@@ -146,19 +144,7 @@ public class ExplosiveTool extends SlimefunItem implements NotPlaceable, Damagea
         return damageOnUse.getValue();
     }
 
-    protected boolean canBreak(@Nonnull Player p, @Nonnull Block b) {
-        if (b.isEmpty() || b.isLiquid()) {
-            return false;
-        } else if (SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(b.getType())) {
-            return false;
-        } else if (!b.getWorld().getWorldBorder().isInside(b.getLocation())) {
-            return false;
-        } else if (Slimefun.getIntegrations().isCustomBlock(b)) {
-            return false;
-        } else {
-            return Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.BREAK_BLOCK);
-        }
-    }
+    protected abstract boolean canBreak(@Nonnull Player p, @Nonnull Block b);
 
     @ParametersAreNonnullByDefault
     private void breakBlock(BlockBreakEvent e, Player p, ItemStack item, Block b, List<ItemStack> drops) {
