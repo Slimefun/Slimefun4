@@ -6,16 +6,16 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.radiation.RadiationSymptom;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -52,7 +52,7 @@ public class RadiationTask extends AbstractArmorTask {
 
         if (exposureTotal > 0) {
             if (exposureLevelBefore == 0) {
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
+                Slimefun.getLocalization().sendMessage(p, "messages.radiation");
             }
 
             RadiationUtils.addExposure(p, exposureTotal);
@@ -69,7 +69,7 @@ public class RadiationTask extends AbstractArmorTask {
         }
 
         if (exposureLevelAfter > 0 || exposureLevelBefore > 0) {
-            String msg = SlimefunPlugin.getLocalization().getMessage(p, "actionbar.radiation").replace("%level%", "" + exposureLevelAfter);
+            String msg = Slimefun.getLocalization().getMessage(p, "actionbar.radiation").replace("%level%", "" + exposureLevelAfter);
             BaseComponent[] components = new ComponentBuilder().append(ChatColors.color(msg)).create();
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
         }

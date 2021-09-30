@@ -11,7 +11,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This is a base class for any ArmorTask, it checks every online player
@@ -44,11 +44,11 @@ public abstract class AbstractArmorTask implements Runnable {
      * Schedules this {@link AbstractArmorTask} to run every {@code tickInterval} ticks
      *
      * @param plugin
-     *            The {@link SlimefunPlugin}
+     *            The {@link Slimefun}
      * @param tickInterval
      *            Delay between two "runs" of this task in ticks
      */
-    public final void schedule(@Nonnull SlimefunPlugin plugin, long tickInterval) {
+    public final void schedule(@Nonnull Slimefun plugin, long tickInterval) {
         Validate.notNull(plugin, "The plugin instance cannot be null!");
 
         if (tickInterval < 1) {

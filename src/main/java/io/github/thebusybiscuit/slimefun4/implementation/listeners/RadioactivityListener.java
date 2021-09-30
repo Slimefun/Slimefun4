@@ -1,13 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
+import javax.annotation.Nonnull;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
 
 /**
  * {@link RadioactivityListener} handles radioactivity level resets
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
  */
 public class RadioactivityListener implements Listener {
 
-    public RadioactivityListener(@Nonnull SlimefunPlugin plugin) {
+    public RadioactivityListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
