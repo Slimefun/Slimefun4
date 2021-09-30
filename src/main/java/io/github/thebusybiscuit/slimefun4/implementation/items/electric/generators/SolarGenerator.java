@@ -77,11 +77,6 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     }
 
     @Override
-    public final boolean isChargeable() {
-        return false;
-    }
-
-    @Override
     public int getGeneratedOutput(Location l, Config data) {
         World world = l.getWorld();
 
