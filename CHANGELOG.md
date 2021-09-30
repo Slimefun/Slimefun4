@@ -46,7 +46,7 @@
 * Fixed #3273
 * Fixed an exploit regarding the Smithing Table
 * Fixed #3265
-* Made Solar Gens able to have a capacity/energy buffer
+* (API) Made Solar Gens able to have a capacity/energy buffer
 
 ## Release Candidate 28 (06 Sep 2021)
 
