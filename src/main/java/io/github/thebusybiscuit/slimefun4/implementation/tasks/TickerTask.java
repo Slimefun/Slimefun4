@@ -161,7 +161,7 @@ public class TickerTask implements Runnable {
                     Slimefun.getProfiler().scheduleEntries(1);
                     item.getBlockTicker().update();
 
-                    /**
+                    /*
                      * We are inserting a new timestamp because synchronized actions
                      * are always ran with a 50ms delay (1 game tick)
                      */
@@ -328,7 +328,7 @@ public class TickerTask implements Runnable {
         Set<Location> newValue = new HashSet<>();
         Set<Location> oldValue = tickingLocations.putIfAbsent(chunk, newValue);
 
-        /**
+        /*
          * This is faster than doing computeIfAbsent(...)
          * on a ConcurrentHashMap because it won't block the Thread for too long
          */

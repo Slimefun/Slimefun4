@@ -9,7 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetpackTask;
 
 /**
  * {@link JetBoots} allow you to fly up into the air.

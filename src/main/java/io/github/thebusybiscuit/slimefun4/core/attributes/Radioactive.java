@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import javax.annotation.Nonnull;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.radiation.Radioactivity;
 
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks

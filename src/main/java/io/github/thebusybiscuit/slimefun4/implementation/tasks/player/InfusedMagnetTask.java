@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.tasks;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks.player;
 
 import javax.annotation.Nonnull;
 

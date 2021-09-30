@@ -9,7 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.BeeWingsTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.BeeWingsTask;
 
 /**
  * The {@link BeeWings} are a special form of the elytra which gives you a slow falling effect
