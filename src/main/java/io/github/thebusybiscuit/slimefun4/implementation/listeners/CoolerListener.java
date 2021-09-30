@@ -124,7 +124,6 @@ public class CoolerListener implements Listener {
                     p.addPotionEffect(effect);
                 }
 
-                p.setSaturation(6F);
                 p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_DRINK, 1F, 1F);
                 inv.setItem(slot, null);
                 backpack.markDirty();
