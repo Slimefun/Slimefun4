@@ -45,6 +45,8 @@
 * Fixed #3248
 * Fixed #3273
 * Fixed an exploit regarding the Smithing Table
+* Fixed #3265
+* (API) `SolarGenerator` has a new constructor to accept capacity
 
 ## Release Candidate 28 (06 Sep 2021)
 

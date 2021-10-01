@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SolarHelmetTask;
 
-
 /**
  * The {@link SolarHelmet} can be worn by {@link Player}.
  * As long as that {@link Player} has contact with sunlight, the helmet will charge any

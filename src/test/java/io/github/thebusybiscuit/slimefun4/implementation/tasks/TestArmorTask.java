@@ -61,5 +61,4 @@ class TestArmorTask {
         // Check if all Potion Effects were applied
         Assertions.assertTrue(player.getActivePotionEffects().containsAll(Arrays.asList(effects)));
     }
-
 }
