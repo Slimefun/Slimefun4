@@ -314,15 +314,15 @@ public final class SlimefunUtils {
         }
     }
 
-    private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMetaSnapshot meta, boolean checkLore) {
-        Optional<String> displayName = meta.getDisplayName();
+    private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMetaSnapshot itemMetaSnapshot, boolean checkLore) {
+        Optional<String> displayName = itemMetaSnapshot.getDisplayName();
 
         if (itemMeta.hasDisplayName() != displayName.isPresent()) {
             return false;
         } else if (itemMeta.hasDisplayName() && displayName.isPresent() && !itemMeta.getDisplayName().equals(displayName.get())) {
             return false;
         } else if (checkLore) {
-            Optional<List<String>> itemLore = meta.getLore();
+            Optional<List<String>> itemLore = itemMetaSnapshot.getLore();
 
             if (itemMeta.hasLore() && itemLore.isPresent() && !equalsLore(itemMeta.getLore(), itemLore.get())) {
                 return false;
@@ -332,7 +332,7 @@ public final class SlimefunUtils {
         }
 
         // Fixes #3133: name and lore are not enough
-        OptionalInt itemCustomModelData = meta.getCustomModelData();
+        OptionalInt itemCustomModelData = itemMetaSnapshot.getCustomModelData();
         if (itemMeta.hasCustomModelData() && itemCustomModelData.isPresent() && itemMeta.getCustomModelData() != itemCustomModelData.getAsInt()) {
             return false;
         } else {
