@@ -57,11 +57,12 @@ public class ExplosiveBow extends SlimefunBow {
                 LivingEntity entity = (LivingEntity) nearby;
 
                 Vector distanceVector = entity.getLocation().toVector().subtract(target.getLocation().toVector());
+                distanceVector.setY(distanceVector.getY() + 0.6);
 
                 Vector velocity = entity.getVelocity();
 
                 double distanceSquared = distanceVector.lengthSquared();
-                double damage = calculateDamage(distanceSquared, e.getDamage());
+                double damage = Math.max(1, e.getDamage() * (1 - (distanceSquared / (range.getValue() * range.getValue()))));
 
                 if (!entity.getUniqueId().equals(target.getUniqueId())) {
                     EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(e.getDamager(), entity, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
@@ -79,11 +80,6 @@ public class ExplosiveBow extends SlimefunBow {
 
     private boolean canDamage(@Nonnull Entity n) {
         return n instanceof LivingEntity && !(n instanceof ArmorStand) && n.isValid();
-    }
-
-    private double calculateDamage(double distanceSquared, double originalDamage) {
-        double damage = originalDamage * (1 - (distanceSquared / (range.getValue() * range.getValue())));
-        return Math.max(1, damage);
     }
 
 }
