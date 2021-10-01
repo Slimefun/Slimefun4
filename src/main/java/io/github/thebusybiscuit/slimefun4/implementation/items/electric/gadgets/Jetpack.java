@@ -9,16 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
-<<<<<<< HEAD
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetpackTask;
-
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-=======
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
->>>>>>> origin
 
 /**
  * {@link JetBoots} allow you to fly up into the air.

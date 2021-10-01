@@ -9,16 +9,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-<<<<<<< HEAD
-import io.github.thebusybiscuit.slimefun4.core.radiation.Radioactivity;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-=======
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
+import io.github.thebusybiscuit.slimefun4.core.radiation.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
->>>>>>> origin
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
 import be.seeseemelk.mockbukkit.MockBukkit;

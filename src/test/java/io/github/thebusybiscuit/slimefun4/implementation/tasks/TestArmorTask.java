@@ -13,27 +13,17 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-<<<<<<< HEAD
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-=======
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
->>>>>>> origin
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-<<<<<<< HEAD
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-=======
->>>>>>> origin
 
 class TestArmorTask {
 
@@ -73,53 +63,4 @@ class TestArmorTask {
         // Check if all Potion Effects were applied
         Assertions.assertTrue(player.getActivePotionEffects().containsAll(Arrays.asList(effects)));
     }
-
-<<<<<<< HEAD
-=======
-    @ParameterizedTest
-    @DisplayName("Test Radiation and Hazmat Suits")
-    @MethodSource("cartesianBooleans")
-    void testRadiactivity(boolean hazmat, boolean radioactiveFire) throws InterruptedException {
-        Player player = server.addPlayer();
-        TestUtilities.awaitProfile(player);
-
-        // Setting the time to noon, to exclude the Solar Helmet check
-        player.getWorld().setTime(16000);
-
-        ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "hazmat_suit_test");
-        SlimefunItemStack item = new SlimefunItemStack("MOCK_URANIUM_" + String.valueOf(hazmat).toUpperCase(Locale.ROOT) + "_" + String.valueOf(radioactiveFire).toUpperCase(Locale.ROOT), Material.EMERALD, "&aHi, I am deadly");
-        new RadioactiveItem(itemGroup, Radioactivity.VERY_DEADLY, item, RecipeType.NULL, new ItemStack[9]).register(plugin);
-
-        player.getInventory().setItemInMainHand(item.clone());
-        player.getInventory().setItemInOffHand(new ItemStack(Material.EMERALD_ORE));
-
-        if (hazmat) {
-            SlimefunItemStack chestplate = new SlimefunItemStack("MOCK_HAZMAT_SUIT_" + String.valueOf(radioactiveFire).toUpperCase(Locale.ROOT), Material.LEATHER_CHESTPLATE, "&4Hazmat Prototype");
-            MockHazmatSuit armor = new MockHazmatSuit(itemGroup, chestplate);
-            armor.register(plugin);
-
-            player.getInventory().setChestplate(chestplate.clone());
-        }
-
-        ArmorTask task = new ArmorTask(radioactiveFire);
-        task.run();
-
-        // Check if the Player is suffering from radiation
-        boolean radiation = player.getActivePotionEffects().containsAll(task.getRadiationEffects());
-        Assertions.assertEquals(!hazmat, radiation);
-        Assertions.assertEquals(!hazmat && radioactiveFire, player.getFireTicks() > 0);
-    }
-
-    /**
-     * This returns an {@link Arguments} {@link Stream} of boolean combinations.
-     * It performs a cartesian product on two boolean sets.
-     * 
-     * @return a {@link Stream} of {@link Arguments}
-     */
-    private static Stream<Arguments> cartesianBooleans() {
-        Stream<Boolean> stream = Stream.of(true, false);
-        return stream.flatMap(a -> Stream.of(true, false).map(b -> Arguments.of(a, b)));
-    }
-
->>>>>>> origin
 }

@@ -9,15 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * The {@link SolarHelmetTask} is responsible for handling {@link PotionEffect PotionEffects} for
@@ -47,7 +46,7 @@ public class SolarHelmetTask extends AbstractArmorTask {
     private void checkForSolarHelmet(@Nonnull Player p) {
         ItemStack helmet = p.getInventory().getHelmet();
 
-        if (SlimefunPlugin.getRegistry().isBackwardsCompatible() && !SlimefunUtils.isItemSimilar(helmet, SlimefunItems.SOLAR_HELMET, true, false)) {
+        if (Slimefun.getRegistry().isBackwardsCompatible() && !SlimefunUtils.isItemSimilar(helmet, SlimefunItems.SOLAR_HELMET, true, false)) {
             // Performance saver for slow backwards-compatible versions of Slimefun
             return;
         }

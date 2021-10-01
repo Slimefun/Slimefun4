@@ -19,18 +19,13 @@ import org.bukkit.potion.PotionType;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-<<<<<<< HEAD
-import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
-import io.github.thebusybiscuit.slimefun4.core.radiation.Radioactivity;
-=======
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
+import io.github.thebusybiscuit.slimefun4.core.radiation.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
->>>>>>> origin
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -220,14 +215,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBl
 import io.github.thebusybiscuit.slimefun4.utils.ColoredMaterial;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-<<<<<<< HEAD
-
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-=======
->>>>>>> origin
 
 /**
  * This class holds the recipes of all items.

@@ -7,12 +7,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * The {@link SlimefunArmorTask} is responsible for handling {@link PotionEffect PotionEffects} for
@@ -56,7 +55,7 @@ public class SlimefunArmorTask extends AbstractArmorTask {
             }
 
             if (item != null && armorPiece.getItem().isPresent()) {
-                SlimefunPlugin.runSync(() -> {
+                Slimefun.runSync(() -> {
                     SlimefunArmorPiece sfArmorPiece = armorPiece.getItem().get();
 
                     if (sfArmorPiece.canUse(p, true)) {

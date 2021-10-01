@@ -9,16 +9,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
-<<<<<<< HEAD
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ParachuteTask;
 
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-=======
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
->>>>>>> origin
 
 /**
  * The {@link Parachute} is a {@link SlimefunItem} that can be equipped as a chestplate.
