@@ -92,11 +92,11 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         OptionalPair<Item, Integer> cache = pedestalItemCache.get(pedestal.getLocation());
 
         if (cache != null && cache.getFirstValue().isPresent()) {
-            return cache.getFirstValue();
+                return cache.getFirstValue();
         }
 
         // If cache was deleted, use old method to find nearby possible display item entity.
-        Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
+        Location l = pedestal.getLocation().clone().add(0.5, 1.2, 0.5);
 
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
             if (n instanceof Item) {
@@ -104,7 +104,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
                 Location pedestalLocation = pedestal.getLocation();
 
-                int watcherTaskID = startWatcher(pedestalLocation, pedestalLocation.add(0.5, 1.2, 0.5));
+                int watcherTaskID = startWatcher(pedestalLocation, pedestalLocation.clone().add(0.5, 1.2, 0.5));
                 pedestalItemCache.put(pedestalLocation, new OptionalPair<>(item.get(), watcherTaskID));
 
                 return item;
@@ -155,7 +155,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         }
 
         Location pedestalLocation = b.getLocation();
-        Location spawnLocation = pedestalLocation.add(0.5, 1.2, 0.5);
+        Location spawnLocation = pedestalLocation.clone().add(0.5, 1.2, 0.5);
         Item entity = SlimefunUtils.spawnItem(spawnLocation, displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM);
 
         if (entity != null) {
@@ -182,12 +182,11 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
         OptionalPair<Item, Integer> result = pedestalItemCache.get(pedestal);
 
-        if (result == null || result.getSecondValue().isPresent()) {
+        if (result == null || !result.getSecondValue().isPresent()) {
             return;
         }
 
-        Bukkit.getScheduler().cancelTask(result.getSecondValue().orElse(-1));
-        pedestalItemCache.remove(pedestal);
+        Bukkit.getScheduler().cancelTask(result.getSecondValue().get());
     }
 
     /**
