@@ -69,7 +69,8 @@ public class ExplosiveBow extends SlimefunBow {
                     Bukkit.getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
-                        Vector knockback = velocity.add(distanceVector.normalize().multiply(damage/e.getDamage()));
+                        // Velocity is in meters PER TICK, so we divide by 10 to make it reasonable
+                        Vector knockback = velocity.add(distanceVector.normalize().multiply(damage/(10 * e.getDamage())));
                         entity.setVelocity(knockback);
                         entity.damage(event.getDamage());
                     }
