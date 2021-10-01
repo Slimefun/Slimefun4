@@ -44,6 +44,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * 
  * @author Redemption198
  * @author TheBusyBiscuit
+ * @author StarWishsama
  * 
  * @see AncientAltar
  * @see AncientAltarListener
