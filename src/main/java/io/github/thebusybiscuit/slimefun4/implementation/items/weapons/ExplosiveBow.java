@@ -60,9 +60,13 @@ public class ExplosiveBow extends SlimefunBow {
                 distanceVector.setY(distanceVector.getY() + 0.6);
 
                 Vector velocity = entity.getVelocity();
+                System.out.println("velocity: " + velocity);
+                System.out.println(e.getDamage());
 
                 double distanceSquared = distanceVector.lengthSquared();
+                System.out.println("distanceSq: " + distanceSquared);
                 double damage = e.getDamage() * (1 - (distanceSquared / (2 * range.getValue() * range.getValue())));
+                System.out.println("damage: " + damage);
 
                 if (!entity.getUniqueId().equals(target.getUniqueId())) {
                     EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(e.getDamager(), entity, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
@@ -70,7 +74,8 @@ public class ExplosiveBow extends SlimefunBow {
 
                     if (!event.isCancelled()) {
                         // Velocity is in meters PER TICK, so we divide by 4 to make it reasonable
-                        Vector knockback = velocity.add(distanceVector.normalize().multiply(damage/(4 * e.getDamage())));
+                        Vector knockback = velocity.add(distanceVector.normalize().multiply(damage/(e.getDamage())));
+                        System.out.println("Knockback: " + knockback);
                         entity.setVelocity(knockback);
                         entity.damage(event.getDamage());
                     }
