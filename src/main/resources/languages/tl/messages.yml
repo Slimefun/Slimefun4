@@ -26,7 +26,7 @@ commands:
 guide:
   locked: 'NAKAKANDADO'
   work-in-progress: 'Ang feature na ito ay hindi pa tapos!'
-  locked-category:
+  locked-itemgroup:
     - 'Upang i-unlock ang kategoryang ito,'
     - 'kailangang i-unlock ang lahat ng mga item mula sa'
     - 'sumusunod na kategorya.'
@@ -36,7 +36,7 @@ guide:
     tooltip: '&bI-click ito upang maghanap para sa isang item.'
     inventory: 'Naghahanap para sa: %item%'
   tooltips:
-    open-category: 'I-click ito para buksan.'
+    open-itemgroup: 'I-click ito para buksan.'
     versions-notice: 'Napakahalaga ng mga ito kapag nag-uulat ng mga bug!'
     wiki: 'Tingnan ang item na ito sa opisyal na Slimefun Wiki.'
     recipes:

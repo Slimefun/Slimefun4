@@ -21,7 +21,7 @@ commands:
     restored-backpack-given: '&aРюкзак відновлено та додано в Ваш інвентар!'
 guide:
   locked: 'ЗАКРИТО'
-  locked-category:
+  locked-itemgroup:
     - 'Для розблокування цієї категорії'
     - 'спочатку відкрийте всі предмети'
     - 'з категорій нижче'
@@ -31,7 +31,7 @@ guide:
     tooltip: '&bНатисніть для пошуку предмету'
     inventory: 'Пошук: %item%'
   tooltips:
-    open-category: 'Натисніть, що відкрити'
+    open-itemgroup: 'Натисніть, що відкрити'
     versions-notice: 'Це дуже важливо, коли Ви повідомляєте про помилки!'
     wiki: 'Переглянути цей предмет на офіційній Slimefun Вікі'
     recipes:

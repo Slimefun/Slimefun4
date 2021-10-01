@@ -15,7 +15,8 @@ import org.bukkit.event.Listener;
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 import net.imprex.orebfuscator.api.OrebfuscatorService;
 
 /**
@@ -25,22 +26,22 @@ import net.imprex.orebfuscator.api.OrebfuscatorService;
  * @author NgLoader
  *
  */
-public class OrebfuscatorIntegration implements Listener {
+class OrebfuscatorIntegration implements Listener {
 
-	private final SlimefunPlugin plugin;
-	private OrebfuscatorService service;
+    private final Slimefun plugin;
+    private OrebfuscatorService service;
 
-	public OrebfuscatorIntegration(@Nonnull SlimefunPlugin plugin) {
+    OrebfuscatorIntegration(@Nonnull Slimefun plugin) {
         this.plugin = plugin;
     }
 
-	/**
-	 * Init orebfuscation service and register listener
-	 */
+    /**
+     * Init orebfuscation service and register listener
+     */
     public void register() {
         this.service = Bukkit.getServer().getServicesManager().getRegistration(OrebfuscatorService.class).getProvider();
 
-        plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

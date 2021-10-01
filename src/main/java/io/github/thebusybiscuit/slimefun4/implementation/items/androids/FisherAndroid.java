@@ -9,18 +9,19 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import io.github.bakedlibs.dough.collections.RandomizedSet;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class FisherAndroid extends ProgrammableAndroid {
 
     private final RandomizedSet<ItemStack> fishingLoot = new RandomizedSet<>();
 
-    public FisherAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, tier, item, recipeType, recipe);
+    public FisherAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeType, recipe);
 
         // Fish
         for (Material fish : Tag.ITEMS_FISHES.getValues()) {

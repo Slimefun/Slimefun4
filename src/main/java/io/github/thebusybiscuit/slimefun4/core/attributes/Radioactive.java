@@ -2,9 +2,13 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import javax.annotation.Nonnull;
 
+<<<<<<< HEAD
 import io.github.thebusybiscuit.slimefun4.core.radiation.Radioactivity;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+=======
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+>>>>>>> origin
 
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks

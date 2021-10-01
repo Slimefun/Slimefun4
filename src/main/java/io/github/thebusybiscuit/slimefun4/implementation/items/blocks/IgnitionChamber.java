@@ -18,16 +18,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.papermc.lib.PaperLib;
 
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link IgnitionChamber} is used to re-ignite a {@link Smeltery}.
@@ -50,8 +50,8 @@ public class IgnitionChamber extends SlimefunItem {
     // @formatter:on
 
     @ParametersAreNonnullByDefault
-    public IgnitionChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public IgnitionChamber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(new VanillaInventoryDropHandler<>(Dropper.class));
     }
@@ -104,7 +104,7 @@ public class IgnitionChamber extends SlimefunItem {
             return true;
         } else {
             // Notify the Player there is a chamber but without any Flint and Steel
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.ignition-chamber-no-flint", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.ignition-chamber-no-flint", true);
             return false;
         }
     }
