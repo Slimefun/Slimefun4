@@ -100,14 +100,7 @@ public class TickerTask implements Runnable {
             }
 
             // Fixes #2576 - Remove any deleted instances of BlockStorage
-            Iterator<BlockStorage> worlds = Slimefun.getRegistry().getWorlds().values().iterator();
-            while (worlds.hasNext()) {
-                BlockStorage storage = worlds.next();
-
-                if (storage.isMarkedForRemoval()) {
-                    worlds.remove();
-                }
-            }
+            Slimefun.getRegistry().getWorlds().values().removeIf(BlockStorage::isMarkedForRemoval);
 
             // Run our ticker code
             if (!halted) {
