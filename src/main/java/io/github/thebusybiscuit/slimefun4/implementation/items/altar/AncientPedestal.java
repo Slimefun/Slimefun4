@@ -76,7 +76,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
                     if (stack.isValid()) {
                         stack.removeMetadata("no_pickup", Slimefun.instance());
                         b.getWorld().dropItem(b.getLocation(), getOriginalItemStack(stack));
-                        stopDisplayItem(b, stack);
+                        stopDisplayItem(b.getLocation(), stack);
                     }
                 }
             }
@@ -177,17 +177,17 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
      * @param pedestal ancient pedestal location
      * @param item display item
      */
-    public void stopDisplayItem(@Nonnull Block pedestal, @Nonnull Entity item) {
+    public void stopDisplayItem(@Nonnull Location pedestal, @Nonnull Entity item) {
         item.remove();
 
-        OptionalPair<Item, Integer> result = pedestalItemCache.get(pedestal.getLocation());
+        OptionalPair<Item, Integer> result = pedestalItemCache.get(pedestal);
 
         if (result == null || result.getSecondValue().isPresent()) {
             return;
         }
 
         Bukkit.getScheduler().cancelTask(result.getSecondValue().orElse(-1));
-        pedestalItemCache.remove(pedestal.getLocation());
+        pedestalItemCache.remove(pedestal);
     }
 
     /**
@@ -203,7 +203,11 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             Optional<Item> display = pedestalItemCache.get(pedestalLocation).getFirstValue();
 
             if (display.isPresent() && display.get().getLocation().distance(pedestalLocation) > 2) {
-                display.get().teleport(spawnLocation);
+                if (display.get().isValid()) {
+                    display.get().teleport(spawnLocation);
+                } else {
+                    stopDisplayItem(pedestalLocation, display.get());
+                }
             }
 
         },  5 * 20L, 5 * 20L);
