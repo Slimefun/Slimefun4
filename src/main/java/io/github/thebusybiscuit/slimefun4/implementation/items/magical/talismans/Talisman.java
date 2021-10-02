@@ -40,6 +40,7 @@ public class Talisman extends SlimefunItem {
 
     protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), new CustomItemStack(SlimefunItems.COMMON_TALISMAN, "&7Talismans - &aTier I"), 2);
 
+    private final String wikiPage = "Talismans";
     private final SlimefunItemStack enderTalisman;
 
     protected final String suffix;
@@ -72,6 +73,7 @@ public class Talisman extends SlimefunItem {
         this.suffix = messageSuffix;
         this.effects = effects;
         this.chance = chance;
+        addOfficialWikipage(wikiPage);
 
         if (!(this instanceof EnderTalisman)) {
             String name = "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName());
@@ -125,6 +127,7 @@ public class Talisman extends SlimefunItem {
     @Override
     public void postRegister() {
         EnderTalisman talisman = new EnderTalisman(this, getEnderVariant());
+        talisman.addOfficialWikipage(wikiPage);
         talisman.register(getAddon());
     }
 
@@ -315,5 +318,4 @@ public class Talisman extends SlimefunItem {
 
         return null;
     }
-
 }
