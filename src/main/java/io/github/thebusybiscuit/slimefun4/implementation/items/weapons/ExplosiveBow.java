@@ -56,21 +56,21 @@ public class ExplosiveBow extends SlimefunBow {
             for (Entity nearby : entites) {
                 LivingEntity entity = (LivingEntity) nearby;
 
-                Vector distanceVector = entity.getLocation().toVector().subtract(target.getLocation().toVector());
-                distanceVector.setY(distanceVector.getY() + 0.6);
-
-                Vector velocity = entity.getVelocity();
+                Vector distanceVector = entity.getLocation().toVector()
+                    .subtract(target.getLocation().toVector())
+                    .add(new Vector(0, 0.75, 0));
 
                 double distanceSquared = distanceVector.lengthSquared();
-                double damage = calculateDamage(distanceSquared, e.getDamage());
+                double damage = e.getDamage() * (1 - (distanceSquared / (2 * range.getValue() * range.getValue())));
 
                 if (!entity.getUniqueId().equals(target.getUniqueId())) {
                     EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(e.getDamager(), entity, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
                     Bukkit.getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
-                        Vector knockback = velocity.add(distanceVector.normalize().multiply((int) (e.getDamage() / damage)));
-                        entity.setVelocity(knockback);
+                        distanceVector.setY(0.75);
+                        Vector knockback = distanceVector.normalize().multiply(2);
+                        entity.setVelocity(entity.getVelocity().add(knockback));
                         entity.damage(event.getDamage());
                     }
                 }
@@ -80,15 +80,6 @@ public class ExplosiveBow extends SlimefunBow {
 
     private boolean canDamage(@Nonnull Entity n) {
         return n instanceof LivingEntity && !(n instanceof ArmorStand) && n.isValid();
-    }
-
-    private double calculateDamage(double distanceSquared, double originalDamage) {
-        if (distanceSquared <= 0.05) {
-            return originalDamage;
-        }
-
-        double damage = originalDamage * (1 - (distanceSquared / (range.getValue() * range.getValue())));
-        return Math.min(Math.max(1, damage), originalDamage);
     }
 
 }
