@@ -197,7 +197,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
      * @param pedestalLocation the location of pedestal
      * @param spawnLocation the location displayed item entity first spawn
      *
-     * @return The bukkit task if of watcher
+     * @return The bukkit task of watcher
      */
     private int startWatcher(@Nonnull Location pedestalLocation, @Nonnull Location spawnLocation) {
         return Bukkit.getScheduler().scheduleSyncRepeatingTask(Slimefun.instance(), () -> {
