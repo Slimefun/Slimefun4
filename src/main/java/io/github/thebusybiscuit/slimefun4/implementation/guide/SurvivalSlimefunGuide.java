@@ -576,12 +576,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
-            MenuClickHandler handler;
-            if (recipeItem instanceof UnlockableItemStack) {
-                handler = lockedClickHandler;
-            } else {
-                handler = clickHandler;
-            }
+            MenuClickHandler handler = (recipeItem instanceof UnlockableItemStack) ? lockedClickHandler : clickHandler;
+
             menu.addItem(recipeSlots[i], recipeItem, handler);
 
             if (recipeItem != null && item instanceof MultiBlockMachine) {
