@@ -200,8 +200,4 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     private void startWatcher(@Nonnull Location pedestalLocation, @Nonnull Item item) {
         pedestalItemCache.put(new BlockPosition(pedestalLocation), Optional.of(item));
     }
-
-    static {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Slimefun.instance(), new AncientPedestalTask(), 5 * 20L, 5 * 20L);
-    }
 }

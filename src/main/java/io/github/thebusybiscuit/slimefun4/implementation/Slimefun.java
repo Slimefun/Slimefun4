@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientPedestalTask;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -350,6 +351,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
             boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
             getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
         }
+
+        // Pedestal item watcher Task
+        getServer().getScheduler().runTaskTimerAsynchronously(this, new AncientPedestalTask(), 5 * 20L, 5 * 20L);
 
         // Starting our tasks
         autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
