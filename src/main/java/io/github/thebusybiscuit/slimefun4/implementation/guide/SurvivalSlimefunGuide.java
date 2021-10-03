@@ -298,9 +298,17 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNoPermissionItem(), sfitem.getItemName(), message.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
         } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
-            menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNotResearchedItem(), ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "",
-                    Slimefun.getLocalization().getMessage(p, "guide.unlock.click"), "",
-                    Slimefun.getLocalization().getMessage(p, "guide.unlock.cost").replace("%cost%", String.valueOf(research.getCost()))));
+            String unlockCost = Slimefun.getLocalization()
+                    .getMessage(p, "guide.unlock.cost")
+                    .replace("%cost%", String.valueOf(research.getCost()));
+            menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNotResearchedItem(),
+                    ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()),
+                    "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"),
+                    "",
+                    Slimefun.getLocalization().getMessage(p, "guide.unlock.click"),
+                    "",
+                    unlockCost
+            ));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 research.unlockFromGuide(this, p, profile, sfitem, itemGroup, page);
                 return false;
@@ -568,7 +576,13 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
-            menu.addItem(recipeSlots[i], recipeItem, (recipeItem instanceof UnlockableItemStack) ? lockedClickHandler : clickHandler);
+            MenuClickHandler handler;
+            if (recipeItem instanceof UnlockableItemStack) {
+                handler = lockedClickHandler;
+            } else {
+                handler = clickHandler;
+            }
+            menu.addItem(recipeSlots[i], recipeItem, handler);
 
             if (recipeItem != null && item instanceof MultiBlockMachine) {
                 for (Tag<Material> tag : MultiBlock.getSupportedTags()) {

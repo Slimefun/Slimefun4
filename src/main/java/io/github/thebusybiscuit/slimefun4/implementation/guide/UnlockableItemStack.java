@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author RobotHanzo
  */
-public class UnlockableItemStack extends SlimefunItemStack {
+class UnlockableItemStack extends SlimefunItemStack {
     public UnlockableItemStack(@Nonnull String id, @Nonnull ItemStack item, @Nonnull Player player) {
         super(id, item);
 
