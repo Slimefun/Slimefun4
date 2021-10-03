@@ -195,7 +195,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     /**
-     * Start a watcher monitor the location of displayed item
+     * Start a watcher to monitor the location of a displayed item
      *
      * @param pedestalLocation the location of pedestal
      * @param spawnLocation the location displayed item entity first spawn
