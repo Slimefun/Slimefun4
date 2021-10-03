@@ -18,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -129,13 +129,14 @@ public class BookBinder extends AContainer {
             if (!hasConflicts) {
                 enchantments.merge(entry.getKey(), entry.getValue(), (a, b) -> {
                     int maxLevel = entry.getKey().getMaxLevel();
-                    return combineEnchantmentLevels(maxLevel, a, b);
+                    int newLevel = combineEnchantmentLevels(maxLevel, a, b);
+
+                    return newLevel == 0 ? null : newLevel;
                 });
             }
         }
 
         return enchantments;
-
     }
 
     private int combineEnchantmentLevels(int maxLevel, int lvl1, int lvl2) {
@@ -145,9 +146,9 @@ public class BookBinder extends AContainer {
              * unless it uses bypass-vanilla-max-level
              */
             if (maxLevel <= lvl1 && !bypassVanillaMaxLevel.getValue()) {
-                return maxLevel;
+                return 0;
             } else if (hasCustomMaxLevel.getValue()) {
-                return lvl1 + 1 > customMaxLevel.getValue() ? customMaxLevel.getValue() : lvl1 + 1;
+                return lvl1 + 1 > customMaxLevel.getValue() ? 0 : lvl1 + 1;
             } else {
                 return lvl1 + 1;
             }
@@ -165,7 +166,6 @@ public class BookBinder extends AContainer {
             } else {
                 return highestLevel;
             }
-
         }
     }
 }
