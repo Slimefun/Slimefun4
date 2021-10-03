@@ -48,6 +48,8 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      */
     int getGeneratedOutput(@Nonnull Location l, @Nonnull Config data);
 
+    int peekGeneratedOutput(@Nonnull Location l, @Nonnull Config data);
+
     /**
      * This method returns whether the given {@link Location} is going to explode on the
      * next tick.

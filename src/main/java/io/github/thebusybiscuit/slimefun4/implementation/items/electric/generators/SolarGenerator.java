@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
@@ -94,6 +95,12 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
                 return isDaytime ? getDayEnergy() : getNightEnergy();
             }
         }
+    }
+
+    @Override
+    public int peekGeneratedOutput(@Nonnull Location l, @Nonnull Config data) {
+        // Solar panels will not change when generating energy
+        return getGeneratedOutput(l, data);
     }
 
     /**

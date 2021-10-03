@@ -299,6 +299,43 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
         }
     }
 
+    @Override
+    public int peekGeneratedOutput(@Nonnull Location l, @Nonnull Config data) {
+        BlockMenu inv = BlockStorage.getInventory(l);
+        BlockMenu accessPort = getAccessPort(l);
+        FuelOperation operation = processor.getOperation(l);
+
+        if (operation != null) {
+            return peekGenerateEnergy(l, data, inv, accessPort, operation);
+        } else {
+            return 0;
+        }
+    }
+
+    private int peekGenerateEnergy(@Nonnull Location l, @Nonnull Config data, @Nonnull BlockMenu inv, @Nullable BlockMenu accessPort, FuelOperation operation) {
+        int produced = getEnergyProduction();
+        String energyData = data.getString("energy-charge");
+        int charge = 0;
+
+        if (energyData != null) {
+            charge = Integer.parseInt(energyData);
+        }
+
+        int space = getCapacity() - charge;
+
+        if (space >= produced || getReactorMode(l) != ReactorMode.GENERATOR) {
+            if (needsCooling() && !hasEnoughCoolant(l, inv, accessPort, operation)) {
+                return 0;
+            }
+        }
+
+        if (space >= produced) {
+            return getEnergyProduction();
+        } else {
+            return 0;
+        }
+    }
+
     private int generateEnergy(@Nonnull Location l, @Nonnull Config data, @Nonnull BlockMenu inv, @Nullable BlockMenu accessPort, @Nonnull FuelOperation operation) {
         int produced = getEnergyProduction();
         String energyData = data.getString("energy-charge");

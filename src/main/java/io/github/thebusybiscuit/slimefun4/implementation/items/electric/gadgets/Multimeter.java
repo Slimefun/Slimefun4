@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -52,10 +55,18 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
                         Location l = e.getClickedBlock().get().getLocation();
                         String stored = NumberUtils.getCompactDouble(component.getCharge(l)) + " J";
                         String capacity = NumberUtils.getCompactDouble(component.getCapacity()) + " J";
+                        String generating;
+                        if (component instanceof EnergyNetProvider) {
+                            EnergyNetProvider provider = (EnergyNetProvider) component;
+                            Config data = BlockStorage.getLocationInfo(l);
+                            generating = NumberUtils.getCompactDouble(provider.peekGeneratedOutput(l, data)) + " J/t";
+                        } else {
+                            generating = "";
+                        }
 
                         Player p = e.getPlayer();
                         p.sendMessage("");
-                        Slimefun.getLocalization().sendMessage(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity));
+                        Slimefun.getLocalization().sendMessages(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity).replace("%generating%", generating));
                         p.sendMessage("");
                     }
                 }

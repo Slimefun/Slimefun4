@@ -199,6 +199,28 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
         }
     }
 
+    @Override
+    public int peekGeneratedOutput(@Nonnull Location l, @Nonnull Config data) {
+        FuelOperation operation = processor.getOperation(l);
+        if (operation != null) {
+            if (!operation.isFinished()) {
+                if (isChargeable()) {
+                    int charge = getCharge(l, data);
+                    if (getCapacity() - charge >= getEnergyProduction()) {
+                        return getEnergyProduction();
+                    }
+                    return 0;
+                } else {
+                    return getEnergyProduction();
+                }
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    }
+
     private boolean isBucket(@Nullable ItemStack item) {
         if (item == null) {
             return false;
