@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.collections.OptionalPair;
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -55,7 +56,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
-    private static final Map<Location, OptionalPair<Item, Integer>> pedestalItemCache = new ConcurrentHashMap<>();
+    private static final Map<BlockPosition, OptionalPair<Item, Integer>> pedestalItemCache = new HashMap<>();
 
     @ParametersAreNonnullByDefault
     public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -90,7 +91,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     public @Nonnull Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
-        OptionalPair<Item, Integer> cache = pedestalItemCache.get(pedestal.getLocation());
+        OptionalPair<Item, Integer> cache = pedestalItemCache.get(new BlockPosition(pedestal));
 
         if (cache != null && cache.getFirstValue().isPresent()) {
             return cache.getFirstValue();
@@ -106,7 +107,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
                 Location pedestalLocation = pedestal.getLocation();
 
                 int watcherTaskID = startWatcher(pedestalLocation, pedestalLocation.clone().add(0.5, 1.2, 0.5));
-                pedestalItemCache.put(pedestalLocation, new OptionalPair<>(item.get(), watcherTaskID));
+                pedestalItemCache.put(new BlockPosition(pedestalLocation), new OptionalPair<>(item.get(), watcherTaskID));
 
                 return item;
             }
@@ -168,7 +169,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
             int watcherTaskID = startWatcher(pedestalLocation, spawnLocation);
 
-            pedestalItemCache.put(pedestalLocation, new OptionalPair<>(entity, watcherTaskID));
+            pedestalItemCache.put(new BlockPosition(pedestalLocation), new OptionalPair<>(entity, watcherTaskID));
         }
     }
 
@@ -181,14 +182,16 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     public void stopDisplayItem(@Nonnull Location pedestal, @Nonnull Entity item) {
         item.remove();
 
-        OptionalPair<Item, Integer> result = pedestalItemCache.get(pedestal);
+        BlockPosition pedestalPosition = new BlockPosition(pedestal);
+
+        OptionalPair<Item, Integer> result = pedestalItemCache.get(pedestalPosition);
 
         if (result == null || !result.getSecondValue().isPresent()) {
             return;
         }
 
         Bukkit.getScheduler().cancelTask(result.getSecondValue().get());
-        pedestalItemCache.remove(pedestal);
+        pedestalItemCache.remove(pedestalPosition);
     }
 
     /**
@@ -201,9 +204,9 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
      */
     private int startWatcher(@Nonnull Location pedestalLocation, @Nonnull Location spawnLocation) {
         return Bukkit.getScheduler().scheduleSyncRepeatingTask(Slimefun.instance(), () -> {
-            Optional<Item> display = pedestalItemCache.get(pedestalLocation).getFirstValue();
+            Optional<Item> display = pedestalItemCache.get(new BlockPosition(pedestalLocation)).getFirstValue();
 
-            if (display.isPresent() && display.get().getLocation().distance(pedestalLocation) > 2) {
+            if (display.isPresent() && display.get().getLocation().distanceSquared(pedestalLocation) > 1) {
                 if (display.get().isValid()) {
                     display.get().teleport(spawnLocation);
                 } else {
