@@ -18,6 +18,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
  * It must be implemented on any Generator or {@link Reactor}.
  * 
  * @author TheBusyBiscuit
+ * @author md5sha256
  * 
  * @see EnergyNet
  * @see EnergyNetComponent
@@ -48,6 +49,17 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      */
     int getGeneratedOutput(@Nonnull Location l, @Nonnull Config data);
 
+    /**
+     * The method return how much this {@link EnergyNetProvider} is expected to provide to the {@link EnergyNet}
+     * and is not to be confused with {@link #getGeneratedOutput(Location, Config)}. This method will not
+     * consume any fuel or modify the provider in any way.
+     * @param l
+     *            The {@link Location} of this {@link EnergyNetProvider}
+     * @param data
+     *            The stored block data
+     *
+     * @return The expected generated output energy of this {@link EnergyNetProvider}.
+     */
     int peekGeneratedOutput(@Nonnull Location l, @Nonnull Config data);
 
     /**

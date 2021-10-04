@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -26,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
  * The {@link Multimeter} is used to measure charge and capacity of any {@link EnergyNetComponent}.
  * 
  * @author TheBusyBiscuit
+ * @author md5sha256
  * 
  * @see EnergyNet
  * @see EnergyNetComponent
@@ -55,18 +57,18 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
                         Location l = e.getClickedBlock().get().getLocation();
                         String stored = NumberUtils.getCompactDouble(component.getCharge(l)) + " J";
                         String capacity = NumberUtils.getCompactDouble(component.getCapacity()) + " J";
-                        String generating;
-                        if (component instanceof EnergyNetProvider) {
-                            EnergyNetProvider provider = (EnergyNetProvider) component;
-                            Config data = BlockStorage.getLocationInfo(l);
-                            generating = NumberUtils.getCompactDouble(provider.peekGeneratedOutput(l, data)) + " J/t";
-                        } else {
-                            generating = "";
-                        }
 
                         Player p = e.getPlayer();
                         p.sendMessage("");
-                        Slimefun.getLocalization().sendMessages(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity).replace("%generating%", generating));
+
+                        if (component instanceof EnergyNetProvider) {
+                            EnergyNetProvider provider = (EnergyNetProvider) component;
+                            Config data = BlockStorage.getLocationInfo(l);
+                            String generating = NumberUtils.getCompactDouble(provider.peekGeneratedOutput(l, data)) + " J/t";
+                            Slimefun.getLocalization().sendMessages(p, "messages.multimeter-generating", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity).replace("%generating%", generating));
+                        } else {
+                            Slimefun.getLocalization().sendMessage(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity));
+                        }
                         p.sendMessage("");
                     }
                 }

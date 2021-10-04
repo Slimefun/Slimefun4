@@ -27,6 +27,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
  * {@link #getNightEnergy()}.
  * 
  * @author TheBusyBiscuit
+ * @author md5sha256
  * 
  * @see EnergyNet
  * @see EnergyNetProvider
