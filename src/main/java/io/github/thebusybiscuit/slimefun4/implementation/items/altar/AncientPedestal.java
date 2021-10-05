@@ -177,7 +177,6 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         item.remove();
 
         BlockPosition pedestalPosition = new BlockPosition(pedestal);
-
         Optional<Item> result = pedestalItemCache.get(pedestalPosition);
 
         if (!result.isPresent()) {
