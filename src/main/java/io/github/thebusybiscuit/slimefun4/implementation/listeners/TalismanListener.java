@@ -121,25 +121,34 @@ public class TalismanListener implements Listener {
 
         LivingEntity entity = e.getEntity();
 
-        if (entity instanceof Player || entity instanceof ArmorStand) {
-            /*
-             * We absolutely don't want to double the
-             * drops from players or ArmorStands
-             */
-            return;
-        }
-
         /*
-         * We are also excluding entities which can pickup items,
-         * this is not perfect but it at least prevents dupes
-         * by tossing items to zombies.
-         */
-        if (!entity.getCanPickupItems() && Talisman.trigger(e, SlimefunItems.TALISMAN_HUNTER)) {
+        * Do not double drops from players or armor stands.
+        * Also exclude entities which can pick up items,
+        * to prevent duping items by dropping them to zombies.
+        */
+        if (Talisman.trigger(e, SlimefunItems.TALISMAN_HUNTER) && !entity.getCanPickupItems() &&
+            !(entity instanceof Player) && !(entity instanceof ArmorStand)) {
+
             Collection<ItemStack> extraDrops = getExtraDrops(e.getEntity(), e.getDrops());
 
             for (ItemStack drop : extraDrops) {
                 if (drop != null && drop.getType() != Material.AIR) {
                     e.getDrops().add(drop.clone());
+                }
+            }
+        }
+
+        if (Talisman.trigger(e, SlimefunItems.TALISMAN_TELEKINESIS)) {
+            Player p = e.getEntity().getKiller();
+            ItemStack[] drops = e.getDrops().toArray(new ItemStack[] {});
+
+            e.getDrops().clear();
+
+            for (int i = 0; i < drops.length; i++) {
+                HashMap<Integer, ItemStack> failedDrops = p.getInventory().addItem(drops[i]);
+
+                if (failedDrops.size() > 0) {
+                    e.getDrops().add(failedDrops.get(0));
                 }
             }
         }
@@ -303,26 +312,6 @@ public class TalismanListener implements Listener {
                     e.getItems().get(i).setItemStack(failedDrops.get(0));
                 } else {
                     e.getItems().remove(i);
-                }
-            }
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onExplosivePickBreak(ExplosiveToolBreakBlocksEvent e) {
-        List<Block> blocks = e.getAdditionalBlocks();
-        blocks.add(e.getPrimaryBlock());
-
-        for (Block b : blocks) {
-            Collection<ItemStack> drops = b.getDrops(e.getItemInHand());
-
-            for (ItemStack drop : drops) {
-                HashMap<Integer, ItemStack> failedDrops = e.getPlayer().getInventory().addItem(drop);
-
-                if (failedDrops.size() > 0) {
-                    // replace existing drops to new ItemStack
-                } else {
-                    // Find a way to remove drops
                 }
             }
         }
