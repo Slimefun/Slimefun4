@@ -10,6 +10,18 @@ import java.util.UUID;
 
 public class UuidTransformer implements Transformer<UUID> {
 
+    private static UuidTransformer instance = null;
+
+    private UuidTransformer(){}
+
+    public static UuidTransformer getInstance()
+    {
+        if (instance == null)
+            instance = new UuidTransformer();
+
+        return instance;
+    }
+
     @Override
     @ParametersAreNonnullByDefault
     public void transformInto(DataObject dataObject, NamespacedKey key, UUID uuid) {

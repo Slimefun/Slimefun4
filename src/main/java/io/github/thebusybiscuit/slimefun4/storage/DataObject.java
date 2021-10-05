@@ -54,6 +54,12 @@ public class DataObject {
     ////////////////////////////////////////
     // Getters
     ////////////////////////////////////////
+    /**
+     * Get a byte value in this {@link DataObject}, if the key doesn't exist it returns -1.
+     *
+     * @param key The key of the data to retrieve
+     * @return The byte associated with this key or -1 if it doesn't exist
+     */
     public byte getByte(NamespacedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof ByteType) {
@@ -63,6 +69,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a byte value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The byte associated with this key or the specified default value if it doesn't exist
+     */
     public byte getByte(NamespacedKey key, byte defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof ByteType) {
@@ -72,6 +85,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a short value in this {@link DataObject}, if the key doesn't exist it returns -1.
+     *
+     * @param key The key of the data to retrieve
+     * @return The short associated with this key or -1 if it doesn't exist
+     */
     public short getShort(NamespacedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof ShortType) {
@@ -81,6 +100,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a short value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The short associated with this key or the specified default value if it doesn't exist
+     */
     public short getShort(NamespacedKey key, short defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof ShortType) {
@@ -90,6 +116,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a int value in this {@link DataObject}, if the key doesn't exist it returns -1.
+     *
+     * @param key The key of the data to retrieve
+     * @return The int associated with this key or -1 if it doesn't exist
+     */
     public int getInt(NamespacedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof IntType) {
@@ -99,6 +131,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a int value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The int associated with this key or the specified default value if it doesn't exist
+     */
     public int getInt(NamespacedKey key, int defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof IntType) {
@@ -108,6 +147,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a double value in this {@link DataObject}, if the key doesn't exist it returns -1.
+     *
+     * @param key The key of the data to retrieve
+     * @return The double associated with this key or -1 if it doesn't exist
+     */
     public double getDouble(NamespacedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof DoubleType) {
@@ -117,6 +162,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a double value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The double associated with this key or the specified default value if it doesn't exist
+     */
     public double getDouble(NamespacedKey key, double defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof DoubleType) {
@@ -126,6 +178,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a float value in this {@link DataObject}, if the key doesn't exist it returns -1.
+     *
+     * @param key The key of the data to retrieve
+     * @return The float associated with this key or -1 if it doesn't exist
+     */
     public float getFloat(NamespacedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof FloatType) {
@@ -135,6 +193,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a float value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The float associated with this key or the specified default value if it doesn't exist
+     */
     public float getFloat(NamespacedKey key, float defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof FloatType) {
@@ -144,6 +209,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a long value in this {@link DataObject}, if the key doesn't exist it returns -1.
+     *
+     * @param key The key of the data to retrieve
+     * @return The long associated with this key or -1 if it doesn't exist
+     */
     public long getLong(NamespacedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof LongType) {
@@ -153,6 +224,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a long value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The long associated with this key or the specified default value if it doesn't exist
+     */
     public long getLong(NamespacedKey key, long defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof LongType) {
@@ -162,6 +240,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a boolean value in this {@link DataObject}, if the key doesn't exist it returns false.
+     *
+     * @param key The key of the data to retrieve
+     * @return The boolean associated with this key or false if it doesn't exist
+     */
     public boolean getBoolean(NamespacedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof BooleanType) {
@@ -171,6 +255,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a boolean value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The boolean associated with this key or the specified default value if it doesn't exist
+     */
     public boolean getBoolean(NamespacedKey key, boolean defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof BooleanType) {
@@ -180,6 +271,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a byte array in this {@link DataObject}, if the key doesn't exist it returns null.
+     *
+     * @param key The key of the data to retrieve
+     * @return The byte array associated with this key or null if it doesn't exist
+     */
     @Nullable
     public byte[] getByteArray(NamespacedKey key) {
         final Type type = this.data.get(key);
@@ -190,6 +287,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a byte array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The byte array associated with this key or the specified default value if it doesn't exist
+     */
     @Nullable
     public byte[] getByteArray(NamespacedKey key, byte[] defaultValue) {
         final Type type = this.data.get(key);
@@ -200,6 +304,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a short array in this {@link DataObject}, if the key doesn't exist it returns null.
+     *
+     * @param key The key of the data to retrieve
+     * @return The short array associated with this key or null if it doesn't exist
+     */
     @Nullable
     public short[] getShortArray(NamespacedKey key) {
         final Type type = this.data.get(key);
@@ -210,6 +320,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a short array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The short array associated with this key or the specified default value if it doesn't exist
+     */
     @Nullable
     public short[] getShortArray(NamespacedKey key, @Nullable short[] defaultValue) {
         final Type type = this.data.get(key);
@@ -220,6 +337,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a int array in this {@link DataObject}, if the key doesn't exist it returns null.
+     *
+     * @param key The key of the data to retrieve
+     * @return The int array associated with this key or null if it doesn't exist
+     */
     @Nullable
     public int[] getIntArray(NamespacedKey key) {
         final Type type = this.data.get(key);
@@ -230,6 +353,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a int array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The int array associated with this key or the specified default value if it doesn't exist
+     */
     @Nullable
     public int[] getIntArray(NamespacedKey key, @Nullable int[] defaultValue) {
         final Type type = this.data.get(key);
@@ -240,6 +370,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a double array in this {@link DataObject}, if the key doesn't exist it returns null.
+     *
+     * @param key The key of the data to retrieve
+     * @return The double array associated with this key or null if it doesn't exist
+     */
     @Nullable
     public double[] getDoubleArray(NamespacedKey key) {
         final Type type = this.data.get(key);
@@ -250,6 +386,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a double array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The double array associated with this key or the specified default value if it doesn't exist
+     */
     @Nullable
     public double[] getDoubleArray(NamespacedKey key, @Nullable double[] defaultValue) {
         final Type type = this.data.get(key);
@@ -260,6 +403,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a float array in this {@link DataObject}, if the key doesn't exist it returns null.
+     *
+     * @param key The key of the data to retrieve
+     * @return The float array associated with this key or null if it doesn't exist
+     */
     @Nullable
     public float[] getFloatArray(NamespacedKey key) {
         final Type type = this.data.get(key);
@@ -270,6 +419,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a float array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The float array associated with this key or the specified default value if it doesn't exist
+     */
     @Nullable
     public float[] getFloatArray(NamespacedKey key, @Nullable float[] defaultValue) {
         final Type type = this.data.get(key);
@@ -280,6 +436,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a long array in this {@link DataObject}, if the key doesn't exist it returns null.
+     *
+     * @param key The key of the data to retrieve
+     * @return The long array associated with this key or null if it doesn't exist
+     */
     @Nullable
     public long[] getLongArray(NamespacedKey key) {
         final Type type = this.data.get(key);
@@ -290,6 +452,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a long array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The long array associated with this key or the specified default value if it doesn't exist
+     */
     @Nullable
     public long[] getLongArray(NamespacedKey key, @Nullable long[] defaultValue) {
         final Type type = this.data.get(key);
@@ -300,6 +469,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a String in this {@link DataObject}, if the key doesn't exist it returns null.
+     *
+     * @param key The key of the data to retrieve
+     * @return The String associated with this key or null if it doesn't exist
+     */
     @Nullable
     public String getString(NamespacedKey key) {
         final Type type = this.data.get(key);
@@ -310,6 +485,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a String in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The String associated with this key or the specified default value if it doesn't exist
+     */
     @Nullable
     public String getString(NamespacedKey key, String defaultValue) {
         final Type type = this.data.get(key);
@@ -320,6 +502,12 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a {@link DataObject} in this {@link DataObject}, if the key doesn't exist it returns null.
+     *
+     * @param key The key of the data to retrieve
+     * @return The {@link DataObject} associated with this key or null if it doesn't exist
+     */
     @Nullable
     public DataObject getDataObject(NamespacedKey key) {
         final Type type = this.data.get(key);
@@ -330,6 +518,13 @@ public class DataObject {
         }
     }
 
+    /**
+     * Get a {@link DataObject} in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     *
+     * @param key The key of the data to retrieve
+     * @param defaultValue The specified default value
+     * @return The {@link DataObject} associated with this key or the specified default value if it doesn't exist
+     */
     @Nullable
     public DataObject getDataObject(NamespacedKey key, @Nullable DataObject defaultValue) {
         final Type type = this.data.get(key);
@@ -462,6 +657,13 @@ public class DataObject {
     public DataObject setDataObject(NamespacedKey key, DataObject value) {
         DataObjectType type = new DataObjectType(value);
         this.data.put(key, type);
+        return this;
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public <T> DataObject set(NamespacedKey key, T value, Transformer<T> transformer) {
+        transformer.transformInto(this, key, value);
         return this;
     }
     //endregion
