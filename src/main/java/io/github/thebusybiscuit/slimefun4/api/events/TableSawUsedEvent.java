@@ -41,14 +41,30 @@ public class TableSawUsedEvent extends PlayerEvent implements Cancellable {
         this.output = output;
     }
 
+    /**
+     * This returns the {@link Block} linked to the {@link TableSaw}.
+     * This {@link Block} triggered this {@link Event}.
+     * 
+     * @return The TableSaw {@link Block}
+     */
     public Block getBlock() {
         return this.block;
     }
 
+    /**
+     * This returns the {@link ItemStack} with the input materials.
+     * 
+     * @return The {@link ItemStack} of input items
+     */
     public ItemStack getInputItems() {
         return this.input;
     }
 
+    /**
+     * This returns the {@link ItemStack} with the output materials.
+     * 
+     * @return The {@link ItemStack} of output items
+     */
     public ItemStack getOutputItems() {
         return this.output;
     }
