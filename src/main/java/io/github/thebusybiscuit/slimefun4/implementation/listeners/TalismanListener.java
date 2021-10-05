@@ -364,6 +364,40 @@ public class TalismanListener implements Listener {
                     }
                 }
             }
+
+            // We also want to double crops
+            if (SlimefunTag.FARMER_TALISMAN_TRIGGERS.isTagged(type)) {
+                Collection<Item> drops = e.getItems();
+
+                if (Talisman.trigger(e, SlimefunItems.TALISMAN_FARMER, false)) {
+                    int dropAmount = getAmountWithFortune(type, meta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
+
+                    // Keep track of whether we actually doubled the drops or not
+                    boolean doubledDrops = false;
+
+                    // Loop through all dropped items
+                    for (Item drop : drops) {
+                        ItemStack droppedItem = drop.getItemStack();
+
+                        // We do not want to dupe blocks
+                        if (!droppedItem.getType().isBlock()) {
+                            int amount = Math.max(1, (dropAmount * 2) - droppedItem.getAmount());
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItemStack(droppedItem, amount));
+                            doubledDrops = true;
+                        }
+                    }
+
+                    // Fixes #2077
+                    if (doubledDrops) {
+                        Talisman talisman = SlimefunItems.TALISMAN_FARMER.getItem(Talisman.class);
+
+                        // Fixes #2818
+                        if (talisman != null) {
+                            talisman.sendMessage(e.getPlayer());
+                        }
+                    }
+                }
+            }
         }
     }
 

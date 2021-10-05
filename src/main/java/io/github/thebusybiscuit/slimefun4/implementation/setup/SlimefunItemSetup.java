@@ -824,6 +824,12 @@ public final class SlimefunItemSetup {
         false, false, "miner", 20)
         .register(plugin);
 
+        new Talisman(SlimefunItems.TALISMAN_FARMER,
+        new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.DIAMOND_HOE), SlimefunItems.COMMON_TALISMAN,  new ItemStack(Material.DIAMOND_HOE), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
+        false, false, "farmer", 20)
+        .register(plugin);
+
+
         new Talisman(SlimefunItems.TALISMAN_HUNTER,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.COMMON_TALISMAN, SlimefunItems.MONSTER_JERKY, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
         false, false, "hunter", 20)
