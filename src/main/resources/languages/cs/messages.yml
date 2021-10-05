@@ -131,7 +131,7 @@ messages:
     whirlwind: '&a&oTvůj talisman odrazil projektil'
     wizard: '&a&oTvůj talisman ti dal větší úroveň štěstí, ale možná snížil úroveň jiných očarování'
     caveman: '&a&oTvůj talisman ti dal spěch'
-    wise: '& a&aTvůj talisman zdvojnásobil zisk tvých zkušeností'
+    wise: '&a&oTvůj talisman zdvojnásobil zisk tvých zkušeností'
   soulbound-rune:
     fail: '&cSvou duši můžeš spoutat jen s jedním předmětem.'
     success: '&aÚspěšně jsi spoutal tento předmět se svou duši. Pokud zemřeš, předmět ti zůstane.'
@@ -220,7 +220,7 @@ machines:
     already-running: '&cTento průmyslový horník již běží!'
     full-chest: '&cBedna vašeho průmyslového horníka je plná!'
     no-permission: '&4Zdá se, že zde nemáš oprávnění používat průmyslového horníka!'
-    finished: '&eTvůj průmysloví horník dokončil práci! Získal %ores% rud!'
+    finished: '&eTvůj průmyslový horník dokončil práci! Získal %ores% rud!'
 anvil:
   not-working: '&4Předměty ze Slimefunu nelze použít v kovadlině!'
   mcmmo-salvaging: '&4Nemůžeš zachránit Slimefun předměty!'
