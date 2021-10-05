@@ -117,7 +117,7 @@ public class DataObject {
     }
 
     /**
-     * Get a int value in this {@link DataObject}, if the key doesn't exist it returns -1.
+     * Get an int value in this {@link DataObject}, if the key doesn't exist it returns -1.
      *
      * @param key The key of the data to retrieve
      * @return The int associated with this key or -1 if it doesn't exist
@@ -132,7 +132,7 @@ public class DataObject {
     }
 
     /**
-     * Get a int value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     * Get an int value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
      * @param key The key of the data to retrieve
      * @param defaultValue The specified default value
@@ -338,7 +338,7 @@ public class DataObject {
     }
 
     /**
-     * Get a int array in this {@link DataObject}, if the key doesn't exist it returns null.
+     * Get an int array in this {@link DataObject}, if the key doesn't exist it returns null.
      *
      * @param key The key of the data to retrieve
      * @return The int array associated with this key or null if it doesn't exist
@@ -354,7 +354,7 @@ public class DataObject {
     }
 
     /**
-     * Get a int array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     * Get an int array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
      * @param key The key of the data to retrieve
      * @param defaultValue The specified default value
@@ -540,6 +540,13 @@ public class DataObject {
     ///////////////////////////////
     // Setters
     ///////////////////////////////
+    /**
+     * Set a byte value in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setByte(NamespacedKey key, byte value) {
@@ -548,6 +555,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a short value in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setShort(NamespacedKey key, short value) {
@@ -556,6 +570,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set an int value in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setInt(NamespacedKey key, int value) {
@@ -564,6 +585,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a double value in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setDouble(NamespacedKey key, double value) {
@@ -572,6 +600,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a float value in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setFloat(NamespacedKey key, float value) {
@@ -580,6 +615,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a long value in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setLong(NamespacedKey key, long value) {
@@ -588,6 +630,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a boolean value in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setBoolean(NamespacedKey key, boolean value) {
@@ -596,6 +645,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a byte array in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setByteArray(NamespacedKey key, byte[] value) {
@@ -604,6 +660,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a short array in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setShortArray(NamespacedKey key, short[] value) {
@@ -612,6 +675,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set an int array in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setIntArray(NamespacedKey key, int[] value) {
@@ -620,6 +690,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a double array in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setDoubleArray(NamespacedKey key, double[] value) {
@@ -628,6 +705,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a float array in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setFloatArray(NamespacedKey key, float[] value) {
@@ -636,6 +720,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a long array in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setLongArray(NamespacedKey key, long[] value) {
@@ -644,6 +735,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a String in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setString(NamespacedKey key, String value) {
@@ -652,6 +750,13 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a {@link DataObject} in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public DataObject setDataObject(NamespacedKey key, DataObject value) {
@@ -660,6 +765,14 @@ public class DataObject {
         return this;
     }
 
+    /**
+     * Set a complex value in this {@link DataObject}.
+     *
+     * @param key The key of the data to set
+     * @param value The value to set
+     * @param transformer The transformer to use
+     * @return This {@link DataObject}. Used for chaining
+     */
     @Nonnull
     @CheckReturnValue
     public <T> DataObject set(NamespacedKey key, T value, Transformer<T> transformer) {
