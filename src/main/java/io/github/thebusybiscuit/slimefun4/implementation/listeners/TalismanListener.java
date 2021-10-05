@@ -46,6 +46,7 @@ import org.bukkit.util.Vector;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.AncientAltarCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.TableSawUsedEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -346,6 +347,19 @@ public class TalismanListener implements Listener {
 
                 e.setDropItems(false);
             }
+        }
+    }
+
+    @EventHandler
+    public void onTableSawUse(TableSawUsedEvent e) {
+        if (Talisman.trigger(e, SlimefunItems.TALISMAN_TELEKINESIS)) {
+            HashMap<Integer, ItemStack> failedItems = e.getPlayer().getInventory().addItem(e.getOutputItems());
+
+            if (failedItems.size() > 0) {
+                e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), failedItems.get(0));
+            }
+
+            e.setCancelled(true);
         }
     }
 
