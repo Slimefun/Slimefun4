@@ -208,6 +208,10 @@
                             <pattern>kong.unirest</pattern>
                             <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.unirest</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>com.github.luben</pattern>
+                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.zstd</shadedPattern>
+                        </relocation>
                     </relocations>
 
                     <!-- Exclude unneeded metadata files from shaded dependencies -->
@@ -370,6 +374,11 @@
                     <artifactId>gson</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.luben</groupId>
+            <artifactId>zstd-jni</artifactId>
+            <version>1.5.0-4</version>
         </dependency>
 
         <!-- Testing dependencies -->
