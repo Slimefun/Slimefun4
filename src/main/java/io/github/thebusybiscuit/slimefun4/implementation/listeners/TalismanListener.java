@@ -57,6 +57,7 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
  * @author StarWishsama
  * @author svr333
  * @author martinbrom
+ * @author Sfiguz7
  * 
  * @see Talisman
  *
