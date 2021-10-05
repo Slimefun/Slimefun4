@@ -2,14 +2,15 @@ package io.github.thebusybiscuit.slimefun4.storage;
 
 import org.bukkit.NamespacedKey;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface Transformer<T> {
 
     @ParametersAreNonnullByDefault
-    public abstract void transformInto(DataObject dataObject, NamespacedKey key, T  object);
+    void transformInto(DataObject dataObject, NamespacedKey key, T object);
 
+    @Nullable
     @ParametersAreNonnullByDefault
-    public T transformFrom(DataObject dataObject, NamespacedKey key);
-
+    T transformFrom(DataObject dataObject, NamespacedKey key);
 }

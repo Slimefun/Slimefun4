@@ -470,4 +470,11 @@ public class DataObject {
     public Set<Map.Entry<NamespacedKey, Type>> getEntries() {
         return this.data.entrySet();
     }
+
+    @Override
+    public String toString() {
+        return "DataObject{"
+            + "data=" + data.toString()
+            + "}";
+    }
 }

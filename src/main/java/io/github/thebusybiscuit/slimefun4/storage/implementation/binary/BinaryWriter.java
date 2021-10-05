@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.storage.implementation.binary;
 
-import com.github.luben.zstd.ZstdOutputStream;
 import io.github.thebusybiscuit.slimefun4.storage.DataObject;
 import io.github.thebusybiscuit.slimefun4.storage.type.BooleanType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteArrayType;
@@ -27,7 +26,6 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Map;
 
 /**
@@ -43,14 +41,18 @@ public class BinaryWriter {
     }
 
     public void write(@Nonnull DataObject object) {
-        try (final DataOutputStream writer = new DataOutputStream(new ZstdOutputStream(new FileOutputStream(file)))) {
+//        try (final DataOutputStream writer = new DataOutputStream(new ZstdOutputStream(new FileOutputStream(file)))) {
+        try (final DataOutputStream writer = new DataOutputStream(new FileOutputStream(file))) {
             // Write DataObject start
             writer.writeByte(TypeEnum.OBJECT.getId());
             // The root object does not have a name
 
+            System.out.println(object);
             for (Map.Entry<NamespacedKey, Type> entry : object.getEntries()) {
                 writeType(writer, entry.getKey(), entry.getValue());
             }
+
+            writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,6 +62,8 @@ public class BinaryWriter {
     private void writeType(DataOutputStream writer, NamespacedKey namespace, Type type) throws IOException {
         // We write the "id" of the type and the name.
         // This means we can read the type and the naming correctly
+        System.out.println("writeType(" + namespace + ", "
+            + type.getTypeEnum().name() + " - " + type.getTypeEnum().getId() + ')');
         writer.writeByte(type.getTypeEnum().getId());
         writer.writeUTF(namespace.toString());
 

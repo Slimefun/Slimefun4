@@ -13,7 +13,7 @@ public class UuidTransformer implements Transformer<UUID> {
     @Override
     @ParametersAreNonnullByDefault
     public void transformInto(DataObject dataObject, NamespacedKey key, UUID uuid) {
-        dataObject.addIntArray(key, toIntArray(uuid));
+        dataObject.setIntArray(key, toIntArray(uuid));
     }
 
     @Override
@@ -32,8 +32,19 @@ public class UuidTransformer implements Transformer<UUID> {
         Validate.notNull(ints, "The provided integer array cannot be null!");
         Validate.isTrue(ints.length == 4, "The integer array must have a length of 4");
 
-        return UUID((long) ints[0] << 32L | ints[1] & 0xFFFFFFFFL,
+        return new UUID((long) ints[0] << 32L | ints[1] & 0xFFFFFFFFL,
             (long) ints[2] << 32L | ints[3] & 0xFFFFFFFFL
         );
+    }
+
+    @Nonnull
+    private int[] toIntArray(@Nonnull UUID uuid) {
+        Validate.notNull(uuid, "The provided uuid cannot be null");
+
+        long mostSig = uuid.getMostSignificantBits();
+        long leastSig = uuid.getLeastSignificantBits();
+        return new int[]{(int) (mostSig >> 32), (int) mostSig,
+            (int) (mostSig >> 32), (int) mostSig
+        };
     }
 }

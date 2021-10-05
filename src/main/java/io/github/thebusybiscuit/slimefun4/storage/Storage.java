@@ -28,14 +28,17 @@ public abstract class Storage {
 
     @Nullable
     public DataObject getBlock(BlockPosition blockPosition) {
-        final ChunkPosition pos = new ChunkPosition(blockPosition.getChunk());
-        final DataObject chunk = this.chunkData.get(pos);
+//        final ChunkPosition pos = new ChunkPosition(blockPosition.getChunk());
+        final ChunkPosition fake = new ChunkPosition(null, 1, 1);
+        final DataObject chunk = this.chunkData.get(fake);
 
         if (chunk != null) {
             // TODO: Return the actual data
-            return chunk.getObject("Blocks");
+//            return chunk.getObject("Blocks");
+//            return new DataObject();
+            return chunk;
         } else {
-            return null;
+            return new DataObject();
         }
     }
 

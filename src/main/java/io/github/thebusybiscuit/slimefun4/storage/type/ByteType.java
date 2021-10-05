@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.storage.type;
 
 import javax.annotation.Nonnull;
 
-public class ByteType extends Type {
+public class ByteType implements Type {
 
     private final byte value;
 

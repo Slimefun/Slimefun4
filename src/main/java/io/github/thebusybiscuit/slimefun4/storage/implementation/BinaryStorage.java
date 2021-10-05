@@ -67,9 +67,7 @@ public class BinaryStorage extends Storage {
     }
 
     private void writeRegionData(@Nonnull File regionFile, @Nonnull DataObject object) {
-        // TODO
-
-
+        // TODO: Figure out how I want to actually write a region specific one
 
         // Data structure:
         // Index table
