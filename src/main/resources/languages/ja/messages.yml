@@ -33,7 +33,7 @@ placeholderapi:
 guide:
   locked: 'ロック中'
   work-in-progress: 'まだこの項目は未完成です！'
-  locked-category:
+  locked-itemgroup:
     - 'このカテゴリを開放するには'
     - '以下のカテゴリの全アイテムを'
     - 'リサーチしてください'
@@ -43,7 +43,7 @@ guide:
     tooltip: '&bクリックでアイテムの検索'
     inventory: '検索結果: %item%'
   tooltips:
-    open-category: 'クリックで開く'
+    open-itemgroup: 'クリックで開く'
     versions-notice: 'バグ報告をお願いします！'
     wiki: 'このアイテムを公式Wikiで確認する'
     recipes:

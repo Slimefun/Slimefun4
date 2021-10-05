@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -15,31 +19,60 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link OreWasher} is a special {@link MultiBlockMachine} which allows you to
+ * turn Sifted Ore into ore dusts.
+ * 
+ * @author TheBusyBiscuit
+ * @author Sfiguz7
+ *
+ */
 public class OreWasher extends MultiBlockMachine {
 
+    // @formatter:off
+    private final ItemStack[] dusts = new ItemStack[] {
+        SlimefunItems.IRON_DUST,
+        SlimefunItems.GOLD_DUST,
+        SlimefunItems.COPPER_DUST,
+        SlimefunItems.TIN_DUST,
+        SlimefunItems.ZINC_DUST,
+        SlimefunItems.ALUMINUM_DUST,
+        SlimefunItems.MAGNESIUM_DUST,
+        SlimefunItems.LEAD_DUST,
+        SlimefunItems.SILVER_DUST
+    };
+    // @formatter:on
+
     private final boolean legacyMode;
-    private final ItemStack[] dusts;
 
-    public OreWasher(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
+    @ParametersAreNonnullByDefault
+    public OreWasher(ItemGroup itemGroup, SlimefunItemStack item) {
+        // @formatter:off
+        super(itemGroup, item, new ItemStack[] {
+            null, new ItemStack(Material.DISPENSER), null,
+            null, new ItemStack(Material.OAK_FENCE), null,
+            null, new ItemStack(Material.CAULDRON), null
+        }, BlockFace.SELF);
+        // @formatter:on
 
-        legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-ore-washer");
-        dusts = new ItemStack[] { SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.TIN_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.MAGNESIUM_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST };
+        legacyMode = Slimefun.getCfg().getBoolean("options.legacy-ore-washer");
     }
 
     @Override
     protected void registerDefaultRecipes(List<ItemStack> recipes) {
-        // Iron and Gold are displayed as Ore Crusher recipes, as that is their primary
-        // way of obtaining them. But we also wanna display them here, so we just
-        // add these two recipes manually
+        /*
+         * Iron and Gold are displayed as Ore Crusher recipes, as that is their primary
+         * way of obtaining them. But we also wanna display them here, so we just
+         * add these two recipes manually
+         */
         recipes.add(SlimefunItems.SIFTED_ORE);
         recipes.add(SlimefunItems.IRON_DUST);
 
@@ -68,14 +101,15 @@ public class OreWasher extends MultiBlockMachine {
                         Inventory outputInv = null;
 
                         if (!legacyMode) {
-                            // This is a fancy way of checking if there is empty space in the inv; by checking if an
-                            // unobtainable item could fit in it.
-                            // However, due to the way the method findValidOutputInv() functions, the dummyAdding will
-                            // never
-                            // actually be added to the real inventory,
-                            // so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH
-                            // however, signals that it's
-                            // not supposed to be given to the player.
+                            /*
+                             * This is a fancy way of checking if there is empty space in the inv
+                             * by checking if an unobtainable item could fit in it.
+                             * However, due to the way the method findValidOutputInv() functions,
+                             * the dummyAdding will never actually be added to the real inventory,
+                             * so it really doesn't matter what item the ItemStack is made by.
+                             * SlimefunItems.DEBUG_FISH however, signals that it's not supposed
+                             * to be given to the player.
+                             */
                             ItemStack dummyAdding = SlimefunItems.DEBUG_FISH;
                             outputInv = findOutputInventory(dummyAdding, dispBlock, inv);
                         } else {
@@ -106,11 +140,12 @@ public class OreWasher extends MultiBlockMachine {
                     }
                 }
             }
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
 
-    private void removeItem(Player p, Block b, Inventory inputInv, Inventory outputInv, ItemStack input, ItemStack output, int amount) {
+    @ParametersAreNonnullByDefault
+    private void removeItem(Player p, Block b, Inventory inputInv, @Nullable Inventory outputInv, ItemStack input, ItemStack output, int amount) {
         if (outputInv != null) {
             ItemStack removing = input.clone();
             removing.setAmount(amount);
@@ -120,7 +155,7 @@ public class OreWasher extends MultiBlockMachine {
             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
             b.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 
@@ -129,7 +164,7 @@ public class OreWasher extends MultiBlockMachine {
      * 
      * @return A randomly picked dust item
      */
-    public ItemStack getRandomDust() {
+    public @Nonnull ItemStack getRandomDust() {
         int index = ThreadLocalRandom.current().nextInt(dusts.length);
         return dusts[index].clone();
     }

@@ -43,15 +43,16 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.AncientAltarCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -70,7 +71,7 @@ public class TalismanListener implements Listener {
 
     private final int[] armorSlots = { 39, 38, 37, 36 };
 
-    public TalismanListener(@Nonnull SlimefunPlugin plugin) {
+    public TalismanListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -148,16 +149,28 @@ public class TalismanListener implements Listener {
     public void onItemBreak(PlayerItemBreakEvent e) {
         if (Talisman.trigger(e, SlimefunItems.TALISMAN_ANVIL)) {
             PlayerInventory inv = e.getPlayer().getInventory();
-            int slot = inv.getHeldItemSlot();
+
+            ItemStack brokenItem = e.getBrokenItem();
+
+            int slot = -1;
 
             // Did the tool in our hand break or was it an armor piece?
-            if (!e.getBrokenItem().equals(inv.getItemInMainHand())) {
+            if (brokenItem.equals(inv.getItemInMainHand())) {
+                slot = inv.getHeldItemSlot();
+            } else if (brokenItem.equals(inv.getItemInOffHand())) {
+                slot = 40;
+            } else {
                 for (int s : armorSlots) {
                     if (e.getBrokenItem().equals(inv.getItem(s))) {
                         slot = s;
                         break;
                     }
                 }
+            }
+
+            // No item found, just return.
+            if (slot < 0) {
+                return;
             }
 
             ItemStack item = e.getBrokenItem().clone();
@@ -172,7 +185,7 @@ public class TalismanListener implements Listener {
             int itemSlot = slot;
 
             // Update the item forcefully
-            SlimefunPlugin.runSync(() -> inv.setItem(itemSlot, item), 1L);
+            Slimefun.runSync(() -> inv.setItem(itemSlot, item), 1L);
         }
     }
 
@@ -260,8 +273,8 @@ public class TalismanListener implements Listener {
 
                         // We do not want to dupe blocks
                         if (!droppedItem.getType().isBlock()) {
-                            droppedItem.setAmount(Math.max(1, dropAmount * 2));
-                            drop.setItemStack(droppedItem);
+                            int amount = Math.max(1, (dropAmount * 2) - droppedItem.getAmount());
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItemStack(droppedItem, amount));
                             doubledDrops = true;
                         }
                     }

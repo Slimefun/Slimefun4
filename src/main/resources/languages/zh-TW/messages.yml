@@ -33,7 +33,7 @@ placeholderapi:
 guide:
   locked: '已鎖定'
   work-in-progress: '此功能尚未開發完成！'
-  locked-category:
+  locked-itemgroup:
     - '要解鎖此分類'
     - '必須先解鎖下列分類'
     - '的所有物品'
@@ -43,7 +43,7 @@ guide:
     tooltip: '&b點擊以尋找物品'
     inventory: '搜尋：%item%'
   tooltips:
-    open-category: '點擊開啟'
+    open-itemgroup: '點擊開啟'
     versions-notice: '這些在回報錯誤時非常重要！'
     wiki: '在Slimefun官方Wiki上查看此物品'
     recipes:

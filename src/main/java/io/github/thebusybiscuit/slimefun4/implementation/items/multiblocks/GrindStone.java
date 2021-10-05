@@ -16,21 +16,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class GrindStone extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
-    public GrindStone(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
+    public GrindStone(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
     }
 
     @Override
@@ -80,6 +81,11 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.QUARTZ_BLOCK));
         recipes.add(new ItemStack(Material.QUARTZ, 4));
 
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            recipes.add(new ItemStack(Material.AMETHYST_BLOCK));
+            recipes.add(new ItemStack(Material.AMETHYST_SHARD, 4));
+        }
+
         recipes.add(SlimefunItems.MAGIC_LUMP_2);
         recipes.add(new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_1, 4));
 
@@ -91,6 +97,9 @@ public class GrindStone extends MultiBlockMachine {
 
         recipes.add(SlimefunItems.ENDER_LUMP_3);
         recipes.add(new SlimefunItemStack(SlimefunItems.ENDER_LUMP_2, 4));
+
+        recipes.add(new ItemStack(Material.DIAMOND));
+        recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
     }
 
     @Override
@@ -120,7 +129,7 @@ public class GrindStone extends MultiBlockMachine {
                             outputInv.addItem(output);
                             p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
                         } else {
-                            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
 
                         return;
@@ -128,7 +137,7 @@ public class GrindStone extends MultiBlockMachine {
                 }
             }
 
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
 

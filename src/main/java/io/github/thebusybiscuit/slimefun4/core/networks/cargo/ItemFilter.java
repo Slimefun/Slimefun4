@@ -11,11 +11,12 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
@@ -79,7 +80,7 @@ class ItemFilter implements Predicate<ItemStack> {
         // Store the returned Config instance to avoid heavy calls
         Config blockData = BlockStorage.getLocationInfo(b.getLocation());
         String id = blockData.getString("id");
-        SlimefunItem item = SlimefunItem.getByID(id);
+        SlimefunItem item = SlimefunItem.getById(id);
         BlockMenu menu = BlockStorage.getInventory(b.getLocation());
 
         if (!(item instanceof CargoNode) || menu == null) {
@@ -158,7 +159,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
     @Override
     public boolean test(@Nonnull ItemStack item) {
-        /**
+        /*
          * An empty Filter does not need to be iterated over.
          * We can just return our default value in this scenario.
          */
@@ -200,7 +201,7 @@ class ItemFilter implements Predicate<ItemStack> {
                     /*
                      * The filter has found a match, we can return the opposite
                      * of our default value. If we exclude items, this is where we
-                     * would return false. Otherwise we return true.
+                     * would return false. Otherwise, we return true.
                      */
                     return !rejectOnMatch;
                 }

@@ -15,7 +15,7 @@ commands:
     reset-target: '&c Twoja wiedza została zresetowana'
 guide:
   locked: 'Zablokowany'
-  locked-category:
+  locked-itemgroup:
     - 'Aby odblokować tę kategorię, będziesz'
     - 'Musisz odblokować wszystkie przedmioty z'
     - 'Następujące kategorie'
@@ -25,7 +25,7 @@ guide:
     tooltip: '&bKliknij, aby wyszukać przedmiot'
     inventory: 'Wyszukiwanie dla: % item%'
   tooltips:
-    open-category: 'Kliknij, aby otworzyć'
+    open-itemgroup: 'Kliknij, aby otworzyć'
     versions-notice: 'Jest to bardzo ważne przy zgłaszaniu błędów!'
     wiki: 'Zobacz ten przedmiot na oficjalnej stronie Wiki Slimefun'
     recipes:

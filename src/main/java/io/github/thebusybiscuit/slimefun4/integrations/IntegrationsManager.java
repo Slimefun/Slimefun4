@@ -11,14 +11,18 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
+import com.gmail.nossr50.util.skills.SkillUtils;
+
+import io.github.bakedlibs.dough.protection.ProtectionManager;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 
 import dev.lone.itemsadder.api.ItemsAdder;
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
@@ -28,15 +32,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  * 
  * @author TheBusyBiscuit
  * 
- * @see SlimefunPlugin
+ * @see Slimefun
  *
  */
 public class IntegrationsManager {
 
     /**
-     * This is our instance of {@link SlimefunPlugin}.
+     * This is our instance of {@link Slimefun}.
      */
-    protected final SlimefunPlugin plugin;
+    protected final Slimefun plugin;
 
     /**
      * Our {@link ProtectionManager} instance.
@@ -54,6 +58,7 @@ public class IntegrationsManager {
     private boolean isMcMMOInstalled = false;
     private boolean isClearLagInstalled = false;
     private boolean isItemsAdderInstalled = false;
+    private boolean isOrebfuscatorInstalled = false;
 
     // Addon support
     private boolean isChestTerminalInstalled = false;
@@ -62,9 +67,9 @@ public class IntegrationsManager {
      * This initializes the {@link IntegrationsManager}
      * 
      * @param plugin
-     *            Our instance of {@link SlimefunPlugin}
+     *            Our instance of {@link Slimefun}
      */
-    public IntegrationsManager(@Nonnull SlimefunPlugin plugin) {
+    public IntegrationsManager(@Nonnull Slimefun plugin) {
         this.plugin = plugin;
     }
 
@@ -137,8 +142,14 @@ public class IntegrationsManager {
             // Load Protection plugin integrations
             protectionManager = new ProtectionManager(plugin.getServer());
         } catch (Exception | LinkageError x) {
-            SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Failed to load Protection plugin integrations for Slimefun v" + SlimefunPlugin.getVersion());
+            Slimefun.logger().log(Level.WARNING, x, () -> "Failed to load Protection plugin integrations for Slimefun v" + Slimefun.getVersion());
         }
+
+        // Orebfuscator Integration
+        load("Orebfuscator", integration -> {
+            new OrebfuscatorIntegration(plugin).register();
+            isOrebfuscatorInstalled = true;
+        });
 
         isChestTerminalInstalled = isAddonInstalled("ChestTerminal");
     }
@@ -153,7 +164,7 @@ public class IntegrationsManager {
      */
     private boolean isAddonInstalled(@Nonnull String addon) {
         if (plugin.getServer().getPluginManager().isPluginEnabled(addon)) {
-            SlimefunPlugin.logger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
+            Slimefun.logger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
             return true;
         } else {
             return false;
@@ -177,10 +188,10 @@ public class IntegrationsManager {
 
         if (externalPlugin != null) {
             String version = externalPlugin.getDescription().getVersion();
-            SlimefunPlugin.logger().log(Level.WARNING, "Is {0} v{1} up to date?", new Object[] { name, version });
-            SlimefunPlugin.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with \"" + name + " v" + version + "\"");
+            Slimefun.logger().log(Level.WARNING, "Is {0} v{1} up to date?", new Object[] { name, version });
+            Slimefun.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with \"" + name + " v" + version + "\"");
         } else {
-            SlimefunPlugin.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with the plugin \"" + name + "\"");
+            Slimefun.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with the plugin \"" + name + "\"");
         }
     }
 
@@ -198,14 +209,14 @@ public class IntegrationsManager {
 
         if (integration != null && integration.isEnabled()) {
             String version = integration.getDescription().getVersion();
-            SlimefunPlugin.logger().log(Level.INFO, "Hooked into Plugin: {0} v{1}", new Object[] { pluginName, version });
+            Slimefun.logger().log(Level.INFO, "Hooked into Plugin: {0} v{1}", new Object[] { pluginName, version });
 
             try {
                 // Run our callback
                 consumer.accept(integration);
             } catch (Exception | LinkageError x) {
-                SlimefunPlugin.logger().log(Level.WARNING, "Maybe consider updating {0} or Slimefun?", pluginName);
-                SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Failed to hook into " + pluginName + " v" + version);
+                Slimefun.logger().log(Level.WARNING, "Maybe consider updating {0} or Slimefun?", pluginName);
+                Slimefun.logger().log(Level.WARNING, x, () -> "Failed to hook into " + pluginName + " v" + version);
             }
         }
     }
@@ -216,8 +227,7 @@ public class IntegrationsManager {
      * 
      * @return Our instanceof of the {@link ProtectionManager}
      */
-    @Nonnull
-    public ProtectionManager getProtectionManager() {
+    public @Nonnull ProtectionManager getProtectionManager() {
         return protectionManager;
     }
 
@@ -257,6 +267,47 @@ public class IntegrationsManager {
         return false;
     }
 
+    /**
+     * This checks if one of our third party integrations defines a given
+     * {@link ItemStack} as custom.
+     * 
+     * @param item
+     *            The {@link ItemStack} to check
+     * 
+     * @return Whether this {@link ItemStack} is a custom item
+     */
+    @SuppressWarnings("deprecation")
+    public boolean isCustomItem(@Nonnull ItemStack item) {
+        if (isItemsAdderInstalled) {
+            try {
+                return ItemsAdder.isCustomItem(item);
+            } catch (Exception | LinkageError x) {
+                logError("ItemsAdder", x);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * This method removes any temporary enchantments from the given {@link ItemStack}.
+     * Some plugins apply enchantments for a short amount of time and remove it later.
+     * We don't want these items to be exploited using an {@link AutoDisenchanter} for example,
+     * so we want to be able to strip those temporary enchantments in advance.
+     * 
+     * @param item
+     *            The {@link ItemStack}
+     */
+    public void removeTemporaryEnchantments(@Nonnull ItemStack item) {
+        if (isMcMMOInstalled) {
+            try {
+                SkillUtils.removeAbilityBuff(item);
+            } catch (Exception | LinkageError x) {
+                logError("mcMMO", x);
+            }
+        }
+    }
+
     public boolean isPlaceholderAPIInstalled() {
         return isPlaceholderAPIInstalled;
     }
@@ -281,4 +332,7 @@ public class IntegrationsManager {
         return isChestTerminalInstalled;
     }
 
+    public boolean isOrebfuscatorInstalled() {
+        return isOrebfuscatorInstalled;
+    }
 }

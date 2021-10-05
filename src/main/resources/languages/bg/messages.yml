@@ -33,7 +33,7 @@ placeholderapi:
 guide:
   locked: 'ЗАКЛЮЧЕНО'
   work-in-progress: 'Тази функция не е завършена все още!'
-  locked-category:
+  locked-itemgroup:
     - 'За да отключите тази категория'
     - 'ще трябва да отключите всички предмети от'
     - 'следните категории'
@@ -43,7 +43,7 @@ guide:
     tooltip: '&bНатисни, за да търсиш предмет'
     inventory: 'Търсене за: %item%'
   tooltips:
-    open-category: 'Натиснете, за да отворите'
+    open-itemgroup: 'Натиснете, за да отворите'
     versions-notice: 'Тези са много важни, когато докладвате бъгове!'
     wiki: 'Вижте този Предмет в официалното Уики на Slimefun'
     recipes:

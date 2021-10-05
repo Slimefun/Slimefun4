@@ -5,15 +5,16 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.papermc.lib.PaperLib;
 
 /**
  * This enum holds all versions of Minecraft that we currently support.
  * 
  * @author TheBusyBiscuit
+ * @author Walshy
  * 
- * @see SlimefunPlugin
+ * @see Slimefun
  *
  */
 public enum MinecraftVersion {
@@ -35,6 +36,13 @@ public enum MinecraftVersion {
      * (The "Nether Update")
      */
     MINECRAFT_1_16(16, "1.16.x"),
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.17
+     * (The "Caves and Cliffs: Part I" Update)
+     *
+     */
+    MINECRAFT_1_17(17, "1.17.x"),
 
     /**
      * This constant represents an exceptional state in which we were unable

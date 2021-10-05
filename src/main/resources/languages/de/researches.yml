@@ -211,6 +211,7 @@ slimefun:
   better_heated_pressure_chamber: Unter Druck
   elytra: Gleitflügel
   special_elytras: Verzauberte Gleitflügel
+  trident: Dreizack
   electric_crucible: Elektrischer Schmelztiegel
   better_electric_crucibles: Verbesserter Schmelztiegel
   advanced_electric_smeltery: Verbesserter elektrischer Schmelzofen
@@ -256,3 +257,4 @@ slimefun:
   improved_generators: Verbesserte Generatoren
   ingredients_and_cheese: Eine Basis für jede Küche
   medium_tier_auto_enchanting: Schnelle Verzauberungsmaschinen
+  portable_teleporter: Ein handlicher Teleporter

@@ -28,7 +28,7 @@ placeholderapi:
 guide:
   locked: 'VERGRENDELD'
   work-in-progress: 'Dit is nog niet helemaal klaar!'
-  locked-category:
+  locked-itemgroup:
     - 'Om deze categorie te ontgrendelen zul je'
     - 'alle items moeten ontgrendelen van de'
     - 'volgende categorieën'
@@ -38,7 +38,7 @@ guide:
     tooltip: '&bKlik om naar een item te zoeken'
     inventory: 'Zoeken naar: %item%'
   tooltips:
-    open-category: 'Klik om te openen'
+    open-itemgroup: 'Klik om te openen'
     versions-notice: 'Deze zijn erg belangrijk voor het rapporteren van fouten!'
     wiki: 'Bekijk dit voorwerp op de officiële Slimefun Wiki'
     recipes:

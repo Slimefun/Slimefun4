@@ -33,7 +33,7 @@ placeholderapi:
 guide:
   locked: 'GESPERRT'
   work-in-progress: 'Dieses Feature befindet sich noch in der Testphase!'
-  locked-category:
+  locked-itemgroup:
     - 'Um diese Kategorie freizuschalten,'
     - 'müssen zuerst sämtliche Items der'
     - 'folgenden Kategorien freigeschaltet werden'
@@ -43,7 +43,7 @@ guide:
     tooltip: '&bKlicke um die Suche zu starten'
     inventory: 'Suche nach: %item%'
   tooltips:
-    open-category: 'Klicke zum Öffnen'
+    open-itemgroup: 'Klicke zum Öffnen'
     versions-notice: 'Dies ist sehr wichtig bei Fehlermeldungen!'
     wiki: 'Besuche das offizielle Slimefun-Wiki'
     recipes:
@@ -151,6 +151,9 @@ messages:
     select: 'Dieses Rezept auswählen'
     temporarily-disabled: '&eDieser Auto-Crafter wurde vorübergehend deaktiviert. Du kannst ihn jederzeit wieder aktivieren!'
     re-enabled: '&eDieser Auto-Crafter wurde reaktiviert!'
+    recipe-unavailable: |
+      &cDieses Item ist entweder auf deinem Server deaktiviert oder du hast es noch nicht freigeschaltet.
+      &7Versuche das Item herzustellen, wenn du dies noch nicht getan hast, um das Rezept freizuschalten.
     tooltips:
       enabled:
         - '&cDieses Rezept ist momentan deaktiviert'

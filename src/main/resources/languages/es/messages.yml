@@ -31,7 +31,7 @@ commands:
 guide:
   locked: 'BLOQUEADO'
   work-in-progress: '¡¡¡Esta característica no está completamente terminada todavía!!'
-  locked-category:
+  locked-itemgroup:
     - 'Para desbloquear esta categoría deberás'
     - 'desbloquear todos los objetos de las'
     - 'siguientes categorías'
@@ -41,7 +41,7 @@ guide:
     tooltip: '&bCliquea para buscar un objeto'
     inventory: 'Buscando: %item%'
   tooltips:
-    open-category: 'Cliquea para abrir'
+    open-itemgroup: 'Cliquea para abrir'
     versions-notice: '¡Esto es muy importante cuando se reportan bugs!'
     wiki: 'Ve este objeto en la wiki oficial de Slimefun'
     recipes:

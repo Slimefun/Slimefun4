@@ -1,5 +1,9 @@
 # Table of contents
-- [Release Candidate 25 (TBD)](#release-candidate-25-tbd)
+- [Release Candidate 29 (TBD)](#release-candidate-29-tbd)
+- [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
+- [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
+- [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
+- [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
 - [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
 - [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
 - [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
@@ -25,12 +29,118 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 25 (TBD)
+## Release Candidate 29 (TBD)
+
+#### Additions
+* Added support for deepslate ores and copper with the Hercules' Pickaxe
+* The Electric Crucible now also accepts Netherrack
+* The Electric Crucible now also accepts Stone
+
+#### Changes
+* Massive performance improvements for Cargo networks
+
+#### Fixes
+* Fixed #3218
+* Fixed #3241
+* Fixed #3248
+* Fixed #3273
+* Fixed an exploit regarding the Smithing Table
+* Fixed #3265
+* (API) `SolarGenerator` has a new constructor to accept capacity
+
+## Release Candidate 28 (06 Sep 2021)
+
+#### Fixes
+* Fixed Metrics
+* Fixed some naming conventions and localization keys for RC-27
+
+## Release Candidate 27 (03 Sep 2021)
+
+### **Breaking Changes (API)**
+This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
+
+* Category has been renamed to ItemGroup.
+* All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun4.api.items.groups`
+* The SlimefunItem class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The SlimefunItemStack class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The ItemHandler class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The RecipeType class has been relocated to `io.github.thebusybiscuit.slimefun4.api.recipes`
+* Research classes have been moved from `io.github.thebusybiscuit.slimefun4.core.researching` to `io.github.thebusybiscuit.slimefun4.api.researches`
+* The main class `SlimefunPlugin` was renamed to `Slimefun`
+* CS-CoreLib2 was removed and replaced by dough
+
+#### Additions
+* A couple more items have their wiki page linked ingame now
+* Added Orebfuscator compatibility
+* You can now "sneak + left click" to only break one block at a time when using an explosive pickaxe or shovel
+* The luck effect from Enhanced Furnaces now also applies to Raw Ore
+* Locked items will now show the category in which they should be unlocked from
+* Added 4 "Amethyst Shard -> 1 Amethyst Block" recipe to Electric Press
+* Added 9 "Copper Ingot -> 1 Copper Block" recipe to Electric Press
+* Added 9 "Raw Iron -> 1 Raw Iron Block" recipe to Electric Press
+* Added 9 "Raw Gold -> 1 Raw Gold Block" recipe to Electric Press
+* Added 9 "Raw Copper -> 1 Raw Copper Block" recipe to Electric Press
+
+#### Changes
+* Copper wire can no longer be placed down
+* Slimefun chains can no longer be placed down
+* (API) FlexCategories can now also appear in non-survival Slimefun guides
+* Display items from Ancient Altars should no longer despawn so easily/fast
+* Research message was modified to also show the category of the item
+
+#### Fixes
+* Fixed #3164
+* Fixed #3177
+* Fixed unbreakable Flint and Steel still being damaged in Ignition Chambers
+* Fixed #2677
+* Fixed Auto-Disenchanter exploit using mcMMO's "super ability" tools
+* Fixed #3190
+* Fixed #3203
+* Fixed #3225
+* Fixed #3206
+* Fixed androids not respecting Worldborders
+* Fixed Ender Lumps showing an incorrect recipe in the guide
+
+## Release Candidate 26 (20 Jul 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
+
+#### Additions
+* Diamonds can now be ground into Carbon using a Grind Stone
+* Deepslate ores can now be doubled using an Ore Crusher
+* Tridents can now be crafted
+* The Industrial Miner can now mine up to the minimum world limit (previously only until y=0)
+* (API) Added SlimefunItemSpawnEvent and ItemSpawnReason
+* Added "Amethyst Block -> 4 Amethyst Shards" recipe to the Grind Stone
+* Added an option to the IndustrialMiner to configure if they can mine deepslate ores
+* (API) Added `LimitedUseItem`
+
+#### Changes
+* The Industrial Miner now properly drops raw ores in 1.17+ instead of ore blocks
+
+#### Fixes
+* Fixed #2966
+* Fixed Auto-Crafters bypassing the `doLimitedCrafting` gamerule
+* Fixed "Talisman of Anvil" having issues with off-hand items
+* Fixed #3136
+
+## Release Candidate 25 (20 Jun 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 
 #### Additions
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
 * Added a startup warning for when CS-CoreLib is still installed
 * (API) Added WeaponUseHandler
+* Added support for Minecraft 1.17
+* Added "Deepslate -> Lava" recipe to the Crucible
+* Added "Cobbled Deepslate -> Lava" recipe to the Crucible
+* Added "Tuff -> Lava" recipe to the Crucible
+* Added "Copper Ingot -> Copper Dust" recipe to the Ingot Pulverizer
+* Added Goats as a milk source for the Produce Collector
+* Added "Raw Iron -> Iron Dust" recipe to the Ore Crusher
+* Added "Raw Gold -> Gold Dust" recipe to the Ore Crusher
+* Added "Raw Copper -> Copper Dust" recipe to the Ore Crusher
+* Debug Fish can now read Slimefun Tags for vanilla blocks
+* The Icy Bow now gives a freezing effect on 1.17
 
 #### Changes
 * (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
@@ -39,7 +149,8 @@
 * (API) Removed AsyncReactorProcessCompleteEvent
 
 #### Fixes
-* Fixed 3105
+* Fixed #3105
+* Fixed #3116
 
 ## Release Candidate 24 (03 Jun 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24

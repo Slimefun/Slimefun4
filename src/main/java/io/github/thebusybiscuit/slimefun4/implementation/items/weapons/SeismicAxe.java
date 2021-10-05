@@ -25,14 +25,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 
 /**
  * The {@link SeismicAxe} is an interesting weapon. It spawns ghostly block entities in a straight line
@@ -52,8 +53,8 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
     private static final int RANGE = 10;
 
     @ParametersAreNonnullByDefault
-    public SeismicAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public SeismicAxe(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override
@@ -103,7 +104,7 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
         FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlockData());
         block.setDropItem(false);
         block.setVelocity(new Vector(0, 0.4 + index * 0.01, 0));
-        block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance(), "fake_block"));
+        block.setMetadata("seismic_axe", new FixedMetadataValue(Slimefun.instance(), "fake_block"));
     }
 
     @ParametersAreNonnullByDefault
@@ -150,7 +151,8 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
 
     private @Nonnull Block findGround(@Nonnull Block b) {
         if (b.getType() == Material.AIR) {
-            for (int y = 0; y < b.getY(); y++) {
+            int minHeight = WorldUtils.getMinHeight(b.getWorld());
+            for (int y = 0; b.getY() - y > minHeight; y++) {
                 Block block = b.getRelative(0, -y, 0);
 
                 if (block.getType() != Material.AIR) {

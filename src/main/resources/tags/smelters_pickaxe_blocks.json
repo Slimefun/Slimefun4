@@ -1,14 +1,9 @@
 {
-	"values" : [
-		{
-			"id" : "#minecraft:gold_ores",
-			"required" : false
-		},
-		"minecraft:gold_ore",
-		"minecraft:iron_ore",
-		{
-			"id" : "minecraft:ancient_debris",
-			"required" : false
-		}
-	]
+    "values" : [
+        "#slimefun:ores",
+        {
+            "id" : "minecraft:ancient_debris",
+            "required" : false
+        }
+    ]
 }

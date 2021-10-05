@@ -33,7 +33,7 @@ placeholderapi:
 guide:
   locked: 'LEZÁRVA'
   work-in-progress: 'Ez a funkció még nem készült el teljesen!'
-  locked-category:
+  locked-itemgroup:
     - 'Ennek a kategóriának a feloldásához'
     - 'fel kell oldanod az összes tárgyat'
     - 'a következő kategóriákból'
@@ -43,7 +43,7 @@ guide:
     tooltip: '&bKlikk egy tárgy kereséséhez'
     inventory: 'Keresés erre: %item%'
   tooltips:
-    open-category: 'Kattints a megnyitáshoz'
+    open-itemgroup: 'Kattints a megnyitáshoz'
     versions-notice: 'Ezek nagyon fontosak a hibák jelentésekor!'
     wiki: 'Tekintsd meg ezt a tárgyat a hivatalos Slimefun Wikin'
     recipes:
@@ -152,6 +152,9 @@ messages:
     select: 'Válaszd ki ezt a receptet'
     temporarily-disabled: '&eEz az Autómatikus Barkácsoló ideiglenesen ki van kapcsolva. Bármikor bekapcsolhatod!'
     re-enabled: '&eAutómata barkácsoló visszakapcsolva!'
+    recipe-unavailable: |
+      &cEz a tárgy vagy ki van kapcsolva a szerveren, vagy még nem oldottad fel.
+      &7Próbáld meg elkészíteni a tárgyat, ha még nem tetted volna, hogy felold a receptet.
     tooltips:
       enabled:
         - '&aEz a recept jelenleg be van kapcsolva'

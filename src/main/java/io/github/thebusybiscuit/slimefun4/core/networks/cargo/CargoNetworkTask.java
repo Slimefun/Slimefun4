@@ -15,18 +15,21 @@ import java.util.logging.Level;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 
@@ -58,7 +61,7 @@ class CargoNetworkTask implements Runnable {
     @ParametersAreNonnullByDefault
     CargoNetworkTask(CargoNet network, Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs, Set<Location> chestTerminalInputs, Set<Location> chestTerminalOutputs) {
         this.network = network;
-        this.manager = SlimefunPlugin.getNetworkManager();
+        this.manager = Slimefun.getNetworkManager();
 
         this.inputs = inputs;
         this.outputs = outputs;
@@ -72,7 +75,7 @@ class CargoNetworkTask implements Runnable {
 
         try {
             // Chest Terminal Code
-            if (SlimefunPlugin.getIntegrations().isChestTerminalInstalled()) {
+            if (Slimefun.getIntegrations().isChestTerminalInstalled()) {
                 network.handleItemRequests(inventories, chestTerminalInputs, chestTerminalOutputs);
             }
 
@@ -89,20 +92,20 @@ class CargoNetworkTask implements Runnable {
                 attachedBlock.ifPresent(block -> routeItems(input, block, entry.getValue(), outputs));
 
                 // This will prevent this timings from showing up for the Cargo Manager
-                timestamp += SlimefunPlugin.getProfiler().closeEntry(entry.getKey(), inputNode, nodeTimestamp);
+                timestamp += Slimefun.getProfiler().closeEntry(entry.getKey(), inputNode, nodeTimestamp);
             }
 
             // Chest Terminal Code
-            if (SlimefunPlugin.getIntegrations().isChestTerminalInstalled()) {
+            if (Slimefun.getIntegrations().isChestTerminalInstalled()) {
                 // This will deduct any CT timings and attribute them towards the actual terminal
                 timestamp += network.updateTerminals(chestTerminalInputs);
             }
         } catch (Exception | LinkageError x) {
-            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking a Cargo network @ " + new BlockPosition(network.getRegulator()));
+            Slimefun.logger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking a Cargo network @ " + new BlockPosition(network.getRegulator()));
         }
 
         // Submit a timings report
-        SlimefunPlugin.getProfiler().closeEntry(network.getRegulator(), SlimefunItems.CARGO_MANAGER.getItem(), timestamp);
+        Slimefun.getProfiler().closeEntry(network.getRegulator(), SlimefunItems.CARGO_MANAGER.getItem(), timestamp);
     }
 
     @ParametersAreNonnullByDefault
@@ -140,7 +143,7 @@ class CargoNetworkTask implements Runnable {
 
                 if (rest != null && !manager.isItemDeletionEnabled()) {
                     // If the item still couldn't be inserted, simply drop it on the ground
-                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), rest);
+                    SlimefunUtils.spawnItem(inputTarget.getLocation().add(0, 1, 0), rest, ItemSpawnReason.CARGO_OVERFLOW);
                 }
             }
         } else {
@@ -150,7 +153,7 @@ class CargoNetworkTask implements Runnable {
                 if (menu.getItemInSlot(previousSlot) == null) {
                     menu.replaceExistingItem(previousSlot, item);
                 } else if (!manager.isItemDeletionEnabled()) {
-                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), item);
+                    SlimefunUtils.spawnItem(inputTarget.getLocation().add(0, 1, 0), item, ItemSpawnReason.CARGO_OVERFLOW);
                 }
             }
         }

@@ -16,8 +16,8 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
 
-import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 /**
@@ -65,13 +65,13 @@ public class GitHubService {
      * every so often to update its data.
      * 
      * @param plugin
-     *            Our instance of {@link SlimefunPlugin}
+     *            Our instance of {@link Slimefun}
      */
-    public void start(@Nonnull SlimefunPlugin plugin) {
+    public void start(@Nonnull Slimefun plugin) {
         long period = TimeUnit.HOURS.toMillis(1);
         GitHubTask task = new GitHubTask(this);
 
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, task, 80L, period);
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, task, 30 * 20L, period);
     }
 
     /**
@@ -92,7 +92,7 @@ public class GitHubService {
             TranslatorsReader translators = new TranslatorsReader(this);
             translators.load();
         } catch (Exception x) {
-            SlimefunPlugin.logger().log(Level.SEVERE, "Failed to read 'translators.json'", x);
+            Slimefun.logger().log(Level.SEVERE, "Failed to read 'translators.json'", x);
         }
     }
 
@@ -103,8 +103,7 @@ public class GitHubService {
         contributors.put(name, contributor);
     }
 
-    @Nonnull
-    public Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
+    public @Nonnull Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
         Validate.notNull(minecraftName, "Minecraft username must not be null.");
         Validate.notNull(profileURL, "GitHub profile url must not be null.");
         Validate.notNull(role, "Role should not be null.");
@@ -118,8 +117,7 @@ public class GitHubService {
         return contributor;
     }
 
-    @Nonnull
-    public Contributor addContributor(@Nonnull String username, @Nonnull String role, int commits) {
+    public @Nonnull Contributor addContributor(@Nonnull String username, @Nonnull String role, int commits) {
         Validate.notNull(username, "Username must not be null.");
         Validate.notNull(role, "Role should not be null.");
         Validate.isTrue(commits >= 0, "Commit count cannot be negative.");
@@ -158,8 +156,7 @@ public class GitHubService {
         }));
     }
 
-    @Nonnull
-    protected Set<GitHubConnector> getConnectors() {
+    protected @Nonnull Set<GitHubConnector> getConnectors() {
         return connectors;
     }
 
@@ -172,8 +169,7 @@ public class GitHubService {
      * 
      * @return A {@link ConcurrentMap} containing all {@link Contributor Contributors}
      */
-    @Nonnull
-    public ConcurrentMap<String, Contributor> getContributors() {
+    public @Nonnull ConcurrentMap<String, Contributor> getContributors() {
         return contributors;
     }
 
@@ -205,12 +201,11 @@ public class GitHubService {
     }
 
     /**
-     * Returns the id of Slimefun's GitHub Repository. (e.g. "TheBusyBiscuit/Slimefun4").
+     * Returns the id of Slimefun's GitHub Repository. (e.g. "Slimefun/Slimefun4").
      * 
      * @return The id of our GitHub Repository
      */
-    @Nonnull
-    public String getRepository() {
+    public @Nonnull String getRepository() {
         return repository;
     }
 
@@ -228,8 +223,7 @@ public class GitHubService {
      * 
      * @return A {@link LocalDateTime} object representing the date and time of the latest commit
      */
-    @Nonnull
-    public LocalDateTime getLastUpdate() {
+    public @Nonnull LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
@@ -263,8 +257,7 @@ public class GitHubService {
      * 
      * @return The cached skin texture for that user (or null)
      */
-    @Nullable
-    protected String getCachedTexture(@Nonnull String username) {
+    protected @Nullable String getCachedTexture(@Nonnull String username) {
         return texturesCache.getString(username);
     }
 }

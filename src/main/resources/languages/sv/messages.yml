@@ -15,7 +15,7 @@ commands:
     reset-target: '&cDin kunskap har blivit återställd'
 guide:
   locked: 'LÅST'
-  locked-category:
+  locked-itemgroup:
     - 'För att låsa upp denna kategori måste du'
     - 'låsa upp alla föremål från de'
     - 'följande kategorierna'
@@ -25,7 +25,7 @@ guide:
     tooltip: '&bKlicka här för att söka efter ett föremål'
     inventory: 'Söker efter: %item%'
   tooltips:
-    open-category: 'Klicka här för att öppna'
+    open-itemgroup: 'Klicka här för att öppna'
     versions-notice: 'Dessa är väldigt viktiga när det kommer till att rapportera buggar!'
     wiki: 'Visar detta föremål på den Officiella Slimefun Wikin'
     recipes:

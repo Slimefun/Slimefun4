@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+
 /**
  * This class stores some startup warnings we occasionally need to print.
  * If you setup your server the recommended way, you are never going to see
@@ -40,7 +42,7 @@ final class StartupWarnings {
         logger.log(Level.SEVERE, PREFIX);
         logger.log(Level.SEVERE, PREFIX + "You are using Minecraft 1.{0}.x", majorVersion);
         logger.log(Level.SEVERE, PREFIX + "but Slimefun {0} requires you to be using", slimefunVersion);
-        logger.log(Level.SEVERE, PREFIX + "Minecraft {0}", String.join(" / ", SlimefunPlugin.getSupportedVersions()));
+        logger.log(Level.SEVERE, PREFIX + "Minecraft {0}", String.join(" / ", Slimefun.getSupportedVersions()));
         logger.log(Level.SEVERE, BORDER);
     }
 
@@ -54,6 +56,22 @@ final class StartupWarnings {
         logger.log(Level.SEVERE, PREFIX + "any supported fork of Spigot or Paper.");
         logger.log(Level.SEVERE, PREFIX + "(We recommend Paper)");
         logger.log(Level.SEVERE, BORDER);
+    }
+
+    @ParametersAreNonnullByDefault
+    static void oldJavaVersion(Logger logger) {
+        int javaVersion = NumberUtils.getJavaVersion();
+
+        logger.log(Level.WARNING, BORDER);
+        logger.log(Level.WARNING, PREFIX + "Your Java version (Java {0}) is out of date.", javaVersion);
+        logger.log(Level.WARNING, PREFIX);
+        logger.log(Level.WARNING, PREFIX + "We recommend you to update to Java 16.");
+        logger.log(Level.WARNING, PREFIX + "Java 16 is required as of Minecraft 1.17 and");
+        logger.log(Level.WARNING, PREFIX + "we would like to utilise all the new features");
+        logger.log(Level.WARNING, PREFIX + "that come with it as soon as possible.");
+        logger.log(Level.WARNING, PREFIX + "Slimefun will also require Java 16 in");
+        logger.log(Level.WARNING, PREFIX + "the foreseeable future, so please update!");
+        logger.log(Level.WARNING, BORDER);
     }
 
 }

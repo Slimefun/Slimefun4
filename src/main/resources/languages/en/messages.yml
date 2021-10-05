@@ -39,7 +39,7 @@ guide:
   locked: 'LOCKED'
   work-in-progress: 'This feature is not fully finished yet!'
 
-  locked-category:
+  locked-itemgroup:
   - 'To unlock this category you will'
   - 'need to unlock all items from the'
   - 'following categories'
@@ -51,7 +51,7 @@ guide:
     inventory: 'Searching for: %item%'
 
   tooltips:
-    open-category: 'Click to open'
+    open-itemgroup: 'Click to open'
     versions-notice: 'These are very important when reporting bugs!'
     wiki: 'View this Item on the official Slimefun Wiki'
 
@@ -174,6 +174,9 @@ messages:
     select: 'Select this recipe'
     temporarily-disabled: '&eThis Auto-Crafter was temporarily disabled. You can re-enable it at any time!'
     re-enabled: '&eThis Auto-Crafter was re-enabled!'
+    recipe-unavailable: |
+      &cThis item is either disabled on your server, or you have not unlocked it yet.
+      &7Try crafting the item if you have not done this before to unlock the recipe.
 
     tooltips:
       enabled:
@@ -326,6 +329,9 @@ brewing_stand:
 
 cartography_table:
   not-working: '&4You cannot use Slimefun items in a cartography table!'
+
+smithing_table:
+  not-working: '&4You cannot use a Slimefun item as a smithing material!'
 
 villagers:
   no-trading: '&4You cannot trade Slimefun items with Villagers!'
