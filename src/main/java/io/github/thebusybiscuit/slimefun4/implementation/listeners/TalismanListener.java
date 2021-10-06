@@ -364,7 +364,7 @@ public class TalismanListener implements Listener {
                 }
             }
 
-            // We also want to double crops
+            // Handle double drops for Farmer Talisman
             if (SlimefunTag.FARMER_TALISMAN_TRIGGERS.isTagged(type)) {
                 Collection<Item> drops = e.getItems();
 
