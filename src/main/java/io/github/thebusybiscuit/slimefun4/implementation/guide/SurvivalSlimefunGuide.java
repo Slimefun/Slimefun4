@@ -314,13 +314,12 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                             Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                         } else {
                             ItemStack clonedItem = sfitem.getItem().clone();
+
                             if (action.isShiftClicked()) {
                                 clonedItem.setAmount(clonedItem.getMaxStackSize());
-
-                                pl.getInventory().addItem(clonedItem);
-                            } else {
-                                pl.getInventory().addItem(clonedItem);
                             }
+                            
+                            pl.getInventory().addItem(clonedItem);
                         }
                     }
                 } catch (Exception | LinkageError x) {
