@@ -1,5 +1,6 @@
-package io.github.thebusybiscuit.slimefun4.storage;
+package io.github.thebusybiscuit.slimefun4.storage.transformer;
 
+import io.github.thebusybiscuit.slimefun4.storage.DataObject;
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 
@@ -55,8 +56,6 @@ public class UuidTransformer implements Transformer<UUID> {
 
         long mostSig = uuid.getMostSignificantBits();
         long leastSig = uuid.getLeastSignificantBits();
-        return new int[]{(int) (mostSig >> 32), (int) mostSig,
-            (int) (mostSig >> 32), (int) mostSig
-        };
+        return new int[] { (int) (mostSig >> 32), (int) mostSig, (int) (leastSig >> 32), (int) leastSig };
     }
 }

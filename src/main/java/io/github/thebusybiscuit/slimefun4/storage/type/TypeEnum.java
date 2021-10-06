@@ -4,6 +4,7 @@ package io.github.thebusybiscuit.slimefun4.storage.type;
  * Order is important in here. Do not change it!
  * This enum represents all the supported types
  */
+// TODO: Give better name
 public enum TypeEnum {
 
     BYTE((byte) 0),
@@ -21,7 +22,8 @@ public enum TypeEnum {
     FLOAT_ARRAY((byte) 12),
     LONG_ARRAY((byte) 13),
     STRING_ARRAY((byte) 14),
-    OBJECT((byte) 15);
+    OBJECT((byte) 15),
+    OBJECT_END((byte) 16);
 
     private final byte id;
 

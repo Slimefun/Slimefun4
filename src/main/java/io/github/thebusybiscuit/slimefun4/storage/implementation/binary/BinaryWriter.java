@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.storage.DataObject;
 import io.github.thebusybiscuit.slimefun4.storage.type.BooleanType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteArrayType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteType;
+import io.github.thebusybiscuit.slimefun4.storage.type.DataObjectType;
 import io.github.thebusybiscuit.slimefun4.storage.type.DoubleArrayType;
 import io.github.thebusybiscuit.slimefun4.storage.type.DoubleType;
 import io.github.thebusybiscuit.slimefun4.storage.type.FloatArrayType;
@@ -18,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.storage.type.StringArrayType;
 import io.github.thebusybiscuit.slimefun4.storage.type.StringType;
 import io.github.thebusybiscuit.slimefun4.storage.type.Type;
 import io.github.thebusybiscuit.slimefun4.storage.type.TypeEnum;
+import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 
 import javax.annotation.Nonnull;
@@ -31,7 +33,6 @@ import java.util.Map;
 /**
  *
  */
-// TODO: We probably want an object end
 public class BinaryWriter {
 
     private final File file;
@@ -43,14 +44,11 @@ public class BinaryWriter {
     public void write(@Nonnull DataObject object) {
 //        try (final DataOutputStream writer = new DataOutputStream(new ZstdOutputStream(new FileOutputStream(file)))) {
         try (final DataOutputStream writer = new DataOutputStream(new FileOutputStream(file))) {
-            // Write DataObject start
+            // Write DataObject start - there is no name for root
             writer.writeByte(TypeEnum.OBJECT.getId());
-            // The root object does not have a name
 
-            System.out.println(object);
-            for (Map.Entry<NamespacedKey, Type> entry : object.getEntries()) {
-                writeType(writer, entry.getKey(), entry.getValue());
-            }
+            // Write the object out
+            writeObject(writer, object);
 
             writer.flush();
         } catch (IOException e) {
@@ -58,14 +56,30 @@ public class BinaryWriter {
         }
     }
 
+    private void writeObject(@Nonnull DataOutputStream writer, @Nonnull DataObject object) throws IOException {
+        for (Map.Entry<NamespacedKey, Type> entry : object.getEntries()) {
+            writeType(writer, entry.getKey(), entry.getValue());
+        }
+        // Indicate the end of the object
+        writer.writeByte(TypeEnum.OBJECT_END.getId());
+    }
+
     @ParametersAreNonnullByDefault
-    private void writeType(DataOutputStream writer, NamespacedKey namespace, Type type) throws IOException {
+    private void writeType(DataOutputStream writer, @Nonnull NamespacedKey namespace, Type type) throws IOException {
+        Validate.notNull(writer, "DataOutputStream cannot be null!!");
+        Validate.notNull(namespace, "NamespacedKey cannot be null!");
+        Validate.notNull(type, "Type cannot be null!");
+
         // We write the "id" of the type and the name.
         // This means we can read the type and the naming correctly
         System.out.println("writeType(" + namespace + ", "
             + type.getTypeEnum().name() + " - " + type.getTypeEnum().getId() + ')');
         writer.writeByte(type.getTypeEnum().getId());
-        writer.writeUTF(namespace.toString());
+
+        // Write the name of the type - OBJECT_END will never have a name
+        if (type.getTypeEnum() != TypeEnum.OBJECT_END) {
+            writer.writeUTF(namespace.toString());
+        }
 
         switch (type.getTypeEnum()) {
             case BYTE:
@@ -156,6 +170,15 @@ public class BinaryWriter {
                 }
                 break;
             case OBJECT:
+                final DataObject dataObject = ((DataObjectType) type).getValue();
+
+                writeObject(writer, dataObject);
+                break;
+
+            case OBJECT_END:
+                // Nothing to do in here
+                break;
+            default:
                 break;
         }
     }

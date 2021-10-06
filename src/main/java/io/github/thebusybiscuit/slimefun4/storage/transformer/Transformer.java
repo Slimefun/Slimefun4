@@ -1,5 +1,6 @@
-package io.github.thebusybiscuit.slimefun4.storage;
+package io.github.thebusybiscuit.slimefun4.storage.transformer;
 
+import io.github.thebusybiscuit.slimefun4.storage.DataObject;
 import org.bukkit.NamespacedKey;
 
 import javax.annotation.Nullable;

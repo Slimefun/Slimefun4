@@ -731,7 +731,7 @@ public class DataObject {
     @CheckReturnValue
     public DataObject setLongArray(NamespacedKey key, long[] value) {
         LongArrayType type = new LongArrayType(value);
-        this.data.put(key, (Type) type);
+        this.data.put(key, type);
         return this;
     }
 
@@ -786,6 +786,7 @@ public class DataObject {
         return this.data.entrySet();
     }
 
+    @Nonnull
     @Override
     public String toString() {
         return "DataObject{"
