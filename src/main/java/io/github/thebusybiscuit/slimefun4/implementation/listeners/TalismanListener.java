@@ -354,9 +354,11 @@ public class TalismanListener implements Listener {
                         }
                     }
 
+                    // Fixes #2077
                     if (doubledDrops) {
                         Talisman talisman = SlimefunItems.TALISMAN_MINER.getItem(Talisman.class);
-                        
+
+                        // Fixes #2818
                         if (talisman != null) {
                             talisman.sendMessage(e.getPlayer());
                         }
@@ -386,11 +388,9 @@ public class TalismanListener implements Listener {
                         }
                     }
 
-                    // Fixes #2077
                     if (doubledDrops) {
                         Talisman talisman = SlimefunItems.TALISMAN_FARMER.getItem(Talisman.class);
 
-                        // Fixes #2818
                         if (talisman != null) {
                             talisman.sendMessage(e.getPlayer());
                         }
