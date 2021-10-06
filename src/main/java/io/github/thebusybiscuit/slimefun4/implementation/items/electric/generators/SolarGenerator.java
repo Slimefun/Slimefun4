@@ -81,7 +81,7 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
         World world = l.getWorld();
 
         if (world.getEnvironment() != Environment.NORMAL) {
-            return 0;
+            return getNightEnergy();
         } else {
             boolean isDaytime = isDaytime(world);
 
