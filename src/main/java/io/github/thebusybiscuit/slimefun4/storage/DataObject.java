@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.storage;
 
+import io.github.thebusybiscuit.slimefun4.storage.transformer.Transformer;
 import io.github.thebusybiscuit.slimefun4.storage.type.BooleanType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteArrayType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteType;
@@ -534,6 +535,16 @@ public class DataObject {
             return defaultValue;
         }
     }
+
+    /**
+     * Get a {@link Set} of all {@link NamespacedKey} in this {@link DataObject}
+     *
+     * @return The {@link Set} of {@link NamespacedKey}
+     */
+    @Nullable
+    public Set<NamespacedKey> keys() {
+        return this.data.keySet();
+    }
     //endregion
 
     //region Setters
@@ -778,6 +789,17 @@ public class DataObject {
     public <T> DataObject set(NamespacedKey key, T value, Transformer<T> transformer) {
         transformer.transformInto(this, key, value);
         return this;
+    }
+
+    /**
+     * Remove a key in this {@link DataObject}.
+     *
+     * @param key The key of the data to remove
+     * @return True if the key existed, false otherwise
+     */
+    @CheckReturnValue
+    public boolean remove(NamespacedKey key) {
+        return this.data.remove(key) != null;
     }
     //endregion
 
