@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -20,6 +21,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -127,6 +131,18 @@ public class BlockListener implements Listener {
         }
 
         dropItems(e, drops);
+    }
+
+    @EventHandler
+    public void onInventoryCreativeEvent(InventoryCreativeEvent e) {
+        Bukkit.broadcastMessage(String.valueOf(e.isLeftClick()));
+        Bukkit.broadcastMessage(String.valueOf(e.isRightClick()));
+        if (e.getClick() == ClickType.CREATIVE) {
+
+            Bukkit.broadcastMessage("kaas");
+            ItemStack a = e.getCursor();
+            //Bukkit.broadcastMessage(a.getType() + "  " + a.getItemMeta().getLore().toString() + a.getItemMeta());
+        }
     }
 
     @ParametersAreNonnullByDefault
