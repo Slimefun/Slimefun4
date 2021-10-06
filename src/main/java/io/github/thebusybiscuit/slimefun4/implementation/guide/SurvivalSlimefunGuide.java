@@ -313,7 +313,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                         if (sfitem instanceof MultiBlockMachine) {
                             Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                         } else {
-                            if (p.isSneaking()) {
+                            if (action.isShiftClicked()) {
                                 ItemStack sfItem = sfitem.getItem().clone();
                                 sfItem.setAmount(sfItem.getMaxStackSize());
 
