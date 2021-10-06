@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.storage;
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.storage.implementation.BinaryStorage;
+import io.github.thebusybiscuit.slimefun4.storage.implementation.binary.BinaryUtils;
 import io.github.thebusybiscuit.slimefun4.storage.implementation.binary.BinaryWriter;
 import org.bukkit.NamespacedKey;
 
@@ -24,5 +25,7 @@ public class Test {
             );
 
         new BinaryWriter(new File("test.dat")).write(dataObject);
+
+        System.out.println(BinaryUtils.toString(dataObject, true));
     }
 }
