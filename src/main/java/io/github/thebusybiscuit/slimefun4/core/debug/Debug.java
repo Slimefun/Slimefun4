@@ -44,7 +44,7 @@ public final class Debug {
     private static String formatMessage(@Nonnull String msg, @Nonnull Object... vars) {
         int i = 0;
         int idx = 0;
-        while ((i = msg.indexOf('{', i)) != -1) {
+        while ((i = msg.indexOf('{', i)) != -1 && msg.charAt(i + 1) == '}') {
             msg = msg.substring(0, i) + vars[idx++] + msg.substring(i + 2);
         }
 
