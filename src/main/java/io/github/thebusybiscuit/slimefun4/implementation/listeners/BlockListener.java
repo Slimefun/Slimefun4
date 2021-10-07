@@ -150,13 +150,13 @@ public class BlockListener implements Listener {
             */
             if (e.getCursor().getType() == b.getType() && e.getCurrentItem().getType() == Material.AIR ||
                 (b.getType() == Material.PLAYER_WALL_HEAD && e.getCursor().getType() == Material.PLAYER_HEAD)) {
-                Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(b);
+                Optional<String> blockId = Slimefun.getBlockDataService().getBlockData(b);
 
-                if (!blockData.isPresent()) {
+                if (!blockId.isPresent()) {
                     return;
                 }
 
-                SlimefunItem sfItem = SlimefunItem.getById(blockData.get());
+                SlimefunItem sfItem = SlimefunItem.getById(blockId.get());
                 
                 // Check hotbar for a similar item to 'swap' to
                 for (int i = 0; i < 9; i++) {
