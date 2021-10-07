@@ -303,6 +303,7 @@ public final class SlimefunUtils {
 
                 // Prioritize SlimefunItem id comparison over ItemMeta comparison
                 if (Slimefun.getItemDataService().hasEqualItemData(possibleSfItemMeta, itemMeta)) {
+                    Debug.log(TestMode.CARGO_INPUT_TESTING, "  Item IDs matched!");
                     return true;
                 } else {
                     Debug.log(TestMode.CARGO_INPUT_TESTING, "  Item IDs don't match, checking meta {} == {} (lore: {})",
