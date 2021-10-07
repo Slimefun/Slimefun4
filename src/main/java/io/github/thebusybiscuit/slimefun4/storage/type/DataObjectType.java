@@ -13,16 +13,27 @@ public class DataObjectType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the {@link DataObject} stored in this {@link DataObjectType}
+     *
+     * @return The {@link DataObject} stored in this {@link DataObjectType}
+     */
     public DataObject getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.OBJECT;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -31,6 +42,9 @@ public class DataObjectType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof DataObjectType)) {

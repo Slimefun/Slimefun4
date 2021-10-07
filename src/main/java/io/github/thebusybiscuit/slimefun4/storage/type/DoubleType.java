@@ -10,16 +10,27 @@ public class DoubleType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the double value stored in this {@link DoubleType}
+     *
+     * @return The double value stored in this {@link DoubleType}
+     */
     public double getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.DOUBLE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -28,6 +39,9 @@ public class DoubleType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof DoubleType)) {

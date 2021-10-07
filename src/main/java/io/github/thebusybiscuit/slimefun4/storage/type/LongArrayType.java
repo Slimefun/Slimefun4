@@ -11,16 +11,27 @@ public class LongArrayType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the long array stored in this {@link LongArrayType}
+     *
+     * @return The long array stored in this {@link LongArrayType}
+     */
     public long[] getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.LONG_ARRAY;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -29,6 +40,9 @@ public class LongArrayType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof LongArrayType)) {

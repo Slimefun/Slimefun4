@@ -11,16 +11,27 @@ public class FloatArrayType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the float array stored in this {@link FloatArrayType}
+     *
+     * @return The float array stored in this {@link FloatArrayType}
+     */
     public float[] getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.BYTE_ARRAY;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -29,6 +40,9 @@ public class FloatArrayType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof FloatArrayType)) {

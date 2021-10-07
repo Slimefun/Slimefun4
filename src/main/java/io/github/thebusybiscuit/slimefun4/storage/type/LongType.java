@@ -10,16 +10,27 @@ public class LongType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the long value stored in this {@link LongType}
+     *
+     * @return The long value stored in this {@link LongType}
+     */
     public long getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.LONG;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -28,6 +39,9 @@ public class LongType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof LongType)) {

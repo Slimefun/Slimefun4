@@ -11,16 +11,27 @@ public class DoubleArrayType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the double array stored in this {@link DoubleArrayType}
+     *
+     * @return The double array stored in this {@link DoubleArrayType}
+     */
     public double[] getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.BYTE_ARRAY;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -29,6 +40,9 @@ public class DoubleArrayType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof DoubleArrayType)) {

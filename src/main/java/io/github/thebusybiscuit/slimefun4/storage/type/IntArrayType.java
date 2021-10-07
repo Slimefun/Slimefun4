@@ -11,16 +11,27 @@ public class IntArrayType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the int array stored in this {@link IntArrayType}
+     *
+     * @return The int array stored in this {@link IntArrayType}
+     */
     public int[] getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.INT_ARRAY;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -29,6 +40,9 @@ public class IntArrayType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof IntArrayType)) {

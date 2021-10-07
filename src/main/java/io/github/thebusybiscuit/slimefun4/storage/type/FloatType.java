@@ -10,16 +10,27 @@ public class FloatType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the float value stored in this {@link FloatType}
+     *
+     * @return The float value stored in this {@link FloatType}
+     */
     public float getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.FLOAT;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -28,6 +39,9 @@ public class FloatType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof FloatType)) {
