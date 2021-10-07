@@ -168,7 +168,7 @@ public class BlockListener implements Listener {
                     }
                 }
 
-                e.setCursor(sfItem.getItem());
+                e.setCursor(sfItem.getItem().clone());
             }
         }
     }
