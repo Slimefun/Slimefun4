@@ -35,7 +35,7 @@ commands:
   debug:
     description: 'Run debug logging for the developers'
     running: '&7Running debug mode with test: %test%'
-    disabled: '&7Disabled1 debug mode'
+    disabled: '&7Disabled debug mode'
 
 placeholderapi:
   profile-loading: 'Loading...'
