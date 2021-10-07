@@ -40,7 +40,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent},
- * {@link BlockBreakEvent} abd {@link InventoryCreativeEvent}.
+ * {@link BlockBreakEvent} and {@link InventoryCreativeEvent}.
  *
  * @author TheBusyBiscuit
  * @author Linox
@@ -158,7 +158,7 @@ public class BlockListener implements Listener {
 
                 SlimefunItem sfItem = SlimefunItem.getById(blockData.get());
                 
-                // Check hotbar for a similar item two 'swap' to
+                // Check hotbar for a similar item to 'swap' to
                 for (int i = 0; i < 9; i++) {
                     SlimefunItem hotbarItem = SlimefunItem.getByItem(player.getInventory().getItem(i));
                     if (hotbarItem != null && hotbarItem.getId() == sfItem.getId()) {
