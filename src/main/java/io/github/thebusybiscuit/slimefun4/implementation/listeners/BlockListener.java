@@ -10,11 +10,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,8 +22,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -39,12 +39,13 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
- * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent}
- * and {@link BlockBreakEvent}.
+ * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent},
+ * {@link BlockBreakEvent} abd {@link InventoryCreativeEvent}.
  *
  * @author TheBusyBiscuit
  * @author Linox
  * @author Patbox
+ * @author svr333
  *
  * @see BlockPlaceHandler
  * @see BlockBreakHandler
@@ -135,13 +136,40 @@ public class BlockListener implements Listener {
 
     @EventHandler
     public void onInventoryCreativeEvent(InventoryCreativeEvent e) {
-        Bukkit.broadcastMessage(String.valueOf(e.isLeftClick()));
-        Bukkit.broadcastMessage(String.valueOf(e.isRightClick()));
-        if (e.getClick() == ClickType.CREATIVE) {
+        if (e.getClick() == ClickType.CREATIVE && e.getSlotType() == SlotType.QUICKBAR) {
+            HumanEntity player = e.getWhoClicked();
+            Block b = player.getTargetBlockExact(5);
 
-            Bukkit.broadcastMessage("kaas");
-            ItemStack a = e.getCursor();
-            //Bukkit.broadcastMessage(a.getType() + "  " + a.getItemMeta().getLore().toString() + a.getItemMeta());
+            /*
+            * This check is really weird due to the weird nature of this event's behaviour.
+            * It checks if the block the player is looking at is of the same type as the cursor;
+            * after this we can make sure that it is a middle click outside of the inventory
+            * currentItem should also be air, otherwise it is not outside of the inventory
+            * the second line is the edge case where the player is looking at a WALL_HEAD but
+            * it is actually the same as a regular HEAD
+            */
+            if (e.getCursor().getType() == b.getType() && e.getCurrentItem().getType() == Material.AIR ||
+                (b.getType() == Material.PLAYER_WALL_HEAD && e.getCursor().getType() == Material.PLAYER_HEAD)) {
+                Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(b);
+
+                if (!blockData.isPresent()) {
+                    return;
+                }
+
+                SlimefunItem sfItem = SlimefunItem.getById(blockData.get());
+                
+                // Check hotbar for a similar item two 'swap' to
+                for (int i = 0; i < 9; i++) {
+                    SlimefunItem hotbarItem = SlimefunItem.getByItem(player.getInventory().getItem(i));
+                    if (hotbarItem != null && hotbarItem.getId() == sfItem.getId()) {
+                        player.getInventory().setHeldItemSlot(i);
+                        e.setCancelled(true);
+                        return;
+                    }
+                }
+
+                e.setCursor(sfItem.getItem());
+            }
         }
     }
 
