@@ -145,11 +145,13 @@ public class BlockListener implements Listener {
             * It checks if the block the player is looking at is of the same type as the cursor;
             * after this we can make sure that it is a middle click outside of the inventory
             * currentItem should also be air, otherwise it is not outside of the inventory
-            * the second line is the edge case where the player is looking at a WALL_HEAD but
-            * it is actually the same as a regular HEAD
             */
-            if (e.getCursor().getType() == b.getType() && e.getCurrentItem().getType() == Material.AIR ||
-                (b.getType() == Material.PLAYER_WALL_HEAD && e.getCursor().getType() == Material.PLAYER_HEAD)) {
+            boolean isOutsideInventoryClick = e.getCursor().getType() == b.getType() && e.getCurrentItem().getType() == Material.AIR;
+
+            // player is looking at WALL_HEAD but it's actually a player head
+            boolean isPlayerWallhead = b.getType() == Material.PLAYER_WALL_HEAD && e.getCursor().getType() == Material.PLAYER_HEAD;
+
+            if (isOutsideInventoryClick || isPlayerWallhead) {
                 Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(b);
 
                 if (!blockData.isPresent()) {
