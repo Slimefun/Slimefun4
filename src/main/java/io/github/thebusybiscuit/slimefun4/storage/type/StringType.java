@@ -11,16 +11,27 @@ public class StringType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the string value stored in this {@link StringType}
+     *
+     * @return The string stored in this {@link StringType}
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.STRING;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -29,6 +40,9 @@ public class StringType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof StringType)) {

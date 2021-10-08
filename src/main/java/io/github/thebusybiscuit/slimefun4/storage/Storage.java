@@ -16,16 +16,34 @@ public abstract class Storage {
     ////////////////////////////////////////
     // Getters
     ////////////////////////////////////////
+    /**
+     * Get the {@link DataObject} linked to this {@link Chunk}, if the chunk doesn't have one it returns null.
+     *
+     * @param chunk The chunk of the data to retrieve
+     * @return The {@link DataObject} associated with this {@link Chunk} or null if it doesn't exist
+     */
     @Nullable
     public DataObject getChunk(Chunk chunk) {
         return chunkData.get(new ChunkPosition(chunk));
     }
 
+    /**
+     * Get the {@link DataObject} linked to this {@link ChunkPosition}, if the chunk doesn't have one it returns null.
+     *
+     * @param chunkPosition The chunk of the data to retrieve
+     * @return The {@link DataObject} associated with this {@link ChunkPosition} or null if it doesn't exist
+     */
     @Nullable
     public DataObject getChunk(ChunkPosition chunkPosition) {
         return chunkData.get(chunkPosition);
     }
 
+    /**
+     * Get the {@link DataObject} linked to this {@link BlockPosition}, if the chunk doesn't have one it returns null.
+     *
+     * @param blockPosition The chunk of the data to retrieve
+     * @return The {@link DataObject} associated with this {@link BlockPosition} or null if it doesn't exist
+     */
     @Nullable
     public DataObject getBlock(BlockPosition blockPosition) {
 //        final ChunkPosition pos = new ChunkPosition(blockPosition.getChunk());
@@ -45,8 +63,20 @@ public abstract class Storage {
     ////////////////////////////////////////
     // Loading/Saving
     ////////////////////////////////////////
+    /**
+     * Load the {@link DataObject} linked to this {@link ChunkPosition}, if the chunk doesn't have one it returns null.
+     *
+     * @param chunkPosition The chunk of the data to retrieve
+     * @return The {@link DataObject} associated with this {@link ChunkPosition} or null if it doesn't exist
+     */
     @Nullable
     public abstract DataObject loadChunk(@Nonnull ChunkPosition chunkPosition);
 
+    /**
+     * Save the {@link DataObject} linked to this {@link ChunkPosition}.
+     *
+     * @param chunkPosition The chunk of the data to retrieve
+     * @param object The {@link DataObject}
+     */
     public abstract void saveChunk(@Nonnull ChunkPosition chunkPosition, @Nonnull DataObject object);
 }

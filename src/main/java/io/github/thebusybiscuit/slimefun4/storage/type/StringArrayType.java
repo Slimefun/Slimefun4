@@ -11,16 +11,27 @@ public class StringArrayType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the string array stored in this {@link StringArrayType}
+     *
+     * @return The string array stored in this {@link StringArrayType}
+     */
     public String[] getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.STRING_ARRAY;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -29,6 +40,9 @@ public class StringArrayType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof StringArrayType)) {

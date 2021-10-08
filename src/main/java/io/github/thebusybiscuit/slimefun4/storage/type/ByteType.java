@@ -10,16 +10,27 @@ public class ByteType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the byte value stored in this {@link ByteType}
+     *
+     * @return The byte value stored in this {@link ByteType}
+     */
     public byte getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.BYTE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -28,6 +39,9 @@ public class ByteType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof ByteType)) {

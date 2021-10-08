@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.storage.type;
 
+import io.github.bakedlibs.dough.blocks.ChunkPosition;
+import io.github.thebusybiscuit.slimefun4.storage.DataObject;
+
 import javax.annotation.Nonnull;
 
 public class BooleanType implements Type {
@@ -10,16 +13,27 @@ public class BooleanType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the boolean value stored in this {@link BooleanType}
+     *
+     * @return The boolean value stored in this {@link BooleanType}
+     */
     public boolean getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.BOOLEAN;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -28,6 +42,9 @@ public class BooleanType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof BooleanType)) {

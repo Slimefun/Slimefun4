@@ -10,16 +10,27 @@ public class IntType implements Type {
         this.value = value;
     }
 
+    /**
+     * Get the int value stored in this {@link IntType}
+     *
+     * @return The int value stored in this {@link IntType}
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public TypeEnum getTypeEnum() {
         return TypeEnum.INT;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         int result = 1;
@@ -28,6 +39,9 @@ public class IntType implements Type {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof IntType)) {
