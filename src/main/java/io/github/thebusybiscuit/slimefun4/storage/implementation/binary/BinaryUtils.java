@@ -22,6 +22,8 @@ import io.github.thebusybiscuit.slimefun4.storage.type.TypeEnum;
 import org.bukkit.NamespacedKey;
 
 import javax.annotation.Nonnull;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -124,7 +126,59 @@ public class BinaryUtils {
     }
 
     //////////////////////////////////////////
-    // Array shit
+    // Writes
+    //////////////////////////////////////////
+    public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull byte[] array) throws IOException {
+        writer.writeInt(array.length);
+        for (byte value : array) {
+            writer.writeByte(value);
+        }
+    }
+
+    public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull short[] array) throws IOException {
+        writer.writeInt(array.length);
+        for (short value : array) {
+            writer.writeShort(value);
+        }
+    }
+
+    public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull int[] array) throws IOException {
+        writer.writeInt(array.length);
+        for (int value : array) {
+            writer.writeInt(value);
+        }
+    }
+
+    public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull double[] array) throws IOException {
+        writer.writeInt(array.length);
+        for (double value : array) {
+            writer.writeDouble(value);
+        }
+    }
+
+    public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull float[] array) throws IOException {
+        writer.writeInt(array.length);
+        for (float value : array) {
+            writer.writeFloat(value);
+        }
+    }
+
+    public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull long[] array) throws IOException {
+        writer.writeInt(array.length);
+        for (long value : array) {
+            writer.writeLong(value);
+        }
+    }
+
+    public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull String[] array) throws IOException {
+        writer.writeInt(array.length);
+        for (String value : array) {
+            writer.writeUTF(value);
+        }
+    }
+
+    //////////////////////////////////////////
+    // Print
     //////////////////////////////////////////
     @Nonnull
     private static String printArray(byte[] arr, boolean verbose) {

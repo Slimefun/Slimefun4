@@ -107,67 +107,25 @@ public class BinaryWriter {
                 writer.writeUTF(((StringType) type).getValue());
                 break;
             case BYTE_ARRAY:
-                final byte[] byteArray = ((ByteArrayType) type).getValue();
-                final int byteArrayLength = byteArray.length;
-
-                writer.writeInt(byteArrayLength);
-                for (byte value : byteArray) {
-                    writer.writeByte(value);
-                }
+                BinaryUtils.writeArray(writer, ((ByteArrayType) type).getValue());
                 break;
             case SHORT_ARRAY:
-                final short[] shortArray = ((ShortArrayType) type).getValue();
-                final int shortArrayLength = shortArray.length;
-
-                writer.writeInt(shortArrayLength);
-                for (short value : shortArray) {
-                    writer.writeShort(value);
-                }
+                BinaryUtils.writeArray(writer, ((ShortArrayType) type).getValue());
                 break;
             case INT_ARRAY:
-                final int[] intArray = ((IntArrayType) type).getValue();
-                final int intArrayLength = intArray.length;
-
-                writer.writeInt(intArrayLength);
-                for (int value : intArray) {
-                    writer.writeShort(value);
-                }
+                BinaryUtils.writeArray(writer, ((IntArrayType) type).getValue());
                 break;
             case DOUBLE_ARRAY:
-                final double[] doubleArray = ((DoubleArrayType) type).getValue();
-                final int doubleArrayLength = doubleArray.length;
-
-                writer.writeInt(doubleArrayLength);
-                for (double value : doubleArray) {
-                    writer.writeDouble(value);
-                }
+                BinaryUtils.writeArray(writer, ((DoubleArrayType) type).getValue());
                 break;
             case FLOAT_ARRAY:
-                final float[] floatArray = ((FloatArrayType) type).getValue();
-                final int floatArrayLength = floatArray.length;
-
-                writer.writeInt(floatArrayLength);
-                for (float value : floatArray) {
-                    writer.writeFloat(value);
-                }
+                BinaryUtils.writeArray(writer, ((FloatArrayType) type).getValue());
                 break;
             case LONG_ARRAY:
-                final long[] longArray = ((LongArrayType) type).getValue();
-                final int longArrayLength = longArray.length;
-
-                writer.writeInt(longArrayLength);
-                for (long value : longArray) {
-                    writer.writeLong(value);
-                }
+                BinaryUtils.writeArray(writer, ((LongArrayType) type).getValue());
                 break;
             case STRING_ARRAY:
-                final String[] stringArray = ((StringArrayType) type).getValue();
-                final int stringArrayLength = stringArray.length;
-
-                writer.writeInt(stringArrayLength);
-                for (String value : stringArray) {
-                    writer.writeUTF(value);
-                }
+                BinaryUtils.writeArray(writer, ((StringArrayType) type).getValue());
                 break;
             case OBJECT:
                 final DataObject dataObject = ((DataObjectType) type).getValue();
