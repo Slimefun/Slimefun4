@@ -35,9 +35,12 @@
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
 * The Electric Crucible now also accepts Netherrack
 * The Electric Crucible now also accepts Stone
+* Added the ability to shift-click in the Cheat Sheet menu
+* Added the ability to break blocks normally with a Lumber Axe when sneaking
 
 #### Changes
 * Massive performance improvements for Cargo networks
+* (API) `SolarGenerator` has a new constructor to accept capacity
 
 #### Fixes
 * Fixed #3218
@@ -46,7 +49,8 @@
 * Fixed #3273
 * Fixed an exploit regarding the Smithing Table
 * Fixed #3265
-* (API) `SolarGenerator` has a new constructor to accept capacity
+* Fixed #3264
+* Fixed extreme knockback caused by the Explosive Bow
 
 ## Release Candidate 28 (06 Sep 2021)
 
