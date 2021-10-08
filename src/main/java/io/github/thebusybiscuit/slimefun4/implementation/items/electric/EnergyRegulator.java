@@ -46,6 +46,7 @@ public class EnergyRegulator extends SlimefunItem implements HologramOwner {
 
             @Override
             public void onBlockBreak(@Nonnull Block b) {
+                EnergyNet.getNetworkFromLocation(b.getLocation()).cleanup();
                 removeHologram(b);
             }
         };

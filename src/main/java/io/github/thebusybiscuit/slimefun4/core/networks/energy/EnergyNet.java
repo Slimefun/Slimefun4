@@ -118,6 +118,19 @@ public class EnergyNet extends Network implements HologramOwner {
         }
     }
 
+    public void cleanup() {
+        for (Map.Entry<Location, EnergyNetProvider> entry: generators.entrySet()) {
+            Location loc = entry.getKey();
+            EnergyNetComponent component = entry.getValue();
+            component.setRegulatorLocation(loc, null);
+        }
+        for (Map.Entry<Location, EnergyNetComponent> entry: consumers.entrySet()) {
+            Location loc = entry.getKey();
+            EnergyNetComponent component = entry.getValue();
+            component.setRegulatorLocation(loc, null);
+        }
+    }
+
     public void tick(@Nonnull Block b) {
         AtomicLong timestamp = new AtomicLong(Slimefun.getProfiler().newEntry());
 
@@ -132,13 +145,18 @@ public class EnergyNet extends Network implements HologramOwner {
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
             updateHologram(b, "&4No Energy Network found");
         } else {
-            int supply = tickAllGenerators(timestamp::getAndAdd) + tickAllCapacitors();
+            int supply = tickAllGenerators(b, timestamp::getAndAdd) + tickAllCapacitors();
             int remainingEnergy = supply;
             int demand = 0;
 
             for (Map.Entry<Location, EnergyNetComponent> entry : consumers.entrySet()) {
                 Location loc = entry.getKey();
                 EnergyNetComponent component = entry.getValue();
+
+                if (!isFromNetwork(component, b.getLocation(), loc, BlockStorage.getLocationInfo(loc))) {
+                    continue;
+                }
+
                 int capacity = component.getCapacity();
                 int charge = component.getCharge(loc);
 
@@ -158,7 +176,7 @@ public class EnergyNet extends Network implements HologramOwner {
                 }
             }
 
-            storeRemainingEnergy(remainingEnergy);
+            storeRemainingEnergy(b, remainingEnergy);
             updateHologram(b, supply, demand);
         }
 
@@ -166,7 +184,7 @@ public class EnergyNet extends Network implements HologramOwner {
         Slimefun.getProfiler().closeEntry(b.getLocation(), SlimefunItems.ENERGY_REGULATOR.getItem(), timestamp.get());
     }
 
-    private void storeRemainingEnergy(int remainingEnergy) {
+    private void storeRemainingEnergy(@Nonnull Block b, int remainingEnergy) {
         for (Map.Entry<Location, EnergyNetComponent> entry : capacitors.entrySet()) {
             Location loc = entry.getKey();
             EnergyNetComponent component = entry.getValue();
@@ -191,6 +209,10 @@ public class EnergyNet extends Network implements HologramOwner {
             EnergyNetProvider component = entry.getValue();
             int capacity = component.getCapacity();
 
+            if (!isFromNetwork(component, b.getLocation(), loc, BlockStorage.getLocationInfo(loc))) {
+                continue;
+            }
+
             if (remainingEnergy > 0) {
                 if (remainingEnergy > capacity) {
                     component.setCharge(loc, capacity);
@@ -205,7 +227,7 @@ public class EnergyNet extends Network implements HologramOwner {
         }
     }
 
-    private int tickAllGenerators(@Nonnull LongConsumer timings) {
+    private int tickAllGenerators(@Nonnull Block b, @Nonnull LongConsumer timings) {
         Set<Location> explodedBlocks = new HashSet<>();
         int supply = 0;
 
@@ -217,10 +239,15 @@ public class EnergyNet extends Network implements HologramOwner {
 
             try {
                 Config data = BlockStorage.getLocationInfo(loc);
+
+                if (!isFromNetwork(provider, b.getLocation(), loc, data)) {
+                    continue;
+                }
+
                 int energy = provider.getGeneratedOutput(loc, data);
 
                 if (provider.isChargeable()) {
-                    energy += provider.getCharge(loc, data);
+                    energy += provider.getCharge(data);
                 }
 
                 if (provider.willExplode(loc, data)) {
@@ -272,7 +299,7 @@ public class EnergyNet extends Network implements HologramOwner {
     }
 
     @Nullable
-    private static EnergyNetComponent getComponent(@Nonnull Location l) {
+    private static EnergyNetComponent  getComponent(@Nonnull Location l) {
         SlimefunItem item = BlockStorage.check(l);
 
         if (item instanceof EnergyNetComponent) {
@@ -280,6 +307,16 @@ public class EnergyNet extends Network implements HologramOwner {
         }
 
         return null;
+    }
+
+    private static boolean isFromNetwork(@Nonnull EnergyNetComponent component, @Nonnull Location regLoc, @Nonnull Location l, @Nonnull Config data) {
+        String serializedLoc = component.getSerializedRegulatorLocation(data);
+        if (serializedLoc != null && !serializedLoc.equals(regLoc.toString())) {
+            return false;
+        } else if (serializedLoc == null) {
+            component.setRegulatorLocation(l, regLoc);
+        }
+        return true;
     }
 
     /**

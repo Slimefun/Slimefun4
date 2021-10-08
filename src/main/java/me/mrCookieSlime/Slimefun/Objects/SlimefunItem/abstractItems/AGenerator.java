@@ -159,7 +159,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
                 processor.updateProgressBar(inv, 22, operation);
 
                 if (isChargeable()) {
-                    int charge = getCharge(l, data);
+                    int charge = getCharge(data);
 
                     if (getCapacity() - charge >= getEnergyProduction()) {
                         operation.addProgress(1);

@@ -163,7 +163,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     protected void tick(@Nonnull Block b, @Nonnull Config data) {
         AbstractRecipe recipe = getSelectedRecipe(b);
 
-        if (recipe == null || !recipe.isEnabled() || getCharge(b.getLocation(), data) < getEnergyConsumption()) {
+        if (recipe == null || !recipe.isEnabled() || getCharge(data) < getEnergyConsumption()) {
             // No recipe / disabled recipe / no energy, abort...
             return;
         }

@@ -195,7 +195,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                     return;
                 }
 
-                if (lifetime % 60 == 0 && getCharge(b.getLocation(), data) >= getEnergyConsumption()) {
+                if (lifetime % 60 == 0 && getCharge(data) >= getEnergyConsumption()) {
                     BlockMenu menu = BlockStorage.getInventory(b);
 
                     boolean hasBody = findResource(menu, getBody(), bodySlots);

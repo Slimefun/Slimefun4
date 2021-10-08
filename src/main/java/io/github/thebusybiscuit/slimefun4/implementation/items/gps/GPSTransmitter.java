@@ -78,7 +78,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
 
             @Override
             public void tick(Block b, SlimefunItem item, Config data) {
-                int charge = getCharge(b.getLocation(), data);
+                int charge = getCharge(data);
                 UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
 
                 if (charge >= getEnergyConsumption()) {

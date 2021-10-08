@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
@@ -76,23 +77,50 @@ public interface EnergyNetComponent extends ItemAttribute {
             return 0;
         }
 
-        return getCharge(l, BlockStorage.getLocationInfo(l));
+        return getCharge(BlockStorage.getLocationInfo(l));
     }
 
     /**
-     * This returns the currently stored charge at a given {@link Location}.
+     * This returns a string-location of the Energy Regulator controlling this component
+     * @param data
+     *              The {@link Config} of the target block
+     * @return
+     *              The location of the energy regulator in string form.
+     */
+    default String getSerializedRegulatorLocation(@Nonnull Config data) {
+        Validate.notNull(data, "data was null!");
+
+        return data.getString("energy-net-location");
+    }
+
+    /**
+     * This sets the location of the Energy Regulator controlling this component
+     * @param l
+     *          {@link Location} of the component
+     * @param energyNet
+     * \        {@link Location} of the Energy Regulator to set
+     */
+    default void setRegulatorLocation(@Nonnull Location l, @Nullable Location energyNet) {
+        Validate.notNull(l, "Location was null!");
+
+        if (energyNet == null) {
+            BlockStorage.addBlockInfo(l, "energy-net-location", null);
+        } else {
+            BlockStorage.addBlockInfo(l, "energy-net-location", energyNet.toString());
+        }
+    }
+
+    /**
+     * This returns the currently stored charge at a given {@link Location} using it's {@link Config}
      * This is a more performance saving option if you already have a {@link Config}
      * object for this {@link Location}.
-     * 
-     * @param l
-     *            The target {@link Location}
+     *
      * @param data
      *            The data at this {@link Location}
      * 
      * @return The charge stored at that {@link Location}
      */
-    default int getCharge(@Nonnull Location l, @Nonnull Config data) {
-        Validate.notNull(l, "Location was null!");
+    default int getCharge(@Nonnull Config data) {
         Validate.notNull(data, "data was null!");
 
         // Emergency fallback, this cannot hold a charge, so we'll just return zero
