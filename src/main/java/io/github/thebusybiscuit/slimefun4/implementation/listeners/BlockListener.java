@@ -163,7 +163,7 @@ public class BlockListener implements Listener {
                 // Check hotbar for a similar item to 'swap' to
                 for (int i = 0; i < 9; i++) {
                     SlimefunItem hotbarItem = SlimefunItem.getByItem(player.getInventory().getItem(i));
-                    if (hotbarItem != null && hotbarItem.getId() == sfItem.getId()) {
+                    if (hotbarItem != null && hotbarItem.getId().equals(sfItem.getId())) {
                         player.getInventory().setHeldItemSlot(i);
                         e.setCancelled(true);
                         return;
