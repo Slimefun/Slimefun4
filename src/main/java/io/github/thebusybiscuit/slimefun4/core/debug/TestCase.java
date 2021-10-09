@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.debug;
 
+import javax.annotation.Nonnull;
 import java.util.Locale;
 
 /**
@@ -20,7 +21,7 @@ public enum TestCase {
     TestCase() {}
 
     @Override
-    public String toString() {
+    public @Nonnull String toString() {
         return "slimefun_" + name().toLowerCase(Locale.ROOT);
     }
 }

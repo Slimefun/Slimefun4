@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.logging.Level;
 
 /**
  * This class is responsible for debug logging.
@@ -43,28 +44,28 @@ public final class Debug {
     /**
      * Log a message if the test case is currently enabled.
      *
-     * @param mode The test case to use
+     * @param test The test case to use
      * @param msg  The message to log
      */
-    public static void log(@Nonnull String mode, @Nonnull String msg) {
-        log(mode, msg, new Object[0]);
+    public static void log(@Nonnull String test, @Nonnull String msg) {
+        log(test, msg, new Object[0]);
     }
 
     /**
      * Log a message if the test case is currently enabled.
      *
-     * @param mode The test case to use
+     * @param test The test case to use
      * @param msg  The message to log
      * @param vars The variables to replace, use "{}" in the message and have it replaced with a specified thing
      */
-    public static void log(@Nonnull String mode, @Nonnull String msg, @Nonnull Object... vars) {
-        if (testCase == null || !testCase.equals(mode)) return;
+    public static void log(@Nonnull String test, @Nonnull String msg, @Nonnull Object... vars) {
+        if (testCase == null || !testCase.equals(test)) return;
 
         if (vars.length > 0) {
             String formatted = formatMessage(msg, vars);
-            Slimefun.logger().info(formatted);
+            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[]{ test, formatted });
         } else {
-            Slimefun.logger().info(msg);
+            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[]{ test, msg });
         }
     }
 
@@ -102,5 +103,14 @@ public final class Debug {
      */
     public static void setTestCase(@Nullable String test) {
         testCase = test;
+    }
+
+    /**
+     * Get the current test case for this server or null if disabled
+     *
+     * @return The current test case to enable or null if disabled
+     */
+    public static @Nullable String getTestCase() {
+        return testCase;
     }
 }

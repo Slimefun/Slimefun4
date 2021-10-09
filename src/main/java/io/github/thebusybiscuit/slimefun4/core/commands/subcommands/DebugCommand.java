@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
  */
 public class DebugCommand extends SubCommand {
 
-    protected DebugCommand(Slimefun plugin, SlimefunCommand cmd) {
+    protected DebugCommand(@Nonnull Slimefun plugin, @Nonnull SlimefunCommand cmd) {
         super(plugin, cmd, "debug", true);
     }
 
@@ -32,9 +32,10 @@ public class DebugCommand extends SubCommand {
             return;
         }
 
-        if (args.length < 2) {
-            Slimefun.getLocalization().sendMessage(sender, "messages.usage", true,
-                msg -> msg.replace("%usage%", "/sf debug <test>"));
+        if (args.length == 1) {
+            Slimefun.getLocalization().sendMessage(sender, "commands.debug.current", true,
+                msg -> msg.replace("%test_case%", Debug.getTestCase() != null ? Debug.getTestCase() : "None")
+            );
             return;
         }
 

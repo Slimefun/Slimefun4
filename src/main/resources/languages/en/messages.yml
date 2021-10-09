@@ -34,6 +34,7 @@ commands:
 
   debug:
     description: 'Run debug logging for the developers'
+    current: '&7Current test case: &6%test_case%'
     running: '&7Running debug mode with test: %test%'
     disabled: '&7Disabled debug mode'
 
