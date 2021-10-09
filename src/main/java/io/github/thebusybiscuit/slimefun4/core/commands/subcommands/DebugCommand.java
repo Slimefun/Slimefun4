@@ -11,6 +11,8 @@ import javax.annotation.Nonnull;
 /**
  * The debug command will allow server owners to get information for us developers.
  * We can put debug messages in the code and they can trigger it for us to see what exactly is going on.
+ *
+ * @author WalshyDev
  */
 public class DebugCommand extends SubCommand {
 

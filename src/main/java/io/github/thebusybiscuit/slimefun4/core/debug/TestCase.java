@@ -5,6 +5,8 @@ import java.util.Locale;
 /**
  * Test cases in Slimefun. These are very useful for debugging why behavior is happening.
  * Server owners can enable these with {@code /sf debug <test-case>}
+ *
+ * @author WalshyDev
  */
 public enum TestCase {
 

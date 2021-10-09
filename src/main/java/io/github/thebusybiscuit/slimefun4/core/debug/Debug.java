@@ -5,11 +5,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-// We don't have validates in here because we want it to be quick and it's mainly for us internal devs.
-
 /**
  * This class is responsible for debug logging.
  * Server owners can enable testing specific cases and have debug logs for those cases.
+ *
+ * <b>Note:</b> We don't have validates in here because we want it to be quick and it's mainly for us internal devs.
  *
  * @author WalshyDev
  */
