@@ -141,11 +141,11 @@ public class BlockListener implements Listener {
             Block b = player.getTargetBlockExact(5);
 
             /*
-            * This check is really weird due to the weird nature of this event's behaviour.
-            * It checks if the block the player is looking at is of the same type as the cursor;
-            * after this we can make sure that it is a middle click outside of the inventory
-            * currentItem should also be air, otherwise it is not outside of the inventory
-            */
+             * This check is really weird due to the weird nature of this event's behaviour.
+             * It checks if the block the player is looking at is of the same type as the cursor;
+             * after this we can make sure that it is a middle click outside of the inventory
+             * currentItem should also be air, otherwise it is not outside of the inventory
+             */
             boolean isOutsideInventoryClick = e.getCursor().getType() == b.getType() && e.getCurrentItem().getType() == Material.AIR;
 
             // player is looking at WALL_HEAD but it's actually a player head
