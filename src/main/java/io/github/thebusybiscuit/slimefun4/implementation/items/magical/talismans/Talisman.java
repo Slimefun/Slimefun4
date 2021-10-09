@@ -127,7 +127,6 @@ public class Talisman extends SlimefunItem {
     @Override
     public void postRegister() {
         EnderTalisman talisman = new EnderTalisman(this, getEnderVariant());
-        talisman.addOfficialWikipage(wikiPage);
         talisman.register(getAddon());
     }
 
