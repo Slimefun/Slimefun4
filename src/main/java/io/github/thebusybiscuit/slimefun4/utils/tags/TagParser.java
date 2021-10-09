@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
@@ -72,7 +69,7 @@ public class TagParser implements Keyed {
     void parse(@Nonnull SlimefunTag tag, @Nonnull BiConsumer<Set<Material>, Set<Tag<Material>>> callback) throws TagMisconfigurationException {
         String path = "/tags/" + tag.getKey().getKey() + ".json";
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Slimefun.class.getResourceAsStream(path), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(Slimefun.class.getResourceAsStream(path)), StandardCharsets.UTF_8))) {
             parse(reader.lines().collect(Collectors.joining("")), callback);
         } catch (IOException x) {
             throw new TagMisconfigurationException(key, x);
@@ -117,7 +114,7 @@ public class TagParser implements Keyed {
                          */
                         parseComplexValue(element.getAsJsonObject(), materials, tags);
                     } else {
-                        throw new TagMisconfigurationException(key, "Unexpected value format: " + element.getClass().getSimpleName() + " - " + element.toString());
+                        throw new TagMisconfigurationException(key, "Unexpected value format: " + element.getClass().getSimpleName() + " - " + element);
                     }
                 }
 
@@ -188,7 +185,7 @@ public class TagParser implements Keyed {
 
             /*
              * If the Tag is required, an exception may be thrown.
-             * Otherwise it will just ignore the value
+             * Otherwise, it will just ignore the value
              */
             parsePrimitiveValue(id.getAsString(), materials, tags, isRequired);
         } else {

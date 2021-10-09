@@ -86,6 +86,11 @@ public enum SlimefunTag implements Tag<Material> {
     SPAWN_EGGS,
 
     /**
+     * All gravity affected blocks.
+     */
+    GRAVITY_AFFECTED_BLOCKS,
+
+    /**
      * Every mushroom type, red, brown and nether ones.
      */
     MUSHROOMS,
