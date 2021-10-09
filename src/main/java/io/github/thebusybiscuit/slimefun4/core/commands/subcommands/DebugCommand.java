@@ -39,10 +39,10 @@ public class DebugCommand extends SubCommand {
         String test = args[1];
 
         if (test.equalsIgnoreCase("disable") || test.equalsIgnoreCase("off")) {
-            Debug.setTestMode(null);
+            Debug.setTestCase(null);
             Slimefun.getLocalization().sendMessage(sender, "commands.debug.disabled");
         } else {
-            Debug.setTestMode(test);
+            Debug.setTestCase(test);
             Slimefun.getLocalization().sendMessage(sender, "commands.debug.running",
                 msg -> msg.replace("%test%", test));
         }
