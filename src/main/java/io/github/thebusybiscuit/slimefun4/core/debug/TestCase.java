@@ -11,7 +11,7 @@ import java.util.Locale;
 public enum TestCase {
 
     /**
-     * Cargo input testing. This will log what is going on with CARGO_INPUT_NODEs so that we can see what items are
+     * Cargo input testing. This will log what is going on with CARGO_INPUT_NODEs so that we can see what items are.
      * being checked and why it is comparing IDs or meta.
      * This is helpful for us to check into why input nodes are taking a while for servers.
      */

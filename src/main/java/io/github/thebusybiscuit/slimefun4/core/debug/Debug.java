@@ -77,9 +77,9 @@ public final class Debug {
      * MyBenchmark.whileFindChars  thrpt    5  3319022.018 ± 45663.898  ops/s
      * </code>
      *
-     * @param msg  The message to send. For variables, you can pass "{}".
-     * @param vars A varargs of the variables you wish to use.
-     * @return The resulting String.
+     * @param msg  The message to send. For variables, you can pass "{}"
+     * @param vars A varargs of the variables you wish to use
+     * @return The resulting String
      */
     private static @Nonnull String formatMessage(@Nonnull String msg, @Nonnull Object... vars) {
         int i = 0;
@@ -98,7 +98,7 @@ public final class Debug {
      * Set the current test case for this server.
      * This will enable debug logging for this specific case which can be helpful by Slimefun or addon developers.
      *
-     * @param test The test case to enable or null to disable it.
+     * @param test The test case to enable or null to disable it
      */
     public static void setTestCase(@Nullable String test) {
         testCase = test;
