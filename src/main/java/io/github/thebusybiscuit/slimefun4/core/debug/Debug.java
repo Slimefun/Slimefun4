@@ -81,11 +81,13 @@ public final class Debug {
      * @param vars A varargs of the variables you wish to use.
      * @return The resulting String.
      */
-    private static @Nonnull
-    String formatMessage(@Nonnull String msg, @Nonnull Object... vars) {
+    private static @Nonnull String formatMessage(@Nonnull String msg, @Nonnull Object... vars) {
         int i = 0;
         int idx = 0;
+
+        // Find an opening curly brace `{` and validate the next char is a closing one `}`
         while ((i = msg.indexOf('{', i)) != -1 && msg.charAt(i + 1) == '}') {
+            // Substring up to the opening brace `{`, add the variable for this and add the rest of the message
             msg = msg.substring(0, i) + vars[idx++] + msg.substring(i + 2);
         }
 
