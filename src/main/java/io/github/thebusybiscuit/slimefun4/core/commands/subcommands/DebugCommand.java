@@ -7,6 +7,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The debug command will allow server owners to get information for us developers.
@@ -15,6 +17,8 @@ import javax.annotation.Nonnull;
  * @author WalshyDev
  */
 public class DebugCommand extends SubCommand {
+
+    public static final List<String> tabCompletions = Collections.singletonList("disable");
 
     protected DebugCommand(@Nonnull Slimefun plugin, @Nonnull SlimefunCommand cmd) {
         super(plugin, cmd, "debug", true);
