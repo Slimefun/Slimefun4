@@ -37,6 +37,7 @@
 * The Electric Crucible now also accepts Stone
 * Added the ability to shift-click in the Cheat Sheet menu
 * Added the ability to break blocks normally with a Lumber Axe when sneaking
+* Added an option to allow Solar Generators to operate in "night-mode" in other dimensions
 
 #### Changes
 * Massive performance improvements for Cargo networks

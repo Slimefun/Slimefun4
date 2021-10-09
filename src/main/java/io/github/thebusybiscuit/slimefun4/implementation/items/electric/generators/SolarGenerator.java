@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -33,6 +34,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
  */
 public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
 
+    private final ItemSetting<Boolean> useNightEnergyInOtherDimensions = new ItemSetting<>(this, "other-dimensions-use-night-energy", false);
     private final int dayEnergy;
     private final int nightEnergy;
     private final int capacity;
@@ -44,6 +46,8 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
         this.dayEnergy = dayEnergy;
         this.nightEnergy = nightEnergy;
         this.capacity = capacity;
+
+        addItemSetting(useNightEnergyInOtherDimensions);
     }
 
     @ParametersAreNonnullByDefault
@@ -81,6 +85,10 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
         World world = l.getWorld();
 
         if (world.getEnvironment() != Environment.NORMAL) {
+            if (useNightEnergyInOtherDimensions.getValue()) {
+                return getNightEnergy();
+            }
+
             return 0;
         } else {
             boolean isDaytime = isDaytime(world);
