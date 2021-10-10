@@ -24,7 +24,6 @@
 		"minecraft:sand",
 		"minecraft:red_sand",
 		"minecraft:scaffolding",
-		"",
 		{
 			"id" : "minecraft:pointed_dripstone",
 			"required" : false
