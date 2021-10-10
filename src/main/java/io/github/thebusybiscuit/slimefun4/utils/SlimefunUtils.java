@@ -10,6 +10,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -276,6 +278,7 @@ public final class SlimefunUtils {
         } else if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
             return ((SlimefunItemStack) item).getItemId().equals(((SlimefunItemStack) sfitem).getItemId());
         } else if (item.hasItemMeta()) {
+            Debug.log(TestCase.CARGO_INPUT_TESTING, "SlimefunUtils#isItemSimilar - item.hasItemMeta()");
             ItemMeta itemMeta = item.getItemMeta();
 
             if (sfitem instanceof SlimefunItemStack) {
@@ -288,22 +291,32 @@ public final class SlimefunUtils {
                 ItemMetaSnapshot meta = ((SlimefunItemStack) sfitem).getItemMetaSnapshot();
                 return equalsItemMeta(itemMeta, meta, checkLore);
             } else if (sfitem instanceof ItemStackWrapper && sfitem.hasItemMeta()) {
+                Debug.log(TestCase.CARGO_INPUT_TESTING, "  is wrapper");
                 /*
                  * Cargo optimization (PR #3258)
-                 * 
+                 *
                  * Slimefun items may be ItemStackWrapper's in the context of cargo
                  * so let's try to do an ID comparison before meta comparison
                  */
                 ItemMeta possibleSfItemMeta = sfitem.getItemMeta();
+                Debug.log(TestCase.CARGO_INPUT_TESTING, "  sfitem is ItemStackWrapper - possible SF Item: {}", sfitem);
 
                 // Prioritize SlimefunItem id comparison over ItemMeta comparison
                 if (Slimefun.getItemDataService().hasEqualItemData(possibleSfItemMeta, itemMeta)) {
+                    Debug.log(TestCase.CARGO_INPUT_TESTING, "  Item IDs matched!");
                     return true;
                 } else {
+                    Debug.log(TestCase.CARGO_INPUT_TESTING, "  Item IDs don't match, checking meta {} == {} (lore: {})",
+                        itemMeta, possibleSfItemMeta, checkLore
+                    );
                     return equalsItemMeta(itemMeta, possibleSfItemMeta, checkLore);
                 }
             } else if (sfitem.hasItemMeta()) {
-                return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);
+                ItemMeta sfItemMeta = sfitem.getItemMeta();
+                Debug.log(TestCase.CARGO_INPUT_TESTING, "  Comparing meta (vanilla items?) - {} == {} (lore: {})",
+                    itemMeta, sfItemMeta, checkLore
+                );
+                return equalsItemMeta(itemMeta, sfItemMeta, checkLore);
             } else {
                 return false;
             }

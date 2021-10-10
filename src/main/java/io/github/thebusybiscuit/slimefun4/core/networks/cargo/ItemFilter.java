@@ -7,6 +7,8 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -159,6 +161,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
     @Override
     public boolean test(@Nonnull ItemStack item) {
+        Debug.log(TestCase.CARGO_INPUT_TESTING, "ItemFilter#test({})", item);
         /*
          * An empty Filter does not need to be iterated over.
          * We can just return our default value in this scenario.

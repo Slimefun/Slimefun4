@@ -38,6 +38,7 @@
 * Added the ability to shift-click in the Cheat Sheet menu
 * Added the ability to break blocks normally with a Lumber Axe when sneaking
 * Added an option to allow Solar Generators to operate in "night-mode" in other dimensions
+* Added `/sf debug <test case>` (This allows server owners to get more in-depth logging which they can forward to developers for better bug/lag investigations)
 
 #### Changes
 * Massive performance improvements for Cargo networks
