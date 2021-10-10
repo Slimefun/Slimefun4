@@ -1,10 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.core.debug;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.logging.Level;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This class is responsible for debug logging.
@@ -23,8 +24,10 @@ public final class Debug {
     /**
      * Log a message if the {@link TestCase} is currently enabled.
      *
-     * @param testCase The {@link TestCase} to use
-     * @param msg      The message to log
+     * @param testCase
+     *            The {@link TestCase} to use
+     * @param msg
+     *            The message to log
      */
     public static void log(@Nonnull TestCase testCase, @Nonnull String msg) {
         log(testCase.toString(), msg, new Object[0]);
@@ -33,9 +36,12 @@ public final class Debug {
     /**
      * Log a variable message if the {@link TestCase} is currently enabled.
      *
-     * @param testCase The {@link TestCase} to use
-     * @param msg      The message to log
-     * @param vars     The variables to replace, use "{}" in the message and have it replaced with a specified thing
+     * @param testCase
+     *            The {@link TestCase} to use
+     * @param msg
+     *            The message to log
+     * @param vars
+     *            The variables to replace, use "{}" in the message and have it replaced with a specified thing
      */
     public static void log(@Nonnull TestCase testCase, @Nonnull String msg, @Nonnull Object... vars) {
         log(testCase.toString(), msg, vars);
@@ -44,8 +50,10 @@ public final class Debug {
     /**
      * Log a message if the test case is currently enabled.
      *
-     * @param test The test case to use
-     * @param msg  The message to log
+     * @param test
+     *            The test case to use
+     * @param msg
+     *            The message to log
      */
     public static void log(@Nonnull String test, @Nonnull String msg) {
         log(test, msg, new Object[0]);
@@ -54,18 +62,23 @@ public final class Debug {
     /**
      * Log a message if the test case is currently enabled.
      *
-     * @param test The test case to use
-     * @param msg  The message to log
-     * @param vars The variables to replace, use "{}" in the message and have it replaced with a specified thing
+     * @param test
+     *            The test case to use
+     * @param msg
+     *            The message to log
+     * @param vars
+     *            The variables to replace, use "{}" in the message and have it replaced with a specified thing
      */
     public static void log(@Nonnull String test, @Nonnull String msg, @Nonnull Object... vars) {
-        if (testCase == null || !testCase.equals(test)) return;
+        if (testCase == null || !testCase.equals(test)) {
+            return;
+        }
 
         if (vars.length > 0) {
             String formatted = formatMessage(msg, vars);
-            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[]{ test, formatted });
+            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[] { test, formatted });
         } else {
-            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[]{ test, msg });
+            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[] { test, msg });
         }
     }
 
@@ -78,8 +91,11 @@ public final class Debug {
      * MyBenchmark.whileFindChars  thrpt    5  3319022.018 ± 45663.898  ops/s
      * </code>
      *
-     * @param msg  The message to send. For variables, you can pass "{}"
-     * @param vars A varargs of the variables you wish to use
+     * @param msg
+     *            The message to send. For variables, you can pass "{}"
+     * @param vars
+     *            A varargs of the variables you wish to use
+     * 
      * @return The resulting String
      */
     private static @Nonnull String formatMessage(@Nonnull String msg, @Nonnull Object... vars) {
@@ -89,7 +105,8 @@ public final class Debug {
         // Find an opening curly brace `{` and validate the next char is a closing one `}`
         while ((i = msg.indexOf('{', i)) != -1 && msg.charAt(i + 1) == '}') {
             // Substring up to the opening brace `{`, add the variable for this and add the rest of the message
-            msg = msg.substring(0, i) + vars[idx++] + msg.substring(i + 2);
+            msg = msg.substring(0, i) + vars[idx] + msg.substring(i + 2);
+            idx++;
         }
 
         return msg;
@@ -99,7 +116,8 @@ public final class Debug {
      * Set the current test case for this server.
      * This will enable debug logging for this specific case which can be helpful by Slimefun or addon developers.
      *
-     * @param test The test case to enable or null to disable it
+     * @param test
+     *            The test case to enable or null to disable it
      */
     public static void setTestCase(@Nullable String test) {
         testCase = test;
