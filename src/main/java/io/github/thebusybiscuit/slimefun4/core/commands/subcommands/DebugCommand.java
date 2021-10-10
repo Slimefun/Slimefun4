@@ -36,7 +36,7 @@ public class DebugCommand extends SubCommand {
             String currentCase = Debug.getTestCase();
             if (currentCase != null) {
                 Slimefun.getLocalization().sendMessage(sender, "commands.debug.current", true,
-                    msg -> msg.replace("%test_case%", Debug.getTestCase() != null ? Debug.getTestCase() : "None")
+                    msg -> msg.replace("%test_case%", currentCase)
                 );
             } else {
                 Slimefun.getLocalization().sendMessage(sender, "commands.debug.none-running", true);

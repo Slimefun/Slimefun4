@@ -36,8 +36,8 @@ commands:
     description: 'Run debug logging for the developers'
     current: '&7Current test case: &6%test_case%'
     none-running: '&7No test case is currently being ran!'
-    running: '&7Running debug mode with test: %test%'
-    disabled: '&7Disabled debug mode'
+    running: '&7Running debug mode with test: &6%test%'
+    disabled: '&7Disabled debug mode.'
 
 placeholderapi:
   profile-loading: 'Loading...'
