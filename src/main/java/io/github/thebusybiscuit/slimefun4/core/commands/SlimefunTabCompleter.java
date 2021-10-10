@@ -34,8 +34,6 @@ class SlimefunTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             return createReturnList(command.getSubCommandNames(), args[0]);
-        } else if (args.length == 2) {
-            return createReturnList(DebugCommand.tabCompletions, args[1]);
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
                 return createReturnList(getSlimefunItems(), args[2]);

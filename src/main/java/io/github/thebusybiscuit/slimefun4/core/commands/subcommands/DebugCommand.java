@@ -7,8 +7,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * The debug command will allow server owners to get information for us developers.
@@ -17,8 +15,6 @@ import java.util.List;
  * @author WalshyDev
  */
 public class DebugCommand extends SubCommand {
-
-    public static final List<String> tabCompletions = Collections.singletonList("disable");
 
     protected DebugCommand(@Nonnull Slimefun plugin, @Nonnull SlimefunCommand cmd) {
         super(plugin, cmd, "debug", true);
@@ -37,9 +33,14 @@ public class DebugCommand extends SubCommand {
         }
 
         if (args.length == 1) {
-            Slimefun.getLocalization().sendMessage(sender, "commands.debug.current", true,
-                msg -> msg.replace("%test_case%", Debug.getTestCase() != null ? Debug.getTestCase() : "None")
-            );
+            String currentCase = Debug.getTestCase();
+            if (currentCase != null) {
+                Slimefun.getLocalization().sendMessage(sender, "commands.debug.current", true,
+                    msg -> msg.replace("%test_case%", Debug.getTestCase() != null ? Debug.getTestCase() : "None")
+                );
+            } else {
+                Slimefun.getLocalization().sendMessage(sender, "commands.debug.none-running", true);
+            }
             return;
         }
 
