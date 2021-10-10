@@ -35,6 +35,7 @@
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
 * The Electric Crucible now also accepts Netherrack
 * The Electric Crucible now also accepts Stone
+* Added `/sf debug <test case>` (This allows server owners to get more in-depth logging which they can forward to developers for better bug/lag investigations)
 
 #### Changes
 * Massive performance improvements for Cargo networks
