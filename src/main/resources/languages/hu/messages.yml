@@ -282,6 +282,8 @@ brewing_stand:
   not-working: '&4Nem használhatsz Slimefun tárgyakat főzőállványban!'
 cartography_table:
   not-working: '&4Nem használhatsz Slimefun tárgyakat térképasztalban.'
+smithing_table:
+  not-working: '&4Nem használatsz Slimefun tárgyat kovácsolási alapanyagként!'
 villagers:
   no-trading: '&4Nem cserélhetsz Slimefun tárgyakat falusiakkal!'
 backpack:
