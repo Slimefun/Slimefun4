@@ -50,7 +50,7 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
     @Nonnull
     private ToolUseHandler onBlockBreak() {
         return (e, tool, fortune, drops) -> {
-            if (Tag.LOGS.isTagged(e.getBlock().getType())) {
+            if (!e.getPlayer().isSneaking() && Tag.LOGS.isTagged(e.getBlock().getType())) {
                 List<Block> logs = Vein.find(e.getBlock(), MAX_BROKEN, b -> Tag.LOGS.isTagged(b.getType()));
                 logs.remove(e.getBlock());
 
