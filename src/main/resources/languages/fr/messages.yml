@@ -28,6 +28,12 @@ commands:
     please-wait: '&eAttendez s''il vous plaît, les résultats arrivent !'
     verbose-player: '&4Ce flag ne peux pas être utiliser par un joueur!'
     unknown-flag: '&4Flag inconnu: &c%flag%'
+  debug:
+    description: 'Lancer la journalisation de débogage pour les développeurs'
+    current: '&7Cas de test actuel : &6%test_case%'
+    none-running: '&7Aucun cas de test n''est actuellement en cours !'
+    running: '&7Mode de débogage en cours avec le test : &6%test%'
+    disabled: '&7Mode de débogage désactivé.'
 placeholderapi:
   profile-loading: 'Chargement...'
 guide:
