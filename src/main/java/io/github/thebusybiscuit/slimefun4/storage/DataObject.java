@@ -54,6 +54,7 @@ public class DataObject {
     ////////////////////////////////////////
     // Getters
     ////////////////////////////////////////
+
     /**
      * Get a byte value in this {@link DataObject}, if the key doesn't exist it returns -1.
      *
@@ -72,7 +73,7 @@ public class DataObject {
     /**
      * Get a byte value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The byte associated with this key or the specified default value if it doesn't exist
      */
@@ -103,7 +104,7 @@ public class DataObject {
     /**
      * Get a short value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The short associated with this key or the specified default value if it doesn't exist
      */
@@ -134,7 +135,7 @@ public class DataObject {
     /**
      * Get an int value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The int associated with this key or the specified default value if it doesn't exist
      */
@@ -165,7 +166,7 @@ public class DataObject {
     /**
      * Get a double value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The double associated with this key or the specified default value if it doesn't exist
      */
@@ -196,7 +197,7 @@ public class DataObject {
     /**
      * Get a float value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The float associated with this key or the specified default value if it doesn't exist
      */
@@ -227,7 +228,7 @@ public class DataObject {
     /**
      * Get a long value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The long associated with this key or the specified default value if it doesn't exist
      */
@@ -258,7 +259,7 @@ public class DataObject {
     /**
      * Get a boolean value in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The boolean associated with this key or the specified default value if it doesn't exist
      */
@@ -290,7 +291,7 @@ public class DataObject {
     /**
      * Get a byte array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The byte array associated with this key or the specified default value if it doesn't exist
      */
@@ -323,7 +324,7 @@ public class DataObject {
     /**
      * Get a short array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The short array associated with this key or the specified default value if it doesn't exist
      */
@@ -356,7 +357,7 @@ public class DataObject {
     /**
      * Get an int array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The int array associated with this key or the specified default value if it doesn't exist
      */
@@ -389,7 +390,7 @@ public class DataObject {
     /**
      * Get a double array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The double array associated with this key or the specified default value if it doesn't exist
      */
@@ -422,7 +423,7 @@ public class DataObject {
     /**
      * Get a float array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The float array associated with this key or the specified default value if it doesn't exist
      */
@@ -455,7 +456,7 @@ public class DataObject {
     /**
      * Get a long array in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The long array associated with this key or the specified default value if it doesn't exist
      */
@@ -488,7 +489,7 @@ public class DataObject {
     /**
      * Get a String in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The String associated with this key or the specified default value if it doesn't exist
      */
@@ -519,9 +520,10 @@ public class DataObject {
     }
 
     /**
-     * Get a {@link DataObject} in this {@link DataObject}, if the key doesn't exist it returns the specified default value.
+     * Get a {@link DataObject} in this {@link DataObject}, if the key doesn't exist it returns the specified default
+     * value.
      *
-     * @param key The key of the data to retrieve
+     * @param key          The key of the data to retrieve
      * @param defaultValue The specified default value
      * @return The {@link DataObject} associated with this key or the specified default value if it doesn't exist
      */
@@ -550,10 +552,11 @@ public class DataObject {
     ///////////////////////////////
     // Setters
     ///////////////////////////////
+
     /**
      * Set a byte value in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -568,7 +571,7 @@ public class DataObject {
     /**
      * Set a short value in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -583,7 +586,7 @@ public class DataObject {
     /**
      * Set an int value in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -598,7 +601,7 @@ public class DataObject {
     /**
      * Set a double value in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -613,7 +616,7 @@ public class DataObject {
     /**
      * Set a float value in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -628,7 +631,7 @@ public class DataObject {
     /**
      * Set a long value in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -643,7 +646,7 @@ public class DataObject {
     /**
      * Set a boolean value in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -658,7 +661,7 @@ public class DataObject {
     /**
      * Set a byte array in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -673,7 +676,7 @@ public class DataObject {
     /**
      * Set a short array in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -688,7 +691,7 @@ public class DataObject {
     /**
      * Set an int array in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -703,7 +706,7 @@ public class DataObject {
     /**
      * Set a double array in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -718,7 +721,7 @@ public class DataObject {
     /**
      * Set a float array in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -733,7 +736,7 @@ public class DataObject {
     /**
      * Set a long array in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -748,7 +751,7 @@ public class DataObject {
     /**
      * Set a String in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -763,7 +766,7 @@ public class DataObject {
     /**
      * Set a {@link DataObject} in this {@link DataObject}.
      *
-     * @param key The key of the data to set
+     * @param key   The key of the data to set
      * @param value The value to set
      * @return This {@link DataObject}. Used for chaining
      */
@@ -778,8 +781,8 @@ public class DataObject {
     /**
      * Set a complex value in this {@link DataObject}.
      *
-     * @param key The key of the data to set
-     * @param value The value to set
+     * @param key         The key of the data to set
+     * @param value       The value to set
      * @param transformer The transformer to use
      * @return This {@link DataObject}. Used for chaining
      */
