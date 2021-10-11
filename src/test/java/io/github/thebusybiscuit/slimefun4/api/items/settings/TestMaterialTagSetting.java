@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.api.items.settings;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.HashSet;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
