@@ -1,10 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.storage;
 
 import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.storage.implementation.BinaryStorage;
 import io.github.thebusybiscuit.slimefun4.storage.implementation.binary.BinaryUtils;
 import io.github.thebusybiscuit.slimefun4.storage.implementation.binary.BinaryWriter;
+import io.github.thebusybiscuit.slimefun4.storage.implementation.binary.CompressionType;
 import org.bukkit.NamespacedKey;
 
 import java.io.File;
@@ -24,7 +24,7 @@ public class Test {
                 .setInt(NamespacedKey.minecraft("7"), 12)
             );
 
-        new BinaryWriter(new File("test.dat")).write(dataObject);
+        new BinaryWriter(new File("test.dat"), CompressionType.OFF).write(dataObject);
 
         System.out.println(BinaryUtils.toString(dataObject, true));
     }

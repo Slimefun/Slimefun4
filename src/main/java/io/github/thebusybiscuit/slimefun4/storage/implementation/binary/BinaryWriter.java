@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.storage.implementation.binary;
 
+import com.github.luben.zstd.ZstdOutputStream;
 import io.github.thebusybiscuit.slimefun4.storage.DataObject;
 import io.github.thebusybiscuit.slimefun4.storage.type.BooleanType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteArrayType;
@@ -28,31 +29,54 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
+import java.util.zip.GZIPOutputStream;
 
 /**
  *
  */
-public class BinaryWriter {
+public final class BinaryWriter {
 
     private final File file;
+    private final CompressionType type;
 
-    public BinaryWriter(@Nonnull File file) {
+    public BinaryWriter(@Nonnull File file, @Nonnull CompressionType type) {
         this.file = file;
+        this.type = type;
+    }
+
+    @Nonnull
+    private DataOutputStream getOutStream() throws IOException {
+        OutputStream stream;
+        switch (type) {
+            case GZIP:
+                stream = new GZIPOutputStream(new FileOutputStream(file));
+                break;
+            case ZSTD:
+                stream = new ZstdOutputStream(new FileOutputStream(file));
+                break;
+            default:
+                stream = new FileOutputStream(file);
+                break;
+        }
+
+        return new DataOutputStream(stream);
     }
 
     public void write(@Nonnull DataObject object) {
-//        try (final DataOutputStream writer = new DataOutputStream(new ZstdOutputStream(new FileOutputStream(file)))) {
-        try (final DataOutputStream writer = new DataOutputStream(new FileOutputStream(file))) {
+        try (final DataOutputStream writer = getOutStream()) {
             // Write DataObject start - there is no name for root
             writer.writeByte(TypeEnum.OBJECT.getId());
 
             // Write the object out
             writeObject(writer, object);
 
+            writer.writeByte(TypeEnum.OBJECT_END.getId());
+
             writer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            // TODO: error
         }
     }
 
