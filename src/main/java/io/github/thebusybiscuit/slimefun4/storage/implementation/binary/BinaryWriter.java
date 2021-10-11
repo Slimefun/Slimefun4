@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.storage.implementation.binary;
 
 import com.github.luben.zstd.ZstdOutputStream;
 import io.github.thebusybiscuit.slimefun4.storage.DataObject;
+import io.github.thebusybiscuit.slimefun4.storage.NamedKey;
 import io.github.thebusybiscuit.slimefun4.storage.type.BooleanType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteArrayType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteType;
@@ -81,7 +82,7 @@ public final class BinaryWriter {
     }
 
     private void writeObject(@Nonnull DataOutputStream writer, @Nonnull DataObject object) throws IOException {
-        for (Map.Entry<NamespacedKey, Type> entry : object.getEntries()) {
+        for (Map.Entry<NamedKey, Type> entry : object.getEntries()) {
             writeType(writer, entry.getKey(), entry.getValue());
         }
         // Indicate the end of the object
@@ -89,7 +90,7 @@ public final class BinaryWriter {
     }
 
     @ParametersAreNonnullByDefault
-    private void writeType(DataOutputStream writer, @Nonnull NamespacedKey namespace, Type type) throws IOException {
+    private void writeType(DataOutputStream writer, @Nonnull NamedKey namespace, Type type) throws IOException {
         Validate.notNull(writer, "DataOutputStream cannot be null!!");
         Validate.notNull(namespace, "NamespacedKey cannot be null!");
         Validate.notNull(type, "Type cannot be null!");

@@ -15,13 +15,13 @@ public class Test {
         Storage storage = new BinaryStorage();
 
         final DataObject dataObject = storage.getBlock(new BlockPosition(null, 0, 0, 0))
-            .setInt(NamespacedKey.minecraft("1"), 123)
-            .setLongArray(NamespacedKey.minecraft("2"), new long[] {1, 2, 3, 4})
-            .setBoolean(NamespacedKey.minecraft("3"), true)
-            .setString(NamespacedKey.minecraft("4"), "peepoPog wow")
-            .setByte(NamespacedKey.minecraft("5"), (byte) 1)
-            .setDataObject(NamespacedKey.minecraft("6"), new DataObject()
-                .setInt(NamespacedKey.minecraft("7"), 12)
+            .setInt(NamedKey.ofDefault("1"), 123)
+            .setLongArray(NamedKey.ofDefault("2"), new long[] {1, 2, 3, 4})
+            .setBoolean(NamedKey.ofDefault("3"), true)
+            .setString(NamedKey.ofDefault("4"), "peepoPog wow")
+            .setByte(NamedKey.ofDefault("5"), (byte) 1)
+            .setDataObject(NamedKey.ofDefault("6"), new DataObject()
+                .setInt(NamedKey.ofDefault("7"), 12)
             );
 
         new BinaryWriter(new File("test.dat"), CompressionType.OFF).write(dataObject);

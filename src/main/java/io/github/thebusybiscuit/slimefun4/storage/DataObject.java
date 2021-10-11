@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.storage.type.ShortArrayType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ShortType;
 import io.github.thebusybiscuit.slimefun4.storage.type.StringType;
 import io.github.thebusybiscuit.slimefun4.storage.type.Type;
-import org.bukkit.NamespacedKey;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -47,7 +46,7 @@ import java.util.Set;
 
 public class DataObject {
 
-    private final Map<NamespacedKey, Type> data = new LinkedHashMap<>();
+    private final Map<NamedKey, Type> data = new LinkedHashMap<>();
 
     // Fuck tons of API things
 
@@ -61,7 +60,7 @@ public class DataObject {
      * @param key The key of the data to retrieve
      * @return The byte associated with this key or -1 if it doesn't exist
      */
-    public byte getByte(NamespacedKey key) {
+    public byte getByte(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof ByteType) {
             return ((ByteType) type).getValue();
@@ -77,7 +76,7 @@ public class DataObject {
      * @param defaultValue The specified default value
      * @return The byte associated with this key or the specified default value if it doesn't exist
      */
-    public byte getByte(NamespacedKey key, byte defaultValue) {
+    public byte getByte(NamedKey key, byte defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof ByteType) {
             return ((ByteType) type).getValue();
@@ -92,7 +91,7 @@ public class DataObject {
      * @param key The key of the data to retrieve
      * @return The short associated with this key or -1 if it doesn't exist
      */
-    public short getShort(NamespacedKey key) {
+    public short getShort(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof ShortType) {
             return ((ShortType) type).getValue();
@@ -108,7 +107,7 @@ public class DataObject {
      * @param defaultValue The specified default value
      * @return The short associated with this key or the specified default value if it doesn't exist
      */
-    public short getShort(NamespacedKey key, short defaultValue) {
+    public short getShort(NamedKey key, short defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof ShortType) {
             return ((ShortType) type).getValue();
@@ -123,7 +122,7 @@ public class DataObject {
      * @param key The key of the data to retrieve
      * @return The int associated with this key or -1 if it doesn't exist
      */
-    public int getInt(NamespacedKey key) {
+    public int getInt(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof IntType) {
             return ((IntType) type).getValue();
@@ -139,7 +138,7 @@ public class DataObject {
      * @param defaultValue The specified default value
      * @return The int associated with this key or the specified default value if it doesn't exist
      */
-    public int getInt(NamespacedKey key, int defaultValue) {
+    public int getInt(NamedKey key, int defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof IntType) {
             return ((IntType) type).getValue();
@@ -154,7 +153,7 @@ public class DataObject {
      * @param key The key of the data to retrieve
      * @return The double associated with this key or -1 if it doesn't exist
      */
-    public double getDouble(NamespacedKey key) {
+    public double getDouble(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof DoubleType) {
             return ((DoubleType) type).getValue();
@@ -170,7 +169,7 @@ public class DataObject {
      * @param defaultValue The specified default value
      * @return The double associated with this key or the specified default value if it doesn't exist
      */
-    public double getDouble(NamespacedKey key, double defaultValue) {
+    public double getDouble(NamedKey key, double defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof DoubleType) {
             return ((DoubleType) type).getValue();
@@ -185,7 +184,7 @@ public class DataObject {
      * @param key The key of the data to retrieve
      * @return The float associated with this key or -1 if it doesn't exist
      */
-    public float getFloat(NamespacedKey key) {
+    public float getFloat(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof FloatType) {
             return ((FloatType) type).getValue();
@@ -201,7 +200,7 @@ public class DataObject {
      * @param defaultValue The specified default value
      * @return The float associated with this key or the specified default value if it doesn't exist
      */
-    public float getFloat(NamespacedKey key, float defaultValue) {
+    public float getFloat(NamedKey key, float defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof FloatType) {
             return ((FloatType) type).getValue();
@@ -216,7 +215,7 @@ public class DataObject {
      * @param key The key of the data to retrieve
      * @return The long associated with this key or -1 if it doesn't exist
      */
-    public long getLong(NamespacedKey key) {
+    public long getLong(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof LongType) {
             return ((LongType) type).getValue();
@@ -232,7 +231,7 @@ public class DataObject {
      * @param defaultValue The specified default value
      * @return The long associated with this key or the specified default value if it doesn't exist
      */
-    public long getLong(NamespacedKey key, long defaultValue) {
+    public long getLong(NamedKey key, long defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof LongType) {
             return ((LongType) type).getValue();
@@ -247,7 +246,7 @@ public class DataObject {
      * @param key The key of the data to retrieve
      * @return The boolean associated with this key or false if it doesn't exist
      */
-    public boolean getBoolean(NamespacedKey key) {
+    public boolean getBoolean(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof BooleanType) {
             return ((BooleanType) type).getValue();
@@ -263,7 +262,7 @@ public class DataObject {
      * @param defaultValue The specified default value
      * @return The boolean associated with this key or the specified default value if it doesn't exist
      */
-    public boolean getBoolean(NamespacedKey key, boolean defaultValue) {
+    public boolean getBoolean(NamedKey key, boolean defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof BooleanType) {
             return ((BooleanType) type).getValue();
@@ -279,7 +278,7 @@ public class DataObject {
      * @return The byte array associated with this key or null if it doesn't exist
      */
     @Nullable
-    public byte[] getByteArray(NamespacedKey key) {
+    public byte[] getByteArray(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof ByteArrayType) {
             return ((ByteArrayType) type).getValue();
@@ -296,7 +295,7 @@ public class DataObject {
      * @return The byte array associated with this key or the specified default value if it doesn't exist
      */
     @Nullable
-    public byte[] getByteArray(NamespacedKey key, byte[] defaultValue) {
+    public byte[] getByteArray(NamedKey key, byte[] defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof ByteArrayType) {
             return ((ByteArrayType) type).getValue();
@@ -312,7 +311,7 @@ public class DataObject {
      * @return The short array associated with this key or null if it doesn't exist
      */
     @Nullable
-    public short[] getShortArray(NamespacedKey key) {
+    public short[] getShortArray(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof ShortArrayType) {
             return ((ShortArrayType) type).getValue();
@@ -329,7 +328,7 @@ public class DataObject {
      * @return The short array associated with this key or the specified default value if it doesn't exist
      */
     @Nullable
-    public short[] getShortArray(NamespacedKey key, @Nullable short[] defaultValue) {
+    public short[] getShortArray(NamedKey key, @Nullable short[] defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof ShortArrayType) {
             return ((ShortArrayType) type).getValue();
@@ -345,7 +344,7 @@ public class DataObject {
      * @return The int array associated with this key or null if it doesn't exist
      */
     @Nullable
-    public int[] getIntArray(NamespacedKey key) {
+    public int[] getIntArray(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof IntArrayType) {
             return ((IntArrayType) type).getValue();
@@ -362,7 +361,7 @@ public class DataObject {
      * @return The int array associated with this key or the specified default value if it doesn't exist
      */
     @Nullable
-    public int[] getIntArray(NamespacedKey key, @Nullable int[] defaultValue) {
+    public int[] getIntArray(NamedKey key, @Nullable int[] defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof IntArrayType) {
             return ((IntArrayType) type).getValue();
@@ -378,7 +377,7 @@ public class DataObject {
      * @return The double array associated with this key or null if it doesn't exist
      */
     @Nullable
-    public double[] getDoubleArray(NamespacedKey key) {
+    public double[] getDoubleArray(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof DoubleArrayType) {
             return ((DoubleArrayType) type).getValue();
@@ -395,7 +394,7 @@ public class DataObject {
      * @return The double array associated with this key or the specified default value if it doesn't exist
      */
     @Nullable
-    public double[] getDoubleArray(NamespacedKey key, @Nullable double[] defaultValue) {
+    public double[] getDoubleArray(NamedKey key, @Nullable double[] defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof DoubleArrayType) {
             return ((DoubleArrayType) type).getValue();
@@ -411,7 +410,7 @@ public class DataObject {
      * @return The float array associated with this key or null if it doesn't exist
      */
     @Nullable
-    public float[] getFloatArray(NamespacedKey key) {
+    public float[] getFloatArray(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof FloatArrayType) {
             return ((FloatArrayType) type).getValue();
@@ -428,7 +427,7 @@ public class DataObject {
      * @return The float array associated with this key or the specified default value if it doesn't exist
      */
     @Nullable
-    public float[] getFloatArray(NamespacedKey key, @Nullable float[] defaultValue) {
+    public float[] getFloatArray(NamedKey key, @Nullable float[] defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof FloatArrayType) {
             return ((FloatArrayType) type).getValue();
@@ -444,7 +443,7 @@ public class DataObject {
      * @return The long array associated with this key or null if it doesn't exist
      */
     @Nullable
-    public long[] getLongArray(NamespacedKey key) {
+    public long[] getLongArray(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof LongArrayType) {
             return ((LongArrayType) type).getValue();
@@ -461,7 +460,7 @@ public class DataObject {
      * @return The long array associated with this key or the specified default value if it doesn't exist
      */
     @Nullable
-    public long[] getLongArray(NamespacedKey key, @Nullable long[] defaultValue) {
+    public long[] getLongArray(NamedKey key, @Nullable long[] defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof LongArrayType) {
             return ((LongArrayType) type).getValue();
@@ -477,7 +476,7 @@ public class DataObject {
      * @return The String associated with this key or null if it doesn't exist
      */
     @Nullable
-    public String getString(NamespacedKey key) {
+    public String getString(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof StringType) {
             return ((StringType) type).getValue();
@@ -494,7 +493,7 @@ public class DataObject {
      * @return The String associated with this key or the specified default value if it doesn't exist
      */
     @Nullable
-    public String getString(NamespacedKey key, String defaultValue) {
+    public String getString(NamedKey key, String defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof StringType) {
             return ((StringType) type).getValue();
@@ -510,7 +509,7 @@ public class DataObject {
      * @return The {@link DataObject} associated with this key or null if it doesn't exist
      */
     @Nullable
-    public DataObject getDataObject(NamespacedKey key) {
+    public DataObject getDataObject(NamedKey key) {
         final Type type = this.data.get(key);
         if (type instanceof DataObjectType) {
             return ((DataObjectType) type).getValue();
@@ -527,7 +526,7 @@ public class DataObject {
      * @return The {@link DataObject} associated with this key or the specified default value if it doesn't exist
      */
     @Nullable
-    public DataObject getDataObject(NamespacedKey key, @Nullable DataObject defaultValue) {
+    public DataObject getDataObject(NamedKey key, @Nullable DataObject defaultValue) {
         final Type type = this.data.get(key);
         if (type instanceof DataObjectType) {
             return ((DataObjectType) type).getValue();
@@ -537,12 +536,12 @@ public class DataObject {
     }
 
     /**
-     * Get a {@link Set} of all {@link NamespacedKey} in this {@link DataObject}
+     * Get a {@link Set} of all {@link NamedKey} in this {@link DataObject}
      *
-     * @return The {@link Set} of {@link NamespacedKey}
+     * @return The {@link Set} of {@link NamedKey}
      */
     @Nullable
-    public Set<NamespacedKey> keys() {
+    public Set<NamedKey> keys() {
         return this.data.keySet();
     }
     //endregion
@@ -560,7 +559,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setByte(NamespacedKey key, byte value) {
+    public DataObject setByte(NamedKey key, byte value) {
         ByteType type = new ByteType(value);
         this.data.put(key, type);
         return this;
@@ -575,7 +574,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setShort(NamespacedKey key, short value) {
+    public DataObject setShort(NamedKey key, short value) {
         ShortType type = new ShortType(value);
         this.data.put(key, type);
         return this;
@@ -590,7 +589,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setInt(NamespacedKey key, int value) {
+    public DataObject setInt(NamedKey key, int value) {
         IntType type = new IntType(value);
         this.data.put(key, type);
         return this;
@@ -605,7 +604,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setDouble(NamespacedKey key, double value) {
+    public DataObject setDouble(NamedKey key, double value) {
         DoubleType type = new DoubleType(value);
         this.data.put(key, type);
         return this;
@@ -620,7 +619,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setFloat(NamespacedKey key, float value) {
+    public DataObject setFloat(NamedKey key, float value) {
         FloatType type = new FloatType(value);
         this.data.put(key, type);
         return this;
@@ -635,7 +634,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setLong(NamespacedKey key, long value) {
+    public DataObject setLong(NamedKey key, long value) {
         LongType type = new LongType(value);
         this.data.put(key, type);
         return this;
@@ -650,7 +649,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setBoolean(NamespacedKey key, boolean value) {
+    public DataObject setBoolean(NamedKey key, boolean value) {
         BooleanType type = new BooleanType(value);
         this.data.put(key, type);
         return this;
@@ -665,7 +664,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setByteArray(NamespacedKey key, byte[] value) {
+    public DataObject setByteArray(NamedKey key, byte[] value) {
         ByteArrayType type = new ByteArrayType(value);
         this.data.put(key, type);
         return this;
@@ -680,7 +679,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setShortArray(NamespacedKey key, short[] value) {
+    public DataObject setShortArray(NamedKey key, short[] value) {
         ShortArrayType type = new ShortArrayType(value);
         this.data.put(key, type);
         return this;
@@ -695,7 +694,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setIntArray(NamespacedKey key, int[] value) {
+    public DataObject setIntArray(NamedKey key, int[] value) {
         IntArrayType type = new IntArrayType(value);
         this.data.put(key, type);
         return this;
@@ -710,7 +709,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setDoubleArray(NamespacedKey key, double[] value) {
+    public DataObject setDoubleArray(NamedKey key, double[] value) {
         DoubleArrayType type = new DoubleArrayType(value);
         this.data.put(key, type);
         return this;
@@ -725,7 +724,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setFloatArray(NamespacedKey key, float[] value) {
+    public DataObject setFloatArray(NamedKey key, float[] value) {
         FloatArrayType type = new FloatArrayType(value);
         this.data.put(key, type);
         return this;
@@ -740,7 +739,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setLongArray(NamespacedKey key, long[] value) {
+    public DataObject setLongArray(NamedKey key, long[] value) {
         LongArrayType type = new LongArrayType(value);
         this.data.put(key, type);
         return this;
@@ -755,7 +754,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setString(NamespacedKey key, String value) {
+    public DataObject setString(NamedKey key, String value) {
         StringType type = new StringType(value);
         this.data.put(key, type);
         return this;
@@ -770,7 +769,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public DataObject setDataObject(NamespacedKey key, DataObject value) {
+    public DataObject setDataObject(NamedKey key, DataObject value) {
         DataObjectType type = new DataObjectType(value);
         this.data.put(key, type);
         return this;
@@ -786,7 +785,7 @@ public class DataObject {
      */
     @Nonnull
     @CheckReturnValue
-    public <T> DataObject set(NamespacedKey key, T value, Transformer<T> transformer) {
+    public <T> DataObject set(NamedKey key, T value, Transformer<T> transformer) {
         transformer.transformInto(this, key, value);
         return this;
     }
@@ -798,13 +797,13 @@ public class DataObject {
      * @return True if the key existed, false otherwise
      */
     @CheckReturnValue
-    public boolean remove(NamespacedKey key) {
+    public boolean remove(NamedKey key) {
         return this.data.remove(key) != null;
     }
     //endregion
 
     @Nonnull
-    public Set<Map.Entry<NamespacedKey, Type>> getEntries() {
+    public Set<Map.Entry<NamedKey, Type>> getEntries() {
         return this.data.entrySet();
     }
 

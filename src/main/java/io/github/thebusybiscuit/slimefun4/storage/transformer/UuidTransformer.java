@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.storage.transformer;
 
 import io.github.thebusybiscuit.slimefun4.storage.DataObject;
+import io.github.thebusybiscuit.slimefun4.storage.NamedKey;
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 
@@ -25,14 +26,14 @@ public class UuidTransformer implements Transformer<UUID> {
 
     @Override
     @ParametersAreNonnullByDefault
-    public void transformInto(DataObject dataObject, NamespacedKey key, UUID uuid) {
+    public void transformInto(DataObject dataObject, NamedKey key, UUID uuid) {
         dataObject.setIntArray(key, toIntArray(uuid));
     }
 
     @Override
     @Nullable
     @ParametersAreNonnullByDefault
-    public UUID transformFrom(DataObject dataObject, NamespacedKey key) {
+    public UUID transformFrom(DataObject dataObject, NamedKey key) {
         final int[] arr = dataObject.getIntArray(key);
 
         if (arr == null) return null;

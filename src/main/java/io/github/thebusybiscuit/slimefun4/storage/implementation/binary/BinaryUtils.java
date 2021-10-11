@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.storage.implementation.binary;
 
 import io.github.thebusybiscuit.slimefun4.storage.DataObject;
+import io.github.thebusybiscuit.slimefun4.storage.NamedKey;
 import io.github.thebusybiscuit.slimefun4.storage.type.BooleanType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteArrayType;
 import io.github.thebusybiscuit.slimefun4.storage.type.ByteType;
@@ -46,7 +47,7 @@ public class BinaryUtils {
     }
 
     private static void writeObject(@Nonnull StringBuilder sb, @Nonnull DataObject object, int depth, boolean verbose) {
-        for (Map.Entry<NamespacedKey, Type> entry : object.getEntries()) {
+        for (Map.Entry<NamedKey, Type> entry : object.getEntries()) {
             final String spacing = repeat(' ', depth * 2);
 
             final Type type = entry.getValue();
