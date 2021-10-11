@@ -79,7 +79,7 @@ public class NamedKey {
     @Override
     public int hashCode() {
         int total = 1;
-        total = total * 31 + this.plugin.hashCode();
+        total = total * 31 + (this.plugin != null ? this.plugin.hashCode() : 0);
         total = total * 31 + this.name.hashCode();
         return total;
     }
