@@ -17,7 +17,8 @@ public enum TestCase {
      * being checked and why it is comparing IDs or meta.
      * This is helpful for us to check into why input nodes are taking a while for servers.
      */
-    CARGO_INPUT_TESTING;
+    CARGO_INPUT_TESTING,
+    REGION_IO;
 
     TestCase() {}
 
