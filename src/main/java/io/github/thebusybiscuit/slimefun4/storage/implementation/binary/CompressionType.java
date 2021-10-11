@@ -5,7 +5,7 @@ public enum CompressionType {
     /**
      * No compression, it will be saved with absolutely no compression done. This should only be used for testing.
      */
-    OFF,
+    NONE,
     /**
      * Use gzip for compression, very solid method and great if you don't want to package zstd.
      */

@@ -24,7 +24,7 @@ public class Test {
                 .setInt(NamedKey.ofDefault("7"), 12)
             );
 
-        new BinaryWriter(new File("test.dat"), CompressionType.OFF).write(dataObject);
+        new BinaryWriter(new File("test.dat"), CompressionType.NONE).write(dataObject);
 
         System.out.println(BinaryUtils.toString(dataObject, true));
     }
