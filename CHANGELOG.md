@@ -53,6 +53,7 @@
 * Fixed #3265
 * Fixed #3264
 * Fixed extreme knockback caused by the Explosive Bow
+* Fixed #3313
 
 ## Release Candidate 28 (06 Sep 2021)
 
