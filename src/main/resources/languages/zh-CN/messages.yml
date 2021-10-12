@@ -28,6 +28,12 @@ commands:
     please-wait: '&e请稍等一会...结果马上就来!'
     verbose-player: '&4该标记不能对玩家使用!'
     unknown-flag: '&4未知标记: &c%flag%'
+  debug:
+    description: '输出调试日志以供开发者使用'
+    current: '&7当前测试项: &6%test_case%'
+    none-running: '&7当前没有运行的测试项!'
+    running: '&7正在调试模式中运行该测试项: &6%test%'
+    disabled: '&7已禁用调试模式'
 placeholderapi:
   profile-loading: '加载中...'
 guide:
