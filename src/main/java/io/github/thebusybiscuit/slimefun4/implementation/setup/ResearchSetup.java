@@ -193,7 +193,7 @@ public final class ResearchSetup {
         register("geo_scanner", 181, "GEO-Scans", 30, SlimefunItems.GPS_GEO_SCANNER, SlimefunItems.PORTABLE_GEO_SCANNER);
         register("combustion_reactor", 182, "Combustion Reactor", 38, SlimefunItems.COMBUSTION_REACTOR);
         register("teleporter", 183, "Teleporter Base Components", 42, SlimefunItems.GPS_TELEPORTATION_MATRIX, SlimefunItems.GPS_TELEPORTER_PYLON);
-        register("teleporter_activation_plates", 184, "Teleporter Activation", 36, SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL, SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED);
+        register("teleporter_activation_plates", 184, "Teleporter Activation", 36, SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL, SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED, SlimefunItems.GPS_ACTIVATION_DEVICE_GROUP);
         register("better_solar_generators", 185, "Upgraded Solar Generators", 28, SlimefunItems.SOLAR_GENERATOR_2, SlimefunItems.SOLAR_GENERATOR_3);
         register("better_gps_transmitters", 186, "Upgraded Transmitters", 36, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.GPS_TRANSMITTER_3);
         register("elevator", 187, "Elevators", 28, SlimefunItems.ELEVATOR_PLATE);

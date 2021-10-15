@@ -35,6 +35,7 @@ import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
+import io.github.thebusybiscuit.slimefun4.api.gps.Whitelist;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
@@ -54,6 +55,7 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
  * @see Waypoint
  * @see PlayerBackpack
  * @see HashedArmorpiece
+ * @see Whitelist
  *
  */
 public class PlayerProfile {
@@ -63,12 +65,14 @@ public class PlayerProfile {
 
     private final Config configFile;
     private final Config waypointsFile;
+    private final Config whitelistsFile;
 
     private boolean dirty = false;
     private boolean markedForDeletion = false;
 
     private final Set<Research> researches = new HashSet<>();
     private final List<Waypoint> waypoints = new ArrayList<>();
+    private final List<Whitelist> whitelists = new ArrayList<>();
     private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
     private final GuideHistory guideHistory = new GuideHistory(this);
 
@@ -80,6 +84,7 @@ public class PlayerProfile {
 
         configFile = new Config("data-storage/Slimefun/Players/" + uuid.toString() + ".yml");
         waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
+        whitelistsFile = new Config("data-storage/Slimefun/whitelistedUsers/" + uuid.toString() + ".yml");
 
         loadProfileData();
     }
@@ -100,6 +105,15 @@ public class PlayerProfile {
                 }
             } catch (Exception x) {
                 Slimefun.logger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + name + '"');
+            }
+        }
+        for (String key : whitelistsFile.getKeys()) {
+            try {
+                String permittedUUID = whitelistsFile.getString(key + ".uuid");
+                Location loc = whitelistsFile.getLocation(key);
+                whitelists.add(new Whitelist(this, key, loc, permittedUUID));
+            } catch (Exception x) {
+                Slimefun.logger().log(Level.WARNING, x, () -> "Could not load Whitelist for User \"" + key + "\" for Player \"" + name + '"');
             }
         }
     }
@@ -159,7 +173,7 @@ public class PlayerProfile {
         for (PlayerBackpack backpack : backpacks.values()) {
             backpack.save();
         }
-
+        whitelistsFile.save();
         waypointsFile.save();
         configFile.save();
         dirty = false;
@@ -220,6 +234,10 @@ public class PlayerProfile {
      */
     public @Nonnull List<Waypoint> getWaypoints() {
         return ImmutableList.copyOf(waypoints);
+    }
+
+    public @Nonnull List<Whitelist> getPermittedUsers() {
+        return ImmutableList.copyOf(whitelists);
     }
 
     /**

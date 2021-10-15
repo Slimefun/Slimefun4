@@ -185,6 +185,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.ChristmasPresent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.EasterEgg;
+import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.GroupActivationPlate;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.PersonalActivationPlate;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.PortableTeleporter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.SharedActivationPlate;
@@ -2237,8 +2238,13 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, new ItemStack(Material.STONE_PRESSURE_PLATE), null, new ItemStack(Material.REDSTONE), SlimefunItems.GPS_TRANSMITTER, new ItemStack(Material.REDSTONE), SlimefunItems.BILLON_INGOT, SlimefunItems.BILLON_INGOT, SlimefunItems.BILLON_INGOT})
         .register(plugin);
 
+
         new PersonalActivationPlate(categories.gps, SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.LEAD_INGOT, null, SlimefunItems.COBALT_INGOT, SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED, SlimefunItems.COBALT_INGOT, null, SlimefunItems.LEAD_INGOT, null})
+        .register(plugin);
+
+        new GroupActivationPlate(categories.gps, SlimefunItems.GPS_ACTIVATION_DEVICE_GROUP, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null, SlimefunItems.ANDROID_MEMORY_CORE, null, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL, SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.POWER_CRYSTAL, null})
         .register(plugin);
 
         new InfusedHopper(categories.magicalGadgets, SlimefunItems.INFUSED_HOPPER, RecipeType.ANCIENT_ALTAR,

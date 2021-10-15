@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterLis
  * @see TeleporterListener
  * @see PersonalActivationPlate
  * @see SharedActivationPlate
- *
+ * @see GroupActivationPlate
  */
 public abstract class AbstractTeleporterPlate extends SlimefunItem {
 

@@ -17,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
  * @author TheBusyBiscuit
  * 
  * @see PersonalActivationPlate
- *
+ * @see GroupActivationPlate
  */
 public class SharedActivationPlate extends AbstractTeleporterPlate {
 

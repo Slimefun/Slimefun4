@@ -3,34 +3,56 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.teleporter;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import java.util.Optional;
+
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
- * The {@link PersonalActivationPlate} is a teleporter activation plate
+ * The {@link GroupActivationPlate} is a teleporter activation plate
  * to which only the {@link Player} who placed it down has access.
- * 
- * @author TheBusyBiscuit
- * 
+ *
+ * @author Toastery
+ *
  * @see SharedActivationPlate
- * @see GroupActivationPlate
+ * @see PersonalActivationPlate
+ *
  */
-public class PersonalActivationPlate extends AbstractTeleporterPlate {
+public class GroupActivationPlate extends AbstractTeleporterPlate {
 
     @ParametersAreNonnullByDefault
-    public PersonalActivationPlate(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public GroupActivationPlate(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-
         addItemHandler(onPlace());
+        addItemHandler(onUse());
+
+    }
+    @Nonnull
+    private BlockUseHandler onUse() {
+        return e -> {
+            e.cancel();
+            Player p = e.getPlayer();
+            Optional<Block> block = e.getClickedBlock();
+
+            if(block.isPresent()) {
+                if (hasAccess(p, block.get())) {
+                } else {
+                    Slimefun.getLocalization().sendMessage(p, "inventory.no-access", true);
+                }
+            }
+        };
     }
 
     @Nonnull
@@ -40,6 +62,7 @@ public class PersonalActivationPlate extends AbstractTeleporterPlate {
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
                 BlockStorage.addBlockInfo(e.getBlock(), "owner", e.getPlayer().getUniqueId().toString());
+                BlockStorage.addBlockInfo(e.getBlock(), "user", e.getPlayer().getUniqueId().toString());
             }
         };
     }
@@ -47,6 +70,6 @@ public class PersonalActivationPlate extends AbstractTeleporterPlate {
     @Override
     @ParametersAreNonnullByDefault
     public boolean hasAccess(Player p, Block b) {
-        return BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString());
+        return BlockStorage.getLocationInfo(b.getLocation(), "user").equals(p.getUniqueId().toString());
     }
 }

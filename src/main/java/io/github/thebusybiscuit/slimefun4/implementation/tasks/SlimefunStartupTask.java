@@ -63,7 +63,7 @@ public class SlimefunStartupTask implements Runnable {
         new WorldListener(this.plugin);
 
         // Only load this Listener if the corresponding items are enabled
-        if (isEnabled("ELEVATOR_PLATE", "GPS_ACTIVATION_DEVICE_SHARED", "GPS_ACTIVATION_DEVICE_PERSONAL")) {
+        if (isEnabled("ELEVATOR_PLATE", "GPS_ACTIVATION_DEVICE_SHARED", "GPS_ACTIVATION_DEVICE_PERSONAL", "GPS_ACTIVATION_DEVICE_GROUP")) {
             new TeleporterListener(plugin);
         }
     }

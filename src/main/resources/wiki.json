@@ -160,6 +160,7 @@
     "GOLD_DUST" : "Gold-Dust",
     "GOLD_PAN" : "Gold-Pan",
     "GOLDEN_APPLE_JUICE" : "Juices",
+    "GPS_ACTIVATION_DEVICE_GROUP" : "GPS-Activation-Device",
     "GPS_ACTIVATION_DEVICE_SHARED" : "GPS-Activation-Device",
     "GPS_ACTIVATION_DEVICE_PERSONAL" : "GPS-Activation-Device",
     "GPS_CONTROL_PANEL" : "GPS-Control-Panel",
