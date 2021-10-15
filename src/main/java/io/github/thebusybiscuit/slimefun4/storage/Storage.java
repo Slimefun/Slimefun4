@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.storage;
 
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.blocks.ChunkPosition;
+import io.github.thebusybiscuit.slimefun4.storage.implementation.binary.RegionFile;
 import org.bukkit.Chunk;
 
 import javax.annotation.Nonnull;
@@ -9,10 +10,15 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Storage contains the getters and setters for chunk and block data. Through this, loading and writing to the
+ * {@link RegionFile} is achieved.
+ *
+ *
+ */
 public abstract class Storage {
 
     private final Map<ChunkPosition, DataObject> chunkData = new ConcurrentHashMap<>();
-
     ////////////////////////////////////////
     // Getters
     ////////////////////////////////////////

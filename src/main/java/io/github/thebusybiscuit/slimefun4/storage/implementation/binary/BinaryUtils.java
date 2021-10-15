@@ -32,11 +32,24 @@ public class BinaryUtils {
 
     private BinaryUtils() {}
 
+    /**
+     * Return the String representation of the given {@link DataObject}.
+     *
+     * @param object The given {@link DataObject}
+     * @return The String representation of this {@link DataObject}
+     */
     @Nonnull
     public static String toString(@Nonnull DataObject object) {
         return toString(object, false);
     }
 
+    /**
+     * Return the String representation of the given {@link DataObject}.
+     *
+     * @param object The given {@link DataObject}
+     * @param verbose Whether the full printing should be forced (false = cutoff allowed)
+     * @return The String representation of this {@link DataObject}
+     */
     @Nonnull
     public static String toString(@Nonnull DataObject object, boolean verbose) {
         final StringBuilder sb = new StringBuilder(TypeEnum.OBJECT.name())
@@ -129,6 +142,12 @@ public class BinaryUtils {
     //////////////////////////////////////////
     // Writes
     //////////////////////////////////////////
+    /**
+     * Writes the given byte array to a {@link DataOutputStream}
+     *
+     * @param writer The {@link DataOutputStream}
+     * @param array The given byte array
+     */
     public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull byte[] array) throws IOException {
         writer.writeInt(array.length);
         for (byte value : array) {

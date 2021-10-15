@@ -16,6 +16,11 @@ public class UuidTransformer implements Transformer<UUID> {
 
     private UuidTransformer(){}
 
+    /**
+     * Retrieves this class' singleton
+     *
+     * @return The transformed object
+     */
     public static UuidTransformer getInstance()
     {
         if (instance == null)
@@ -24,12 +29,18 @@ public class UuidTransformer implements Transformer<UUID> {
         return instance;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @ParametersAreNonnullByDefault
     public void transformInto(DataObject dataObject, NamedKey key, UUID uuid) {
         dataObject.setIntArray(key, toIntArray(uuid));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Nullable
     @ParametersAreNonnullByDefault
@@ -41,6 +52,12 @@ public class UuidTransformer implements Transformer<UUID> {
         return fromIntArray(arr);
     }
 
+    /**
+     * Gets the {@link UUID} stored in this int array
+     *
+     * @param ints The int array to transform
+     * @return The {@link UUID}
+     */
     @Nonnull
     private UUID fromIntArray(@Nonnull int[] ints) {
         Validate.notNull(ints, "The provided integer array cannot be null!");
@@ -51,6 +68,12 @@ public class UuidTransformer implements Transformer<UUID> {
         );
     }
 
+    /**
+     * Gets the int array this {@link UUID} is represented by
+     *
+     * @param uuid The {@link UUID} to transform
+     * @return The int array
+     */
     @Nonnull
     private int[] toIntArray(@Nonnull UUID uuid) {
         Validate.notNull(uuid, "The provided uuid cannot be null");

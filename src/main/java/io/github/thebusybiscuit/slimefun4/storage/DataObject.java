@@ -43,7 +43,14 @@ import java.util.Set;
 // * DataObject
 
 // * UUID??
-
+/**
+ * DataObjects are the main data containers of the storage implementation: these are the building blocks that make up
+ * the entire storage in somewhat of a modular structure.
+ * Each DataObject may contain either other DataObjects or a single value, meaning they act both as instermediate and
+ * as final containers.
+ *
+ *
+ */
 public class DataObject {
 
     private final Map<NamedKey, Type> data = new LinkedHashMap<>();
@@ -536,16 +543,6 @@ public class DataObject {
             return defaultValue;
         }
     }
-
-    /**
-     * Get a {@link Set} of all {@link NamedKey} in this {@link DataObject}
-     *
-     * @return The {@link Set} of {@link NamedKey}
-     */
-    @Nullable
-    public Set<NamedKey> keys() {
-        return this.data.keySet();
-    }
     //endregion
 
     //region Setters
@@ -805,6 +802,21 @@ public class DataObject {
     }
     //endregion
 
+    /**
+     * Get a {@link Set} of all {@link NamedKey} in this {@link DataObject}
+     *
+     * @return The {@link Set} of {@link NamedKey}
+     */
+    @Nonnull
+    public Set<NamedKey> keys() {
+        return this.data.keySet();
+    }
+
+    /**
+     * Get a {@link Set} of all {@link Map.Entry} in this {@link DataObject}
+     *
+     * @return The {@link Set} of {@link Map.Entry}
+     */
     @Nonnull
     public Set<Map.Entry<NamedKey, Type>> getEntries() {
         return this.data.entrySet();

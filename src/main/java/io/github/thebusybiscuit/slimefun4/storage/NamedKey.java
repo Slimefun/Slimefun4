@@ -8,6 +8,12 @@ import javax.annotation.Nullable;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+/**
+ * NamedKey is just a custom implementation of NamespacedKey: this allows for keys that are not associated to any
+ * plugin which can be used for fully controlled objects, and overall permits ad hoc implementations if need be.
+ *
+ *
+ */
 public class NamedKey {
 
     private static final Pattern NAMING_FORMAT = Pattern.compile("^[a-z0-9_-]+$");
@@ -60,7 +66,7 @@ public class NamedKey {
     }
 
     /**
-     * Convert this object into it's named key. Used for writing and comparing.
+     * Convert this object into its named key. Used for writing and comparing.
      * <p>
      * If a plugin is associated it will be formatted like so: {@code plugin:name}.<br/>
      * If it's a defaulted key it will be formatted like so: {@code name}.
