@@ -422,7 +422,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
 
         // Create a new backup zip
-        if (config.getBoolean("options.backup-data", true)) {
+        if (config.getBoolean("options.backup-data")) {
             backupService.run();
         }
 
