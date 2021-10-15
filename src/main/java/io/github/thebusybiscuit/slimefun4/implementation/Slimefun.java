@@ -425,7 +425,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         if (config.getBoolean("options.backup-data")) {
             backupService.run();
         }
-        
+
         // Close and unload any resources from our Metrics Service
         metricsService.cleanUp();
 
