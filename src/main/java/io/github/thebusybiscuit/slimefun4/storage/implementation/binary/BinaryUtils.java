@@ -155,6 +155,12 @@ public class BinaryUtils {
         }
     }
 
+    /**
+     * Writes the given short array to a {@link DataOutputStream}
+     *
+     * @param writer The {@link DataOutputStream}
+     * @param array The given short array
+     */
     public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull short[] array) throws IOException {
         writer.writeInt(array.length);
         for (short value : array) {
@@ -162,6 +168,12 @@ public class BinaryUtils {
         }
     }
 
+    /**
+     * Writes the given int array to a {@link DataOutputStream}
+     *
+     * @param writer The {@link DataOutputStream}
+     * @param array The given int array
+     */
     public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull int[] array) throws IOException {
         writer.writeInt(array.length);
         for (int value : array) {
@@ -169,6 +181,12 @@ public class BinaryUtils {
         }
     }
 
+    /**
+     * Writes the given double array to a {@link DataOutputStream}
+     *
+     * @param writer The {@link DataOutputStream}
+     * @param array The given double array
+     */
     public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull double[] array) throws IOException {
         writer.writeInt(array.length);
         for (double value : array) {
@@ -176,6 +194,12 @@ public class BinaryUtils {
         }
     }
 
+    /**
+     * Writes the given float array to a {@link DataOutputStream}
+     *
+     * @param writer The {@link DataOutputStream}
+     * @param array The given float array
+     */
     public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull float[] array) throws IOException {
         writer.writeInt(array.length);
         for (float value : array) {
@@ -183,6 +207,12 @@ public class BinaryUtils {
         }
     }
 
+    /**
+     * Writes the given long array to a {@link DataOutputStream}
+     *
+     * @param writer The {@link DataOutputStream}
+     * @param array The given long array
+     */
     public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull long[] array) throws IOException {
         writer.writeInt(array.length);
         for (long value : array) {
@@ -190,6 +220,12 @@ public class BinaryUtils {
         }
     }
 
+    /**
+     * Writes the given string array to a {@link DataOutputStream}
+     *
+     * @param writer The {@link DataOutputStream}
+     * @param array The given string array
+     */
     public static void writeArray(@Nonnull DataOutputStream writer, @Nonnull String[] array) throws IOException {
         writer.writeInt(array.length);
         for (String value : array) {
