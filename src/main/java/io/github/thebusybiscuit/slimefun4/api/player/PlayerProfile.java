@@ -302,6 +302,9 @@ public class PlayerProfile {
         Validate.notNull(whitelist, "Cannot remove a 'null' user!");
 
         if(whitelists.remove(whitelist)) {
+            if(whitelist.getOwner().equals(whitelist.getId())) {
+                throw new IllegalArgumentException("You cannot remove yourself from the whitelist!");
+            }
             whitelistsFile.setValue(whitelist.getId(), null);
             markDirty();
         }

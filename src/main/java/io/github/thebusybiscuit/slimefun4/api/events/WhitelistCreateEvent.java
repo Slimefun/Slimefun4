@@ -22,7 +22,7 @@ public class WhitelistCreateEvent extends PlayerEvent implements Cancellable {
 
     private boolean cancelled;
 
-    public WhitelistCreateEvent(@Nonnull Player player, @Nonnull String name, @Nonnull Player target) {
+    public WhitelistCreateEvent(@Nonnull Player player, @Nonnull Player target) {
         super(player);
 
         Validate.notNull(target, "Target must not be null!");
