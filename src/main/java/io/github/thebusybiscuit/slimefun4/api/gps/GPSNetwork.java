@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.api.events.WhitelistCreateEvent;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -328,6 +329,55 @@ public class GPSNetwork {
             });
         });
     }
+    public void createWhitelist(@Nonnull Player p, @Nonnull Player t) {
+        Validate.notNull(p, "Player cannot be null!");
+        Validate.notNull(p, "Target cannot be null!");
+
+        PlayerProfile.get(p, profile -> {
+            if((profile.getWhitelists().size() + 2) > inventory.length) {
+                p.sendMessage("You cannot whitelist any more users!");
+                return;
+            }
+
+            p.sendMessage("Enter the username in chat that you would like to add to the whitelist!");
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
+            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, message, t));
+        });
+    }
+    public void addWhitelist(@Nonnull Player p, @Nonnull String name, @Nonnull Player t) {
+        Validate.notNull(p, "Player cannot be null!");
+        Validate.notNull(name, "Whitelist Name cannot be null!");
+        Validate.notNull(t, "Target cannot be null!");
+
+        PlayerProfile.get(p, profile -> {
+            if ((profile.getWhitelists().size() + 2) > inventory.length) {
+                p.sendMessage("You cannot whitelist any more users!");
+                return;
+            }
+
+            Slimefun.runSync(() -> {
+                WhitelistCreateEvent event = new WhitelistCreateEvent(p, name, t);
+                Bukkit.getPluginManager().callEvent(event);
+
+                if (!event.isCancelled()) {
+                    String id = ChatColor.stripColor(ChatColors.color(event.getName())).toUpperCase(Locale.ROOT).replace(' ', '_');
+
+                    for (Whitelist wl : profile.getWhitelists()) {
+                        if (wl.getId().equals(id)) {
+                            p.sendMessage("This player is already whitelisted!");
+                            return;
+                        }
+                    }
+
+                    profile.addWhitelist(new Whitelist(profile, id, event.getName(), event.getName()));
+                    p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
+                    p.sendMessage("Player added to whitelist!");
+                }
+            });
+        });
+    }
+
+
 
     /**
      * This method returns a {@link Set} of {@link Location Locations} for all {@link GPSTransmitter Transmitters}

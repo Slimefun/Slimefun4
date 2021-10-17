@@ -110,7 +110,7 @@ public class PlayerProfile {
         for (String key : whitelistsFile.getKeys()) {
             try {
                 String permittedUUID = whitelistsFile.getString(key + ".uuid");
-                Location loc = whitelistsFile.getLocation(key);
+                String loc = whitelistsFile.getString(key);
                 whitelists.add(new Whitelist(this, key, loc, permittedUUID));
             } catch (Exception x) {
                 Slimefun.logger().log(Level.WARNING, x, () -> "Could not load Whitelist for User \"" + key + "\" for Player \"" + name + '"');
@@ -236,7 +236,7 @@ public class PlayerProfile {
         return ImmutableList.copyOf(waypoints);
     }
 
-    public @Nonnull List<Whitelist> getPermittedUsers() {
+    public @Nonnull List<Whitelist> getWhitelists() {
         return ImmutableList.copyOf(whitelists);
     }
 
@@ -277,6 +277,32 @@ public class PlayerProfile {
 
         if (waypoints.remove(waypoint)) {
             waypointsFile.setValue(waypoint.getId(), null);
+            markDirty();
+        }
+    }
+
+    public void addWhitelist(@Nonnull Whitelist whitelist) {
+        Validate.notNull(whitelist, "Cannot add a 'null' user!");
+
+        for (Whitelist wl : whitelists) {
+            if (wl.getId().equals(whitelist.getId())) {
+                throw new IllegalArgumentException("A user with that name already exists for this Player");
+            }
+        }
+        if (whitelists.size() < 21) {
+            whitelists.add(whitelist);
+
+            whitelistsFile.setValue(whitelist.getId(), whitelist.getName());
+            whitelistsFile.setValue(whitelist.getId() + ".name", whitelist.getName());
+            markDirty();
+        }
+    }
+
+    public void removeWhitelist(@Nonnull Whitelist whitelist) {
+        Validate.notNull(whitelist, "Cannot remove a 'null' user!");
+
+        if(whitelists.remove(whitelist)) {
+            whitelistsFile.setValue(whitelist.getId(), null);
             markDirty();
         }
     }

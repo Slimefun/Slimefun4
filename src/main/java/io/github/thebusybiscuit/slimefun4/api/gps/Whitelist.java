@@ -19,11 +19,10 @@ public class Whitelist {
 
     private final PlayerProfile profile;
     private final String id;
-    private final Location location;
     private final String permittedUUID;
 
     @ParametersAreNonnullByDefault
-    public Whitelist(PlayerProfile profile, String id, Location loc, String permittedUUID) {
+    public Whitelist(PlayerProfile profile, String id, String loc, String permittedUUID) {
 
         Validate.notNull(profile, "Profile must never be null!");
         Validate.notNull(id, "permittedUUID must never be null!");
@@ -32,7 +31,6 @@ public class Whitelist {
 
         this.profile = profile;
         this.id = id;
-        this.location = loc;
         this.permittedUUID = permittedUUID;
     }
     /**
@@ -71,10 +69,6 @@ public class Whitelist {
      * @return The {@link io.github.thebusybiscuit.slimefun4.api.gps.Waypoint} {@link Location}
      */
     @Nonnull
-    public Location getLocation() {
-        return location;
-    }
-    @Nonnull
     public ItemStack getIcon() {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
@@ -89,7 +83,7 @@ public class Whitelist {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(profile.getUUID(), id, permittedUUID, location);
+        return Objects.hash(profile.getUUID(), id, permittedUUID, permittedUUID);
     }
 
     /**
@@ -102,6 +96,6 @@ public class Whitelist {
         }
 
         io.github.thebusybiscuit.slimefun4.api.gps.Whitelist whitelist = (io.github.thebusybiscuit.slimefun4.api.gps.Whitelist) obj;
-        return profile.getUUID().equals(whitelist.getOwner().getUUID()) && id.equals(whitelist.getId()) && location.equals(whitelist.getLocation()) && permittedUUID.equals(whitelist.getName());
+        return profile.getUUID().equals(whitelist.getOwner().getUUID()) && id.equals(whitelist.getId()) && permittedUUID.equals(whitelist.getName());
     }
 }
