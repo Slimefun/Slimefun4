@@ -25,6 +25,7 @@ public class Whitelist {
     private final PlayerProfile profile;
     private final String id;
     private final String user;
+
     /**
      * This constructs a new {@link Whitelist} object.
      *
@@ -35,7 +36,6 @@ public class Whitelist {
      *  @param user
      *      The username of this {@link Player}
      */
-
     @ParametersAreNonnullByDefault
     public Whitelist(PlayerProfile profile, String user, String id) {
 
