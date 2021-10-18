@@ -295,7 +295,6 @@ public class GPSNetwork {
             menu.addItem(13, new CustomItemStack(Material.WHITE_WOOL, "&7Whitelisted Players"));
             menu.addMenuClickHandler(13, ChestMenuUtils.getEmptyClickHandler());
 
-
             int index = 0;
             for (Whitelist whitelist : profile.getWhitelists()) {
                 if (index >= inventory.length) {
