@@ -47,6 +47,7 @@ public class Whitelist {
         this.id = id;
         this.user = user;
     }
+
     /**
      * This returns the owner of the teleporter plate.
      *
