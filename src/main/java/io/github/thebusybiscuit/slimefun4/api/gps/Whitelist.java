@@ -108,7 +108,7 @@ public class Whitelist {
             return false;
         }
 
-        io.github.thebusybiscuit.slimefun4.api.gps.Whitelist whitelist = (io.github.thebusybiscuit.slimefun4.api.gps.Whitelist) obj;
+        Whitelist whitelist = (Whitelist) obj;
         return profile.getUUID().equals(whitelist.getOwner().getUUID()) && id.equals(whitelist.getId()) && user.equals(whitelist.getName());
     }
 }
