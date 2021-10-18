@@ -104,7 +104,7 @@ public class Whitelist {
      */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof io.github.thebusybiscuit.slimefun4.api.gps.Whitelist)) {
+        if (!(obj instanceof Whitelist)) {
             return false;
         }
 
