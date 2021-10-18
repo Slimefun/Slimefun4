@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
+import static org.bukkit.Bukkit.getLogger;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 

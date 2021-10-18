@@ -14,6 +14,8 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
+import static org.bukkit.Bukkit.getLogger;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -109,7 +111,7 @@ public class PlayerProfile {
         }
         for (String key : whitelistsFile.getKeys()) {
             try {
-                String permittedUUID = whitelistsFile.getString(key + ".uuid");
+                String permittedUUID = whitelistsFile.getString(key + ".name");
                 String loc = whitelistsFile.getString(key);
                 whitelists.add(new Whitelist(this, key, loc, permittedUUID));
             } catch (Exception x) {
@@ -283,17 +285,17 @@ public class PlayerProfile {
 
     public void addWhitelist(@Nonnull Whitelist whitelist) {
         Validate.notNull(whitelist, "Cannot add a 'null' user!");
-
+        String p = Bukkit.getPlayer(whitelist.getId().replaceAll("PlayerProfile|CraftPlayer|[ ]|[{]|name=|[}]","")).getUniqueId().toString();
         for (Whitelist wl : whitelists) {
-            if (wl.getId().equals(whitelist.getId())) {
+            if (wl.getId().equals(p)) {
                 throw new IllegalArgumentException("A user with that name already exists for this Player");
             }
         }
         if (whitelists.size() < 21) {
             whitelists.add(whitelist);
 
-            whitelistsFile.setValue(whitelist.getId(), whitelist.getName());
-            whitelistsFile.setValue(whitelist.getId() + ".name", whitelist.getName());
+            whitelistsFile.setValue(p, p);
+            whitelistsFile.setValue(p + ".name", p);
             markDirty();
         }
     }

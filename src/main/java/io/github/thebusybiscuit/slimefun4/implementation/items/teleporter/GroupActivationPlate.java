@@ -4,11 +4,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import io.github.thebusybiscuit.slimefun4.api.gps.Whitelist;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -66,7 +69,7 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
                 BlockStorage.addBlockInfo(e.getBlock(), "owner", e.getPlayer().getUniqueId().toString());
-                Slimefun.getGPSNetwork().addWhitelist(e.getPlayer(), e.getPlayer().getUniqueId().toString());
+                Slimefun.getGPSNetwork().addWhitelist(Bukkit.getPlayer(e.getPlayer().getUniqueId()), Bukkit.getPlayer(e.getPlayer().getUniqueId()));
             }
         };
     }
@@ -74,15 +77,17 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
     @Override
     @ParametersAreNonnullByDefault
     public boolean hasAccess(Player p, Block b) {
-        Player owner = Bukkit.getServer().getPlayer(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
+        OfflinePlayer owner = Bukkit.getPlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
         AtomicBoolean bool = new AtomicBoolean(false);
         PlayerProfile.get(owner, profile -> {
-            for (Whitelist whitelist : profile.getWhitelists()) {
-                if (whitelist.getName().equals(p.getUniqueId().toString())) {
+            for (Whitelist wl : profile.getWhitelists()) {
+                if (wl.getId().equals(p.getUniqueId().toString())) {
                     bool.set(true);
                 }
             }
         });
         return bool.get();
     }
+
+
 }

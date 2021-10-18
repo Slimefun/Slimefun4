@@ -302,7 +302,7 @@ public class GPSNetwork {
 
                 int slot = inventory[index];
 
-                menu.addItem(slot, new CustomItemStack(whitelist.getIcon(), whitelist.getName(), "&8\u21E8 &cClick to delete"));
+                menu.addItem(slot, new CustomItemStack(whitelist.getIcon(), String.valueOf(whitelist.getName()), "&8\u21E8 &cClick to delete"));
                 menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                     profile.removeWhitelist(whitelist);
                     pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
@@ -398,13 +398,12 @@ public class GPSNetwork {
 
             p.sendMessage("Enter the username in chat that you would like to add to the whitelist!");
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
-            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, message));
+            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, Bukkit.getPlayer(message)));
         });
     }
-    public void addWhitelist(@Nonnull Player p, @Nonnull String tar) {
+    public void addWhitelist(@Nonnull Player p, @Nonnull Player ts) {
         Validate.notNull(p, "Player cannot be null!");
-        Validate.notNull(tar, "Target cannot be null!");
-        Player t = Bukkit.getServer().getPlayer(tar);
+        Validate.notNull(ts, "Target cannot be null!");
         PlayerProfile.get(p, profile -> {
             if ((profile.getWhitelists().size() + 2) > inventory.length) {
                 p.sendMessage("You cannot whitelist any more users!");
@@ -412,7 +411,7 @@ public class GPSNetwork {
             }
 
             Slimefun.runSync(() -> {
-                WhitelistCreateEvent event = new WhitelistCreateEvent(p, t);
+                WhitelistCreateEvent event = new WhitelistCreateEvent(p, ts);
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (!event.isCancelled()) {
@@ -424,10 +423,9 @@ public class GPSNetwork {
                             return;
                         }
                     }
-
-                    profile.addWhitelist(new Whitelist(profile, id, event.getName(), event.getName()));
+                    profile.addWhitelist(new Whitelist(profile, ts.toString(), ts.toString(), ts.toString()));
                     p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
-                    p.sendMessage("Player added to whitelist!");
+                    p.sendMessage(ts + " added to whitelist!");
                 }
             });
         });
