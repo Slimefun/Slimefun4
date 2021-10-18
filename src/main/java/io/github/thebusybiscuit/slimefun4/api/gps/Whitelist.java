@@ -56,6 +56,7 @@ public class Whitelist {
     public PlayerProfile getOwner() {
         return profile;
     }
+
     /**
      * This returns the uuid of the whitelisted player.
      *
