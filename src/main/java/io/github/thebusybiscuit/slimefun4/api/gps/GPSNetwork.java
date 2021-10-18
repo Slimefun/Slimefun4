@@ -398,7 +398,7 @@ public class GPSNetwork {
                 return;
             }
 
-            p.sendMessage("&a&lSlimefun 4&7&l> &a" + "Enter the username in chat that you would like to add to the whitelist!"); //NEEDINGTRANSLATION
+            p.sendMessage("&a&lSlimefun 4&7&l> &a" + "Enter the username in chat that you would like to add to the whitelist! &cNote: &fThey currently have to be currently online"); //NEEDINGTRANSLATION
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
             ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, getPlayer(message)));
         });
