@@ -111,9 +111,9 @@ public class PlayerProfile {
         }
         for (String key : whitelistsFile.getKeys()) {
             try {
-                String permittedUUID = whitelistsFile.getString(key + ".name");
-                String loc = whitelistsFile.getString(key);
-                whitelists.add(new Whitelist(this, key, loc, permittedUUID));
+                String permittedUUID = whitelistsFile.getString(key + ".id");
+                String permittedName = whitelistsFile.getString(key + ".name");
+                whitelists.add(new Whitelist(this, permittedName, permittedUUID));
             } catch (Exception x) {
                 Slimefun.logger().log(Level.WARNING, x, () -> "Could not load Whitelist for User \"" + key + "\" for Player \"" + name + '"');
             }
@@ -285,17 +285,19 @@ public class PlayerProfile {
 
     public void addWhitelist(@Nonnull Whitelist whitelist) {
         Validate.notNull(whitelist, "Cannot add a 'null' user!");
-        String p = Bukkit.getPlayer(whitelist.getId().replaceAll("PlayerProfile|CraftPlayer|[ ]|[{]|name=|[}]","")).getUniqueId().toString();
+        String id = whitelist.getId().replaceAll("PlayerProfile|CraftPlayer|[ ]|[{]|name=|[}]","");
+        String name = whitelist.getName().replaceAll("PlayerProfile|CraftPlayer|[ ]|[{]|name=|[}]","");
         for (Whitelist wl : whitelists) {
-            if (wl.getId().equals(p)) {
-                throw new IllegalArgumentException("A user with that name already exists for this Player");
+            if (wl.getId().equals(id)) {
+                throw new IllegalArgumentException("A user with that name already exists for this Player | id: " + id + " | name: " + name);
             }
         }
         if (whitelists.size() < 21) {
             whitelists.add(whitelist);
 
-            whitelistsFile.setValue(p, p);
-            whitelistsFile.setValue(p + ".name", p);
+            whitelistsFile.setValue(id, id);
+            whitelistsFile.setValue(id + ".id", id);
+            whitelistsFile.setValue(id + ".name", name);
             markDirty();
         }
     }

@@ -9,10 +9,6 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
-import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
-import io.github.thebusybiscuit.slimefun4.api.gps.TeleportationManager;
-import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
-
 public class WhitelistCreateEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
