@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+
 /**
  * A {@link Whitelist} represents a {@link Player} that was created by a {@link Player}.
  *
