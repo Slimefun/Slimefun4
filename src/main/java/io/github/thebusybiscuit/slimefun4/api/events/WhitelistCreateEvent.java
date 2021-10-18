@@ -8,7 +8,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
-
+/**
+ * A {@link WhitelistCreateEvent} is called when a {@link Player} adds a new player to the whitelist.
+ * By right clicking on the gps activation plate (group).
+ *
+ * @author Toast732
+*/
 public class WhitelistCreateEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();

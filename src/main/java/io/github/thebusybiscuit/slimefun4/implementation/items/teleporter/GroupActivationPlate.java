@@ -30,7 +30,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * The {@link GroupActivationPlate} is a teleporter activation plate
  * to which only the {@link Player} who placed it down has access.
  *
- * @author Toastery
+ * @author Toast732
  *
  * @see SharedActivationPlate
  * @see PersonalActivationPlate

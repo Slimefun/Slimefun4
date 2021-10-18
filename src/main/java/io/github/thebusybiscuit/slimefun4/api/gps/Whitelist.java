@@ -9,13 +9,28 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-
+/**
+ * A {@link Waypoint} represents a {@link Player} that was created by a {@link Player}.
+ *
+ * @author Toast732
+ *
+*/
 public class Whitelist {
-
+    /**
+     * This constructs a new {@link Whitelist} object.
+     *
+     *  @param profile
+     *      The owning {@link PlayerProfile}
+     *  @param id
+     *      The unique id for this {@link Player}
+     *  @param user
+     *      The username of this {@link Player}
+     */
     private final PlayerProfile profile;
     private final String id;
     private final String user;
@@ -31,11 +46,20 @@ public class Whitelist {
         this.id = id;
         this.user = user;
     }
+    /**
+     * This returns the owner of the teleporter plate.
+     *
+     * @return The name of the owner of the teleporter plate
+     */
     @Nonnull
     public PlayerProfile getOwner() {
         return profile;
     }
-
+    /**
+     * This returns the uuid of the whitelisted player.
+     *
+     * @return The uuid of the player
+     */
     @Nonnull
     public String getId() {
         return id;
