@@ -388,6 +388,7 @@ public class GPSNetwork {
             });
         });
     }
+
     public void createWhitelist(@Nonnull Player p) {
         Validate.notNull(p, "Player cannot be null!");
 
