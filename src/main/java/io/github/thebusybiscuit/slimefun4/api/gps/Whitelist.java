@@ -21,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
  * @author Toast732
 */
 public class Whitelist {
+
     private final PlayerProfile profile;
     private final String id;
     private final String user;
