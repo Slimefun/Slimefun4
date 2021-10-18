@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
  * A {@link Whitelist} represents a {@link Player} that was created by a {@link Player}.
  *
  * @author Toast732
- *
 */
 public class Whitelist {
     private final PlayerProfile profile;
