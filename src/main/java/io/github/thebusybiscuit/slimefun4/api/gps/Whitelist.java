@@ -15,12 +15,15 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 /**
- * A {@link Waypoint} represents a {@link Player} that was created by a {@link Player}.
+ * A {@link Whitelist} represents a {@link Player} that was created by a {@link Player}.
  *
  * @author Toast732
  *
 */
 public class Whitelist {
+    private final PlayerProfile profile;
+    private final String id;
+    private final String user;
     /**
      * This constructs a new {@link Whitelist} object.
      *
@@ -31,9 +34,6 @@ public class Whitelist {
      *  @param user
      *      The username of this {@link Player}
      */
-    private final PlayerProfile profile;
-    private final String id;
-    private final String user;
 
     @ParametersAreNonnullByDefault
     public Whitelist(PlayerProfile profile, String user, String id) {

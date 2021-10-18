@@ -6,7 +6,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Logger;
 
 import io.github.thebusybiscuit.slimefun4.api.gps.Whitelist;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;

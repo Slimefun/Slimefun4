@@ -394,11 +394,11 @@ public class GPSNetwork {
 
         PlayerProfile.get(p, profile -> {
             if((profile.getWhitelists().size() + 2) > inventory.length) {
-                p.sendMessage("You cannot whitelist any more users!");
+                p.sendMessage("&a&lSlimefun 4&7&l> &c" + "You cannot whitelist any more users!"); //NEEDINGTRANSLATION
                 return;
             }
 
-            p.sendMessage("Enter the username in chat that you would like to add to the whitelist!");
+            p.sendMessage("Enter the username in chat that you would like to add to the whitelist!"); //NEEDINGTRANSLATION
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
             ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, getPlayer(message)));
         });
@@ -408,7 +408,7 @@ public class GPSNetwork {
         Validate.notNull(tRaw, "Target cannot be null!");
         PlayerProfile.get(p, profile -> {
             if ((profile.getWhitelists().size() + 2) > inventory.length) {
-                p.sendMessage("You cannot whitelist any more users!");
+                p.sendMessage("&a&lSlimefun 4&7&l> &c" + "You cannot whitelist any more users!"); // NEEDINGTRANSLATION
                 return;
             }
 
@@ -422,13 +422,13 @@ public class GPSNetwork {
 
                     for (Whitelist wl : profile.getWhitelists()) {
                         if (wl.getId().equals(id)) {
-                            p.sendMessage(tUser + " is already whitelisted!");
+                            p.sendMessage("&a&lSlimefun 4&7&l> &f" + tUser + " &cis already whitelisted!"); //NEEDINGTRANSLATION
                             return;
                         }
                     }
                     profile.addWhitelist(new Whitelist(profile, tUser, tUUID));
                     p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
-                    p.sendMessage(tUser + " added to whitelist!");
+                    p.sendMessage("&a&lSlimefun 4&7&l> &a" + tUser + " added to whitelist!"); //NEEDINGTRANSLATION
                 }
             });
         });
