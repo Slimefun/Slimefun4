@@ -18,8 +18,8 @@ public class WhitelistCreateEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private Player target;
-    private String name;
+    private final Player target;
+    private final String name;
 
     private boolean cancelled;
 
