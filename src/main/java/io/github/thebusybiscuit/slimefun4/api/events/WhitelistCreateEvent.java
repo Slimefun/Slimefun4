@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
