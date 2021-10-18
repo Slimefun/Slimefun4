@@ -52,7 +52,7 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
             Optional<Block> block = e.getClickedBlock();
 
             if(block.isPresent()) {
-                if (hasAccess(p, block.get())) {
+                if (BlockStorage.getLocationInfo(block.get().getLocation(), "owner").equals(p.getUniqueId().toString())) {
                     Slimefun.getGPSNetwork().createWhitelist(e.getPlayer());
                 } else {
                     Slimefun.getLocalization().sendMessage(p, "inventory.no-access", true);

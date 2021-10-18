@@ -14,8 +14,6 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
-import static org.bukkit.Bukkit.getLogger;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

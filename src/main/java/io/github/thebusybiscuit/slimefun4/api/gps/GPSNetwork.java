@@ -35,7 +35,6 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-import static org.bukkit.Bukkit.getPlayer;
 
 /**
  * The {@link GPSNetwork} is a manager class for all {@link GPSTransmitter Transmitters} and waypoints.
@@ -394,13 +393,12 @@ public class GPSNetwork {
 
         PlayerProfile.get(p, profile -> {
             if((profile.getWhitelists().size() + 2) > inventory.length) {
-                p.sendMessage("&a&lSlimefun 4&7&l> &c" + "You cannot whitelist any more users!"); //NEEDINGTRANSLATION
+                Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.max", true);
                 return;
             }
-
-            p.sendMessage("&a&lSlimefun 4&7&l> &a" + "Enter the username in chat that you would like to add to the whitelist! &cNote: &fThey currently have to be currently online"); //NEEDINGTRANSLATION
+            Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.new", true);
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
-            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, getPlayer(message)));
+            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, Bukkit.getPlayer(message)));
         });
     }
     public void addWhitelist(@Nonnull Player p, @Nonnull Player tRaw) {
@@ -408,7 +406,7 @@ public class GPSNetwork {
         Validate.notNull(tRaw, "Target cannot be null!");
         PlayerProfile.get(p, profile -> {
             if ((profile.getWhitelists().size() + 2) > inventory.length) {
-                p.sendMessage("&a&lSlimefun 4&7&l> &c" + "You cannot whitelist any more users!"); // NEEDINGTRANSLATION
+                Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.max", true);
                 return;
             }
 
@@ -416,19 +414,17 @@ public class GPSNetwork {
                 WhitelistCreateEvent event = new WhitelistCreateEvent(p, tRaw);
                 Bukkit.getPluginManager().callEvent(event);
                 String tUser = tRaw.toString().replaceAll("PlayerProfile|CraftPlayer|[ ]|[{]|name=|[}]","");
-                String tUUID = UUID.fromString(getPlayer(tUser).getUniqueId().toString()).toString();
+                String tUUID = Bukkit.getPlayer(tUser).getUniqueId().toString();
                 if (!event.isCancelled()) {
-                    String id = ChatColor.stripColor(ChatColors.color(event.getName())).toUpperCase(Locale.ROOT).replace(' ', '_');
-
                     for (Whitelist wl : profile.getWhitelists()) {
-                        if (wl.getId().equals(id)) {
-                            p.sendMessage("&a&lSlimefun 4&7&l> &f" + tUser + " &cis already whitelisted!"); //NEEDINGTRANSLATION
+                        if (wl.getId().equals(tUUID)) {
+                            Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.duplicate", true);
                             return;
                         }
                     }
                     profile.addWhitelist(new Whitelist(profile, tUser, tUUID));
                     p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
-                    p.sendMessage("&a&lSlimefun 4&7&l> &a" + tUser + " added to whitelist!"); //NEEDINGTRANSLATION
+                    Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.added", true);
                 }
             });
         });
