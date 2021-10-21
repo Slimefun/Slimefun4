@@ -11,10 +11,17 @@ import javax.annotation.Nonnull;
 
 import io.github.thebusybiscuit.slimefun4.api.events.WhitelistCreateEvent;
 import org.apache.commons.lang.Validate;
-import org.bukkit.*;
+
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Server;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.Material;
 
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
