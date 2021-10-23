@@ -39,8 +39,8 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 public class Talisman extends SlimefunItem {
 
     protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), new CustomItemStack(SlimefunItems.COMMON_TALISMAN, "&7Talismans - &aTier I"), 2);
-
-    private final String wikiPage = "Talismans";
+    private static final String wikiPage = "Talismans";
+    
     private final SlimefunItemStack enderTalisman;
 
     protected final String suffix;
