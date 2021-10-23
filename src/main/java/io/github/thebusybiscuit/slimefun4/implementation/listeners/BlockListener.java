@@ -14,16 +14,12 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryCreativeEvent;
-import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -40,12 +36,11 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent},
- * {@link BlockBreakEvent} and {@link InventoryCreativeEvent}.
+ * and {@link BlockBreakEvent}.
  *
  * @author TheBusyBiscuit
  * @author Linox
  * @author Patbox
- * @author svr333
  *
  * @see BlockPlaceHandler
  * @see BlockBreakHandler
@@ -132,47 +127,6 @@ public class BlockListener implements Listener {
         }
 
         dropItems(e, drops);
-    }
-
-    @EventHandler
-    public void onInventoryCreativeEvent(InventoryCreativeEvent e) {
-        if (e.getClick() == ClickType.CREATIVE && e.getSlotType() == SlotType.QUICKBAR) {
-            HumanEntity player = e.getWhoClicked();
-            Block b = player.getTargetBlockExact(5);
-
-            /*
-            * This check is really weird due to the weird nature of this event's behaviour.
-            * It checks if the block the player is looking at is of the same type as the cursor;
-            * after this we can make sure that it is a middle click outside of the inventory
-            * currentItem should also be air, otherwise it is not outside of the inventory
-            */
-            boolean isOutsideInventoryClick = e.getCursor().getType() == b.getType() && e.getCurrentItem().getType() == Material.AIR;
-
-            // player is looking at WALL_HEAD but it's actually a player head
-            boolean isPlayerWallhead = b.getType() == Material.PLAYER_WALL_HEAD && e.getCursor().getType() == Material.PLAYER_HEAD;
-
-            if (isOutsideInventoryClick || isPlayerWallhead) {
-                Optional<String> blockId = Slimefun.getBlockDataService().getBlockData(b);
-
-                if (!blockId.isPresent()) {
-                    return;
-                }
-
-                SlimefunItem sfItem = SlimefunItem.getById(blockId.get());
-                
-                // Check hotbar for a similar item to 'swap' to
-                for (int i = 0; i < 9; i++) {
-                    SlimefunItem hotbarItem = SlimefunItem.getByItem(player.getInventory().getItem(i));
-                    if (hotbarItem != null && hotbarItem.getId() == sfItem.getId()) {
-                        player.getInventory().setHeldItemSlot(i);
-                        e.setCancelled(true);
-                        return;
-                    }
-                }
-
-                e.setCursor(sfItem.getItem().clone());
-            }
-        }
     }
 
     @ParametersAreNonnullByDefault
