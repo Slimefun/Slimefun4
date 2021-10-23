@@ -10,7 +10,7 @@ commands:
   open_guide: Bubuksan nito ang Slimefun's guide na wala ang libro.
   stats: Ipapakita ang hindi karamihan na estatistika ng Player.
   research:
-    description: Iaunlock/Irereset ang mga Researches para sa Player.
+    description: I-unlock/Irereset ang mga Researches para sa Player.
     reset: '&cNareset mo ang Knowledge para kay %player%.'
     reset-target: '&cNareset ang iyong Knowledge.'
   backpack:
@@ -22,10 +22,10 @@ commands:
   charge:
     description: I-chacharge ang item ng iyong hinahawakan.
     charge-success: Na-charge na ang item!
-    not-rechargeable: Hindi puedeng i-charge ang item na ito.
+    not-rechargeable: Hindi puwedeng i-charge ang item na ito.
 guide:
   locked: 'NAKAKANDADO'
-  work-in-progress: 'Ang feature na ito ay hindi pa tapos!'
+  work-in-progress: 'Ang katangian na ito ay hindi pa tapos!'
   locked-itemgroup:
     - 'Upang i-unlock ang kategoryang ito,'
     - 'kailangang i-unlock ang lahat ng mga item mula sa'
@@ -98,13 +98,13 @@ messages:
   invalid-amount: '&cHindi valid ang amount na &4%amount% : dapat ito''y mas mataas kaysa sa 0!'
   given-item: '&bIka''y binigyan ng &a%amount% &7"%item%&7"'
   give-item: '&bBinigyan mo si %player% ng &a%amount% &7"%item%&7"'
-  invalid-research: '&4%research% &cay hindi valid na Research!'
-  give-research: '&bBinigyan mo si %player% ng Research &7"%research%&7"'
-  hungry: '&cIkaw ay sobrang gutom para gawin ito!'
-  disabled-in-world: '&4&lDinisable ang Aytem sa world na ito.'
+  invalid-research: '&4%research% &cay hindi valid na Pananaliksik!'
+  give-research: '&bBinigyan mo si %player% ng Pananaliksik &7"%research%&7"'
+  hungry: '&cIkaw ay sobrang gutom para gawin ito! Maari ka munang kumain para maiwasan ito'
+  disabled-in-world: '&4&lDinisable ang Aytem para sa world na ito.'
   disabled-item: '&4&lDinisable ang Aytem na ito! Paano mo ito nakuha?'
   no-tome-yourself: '&cHindi mo magagamit ang &4Tome of Knowledge &cpara sa''yo...'
-  multimeter: '&bTinagong Enerhiya: &3%stored% &b/ &3%capacity%'
+  multimeter: '&bNakaimbak na Enerhiya: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4Hindi ka maaaring mag-barter sa mga piglins gamit ang mga item ng Slimefun.'
   multi-tool:
     mode-change: '&b%device% napalitan ang mode sa: &9%mode%'
@@ -131,12 +131,12 @@ messages:
     no-enchantment: '&cHindi makahanap ng anuman na puwedeng enchantment para sa aytem na ito.'
     success: '&aMatagumpay mong na-apply ang isang random na naaangkop na enchantment sa aytem na ito.'
   research:
-    start: '&7Bumulong ang mga Ancient Spirit sa iyong mga tenga!'
+    start: '&7Bumulong ang mga Sinaunang Spirito sa iyong mga tenga!'
     progress: '&7Sinimulan mong malaman ang &b%research% &e(%progress%)'
   tape-measure:
     no-anchor: '&cKailangan mong magtakda ng isang angkla bago ka makapagsimula upang masukat!'
     wrong-world: '&cAng iyong angkla ay tila nasa ibang mundo!'
-    distance: '&7Measurement taken. &eDistansiya: %distance%'
+    distance: '&7Nakuha ang Pagsukat. &eDistansiya: %distance%'
     anchor-set: '&aMatagumpay na na-set ang angla:&e %anchor%'
   climbing-pick:
     dual-wielding: '&4Kailangan mong hawakan ang Climbing Picks ng dalawang kamay upang magamit ito!'
@@ -144,7 +144,7 @@ messages:
   fire-extinguish: '&7Naibsan mo ang apoy sa''yo.'
   cannot-place: '&cHindi mo puwedeng ilagay ang block jan!'
   no-pvp: '&cBawal makipaglaban dito!'
-  radiation: '&4Na-expose ka sa nakakamatay na radiation! &cTanggalin ang radioactive aytem sa iyong inventory o isuot ang kompletong Hazmat Suit!'
+  radiation: '&4Na-expose ka sa nakakamatay na radyasyon! &cTanggalin ang radioactive aytem sa iyong inventory o isuot ang kompletong Hazmat Suit!'
   opening-guide: '&bBinubuksan ang guide, maaari itong tumagal ng mga ilang segundo...'
   opening-backpack: '&bBinubuksan ang backpack, maaari itong tumagal ng mga ilang segundo...'
   no-iron-golem-heal: '&cHindi ito Iron Ingot. Hindi ito ginagamit para gumaling ang mga Iron Golems!'
@@ -166,7 +166,7 @@ messages:
     - '&7Biskwit pala ito at hindi ito siya Kukis.'
     - '&7Ang astig ng mga Neon Signs!'
 machines:
-  pattern-not-found: '&ePasensiya na, hindi ko maintindihan ang Recipe na ito. Pakilagay ang mga Aytem sa tamang pattern sa loob ng Dispense.'
+  pattern-not-found: '&ePasensiya na, hindi ko maintindihan ang Recipe na ito. Pakilagay ang mga Aytem sa tamang pattern sa loob ng Dispenser.'
   unknown-material: '&ePasensiya na, hindi ko maintindihan ang Aytem na ito sa Dispenser. Maglagay ka ng mga alam ko sa Dispenser.'
   wrong-item: '&ePasensiya na, hindi ko maintindihan ang Aytem na kasama ang ni-right click mo. Paki-check ang Recipies at tingnan kung anong mga Aytem na puwede mong gamitin.'
   full-inventory: '&ePasensiya na, dahil puno na ang aking inventory!'
@@ -215,27 +215,27 @@ cartography_table:
 villagers:
   no-trading: '&4Hindi ka maaaring mag-trade ng mga Slimefun Items sa mga villagers!'
 backpack:
-  already-open: '&cSorry, ang backpack na ito ay nakabukas na sa ibang lugar!'
-  no-stack: '&cHindi puwedeng i-stack ang mga Backpack.'
+  already-open: '&cPaumanhin, ang backpack na ito ay nakabukas na sa ibang lugar!'
+  no-stack: '&cHindi puwedeng i-salansan ang mga Backpack.'
 workbench:
-  not-enhanced: '&4Hindi puwedeng gamitin ang mga Slimefun Aytem sa normal na workbench.'
+  not-enhanced: '&4Hindi puwedeng gamitin ang mga Slimefun Aytem sa karaniwan na workbench.'
 cauldron:
-  no-discoloring: '&4Hindi mo puedeng i-discolor ang Slimefun Armor.'
+  no-discoloring: '&4Hindi mo puwedeng palitan ang kulay ng Slimefun Armor.'
 gps:
   deathpoint: '&4Kinamatayan &7%date%'
   waypoint:
     new: '&eMangyaring mag-type ng isang pangalan para sa iyong bagong waypoint sa chat. &7(Supported ang Color Codes!)'
     added: '&aTagumpay ang pag-add ng bagong waypoint.'
-    max: '&4Naabot mo na ang maximum amount ng waypoints.'
+    max: '&4Naabot mo na ang pinakamataas na halaga ng waypoints.'
     duplicate: '&4Nakagawa ka na ng isang waypoint na pinangalanan: & f%waypoint%'
   insufficient-complexity:
     - '&4Kulang ang  GPS Network Complexity: &c%complexity%'
     - '&4a) Wala ka pang GPS Network setup.'
-    - '&4b) Hindi pa complex ang iyong GPS Network!'
+    - '&4b) Hindi pa complex ang iyong GPS Network! Maari mo itong dagdagan ng Transmitters'
   geo:
-    scan-required: '&4Kailagan ng GEO-Scan! &cI-scan muna ang chunk na ito gamit ng GEO-Scanner!'
+    scan-required: '&4Kailagan ng GEO-Scan! &cI-scan muna ang chunk na ito gamit ang GEO-Scanner!'
 inventory:
-  no-access: '&4Hindi ka pinapayagan na i-access ang  block na ito.'
+  no-access: '&4Hindi ka pinapayagan na i-access ang block na ito.'
 android:
   started: '&7Ang iyong Android ay nagpatuloy sa pagpapatakbo ng script nito.'
   stopped: '&7Ang iyong Android ay naka-pause sa script na ito.'
