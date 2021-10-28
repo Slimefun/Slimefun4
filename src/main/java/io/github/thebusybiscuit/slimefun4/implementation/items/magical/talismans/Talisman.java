@@ -73,7 +73,7 @@ public class Talisman extends SlimefunItem {
         this.suffix = messageSuffix;
         this.effects = effects;
         this.chance = chance;
-        addOfficialWikipage(wikiPage);
+        addOfficialWikipage(WIKI_PAGE);
 
         if (!(this instanceof EnderTalisman)) {
             String name = "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName());
