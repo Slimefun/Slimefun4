@@ -55,6 +55,7 @@
 * Fixed #3264
 * Fixed extreme knockback caused by the Explosive Bow
 * Fixed #3313
+* Fixed smithing table issue on 1.15 and lower
 
 ## Release Candidate 28 (06 Sep 2021)
 
