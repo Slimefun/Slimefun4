@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nonnull;
 
@@ -399,7 +400,9 @@ public class GPSNetwork {
             }
             Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.new", true);
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
-            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, Bukkit.getOfflinePlayer(message)));
+            Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
+                ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, Bukkit.getOfflinePlayer(message)));
+            });
         });
     }
     public void addWhitelist(@Nonnull Player p, @Nonnull OfflinePlayer tRaw) {
@@ -415,21 +418,23 @@ public class GPSNetwork {
                 WhitelistCreateEvent event = new WhitelistCreateEvent(p, tRaw);
                 Bukkit.getPluginManager().callEvent(event);
                 @Nonnull String tUser = tRaw.getName();
-                @Nonnull UUID tUUID = Bukkit.getOfflinePlayer(tUser).getUniqueId();
-                if (!event.isCancelled()) {
-                    for (Whitelist wl : profile.getWhitelists()) {
-                        if (wl.getId().equals(tUUID)) {
-                            Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.duplicate", true);
-                            return;
+                Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
+                    UUID tUUID = Bukkit.getOfflinePlayer(tUser).getUniqueId();
+                    if (!event.isCancelled()) {
+                        for (Whitelist wl : profile.getWhitelists()) {
+                            if (wl.getId().equals(tUUID)) {
+                                Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.duplicate", true);
+                                return;
+                            }
+                        }
+                        profile.addWhitelist(new Whitelist(profile, tUser, tUUID));
+                        p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
+                        if (!p.equals(tRaw)) // will not display added to whitelist message if the teleporter was being placed
+                        {
+                            Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.added", true);
                         }
                     }
-                    profile.addWhitelist(new Whitelist(profile, tUser, tUUID));
-                    p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
-                    if (!p.equals(tRaw)) // will not display added to whitelist message if the teleporter was being placed
-                    {
-                        Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.added", true);
-                    }
-                }
+                });
             });
         });
     }
@@ -471,5 +476,4 @@ public class GPSNetwork {
     public ResourceManager getResourceManager() {
         return resourceManager;
     }
-
 }

@@ -6,6 +6,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.github.thebusybiscuit.slimefun4.api.gps.Whitelist;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -70,7 +71,9 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
                 Player p = e.getPlayer();
                 String owner = "" + p.getUniqueId();
                 BlockStorage.addBlockInfo(e.getBlock(), "owner", owner);
-                Slimefun.getGPSNetwork().addWhitelist(Bukkit.getPlayer(p.getUniqueId()), Bukkit.getOfflinePlayer(p.getUniqueId()));
+                Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
+                    Slimefun.getGPSNetwork().addWhitelist(Bukkit.getPlayer(p.getUniqueId()), Bukkit.getOfflinePlayer(p.getUniqueId()));
+                });
             }
         };
     }
@@ -78,14 +81,16 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
     @Override
     @ParametersAreNonnullByDefault
     public boolean hasAccess(Player p, Block b) {
-        OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
         AtomicBoolean bool = new AtomicBoolean(false);
-        PlayerProfile.get(owner, profile -> {
-            for (Whitelist wl : profile.getWhitelists()) {
-                if (wl.getId().equals(p.getUniqueId())) {
-                    bool.set(true);
+        Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
+            OfflinePlayer owner = (Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))));
+            PlayerProfile.get(owner, profile -> {
+                for (Whitelist wl : profile.getWhitelists()) {
+                    if (wl.getId().equals(p.getUniqueId())) {
+                        bool.set(true);
+                    }
                 }
-            }
+            });
         });
         return bool.get();
     }
