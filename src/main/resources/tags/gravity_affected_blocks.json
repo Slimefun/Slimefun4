@@ -5,8 +5,8 @@
         "minecraft:sand",
         "minecraft:red_sand",
         "minecraft:scaffolding",
-        "#slimefun:concrete_powders",
         "#minecraft:anvil",
+        "#slimefun:concrete_powders",
         {
             "id" : "minecraft:pointed_dripstone",
             "required" : false
