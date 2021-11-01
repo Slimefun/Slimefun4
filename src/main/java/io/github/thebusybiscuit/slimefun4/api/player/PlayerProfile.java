@@ -300,15 +300,16 @@ public class PlayerProfile {
         }
     }
 
-    public void removeWhitelist(@Nonnull Whitelist whitelist) {
-        Validate.notNull(whitelist, "Cannot remove a 'null' user!");
-        String id = "" + whitelist.getId();
-        if(whitelists.remove(whitelist)) {
-            if(whitelist.getOwner().equals(id)) {
-                throw new IllegalArgumentException("You cannot remove yourself from the whitelist!");
+    public void removeWhitelist(@Nonnull Whitelist target) {
+        Validate.notNull(target, "Cannot remove a 'null' user!");
+        String id = "" + target.getId();
+        if (getUUID().equals(target.getId())) { // removes ability to remove the owner from the whitelist
+            Slimefun.getLocalization().sendMessage(Bukkit.getPlayer(getUUID()), "machines.TELEPORTER.whitelist.removeowner", true);
+        } else {
+            if (whitelists.remove(target)) {
+                whitelistsFile.setValue(id, null);
+                markDirty();
             }
-            whitelistsFile.setValue(id, null);
-            markDirty();
         }
     }
 

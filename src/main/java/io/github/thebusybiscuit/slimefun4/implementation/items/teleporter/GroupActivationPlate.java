@@ -26,7 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 /**
  * The {@link GroupActivationPlate} is a teleporter activation plate
- * to which only the {@link Player} who placed it down has access.
+ * to which only the {@link Player} who are whitelisted have access.
  *
  * @author Toast732
  *

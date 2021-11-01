@@ -425,7 +425,10 @@ public class GPSNetwork {
                     }
                     profile.addWhitelist(new Whitelist(profile, tUser, tUUID));
                     p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
-                    Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.added", true);
+                    if (!p.equals(tRaw)) // will not display added to whitelist message if the teleporter was being placed
+                    {
+                        Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.added", true);
+                    }
                 }
             });
         });
