@@ -82,15 +82,13 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
     @ParametersAreNonnullByDefault
     public boolean hasAccess(Player p, Block b) {
         AtomicBoolean bool = new AtomicBoolean(false);
-        Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
-            OfflinePlayer owner = (Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))));
-            PlayerProfile.get(owner, profile -> {
-                for (Whitelist wl : profile.getWhitelists()) {
-                    if (wl.getId().equals(p.getUniqueId())) {
-                        bool.set(true);
-                    }
+        OfflinePlayer owner = (Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))));
+        PlayerProfile.get(owner, profile -> {
+            for (Whitelist wl : profile.getWhitelists()) {
+                if (wl.getId().equals(p.getUniqueId())) {
+                    bool.set(true);
                 }
-            });
+            }
         });
         return bool.get();
     }
