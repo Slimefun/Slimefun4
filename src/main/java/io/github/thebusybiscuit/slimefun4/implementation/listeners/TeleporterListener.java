@@ -64,14 +64,19 @@ public class TeleporterListener implements Listener {
             // Pressure plate was an elevator
             ElevatorPlate elevator = SlimefunItems.ELEVATOR_PLATE.getItem(ElevatorPlate.class);
             elevator.openInterface(p, b);
-        } else if (item instanceof AbstractTeleporterPlate && ((AbstractTeleporterPlate) item).hasAccess(p, b)) {
+        } else if (item instanceof AbstractTeleporterPlate) {
             // Pressure plate was a teleporter
-            SlimefunItem teleporter = BlockStorage.check(b.getRelative(BlockFace.DOWN));
+            if (((AbstractTeleporterPlate) item).hasAccess(p, b)) {
+                // Player has access to use the teleporter
+                SlimefunItem teleporter = BlockStorage.check(b.getRelative(BlockFace.DOWN));
 
-            if (teleporter instanceof Teleporter && checkForPylons(b.getRelative(BlockFace.DOWN))) {
-                Block block = b.getRelative(BlockFace.DOWN);
-                UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
-                Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(p, owner, block);
+                if (teleporter instanceof Teleporter && checkForPylons(b.getRelative(BlockFace.DOWN))) {
+                    Block block = b.getRelative(BlockFace.DOWN);
+                    UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
+                    Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(p, owner, block);
+                }
+            } else {
+                Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.notwhitelisted", true);
             }
         }
     }

@@ -314,6 +314,7 @@ machines:
       max: '&4You have reached the maximum amount of whitelisted players.'
       duplicate: '&4this player is already whitelisted.'
       removeowner: '&4You cannot remove the owner from the whitelist!'
+      notwhitelisted: '&4You are not on the whitelist of this teleporter.'
 
 
   GPS_CONTROL_PANEL:
