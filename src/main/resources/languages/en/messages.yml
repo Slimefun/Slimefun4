@@ -309,7 +309,7 @@ machines:
       time: 'Estimated time'
 
     whitelist:
-      new: '&ePlease type in the player''s username that you want to whitelist. &7(They must be online)'
+      new: '&ePlease type in the player''s username that you want to whitelist.'
       added: '&aSuccessfully added player to whitelist!'
       max: '&4You have reached the maximum amount of whitelisted players.'
       duplicate: '&4this player is already whitelisted.'

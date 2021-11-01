@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -18,12 +19,12 @@ public class WhitelistCreateEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private Player target;
+    private OfflinePlayer target;
     private String name;
 
     private boolean cancelled;
 
-    public WhitelistCreateEvent(@Nonnull Player player, @Nonnull Player target) {
+    public WhitelistCreateEvent(@Nonnull Player player, @Nonnull OfflinePlayer target) {
         super(player);
 
         Validate.notNull(target, "Target must not be null!");

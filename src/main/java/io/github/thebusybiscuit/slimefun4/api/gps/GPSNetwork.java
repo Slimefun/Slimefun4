@@ -12,16 +12,10 @@ import javax.annotation.Nonnull;
 import io.github.thebusybiscuit.slimefun4.api.events.WhitelistCreateEvent;
 import org.apache.commons.lang.Validate;
 
+import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Server;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.Material;
 
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
@@ -405,10 +399,10 @@ public class GPSNetwork {
             }
             Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.new", true);
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
-            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, Bukkit.getPlayer(message)));
+            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, Bukkit.getOfflinePlayer(message)));
         });
     }
-    public void addWhitelist(@Nonnull Player p, @Nonnull Player tRaw) {
+    public void addWhitelist(@Nonnull Player p, @Nonnull OfflinePlayer tRaw) {
         Validate.notNull(p, "Player cannot be null!");
         Validate.notNull(tRaw, "Target cannot be null!");
         PlayerProfile.get(p, profile -> {
@@ -420,8 +414,8 @@ public class GPSNetwork {
             Slimefun.runSync(() -> {
                 WhitelistCreateEvent event = new WhitelistCreateEvent(p, tRaw);
                 Bukkit.getPluginManager().callEvent(event);
-                String tUser = tRaw.getName();
-                UUID tUUID = Bukkit.getPlayer(tUser).getUniqueId();
+                @Nonnull String tUser = tRaw.getName();
+                @Nonnull UUID tUUID = Bukkit.getOfflinePlayer(tUser).getUniqueId();
                 if (!event.isCancelled()) {
                     for (Whitelist wl : profile.getWhitelists()) {
                         if (wl.getId().equals(tUUID)) {

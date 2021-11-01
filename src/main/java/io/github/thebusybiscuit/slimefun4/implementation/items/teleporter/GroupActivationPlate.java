@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.github.thebusybiscuit.slimefun4.api.gps.Whitelist;
@@ -69,7 +70,7 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
                 Player p = e.getPlayer();
                 String owner = "" + p.getUniqueId();
                 BlockStorage.addBlockInfo(e.getBlock(), "owner", owner);
-                Slimefun.getGPSNetwork().addWhitelist(Bukkit.getPlayer(e.getPlayer().getUniqueId()), Bukkit.getPlayer(e.getPlayer().getUniqueId()));
+                Slimefun.getGPSNetwork().addWhitelist(Bukkit.getPlayer(p.getUniqueId()), Bukkit.getOfflinePlayer(p.getUniqueId()));
             }
         };
     }
@@ -77,7 +78,7 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
     @Override
     @ParametersAreNonnullByDefault
     public boolean hasAccess(Player p, Block b) {
-        OfflinePlayer owner = Bukkit.getPlayer(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
+        OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
         AtomicBoolean bool = new AtomicBoolean(false);
         PlayerProfile.get(owner, profile -> {
             for (Whitelist wl : profile.getWhitelists()) {
@@ -88,6 +89,4 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
         });
         return bool.get();
     }
-
-
 }
