@@ -1,15 +1,15 @@
 {
-	"values" : [
-		"minecraft:dragon_egg",
-		"#minecraft:anvil",
+     "values" : [
+        "minecraft:dragon_egg",
+        "#minecraft:anvil",
         "#slimefun:concrete_powders",
-		"minecraft:gravel",
-		"minecraft:sand",
-		"minecraft:red_sand",
-		"minecraft:scaffolding",
-		{
-			"id" : "minecraft:pointed_dripstone",
-			"required" : false
-		}
-	]
+        "minecraft:gravel",
+        "minecraft:sand",
+        "minecraft:red_sand",
+        "minecraft:scaffolding",
+        {
+            "id" : "minecraft:pointed_dripstone",
+            "required" : false
+        }
+     ]
 }
