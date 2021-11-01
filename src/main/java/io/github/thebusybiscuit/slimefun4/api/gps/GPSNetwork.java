@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nonnull;
 
@@ -399,7 +400,8 @@ public class GPSNetwork {
             }
             Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.new", true);
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
-            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, Bukkit.getOfflinePlayer(message)));
+            Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
+            ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWhitelist(p, Bukkit.getOfflinePlayer(message))); });
         });
     }
     public void addWhitelist(@Nonnull Player p, @Nonnull OfflinePlayer tRaw) {
@@ -415,15 +417,16 @@ public class GPSNetwork {
                 WhitelistCreateEvent event = new WhitelistCreateEvent(p, tRaw);
                 Bukkit.getPluginManager().callEvent(event);
                 @Nonnull String tUser = tRaw.getName();
-                @Nonnull UUID tUUID = Bukkit.getOfflinePlayer(tUser).getUniqueId();
+                AtomicReference<UUID> tUUID = null;
+                Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> { tUUID.set(Bukkit.getOfflinePlayer(tUser).getUniqueId()); });
                 if (!event.isCancelled()) {
                     for (Whitelist wl : profile.getWhitelists()) {
-                        if (wl.getId().equals(tUUID)) {
+                        if (wl.getId().equals(tUUID.get())) {
                             Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.whitelist.duplicate", true);
                             return;
                         }
                     }
-                    profile.addWhitelist(new Whitelist(profile, tUser, tUUID));
+                    profile.addWhitelist(new Whitelist(profile, tUser, tUUID.get()));
                     p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
                     if (!p.equals(tRaw)) // will not display added to whitelist message if the teleporter was being placed
                     {
@@ -471,5 +474,4 @@ public class GPSNetwork {
     public ResourceManager getResourceManager() {
         return resourceManager;
     }
-
 }
