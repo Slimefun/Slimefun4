@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.github.thebusybiscuit.slimefun4.api.gps.Whitelist;
@@ -24,7 +23,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-
 /**
  * The {@link GroupActivationPlate} is a teleporter activation plate
  * to which only the {@link Player} who placed it down has access.
@@ -49,10 +47,11 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
         return e -> {
             e.cancel();
             Player p = e.getPlayer();
+            String user = "" + p.getUniqueId();
             Optional<Block> block = e.getClickedBlock();
 
             if(block.isPresent()) {
-                if (BlockStorage.getLocationInfo(block.get().getLocation(), "owner").equals(p.getUniqueId().toString())) {
+                if (BlockStorage.getLocationInfo(block.get().getLocation(), "owner").equals(user)) {
                     Slimefun.getGPSNetwork().createWhitelist(e.getPlayer());
                 } else {
                     Slimefun.getLocalization().sendMessage(p, "inventory.no-access", true);
@@ -67,7 +66,9 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
-                BlockStorage.addBlockInfo(e.getBlock(), "owner", e.getPlayer().getUniqueId().toString());
+                Player p = e.getPlayer();
+                String owner = "" + p.getUniqueId();
+                BlockStorage.addBlockInfo(e.getBlock(), "owner", owner);
                 Slimefun.getGPSNetwork().addWhitelist(Bukkit.getPlayer(e.getPlayer().getUniqueId()), Bukkit.getPlayer(e.getPlayer().getUniqueId()));
             }
         };
@@ -76,11 +77,11 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
     @Override
     @ParametersAreNonnullByDefault
     public boolean hasAccess(Player p, Block b) {
-        OfflinePlayer owner = Bukkit.getPlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
+        OfflinePlayer owner = Bukkit.getPlayer(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
         AtomicBoolean bool = new AtomicBoolean(false);
         PlayerProfile.get(owner, profile -> {
             for (Whitelist wl : profile.getWhitelists()) {
-                if (wl.getId().equals(p.getUniqueId().toString())) {
+                if (wl.getId().equals(p.getUniqueId())) {
                     bool.set(true);
                 }
             }

@@ -109,7 +109,7 @@ public class PlayerProfile {
         }
         for (String key : whitelistsFile.getKeys()) {
             try {
-                String permittedUUID = whitelistsFile.getString(key + ".id");
+                UUID permittedUUID = UUID.fromString(whitelistsFile.getString(key + ".id"));
                 String permittedName = whitelistsFile.getString(key + ".name");
                 whitelists.add(new Whitelist(this, permittedName, permittedUUID));
             } catch (Exception x) {
@@ -283,8 +283,8 @@ public class PlayerProfile {
 
     public void addWhitelist(@Nonnull Whitelist whitelist) {
         Validate.notNull(whitelist, "Cannot add a 'null' user!");
-        String id = whitelist.getId().replaceAll("PlayerProfile|CraftPlayer|[ ]|[{]|name=|[}]","");
-        String name = whitelist.getName().replaceAll("PlayerProfile|CraftPlayer|[ ]|[{]|name=|[}]","");
+        String id = "" + whitelist.getId();
+        String name = whitelist.getName();
         for (Whitelist wl : whitelists) {
             if (wl.getId().equals(id)) {
                 throw new IllegalArgumentException("A user with that name already exists for this Player | id: " + id + " | name: " + name);
@@ -302,12 +302,12 @@ public class PlayerProfile {
 
     public void removeWhitelist(@Nonnull Whitelist whitelist) {
         Validate.notNull(whitelist, "Cannot remove a 'null' user!");
-
+        String id = "" + whitelist.getId();
         if(whitelists.remove(whitelist)) {
-            if(whitelist.getOwner().equals(whitelist.getId())) {
+            if(whitelist.getOwner().equals(id)) {
                 throw new IllegalArgumentException("You cannot remove yourself from the whitelist!");
             }
-            whitelistsFile.setValue(whitelist.getId(), null);
+            whitelistsFile.setValue(id, null);
             markDirty();
         }
     }

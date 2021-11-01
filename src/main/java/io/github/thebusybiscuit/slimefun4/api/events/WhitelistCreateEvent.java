@@ -28,11 +28,9 @@ public class WhitelistCreateEvent extends PlayerEvent implements Cancellable {
 
         Validate.notNull(target, "Target must not be null!");
         Validate.notNull(player, "Player must not be null!");
-
         this.target = target;
         this.name = player.toString();
     }
-
     @Nonnull
     public String getName() {
         return name;

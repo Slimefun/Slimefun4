@@ -420,8 +420,8 @@ public class GPSNetwork {
             Slimefun.runSync(() -> {
                 WhitelistCreateEvent event = new WhitelistCreateEvent(p, tRaw);
                 Bukkit.getPluginManager().callEvent(event);
-                String tUser = tRaw.toString().replaceAll("PlayerProfile|CraftPlayer|[ ]|[{]|name=|[}]","");
-                String tUUID = Bukkit.getPlayer(tUser).getUniqueId().toString();
+                String tUser = tRaw.getName();
+                UUID tUUID = Bukkit.getPlayer(tUser).getUniqueId();
                 if (!event.isCancelled()) {
                     for (Whitelist wl : profile.getWhitelists()) {
                         if (wl.getId().equals(tUUID)) {

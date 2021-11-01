@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 public class Whitelist {
 
     private final PlayerProfile profile;
-    private final String id;
+    private final UUID id;
     private final String user;
 
     /**
@@ -37,7 +37,7 @@ public class Whitelist {
      *      The username of this {@link Player}
      */
     @ParametersAreNonnullByDefault
-    public Whitelist(PlayerProfile profile, String user, String id) {
+    public Whitelist(PlayerProfile profile, String user, UUID id) {
 
         Validate.notNull(profile, "Profile must never be null!");
         Validate.notNull(id, "id must never be null!");
@@ -64,7 +64,7 @@ public class Whitelist {
      * @return The uuid of the player
      */
     @Nonnull
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -88,7 +88,7 @@ public class Whitelist {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         assert meta != null;
-        meta.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString(id)));
+        meta.setOwningPlayer(Bukkit.getOfflinePlayer(id));
         skull.setItemMeta(meta);
         return skull;
     }
