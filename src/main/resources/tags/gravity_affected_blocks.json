@@ -1,5 +1,5 @@
 {
-     "values" : [
+    "values" : [
         "minecraft:dragon_egg",
         "#minecraft:anvil",
         "#slimefun:concrete_powders",
@@ -11,5 +11,5 @@
             "id" : "minecraft:pointed_dripstone",
             "required" : false
         }
-     ]
+    ]
 }
