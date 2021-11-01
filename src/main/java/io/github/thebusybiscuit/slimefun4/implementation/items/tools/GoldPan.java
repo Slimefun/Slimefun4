@@ -33,8 +33,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Autom
 import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-
-
 /**
  * A {@link GoldPan} is a {@link SlimefunItem} which allows you to obtain various
  * resources from Gravel.

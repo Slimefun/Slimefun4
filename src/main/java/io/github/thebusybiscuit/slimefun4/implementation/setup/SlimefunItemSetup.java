@@ -315,7 +315,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new SlimefunItem(categories.magicalResources, SlimefunItems.ENDER_LUMP_1, RecipeType.GRIND_STONE,
-        new ItemStack[] {null, null, null, null, new ItemStack(Material.ENDER_EYE), null, null, null, null}, 
+        new ItemStack[] {new ItemStack(Material.ENDER_EYE), null, null, null, null, null, null, null, null},
         new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 2))
         .register(plugin);
 

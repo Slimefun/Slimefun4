@@ -66,10 +66,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      *
      * @param count
      *            The maximum number of times this item can be used.
-     *            <<<<<<< HEAD
-     *            =======
      * 
-     *            >>>>>>> branch 'master' of https://github.com/Slimefun/Slimefun4.git
      * @return The {@link LimitedUseItem} for chaining of setters
      */
     public final @Nonnull LimitedUseItem setMaxUseCount(int count) {

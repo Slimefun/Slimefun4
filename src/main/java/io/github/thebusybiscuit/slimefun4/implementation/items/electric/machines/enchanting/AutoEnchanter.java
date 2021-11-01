@@ -40,7 +40,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class AutoEnchanter extends AbstractEnchantmentMachine {
 
-    private final ItemSetting<Boolean> overrideExistingEnchantsLvl= new ItemSetting<>(this, "override-existing-enchants-lvl", false);
+    private final ItemSetting<Boolean> overrideExistingEnchantsLvl = new ItemSetting<>(this, "override-existing-enchants-lvl", false);
 
     @ParametersAreNonnullByDefault
     public AutoEnchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

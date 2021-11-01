@@ -46,7 +46,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
      *            The {@link Player} who opened his {@link SlimefunGuide}
      * @param profile
      *            The {@link PlayerProfile} of the {@link Player}
-     *            
+     * 
      * @return a {@link List} of visible {@link ItemGroup} instances
      */
     @Override

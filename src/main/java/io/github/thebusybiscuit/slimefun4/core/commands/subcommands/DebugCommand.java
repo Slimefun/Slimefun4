@@ -1,12 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import javax.annotation.Nonnull;
+
+import org.bukkit.command.CommandSender;
+
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.command.CommandSender;
-
-import javax.annotation.Nonnull;
 
 /**
  * The debug command will allow server owners to get information for us developers.
@@ -35,9 +36,7 @@ public class DebugCommand extends SubCommand {
         if (args.length == 1) {
             String currentCase = Debug.getTestCase();
             if (currentCase != null) {
-                Slimefun.getLocalization().sendMessage(sender, "commands.debug.current", true,
-                    msg -> msg.replace("%test_case%", currentCase)
-                );
+                Slimefun.getLocalization().sendMessage(sender, "commands.debug.current", true, msg -> msg.replace("%test_case%", currentCase));
             } else {
                 Slimefun.getLocalization().sendMessage(sender, "commands.debug.none-running", true);
             }
@@ -51,8 +50,7 @@ public class DebugCommand extends SubCommand {
             Slimefun.getLocalization().sendMessage(sender, "commands.debug.disabled");
         } else {
             Debug.setTestCase(test);
-            Slimefun.getLocalization().sendMessage(sender, "commands.debug.running",
-                msg -> msg.replace("%test%", test));
+            Slimefun.getLocalization().sendMessage(sender, "commands.debug.running", msg -> msg.replace("%test%", test));
         }
     }
 }
