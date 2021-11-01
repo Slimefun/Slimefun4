@@ -42,7 +42,6 @@ public class GroupActivationPlate extends AbstractTeleporterPlate {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler(onPlace());
         addItemHandler(onUse());
-
     }
     @Nonnull
     private BlockUseHandler onUse() {
