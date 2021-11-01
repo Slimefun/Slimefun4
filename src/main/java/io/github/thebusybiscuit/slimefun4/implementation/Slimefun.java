@@ -422,7 +422,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
 
         // Create a new backup zip
-        backupService.run();
+        if (config.getBoolean("options.backup-data")) {
+            backupService.run();
+        }
 
         // Close and unload any resources from our Metrics Service
         metricsService.cleanUp();
@@ -611,7 +613,6 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new CauldronListener(this);
         new GrindstoneListener(this);
         new CartographyTableListener(this);
-        new SmithingTableListener(this);
         new ButcherAndroidListener(this);
         new MiningAndroidListener(this);
         new NetworkListener(this, networkManager);
@@ -630,6 +631,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Piglins were added in 1.16
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             new PiglinListener(this);
+            new SmithingTableListener(this);
         }
 
         // Item-specific Listeners
