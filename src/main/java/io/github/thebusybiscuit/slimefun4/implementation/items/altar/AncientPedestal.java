@@ -54,7 +54,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
-    private static final Map<BlockPosition, Optional<Item>> pedestalItemCache = new HashMap<>();
+    private static final Map<BlockPosition, Item> pedestalItemCache = new HashMap<>();
 
     @ParametersAreNonnullByDefault
     public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -89,10 +89,10 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     public @Nonnull Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
-        Optional<Item> cache = pedestalItemCache.get(new BlockPosition(pedestal));
+        Item cache = pedestalItemCache.get(new BlockPosition(pedestal));
 
-        if (cache.isPresent()) {
-            return cache;
+        if (cache != null) {
+            return Optional.of(cache);
         }
 
         // If cache was deleted, use old method to find nearby possible display item entity.
@@ -173,18 +173,10 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
      */
     public void stopDisplayItem(@Nonnull Location pedestal, @Nonnull Entity item) {
         item.remove();
-
-        BlockPosition pedestalPosition = new BlockPosition(pedestal);
-        Optional<Item> result = pedestalItemCache.get(pedestalPosition);
-
-        if (!result.isPresent()) {
-            return;
-        }
-
-        pedestalItemCache.remove(pedestalPosition);
+        pedestalItemCache.remove(new BlockPosition(pedestal));
     }
 
-    public @Nonnull Map<BlockPosition, Optional<Item>> getCachedDisplayItems() {
+    public @Nonnull Map<BlockPosition, Item> getCachedDisplayItems() {
         return pedestalItemCache;
     }
 
@@ -195,6 +187,6 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
      * @param item displayed item
      */
     private void startWatcher(@Nonnull Location pedestalLocation, @Nonnull Item item) {
-        pedestalItemCache.put(new BlockPosition(pedestalLocation), Optional.of(item));
+        pedestalItemCache.put(new BlockPosition(pedestalLocation), item);
     }
 }

@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPede
 public class AncientPedestalTask implements Runnable {
 
     private final AncientPedestal pedestalItem = (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem();
-    private final Map<BlockPosition, Optional<Item>> cache = pedestalItem.getCachedDisplayItems();
+    private final Map<BlockPosition, Item> cache = pedestalItem.getCachedDisplayItems();
 
     @Override
     public void run() {
@@ -24,9 +24,9 @@ public class AncientPedestalTask implements Runnable {
         cache.forEach((blockPosition, display) -> {
             Location spawnLocation = blockPosition.toLocation().add(0.5, 1.2, 0.5);
 
-            if (display.isPresent() && display.get().getLocation().distanceSquared(spawnLocation) > 1) {
-                if (display.get().isValid()) {
-                    display.get().teleport(spawnLocation);
+            if (display != null && display.getLocation().distanceSquared(spawnLocation) > 1) {
+                if (display.isValid()) {
+                    display.teleport(spawnLocation);
                 } else {
                     cache.remove(blockPosition);
                 }
