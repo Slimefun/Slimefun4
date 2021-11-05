@@ -227,16 +227,19 @@ class ItemFilter implements Predicate<ItemStack> {
     public static boolean altItemCompare(@Nullable ItemStack item, @Nullable ItemStack sfitem) {
         if (item == null) {
             return sfitem == null;
-        }
-
-        if (sfitem == null) {
+        } else if (sfitem == null) {
             return false;
-        }
-
-        if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
-            return ((SlimefunItemStack) item).getItemId().equals(((SlimefunItemStack) sfitem).getItemId());
+        }  else if (item.getType() != sfitem.getType()) {
+            return false;
         } else {
-            return item.getType() == sfitem.getType();
+            SlimefunItem sfitem1 = SlimefunItem.getByItem(item);
+            SlimefunItem sfitem2 = SlimefunItem.getByItem(sfitem);
+            if (sfitem1 != null && sfitem2 != null) {
+                return sfitem1.getId().equals(sfitem2.getId());
+            } else if (sfitem1 == null && sfitem2 == null) {
+                return item.getType() == sfitem.getType();
+            }
         }
+        return false;
     }
 }
