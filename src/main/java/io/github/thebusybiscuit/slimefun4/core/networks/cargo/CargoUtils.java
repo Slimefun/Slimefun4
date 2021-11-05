@@ -396,6 +396,8 @@ final class CargoUtils {
         return network.getItemFilter(node).test(item);
     }
 
+
+
     /**
      * This method checks if a given {@link ItemStack} is smeltable or not.
      * The lazy-option is a performance-saver since actually calculating this can be quite expensive.
