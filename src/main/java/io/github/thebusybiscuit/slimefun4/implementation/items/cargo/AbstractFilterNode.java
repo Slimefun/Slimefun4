@@ -1,13 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -37,11 +44,13 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
     protected static final int[] SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
     private static final String FILTER_TYPE = "filter-type";
     private static final String FILTER_LORE = "filter-lore";
+    private final boolean allowCustomItems;
 
     @ParametersAreNonnullByDefault
     protected AbstractFilterNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
 
+        allowCustomItems = Slimefun.getCfg().getBoolean("options.allow-custom-items-in-cargo-filters");
         addItemHandler(onBreak());
     }
 
@@ -123,6 +132,31 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
                 updateBlockMenu(menu, b);
                 return false;
             });
+        }
+
+        if (!allowCustomItems) {
+            for (int filterSlot : SLOTS) {
+                menu.addMenuClickHandler(filterSlot, new AdvancedMenuClickHandler() {
+                    @Override
+                    public boolean onClick(Player p, int slot, ItemStack item, ClickAction action) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
+                        if (cursor != null) {
+                            SlimefunItem sfItem = SlimefunItem.getByItem(cursor);
+                            if (sfItem == null && !(SlimefunUtils.isItemSimilar(cursor,
+                                    new ItemStack(cursor.getType()), true, false))
+                            ) {
+                                Slimefun.getLocalization().sendMessage(p, "machines.CARGO_NODES.no-custom-items", true);
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                });
+            }
         }
 
         addChannelSelector(b, menu, 41, 42, 43);
