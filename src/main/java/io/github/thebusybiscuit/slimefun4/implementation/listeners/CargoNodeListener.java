@@ -58,7 +58,7 @@ public class CargoNodeListener implements Listener {
             }
 
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
-            if (sfItem == null && item.getItemMeta() != new ItemStack(item.getType()).getItemMeta()) {
+            if (sfItem == null && !SlimefunUtils.isItemSimilar(item, new ItemStack(item.getType()), true, false)) {
                 Slimefun.getLocalization().sendMessage(e.getWhoClicked(), "machines.CARGO_NODES.no-custom-items", true);
                 e.setCancelled(true);
             }
