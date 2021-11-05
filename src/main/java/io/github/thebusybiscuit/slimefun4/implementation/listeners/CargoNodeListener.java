@@ -43,6 +43,10 @@ public class CargoNodeListener implements Listener {
     public void onFilterMove(InventoryClickEvent e) {
         String invName = e.getWhoClicked().getOpenInventory().getTitle();
         if ((invName.equals("Cargo Node (Input)") || invName.equals("Advanced Cargo Node (Output)"))) {
+            if (Slimefun.getCfg().getBoolean("options.allow-custom-items-in-cargo-filters")) {
+                return;
+            }
+
             if (e.getClick() == ClickType.NUMBER_KEY) {
                 e.setCancelled(true);
                 return;
