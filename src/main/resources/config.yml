@@ -13,6 +13,7 @@ options:
   legacy-ore-washer: false
   legacy-dust-washer: false
   legacy-ore-grinder: true
+  allow-custom-items-in-cargo-filters: true
   language: en
   enable-translations: true
   log-duplicate-block-entries: true
