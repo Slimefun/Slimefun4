@@ -32,6 +32,13 @@ commands:
     verbose-player: '&4The verbose flag cannot be used by a Player!'
     unknown-flag: '&4Unknown flag: &c%flag%'
 
+  debug:
+    description: 'Run debug logging for the developers'
+    current: '&7Current test case: &6%test_case%'
+    none-running: '&7No test case is currently being ran!'
+    running: '&7Running debug mode with test: &6%test%'
+    disabled: '&7Disabled debug mode.'
+
 placeholderapi:
   profile-loading: 'Loading...'
 

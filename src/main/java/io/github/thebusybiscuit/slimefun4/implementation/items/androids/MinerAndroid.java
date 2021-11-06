@@ -125,13 +125,13 @@ public class MinerAndroid extends ProgrammableAndroid {
 
     @ParametersAreNonnullByDefault
     private void breakBlock(BlockMenu menu, Collection<ItemStack> drops, Block block) {
-        
+
         if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
             return;
         }
-        
+
         block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-        
+
         // Push our drops to the inventory
         for (ItemStack drop : drops) {
             menu.pushItem(drop, getOutputSlots());
