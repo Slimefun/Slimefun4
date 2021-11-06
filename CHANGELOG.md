@@ -47,6 +47,7 @@
 * Fixed an exploit regarding the Smithing Table
 * Fixed #3265
 * (API) `SolarGenerator` has a new constructor to accept capacity
+* Fixed Book Binder merging same level books without upgrade
 
 ## Release Candidate 28 (06 Sep 2021)
 
