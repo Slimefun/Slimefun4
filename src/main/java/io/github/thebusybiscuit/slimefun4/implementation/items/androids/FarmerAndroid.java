@@ -41,7 +41,7 @@ public class FarmerAndroid extends ProgrammableAndroid {
         if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
             return;
         }
-        
+
         if (data instanceof Ageable && ((Ageable) data).getAge() >= ((Ageable) data).getMaximumAge()) {
             drop = getDropFromCrop(blockType);
         }

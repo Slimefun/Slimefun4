@@ -103,6 +103,13 @@ public class BackpackListener implements Listener {
                             e.setCancelled(true);
                         }
                     }
+                } else if (e.getClick() == ClickType.SWAP_OFFHAND && e.getClickedInventory().getType() != InventoryType.PLAYER) {
+                    // Fixes #3265
+                    ItemStack offHandItem = e.getWhoClicked().getInventory().getItemInOffHand();
+
+                    if (!isAllowed((SlimefunBackpack) backpack, offHandItem)) {
+                        e.setCancelled(true);
+                    }
                 } else if (!isAllowed((SlimefunBackpack) backpack, e.getCurrentItem())) {
                     e.setCancelled(true);
                 }

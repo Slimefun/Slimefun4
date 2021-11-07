@@ -30,7 +30,7 @@ public class VanillaItem extends SlimefunItem {
      * Instantiates a new {@link VanillaItem} with the given arguments.
      *
      * @param itemGroup
-     *            the {@Link ItemGroup} to bind this {@link VanillaItem} to
+     *            the {@link ItemGroup} to bind this {@link VanillaItem} to
      * @param item
      *            the item corresponding to this {@link VanillaItem}
      * @param id

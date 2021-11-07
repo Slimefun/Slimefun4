@@ -107,7 +107,8 @@ public class BlockPlacer extends SlimefunItem {
                     if (!(item instanceof NotPlaceable)) {
                         placeSlimefunBlock(item, e.getItem(), facedBlock, dispenser);
                     }
-                } else {
+                } else if (!Slimefun.getIntegrations().isCustomItem(e.getItem())) {
+                    // Fixes #3218 - Prevent placement of custom items (ItemsAdder)
                     placeBlock(e.getItem(), facedBlock, dispenser);
                 }
             }

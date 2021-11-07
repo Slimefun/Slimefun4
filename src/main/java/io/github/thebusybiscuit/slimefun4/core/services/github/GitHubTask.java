@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -105,13 +107,18 @@ class GitHubTask implements Runnable {
             } catch (IllegalArgumentException x) {
                 // There cannot be a texture found because it is not a valid MC username
                 contributor.setTexture(null);
+            } catch (InterruptedException x) {
+                Slimefun.logger().log(Level.WARNING, "The contributors thread was interrupted!");
+                Thread.currentThread().interrupt();
             } catch (Exception x) {
                 // Too many requests
-                Slimefun.logger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
-                Slimefun.logger().log(Level.WARNING, "This usually means mojang.com is temporarily down or started to rate-limit this connection, this is not an error message!");
+                Slimefun.logger().log(Level.WARNING, "Attempted to refresh skin cache, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
+                Slimefun.logger().log(Level.WARNING, "This usually means mojang.com is temporarily down or started to rate-limit this connection, nothing to worry about!");
 
-                // Retry after 5 minutes if it was rate-limiting
-                if (x.getMessage().contains("429")) {
+                String msg = x.getMessage();
+
+                // Retry after 5 minutes if it was just rate-limiting
+                if (msg != null && msg.contains("429")) {
                     Bukkit.getScheduler().runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 5 * 60 * 20L);
                 }
 
@@ -122,12 +129,14 @@ class GitHubTask implements Runnable {
         return 0;
     }
 
-    private @Nullable String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws InterruptedException, ExecutionException {
+    private @Nullable String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws InterruptedException, ExecutionException, TimeoutException {
         Optional<UUID> uuid = contributor.getUniqueId();
 
         if (!uuid.isPresent()) {
             CompletableFuture<UUID> future = UUIDLookup.forUsername(Slimefun.instance(), contributor.getMinecraftName());
-            uuid = Optional.ofNullable(future.get());
+
+            // Fixes #3241 - Do not wait for more than 30 seconds
+            uuid = Optional.ofNullable(future.get(30, TimeUnit.SECONDS));
             uuid.ifPresent(contributor::setUniqueId);
         }
 

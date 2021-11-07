@@ -101,6 +101,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.Cart
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CauldronListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.SmithingTableListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.BeeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.EntityInteractionListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.FireworksListener;
@@ -421,7 +422,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
 
         // Create a new backup zip
-        backupService.run();
+        if (config.getBoolean("options.backup-data")) {
+            backupService.run();
+        }
 
         // Close and unload any resources from our Metrics Service
         metricsService.cleanUp();
@@ -628,6 +631,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Piglins were added in 1.16
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             new PiglinListener(this);
+            new SmithingTableListener(this);
         }
 
         // Item-specific Listeners
