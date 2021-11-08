@@ -1,5 +1,5 @@
 # Table of contents
-- [Release Candidate 29 (TBD)](#release-candidate-29-tbd)
+- [Release Candidate 29 (07 Nov 2021)](#release-candidate-29-06-nov-2021)
 - [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
 - [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
 - [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
@@ -29,7 +29,7 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 29 (TBD)
+## Release Candidate 29 (07 Nov 2021)
 
 #### Additions
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
