@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.FireStaff;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -154,6 +153,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.Vil
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.WaterStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.WindStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.FireStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Bandage;
