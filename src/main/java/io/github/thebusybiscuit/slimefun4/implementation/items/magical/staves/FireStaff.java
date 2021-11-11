@@ -16,14 +16,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public class FireStaff extends LimitedUseItem {
 
-    public static final int FIRE_MAX_USES = 120;
+    public static final int MAX_USES = 120;
     private static final NamespacedKey usageKey = new NamespacedKey(Slimefun.instance(), "firestaff_usage");
 
     @ParametersAreNonnullByDefault
     public FireStaff(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
-        setMaxUseCount(FIRE_MAX_USES);
+        setMaxUseCount(MAX_USES);
     }
 
     @Override

@@ -33,7 +33,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.LimitedUseItem;
  */
 public class StormStaff extends LimitedUseItem {
 
-    public static final int STORM_MAX_USES = 8;
+    public static final int MAX_USES = 8;
 
     private static final NamespacedKey usageKey = new NamespacedKey(Slimefun.instance(), "stormstaff_usage");
 
@@ -41,7 +41,7 @@ public class StormStaff extends LimitedUseItem {
     public StormStaff(ItemGroup group, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(group, item, recipeType, recipe);
 
-        setMaxUseCount(STORM_MAX_USES);
+        setMaxUseCount(MAX_USES);
     }
 
     @Override
