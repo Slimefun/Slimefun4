@@ -63,14 +63,14 @@ public class OreWasher extends MultiBlockMachine {
         }, BlockFace.SELF);
         // @formatter:on
 
-        legacyMode = Slimefun.getCfg().getBoolean("options.legacy-ore-washer");
+        legacyMode = Slimefun.getCfg().getBoolean("legacy.legacy-ore-washer");
     }
 
     @Override
     protected void registerDefaultRecipes(List<ItemStack> recipes) {
         /*
          * Iron and Gold are displayed as Ore Crusher recipes, as that is their primary
-         * way of obtaining them. But we also wanna display them here, so we just
+         * way of obtaining them. But we also want to display them here, so we just
          * add these two recipes manually
          */
         recipes.add(SlimefunItems.SIFTED_ORE);

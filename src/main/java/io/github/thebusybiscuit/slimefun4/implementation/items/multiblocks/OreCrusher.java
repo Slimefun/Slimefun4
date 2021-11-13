@@ -33,7 +33,7 @@ import io.papermc.lib.PaperLib;
 /**
  * The {@link OreCrusher} is a {@link MultiBlockMachine} which allows you to double ores
  * and crush some other {@link Material Materials} into various resources.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -109,12 +109,12 @@ public class OreCrusher extends MultiBlockMachine {
 
         // @formatter:off
         displayRecipes.addAll(Arrays.asList(
-            new ItemStack(Material.COAL_ORE), doubleOres.getCoal(),
-            new ItemStack(Material.LAPIS_ORE), doubleOres.getLapisLazuli(),
-            new ItemStack(Material.REDSTONE_ORE), doubleOres.getRedstone(),
-            new ItemStack(Material.DIAMOND_ORE), doubleOres.getDiamond(),
-            new ItemStack(Material.EMERALD_ORE), doubleOres.getEmerald(),
-            new ItemStack(Material.NETHER_QUARTZ_ORE), doubleOres.getNetherQuartz()
+                new ItemStack(Material.COAL_ORE), doubleOres.getCoal(),
+                new ItemStack(Material.LAPIS_ORE), doubleOres.getLapisLazuli(),
+                new ItemStack(Material.REDSTONE_ORE), doubleOres.getRedstone(),
+                new ItemStack(Material.DIAMOND_ORE), doubleOres.getDiamond(),
+                new ItemStack(Material.EMERALD_ORE), doubleOres.getEmerald(),
+                new ItemStack(Material.NETHER_QUARTZ_ORE), doubleOres.getNetherQuartz()
         ));
         // @formatter:on
 
@@ -129,40 +129,52 @@ public class OreCrusher extends MultiBlockMachine {
 
         // Raw metal ores (1.17+)
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            displayRecipes.add(new ItemStack(Material.RAW_IRON));
-            displayRecipes.add(SlimefunItems.IRON_DUST);
+            if (Slimefun.getCfg().getBoolean("legacy.legacy-iron-recipes")) {
+                displayRecipes.add(new ItemStack(Material.RAW_IRON));
+                displayRecipes.add(SlimefunItems.IRON_DUST);
+            }
 
-            displayRecipes.add(new ItemStack(Material.RAW_COPPER));
-            displayRecipes.add(SlimefunItems.COPPER_DUST);
+            if (Slimefun.getCfg().getBoolean("legacy.legacy-copper-recipes")) {
+                displayRecipes.add(new ItemStack(Material.RAW_COPPER));
+                displayRecipes.add(SlimefunItems.COPPER_DUST);
+            }
 
-            displayRecipes.add(new ItemStack(Material.RAW_GOLD));
-            displayRecipes.add(SlimefunItems.GOLD_DUST);
+            if (Slimefun.getCfg().getBoolean("legacy.legacy-gold-recipes")) {
+                displayRecipes.add(new ItemStack(Material.RAW_GOLD));
+                displayRecipes.add(SlimefunItems.GOLD_DUST);
+            }
         }
 
         // Deepslate Ores (1.17+)
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             // @formatter:off
             displayRecipes.addAll(Arrays.asList(
-                new ItemStack(Material.DEEPSLATE_COAL_ORE), doubleOres.getCoal(),
-                new ItemStack(Material.DEEPSLATE_LAPIS_ORE), doubleOres.getLapisLazuli(),
-                new ItemStack(Material.DEEPSLATE_REDSTONE_ORE), doubleOres.getRedstone(),
-                new ItemStack(Material.DEEPSLATE_DIAMOND_ORE), doubleOres.getDiamond(),
-                new ItemStack(Material.DEEPSLATE_EMERALD_ORE), doubleOres.getEmerald()
+                    new ItemStack(Material.DEEPSLATE_COAL_ORE), doubleOres.getCoal(),
+                    new ItemStack(Material.DEEPSLATE_LAPIS_ORE), doubleOres.getLapisLazuli(),
+                    new ItemStack(Material.DEEPSLATE_REDSTONE_ORE), doubleOres.getRedstone(),
+                    new ItemStack(Material.DEEPSLATE_DIAMOND_ORE), doubleOres.getDiamond(),
+                    new ItemStack(Material.DEEPSLATE_EMERALD_ORE), doubleOres.getEmerald()
             ));
             // @formatter:on
 
             // More deepslate ores and copper ore
-            displayRecipes.add(new ItemStack(Material.DEEPSLATE_IRON_ORE));
-            displayRecipes.add(new SlimefunItemStack(SlimefunItems.IRON_DUST, isOreDoublingEnabled() ? 2 : 1));
+            if (Slimefun.getCfg().getBoolean("legacy.legacy-iron")) {
+                displayRecipes.add(new ItemStack(Material.DEEPSLATE_IRON_ORE));
+                displayRecipes.add(new SlimefunItemStack(SlimefunItems.IRON_DUST, isOreDoublingEnabled() ? 2 : 1));
+            }
 
-            displayRecipes.add(new ItemStack(Material.DEEPSLATE_GOLD_ORE));
-            displayRecipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, isOreDoublingEnabled() ? 2 : 1));
+            if (Slimefun.getCfg().getBoolean("legacy.legacy-gold")) {
+                displayRecipes.add(new ItemStack(Material.DEEPSLATE_GOLD_ORE));
+                displayRecipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, isOreDoublingEnabled() ? 2 : 1));
+            }
 
-            displayRecipes.add(new ItemStack(Material.DEEPSLATE_COPPER_ORE));
-            displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
+            if (Slimefun.getCfg().getBoolean("legacy.legacy-copper")) {
+                displayRecipes.add(new ItemStack(Material.DEEPSLATE_COPPER_ORE));
+                displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
 
-            displayRecipes.add(new ItemStack(Material.COPPER_ORE));
-            displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
+                displayRecipes.add(new ItemStack(Material.COPPER_ORE));
+                displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
+            }
         }
     }
 

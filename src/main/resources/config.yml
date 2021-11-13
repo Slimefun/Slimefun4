@@ -10,9 +10,6 @@ options:
   armor-update-interval: 10
   enable-armor-effects: true
   auto-save-delay-in-minutes: 10
-  legacy-ore-washer: false
-  legacy-dust-washer: false
-  legacy-ore-grinder: true
   language: en
   enable-translations: true
   log-duplicate-block-entries: true
@@ -42,6 +39,14 @@ networks:
 
 talismans:
   use-actionbar: true
+
+legacy:
+  legacy-ore-washer: false
+  legacy-dust-washer: false
+  legacy-ore-grinder: true
+  legacy-copper: true
+  legacy-gold: true
+  legacy-iron: true
 
 metrics:
   auto-update: true
