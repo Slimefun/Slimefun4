@@ -10,6 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -114,12 +116,18 @@ public class IndustrialMiner extends MultiBlockMachine {
     /**
      * This method returns the outcome that mining certain ores yields.
      * 
-     * @param ore
-     *            The {@link Material} of the ore that was mined
+     * @param b
+     *            The {@link Block} of the ore that was mined
      * 
      * @return The outcome when mining this ore
      */
-    public @Nonnull ItemStack getOutcome(@Nonnull Material ore) {
+    public @Nonnull ItemStack getOutcome(@Nonnull Block b) {
+        SlimefunItem item = BlockStorage.check(b);
+        if (item != null) {
+            return item.getItem().clone();
+        }
+
+        Material ore = b.getType();
         if (hasSilkTouch()) {
             return new ItemStack(ore);
         }
