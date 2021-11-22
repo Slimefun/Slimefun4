@@ -1,11 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -37,7 +40,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * Otherwise the functionality is similar to a regular android.
  * <p>
  * The {@link MinerAndroid} will also fire an {@link AndroidMineEvent} when breaking a {@link Block}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author creator3
  * @author poma123
@@ -45,7 +48,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @author CyberPatriot
  * @author Redemption198
  * @author Poslovitch
- * 
+ *
  * @see AndroidMineEvent
  *
  */
@@ -73,23 +76,27 @@ public class MinerAndroid extends ProgrammableAndroid {
     @Override
     @ParametersAreNonnullByDefault
     protected void dig(Block b, BlockMenu menu, Block block) {
-        Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
+        List<ItemStack> drops = new ArrayList<>();
+        SlimefunItem item = BlockStorage.check(block);
+        if (item != null) {
+            drops.add(item.getItem().clone());
+        } else {
+            drops.addAll(block.getDrops(effectivePickaxe));
+        }
 
         if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
 
             if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
-                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
+                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b), drops);
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (event.isCancelled()) {
                     return;
                 }
 
-                // We only want to break non-Slimefun blocks
-                if (!BlockStorage.hasBlockInfo(block)) {
-                    breakBlock(menu, drops, block);
-                }
+                // The case of Slimefun blocks is already handled by the event
+                breakBlock(menu, drops, block);
             }
         }
     }
@@ -97,30 +104,29 @@ public class MinerAndroid extends ProgrammableAndroid {
     @Override
     @ParametersAreNonnullByDefault
     protected void moveAndDig(Block b, BlockMenu menu, BlockFace face, Block block) {
-        Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
+        List<ItemStack> drops = new ArrayList<>();
+        SlimefunItem item = BlockStorage.check(block);
+        if (item != null) {
+            drops.add(item.getItem().clone());
+        } else {
+            drops.addAll(block.getDrops(effectivePickaxe));
+        }
 
         if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
 
             if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
-                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
+                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b), drops);
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (event.isCancelled()) {
                     return;
                 }
 
-                // We only want to break non-Slimefun blocks
-                if (!BlockStorage.hasBlockInfo(block)) {
-                    breakBlock(menu, drops, block);
-                    move(b, face, block);
-                }
-            } else {
-                move(b, face, block);
+                breakBlock(menu, drops, block);
             }
-        } else {
-            move(b, face, block);
         }
+        move(b, face, block);
     }
 
     @ParametersAreNonnullByDefault

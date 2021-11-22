@@ -10,6 +10,9 @@ import org.bukkit.event.HandlerList;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 /**
  * This {@link Event} is fired before a {@link MinerAndroid} mines a {@link Block}.
@@ -24,6 +27,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
 
     private final Block block;
     private final AndroidInstance android;
+    private final List<ItemStack> drops;
     private boolean cancelled;
 
     /**
@@ -31,11 +35,14 @@ public class AndroidMineEvent extends Event implements Cancellable {
      *            The mined {@link Block}
      * @param android
      *            The {@link AndroidInstance} that triggered this {@link Event}
+     * @param drops
+     *            The {@link List} of {@link ItemStack}s that will be dropped
      */
     @ParametersAreNonnullByDefault
-    public AndroidMineEvent(Block block, AndroidInstance android) {
+    public AndroidMineEvent(Block block, AndroidInstance android, List<ItemStack> drops) {
         this.block = block;
         this.android = android;
+        this.drops = drops;
     }
 
     /**
@@ -57,6 +64,11 @@ public class AndroidMineEvent extends Event implements Cancellable {
     @Nonnull
     public AndroidInstance getAndroid() {
         return android;
+    }
+
+    @Nonnull
+    public List<ItemStack> getDrops() {
+        return drops;
     }
 
     @Override
