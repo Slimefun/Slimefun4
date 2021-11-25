@@ -32,7 +32,7 @@ public class SlimefunItemConsumeListener implements Listener {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
         if (sfItem != null) {
-            if (sfItem.canUse(p, true)) {
+            if (sfItem.canUse(p, true, false)) {
                 sfItem.callItemHandler(ItemConsumptionHandler.class, handler -> handler.onConsume(e, p, item));
             } else {
                 e.setCancelled(true);

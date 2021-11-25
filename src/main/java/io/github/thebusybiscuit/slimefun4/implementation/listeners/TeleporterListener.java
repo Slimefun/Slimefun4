@@ -56,7 +56,7 @@ public class TeleporterListener implements Listener {
         Player p = e.getPlayer();
 
         // Fixes #2966 - Check if Players can use these
-        if (item == null || !item.canUse(p, true)) {
+        if (item == null || !item.canUse(p, true, false)) {
             return;
         }
 

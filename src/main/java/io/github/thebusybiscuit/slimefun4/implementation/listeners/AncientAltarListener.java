@@ -110,7 +110,7 @@ public class AncientAltarListener implements Listener {
             e.cancel();
             usePedestal(b, p);
         } else if (id.equals(altarItem.getId())) {
-            if (!altarItem.canUse(p, true) || altarsInUse.contains(b.getLocation())) {
+            if (!altarItem.canUse(p, true, false) || altarsInUse.contains(b.getLocation())) {
                 e.cancel();
                 return;
             }

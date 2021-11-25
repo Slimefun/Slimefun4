@@ -179,7 +179,7 @@ public class Talisman extends SlimefunItem {
         ItemStack talismanItem = talisman.getItem();
 
         if (SlimefunUtils.containsSimilarItem(p.getInventory(), talismanItem, true)) {
-            if (talisman.canUse(p, true)) {
+            if (talisman.canUse(p, true, false)) {
                 activateTalisman(e, p, p.getInventory(), talisman, talismanItem, sendMessage);
                 return true;
             } else {
@@ -189,7 +189,7 @@ public class Talisman extends SlimefunItem {
             ItemStack enderTalisman = talisman.getEnderVariant();
 
             if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) {
-                if (talisman.canUse(p, true)) {
+                if (talisman.canUse(p, true, false)) {
                     activateTalisman(e, p, p.getEnderChest(), talisman, enderTalisman, sendMessage);
                     return true;
                 } else {

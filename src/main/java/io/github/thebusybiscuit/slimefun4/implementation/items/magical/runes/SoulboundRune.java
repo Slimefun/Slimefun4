@@ -50,7 +50,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         return (e, p, item) -> {
             if (isItem(item.getItemStack())) {
 
-                if (!canUse(p, true)) {
+                if (!canUse(p, true, false)) {
                     return true;
                 }
 

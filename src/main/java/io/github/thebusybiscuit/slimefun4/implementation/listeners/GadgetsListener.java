@@ -58,7 +58,7 @@ public class GadgetsListener implements Listener {
             if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
                 InfusedMagnet magnet = (InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem();
 
-                if (magnet.canUse(p, true)) {
+                if (magnet.canUse(p, true, false)) {
                     new InfusedMagnetTask(p, magnet.getRadius()).scheduleRepeating(0, 8);
                 }
             }
@@ -66,7 +66,7 @@ public class GadgetsListener implements Listener {
     }
 
     private void handleChestplate(@Nonnull Player p, @Nullable SlimefunItem chestplate) {
-        if (chestplate == null || !chestplate.canUse(p, true)) {
+        if (chestplate == null || !chestplate.canUse(p, true, false)) {
             return;
         }
 
@@ -82,7 +82,7 @@ public class GadgetsListener implements Listener {
     }
 
     private void handleBoots(@Nonnull Player p, @Nullable SlimefunItem boots) {
-        if (boots instanceof JetBoots && boots.canUse(p, true)) {
+        if (boots instanceof JetBoots && boots.canUse(p, true, false)) {
             double speed = ((JetBoots) boots).getSpeed();
 
             if (speed > 0.2) {

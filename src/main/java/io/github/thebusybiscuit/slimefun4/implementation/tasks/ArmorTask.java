@@ -116,7 +116,7 @@ public class ArmorTask implements Runnable {
                 Slimefun.runSync(() -> {
                     SlimefunArmorPiece slimefunArmor = armorpiece.getItem().get();
 
-                    if (slimefunArmor.canUse(p, true)) {
+                    if (slimefunArmor.canUse(p, true, false)) {
                         for (PotionEffect effect : slimefunArmor.getPotionEffects()) {
                             p.removePotionEffect(effect.getType());
                             p.addPotionEffect(effect);
@@ -137,7 +137,7 @@ public class ArmorTask implements Runnable {
 
         SlimefunItem item = SlimefunItem.getByItem(helmet);
 
-        if (item instanceof SolarHelmet && item.canUse(p, true)) {
+        if (item instanceof SolarHelmet && item.canUse(p, true, false)) {
             ((SolarHelmet) item).rechargeItems(p);
         }
     }

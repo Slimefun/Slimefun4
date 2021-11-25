@@ -84,7 +84,7 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
 
         if (item != null && item.getRecipeType().equals(targetRecipeType)) {
             // Fixes #1161
-            if (item.canUse(p, true)) {
+            if (item.canUse(p, true, true)) {
                 AbstractRecipe recipe = AbstractRecipe.of(item, targetRecipeType);
 
                 if (recipe != null) {

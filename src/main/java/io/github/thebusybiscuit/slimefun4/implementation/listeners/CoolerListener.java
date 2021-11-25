@@ -73,7 +73,7 @@ public class CoolerListener implements Listener {
 
         for (ItemStack item : p.getInventory().getContents()) {
             if (cooler.isItem(item)) {
-                if (cooler.canUse(p, true)) {
+                if (cooler.canUse(p, true, false)) {
                     takeJuiceFromCooler(p, item);
                 } else {
                     return;

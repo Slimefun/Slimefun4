@@ -39,7 +39,7 @@ public class SlimefunItemHitListener implements Listener {
         if (!item.getType().isAir()) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-            if (sfItem != null && sfItem.canUse(p, true)) {
+            if (sfItem != null && sfItem.canUse(p, true, false)) {
                 sfItem.callItemHandler(WeaponUseHandler.class, handler -> handler.onHit(e, p, item));
             }
         }

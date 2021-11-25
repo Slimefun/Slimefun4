@@ -54,7 +54,7 @@ public class MobDropListener implements Listener {
             if (item.getType() != Material.AIR) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-                if (sfItem != null && sfItem.canUse(p, true)) {
+                if (sfItem != null && sfItem.canUse(p, true, false)) {
                     sfItem.callItemHandler(EntityKillHandler.class, handler -> handler.onKill(e, e.getEntity(), p, item));
                 }
             }
@@ -66,7 +66,7 @@ public class MobDropListener implements Listener {
 
         if (sfItem == null) {
             return true;
-        } else if (sfItem.canUse(p, true)) {
+        } else if (sfItem.canUse(p, true, false)) {
             if (sfItem instanceof RandomMobDrop) {
                 int random = ThreadLocalRandom.current().nextInt(100);
 

@@ -1021,6 +1021,7 @@ public class SlimefunItem implements Placeable {
         }
     }
 
+	
     /**
      * This method checks if the given {@link Player} is able to use this {@link SlimefunItem}.
      * A {@link Player} can use it if the following conditions apply:
@@ -1043,6 +1044,33 @@ public class SlimefunItem implements Placeable {
      * @return Whether this {@link Player} is able to use this {@link SlimefunItem}.
      */
     public boolean canUse(@Nonnull Player p, boolean sendMessage) {
+    	return this.canUse(p, sendMessage, false);
+    }
+    
+    /**
+     * This method checks if the given {@link Player} is able to use this {@link SlimefunItem}.
+     * A {@link Player} can use it if the following conditions apply:
+     * 
+     * <ul>
+     * <li>The {@link SlimefunItem} is not disabled
+     * <li>The {@link SlimefunItem} was not disabled for that {@link Player}'s {@link World}.
+     * <li>The {@link Player} has the required {@link Permission} (if present)
+     * <li>The {@link Player} has unlocked the required {@link Research} (if present)
+     * </ul>
+     * 
+     * If any of these conditions evaluate to <code>false</code>, then an optional message will be
+     * sent to the {@link Player}.
+     * 
+     * @param p
+     *            The {@link Player} to check
+     * @param sendMessage
+     *            Whether to send that {@link Player} a message response.
+     * @param forceResearch
+     *            If you should have the reasearch even if dont-need-research-to-use is true
+     * 
+     * @return Whether this {@link Player} is able to use this {@link SlimefunItem}.
+     */
+    public boolean canUse(@Nonnull Player p, boolean sendMessage, boolean forceResearch) {
         Validate.notNull(p, "The Player cannot be null!");
 
         if (getState() == ItemState.VANILLA_FALLBACK) {
@@ -1069,7 +1097,7 @@ public class SlimefunItem implements Placeable {
             }
 
             return false;
-        } else if (hasResearch()) {
+        } else if ((forceResearch || !Slimefun.getCfg().getBoolean("researches.dont-need-research-to-use")) && hasResearch()) {
             Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
             if (!profile.isPresent()) {

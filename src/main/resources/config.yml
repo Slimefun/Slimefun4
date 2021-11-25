@@ -28,6 +28,7 @@ researches:
   free-in-creative-mode: true
   enable-fireworks: true
   disable-learning-animation: false
+  dont-need-research-to-use: false
 
 URID:
   info-delay: 3000

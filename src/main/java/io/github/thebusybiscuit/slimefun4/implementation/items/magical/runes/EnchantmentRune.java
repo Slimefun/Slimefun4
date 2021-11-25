@@ -69,7 +69,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
     public ItemDropHandler getItemHandler() {
         return (e, p, item) -> {
             if (isItem(item.getItemStack())) {
-                if (canUse(p, true)) {
+                if (canUse(p, true, false)) {
                     Slimefun.runSync(() -> {
                         try {
                             addRandomEnchantment(p, item);

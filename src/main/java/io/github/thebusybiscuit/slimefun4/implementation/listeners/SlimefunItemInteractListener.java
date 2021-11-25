@@ -96,7 +96,7 @@ public class SlimefunItemInteractListener implements Listener {
         if (optional.isPresent()) {
             SlimefunItem sfItem = optional.get();
 
-            if (sfItem.canUse(e.getPlayer(), true)) {
+            if (sfItem.canUse(e.getPlayer(), true, false)) {
                 return sfItem.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
             } else {
                 event.setUseItem(Result.DENY);
