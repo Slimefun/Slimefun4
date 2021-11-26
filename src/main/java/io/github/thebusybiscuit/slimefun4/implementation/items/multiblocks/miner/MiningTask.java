@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -196,6 +197,7 @@ class MiningTask implements Runnable {
                         furnace.getWorld().playSound(furnace.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.2F, 1F);
 
                         b.setType(Material.AIR);
+                        BlockStorage.clearBlockInfo(b);
                         fuel--;
                         ores++;
 

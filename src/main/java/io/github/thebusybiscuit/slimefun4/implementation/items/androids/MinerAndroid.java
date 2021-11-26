@@ -161,6 +161,7 @@ public class MinerAndroid extends ProgrammableAndroid {
             }
         } else {
             block.setType(Material.AIR);
+            BlockStorage.clearBlockInfo(block);
         }
     }
 
