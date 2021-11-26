@@ -66,6 +66,11 @@ public class AndroidMineEvent extends Event implements Cancellable {
         return android;
     }
 
+    /**
+     * Obtains the drops that the android will collect
+     *
+     * @return the drops from the {@link Block}
+     */
     @Nonnull
     public List<ItemStack> getDrops() {
         return drops;
