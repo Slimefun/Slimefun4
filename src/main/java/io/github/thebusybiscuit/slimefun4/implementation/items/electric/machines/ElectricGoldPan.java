@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,7 +16,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -28,6 +26,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * It also serves as a {@link NetherGoldPan}.
  * 
  * @author TheBusyBiscuit
+ * @author svr333
  * 
  * @see GoldPan
  * @see NetherGoldPan
@@ -71,7 +70,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
                 continue;
             }
 
-            if (goldPan.isCorrectInputMaterial(item.getType())) {
+            if (goldPan.getInputMaterials().contains(item.getType())) {
                 ItemStack output = goldPan.getRandomOutput();
 
                 MachineRecipe recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { new ItemStack(item.getType()) }, new ItemStack[] { output });
@@ -80,7 +79,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
                     menu.consumeItem(slot);
                     return recipe;
                 }
-            } else if (netherGoldPan.isCorrectInputMaterial(item.getType())) {
+            } else if (netherGoldPan.getInputMaterials().contains(item.getType())) {
                 ItemStack output = netherGoldPan.getRandomOutput();
                 MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { new ItemStack(item.getType()) }, new ItemStack[] { output });
 

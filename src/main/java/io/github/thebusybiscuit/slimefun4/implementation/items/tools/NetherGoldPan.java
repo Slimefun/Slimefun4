@@ -6,8 +6,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.google.common.collect.Sets;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,15 +19,19 @@ import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
  * which can be used on Soul Sand.
  * 
  * @author TheBusyBiscuit
+ * @author svr333
  *
  */
 public class NetherGoldPan extends GoldPan {
 
-    private final Set<Material> inputMaterials = Sets.newHashSet(Material.SOUL_SAND, Material.SOUL_SOIL);
+    private final Set<Material> inputMaterials = new HashSet<>();
 
     @ParametersAreNonnullByDefault
     public NetherGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+
+        inputMaterials.add(Material.SOUL_SAND);
+        inputMaterials.add(Material.SOUL_SOIL);
     }
 
     @Override

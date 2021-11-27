@@ -9,8 +9,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.google.common.collect.Sets;
-
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -42,6 +40,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * resources from Gravel.
  * 
  * @author TheBusyBiscuit
+ * @author svr333
  * 
  * @see NetherGoldPan
  * @see AutomatedPanningMachine
@@ -51,12 +50,14 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
 
     private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
-    private final Set<Material> inputMaterials = Sets.newHashSet(Material.GRAVEL);
+    private final Set<Material> inputMaterials = new HashSet<>();
     private final Set<GoldPanDrop> drops = new HashSet<>();
 
     @ParametersAreNonnullByDefault
     public GoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+
+        inputMaterials.add(Material.GRAVEL);
 
         drops.addAll(getGoldPanDrops());
         addItemSetting(drops.toArray(new GoldPanDrop[0]));
@@ -131,7 +132,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             if (block.isPresent()) {
                 Block b = block.get();
 
-                if (isCorrectInputMaterial(b.getType()) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Interaction.BREAK_BLOCK)) {
+                if (getInputMaterials().contains(b.getType()) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Interaction.BREAK_BLOCK)) {
                     ItemStack output = getRandomOutput();
 
                     b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -178,23 +179,5 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         }
 
         return recipes;
-    }
-
-    /**
-     * This is a helper method to determine whether the input item was a valid item.
-     *
-     * @param material
-     *              The {@link Material} that was input.
-     *
-     * @return whether or not the provided material is allowed.
-     */
-    public @Nonnull boolean isCorrectInputMaterial(Material material) {
-        for (Material m : getInputMaterials()) {
-            if (material == m) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
