@@ -1066,7 +1066,7 @@ public class SlimefunItem implements Placeable {
      * @param sendMessage
      *            Whether to send that {@link Player} a message response.
      * @param forceResearch
-     *            If you should have the reasearch even if require-research-on-use is true
+     *            If you should the research is required even if require-research-on-use is false
      * 
      * @return Whether this {@link Player} is able to use this {@link SlimefunItem}.
      */
