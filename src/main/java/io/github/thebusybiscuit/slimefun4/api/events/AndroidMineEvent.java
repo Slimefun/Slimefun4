@@ -19,6 +19,7 @@ import java.util.List;
  * If this {@link Event} is cancelled, the {@link Block} will not be mined.
  * 
  * @author poma123
+ * @author Seggan
  * 
  */
 public class AndroidMineEvent extends Event implements Cancellable {

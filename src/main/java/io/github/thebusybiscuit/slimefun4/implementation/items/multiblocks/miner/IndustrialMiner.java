@@ -43,6 +43,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
  * long-time deprecated Digital Miner.</i>
  * 
  * @author TheBusyBiscuit
+ * @author Seggan
  * 
  * @see AdvancedIndustrialMiner
  * @see MiningTask

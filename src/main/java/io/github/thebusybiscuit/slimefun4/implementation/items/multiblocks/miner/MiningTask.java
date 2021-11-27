@@ -39,6 +39,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
  * This represents a running instance of an {@link IndustrialMiner}.
  * 
  * @author TheBusyBiscuit
+ * @author Seggan
  * 
  * @see IndustrialMiner
  * @see AdvancedIndustrialMiner

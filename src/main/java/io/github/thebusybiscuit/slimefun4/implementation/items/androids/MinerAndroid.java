@@ -48,6 +48,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @author CyberPatriot
  * @author Redemption198
  * @author Poslovitch
+ * @author Seggan
  *
  * @see AndroidMineEvent
  *
