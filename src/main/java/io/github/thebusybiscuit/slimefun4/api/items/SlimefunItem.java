@@ -1066,7 +1066,7 @@ public class SlimefunItem implements Placeable {
      * @param sendMessage
      *            Whether to send that {@link Player} a message response.
      * @param forceResearch
-     *            If you should have the reasearch even if dont-need-research-to-use is true
+     *            If you should have the reasearch even if require-research-on-use is true
      * 
      * @return Whether this {@link Player} is able to use this {@link SlimefunItem}.
      */
@@ -1097,7 +1097,7 @@ public class SlimefunItem implements Placeable {
             }
 
             return false;
-        } else if ((forceResearch || !Slimefun.getCfg().getBoolean("researches.dont-need-research-to-use")) && hasResearch()) {
+        } else if ((forceResearch || Slimefun.getCfg().getBoolean("researches.require-research-on-use")) && hasResearch()) {
             Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
             if (!profile.isPresent()) {

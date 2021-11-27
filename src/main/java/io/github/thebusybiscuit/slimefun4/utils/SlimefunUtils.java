@@ -426,7 +426,7 @@ public final class SlimefunUtils {
     /**
      * This checks whether the {@link Player} is able to use the given {@link ItemStack}.
      * It will always return <code>true</code> for non-Slimefun items.
-     * Since this is used to determine if a player can make something it ignores your dont-need-research-to-use setting
+     * Since this is used to determine if a player can make something it ignores your require-research-on-use setting
      * <p>
      * If you already have an instance of {@link SlimefunItem}, please use {@link SlimefunItem#canUse(Player, boolean)}.
      *
