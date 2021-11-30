@@ -67,6 +67,8 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     private int energyCapacity = -1;
     private int processingSpeed = -1;
 
+    public boolean showHologram = true;
+
     @ParametersAreNonnullByDefault
     public GEOMiner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -194,7 +196,9 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
-                updateHologram(e.getBlock(), "&7Idling...");
+                if (showHologram) {
+                    updateHologram(e.getBlock(), "&7Idling...");
+                }
             }
         };
     }
@@ -317,7 +321,9 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
                 processor.endOperation(b);
             }
         } else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4)) {
-            updateHologram(b, "&4GEO-Scan required!");
+            if (showHologram) {
+                updateHologram(b, "&4GEO-Scan required!");
+            }
         } else {
             start(b, inv);
         }
@@ -329,7 +335,9 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
                 OptionalInt optional = Slimefun.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                 if (!optional.isPresent()) {
-                    updateHologram(b, "&4GEO-Scan required!");
+                    if (showHologram) {
+                        updateHologram(b, "&4GEO-Scan required!");
+                    }
                     return;
                 }
 
@@ -341,13 +349,17 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
                     processor.startOperation(b, new MiningOperation(resource.getItem().clone(), PROCESSING_TIME));
                     Slimefun.getGPSNetwork().getResourceManager().setSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies - 1);
-                    updateHologram(b, "&7Mining: &r" + resource.getName());
+                    if (showHologram) {
+                        updateHologram(b, "&7Mining: &r" + resource.getName());
+                    }
                     return;
                 }
             }
         }
 
-        updateHologram(b, "&7Finished");
+        if (showHologram) {
+            updateHologram(b, "&7Finished");
+        }
     }
 
 }

@@ -78,6 +78,8 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     private final Set<Location> explosionsQueue = new HashSet<>();
     private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>(this);
 
+    public boolean showHologram = true;
+
     @ParametersAreNonnullByDefault
     protected Reactor(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -431,14 +433,18 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
             for (int slot : getCoolantSlots()) {
                 if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), coolant, true, false)) {
                     menu.consumeItem(slot);
-                    updateHologram(reactor.getBlock(), "&b\u2744 &7100%");
+                    if (showHologram) {
+                        updateHologram(reactor.getBlock(), "&b\u2744 &7100%");
+                    }
                     return true;
                 }
             }
 
             return false;
         } else {
-            updateHologram(reactor.getBlock(), "&b\u2744 &7" + getPercentage(operation.getRemainingTicks(), operation.getTotalTicks()) + "%");
+            if (showHologram) {
+                updateHologram(reactor.getBlock(), "&b\u2744 &7" + getPercentage(operation.getRemainingTicks(), operation.getTotalTicks()) + "%");
+            }
         }
 
         return true;

@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -8,9 +11,12 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramProjector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoManager;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -39,23 +45,35 @@ public class HologramController extends SlimefunItem {
                 Block b = e.getClickedBlock().get();
                 Location l = b.getLocation();
 
-                if (sfBlock.equals(SlimefunItem.getByItem(SlimefunItems.ENERGY_REGULATOR))) {
+                if (sfBlock instanceof EnergyRegulator) {
                     EnergyRegulator regulator = (EnergyRegulator) sfBlock;
-
                     EnergyNet net = EnergyNet.getNetworkFromLocationOrCreate(l);
-                    net.showHologram = !net.showHologram;
 
+                    net.showHologram = !net.showHologram;
                     if (!net.showHologram) {
                         regulator.removeHologram(b);
                     }
-                } else if (sfBlock.equals(SlimefunItem.getByItem(SlimefunItems.CARGO_MANAGER))) {
+                } else if (sfBlock instanceof CargoManager) {
                     CargoManager manager = (CargoManager) sfBlock;
-
                     CargoNet net = CargoNet.getNetworkFromLocationOrCreate(l);
-                    net.showHologram = !net.showHologram;
 
+                    net.showHologram = !net.showHologram;
                     if (!net.showHologram) {
                         manager.removeHologram(b);
+                    }
+                } else if (sfBlock instanceof GEOMiner) {
+                    GEOMiner miner = (GEOMiner) sfBlock;
+
+                    miner.showHologram = !miner.showHologram;
+                    if (!miner.showHologram) {
+                        miner.removeHologram(b);
+                    }
+                } else if (sfBlock instanceof Reactor) {
+                    Reactor reactor = (Reactor) sfBlock;
+
+                    reactor.showHologram = !reactor.showHologram;
+                    if (!reactor.showHologram) {
+                        reactor.removeHologram(b);
                     }
                 }
             }
