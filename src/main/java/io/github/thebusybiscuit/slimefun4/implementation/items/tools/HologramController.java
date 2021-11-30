@@ -20,6 +20,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 
+/**
+ * The {@link HologramController} is a utility that can
+ * toggle the hologram above various machines.
+ *
+ * @author Apeiros-46B
+ *
+ */
 public class HologramController extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
