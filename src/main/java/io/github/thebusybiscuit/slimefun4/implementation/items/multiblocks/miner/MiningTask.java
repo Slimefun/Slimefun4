@@ -39,7 +39,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
  * This represents a running instance of an {@link IndustrialMiner}.
  * 
  * @author TheBusyBiscuit
- * @author Seggan
  * 
  * @see IndustrialMiner
  * @see AdvancedIndustrialMiner
@@ -198,7 +197,6 @@ class MiningTask implements Runnable {
                         furnace.getWorld().playSound(furnace.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.2F, 1F);
 
                         b.setType(Material.AIR);
-                        BlockStorage.clearBlockInfo(b);
                         fuel--;
                         ores++;
 
