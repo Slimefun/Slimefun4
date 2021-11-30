@@ -50,6 +50,8 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
     protected final Map<Location, Integer> roundRobin = new HashMap<>();
     private int tickDelayThreshold = 0;
 
+    public boolean showHologram = true;
+
     @Nullable
     public static CargoNet getNetworkFromLocation(@Nonnull Location l) {
         return Slimefun.getNetworkManager().getNetworkFromLocation(l, CargoNet.class).orElse(null);
@@ -161,7 +163,9 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
             updateHologram(b, "&cNo Cargo Nodes found");
         } else {
-            updateHologram(b, "&7Status: &a&lONLINE");
+            if (showHologram) {
+                updateHologram(b, "&7Status: &a&lONLINE");
+            }
 
             // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
             // but it's based on 'custom-ticker-delay' config.

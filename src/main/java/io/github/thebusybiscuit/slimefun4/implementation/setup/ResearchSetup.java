@@ -174,7 +174,7 @@ public final class ResearchSetup {
         register("android_memory_core", 163, "Memory Core", 28, SlimefunItems.ANDROID_MEMORY_CORE);
         register("oil", 164, "Oil", 30, SlimefunItems.OIL_BUCKET, SlimefunItems.OIL_PUMP);
         register("fuel", 165, "Fuel", 30, SlimefunItems.FUEL_BUCKET, SlimefunItems.REFINERY);
-        register("hologram_projector", 166, "Holograms", 36, SlimefunItems.HOLOGRAM_PROJECTOR);
+        register("hologram_projector", 166, "Holograms", 36, SlimefunItems.HOLOGRAM_PROJECTOR, SlimefunItems.HOLOGRAM_CONTROLLER);
         register("capacitors", 167, "Tier 1 Capacitors", 25, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.BIG_CAPACITOR);
         register("high_tier_capacitors", 168, "Tier 2 Capacitors", 32, SlimefunItems.LARGE_CAPACITOR, SlimefunItems.CARBONADO_EDGED_CAPACITOR);
         register("solar_generators", 169, "Solar Power Plant", 14, SlimefunItems.SOLAR_GENERATOR);
