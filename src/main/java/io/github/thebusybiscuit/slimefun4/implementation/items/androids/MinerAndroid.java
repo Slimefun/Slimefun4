@@ -48,7 +48,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @author CyberPatriot
  * @author Redemption198
  * @author Poslovitch
- * @author Seggan
  *
  * @see AndroidMineEvent
  *
@@ -77,13 +76,7 @@ public class MinerAndroid extends ProgrammableAndroid {
     @Override
     @ParametersAreNonnullByDefault
     protected void dig(Block b, BlockMenu menu, Block block) {
-        List<ItemStack> drops = new ArrayList<>();
-        SlimefunItem item = BlockStorage.check(block);
-        if (item != null) {
-            drops.add(item.getItem().clone());
-        } else {
-            drops.addAll(block.getDrops(effectivePickaxe));
-        }
+        Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
         if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
@@ -105,13 +98,7 @@ public class MinerAndroid extends ProgrammableAndroid {
     @Override
     @ParametersAreNonnullByDefault
     protected void moveAndDig(Block b, BlockMenu menu, BlockFace face, Block block) {
-        List<ItemStack> drops = new ArrayList<>();
-        SlimefunItem item = BlockStorage.check(block);
-        if (item != null) {
-            drops.add(item.getItem().clone());
-        } else {
-            drops.addAll(block.getDrops(effectivePickaxe));
-        }
+        Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
         if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));

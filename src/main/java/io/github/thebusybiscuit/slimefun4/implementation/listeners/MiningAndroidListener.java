@@ -11,6 +11,9 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Collection;
 
 /**
  * This {@link Listener} makes sure that an {@link AndroidMineEvent} gets properly propagated
@@ -18,6 +21,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * If that block is a {@link SlimefunItem} of course.
  * 
  * @author TheBusyBiscuit
+ * @author Seggan
  * 
  * @see BlockBreakHandler
  *
@@ -37,6 +41,10 @@ public class MiningAndroidListener implements Listener {
             slimefunItem.callItemHandler(BlockBreakHandler.class, handler -> {
                 if (handler.isAndroidAllowed(e.getBlock())) {
                     handler.onAndroidBreak(e);
+
+                    Collection<ItemStack> drops = e.getDrops();
+                    drops.clear();
+                    drops.add(slimefunItem.getItem().clone());
                 } else {
                     e.setCancelled(true);
                 }

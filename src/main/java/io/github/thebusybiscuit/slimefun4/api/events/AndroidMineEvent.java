@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidI
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
 
     private final Block block;
     private final AndroidInstance android;
-    private final List<ItemStack> drops;
+    private final Collection<ItemStack> drops;
     private boolean cancelled;
 
     /**
@@ -40,7 +41,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      *            The {@link List} of {@link ItemStack}s that will be dropped
      */
     @ParametersAreNonnullByDefault
-    public AndroidMineEvent(Block block, AndroidInstance android, List<ItemStack> drops) {
+    public AndroidMineEvent(Block block, AndroidInstance android, Collection<ItemStack> drops) {
         this.block = block;
         this.android = android;
         this.drops = drops;
@@ -73,7 +74,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      * @return the drops from the {@link Block}
      */
     @Nonnull
-    public List<ItemStack> getDrops() {
+    public Collection<ItemStack> getDrops() {
         return drops;
     }
 
