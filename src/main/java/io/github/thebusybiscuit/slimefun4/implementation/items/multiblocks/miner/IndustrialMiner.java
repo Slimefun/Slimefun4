@@ -67,16 +67,7 @@ public class IndustrialMiner extends MultiBlockMachine {
         }, BlockFace.UP);
         // @formatter:on
 
-        MinecraftVersion minecraftVersion = Slimefun.getMinecraftVersion();
-
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            this.oreDictionary = new OreDictionary17();
-        } else if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            this.oreDictionary = new OreDictionary16();
-        } else {
-            this.oreDictionary = new OreDictionary14();
-        }
-
+        this.oreDictionary = OreDictionary.forVersion(Slimefun.getMinecraftVersion());
         this.range = range;
         this.silkTouch = silkTouch;
 
@@ -141,7 +132,7 @@ public class IndustrialMiner extends MultiBlockMachine {
             return new ItemStack(material);
         } else {
             Random random = ThreadLocalRandom.current();
-            return oreDictionary.forMaterial(material, random);
+            return oreDictionary.getDrops(material, random);
         }
     }
 

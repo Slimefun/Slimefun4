@@ -18,7 +18,7 @@ class OreDictionary14 implements OreDictionary {
 
     @Override
     @ParametersAreNonnullByDefault
-    public @Nonnull ItemStack forMaterial(Material material, Random random) {
+    public @Nonnull ItemStack getDrops(Material material, Random random) {
         switch (material) {
             case COAL_ORE:
                 return new ItemStack(Material.COAL);

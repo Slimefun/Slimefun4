@@ -17,7 +17,7 @@ class OreDictionary17 extends OreDictionary16 {
 
     @Override
     @ParametersAreNonnullByDefault
-    public ItemStack forMaterial(Material material, Random random) {
+    public ItemStack getDrops(Material material, Random random) {
         // In 1.17, breaking metal ores should get raw metals. Also support deepslate ores.
         switch (material) {
             case COAL_ORE:
@@ -45,7 +45,7 @@ class OreDictionary17 extends OreDictionary16 {
             case DEEPSLATE_GOLD_ORE:
                 return new ItemStack(Material.RAW_GOLD);
             default:
-                return super.forMaterial(material, random);
+                return super.getDrops(material, random);
         }
     }
 
