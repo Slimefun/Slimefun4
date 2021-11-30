@@ -21,7 +21,7 @@ jobs:
       uses: actions/checkout@v2.4.0
 
     - name: Set up Java JDK 11
-      uses: actions/setup-java@v2.3.1
+      uses: actions/setup-java@v2.4.0
       with:
         distribution: 'adopt'
         java-version: '11'

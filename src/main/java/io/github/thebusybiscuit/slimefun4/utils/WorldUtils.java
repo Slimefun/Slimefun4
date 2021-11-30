@@ -30,6 +30,11 @@ public final class WorldUtils {
     public static int getMinHeight(@Nonnull World world) {
         Validate.notNull(world, "World cannot be null!");
 
-        return Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) ? world.getMinHeight() : 0;
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            return world.getMinHeight();
+        } else {
+            // Default to zero for pre-1.16 worlds
+            return 0;
+        }
     }
 }
