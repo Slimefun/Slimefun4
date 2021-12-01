@@ -10,6 +10,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * The {@link FilledKnowledgeFlask} is a {@link NotConfigurable} {@link SlimefunItem}
+ * that results from interacting with a {@link KnowledgeFlask}.
+ *
+ * @see KnowledgeFlask
+ *
+ */
 public class FilledKnowledgeFlask extends SlimefunItem implements NotConfigurable {
 
     @ParametersAreNonnullByDefault
