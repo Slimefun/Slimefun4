@@ -26,7 +26,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Spigot properties -->
-        <spigot.version>1.17</spigot.version>
+        <spigot.version>1.18-pre5</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->

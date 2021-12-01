@@ -78,7 +78,7 @@ class TestResourceRegistration {
 
         Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.BEACH));
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.DESERT) > 10);
-        Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.MOUNTAINS) > 10);
+//        Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.MOUNTAINS) > 10);
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.ICE_SPIKES) > 10);
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.BADLANDS) > 10);
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.OCEAN) > 10);
@@ -102,7 +102,7 @@ class TestResourceRegistration {
         NamespacedKey key = new NamespacedKey(plugin, "uranium");
         GEOResource resource = testResource(key, "Small Chunks of Uranium", SlimefunItems.SMALL_URANIUM, true, 2);
 
-        Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.MOUNTAINS));
+        Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.COLD_OCEAN));
         Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER_WASTES));
         Assertions.assertEquals(0, resource.getDefaultSupply(Environment.THE_END, Biome.THE_END));
     }
@@ -116,7 +116,7 @@ class TestResourceRegistration {
         Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER_WASTES));
         Assertions.assertEquals(0, resource.getDefaultSupply(Environment.THE_END, Biome.THE_END));
 
-        Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.MOUNTAINS));
+        Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.COLD_OCEAN));
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.BEACH) > 10);
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.OCEAN) > 10);
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.SWAMP) > 10);

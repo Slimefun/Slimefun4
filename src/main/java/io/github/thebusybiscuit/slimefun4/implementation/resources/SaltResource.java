@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.resources;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 
@@ -20,16 +22,30 @@ class SaltResource extends SlimefunResource {
 
     @Override
     public int getDefaultSupply(Environment environment, Biome biome) {
-
         if (environment != Environment.NORMAL) {
             return 0;
         }
 
+        // TODO: Think of a better way to support biomes.
+        // Maybe worth making an issue/PR to Spigot in order to add the "biomes" registry.
+        if (Slimefun.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_18)) {
+            switch (biome.name()) {
+                case "STONE_SHORE":
+                case "DESERT_LAKES":
+                    return 40;
+                case "DEEP_WARM_OCEAN":
+                    return 60;
+                case "SWAMP_HILLS":
+                    return 20;
+                default:
+                    break;
+            }
+        }
+
         switch (biome) {
             case SNOWY_BEACH:
-            case STONE_SHORE:
+            case STONY_SHORE:
             case BEACH:
-            case DESERT_LAKES:
             case RIVER:
             case ICE_SPIKES:
             case FROZEN_RIVER:
@@ -41,14 +57,12 @@ class SaltResource extends SlimefunResource {
             case DEEP_COLD_OCEAN:
             case DEEP_FROZEN_OCEAN:
             case DEEP_LUKEWARM_OCEAN:
-            case DEEP_WARM_OCEAN:
             case FROZEN_OCEAN:
             case LUKEWARM_OCEAN:
             case WARM_OCEAN:
                 return 60;
 
             case SWAMP:
-            case SWAMP_HILLS:
                 return 20;
 
             default:

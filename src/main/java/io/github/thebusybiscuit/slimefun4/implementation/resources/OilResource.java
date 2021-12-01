@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.resources;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 
@@ -26,43 +28,61 @@ class OilResource extends SlimefunResource {
 
     @Override
     public int getDefaultSupply(Environment environment, Biome biome) {
-
         if (environment != Environment.NORMAL) {
             return 0;
         }
 
+        // TODO: Think of a better way to support biomes.
+        // Maybe worth making an issue/PR to Spigot in order to add the "biomes" registry.
+        if (Slimefun.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_18)) {
+            switch (biome.name()) {
+                case "STONE_SHORE":
+                    return 6;
+                case "DESERT_HILLS":
+                case "DESERT_LAKES":
+                    return 45;
+                case "MOUNTAINS":
+                case "GRAVELLY_MOUNTAINS":
+                case "MOUNTAIN_EDGE":
+                    return 17;
+                case "SNOWY_MOUNTAINS":
+                case "SNOWY_TUNDRA":
+                    return 14;
+                case "BADLANDS_PLATEAU":
+                case "WOODED_BADLANDS_PLATEAU":
+                case "MODIFIED_BADLANDS_PLATEAU":
+                case "MODIFIED_WOODED_BADLANDS_PLATEAU":
+                case "MUSHROOM_FIELD_SHORE":
+                    return 24;
+                case "DEEP_WARM_OCEAN":
+                    return 62;
+                case "SWAMP_HILLS":
+                    return 20;
+                default:
+                    break;
+            }
+        }
+
         switch (biome) {
             case SNOWY_BEACH:
-            case STONE_SHORE:
+            case STONY_SHORE:
             case BEACH:
                 return 6;
 
             case DESERT:
-            case DESERT_HILLS:
-            case DESERT_LAKES:
                 return 45;
 
-            case MOUNTAINS:
-            case GRAVELLY_MOUNTAINS:
-            case MOUNTAIN_EDGE:
             case RIVER:
                 return 17;
 
-            case SNOWY_MOUNTAINS:
-            case SNOWY_TUNDRA:
             case ICE_SPIKES:
             case FROZEN_OCEAN:
             case FROZEN_RIVER:
                 return 14;
 
             case BADLANDS:
-            case BADLANDS_PLATEAU:
-            case WOODED_BADLANDS_PLATEAU:
             case ERODED_BADLANDS:
-            case MODIFIED_BADLANDS_PLATEAU:
-            case MODIFIED_WOODED_BADLANDS_PLATEAU:
             case MUSHROOM_FIELDS:
-            case MUSHROOM_FIELD_SHORE:
                 return 24;
 
             case DEEP_OCEAN:
@@ -71,18 +91,15 @@ class OilResource extends SlimefunResource {
             case DEEP_COLD_OCEAN:
             case DEEP_FROZEN_OCEAN:
             case DEEP_LUKEWARM_OCEAN:
-            case DEEP_WARM_OCEAN:
             case LUKEWARM_OCEAN:
             case WARM_OCEAN:
                 return 62;
 
             case SWAMP:
-            case SWAMP_HILLS:
                 return 20;
 
             default:
                 return 10;
         }
     }
-
 }
