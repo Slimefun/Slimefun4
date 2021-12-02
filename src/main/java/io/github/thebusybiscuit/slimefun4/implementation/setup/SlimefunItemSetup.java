@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.HiddenItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
@@ -137,7 +138,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSControlPan
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSMarkerTool;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.FilledKnowledgeFlask;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfernalBonemeal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedHopper;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
@@ -1366,7 +1366,7 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.FLASK_OF_KNOWLEDGE, 8))
         .register(plugin);
 
-        new FilledKnowledgeFlask(categories.magicalGadgets, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, RecipeType.INTERACT,
+        new HiddenItem(categories.magicalGadgets, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, RecipeType.INTERACT,
         new ItemStack[] {SlimefunItems.FLASK_OF_KNOWLEDGE, null, null, null, null, null, null, null, null})
         .register(plugin);
 
