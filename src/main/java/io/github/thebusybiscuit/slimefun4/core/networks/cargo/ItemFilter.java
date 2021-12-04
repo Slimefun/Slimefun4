@@ -169,7 +169,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
     @Override
     public boolean test(@Nonnull ItemStack item) {
-        Debug.log(TestCase.CARGO_INPUT_TESTING, "ItemFilter#test({})", item);
+        // Debug.log(TestCase.CARGO_INPUT_TESTING, "ItemFilter#test({})", item);
         /*
          * An empty Filter does not need to be iterated over.
          * We can just return our default value in this scenario.

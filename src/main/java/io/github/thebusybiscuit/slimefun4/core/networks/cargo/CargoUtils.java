@@ -261,7 +261,7 @@ final class CargoUtils {
 
     @Nullable
     static ItemStack insert(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, boolean smartFill, ItemStack stack, ItemStackWrapper wrapper) {
-        Debug.log(TestCase.CARGO_INPUT_TESTING, "CargoUtils#insert");
+        // Debug.log(TestCase.CARGO_INPUT_TESTING, "CargoUtils#insert");
         if (!matchesFilter(network, node, stack)) {
             return stack;
         }
