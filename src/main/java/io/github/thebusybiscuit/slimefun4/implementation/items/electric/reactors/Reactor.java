@@ -10,6 +10,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -491,6 +494,11 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
         } else {
             return null;
         }
+    }
+
+    @Override
+    public void preRegister() {
+        addItemHandler(onPlace());
     }
 
 }

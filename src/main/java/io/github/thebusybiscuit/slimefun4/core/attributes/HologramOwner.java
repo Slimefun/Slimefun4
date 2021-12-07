@@ -2,8 +2,11 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.util.Vector;
 
 import io.github.bakedlibs.dough.common.ChatColors;
@@ -40,7 +43,7 @@ public interface HologramOwner extends ItemAttribute {
      * This will remove the hologram for the given {@link Block}.
      * 
      * @param b
-     *            The {@link Block} to which the hologram blocks
+     *            The {@link Block} to which the hologram belongs
      */
     default void removeHologram(@Nonnull Block b) {
         Location loc = b.getLocation().add(getHologramOffset(b));
@@ -60,6 +63,27 @@ public interface HologramOwner extends ItemAttribute {
     @Nonnull
     default Vector getHologramOffset(@Nonnull Block block) {
         return Slimefun.getHologramsService().getDefaultOffset();
+    }
+
+    @Nonnull
+    default BlockPlaceHandler onPlace() {
+        return new BlockPlaceHandler(false) {
+
+            @Override
+            public void onPlayerPlace(BlockPlaceEvent e) {
+                Runnable runnable = () -> {
+                    HologramsService service = Slimefun.getHologramsService();
+                    service.getHologram(e.getBlock().getLocation().add(service.getDefaultOffset()), true);
+                };
+
+                if (Bukkit.isPrimaryThread()) {
+                    runnable.run();
+                } else {
+                    Slimefun.runSync(runnable);
+                }
+            }
+
+        };
     }
 
 }

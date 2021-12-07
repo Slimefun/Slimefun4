@@ -1,20 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoManager;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -47,35 +55,27 @@ public class HologramController extends SlimefunItem {
                 Block b = e.getClickedBlock().get();
                 Location l = b.getLocation();
 
-                if (sfBlock instanceof EnergyRegulator) {
-                    EnergyRegulator regulator = (EnergyRegulator) sfBlock;
-                    EnergyNet net = EnergyNet.getNetworkFromLocationOrCreate(l);
+                if (sfBlock instanceof HologramOwner) {
+                    HologramOwner holoOwner = (HologramOwner) sfBlock;
 
-                    net.showHologram = !net.showHologram;
-                    if (!net.showHologram) {
-                        regulator.removeHologram(b);
-                    }
-                } else if (sfBlock instanceof CargoManager) {
-                    CargoManager manager = (CargoManager) sfBlock;
-                    CargoNet net = CargoNet.getNetworkFromLocationOrCreate(l);
+                    Runnable runnable = () -> {
+                        HologramsService service = Slimefun.getHologramsService();
+                        Location holoLoc = l.add(holoOwner.getHologramOffset(b));
 
-                    net.showHologram = !net.showHologram;
-                    if (!net.showHologram) {
-                        manager.removeHologram(b);
-                    }
-                } else if (sfBlock instanceof GEOMiner) {
-                    GEOMiner miner = (GEOMiner) sfBlock;
+                        if (service.getHologram(holoLoc, true) != null) {
+                            holoOwner.removeHologram(b);
+                        } else {
+                            ArmorStand armorstand = (ArmorStand) holoLoc.getWorld().spawnEntity(holoLoc, EntityType.ARMOR_STAND);
+                            PersistentDataContainer container = armorstand.getPersistentDataContainer();
 
-                    miner.showHologram = !miner.showHologram;
-                    if (!miner.showHologram) {
-                        miner.removeHologram(b);
-                    }
-                } else if (sfBlock instanceof Reactor) {
-                    Reactor reactor = (Reactor) sfBlock;
+                            service.getAsHologram(new BlockPosition(holoLoc), armorstand, container);
+                        }
+                    };
 
-                    reactor.showHologram = !reactor.showHologram;
-                    if (!reactor.showHologram) {
-                        reactor.removeHologram(b);
+                    if (Bukkit.isPrimaryThread()) {
+                        runnable.run();
+                    } else {
+                        Slimefun.runSync(runnable);
                     }
                 }
             }

@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -49,8 +51,6 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
     protected final Map<Location, Integer> roundRobin = new HashMap<>();
     private int tickDelayThreshold = 0;
-
-    public boolean showHologram = true;
 
     @Nullable
     public static CargoNet getNetworkFromLocation(@Nonnull Location l) {
@@ -153,6 +153,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
     }
 
     public void tick(@Nonnull Block b) {
+
         if (!regulator.equals(b.getLocation())) {
             updateHologram(b, "&4Multiple Cargo Regulators connected");
             return;
@@ -163,9 +164,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
             updateHologram(b, "&cNo Cargo Nodes found");
         } else {
-            if (showHologram) {
-                updateHologram(b, "&7Status: &a&lONLINE");
-            }
+            updateHologram(b, "&7Status: &a&lONLINE");
 
             // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
             // but it's based on 'custom-ticker-delay' config.
