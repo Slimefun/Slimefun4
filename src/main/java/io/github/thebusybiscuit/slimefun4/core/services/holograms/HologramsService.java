@@ -127,7 +127,7 @@ public class HologramsService {
      * @return The existing (or newly created) hologram
      */
     @Nullable
-    private Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
+    public Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
         Validate.notNull(loc, "Location cannot be null");
 
         BlockPosition position = new BlockPosition(loc);

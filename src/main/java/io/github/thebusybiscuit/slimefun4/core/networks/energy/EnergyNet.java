@@ -54,8 +54,6 @@ public class EnergyNet extends Network implements HologramOwner {
         super(Slimefun.getNetworkManager(), l);
     }
 
-    public boolean showHologram = true;
-
     @Override
     public int getRange() {
         return RANGE;
@@ -161,10 +159,7 @@ public class EnergyNet extends Network implements HologramOwner {
             }
 
             storeRemainingEnergy(remainingEnergy);
-
-            if (showHologram) {
-                updateHologram(b, supply, demand);
-            }
+            updateHologram(b, supply, demand);
         }
 
         // We have subtracted the timings from Generators, so they do not show up twice.
