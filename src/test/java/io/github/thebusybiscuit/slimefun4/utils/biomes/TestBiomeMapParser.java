@@ -1,0 +1,78 @@
+package io.github.thebusybiscuit.slimefun4.utils.biomes;
+
+import java.util.function.Function;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.NamespacedKey;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import com.google.gson.JsonElement;
+
+import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+
+class TestBiomeMapParser {
+
+    private static final Function<JsonElement, String> AS_STRING = JsonElement::getAsString;
+    private static final Function<JsonElement, Integer> AS_INT = JsonElement::getAsInt;
+
+    private static Slimefun plugin;
+    private static NamespacedKey key;
+
+    @BeforeAll
+    public static void load() {
+        MockBukkit.mock();
+        plugin = MockBukkit.load(Slimefun.class);
+        key = new NamespacedKey(plugin, "test");
+    }
+
+    @AfterAll
+    public static void unload() {
+        MockBukkit.unmock();
+    }
+
+    @Test
+    @DisplayName("Test JSON Parsing Error handling")
+    void testInvalidJson() {
+        assertMisconfiguration(AS_STRING, "");
+        assertMisconfiguration(AS_STRING, "1234");
+        assertMisconfiguration(AS_STRING, "hello world");
+        assertMisconfiguration(AS_STRING, "{}");
+    }
+
+    @Test
+    @DisplayName("Test Array not having proper children")
+    void testInvalidArrayChildren() {
+        assertMisconfiguration(AS_STRING, "[1, 2, 3]");
+        assertMisconfiguration(AS_STRING, "[[1], [2]]");
+        assertMisconfiguration(AS_STRING, "[\"foo\", \"bar\"]");
+    }
+
+    @Test
+    @DisplayName("Test Array entries being misconfigured")
+    void testInvalidEntries() {
+        assertMisconfiguration(AS_STRING, "[{}]");
+        assertMisconfiguration(AS_STRING, "[{\"id\": \"one\"}]");
+    }
+
+    @Test
+    @DisplayName("Test Array entries being incomplete")
+    void testIncompleteEntries() {
+        assertMisconfiguration(AS_STRING, "[{\"value\": \"cool\"}]");
+        assertMisconfiguration(AS_STRING, "[{\"biomes\": []}]");
+    }
+
+    @ParametersAreNonnullByDefault
+    private <T> void assertMisconfiguration(Function<JsonElement, T> function, String json) {
+        BiomeMapParser<T> parser = new BiomeMapParser<>(key, function);
+        Assertions.assertThrows(BiomeMapException.class, () -> parser.read(json));
+    }
+
+}
