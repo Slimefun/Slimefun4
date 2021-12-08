@@ -72,6 +72,12 @@ public class BiomeMap<T> implements Keyed {
         dataMap.putAll(map.dataMap);
     }
 
+    public boolean remove(@Nonnull Biome biome) {
+        Validate.notNull(biome, "The biome cannot be null.");
+
+        return dataMap.remove(biome) != null;
+    }
+
     /**
      * {@inheritDoc}
      */
