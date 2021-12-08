@@ -42,7 +42,7 @@ public class BiomeMapException extends Exception {
      */
     @ParametersAreNonnullByDefault
     public BiomeMapException(NamespacedKey key, Throwable cause) {
-        super("Tag '" + key + "' has been misconfigured (" + cause.getMessage() + ')', cause);
+        super("Biome Map '" + key + "' has been misconfigured (" + cause.getMessage() + ')', cause);
     }
 
 }
