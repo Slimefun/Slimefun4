@@ -33,8 +33,11 @@
 ## Release Candidate 30 (TBD)
 
 #### Additions
+* (API) Added "Biome-Maps" for more in-depth GEO resource configuration (developers only for now)
 
 #### Changes
+* GEO resource distributions have been slightly adjusted
+* Salt can now also generate in the Nether (as a GEO resource)
 
 #### Fixes
 * Crimson and Warped Pressure Plates are now properly recognized as pressure plates
