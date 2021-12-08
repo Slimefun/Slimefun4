@@ -5,7 +5,6 @@ import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -24,17 +23,25 @@ import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
+/**
+ * The {@link BiomeMapParser} allows you to parse json data into a {@link BiomeMap}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @param <T>
+ *            The data type of the resulting {@link BiomeMap}
+ */
 class BiomeMapParser<T> {
 
     private static final String VALUE_KEY = "value";
     private static final String BIOMES_KEY = "biomes";
 
     private final NamespacedKey key;
-    private final Function<JsonElement, T> valueConverter;
+    private final BiomeDataConverter<T> valueConverter;
     private final Map<Biome, T> map = new EnumMap<>(Biome.class);
 
     @ParametersAreNonnullByDefault
-    BiomeMapParser(NamespacedKey key, Function<JsonElement, T> valueConverter) {
+    BiomeMapParser(NamespacedKey key, BiomeDataConverter<T> valueConverter) {
         Validate.notNull(key, "The key shall not be null.");
         Validate.notNull(valueConverter, "You must provide a Function to convert raw json values to your desired data type.");
 
@@ -76,7 +83,7 @@ class BiomeMapParser<T> {
         Validate.notNull(entry, "The JSON entry should not be null!");
 
         if (entry.has(VALUE_KEY)) {
-            T value = valueConverter.apply(entry.get(VALUE_KEY));
+            T value = valueConverter.convert(entry.get(VALUE_KEY));
 
             if (entry.has(BIOMES_KEY) && entry.get(BIOMES_KEY).isJsonArray()) {
                 Set<Biome> biomes = readBiomes(entry.get(BIOMES_KEY).getAsJsonArray());

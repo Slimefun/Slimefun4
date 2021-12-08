@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -21,13 +20,44 @@ import org.bukkit.block.Biome;
 import com.google.gson.JsonElement;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
+/**
+ * {@link BiomeMap}s are used to map data values to {@link Biome} constants.
+ * <p>
+ * We heavily utilise this method of data mapping for {@link GEOResource}s, especially
+ * when supporting multiple versions of Minecraft. This way, we can have different {@link BiomeMap}s
+ * for different versions of Minecraft, incase {@link Biome} names change inbetween versions.
+ * <p>
+ * The data type can be any type of {@link Object}.
+ * The most common type is {@link Integer}, if you are using complex objects and try to read
+ * your {@link BiomeMap} from a {@link JsonElement}, make sure to provide an adequate
+ * {@link BiomeDataConverter} to convert the raw json data.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @param <T>
+ *            The stored data type
+ */
 public class BiomeMap<T> implements Keyed {
 
+    /**
+     * Our internal {@link EnumMap} holding all the data.
+     */
     private final Map<Biome, T> dataMap = new EnumMap<>(Biome.class);
+
+    /**
+     * The {@link NamespacedKey} to identify this {@link BiomeMap}.
+     */
     private final NamespacedKey namespacedKey;
 
+    /**
+     * This constructs a new {@link BiomeMap} with the given {@link NamespacedKey}.
+     * 
+     * @param namespacedKey
+     *            The {@link NamespacedKey} for this {@link BiomeMap}
+     */
     @ParametersAreNonnullByDefault
     public BiomeMap(NamespacedKey namespacedKey) {
         Validate.notNull(namespacedKey, "The key must not be null.");
@@ -86,13 +116,16 @@ public class BiomeMap<T> implements Keyed {
         return namespacedKey;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "BiomeMap " + dataMap.toString();
     }
 
     @ParametersAreNonnullByDefault
-    public static <T> @Nonnull BiomeMap<T> fromJson(NamespacedKey key, String json, Function<JsonElement, T> valueConverter) throws BiomeMapException {
+    public static <T> @Nonnull BiomeMap<T> fromJson(NamespacedKey key, String json, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
         // All parameters are validated by the Parser.
         BiomeMapParser<T> parser = new BiomeMapParser<>(key, valueConverter);
         parser.read(json);
@@ -100,7 +133,7 @@ public class BiomeMap<T> implements Keyed {
     }
 
     @ParametersAreNonnullByDefault
-    public static <T> @Nonnull BiomeMap<T> fromResource(NamespacedKey key, String path, Function<JsonElement, T> valueConverter) throws BiomeMapException {
+    public static <T> @Nonnull BiomeMap<T> fromResource(NamespacedKey key, String path, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
         Validate.notNull(key, "The key shall not be null.");
         Validate.notNull(path, "The path should not be null!");
 
