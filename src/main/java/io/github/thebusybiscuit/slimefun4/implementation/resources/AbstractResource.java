@@ -27,7 +27,7 @@ import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
  * @author TheBusyBiscuit
  *
  */
-abstract class SlimefunResource implements GEOResource {
+abstract class AbstractResource implements GEOResource {
 
     private final NamespacedKey key;
     private final String defaultName;
@@ -36,7 +36,7 @@ abstract class SlimefunResource implements GEOResource {
     private final boolean geoMiner;
 
     @ParametersAreNonnullByDefault
-    SlimefunResource(String key, String defaultName, ItemStack item, int maxDeviation, boolean geoMiner) {
+    AbstractResource(String key, String defaultName, ItemStack item, int maxDeviation, boolean geoMiner) {
         Validate.notNull(key, "NamespacedKey cannot be null!");
         Validate.notNull(defaultName, "The default name cannot be null!");
         Validate.notNull(item, "item cannot be null!");
@@ -81,14 +81,14 @@ abstract class SlimefunResource implements GEOResource {
      * a resource file.
      * 
      * @param resource
-     *            The {@link SlimefunResource} instance
+     *            The {@link AbstractResource} instance
      * @param path
      *            The path to our biome map file
      * 
      * @return A {@link BiomeMap} for this resource
      */
     @ParametersAreNonnullByDefault
-    static final @Nonnull BiomeMap<Integer> getBiomeMap(SlimefunResource resource, String path) {
+    static final @Nonnull BiomeMap<Integer> getBiomeMap(AbstractResource resource, String path) {
         Validate.notNull(resource, "Resource cannot be null");
         Validate.notNull(path, "Path cannot be null");
 
