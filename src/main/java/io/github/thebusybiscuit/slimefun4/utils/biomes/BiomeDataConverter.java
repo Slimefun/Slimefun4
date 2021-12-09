@@ -22,7 +22,7 @@ public interface BiomeDataConverter<T> {
      * Override this method and provide a way to convert a {@link JsonElement} into your
      * desired data type.
      * <p>
-     * For primitive data values, you you can also just use the following method references:
+     * For primitive data values, you can also just use the following method references:
      * 
      * <ul>
      * <li>JsonElement::getAsString</li>
