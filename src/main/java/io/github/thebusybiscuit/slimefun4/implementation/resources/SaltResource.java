@@ -23,7 +23,7 @@ class SaltResource extends AbstractResource {
     SaltResource() {
         super("salt", "Salt", SlimefunItems.SALT, 18, true);
 
-        biomes = getBiomeMap(this, "/biome-maps/salt.json");
+        biomes = getBiomeMap(this, "/biome-maps/salt_v1.14.json");
     }
 
     @Override

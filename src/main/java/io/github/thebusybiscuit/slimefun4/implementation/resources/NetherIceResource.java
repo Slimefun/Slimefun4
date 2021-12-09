@@ -25,11 +25,11 @@ class NetherIceResource extends AbstractResource {
     NetherIceResource() {
         super("nether_ice", "Nether Ice", SlimefunItems.NETHER_ICE, 6, true);
 
-        // 1.16+ introduced Nether biomes
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            biomes = getBiomeMap(this, "/biome-maps/nether_ice.1_16.json");
+            // 1.16+ introduced Nether biomes
+            biomes = getBiomeMap(this, "/biome-maps/nether_ice_v1.16.json");
         } else {
-            biomes = getBiomeMap(this, "/biome-maps/nether_ice.json");
+            biomes = getBiomeMap(this, "/biome-maps/nether_ice_v1.14.json");
         }
     }
 

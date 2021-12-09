@@ -28,7 +28,7 @@ class OilResource extends AbstractResource {
     OilResource() {
         super("oil", "Oil", SlimefunItems.OIL_BUCKET, 8, false);
 
-        biomes = getBiomeMap(this, "/biome-maps/oil.json");
+        biomes = getBiomeMap(this, "/biome-maps/oil_v1.14.json");
     }
 
     @Override

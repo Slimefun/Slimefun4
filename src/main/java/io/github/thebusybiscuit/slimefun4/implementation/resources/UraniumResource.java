@@ -3,7 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.resources;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
 
@@ -22,7 +24,17 @@ class UraniumResource extends AbstractResource {
     UraniumResource() {
         super("uranium", "Small Chunks of Uranium", SlimefunItems.SMALL_URANIUM, 2, true);
 
-        biomes = getBiomeMap(this, "/biome-maps/uranium.json");
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
+
+        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            // 1.17+ introduced cave biomes
+            biomes = getBiomeMap(this, "/biome-maps/uranium_v1.17.json");
+        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            // 1.16+ introduced Nether biomes
+            biomes = getBiomeMap(this, "/biome-maps/uranium_v1.16.json");
+        } else {
+            biomes = getBiomeMap(this, "/biome-maps/uranium_v1.14.json");
+        }
     }
 
     @Override
