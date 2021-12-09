@@ -3,7 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.resources;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
 
@@ -23,7 +25,12 @@ class NetherIceResource extends AbstractResource {
     NetherIceResource() {
         super("nether_ice", "Nether Ice", SlimefunItems.NETHER_ICE, 6, true);
 
-        biomes = getBiomeMap(this, "/biome-maps/nether_ice.json");
+        // 1.16+ introduced Nether biomes
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            biomes = getBiomeMap(this, "/biome-maps/nether_ice.1_16.json");
+        } else {
+            biomes = getBiomeMap(this, "/biome-maps/nether_ice.json");
+        }
     }
 
     @Override

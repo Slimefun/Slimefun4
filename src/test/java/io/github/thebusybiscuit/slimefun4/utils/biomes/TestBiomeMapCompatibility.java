@@ -90,13 +90,21 @@ class TestBiomeMapCompatibility {
         assertCompatibility(name, version);
     }
 
+    /**
+     * We manually specify here which biome map works on which minecraft versions.
+     * 
+     * @return A {@link Stream} of {@link Arguments} for our unit test.
+     */
     private static @Nonnull Stream<Arguments> biomeMaps() {
         Map<String, MinecraftVersion[]> testCases = new HashMap<>();
 
         // @formatter:off
         testCases.put("nether_ice", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_14,
-            MinecraftVersion.MINECRAFT_1_15,
+            MinecraftVersion.MINECRAFT_1_15
+        });
+        
+        testCases.put("nether_ice.1_16", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_16,
             MinecraftVersion.MINECRAFT_1_17
         });
