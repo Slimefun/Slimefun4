@@ -77,10 +77,26 @@ public class BiomeMap<T> implements Keyed {
         return dataMap.getOrDefault(biome, defaultValue);
     }
 
-    public boolean contains(@Nonnull Biome biome) {
+    public boolean containsKey(@Nonnull Biome biome) {
         Validate.notNull(biome, "The biome must not be null.");
 
         return dataMap.containsKey(biome);
+    }
+
+    public boolean containsValue(@Nonnull T value) {
+        Validate.notNull(value, "The value must not be null.");
+
+        return dataMap.containsValue(value);
+    }
+
+    /**
+     * This returns whether this {@link BiomeMap} is empty.
+     * An empty {@link BiomeMap} contains no biomes or values.
+     * 
+     * @return Whether this {@link BiomeMap} is empty.
+     */
+    public boolean isEmpty() {
+        return dataMap.isEmpty();
     }
 
     public boolean put(@Nonnull Biome biome, @Nonnull T value) {

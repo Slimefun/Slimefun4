@@ -74,13 +74,13 @@ class TestBiomeMap {
         Biome biome3 = Biome.DESERT;
         BiomeMap<Integer> biomes = createBiomeMap(AS_INT, "[{\"value\":1,\"biomes\":[\"" + biome1.getKey() + "\", \"" + biome2.getKey() + "\"]}, {\"value\":2, \"biomes\":[\"" + biome3.getKey() + "\"]}]");
 
-        Assertions.assertTrue(biomes.contains(biome1));
+        Assertions.assertTrue(biomes.containsKey(biome1));
         Assertions.assertEquals(1, biomes.get(biome1));
 
-        Assertions.assertTrue(biomes.contains(biome2));
+        Assertions.assertTrue(biomes.containsKey(biome2));
         Assertions.assertEquals(1, biomes.get(biome2));
 
-        Assertions.assertTrue(biomes.contains(biome3));
+        Assertions.assertTrue(biomes.containsKey(biome3));
         Assertions.assertEquals(2, biomes.get(biome3));
     }
 
@@ -92,11 +92,11 @@ class TestBiomeMap {
         String value = "Under the sea";
 
         Assertions.assertTrue(biomes.put(biome, value));
-        Assertions.assertTrue(biomes.contains(biome));
+        Assertions.assertTrue(biomes.containsKey(biome));
         Assertions.assertEquals(value, biomes.get(biome));
 
         Assertions.assertTrue(biomes.remove(biome));
-        Assertions.assertFalse(biomes.contains(biome));
+        Assertions.assertFalse(biomes.containsKey(biome));
     }
 
     @ParametersAreNonnullByDefault

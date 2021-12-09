@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.google.gson.JsonElement;
 
@@ -91,6 +93,37 @@ class TestBiomeMapParser {
         Biome biome = Biome.OCEAN;
 
         assertMisconfiguration(AS_INT, "[{\"value\": 1, \"biomes\": [\"" + biome.getKey() + "\"]}, {\"value\": 2, \"biomes\": [\"" + biome.getKey() + "\"]}]");
+    }
+
+    @Test
+    @DisplayName("Test BiomeMapParser being not lenient by default")
+    void testParserNotLenientByDefault() {
+        BiomeMapParser<Integer> parser = new BiomeMapParser<>(key, AS_INT);
+
+        // Test default value
+        Assertions.assertFalse(parser.isLenient());
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    @DisplayName("Test lenient parser")
+    void testLenientParsing(boolean isLenient) {
+        BiomeMapParser<Integer> parser = new BiomeMapParser<>(key, AS_INT);
+
+        parser.setLenient(isLenient);
+        Assertions.assertEquals(isLenient, parser.isLenient());
+
+        /*
+         * I picked a random String here.
+         * If this biome will exist in Minecraft one day... then you saw it here first, folks ;D
+         */
+        String json = "[{\"value\": 2048, \"biomes\": [\"minecraft:thebusybiscuits_wonderland\"]}]";
+
+        if (isLenient) {
+            Assertions.assertDoesNotThrow(() -> parser.read(json));
+        } else {
+            Assertions.assertThrows(BiomeMapException.class, () -> parser.read(json));
+        }
     }
 
     @ParametersAreNonnullByDefault

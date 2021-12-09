@@ -30,6 +30,8 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  *
  * @param <T>
  *            The data type of the resulting {@link BiomeMap}
+ * 
+ * @see BiomeMap
  */
 class BiomeMapParser<T> {
 
@@ -40,6 +42,24 @@ class BiomeMapParser<T> {
     private final BiomeDataConverter<T> valueConverter;
     private final Map<Biome, T> map = new EnumMap<>(Biome.class);
 
+    /**
+     * This flag specifies whether the parsing is "lenient" or not.
+     * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
+     * could not be found.
+     * The default value is false.
+     */
+    private boolean isLenient = false;
+
+    /**
+     * This constructs a new {@link BiomeMapParser}.
+     * <p>
+     * To parse data, use the {@link #read(JsonArray)} or {@link #read(String)} method.
+     * 
+     * @param key
+     *            The {@link NamespacedKey} for the resulting {@link BiomeMap}
+     * @param valueConverter
+     *            A function to convert {@link JsonElement}s into your desired data type
+     */
     @ParametersAreNonnullByDefault
     BiomeMapParser(NamespacedKey key, BiomeDataConverter<T> valueConverter) {
         Validate.notNull(key, "The key shall not be null.");
@@ -47,6 +67,33 @@ class BiomeMapParser<T> {
 
         this.key = key;
         this.valueConverter = valueConverter;
+    }
+
+    /**
+     * This method sets the "lenient" flag for this parser.
+     * <p>
+     * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
+     * could not be found.
+     * The default value is false.
+     * 
+     * @param isLenient
+     *            Whether this parser should be lenient or not.
+     */
+    void setLenient(boolean isLenient) {
+        this.isLenient = isLenient;
+    }
+
+    /**
+     * This method returns whether this parser is flagged as "lenient".
+     * <p>
+     * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
+     * could not be found.
+     * The default value is false.
+     * 
+     * @return Whether this parser is lenient or not.
+     */
+    boolean isLenient() {
+        return isLenient;
     }
 
     void read(@Nonnull String json) throws BiomeMapException {
@@ -82,15 +129,23 @@ class BiomeMapParser<T> {
     private void readEntry(@Nonnull JsonObject entry) throws BiomeMapException {
         Validate.notNull(entry, "The JSON entry should not be null!");
 
+        /*
+         * Check if the entry has a "value" element.
+         * The data type is irrelevant here, any JsonElement is supported (in theory).
+         * If you write a converter for it, you can also serialize complex objects this way.
+         */
         if (entry.has(VALUE_KEY)) {
             T value = valueConverter.convert(entry.get(VALUE_KEY));
 
+            // Check if the entry has a "biomes" element of type JsonArray.
             if (entry.has(BIOMES_KEY) && entry.get(BIOMES_KEY).isJsonArray()) {
                 Set<Biome> biomes = readBiomes(entry.get(BIOMES_KEY).getAsJsonArray());
 
+                // Loop through all biome strings in this array
                 for (Biome biome : biomes) {
                     T prev = map.put(biome, value);
 
+                    // Check for duplicates
                     if (prev != null) {
                         throw new BiomeMapException(key, "Biome '" + biome.getKey() + "' is registered twice");
                     }
@@ -118,6 +173,11 @@ class BiomeMapParser<T> {
                         Biome biome = Biome.valueOf(formattedValue);
                         biomes.add(biome);
                     } catch (IllegalArgumentException x) {
+                        // Lenient Parsers will ignore unknown biomes
+                        if (isLenient) {
+                            continue;
+                        }
+
                         throw new BiomeMapException(key, "The Biome '" + value + "' does not exist!");
                     }
                 } else {
@@ -132,6 +192,14 @@ class BiomeMapParser<T> {
         return biomes;
     }
 
+    /**
+     * This method builds a {@link BiomeMap} based on the parsed data.
+     * <p>
+     * Make sure to parse data via {@link #read(JsonArray)} or {@link #read(String)}
+     * before calling this method! Otherwise the resulting {@link BiomeMap} will be empty.
+     * 
+     * @return The resulting {@link BiomeMap}
+     */
     @Nonnull
     BiomeMap<T> buildBiomeMap() {
         BiomeMap<T> biomeMap = new BiomeMap<>(key);
