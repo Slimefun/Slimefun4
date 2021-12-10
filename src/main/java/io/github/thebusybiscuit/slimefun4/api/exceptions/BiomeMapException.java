@@ -7,7 +7,7 @@ import org.bukkit.NamespacedKey;
 import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
 
 /**
- * An {@link BiomeMapException} is thrown whenever a {@link BiomeMap}
+ * A {@link BiomeMapException} is thrown whenever a {@link BiomeMap}
  * contains illegal, invalid or unknown values.
  * 
  * @author TheBusyBiscuit
@@ -44,5 +44,4 @@ public class BiomeMapException extends Exception {
     public BiomeMapException(NamespacedKey key, Throwable cause) {
         super("Biome Map '" + key + "' has been misconfigured (" + cause.getMessage() + ')', cause);
     }
-
 }

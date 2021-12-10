@@ -89,8 +89,8 @@ abstract class AbstractResource implements GEOResource {
      */
     @ParametersAreNonnullByDefault
     static final @Nonnull BiomeMap<Integer> getBiomeMap(AbstractResource resource, String path) {
-        Validate.notNull(resource, "Resource cannot be null");
-        Validate.notNull(path, "Path cannot be null");
+        Validate.notNull(resource, "Resource cannot be null.");
+        Validate.notNull(path, "Path cannot be null.");
 
         try {
             return BiomeMap.fromResource(resource.getKey(), path, JsonElement::getAsInt);
@@ -105,5 +105,4 @@ abstract class AbstractResource implements GEOResource {
             }
         }
     }
-
 }

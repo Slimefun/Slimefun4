@@ -28,7 +28,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  * <p>
  * We heavily utilise this method of data mapping for {@link GEOResource}s, especially
  * when supporting multiple versions of Minecraft. This way, we can have different {@link BiomeMap}s
- * for different versions of Minecraft, incase {@link Biome} names change inbetween versions.
+ * for different versions of Minecraft, in case {@link Biome} names change in-between versions.
  * <p>
  * The data type can be any type of {@link Object}.
  * The most common type is {@link Integer}, if you are using complex objects and try to read
