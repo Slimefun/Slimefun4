@@ -489,7 +489,7 @@
         <dependency>
             <groupId>net.imprex</groupId>
             <artifactId>orebfuscator-api</artifactId>
-            <version>1.0.0</version>
+            <version>5.2.1</version>
             <scope>provided</scope>
 
             <exclusions>
