@@ -113,9 +113,6 @@ class TestResourceRegistration {
         NamespacedKey key = new NamespacedKey(plugin, "salt");
         GEOResource resource = testResource(key, "Salt", SlimefunItems.SALT, true, 18);
 
-        Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER_WASTES));
-        Assertions.assertEquals(0, resource.getDefaultSupply(Environment.THE_END, Biome.THE_END));
-
         Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.MOUNTAINS));
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.BEACH) > 10);
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.OCEAN) > 10);

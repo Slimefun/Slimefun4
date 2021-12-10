@@ -309,7 +309,9 @@
 
                     <include>wiki.json</include>
                     <include>languages/translators.json</include>
+
                     <include>tags/*.json</include>
+                    <include>biome-maps/*.json</include>
 
                     <include>languages/**/*.yml</include>
                 </includes>
