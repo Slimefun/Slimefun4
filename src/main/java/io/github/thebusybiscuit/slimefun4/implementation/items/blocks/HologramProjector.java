@@ -56,7 +56,8 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
     }
 
     @Nonnull
-    private BlockPlaceHandler onPlace() {
+    @Override
+    public BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override

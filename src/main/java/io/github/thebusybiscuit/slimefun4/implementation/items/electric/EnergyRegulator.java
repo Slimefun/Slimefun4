@@ -3,6 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -52,11 +55,23 @@ public class EnergyRegulator extends SlimefunItem implements HologramOwner {
     }
 
     @Nonnull
-    private BlockPlaceHandler onPlace() {
+    @Override
+    public BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
+                Runnable runnable = () -> {
+                    HologramsService service = Slimefun.getHologramsService();
+                    service.getHologram(e.getBlock().getLocation().add(service.getDefaultOffset()), true);
+                };
+
+                if (Bukkit.isPrimaryThread()) {
+                    runnable.run();
+                } else {
+                    Slimefun.runSync(runnable);
+                }
+
                 updateHologram(e.getBlock(), "&7Connecting...");
             }
 

@@ -215,7 +215,7 @@ public class HologramsService {
      * @return The {@link Hologram}
      */
     @Nullable
-    private Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
+    public Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
         if (entity instanceof ArmorStand) {
             ArmorStand armorstand = (ArmorStand) entity;
 
@@ -258,7 +258,7 @@ public class HologramsService {
 
         Runnable runnable = () -> {
             try {
-                Hologram hologram = getHologram(loc, true);
+                Hologram hologram = getHologram(loc, false);
 
                 if (hologram != null) {
                     consumer.accept(hologram);

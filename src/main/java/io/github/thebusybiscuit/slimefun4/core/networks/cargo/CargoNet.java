@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -151,6 +153,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
     }
 
     public void tick(@Nonnull Block b) {
+
         if (!regulator.equals(b.getLocation())) {
             updateHologram(b, "&4Multiple Cargo Regulators connected");
             return;

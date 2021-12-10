@@ -293,7 +293,8 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
             public boolean isSynchronized() {
                 return false;
             }
-        });
+
+        }, onPlace());
     }
 
     protected void tick(@Nonnull Block b) {
