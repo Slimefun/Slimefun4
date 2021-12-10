@@ -33,6 +33,7 @@
 ## Release Candidate 30 (TBD)
 
 #### Additions
+* (API) Added "GRAVITY_AFFECTED_BLOCKS" tag
 * (API) Added "Biome-Maps" for more in-depth GEO resource configuration (developers only for now)
 
 #### Changes
