@@ -309,7 +309,9 @@
 
                     <include>wiki.json</include>
                     <include>languages/translators.json</include>
+
                     <include>tags/*.json</include>
+                    <include>biome-maps/*.json</include>
 
                     <include>languages/**/*.yml</include>
                 </includes>
@@ -354,7 +356,7 @@
         <dependency>
             <groupId>io.papermc</groupId>
             <artifactId>paperlib</artifactId>
-            <version>1.0.6</version>
+            <version>1.0.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -376,7 +378,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.8.1</version>
+            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -489,7 +491,7 @@
         <dependency>
             <groupId>net.imprex</groupId>
             <artifactId>orebfuscator-api</artifactId>
-            <version>1.0.0</version>
+            <version>5.2.1</version>
             <scope>provided</scope>
 
             <exclusions>

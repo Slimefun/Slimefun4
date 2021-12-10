@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,6 +23,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
  */
 public class AdvancedIndustrialMiner extends IndustrialMiner {
 
+    @ParametersAreNonnullByDefault
     public AdvancedIndustrialMiner(ItemGroup itemGroup, SlimefunItemStack item) {
         super(itemGroup, item, Material.DIAMOND_BLOCK, true, 5);
     }
