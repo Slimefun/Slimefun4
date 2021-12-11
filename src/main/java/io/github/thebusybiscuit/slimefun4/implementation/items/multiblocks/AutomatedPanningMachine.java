@@ -63,9 +63,9 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
         ItemStack input = p.getInventory().getItemInMainHand();
         ItemStack output;
 
-        if (goldPan.getInputMaterials().contains(input.getType())) {
+        if (goldPan.isInputMaterialCorrect(input.getType())) {
             output = goldPan.getRandomOutput();
-        } else if (netherGoldPan.getInputMaterials().contains(input.getType())) {
+        } else if (netherGoldPan.isInputMaterialCorrect(input.getType())) {
             output = netherGoldPan.getRandomOutput();
         } else {
             Slimefun.getLocalization().sendMessage(p, "machines.wrong-item", true);

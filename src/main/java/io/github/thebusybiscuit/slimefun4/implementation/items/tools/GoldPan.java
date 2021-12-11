@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,14 +51,12 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
 
     private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
-    private final Set<Material> inputMaterials = new HashSet<>();
+    private final Set<Material> inputMaterials = new HashSet<>(Arrays.asList(Material.GRAVEL));
     private final Set<GoldPanDrop> drops = new HashSet<>();
 
     @ParametersAreNonnullByDefault
     public GoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-
-        inputMaterials.add(Material.GRAVEL);
 
         drops.addAll(getGoldPanDrops());
         addItemSetting(drops.toArray(new GoldPanDrop[0]));
@@ -179,5 +178,9 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         }
 
         return recipes;
+    }
+
+    public boolean isInputMaterialCorrect(Material material) {
+        return getInputMaterials().contains(material);
     }
 }
