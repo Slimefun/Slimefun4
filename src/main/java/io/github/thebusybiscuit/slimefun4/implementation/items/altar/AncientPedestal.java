@@ -102,7 +102,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             if (n instanceof Item) {
                 Optional<Item> item = Optional.of((Item) n);
 
-                startWatcher(pedestal.getLocation(), item.get());
+                startWatcher(pedestal.getLocation(), (Item) n);
                 return item;
             }
         }
