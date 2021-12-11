@@ -73,7 +73,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
             if (goldPan.isInputMaterialCorrect(item.getType())) {
                 ItemStack output = goldPan.getRandomOutput();
 
-                MachineRecipe recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { new ItemStack(item.getType()) }, new ItemStack[] { output });
+                MachineRecipe recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
 
                 if (output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
                     menu.consumeItem(slot);
@@ -81,7 +81,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
                 }
             } else if (netherGoldPan.isInputMaterialCorrect(item.getType())) {
                 ItemStack output = netherGoldPan.getRandomOutput();
-                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { new ItemStack(item.getType()) }, new ItemStack[] { output });
+                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
 
                 if (output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
                     menu.consumeItem(slot);
