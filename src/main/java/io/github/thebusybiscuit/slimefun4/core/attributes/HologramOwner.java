@@ -5,9 +5,11 @@ import javax.annotation.Nonnull;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.util.Vector;
 
 import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramProjector;
@@ -58,6 +60,36 @@ public interface HologramOwner extends ItemAttribute {
     default void removeHologram(@Nonnull Block b) {
         Location loc = b.getLocation().add(getHologramOffset(b));
         Slimefun.getHologramsService().removeHologram(loc);
+    }
+
+    /**
+     * This returns a {@link BlockPlaceHandler} which creates a
+     * hologram with an empty label which will be replaced
+     * when the machine generating the hologram ticks
+     *
+     * @return The {@link BlockPlaceHandler}
+     */
+    default BlockPlaceHandler onPlace() {
+        return new BlockPlaceHandler(false) {
+
+            @Override
+            public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
+                Runnable runnable = () -> {
+                    HologramsService service = Slimefun.getHologramsService();
+                    Block block = e.getBlock();
+                    Location loc = block.getLocation().add(getHologramOffset(block));
+
+                    service.createHologram(loc, null);
+                };
+
+                if (Bukkit.isPrimaryThread()) {
+                    runnable.run();
+                } else {
+                    Slimefun.runSync(runnable);
+                }
+            }
+
+        };
     }
 
     /**

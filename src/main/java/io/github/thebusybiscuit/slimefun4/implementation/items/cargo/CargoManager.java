@@ -5,14 +5,9 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
-import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -52,6 +47,9 @@ public class CargoManager extends SlimefunItem implements HologramOwner {
 
     @Override
     public void preRegister() {
+        // Handler for creating a hologram when placed
+        addItemHandler(onPlace());
+
         addItemHandler(new BlockTicker() {
 
             @Override
@@ -84,7 +82,7 @@ public class CargoManager extends SlimefunItem implements HologramOwner {
                 }
             }
 
-        }, onPlace());
+        });
     }
 
 }

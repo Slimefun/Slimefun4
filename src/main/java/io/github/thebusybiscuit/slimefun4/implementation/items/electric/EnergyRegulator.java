@@ -3,8 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -19,6 +17,8 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -80,6 +80,7 @@ public class EnergyRegulator extends SlimefunItem implements HologramOwner {
 
     @Override
     public void preRegister() {
+        // Handler for creating a hologram when placed
         addItemHandler(onPlace());
 
         addItemHandler(new BlockTicker() {

@@ -161,14 +161,31 @@ public class HologramsService {
         }
 
         if (hologram == null && createIfNoneExists) {
-            // Spawn a new ArmorStand
-            ArmorStand armorstand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-            PersistentDataContainer container = armorstand.getPersistentDataContainer();
-
-            return getAsHologram(position, armorstand, container);
+            // Create a hologram
+            return createHologram(loc, null);
         } else {
             return hologram;
         }
+    }
+
+    /**
+     * This creates and returns a {@link Hologram} at the given {@link Location}.
+     *
+     * @param loc
+     *            The {@link Location} to spawn a hologram at
+     * @param text
+     *            The label of the new hologram
+     *
+     * @return The new hologram
+     */
+    public Hologram createHologram(Location loc, @Nullable String text) {
+        // Spawn a new ArmorStand
+        ArmorStand armorstand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
+        armorstand.setCustomName(text);
+
+        PersistentDataContainer container = armorstand.getPersistentDataContainer();
+
+        return getAsHologram(new BlockPosition(loc), armorstand, container);
     }
 
     @ParametersAreNonnullByDefault
@@ -215,7 +232,7 @@ public class HologramsService {
      * @return The {@link Hologram}
      */
     @Nullable
-    public Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
+    private Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
         if (entity instanceof ArmorStand) {
             ArmorStand armorstand = (ArmorStand) entity;
 
@@ -258,7 +275,7 @@ public class HologramsService {
 
         Runnable runnable = () -> {
             try {
-                Hologram hologram = getHologram(loc, false);
+                Hologram hologram = getHologram(loc, true);
 
                 if (hologram != null) {
                     consumer.accept(hologram);

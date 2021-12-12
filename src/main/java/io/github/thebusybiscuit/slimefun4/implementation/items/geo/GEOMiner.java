@@ -282,6 +282,9 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
     @Override
     public void preRegister() {
+        // Handler for creating a hologram when placed
+        addItemHandler(onPlace());
+
         addItemHandler(new BlockTicker() {
 
             @Override
@@ -294,7 +297,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
                 return false;
             }
 
-        }, onPlace());
+        });
     }
 
     protected void tick(@Nonnull Block b) {

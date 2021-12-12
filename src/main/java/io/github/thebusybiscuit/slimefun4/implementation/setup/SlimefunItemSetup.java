@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.HologramController;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -206,6 +205,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PortableCra
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PortableDustbin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.TapeMeasure;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.HologramToggler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.ExplosiveBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
@@ -1815,7 +1815,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.COPPER_INGOT, null, SlimefunItems.COPPER_INGOT, null, SlimefunItems.REDSTONE_ALLOY, null, null, SlimefunItems.GOLD_6K, null})
         .register(plugin);
 
-        new HologramController(categories.technicalGadgets, SlimefunItems.HOLOGRAM_CONTROLLER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new HologramToggler(categories.technicalGadgets, SlimefunItems.HOLOGRAM_TOGGLER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.POWER_CRYSTAL, SlimefunItems.HARDENED_GLASS, SlimefunItems.POWER_CRYSTAL, null, SlimefunItems.HOLOGRAM_PROJECTOR, null, null, SlimefunItems.HARDENED_METAL_INGOT, null})
         .register(plugin);
 
