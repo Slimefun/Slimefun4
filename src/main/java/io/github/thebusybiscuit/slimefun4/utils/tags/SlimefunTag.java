@@ -241,7 +241,12 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials which benefit from the luck multiplier of {@link EnhancedFurnace}
      */
-    ENHANCED_FURNACE_LUCK_MATERIALS;
+    ENHANCED_FURNACE_LUCK_MATERIALS,
+
+    /**
+     * All materials that are affected by gravity.
+     */
+    GRAVITY_AFFECTED_BLOCKS;
 
     /**
      * Lookup table for tag names.
