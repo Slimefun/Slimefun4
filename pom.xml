@@ -350,7 +350,7 @@
         <dependency>
             <groupId>io.github.baked-libs</groupId>
             <artifactId>dough-api</artifactId>
-            <version>1.0.3</version>
+            <version>1.1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -389,8 +389,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.16</artifactId>
-            <version>1.5.2</version>
+            <artifactId>MockBukkit-v1.18</artifactId>
+            <version>1.14.0</version>
             <scope>test</scope>
 
             <exclusions>
