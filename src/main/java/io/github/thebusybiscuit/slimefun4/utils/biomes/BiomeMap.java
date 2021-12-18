@@ -150,11 +150,6 @@ public class BiomeMap<T> implements Keyed {
     }
 
     @ParametersAreNonnullByDefault
-    public static <T> @Nonnull BiomeMap<T> fromResource(NamespacedKey key, String path, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
-        return fromResource(key, Slimefun.instance(), path, valueConverter);
-    }
-
-    @ParametersAreNonnullByDefault
     public static <T> @Nonnull BiomeMap<T> fromResource(NamespacedKey key, JavaPlugin plugin, String path, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
         Validate.notNull(key, "The key shall not be null.");
         Validate.notNull(plugin, "The plugin shall not be null.");
