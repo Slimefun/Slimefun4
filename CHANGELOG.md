@@ -36,6 +36,7 @@
 * Added a ton of wiki links to the guide
 * (API) Added "GRAVITY_AFFECTED_BLOCKS" tag
 * (API) Added "Biome-Maps" for more in-depth GEO resource configuration (developers only for now)
+* Added support for 1.18
 
 #### Changes
 * GEO resource distributions have been slightly adjusted

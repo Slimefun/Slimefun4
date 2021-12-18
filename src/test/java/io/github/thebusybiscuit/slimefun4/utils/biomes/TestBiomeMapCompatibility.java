@@ -106,7 +106,8 @@ class TestBiomeMapCompatibility {
         
         testCases.put("nether_ice_v1.16", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_16,
-            MinecraftVersion.MINECRAFT_1_17
+            MinecraftVersion.MINECRAFT_1_17,
+            MinecraftVersion.MINECRAFT_1_18
         });
         
         testCases.put("oil_v1.14", new MinecraftVersion[] {
@@ -116,11 +117,19 @@ class TestBiomeMapCompatibility {
             MinecraftVersion.MINECRAFT_1_17
         });
         
+        testCases.put("oil_v1.18", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_18
+        });
+        
         testCases.put("salt_v1.14", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_14,
             MinecraftVersion.MINECRAFT_1_15,
             MinecraftVersion.MINECRAFT_1_16,
             MinecraftVersion.MINECRAFT_1_17
+        });
+        
+        testCases.put("salt_v1.18", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_18
         });
         
         testCases.put("uranium_v1.14", new MinecraftVersion[] {
@@ -134,6 +143,10 @@ class TestBiomeMapCompatibility {
         
         testCases.put("uranium_v1.17", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_17
+        });
+        
+        testCases.put("uranium_v1.18", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_18
         });
         // @formatter:on
 

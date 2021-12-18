@@ -20,11 +20,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2.4.0
 
-    - name: Set up Java JDK 11
+    - name: Set up Java JDK 16
       uses: actions/setup-java@v2.4.0
       with:
         distribution: 'adopt'
-        java-version: '11'
+        java-version: '16'
         java-package: jdk
         architecture: x64
 

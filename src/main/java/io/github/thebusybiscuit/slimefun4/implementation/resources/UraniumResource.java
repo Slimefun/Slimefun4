@@ -26,7 +26,10 @@ class UraniumResource extends AbstractResource {
 
         MinecraftVersion version = Slimefun.getMinecraftVersion();
 
-        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_18)) {
+            // 1.18+ renamed most biomes
+            biomes = getBiomeMap(this, "/biome-maps/uranium_v1.18.json");
+        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             // 1.17+ introduced cave biomes
             biomes = getBiomeMap(this, "/biome-maps/uranium_v1.17.json");
         } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {

@@ -26,7 +26,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Spigot properties -->
-        <spigot.version>1.17</spigot.version>
+        <spigot.version>1.18.1</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -350,7 +350,7 @@
         <dependency>
             <groupId>io.github.baked-libs</groupId>
             <artifactId>dough-api</artifactId>
-            <version>1.0.3</version>
+            <version>1.1.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -384,13 +384,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.16</artifactId>
-            <version>1.5.2</version>
+            <artifactId>MockBukkit-v1.18</artifactId>
+            <version>1.14.0</version>
             <scope>test</scope>
 
             <exclusions>
@@ -435,7 +435,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.202</version>
+            <version>2.1.206</version>
             <scope>provided</scope>
 
             <exclusions>
