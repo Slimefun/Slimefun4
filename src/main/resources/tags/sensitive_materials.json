@@ -8,6 +8,11 @@
         "minecraft:redstone_wire",
         "minecraft:repeater",
         "minecraft:comparator",
+        "minecraft:lantern",
+        {
+            "id" : "minecraft:soul_lantern",
+            "required" : false
+        },
         {
             "id" : "minecraft:amethyst_cluster",
             "required" : false
