@@ -93,7 +93,7 @@ abstract class AbstractResource implements GEOResource {
         Validate.notNull(path, "Path cannot be null.");
 
         try {
-            return BiomeMap.fromResource(resource.getKey(), path, JsonElement::getAsInt);
+            return BiomeMap.fromResource(resource.getKey(), Slimefun.instance(), path, JsonElement::getAsInt);
         } catch (BiomeMapException x) {
             if (Slimefun.instance().isUnitTest()) {
                 // Unit Tests should always fail here, so we re-throw the exception
