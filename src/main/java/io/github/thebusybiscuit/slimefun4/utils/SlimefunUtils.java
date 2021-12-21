@@ -276,7 +276,8 @@ public final class SlimefunUtils {
         } else if (checkAmount && item.getAmount() < sfitem.getAmount()) {
             return false;
         } else if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
-            return ((SlimefunItemStack) item).getItemId().equals(((SlimefunItemStack) sfitem).getItemId());
+            return ((SlimefunItemStack) item).getItemId().equals(((SlimefunItemStack) sfitem).getItemId()) &&
+                    equalsItemMeta(sfitem.getItemMeta(), ((SlimefunItemStack) item).getItemMetaSnapshot(), checkLore);
         } else if (item.hasItemMeta()) {
             Debug.log(TestCase.CARGO_INPUT_TESTING, "SlimefunUtils#isItemSimilar - item.hasItemMeta()");
             ItemMeta itemMeta = item.getItemMeta();
@@ -304,7 +305,7 @@ public final class SlimefunUtils {
                 // Prioritize SlimefunItem id comparison over ItemMeta comparison
                 if (Slimefun.getItemDataService().hasEqualItemData(possibleSfItemMeta, itemMeta)) {
                     Debug.log(TestCase.CARGO_INPUT_TESTING, "  Item IDs matched!");
-                    return true;
+                    return equalsItemMeta(itemMeta, possibleSfItemMeta, checkLore);
                 } else {
                     Debug.log(TestCase.CARGO_INPUT_TESTING, "  Item IDs don't match, checking meta {} == {} (lore: {})", itemMeta, possibleSfItemMeta, checkLore);
                     return equalsItemMeta(itemMeta, possibleSfItemMeta, checkLore);
