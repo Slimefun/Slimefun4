@@ -28,6 +28,9 @@ commands:
     please-wait: '&eKérjük várj... Érkeznek az eredmények!'
     verbose-player: '&4A részletes megjelenítés flag nem használható játékosként!'
     unknown-flag: '&4Ismeretlen flag: &c%flag%'
+  debug:
+    description: 'Hibakeresés futtatása fejlesztőknek'
+    disabled: '&7Hibakereső mód deaktiválva.'
 placeholderapi:
   profile-loading: 'Betöltés...'
 guide:
@@ -169,6 +172,7 @@ messages:
   talisman:
     anvil: '&a&oA talizmánod megmentette az eszközöd az eltöréstől'
     miner: '&a&oA talizmánod megduplázta a dobott tárgyakat'
+    farmer: '&a&oA talizmánod megduplázta a dobott tárgyakat'
     hunter: '&a&oA talizmánod megduplázta a dobott tárgyakat'
     lava: '&a&oA talizmánod megmentett a halálos égéstől'
     water: '&a&oA talizmánod megmentett a fulladástól'
