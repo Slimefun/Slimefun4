@@ -175,6 +175,7 @@ messages:
   talisman:
     anvil: '&a&oVotre Talisman a empêché votre outil de casser'
     miner: '&a&oVotre talisman a doublé votre drop'
+    farmer: '&a&oVotre Talisman a doublé votre drop'
     hunter: '&a&oVotre talisman a doublé votre drop'
     lava: '&a&oVotre talisman vous a sauvé de la lave'
     water: '&a&oVotre talisman vous a évité la noyade'
