@@ -27,7 +27,7 @@ public class AncientPedestalTask implements Runnable {
     private final Map<BlockPosition, Item> pedestalItemCache;
 
     public AncientPedestalTask(@Nonnull AncientPedestal pedestalItem) {
-        this.pedestalItemCache = pedestalItem.getCachedDisplayItems();
+        this.pedestalItemCache = pedestalItem.getVirtualItemCache();
     }
 
     @Override

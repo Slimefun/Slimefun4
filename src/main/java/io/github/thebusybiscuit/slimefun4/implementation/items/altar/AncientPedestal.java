@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,7 +54,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
-    private static final Map<BlockPosition, Item> pedestalItemCache = new HashMap<>();
+    private static final Map<BlockPosition, Item> pedestalVirtualItemCache = new ConcurrentHashMap<>();
 
     @ParametersAreNonnullByDefault
     public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -76,7 +76,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
                     if (stack.isValid()) {
                         stack.removeMetadata("no_pickup", Slimefun.instance());
                         b.getWorld().dropItem(b.getLocation(), getOriginalItemStack(stack));
-                        stopDisplayItem(b.getLocation(), stack);
+                        removeVirtualItem(b.getLocation(), stack);
                     }
                 }
             }
@@ -89,7 +89,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     public @Nonnull Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
-        Item cache = pedestalItemCache.get(new BlockPosition(pedestal));
+        Item cache = pedestalVirtualItemCache.get(new BlockPosition(pedestal));
 
         if (cache != null) {
             return Optional.of(cache);
@@ -102,7 +102,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             if (n instanceof Item) {
                 Optional<Item> item = Optional.of((Item) n);
 
-                startWatcher(pedestal.getLocation(), (Item) n);
+                startItemWatcher(pedestal.getLocation(), (Item) n);
                 return item;
             }
         }
@@ -161,32 +161,32 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             SlimefunUtils.markAsNoPickup(entity, "altar_item");
             p.playSound(pedestalLocation, Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
 
-            startWatcher(pedestalLocation, entity);
+            startItemWatcher(pedestalLocation, entity);
         }
     }
 
     /**
-     * Stop display item upon pedestal
+     * Remove virtual item upon pedestal
      *
      * @param pedestal ancient pedestal location
-     * @param item display item
+     * @param item virtual item
      */
-    public void stopDisplayItem(@Nonnull Location pedestal, @Nonnull Entity item) {
+    public void removeVirtualItem(@Nonnull Location pedestal, @Nonnull Entity item) {
         item.remove();
-        pedestalItemCache.remove(new BlockPosition(pedestal));
+        pedestalVirtualItemCache.remove(new BlockPosition(pedestal));
     }
 
-    public @Nonnull Map<BlockPosition, Item> getCachedDisplayItems() {
-        return pedestalItemCache;
+    public @Nonnull Map<BlockPosition, Item> getVirtualItemCache() {
+        return pedestalVirtualItemCache;
     }
 
     /**
-     * Start a watcher to monitor the location of a displayed item
+     * Start a watcher to monitor the location of a virtual item
      *
      * @param pedestalLocation the location of pedestal
-     * @param item displayed item
+     * @param item virtual item
      */
-    private void startWatcher(@Nonnull Location pedestalLocation, @Nonnull Item item) {
-        pedestalItemCache.put(new BlockPosition(pedestalLocation), item);
+    private void startItemWatcher(@Nonnull Location pedestalLocation, @Nonnull Item item) {
+        pedestalVirtualItemCache.put(new BlockPosition(pedestalLocation), item);
     }
 }
