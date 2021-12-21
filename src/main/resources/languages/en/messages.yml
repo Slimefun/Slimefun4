@@ -200,6 +200,7 @@ messages:
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'
     miner: '&a&oYour Talisman just doubled your drops'
+    farmer: '&a&oYour Talisman just doubled your drops'
     hunter: '&a&oYour Talisman just doubled your drops'
     lava: '&a&oYour Talisman saved you from burning to death'
     water: '&a&oYour Talisman saved you from drowning'
