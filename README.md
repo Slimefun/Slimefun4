@@ -65,7 +65,7 @@ Well, we asked some users on our [Discord server](#headphones-discord) to send u
 | *Screenshot provided by GalaxyKat11#3816* | *Screenshot provided by TamThan#7987* | *Screenshot provided by Kilaruna#4981* |
 
 ## :headphones: Discord
-You can find Slimefun's community on Discord and connect with **over 6000** users of this plugin from all over the world.<br>
+You can find Slimefun's community on Discord and connect with **over 7000** users of this plugin from all over the world.<br>
 Click the badge down below to join the server for suggestions/questions or other discussions about this plugin.<br>
 We are also hosting a community event every so often, join us to find out more.<br>
 **Important: We don't accept bug reports on discord, please use our [Issue Tracker](https://github.com/Slimefun/Slimefun4/issues) to submit bug reports!**
