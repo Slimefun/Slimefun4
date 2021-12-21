@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 29 (TBD)](#release-candidate-29-tbd)
+- [Release Candidate 30 (TBD)](#release-candidate-30-tbd)
+- [Release Candidate 29 (07 Nov 2021)](#release-candidate-29-07-nov-2021)
 - [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
 - [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
 - [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
@@ -29,15 +30,40 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 29 (TBD)
+## Release Candidate 30 (TBD)
+
+#### Additions
+* Added a ton of wiki links to the guide
+* (API) Added "GRAVITY_AFFECTED_BLOCKS" tag
+* (API) Added "Biome-Maps" for more in-depth GEO resource configuration (developers only for now)
+* (API) Added some utility methods for Biome-Maps
+* Added support for 1.18
+* Added Talisman of Farmer
+
+#### Changes
+* GEO resource distributions have been slightly adjusted
+* Salt can now also generate in the Nether (as a GEO resource)
+
+#### Fixes
+* Crimson and Warped Pressure Plates are now properly recognized as pressure plates
+* Fixed #3336
+* (API) Fixed `Parachute` constructor parameter being ignored
+
+## Release Candidate 29 (07 Nov 2021)
 
 #### Additions
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
 * The Electric Crucible now also accepts Netherrack
 * The Electric Crucible now also accepts Stone
+* Added the ability to shift-click in the Cheat Sheet menu
+* Added the ability to break blocks normally with a Lumber Axe when sneaking
+* Added an option to allow Solar Generators to operate in "night-mode" in other dimensions
+* Added `/sf debug <test case>` (This allows server owners to get more in-depth logging which they can forward to developers for better bug/lag investigations)
+* Added an option to disable data backups on disable
 
 #### Changes
 * Massive performance improvements for Cargo networks
+* (API) `SolarGenerator` has a new constructor to accept capacity
 
 #### Fixes
 * Fixed #3218
@@ -46,7 +72,10 @@
 * Fixed #3273
 * Fixed an exploit regarding the Smithing Table
 * Fixed #3265
-* (API) `SolarGenerator` has a new constructor to accept capacity
+* Fixed #3264
+* Fixed extreme knockback caused by the Explosive Bow
+* Fixed #3313
+* Fixed smithing table issue on 1.15 and lower
 
 ## Release Candidate 28 (06 Sep 2021)
 

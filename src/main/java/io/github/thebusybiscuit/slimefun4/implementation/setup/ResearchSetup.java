@@ -8,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 /**
  * This static setup class is used to register all default implementations of
@@ -289,7 +289,8 @@ public final class ResearchSetup {
         register("medium_tier_auto_enchanting", 277, "Fast Automatic Enchanting and Disenchanting", 48, SlimefunItems.AUTO_ENCHANTER_2, SlimefunItems.AUTO_DISENCHANTER_2);
         register("portable_teleporter", 278, "Teleportation from Anywhere", 42, SlimefunItems.PORTABLE_TELEPORTER);
         register("trident", 279, "Trident", 20, new ItemStack(Material.TRIDENT));
-        register("telekinesis_talisman", 280, "PhD in Physics", 20, SlimefunItems.TALISMAN_TELEKINESIS);
+        register("farmer_talisman", 280, "Talisman of the Farmer", 18, SlimefunItems.TALISMAN_FARMER);
+        register("telekinesis_talisman", 281, "PhD in Physics", 20, SlimefunItems.TALISMAN_TELEKINESIS);
     }
 
     @ParametersAreNonnullByDefault

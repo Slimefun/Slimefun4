@@ -315,7 +315,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new SlimefunItem(categories.magicalResources, SlimefunItems.ENDER_LUMP_1, RecipeType.GRIND_STONE,
-        new ItemStack[] {null, null, null, null, new ItemStack(Material.ENDER_EYE), null, null, null, null}, 
+        new ItemStack[] {new ItemStack(Material.ENDER_EYE), null, null, null, null, null, null, null, null},
         new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 2))
         .register(plugin);
 
@@ -823,6 +823,12 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.COMMON_TALISMAN, SlimefunItems.SIFTED_ORE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
         false, false, "miner", 20)
         .register(plugin);
+
+        new Talisman(SlimefunItems.TALISMAN_FARMER,
+        new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.DIAMOND_HOE), SlimefunItems.COMMON_TALISMAN,  new ItemStack(Material.DIAMOND_HOE), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
+        false, false, "farmer", 20)
+        .register(plugin);
+
 
         new Talisman(SlimefunItems.TALISMAN_HUNTER,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.COMMON_TALISMAN, SlimefunItems.MONSTER_JERKY, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},

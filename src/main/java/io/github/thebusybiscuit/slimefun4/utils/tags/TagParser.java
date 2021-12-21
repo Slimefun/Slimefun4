@@ -134,7 +134,7 @@ public class TagParser implements Keyed {
 
     @ParametersAreNonnullByDefault
     private void parsePrimitiveValue(String value, Set<Material> materials, Set<Tag<Material>> tags, boolean throwException) throws TagMisconfigurationException {
-        if (PatternUtils.MINECRAFT_MATERIAL.matcher(value).matches()) {
+        if (PatternUtils.MINECRAFT_NAMESPACEDKEY.matcher(value).matches()) {
             // Match the NamespacedKey against Materials
             Material material = Material.matchMaterial(value);
 
