@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -52,6 +51,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
