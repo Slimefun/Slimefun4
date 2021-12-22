@@ -36,7 +36,9 @@
 * Added a ton of wiki links to the guide
 * (API) Added "GRAVITY_AFFECTED_BLOCKS" tag
 * (API) Added "Biome-Maps" for more in-depth GEO resource configuration (developers only for now)
+* (API) Added some utility methods for Biome-Maps
 * Added support for 1.18
+* Added Talisman of Farmer
 
 #### Changes
 * GEO resource distributions have been slightly adjusted
@@ -45,6 +47,7 @@
 #### Fixes
 * Crimson and Warped Pressure Plates are now properly recognized as pressure plates
 * Fixed #3336
+* (API) Fixed `Parachute` constructor parameter being ignored
 
 ## Release Candidate 29 (07 Nov 2021)
 
