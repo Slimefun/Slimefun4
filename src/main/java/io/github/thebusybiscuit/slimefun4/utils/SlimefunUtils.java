@@ -36,6 +36,7 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
@@ -304,6 +305,18 @@ public final class SlimefunUtils {
                 // Prioritize SlimefunItem id comparison over ItemMeta comparison
                 if (Slimefun.getItemDataService().hasEqualItemData(possibleSfItemMeta, itemMeta)) {
                     Debug.log(TestCase.CARGO_INPUT_TESTING, "  Item IDs matched!");
+
+                    /*
+                    * Some items can't rely on just IDs matching and will implement Distinctive Item
+                    * in which case we want to use the method provided to compare
+                     */
+                    Optional<String> id = Slimefun.getItemDataService().getItemData(itemMeta);
+                    if (id.isPresent()) {
+                        SlimefunItem slimefunItem = SlimefunItem.getById(id.get());
+                        if (slimefunItem instanceof DistinctiveItem) {
+                            return ((DistinctiveItem) slimefunItem).canStack(possibleSfItemMeta, itemMeta);
+                        }
+                    }
                     return true;
                 } else {
                     Debug.log(TestCase.CARGO_INPUT_TESTING, "  Item IDs don't match, checking meta {} == {} (lore: {})", itemMeta, possibleSfItemMeta, checkLore);

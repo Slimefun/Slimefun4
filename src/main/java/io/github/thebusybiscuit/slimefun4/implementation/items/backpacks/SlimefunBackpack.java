@@ -6,16 +6,19 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 /**
@@ -28,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
  * @see PlayerBackpack
  *
  */
-public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
+public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> implements DistinctiveItem {
 
     private final int size;
 
@@ -82,4 +85,14 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
         };
     }
 
+    @Override
+    public boolean canStack(@Nonnull ItemMeta sfItemMeta, @Nonnull ItemMeta itemMeta) {
+        boolean hasLoreItem = itemMeta.hasLore();
+        boolean hasLoreSfItem = sfItemMeta.hasLore();
+
+        if (hasLoreItem && hasLoreSfItem && SlimefunUtils.equalsLore(itemMeta.getLore(), sfItemMeta.getLore())) {
+            return true;
+        }
+        return !hasLoreItem && !hasLoreSfItem;
+    }
 }
