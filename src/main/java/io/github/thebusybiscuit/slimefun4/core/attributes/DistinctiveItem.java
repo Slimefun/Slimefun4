@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 
 /**
  * Implement this interface for any {@link SlimefunItem} to prevent
- * cargo using only it's ID when comparing. #isSame is used when
+ * cargo using only its ID when comparing. #canStack is used when
  * comparing stacks
  *
  * @author Sefiraat
