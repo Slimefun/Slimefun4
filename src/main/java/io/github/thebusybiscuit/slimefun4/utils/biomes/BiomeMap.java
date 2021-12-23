@@ -21,7 +21,7 @@ import com.google.gson.JsonElement;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * {@link BiomeMap}s are used to map data values to {@link Biome} constants.
@@ -149,14 +149,30 @@ public class BiomeMap<T> implements Keyed {
     }
 
     @ParametersAreNonnullByDefault
-    public static <T> @Nonnull BiomeMap<T> fromResource(NamespacedKey key, String path, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
+    public static <T> @Nonnull BiomeMap<T> fromResource(NamespacedKey key, JavaPlugin plugin, String path, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
         Validate.notNull(key, "The key shall not be null.");
+        Validate.notNull(plugin, "The plugin shall not be null.");
         Validate.notNull(path, "The path should not be null!");
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Slimefun.class.getResourceAsStream(path), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path), StandardCharsets.UTF_8))) {
             return fromJson(key, reader.lines().collect(Collectors.joining("")), valueConverter);
         } catch (IOException x) {
             throw new BiomeMapException(key, x);
         }
+    }
+
+    @ParametersAreNonnullByDefault
+    public static @Nonnull BiomeMap<Integer> getIntMapFromResource(NamespacedKey key, JavaPlugin plugin, String path) throws BiomeMapException {
+        return fromResource(key, plugin, path, JsonElement::getAsInt);
+    }
+
+    @ParametersAreNonnullByDefault
+    public static @Nonnull BiomeMap<Long> getLongMapFromResource(NamespacedKey key, JavaPlugin plugin, String path) throws BiomeMapException {
+        return fromResource(key, plugin, path, JsonElement::getAsLong);
+    }
+
+    @ParametersAreNonnullByDefault
+    public static @Nonnull BiomeMap<String> getStringMapFromResource(NamespacedKey key, JavaPlugin plugin, String path) throws BiomeMapException {
+        return fromResource(key, plugin, path, JsonElement::getAsString);
     }
 }
