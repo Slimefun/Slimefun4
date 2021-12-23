@@ -2,12 +2,14 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -54,7 +56,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
-    private static final Map<BlockPosition, Item> pedestalVirtualItemCache = new ConcurrentHashMap<>();
+    private static final Map<BlockPosition, UUID> pedestalVirtualItemCache = new ConcurrentHashMap<>();
 
     @ParametersAreNonnullByDefault
     public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -89,17 +91,20 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     public @Nonnull Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
-        Item cache = pedestalVirtualItemCache.get(new BlockPosition(pedestal));
+        UUID itemUUID = pedestalVirtualItemCache.get(new BlockPosition(pedestal));
 
-        if (cache != null) {
-            return Optional.of(cache);
+        if (itemUUID != null) {
+            Entity cache = Bukkit.getEntity(itemUUID);
+            if (cache instanceof Item) {
+                return Optional.of((Item) cache);
+            }
         }
 
         // If cache was deleted, use old method to find nearby possible display item entity.
         Location l = pedestal.getLocation().clone().add(0.5, 1.2, 0.5);
 
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
-            if (n instanceof Item) {
+            if (n instanceof Item && n.isValid()) {
                 Optional<Item> item = Optional.of((Item) n);
 
                 startItemWatcher(pedestal.getLocation(), (Item) n);
@@ -176,7 +181,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         pedestalVirtualItemCache.remove(new BlockPosition(pedestal));
     }
 
-    public @Nonnull Map<BlockPosition, Item> getVirtualItemCache() {
+    public @Nonnull Map<BlockPosition, UUID> getVirtualItemCache() {
         return pedestalVirtualItemCache;
     }
 
@@ -187,6 +192,6 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
      * @param item virtual item
      */
     private void startItemWatcher(@Nonnull Location pedestalLocation, @Nonnull Item item) {
-        pedestalVirtualItemCache.put(new BlockPosition(pedestalLocation), item);
+        pedestalVirtualItemCache.put(new BlockPosition(pedestalLocation), item.getUniqueId());
     }
 }
