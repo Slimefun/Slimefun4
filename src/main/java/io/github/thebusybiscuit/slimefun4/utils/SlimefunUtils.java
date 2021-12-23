@@ -282,11 +282,8 @@ public final class SlimefunUtils {
             Debug.log(TestCase.CARGO_INPUT_TESTING, "SlimefunUtils#isItemSimilar - item.hasItemMeta()");
             ItemMeta itemMeta = item.getItemMeta();
 
-            // Grab ID here as it is used for all but one of the remaining branches
-            Optional<String> optionalId = Slimefun.getItemDataService().getItemData(itemMeta);
-            String id = optionalId.orElse(null);
-
             if (sfitem instanceof SlimefunItemStack) {
+                String id = getMetaId(itemMeta);
 
                 if (id != null) {
                     return id.equals(((SlimefunItemStack) sfitem).getItemId());
@@ -304,6 +301,7 @@ public final class SlimefunUtils {
                  */
                 ItemMeta possibleSfItemMeta = sfitem.getItemMeta();
                 Debug.log(TestCase.CARGO_INPUT_TESTING, "  sfitem is ItemStackWrapper - possible SF Item: {}", sfitem);
+                String id = getMetaId(itemMeta);
 
                 // Prioritize SlimefunItem id comparison over ItemMeta comparison
                 if (Slimefun.getItemDataService().getItemData(possibleSfItemMeta).orElse("").equals(id)) {
@@ -332,6 +330,11 @@ public final class SlimefunUtils {
         } else {
             return !sfitem.hasItemMeta();
         }
+    }
+
+    private static @Nullable String getMetaId(ItemMeta itemMeta) {
+        Optional<String> optionalId = Slimefun.getItemDataService().getItemData(itemMeta);
+        return optionalId.orElse(null);
     }
 
     private static @Nonnull Optional<DistinctiveItem> getDistinctiveItem(@Nonnull String id) {
