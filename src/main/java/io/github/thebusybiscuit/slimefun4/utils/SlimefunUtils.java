@@ -282,11 +282,14 @@ public final class SlimefunUtils {
             Debug.log(TestCase.CARGO_INPUT_TESTING, "SlimefunUtils#isItemSimilar - item.hasItemMeta()");
             ItemMeta itemMeta = item.getItemMeta();
 
-            if (sfitem instanceof SlimefunItemStack) {
-                Optional<String> id = Slimefun.getItemDataService().getItemData(itemMeta);
+            // Grab ID here as it is used for all but one of the remaining branches
+            Optional<String> optionalId = Slimefun.getItemDataService().getItemData(itemMeta);
+            String id = optionalId.orElse(null);
 
-                if (id.isPresent()) {
-                    return id.get().equals(((SlimefunItemStack) sfitem).getItemId());
+            if (sfitem instanceof SlimefunItemStack) {
+
+                if (id != null) {
+                    return id.equals(((SlimefunItemStack) sfitem).getItemId());
                 }
 
                 ItemMetaSnapshot meta = ((SlimefunItemStack) sfitem).getItemMetaSnapshot();
@@ -303,19 +306,16 @@ public final class SlimefunUtils {
                 Debug.log(TestCase.CARGO_INPUT_TESTING, "  sfitem is ItemStackWrapper - possible SF Item: {}", sfitem);
 
                 // Prioritize SlimefunItem id comparison over ItemMeta comparison
-                if (Slimefun.getItemDataService().hasEqualItemData(possibleSfItemMeta, itemMeta)) {
+                if (Slimefun.getItemDataService().getItemData(possibleSfItemMeta).orElse("").equals(id)) {
                     Debug.log(TestCase.CARGO_INPUT_TESTING, "  Item IDs matched!");
 
                     /*
-                    * Some items can't rely on just IDs matching and will implement Distinctive Item
-                    * in which case we want to use the method provided to compare
+                     * Some items can't rely on just IDs matching and will implement Distinctive Item
+                     * in which case we want to use the method provided to compare
                      */
-                    Optional<String> id = Slimefun.getItemDataService().getItemData(itemMeta);
-                    if (id.isPresent()) {
-                        SlimefunItem slimefunItem = SlimefunItem.getById(id.get());
-                        if (slimefunItem instanceof DistinctiveItem) {
-                            return ((DistinctiveItem) slimefunItem).canStack(possibleSfItemMeta, itemMeta);
-                        }
+                    Optional<DistinctiveItem> optionalDistinctive = getDistinctiveItem(id);
+                    if (optionalDistinctive.isPresent()) {
+                        return optionalDistinctive.get().canStack(possibleSfItemMeta, itemMeta);
                     }
                     return true;
                 } else {
@@ -332,6 +332,14 @@ public final class SlimefunUtils {
         } else {
             return !sfitem.hasItemMeta();
         }
+    }
+
+    private static @Nonnull Optional<DistinctiveItem> getDistinctiveItem(@Nonnull String id) {
+        SlimefunItem slimefunItem = SlimefunItem.getById(id);
+        if (slimefunItem instanceof DistinctiveItem) {
+            return Optional.of((DistinctiveItem) slimefunItem);
+        }
+        return Optional.empty();
     }
 
     private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMetaSnapshot meta, boolean checkLore) {
@@ -523,7 +531,7 @@ public final class SlimefunUtils {
      *
      * @param inventory
      *            The {@link Inventory} to check.
-     * 
+     *
      * @return True if the inventory is empty and false otherwise
      */
     public static boolean isInventoryEmpty(@Nonnull Inventory inventory) {
