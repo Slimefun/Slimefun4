@@ -213,6 +213,11 @@ public enum SlimefunTag implements Tag<Material> {
     MINER_TALISMAN_TRIGGERS,
 
     /**
+     * All materials (crops) which can be doubled using a Farmer {@link Talisman}.
+     */
+    FARMER_TALISMAN_TRIGGERS,
+
+    /**
      * All materials (crops) which the {@link CropGrowthAccelerator} will recognize.
      */
     CROP_GROWTH_ACCELERATOR_BLOCKS,
