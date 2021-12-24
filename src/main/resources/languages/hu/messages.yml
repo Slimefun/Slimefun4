@@ -30,6 +30,7 @@ commands:
     unknown-flag: '&4Ismeretlen flag: &c%flag%'
   debug:
     description: 'Hibakeresés futtatása fejlesztőknek'
+    running: '&7Hibakereső mód futtatása ezen tesztesettel: &6%test%'
     disabled: '&7Hibakereső mód deaktiválva.'
 placeholderapi:
   profile-loading: 'Betöltés...'
