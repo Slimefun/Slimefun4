@@ -1,5 +1,5 @@
 # Table of contents
-- [Release Candidate 30 (TBD)](#release-candidate-30-tbd)
+- [Release Candidate 30 (30 Dec 2021)](#release-candidate-30-30-dec-2021)
 - [Release Candidate 29 (07 Nov 2021)](#release-candidate-29-07-nov-2021)
 - [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
 - [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
@@ -30,7 +30,7 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 30 (TBD)
+## Release Candidate 30 (30 Dec 2021)
 
 #### Additions
 * Added a ton of wiki links to the guide
@@ -48,8 +48,10 @@
 * Crimson and Warped Pressure Plates are now properly recognized as pressure plates
 * Fixed #3336
 * (API) Fixed `Parachute` constructor parameter being ignored
+* Fixed #3385
 
 ## Release Candidate 29 (07 Nov 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
 
 #### Additions
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
@@ -78,12 +80,14 @@
 * Fixed smithing table issue on 1.15 and lower
 
 ## Release Candidate 28 (06 Sep 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#28
 
 #### Fixes
 * Fixed Metrics
 * Fixed some naming conventions and localization keys for RC-27
 
 ## Release Candidate 27 (03 Sep 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#27
 
 ### **Breaking Changes (API)**
 This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
