@@ -19,6 +19,8 @@ commands:
     player-never-joined: '&4그 이름의 플레이어를 찾을 수 없습니다!'
     backpack-does-not-exist: '&4지정된 배낭이 없습니다!'
     restored-backpack-given: '&a배낭이 복원되어 인벤토리에 추가되었습니다!'
+  charge:
+    description: 당신이 들고 있는 아이템을 충전합니다
 guide:
   locked: '잠금'
   search:
