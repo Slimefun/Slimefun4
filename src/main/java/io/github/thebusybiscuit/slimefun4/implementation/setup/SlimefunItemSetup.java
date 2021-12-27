@@ -1457,7 +1457,7 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(categories.easter, SlimefunItems.EASTER_APPLE_PIE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null}, 
-        new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_PIE, 2))
+        new SlimefunItemStack(SlimefunItems.EASTER_APPLE_PIE, 2))
         .register(plugin);
 
         new EasterEgg(categories.easter, SlimefunItems.EASTER_EGG, RecipeType.ENHANCED_CRAFTING_TABLE,
