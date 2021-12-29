@@ -49,6 +49,7 @@
 * Fixed #3336
 * (API) Fixed `Parachute` constructor parameter being ignored
 * Fixed #3385
+* Fixed (Easter) Apple Pie recipe yielding (Christmas) Apple Pies
 
 ## Release Candidate 29 (07 Nov 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
