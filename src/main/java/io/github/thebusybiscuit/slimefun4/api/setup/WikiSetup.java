@@ -35,7 +35,7 @@ public final class WikiSetup {
      */
     public static void fromJson(JavaPlugin addon) {
         if (!(addon instanceof SlimefunAddon)) {
-            throw new IllegalArgumentException("This is not a valid slimefun addon");
+            throw new IllegalArgumentException("This is not a Slimefun addon");
         }
 
         addon.getLogger().log(Level.INFO, "Loading Wiki pages...");
