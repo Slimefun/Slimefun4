@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.annotation.Nonnull;
@@ -23,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
  * an Addon.
  * 
  * @author TheBusyBiscuit
+ * @author ybw0014
  *
  */
 public interface SlimefunAddon {
@@ -96,5 +98,12 @@ public interface SlimefunAddon {
         PluginDescriptionFile description = getJavaPlugin().getDescription();
         return description.getDepend().contains(dependency) || description.getSoftDepend().contains(dependency);
     }
+
+    /**
+     * This method returns the prefix of the wiki link of this addon.
+     *
+     * @return The prefix of wiki link, null if wiki does not exist
+     */
+    default @Nullable String getWikiPrefix() { return null; }
 
 }

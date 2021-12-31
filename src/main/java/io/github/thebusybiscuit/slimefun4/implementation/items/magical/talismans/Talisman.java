@@ -73,7 +73,6 @@ public class Talisman extends SlimefunItem {
         this.suffix = messageSuffix;
         this.effects = effects;
         this.chance = chance;
-        addOfficialWikipage(WIKI_PAGE);
 
         if (!(this instanceof EnderTalisman)) {
             String name = "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName());
@@ -128,6 +127,7 @@ public class Talisman extends SlimefunItem {
     public void postRegister() {
         EnderTalisman talisman = new EnderTalisman(this, getEnderVariant());
         talisman.register(getAddon());
+        addWikipage(WIKI_PAGE);
     }
 
     @Override

@@ -377,6 +377,11 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         return "https://github.com/Slimefun/Slimefun4/issues";
     }
 
+    @Override
+    public String getWikiPrefix() {
+        return "https://github.com/Slimefun/Slimefun4/wiki/";
+    }
+
     /**
      * This method gets called when the {@link Plugin} gets disabled.
      * Most often it is called when the {@link Server} is shutting down or reloading.
