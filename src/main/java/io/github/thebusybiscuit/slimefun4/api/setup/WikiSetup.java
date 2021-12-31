@@ -20,6 +20,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 /**
  * This class used to setup the wiki pages.
  *
+ * The methods in this class should call {@link SlimefunItem#addWikipage(String)}
+ * after items are registered.
+ *
  * @author ybw0014
  *
  * @see SlimefunItem
