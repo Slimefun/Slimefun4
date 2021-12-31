@@ -860,6 +860,7 @@ public class SlimefunItem implements Placeable {
      */
     public final void addWikipage(@Nonnull String page) {
         Validate.notNull(page, "Wiki page cannot be null.");
+        Validate.notNull(addon, "addWikipage() should be called after registering");
 
         if (addon.getWikiPrefix() != null) {
             wikiURL = Optional.of(addon.getWikiPrefix() + page);
