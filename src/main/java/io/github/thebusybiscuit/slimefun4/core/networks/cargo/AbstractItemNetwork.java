@@ -137,7 +137,7 @@ abstract class AbstractItemNetwork extends Network {
             Optional<Block> target = getAttachedBlock(l);
 
             if (target.isPresent()) {
-                item = CargoUtils.insert(this, inventories, l.getBlock(), target.get(), false, item, ItemStackWrapper.wrap(item));
+                item = CargoUtils.insert(this, inventories, l.getBlock(), target.get(), false, item);
 
                 if (item == null) {
                     terminal.replaceExistingItem(request.getSlot(), null);
@@ -237,7 +237,7 @@ abstract class AbstractItemNetwork extends Network {
             ItemStack itemSlot17 = menu.getItemInSlot(17);
             if (itemSlot17 != null) {
                 Optional<Block> target = getAttachedBlock(bus);
-                target.ifPresent(block -> menu.replaceExistingItem(17, CargoUtils.insert(this, inventories, bus.getBlock(), block, false, itemSlot17, ItemStackWrapper.wrap(itemSlot17))));
+                target.ifPresent(block -> menu.replaceExistingItem(17, CargoUtils.insert(this, inventories, bus.getBlock(), block, false, itemSlot17)));
             }
 
             if (menu.getItemInSlot(17) == null) {
