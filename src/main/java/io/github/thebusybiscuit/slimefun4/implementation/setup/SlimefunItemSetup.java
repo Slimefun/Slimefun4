@@ -824,6 +824,12 @@ public final class SlimefunItemSetup {
         false, false, "miner", 20)
         .register(plugin);
 
+        new Talisman(SlimefunItems.TALISMAN_FARMER,
+        new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.DIAMOND_HOE), SlimefunItems.COMMON_TALISMAN,  new ItemStack(Material.DIAMOND_HOE), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
+        false, false, "farmer", 20)
+        .register(plugin);
+
+
         new Talisman(SlimefunItems.TALISMAN_HUNTER,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.COMMON_TALISMAN, SlimefunItems.MONSTER_JERKY, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
         false, false, "hunter", 20)
@@ -1451,7 +1457,7 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(categories.easter, SlimefunItems.EASTER_APPLE_PIE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null}, 
-        new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_PIE, 2))
+        new SlimefunItemStack(SlimefunItems.EASTER_APPLE_PIE, 2))
         .register(plugin);
 
         new EasterEgg(categories.easter, SlimefunItems.EASTER_EGG, RecipeType.ENHANCED_CRAFTING_TABLE,

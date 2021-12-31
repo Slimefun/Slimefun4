@@ -28,7 +28,7 @@ public class Parachute extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     public Parachute(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+        super(itemGroup, item, recipeType, recipe);
     }
 
 }
