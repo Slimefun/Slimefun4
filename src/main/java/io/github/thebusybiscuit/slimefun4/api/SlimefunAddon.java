@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.annotation.Nonnull;
