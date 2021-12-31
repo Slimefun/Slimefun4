@@ -39,6 +39,8 @@
 
 #### Fixes
 * Fixed #3390
+* Fixed research issues for vanilla items, e.g. Trident or Totem of Undying
+* Fixed #3368
 
 ## Release Candidate 30 (31 Dec 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
