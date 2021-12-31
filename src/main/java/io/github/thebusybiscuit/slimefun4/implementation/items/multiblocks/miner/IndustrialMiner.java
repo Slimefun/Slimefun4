@@ -51,6 +51,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     protected final Map<Location, MiningTask> activeMiners = new HashMap<>();
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
 
+    private final OreDictionary oreDictionary;
     private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>(this, "can-mine-ancient-debris", false);
     private final ItemSetting<Boolean> canMineDeepslateOres = new ItemSetting<>(this, "can-mine-deepslate-ores", true);
     private final boolean silkTouch;
@@ -58,8 +59,15 @@ public class IndustrialMiner extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public IndustrialMiner(ItemGroup itemGroup, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial) }, BlockFace.UP);
+        // @formatter:off
+        super(itemGroup, item, new ItemStack[] {
+            null, null, null,
+            new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItemStack(Material.PISTON, "Piston (facing up)"),
+            new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial)
+        }, BlockFace.UP);
+        // @formatter:on
 
+        this.oreDictionary = OreDictionary.forVersion(Slimefun.getMinecraftVersion());
         this.range = range;
         this.silkTouch = silkTouch;
 
@@ -114,67 +122,17 @@ public class IndustrialMiner extends MultiBlockMachine {
     /**
      * This method returns the outcome that mining certain ores yields.
      * 
-     * @param ore
+     * @param material
      *            The {@link Material} of the ore that was mined
      * 
      * @return The outcome when mining this ore
      */
-    public @Nonnull ItemStack getOutcome(@Nonnull Material ore) {
+    public @Nonnull ItemStack getOutcome(@Nonnull Material material) {
         if (hasSilkTouch()) {
-            return new ItemStack(ore);
-        }
-
-        MinecraftVersion minecraftVersion = Slimefun.getMinecraftVersion();
-        Random random = ThreadLocalRandom.current();
-
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            // In 1.17, breaking metal ores should get raw metals. Also support deepslate ores.
-            switch (ore) {
-                case DEEPSLATE_COAL_ORE:
-                    return new ItemStack(Material.COAL);
-                case DEEPSLATE_DIAMOND_ORE:
-                    return new ItemStack(Material.DIAMOND);
-                case DEEPSLATE_EMERALD_ORE:
-                    return new ItemStack(Material.EMERALD);
-                case DEEPSLATE_REDSTONE_ORE:
-                    return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
-                case DEEPSLATE_LAPIS_ORE:
-                    return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
-                case COPPER_ORE:
-                case DEEPSLATE_COPPER_ORE:
-                    return new ItemStack(Material.RAW_COPPER);
-                case IRON_ORE:
-                case DEEPSLATE_IRON_ORE:
-                    return new ItemStack(Material.RAW_IRON);
-                case GOLD_ORE:
-                case DEEPSLATE_GOLD_ORE:
-                    return new ItemStack(Material.RAW_GOLD);
-                default:
-                    break;
-            }
-        }
-
-        // In 1.16, breaking nether gold ores should get gold nuggets
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16) && ore == Material.NETHER_GOLD_ORE) {
-            return new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
-        }
-
-        switch (ore) {
-            case COAL_ORE:
-                return new ItemStack(Material.COAL);
-            case DIAMOND_ORE:
-                return new ItemStack(Material.DIAMOND);
-            case EMERALD_ORE:
-                return new ItemStack(Material.EMERALD);
-            case REDSTONE_ORE:
-                return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
-            case LAPIS_ORE:
-                return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
-            case NETHER_QUARTZ_ORE:
-                return new ItemStack(Material.QUARTZ);
-            default:
-                // This includes Iron and Gold ore (and Ancient Debris)
-                return new ItemStack(ore);
+            return new ItemStack(material);
+        } else {
+            Random random = ThreadLocalRandom.current();
+            return oreDictionary.getDrops(material, random);
         }
     }
 
