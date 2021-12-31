@@ -42,10 +42,9 @@ public final class WikiSetup {
         }
 
         addon.getLogger().log(Level.INFO, "Loading Wiki pages...");
-        JsonParser parser = new JsonParser();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(addon.getClass().getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
-            JsonElement element = parser.parse(reader.lines().collect(Collectors.joining("")));
+            JsonElement element = JsonParser.parseString(reader.lines().collect(Collectors.joining("")));
             JsonObject json = element.getAsJsonObject();
 
             for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
