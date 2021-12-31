@@ -1,17 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
@@ -21,11 +15,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.setup.WikiSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.GrindStone;
@@ -41,23 +32,7 @@ public final class PostSetup {
     private PostSetup() {}
 
     public static void setupWiki() {
-        Slimefun.logger().log(Level.INFO, "Loading Wiki pages...");
-        JsonParser parser = new JsonParser();
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Slimefun.class.getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
-            JsonElement element = parser.parse(reader.lines().collect(Collectors.joining("")));
-            JsonObject json = element.getAsJsonObject();
-
-            for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
-                SlimefunItem item = SlimefunItem.getById(entry.getKey());
-
-                if (item != null) {
-                    item.addWikipage(entry.getValue().getAsString());
-                }
-            }
-        } catch (IOException e) {
-            Slimefun.logger().log(Level.SEVERE, "Failed to load wiki.json file", e);
-        }
+        WikiSetup.fromJson(Slimefun.instance());
     }
 
     public static void loadItems() {
