@@ -7,12 +7,16 @@ import java.util.Set;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
 /**
  * An old remnant of CS-CoreLib.
  * This will be removed once we updated everything.
  * Don't look at the code, it will be gone soon, don't worry.
  *
+ * @deprecated Only used by the legacy {@link BlockStorage} system.
  */
+@Deprecated
 public class Config {
 
     private final File file;
