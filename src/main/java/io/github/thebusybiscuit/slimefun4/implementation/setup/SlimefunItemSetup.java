@@ -647,6 +647,11 @@ public final class SlimefunItemSetup {
         0.7, 150)
         .register(plugin);
 
+        new Jetpack(categories.technicalGadgets, SlimefunItems.ARMORED_JETPACK,
+        new ItemStack[] {SlimefunItems.STEEL_PLATE, null, SlimefunItems.STEEL_PLATE, SlimefunItems.STEEL_PLATE, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_PLATE, SlimefunItems.STEEL_THRUSTER, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
+        0.5, 50)
+        .register(plugin);
+
         new Parachute(categories.technicalGadgets, SlimefunItems.PARACHUTE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CLOTH, SlimefunItems.CHAIN, null, SlimefunItems.CHAIN, null, null, null})
         .register(plugin);
