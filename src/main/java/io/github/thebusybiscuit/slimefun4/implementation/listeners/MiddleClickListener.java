@@ -45,34 +45,36 @@ public class MiddleClickListener implements Listener {
             // get the block the player is looking at for later
             Block b = player.getTargetBlockExact(5);
 
-            if (isActualMiddleClick(e, b)) {
-                // find the actual slimefun item the user is looking at
-                String id = BlockStorage.checkID(b);
-                SlimefunItem sfItem = SlimefunItem.getById(id);
+            if (!isActualMiddleClick(e, b)) {
+                return;
+            }
 
-                // vanilla block -> ignore
-                if (sfItem == null) {
+            // find the actual slimefun item the user is looking at
+            String id = BlockStorage.checkID(b);
+            SlimefunItem sfItem = SlimefunItem.getById(id);
+
+            // vanilla block -> ignore
+            if (sfItem == null) {
+                return;
+            }
+            
+            /* 
+                * Before giving the item to the user, check if you can swap
+                * to the item instead (user already has item in hotbar).
+                * This is sometimes bypassed by the client itself (not fixable though).
+                */
+            for (int i = 0; i < 9; i++) {
+                SlimefunItem hotbarItem = SlimefunItem.getByItem(player.getInventory().getItem(i));
+                if (hotbarItem != null && hotbarItem.getId() == sfItem.getId()) {
+                    player.getInventory().setHeldItemSlot(i);
+                    // Has to be cancelled in order for it to work properly.
+                    e.setCancelled(true);
                     return;
                 }
-                
-                /* 
-                 * Before giving the item to the user, check if you can swap
-                 * to the item instead (user already has item in hotbar).
-                 * This is sometimes bypassed by the client itself (not fixable though).
-                 */
-                for (int i = 0; i < 9; i++) {
-                    SlimefunItem hotbarItem = SlimefunItem.getByItem(player.getInventory().getItem(i));
-                    if (hotbarItem != null && hotbarItem.getId() == sfItem.getId()) {
-                        player.getInventory().setHeldItemSlot(i);
-                        // Has to be cancelled in order for it to work properly.
-                        e.setCancelled(true);
-                        return;
-                    }
-                }
-
-                // Give the item, doing it like this will not alter any other cases.
-                e.setCursor(sfItem.getItem().clone());
             }
+
+            // Give the item, doing it like this will not alter any other cases.
+            e.setCursor(sfItem.getItem().clone());
         }
     }
 
