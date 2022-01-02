@@ -75,6 +75,14 @@ public class BioGenerator extends AGenerator {
             registerFuel(new MachineFuel(16, SlimefunItems.STRANGE_NETHER_GOO));
         }
 
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_BERRIES)));
+            registerFuel(new MachineFuel(3, new ItemStack(Material.SMALL_DRIPLEAF)));
+            registerFuel(new MachineFuel(3, new ItemStack(Material.BIG_DRIPLEAF)));
+            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_LICHEN)));
+            registerFuel(new MachineFuel(20, new ItemStack(Material.SPORE_BLOSSOM)));
+        }
+
         // Leaves
         for (Material m : Tag.LEAVES.getValues()) {
             registerFuel(new MachineFuel(1, new ItemStack(m)));
