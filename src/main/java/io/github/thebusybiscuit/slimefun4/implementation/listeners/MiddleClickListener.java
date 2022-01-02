@@ -50,8 +50,7 @@ public class MiddleClickListener implements Listener {
             }
 
             // find the actual slimefun item the user is looking at
-            String id = BlockStorage.checkID(b);
-            SlimefunItem sfItem = SlimefunItem.getById(id);
+            SlimefunItem sfItem = BlockStorage.check(b);
 
             // vanilla block -> ignore
             if (sfItem == null) {
@@ -59,10 +58,10 @@ public class MiddleClickListener implements Listener {
             }
             
             /* 
-                * Before giving the item to the user, check if you can swap
-                * to the item instead (user already has item in hotbar).
-                * This is sometimes bypassed by the client itself (not fixable though).
-                */
+             * Before giving the item to the user, check if you can swap
+             * to the item instead (user already has item in hotbar).
+             * This is sometimes bypassed by the client itself (not fixable though).
+             */
             for (int i = 0; i < 9; i++) {
                 SlimefunItem hotbarItem = SlimefunItem.getByItem(player.getInventory().getItem(i));
                 if (hotbarItem != null && hotbarItem.getId() == sfItem.getId()) {
