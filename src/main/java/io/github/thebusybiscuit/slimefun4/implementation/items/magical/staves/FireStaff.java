@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -47,13 +48,14 @@ public class FireStaff extends LimitedUseItem {
             Player p = e.getPlayer();
             ItemStack item = e.getItem();
             Location loc = p.getTargetBlock(null, 7).getLocation();
+            Block block = loc.getBlock();
 
             if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
                 // Get a target block with max. 7 blocks of distance
                 if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
                     if (loc.getWorld().getPVP() && Slimefun.getProtectionManager().hasPermission(p, loc, Interaction.PLACE_BLOCK)) {
                         e.cancel();
-                        useItem(p, item, loc);
+                        useItem(p,item,block,loc);
                     } else {
                         Slimefun.getLocalization().sendMessage(p, "messages.cannot-place", true);
                     }
@@ -65,42 +67,42 @@ public class FireStaff extends LimitedUseItem {
     }
 
     @ParametersAreNonnullByDefault
-    private void useItem(Player p, ItemStack item, Location loc) {
+    private void useItem(Player p, ItemStack item, Block block, Location loc) {
 
 
         if (!p.isSneaking()) {
-            if (loc.getBlock().getType() == Material.WATER) {
-                loc.getBlock().setType(Material.AIR);
+            if (block.getType() == Material.WATER) {
+                block.setType(Material.AIR);
                 p.playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
             }
 
-            if (loc.getBlock().getRelative(BlockFace.UP).getType().isAir()) {
-                loc.getBlock().getRelative(BlockFace.UP).setType(Material.FIRE);
+            if (block.getRelative(BlockFace.UP).getType().isAir()) {
+                block.getRelative(BlockFace.UP).setType(Material.FIRE);
                 p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
             }
 
-            if (loc.getBlock().getRelative(BlockFace.DOWN).getType().isAir()) {
-                loc.getBlock().getRelative(BlockFace.DOWN).setType(Material.FIRE);
+            if (block.getRelative(BlockFace.DOWN).getType().isAir()) {
+                block.getRelative(BlockFace.DOWN).setType(Material.FIRE);
                 p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
             }
 
-            if (loc.getBlock().getRelative(BlockFace.EAST).getType().isAir()) {
-                loc.getBlock().getRelative(BlockFace.EAST).setType(Material.FIRE);
+            if (block.getRelative(BlockFace.EAST).getType().isAir()) {
+                block.getRelative(BlockFace.EAST).setType(Material.FIRE);
                 p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
             }
 
-            if (loc.getBlock().getRelative(BlockFace.SOUTH).getType().isAir()) {
-                loc.getBlock().getRelative(BlockFace.SOUTH).setType(Material.FIRE);
+            if (block.getRelative(BlockFace.SOUTH).getType().isAir()) {
+                block.getRelative(BlockFace.SOUTH).setType(Material.FIRE);
                 p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
             }
 
-            if (loc.getBlock().getRelative(BlockFace.NORTH).getType().isAir()) {
-                loc.getBlock().getRelative(BlockFace.NORTH).setType(Material.FIRE);
+            if (block.getRelative(BlockFace.NORTH).getType().isAir()) {
+                block.getRelative(BlockFace.NORTH).setType(Material.FIRE);
                 p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
             }
 
-            if (loc.getBlock().getRelative(BlockFace.WEST).getType().isAir()) {
-                loc.getBlock().getRelative(BlockFace.WEST).setType(Material.FIRE);
+            if (block.getRelative(BlockFace.WEST).getType().isAir()) {
+                block.getRelative(BlockFace.WEST).setType(Material.FIRE);
                 p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
             }
 

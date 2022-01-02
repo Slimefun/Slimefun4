@@ -794,7 +794,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.FIRE_RUNE, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1})
         .register(plugin);
       
-        new FireStaff(categories.magicalGadgets, SlimefunItems.STAFF_FIRE, RecipeType.MAGIC_WORKBENCH,
+        new FireStaff(itemGroups.magicalGadgets, SlimefunItems.STAFF_FIRE, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {null, SlimefunItems.LAVA_CRYSTAL, new ItemStack(Material.FLINT_AND_STEEL), null, SlimefunItems.STAFF_ELEMENTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.STAFF_ELEMENTAL, null, null})
         .register(plugin);
         
