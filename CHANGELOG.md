@@ -35,6 +35,12 @@
 
 #### Additions
 * Added Armored Jetpack
+* Added Cocoa Beans as a fuel type for the Bio-Generator
+* Added Beetroots and Beetroot seeds as fuel types for the Bio-Generator
+* Added small and big dripleaves as fuel types for the Bio-Generator
+* Added Glow Berries as a fuel type for the Bio-Generator
+* Added Glow Lichen as a fuel type for the Bio-Generator
+* Added Spore Blossom as a fuel type for the Bio-Generator
 
 #### Changes
 
@@ -43,6 +49,8 @@
 * Fixed research issues for vanilla items, e.g. Trident or Totem of Undying
 * Fixed #3368
 * Fixed #1315
+* Fixed #3400
+* Fixed rare issue where Slimefun would not load at all
 
 ## Release Candidate 30 (31 Dec 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
