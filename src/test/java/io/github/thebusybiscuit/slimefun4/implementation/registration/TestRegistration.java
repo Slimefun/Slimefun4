@@ -25,6 +25,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
@@ -84,6 +85,11 @@ class TestRegistration {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 
             for (ItemGroup itemGroup : Slimefun.getRegistry().getAllItemGroups()) {
+                if (itemGroup instanceof FlexItemGroup) {
+                    // Skip flex groups
+                    continue;
+                }
+
                 String path = itemGroup.getKey().getNamespace() + '.' + itemGroup.getKey().getKey();
                 Assertions.assertTrue(config.contains(path));
             }
