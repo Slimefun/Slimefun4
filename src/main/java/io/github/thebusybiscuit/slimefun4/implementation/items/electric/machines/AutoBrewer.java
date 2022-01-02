@@ -126,11 +126,13 @@ public class AutoBrewer extends AContainer implements NotHopperable {
                 potion.setBasePotionData(new PotionData(fermented, data.isExtended(), data.isUpgraded()));
                 return new ItemStack(potionType);
             }
-        } else if (input == Material.REDSTONE && type.isExtendable()) {
-            potion.setBasePotionData(new PotionData(type, true, data.isUpgraded()));
+        } else if (input == Material.REDSTONE && type.isExtendable() && !data.isUpgraded()) {
+            // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
+            potion.setBasePotionData(new PotionData(type, true, false));
             return new ItemStack(potionType);
-        } else if (input == Material.GLOWSTONE_DUST && type.isUpgradeable()) {
-            potion.setBasePotionData(new PotionData(type, data.isExtended(), true));
+        } else if (input == Material.GLOWSTONE_DUST && type.isUpgradeable() && !data.isExtended()) {
+            // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
+            potion.setBasePotionData(new PotionData(type, false, true));
             return new ItemStack(potionType);
         } else if (type == PotionType.AWKWARD) {
             PotionType potionRecipe = potionRecipes.get(input);
