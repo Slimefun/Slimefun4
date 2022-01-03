@@ -36,8 +36,7 @@ public class FireStaff extends LimitedUseItem {
     }
 
     @Override
-    protected @Nonnull
-    NamespacedKey getStorageKey() {
+    protected @Nonnull NamespacedKey getStorageKey() {
         return usageKey;
     }
 
