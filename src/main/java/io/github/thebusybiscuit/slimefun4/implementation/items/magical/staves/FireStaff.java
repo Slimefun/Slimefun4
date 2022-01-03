@@ -41,9 +41,8 @@ public class FireStaff extends LimitedUseItem {
         return usageKey;
     }
 
-    @Nonnull
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
             ItemStack item = e.getItem();
