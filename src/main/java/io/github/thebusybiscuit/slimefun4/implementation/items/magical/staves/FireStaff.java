@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class FireStaff extends LimitedUseItem {
+
     public static final int MAX_USES = 64;
 
     private static final NamespacedKey usageKey = new NamespacedKey(Slimefun.instance(), "firestaff_usage");
