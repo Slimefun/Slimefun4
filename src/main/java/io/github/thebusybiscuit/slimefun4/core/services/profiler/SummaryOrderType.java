@@ -30,25 +30,26 @@ public enum SummaryOrderType {
 
     @ParametersAreNonnullByDefault
     List<Map.Entry<String, Long>> sort(SlimefunProfiler profiler, Set<Map.Entry<String, Long>> entrySet) {
-        if (this == SummaryOrderType.HIGHEST) {
-            return entrySet.stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toList());
-        } else if (this == SummaryOrderType.LOWEST) {
-            return entrySet.stream()
-                .sorted(Comparator.comparingLong(Map.Entry::getValue))
-                .collect(Collectors.toList());
-        } else {
-            final Map<String, Long> map = new HashMap<>();
-            for (Map.Entry<String, Long> entry : entrySet) {
-                int count = profiler.getBlocksOfId(entry.getKey());
-                long avg = count > 0 ? entry.getValue() / count : entry.getValue();
+        switch(this) {
+            case HIGHEST:
+                return entrySet.stream()
+                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .collect(Collectors.toList());
+            case LOWEST:
+                return entrySet.stream()
+                        .sorted(Comparator.comparingLong(Map.Entry::getValue))
+                        .collect(Collectors.toList());
+            default:
+                final Map<String, Long> map = new HashMap<>();
+                for (Map.Entry<String, Long> entry : entrySet) {
+                    int count = profiler.getBlocksOfId(entry.getKey());
+                    long avg = count > 0 ? entry.getValue() / count : entry.getValue();
 
-                map.put(entry.getKey(), avg);
-            }
-            return map.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toList());
+                    map.put(entry.getKey(), avg);
+                }
+                return map.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .collect(Collectors.toList());
         }
     }
 }
