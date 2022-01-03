@@ -68,8 +68,6 @@ public class FireStaff extends LimitedUseItem {
 
     @ParametersAreNonnullByDefault
     private void useItem(Player p, ItemStack item, Block block, Location loc) {
-
-
         if (!p.isSneaking()) {
             if (block.getType() == Material.WATER) {
                 block.setType(Material.AIR);
