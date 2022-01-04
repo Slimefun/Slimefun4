@@ -2,18 +2,14 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves;
 
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.LimitedUseItem;
 
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -22,10 +18,17 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
+/**
+ * This {@link SlimefunItem} set block on fire where you are pointing.
+ * It has limited usage similar to {@link StormStaff}
+ *
+ * @author TerslenK
+ */
 public class FireStaff extends LimitedUseItem {
 
-    public static final int MAX_USES = 64;
+    public static final int MAX_USES = Slimefun.getCfg().getInt("staves.fire-staff-use-limit");
 
     private static final NamespacedKey usageKey = new NamespacedKey(Slimefun.instance(), "firestaff_usage");
 
@@ -47,14 +50,13 @@ public class FireStaff extends LimitedUseItem {
             Player p = e.getPlayer();
             ItemStack item = e.getItem();
             Location loc = p.getTargetBlock(null, 7).getLocation();
-            Block block = loc.getBlock();
 
             if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
                 // Get a target block with max. 7 blocks of distance
                 if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
                     if (loc.getWorld().getPVP() && Slimefun.getProtectionManager().hasPermission(p, loc, Interaction.PLACE_BLOCK)) {
                         e.cancel();
-                        useItem(p,item,block,loc);
+                        useItem(p,item);
                     } else {
                         Slimefun.getLocalization().sendMessage(p, "messages.cannot-place", true);
                     }
@@ -65,45 +67,17 @@ public class FireStaff extends LimitedUseItem {
         };
     }
 
+    public BlockFace getBlockFace(Player p) {
+        List<Block> lastTwoTargetBlocks = p.getLastTwoTargetBlocks(null, 100);
+        if (lastTwoTargetBlocks.size() != 2 || !lastTwoTargetBlocks.get(1).getType().isOccluding()) return null;
+        Block targetBlock = lastTwoTargetBlocks.get(1);
+        Block adjacentBlock = lastTwoTargetBlocks.get(0);
+        return targetBlock.getFace(adjacentBlock);
+    }
+
     @ParametersAreNonnullByDefault
-    private void useItem(Player p, ItemStack item, Block block, Location loc) {
-        if (!p.isSneaking()) {
-            if (block.getType() == Material.WATER) {
-                block.setType(Material.AIR);
-                p.playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
-            }
-
-            if (block.getRelative(BlockFace.UP).getType().isAir()) {
-                block.getRelative(BlockFace.UP).setType(Material.FIRE);
-                p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
-            }
-
-            if (block.getRelative(BlockFace.DOWN).getType().isAir()) {
-                block.getRelative(BlockFace.DOWN).setType(Material.FIRE);
-                p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
-            }
-
-            if (block.getRelative(BlockFace.EAST).getType().isAir()) {
-                block.getRelative(BlockFace.EAST).setType(Material.FIRE);
-                p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
-            }
-
-            if (block.getRelative(BlockFace.SOUTH).getType().isAir()) {
-                block.getRelative(BlockFace.SOUTH).setType(Material.FIRE);
-                p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
-            }
-
-            if (block.getRelative(BlockFace.NORTH).getType().isAir()) {
-                block.getRelative(BlockFace.NORTH).setType(Material.FIRE);
-                p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
-            }
-
-            if (block.getRelative(BlockFace.WEST).getType().isAir()) {
-                block.getRelative(BlockFace.WEST).setType(Material.FIRE);
-                p.playSound(loc, Sound.ITEM_FLINTANDSTEEL_USE,1,1);
-            }
-
-        }
+    private void useItem(Player p, ItemStack item) {
+        p.getTargetBlock(null,7).getRelative(getBlockFace(p)).setType(Material.FIRE);
 
         if (p.getGameMode() != GameMode.CREATIVE) {
             FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);
@@ -113,7 +87,6 @@ public class FireStaff extends LimitedUseItem {
                 p.setFoodLevel(event.getFoodLevel());
             }
         }
-
         damageItem(p, item);
     }
 }

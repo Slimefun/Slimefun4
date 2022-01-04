@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.LimitedUseItem;
 
 /**
  * This {@link SlimefunItem} casts a {@link LightningStrike} where you are pointing.
- * Unlike the other Staves, it has a limited amount of uses.
+ * It has a limited amount of uses.
  *
  * @author Linox
  * @author Walshy
@@ -33,7 +33,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.LimitedUseItem;
  */
 public class StormStaff extends LimitedUseItem {
 
-    public static final int MAX_USES = 8;
+    public static final int MAX_USES = Slimefun.getCfg().getInt("staves.storm-staff-use-limit");
 
     private static final NamespacedKey usageKey = new NamespacedKey(Slimefun.instance(), "stormstaff_usage");
 

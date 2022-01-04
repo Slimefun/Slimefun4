@@ -46,6 +46,10 @@ talismans:
 metrics:
   auto-update: true
 
+staves:
+  fire-staff-use-limit: 64
+  storm-staff-use-limit: 8
+
 research-ranks:
 - Chicken
 - Cow
