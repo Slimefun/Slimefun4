@@ -57,7 +57,6 @@ public class GitHubService {
 
         connectors = new HashSet<>();
         contributors = new ConcurrentHashMap<>();
-        loadConnectors(false);
     }
 
     /**
@@ -68,6 +67,8 @@ public class GitHubService {
      *            Our instance of {@link Slimefun}
      */
     public void start(@Nonnull Slimefun plugin) {
+        loadConnectors(false);
+
         long period = TimeUnit.HOURS.toMillis(1);
         GitHubTask task = new GitHubTask(this);
 
