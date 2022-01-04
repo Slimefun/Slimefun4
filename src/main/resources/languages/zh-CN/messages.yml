@@ -288,8 +288,6 @@ brewing_stand:
   not-working: '&4你不能在酿造台中使用 Slimefun 物品!'
 cartography_table:
   not-working: '&4你不能在制图台中使用 Slimefun 物品!'
-smithing_table:
-  not-working: '&4你不能使用Slimefun物品作为锻造材料！'
 villagers:
   no-trading: '&4你不能用 Slimefun 的物品和村民交易!'
 backpack:
