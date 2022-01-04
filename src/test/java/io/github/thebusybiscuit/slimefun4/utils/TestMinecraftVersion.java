@@ -58,4 +58,10 @@ class TestMinecraftVersion {
         Assertions.assertThrows(IllegalArgumentException.class, () -> MinecraftVersion.MINECRAFT_1_14.isBefore(null));
     }
 
+    @Test
+    @DisplayName("Test warning system for lowest supported version checks")
+    void testLowestSupportedVersion() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> MinecraftVersion.UNIT_TEST.isAtLeast(MinecraftVersion.MINECRAFT_1_14));
+    }
+
 }
