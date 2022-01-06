@@ -175,6 +175,7 @@ messages:
   talisman:
     anvil: '&a&o你的护身符使你的工具免于损坏'
     miner: '&a&o你的护身符使矿物双倍掉落了'
+    farmer: '&a&o你的护身符使掉落物翻倍了'
     hunter: '&a&o你的护身符使掉落物双倍掉落了'
     lava: '&a&o你的护身符将你从岩浆中救了出来'
     water: '&a&o你的护身符使你免于溺水'
@@ -288,6 +289,8 @@ brewing_stand:
   not-working: '&4你不能在酿造台中使用 Slimefun 物品!'
 cartography_table:
   not-working: '&4你不能在制图台中使用 Slimefun 物品!'
+smithing_table:
+  not-working: '&4你不能使用 Slimefun 物品作为锻造材料!'
 villagers:
   no-trading: '&4你不能用 Slimefun 的物品和村民交易!'
 backpack:
@@ -309,7 +312,7 @@ gps:
     - '&4a) 你还没有设置一个 GPS 网络'
     - '&4b) 你的 GPS 网络复杂度不够, 多放置几个 GPS 信号发射机'
   geo:
-    scan-required: '&4需要先进行 GEO 地形扫描! &c请先使用 GEO 地形扫描器!'
+    scan-required: '&4需要先进行自然资源扫描! &c请先使用自然资源扫描器!'
 inventory:
   no-access: '&4你没有权限使用这个方块'
 android:
