@@ -86,6 +86,7 @@ public class StormStaff extends LimitedUseItem {
     private void useItem(Player p, ItemStack item, Location loc) {
         World world = loc.getWorld();
         if (world != null) {
+            // Store the strike and caster so StormStaffLightningListener can take care of possible damage events
             LightningStrike lightningStrike = world.strikeLightning(loc);
             stormStaffLightnings.put(lightningStrike.getUniqueId(), p.getUniqueId());
         }

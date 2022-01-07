@@ -21,11 +21,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.UUID;
 
 /**
- * This {@link Listener} makes sure that if a {@link org.bukkit.entity.LightningStrike} spawned by a {@link io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff}
+ * This {@link Listener} makes sure that if a {@link LightningStrike} spawned by a {@link StormStaff}
  * causes damage {@link Player}, the event is transformed into a {@link}
  * unlocking a {@link Research} does not cause damage to be dealt.
  *
- * @author TheBusyBiscuit
+ * @author Sfiguz7
  *
  */
 public class StormStaffLightningListener implements Listener {
