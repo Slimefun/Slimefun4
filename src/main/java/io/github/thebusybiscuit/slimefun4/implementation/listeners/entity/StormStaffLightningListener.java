@@ -34,9 +34,10 @@ public class StormStaffLightningListener implements Listener {
         if (e.getDamager() instanceof LightningStrike) {
             LightningStrike lightningStrike = (LightningStrike) e.getDamager();
             UUID lightningStrikeUuid = lightningStrike.getUniqueId();
-            if (StormStaff.stormStaffLightnings.containsKey(lightningStrikeUuid)) {
+            UUID casterUuid = StormStaff.getStormStaffLightnings().get(lightningStrikeUuid);
+            if (casterUuid != null) {
                 e.setCancelled(true);
-                Player caster = Bukkit.getPlayer(StormStaff.stormStaffLightnings.get(lightningStrikeUuid));
+                Player caster = Bukkit.getPlayer(casterUuid);
                 EntityDamageByEntityEvent newEvent = new EntityDamageByEntityEvent(caster, e.getEntity(), e.getCause(), e.getDamage());
                 Bukkit.getPluginManager().callEvent(newEvent);
             }
@@ -46,7 +47,7 @@ public class StormStaffLightningListener implements Listener {
     // To prevent memory leaks, we want the stored lightnings to always be removed whether they dealt damage or not
     @EventHandler(ignoreCancelled = true)
     public void onLightningFall(LightningStrikeEvent e) {
-        StormStaff.stormStaffLightnings.remove(e.getLightning().getUniqueId());
+        StormStaff.getStormStaffLightnings().remove(e.getLightning().getUniqueId());
     }
 
 }

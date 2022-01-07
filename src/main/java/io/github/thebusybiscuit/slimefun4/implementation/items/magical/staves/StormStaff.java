@@ -43,7 +43,8 @@ public class StormStaff extends LimitedUseItem {
     private static final NamespacedKey usageKey = new NamespacedKey(Slimefun.instance(), "stormstaff_usage");
     private final ItemSetting<Boolean> allowNonPVPUse = new ItemSetting<>(this, "allow-non-pvp-use", false);
 
-    public static final Map<UUID, UUID> stormStaffLightnings = new HashMap<>();
+    // This is a Map<LightningStrikeUuid, PlayerUuid> to keep track of the caster/lightning strike relationship for listeners
+    private static final Map<UUID, UUID> stormStaffLightnings = new HashMap<>();
 
     @ParametersAreNonnullByDefault
     public StormStaff(ItemGroup group, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -105,6 +106,10 @@ public class StormStaff extends LimitedUseItem {
         }
 
         damageItem(p, item);
+    }
+
+    public static @Nonnull Map<UUID, UUID> getStormStaffLightnings() {
+        return stormStaffLightnings;
     }
 
 }
