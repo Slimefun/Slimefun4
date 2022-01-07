@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.StormStaffLightningListener;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -623,6 +624,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new SoulboundListener(this);
         new AutoCrafterListener(this);
         new SlimefunItemHitListener(this);
+        new StormStaffLightningListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {

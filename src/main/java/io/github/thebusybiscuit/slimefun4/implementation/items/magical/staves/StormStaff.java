@@ -24,6 +24,10 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.LimitedUseItem;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 /**
  * This {@link SlimefunItem} casts a {@link LightningStrike} where you are pointing.
  * Unlike the other Staves, it has a limited amount of uses.
@@ -38,6 +42,8 @@ public class StormStaff extends LimitedUseItem {
 
     private static final NamespacedKey usageKey = new NamespacedKey(Slimefun.instance(), "stormstaff_usage");
     private final ItemSetting<Boolean> allowNonPVPUse = new ItemSetting<>(this, "allow-non-pvp-use", false);
+
+    public static final Map<UUID, UUID> stormStaffLightnings = new HashMap<>();
 
     @ParametersAreNonnullByDefault
     public StormStaff(ItemGroup group, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -80,7 +86,8 @@ public class StormStaff extends LimitedUseItem {
     private void useItem(Player p, ItemStack item, Location loc) {
         World world = loc.getWorld();
         if (world != null) {
-            world.strikeLightning(loc);
+            LightningStrike lightningStrike = world.strikeLightning(loc);
+            stormStaffLightnings.put(lightningStrike.getUniqueId(), p.getUniqueId());
         }
 
         if (item.getType() == Material.SHEARS) {
