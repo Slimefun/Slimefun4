@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -36,12 +37,14 @@ public class StormStaff extends LimitedUseItem {
     public static final int MAX_USES = 8;
 
     private static final NamespacedKey usageKey = new NamespacedKey(Slimefun.instance(), "stormstaff_usage");
+    private final ItemSetting<Boolean> allowNonPVPUse = new ItemSetting<>(this, "allow-non-pvp-use", false);
 
     @ParametersAreNonnullByDefault
     public StormStaff(ItemGroup group, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(group, item, recipeType, recipe);
 
         setMaxUseCount(MAX_USES);
+        addItemSetting(allowNonPVPUse);
     }
 
     @Override
@@ -60,7 +63,7 @@ public class StormStaff extends LimitedUseItem {
                 Location loc = p.getTargetBlock(null, 30).getLocation();
 
                 if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
-                    if (loc.getWorld().getPVP() && Slimefun.getProtectionManager().hasPermission(p, loc, Interaction.ATTACK_PLAYER)) {
+                    if ((loc.getWorld().getPVP() || allowNonPVPUse.getValue()) && Slimefun.getProtectionManager().hasPermission(p, loc, Interaction.ATTACK_PLAYER)) {
                         e.cancel();
                         useItem(p, item, loc);
                     } else {
