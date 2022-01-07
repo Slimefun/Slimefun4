@@ -37,33 +37,34 @@ class TimingsCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender.hasPermission("slimefun.command.timings") || sender instanceof ConsoleCommandSender) {
-            if (hasInvalidFlags(sender, args)) {
-                return;
-            }
-
-            boolean verbose = hasFlag(args, "verbose");
-
-            if (verbose && sender instanceof Player) {
-                Slimefun.getLocalization().sendMessage(sender, "commands.timings.verbose-player", true);
-                return;
-            }
-
-            SummaryOrderType orderType = SummaryOrderType.HIGHEST;
-
-            if (hasFlag(args, "avg")) {
-                orderType = SummaryOrderType.AVERAGE;
-            } else if (hasFlag(args, "low")) {
-                orderType = SummaryOrderType.LOWEST;
-            }
-
-            Slimefun.getLocalization().sendMessage(sender, "commands.timings.please-wait", true);
-
-            PerformanceInspector inspector = inspectorOf(sender, verbose, orderType);
-            Slimefun.getProfiler().requestSummary(inspector);
-        } else {
+        if (!sender.hasPermission("slimefun.command.timings") && !(sender instanceof ConsoleCommandSender)) {
             Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            return;
         }
+
+        if (hasInvalidFlags(sender, args)) {
+            return;
+        }
+
+        boolean verbose = hasFlag(args, "verbose");
+
+        if (verbose && sender instanceof Player) {
+            Slimefun.getLocalization().sendMessage(sender, "commands.timings.verbose-player", true);
+            return;
+        }
+
+        SummaryOrderType orderType = SummaryOrderType.HIGHEST;
+
+        if (hasFlag(args, "avg")) {
+            orderType = SummaryOrderType.AVERAGE;
+        } else if (hasFlag(args, "low")) {
+            orderType = SummaryOrderType.LOWEST;
+        }
+
+        Slimefun.getLocalization().sendMessage(sender, "commands.timings.please-wait", true);
+
+        PerformanceInspector inspector = inspectorOf(sender, verbose, orderType);
+        Slimefun.getProfiler().requestSummary(inspector);
     }
 
     @ParametersAreNonnullByDefault
