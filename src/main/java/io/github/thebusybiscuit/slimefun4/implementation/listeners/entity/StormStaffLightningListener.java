@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
@@ -12,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.weather.LightningStrikeEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 
 import java.util.UUID;
 
