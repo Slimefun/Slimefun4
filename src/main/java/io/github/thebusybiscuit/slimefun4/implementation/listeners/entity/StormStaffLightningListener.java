@@ -4,26 +4,21 @@ import javax.annotation.Nonnull;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.weather.LightningStrikeEvent;
-import org.bukkit.inventory.meta.FireworkMeta;
 
-import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import java.util.UUID;
 
 /**
  * This {@link Listener} makes sure that if a {@link LightningStrike} spawned by a {@link StormStaff}
- * causes damage {@link Player}, the event is transformed into a {@link}
- * unlocking a {@link Research} does not cause damage to be dealt.
+ * causes damage to an {@link org.bukkit.entity.Entity}, the event is transformed so the damage is
+ * attributed to the StormStaff caster.
  *
  * @author Sfiguz7
  *
