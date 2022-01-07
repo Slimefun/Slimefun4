@@ -15,7 +15,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.StormStaffLightningListener;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -109,6 +108,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.Firewo
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.IronGolemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.PiglinListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.StormStaffLightningListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
