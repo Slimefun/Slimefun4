@@ -70,7 +70,7 @@ public class StormStaff extends LimitedUseItem {
                 Location loc = p.getTargetBlock(null, 30).getLocation();
 
                 if (loc.getWorld() != null && loc.getChunk().isLoaded()) {
-                    if ((loc.getWorld().getPVP() || allowNonPVPUse.getValue()) && Slimefun.getProtectionManager().hasPermission(p, loc, Interaction.ATTACK_PLAYER)) {
+                    if ((loc.getWorld().getPVP() && Slimefun.getProtectionManager().hasPermission(p, loc, Interaction.ATTACK_PLAYER)) || allowNonPVPUse.getValue()) {
                         e.cancel();
                         useItem(p, item, loc);
                     } else {
