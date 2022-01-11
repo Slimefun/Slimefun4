@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,6 +19,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -29,6 +31,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.localization.LanguageFil
 import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
  * As the name suggests, this Service is responsible for Localization.
@@ -97,7 +100,7 @@ public class LocalizationService extends SlimefunLocalization {
     }
 
     @Override
-    public String getPrefix() {
+    public String getChatPrefix() {
         return prefix;
     }
 
@@ -126,7 +129,7 @@ public class LocalizationService extends SlimefunLocalization {
 
         // Checks if our jar files contains a messages.yml file for that language
         String file = LanguageFile.MESSAGES.getFilePath(id);
-        return !streamConfigFile(file, null).getKeys(false).isEmpty();
+        return !getConfigurationFromStream(file, null).getKeys(false).isEmpty();
     }
 
     /**
@@ -196,7 +199,7 @@ public class LocalizationService extends SlimefunLocalization {
 
     @ParametersAreNonnullByDefault
     private void copyToDefaultLanguage(String language, LanguageFile file) {
-        FileConfiguration config = streamConfigFile(file.getFilePath(language), null);
+        FileConfiguration config = getConfigurationFromStream(file.getFilePath(language), null);
         defaultLanguage.setFile(file, config);
     }
 
@@ -210,7 +213,7 @@ public class LocalizationService extends SlimefunLocalization {
 
             for (LanguageFile file : LanguageFile.values()) {
                 FileConfiguration defaults = file == LanguageFile.MESSAGES ? getConfig().getConfiguration() : null;
-                FileConfiguration config = streamConfigFile(file.getFilePath(language), defaults);
+                FileConfiguration config = getConfigurationFromStream(file.getFilePath(language), defaults);
                 language.setFile(file, config);
             }
 
@@ -249,8 +252,7 @@ public class LocalizationService extends SlimefunLocalization {
         return Math.min(NumberUtils.reparseDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
     }
 
-    @Nonnull
-    private FileConfiguration streamConfigFile(@Nonnull String file, @Nullable FileConfiguration defaults) {
+    private @Nonnull FileConfiguration getConfigurationFromStream(@Nonnull String file, @Nullable FileConfiguration defaults) {
         InputStream inputStream = plugin.getClass().getResourceAsStream(file);
 
         if (inputStream == null) {
@@ -258,15 +260,24 @@ public class LocalizationService extends SlimefunLocalization {
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
+            String content = reader.lines().collect(Collectors.joining("\n"));
+            YamlConfiguration config = new YamlConfiguration();
 
-            if (defaults != null) {
-                config.setDefaults(defaults);
+            /*
+             * Fixes #3400 - Only attempt to load yaml files that contain data.
+             * This is not a perfect fix but should be sufficient to circumvent this issue.
+             */
+            if (PatternUtils.YAML_ENTRY.matcher(content).find()) {
+                config.loadFromString(content);
+
+                if (defaults != null) {
+                    config.setDefaults(defaults);
+                }
             }
 
             return config;
-        } catch (IOException e) {
-            Slimefun.logger().log(Level.SEVERE, e, () -> "Failed to load language file into memory: \"" + file + "\"");
+        } catch (IOException | InvalidConfigurationException e) {
+            Slimefun.logger().log(Level.WARNING, e, () -> "Failed to load language file into memory: \"" + file + "\"");
             return new YamlConfiguration();
         }
     }
