@@ -24,10 +24,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 
@@ -66,8 +66,7 @@ class TestBiomeMapCompatibility {
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Slimefun.class.getResourceAsStream(path), StandardCharsets.UTF_8))) {
-            JsonParser parser = new JsonParser();
-            JsonArray biomes = parser.parse(reader.lines().collect(Collectors.joining(""))).getAsJsonArray();
+            JsonArray biomes = JsonUtils.parseString(reader.lines().collect(Collectors.joining(""))).getAsJsonArray();
 
             compatibilityMap.put(version, biomes);
         } catch (IOException x) {
@@ -161,8 +160,7 @@ class TestBiomeMapCompatibility {
 
         String path = "/biome-maps/" + name + ".json";
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Slimefun.class.getResourceAsStream(path), StandardCharsets.UTF_8))) {
-            JsonParser parser = new JsonParser();
-            JsonArray root = parser.parse(reader.lines().collect(Collectors.joining(""))).getAsJsonArray();
+            JsonArray root = JsonUtils.parseString(reader.lines().collect(Collectors.joining(""))).getAsJsonArray();
 
             for (JsonElement element : root) {
                 JsonArray biomes = element.getAsJsonObject().getAsJsonArray("biomes");
