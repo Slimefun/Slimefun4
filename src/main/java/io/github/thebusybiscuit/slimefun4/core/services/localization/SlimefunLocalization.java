@@ -64,7 +64,14 @@ public abstract class SlimefunLocalization implements Keyed {
         defaultConfig.save();
     }
 
-    public @Nonnull String getPrefix() {
+    /**
+     * This returns the chat prefix for our messages.
+     * Every message (unless explicitly omitted) will have this
+     * prefix prepended.
+     * 
+     * @return The chat prefix
+     */
+    public @Nonnull String getChatPrefix() {
         return getMessage("prefix");
     }
 
@@ -339,7 +346,7 @@ public abstract class SlimefunLocalization implements Keyed {
         Validate.notNull(recipient, "Recipient cannot be null!");
         Validate.notNull(key, "Message key cannot be null!");
 
-        String prefix = addPrefix ? getPrefix() : "";
+        String prefix = addPrefix ? getChatPrefix() : "";
 
         if (recipient instanceof Player) {
             recipient.sendMessage(ChatColors.color(prefix + getMessage((Player) recipient, key)));
@@ -352,7 +359,7 @@ public abstract class SlimefunLocalization implements Keyed {
         Validate.notNull(player, "Player cannot be null!");
         Validate.notNull(key, "Message key cannot be null!");
 
-        String prefix = addPrefix ? getPrefix() : "";
+        String prefix = addPrefix ? getChatPrefix() : "";
         String message = ChatColors.color(prefix + getMessage(player, key));
 
         BaseComponent[] components = TextComponent.fromLegacyText(message);
@@ -374,7 +381,7 @@ public abstract class SlimefunLocalization implements Keyed {
             return;
         }
 
-        String prefix = addPrefix ? getPrefix() : "";
+        String prefix = addPrefix ? getChatPrefix() : "";
 
         if (recipient instanceof Player) {
             recipient.sendMessage(ChatColors.color(prefix + function.apply(getMessage((Player) recipient, key))));
@@ -384,7 +391,7 @@ public abstract class SlimefunLocalization implements Keyed {
     }
 
     public void sendMessages(@Nonnull CommandSender recipient, @Nonnull String key) {
-        String prefix = getPrefix();
+        String prefix = getChatPrefix();
 
         if (recipient instanceof Player) {
             for (String translation : getMessages((Player) recipient, key)) {
@@ -401,7 +408,7 @@ public abstract class SlimefunLocalization implements Keyed {
 
     @ParametersAreNonnullByDefault
     public void sendMessages(CommandSender recipient, String key, boolean addPrefix, UnaryOperator<String> function) {
-        String prefix = addPrefix ? getPrefix() : "";
+        String prefix = addPrefix ? getChatPrefix() : "";
 
         if (recipient instanceof Player) {
             for (String translation : getMessages((Player) recipient, key)) {

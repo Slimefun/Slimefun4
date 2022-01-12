@@ -115,7 +115,7 @@
                 <!-- Compiler plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.9.0</version>
 
                 <configuration>
                     <excludes>
@@ -362,7 +362,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.13.4</version>
+            <version>3.13.6</version>
             <scope>compile</scope>
 
             <exclusions>
@@ -390,7 +390,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.18</artifactId>
-            <version>1.14.0</version>
+            <version>1.15.0</version>
             <scope>test</scope>
 
             <exclusions>
@@ -435,7 +435,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.206</version>
+            <version>2.1.208</version>
             <scope>provided</scope>
 
             <exclusions>
@@ -449,7 +449,7 @@
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.11.0</version>
+            <version>2.11.1</version>
             <scope>provided</scope>
 
             <exclusions>
@@ -491,7 +491,7 @@
         <dependency>
             <groupId>net.imprex</groupId>
             <artifactId>orebfuscator-api</artifactId>
-            <version>5.2.1</version>
+            <version>5.2.4</version>
             <scope>provided</scope>
 
             <exclusions>

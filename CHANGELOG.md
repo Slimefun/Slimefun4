@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 30 (TBD)](#release-candidate-30-tbd)
+- [Release Candidate 31 (TBD)](#release-candidate-31-tbd)
+- [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
 - [Release Candidate 29 (07 Nov 2021)](#release-candidate-29-07-nov-2021)
 - [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
 - [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
@@ -30,7 +31,29 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 30 (TBD)
+## Release Candidate 31 (TBD)
+
+#### Additions
+* Added Armored Jetpack
+* Added Cocoa Beans as a fuel type for the Bio-Generator
+* Added Beetroots and Beetroot seeds as fuel types for the Bio-Generator
+* Added small and big dripleaves as fuel types for the Bio-Generator
+* Added Glow Berries as a fuel type for the Bio-Generator
+* Added Glow Lichen as a fuel type for the Bio-Generator
+* Added Spore Blossom as a fuel type for the Bio-Generator
+
+#### Changes
+
+#### Fixes
+* Fixed #3390
+* Fixed research issues for vanilla items, e.g. Trident or Totem of Undying
+* Fixed #3368
+* Fixed #1315
+* Fixed #3400
+* Fixed rare issue where Slimefun would not load at all
+
+## Release Candidate 30 (31 Dec 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
 
 #### Additions
 * Added a ton of wiki links to the guide
@@ -48,8 +71,11 @@
 * Crimson and Warped Pressure Plates are now properly recognized as pressure plates
 * Fixed #3336
 * (API) Fixed `Parachute` constructor parameter being ignored
+* Fixed #3385
+* Fixed (Easter) Apple Pie recipe yielding (Christmas) Apple Pies
 
 ## Release Candidate 29 (07 Nov 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
 
 #### Additions
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
@@ -78,12 +104,14 @@
 * Fixed smithing table issue on 1.15 and lower
 
 ## Release Candidate 28 (06 Sep 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#28
 
 #### Fixes
 * Fixed Metrics
 * Fixed some naming conventions and localization keys for RC-27
 
 ## Release Candidate 27 (03 Sep 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#27
 
 ### **Breaking Changes (API)**
 This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)

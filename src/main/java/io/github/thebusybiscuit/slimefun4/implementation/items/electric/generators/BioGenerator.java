@@ -54,6 +54,9 @@ public class BioGenerator extends AGenerator {
         registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
         registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
         registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.COCOA_BEANS)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT_SEEDS)));
 
         // Small Flowers (formally just dandelions and poppies).
         for (Material m : Tag.SMALL_FLOWERS.getValues()) {
@@ -70,6 +73,14 @@ public class BioGenerator extends AGenerator {
             registerFuel(new MachineFuel(2, new ItemStack(Material.CRIMSON_FUNGUS)));
             registerFuel(new MachineFuel(2, new ItemStack(Material.WARPED_FUNGUS)));
             registerFuel(new MachineFuel(16, SlimefunItems.STRANGE_NETHER_GOO));
+        }
+
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_BERRIES)));
+            registerFuel(new MachineFuel(3, new ItemStack(Material.SMALL_DRIPLEAF)));
+            registerFuel(new MachineFuel(3, new ItemStack(Material.BIG_DRIPLEAF)));
+            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_LICHEN)));
+            registerFuel(new MachineFuel(20, new ItemStack(Material.SPORE_BLOSSOM)));
         }
 
         // Leaves

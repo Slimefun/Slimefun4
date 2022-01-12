@@ -17,10 +17,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
@@ -101,8 +101,7 @@ class BiomeMapParser<T> {
         JsonArray root = null;
 
         try {
-            JsonParser parser = new JsonParser();
-            root = parser.parse(json).getAsJsonArray();
+            root = JsonUtils.parseString(json).getAsJsonArray();
         } catch (IllegalStateException | JsonParseException x) {
             throw new BiomeMapException(key, x);
         }
