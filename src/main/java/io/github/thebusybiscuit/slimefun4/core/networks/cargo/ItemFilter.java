@@ -1,12 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
+import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
+import javax.annotation.Nullable;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * The {@link ItemFilter} is a performance-optimization for our {@link CargoNet}.
@@ -59,6 +65,7 @@ class ItemFilter implements Predicate<ItemStack> {
      * on the next tick.
      */
     private boolean dirty = false;
+    private boolean checkCustomItems;
 
     /**
      * This creates a new {@link ItemFilter} for the given {@link Block}.
@@ -69,6 +76,7 @@ class ItemFilter implements Predicate<ItemStack> {
      */
     public ItemFilter(@Nonnull Block b) {
         update(b);
+        checkCustomItems = Slimefun.getCfg().getBoolean("options.allow-custom-items-in-cargo-filters");
     }
 
     /**
@@ -161,7 +169,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
     @Override
     public boolean test(@Nonnull ItemStack item) {
-        Debug.log(TestCase.CARGO_INPUT_TESTING, "ItemFilter#test({})", item);
+        // Debug.log(TestCase.CARGO_INPUT_TESTING, "ItemFilter#test({})", item);
         /*
          * An empty Filter does not need to be iterated over.
          * We can just return our default value in this scenario.
@@ -200,7 +208,8 @@ class ItemFilter implements Predicate<ItemStack> {
              * and thus only perform .getItemMeta() once
              */
             for (ItemStackWrapper stack : items) {
-                if (SlimefunUtils.isItemSimilar(subject, stack, checkLore, false)) {
+                if ((checkCustomItems && SlimefunUtils.isItemSimilar(subject, stack, checkLore, false)
+                        || (!checkCustomItems && altItemCompare(subject, stack)))) {
                     /*
                      * The filter has found a match, we can return the opposite
                      * of our default value. If we exclude items, this is where we
@@ -215,4 +224,22 @@ class ItemFilter implements Predicate<ItemStack> {
         }
     }
 
+    public static boolean altItemCompare(@Nullable ItemStack item, @Nullable ItemStack sfitem) {
+        if (item == null) {
+            return sfitem == null;
+        } else if (sfitem == null) {
+            return false;
+        }  else if (item.getType() != sfitem.getType()) {
+            return false;
+        } else {
+            SlimefunItem sfitem1 = SlimefunItem.getByItem(item);
+            SlimefunItem sfitem2 = SlimefunItem.getByItem(sfitem);
+            if (sfitem1 != null && sfitem2 != null) {
+                return sfitem1.getId().equals(sfitem2.getId());
+            } else if (sfitem1 == null && sfitem2 == null) {
+                return item.getType() == sfitem.getType();
+            }
+        }
+        return false;
+    }
 }
