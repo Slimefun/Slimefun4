@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 /**
  * The {@link HiddenItem} is a {@link NotConfigurable} {@link SlimefunItem}
  * that is hidden from the Slimefun guide.
- *
  */
 public class HiddenItem extends SlimefunItem implements NotConfigurable {
 
@@ -22,5 +21,4 @@ public class HiddenItem extends SlimefunItem implements NotConfigurable {
         super(itemGroup, item, recipeType, recipe);
         this.setHidden(true);
     }
-
 }
