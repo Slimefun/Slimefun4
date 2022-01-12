@@ -63,8 +63,7 @@ public class MiddleClickListener implements Listener {
              * This is sometimes bypassed by the client itself (not fixable though).
              */
             for (int i = 0; i < 9; i++) {
-                SlimefunItem hotbarItem = SlimefunItem.getByItem(player.getInventory().getItem(i));
-                if (hotbarItem != null && hotbarItem.getId() == sfItem.getId()) {
+                if (sfItem.isItem(player.getInventory().getItem(i))) {
                     player.getInventory().setHeldItemSlot(i);
                     // Has to be cancelled in order for it to work properly.
                     e.setCancelled(true);
