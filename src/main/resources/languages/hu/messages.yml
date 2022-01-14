@@ -30,6 +30,8 @@ commands:
     unknown-flag: '&4Ismeretlen flag: &c%flag%'
   debug:
     description: 'Hibakeresés futtatása fejlesztőknek'
+    current: '&7Jelenlegi teszteset: &6%test_case%'
+    none-running: '&7Jelenleg nem fut teszteset!'
     running: '&7Hibakereső mód futtatása ezen tesztesettel: &6%test%'
     disabled: '&7Hibakereső mód deaktiválva.'
 placeholderapi:
