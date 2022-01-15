@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -16,19 +17,29 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+/**
+ * The {@link Freezer} can freeze items into it's frozen state.
+ *
+ * @author TheBusyBiscuit
+ * @author svr333
+ * @author J3fftw1
+ */
 public class Freezer extends AContainer implements RecipeDisplayItem {
 
-    private final ItemSetting<Boolean> vanillaTransformation = new ItemSetting<>(this, "vanilla-translation", false);
+    private final ItemSetting<Boolean> useVanillaRatios = new ItemSetting<>(this, "use-vanilla-ratios", false);
 
+    @ParametersAreNonnullByDefault
     public Freezer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        addItemSetting(vanillaTransformation);
+        addItemSetting(useVanillaRatios);
     }
 
     @Override
     protected void registerDefaultRecipes() {
         // This if statement makes the transformation follow Minecraft logic
-        if (vanillaTransformation.getValue()) {
+        if (useVanillaRatios.getValue()) {
             registerRecipe(4, new ItemStack[] { new ItemStack(Material.ICE, 9) }, new ItemStack[] { new ItemStack(Material.PACKED_ICE) });
             registerRecipe(6, new ItemStack[] { new ItemStack(Material.PACKED_ICE, 9) }, new ItemStack[] { new ItemStack(Material.BLUE_ICE) });
         } else {
