@@ -20,7 +20,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * The {@link Freezer} can freeze items into it's frozen state.
+ * The {@link Freezer} can freeze items into its frozen state, e.g. water to ice.
  *
  * @author TheBusyBiscuit
  * @author svr333
