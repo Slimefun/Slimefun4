@@ -28,15 +28,15 @@ public class RainbowArmorPiece extends SlimefunArmorPiece {
     /**
      * This creates a new {@link RainbowArmorPiece} from the given arguments.
      *
-     * @param itemgroup The {@link ItemGroup} this {@link RainbowArmorPiece} belongs to
+     * @param itemGroup The {@link ItemGroup} this {@link RainbowArmorPiece} belongs to
      * @param item The {@link SlimefunItemStack} that describes the visual features of our {@link RainbowArmorPiece}
      * @param recipeType the {@link RecipeType} that determines how this {@link RainbowArmorPiece} is crafted
      * @param recipe An Array representing the recipe of this {@link RainbowArmorPiece}
      * @param dyeColors An Array representing the {@link DyeColor}s this {@link RainbowArmorPiece} will cycle between
      */
     @ParametersAreNonnullByDefault
-    public RainbowArmorPiece(ItemGroup itemgroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, DyeColor[] dyeColors) {
-        super(itemgroup, item, recipeType, recipe, new PotionEffect[0]);
+    public RainbowArmorPiece(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, DyeColor[] dyeColors) {
+        super(itemGroup, item, recipeType, recipe, new PotionEffect[0]);
 
         Validate.notEmpty(dyeColors, "RainbowArmorPiece colors cannot be empty!");
 
