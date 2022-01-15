@@ -3,11 +3,11 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
