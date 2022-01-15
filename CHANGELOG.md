@@ -41,6 +41,7 @@
 * Added Glow Berries as a fuel type for the Bio-Generator
 * Added Glow Lichen as a fuel type for the Bio-Generator
 * Added Spore Blossom as a fuel type for the Bio-Generator
+* Added a new item setting for Freezers to allow them to use a 9:1 "vanilla" ratio instead of 1:1 (1:1 by default, like before)
 
 #### Changes
 * (API) `BiomeMapParser` is now `public`
