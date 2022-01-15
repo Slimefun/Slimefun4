@@ -29,6 +29,7 @@ slimefun:
       - 'Crafta l''elemento come indicato'
       - 'usando un Ore Crusher'
   mob_drop:
+    name: 'Mob Drop'
     lore:
       - 'Uccidi quel mob per'
       - 'ottenere questo elemento'
