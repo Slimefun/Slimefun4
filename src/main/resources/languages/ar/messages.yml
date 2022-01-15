@@ -13,14 +13,26 @@ commands:
     description: لإكمال أو تصفير الأبحاث للاعب ما
     reset: '&cتم تصفير أبحاث %player%'
     reset-target: '&cتم تصفير أبحاثك'
+  backpack:
+    description: استرداد نسخة من حقيبة موجودة
+  charge:
+    description: يشحن العنصر الذي تمسكه
+placeholderapi:
+  profile-loading: 'جارٍ التحميل...'
 guide:
   locked: 'مغلق'
+  work-in-progress: 'لم يتم الانتهاء من هذه الميزة بشكل كامل بعد!'
+  locked-itemgroup:
+    - 'لفتح هذه الفئة يجب'
+    - 'أن تفتح كل العناصر في'
+    - 'الفئات التالية'
   search:
     message: '&bعما تريد البحث؟'
     name: '&7بحث...'
     tooltip: '&bانقر للبحث عن عنصر'
     inventory: 'البحث عن: %item%'
   tooltips:
+    open-itemgroup: 'اضغط للفتح'
     versions-notice: 'هذه القيم مهمة جدا أثناء الإبلاغ عن أخطاء!'
     wiki: 'عرض هذا العنصر في الويكي الرسمي لسلايم فان'
     recipes:
@@ -82,6 +94,8 @@ messages:
   disabled-item: '&4&lهذا العنصر ملغي! كيف حصلت عليه؟'
   no-tome-yourself: '&cلا يمكنك إستعمال &4القاموس &cعلى نفسك...'
   multimeter: '&bالطاقة المخزنة: &3%stored% &b/ &3%capacity%'
+  auto-crafting:
+    select: 'اختر هاذه الوصفة'
   talisman:
     anvil: '&a&oتم إنقاذ أداتك من الكسر بواسطة تعويذتك'
     miner: '&a&oتم مضاعفة غنائمك بواسطة تعويذتك'
