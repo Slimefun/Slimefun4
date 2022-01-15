@@ -43,6 +43,8 @@
 * Added Spore Blossom as a fuel type for the Bio-Generator
 
 #### Changes
+* (API) `BiomeMapParser` is now `public`
+* (API) `BiomeMap.fromJson` now allows you to specify if you want the BiomeMap to be parsed leniently
 
 #### Fixes
 * Fixed #3390
