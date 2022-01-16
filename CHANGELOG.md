@@ -47,6 +47,7 @@
 #### Changes
 * (API) `BiomeMapParser` is now `public`
 * (API) `BiomeMap.fromJson` now allows you to specify if you want the BiomeMap to be parsed leniently
+* Updated dough, fixing some issues
 
 #### Fixes
 * Fixed #3390

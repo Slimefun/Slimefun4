@@ -350,7 +350,7 @@
         <dependency>
             <groupId>io.github.baked-libs</groupId>
             <artifactId>dough-api</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
