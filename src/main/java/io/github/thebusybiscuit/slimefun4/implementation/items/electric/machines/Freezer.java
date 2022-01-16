@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,8 +17,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link Freezer} can freeze items into its frozen state, e.g. water to ice.

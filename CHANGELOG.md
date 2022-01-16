@@ -55,6 +55,7 @@
 * Fixed #1315
 * Fixed #3400
 * Fixed rare issue where Slimefun would not load at all
+* Fixed #3429
 
 ## Release Candidate 30 (31 Dec 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
