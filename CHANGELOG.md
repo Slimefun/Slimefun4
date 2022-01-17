@@ -43,11 +43,11 @@
 * Added Spore Blossom as a fuel type for the Bio-Generator
 * Added a new item setting for Freezers to allow them to use a 9:1 "vanilla" ratio instead of 1:1 (1:1 by default, like before)
 * (API) Added `PlayerProfile#hasUnlockedEverything()` to check if a player has unlocked all researches
+* Added support for the plugin "HuskTowns"
 
 #### Changes
 * (API) `BiomeMapParser` is now `public`
 * (API) `BiomeMap.fromJson` now allows you to specify if you want the BiomeMap to be parsed leniently
-* Updated dough, fixing some issues
 
 #### Fixes
 * Fixed #3390
@@ -57,6 +57,8 @@
 * Fixed #3400
 * Fixed rare issue where Slimefun would not load at all
 * Fixed #3429
+* Fixed "LogBlock" integration
+* Fixed "Lands" integration
 
 ## Release Candidate 30 (31 Dec 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
