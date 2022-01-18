@@ -33,12 +33,17 @@ placeholderapi:
 guide:
   locked: 'נעול'
   work-in-progress: 'תכונה זו עדיין לא הושלמה במלואה!'
+  locked-itemgroup:
+    - 'כדי לבטל את הנעילה של קטגוריה זו'
+    - 'צריך לפתוח את כל הפריטים מה '
+    - 'הקטגוריות הבאות'
   search:
     message: 'מה תרצה לחפש?'
     name: '&7חפש....'
     tooltip: '&b לחץ לחפש פריט'
     inventory: '%item% מחפש עבור: '
   tooltips:
+    open-itemgroup: 'לחץ לפתיחה'
     versions-notice: 'אלה חשובים מאוד כשמדווחים על באגים!'
     wiki: 'ראה פריט זה באתר הרשימי של סליים פאן ויקי'
     recipes:
