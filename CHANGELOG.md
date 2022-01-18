@@ -48,6 +48,7 @@
 #### Changes
 * (API) `BiomeMapParser` is now `public`
 * (API) `BiomeMap.fromJson` now allows you to specify if you want the BiomeMap to be parsed leniently
+* Some translation updates
 
 #### Fixes
 * Fixed #3390
@@ -59,6 +60,7 @@
 * Fixed #3429
 * Fixed "LogBlock" integration
 * Fixed "Lands" integration
+* Fixed #3133
 
 ## Release Candidate 30 (31 Dec 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
