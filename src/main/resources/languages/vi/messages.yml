@@ -28,17 +28,25 @@ commands:
     please-wait: '&eVui lòng đợi một chút... Kết quả chuẩn bị đến!'
     verbose-player: '&4Cờ dài này không thể sử dụng bới Người chơi!'
     unknown-flag: '&4Không rõ cờ: &c%flag%'
+  debug:
+    description: 'Chạy trình gỡ lỗi cho lập trình viên'
+    disabled: '&7Vô hiệu hóa chế độ gỡ lỗi.'
 placeholderapi:
   profile-loading: 'Đang tải...'
 guide:
   locked: 'ĐÃ KHÓA'
   work-in-progress: 'Tính năng này vẫn chưa hoàn thành!'
+  locked-itemgroup:
+    - 'Để mở khóa danh mục này, bạn'
+    - 'cần phải mở khóa các vật phẩm trong'
+    - 'danh mục sau'
   search:
     message: '&bBạn muốn tìm kiếm cái gì?'
     name: '&7Tìm kiếm...'
     tooltip: '&bBấm để tìm vật phẩm'
     inventory: 'Đang tìm: %item%'
   tooltips:
+    open-itemgroup: 'Nhấn vào đây để mở'
     versions-notice: 'Đây là rất quan trọng khi báo cáo lỗi!'
     wiki: 'Xem vật phẩm này trên trang wiki chính thức của Slimefun'
     recipes:
@@ -117,6 +125,8 @@ messages:
   multi-tool:
     mode-change: '&b%device% chế độ thay đổi thành: &9%mode%'
     not-shears: '&cA Đa dụng cụ này không thể sử dụng như cái kéo!'
+  auto-crafting:
+    select: 'Chọn công thức này'
   talisman:
     anvil: '&a&oBùa hộ mệnh của bạn đã lưu công cụ của bạn khỏi bị phá vỡ'
     miner: '&a&oBùa hộ mệnh của bạn vừa nhân đôi vật phẩm rớt'
