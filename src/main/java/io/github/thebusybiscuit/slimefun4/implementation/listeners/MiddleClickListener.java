@@ -78,21 +78,21 @@ public class MiddleClickListener implements Listener {
 
     private boolean isActualMiddleClick(InventoryCreativeEvent e, Block b) {
         /*
-        * On a middle click outside the user inventory, cursor will be set
-        * to the actual block that is middle clicked, while currentItem will be AIR.
-        *
-        * This check is really weird due to the weird nature of this event's behaviour.
-        * It checks if the block the player is looking at is of the same type as the cursor;
-        * after this we can make sure that it is a middle click outside of the inventory
-        * currentItem should also be air, otherwise it is not outside of the inventory
-        */
+         * On a middle click outside the user inventory, cursor will be set
+         * to the actual block that is middle clicked, while currentItem will be AIR.
+         *
+         * This check is really weird due to the weird nature of this event's behaviour.
+         * It checks if the block the player is looking at is of the same type as the cursor;
+         * after this we can make sure that it is a middle click outside of the inventory
+         * currentItem should also be air, otherwise it is not outside of the inventory
+         */
         boolean isOutsideInventoryClick = e.getCursor().getType() == b.getType() && e.getCurrentItem().getType() == Material.AIR;
 
         /*
-        * This is an edge case where the player is looking at a WALL_HEAD (eg. cargo)
-        * and then the boolean above wont match because WALL_HEAD != PLAYER_HEAD.
-        * This check makes up for that lack.
-        */
+         * This is an edge case where the player is looking at a WALL_HEAD (eg. cargo)
+         * and then the boolean above wont match because WALL_HEAD != PLAYER_HEAD.
+         * This check makes up for that lack.
+         */
         boolean isPlayerWallhead = b.getType() == Material.PLAYER_WALL_HEAD && e.getCursor().getType() == Material.PLAYER_HEAD;
 
         return isOutsideInventoryClick || isPlayerWallhead;
