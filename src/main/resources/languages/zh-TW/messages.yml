@@ -28,6 +28,12 @@ commands:
     please-wait: '&e請稍等⋯⋯結果快出來了！'
     verbose-player: '&4玩家不能使用「詳細資訊」標號！'
     unknown-flag: '&4未知標號：&c％flag％'
+  debug:
+    description: '為開發者運行除錯日誌'
+    current: '&7目前的測試事件: &6%test_case%'
+    none-running: '&7目前沒有正在運行的測試事件!'
+    running: '&7正在運行除錯測試: &6%test%'
+    disabled: '&7停用除錯模式.'
 placeholderapi:
   profile-loading: '載入中……'
 guide:
@@ -75,6 +81,24 @@ guide:
     translations:
       name: '&a缺少什麼嗎？'
       lore: '點擊增加您自己的翻譯'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&b學習動畫: &a是'
+          - ''
+          - '&7你現在可以決定'
+          - '&7要不要在聊天欄顯示'
+          - '&7你研究的物品'
+        click: '&e點擊以關閉學習動畫'
+      disabled:
+        text:
+          - '&b學習動畫: &a否'
+          - ''
+          - '&7你現在可以決定'
+          - '&7要不要在聊天欄顯示'
+          - '&7你研究的物品'
+        click: '&e點擊以打開學習動畫'
   title:
     main: 'Slimefun 指南'
     settings: '設置及資訊'
@@ -101,6 +125,7 @@ guide:
       resourcepack: '&7資源包製作人員'
       translator: '&9翻譯人員'
 messages:
+  not-researched: '&4你沒有足夠的知識來理解它。 &c你需要研究解鎖 &f"%item%&f"'
   not-enough-xp: '&4你沒有足夠的經驗值來解鎖這個'
   unlocked: '&b你已解鎖 &7“%research%”'
   only-players: '&4此命令只可由玩家發送'
@@ -124,9 +149,33 @@ messages:
   multi-tool:
     mode-change: '&b%device% 模式切換成：&9%mode%'
     not-shears: '&c不要把它當剪刀用！'
+  auto-crafting:
+    select-a-recipe: '&e手持你要合成的物品並蹲下右鍵點擊&7此方塊以合成'
+    recipe-set: '&a你已成功設定此機器的合成表'
+    recipe-removed: '&e你已成功從此機器移除此合成表，你可以隨時設定一個新的合成表！'
+    no-recipes: '&c我們無法找到可以合成你所手持的物品的合成表'
+    missing-chest: '&c缺少箱子！自動合成機需要被放置於箱子上面'
+    select: '選擇此合成表'
+    temporarily-disabled: '&e這台自動合成機已經暫停運作 你可以隨時將它重新啟動'
+    re-enabled: '&e這臺自動合成機已被重新啟動！'
+    recipe-unavailable: |
+      &c此物品可能被伺服器端封鎖，或你尚未解鎖此物品
+      &7若你之前還沒合成過此物品的話，請試試看以解鎖
+    tooltips:
+      enabled:
+        - '&a此合成表已被啟用'
+        - ''
+        - '&e點擊左鍵 &7以暫停使用此合成表'
+        - '&e右鍵 &7以刪除此合成表'
+      disabled:
+        - '&a此合成表已被停用'
+        - ''
+        - '&e左鍵 &7以啟用此合成表'
+        - '&e右鍵 &7以刪除此合成表'
   talisman:
     anvil: '&a&o你的護符已避免您的工具壞掉'
     miner: '&a&o你的護符剛雙倍了你的掉落'
+    farmer: '&a&o你的護符剛雙倍了你的農作物'
     hunter: '&a&o你的護符剛加倍了你的掉落物'
     lava: '&a&o你的護符把你從被燒死的命運中救出'
     water: '&a&o你的護符給了你空氣'
@@ -182,6 +231,9 @@ messages:
     - '&7永遠保持樂觀積極！'
     - '&7這不是普通的餅乾'
     - '&7霓虹燈好帥！'
+  above-limit-level: '無法附（退）魔比 %level% 更高等的附魔'
+  pickaxe-of-the-seeker:
+    no-ores: '&c無法在附近找到任何礦物！'
 machines:
   pattern-not-found: '&e查無此合成表，請確認使用的機器或合成表的材料。'
   unknown-material: '&e這個機器不能處理這個物品，請確認使用的機器或合成表的材料。'
@@ -189,6 +241,7 @@ machines:
   full-inventory: '&e發射器滿了！（請考慮使用基礎機械的輸出箱）'
   in-use: '&c別人正在使用這台機器。'
   ignition-chamber-no-flint: '&c點火系統沒有打火石。'
+  inventory-empty: '&6你已成功建造此多方塊機器。將物品放入投擲器並再次點擊我以合成你想要的物品！'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4此祭壇需要更多基座&c(%pedestals% / 8)'
     unknown-catalyst: '&4未知中心物品！ &c請檢查合成表！'
@@ -236,6 +289,8 @@ brewing_stand:
   not-working: '&4你不能用 Slimefun 物品釀造！'
 cartography_table:
   not-working: '&4你不能在製圖桌上使用 Slimefun 物品！'
+smithing_table:
+  not-working: '&4你不能將Slimefun物品當作鍛造材料！'
 villagers:
   no-trading: '&4你不能用 Slimefun 物品交易！'
 backpack:

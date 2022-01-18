@@ -13,8 +13,32 @@ commands:
     description: Sblocca o Resetta le ricerche per un player
     reset: '&cHai resettato la conoscenza di %player%'
     reset-target: '&cLa tua conoscenza è stata resettata'
+  backpack:
+    description: Ottieni una copia di uno zaino esistente
+    invalid-id: '&4L''id dev''essere un numero non negativo!'
+    player-never-joined: '&4Non è stato possibile trovare alcun giocatore con quel nome!'
+    backpack-does-not-exist: '&4Lo zaino specificato non esiste!'
+    restored-backpack-given: '&aIl tuo zaino è stato ripristinato e aggiunto al tuo inventario!'
+  charge:
+    description: Carica l'oggetto che stai tenendo in mano
+    charge-success: L'oggetto è stato caricato!
+    not-rechargeable: Quest'oggetto non può esser caricato!
+  timings:
+    description: Tempi per Slimefun e il suo addon
+    please-wait: '&eSei pregato di attendere un secondo... I risultati stanno arrivando!'
+    verbose-player: '&4Il contrassegno dettagliato non è utilizzabile da un Giocatore!'
+    unknown-flag: '&4Contrassegno sconosciuto: &c%flag%'
+  debug:
+    description: 'Esegui il logging di debug per gli sviluppatori'
+    current: '&7Condizione di prova attuale: &6%test_case%'
+    none-running: '&7Nessuna condizione di prova sta venendo eseguita!'
+    running: '&7Sto eseguendo la modalità di debug con il test: &6%test%'
+    disabled: '&7Modalità di debug disabilitata.'
+placeholderapi:
+  profile-loading: 'Caricamento...'
 guide:
   locked: 'BLOCCATO'
+  work-in-progress: 'Questa funzionalità non è ancora finita del tutto!'
   locked-itemgroup:
     - 'Per sbloccare questa categoria'
     - 'è necessario sbloccare tutti gli elementi dalle'
@@ -33,6 +57,7 @@ guide:
       miner: 'Risorse che puoi ottenere con questo Miner'
       generator: 'Tipi di carburante disponibili'
       gold-pan: 'Risorse che puoi ottenere'
+      climbing-pick: 'Superfici scalabili'
   cheat:
     no-multiblocks: '&4Non puoi cheattare i Multiblocchi, devi costruirli nel mondo!'
   pages:
@@ -47,9 +72,24 @@ guide:
     selected-language: 'Attualmente selezionato:'
     select: 'Clicca per selezionare questa lingua'
     select-default: 'Clicca per selezionare la lingua predefinita'
+    change: 'Clicca per selezionare una nuova lingua'
+    description:
+      - '&7Ora hai l''opzione di cambiare'
+      - '&7la lingua in cui Slimefun'
+      - '&7ti sarà presentato. Per ora'
+      - '&7gli oggetti non sono traducibili.'
     translations:
       name: '&aC''è qualcosa che manca?'
       lore: 'Clicca per aggiungere la tua traduzione'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bAnimazione d''Apprendimento: &aSì'
+          - ''
+          - '&7Puoi ora attivare/disattivare se'
+          - '&7vedrai le informazioni sulla tua ponderazione in chat'
+          - '&7cercando un oggetto.'
   title:
     main: 'Guida della Slimefun'
     settings: 'Impostazioni e informazioni'
@@ -63,6 +103,7 @@ guide:
     profile-link: 'Clicca per visitare i loro profili su GitHub'
     roles:
       developer: '&6Sviluppatori'
+      wiki: '&3Editor della Wiki'
       translator: '&9Traduttori'
 messages:
   not-enough-xp: '&4Non hai abbastanza EXP per sbloccarlo'
@@ -83,6 +124,7 @@ messages:
   disabled-item: '&4& lQuesto oggetto è stato disabilitato! Come l''hai ottenuto?'
   no-tome-yourself: '&cNon puoi utilizzare il &4Tomo della conoscienza &c su te stesso ...'
   multimeter: '&bEnergia salvata: &3%stored% &b/&3%capacity%'
+  piglin-barter: '&4Non puoi barattare con i Piglins usando gli oggetti di Slimefun'
   talisman:
     anvil: '&a&oIl tuo Talismano ha salvato il tuo strumento dalla rottura'
     miner: '&a&oIl tuo Talismano ha appena raddoppiato i tuoi drops'
@@ -165,6 +207,8 @@ machines:
     must-be-placed: '&4Deve essere posizionato su una cassa o una macchina!'
 anvil:
   not-working: '&4Non puoi usare gli oggetti della Slimefun in un''incudine!'
+smithing_table:
+  not-working: '&4Non puoi usare un oggetto di Slimefun come materiale da fabbro!'
 backpack:
   already-open: '&cSpiacente, questo zaino è aperto altrove!'
   no-stack: '&cNon puoi impilare zaini'
@@ -244,12 +288,14 @@ languages:
   sk: 'Slovacco'
   zh-CN: 'Cinese (Cina)'
   zh-TW: 'Cinese (Taiwan)'
+  vi: 'Vietnamita'
   id: 'Indonesiano'
   el: 'Greco'
   he: 'Ebreo'
   pt: 'Portoghese (Portogallo)'
   pt-BR: 'Portoghese (Brasile)'
   ar: 'Arabo'
+  af: 'Afrikaans'
   da: 'Danese'
   fi: 'Finlandese'
   uk: 'Ucraino'
@@ -258,6 +304,7 @@ languages:
   ja: 'Giapponese'
   fa: 'Persiano'
   th: 'Tailandese'
+  tl: 'Tagalog'
   ro: 'Rumeno'
   bg: 'Bulgaro'
   ko: 'Coreano'

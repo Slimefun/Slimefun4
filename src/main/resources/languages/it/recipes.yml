@@ -6,6 +6,7 @@ slimefun:
       - 'Costruisci la struttura indicata'
       - 'Come indicato. Non craftato.'
   enhanced_crafting_table:
+    name: 'Banco da Lavoro Migliorato'
     lore:
       - 'Crafta l''elemento come indicato'
       - 'in un Enhanced Crafting Table'
@@ -15,6 +16,7 @@ slimefun:
       - 'Crafta l''elemento come indicato'
       - 'usando una Armor Forge'
   grind_stone:
+    name: 'Smerigliatrice'
     lore:
       - 'Crafta l''elemento come indicato'
       - 'usando una Grind Stone'
@@ -27,6 +29,7 @@ slimefun:
       - 'Crafta l''elemento come indicato'
       - 'usando un Ore Crusher'
   mob_drop:
+    name: 'Mob Drop'
     lore:
       - 'Uccidi quel mob per'
       - 'ottenere questo elemento'
@@ -135,3 +138,7 @@ minecraft:
     lore:
       - 'Crafta questo elemento come indicato'
       - 'usando un Tagliapietre'
+  smithing:
+    lore:
+      - 'Fabbrica quest''Oggetto come indicato'
+      - 'usando un Banco da Fabbro'
