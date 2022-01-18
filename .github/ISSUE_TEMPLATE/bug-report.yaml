@@ -101,8 +101,6 @@ body:
     options:
       - Spigot
       - Paper
-      - Tuinity
-      - Yatopia
       - Purpur
       - Airplane
       - Other (please specify in your description)
@@ -115,6 +113,7 @@ body:
     label: '🎮 Minecraft Version'
     description: 'Please select the Minecraft version of the server'
     options:
+      - 1.18.x
       - 1.17.x
       - 1.16.x
       - 1.15.x

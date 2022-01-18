@@ -171,11 +171,11 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
      * This method handles an output {@link ItemStack} from the {@link MultiBlockMachine} which has a crafting delay
      *
      * @param outputItem
-     *          A crafted {@link ItemStack} from {@link MultiBlockMachine}
+     *            A crafted {@link ItemStack} from {@link MultiBlockMachine}
      * @param block
-     *          Main {@link Block} of our {@link Container} from {@link MultiBlockMachine}
+     *            Main {@link Block} of our {@link Container} from {@link MultiBlockMachine}
      * @param blockInv
-     *          The {@link Inventory} of our {@link Container}
+     *            The {@link Inventory} of our {@link Container}
      *
      */
     @ParametersAreNonnullByDefault

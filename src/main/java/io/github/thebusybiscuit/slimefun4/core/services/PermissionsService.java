@@ -149,8 +149,7 @@ public class PermissionsService {
      * 
      * @return The configured lore to display
      */
-    @Nonnull
-    public List<String> getLore(@Nonnull SlimefunItem item) {
+    public @Nonnull List<String> getLore(@Nonnull SlimefunItem item) {
         return config.getStringList(item.getId() + ".lore");
     }
 

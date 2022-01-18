@@ -31,7 +31,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
 
             if (SlimefunTag.ORES.isTagged(mat)) {
                 if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-                    switch(mat) {
+                    switch (mat) {
                         case DEEPSLATE_IRON_ORE:
                             drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
                             break;
@@ -47,7 +47,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
                     }
                 }
 
-                switch(mat) {
+                switch (mat) {
                     case IRON_ORE:
                         drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
                         break;

@@ -18,7 +18,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -27,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 
 /**
  * The {@link TapeMeasure} is used to measure the distance between two {@link Block Blocks}.
@@ -97,8 +97,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
         String data = meta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
 
         if (data != null) {
-            JsonObject json = new JsonParser().parse(data).getAsJsonObject();
-
+            JsonObject json = JsonUtils.parseString(data).getAsJsonObject();
             UUID uuid = UUID.fromString(json.get("world").getAsString());
 
             if (p.getWorld().getUID().equals(uuid)) {
