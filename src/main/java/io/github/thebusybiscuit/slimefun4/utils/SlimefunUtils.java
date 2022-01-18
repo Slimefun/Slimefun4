@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -52,6 +53,7 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
  *
  * @author TheBusyBiscuit
  * @author Walshy
+ * @author Sfiguz7
  */
 public final class SlimefunUtils {
 
@@ -159,7 +161,7 @@ public final class SlimefunUtils {
      * @param item
      *            The {@link ItemStack} you want to add/remove Soulbound from.
      * @param makeSoulbound
-     *            If they item should be soulbound.
+     *            If the item should be soulbound.
      *
      * @see #isSoulbound(ItemStack)
      */
@@ -321,23 +323,29 @@ public final class SlimefunUtils {
         }
     }
 
-    private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMetaSnapshot meta, boolean checkLore) {
-        Optional<String> displayName = meta.getDisplayName();
+    private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMetaSnapshot itemMetaSnapshot, boolean checkLore) {
+        Optional<String> displayName = itemMetaSnapshot.getDisplayName();
 
         if (itemMeta.hasDisplayName() != displayName.isPresent()) {
             return false;
         } else if (itemMeta.hasDisplayName() && displayName.isPresent() && !itemMeta.getDisplayName().equals(displayName.get())) {
             return false;
-        } else if (!checkLore) {
-            return true;
-        } else {
-            Optional<List<String>> itemLore = meta.getLore();
+        } else if (checkLore) {
+            Optional<List<String>> itemLore = itemMetaSnapshot.getLore();
 
-            if (itemMeta.hasLore() && itemLore.isPresent()) {
-                return equalsLore(itemMeta.getLore(), itemLore.get());
-            } else {
-                return !itemMeta.hasLore() && !itemLore.isPresent();
+            if (itemMeta.hasLore() && itemLore.isPresent() && !equalsLore(itemMeta.getLore(), itemLore.get())) {
+                return false;
+            } else if (itemMeta.hasLore() != itemLore.isPresent()) {
+                return false;
             }
+        }
+
+        // Fixes #3133: name and lore are not enough
+        OptionalInt itemCustomModelData = itemMetaSnapshot.getCustomModelData();
+        if (itemMeta.hasCustomModelData() && itemCustomModelData.isPresent() && itemMeta.getCustomModelData() != itemCustomModelData.getAsInt()) {
+            return false;
+        } else {
+            return itemMeta.hasCustomModelData() == itemCustomModelData.isPresent();
         }
     }
 
@@ -357,6 +365,15 @@ public final class SlimefunUtils {
             } else if (hasItemMetaLore != hasSfItemMetaLore) {
                 return false;
             }
+        }
+
+        // Fixes #3133: name and lore are not enough
+        boolean hasItemMetaCustomModelData = itemMeta.hasCustomModelData();
+        boolean hasSfItemMetaCustomModelData = sfitemMeta.hasCustomModelData();
+        if (hasItemMetaCustomModelData && hasSfItemMetaCustomModelData && itemMeta.getCustomModelData() != sfitemMeta.getCustomModelData()) {
+            return false;
+        } else if (hasItemMetaCustomModelData != hasSfItemMetaCustomModelData) {
+            return false;
         }
 
         if (itemMeta instanceof PotionMeta && sfitemMeta instanceof PotionMeta) {

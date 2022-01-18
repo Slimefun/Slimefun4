@@ -23,15 +23,21 @@ commands:
     description: Nabije předmět, který držíš
     charge-success: Předmět byl nabit!
     not-rechargeable: Tento předmět nelze nabít!
+  debug:
+    description: 'Spustit ladění pro vývojáře'
+    current: '&7Aktuální testovací případ: &6%test_case%'
+    none-running: '&7Aktuálně neběží žádný testovací případ!'
+    running: '&7Spouštím ladící mód s testem: &6%test%'
+    disabled: '&7Ladící mód vypnut.'
 placeholderapi:
   profile-loading: 'Načítání...'
 guide:
   locked: 'ZAMČENO'
   work-in-progress: 'Tato funkce ještě není zcela dokončena!'
   locked-itemgroup:
-    - 'Chceš-li odemknout tuto kategorii,'
-    - 'je potřeba odemknout všechny předměty'
-    - 'z předchozích kategorií'
+    - 'Chcete-li odemknout tuto kategorii, budete'
+    - 'muset odemknout všechny předměty z'
+    - 'následující kategorie'
   search:
     message: '&bCo bys chtěl vyhledat?'
     name: '&7Hledat...'
@@ -116,6 +122,24 @@ messages:
   multi-tool:
     mode-change: '&b%device% mód změněn na: &9%mode%'
     not-shears: '&cMulti Tool nemůže být použit jako nůžky!'
+  auto-crafting:
+    recipe-set: '&aÚspěšně jsi nastavil recept pro tento stroj.'
+    recipe-removed: '&eÚspěšně jsi odstranil recept z tohoto stroje. Kdykoliv můžeš nastavit nový recept!'
+    missing-chest: '&cChybějící truhla! Automatický pracovní stůl musí být položen nad truhlou.'
+    select: 'Vybrat tento recept'
+    temporarily-disabled: '&eTento Automatický pracovní stůl byl dočasně vypnut. Můžete ho kdykoliv znovu zapnout!'
+    re-enabled: '&eTento Automatický pracovní stůl byl znovu aktivován!'
+    tooltips:
+      enabled:
+        - '&aTento recept je aktuálně povolen'
+        - ''
+        - '&eLeft Click &7to temporarily disable the recipe'
+        - '&eRight Click &7to remove this recipe'
+      disabled:
+        - '&cTento recept je momentálně zakázán'
+        - ''
+        - '&eLeft Click &7to re-enable this recipe'
+        - '&eRight Click &7to remove this recipe'
   talisman:
     anvil: '&a&oTvůj talisman zachránil tvůj nástroj od rozbití'
     miner: '&a&oTvůj talisman zdvojnásobil tvou kořist'
