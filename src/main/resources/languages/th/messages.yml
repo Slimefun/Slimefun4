@@ -15,12 +15,17 @@ commands:
     reset-target: '&cความรู้ของคุณได้รับการรีเซ็ตแล้ว'
 guide:
   locked: 'ล็อค'
+  locked-itemgroup:
+    - 'เพื่อที่จะปลดล็อครายการนี้'
+    - 'คุณจะต้องปลดล็อคไอเท็มทั้งหมด'
+    - 'ในหน้านี้ก่อน'
   search:
     message: '&bคุณต้องการค้นหาอะไร?'
     name: '&7ค้นหา...'
     tooltip: '&bคลิกเพื่อค้นหาไอเทม'
     inventory: 'ค้นหา: %item%'
   tooltips:
+    open-itemgroup: 'คลิกเพื่อเปิด'
     versions-notice: 'มันสำคัญมาก ที่จะรายงานบัค!'
     wiki: 'ตรวจสอบไอเท็มนี้บน Slimefun Wiki'
     recipes:
