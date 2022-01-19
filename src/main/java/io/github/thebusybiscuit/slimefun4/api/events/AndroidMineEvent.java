@@ -13,7 +13,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAnd
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * This {@link Event} is fired before a {@link MinerAndroid} mines a {@link Block}.
