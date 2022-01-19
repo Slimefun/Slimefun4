@@ -255,11 +255,12 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             warn("Make sure to call '" + getClass().getSimpleName() + "#setProcessingSpeed(...)' before registering!");
         }
 
-        registerDefaultRecipes();
-
         if (getCapacity() > 0 && getEnergyConsumption() > 0 && getSpeed() > 0) {
             super.register(addon);
         }
+
+        // Fixes #3429 - Initialize Item Settings before recipes
+        registerDefaultRecipes();
     }
 
     /**

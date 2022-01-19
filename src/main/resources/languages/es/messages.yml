@@ -28,20 +28,24 @@ commands:
     please-wait: '&ePor favor, espere un segundo... ¡Los resultados están llegando!'
     verbose-player: '&4La flag verbose no puede ser usada por un jugador!'
     unknown-flag: '&4flag desconocida: &c%flag%'
+  debug:
+    running: '&7Ejecutando el modo de depuración con prueba: &6%test%'
+placeholderapi:
+  profile-loading: 'Cargando...'
 guide:
   locked: 'BLOQUEADO'
   work-in-progress: '¡¡¡Esta característica no está completamente terminada todavía!!'
   locked-itemgroup:
     - 'Para desbloquear esta categoría deberás'
-    - 'desbloquear todos los objetos de las'
-    - 'siguientes categorías'
+    - 'necesitas desbloquear todos los objetos de'
+    - 'categorías siguientes'
   search:
     message: '&b¿Qué te gustaría buscar?'
     name: '&7Busca...'
     tooltip: '&bCliquea para buscar un objeto'
     inventory: 'Buscando: %item%'
   tooltips:
-    open-itemgroup: 'Cliquea para abrir'
+    open-itemgroup: 'Clic para abrir'
     versions-notice: '¡Esto es muy importante cuando se reportan bugs!'
     wiki: 'Ve este objeto en la wiki oficial de Slimefun'
     recipes:
@@ -73,6 +77,16 @@ guide:
     translations:
       name: '&a¿Falta algo?'
       lore: 'Cliquea para agregar tu propia traducción.'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bLearning Animation: &aYes'
+          - ''
+          - '&7Ahora puedes seleccionar si'
+          - '&7will see information about your pondering in chat'
+          - '&7upon researching an item.'
+        click: '&eCliquea para desactivar la animación de aprendizaje'
   title:
     main: 'Guía de Slimefun.'
     settings: 'Configuración e Información.'
@@ -122,6 +136,15 @@ messages:
   multi-tool:
     mode-change: '&b%device% modo cambiado a: &9%mode%'
     not-shears: '&c¡Una Multi Tool no puede ser usada como tijeras!'
+  auto-crafting:
+    select-a-recipe: '&eAgáchate y haz Clic Derecho &7a este bloque con el objeto que quieres crear.'
+    no-recipes: '&cNo se han encontrado recetas validas para el objeto que estás sosteniendo.'
+    tooltips:
+      enabled:
+        - '&aThis recipe is currently enabled'
+        - ''
+        - '&eClic izquierdo &7para desactivar temporalmente la receta'
+        - '&eRight Click &7to remove this recipe'
   talisman:
     anvil: '&a&oEl talismán salvó tu herramienta de ser destruida.'
     miner: '&a&oTu talismán ha duplicado los minerales.'
@@ -187,6 +210,7 @@ machines:
   full-inventory: '&e¡Perdón, mi inventario esta lleno!'
   in-use: '&cEl inventario de este bloque esta siendo usado por otro jugador.'
   ignition-chamber-no-flint: '&cEl Ignition Chamber no tiene pedernal.'
+  inventory-empty: '&6Has construido con éxito este Multibloque. ¡Procede al colocar objetos dentro del dispensador y hazme click otra vez para crear el item que quieras!'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4El Altar no está rodeado por la cantidad correcta de pedestales &c(%pedestals% / 8)'
     unknown-catalyst: '&4¡Catalyst desconocido! &cUsa la receta correcta!'

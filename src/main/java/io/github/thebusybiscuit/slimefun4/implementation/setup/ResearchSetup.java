@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
@@ -101,7 +100,7 @@ public final class ResearchSetup {
         register("knight_talisman", 71, "Talisman of the Knight", 20, SlimefunItems.TALISMAN_KNIGHT);
         register("gilded_iron", 72, "Shiny Iron", 11, SlimefunItems.GILDED_IRON);
         register("synthetic_emerald", 73, "Fake Gem", 17, SlimefunItems.SYNTHETIC_EMERALD);
-        register("chainmail_armor", 74, "Chainmail Armor", 8, new ItemStack(Material.CHAINMAIL_HELMET), new ItemStack(Material.CHAINMAIL_CHESTPLATE), new ItemStack(Material.CHAINMAIL_LEGGINGS), new ItemStack(Material.CHAINMAIL_BOOTS));
+        register("chainmail_armor", 74, "Chainmail Armor", 8, "CHAIN_HELMET", "CHAIN_CHESTPLATE", "CHAIN_LEGGINGS", "CHAIN_BOOTS");
         register("whirlwind_talisman", 75, "Talisman of the Whirlwind", 19, SlimefunItems.TALISMAN_WHIRLWIND);
         register("wizard_talisman", 76, "Talisman of the Wizard", 22, SlimefunItems.TALISMAN_WIZARD);
         register("lumber_axe", 77, "Lumber Axe", 21, SlimefunItems.LUMBER_AXE);
@@ -131,7 +130,7 @@ public final class ResearchSetup {
         register("crucible", 107, "Crucible", 13, SlimefunItems.CRUCIBLE);
         register("gilded_backpack", 108, "Gilded Backpack", 22, SlimefunItems.GILDED_BACKPACK);
         register("armored_jetpack", 111, "Armored Jetpack", 27, SlimefunItems.ARMORED_JETPACK);
-        register("ender_talismans", 112, "Ender Talismans", 28);
+        register("ender_talismans", 112, "Ender Talismans", 28, new String[0]);
         register("nickel_and_cobalt", 115, "Even more Ores", 10, SlimefunItems.NICKEL_INGOT, SlimefunItems.COBALT_INGOT);
         register("magnet", 116, "Magnetic Metals", 16, SlimefunItems.MAGNET);
         register("infused_magnet", 117, "Infused Magnets", 18, SlimefunItems.INFUSED_MAGNET);
@@ -236,7 +235,7 @@ public final class ResearchSetup {
         register("high_tier_carbon_press", 225, "Ultimate Carbon Press", 32, SlimefunItems.CARBON_PRESS_3);
         register("wither_assembler", 226, "Automated Wither Killer", 35, SlimefunItems.WITHER_ASSEMBLER);
         register("better_heated_pressure_chamber", 227, "Upgraded Heated Pressure Chamber", 20, SlimefunItems.HEATED_PRESSURE_CHAMBER_2);
-        register("elytra", 228, "Elytras", 20, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.ELYTRA));
+        register("elytra", 228, "Elytras", 20, "ELYTRA_SCALE", "ELYTRA");
         register("special_elytras", 229, "Special Elytras", 30, SlimefunItems.INFUSED_ELYTRA, SlimefunItems.SOULBOUND_ELYTRA);
         register("electric_crucible", 230, "Electrified Crucible", 26, SlimefunItems.ELECTRIFIED_CRUCIBLE);
         register("better_electric_crucibles", 231, "Hot Crucibles", 30, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.ELECTRIFIED_CRUCIBLE_3);
@@ -256,7 +255,7 @@ public final class ResearchSetup {
         register("soulbound_rune", 246, "Soulbound Rune", 60, SlimefunItems.SOULBOUND_RUNE);
         register("geo_miner", 247, "GEO-Miner", 24, SlimefunItems.GEO_MINER);
         register("lightning_rune", 248, "Lightning Rune", 24, SlimefunItems.LIGHTNING_RUNE);
-        register("totem_of_undying", 249, "Totem of Undying", 36, new ItemStack(Material.TOTEM_OF_UNDYING));
+        register("totem_of_undying", 249, "Totem of Undying", 36, "TOTEM_OF_UNDYING");
         register("charging_bench", 250, "Charging Bench", 8, SlimefunItems.CHARGING_BENCH);
         register("nether_gold_pan", 251, "Nether Gold Pan", 8, SlimefunItems.NETHER_GOLD_PAN);
         register("electric_press", 252, "Electric Press", 16, SlimefunItems.ELECTRIC_PRESS, SlimefunItems.ELECTRIC_PRESS_2);
@@ -288,7 +287,8 @@ public final class ResearchSetup {
         register("ingredients_and_cheese", 276, "Slimefun Cuisine", 5, SlimefunItems.SALT, SlimefunItems.WHEAT_FLOUR, SlimefunItems.HEAVY_CREAM, SlimefunItems.CHEESE, SlimefunItems.BUTTER);
         register("medium_tier_auto_enchanting", 277, "Fast Automatic Enchanting and Disenchanting", 48, SlimefunItems.AUTO_ENCHANTER_2, SlimefunItems.AUTO_DISENCHANTER_2);
         register("portable_teleporter", 278, "Teleportation from Anywhere", 42, SlimefunItems.PORTABLE_TELEPORTER);
-        register("trident", 279, "Trident", 20, new ItemStack(Material.TRIDENT));
+        register("trident", 279, "Trident", 20, "TRIDENT");
+        register("farmer_talisman", 280, "Talisman of the Farmer", 18, SlimefunItems.TALISMAN_FARMER);
     }
 
     @ParametersAreNonnullByDefault
@@ -297,6 +297,21 @@ public final class ResearchSetup {
 
         for (ItemStack item : items) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+            if (sfItem != null) {
+                research.addItems(sfItem);
+            }
+        }
+
+        research.register();
+    }
+
+    @ParametersAreNonnullByDefault
+    private static void register(String key, int id, String name, int defaultCost, String... items) {
+        Research research = new Research(new NamespacedKey(Slimefun.instance(), key), id, name, defaultCost);
+
+        for (String itemId : items) {
+            SlimefunItem sfItem = SlimefunItem.getById(itemId);
 
             if (sfItem != null) {
                 research.addItems(sfItem);

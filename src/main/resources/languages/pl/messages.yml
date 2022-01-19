@@ -13,12 +13,21 @@ commands:
     description: Odblokuj/Zresetuj badania dla gracza
     reset: '&cZresetowano wiedzę gracza %player%'
     reset-target: '&c Twoja wiedza została zresetowana'
+  backpack:
+    invalid-id: '&4ID nie może być liczbą ujemną!'
+    player-never-joined: '&4Nie znaleziono gracza o takiej nazwie!'
+  timings:
+    please-wait: '&eProszę poczekać sekundę... Wyniki przychodzą!'
+  debug:
+    none-running: '&7Nie ma obecnie żadnego przypadku testowego!'
+    disabled: '&7Wyłączono tryb debugowania.'
 guide:
   locked: 'Zablokowany'
+  work-in-progress: 'Ta funkcja nie została jeszcze ukończona!'
   locked-itemgroup:
     - 'Aby odblokować tę kategorię, będziesz'
-    - 'Musisz odblokować wszystkie przedmioty z'
-    - 'Następujące kategorie'
+    - 'musiał odblokować wszystkie przedmioty z'
+    - 'następujących kategorii'
   search:
     message: '&bCo chcesz wyszukać?'
     name: '&7Szukaj...'
@@ -33,6 +42,7 @@ guide:
       miner: 'Zasoby, które możesz uzyskać za pomocą tego Górnika'
       generator: 'Dostępne rodzaje paliwa'
       gold-pan: 'Zasoby, które możesz zdobyć'
+      climbing-pick: 'Powierzchnie, na które możesz się wspinać'
   cheat:
     no-multiblocks: '&4Nie możesz otrzymać Multibloków, musisz je zbudować!'
   pages:
@@ -47,6 +57,7 @@ guide:
     selected-language: 'Aktualnie wybrane:'
     select: 'Kliknij, aby wybrać ten język'
     select-default: 'Kliknij, aby wybrać domyślny język'
+    change: 'Kliknij, aby wybrać nowy język'
     translations:
       name: '&aCzegoś brakuje?'
       lore: 'Kliknij, aby dodać własne tłumaczenie'
@@ -59,11 +70,19 @@ guide:
     addons: 'Dodatki dla Slimefun4'
     bugs: 'Zgłaszanie błędów'
     source: 'Kod Źródłowy'
+    versions: 'Zainstalowane wersje'
   credits:
     commit: 'Rejestracja zmian'
     commits: 'Rejestracje zmian'
     profile-link: 'Kliknij, aby odwiedzić ich profil na GitHub'
+    open: 'Kliknij aby zobaczyć naszych współautorów'
+    description:
+      - '&7Slimefun jest projektem open-source'
+      - '&7i utrzymywany przez dużą społeczność ludzi.'
+      - '&7Over &e%contributors% &7people have worked on'
+      - '&7Slimefun przez te wszystkie lata.'
     roles:
+      developer: '&6Deweloper'
       wiki: '&3Edytor Wiki'
       resourcepack: '&cArtysta paczki zasobów'
       translator: '&9Tłumacz'
@@ -86,6 +105,8 @@ messages:
   disabled-item: '&4&l Ten przedmiot został wyłączony! Jak to w ogóle dostałeś(-aś)?'
   no-tome-yourself: '&cNie możesz używać &4Księgi wiedzy &cna samym sobie...'
   multimeter: '&bZmagazynowana energia: &3%stored% &b/ &3%capacity%'
+  auto-crafting:
+    select: 'Wybierz ten przepis'
   talisman:
     anvil: '&a&oTwój talizman uratował twoje narzędzie przed złamaniem'
     miner: '&a&oTwój talizman podwoił twoje znaleziska'
@@ -265,7 +286,12 @@ languages:
   ja: 'Japonia'
   fa: 'Perski'
   th: 'Tajski'
+  tl: 'Filipiński'
   ro: 'Rumuński'
   bg: 'Bułgarski'
   ko: 'Koreański'
   tr: 'Turecki'
+  hr: 'Chorwacki'
+  mk: 'Macedoński'
+  sr: 'Serbski'
+  be: 'Białoruski'

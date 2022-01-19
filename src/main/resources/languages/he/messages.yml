@@ -75,6 +75,23 @@ guide:
     translations:
       name: '&aIs משהו חסר?'
       lore: 'לחץ כדי להוסיף תרגום משלך'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&aאנימציית למידה: &aכן'
+          - ''
+          - '&7עכשיו אתה יכול לעבור בין אם אתה'
+          - '&7will see information about your pondering in chat'
+          - '&7 עם חקר פריט.'
+        click: '&e לחץ על מנת לבטל את אנימציית הלמידה שלך'
+      disabled:
+        text:
+          - '&bLearning Animation: &4No'
+          - ''
+          - '&7עכשיו אתה יכול לעבור בין אם אתה'
+          - '&7will see information about your pondering in chat'
+          - '7& עם חקר פריט.'
   title:
     main: 'סליים פאן מדריך'
     settings: 'הגדרות & מידע '

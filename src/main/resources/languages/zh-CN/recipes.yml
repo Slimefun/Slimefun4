@@ -93,10 +93,10 @@ slimefun:
       - '如合成表所示'
       - '在冰箱中合成'
   geo_miner:
-    name: 'GEO 矿机 (GEO Miner)'
+    name: '自然资源开采机 (GEO Miner)'
     lore:
-      - '这个物品可以用'
-      - 'GEO 矿机采集'
+      - '这个物品可以通过'
+      - '自然资源开采机获得'
   nuclear_reactor:
     name: '核反应堆 (Nuclear Reactor)'
     lore:
