@@ -51,6 +51,7 @@ slimefun:
   reinforced_armor: Armatura Rinforzata
   ore_washer: Lavaggio di Minerali
   gold_carats: Oro Puro
+  silicon: Silicon Valley
   fire_staff: Staffa di Fuoco
   smelters_pickaxe: Piccone delle Fonderie
   common_talisman: Talismano Comune
@@ -61,6 +62,8 @@ slimefun:
   water_talisman: Talismano per Respirare nell'Acqua
   angel_talisman: Talismano dell'Angelo
   fire_talisman: Talismano del Pompiere
+  caveman_talisman: Talismano del Cavernicolo
+  wise_talisman: Talismano del Saggio
   lava_crystal: Situazione Scottante
   magician_talisman: Talismano del Mago
   traveller_talisman: Talismano del Viaggiatore
@@ -143,6 +146,7 @@ slimefun:
   hologram_projector: Ologrammi
   capacitors: Condensatori di livello 1
   high_tier_capacitors: Condensatori di livello 2
+  even_higher_tier_capacitors: Condensatori di terzo livello
   solar_generators: Impianto di energia solare
   electric_furnaces: Fornace Elettrificata
   electric_ore_grinding: Schiacciare e macinare
@@ -156,6 +160,7 @@ slimefun:
   gps_emergency_transmitter: Waypoint di emergenza GPS
   programmable_androids: Androidi Programmabili
   android_interfaces: Interfacce Androidi
+  geo_scanner: GEO-Scan
   combustion_reactor: Reattore a Combustione
   teleporter: Componenti base del Teletrasporto
   teleporter_activation_plates: Attivazione del Teletrasporto
@@ -165,6 +170,7 @@ slimefun:
   energized_solar_generator: Energia solare a tempo pieno
   energized_gps_transmitter: Trasmettitore di livello superiore
   energy_regulator: Reti Energetiche 101
+  energy_connectors: Connessioni Cablate
   butcher_androids: Androidi del macellaio
   organic_food: Cibo Organico
   auto_breeder: Alimentazione automatizzata
@@ -180,7 +186,9 @@ slimefun:
   nuclear_reactor: Centrale Nucleare
   freezer: Signor Freeze
   cargo_basics: Nozioni di base sul cargo
+  cargo_nodes: Configurazione del Carico
   electric_ingot_machines: Fabbricazione di lingotti elettrici
+  medium_tier_electric_ingot_machines: Fabbricazione Veloce di Lingotti
   high_tier_electric_ingot_machines: Fabbricazione di lingotti super veloce
   automated_crafting_chamber: Creazione automatizzata
   better_food_fabricator: Fabbricazione di alimenti aggiornata
@@ -202,6 +210,7 @@ slimefun:
   better_heated_pressure_chamber: Camera di pressione riscaldata aggiornata
   elytra: Elitre
   special_elytras: Elitre Speciali
+  trident: Tridente
   electric_crucible: Crogiolo elettrificato
   better_electric_crucibles: Crogioli caldi
   advanced_electric_smeltery: Fonderia elettrica avanzata
@@ -218,6 +227,7 @@ slimefun:
   diet_cookie: Biscotto per la dieta
   storm_staff: Staffa della Tempesta
   soulbound_rune: Runa Soulbound
+  geo_miner: GEO-Miner
   lightning_rune: Runa del Tuono
   totem_of_undying: Totem dell'immortalità
   charging_bench: Banco di ricarica
@@ -231,7 +241,19 @@ slimefun:
   advanced_industrial_miner: Scavo migliorato
   magical_zombie_pills: De-Zombificazione
   auto_brewer: Distillazione industriale
+  climbing_pick: Piccozza da alpinismo
+  shulker_shell: Shulker Sintetici
   enchantment_rune: Incantamento antico
   lead_clothing: Rivestimento di piombo
   tape_measure: metro
   iron_golem_assembler: Costruttore di Golem di ferro
+  villager_rune: Ripristina Scambi dei Villager
+  elytra_cap: Equipaggiamento d'emergenza
+  book_binder: Rilegatura del Libro di Incantesimi
+  auto_crafting: Fabbricazione Automatica
+  produce_collector: Mungitura Automatica
+  improved_generators: Generatori Migliorati
+  ingredients_and_cheese: Cucina di Slimefun
+  medium_tier_auto_enchanting: Incantamento e Disincantamento Automatico Veloce
+  portable_teleporter: Teletrasporto da Ovunque
+  farmer_talisman: Talismano del Contadino

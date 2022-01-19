@@ -19,7 +19,7 @@ public final class PatternUtils {
     private PatternUtils() {}
 
     public static final Pattern SLASH_SEPARATOR = Pattern.compile(" / ");
-    
+
     public static final Pattern YAML_ENTRY = Pattern.compile("[a-z0-9_-]+:.*");
 
     public static final Pattern MINECRAFT_NAMESPACEDKEY = Pattern.compile("minecraft:[a-z0-9/._-]+");

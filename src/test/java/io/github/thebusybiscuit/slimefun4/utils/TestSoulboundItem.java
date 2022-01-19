@@ -55,11 +55,11 @@ class TestSoulboundItem {
 
         SlimefunUtils.setSoulbound(item, true);
         Assertions.assertTrue(SlimefunUtils.isSoulbound(item));
-        Assertions.assertEquals(1, item.getItemMeta().getLore().size());
+        Assertions.assertTrue(item.getItemMeta().hasLore());
 
         SlimefunUtils.setSoulbound(item, false);
         Assertions.assertFalse(SlimefunUtils.isSoulbound(item));
-        Assertions.assertEquals(0, item.getItemMeta().getLore().size());
+        Assertions.assertFalse(item.getItemMeta().hasLore());
     }
 
     @Test
@@ -69,13 +69,15 @@ class TestSoulboundItem {
 
         SlimefunUtils.setSoulbound(item, true);
         SlimefunUtils.setSoulbound(item, true);
+
         Assertions.assertTrue(SlimefunUtils.isSoulbound(item));
-        Assertions.assertEquals(1, item.getItemMeta().getLore().size());
+        Assertions.assertTrue(item.getItemMeta().hasLore());
 
         SlimefunUtils.setSoulbound(item, false);
         SlimefunUtils.setSoulbound(item, false);
+
         Assertions.assertFalse(SlimefunUtils.isSoulbound(item));
-        Assertions.assertEquals(0, item.getItemMeta().getLore().size());
+        Assertions.assertFalse(item.getItemMeta().hasLore());
     }
 
     @Test
