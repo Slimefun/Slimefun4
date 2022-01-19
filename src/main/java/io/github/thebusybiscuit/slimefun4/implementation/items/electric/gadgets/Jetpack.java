@@ -42,5 +42,4 @@ public class Jetpack extends SlimefunItem implements Rechargeable {
     public float getMaxItemCharge(ItemStack item) {
         return capacity;
     }
-
 }

@@ -19,6 +19,8 @@ commands:
     player-never-joined: '&4Tidak ada pemain dengan nama itu'
     backpack-does-not-exist: '&4Ransel yang ditentukan tidak ada!'
     restored-backpack-given: '&a Backpack Anda telah di tambahkan ke inventory Anda!'
+placeholderapi:
+  profile-loading: 'Memuat...'
 guide:
   locked: 'TERKUNCI'
   locked-itemgroup:

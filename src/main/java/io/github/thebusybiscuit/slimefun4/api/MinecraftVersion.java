@@ -40,9 +40,14 @@ public enum MinecraftVersion {
     /**
      * This constant represents Minecraft (Java Edition) Version 1.17
      * (The "Caves and Cliffs: Part I" Update)
-     *
      */
     MINECRAFT_1_17(17, "1.17.x"),
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.18
+     * (The "Caves and Cliffs: Part II" Update)
+     */
+    MINECRAFT_1_18(18, "1.18.x"),
 
     /**
      * This constant represents an exceptional state in which we were unable
@@ -148,6 +153,21 @@ public enum MinecraftVersion {
 
         if (this == UNKNOWN) {
             return false;
+        }
+
+        /**
+         * Unit-Test only code.
+         * Running #isAtLeast(...) should always be meaningful.
+         * If the provided version equals the lowest supported version, then
+         * this will essentially always return true and result in a tautology.
+         * This is most definitely an oversight from us and should be fixed, therefore
+         * we will trigger an exception.
+         * 
+         * In order to not disrupt server operations, this exception is only thrown during
+         * unit tests since the oversight itself will be harmless.
+         */
+        if (this == UNIT_TEST && version.ordinal() == 0) {
+            throw new IllegalArgumentException("Version " + version + " is the lowest supported version already!");
         }
 
         return this.ordinal() >= version.ordinal();

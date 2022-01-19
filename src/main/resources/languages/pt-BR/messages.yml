@@ -23,6 +23,14 @@ commands:
     description: Carrega o item que você está segurando
     charge-success: O item foi carregado!
     not-rechargeable: Este item não pode ser carregado!
+  debug:
+    description: 'Executar o log de depuração para os desenvolvedores'
+    current: '&7Caso de teste atual: &6%test_case%'
+    none-running: '&7Nenhum caso de teste está sendo feito!'
+    running: '&7Executando modo de depuração com teste: &6%test%'
+    disabled: '&7Modo de debug desabilitado.'
+placeholderapi:
+  profile-loading: 'Carregando...'
 guide:
   locked: 'BLOQUEADO'
   work-in-progress: 'Este recurso não está totalmente concluído ainda!'

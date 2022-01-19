@@ -10,7 +10,7 @@ commands:
   open_guide: Bubuksan nito ang Slimefun's guide na wala ang libro.
   stats: Ipapakita ang hindi karamihan na estatistika ng Player.
   research:
-    description: Iaunlock/Irereset ang mga Researches para sa Player.
+    description: I-unlock/I-reset ang mga pananaliksik para sa Player.
     reset: '&cNareset mo ang Knowledge para kay %player%.'
     reset-target: '&cNareset ang iyong Knowledge.'
   backpack:
@@ -23,20 +23,28 @@ commands:
     description: I-chacharge ang item ng iyong hinahawakan.
     charge-success: Na-charge na ang item!
     not-rechargeable: Hindi puedeng i-charge ang item na ito.
+  timings:
+    description: Mga pagsasaoras o tiyempo para sa Slimefun at kanyang addon
+    please-wait: '&eMaghintay po ng ilang segundo... Ang mga resulta ay dumarating!'
+  debug:
+    none-running: '&7Walang kaso ng pagsubok ang kasalukuyang pinapatakbo!'
+    running: '&7Pinapatakbo ang debug mode kasama ang test: &6%test%'
+placeholderapi:
+  profile-loading: 'Naglo-load...'
 guide:
   locked: 'NAKAKANDADO'
   work-in-progress: 'Ang feature na ito ay hindi pa tapos!'
   locked-itemgroup:
     - 'Upang i-unlock ang kategoryang ito,'
     - 'kailangang i-unlock ang lahat ng mga item mula sa'
-    - 'sumusunod na kategorya.'
+    - 'sumusunod na mga kategorya'
   search:
     message: '&bAno ang hinahanap mo?'
     name: '&7Hanap...'
     tooltip: '&bI-click ito upang maghanap para sa isang item.'
     inventory: 'Naghahanap para sa: %item%'
   tooltips:
-    open-itemgroup: 'I-click ito para buksan.'
+    open-itemgroup: 'I-click upang buksan'
     versions-notice: 'Napakahalaga ng mga ito kapag nag-uulat ng mga bug!'
     wiki: 'Tingnan ang item na ito sa opisyal na Slimefun Wiki.'
     recipes:
@@ -68,7 +76,19 @@ guide:
     translations:
       name: '&aMay kulang ba?'
       lore: 'I-click ito upang magdagdag ng iyong sariling pagsasalin.'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bKarunungang Animasyon: &aYes'
+          - ''
+          - '&7You can now toggle whether you'
+          - '&7will see information about your pondering in chat'
+          - '&7upon researching an item.'
+      disabled:
+        click: '&eI-click para paganahin ang iyong karunungang animasyon'
   title:
+    main: 'Gabay para sa Slimefun'
     settings: 'Mga Settings & Impormasyon'
     languages: 'Pumili ng gustong wika.'
     credits: 'Ang mga tumulong sa Slimefun4'
@@ -86,6 +106,8 @@ guide:
       - '&7at pinapanatili ng isang malaking pamayanan ng mga tao.'
       - '&7Mga hanggang &e%contributors% &7na mga tao ang tumutulong sa'
       - '&7Slimefun sa buong lahat ng mga taong ito.'
+    roles:
+      translator: '&9Tagapagsaling-wika'
 messages:
   not-enough-xp: '&4Kulang ang iyong XP upang ito''y ma-unlock.'
   unlocked: '&bNa-unlock mo ang &7"%research%"'
@@ -109,6 +131,28 @@ messages:
   multi-tool:
     mode-change: '&b%device% napalitan ang mode sa: &9%mode%'
     not-shears: '&cBawal gamitin ang Multi-Tool bilang shears!'
+  auto-crafting:
+    recipe-set: '&aIkaw ay matagumpay sa pagtakda ng recipe para sa machine na ito.'
+    recipe-removed: '&aIkaw ay matagumpay sa pagalis ng recipe para sa machine na ito. Maaari ka ulit na mag takda ng bagong recipe sa anumang oras!'
+    no-recipes: '&cHindi namin manahanap ang anuman na recipes para sa aytem na hawak mo.'
+    missing-chest: '&cNawawalang kahon! Kailangan ng Auto-Crafters mailagay sa taas ng kahon.'
+    select: 'Piliin itong recipe'
+    temporarily-disabled: '&eItong Auto-Crafter ay kasalukuyang hindi gumagana. Maaari mo ito muling paganahin sa anomang oras!'
+    re-enabled: '&eAng itong Auto-Crafter ay napagana muli!'
+    recipe-unavailable: |
+      &cItong item ay alinman na hindi gumagana sa iyong server, o hindi mo pa ito na-unlock.
+      &7Subukan I-craft ang item kung hindi mo pa ito nagawa noon para ma-unlock ang recipe.
+    tooltips:
+      enabled:
+        - '&aItong recipe ay kasalukuyang gumagana'
+        - ''
+        - '&eI-Left Click &7para pansamantalang hindi paganahin itong recipe'
+        - '&eI-Right Click &7para alisin itong recipe'
+      disabled:
+        - '&cItong recipe ay kasalukuyang hindi gumagana'
+        - ''
+        - '&eI-Left Click &7para paganahin muli itong recipe'
+        - '&eI-Right Click &7para alisin itong recipe'
   talisman:
     anvil: '&a&oAng iyong anting-anting ay niligtas ang iyong tool sa pagkasira.'
     miner: '&a&oNa-doble ang drops dahil sa iyong anting-anting.'
@@ -123,6 +167,7 @@ messages:
     knight: '&a&oBinigyan ka ng 5 Seconds of Regeneration galing sa anting-anting mo.'
     whirlwind: '&a&oTumilapon ang bala dahil sa iyong anting-anting.'
     wizard: '&a&oBinigyan ka ng iyong anting-anting na mas magandang Fortune Level ngunit baka bumaba ang iba mong Enchantment Levels.'
+    caveman: '&a&oAng iyong Talisman ay binigyan ka ng haste'
   soulbound-rune:
     fail: '&cMaaari mo lang mabigkis ang isa lang na aytem sa iyong kaluluwa kada isang beses.'
     success: '&aNabigkis mo ang aytem na ito sa iyong kaluluwa! Nandito lang ito sa''yo kapag ika''y namatay.'
@@ -165,6 +210,8 @@ messages:
     - '&7Laging tumingin sa maliwanag na bahagi ng buhay!'
     - '&7Biskwit pala ito at hindi ito siya Kukis.'
     - '&7Ang astig ng mga Neon Signs!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cHindi makahanap ng mga malapit na mineral!'
 machines:
   pattern-not-found: '&ePasensiya na, hindi ko maintindihan ang Recipe na ito. Pakilagay ang mga Aytem sa tamang pattern sa loob ng Dispense.'
   unknown-material: '&ePasensiya na, hindi ko maintindihan ang Aytem na ito sa Dispenser. Maglagay ka ng mga alam ko sa Dispenser.'
@@ -188,6 +235,8 @@ machines:
     enter-name: '&7I-enter ang gusto mong makita sa Hologram Text galing sa Chat. &r(Supported ang Color Codes)'
     named: '&2Napangalanan na ang floor na: &r%floor%'
   TELEPORTER:
+    teleporting: '&3Nagte-teleport...'
+    teleported: '&3Nagteleport!'
     cancelled: '&4Na-kansel ang teleportation!'
     invulnerability: '&b&lBinigyan ka ng 30 segundo ng Invulnerability!'
     gui:

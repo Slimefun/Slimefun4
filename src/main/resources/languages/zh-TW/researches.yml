@@ -189,6 +189,7 @@ slimefun:
   cargo_basics: 物流基礎
   cargo_nodes: 物流節點
   electric_ingot_machines: 電動煉錠產業鍊
+  medium_tier_electric_ingot_machines: 快速煉錠產業鍊
   high_tier_electric_ingot_machines: 高速煉錠產業鍊
   automated_crafting_chamber: 自動合成檯
   better_food_fabricator: 進階食品加工場
@@ -210,6 +211,7 @@ slimefun:
   better_heated_pressure_chamber: 進階高溫加壓室
   elytra: 鞘翅
   special_elytras: 特殊鞘翅
+  trident: 三叉戟
   electric_crucible: 電動坩堝
   better_electric_crucibles: 電熱坩堝—改
   advanced_electric_smeltery: 進階電動冶煉爐
@@ -250,3 +252,10 @@ slimefun:
   elytra_cap: 體驗動能
   bee_armor: 蜂裝
   book_binder: 附魔書裝訂
+  auto_crafting: 自動合成
+  produce_collector: 自動擠奶
+  improved_generators: 改良過的發電機
+  ingredients_and_cheese: Slimefun 烹飪
+  medium_tier_auto_enchanting: 附魔＆退魔檯
+  portable_teleporter: 從任何地方傳送
+  farmer_talisman: 農夫護身符

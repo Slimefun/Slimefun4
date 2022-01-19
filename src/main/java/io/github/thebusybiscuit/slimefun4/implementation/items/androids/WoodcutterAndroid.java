@@ -49,7 +49,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
         if (!target.getWorld().getWorldBorder().isInside(target.getLocation())) {
             return true;
         }
-        
+
         if (Tag.LOGS.isTagged(target.getType())) {
             List<Block> list = Vein.find(target, MAX_REACH, block -> Tag.LOGS.isTagged(block.getType()));
 
