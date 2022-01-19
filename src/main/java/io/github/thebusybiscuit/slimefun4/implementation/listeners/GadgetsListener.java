@@ -9,8 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;

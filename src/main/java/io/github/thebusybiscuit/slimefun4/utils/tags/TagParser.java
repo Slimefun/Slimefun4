@@ -25,12 +25,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
@@ -99,8 +99,7 @@ public class TagParser implements Keyed {
             Set<Material> materials = EnumSet.noneOf(Material.class);
             Set<Tag<Material>> tags = new HashSet<>();
 
-            JsonParser parser = new JsonParser();
-            JsonObject root = parser.parse(json).getAsJsonObject();
+            JsonObject root = JsonUtils.parseString(json).getAsJsonObject();
             JsonElement child = root.get("values");
 
             if (child instanceof JsonArray) {
@@ -134,7 +133,7 @@ public class TagParser implements Keyed {
 
     @ParametersAreNonnullByDefault
     private void parsePrimitiveValue(String value, Set<Material> materials, Set<Tag<Material>> tags, boolean throwException) throws TagMisconfigurationException {
-        if (PatternUtils.MINECRAFT_MATERIAL.matcher(value).matches()) {
+        if (PatternUtils.MINECRAFT_NAMESPACEDKEY.matcher(value).matches()) {
             // Match the NamespacedKey against Materials
             Material material = Material.matchMaterial(value);
 

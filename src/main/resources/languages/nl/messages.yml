@@ -23,6 +23,10 @@ commands:
     description: Laad het item wat je vasthoud op
     charge-success: Item is opgeladen!
     not-rechargeable: Dit item kan niet opgeladen worden!
+  timings:
+    please-wait: '&eWacht eventjes... De resultaten komen er aan!'
+  debug:
+    description: 'Voer debug logging voor de ontwikkelaars uit'
 placeholderapi:
   profile-loading: 'Aan het laden...'
 guide:
@@ -30,7 +34,7 @@ guide:
   work-in-progress: 'Dit is nog niet helemaal klaar!'
   locked-itemgroup:
     - 'Om deze categorie te ontgrendelen zul je'
-    - 'alle items moeten ontgrendelen van de'
+    - 'deze spullen ontgrendelen van de'
     - 'volgende categorieën'
   search:
     message: '&bOp welk woord zou je willen zoeken?'
@@ -70,6 +74,23 @@ guide:
     translations:
       name: '&aOntbreekt er iets?'
       lore: 'Klik om een eigen vertaling toe the voegen'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bAnimatie Leren: &aJa'
+          - ''
+          - '&7Je kunt nu wisselen of je'
+          - '&7zal informatie over je gedachten in de chat zien'
+          - '&7wanneer een item onderzocht wordt.'
+        click: '&eKlik om je leer animatie aan te zetten'
+      disabled:
+        text:
+          - '&bAnimatie Leren: &4Nee'
+          - ''
+          - '&7Je kunt nu wisselen of je'
+          - '&7zal informatie over je gedachten in de chat zien'
+          - '&7wanneer een item onderzocht wordt.'
   title:
     main: 'Slimefun Handboek'
     settings: 'Instellingen & Informatie'
@@ -117,6 +138,8 @@ messages:
   multi-tool:
     mode-change: '&b%device% mode veranderd naar: &9%mode%'
     not-shears: '&cEen Mutli Tool kan niet gebruikt worden als een schaar!'
+  auto-crafting:
+    select: 'Selecteer dit recept'
   talisman:
     anvil: '&a&oJe Talisman heeft voorkomen dat je uitrusting is gebroken'
     miner: '&a&oJe Talisman heeft zonet de gewonnen mineralen verdubbeld'
@@ -175,6 +198,8 @@ messages:
     - '&7Kijk altijd naar de blije kant van je leven!'
     - '&7Deze was eigenlijk een biscuitje en geen koekje'
     - '&7Neon borden zijn LIT!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cKan geen erts dichtbij vinden!'
 machines:
   pattern-not-found: '&eSorry, ik heb het recept niet herkend. Plaats astublieft de spullen in het correcte patroon in de dispenser'
   unknown-material: '&eSorry, ik heb het object in mijn dispenser niet herkend. Plaats er astublieft iets in dat ik herken'

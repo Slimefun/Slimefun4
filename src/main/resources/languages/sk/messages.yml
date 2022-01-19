@@ -13,12 +13,15 @@ commands:
     description: Odomkne/ Resetuje prieskumy pre hráča
     reset: '&cResetoval si %player%''s znalosť'
     reset-target: '&cTvoja znalosť bola resetnutá'
+placeholderapi:
+  profile-loading: 'Nahrávam...'
 guide:
   locked: 'ZAMKNUTÉ'
+  work-in-progress: 'Táto funkcia zatiaľ nie je dokončená!'
   locked-itemgroup:
-    - 'Pre odomknutie tejto kategórie'
-    - 'budeš musieť odomknúť všetky itemy'
-    - 'z nasledujúcich kategórií'
+    - 'Na odomknutie tejto kategórie'
+    - 'budeš musieť odomknúť všetky veci z'
+    - 'nasledujúce kategórie'
   search:
     message: '&bČo by si chcel vyhľadať?'
     name: '&7Hľadať...'
@@ -33,6 +36,7 @@ guide:
       miner: 'Materiály, ktoré môžeš získať s týmto minerom'
       generator: 'Dostupné palivá'
       gold-pan: 'Materiály, ktoré môžeš získať'
+      climbing-pick: 'Povrchy, po ktorých môžeš liezť'
   cheat:
     no-multiblocks: '&4Nemôžeš cheatovať multiblocky, musíš ich postaviť!'
   pages:
@@ -47,6 +51,7 @@ guide:
     selected-language: 'Aktuálne vybraný jazyk: '
     select: 'Klikni pre vybratie tohto jazyka'
     select-default: 'Klikni pre nastavenie východzieho jazyka'
+    change: 'Klikni pre vybratie nového jazyka'
     translations:
       name: '&aNiečo chýba?'
       lore: 'Klikni pre pridanie svojho prekladu'
@@ -58,10 +63,12 @@ guide:
     addons: 'Doplnky pre Slimefun4'
     bugs: 'Report bugov'
     source: 'Zdrojový kód'
+    versions: 'Nainštalované verzie'
   credits:
     commit: 'Úprava'
     commits: 'Úprav'
     profile-link: 'Klikni pre navštívenie profilu na GitHub-e'
+    open: 'Klikni pre zoznam prispievateľov'
     roles:
       developer: '&6Vývojár'
       wiki: '&3Editor Wiki'

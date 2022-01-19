@@ -20,7 +20,10 @@ public final class PatternUtils {
 
     public static final Pattern SLASH_SEPARATOR = Pattern.compile(" / ");
 
-    public static final Pattern MINECRAFT_MATERIAL = Pattern.compile("minecraft:[a-z_]+");
+    public static final Pattern YAML_ENTRY = Pattern.compile("[a-z0-9_-]+:.*");
+
+    public static final Pattern MINECRAFT_NAMESPACEDKEY = Pattern.compile("minecraft:[a-z0-9/._-]+");
+
     public static final Pattern MINECRAFT_TAG = Pattern.compile("#minecraft:[a-z_]+");
     public static final Pattern SLIMEFUN_TAG = Pattern.compile("#slimefun:[a-z_]+");
 
