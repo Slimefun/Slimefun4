@@ -108,15 +108,10 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
 * Fixed #3273
 * Fixed an exploit regarding the Smithing Table
 * Fixed #3265
-<<<<<<< HEAD
-* (API) `SolarGenerator` has a new constructor to accept capacity
-* Fixed Book Binder merging same level books without upgrade
-=======
 * Fixed #3264
 * Fixed extreme knockback caused by the Explosive Bow
 * Fixed #3313
 * Fixed smithing table issue on 1.15 and lower
->>>>>>> master
 
 ## Release Candidate 28 (06 Sep 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#28
