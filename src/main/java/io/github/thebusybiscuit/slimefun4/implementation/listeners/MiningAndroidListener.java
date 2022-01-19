@@ -44,7 +44,7 @@ public class MiningAndroidListener implements Listener {
 
                     Collection<ItemStack> drops = e.getDrops();
                     drops.clear();
-                    drops.add(slimefunItem.getItem().clone());
+                    drops.addAll(slimefunItem.getDrops());
                 } else {
                     e.setCancelled(true);
                 }

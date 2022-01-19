@@ -38,7 +38,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      * @param android
      *            The {@link AndroidInstance} that triggered this {@link Event}
      * @param drops
-     *            The {@link List} of {@link ItemStack}s that will be dropped
+     *            The {@link Collection} of {@link ItemStack}s that will be dropped
      */
     @ParametersAreNonnullByDefault
     public AndroidMineEvent(Block block, AndroidInstance android, Collection<ItemStack> drops) {
@@ -73,8 +73,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      *
      * @return the drops from the {@link Block}
      */
-    @Nonnull
-    public Collection<ItemStack> getDrops() {
+    public @Nonnull Collection<ItemStack> getDrops() {
         return drops;
     }
 
