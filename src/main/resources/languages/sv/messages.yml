@@ -13,8 +13,11 @@ commands:
     description: Låser upp/återställer en spelares forskningar
     reset: '&cDu har återställt %player%s kunskap'
     reset-target: '&cDin kunskap har blivit återställd'
+placeholderapi:
+  profile-loading: 'Laddar...'
 guide:
   locked: 'LÅST'
+  work-in-progress: 'Denna funktion är inte helt klar ännu!'
   locked-itemgroup:
     - 'För att låsa upp denna kategori måste du'
     - 'låsa upp alla föremål från de'
@@ -47,6 +50,7 @@ guide:
     selected-language: 'Valt Språk:'
     select: 'Klicka här för att ändra språk'
     select-default: 'Klicka här för att välja standard språket'
+    change: 'Klicka för att välja ett annat språk'
     translations:
       name: '&aIs något som saknas?'
       lore: 'Klicka här för att lägga till din egen översättning'
@@ -58,6 +62,7 @@ guide:
     addons: 'Tilläg till Slimefun4'
     bugs: 'Bugg Rapporter'
     source: 'Källkoden'
+    versions: 'Installerade versioner'
   credits:
     commit: 'Bidrag'
     commits: 'Bidrag'

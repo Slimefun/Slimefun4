@@ -23,13 +23,24 @@ commands:
     description: Заряжает предмет, который Вы держите
     charge-success: Предмет заряжен!
     not-rechargeable: Этот предмет не может быть заряжен!
+  timings:
+    description: Тайминги для Slimefun и его дополнения
+    please-wait: '&eПожалуйста, подождите секунду… Результаты вот-вот будут!'
+  debug:
+    description: 'Запустить журнал отладки для разработчиков'
+    current: '&7Текущий тест: &6%test_case%'
+    none-running: '&7В настоящее время ни один тест не занят!'
+    running: '&7Запуск режима отладки с тестом: &6%test%'
+    disabled: '&7Режим отладки был выключен.'
+placeholderapi:
+  profile-loading: 'Загрузка…'
 guide:
   locked: 'ЗАБЛОКИРОВАНО'
   work-in-progress: 'Эта функция ещё не полностью завершена!'
   locked-itemgroup:
-    - 'Для начала Вы должны'
-    - 'разблокировать все предметы'
-    - 'из следующих категорий'
+    - 'Чтобы открыть эту категорию вы должны'
+    - 'разблокировать все предметы из'
+    - 'следующих категорий'
   search:
     message: '&bЧто бы Вы хотели найти?'
     name: '&7Поиск…'
@@ -117,6 +128,14 @@ messages:
   multi-tool:
     mode-change: '&bРежим «%device%» изменён на: &9%mode%'
     not-shears: '&cМультиинструмент не может быть использован в качестве ножниц!'
+  auto-crafting:
+    select: 'Выбрать этот рецепт'
+    tooltips:
+      enabled:
+        - '&cЭтот рецепт сейчас включён'
+        - ''
+        - '&eLeft Click &7to temporarily disable the recipe'
+        - '&eRight Click &7to remove this recipe'
   talisman:
     anvil: '&a&oВаш талисман сохранил инструмент от поломки'
     miner: '&a&oВаш талисман удвоил Ваш дроп'

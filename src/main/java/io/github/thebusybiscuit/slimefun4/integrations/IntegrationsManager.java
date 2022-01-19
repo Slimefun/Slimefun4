@@ -140,7 +140,7 @@ public class IntegrationsManager {
     private void onServerStart() {
         try {
             // Load Protection plugin integrations
-            protectionManager = new ProtectionManager(plugin.getServer());
+            protectionManager = new ProtectionManager(plugin);
         } catch (Exception | LinkageError x) {
             Slimefun.logger().log(Level.WARNING, x, () -> "Failed to load Protection plugin integrations for Slimefun v" + Slimefun.getVersion());
         }

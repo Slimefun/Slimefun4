@@ -106,8 +106,21 @@ public class ItemSetting<T> {
      */
     public @Nonnull T getValue() {
         if (value != null) {
+            /**
+             * If the value has been initialized, return it immediately.
+             */
             return value;
+        } else if (Slimefun.instance().isUnitTest()) {
+            /*
+             * In Unit Tests, we want the test to fail. So we know there is
+             * something that needs to be fixed.
+             */
+            throw new IllegalStateException("ItemSetting '" + key + "' was invoked but was not initialized yet.");
         } else {
+            /*
+             * In a normal environment, we can mitigate the issue
+             * easily and just print a warning instead.
+             */
             item.warn("ItemSetting '" + key + "' was invoked but was not initialized yet.");
             return defaultValue;
         }
