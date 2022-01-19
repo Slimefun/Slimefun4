@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -76,6 +77,7 @@ public class MiddleClickListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private boolean isActualMiddleClick(InventoryCreativeEvent e, Block b) {
         /*
          * On a middle click outside the user inventory, cursor will be set
