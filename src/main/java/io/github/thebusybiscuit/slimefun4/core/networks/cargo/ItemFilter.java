@@ -12,6 +12,8 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -159,6 +161,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
     @Override
     public boolean test(@Nonnull ItemStack item) {
+        Debug.log(TestCase.CARGO_INPUT_TESTING, "ItemFilter#test({})", item);
         /*
          * An empty Filter does not need to be iterated over.
          * We can just return our default value in this scenario.

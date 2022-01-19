@@ -17,11 +17,15 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 /**
  * Your friendly neighbourhood spellcheck.
@@ -34,6 +38,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 class TestSlimefunSpelling {
 
     private final Pattern incorrectSpelling = Pattern.compile("[Ss]lime(?:F|( [Ff]))un");
+
+    @BeforeAll
+    public static void load() {
+        MockBukkit.mock();
+    }
+
+    @AfterAll
+    public static void unload() {
+        MockBukkit.unmock();
+    }
 
     @ParameterizedTest
     @ParametersAreNonnullByDefault

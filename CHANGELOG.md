@@ -1,43 +1,191 @@
 # Table of contents
-- [Release Candidate 29 (TBD)](#release-candidate-29-tbd)
-- [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
-- [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
-- [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
-- [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
-- [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
-- [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
-- [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
-- [Release Candidate 21 (14 Mar 2021)](#release-candidate-21-14-mar-2021)
-- [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
-- [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
-- [Release Candidate 18 (03 Dec 2020)](#release-candidate-18-03-dec-2020)
-- [Release Candidate 17 (17 Oct 2020)](#release-candidate-17-17-oct-2020)
-- [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
-- [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
-- [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
-- [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
-- [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
-- [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
-- [Release Candidate 10 (28 Mar 2020)](#release-candidate-10-28-mar-2020)
-- [Release Candidate 9 (07 Mar 2020)](#release-candidate-9-07-mar-2020)
-- [Release Candidate 8 (06 Mar 2020)](#release-candidate-8-06-mar-2020)
-- [Release Candidate 7 (06 Mar 2020)](#release-candidate-7-06-mar-2020)
-- [Release Candidate 6 (16 Feb 2020)](#release-candidate-6-16-feb-2020)
-- [Release Candidate 5 (09 Feb 2020)](#release-candidate-5-09-feb-2020)
-- [Release Candidate 4 (06 Jan 2020)](#release-candidate-4-06-jan-2020)
-- [Release Candidate 3 (21 Nov 2019)](#release-candidate-3-21-nov-2019)
-- [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
-- [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
+- [Table of contents](#table-of-contents)
+  - [Release Candidate 31 (TBD)](#release-candidate-31-tbd)
+      - [Additions](#additions)
+      - [Changes](#changes)
+      - [Fixes](#fixes)
+  - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
+      - [Additions](#additions-1)
+      - [Changes](#changes-1)
+      - [Fixes](#fixes-1)
+  - [Release Candidate 29 (07 Nov 2021)](#release-candidate-29-07-nov-2021)
+      - [Additions](#additions-2)
+      - [Changes](#changes-2)
+      - [Fixes](#fixes-2)
+  - [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
+      - [Fixes](#fixes-3)
+  - [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
+    - [**Breaking Changes (API)**](#breaking-changes-api)
+      - [Additions](#additions-3)
+      - [Changes](#changes-3)
+      - [Fixes](#fixes-4)
+  - [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
+      - [Additions](#additions-4)
+      - [Changes](#changes-4)
+      - [Fixes](#fixes-5)
+  - [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
+      - [Additions](#additions-5)
+      - [Changes](#changes-5)
+      - [Fixes](#fixes-6)
+  - [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
+      - [Additions](#additions-6)
+      - [Changes](#changes-6)
+      - [Fixes](#fixes-7)
+  - [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
+      - [Additions](#additions-7)
+      - [Changes](#changes-7)
+      - [Fixes](#fixes-8)
+  - [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
+      - [Additions](#additions-8)
+      - [Changes](#changes-8)
+      - [Fixes](#fixes-9)
+  - [Release Candidate 21 (14 Mar 2021)](#release-candidate-21-14-mar-2021)
+      - [Additions](#additions-9)
+      - [Changes](#changes-9)
+      - [Fixes](#fixes-10)
+  - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
+      - [Additions](#additions-10)
+      - [Changes](#changes-10)
+      - [Fixes](#fixes-11)
+  - [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
+      - [Additions](#additions-11)
+      - [Changes](#changes-11)
+      - [Fixes](#fixes-12)
+  - [Release Candidate 18 (03 Dec 2020)](#release-candidate-18-03-dec-2020)
+      - [Additions](#additions-12)
+      - [Changes](#changes-12)
+      - [Fixes](#fixes-13)
+  - [Release Candidate 17 (17 Oct 2020)](#release-candidate-17-17-oct-2020)
+      - [Additions](#additions-13)
+      - [Changes](#changes-13)
+      - [Fixes](#fixes-14)
+  - [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
+      - [Additions](#additions-14)
+      - [Changes](#changes-14)
+      - [Fixes](#fixes-15)
+  - [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
+      - [Additions](#additions-15)
+      - [Changes](#changes-15)
+      - [Fixes](#fixes-16)
+  - [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
+      - [Additions](#additions-16)
+      - [Changes](#changes-16)
+      - [Fixes](#fixes-17)
+  - [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
+      - [Additions](#additions-17)
+      - [Changes](#changes-17)
+      - [Fixes](#fixes-18)
+  - [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
+      - [Additions](#additions-18)
+      - [Changes](#changes-18)
+      - [Fixes](#fixes-19)
+  - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
+      - [Additions](#additions-19)
+      - [Changes](#changes-19)
+      - [Fixes](#fixes-20)
+  - [Release Candidate 10 (28 Mar 2020)](#release-candidate-10-28-mar-2020)
+      - [Additions](#additions-20)
+      - [Changes](#changes-20)
+      - [Fixes](#fixes-21)
+  - [Release Candidate 9 (07 Mar 2020)](#release-candidate-9-07-mar-2020)
+      - [Fixes](#fixes-22)
+  - [Release Candidate 8 (06 Mar 2020)](#release-candidate-8-06-mar-2020)
+      - [Fixes](#fixes-23)
+  - [Release Candidate 7 (06 Mar 2020)](#release-candidate-7-06-mar-2020)
+      - [Additions](#additions-21)
+      - [Changes](#changes-21)
+      - [Fixes](#fixes-24)
+  - [Release Candidate 6 (16 Feb 2020)](#release-candidate-6-16-feb-2020)
+      - [Additions](#additions-22)
+      - [Changes](#changes-22)
+      - [Fixes](#fixes-25)
+  - [Release Candidate 5 (09 Feb 2020)](#release-candidate-5-09-feb-2020)
+      - [Additions](#additions-23)
+      - [Changes](#changes-23)
+      - [Fixes](#fixes-26)
+  - [Release Candidate 4 (06 Jan 2020)](#release-candidate-4-06-jan-2020)
+      - [Additions](#additions-24)
+      - [Changes](#changes-24)
+      - [Fixes](#fixes-27)
+  - [Release Candidate 3 (21 Nov 2019)](#release-candidate-3-21-nov-2019)
+      - [Additions](#additions-25)
+      - [Changes](#changes-25)
+      - [Fixes](#fixes-28)
+  - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
+      - [Additions](#additions-26)
+      - [Changes](#changes-26)
+    - [Fixes](#fixes-29)
+  - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 29 (TBD)
+## Release Candidate 31 (TBD)
+
+#### Additions
+* Added Armored Jetpack
+* Added Cocoa Beans as a fuel type for the Bio-Generator
+* Added Beetroots and Beetroot seeds as fuel types for the Bio-Generator
+* Added small and big dripleaves as fuel types for the Bio-Generator
+* Added Glow Berries as a fuel type for the Bio-Generator
+* Added Glow Lichen as a fuel type for the Bio-Generator
+* Added Spore Blossom as a fuel type for the Bio-Generator
+* Added a new item setting for Freezers to allow them to use a 9:1 "vanilla" ratio instead of 1:1 (1:1 by default, like before)
+* (API) Added `PlayerProfile#hasUnlockedEverything()` to check if a player has unlocked all researches
+* Added support for the plugin "HuskTowns"
+
+#### Changes
+* (API) `BiomeMapParser` is now `public`
+* (API) `BiomeMap.fromJson` now allows you to specify if you want the BiomeMap to be parsed leniently
+* Some translation updates
+
+#### Fixes
+* Fixed #3390
+* Fixed research issues for vanilla items, e.g. Trident or Totem of Undying
+* Fixed #3368
+* Fixed #1315
+* Fixed #3400
+* Fixed rare issue where Slimefun would not load at all
+* Fixed #3429
+* Fixed "LogBlock" integration
+* Fixed "Lands" integration
+* Fixed #3133
+
+## Release Candidate 30 (31 Dec 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
+
+#### Additions
+* Added a ton of wiki links to the guide
+* (API) Added "GRAVITY_AFFECTED_BLOCKS" tag
+* (API) Added "Biome-Maps" for more in-depth GEO resource configuration (developers only for now)
+* (API) Added some utility methods for Biome-Maps
+* Added support for 1.18
+* Added Talisman of Farmer
+
+#### Changes
+* GEO resource distributions have been slightly adjusted
+* Salt can now also generate in the Nether (as a GEO resource)
+
+#### Fixes
+* Crimson and Warped Pressure Plates are now properly recognized as pressure plates
+* Fixed #3336
+* (API) Fixed `Parachute` constructor parameter being ignored
+* Fixed #3385
+* Fixed (Easter) Apple Pie recipe yielding (Christmas) Apple Pies
+
+## Release Candidate 29 (07 Nov 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
 
 #### Additions
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
 * The Electric Crucible now also accepts Netherrack
 * The Electric Crucible now also accepts Stone
+* Added the ability to shift-click in the Cheat Sheet menu
+* Added the ability to break blocks normally with a Lumber Axe when sneaking
+* Added an option to allow Solar Generators to operate in "night-mode" in other dimensions
+* Added `/sf debug <test case>` (This allows server owners to get more in-depth logging which they can forward to developers for better bug/lag investigations)
+* Added an option to disable data backups on disable
 
 #### Changes
 * Massive performance improvements for Cargo networks
+* (API) `SolarGenerator` has a new constructor to accept capacity
 
 #### Fixes
 * Fixed #3218
@@ -46,16 +194,20 @@
 * Fixed #3273
 * Fixed an exploit regarding the Smithing Table
 * Fixed #3265
-* (API) `SolarGenerator` has a new constructor to accept capacity
-* Fixed Book Binder merging same level books without upgrade
+* Fixed #3264
+* Fixed extreme knockback caused by the Explosive Bow
+* Fixed #3313
+* Fixed smithing table issue on 1.15 and lower
 
 ## Release Candidate 28 (06 Sep 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#28
 
 #### Fixes
 * Fixed Metrics
 * Fixed some naming conventions and localization keys for RC-27
 
 ## Release Candidate 27 (03 Sep 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#27
 
 ### **Breaking Changes (API)**
 This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)

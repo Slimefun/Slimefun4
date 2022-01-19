@@ -28,6 +28,12 @@ commands:
     please-wait: '&eEine Sekunde Geduld bitte... Die Ergebnisse werden aufbereitet!'
     verbose-player: '&4Das "verbose" Argument kann nicht von Spielern verwendet werden.'
     unknown-flag: '&4Unbekanntes Argument: &c%flag%'
+  debug:
+    description: 'Debug-Infos für Entwickler'
+    current: '&7Aktueller Debugmodus: &6%test_case%'
+    none-running: '&7Aktuell wird kein Debugmodus ausgeführt!'
+    running: '&7Debugmodus &6"%test%" &7wird nun ausgeführt'
+    disabled: '&7Der Debugmodus wurde deaktiviert.'
 placeholderapi:
   profile-loading: 'Lade...'
 guide:
@@ -281,6 +287,8 @@ brewing_stand:
   not-working: '&4Items von Slimefun können nicht zum Brauen verwendet werden!'
 cartography_table:
   not-working: '&4Slimefun Items können nicht in einem Kartentisch verwendet werden!'
+smithing_table:
+  not-working: '&4Slimefun items können nicht in einem Schmiedetisch verwendet werden!'
 villagers:
   no-trading: '&4Items von Slimefun können nicht zum Handeln verwendet werden!'
 backpack:
