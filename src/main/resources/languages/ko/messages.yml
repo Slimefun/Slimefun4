@@ -6,7 +6,7 @@ commands:
   guide: Slimefun 가이드 책 제공
   teleporter: 다른 플레이어의 웨이포인트 보기
   versions: 설치된 모든 애드온 리스트
-  search: 주어진 기간 동안 가이드 검색
+  search: 주어진 단어로 가이드 검색
   open_guide: 책을 사용하지 않고 슬라임펀 가이드 열기
   stats: 플레이어에 대한 일부 통계 표시
   research:
