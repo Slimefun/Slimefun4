@@ -13,8 +13,9 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
 /**
  * The {@link HiddenItem} is a {@link NotConfigurable} {@link SlimefunItem}
  * that is hidden from the Slimefun guide.
- *
+ * 
  * @author char321
+ * 
  */
 public class HiddenItem extends SlimefunItem implements NotConfigurable {
 
