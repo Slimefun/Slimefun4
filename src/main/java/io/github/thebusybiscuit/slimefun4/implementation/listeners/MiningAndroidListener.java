@@ -38,13 +38,13 @@ public class MiningAndroidListener implements Listener {
 
         // Fixes #2839 - Can't believe we forgot a null check here
         if (slimefunItem != null) {
+            Collection<ItemStack> drops = e.getDrops();
+            drops.clear();
+            drops.addAll(slimefunItem.getDrops());
+
             slimefunItem.callItemHandler(BlockBreakHandler.class, handler -> {
                 if (handler.isAndroidAllowed(e.getBlock())) {
                     handler.onAndroidBreak(e);
-
-                    Collection<ItemStack> drops = e.getDrops();
-                    drops.clear();
-                    drops.addAll(slimefunItem.getDrops());
                 } else {
                     e.setCancelled(true);
                 }
