@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Bukkit;
@@ -47,8 +50,8 @@ public class AncientPedestalTask implements Runnable {
 
             if (itemUUID != null) {
                 // Avoid async catcher
-                Slimefun.instance().getServer().getScheduler().callSyncMethod(Slimefun.instance(), () -> {
-                    Entity displayItem = Bukkit.getEntity(itemUUID);
+                try {
+                    Entity displayItem = Slimefun.instance().getServer().getScheduler().callSyncMethod(Slimefun.instance(), () -> Bukkit.getEntity(itemUUID)).get();
                     if (displayItem != null && displayItem.getLocation().distanceSquared(spawnLocation) > 1) {
                         if (displayItem.isValid()) {
                             displayItem.teleport(spawnLocation);
@@ -56,8 +59,9 @@ public class AncientPedestalTask implements Runnable {
                             virtualItemCache.remove(blockPosition);
                         }
                     }
-                    return null;
-                });
+                } catch (InterruptedException | ExecutionException x) {
+                    Slimefun.logger().log(Level.WARNING, x, () -> "An Error occurred while processing pedestal item!");
+                }
             }
         }
     }
