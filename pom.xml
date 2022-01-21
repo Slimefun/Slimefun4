@@ -115,7 +115,7 @@
                 <!-- Compiler plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.9.0</version>
 
                 <configuration>
                     <excludes>
@@ -350,7 +350,7 @@
         <dependency>
             <groupId>io.github.baked-libs</groupId>
             <artifactId>dough-api</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -390,7 +390,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.18</artifactId>
-            <version>1.15.0</version>
+            <version>1.15.5</version>
             <scope>test</scope>
 
             <exclusions>
@@ -435,7 +435,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.208</version>
+            <version>2.1.209</version>
             <scope>provided</scope>
 
             <exclusions>
@@ -477,7 +477,7 @@
         <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>itemsadder-api</artifactId>
-            <version>2.5.0</version>
+            <version>2.5.4</version>
             <scope>provided</scope>
 
             <exclusions>

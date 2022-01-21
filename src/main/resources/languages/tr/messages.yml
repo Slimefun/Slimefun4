@@ -23,6 +23,10 @@ commands:
     description: Elinizdeki eşyayı şarj eder
     charge-success: Eşyanız şarz edildi!
     not-rechargeable: Bu eşya şarz edilemez!
+  timings:
+    please-wait: '&eLütfen bir saniye bekleyin... Sonuçlar geliyor!'
+placeholderapi:
+  profile-loading: 'Yükleniyor...'
 guide:
   locked: 'KİLİTLİ'
   work-in-progress: 'Bu özellik henüz tamamlanmadı!'
