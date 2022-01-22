@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 public interface DistinctiveItem extends ItemAttribute {
 
     /**
-     * This method is called by SlimefunUtil#isItemSimilar when two SlimefunItemStack
+     * This method is called by {@link SlimefunUtils#isItemSimilar} when two {@link SlimefunItemStack}
      * IDs match on a DistinctiveItem and should return if the two items can stack
      * with one another.
      *
