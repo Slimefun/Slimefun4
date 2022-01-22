@@ -86,11 +86,11 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> impleme
     }
 
     @Override
-    public boolean canStack(@Nonnull ItemMeta sfItemMeta, @Nonnull ItemMeta itemMeta) {
-        boolean hasLoreItem = itemMeta.hasLore();
-        boolean hasLoreSfItem = sfItemMeta.hasLore();
+    public boolean canStack(@Nonnull ItemMeta itemMetaOne, @Nonnull ItemMeta itemMetaTwo) {
+        boolean hasLoreItem = itemMetaTwo.hasLore();
+        boolean hasLoreSfItem = itemMetaOne.hasLore();
 
-        if (hasLoreItem && hasLoreSfItem && SlimefunUtils.equalsLore(itemMeta.getLore(), sfItemMeta.getLore())) {
+        if (hasLoreItem && hasLoreSfItem && SlimefunUtils.equalsLore(itemMetaTwo.getLore(), itemMetaOne.getLore())) {
             return true;
         }
         return !hasLoreItem && !hasLoreSfItem;
