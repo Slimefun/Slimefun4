@@ -353,7 +353,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
 
         // Pedestal item watcher Task
-        getServer().getScheduler().runTaskTimerAsynchronously(this, new AncientPedestalTask((AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem()), 5 * 20L, 5 * 20L);
+        new AncientPedestalTask(this, (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
 
         // Starting our tasks
         autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
