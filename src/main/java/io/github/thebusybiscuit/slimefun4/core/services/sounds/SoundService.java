@@ -9,8 +9,8 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
 
-import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * The {@link SoundService} is responsible for our sound management.
@@ -31,7 +31,7 @@ public class SoundService {
      */
     private final Map<SoundEffect, SoundConfiguration> soundMap = new EnumMap<>(SoundEffect.class);
 
-    public SoundService(@Nonnull SlimefunPlugin plugin) {
+    public SoundService(@Nonnull Slimefun plugin) {
         config = new Config(plugin, "sounds.yml");
 
         // @formatter:off
@@ -58,7 +58,7 @@ public class SoundService {
             try {
                 reloadSound(sound);
             } catch (Exception | LinkageError x) {
-                SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An exception was thrown while trying to load the configuration data for the following sound:" + sound.name());
+                Slimefun.logger().log(Level.SEVERE, x, () -> "An exception was thrown while trying to load the configuration data for the following sound:" + sound.name());
             }
         }
 
@@ -80,13 +80,13 @@ public class SoundService {
 
         // Check whether the volume is at least 0.0
         if (volume < 0) {
-            SlimefunPlugin.logger().log(Level.WARNING, "Invalid value in sounds.yml! Volume for Sound \"{0}\" was {1} (must be at least 0.0)", new Object[] { sound.name(), volume });
+            Slimefun.logger().log(Level.WARNING, "Invalid value in sounds.yml! Volume for Sound \"{0}\" was {1} (must be at least 0.0)", new Object[] { sound.name(), volume });
             volume = 0;
         }
 
         // Check if the pitch is at least 0.5
         if (pitch < 0.5F) {
-            SlimefunPlugin.logger().log(Level.WARNING, "Invalid value in sounds.yml! Pitch for Sound \"{0}\" was {1} (must be at least 0.5)", new Object[] { sound.name(), pitch });
+            Slimefun.logger().log(Level.WARNING, "Invalid value in sounds.yml! Pitch for Sound \"{0}\" was {1} (must be at least 0.5)", new Object[] { sound.name(), pitch });
             pitch = 0.5F;
         }
 
@@ -107,5 +107,4 @@ public class SoundService {
         Validate.notNull(sound, "The sound must not be null!");
         return soundMap.get(sound);
     }
-
 }
