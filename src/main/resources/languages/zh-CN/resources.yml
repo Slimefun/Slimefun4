@@ -1,6 +1,6 @@
 ---
 tooltips:
-  results: 'GEO 区块扫描结果'
+  results: '区块中的自然资源扫描结果'
   chunk: '已扫描的区块'
   world: '世界'
   unit: '单位'

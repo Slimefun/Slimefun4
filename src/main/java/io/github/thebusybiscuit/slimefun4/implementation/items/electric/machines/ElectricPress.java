@@ -5,15 +5,16 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link ElectricPress} is a pretty simple electrical machine.
@@ -25,8 +26,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class ElectricPress extends AContainer implements RecipeDisplayItem {
 
     @ParametersAreNonnullByDefault
-    public ElectricPress(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public ElectricPress(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override
@@ -43,15 +44,15 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
         addRecipe(3, new ItemStack(Material.CLAY_BALL, 4), new ItemStack(Material.CLAY));
         addRecipe(3, new ItemStack(Material.BRICK, 4), new ItemStack(Material.BRICKS));
 
-        addRecipe(6, SlimefunItems.COPPER_INGOT, new CustomItem(SlimefunItems.COPPER_WIRE, 3));
+        addRecipe(6, SlimefunItems.COPPER_INGOT, new CustomItemStack(SlimefunItems.COPPER_WIRE, 3));
         addRecipe(16, new SlimefunItemStack(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE);
         addRecipe(18, new SlimefunItemStack(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE);
 
-        addRecipe(8, new ItemStack(Material.NETHER_WART), new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2));
+        addRecipe(8, new ItemStack(Material.NETHER_WART), new CustomItemStack(SlimefunItems.MAGIC_LUMP_1, 2));
         addRecipe(10, new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_1, 4), SlimefunItems.MAGIC_LUMP_2);
         addRecipe(12, new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_2, 4), SlimefunItems.MAGIC_LUMP_3);
 
-        addRecipe(10, new ItemStack(Material.ENDER_EYE), new CustomItem(SlimefunItems.ENDER_LUMP_1, 2));
+        addRecipe(10, new ItemStack(Material.ENDER_EYE), new CustomItemStack(SlimefunItems.ENDER_LUMP_1, 2));
         addRecipe(12, new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 4), SlimefunItems.ENDER_LUMP_2);
         addRecipe(14, new SlimefunItemStack(SlimefunItems.ENDER_LUMP_2, 4), SlimefunItems.ENDER_LUMP_3);
 
@@ -74,8 +75,17 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
         addRecipe(8, new ItemStack(Material.EMERALD, 9), new ItemStack(Material.EMERALD_BLOCK));
         addRecipe(8, new ItemStack(Material.DIAMOND, 9), new ItemStack(Material.DIAMOND_BLOCK));
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             addRecipe(16, new ItemStack(Material.NETHERITE_INGOT, 9), new ItemStack(Material.NETHERITE_BLOCK));
+        }
+
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            addRecipe(4, new ItemStack(Material.AMETHYST_SHARD, 4), new ItemStack(Material.AMETHYST_BLOCK));
+
+            addRecipe(5, new ItemStack(Material.COPPER_INGOT, 9), new ItemStack(Material.COPPER_BLOCK));
+            addRecipe(5, new ItemStack(Material.RAW_IRON, 9), new ItemStack(Material.RAW_IRON_BLOCK));
+            addRecipe(5, new ItemStack(Material.RAW_GOLD, 9), new ItemStack(Material.RAW_GOLD_BLOCK));
+            addRecipe(5, new ItemStack(Material.RAW_COPPER, 9), new ItemStack(Material.RAW_COPPER_BLOCK));
         }
     }
 

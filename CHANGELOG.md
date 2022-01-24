@@ -1,5 +1,10 @@
 # Table of contents
-- [Release Candidate 26 (TBD)](#release-candidate-26-tbd)
+- [Release Candidate 31 (TBD)](#release-candidate-31-tbd)
+- [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
+- [Release Candidate 29 (07 Nov 2021)](#release-candidate-29-07-nov-2021)
+- [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
+- [Release Candidate 27 (03 Sep 2021)](#release-candidate-27-03-sep-2021)
+- [Release Candidate 26 (20 Jul 2021)](#release-candidate-26-20-jul-2021)
 - [Release Candidate 25 (20 Jun 2021)](#release-candidate-25-20-jun-2021)
 - [Release Candidate 24 (03 Jun 2021)](#release-candidate-24-03-jun-2021)
 - [Release Candidate 23 (19 May 2021)](#release-candidate-23-19-may-2021)
@@ -26,7 +31,145 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 26 (TBD)
+## Release Candidate 31 (TBD)
+
+#### Additions
+* Added Armored Jetpack
+* Added Cocoa Beans as a fuel type for the Bio-Generator
+* Added Beetroots and Beetroot seeds as fuel types for the Bio-Generator
+* Added small and big dripleaves as fuel types for the Bio-Generator
+* Added Glow Berries as a fuel type for the Bio-Generator
+* Added Glow Lichen as a fuel type for the Bio-Generator
+* Added Spore Blossom as a fuel type for the Bio-Generator
+* Added a new item setting for Freezers to allow them to use a 9:1 "vanilla" ratio instead of 1:1 (1:1 by default, like before)
+* (API) Added `PlayerProfile#hasUnlockedEverything()` to check if a player has unlocked all researches
+* Added support for the plugin "HuskTowns"
+
+#### Changes
+* (API) `BiomeMapParser` is now `public`
+* (API) `BiomeMap.fromJson` now allows you to specify if you want the BiomeMap to be parsed leniently
+* Some translation updates
+
+#### Fixes
+* Fixed #3390
+* Fixed research issues for vanilla items, e.g. Trident or Totem of Undying
+* Fixed #3368
+* Fixed #1315
+* Fixed #3400
+* Fixed rare issue where Slimefun would not load at all
+* Fixed #3429
+* Fixed "LogBlock" integration
+* Fixed "Lands" integration
+* Fixed #3133
+
+## Release Candidate 30 (31 Dec 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
+
+#### Additions
+* Added a ton of wiki links to the guide
+* (API) Added "GRAVITY_AFFECTED_BLOCKS" tag
+* (API) Added "Biome-Maps" for more in-depth GEO resource configuration (developers only for now)
+* (API) Added some utility methods for Biome-Maps
+* Added support for 1.18
+* Added Talisman of Farmer
+
+#### Changes
+* GEO resource distributions have been slightly adjusted
+* Salt can now also generate in the Nether (as a GEO resource)
+
+#### Fixes
+* Crimson and Warped Pressure Plates are now properly recognized as pressure plates
+* Fixed #3336
+* (API) Fixed `Parachute` constructor parameter being ignored
+* Fixed #3385
+* Fixed (Easter) Apple Pie recipe yielding (Christmas) Apple Pies
+
+## Release Candidate 29 (07 Nov 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
+
+#### Additions
+* Added support for deepslate ores and copper with the Hercules' Pickaxe
+* The Electric Crucible now also accepts Netherrack
+* The Electric Crucible now also accepts Stone
+* Added the ability to shift-click in the Cheat Sheet menu
+* Added the ability to break blocks normally with a Lumber Axe when sneaking
+* Added an option to allow Solar Generators to operate in "night-mode" in other dimensions
+* Added `/sf debug <test case>` (This allows server owners to get more in-depth logging which they can forward to developers for better bug/lag investigations)
+* Added an option to disable data backups on disable
+
+#### Changes
+* Massive performance improvements for Cargo networks
+* (API) `SolarGenerator` has a new constructor to accept capacity
+
+#### Fixes
+* Fixed #3218
+* Fixed #3241
+* Fixed #3248
+* Fixed #3273
+* Fixed an exploit regarding the Smithing Table
+* Fixed #3265
+* Fixed #3264
+* Fixed extreme knockback caused by the Explosive Bow
+* Fixed #3313
+* Fixed smithing table issue on 1.15 and lower
+
+## Release Candidate 28 (06 Sep 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#28
+
+#### Fixes
+* Fixed Metrics
+* Fixed some naming conventions and localization keys for RC-27
+
+## Release Candidate 27 (03 Sep 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#27
+
+### **Breaking Changes (API)**
+This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
+
+* Category has been renamed to ItemGroup.
+* All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun4.api.items.groups`
+* The SlimefunItem class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The SlimefunItemStack class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The ItemHandler class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
+* The RecipeType class has been relocated to `io.github.thebusybiscuit.slimefun4.api.recipes`
+* Research classes have been moved from `io.github.thebusybiscuit.slimefun4.core.researching` to `io.github.thebusybiscuit.slimefun4.api.researches`
+* The main class `SlimefunPlugin` was renamed to `Slimefun`
+* CS-CoreLib2 was removed and replaced by dough
+
+#### Additions
+* A couple more items have their wiki page linked ingame now
+* Added Orebfuscator compatibility
+* You can now "sneak + left click" to only break one block at a time when using an explosive pickaxe or shovel
+* The luck effect from Enhanced Furnaces now also applies to Raw Ore
+* Locked items will now show the category in which they should be unlocked from
+* Added 4 "Amethyst Shard -> 1 Amethyst Block" recipe to Electric Press
+* Added 9 "Copper Ingot -> 1 Copper Block" recipe to Electric Press
+* Added 9 "Raw Iron -> 1 Raw Iron Block" recipe to Electric Press
+* Added 9 "Raw Gold -> 1 Raw Gold Block" recipe to Electric Press
+* Added 9 "Raw Copper -> 1 Raw Copper Block" recipe to Electric Press
+
+#### Changes
+* Copper wire can no longer be placed down
+* Slimefun chains can no longer be placed down
+* (API) FlexCategories can now also appear in non-survival Slimefun guides
+* Display items from Ancient Altars should no longer despawn so easily/fast
+* Research message was modified to also show the category of the item
+
+#### Fixes
+* Fixed #3164
+* Fixed #3177
+* Fixed unbreakable Flint and Steel still being damaged in Ignition Chambers
+* Fixed #2677
+* Fixed Auto-Disenchanter exploit using mcMMO's "super ability" tools
+* Fixed #3190
+* Fixed #3203
+* Fixed #3225
+* Fixed #3206
+* Fixed androids not respecting Worldborders
+* Fixed Ender Lumps showing an incorrect recipe in the guide
+
+## Release Candidate 26 (20 Jul 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
 
 #### Additions
 * Diamonds can now be ground into Carbon using a Grind Stone

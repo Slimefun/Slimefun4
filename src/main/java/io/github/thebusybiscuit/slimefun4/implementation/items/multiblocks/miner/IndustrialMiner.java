@@ -21,17 +21,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
-import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link IndustrialMiner} is a {@link MultiBlockMachine} that can mine any
@@ -51,15 +51,23 @@ public class IndustrialMiner extends MultiBlockMachine {
     protected final Map<Location, MiningTask> activeMiners = new HashMap<>();
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
 
+    private final OreDictionary oreDictionary;
     private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>(this, "can-mine-ancient-debris", false);
     private final ItemSetting<Boolean> canMineDeepslateOres = new ItemSetting<>(this, "can-mine-deepslate-ores", true);
     private final boolean silkTouch;
     private final int range;
 
     @ParametersAreNonnullByDefault
-    public IndustrialMiner(Category category, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
-        super(category, item, new ItemStack[] { null, null, null, new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial) }, BlockFace.UP);
+    public IndustrialMiner(ItemGroup itemGroup, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
+        // @formatter:off
+        super(itemGroup, item, new ItemStack[] {
+            null, null, null,
+            new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItemStack(Material.PISTON, "Piston (facing up)"),
+            new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial)
+        }, BlockFace.UP);
+        // @formatter:on
 
+        this.oreDictionary = OreDictionary.forVersion(Slimefun.getMinecraftVersion());
         this.range = range;
         this.silkTouch = silkTouch;
 
@@ -114,65 +122,17 @@ public class IndustrialMiner extends MultiBlockMachine {
     /**
      * This method returns the outcome that mining certain ores yields.
      * 
-     * @param ore
+     * @param material
      *            The {@link Material} of the ore that was mined
      * 
      * @return The outcome when mining this ore
      */
-    public @Nonnull ItemStack getOutcome(@Nonnull Material ore) {
+    public @Nonnull ItemStack getOutcome(@Nonnull Material material) {
         if (hasSilkTouch()) {
-            return new ItemStack(ore);
-        }
-
-        Random random = ThreadLocalRandom.current();
-
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            // In 1.17, breaking metal ores should get raw metals. Also support deepslate ores.
-            switch (ore) {
-                case DEEPSLATE_COAL_ORE:
-                    return new ItemStack(Material.COAL);
-                case DEEPSLATE_DIAMOND_ORE:
-                    return new ItemStack(Material.DIAMOND);
-                case DEEPSLATE_EMERALD_ORE:
-                    return new ItemStack(Material.EMERALD);
-                case DEEPSLATE_REDSTONE_ORE:
-                    return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
-                case DEEPSLATE_LAPIS_ORE:
-                    return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
-                case COPPER_ORE:
-                case DEEPSLATE_COPPER_ORE:
-                    return new ItemStack(Material.RAW_COPPER);
-                case IRON_ORE:
-                case DEEPSLATE_IRON_ORE:
-                    return new ItemStack(Material.RAW_IRON);
-                case GOLD_ORE:
-                case DEEPSLATE_GOLD_ORE:
-                    return new ItemStack(Material.RAW_GOLD);
-            }
-        }
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            // In 1.16, breaking nether gold ores should get gold nuggets
-            if (ore == Material.NETHER_GOLD_ORE) {
-                return new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
-            }
-        }
-
-        switch (ore) {
-            case COAL_ORE:
-                return new ItemStack(Material.COAL);
-            case DIAMOND_ORE:
-                return new ItemStack(Material.DIAMOND);
-            case EMERALD_ORE:
-                return new ItemStack(Material.EMERALD);
-            case REDSTONE_ORE:
-                return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
-            case LAPIS_ORE:
-                return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
-            case NETHER_QUARTZ_ORE:
-                return new ItemStack(Material.QUARTZ);
-            default:
-                // This includes Iron and Gold ore (and Ancient Debris)
-                return new ItemStack(ore);
+            return new ItemStack(material);
+        } else {
+            Random random = ThreadLocalRandom.current();
+            return oreDictionary.getDrops(material, random);
         }
     }
 
@@ -216,7 +176,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     @Override
     public void onInteract(Player p, Block b) {
         if (activeMiners.containsKey(b.getLocation())) {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.INDUSTRIAL_MINER.already-running");
+            Slimefun.getLocalization().sendMessage(p, "machines.INDUSTRIAL_MINER.already-running");
             return;
         }
 
@@ -250,16 +210,15 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
     public boolean canMine(@Nonnull Material type) {
-        MinecraftVersion version = SlimefunPlugin.getMinecraftVersion();
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
+
         if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16) && type == Material.ANCIENT_DEBRIS) {
             return canMineAncientDebris.getValue();
-        }
-
-        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
+        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
             return canMineDeepslateOres.getValue();
+        } else {
+            return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type);
         }
-
-        return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type);
     }
 
 }

@@ -14,25 +14,25 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockDamageable;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 class TestDamageableItem {
 
-    private static SlimefunPlugin plugin;
+    private static Slimefun plugin;
     private static ServerMock server;
 
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        plugin = MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(Slimefun.class);
     }
 
     @AfterAll
@@ -41,14 +41,14 @@ class TestDamageableItem {
     }
 
     public static MockDamageable getDummyItem(String id, boolean damageable, @Nullable Enchantment enchantment, @Nullable Integer enchantmentLevel) {
-        Category category = TestUtilities.getCategory(plugin, "damageable_item_test");
+        ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "damageable_item_test");
         SlimefunItemStack stack = new SlimefunItemStack("DAMAGEABLE_PICKAXE_" + id, Material.DIAMOND_PICKAXE, "&4This pickaxe can break", "&6It appears, it breaks, but most importantly, it tests.");
         if (enchantment != null && enchantmentLevel != null) {
             ItemMeta im = stack.getItemMeta();
             im.addEnchant(enchantment, enchantmentLevel, true);
             stack.setItemMeta(im);
         }
-        MockDamageable item = new MockDamageable(category, stack, RecipeType.NULL, new ItemStack[9], damageable);
+        MockDamageable item = new MockDamageable(itemGroup, stack, RecipeType.NULL, new ItemStack[9], damageable);
         item.register(plugin);
         return item;
     }

@@ -13,21 +13,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ArmorForge extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
-    public ArmorForge(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
+    public ArmorForge(ItemGroup itemGroup, SlimefunItemStack item) {
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
     }
 
     @Override
@@ -52,10 +52,10 @@ public class ArmorForge extends AbstractCraftingTable {
                 }
             }
 
-            if (inv.isEmpty()) {
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+            if (SlimefunUtils.isInventoryEmpty(inv)) {
+                Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
+                Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
             }
         }
     }
@@ -87,7 +87,7 @@ public class ArmorForge extends AbstractCraftingTable {
             for (int j = 0; j < 4; j++) {
                 int current = j;
 
-                SlimefunPlugin.runSync(() -> {
+                Slimefun.runSync(() -> {
                     if (current < 3) {
                         SoundEffect.ARMOR_FORGE_WORKING_SOUND.playAt(dispenser);
                     } else {
@@ -98,8 +98,7 @@ public class ArmorForge extends AbstractCraftingTable {
             }
 
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
-
 }

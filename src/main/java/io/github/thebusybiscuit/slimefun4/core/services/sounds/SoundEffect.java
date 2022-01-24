@@ -14,7 +14,7 @@ import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This enum holds references to all our sounds.
@@ -96,11 +96,11 @@ public enum SoundEffect {
     }
 
     private @Nullable SoundConfiguration getConfiguration() {
-        SoundConfiguration config = SlimefunPlugin.getSoundService().getConfiguration(this);
+        SoundConfiguration config = Slimefun.getSoundService().getConfiguration(this);
 
         if (config == null) {
             // This should not happen. But if it does... send a warning
-            SlimefunPlugin.logger().log(Level.WARNING, "Could not find any sound configuration for: {0}", name());
+            Slimefun.logger().log(Level.WARNING, "Could not find any sound configuration for: {0}", name());
         }
 
         return config;

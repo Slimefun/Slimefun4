@@ -1,24 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.api.events.AsyncAutoEnchanterProcessEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.Map;
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncAutoEnchanterProcessEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
  * The {@link AutoEnchanter}, in contrast to the {@link AutoDisenchanter}, adds
@@ -36,9 +40,13 @@ import java.util.Map;
  */
 public class AutoEnchanter extends AbstractEnchantmentMachine {
 
+    private final ItemSetting<Boolean> overrideExistingEnchantsLvl = new ItemSetting<>(this, "override-existing-enchants-lvl", false);
+
     @ParametersAreNonnullByDefault
-    public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public AutoEnchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
+
+        addItemSetting(overrideExistingEnchantsLvl);
     }
 
     @Override
@@ -98,6 +106,14 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
                     return null;
                 }
             }
+        }
+
+        /*
+         * If override is false, remove those with lower level so we don't override existing enchants
+         * This also removes those with the same level so they aren't accounted for enchanting time
+         */
+        if (!overrideExistingEnchantsLvl.getValue()) {
+            enchantments.entrySet().removeIf(e -> target.getEnchantmentLevel(e.getKey()) >= e.getValue());
         }
 
         // Check if we found any valid enchantments

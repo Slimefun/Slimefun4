@@ -18,6 +18,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: YAML Linter
-      uses: ibiqlik/action-yamllint@v3.0.2
+      uses: ibiqlik/action-yamllint@v3.1.0
       with:
         config_file: '.github/configs/yaml-linter.yml'

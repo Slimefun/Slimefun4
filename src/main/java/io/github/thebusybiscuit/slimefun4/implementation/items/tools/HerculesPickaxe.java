@@ -6,35 +6,59 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-
 public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public HerculesPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public HerculesPickaxe(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override
     public @Nonnull ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
-            if (SlimefunTag.ORES.isTagged(e.getBlock().getType())) {
-                if (e.getBlock().getType() == Material.IRON_ORE) {
-                    drops.add(new CustomItem(SlimefunItems.IRON_DUST, 2));
-                } else if (e.getBlock().getType() == Material.GOLD_ORE) {
-                    drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
-                } else {
-                    for (ItemStack drop : e.getBlock().getDrops(tool)) {
-                        drops.add(new CustomItem(drop, drop.getAmount() * 2));
+            Material mat = e.getBlock().getType();
+
+            if (SlimefunTag.ORES.isTagged(mat)) {
+                if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+                    switch (mat) {
+                        case DEEPSLATE_IRON_ORE:
+                            drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
+                            break;
+                        case DEEPSLATE_GOLD_ORE:
+                            drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
+                            break;
+                        case COPPER_ORE:
+                        case DEEPSLATE_COPPER_ORE:
+                            drops.add(new CustomItemStack(SlimefunItems.COPPER_DUST, 2));
+                            break;
+                        default:
+                            break;
                     }
+                }
+
+                switch (mat) {
+                    case IRON_ORE:
+                        drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
+                        break;
+                    case GOLD_ORE:
+                        drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
+                        break;
+                    default:
+                        for (ItemStack drop : e.getBlock().getDrops(tool)) {
+                            drops.add(new CustomItemStack(drop, drop.getAmount() * 2));
+                        }
+                        break;
                 }
             }
         };

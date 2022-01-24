@@ -16,12 +16,12 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link ExplosiveBow} is a {@link SlimefunBow} which creates a fake explosion when it hits
@@ -39,8 +39,8 @@ public class ExplosiveBow extends SlimefunBow {
     private final ItemSetting<Integer> range = new IntRangeSetting(this, "explosion-range", 1, 3, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
-    public ExplosiveBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
-        super(category, item, recipe);
+    public ExplosiveBow(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe) {
+        super(itemGroup, item, recipe);
 
         addItemSetting(range);
     }
@@ -57,21 +57,19 @@ public class ExplosiveBow extends SlimefunBow {
             for (Entity nearby : entites) {
                 LivingEntity entity = (LivingEntity) nearby;
 
-                Vector distanceVector = entity.getLocation().toVector().subtract(target.getLocation().toVector());
-                distanceVector.setY(distanceVector.getY() + 0.6);
-
-                Vector velocity = entity.getVelocity();
+                Vector distanceVector = entity.getLocation().toVector().subtract(target.getLocation().toVector()).add(new Vector(0, 0.75, 0));
 
                 double distanceSquared = distanceVector.lengthSquared();
-                double damage = calculateDamage(distanceSquared, e.getDamage());
+                double damage = e.getDamage() * (1 - (distanceSquared / (2 * range.getValue() * range.getValue())));
 
                 if (!entity.getUniqueId().equals(target.getUniqueId())) {
                     EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(e.getDamager(), entity, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
                     Bukkit.getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
-                        Vector knockback = velocity.add(distanceVector.normalize().multiply((int) (e.getDamage() / damage)));
-                        entity.setVelocity(knockback);
+                        distanceVector.setY(0.75);
+                        Vector knockback = distanceVector.normalize().multiply(2);
+                        entity.setVelocity(entity.getVelocity().add(knockback));
                         entity.damage(event.getDamage());
                     }
                 }
@@ -82,14 +80,4 @@ public class ExplosiveBow extends SlimefunBow {
     private boolean canDamage(@Nonnull Entity n) {
         return n instanceof LivingEntity && !(n instanceof ArmorStand) && n.isValid();
     }
-
-    private double calculateDamage(double distanceSquared, double originalDamage) {
-        if (distanceSquared <= 0.05) {
-            return originalDamage;
-        }
-
-        double damage = originalDamage * (1 - (distanceSquared / (range.getValue() * range.getValue())));
-        return Math.min(Math.max(1, damage), originalDamage);
-    }
-
 }

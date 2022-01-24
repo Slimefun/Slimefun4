@@ -13,17 +13,17 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * This {@link SlimefunItem} allows you to convert any {@link ItemStack} into a
@@ -42,8 +42,8 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
     private static final double RANGE = 1.5;
 
     @ParametersAreNonnullByDefault
-    public SoulboundRune(Category category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
-        super(category, item, type, recipe);
+    public SoulboundRune(ItemGroup itemGroup, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
+        super(itemGroup, item, type, recipe);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                     return true;
                 }
 
-                SlimefunPlugin.runSync(() -> activate(p, item), 20L);
+                Slimefun.runSync(() -> activate(p, item), 20L);
 
                 return true;
             }
@@ -81,7 +81,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                 // This lightning is just an effect, it deals no damage.
                 l.getWorld().strikeLightningEffect(l);
 
-                SlimefunPlugin.runSync(() -> {
+                Slimefun.runSync(() -> {
                     // Being sure entities are still valid and not picked up or whatsoever.
                     if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
 
@@ -94,13 +94,13 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                         SlimefunUtils.setSoulbound(itemStack, true);
                         l.getWorld().dropItemNaturally(l, itemStack);
 
-                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.soulbound-rune.success", true);
+                        Slimefun.getLocalization().sendMessage(p, "messages.soulbound-rune.success", true);
                     } else {
-                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.soulbound-rune.fail", true);
+                        Slimefun.getLocalization().sendMessage(p, "messages.soulbound-rune.fail", true);
                     }
                 }, 10L);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.soulbound-rune.fail", true);
+                Slimefun.getLocalization().sendMessage(p, "messages.soulbound-rune.fail", true);
             }
         }
     }
@@ -124,5 +124,4 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
         return false;
     }
-
 }

@@ -23,12 +23,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.bakedlibs.dough.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
@@ -56,7 +56,7 @@ class MiningTask implements Runnable {
     private final int height;
 
     private boolean running = false;
-    private int fuel = 0;
+    private int fuelLevel = 0;
     private int ores = 0;
 
     private int x;
@@ -110,7 +110,7 @@ class MiningTask implements Runnable {
         Player p = Bukkit.getPlayer(owner);
 
         if (p != null) {
-            SlimefunPlugin.getLocalization().sendMessage(p, reason.getErrorMessage());
+            Slimefun.getLocalization().sendMessage(p, reason.getErrorMessage());
         }
 
         stop();
@@ -120,14 +120,6 @@ class MiningTask implements Runnable {
      * This method starts the warm-up animation for the {@link IndustrialMiner}.
      */
     private void warmUp() {
-        fuel = consumeFuel();
-
-        if (fuel <= 0) {
-            // This Miner has not enough fuel.
-            stop(MinerStoppingReason.NO_FUEL);
-            return;
-        }
-
         /*
          * This is our warm up animation.
          * The pistons will push after another in decreasing intervals
@@ -139,6 +131,21 @@ class MiningTask implements Runnable {
 
         queue.thenRun(8, () -> setPistonState(pistons[1], true));
         queue.thenRun(10, () -> setPistonState(pistons[1], false));
+
+        /*
+         * Fixes #3336
+         * Trigger each piston once, so that the structure is validated.
+         * Then consume fuel.
+         */
+        queue.thenRun(() -> {
+            consumeFuel();
+
+            if (fuelLevel <= 0) {
+                // This Miner has not enough fuel.
+                stop(MinerStoppingReason.NO_FUEL);
+                return;
+            }
+        });
 
         queue.thenRun(6, () -> setPistonState(pistons[0], true));
         queue.thenRun(9, () -> setPistonState(pistons[0], false));
@@ -159,7 +166,7 @@ class MiningTask implements Runnable {
         queue.thenRun(2, () -> setPistonState(pistons[1], false));
 
         queue.thenRun(1, this);
-        queue.execute(SlimefunPlugin.instance());
+        queue.execute(Slimefun.instance());
     }
 
     @Override
@@ -186,7 +193,7 @@ class MiningTask implements Runnable {
                 for (int y = height; y > WorldUtils.getMinHeight(world); y--) {
                     Block b = world.getBlockAt(x, y, z);
 
-                    if (!SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(owner), b, ProtectableAction.BREAK_BLOCK)) {
+                    if (!Slimefun.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(owner), b, Interaction.BREAK_BLOCK)) {
                         stop(MinerStoppingReason.NO_PERMISSION);
                         return;
                     }
@@ -196,23 +203,23 @@ class MiningTask implements Runnable {
                         furnace.getWorld().playSound(furnace.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.2F, 1F);
 
                         b.setType(Material.AIR);
-                        fuel--;
+                        fuelLevel--;
                         ores++;
 
                         // Repeat the same column when we hit an ore.
-                        SlimefunPlugin.runSync(this, 4);
+                        Slimefun.runSync(this, 4);
                         return;
                     }
                 }
 
                 nextColumn();
             } catch (Exception e) {
-                SlimefunPlugin.logger().log(Level.SEVERE, e, () -> "An Error occurred while running an Industrial Miner at " + new BlockPosition(chest));
+                Slimefun.logger().log(Level.SEVERE, e, () -> "An Error occurred while running an Industrial Miner at " + new BlockPosition(chest));
                 stop();
             }
         });
 
-        queue.execute(SlimefunPlugin.instance());
+        queue.execute(Slimefun.instance());
     }
 
     /**
@@ -232,13 +239,13 @@ class MiningTask implements Runnable {
 
             if (p != null) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.4F, 1F);
-                SlimefunPlugin.getLocalization().sendMessage(p, "machines.INDUSTRIAL_MINER.finished", msg -> msg.replace("%ores%", String.valueOf(ores)));
+                Slimefun.getLocalization().sendMessage(p, "machines.INDUSTRIAL_MINER.finished", msg -> msg.replace("%ores%", String.valueOf(ores)));
             }
 
             return;
         }
 
-        SlimefunPlugin.runSync(this, 5);
+        Slimefun.runSync(this, 5);
     }
 
     /**
@@ -251,13 +258,13 @@ class MiningTask implements Runnable {
      * @return Whether the operation was successful
      */
     private boolean push(@Nonnull ItemStack item) {
-        if (fuel < 1) {
+        if (fuelLevel < 1) {
             // Restock fuel
-            fuel = consumeFuel();
+            consumeFuel();
         }
 
         // Check if there is enough fuel to run
-        if (fuel > 0) {
+        if (fuelLevel > 0) {
             if (chest.getType() == Material.CHEST) {
                 BlockState state = PaperLib.getBlockState(chest, false).getState();
 
@@ -287,23 +294,19 @@ class MiningTask implements Runnable {
 
     /**
      * This consumes fuel from the given {@link Chest}.
-     * 
-     * @return The gained fuel value
      */
-    private int consumeFuel() {
+    private void consumeFuel() {
         if (chest.getType() == Material.CHEST) {
             BlockState state = PaperLib.getBlockState(chest, false).getState();
 
             if (state instanceof Chest) {
                 Inventory inv = ((Chest) state).getBlockInventory();
-                return consumeFuel(inv);
+                this.fuelLevel = grabFuelFrom(inv);
             }
         }
-
-        return 0;
     }
 
-    private int consumeFuel(@Nonnull Inventory inv) {
+    private int grabFuelFrom(@Nonnull Inventory inv) {
         for (int i = 0; i < inv.getSize(); i++) {
             for (MachineFuel fuelType : miner.fuelTypes) {
                 ItemStack item = inv.getContents()[i];
@@ -359,7 +362,7 @@ class MiningTask implements Runnable {
                 stop(MinerStoppingReason.STRUCTURE_DESTROYED);
             }
         } catch (Exception e) {
-            SlimefunPlugin.logger().log(Level.SEVERE, e, () -> "An Error occurred while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
+            Slimefun.logger().log(Level.SEVERE, e, () -> "An Error occurred while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
             stop();
         }
     }

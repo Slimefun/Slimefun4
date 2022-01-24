@@ -16,12 +16,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
+
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -258,6 +261,7 @@ final class CargoUtils {
 
     @Nullable
     static ItemStack insert(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, boolean smartFill, ItemStack stack, ItemStackWrapper wrapper) {
+        Debug.log(TestCase.CARGO_INPUT_TESTING, "CargoUtils#insert");
         if (!matchesFilter(network, node, stack)) {
             return stack;
         }
@@ -409,7 +413,7 @@ final class CargoUtils {
         if (lazy) {
             return stack != null && Tag.LOGS.isTagged(stack.getType());
         } else {
-            return SlimefunPlugin.getMinecraftRecipeService().isSmeltable(stack);
+            return Slimefun.getMinecraftRecipeService().isSmeltable(stack);
         }
     }
 

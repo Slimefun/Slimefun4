@@ -16,16 +16,17 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.InfiniteBlockGenerator;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
+
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
@@ -57,8 +58,8 @@ public class MinerAndroid extends ProgrammableAndroid {
     private final ItemSetting<Boolean> applyOptimizations = new ItemSetting<>(this, "reduced-block-updates", true);
 
     @ParametersAreNonnullByDefault
-    public MinerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, tier, item, recipeType, recipe);
+    public MinerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeType, recipe);
 
         addItemSetting(firesEvent, applyOptimizations);
     }
@@ -77,7 +78,7 @@ public class MinerAndroid extends ProgrammableAndroid {
         if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
 
-            if (SlimefunPlugin.getProtectionManager().hasPermission(owner, block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+            if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
                 AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
                 Bukkit.getPluginManager().callEvent(event);
 
@@ -87,7 +88,6 @@ public class MinerAndroid extends ProgrammableAndroid {
 
                 // We only want to break non-Slimefun blocks
                 if (!BlockStorage.hasBlockInfo(block)) {
-                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     breakBlock(menu, drops, block);
                 }
             }
@@ -102,7 +102,7 @@ public class MinerAndroid extends ProgrammableAndroid {
         if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
 
-            if (SlimefunPlugin.getProtectionManager().hasPermission(owner, block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+            if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
                 AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
                 Bukkit.getPluginManager().callEvent(event);
 
@@ -112,7 +112,6 @@ public class MinerAndroid extends ProgrammableAndroid {
 
                 // We only want to break non-Slimefun blocks
                 if (!BlockStorage.hasBlockInfo(block)) {
-                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     breakBlock(menu, drops, block);
                     move(b, face, block);
                 }
@@ -126,6 +125,13 @@ public class MinerAndroid extends ProgrammableAndroid {
 
     @ParametersAreNonnullByDefault
     private void breakBlock(BlockMenu menu, Collection<ItemStack> drops, Block block) {
+
+        if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
+            return;
+        }
+
+        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+
         // Push our drops to the inventory
         for (ItemStack drop : drops) {
             menu.pushItem(drop, getOutputSlots());

@@ -7,9 +7,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 /**
  * {@link LongFallBoots} are a pair of boots which negate fall damage.
@@ -25,8 +25,8 @@ public class LongFallBoots extends SlimefunArmorPiece {
     private final SoundEffect soundEffect;
 
     @ParametersAreNonnullByDefault
-    public LongFallBoots(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects, SoundEffect soundEffect) {
-        super(category, item, recipeType, recipe, effects);
+    public LongFallBoots(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects, SoundEffect soundEffect) {
+        super(itemGroup, item, recipeType, recipe, effects);
 
         this.soundEffect = soundEffect;
     }
@@ -40,5 +40,4 @@ public class LongFallBoots extends SlimefunArmorPiece {
     public SoundEffect getSoundEffect() {
         return soundEffect;
     }
-
 }

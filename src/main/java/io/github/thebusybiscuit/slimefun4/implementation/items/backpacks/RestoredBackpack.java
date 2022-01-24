@@ -1,15 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 /**
  * This class represents a {@link SlimefunBackpack} that has been restored via /sf backpack for retrieving items if the
@@ -28,12 +28,12 @@ public class RestoredBackpack extends SlimefunBackpack {
     /**
      * This will create a new {@link SlimefunBackpack} with the given arguments.
      *
-     * @param category
-     *            the category to bind this {@link SlimefunBackpack} to
+     * @param itemGroup
+     *            the {@link ItemGroup} to bind this {@link SlimefunBackpack} to
      */
     @ParametersAreNonnullByDefault
-    public RestoredBackpack(@Nonnull Category category) {
-        super(54, category, SlimefunItems.RESTORED_BACKPACK, RecipeType.NULL, new ItemStack[9]);
+    public RestoredBackpack(@Nonnull ItemGroup itemGroup) {
+        super(54, itemGroup, SlimefunItems.RESTORED_BACKPACK, RecipeType.NULL, new ItemStack[9]);
 
         this.hidden = true;
     }

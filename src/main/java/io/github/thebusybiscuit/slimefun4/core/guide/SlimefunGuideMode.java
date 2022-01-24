@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
 /**
  * This enum holds the different designs a {@link SlimefunGuide} can have.
@@ -16,7 +15,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 public enum SlimefunGuideMode {
 
     /**
-     * This design is the standard layout, it uses a {@link ChestMenu}
+     * This design is the standard layout used in survival mode.
      */
     SURVIVAL_MODE,
 

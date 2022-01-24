@@ -37,9 +37,9 @@ slimefun:
       - 'Tuez ce monstre afin'
       - 'd''obtenir cet objet'
   gold_pan:
-    name: 'Poêle en or'
+    name: 'Tamis'
     lore:
-      - 'Utilisez une casserole d''or pour'
+      - 'Utilisez un tamis pour'
       - 'obtenir cet objet'
   compressor:
     name: 'Compresseur'

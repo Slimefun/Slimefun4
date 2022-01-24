@@ -6,7 +6,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -18,21 +17,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link AncientPedestal} is a part of the {@link AncientAltar}.
@@ -52,8 +51,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
     @ParametersAreNonnullByDefault
-    public AncientPedestal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(category, item, recipeType, recipe, recipeOutput);
+    public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         addItemHandler(onBreak());
     }
@@ -69,7 +68,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
                     Item stack = entity.get();
 
                     if (stack.isValid()) {
-                        stack.removeMetadata("no_pickup", SlimefunPlugin.instance());
+                        stack.removeMetadata("no_pickup", Slimefun.instance());
                         b.getWorld().dropItem(b.getLocation(), getOriginalItemStack(stack));
                         stack.remove();
                     }
@@ -116,11 +115,6 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             stack.setItemMeta(im);
         } else {
             ItemMeta im = stack.getItemMeta();
-
-            if (!customName.startsWith(String.valueOf(ChatColor.COLOR_CHAR))) {
-                customName = ChatColor.WHITE + customName;
-            }
-
             im.setDisplayName(customName);
             stack.setItemMeta(im);
         }
@@ -130,7 +124,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     public void placeItem(@Nonnull Player p, @Nonnull Block b) {
         ItemStack hand = p.getInventory().getItemInMainHand();
-        ItemStack displayItem = new CustomItem(hand, ITEM_PREFIX + System.nanoTime());
+        ItemStack displayItem = new CustomItemStack(hand, ITEM_PREFIX + System.nanoTime());
         displayItem.setAmount(1);
 
         // Get the display name of the original Item in the Player's hand

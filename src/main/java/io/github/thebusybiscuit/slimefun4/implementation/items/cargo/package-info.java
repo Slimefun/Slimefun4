@@ -1,6 +1,6 @@
 /**
  * This package provides the different implementations of
- * {@link me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem}
+ * {@link io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem}
  * that are related to the {@link io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet}, most
  * notably: Cargo Nodes.
  */

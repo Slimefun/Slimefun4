@@ -14,16 +14,17 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidFarmEvent;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class FarmerAndroid extends ProgrammableAndroid {
 
     @ParametersAreNonnullByDefault
-    public FarmerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, tier, item, recipeType, recipe);
+    public FarmerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeType, recipe);
     }
 
     @Override
@@ -36,6 +37,10 @@ public class FarmerAndroid extends ProgrammableAndroid {
         Material blockType = block.getType();
         BlockData data = block.getBlockData();
         ItemStack drop = null;
+
+        if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
+            return;
+        }
 
         if (data instanceof Ageable && ((Ageable) data).getAge() >= ((Ageable) data).getMaximumAge()) {
             drop = getDropFromCrop(blockType);
