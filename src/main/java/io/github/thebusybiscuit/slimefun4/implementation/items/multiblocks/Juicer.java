@@ -67,7 +67,7 @@ public class Juicer extends MultiBlockMachine {
                         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, adding);
                         Bukkit.getPluginManager().callEvent(event);
 
-                        if(event.isCancelled()) {
+                        if (event.isCancelled()) {
                             return;
                         }
 

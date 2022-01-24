@@ -66,18 +66,17 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
         if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.GRAVEL), true, false) || SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true, false)) {
             Material material = input.getType();
-
-            if (p.getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(input, false);
-            }
-
             ItemStack output = material == Material.GRAVEL ? goldPan.getRandomOutput() : netherGoldPan.getRandomOutput();
 
             MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, output);
             Bukkit.getPluginManager().callEvent(event);
 
-            if(event.isCancelled()) {
+            if (event.isCancelled()) {
                 return;
+            }
+
+            if (p.getGameMode() != GameMode.CREATIVE) {
+                ItemUtils.consumeItem(input, false);
             }
 
             TaskQueue queue = new TaskQueue();

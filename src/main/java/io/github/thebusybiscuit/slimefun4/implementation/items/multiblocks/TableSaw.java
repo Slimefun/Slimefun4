@@ -87,7 +87,7 @@ public class TableSaw extends MultiBlockMachine {
         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, output);
         Bukkit.getPluginManager().callEvent(event);
 
-        if(event.isCancelled()) {
+        if (event.isCancelled()) {
             return;
         }
 

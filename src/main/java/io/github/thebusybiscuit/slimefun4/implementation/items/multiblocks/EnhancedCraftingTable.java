@@ -67,7 +67,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, output);
         Bukkit.getPluginManager().callEvent(event);
 
-        if(event.isCancelled()) {
+        if (event.isCancelled()) {
             return;
         }
 
