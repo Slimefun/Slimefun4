@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -65,6 +67,14 @@ public class Compressor extends MultiBlockMachine {
                 for (ItemStack recipeInput : RecipeType.getRecipeInputs(this)) {
                     if (recipeInput != null && SlimefunUtils.isItemSimilar(item, recipeInput, true)) {
                         ItemStack output = RecipeType.getRecipeOutput(this, recipeInput);
+
+                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, output);
+                        Bukkit.getPluginManager().callEvent(event);
+
+                        if(event.isCancelled()) {
+                            return;
+                        }
+
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
                         if (outputInv != null) {

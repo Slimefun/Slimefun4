@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -71,6 +73,13 @@ public class ArmorForge extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
     private void craft(Player p, ItemStack output, Inventory inv, Block dispenser) {
+        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, output);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if(event.isCancelled()) {
+            return;
+        }
+
         Inventory fakeInv = createVirtualInventory(inv);
         Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
 

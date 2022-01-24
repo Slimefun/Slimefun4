@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
@@ -79,6 +81,13 @@ public class TableSaw extends MultiBlockMachine {
 
         if (output == null) {
             Slimefun.getLocalization().sendMessage(p, "machines.wrong-item", true);
+            return;
+        }
+
+        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, output);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if(event.isCancelled()) {
             return;
         }
 

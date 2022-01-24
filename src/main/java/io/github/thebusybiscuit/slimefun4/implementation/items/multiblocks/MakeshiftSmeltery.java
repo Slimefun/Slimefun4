@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
@@ -47,6 +49,13 @@ public class MakeshiftSmeltery extends AbstractSmeltery {
 
     @Override
     protected void craft(Player p, Block b, Inventory inv, ItemStack[] recipe, ItemStack output, Inventory outputInv) {
+        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, output);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if(event.isCancelled()) {
+            return;
+        }
+
         super.craft(p, b, inv, recipe, output, outputInv);
 
         Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);

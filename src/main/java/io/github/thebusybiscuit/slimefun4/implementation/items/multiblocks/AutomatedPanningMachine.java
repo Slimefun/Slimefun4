@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -18,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
@@ -70,6 +72,14 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
             }
 
             ItemStack output = material == Material.GRAVEL ? goldPan.getRandomOutput() : netherGoldPan.getRandomOutput();
+
+            MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, output);
+            Bukkit.getPluginManager().callEvent(event);
+
+            if(event.isCancelled()) {
+                return;
+            }
+
             TaskQueue queue = new TaskQueue();
 
             queue.thenRepeatEvery(20, 5, () -> b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, material));
