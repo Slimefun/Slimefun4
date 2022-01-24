@@ -143,6 +143,7 @@ public class MinerAndroid extends ProgrammableAndroid {
                 block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
             } else {
                 block.setType(Material.AIR);
+                BlockStorage.clearBlockInfo(block);
             }
         } else {
             block.setType(Material.AIR);
