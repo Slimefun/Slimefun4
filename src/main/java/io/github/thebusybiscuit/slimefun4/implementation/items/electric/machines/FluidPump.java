@@ -62,7 +62,6 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));
     private final ItemStack emptyBottle = ItemStackWrapper.wrap(new ItemStack(Material.GLASS_BOTTLE));
-    private final ItemStack waterBottle = new ItemStack(Material.POTION);
 
     @ParametersAreNonnullByDefault
     public FluidPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -70,9 +69,6 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
         addItemHandler(onBreak());
         createPreset(this, this::constructMenu);
-        PotionMeta meta = (PotionMeta) this.waterBottle.getItemMeta();
-        meta.setBasePotionData(new PotionData(PotionType.WATER));
-        this.waterBottle.setItemMeta(meta);
     }
 
     @Nonnull
@@ -146,7 +142,9 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
             BlockMenu menu = BlockStorage.getInventory(b);
 
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), emptyBucket, true, false)) {
+                ItemStack itemInSlot = menu.getItemInSlot(slot);
+
+                if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBucket, true, false)) {
                     ItemStack bucket = getFilledBucket(fluid);
 
                     if (!menu.fits(bucket, getOutputSlots())) {
@@ -163,8 +161,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                     }
 
                     return;
-                }
-                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), emptyBottle, true, false)) {
+                } else if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBottle, true, false)) {
                     ItemStack bottle = getFilledBottle(fluid);
 
                     if (!menu.fits(bottle, getOutputSlots())) {
@@ -177,6 +174,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                         removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
                         menu.consumeItem(slot);
                         menu.pushItem(bottle, getOutputSlots());
+
                         if(ThreadLocalRandom.current().nextInt(100) < 30) {
                             nextFluid.setType(Material.AIR);
                         }
@@ -214,19 +212,21 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         return null;
     }
 
-    @Nonnull
-    private ItemStack getFilledBottle(@Nonnull Block fluid){
+    private @Nonnull ItemStack getFilledBottle(@Nonnull Block fluid){
         switch(fluid.getType()){
             case WATER:
             case BUBBLE_COLUMN:
-                return waterBottle.clone();
+                ItemStack waterBottle = new ItemStack(Material.POTION);
+                PotionMeta meta = (PotionMeta) waterBottle.getItemMeta();
+                meta.setBasePotionData(new PotionData(PotionType.WATER));
+                waterBottle.setItemMeta(meta);
+                return waterBottle;
             default:
                 return new ItemStack(Material.GLASS_BOTTLE);
         }
     }
 
-    @Nonnull
-    private ItemStack getFilledBucket(@Nonnull Block fluid) {
+    private @Nonnull ItemStack getFilledBucket(@Nonnull Block fluid) {
         switch (fluid.getType()) {
             case LAVA:
                 return new ItemStack(Material.LAVA_BUCKET);
