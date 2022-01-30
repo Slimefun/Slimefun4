@@ -79,6 +79,7 @@ public class ArmorForge extends AbstractCraftingTable {
         if (event.isCancelled()) {
             return;
         }
+        output = event.getOutput();
 
         Inventory fakeInv = createVirtualInventory(inv);
         Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
@@ -95,12 +96,13 @@ public class ArmorForge extends AbstractCraftingTable {
             for (int j = 0; j < 4; j++) {
                 int current = j;
 
+                ItemStack finalOutput = output;
                 Slimefun.runSync(() -> {
                     if (current < 3) {
                         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
                     } else {
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                        handleCraftedItem(output, dispenser, inv);
+                        handleCraftedItem(finalOutput, dispenser, inv);
                     }
                 }, j * 20L);
             }

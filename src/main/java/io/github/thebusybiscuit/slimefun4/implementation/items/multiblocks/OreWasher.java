@@ -107,6 +107,7 @@ public class OreWasher extends MultiBlockMachine {
                         if (event.isCancelled()) {
                             return;
                         }
+                        output = event.getOutput();
 
                         Inventory outputInv = null;
 

@@ -90,6 +90,7 @@ public class TableSaw extends MultiBlockMachine {
         if (event.isCancelled()) {
             return;
         }
+        output = event.getOutput();
 
         if (p.getGameMode() != GameMode.CREATIVE) {
             ItemUtils.consumeItem(item, true);

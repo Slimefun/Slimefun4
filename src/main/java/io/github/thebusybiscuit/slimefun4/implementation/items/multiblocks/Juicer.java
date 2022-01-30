@@ -70,6 +70,7 @@ public class Juicer extends MultiBlockMachine {
                         if (event.isCancelled()) {
                             return;
                         }
+                        adding = event.getOutput();
 
                         Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 

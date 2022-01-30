@@ -81,6 +81,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
         if (event.isCancelled()) {
             return;
         }
+        output = event.getOutput();
 
         if (outputInv != null) {
             SlimefunItem sfItem = SlimefunItem.getByItem(output);

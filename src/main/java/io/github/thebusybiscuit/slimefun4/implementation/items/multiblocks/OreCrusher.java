@@ -195,6 +195,7 @@ public class OreCrusher extends MultiBlockMachine {
                             if (event.isCancelled()) {
                                 return;
                             }
+                            adding = event.getOutput();
 
                             if (outputInv != null) {
                                 ItemStack removing = current.clone();

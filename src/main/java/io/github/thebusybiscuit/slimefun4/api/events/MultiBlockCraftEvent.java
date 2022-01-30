@@ -25,7 +25,7 @@ public class MultiBlockCraftEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final MultiBlockMachine machine;
-    private final ItemStack output;
+    private ItemStack output;
     private boolean cancelled;
 
     /**
@@ -60,6 +60,20 @@ public class MultiBlockCraftEvent extends PlayerEvent implements Cancellable {
     @Nonnull
     public ItemStack getOutput() {
         return output;
+    }
+
+    /**
+     * Sets the output of the craft. Keep in mind that this overwrites any existing output.
+     *
+     * @param output
+     *            The new item for the event to produce
+     *
+     * @return The previous {@link ItemStack} output that was replaced
+     */
+    public ItemStack setOutput(@Nonnull ItemStack output) {
+        ItemStack temp = this.output;
+        this.output = output;
+        return temp;
     }
 
     @Override

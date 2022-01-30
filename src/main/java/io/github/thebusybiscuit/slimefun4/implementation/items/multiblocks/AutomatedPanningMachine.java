@@ -74,6 +74,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
             if (event.isCancelled()) {
                 return;
             }
+            output = event.getOutput();
 
             if (p.getGameMode() != GameMode.CREATIVE) {
                 ItemUtils.consumeItem(input, false);
@@ -83,14 +84,15 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
             queue.thenRepeatEvery(20, 5, () -> b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, material));
 
+            ItemStack finalOutput = output;
             queue.thenRun(20, () -> {
-                if (output.getType() != Material.AIR) {
-                    Optional<Inventory> outputChest = OutputChest.findOutputChestFor(b.getRelative(BlockFace.DOWN), output);
+                if (finalOutput.getType() != Material.AIR) {
+                    Optional<Inventory> outputChest = OutputChest.findOutputChestFor(b.getRelative(BlockFace.DOWN), finalOutput);
 
                     if (outputChest.isPresent()) {
-                        outputChest.get().addItem(output.clone());
+                        outputChest.get().addItem(finalOutput.clone());
                     } else {
-                        b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
+                        b.getWorld().dropItemNaturally(b.getLocation(), finalOutput.clone());
                     }
 
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);

@@ -74,6 +74,7 @@ public class Compressor extends MultiBlockMachine {
                         if (event.isCancelled()) {
                             return;
                         }
+                        output = event.getOutput();
 
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 

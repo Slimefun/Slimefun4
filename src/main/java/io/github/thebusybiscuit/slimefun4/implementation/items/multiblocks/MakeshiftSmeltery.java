@@ -55,6 +55,7 @@ public class MakeshiftSmeltery extends AbstractSmeltery {
         if (event.isCancelled()) {
             return;
         }
+        output = event.getOutput();
 
         super.craft(p, b, inv, recipe, output, outputInv);
 

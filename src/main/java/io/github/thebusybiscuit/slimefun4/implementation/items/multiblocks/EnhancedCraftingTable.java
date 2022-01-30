@@ -70,6 +70,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
         if (event.isCancelled()) {
             return;
         }
+        output = event.getOutput();
 
         Inventory fakeInv = createVirtualInventory(inv);
         Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
