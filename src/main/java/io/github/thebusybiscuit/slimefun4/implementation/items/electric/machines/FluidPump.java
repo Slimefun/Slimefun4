@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -55,6 +56,8 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private static final int ENERGY_CONSUMPTION = 32;
     private static final int RANGE = 42;
 
+    private final ItemStack WATER_BOTTLE = new ItemStack(Material.POTION);
+
     private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22 };
     private final int[] inputBorder = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
@@ -62,22 +65,15 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));
     private final ItemStack emptyBottle = ItemStackWrapper.wrap(new ItemStack(Material.GLASS_BOTTLE));
 
-    private static final ItemStack waterBottle = new ItemStack(Material.POTION);
-
-    static {
-        PotionMeta meta = (PotionMeta) waterBottle.getItemMeta();
-        if(meta != null) {
-            meta.setBasePotionData(new PotionData(PotionType.WATER));
-            waterBottle.setItemMeta(meta);
-        }
-    }
-
     @ParametersAreNonnullByDefault
     public FluidPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onBreak());
         createPreset(this, this::constructMenu);
+        PotionMeta meta = (PotionMeta) this.WATER_BOTTLE.getItemMeta();
+        meta.setBasePotionData(new PotionData(PotionType.WATER));
+        this.WATER_BOTTLE.setItemMeta(meta);
     }
 
     @Nonnull
@@ -170,9 +166,9 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                     return;
                 }
                 if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), emptyBottle, true, false)) {
-                    ItemStack glassBottle = getFilledBottle(fluid);
+                    ItemStack bottle = getFilledBottle(fluid);
 
-                    if (!menu.fits(glassBottle, getOutputSlots())) {
+                    if (!menu.fits(bottle, getOutputSlots())) {
                         return;
                     }
 
@@ -181,8 +177,10 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                     if (nextFluid != null) {
                         removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
                         menu.consumeItem(slot);
-                        menu.pushItem(glassBottle, getOutputSlots());
-                        nextFluid.setType(Material.AIR);
+                        menu.pushItem(bottle, getOutputSlots());
+                        if(ThreadLocalRandom.current().nextInt(100) < 30) {
+                            nextFluid.setType(Material.AIR);
+                        }
                     }
 
                     return;
@@ -222,7 +220,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         switch(fluid.getType()){
             case WATER:
             case BUBBLE_COLUMN:
-                return waterBottle;
+                return WATER_BOTTLE.clone();
             default:
                 return new ItemStack(Material.GLASS_BOTTLE);
         }
