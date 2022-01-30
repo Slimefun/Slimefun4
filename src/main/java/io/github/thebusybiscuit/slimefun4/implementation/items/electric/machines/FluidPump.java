@@ -56,14 +56,13 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private static final int ENERGY_CONSUMPTION = 32;
     private static final int RANGE = 42;
 
-    private final ItemStack WATER_BOTTLE = new ItemStack(Material.POTION);
-
     private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22 };
     private final int[] inputBorder = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
     private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));
     private final ItemStack emptyBottle = ItemStackWrapper.wrap(new ItemStack(Material.GLASS_BOTTLE));
+    private final ItemStack waterBottle = new ItemStack(Material.POTION);
 
     @ParametersAreNonnullByDefault
     public FluidPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -71,9 +70,9 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
         addItemHandler(onBreak());
         createPreset(this, this::constructMenu);
-        PotionMeta meta = (PotionMeta) this.WATER_BOTTLE.getItemMeta();
+        PotionMeta meta = (PotionMeta) this.waterBottle.getItemMeta();
         meta.setBasePotionData(new PotionData(PotionType.WATER));
-        this.WATER_BOTTLE.setItemMeta(meta);
+        this.waterBottle.setItemMeta(meta);
     }
 
     @Nonnull
@@ -220,7 +219,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         switch(fluid.getType()){
             case WATER:
             case BUBBLE_COLUMN:
-                return WATER_BOTTLE.clone();
+                return waterBottle.clone();
             default:
                 return new ItemStack(Material.GLASS_BOTTLE);
         }
