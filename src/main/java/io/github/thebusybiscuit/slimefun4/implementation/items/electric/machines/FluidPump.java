@@ -175,7 +175,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                         menu.consumeItem(slot);
                         menu.pushItem(bottle, getOutputSlots());
 
-                        if(ThreadLocalRandom.current().nextInt(100) < 30) {
+                        if (ThreadLocalRandom.current().nextInt(100) < 30) {
                             nextFluid.setType(Material.AIR);
                         }
                     }
