@@ -212,8 +212,8 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         return null;
     }
 
-    private @Nonnull ItemStack getFilledBottle(@Nonnull Block fluid){
-        switch(fluid.getType()){
+    private @Nonnull ItemStack getFilledBottle(@Nonnull Block fluid) {
+        switch (fluid.getType()) {
             case WATER:
             case BUBBLE_COLUMN:
                 ItemStack waterBottle = new ItemStack(Material.POTION);
