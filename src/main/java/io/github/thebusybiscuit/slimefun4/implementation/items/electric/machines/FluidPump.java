@@ -38,6 +38,9 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 /**
  * This machine collects liquids from the {@link World} and puts them
@@ -57,6 +60,17 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
     private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));
+    private final ItemStack emptyBottle = ItemStackWrapper.wrap(new ItemStack(Material.GLASS_BOTTLE));
+
+    private static final ItemStack waterBottle = new ItemStack(Material.POTION);
+
+    static {
+        PotionMeta meta = (PotionMeta) waterBottle.getItemMeta();
+        if(meta != null) {
+            meta.setBasePotionData(new PotionData(PotionType.WATER));
+            waterBottle.setItemMeta(meta);
+        }
+    }
 
     @ParametersAreNonnullByDefault
     public FluidPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -155,6 +169,24 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
                     return;
                 }
+                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), emptyBottle, true, false)) {
+                    ItemStack glassBottle = getFilledBottle(fluid);
+
+                    if (!menu.fits(glassBottle, getOutputSlots())) {
+                        return;
+                    }
+
+                    Block nextFluid = findNextFluid(fluid);
+
+                    if (nextFluid != null) {
+                        removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
+                        menu.consumeItem(slot);
+                        menu.pushItem(glassBottle, getOutputSlots());
+                        nextFluid.setType(Material.AIR);
+                    }
+
+                    return;
+                }
             }
         }
     }
@@ -183,6 +215,17 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         }
 
         return null;
+    }
+
+    @Nonnull
+    private ItemStack getFilledBottle(@Nonnull Block fluid){
+        switch(fluid.getType()){
+            case WATER:
+            case BUBBLE_COLUMN:
+                return waterBottle;
+            default:
+                return new ItemStack(Material.GLASS_BOTTLE);
+        }
     }
 
     @Nonnull
