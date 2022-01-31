@@ -311,18 +311,16 @@ class MiningTask implements Runnable {
             for (MachineFuel fuelType : miner.fuelTypes) {
                 ItemStack item = inv.getContents()[i];
 
-                if (fuelType.test(item)) {
-                    /*
-                     * Fixes #3336
-                     * Respects the state of the miner if there are
-                     * no any errors during #setPistonState
-                     */
-                    if (running) {
-                        ItemUtils.consumeItem(item, false);
+                /*
+                 * Fixes #3336
+                 * Respects the state of the miner if there are
+                 * no any errors during #setPistonState
+                 */
+                if (fuelType.test(item) && running) {
+                    ItemUtils.consumeItem(item, false);
 
-                        if (miner instanceof AdvancedIndustrialMiner) {
-                            inv.addItem(new ItemStack(Material.BUCKET));
-                        }
+                    if (miner instanceof AdvancedIndustrialMiner) {
+                        inv.addItem(new ItemStack(Material.BUCKET));
                     }
 
                     return fuelType.getTicks();
