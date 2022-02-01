@@ -92,8 +92,8 @@
         </repository>
         <repository>
             <!-- Orebfuscator -->
-            <id>imprex-repo</id>
-            <url>https://imprex.ingrim4.me/repository/maven-public/</url>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
     </repositories>
 
