@@ -72,11 +72,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final ItemStack item;
     private final boolean showVanillaRecipes;
-    private final boolean showHiddenItemInSearch;
+    private final boolean showHiddenItemGroupsInSearch;
 
-    public SurvivalSlimefunGuide(boolean showVanillaRecipes, boolean showHiddenItemInSearch) {
+    public SurvivalSlimefunGuide(boolean showVanillaRecipes, boolean showHiddenItemGroupsInSearch) {
         this.showVanillaRecipes = showVanillaRecipes;
-        this.showHiddenItemInSearch = showHiddenItemInSearch;
+        this.showHiddenItemGroupsInSearch = showHiddenItemGroupsInSearch;
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
@@ -360,10 +360,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 break;
             }
 
-            if (!slimefunItem.isHidden()
-                    && (showHiddenItemInSearch || !slimefunItem.getItemGroup().isHidden(p))
-                    && isSearchFilterApplicable(slimefunItem, searchTerm)
-            ) {
+            boolean isHiddenItemGroup = showHiddenItemGroupsInSearch || !slimefunItem.getItemGroup().isHidden(p);
+
+            if (!slimefunItem.isHidden() && isHiddenItemGroup && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = new CustomItemStack(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
