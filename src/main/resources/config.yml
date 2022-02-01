@@ -23,7 +23,7 @@ options:
 guide:
   show-vanilla-recipes: true
   receive-on-first-join: true
-  show-hidden-items-in-search: true
+  show-hidden-item-groups-in-search: true
 
 researches:
   free-in-creative-mode: true
