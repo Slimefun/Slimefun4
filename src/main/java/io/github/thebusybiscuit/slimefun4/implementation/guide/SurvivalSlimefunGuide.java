@@ -360,9 +360,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 break;
             }
 
-            boolean isHiddenItemGroup = showHiddenItemGroupsInSearch || !slimefunItem.getItemGroup().isHidden(p);
+            boolean isItemGroupHidden = showHiddenItemGroupsInSearch || !slimefunItem.getItemGroup().isHidden(p);
 
-            if (!slimefunItem.isHidden() && isHiddenItemGroup && isSearchFilterApplicable(slimefunItem, searchTerm)) {
+            if (!slimefunItem.isHidden() && isItemGroupHidden && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = new CustomItemStack(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
