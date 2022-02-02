@@ -1,0 +1,28 @@
+name: Label resolved issues
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  label:
+
+    name: Label Issue
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, '🐞 Bug Report')
+
+    steps:
+      - name: Query recent commits
+        uses: TheBusyBiscuit/recently-closed-issues@1.1.0
+        id: resolved
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          max_commits: 20
+
+      - name: Add label
+        if: contains(steps.resolved.outputs.issues, github.event.issue.number)
+        uses: maxkomarychev/octions/octions/issues/add-labels@master
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          labels: '✔ Resolved'
