@@ -1,1 +1,143 @@
 ---
+slimefun:
+  walking_sticks: Бастуни
+  fortune_cookie: Бисквитка с Късмет
+  portable_dustbin: Преносимо Кошче
+  meat_jerky: Пастърма
+  armor_forge: Изработка на броня
+  glowstone_armor: Броня от сияещ камък
+  lumps: Късове и магия
+  ender_backpack: Раница от Края
+  ender_armor: Броня от Края
+  magic_eye_of_ender: Магическо око от Края
+  magic_sugar: Магическа захар
+  monster_jerky: Чудовищно месо
+  slime_armor: Слузеста броня
+  sword_of_beheading: Меч на обезглавяването
+  basic_circuit_board: Основна електрическа платка
+  advanced_circuit_board: Усъвършенствана платка
+  smeltery: Разтопител
+  steel: Стоманена епоха
+  misc_power_items: Важни предмети, свързани със захранването
+  battery: Твоята първа батерия
+  steel_plate: Стоманено покритие
+  parachute: Парашут
+  grappling_hook: Абордажна кука
+  jetpacks: Джетпак
+  multitools: Множество инструменти
+  solar_panel_and_helmet: Слънчева енергия
+  elemental_staff: Елементни тояги
+  grind_stone: Каменоломна
+  cactus_armor: Кактусен костюм
+  gold_pan: Златна тава
+  magical_book_cover: Подвързия за магическа книга
+  slimefun_metals: Нови метали
+  ore_crusher: Удвояване на рудите
+  bronze: Бронзов продукт
+  alloys: Подобрени сплави
+  compressor_and_carbon: Въглероден продукт
+  gilded_iron_armor: Позлатена желязна броня
+  synthetic_diamond: Синтетични диаманти
+  pressure_chamber: Камера под налягане
+  slime_steel_armor: Слузеста стоманена броня
+  blade_of_vampires: Острието на вампирите
+  water_staff: Водна тояга
+  24k_gold_block: Златен град
+  composter: Компостиране на пръст
+  farmer_shoes: Фермерски обувки
+  explosive_tools: Взривни инструменти
+  automated_panning_machine: Автоматична златна тава
+  boots_of_the_stomper: Ботуши на Тропащия
+  pickaxe_of_the_seeker: Кирка на търсача
+  backpacks: Раница
+  woven_backpack: Тъкана раница
+  crucible: Тигел
+  gilded_backpack: Позлатена раница
+  armored_jetpack: Брониран джетпак
+  ender_talismans: Талисмани от Края
+  nickel_and_cobalt: Дори повече руди
+  magnet: Намагнетизирани метали
+  infused_magnet: Инфузиран магнит
+  cobalt_pickaxe: Скоростна кирка
+  essence_of_afterlife: Некромания
+  bound_backpack: Обвързан с душата склад
+  jetboots: Джет ботуши
+  armored_jetboots: Бронирани джет ботуши
+  seismic_axe: Земетръсна брадва
+  bound_weapons: Обвързани с душата оръжия
+  bound_tools: Обвързани с душата инструменти
+  bound_armor: Обвързана с душата броня
+  juicer: Много вкусни напитки
+  repaired_spawner: Ремонтиран размножител
+  enhanced_furnace: Подобрена печка
+  more_enhanced_furnaces: По-добра печка
+  high_tier_enhanced_furnaces: Високо ниво печка
+  reinforced_furnace: Подсилена печка
+  carbonado_furnace: Въглеродна крайна печка
+  electric_motor: Затопляне
+  block_placer: Поставяч на блокове
+  special_bows: Робин Худ
+  tome_of_knowledge_sharing: Споделяне с приятели
+  flask_of_knowledge: Склад за XP
+  hardened_glass: Устойчиво на експлозии
+  golden_apple_juice: Златна отвара
+  cooler: Преносими напитки
+  ancient_altar: Древен олтар
+  wither_proof_obsidian: Устойчив на Уидър обсидиан
+  ancient_runes: Елементни руни
+  special_runes: Лилави руни
+  infernal_bonemeal: Адски костен прах
+  rainbow_blocks: Дъгови блокове
+  infused_hopper: Изпълвуема фуния
+  wither_proof_glass: Устойчиво на Уидър стъкло
+  oil: Течно масло
+  better_solar_generators: Подобрени слънчеви генератори
+  boosted_uranium: Безкраен кръг
+  high_tier_carbon_press: Крайна въглеродна преса
+  better_heated_pressure_chamber: Подобрена нагрята камера под налягане
+  elytra: Крила
+  special_elytras: Специални крила
+  trident: Тризъбец
+  electric_crucible: Електрифициран тигел
+  better_electric_crucibles: Горещ тигел
+  advanced_electric_smeltery: Модерен електрически разтопител
+  advanced_farmer_android: Модерни андроиди - Фермер
+  lava_generator: Генератор с лава
+  nether_star_reactor: Реактор с Недър звезда
+  blistering_ingots: Блистерна радиоактивност
+  automatic_ignition_chamber: Автоматична запалваща камера
+  output_chest: Изходен сандък за основни машини
+  copper_wire: Разредена проводимост
+  auto_drier: Сух ден
+  diet_cookie: Диетична бисквитка
+  storm_staff: Гръмотевична тояга
+  soulbound_rune: Обвързана с душата руна
+  geo_miner: Гео-копач
+  lightning_rune: Светкавична руна
+  totem_of_undying: Тотем на безсмъртието
+  charging_bench: Захранващ съд
+  nether_gold_pan: Златна паница от Недъра
+  electric_press: Електрическа преса
+  magnesium_generator: Енергия от магнезий
+  kelp_cookie: Вкусно водорасло
+  makeshift_smeltery: Импровизиран разтопител
+  tree_growth_accelerator: По-бързи дървета
+  industrial_miner: Промишлен добив
+  advanced_industrial_miner: По-добро копаене
+  magical_zombie_pills: Де-зомбифициране
+  climbing_pick: Алпинист
+  shulker_shell: Синтетични шулкъри
+  enchantment_rune: Древно омагьосване
+  lead_clothing: Основна дреха
+  tape_measure: Рулетка
+  iron_golem_assembler: Автоматични железни големи
+  villager_rune: Нулирай сделките на селянина
+  bee_armor: Пчелна броня
+  book_binder: Подвързия на омагьосана книга
+  auto_crafting: Автоматично създаване
+  produce_collector: Автоматично доене
+  improved_generators: Подобрени генератори
+  ingredients_and_cheese: Slimefun кухня
+  medium_tier_auto_enchanting: Бързо автоматично омагьосване и разваляне на магията
+  portable_teleporter: Телепортиране отвсякъде
+  farmer_talisman: Талисман на фермера
