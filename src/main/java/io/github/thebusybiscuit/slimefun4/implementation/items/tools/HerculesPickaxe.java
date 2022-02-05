@@ -27,38 +27,49 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
     @Override
     public @Nonnull ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
+            boolean hadDoubledDrops = false;
             Material mat = e.getBlock().getType();
 
             if (SlimefunTag.ORES.isTagged(mat)) {
                 if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-                    switch (mat) {
+                    switch(mat) {
                         case DEEPSLATE_IRON_ORE:
                             drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
+                            hadDoubledDrops = true;
                             break;
                         case DEEPSLATE_GOLD_ORE:
                             drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
+                            hadDoubledDrops = true;
                             break;
                         case COPPER_ORE:
                         case DEEPSLATE_COPPER_ORE:
                             drops.add(new CustomItemStack(SlimefunItems.COPPER_DUST, 2));
+                            hadDoubledDrops = true;
                             break;
                         default:
                             break;
                     }
                 }
 
-                switch (mat) {
-                    case IRON_ORE:
-                        drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
-                        break;
-                    case GOLD_ORE:
-                        drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
-                        break;
-                    default:
-                        for (ItemStack drop : e.getBlock().getDrops(tool)) {
-                            drops.add(new CustomItemStack(drop, drop.getAmount() * 2));
-                        }
-                        break;
+                /*
+                 * Fixes #3455
+                 * Prevents the switch case below that can do natural drops
+                 * if the switch/case above gets fired
+                 */
+                if (!hadDoubledDrops) {
+                    switch (mat) {
+                        case IRON_ORE:
+                            drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
+                            break;
+                        case GOLD_ORE:
+                            drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
+                            break;
+                        default:
+                            for (ItemStack drop : e.getBlock().getDrops(tool)) {
+                                drops.add(new CustomItemStack(drop, drop.getAmount() * 2));
+                            }
+                            break;
+                    }
                 }
             }
         };
