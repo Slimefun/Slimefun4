@@ -17,14 +17,14 @@ import java.util.List;
  * @author CarmJos
  * @see io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener
  */
-public class SlimeBlockDropEvent extends BlockEvent {
+public class SlimefunBlockDropEvent extends BlockEvent {
 
     private static final HandlerList handlers = new HandlerList();
 
     private final Player player;
     private List<ItemStack> drops;
 
-    public SlimeBlockDropEvent(Player player, Block theBlock, List<ItemStack> drops) {
+    public SlimefunBlockDropEvent(Player player, Block theBlock, List<ItemStack> drops) {
         super(theBlock);
         this.player = player;
         this.drops = drops;

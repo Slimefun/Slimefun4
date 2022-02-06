@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.events.SlimeBlockDropEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockDropEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
@@ -175,7 +175,7 @@ public class BlockListener implements Listener {
                 e.setDropItems(false);
 
                 // Call event for items dropped by the block
-                SlimeBlockDropEvent dropEvent = new SlimeBlockDropEvent(e.getPlayer(), e.getBlock(), drops);
+                SlimefunBlockDropEvent dropEvent = new SlimefunBlockDropEvent(e.getPlayer(), e.getBlock(), drops);
                 Bukkit.getPluginManager().callEvent(dropEvent);
 
                 // Only drop event's items.
