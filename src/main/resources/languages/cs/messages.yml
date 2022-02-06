@@ -23,6 +23,11 @@ commands:
     description: Nabije předmět, který držíš
     charge-success: Předmět byl nabit!
     not-rechargeable: Tento předmět nelze nabít!
+  timings:
+    description: Timings pro Slimefun a jeho doplňky
+    please-wait: '&ePočkej, prosím, vteřinu… Výsledky přicházejí!'
+    verbose-player: '&4Tato vlajka nemůže být použita hráčem!'
+    unknown-flag: '&4Neplatná vlajka: &c%flag%'
   debug:
     description: 'Spustit ladění pro vývojáře'
     current: '&7Aktuální testovací případ: &6%test_case%'
@@ -76,16 +81,37 @@ guide:
     translations:
       name: '&aChybí zde něco?'
       lore: 'Klikni pro přidání vlastního překladu'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bAnimace Výzkumu: &aAno'
+          - ''
+          - '&7Nyní můžete přepnout, zda-li'
+          - '&7uvidíte informace o průběhu vašeho hloubání'
+          - '&7když budete zkoumat předmět.'
+        click: '&eKliknutím vypnete animace výzkumu'
+      disabled:
+        text:
+          - '&bAnimace Výzkumu: &4Ne'
+          - ''
+          - '&7Nyní můžete přepnout, zda-li'
+          - '&7uvidíte informace o průběhu vašeho hloubání'
+          - '&7když budete zkoumat předmět.'
+        click: '&eKliknutím zapnete animace výzkumu'
   title:
     main: 'Slimefun příručka'
     settings: 'Nastavení a informace'
     languages: 'Zvol svůj preferovaný jazyk'
     credits: 'Slimefun4 pomocníci'
+    wiki: 'Slimefun4 Wiki'
     addons: 'Doplňky pro Slimefun4'
     bugs: 'Nahlášení chyb'
     source: 'Zdrojový kód'
     versions: 'Nainstalovaná verze'
   credits:
+    commit: 'Commit'
+    commits: 'Commity'
     profile-link: 'Klikni pro navštívení jeho profilu na GitHubu'
     open: 'Klikni pro zobrazení našich pomocníků'
     description:
@@ -99,6 +125,7 @@ guide:
       resourcepack: '&cTvůrce modifikačního balíčku'
       translator: '&9Překladatel'
 messages:
+  not-researched: '&4Nemáš dostatek znalostí, abys tohle pochopil. &cMusíš odemknout &f"%item%&f"'
   not-enough-xp: '&4Nemáš dostatek XP úrovní na to, abys vyzkoumal tuhle věc'
   unlocked: '&bMáš vyzkoumáno &7„%research%”'
   only-players: '&4Tenhle příkaz je jenom pro hráče'
@@ -123,26 +150,32 @@ messages:
     mode-change: '&b%device% mód změněn na: &9%mode%'
     not-shears: '&cMulti Tool nemůže být použit jako nůžky!'
   auto-crafting:
+    select-a-recipe: '&eSkrč se a klikni pravým tlačítkem &7na tento blok s předmětem, který chceš vyrobit.'
     recipe-set: '&aÚspěšně jsi nastavil recept pro tento stroj.'
     recipe-removed: '&eÚspěšně jsi odstranil recept z tohoto stroje. Kdykoliv můžeš nastavit nový recept!'
+    no-recipes: '&cNemohu najít žádné platné recepty pro předmět, který držíš.'
     missing-chest: '&cChybějící truhla! Automatický pracovní stůl musí být položen nad truhlou.'
     select: 'Vybrat tento recept'
     temporarily-disabled: '&eTento Automatický pracovní stůl byl dočasně vypnut. Můžete ho kdykoliv znovu zapnout!'
     re-enabled: '&eTento Automatický pracovní stůl byl znovu aktivován!'
+    recipe-unavailable: |
+      &cTento předmět je buďto zakázán na vašem serveru, nebo jste ho ještě neodemkli.
+      &7Zkuste tento předmět vyrobit, pokud jste to ještě neudělali, abyste odemkli příslušný recept.
     tooltips:
       enabled:
         - '&aTento recept je aktuálně povolen'
         - ''
-        - '&eLeft Click &7to temporarily disable the recipe'
-        - '&eRight Click &7to remove this recipe'
+        - '&eKlikni levým tlačítkem &7pro dočasné vypnutí receptu'
+        - '&eKlikni pravým tlačítkem &7pro odstranění tohoto receptu'
       disabled:
         - '&cTento recept je momentálně zakázán'
         - ''
-        - '&eLeft Click &7to re-enable this recipe'
-        - '&eRight Click &7to remove this recipe'
+        - '&eKlikni levým tlačítkem &7pro opětovné povolení tohoto receptu'
+        - '&eKlikni pravým tlačítkem &7pro odstranění tohoto receptu'
   talisman:
     anvil: '&a&oTvůj talisman zachránil tvůj nástroj od rozbití'
     miner: '&a&oTvůj talisman zdvojnásobil tvou kořist'
+    farmer: '&a&oVáš talisman právě zdvojnásobil vaš zisk'
     hunter: '&a&oTvůj talisman zdvojnásobil tvou kořist'
     lava: '&a&oTvůj talisman tě zachránil před uhořením'
     water: '&a&oTvůj talisman tě zachránil před utopením'
@@ -198,6 +231,9 @@ messages:
     - '&7Vždy se podívej na světlou stránku života!'
     - '&7Tohle byl vlastně Biscuit, a ne Cookie'
     - '&7Neonové cedule jsou LIT!'
+  above-limit-level: '&cNelze o(d)enchantovat enchant level vyšší než %level%!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cNemohu najít žádné rudy v okolí!'
 machines:
   pattern-not-found: '&eBohužel se nepodařilo rozpoznat tento recept. Dej do dávkovače předměty tak, aby odpovídaly receptu.'
   unknown-material: '&eBohužel se nepodařilo rozpoznat tento předmět v dávkovači. Dej tam něco správného.'
@@ -205,6 +241,7 @@ machines:
   full-inventory: '&eBohužel, můj inventář je plný.'
   in-use: '&cInventář tohoto bloku je právě otevřen jiným hráčem.'
   ignition-chamber-no-flint: '&cIgnition Chamberu chybí křesadlo.'
+  inventory-empty: '&6Úspěšně jsi vytvořili tento Multiblock. Pokračuj umístěním předmětů do dávkovače a kliknutím na něj znovu vyrobíš předmět, který chceš!'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4Altar nemá dostatek Pedestal &c(%pedestals% / 8)'
     unknown-catalyst: '&4Neznámý katalyst. &cPoužij správný recept!'
@@ -252,6 +289,8 @@ brewing_stand:
   not-working: '&4Nemůžeš používat Slimefun předměty ve varném stojanu!'
 cartography_table:
   not-working: '&4Nemůžeš použít Slimefun předměty v kartografickém stole!'
+smithing_table:
+  not-working: '&4Nemůžeš použít Slimefun předmět jako kovářský materiál!'
 villagers:
   no-trading: '&4Nemůžeš vyměňovat Slimefun předměty s vesničany!'
 backpack:

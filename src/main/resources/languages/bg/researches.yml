@@ -1,6 +1,7 @@
 ---
 slimefun:
   walking_sticks: Бастуни
+  portable_crafter: Преносима работна маса
   fortune_cookie: Бисквитка с Късмет
   portable_dustbin: Преносимо Кошче
   meat_jerky: Пастърма
@@ -21,6 +22,7 @@ slimefun:
   misc_power_items: Важни предмети, свързани със захранването
   battery: Твоята първа батерия
   steel_plate: Стоманено покритие
+  steel_thruster: Стоманен ускорител
   parachute: Парашут
   grappling_hook: Абордажна кука
   jetpacks: Джетпак
@@ -109,6 +111,7 @@ slimefun:
   jetboots: Джет ботуши
   armored_jetboots: Бронирани джет ботуши
   seismic_axe: Земетръсна брадва
+  pickaxe_of_vein_mining: Кирка на венозното копаене
   bound_weapons: Обвързани с душата оръжия
   bound_tools: Обвързани с душата инструменти
   bound_armor: Обвързана с душата броня
@@ -214,11 +217,13 @@ slimefun:
   advanced_electric_smeltery: Модерен електрически разтопител
   advanced_farmer_android: Модерни андроиди - Фермер
   lava_generator: Генератор с лава
+  nether_ice: Охлаждане от лед от Недъра
   nether_star_reactor: Реактор с Недър звезда
   blistering_ingots: Блистерна радиоактивност
   automatic_ignition_chamber: Автоматична запалваща камера
   output_chest: Изходен сандък за основни машини
   copper_wire: Разредена проводимост
+  radiant_backpack: Пътническа раница
   auto_drier: Сух ден
   diet_cookie: Диетична бисквитка
   storm_staff: Гръмотевична тояга
@@ -236,6 +241,7 @@ slimefun:
   industrial_miner: Промишлен добив
   advanced_industrial_miner: По-добро копаене
   magical_zombie_pills: Де-зомбифициране
+  auto_brewer: Индустриална пивоварна
   climbing_pick: Алпинист
   shulker_shell: Синтетични шулкъри
   enchantment_rune: Древно омагьосване
