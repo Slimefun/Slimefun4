@@ -19,53 +19,53 @@ import java.util.List;
  */
 public class SlimeBlockDropEvent extends BlockEvent {
 
-	private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
-	private final Player player;
-	private List<ItemStack> drops;
+    private final Player player;
+    private List<ItemStack> drops;
 
-	public SlimeBlockDropEvent(Player player, Block theBlock, List<ItemStack> drops) {
-		super(theBlock);
-		this.player = player;
-		this.drops = drops;
-	}
+    public SlimeBlockDropEvent(Player player, Block theBlock, List<ItemStack> drops) {
+        super(theBlock);
+        this.player = player;
+        this.drops = drops;
+    }
 
 
-	/**
-	 * This returns the {@link Player} that broke the block.
-	 *
-	 * @return The {@link Player}
-	 */
-	@Nonnull
-	public Player getPlayer() {
-		return player;
-	}
+    /**
+     * This returns the {@link Player} that broke the block.
+     *
+     * @return The {@link Player}
+     */
+    @Nonnull
+    public Player getPlayer() {
+        return player;
+    }
 
-	/**
-	 * Gets the {@link List} of {@link ItemStack}s that should be dropped.
-	 *
-	 * @return The {@link List} of {@link ItemStack}s
-	 */
-	@Nonnull
-	public List<ItemStack> getDrops() {
-		return drops;
-	}
+    /**
+     * Gets the {@link List} of {@link ItemStack}s that should be dropped.
+     *
+     * @return The {@link List} of {@link ItemStack}s
+     */
+    @Nonnull
+    public List<ItemStack> getDrops() {
+        return drops;
+    }
 
-	/**
-	 * Sets the {@link List} of {@link ItemStack}s that should be dropped.
-	 *
-	 * @param drops The {@link List} of {@link ItemStack}s
-	 */
-	public void setDrops(@Nonnull List<ItemStack> drops) {
-		Validate.notNull(drops, "The drops list should not be null!");
-		this.drops = drops;
-	}
+    /**
+     * Sets the {@link List} of {@link ItemStack}s that should be dropped.
+     *
+     * @param drops The {@link List} of {@link ItemStack}s
+     */
+    public void setDrops(@Nonnull List<ItemStack> drops) {
+        Validate.notNull(drops, "The drops list should not be null!");
+        this.drops = drops;
+    }
 
-	@Nonnull
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
 
 }
