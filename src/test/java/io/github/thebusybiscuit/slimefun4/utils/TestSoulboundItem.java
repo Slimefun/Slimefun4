@@ -55,7 +55,7 @@ class TestSoulboundItem {
 
         SlimefunUtils.setSoulbound(item, true);
         Assertions.assertTrue(SlimefunUtils.isSoulbound(item));
-Repair         Assertions.assertTrue(item.getItemMeta().hasLore());
+        Assertions.assertTrue(item.getItemMeta().hasLore());
 
         SlimefunUtils.setSoulbound(item, false);
         Assertions.assertFalse(SlimefunUtils.isSoulbound(item));
