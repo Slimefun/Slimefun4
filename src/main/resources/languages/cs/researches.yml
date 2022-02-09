@@ -189,6 +189,7 @@ slimefun:
   cargo_basics: Základy nákladu
   cargo_nodes: Nastavení nákladu
   electric_ingot_machines: Elektrická výroba ingotů
+  medium_tier_electric_ingot_machines: Rychlá výroba ingotů
   high_tier_electric_ingot_machines: Super rychlá výroba ingotů
   automated_crafting_chamber: Automatická výroba
   better_food_fabricator: Vylepšená výroba jídla
@@ -210,6 +211,7 @@ slimefun:
   better_heated_pressure_chamber: Vylepšená vytápěná tlaková komora
   elytra: Krovky
   special_elytras: Speciální krovky
+  trident: Trojzubec
   electric_crucible: Elektrický kotel
   better_electric_crucibles: Horké kotle
   advanced_electric_smeltery: Vylepšená elektrická tavírna
@@ -250,4 +252,10 @@ slimefun:
   elytra_cap: Popraskané brnění
   bee_armor: Včelí zbroj
   book_binder: Vázání knihy očarování
+  auto_crafting: Automatická výroba
+  produce_collector: Automatické dojení
   improved_generators: Vylepšené generátory
+  ingredients_and_cheese: Slimefun kuchyně
+  medium_tier_auto_enchanting: Rychlé automatické Očarování a Odčarování
+  portable_teleporter: Teleportace odkudkoli
+  farmer_talisman: Talisman farmáře
