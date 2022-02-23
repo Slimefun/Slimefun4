@@ -1,1 +1,25 @@
 ---
+slimefun:
+  multiblock:
+    name: 'מולטיבלוק'
+    lore:
+      - 'בנה את הסרטוט המוצג'
+      - 'כמו שנראה, זה לא נוצר.'
+  enhanced_crafting_table:
+    name: 'שולחן יצירה מכושף'
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'בתוך שולחן יצירה מכושף.'
+      - 'שולחן יצירה רגיל לא יספיק!'
+  armor_forge:
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'using an Armor Forge'
+  grind_stone:
+    name: 'אבן השחזה'
+  smeltery:
+    name: 'תנור התכה'
+  ore_crusher:
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'using an Ore Crusher'
