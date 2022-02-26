@@ -168,6 +168,7 @@ class CargoNetworkTask implements Runnable {
         boolean roundrobin = Objects.equals(cfg.getString("round-robin"), "true");
         boolean smartFill = Objects.equals(cfg.getString("smart-fill"), "true");
 
+        int index = 0;
         Collection<Location> destinations;
         if (roundrobin) {
             // Use an ArrayDeque to perform round-robin sorting
@@ -175,8 +176,9 @@ class CargoNetworkTask implements Runnable {
             // An ArrayDequeue is preferable as opposed to a LinkedList:
             // - The number of elements does not change.
             // - ArrayDequeue has better iterative performance
+            index = network.roundRobin.getOrDefault(inputNode, 0);
             Deque<Location> tempDestinations = new ArrayDeque<>(outputNodes);
-            roundRobinSort(inputNode, tempDestinations);
+            roundRobinSort(index, tempDestinations);
             destinations = tempDestinations;
         } else {
             // Using an ArrayList here since we won't need to sort the destinations
@@ -190,8 +192,12 @@ class CargoNetworkTask implements Runnable {
             if (target.isPresent()) {
                 ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
                 item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), smartFill, item, wrapper);
+                index++;
 
                 if (item == null) {
+                    if (roundrobin) {
+                        network.roundRobin.put(inputNode, index % outputNodes.size());
+                    }
                     break;
                 }
             }
@@ -204,27 +210,19 @@ class CargoNetworkTask implements Runnable {
      * This method sorts a given {@link Deque} of output node locations using a semi-accurate
      * round-robin method.
      * 
-     * @param inputNode
-     *            The {@link Location} of the input node
+     * @param index
+     *            The round-robin index of the input node
      * @param outputNodes
      *            A {@link Deque} of {@link Location Locations} of the output nodes
      */
-    private void roundRobinSort(Location inputNode, Deque<Location> outputNodes) {
-        int index = network.roundRobin.getOrDefault(inputNode, 0);
-
+    private void roundRobinSort(int index, Deque<Location> outputNodes) {
         if (index < outputNodes.size()) {
             // Not ideal but actually not bad performance-wise over more elegant alternatives
             for (int i = 0; i < index; i++) {
                 Location temp = outputNodes.removeFirst();
                 outputNodes.add(temp);
             }
-
-            index++;
-        } else {
-            index = 1;
         }
-
-        network.roundRobin.put(inputNode, index);
     }
 
 }
