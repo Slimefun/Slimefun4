@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
- * This {@link Event} is called whenever a {@link Player} break a Slimefun block which should drop some {@link ItemStack}.
+ * This {@link Event} is called whenever a {@link Player} breaks a Slimefun block which should drop some {@link ItemStack}.
  *
  * @author CarmJos
  * @see io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener
