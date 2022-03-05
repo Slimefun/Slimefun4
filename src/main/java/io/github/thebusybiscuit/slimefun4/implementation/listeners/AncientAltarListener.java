@@ -156,8 +156,19 @@ public class AncientAltarListener implements Listener {
             Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
 
             entity.remove();
-            p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity));
             p.playSound(pedestal.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
+
+            /*
+             * Fixes #3476
+             * Drop the item instead if the player's
+             * inventory is full
+             */
+            if (p.getInventory().firstEmpty() != -1) {
+                p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity));
+
+            } else {
+                p.getWorld().dropItem(pedestal.getLocation().add(0, 1, 0), pedestalItem.getOriginalItemStack(entity));
+            }
         }
     }
 
