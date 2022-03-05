@@ -121,7 +121,7 @@ public class Research implements Keyed {
     }
 
     /**
-     * Retrieve the name of this {@link Research} without any localization nor coloring
+     * Retrieve the name of this {@link Research} without any localization nor coloring.
      *
      * @return The unlocalized, decolorized name for this {@link Research}
      */
