@@ -70,7 +70,11 @@ public class WitherAssembler extends AbstractEntityAssembler<Wither> {
 
     @Override
     public Wither spawnEntity(Location l) {
-        return l.getWorld().spawn(l, Wither.class);
+        Wither w;
+        w = l.getWorld().spawn(l, Wither.class);
+        w.setAI(false);
+
+        return w;
     }
 
 }
