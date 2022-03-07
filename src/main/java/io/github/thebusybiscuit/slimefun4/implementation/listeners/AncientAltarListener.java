@@ -165,7 +165,6 @@ public class AncientAltarListener implements Listener {
              */
             if (p.getInventory().firstEmpty() != -1) {
                 p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity));
-
             } else {
                 p.getWorld().dropItem(pedestal.getLocation().add(0, 1, 0), pedestalItem.getOriginalItemStack(entity));
             }
