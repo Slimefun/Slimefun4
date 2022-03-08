@@ -161,12 +161,12 @@ public class AncientAltarListener implements Listener {
             /*
              * Fixes #3476
              * Drop the item instead if the player's inventory is full and
-             * no stack space left else add the item in the inventory
+             * no stack space left else add remaining items from the returned map value
              */
-            for (Map.Entry<Integer, ItemStack> stackEntry : p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity)).entrySet()) {
-                if (stackEntry != null) {
-                    p.getWorld().dropItem(pedestal.getLocation().add(0, 1, 0), stackEntry.getValue().clone());
-                }
+            Map<Integer,ItemStack> remainingItemMap = p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity));
+            
+            for (ItemStack item : remainingItemMap.values()) {
+                p.getWorld().dropItem(pedestal.getLocation().add(0, 1, 0), item.clone());
             }
         }
     }
