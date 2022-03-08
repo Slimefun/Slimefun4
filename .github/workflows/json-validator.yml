@@ -16,8 +16,8 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Validate JSON
+      uses: actions/checkout@v3
+    - name: Validate wiki.json
       uses: docker://orrosenblatt/validate-json-action:latest@sha256:02370758b8b199e0477da11ecfdd498c75c561685056b5c31b925a4ab95df7f4
       env:
         INPUT_SCHEMA: '.github/configs/wiki-schema.json'
