@@ -115,7 +115,7 @@ public class AncientAltarListener implements Listener {
                 return;
             }
 
-            // Make altarinuse simply because that was the last block clicked.
+            // Make altar in use simply because that was the last block clicked.
             altarsInUse.add(b.getLocation());
             e.cancel();
 
