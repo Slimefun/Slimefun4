@@ -17,12 +17,12 @@ import org.junit.jupiter.params.provider.MethodSource;
  * <p>
  * Sometimes, the color code can be accidentally removed as people see
  * it as part of the word on first look. This test is designed to catch
- * these cases.
+ * these cases. It is not perfect but it does catch a few instances.
  * <p>
  * The test checks for color chars (ampersands) that have no follow-up
  * chatcolor key but rather a preceeding one.
  * <p>
- * The test will catch occurences like "a& ", "b&Hello" or "7&".
+ * The test will catch occurences like "a& ", "b&Hello" or "7&", "5& a".
  * The test will however ignore valid color codes such as "a&a".
  * 
  * @author TheBusyBiscuit

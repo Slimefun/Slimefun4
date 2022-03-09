@@ -69,25 +69,29 @@ class AbstractLocaleRegexChecker {
             Object value = entry.getValue();
 
             if (value instanceof String) {
-                assertNoRegexMatch(lang, file, key, (String) value);
+                String location = lang.getLanguageCode() + '/' + file.name() + ": " + key;
+                assertNoRegexMatch(location, (String) value);
             } else if (value instanceof List) {
+                int index = 0;
                 for (Object element : (List<?>) value) {
                     if (element instanceof String) {
-                        assertNoRegexMatch(lang, file, key, (String) element);
+                        String location = lang.getLanguageCode() + '/' + file.name() + ": " + key + "[" + index + "]";
+                        assertNoRegexMatch(location, (String) element);
                     }
+
+                    index++;
                 }
             }
         }
     }
 
     @ParametersAreNonnullByDefault
-    void assertNoRegexMatch(LanguagePreset lang, LanguageFile file, String key, String value) {
+    void assertNoRegexMatch(String location, String value) {
         Matcher matcher = getPattern().matcher(value);
-        boolean hasIncorrectSpelling = matcher.find();
+        boolean hasMatch = matcher.find();
 
-        if (hasIncorrectSpelling) {
-            String location = lang.getLanguageCode() + '/' + file.name() + ": " + key;
-            Assertions.fail("Mistake in file \"" + location + "\" - \"" + matcher.group() + "\"!");
+        if (hasMatch) {
+            Assertions.fail("Mistake found @ \"" + location + "\" - \"" + matcher.group() + "\"!");
         }
     }
 
