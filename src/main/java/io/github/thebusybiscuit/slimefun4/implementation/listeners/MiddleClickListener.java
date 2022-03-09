@@ -46,7 +46,8 @@ public class MiddleClickListener implements Listener {
             // get the block the player is looking at for later
             Block b = player.getTargetBlockExact(5);
 
-            if (!isActualMiddleClick(e, b)) {
+            // Fixes: #3483
+            if (b == null || !isActualMiddleClick(e, b)) {
                 return;
             }
 
