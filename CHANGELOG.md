@@ -47,6 +47,8 @@
 * Added support for the plugin "HuskTowns"
 * Added support for Minecraft 1.18.2
 * You can now pick up Slimefun blocks in creative mode using the middle mouse button
+* `/sf search` no longer shows items in hidden item groups (can be overidden by a config setting)
+* Fluid Pumps can now fill bottles with water
 
 #### Changes
 * (API) `BiomeMapParser` is now `public`
