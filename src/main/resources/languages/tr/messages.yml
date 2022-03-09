@@ -24,7 +24,12 @@ commands:
     charge-success: Eşyanız şarz edildi!
     not-rechargeable: Bu eşya şarz edilemez!
   timings:
+    description: Slimefun ve Eklentileri için zamanlamalar
     please-wait: '&eLütfen bir saniye bekleyin... Sonuçlar geliyor!'
+    verbose-player: '&4Ayrıntılı bayrak bir oyuncu tarafından kullanılamaz!'
+  debug:
+    description: 'Developerlar için hata ayıklamayı başlat'
+    disabled: '&7Hata ayıklama kapalı.'
 placeholderapi:
   profile-loading: 'Yükleniyor...'
 guide:
@@ -119,6 +124,14 @@ messages:
   multi-tool:
     mode-change: '&b%device% modül değiştirildi: &9%mode%'
     not-shears: '&cBir Multi Tool makas olarak kullanılamaz!'
+  auto-crafting:
+    select: 'Bu tarifi seçin'
+    tooltips:
+      enabled:
+        - '&aBu tarif şu anda etkin'
+        - ''
+        - '&eLeft Click &7to temporarily disable the recipe'
+        - '&eRight Click &7to remove this recipe'
   talisman:
     anvil: '&a&oTılsım aletinizi kırılmadan kurtardı'
     miner: '&a&oTılsımın madenini ikiye katladı'
@@ -176,6 +189,8 @@ messages:
     - '&7Daima hayatın parlak tarafından bak!'
     - '&7Bu aslında bir Bisküvi idi, Kurabiye değil.'
     - '&7Neon levhalar ışık yayar!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cYakındaki cevherleri bulamıyorum!'
 machines:
   pattern-not-found: '&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya doğru şekilde yerleştirin.'
   unknown-material: '&eÜzgünüm, fırlatıcıdaki Eşyayı tanıyamadım. Lütfen bildiğim bir şey koy.'
@@ -257,6 +272,7 @@ android:
   scripts:
     already-uploaded: '&4Bu senaryo zaten yüklendi.'
     editor: 'Senaryo Editörü'
+    too-long: '&cSenaryo düzenlemek için çok uzun!'
     instructions:
       START: '&2Senaryoyu başlat'
       REPEAT: '&9Senaryoyu Tekrar Et'

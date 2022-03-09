@@ -175,7 +175,7 @@ messages:
   talisman:
     anvil: '&a&oEl talismán salvó tu herramienta de ser destruida.'
     miner: '&a&oTu talismán ha duplicado los minerales.'
-    farmer: '&a&Tu Talismán acaba de duplicar tus objetos'
+    farmer: '&a&oTu Talismán acaba de duplicar tus objetos'
     hunter: '&a&oTu talismán ha duplicado el botín'
     lava: '&a&oTu talismán ha evitado que te quemes en lava.'
     water: '&a&oTu talismán ha evitado que mueras ahogado.'

@@ -121,7 +121,7 @@ messages:
   give-research: '&bHai dato a %player% la ricerca &7 "%research% &7"'
   hungry: '&cSei troppo affamato per farlo!'
   disabled-in-world: '&4&lQuesto oggetto è stato disattivato in questo mondo!'
-  disabled-item: '&4& lQuesto oggetto è stato disabilitato! Come l''hai ottenuto?'
+  disabled-item: '&4&lQuesto oggetto è stato disabilitato! Come l''hai ottenuto?'
   no-tome-yourself: '&cNon puoi utilizzare il &4Tomo della conoscienza &c su te stesso ...'
   multimeter: '&bEnergia salvata: &3%stored% &b/&3%capacity%'
   piglin-barter: '&4Non puoi barattare con i Piglins usando gli oggetti di Slimefun'
