@@ -29,7 +29,11 @@ commands:
     verbose-player: '&4La flag verbose no puede ser usada por un jugador!'
     unknown-flag: '&4flag desconocida: &c%flag%'
   debug:
+    description: 'Ejecutar registro de depuración para los desarolladores'
+    current: '&7Caso de prueba actual: &6%test_case%'
+    none-running: '&7Actualmente no se está ejecutando ningún caso de prueba!'
     running: '&7Ejecutando el modo de depuración con prueba: &6%test%'
+    disabled: '&7Desactivar Modo de Depuración.'
 placeholderapi:
   profile-loading: 'Cargando...'
 guide:
@@ -81,12 +85,20 @@ guide:
     learning-animation:
       enabled:
         text:
-          - '&bLearning Animation: &aYes'
+          - '&bAnimación de Aprendizaje: &aSí'
           - ''
           - '&7Ahora puedes seleccionar si'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - '&7podrás ver el avance de tu meditación en el chat'
+          - '&7al investigar un objeto.'
         click: '&eCliquea para desactivar la animación de aprendizaje'
+      disabled:
+        text:
+          - '&bAnimación de Aprendizaje: &4No'
+          - ''
+          - '&7Ahora puedes seleccionar si'
+          - '&7podrás ver el avance de tu meditación en el chat'
+          - '&7al investigar un objeto.'
+        click: '&eHaz clic para activar la animación de aprendizaje'
   title:
     main: 'Guía de Slimefun.'
     settings: 'Configuración e Información.'
@@ -113,6 +125,7 @@ guide:
       resourcepack: '&cArtista de Resourcepack'
       translator: '&9Traductor'
 messages:
+  not-researched: '&4No tienes el conocimiento suficiente para entender esto. &cNecesitas desbloquear: &f"%item%&f"'
   not-enough-xp: '&4No tienes suficiente XP para desbloquear esto.'
   unlocked: '&bHas desbloqueado &7"%research%"'
   only-players: '&4Este comando es solo para jugadores.'
@@ -138,16 +151,31 @@ messages:
     not-shears: '&c¡Una Multi Tool no puede ser usada como tijeras!'
   auto-crafting:
     select-a-recipe: '&eAgáchate y haz Clic Derecho &7a este bloque con el objeto que quieres crear.'
+    recipe-set: '&aHas configurado con éxito la receta para esta máquina.'
+    recipe-removed: '&eHas eliminado con éxito la receta de esta máquina. ¡Puedes establecer una receta en cualquier momento!'
     no-recipes: '&cNo se han encontrado recetas validas para el objeto que estás sosteniendo.'
+    missing-chest: '&c¡Cofre no encontrado! Los crafteos automaticos tienen que estar colocados encima de un cofre.'
+    select: 'Selecciona esta receta'
+    temporarily-disabled: '&e¡Este Auto-Crafter ha sido temporalmente desactivado. Puedes re-activarlo de nuevo en cualquier momento!'
+    re-enabled: '&e¡Este Auto-Crafter ha sido re-activado!'
+    recipe-unavailable: |
+      &cEste objeto esta deshabilitado en el servidor, o aun no lo has desbloqueado.
+      &7Intenta fabricar el objeto si no lo has hecho antes para desbloquear la receta.
     tooltips:
       enabled:
-        - '&aThis recipe is currently enabled'
+        - '&aEsta receta esta actualmente activada'
         - ''
         - '&eClic izquierdo &7para desactivar temporalmente la receta'
-        - '&eRight Click &7to remove this recipe'
+        - '&eClick derecho &7para eliminar esta receta'
+      disabled:
+        - '&cEsta receta está actualmente desactivada'
+        - ''
+        - '&eClick izquierdo &7para re-activar esta receta'
+        - '&eClick Derecho &7para eliminar esta receta'
   talisman:
     anvil: '&a&oEl talismán salvó tu herramienta de ser destruida.'
     miner: '&a&oTu talismán ha duplicado los minerales.'
+    farmer: '&a&oTu Talismán acaba de duplicar tus objetos'
     hunter: '&a&oTu talismán ha duplicado el botín'
     lava: '&a&oTu talismán ha evitado que te quemes en lava.'
     water: '&a&oTu talismán ha evitado que mueras ahogado.'
@@ -203,6 +231,9 @@ messages:
     - '&7¡Siempre mira el lado bueno de la vida!'
     - '&7Esta era un bizcocho y no una galleta'
     - '&7¡Los signos de neón son lo MEJOR!'
+  above-limit-level: '&c¡No puedes (des)encantar un nivel de encantamiento superior a %level%!'
+  pickaxe-of-the-seeker:
+    no-ores: '&c¡No se encuentra ningún mineral cerca!'
 machines:
   pattern-not-found: '&eLo siento, no puedo reconocer esta receta. Por favor coloca el objeto en el patrón correcto dentro del dispensador.'
   unknown-material: '&eLo siento, no puedo reconocer el objeto en mi dispensador. Por favor coloca algo que si conozca.'
@@ -258,6 +289,8 @@ brewing_stand:
   not-working: '&4¡No puedes usar objetos de Slimefun en un soporte para pociones!'
 cartography_table:
   not-working: '&4No puedes usar items de Slimefun en una Mesa de Cartografía!'
+smithing_table:
+  not-working: '&4! No puedes usar este objeto de Slimefun, como un material de herrería!'
 villagers:
   no-trading: '&4¡No puedes comerciar objetos de Slimefun con los aldeanos!'
 backpack:
@@ -359,6 +392,7 @@ languages:
   ja: 'Japonés'
   fa: 'Persa'
   th: 'Tailandés'
+  tl: 'Tagalog'
   ro: 'Rumano'
   bg: 'Búlgaro'
   ko: 'Coreano'
