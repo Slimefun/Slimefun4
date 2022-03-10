@@ -33,6 +33,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.SubItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
@@ -360,9 +361,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 break;
             }
 
-            boolean isItemGroupHidden = showHiddenItemGroupsInSearch || !slimefunItem.getItemGroup().isHidden(p);
-
-            if (!slimefunItem.isHidden() && isItemGroupHidden && isSearchFilterApplicable(slimefunItem, searchTerm)) {
+            if (!slimefunItem.isHidden() && !isItemGroupHidden(p, slimefunItem) && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = new CustomItemStack(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
@@ -389,6 +388,22 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.open(p);
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean isItemGroupHidden(Player p, SlimefunItem slimefunItem) {
+        if (showHiddenItemGroupsInSearch) {
+            return false;
+        }
+
+        ItemGroup itemGroup = slimefunItem.getItemGroup();
+
+        // Fixes #3487 - SubItemGroups are "pseudo-hidden"
+        if (itemGroup instanceof SubItemGroup) {
+            return false;
+        } else {
+            return itemGroup.isHidden(p);
+        }
     }
 
     @ParametersAreNonnullByDefault

@@ -67,6 +67,9 @@
 * Fixed "Lands" integration
 * Fixed #3133
 * Fixed #3483
+* Fixed #3469
+* Fixed #3476
+* Fixed #3487
 
 ## Release Candidate 30 (31 Dec 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30

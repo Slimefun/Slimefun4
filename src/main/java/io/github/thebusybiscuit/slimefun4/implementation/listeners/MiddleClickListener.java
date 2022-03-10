@@ -1,7 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.Optional;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -16,10 +14,12 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
- * The {@link MiddleClickListener} is responsible for listening to the {@link InventoryCreativeEvent}.
+ * The {@link MiddleClickListener} is responsible for listening to
+ * the {@link InventoryCreativeEvent}.
  *
  * @author svr333
  *
@@ -30,7 +30,7 @@ public class MiddleClickListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    /* 
+    /*
      * General Discloser: this event has really really really weird behavior on middle click.
      * Has been tested thoroughly to make sure it doesnt break anything else.
      */
@@ -58,8 +58,8 @@ public class MiddleClickListener implements Listener {
             if (sfItem == null) {
                 return;
             }
-            
-            /* 
+
+            /*
              * Before giving the item to the user, check if you can swap
              * to the item instead (user already has item in hotbar).
              * This is sometimes bypassed by the client itself (not fixable though).
@@ -85,7 +85,7 @@ public class MiddleClickListener implements Listener {
          * to the actual block that is middle clicked, while currentItem will be AIR.
          *
          * This check is really weird due to the weird nature of this event's behaviour.
-         * It checks if the block the player is looking at is of the same type as the cursor;
+         * It checks if the block the player is looking at is of the same type as the cursor,
          * after this we can make sure that it is a middle click outside of the inventory
          * currentItem should also be air, otherwise it is not outside of the inventory
          */
