@@ -1,4 +1,4 @@
-name: Auto squash Crowdin updates
+name: Auto squash pull requests
 
 on:
   pull_request_review:
