@@ -10,6 +10,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockDropEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -177,7 +179,12 @@ public class BlockListener implements Listener {
                 // Disable normal block drops
                 e.setDropItems(false);
 
-                for (ItemStack drop : drops) {
+                // Call event for items dropped by the block
+                SlimefunBlockDropEvent dropEvent = new SlimefunBlockDropEvent(e.getPlayer(), e.getBlock(), drops);
+                Bukkit.getPluginManager().callEvent(dropEvent);
+
+                // Only drop event's items.
+                for (ItemStack drop : dropEvent.getDrops()) {
                     // Prevent null or air from being dropped
                     if (drop != null && drop.getType() != Material.AIR) {
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
