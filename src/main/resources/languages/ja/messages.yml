@@ -28,6 +28,8 @@ commands:
     please-wait: '&e数秒お待ちください… 負荷の測定中です！'
     verbose-player: '&4プレイヤーはverboseフラグを使用できません！'
     unknown-flag: '&4未知のフラグです: &c%flag%'
+  debug:
+    disabled: '&7デバッグモードを無効化しました.'
 placeholderapi:
   profile-loading: 'ロード中…'
 guide:
@@ -116,6 +118,8 @@ messages:
   multi-tool:
     mode-change: '&b%device% モード変更: &9%mode%'
     not-shears: '&cMulti Toolはハサミとして利用できません！'
+  auto-crafting:
+    select: 'このレシピを選択'
   talisman:
     anvil: '&a&oタリスマンがツールの損壊を防いだ'
     miner: '&a&oタリスマンがドロップを倍にした'

@@ -14,8 +14,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.elevator.ElevatorPlate;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.AbstractTeleporterPlate;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Teleporter;

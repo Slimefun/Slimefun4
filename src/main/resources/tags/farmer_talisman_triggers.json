@@ -1,0 +1,15 @@
+{
+  "values" : [
+    {
+      "id" : "#minecraft:crops",
+      "required" : false
+    },
+    "minecraft:beetroots",
+    "minecraft:carrots",
+    "minecraft:potatoes",
+    "minecraft:wheat",
+    "minecraft:cocoa",
+    "minecraft:sweet_berry_bush",
+    "minecraft:melon"
+  ]
+}
