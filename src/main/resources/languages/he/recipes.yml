@@ -1,1 +1,91 @@
 ---
+slimefun:
+  multiblock:
+    name: 'מולטיבלוק'
+    lore:
+      - 'בנה את הסרטוט המוצג'
+      - 'כמו שנראה, זה לא נוצר.'
+  enhanced_crafting_table:
+    name: 'שולחן יצירה מכושף'
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'בתוך שולחן יצירה מכושף.'
+      - 'שולחן יצירה רגיל לא יספיק!'
+  armor_forge:
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'using an Armor Forge'
+  grind_stone:
+    name: 'אבן השחזה'
+  smeltery:
+    name: 'תנור התכה'
+  ore_crusher:
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'using an Ore Crusher'
+  juicer:
+    name: 'מסחטה'
+  magic_workbench:
+    name: 'שולחן מלאכה קסום'
+    lore:
+      - 'Craft this Item as shown'
+      - 'משתמש בשולחן מלאכה קסום'
+  ancient_altar:
+    name: 'מזבח עתיק'
+    lore:
+      - 'Craft this Item as shown'
+      - 'משתמש במזבח עתיק.'
+      - 'חקור את המזבח העתיק בשביל עוד מידע'
+  heated_pressure_chamber:
+    name: 'תא לחץ מחומם'
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'using a Heated Pressure Chamber'
+  food_fabricator:
+    name: 'מעבד מזון'
+    lore:
+      - 'Craft this Item as shown'
+      - 'משתמש במעבד מזון'
+  barter_drop:
+    name: 'טיפת חליפין של חזיר'
+    lore:
+      - 'סחר חליפין עם חזירים באמצעות'
+      - 'Gold Ingots to obtain this Item'
+minecraft:
+  shaped:
+    name: 'מתכון יצירה מעוצב'
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'בתוך שולחן יצירה רגיל.'
+      - 'הצורה חשובה.'
+  shapeless:
+    name: 'מתכון יצירה ללא צורה'
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'בתוך שולחן יצירה רגיל.'
+      - 'פריט זה הוא חסר צורה.'
+  furnace:
+    lore:
+      - 'התך פריט זה בתוך תנור'
+      - 'ליצור את הפריט הרצוי'
+  blasting:
+    name: 'מתכון של תנור מתכות'
+    lore:
+      - 'התך פריט זה בתוך תנור מתכות'
+      - 'ליצור את הפריט הרצוי'
+  smoking:
+    lore:
+      - 'התך פריט זה בתוך מעשנה'
+      - 'ליצור את הפריט הרצוי'
+  campfire:
+    lore:
+      - 'התך פריט זה מעל מדורה'
+      - 'ליצור את הפריט הרצוי'
+  stonecutting:
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'using a Stonecutter'
+  smithing:
+    lore:
+      - 'צור פריט זה, כמו בסרטוט'
+      - 'using a Smithing Table'

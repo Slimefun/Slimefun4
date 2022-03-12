@@ -81,6 +81,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHook
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.HopperListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.MiddleClickListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MiningAndroidListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
@@ -101,6 +102,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.Cart
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CauldronListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.SmithingTableListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.BeeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.EntityInteractionListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.FireworksListener;
@@ -131,6 +133,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  * @author TheBusyBiscuit
  */
 public final class Slimefun extends JavaPlugin implements SlimefunAddon {
+
+    private static final int RECOMMENDED_JAVA_VERSION = 17;
 
     /**
      * Our static instance of {@link Slimefun}.
@@ -262,9 +266,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
             StartupWarnings.discourageCSCoreLib(logger);
         }
 
-        // Encourage Java 16
-        if (NumberUtils.getJavaVersion() < 16) {
-            StartupWarnings.oldJavaVersion(logger);
+        // Encourage newer Java version
+        if (NumberUtils.getJavaVersion() < RECOMMENDED_JAVA_VERSION) {
+            StartupWarnings.oldJavaVersion(logger, RECOMMENDED_JAVA_VERSION);
         }
 
         // If the server has no "data-storage" folder, it's _probably_ a new install. So mark it for metrics.
@@ -421,7 +425,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
 
         // Create a new backup zip
-        backupService.run();
+        if (config.getBoolean("options.backup-data")) {
+            backupService.run();
+        }
 
         // Close and unload any resources from our Metrics Service
         metricsService.cleanUp();
@@ -618,6 +624,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new SoulboundListener(this);
         new AutoCrafterListener(this);
         new SlimefunItemHitListener(this);
+        new MiddleClickListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
@@ -628,6 +635,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Piglins were added in 1.16
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             new PiglinListener(this);
+            new SmithingTableListener(this);
         }
 
         // Item-specific Listeners

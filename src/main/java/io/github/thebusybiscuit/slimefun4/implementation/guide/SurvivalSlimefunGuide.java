@@ -33,6 +33,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.SubItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
@@ -72,9 +73,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final ItemStack item;
     private final boolean showVanillaRecipes;
+    private final boolean showHiddenItemGroupsInSearch;
 
-    public SurvivalSlimefunGuide(boolean showVanillaRecipes) {
+    public SurvivalSlimefunGuide(boolean showVanillaRecipes, boolean showHiddenItemGroupsInSearch) {
         this.showVanillaRecipes = showVanillaRecipes;
+        this.showHiddenItemGroupsInSearch = showHiddenItemGroupsInSearch;
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
@@ -313,7 +316,13 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                         if (sfitem instanceof MultiBlockMachine) {
                             Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                         } else {
-                            pl.getInventory().addItem(sfitem.getItem().clone());
+                            ItemStack clonedItem = sfitem.getItem().clone();
+
+                            if (action.isShiftClicked()) {
+                                clonedItem.setAmount(clonedItem.getMaxStackSize());
+                            }
+
+                            pl.getInventory().addItem(clonedItem);
                         }
                     }
                 } catch (Exception | LinkageError x) {
@@ -352,7 +361,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 break;
             }
 
-            if (!slimefunItem.isHidden() && isSearchFilterApplicable(slimefunItem, searchTerm)) {
+            if (!slimefunItem.isHidden() && !isItemGroupHidden(p, slimefunItem) && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = new CustomItemStack(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
@@ -379,6 +388,22 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.open(p);
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean isItemGroupHidden(Player p, SlimefunItem slimefunItem) {
+        if (showHiddenItemGroupsInSearch) {
+            return false;
+        }
+
+        ItemGroup itemGroup = slimefunItem.getItemGroup();
+
+        // Fixes #3487 - SubItemGroups are "pseudo-hidden"
+        if (itemGroup instanceof SubItemGroup) {
+            return false;
+        } else {
+            return itemGroup.isHidden(p);
+        }
     }
 
     @ParametersAreNonnullByDefault

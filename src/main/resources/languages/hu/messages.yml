@@ -28,6 +28,12 @@ commands:
     please-wait: '&eKérjük várj... Érkeznek az eredmények!'
     verbose-player: '&4A részletes megjelenítés flag nem használható játékosként!'
     unknown-flag: '&4Ismeretlen flag: &c%flag%'
+  debug:
+    description: 'Hibakeresés futtatása fejlesztőknek'
+    current: '&7Jelenlegi teszteset: &6%test_case%'
+    none-running: '&7Jelenleg nem fut teszteset!'
+    running: '&7Hibakereső mód futtatása ezen tesztesettel: &6%test%'
+    disabled: '&7Hibakereső mód deaktiválva.'
 placeholderapi:
   profile-loading: 'Betöltés...'
 guide:
@@ -169,6 +175,7 @@ messages:
   talisman:
     anvil: '&a&oA talizmánod megmentette az eszközöd az eltöréstől'
     miner: '&a&oA talizmánod megduplázta a dobott tárgyakat'
+    farmer: '&a&oA talizmánod megduplázta a dobott tárgyakat'
     hunter: '&a&oA talizmánod megduplázta a dobott tárgyakat'
     lava: '&a&oA talizmánod megmentett a halálos égéstől'
     water: '&a&oA talizmánod megmentett a fulladástól'
@@ -282,6 +289,8 @@ brewing_stand:
   not-working: '&4Nem használhatsz Slimefun tárgyakat főzőállványban!'
 cartography_table:
   not-working: '&4Nem használhatsz Slimefun tárgyakat térképasztalban.'
+smithing_table:
+  not-working: '&4Nem használatsz Slimefun tárgyat kovácsolási alapanyagként!'
 villagers:
   no-trading: '&4Nem cserélhetsz Slimefun tárgyakat falusiakkal!'
 backpack:

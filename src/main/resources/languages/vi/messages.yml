@@ -28,6 +28,9 @@ commands:
     please-wait: '&eVui lòng đợi một chút... Kết quả chuẩn bị đến!'
     verbose-player: '&4Cờ dài này không thể sử dụng bới Người chơi!'
     unknown-flag: '&4Không rõ cờ: &c%flag%'
+  debug:
+    description: 'Chạy trình gỡ lỗi cho lập trình viên'
+    disabled: '&7Vô hiệu hóa chế độ gỡ lỗi.'
 placeholderapi:
   profile-loading: 'Đang tải...'
 guide:
@@ -122,6 +125,8 @@ messages:
   multi-tool:
     mode-change: '&b%device% chế độ thay đổi thành: &9%mode%'
     not-shears: '&cA Đa dụng cụ này không thể sử dụng như cái kéo!'
+  auto-crafting:
+    select: 'Chọn công thức này'
   talisman:
     anvil: '&a&oBùa hộ mệnh của bạn đã lưu công cụ của bạn khỏi bị phá vỡ'
     miner: '&a&oBùa hộ mệnh của bạn vừa nhân đôi vật phẩm rớt'

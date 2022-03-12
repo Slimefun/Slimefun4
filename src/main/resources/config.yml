@@ -18,10 +18,12 @@ options:
   log-duplicate-block-entries: true
   burn-players-when-radioactive: true
   drop-excess-sf-give-items: false
+  backup-data: true
 
 guide:
   show-vanilla-recipes: true
   receive-on-first-join: true
+  show-hidden-item-groups-in-search: false
 
 researches:
   free-in-creative-mode: true

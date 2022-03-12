@@ -29,7 +29,7 @@ public class RestoredBackpack extends SlimefunBackpack {
      * This will create a new {@link SlimefunBackpack} with the given arguments.
      *
      * @param itemGroup
-     *            the {@Link ItemGroup} to bind this {@link SlimefunBackpack} to
+     *            the {@link ItemGroup} to bind this {@link SlimefunBackpack} to
      */
     @ParametersAreNonnullByDefault
     public RestoredBackpack(@Nonnull ItemGroup itemGroup) {

@@ -221,6 +221,11 @@ public class SlimefunItem implements Placeable {
         return itemGroup;
     }
 
+    /**
+     * Retrieve the recipe for this {@link SlimefunItem}.
+     *
+     * @return An {@link ItemStack} array of 9 which represents the recipe for this {@link SlimefunItem}
+     */
     public @Nonnull ItemStack[] getRecipe() {
         return recipe;
     }
@@ -655,7 +660,13 @@ public class SlimefunItem implements Placeable {
         this.research = research;
     }
 
-    public void setRecipe(ItemStack[] recipe) {
+    /**
+     * Sets the recipe for this {@link SlimefunItem}.
+     *
+     * @param recipe
+     *            The recipe for this {@link ItemStack}
+     */
+    public void setRecipe(@Nonnull ItemStack[] recipe) {
         if (recipe == null || recipe.length != 9) {
             throw new IllegalArgumentException("Recipes must be of length 9");
         }
@@ -663,6 +674,12 @@ public class SlimefunItem implements Placeable {
         this.recipe = recipe;
     }
 
+    /**
+     * Sets the {@link RecipeType} for this {@link SlimefunItem}.
+     *
+     * @param type
+     *            The {@link RecipeType} for this {@link SlimefunItem}
+     */
     public void setRecipeType(@Nonnull RecipeType type) {
         Validate.notNull(type, "The RecipeType is not allowed to be null!");
         this.recipeType = type;
@@ -1117,10 +1134,24 @@ public class SlimefunItem implements Placeable {
         return getId().hashCode();
     }
 
+    /**
+     * Retrieve a {@link SlimefunItem} by its id.
+     *
+     * @param id
+     *            The id of the {@link SlimefunItem}
+     * @return The {@link SlimefunItem} associated with that id. Null if non-existent
+     */
     public static @Nullable SlimefunItem getById(@Nonnull String id) {
         return Slimefun.getRegistry().getSlimefunItemIds().get(id);
     }
 
+    /**
+     * Retrieve a {@link SlimefunItem} from an {@link ItemStack}.
+     *
+     * @param item
+     *            The {@link ItemStack} to check
+     * @return The {@link SlimefunItem} associated with this {@link ItemStack} if present, otherwise null
+     */
     public static @Nullable SlimefunItem getByItem(@Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return null;

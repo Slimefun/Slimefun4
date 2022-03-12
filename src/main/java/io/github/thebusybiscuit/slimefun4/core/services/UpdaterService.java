@@ -9,12 +9,13 @@ import org.bukkit.plugin.Plugin;
 
 import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.updater.GitHubBuildsUpdater;
+import io.github.bakedlibs.dough.updater.PluginUpdater;
 import io.github.bakedlibs.dough.versions.PrefixedVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
- * This Class represents our {@link Updater} Service.
+ * This Class represents our {@link PluginUpdater} Service.
  * If enabled, it will automatically connect to https://thebusybiscuit.github.io/builds/
  * to check for updates and to download them automatically.
  *
@@ -29,9 +30,9 @@ public class UpdaterService {
     private final Slimefun plugin;
 
     /**
-     * Our {@link Updater} implementation.
+     * Our {@link PluginUpdater} implementation.
      */
-    private final GitHubBuildsUpdater updater;
+    private final PluginUpdater<PrefixedVersion> updater;
 
     /**
      * The {@link SlimefunBranch} we are currently on.
@@ -126,11 +127,11 @@ public class UpdaterService {
     }
 
     /**
-     * This returns whether the {@link Updater} is enabled or not.
+     * This returns whether the {@link PluginUpdater} is enabled or not.
      * This includes the {@link Config} setting but also whether or not we are running an
      * official or unofficial build.
      *
-     * @return Whether the {@link Updater} is enabled
+     * @return Whether the {@link PluginUpdater} is enabled
      */
     public boolean isEnabled() {
         return Slimefun.getCfg().getBoolean("options.auto-update") && updater != null;
