@@ -6,7 +6,7 @@ commands:
   guide: Slimefun 가이드 책 제공
   teleporter: 다른 플레이어의 웨이포인트 보기
   versions: 설치된 모든 애드온 리스트
-  search: 주어진 기간 동안 가이드 검색
+  search: 주어진 단어로 가이드 검색
   open_guide: 책을 사용하지 않고 슬라임펀 가이드 열기
   stats: 플레이어에 대한 일부 통계 표시
   research:
@@ -19,19 +19,24 @@ commands:
     player-never-joined: '&4그 이름의 플레이어를 찾을 수 없습니다!'
     backpack-does-not-exist: '&4지정된 배낭이 없습니다!'
     restored-backpack-given: '&a배낭이 복원되어 인벤토리에 추가되었습니다!'
+  charge:
+    description: 당신이 들고 있는 아이템을 충전합니다
+placeholderapi:
+  profile-loading: '로딩중...'
 guide:
   locked: '잠금'
+  work-in-progress: '이것은 아직 다 완성되지 않았습니다!'
   locked-itemgroup:
     - '이 카테고리의 잠금을 해제하려면'
     - '에서 모든 아이템의 잠금을 해제할 필요가 있다.'
-    - '다음 카테고리'
+    - '이 카테고리'
   search:
     message: '&b무엇을 검색하시겠습니까?'
     name: '&7검색...'
     tooltip: '&b아이템을 검색하려면 클릭하십시오.'
     inventory: '검색중: %item%'
   tooltips:
-    open-itemgroup: '열려면 클릭하십시오. '
+    open-itemgroup: '열려면 클릭하세요.'
     versions-notice: '이것들은 버그를 보고할 때 매우 중요하다! '
     wiki: '공식 Slimefun Wiki에서 이 항목보기'
     recipes:
@@ -39,6 +44,7 @@ guide:
       miner: '이 마이너로 얻을 수있는 자원'
       generator: '사용 가능한 연료 유형'
       gold-pan: '얻을 수 있는 리소스'
+      climbing-pick: '당신이 오를 수 있는 표면'
   cheat:
     no-multiblocks: '&4여러분은 멀티블록에서 컨닝을 할 수 없습니다. 여러분이 그것들을 만들어야 합니다!'
   pages:
@@ -53,6 +59,7 @@ guide:
     selected-language: '현재 선택된 :'
     select: '이 언어를 선택하려면 클릭하십시오.'
     select-default: '기본 언어를 선택하려면 클릭하십시오.'
+    change: '새 언어를 선택하려면 클릭하십시오'
     translations:
       name: '&a 뭔가 빠졌습니까?'
       lore: '사용자 자신의 변환을 추가하려면 클릭하십시오. '
@@ -94,6 +101,8 @@ messages:
   no-tome-yourself: '&c당신은 &4Tome of Knowledge &con은 직접 사용할 수 없습니다.'
   multimeter: '&b저장된 에너지: &3%stored% &b/&3% capacity%'
   piglin-barter: '&4슬라임 펀 아이템을 사용하여 piglins와 물물 교환을 할 수 없습니다'
+  auto-crafting:
+    select: '이 제작법을 고르십시오'
   talisman:
     anvil: '&a&o당신의 탈리스맨이 당신의 도구가 부셔지는 것을 막아줬습니다.'
     miner: '&a&o당신의 탈리스맨이 당신의 방울을 두 배로 늘렸어요'

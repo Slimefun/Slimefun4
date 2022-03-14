@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
 - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
 - [Release Candidate 29 (07 Nov 2021)](#release-candidate-29-07-nov-2021)
 - [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
@@ -30,7 +31,50 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## Release Candidate 31 (14 Mar 2022)
+
+#### Additions
+* Added Armored Jetpack
+* Added Cocoa Beans as a fuel type for the Bio-Generator
+* Added Beetroots and Beetroot seeds as fuel types for the Bio-Generator
+* Added small and big dripleaves as fuel types for the Bio-Generator
+* Added Glow Berries as a fuel type for the Bio-Generator
+* Added Glow Lichen as a fuel type for the Bio-Generator
+* Added Spore Blossom as a fuel type for the Bio-Generator
+* Added a new item setting for Freezers to allow them to use a 9:1 "vanilla" ratio instead of 1:1 (1:1 by default, like before)
+* (API) Added `PlayerProfile#hasUnlockedEverything()` to check if a player has unlocked all researches
+* (API) Added `Research#getUnlocalizedName()`
+* Added support for the plugin "HuskTowns"
+* Added support for Minecraft 1.18.2
+* You can now pick up Slimefun blocks in creative mode using the middle mouse button
+* `/sf search` no longer shows items in hidden item groups (can be overidden by a config setting)
+* Fluid Pumps can now fill bottles with water
+* (API) Added Shulker boxes to `ColoredMaterial` enum
+
+#### Changes
+* (API) `BiomeMapParser` is now `public`
+* (API) `BiomeMap.fromJson` now allows you to specify if you want the BiomeMap to be parsed leniently
+* Some translation updates
+
+#### Fixes
+* Fixed #3390
+* Fixed research issues for vanilla items, e.g. Trident or Totem of Undying
+* Fixed #3368
+* Fixed #1315
+* Fixed #3400
+* Fixed rare issue where Slimefun would not load at all
+* Fixed #3429
+* Fixed "LogBlock" integration
+* Fixed "Lands" integration
+* Fixed #3133
+* Fixed #3483
+* Fixed #3469
+* Fixed #3476
+* Fixed #3487
+* Fixed #3336 (again)
+
 ## Release Candidate 30 (31 Dec 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
 
 #### Additions
 * Added a ton of wiki links to the guide

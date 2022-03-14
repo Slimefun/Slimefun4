@@ -161,7 +161,7 @@ slimefun:
   gps_emergency_transmitter: GPS 应急传送点
   programmable_androids: 可编程式机器人
   android_interfaces: 机器人接口
-  geo_scanner: GEO 地形扫描
+  geo_scanner: 自然资源扫描
   combustion_reactor: 燃烧反应机
   teleporter: 传送机基础组件
   teleporter_activation_plates: 传送激活装置
@@ -228,7 +228,7 @@ slimefun:
   diet_cookie: 减肥曲奇
   storm_staff: 风之法杖
   soulbound_rune: 灵魂绑定符文
-  geo_miner: GEO 矿机
+  geo_miner: 自然资源开采机
   lightning_rune: 雷电符文
   totem_of_undying: 不死图腾
   charging_bench: 充电座
@@ -258,3 +258,4 @@ slimefun:
   ingredients_and_cheese: Slimefun 厨房
   medium_tier_auto_enchanting: 高速自动附魔/祛魔
   portable_teleporter: 从任何地方传送
+  farmer_talisman: 农夫护身符

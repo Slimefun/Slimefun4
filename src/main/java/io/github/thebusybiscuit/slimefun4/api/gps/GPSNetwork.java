@@ -112,7 +112,7 @@ public class GPSNetwork {
             SlimefunItem item = BlockStorage.check(l);
 
             if (item instanceof GPSTransmitter) {
-                level += ((GPSTransmitter) item).getMultiplier(Math.max(l.getBlockY(),0));
+                level += ((GPSTransmitter) item).getMultiplier(Math.max(l.getBlockY(), 0));
             }
         }
 

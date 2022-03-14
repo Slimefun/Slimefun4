@@ -210,6 +210,7 @@ slimefun:
   better_heated_pressure_chamber: תא לחץ מחמם משודרג
   elytra: אלייטרות
   special_elytras: אלייטרות מיוחדות
+  trident: קלשון
   electric_crucible: כור היתוך חשמלי
   better_electric_crucibles: כור היתוך חם
   advanced_electric_smeltery: תנור התכה חשמלי משודרג
@@ -250,3 +251,5 @@ slimefun:
   elytra_cap: גלגל שיניים מרסק
   bee_armor: שריון דבורים
   book_binder: כריכת ספר קסום
+  portable_teleporter: שיגור מכל מקום
+  farmer_talisman: קמע האיכר

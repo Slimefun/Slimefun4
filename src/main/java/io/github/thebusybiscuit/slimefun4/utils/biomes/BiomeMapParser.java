@@ -17,10 +17,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
@@ -33,7 +33,7 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  * 
  * @see BiomeMap
  */
-class BiomeMapParser<T> {
+public class BiomeMapParser<T> {
 
     private static final String VALUE_KEY = "value";
     private static final String BIOMES_KEY = "biomes";
@@ -61,7 +61,7 @@ class BiomeMapParser<T> {
      *            A function to convert {@link JsonElement}s into your desired data type
      */
     @ParametersAreNonnullByDefault
-    BiomeMapParser(NamespacedKey key, BiomeDataConverter<T> valueConverter) {
+    public BiomeMapParser(NamespacedKey key, BiomeDataConverter<T> valueConverter) {
         Validate.notNull(key, "The key shall not be null.");
         Validate.notNull(valueConverter, "You must provide a Function to convert raw json values to your desired data type.");
 
@@ -79,7 +79,7 @@ class BiomeMapParser<T> {
      * @param isLenient
      *            Whether this parser should be lenient or not.
      */
-    void setLenient(boolean isLenient) {
+    public void setLenient(boolean isLenient) {
         this.isLenient = isLenient;
     }
 
@@ -92,17 +92,16 @@ class BiomeMapParser<T> {
      * 
      * @return Whether this parser is lenient or not.
      */
-    boolean isLenient() {
+    public boolean isLenient() {
         return isLenient;
     }
 
-    void read(@Nonnull String json) throws BiomeMapException {
+    public void read(@Nonnull String json) throws BiomeMapException {
         Validate.notNull(json, "The JSON string should not be null!");
         JsonArray root = null;
 
         try {
-            JsonParser parser = new JsonParser();
-            root = parser.parse(json).getAsJsonArray();
+            root = JsonUtils.parseString(json).getAsJsonArray();
         } catch (IllegalStateException | JsonParseException x) {
             throw new BiomeMapException(key, x);
         }
@@ -114,7 +113,7 @@ class BiomeMapParser<T> {
         read(root);
     }
 
-    void read(@Nonnull JsonArray json) throws BiomeMapException {
+    public void read(@Nonnull JsonArray json) throws BiomeMapException {
         Validate.notNull(json, "The JSON Array should not be null!");
 
         for (JsonElement element : json) {
@@ -201,7 +200,7 @@ class BiomeMapParser<T> {
      * @return The resulting {@link BiomeMap}
      */
     @Nonnull
-    BiomeMap<T> buildBiomeMap() {
+    public BiomeMap<T> buildBiomeMap() {
         BiomeMap<T> biomeMap = new BiomeMap<>(key);
         biomeMap.putAll(map);
         return biomeMap;
