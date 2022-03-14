@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 31 (TBD)](#release-candidate-31-tbd)
+- [Release Candidate 32 (TBD)](#release-candidate-32-tbd)
+- [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
 - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
 - [Release Candidate 29 (07 Nov 2021)](#release-candidate-29-07-nov-2021)
 - [Release Candidate 28 (06 Sep 2021)](#release-candidate-28-06-sep-2021)
@@ -31,7 +32,18 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 31 (TBD)
+
+## Release Candidate 32 (TBD)
+
+#### Additions
+
+#### Changes
+
+#### Fixes
+* Fixed #3445
+
+## Release Candidate 31 (14 Mar 2022)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#31
 
 #### Additions
 * Added Armored Jetpack
@@ -49,6 +61,7 @@
 * You can now pick up Slimefun blocks in creative mode using the middle mouse button
 * `/sf search` no longer shows items in hidden item groups (can be overidden by a config setting)
 * Fluid Pumps can now fill bottles with water
+* (API) Added Shulker boxes to `ColoredMaterial` enum
 
 #### Changes
 * (API) `BiomeMapParser` is now `public`
