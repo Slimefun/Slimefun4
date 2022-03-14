@@ -17,8 +17,14 @@ slimefun:
       - 'using an Armor Forge'
   grind_stone:
     name: 'אבן השחזה'
+    lore:
+      - 'צור פריט זה כמו בסרטוט'
+      - 'using a Grind Stone'
   smeltery:
     name: 'תנור התכה'
+    lore:
+      - 'Craft this Item as shown'
+      - 'שימוש בתנור התכה'
   ore_crusher:
     lore:
       - 'צור פריט זה, כמו בסרטוט'
