@@ -115,7 +115,7 @@
                 <!-- Compiler plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.10.1</version>
 
                 <configuration>
                     <excludes>
@@ -491,7 +491,7 @@
         <dependency>
             <groupId>net.imprex</groupId>
             <artifactId>orebfuscator-api</artifactId>
-            <version>5.2.4</version>
+            <version>5.2.6</version>
             <scope>provided</scope>
 
             <exclusions>

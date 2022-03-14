@@ -663,7 +663,8 @@ public class SlimefunItem implements Placeable {
     /**
      * Sets the recipe for this {@link SlimefunItem}.
      *
-     * @param recipe The recipe for this {@link ItemStack}
+     * @param recipe
+     *            The recipe for this {@link ItemStack}
      */
     public void setRecipe(@Nonnull ItemStack[] recipe) {
         if (recipe == null || recipe.length != 9) {
@@ -676,7 +677,8 @@ public class SlimefunItem implements Placeable {
     /**
      * Sets the {@link RecipeType} for this {@link SlimefunItem}.
      *
-     * @param type The {@link RecipeType} for this {@link SlimefunItem}
+     * @param type
+     *            The {@link RecipeType} for this {@link SlimefunItem}
      */
     public void setRecipeType(@Nonnull RecipeType type) {
         Validate.notNull(type, "The RecipeType is not allowed to be null!");
@@ -1135,7 +1137,8 @@ public class SlimefunItem implements Placeable {
     /**
      * Retrieve a {@link SlimefunItem} by its id.
      *
-     * @param id The id of the {@link SlimefunItem}
+     * @param id
+     *            The id of the {@link SlimefunItem}
      * @return The {@link SlimefunItem} associated with that id. Null if non-existent
      */
     public static @Nullable SlimefunItem getById(@Nonnull String id) {
@@ -1145,7 +1148,8 @@ public class SlimefunItem implements Placeable {
     /**
      * Retrieve a {@link SlimefunItem} from an {@link ItemStack}.
      *
-     * @param item The {@link ItemStack} to check
+     * @param item
+     *            The {@link ItemStack} to check
      * @return The {@link SlimefunItem} associated with this {@link ItemStack} if present, otherwise null
      */
     public static @Nullable SlimefunItem getByItem(@Nullable ItemStack item) {
