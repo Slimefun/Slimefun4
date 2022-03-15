@@ -199,10 +199,10 @@ public enum ColoredMaterial {
             Material.GREEN_SHULKER_BOX,
             Material.RED_SHULKER_BOX,
             Material.BLACK_SHULKER_BOX
-    });
+    }),
     
     /**
-     * This {@link List} contains all shulker box colors ordered by their appearance ingame.
+     * This {@link List} contains all candle colors ordered by their appearance ingame.
      */
     CANDLE(new Material[] {
             Material.WHITE_CANDLE,
