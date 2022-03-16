@@ -171,12 +171,14 @@ class CargoNetworkTask implements Runnable {
         int index = 0;
         Collection<Location> destinations;
         if (roundrobin) {
+            // The current round-robin index of the (unsorted) outputNodes list,
+            // or the index at which to start searching for valid output nodes
+            index = network.roundRobin.getOrDefault(inputNode, 0);
             // Use an ArrayDeque to perform round-robin sorting
             // Since the impl for roundRobinSort just does Deque.addLast(Deque#removeFirst)
             // An ArrayDequeue is preferable as opposed to a LinkedList:
             // - The number of elements does not change.
             // - ArrayDequeue has better iterative performance
-            index = network.roundRobin.getOrDefault(inputNode, 0);
             Deque<Location> tempDestinations = new ArrayDeque<>(outputNodes);
             roundRobinSort(index, tempDestinations);
             destinations = tempDestinations;
@@ -192,15 +194,16 @@ class CargoNetworkTask implements Runnable {
             if (target.isPresent()) {
                 ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
                 item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), smartFill, item, wrapper);
-                index++;
 
                 if (item == null) {
                     if (roundrobin) {
-                        network.roundRobin.put(inputNode, index % outputNodes.size());
+                        // The output was valid, set the round robin index to the node after this one
+                        network.roundRobin.put(inputNode, (index + 1) % outputNodes.size());
                     }
                     break;
                 }
             }
+            index++;
         }
 
         return item;
