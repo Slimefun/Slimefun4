@@ -155,7 +155,7 @@ public class MultiBlock {
     public boolean isSymmetric() {
         return isSymmetric;
     }
-
+    
     @Override
     public String toString() {
         return "MultiBlock (" + item.getId() + ") {" + Arrays.toString(blocks) + "}";
