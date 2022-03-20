@@ -117,6 +117,16 @@ public class ItemGroup implements Keyed {
     }
 
     /**
+     * This method returns whether this {@link ItemGroup} has been registered yet.
+     * More specifically: Whether {@link #register(SlimefunAddon)} was called or not.
+     * 
+     * @return Whether this {@link ItemGroup} has been registered
+     */
+    public boolean isRegistered() {
+        return this.addon != null && Slimefun.getRegistry().getAllItemGroups().contains(this);
+    }
+
+    /**
      * Returns the tier of this {@link ItemGroup}.
      * The tier determines the position of this {@link ItemGroup} in the {@link SlimefunGuide}.
      * 
@@ -174,7 +184,7 @@ public class ItemGroup implements Keyed {
             return;
         }
 
-        if (this.addon != null && !item.getAddon().getName().equals(this.addon.getName())) {
+        if (isRegistered() && !item.getAddon().getName().equals(this.addon.getName())) {
             item.warn("This item does not belong into ItemGroup " + this + " as that group belongs to " + this.addon.getName());
         }
 
@@ -348,16 +358,6 @@ public class ItemGroup implements Keyed {
     @Deprecated
     public boolean isHidden(@Nonnull Player p) {
         return !isVisible(p);
-    }
-
-    /**
-     * This method returns whether this {@link ItemGroup} has been registered yet.
-     * More specifically: Whether {@link #register(SlimefunAddon)} was called or not.
-     * 
-     * @return Whether this {@link ItemGroup} has been registered
-     */
-    public boolean isRegistered() {
-        return Slimefun.getRegistry().getAllItemGroups().contains(this);
     }
 
 }

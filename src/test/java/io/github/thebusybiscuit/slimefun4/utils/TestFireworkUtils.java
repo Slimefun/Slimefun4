@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Firework;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -20,10 +21,13 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.WorldMock;
 
 class TestFireworkUtils {
+    
+    private static World world;
 
     @BeforeAll
     public static void load() {
         MockBukkit.mock();
+        world = new WorldMock();
     }
 
     @AfterAll
@@ -35,7 +39,7 @@ class TestFireworkUtils {
     @MethodSource("getColors")
     @DisplayName("Test colored Fireworks")
     void testColoredFirework(Color color) {
-        Location l = new Location(new WorldMock(), 50, 50, 50);
+        Location l = new Location(world, 50, 50, 50);
         Firework firework = FireworkUtils.createFirework(l, color);
 
         Assertions.assertEquals(l, firework.getLocation());

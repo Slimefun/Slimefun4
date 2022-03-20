@@ -694,10 +694,6 @@ public class SlimefunItem implements Placeable {
     public void setItemGroup(@Nonnull ItemGroup itemGroup) {
         Validate.notNull(itemGroup, "The ItemGroup is not allowed to be null!");
 
-        if (addon == null) {
-            throw new UnregisteredItemException(this);
-        }
-
         this.itemGroup.remove(this);
         itemGroup.add(this);
 

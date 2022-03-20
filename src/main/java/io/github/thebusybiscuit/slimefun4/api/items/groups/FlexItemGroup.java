@@ -37,16 +37,6 @@ public abstract class FlexItemGroup extends ItemGroup {
     }
 
     @Override
-    public final boolean isAccessible(@Nonnull Player p) {
-        /*
-         * We can stop this method right here.
-         * We provide a custom method with more parameters for this.
-         * See isVisible(...)
-         */
-        return true;
-    }
-
-    @Override
     public final boolean isVisible(@Nonnull Player p) {
         /*
          * We can stop this method right here.
