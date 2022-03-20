@@ -177,6 +177,50 @@ public enum ColoredMaterial {
             Material.GREEN_CONCRETE,
             Material.RED_CONCRETE,
             Material.BLACK_CONCRETE
+    }),
+
+    /**
+     * This {@link List} contains all shulker box colors ordered by their appearance ingame.
+     */
+    SHULKER_BOX(new Material[] {
+            Material.WHITE_SHULKER_BOX,
+            Material.ORANGE_SHULKER_BOX,
+            Material.MAGENTA_SHULKER_BOX,
+            Material.LIGHT_BLUE_SHULKER_BOX,
+            Material.YELLOW_SHULKER_BOX,
+            Material.LIME_SHULKER_BOX,
+            Material.PINK_SHULKER_BOX,
+            Material.GRAY_SHULKER_BOX,
+            Material.LIGHT_GRAY_SHULKER_BOX,
+            Material.CYAN_SHULKER_BOX,
+            Material.PURPLE_SHULKER_BOX,
+            Material.BLUE_SHULKER_BOX,
+            Material.BROWN_SHULKER_BOX,
+            Material.GREEN_SHULKER_BOX,
+            Material.RED_SHULKER_BOX,
+            Material.BLACK_SHULKER_BOX
+    }),
+    
+    /**
+     * This {@link List} contains all candle colors ordered by their appearance ingame.
+     */
+    CANDLE(new Material[] {
+            Material.WHITE_CANDLE,
+            Material.ORANGE_CANDLE,
+            Material.MAGENTA_CANDLE,
+            Material.LIGHT_BLUE_CANDLE,
+            Material.YELLOW_CANDLE,
+            Material.LIME_CANDLE,
+            Material.PINK_CANDLE,
+            Material.GRAY_CANDLE,
+            Material.LIGHT_GRAY_CANDLE,
+            Material.CYAN_CANDLE,
+            Material.PURPLE_CANDLE,
+            Material.BLUE_CANDLE,
+            Material.BROWN_CANDLE,
+            Material.GREEN_CANDLE,
+            Material.RED_CANDLE,
+            Material.BLACK_CANDLE
     });
     
     // @formatter:on
