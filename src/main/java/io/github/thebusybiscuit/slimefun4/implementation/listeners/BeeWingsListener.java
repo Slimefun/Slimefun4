@@ -36,7 +36,12 @@ public class BeeWingsListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onApproachGround(EntityToggleGlideEvent e) {
-        if (!e.isGliding() || wings.isDisabled() || !(e.getEntity() instanceof Player player)) {
+
+        if (wings == null) {
+            return;
+        }
+
+        if (!e.isGliding() || wings.isDisabled() || !(e.getEntity() instanceof Player)) {
             return;
         }
 
