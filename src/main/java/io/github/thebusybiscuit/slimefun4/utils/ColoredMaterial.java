@@ -199,28 +199,6 @@ public enum ColoredMaterial {
             Material.GREEN_SHULKER_BOX,
             Material.RED_SHULKER_BOX,
             Material.BLACK_SHULKER_BOX
-    }),
-    
-    /**
-     * This {@link List} contains all candle colors ordered by their appearance ingame.
-     */
-    CANDLE(new Material[] {
-            Material.WHITE_CANDLE,
-            Material.ORANGE_CANDLE,
-            Material.MAGENTA_CANDLE,
-            Material.LIGHT_BLUE_CANDLE,
-            Material.YELLOW_CANDLE,
-            Material.LIME_CANDLE,
-            Material.PINK_CANDLE,
-            Material.GRAY_CANDLE,
-            Material.LIGHT_GRAY_CANDLE,
-            Material.CYAN_CANDLE,
-            Material.PURPLE_CANDLE,
-            Material.BLUE_CANDLE,
-            Material.BROWN_CANDLE,
-            Material.GREEN_CANDLE,
-            Material.RED_CANDLE,
-            Material.BLACK_CANDLE
     });
     
     // @formatter:on
