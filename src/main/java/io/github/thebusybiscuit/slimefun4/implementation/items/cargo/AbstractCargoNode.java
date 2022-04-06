@@ -4,8 +4,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -29,6 +33,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * This abstract class is the super class of all cargo nodes.
@@ -92,6 +99,8 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
         boolean isChestTerminalInstalled = Slimefun.getIntegrations().isChestTerminalInstalled();
         int channel = getSelectedChannel(b);
 
+
+
         menu.replaceExistingItem(slotPrev, new CustomItemStack(HeadTexture.CARGO_ARROW_LEFT.getAsItemStack(), "&bPrevious Channel", "", "&e> Click to decrease the Channel ID by 1"));
         menu.addMenuClickHandler(slotPrev, (p, slot, item, action) -> {
             int newChannel = channel - 1;
@@ -113,7 +122,7 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
             menu.replaceExistingItem(slotCurrent, new CustomItemStack(HeadTexture.CHEST_TERMINAL.getAsItemStack(), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         } else {
-            menu.replaceExistingItem(slotCurrent, new CustomItemStack(ColoredMaterial.WOOL.get(channel), "&bChannel ID: &3" + (channel + 1)));
+            menu.replaceExistingItem(slotCurrent, new CustomItemStack(SlimefunTag.WOOL.get(channel), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         }
 

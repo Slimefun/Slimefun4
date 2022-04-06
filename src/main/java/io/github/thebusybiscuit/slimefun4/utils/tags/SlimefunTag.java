@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.utils.tags;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -251,7 +253,12 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials that are affected by gravity.
      */
-    GRAVITY_AFFECTED_BLOCKS;
+    GRAVITY_AFFECTED_BLOCKS,
+
+    /**
+     * All wool blocks.
+     */
+    WOOL;
 
     /**
      * Lookup table for tag names.
@@ -271,7 +278,7 @@ public enum SlimefunTag implements Tag<Material> {
     }
 
     private final NamespacedKey key;
-    private final Set<Material> includedMaterials = EnumSet.noneOf(Material.class);
+    private final List<Material> includedMaterials = new ArrayList<>();
     private final Set<Tag<Material>> additionalTags = new HashSet<>();
 
     /**
@@ -341,7 +348,7 @@ public enum SlimefunTag implements Tag<Material> {
     @Override
     public @Nonnull Set<Material> getValues() {
         if (additionalTags.isEmpty()) {
-            return Collections.unmodifiableSet(includedMaterials);
+            return Collections.unmodifiableSet(new HashSet<>(includedMaterials));
         } else {
             Set<Material> materials = EnumSet.noneOf(Material.class);
             materials.addAll(includedMaterials);
@@ -352,6 +359,25 @@ public enum SlimefunTag implements Tag<Material> {
 
             return materials;
         }
+    }
+
+    public @Nonnull List<Material> getOrderedValues() {
+        if (additionalTags.isEmpty()) {
+            //todo make immutable
+            return Collections.unmodifiableList(includedMaterials);
+        } else {
+            List<Material> materials = new ArrayList<>(includedMaterials);
+
+            for (Tag<Material> tag : additionalTags) {
+                materials.addAll(tag.getValues());
+            }
+
+            return materials;
+        }
+    }
+
+    public @Nonnull Material get(int index) {
+        return getOrderedValues().get(index);
     }
 
     public boolean isEmpty() {
