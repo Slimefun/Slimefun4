@@ -191,7 +191,7 @@
                 <!-- Dependency shading -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.3.0</version>
 
                 <configuration>
                     <!-- Relocate these to avoid clashes and conflicts -->
@@ -477,7 +477,7 @@
         <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>itemsadder-api</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.5</version>
             <scope>provided</scope>
 
             <exclusions>
