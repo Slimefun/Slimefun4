@@ -34,14 +34,14 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
                     switch (mat) {
                         case DEEPSLATE_IRON_ORE:
                             drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
-                            break;
+                            return;
                         case DEEPSLATE_GOLD_ORE:
                             drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
-                            break;
+                            return;
                         case COPPER_ORE:
                         case DEEPSLATE_COPPER_ORE:
                             drops.add(new CustomItemStack(SlimefunItems.COPPER_DUST, 2));
-                            break;
+                            return;
                         default:
                             break;
                     }
@@ -50,13 +50,13 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
                 switch (mat) {
                     case IRON_ORE:
                         drops.add(new CustomItemStack(SlimefunItems.IRON_DUST, 2));
-                        break;
+                        return;
                     case GOLD_ORE:
                         drops.add(new CustomItemStack(SlimefunItems.GOLD_DUST, 2));
-                        break;
+                        return;
                     default:
                         for (ItemStack drop : e.getBlock().getDrops(tool)) {
-                            drops.add(new CustomItemStack(drop, drop.getAmount() * 2));
+                            drops.add(new CustomItemStack(drop, drop.getAmount()));
                         }
                         break;
                 }
