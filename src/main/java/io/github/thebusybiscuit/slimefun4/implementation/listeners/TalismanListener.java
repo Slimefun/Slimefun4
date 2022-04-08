@@ -22,6 +22,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Trident;
+import org.bukkit.entity.Ravager;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -199,6 +200,15 @@ public class TalismanListener implements Listener {
                     items.remove(item);
                 }
             }
+        }
+
+        /*
+         * Fixes #3254
+         * Prevents saddle duplication from entities that don't drop
+         * saddle from their loot table
+         */
+        if (!(entity instanceof Ravager)) {
+            items.removeIf(item -> item.getType() == Material.SADDLE);
         }
 
         /*
