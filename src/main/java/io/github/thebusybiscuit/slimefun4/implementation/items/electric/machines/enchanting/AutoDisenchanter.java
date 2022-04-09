@@ -9,6 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Event.Result;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.meta.Repairable;
 
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchanterComputeOutputEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -37,6 +39,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @author mrcoffee1026
  * @author VoidAngel
  * @author StarWishSama
+ * @author Geolykt
  *
  * @see AutoEnchanter
  *
@@ -94,6 +97,8 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             }
         }
 
+        AutoDisenchanterComputeOutputEvent event;
+
         // Check if we found any valid enchantments
         if (!enchantments.isEmpty()) {
             ItemStack disenchantedItem = item.clone();
@@ -102,20 +107,27 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
             transferEnchantments(disenchantedItem, enchantedBook, enchantments);
 
-            MachineRecipe recipe = new MachineRecipe(90 * enchantments.size() / this.getSpeed(), new ItemStack[] { book, item }, new ItemStack[] { disenchantedItem, enchantedBook });
-
-            if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
-                return null;
-            }
-
-            for (int inputSlot : getInputSlots()) {
-                menu.consumeItem(inputSlot);
-            }
-
-            return recipe;
+            event = new AutoDisenchanterComputeOutputEvent(menu, book, item, enchantedBook, disenchantedItem, enchantments.size());
         } else {
+            event = new AutoDisenchanterComputeOutputEvent(menu, book, item, new ItemStack(Material.ENCHANTED_BOOK), item, 0);
+        }
+
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.getResult() == Result.DENY || (event.getResult() == Result.DEFAULT && enchantments.isEmpty())) {
             return null;
         }
+
+        MachineRecipe recipe = new MachineRecipe(90 * event.getTransferredEnchantmentsAmount() / this.getSpeed(), new ItemStack[] { book, item }, new ItemStack[] { event.getOutputStack(), event.getOutputBook() });
+
+        if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
+            return null;
+        }
+
+        for (int inputSlot : getInputSlots()) {
+            menu.consumeItem(inputSlot);
+        }
+
+        return recipe;
     }
 
     @ParametersAreNonnullByDefault

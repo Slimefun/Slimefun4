@@ -14,9 +14,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
  * disenchanted an {@link ItemStack}.
  * 
  * @author poma123
+ * @author Geolykt
  *
  * @see AutoEnchantEvent
+ * @deprecated Replaced by {@link AutoDisenchanterComputeOutputEvent}, which is more versatile
  */
+@Deprecated
 public class AutoDisenchantEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
