@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.Repairable;
 
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchanterComputeOutputEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncAutoDisenchanterProcessEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -97,7 +97,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             }
         }
 
-        AutoDisenchanterComputeOutputEvent event;
+        AsyncAutoDisenchanterProcessEvent event;
 
         // Check if we found any valid enchantments
         if (!enchantments.isEmpty()) {
@@ -107,9 +107,9 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
             transferEnchantments(disenchantedItem, enchantedBook, enchantments);
 
-            event = new AutoDisenchanterComputeOutputEvent(menu, book, item, enchantedBook, disenchantedItem, enchantments.size());
+            event = new AsyncAutoDisenchanterProcessEvent(menu, book, item, enchantedBook, disenchantedItem, enchantments.size());
         } else {
-            event = new AutoDisenchanterComputeOutputEvent(menu, book, item, new ItemStack(Material.ENCHANTED_BOOK), item, 0);
+            event = new AsyncAutoDisenchanterProcessEvent(menu, book, item, new ItemStack(Material.ENCHANTED_BOOK), item, 0);
         }
 
         Bukkit.getPluginManager().callEvent(event);

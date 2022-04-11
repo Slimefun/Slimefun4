@@ -17,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
  * @author Geolykt
  *
  * @see AutoEnchantEvent
- * @deprecated Replaced by {@link AutoDisenchanterComputeOutputEvent}, which is more versatile
+ * @deprecated Replaced by {@link AsyncAutoDisenchanterProcessEvent}, which is more versatile
  */
 @Deprecated
 public class AutoDisenchantEvent extends Event implements Cancellable {

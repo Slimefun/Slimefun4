@@ -21,7 +21,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  *
  * @author Geolykt
  */
-public class AutoDisenchanterComputeOutputEvent extends Event {
+public class AsyncAutoDisenchanterProcessEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
@@ -34,7 +34,7 @@ public class AutoDisenchanterComputeOutputEvent extends Event {
     private int transferredEnchantmentsAmount;
 
     @ParametersAreNonnullByDefault
-    public AutoDisenchanterComputeOutputEvent(BlockMenu menu, ItemStack inBook, ItemStack inItem, ItemStack outBook, ItemStack outStack, int transferredEnchantmentsAmount) {
+    public AsyncAutoDisenchanterProcessEvent(BlockMenu menu, ItemStack inBook, ItemStack inItem, ItemStack outBook, ItemStack outStack, int transferredEnchantmentsAmount) {
         super(true);
         this.menu = menu;
         this.inputBook = inBook;
