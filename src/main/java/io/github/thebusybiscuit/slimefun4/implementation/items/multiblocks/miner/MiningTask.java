@@ -315,7 +315,7 @@ class MiningTask implements Runnable {
                 /*
                  * Fixes #3336
                  * Respects the state of the miner if there are
-                 * no any errors during #setPistonState
+                 * no errors during #setPistonState
                  */
                 if (fuelType.test(item) && running) {
                     ItemUtils.consumeItem(item, false);
