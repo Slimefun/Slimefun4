@@ -32,7 +32,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 
 /**
@@ -199,7 +198,7 @@ class MiningTask implements Runnable {
                         return;
                     }
 
-                    if (!BlockStorage.hasBlockInfo(b) && miner.canMine(b.getType()) && push(miner.getOutcome(b.getType()))) {
+                    if (miner.canMine(b) && push(miner.getOutcome(b.getType()))) {
                         furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, b.getType());
                         furnace.getWorld().playSound(furnace.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.2F, 1F);
 
@@ -315,7 +314,7 @@ class MiningTask implements Runnable {
                 /*
                  * Fixes #3336
                  * Respects the state of the miner if there are
-                 * no errors during #setPistonState
+                 * no any errors during #setPistonState
                  */
                 if (fuelType.test(item) && running) {
                     ItemUtils.consumeItem(item, false);
