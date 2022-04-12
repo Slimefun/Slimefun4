@@ -203,12 +203,12 @@ public class IndustrialMiner extends MultiBlockMachine {
     }
 
     /**
-     * This returns whether this {@link IndustrialMiner} can mine the given {@link Material}.
+     * This returns whether this {@link IndustrialMiner} can mine the given {@link Block}.
      *
      * @param block
      *            The {@link Block} to check
      * 
-     * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
+     * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Block}
      */
     public boolean canMine(@Nonnull Block block) {
         MinecraftVersion version = Slimefun.getMinecraftVersion();
