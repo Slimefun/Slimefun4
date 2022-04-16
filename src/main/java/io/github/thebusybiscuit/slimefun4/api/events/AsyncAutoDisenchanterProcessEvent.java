@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
- * An {@link Event} that is fired just after {@link AutoDisenchantEvent} iff it was not cancelled.
+ * An {@link Event} that is fired just after {@link AutoDisenchantEvent} if and onyl if it was not cancelled.
  * This event will start out as being cancelled unless it contains a bukkit enchantment.
  * The enchantment transfer logic is already performed by slimefun before this event is fired, though this
  * logic does not affect input items.
