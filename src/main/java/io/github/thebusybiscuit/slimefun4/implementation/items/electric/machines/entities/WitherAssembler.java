@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Wither;
@@ -14,6 +15,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 
 /**
  * The {@link WitherAssembler} is an electrical machine that can automatically spawn
@@ -73,7 +76,10 @@ public class WitherAssembler extends AbstractEntityAssembler<Wither> {
         Wither w;
         w = l.getWorld().spawn(l, Wither.class);
         w.setAI(false);
-
+        if (Slimefun.instance() != null) {
+            System.out.println("Wither assembled spawning wither, setting metadata");
+            w.setMetadata("wither-assembler", new FixedMetadataValue(Slimefun.instance(), true));
+        }
         return w;
     }
 

@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -57,6 +58,13 @@ public class MobDropListener implements Listener {
                 if (sfItem != null && sfItem.canUse(p, true)) {
                     sfItem.callItemHandler(EntityKillHandler.class, handler -> handler.onKill(e, e.getEntity(), p, item));
                 }
+            }
+        }
+
+        if (e.getEntityType().equals(EntityType.WITHER)) {
+            if (e.getEntity().hasMetadata("wither-assembler")) {
+                System.out.println("Wither assembled wither found, removing drops.");
+                e.getDrops().clear();
             }
         }
     }
