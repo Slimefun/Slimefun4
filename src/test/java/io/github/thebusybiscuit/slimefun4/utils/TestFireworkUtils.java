@@ -21,7 +21,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.WorldMock;
 
 class TestFireworkUtils {
-    
+
     private static World world;
 
     @BeforeAll
