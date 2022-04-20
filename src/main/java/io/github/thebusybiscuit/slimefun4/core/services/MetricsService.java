@@ -1,12 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import kong.unirest.*;
-import org.bukkit.plugin.Plugin;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +10,20 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.plugin.Plugin;
+
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import kong.unirest.GetRequest;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -56,28 +63,30 @@ public class MetricsService {
      */
     private static final String DOWNLOAD_URL = "https://github.com/Slimefun/" + REPO_NAME + "/releases/download";
 
-    static {
-        // @formatter:off (We want this to stay this nicely aligned :D )
-        Unirest.config()
-                .concurrency(2, 1)
-                .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
-                .setDefaultHeader("Accept", "application/vnd.github.v3+json")
-                .enableCookieManagement(false)
-                .cookieSpec("ignoreCookies");
-        // @formatter:on
-    }
-
     private final Slimefun plugin;
     private final File parentFolder;
     private final File metricsModuleFile;
+
     private URLClassLoader moduleClassLoader;
     private String metricVersion = null;
     private boolean hasDownloadedUpdate = false;
 
+    static {
+        // @formatter:off (We want this to stay this nicely aligned :D )
+        Unirest.config()
+            .concurrency(2, 1)
+            .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
+            .setDefaultHeader("Accept", "application/vnd.github.v3+json")
+            .enableCookieManagement(false)
+            .cookieSpec("ignoreCookies");
+        // @formatter:on
+    }
+
     /**
      * This constructs a new instance of our {@link MetricsService}.
-     *
-     * @param plugin Our {@link Slimefun} instance
+     * 
+     * @param plugin
+     *            Our {@link Slimefun} instance
      */
     public MetricsService(@Nonnull Slimefun plugin) {
         this.plugin = plugin;
@@ -108,7 +117,7 @@ public class MetricsService {
              * Load the jar file into a child class loader using the Slimefun
              * PluginClassLoader as a parent.
              */
-            moduleClassLoader = URLClassLoader.newInstance(new URL[]{metricsModuleFile.toURI().toURL()}, plugin.getClass().getClassLoader());
+            moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricsModuleFile.toURI().toURL() }, plugin.getClass().getClassLoader());
             Class<?> metricsClass = moduleClassLoader.loadClass("dev.walshy.sfmetrics.MetricsModule");
 
             metricVersion = metricsClass.getPackage().getImplementationVersion();
@@ -161,7 +170,9 @@ public class MetricsService {
      * Checks for a new update and compares it against the current version.
      * If there is a new version available then this returns true.
      *
-     * @param currentVersion The current version which is being used.
+     * @param currentVersion
+     *            The current version which is being used.
+     * 
      * @return if there is an update available.
      */
     public boolean checkForUpdate(@Nullable String currentVersion) {
@@ -210,7 +221,8 @@ public class MetricsService {
     /**
      * Downloads the version specified to Slimefun's data folder.
      *
-     * @param version The version to download.
+     * @param version
+     *            The version to download.
      */
     private boolean download(int version) {
         File file = new File(parentFolder, "Metrics-" + version + ".jar");
@@ -236,7 +248,7 @@ public class MetricsService {
             }).asFile(file.getPath());
 
             if (response.isSuccess()) {
-                plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[]{JAR_NAME, version});
+                plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { JAR_NAME, version });
 
                 // Replace the metric file with the new one
                 cleanUp();

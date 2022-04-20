@@ -1,5 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,25 +22,19 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BrokenSpaw
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * The {@link PickaxeOfContainment} is a Pickaxe that allows you to break Spawners.
  * Upon breaking a Spawner, a {@link BrokenSpawner} will be dropped.
  * But it also allows you to break a {@link RepairedSpawner}.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see BrokenSpawner
  * @see RepairedSpawner
+ *
  */
 public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
 
@@ -40,8 +44,7 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
     }
 
     @Override
-    public @Nonnull
-    ToolUseHandler getItemHandler() {
+    public @Nonnull ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
             Block b = e.getBlock();
 
@@ -55,8 +58,7 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
         };
     }
 
-    private @Nonnull
-    ItemStack breakSpawner(@Nonnull Block b) {
+    private @Nonnull ItemStack breakSpawner(@Nonnull Block b) {
         AbstractMonsterSpawner spawner;
 
         /**

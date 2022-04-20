@@ -1,5 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -10,20 +20,12 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Result;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link PickaxeOfTheSeeker} will make you face the nearest ore upon right clicking.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> implements DamageableItem {
 
@@ -37,8 +39,7 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
     }
 
     @Override
-    public @Nonnull
-    ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
             Block closest = findClosestOre(p);
@@ -68,8 +69,7 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
         };
     }
 
-    private @Nullable
-    Block findClosestOre(@Nonnull Player p) {
+    private @Nullable Block findClosestOre(@Nonnull Player p) {
         Block start = p.getLocation().getBlock();
         Block closest = null;
         double lastDistance = Double.MAX_VALUE;

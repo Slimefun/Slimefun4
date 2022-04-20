@@ -1,83 +1,83 @@
 [
-  {
-    "value": 6,
-    "biomes": [
-      "minecraft:beach",
-      "minecraft:stony_shore"
-    ]
-  },
-  {
-    "value": 16,
-    "biomes": [
-      "minecraft:river"
-    ]
-  },
-  {
-    "value": 20,
-    "biomes": [
-      "minecraft:swamp"
-    ]
-  },
-  {
-    "value": 24,
-    "biomes": [
-      "minecraft:ice_spikes",
-      "minecraft:frozen_ocean",
-      "minecraft:frozen_river",
-      "minecraft:frozen_peaks",
-      "minecraft:snowy_slopes"
-    ]
-  },
-  {
-    "value": 40,
-    "biomes": [
-      "minecraft:badlands",
-      "minecraft:wooded_badlands",
-      "minecraft:eroded_badlands"
-    ]
-  },
-  {
-    "value": 45,
-    "biomes": [
-      "minecraft:desert"
-    ]
-  },
-  {
-    "value": 64,
-    "biomes": [
-      "minecraft:ocean",
-      "minecraft:cold_ocean",
-      "minecraft:warm_ocean",
-      "minecraft:lukewarm_ocean"
-    ]
-  },
-  {
-    "value": 72,
-    "biomes": [
-      "minecraft:deep_ocean",
-      "minecraft:deep_cold_ocean",
-      "minecraft:deep_lukewarm_ocean"
-    ]
-  },
-  {
-    "value": 20,
-    "biomes": [
-      "minecraft:windswept_hills",
-      "minecraft:windswept_gravelly_hills",
-      "minecraft:jagged_peaks"
-    ]
-  },
-  {
-    "value": 16,
-    "biomes": [
-      "minecraft:snowy_plains",
-      "minecraft:snowy_taiga"
-    ]
-  },
-  {
-    "value": 20,
-    "biomes": [
-      "minecraft:mushroom_fields"
-    ]
-  }
+    {
+        "value" : 6,
+        "biomes" : [
+            "minecraft:beach",
+            "minecraft:stony_shore"
+        ]
+    },
+    {
+        "value" : 16,
+        "biomes" : [
+            "minecraft:river"
+        ]
+    },
+    {
+        "value" : 20,
+        "biomes" : [
+            "minecraft:swamp"
+        ]
+    },
+    {
+        "value" : 24,
+        "biomes" : [
+            "minecraft:ice_spikes",
+            "minecraft:frozen_ocean",
+            "minecraft:frozen_river",
+            "minecraft:frozen_peaks",
+            "minecraft:snowy_slopes"
+        ]
+    },
+    {
+        "value" : 40,
+        "biomes" : [
+            "minecraft:badlands",
+            "minecraft:wooded_badlands",
+            "minecraft:eroded_badlands"
+        ]
+    },
+    {
+        "value" : 45,
+        "biomes" : [
+            "minecraft:desert"
+        ]
+    },
+    {
+        "value" : 64,
+        "biomes" : [
+            "minecraft:ocean",
+            "minecraft:cold_ocean",
+            "minecraft:warm_ocean",
+            "minecraft:lukewarm_ocean"
+        ]
+    },
+    {
+        "value" : 72,
+        "biomes" : [
+            "minecraft:deep_ocean",
+            "minecraft:deep_cold_ocean",
+            "minecraft:deep_lukewarm_ocean"
+        ]
+    },
+    {
+        "value" : 20,
+        "biomes" : [
+            "minecraft:windswept_hills",
+            "minecraft:windswept_gravelly_hills",
+            "minecraft:jagged_peaks"
+        ]
+    },
+    {
+        "value" : 16,
+        "biomes" : [
+            "minecraft:snowy_plains",
+            "minecraft:snowy_taiga"
+        ]
+    },
+    {
+        "value" : 20,
+        "biomes" : [
+            "minecraft:mushroom_fields"
+        ]
+    }
 ]

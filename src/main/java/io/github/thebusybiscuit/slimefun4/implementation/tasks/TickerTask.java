@@ -1,13 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.bakedlibs.dough.blocks.ChunkPosition;
-import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -16,18 +19,24 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.blocks.ChunkPosition;
+import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * The {@link TickerTask} is responsible for ticking every {@link BlockTicker},
  * synchronous or not.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see BlockTicker
+ *
  */
 public class TickerTask implements Runnable {
 
@@ -52,8 +61,9 @@ public class TickerTask implements Runnable {
 
     /**
      * This method starts the {@link TickerTask} on an asynchronous schedule.
-     *
-     * @param plugin The instance of our {@link Slimefun}
+     * 
+     * @param plugin
+     *            The instance of our {@link Slimefun}
      */
     public void start(@Nonnull Slimefun plugin) {
         this.tickRate = Slimefun.getCfg().getInt("URID.custom-ticker-delay");
@@ -194,7 +204,7 @@ public class TickerTask implements Runnable {
             new ErrorReport<>(x, l, item);
             bugs.put(position, errors);
         } else if (errors == 4) {
-            Slimefun.logger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[]{l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getId()});
+            Slimefun.logger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getId() });
             Slimefun.logger().log(Level.SEVERE, "has thrown 4 error messages in the last 4 Ticks, the Block has been terminated.");
             Slimefun.logger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
             Slimefun.logger().log(Level.SEVERE, " ");
@@ -237,8 +247,10 @@ public class TickerTask implements Runnable {
      * be occupied upon the next tick.
      * Checking this ensures that our {@link Location} does not get treated like a normal
      * {@link Location} as it is theoretically "moving".
-     *
-     * @param l The {@link Location} to check
+     * 
+     * @param l
+     *            The {@link Location} to check
+     * 
      * @return Whether this {@link Location} has been reserved and will be filled upon the next tick
      */
     public boolean isOccupiedSoon(@Nonnull Location l) {
@@ -249,8 +261,10 @@ public class TickerTask implements Runnable {
 
     /**
      * This method checks if a given {@link Location} will be deleted on the next tick.
-     *
-     * @param l The {@link Location} to check
+     * 
+     * @param l
+     *            The {@link Location} to check
+     * 
      * @return Whether this {@link Location} will be deleted on the next tick
      */
     public boolean isDeletedSoon(@Nonnull Location l) {
@@ -261,7 +275,7 @@ public class TickerTask implements Runnable {
 
     /**
      * This returns the delay between ticks
-     *
+     * 
      * @return The tick delay
      */
     public int getTickRate() {
@@ -272,9 +286,9 @@ public class TickerTask implements Runnable {
      * This method returns a <strong>read-only</strong> {@link Map}
      * representation of every {@link ChunkPosition} and its corresponding
      * {@link Set} of ticking {@link Location Locations}.
-     * <p>
+     * 
      * This does include any {@link Location} from an unloaded {@link Chunk} too!
-     *
+     * 
      * @return A {@link Map} representation of all ticking {@link Location Locations}
      */
     @Nonnull
@@ -287,8 +301,10 @@ public class TickerTask implements Runnable {
      * of all ticking {@link Location Locations} in a given {@link Chunk}.
      * The {@link Chunk} does not have to be loaded.
      * If no {@link Location} is present, the returned {@link Set} will be empty.
-     *
-     * @param chunk The {@link Chunk}
+     * 
+     * @param chunk
+     *            The {@link Chunk}
+     * 
      * @return A {@link Set} of all ticking {@link Location Locations}
      */
     @Nonnull
@@ -301,8 +317,9 @@ public class TickerTask implements Runnable {
 
     /**
      * This enables the ticker at the given {@link Location} and adds it to our "queue".
-     *
-     * @param l The {@link Location} to activate
+     * 
+     * @param l
+     *            The {@link Location} to activate
      */
     public void enableTicker(@Nonnull Location l) {
         Validate.notNull(l, "Location cannot be null!");
@@ -325,8 +342,9 @@ public class TickerTask implements Runnable {
     /**
      * This method disables the ticker at the given {@link Location} and removes it from our internal
      * "queue".
-     *
-     * @param l The {@link Location} to remove
+     * 
+     * @param l
+     *            The {@link Location} to remove
      */
     public void disableTicker(@Nonnull Location l) {
         Validate.notNull(l, "Location cannot be null!");

@@ -1,5 +1,22 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
+
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
@@ -15,32 +32,19 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.Vector;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Optional;
 
 /**
  * The {@link AncientPedestal} is a part of the {@link AncientAltar}.
  * You can place any {@link ItemStack} onto the {@link AncientPedestal} to provide it to
  * the altar as a crafting ingredient.
- *
+ * 
  * @author Redemption198
  * @author TheBusyBiscuit
+ * 
  * @see AncientAltar
  * @see AncientAltarListener
  * @see AncientAltarTask
+ *
  */
 public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
@@ -53,8 +57,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         addItemHandler(onBreak());
     }
 
-    private @Nonnull
-    BlockBreakHandler onBreak() {
+    private @Nonnull BlockBreakHandler onBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
@@ -75,13 +78,11 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     @Override
-    public @Nonnull
-    BlockDispenseHandler getItemHandler() {
+    public @Nonnull BlockDispenseHandler getItemHandler() {
         return (e, d, block, machine) -> e.setCancelled(true);
     }
 
-    public @Nonnull
-    Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
+    public @Nonnull Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
         Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
 
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
@@ -104,8 +105,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         }
     }
 
-    public @Nonnull
-    ItemStack getOriginalItemStack(@Nonnull Item item) {
+    public @Nonnull ItemStack getOriginalItemStack(@Nonnull Item item) {
         ItemStack stack = item.getItemStack().clone();
         String customName = item.getCustomName();
 

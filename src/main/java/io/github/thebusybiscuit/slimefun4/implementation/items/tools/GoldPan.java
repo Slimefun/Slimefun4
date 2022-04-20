@@ -1,5 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.collections.RandomizedSet;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -17,24 +32,17 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.AutomatedPanningMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import org.bukkit.Effect;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
 
 /**
  * A {@link GoldPan} is a {@link SlimefunItem} which allows you to obtain various
  * resources from Gravel.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see NetherGoldPan
  * @see AutomatedPanningMachine
  * @see ElectricGoldPan
+ *
  */
 public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
 
@@ -52,16 +60,14 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
     /**
      * This method returns the target {@link Material} for this {@link GoldPan}.
-     *
+     * 
      * @return The {@link Material} this {@link GoldPan} can be used on
      */
-    public @Nonnull
-    Material getInputMaterial() {
+    public @Nonnull Material getInputMaterial() {
         return Material.GRAVEL;
     }
 
-    protected @Nonnull
-    Set<GoldPanDrop> getGoldPanDrops() {
+    protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
         settings.add(new GoldPanDrop(this, "chance.FLINT", 40, new ItemStack(Material.FLINT)));
@@ -80,7 +86,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
     /**
      * <strong>Do not call this method directly</strong>.
-     * <p>
+     * 
      * This method is for internal purposes only.
      * It will update and re-calculate all weights in our {@link RandomizedSet}.
      */
@@ -97,11 +103,10 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     /**
      * This returns a random output {@link ItemStack} that can be obtained via
      * this {@link GoldPan}.
-     *
+     * 
      * @return a random {@link ItemStack} obtained by this {@link GoldPan}
      */
-    public @Nonnull
-    ItemStack getRandomOutput() {
+    public @Nonnull ItemStack getRandomOutput() {
         ItemStack item = randomizer.getRandom();
 
         // Fixes #2804
@@ -109,14 +114,12 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     }
 
     @Override
-    public @Nonnull
-    String getLabelLocalPath() {
+    public @Nonnull String getLabelLocalPath() {
         return "guide.tooltips.recipes.gold-pan";
     }
 
     @Override
-    public @Nonnull
-    ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Optional<Block> block = e.getClickedBlock();
 
@@ -147,8 +150,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      *
      * @return the {@link EntityInteractHandler} of this {@link SlimefunItem}
      */
-    public @Nonnull
-    EntityInteractHandler onEntityInteract() {
+    public @Nonnull EntityInteractHandler onEntityInteract() {
         return (e, item, offHand) -> {
             if (!(e.getRightClicked() instanceof ItemFrame)) {
                 e.setCancelled(true);
@@ -157,8 +159,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     }
 
     @Override
-    public @Nonnull
-    List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> recipes = new LinkedList<>();
 
         for (GoldPanDrop drop : drops) {

@@ -2,7 +2,7 @@ name: Label resolved issues
 
 on:
   issues:
-    types: [ closed ]
+    types: [closed]
 
 jobs:
   label:

@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.researching;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.api.researches.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
@@ -15,10 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
+import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestResearchUnlocking {
 
@@ -52,7 +54,7 @@ class TestResearchUnlocking {
 
     @ParameterizedTest
     @DisplayName("Test Unlocking Researches")
-    @ValueSource(booleans = {true, false})
+    @ValueSource(booleans = { true, false })
     void testUnlock(boolean instant) throws InterruptedException {
         Slimefun.getRegistry().setResearchingEnabled(true);
         Player player = server.addPlayer();

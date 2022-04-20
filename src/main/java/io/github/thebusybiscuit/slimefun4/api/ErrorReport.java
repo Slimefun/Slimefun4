@@ -1,17 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.plugin.Plugin;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +14,21 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.plugin.Plugin;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.papermc.lib.PaperLib;
+
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
 /**
  * This class represents an {@link ErrorReport}.
  * Error reports are thrown when a {@link BlockTicker} is causing problems.
@@ -33,8 +36,11 @@ import java.util.stream.IntStream;
  * an {@link ErrorReport} instead.
  * Error reports get saved in the plugin folder.
  *
- * @param <T> The type of {@link Throwable} which has spawned this {@link ErrorReport}
+ * @param <T>
+ *            The type of {@link Throwable} which has spawned this {@link ErrorReport}
+ *
  * @author TheBusyBiscuit
+ *
  */
 public class ErrorReport<T extends Throwable> {
 
@@ -51,9 +57,12 @@ public class ErrorReport<T extends Throwable> {
      * print the necessary info and provides a {@link Consumer} for any more detailed
      * needs.
      *
-     * @param throwable The {@link Throwable} which caused this {@link ErrorReport}.
-     * @param addon     The {@link SlimefunAddon} responsible.
-     * @param printer   A custom {@link Consumer} to add more details.
+     * @param throwable
+     *            The {@link Throwable} which caused this {@link ErrorReport}.
+     * @param addon
+     *            The {@link SlimefunAddon} responsible.
+     * @param printer
+     *            A custom {@link Consumer} to add more details.
      */
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, SlimefunAddon addon, Consumer<PrintStream> printer) {
@@ -67,9 +76,12 @@ public class ErrorReport<T extends Throwable> {
      * This constructs a new {@link ErrorReport} for the given {@link Location} and
      * {@link SlimefunItem}.
      *
-     * @param throwable The {@link Throwable} which caused this {@link ErrorReport}.
-     * @param l         The {@link Location} at which the error was thrown.
-     * @param item      The {@link SlimefunItem} responsible.
+     * @param throwable
+     *            The {@link Throwable} which caused this {@link ErrorReport}.
+     * @param l
+     *            The {@link Location} at which the error was thrown.
+     * @param item
+     *            The {@link SlimefunItem} responsible.
      */
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, Location l, SlimefunItem item) {
@@ -107,8 +119,10 @@ public class ErrorReport<T extends Throwable> {
     /**
      * This constructs a new {@link ErrorReport} for the given {@link SlimefunItem}.
      *
-     * @param throwable The {@link Throwable} which caused this {@link ErrorReport}.
-     * @param item      The {@link SlimefunItem} responsible.
+     * @param throwable
+     *            The {@link Throwable} which caused this {@link ErrorReport}.
+     * @param item
+     *            The {@link SlimefunItem} responsible.
      */
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, SlimefunItem item) {
@@ -121,72 +135,11 @@ public class ErrorReport<T extends Throwable> {
     }
 
     /**
-     * This method returns the amount of {@link ErrorReport ErrorReports} created in this session.
-     *
-     * @return The amount of {@link ErrorReport ErrorReports} created.
-     */
-    public static int count() {
-        return count.get();
-    }
-
-    private static void scanPlugins(@Nonnull List<String> plugins, @Nonnull List<String> addons) {
-        String dependency = "Slimefun";
-
-        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-                plugins.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-
-                if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
-                    addons.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-                }
-            } else {
-                plugins.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-
-                if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
-                    addons.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
-                }
-            }
-        }
-    }
-
-    private static @Nonnull
-    File getNewFile() {
-        String path = "plugins/Slimefun/error-reports/" + dateFormat.format(LocalDateTime.now());
-        File newFile = new File(path + ".err");
-
-        if (newFile.exists()) {
-            IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").err").exists());
-            int id = stream.findFirst().getAsInt();
-
-            newFile = new File(path + " (" + id + ").err");
-        }
-
-        return newFile;
-    }
-
-    /**
-     * This helper method wraps the given {@link Runnable} into a try-catch block.
-     * When an {@link Exception} occurs, a new {@link ErrorReport} will be generated using
-     * the provided {@link Function}.
-     *
-     * @param function The {@link Function} to generate a new {@link ErrorReport}
-     * @param runnable The code to execute
-     */
-    public static void tryCatch(@Nonnull Function<Exception, ErrorReport<Exception>> function, @Nonnull Runnable runnable) {
-        try {
-            runnable.run();
-        } catch (Exception x) {
-            function.apply(x);
-        }
-    }
-
-    /**
      * This method returns the {@link File} this {@link ErrorReport} has been written to.
      *
      * @return The {@link File} for this {@link ErrorReport}
      */
-    public @Nonnull
-    File getFile() {
+    public @Nonnull File getFile() {
         return file;
     }
 
@@ -195,9 +148,17 @@ public class ErrorReport<T extends Throwable> {
      *
      * @return The {@link Throwable}
      */
-    public @Nonnull
-    T getThrown() {
+    public @Nonnull T getThrown() {
         return throwable;
+    }
+
+    /**
+     * This method returns the amount of {@link ErrorReport ErrorReports} created in this session.
+     *
+     * @return The amount of {@link ErrorReport ErrorReports} created.
+     */
+    public static int count() {
+        return count.get();
     }
 
     private void print(@Nonnull Consumer<PrintStream> printer) {
@@ -259,6 +220,58 @@ public class ErrorReport<T extends Throwable> {
             addon.getLogger().log(Level.WARNING, "");
         } catch (Exception x) {
             addon.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving an Error-Report for Slimefun " + Slimefun.getVersion());
+        }
+    }
+
+    private static void scanPlugins(@Nonnull List<String> plugins, @Nonnull List<String> addons) {
+        String dependency = "Slimefun";
+
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+            if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
+                plugins.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+
+                if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
+                    addons.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+                }
+            } else {
+                plugins.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+
+                if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
+                    addons.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
+                }
+            }
+        }
+    }
+
+    private static @Nonnull File getNewFile() {
+        String path = "plugins/Slimefun/error-reports/" + dateFormat.format(LocalDateTime.now());
+        File newFile = new File(path + ".err");
+
+        if (newFile.exists()) {
+            IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").err").exists());
+            int id = stream.findFirst().getAsInt();
+
+            newFile = new File(path + " (" + id + ").err");
+        }
+
+        return newFile;
+    }
+
+    /**
+     * This helper method wraps the given {@link Runnable} into a try-catch block.
+     * When an {@link Exception} occurs, a new {@link ErrorReport} will be generated using
+     * the provided {@link Function}.
+     *
+     * @param function
+     *            The {@link Function} to generate a new {@link ErrorReport}
+     * @param runnable
+     *            The code to execute
+     */
+    public static void tryCatch(@Nonnull Function<Exception, ErrorReport<Exception>> function, @Nonnull Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (Exception x) {
+            function.apply(x);
         }
     }
 

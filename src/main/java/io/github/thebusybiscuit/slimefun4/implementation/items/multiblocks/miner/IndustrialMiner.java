@@ -1,15 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
-import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,21 +21,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 
 /**
  * The {@link IndustrialMiner} is a {@link MultiBlockMachine} that can mine any
  * ores it finds in a given range underneath where it was placed.
- *
+ * 
  * <i>And for those of you who are wondering... yes this is the replacement for the
  * long-time deprecated Digital Miner.</i>
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see AdvancedIndustrialMiner
  * @see MiningTask
+ *
  */
 public class IndustrialMiner extends MultiBlockMachine {
 
@@ -51,10 +60,10 @@ public class IndustrialMiner extends MultiBlockMachine {
     @ParametersAreNonnullByDefault
     public IndustrialMiner(ItemGroup itemGroup, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
         // @formatter:off
-        super(itemGroup, item, new ItemStack[]{
-                null, null, null,
-                new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItemStack(Material.PISTON, "Piston (facing up)"),
-                new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial)
+        super(itemGroup, item, new ItemStack[] {
+            null, null, null,
+            new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItemStack(Material.PISTON, "Piston (facing up)"),
+            new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial)
         }, BlockFace.UP);
         // @formatter:on
 
@@ -70,7 +79,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     /**
      * This returns whether this {@link IndustrialMiner} will output ores as they are.
      * Similar to the Silk Touch {@link Enchantment}.
-     *
+     * 
      * @return Whether to treat ores with Silk Touch
      */
     public boolean hasSilkTouch() {
@@ -81,10 +90,10 @@ public class IndustrialMiner extends MultiBlockMachine {
      * This method returns the range of the {@link IndustrialMiner}.
      * The total area will be determined by the range multiplied by 2 plus the actual center
      * of the machine.
-     * <p>
+     * 
      * So a range of 3 will make the {@link IndustrialMiner} affect an area of 7x7 blocks.
      * 3 on all axis, plus the center of the machine itself.
-     *
+     * 
      * @return The range of this {@link IndustrialMiner}
      */
     public int getRange() {
@@ -112,12 +121,13 @@ public class IndustrialMiner extends MultiBlockMachine {
 
     /**
      * This method returns the outcome that mining certain ores yields.
-     *
-     * @param material The {@link Material} of the ore that was mined
+     * 
+     * @param material
+     *            The {@link Material} of the ore that was mined
+     * 
      * @return The outcome when mining this ore
      */
-    public @Nonnull
-    ItemStack getOutcome(@Nonnull Material material) {
+    public @Nonnull ItemStack getOutcome(@Nonnull Material material) {
         if (hasSilkTouch()) {
             return new ItemStack(material);
         } else {
@@ -128,9 +138,11 @@ public class IndustrialMiner extends MultiBlockMachine {
 
     /**
      * This registers a new fuel type for this {@link IndustrialMiner}.
-     *
-     * @param ores The amount of ores this allows you to mine
-     * @param item The item that shall be consumed
+     * 
+     * @param ores
+     *            The amount of ores this allows you to mine
+     * @param item
+     *            The item that shall be consumed
      */
     public void addFuelType(int ores, @Nonnull ItemStack item) {
         Validate.isTrue(ores > 1 && ores % 2 == 0, "The amount of ores must be at least 2 and a multiple of 2.");
@@ -140,14 +152,12 @@ public class IndustrialMiner extends MultiBlockMachine {
     }
 
     @Override
-    public @Nonnull
-    String getLabelLocalPath() {
+    public @Nonnull String getLabelLocalPath() {
         return "guide.tooltips.recipes.generator";
     }
 
     @Override
-    public @Nonnull
-    List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> list = new ArrayList<>();
 
         for (MachineFuel fuel : fuelTypes) {
@@ -181,21 +191,22 @@ public class IndustrialMiner extends MultiBlockMachine {
         task.start(b);
     }
 
-    private @Nonnull
-    Block[] findPistons(@Nonnull Block chest) {
+    private @Nonnull Block[] findPistons(@Nonnull Block chest) {
         Block northern = chest.getRelative(BlockFace.NORTH);
 
         if (northern.getType() == Material.PISTON) {
-            return new Block[]{northern, chest.getRelative(BlockFace.SOUTH)};
+            return new Block[] { northern, chest.getRelative(BlockFace.SOUTH) };
         } else {
-            return new Block[]{chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST)};
+            return new Block[] { chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST) };
         }
     }
 
     /**
      * This returns whether this {@link IndustrialMiner} can mine the given {@link Material}.
-     *
-     * @param type The {@link Material} to check
+     * 
+     * @param type
+     *            The {@link Material} to check
+     * 
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
     public boolean canMine(@Nonnull Material type) {

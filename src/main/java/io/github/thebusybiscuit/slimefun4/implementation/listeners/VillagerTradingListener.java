@@ -1,9 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.misc.SyntheticEmerald;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -13,14 +12,17 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.SyntheticEmerald;
 
 /**
  * This {@link Listener} prevents any {@link SlimefunItem} from being used to trade with
  * Villagers, with one exception being {@link SyntheticEmerald}.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class VillagerTradingListener implements Listener {
 

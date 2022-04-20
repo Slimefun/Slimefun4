@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemSpawnEvent;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
@@ -8,14 +11,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.Christma
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.EasterEgg;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfContainment;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * This enum holds the different reasons as to why we may need to spawn an item.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see SlimefunItemSpawnEvent
+ *
  */
 public enum ItemSpawnReason {
 

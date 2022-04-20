@@ -5,8 +5,9 @@ import java.util.Locale;
 /**
  * This enum holds the various modes a {@link Reactor} can operate as.
  * Each mode has a different focus of operation.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public enum ReactorMode {
 

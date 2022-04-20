@@ -1,8 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -13,18 +18,17 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Predicate;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
  * This enum holds every {@link Instruction} for the {@link ProgrammableAndroid}
  * added by Slimefun itself.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public enum Instruction {
 
@@ -204,7 +208,7 @@ public enum Instruction {
     /**
      * This {@link Instruction} will make a {@link FarmerAndroid} try to harvest
      * the {@link Block} in front of them.
-     *
+     * 
      * <strong>This includes plants from ExoticGarden.</strong>
      */
     FARM_EXOTIC_FORWARD(AndroidType.ADVANCED_FARMER, HeadTexture.SCRIPT_FARM_FORWARD, (android, b, inv, face) -> {
@@ -215,7 +219,7 @@ public enum Instruction {
     /**
      * This {@link Instruction} will make a {@link FarmerAndroid} try to harvest
      * the {@link Block} below.
-     *
+     * 
      * <strong>This includes plants from ExoticGarden.</strong>
      */
     FARM_EXOTIC_DOWN(AndroidType.ADVANCED_FARMER, HeadTexture.SCRIPT_FARM_DOWN, (android, b, inv, face) -> {
@@ -241,8 +245,8 @@ public enum Instruction {
         android.refuel(inv, target);
     });
 
-    public static final Instruction[] valuesCache = values();
     private static final Map<String, Instruction> nameLookup = new HashMap<>();
+    public static final Instruction[] valuesCache = values();
 
     static {
         for (Instruction instruction : valuesCache) {
@@ -266,21 +270,6 @@ public enum Instruction {
         this(type, head, null);
     }
 
-    /**
-     * Get a value from the cache map rather than calling {@link Enum#valueOf(Class, String)}.
-     * This is 25-40% quicker than the standard {@link Enum#valueOf(Class, String)} depending on
-     * your Java version. It also means that you can avoid an IllegalArgumentException which let's
-     * face it is always good.
-     *
-     * @param value The value which you would like to look up.
-     * @return The {@link Instruction} or null if it does not exist.
-     */
-    @Nullable
-    public static Instruction getInstruction(@Nonnull String value) {
-        Validate.notNull(value, "An Instruction cannot be null!");
-        return nameLookup.get(value);
-    }
-
     @Nonnull
     public ItemStack getItem() {
         return item;
@@ -295,5 +284,22 @@ public enum Instruction {
     public void execute(ProgrammableAndroid android, Block b, BlockMenu inventory, BlockFace face) {
         Validate.notNull(method, "Instruction '" + name() + "' must be executed manually!");
         method.perform(android, b, inventory, face);
+    }
+
+    /**
+     * Get a value from the cache map rather than calling {@link Enum#valueOf(Class, String)}.
+     * This is 25-40% quicker than the standard {@link Enum#valueOf(Class, String)} depending on
+     * your Java version. It also means that you can avoid an IllegalArgumentException which let's
+     * face it is always good.
+     *
+     * @param value
+     *            The value which you would like to look up.
+     * 
+     * @return The {@link Instruction} or null if it does not exist.
+     */
+    @Nullable
+    public static Instruction getInstruction(@Nonnull String value) {
+        Validate.notNull(value, "An Instruction cannot be null!");
+        return nameLookup.get(value);
     }
 }

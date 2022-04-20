@@ -1,5 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -10,35 +15,30 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import javax.annotation.Nonnull;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * This is a simple utility class for spawning random and colorful {@link Firework} rockets.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public final class FireworkUtils {
 
     // @formatter:off
     private static final Color[] COLORS = {
-            Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA,
-            Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON,
-            Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE,
-            Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW
+        Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA,
+        Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON,
+        Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE,
+        Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW
     };
     // @formatter:on
 
-    private FireworkUtils() {
-    }
+    private FireworkUtils() {}
 
     public static void launchFirework(@Nonnull Location l, @Nonnull Color color) {
         createFirework(l, color);
     }
 
-    public static @Nonnull
-    Firework createFirework(@Nonnull Location l, @Nonnull Color color) {
+    public static @Nonnull Firework createFirework(@Nonnull Location l, @Nonnull Color color) {
         Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
         FireworkMeta meta = fw.getFireworkMeta();
 
@@ -65,30 +65,31 @@ public final class FireworkUtils {
 
     /**
      * This returns a randomized {@link FireworkEffect} using the given {@link Color}.
-     *
-     * @param random The {@link Random} instance to use
-     * @param color  The {@link Color} of this {@link FireworkEffect}
+     * 
+     * @param random
+     *            The {@link Random} instance to use
+     * @param color
+     *            The {@link Color} of this {@link FireworkEffect}
+     * 
      * @return A randomized {@link FireworkEffect}
      */
-    public static @Nonnull
-    FireworkEffect getRandomEffect(@Nonnull Random random, @Nonnull Color color) {
+    public static @Nonnull FireworkEffect getRandomEffect(@Nonnull Random random, @Nonnull Color color) {
         // @formatter:off
         return FireworkEffect.builder()
                 .flicker(random.nextBoolean())
                 .withColor(color)
                 .with(random.nextBoolean() ? Type.BALL : Type.BALL_LARGE)
                 .trail(random.nextBoolean()
-                ).build();
+        ).build();
         // @formatter:on
     }
 
     /**
      * This returns a random {@link Color} for our {@link FireworkEffect}.
-     *
+     * 
      * @return A random {@link Color}
      */
-    private static @Nonnull
-    Color getRandomColor() {
+    private static @Nonnull Color getRandomColor() {
         return COLORS[ThreadLocalRandom.current().nextInt(COLORS.length)];
     }
 }

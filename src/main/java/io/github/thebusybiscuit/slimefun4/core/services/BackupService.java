@@ -1,9 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.apache.commons.lang.Validate;
-
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,10 +15,17 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 /**
  * This Service creates a Backup of your Slimefun world data on every server shutdown.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class BackupService implements Runnable {
 
@@ -125,9 +128,12 @@ public class BackupService implements Runnable {
 
     /**
      * This method will delete old backups.
-     *
-     * @param backups The {@link List} of all backups
-     * @throws IOException An {@link IOException} is thrown if a {@link File} could not be deleted
+     * 
+     * @param backups
+     *            The {@link List} of all backups
+     * 
+     * @throws IOException
+     *             An {@link IOException} is thrown if a {@link File} could not be deleted
      */
     private void purgeBackups(@Nonnull List<File> backups) throws IOException {
         Collections.sort(backups, (a, b) -> {

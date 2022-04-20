@@ -1,20 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -31,24 +27,40 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * This {@link Listener} is responsible for providing the core mechanics of the {@link AncientAltar}
  * and the {@link AncientPedestal}, it also handles the crafting of items using the Altar.
- *
+ * 
  * @author Redemption198
  * @author TheBusyBiscuit
+ *
  */
 public class AncientAltarListener implements Listener {
 
-    private final Set<Location> altarsInUse = new HashSet<>();
-    private final List<Block> altars = new ArrayList<>();
-    private final Set<UUID> removedItems = new HashSet<>();
     private AncientAltar altarItem;
     private AncientPedestal pedestalItem;
+
+    private final Set<Location> altarsInUse = new HashSet<>();
+
+    private final List<Block> altars = new ArrayList<>();
+    private final Set<UUID> removedItems = new HashSet<>();
 
     @ParametersAreNonnullByDefault
     public AncientAltarListener(Slimefun plugin, AncientAltar altar, AncientPedestal pedestal) {
@@ -60,16 +72,14 @@ public class AncientAltarListener implements Listener {
 
     /**
      * This returns all {@link AncientAltar Altars} that are currently in use.
-     *
+     * 
      * @return A {@link Set} of every {@link AncientAltar} currently in use
      */
-    public @Nonnull
-    Set<Location> getAltarsInUse() {
+    public @Nonnull Set<Location> getAltarsInUse() {
         return altarsInUse;
     }
 
-    public @Nonnull
-    List<Block> getAltars() {
+    public @Nonnull List<Block> getAltars() {
         return altars;
     }
 
@@ -268,8 +278,7 @@ public class AncientAltarListener implements Listener {
         }
     }
 
-    private @Nonnull
-    List<Block> getPedestals(@Nonnull Block altar) {
+    private @Nonnull List<Block> getPedestals(@Nonnull Block altar) {
         List<Block> list = new ArrayList<>();
 
         if (BlockStorage.check(altar.getRelative(2, 0, -2), pedestalItem.getId())) {
@@ -300,8 +309,7 @@ public class AncientAltarListener implements Listener {
         return list;
     }
 
-    public @Nonnull
-    Optional<ItemStack> getRecipeOutput(@Nonnull ItemStack catalyst, @Nonnull List<ItemStack> inputs) {
+    public @Nonnull Optional<ItemStack> getRecipeOutput(@Nonnull ItemStack catalyst, @Nonnull List<ItemStack> inputs) {
         if (inputs.size() != 8) {
             return Optional.empty();
         }
@@ -321,8 +329,7 @@ public class AncientAltarListener implements Listener {
         return checkRecipe(wrapper, items);
     }
 
-    private @Nonnull
-    Optional<ItemStack> checkRecipe(@Nonnull ItemStack catalyst, @Nonnull List<ItemStackWrapper> items) {
+    private @Nonnull Optional<ItemStack> checkRecipe(@Nonnull ItemStack catalyst, @Nonnull List<ItemStackWrapper> items) {
         for (AltarRecipe recipe : altarItem.getRecipes()) {
             if (SlimefunUtils.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
                 Optional<ItemStack> optional = checkPedestals(items, recipe);
@@ -336,8 +343,7 @@ public class AncientAltarListener implements Listener {
         return Optional.empty();
     }
 
-    private @Nonnull
-    Optional<ItemStack> checkPedestals(@Nonnull List<ItemStackWrapper> items, @Nonnull AltarRecipe recipe) {
+    private @Nonnull Optional<ItemStack> checkPedestals(@Nonnull List<ItemStackWrapper> items, @Nonnull AltarRecipe recipe) {
         for (int i = 0; i < 8; i++) {
             if (SlimefunUtils.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
                 for (int j = 1; j < 8; j++) {

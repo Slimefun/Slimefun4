@@ -1,13 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.core.debug;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.junit.jupiter.api.*;
-
-import javax.annotation.Nonnull;
 import java.text.MessageFormat;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+
+import javax.annotation.Nonnull;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 class TestDebugLogging {
 
@@ -29,12 +36,10 @@ class TestDebugLogging {
             }
 
             @Override
-            public void flush() {
-            }
+            public void flush() {}
 
             @Override
-            public void close() throws SecurityException {
-            }
+            public void close() throws SecurityException {}
 
         });
     }

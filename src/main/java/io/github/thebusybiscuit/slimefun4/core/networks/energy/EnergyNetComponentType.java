@@ -1,21 +1,25 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 
+import org.bukkit.block.Block;
+
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyConnector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
-import org.bukkit.block.Block;
 
 /**
  * This enum contains the different types of components an {@link EnergyNet}
  * can have.
- *
+ * 
  * @author TheBusyBiscuit
  * @author Linox
+ * 
  * @see EnergyNetComponent
  * @see EnergyNet
+ *
  */
 public enum EnergyNetComponentType {
 

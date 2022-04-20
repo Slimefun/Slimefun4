@@ -1,12 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
-import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
-import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,13 +11,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-import javax.annotation.Nonnull;
-import java.util.Optional;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 
 /**
  * The {@link Listener} for the {@link ElytraCap}.
  *
  * @author Seggan
+ * 
  * @see ElytraCap
  */
 public class ElytraImpactListener implements Listener {

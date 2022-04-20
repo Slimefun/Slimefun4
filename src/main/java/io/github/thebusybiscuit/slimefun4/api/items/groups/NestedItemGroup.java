@@ -1,5 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.api.items.groups;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
@@ -8,17 +20,8 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 public class NestedItemGroup extends FlexItemGroup {
 
@@ -37,8 +40,9 @@ public class NestedItemGroup extends FlexItemGroup {
 
     /**
      * This will add the given {@link SubItemGroup} to this {@link NestedItemGroup}.
-     *
-     * @param group The {@link SubItemGroup} to add.
+     * 
+     * @param group
+     *            The {@link SubItemGroup} to add.
      */
     public void addSubGroup(@Nonnull SubItemGroup group) {
         Validate.notNull(group, "The sub item group cannot be null!");
@@ -48,8 +52,9 @@ public class NestedItemGroup extends FlexItemGroup {
 
     /**
      * This will remove the given {@link SubItemGroup} from this {@link NestedItemGroup} (if present).
-     *
-     * @param group The {@link SubItemGroup} to remove.
+     * 
+     * @param group
+     *            The {@link SubItemGroup} to remove.
      */
     public void removeSubGroup(@Nonnull SubItemGroup group) {
         Validate.notNull(group, "The sub item group cannot be null!");

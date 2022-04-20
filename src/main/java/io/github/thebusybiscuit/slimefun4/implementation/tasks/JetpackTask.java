@@ -1,13 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
+import javax.annotation.Nonnull;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 
 public class JetpackTask extends AbstractPlayerTask {
 

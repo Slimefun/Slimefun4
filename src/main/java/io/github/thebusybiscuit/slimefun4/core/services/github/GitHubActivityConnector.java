@@ -1,14 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import kong.unirest.JsonNode;
-import kong.unirest.json.JSONObject;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+
+import kong.unirest.JsonNode;
+import kong.unirest.json.JSONObject;
 
 class GitHubActivityConnector extends GitHubConnector {
 

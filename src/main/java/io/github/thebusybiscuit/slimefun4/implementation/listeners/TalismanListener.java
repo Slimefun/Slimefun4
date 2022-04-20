@@ -1,17 +1,27 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
-import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.*;
+import org.bukkit.entity.AbstractArrow;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.ChestedHorse;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,25 +42,30 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 /**
  * This {@link Listener} is responsible for handling any {@link Event}
  * that is required for activating a {@link Talisman}.
- *
+ * 
  * @author TheBusyBiscuit
  * @author StarWishsama
  * @author svr333
  * @author martinbrom
  * @author Sfiguz7
+ * 
  * @see Talisman
+ *
  */
 public class TalismanListener implements Listener {
 
-    private final int[] armorSlots = {39, 38, 37, 36};
+    private final int[] armorSlots = { 39, 38, 37, 36 };
 
     public TalismanListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -109,9 +124,11 @@ public class TalismanListener implements Listener {
     /**
      * This method is used for the {@link Talisman} of the whirlwind, it returns a copy
      * of a {@link Projectile} that was fired at a {@link Player}.
-     *
-     * @param p          The {@link Player} who was hit
-     * @param projectile The {@link Projectile} that hit this {@link Player}
+     * 
+     * @param p
+     *            The {@link Player} who was hit
+     * @param projectile
+     *            The {@link Projectile} that hit this {@link Player}
      */
     private void returnProjectile(@Nonnull Player p, @Nonnull Projectile projectile) {
         Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -187,7 +204,7 @@ public class TalismanListener implements Listener {
         /*
          * WARNING: This check is broken as entities now set their
          * equipment to NULL before calling the event!
-         *
+         * 
          * It prevents duplication of handheld items or armor.
          */
         EntityEquipment equipment = entity.getEquipment();
@@ -267,7 +284,7 @@ public class TalismanListener implements Listener {
         if (enchantment != null && Talisman.trigger(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             /*
              * Fixes #2679
-             *
+             * 
              * By default, the Bukkit API doesn't allow us to give enchantment books
              * extra enchantments.
              */

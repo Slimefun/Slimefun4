@@ -1,30 +1,34 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import org.apache.commons.lang.Validate;
-import org.bukkit.DyeColor;
-import org.bukkit.Material;
-
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
+
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
 /**
  * This class holds a few ordered {@link List Lists} that hold colored variants
  * of {@link Material}.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see SlimefunTag
+ *
  */
 public enum ColoredMaterial {
 
     // @formatter:off (We want this to stay formatted like this)
-
+    
     /**
      * This {@link List} contains all wool colors ordered by their appearance ingame.
      */
-    WOOL(new Material[]{
+    WOOL(new Material[] {
             Material.WHITE_WOOL,
             Material.ORANGE_WOOL,
             Material.MAGENTA_WOOL,
@@ -46,7 +50,7 @@ public enum ColoredMaterial {
     /**
      * This {@link List} contains all carpet colors ordered by their appearance ingame.
      */
-    CARPET(new Material[]{
+    CARPET(new Material[] {
             Material.WHITE_CARPET,
             Material.ORANGE_CARPET,
             Material.MAGENTA_CARPET,
@@ -68,7 +72,7 @@ public enum ColoredMaterial {
     /**
      * This {@link List} contains all stained glass colors ordered by their appearance ingame.
      */
-    STAINED_GLASS(new Material[]{
+    STAINED_GLASS(new Material[] {
             Material.WHITE_STAINED_GLASS,
             Material.ORANGE_STAINED_GLASS,
             Material.MAGENTA_STAINED_GLASS,
@@ -90,7 +94,7 @@ public enum ColoredMaterial {
     /**
      * This {@link List} contains all stained glass pane colors ordered by their appearance ingame.
      */
-    STAINED_GLASS_PANE(new Material[]{
+    STAINED_GLASS_PANE(new Material[] {
             Material.WHITE_STAINED_GLASS_PANE,
             Material.ORANGE_STAINED_GLASS_PANE,
             Material.MAGENTA_STAINED_GLASS_PANE,
@@ -112,7 +116,7 @@ public enum ColoredMaterial {
     /**
      * This {@link List} contains all terracotta colors ordered by their appearance ingame.
      */
-    TERRACOTTA(new Material[]{
+    TERRACOTTA(new Material[] {
             Material.WHITE_TERRACOTTA,
             Material.ORANGE_TERRACOTTA,
             Material.MAGENTA_TERRACOTTA,
@@ -134,7 +138,7 @@ public enum ColoredMaterial {
     /**
      * This {@link List} contains all glazed terracotta colors ordered by their appearance ingame.
      */
-    GLAZED_TERRACOTTA(new Material[]{
+    GLAZED_TERRACOTTA(new Material[] {
             Material.WHITE_GLAZED_TERRACOTTA,
             Material.ORANGE_GLAZED_TERRACOTTA,
             Material.MAGENTA_GLAZED_TERRACOTTA,
@@ -156,7 +160,7 @@ public enum ColoredMaterial {
     /**
      * This {@link List} contains all concrete colors ordered by their appearance ingame.
      */
-    CONCRETE(new Material[]{
+    CONCRETE(new Material[] {
             Material.WHITE_CONCRETE,
             Material.ORANGE_CONCRETE,
             Material.MAGENTA_CONCRETE,
@@ -178,7 +182,7 @@ public enum ColoredMaterial {
     /**
      * This {@link List} contains all shulker box colors ordered by their appearance ingame.
      */
-    SHULKER_BOX(new Material[]{
+    SHULKER_BOX(new Material[] {
             Material.WHITE_SHULKER_BOX,
             Material.ORANGE_SHULKER_BOX,
             Material.MAGENTA_SHULKER_BOX,
@@ -196,7 +200,7 @@ public enum ColoredMaterial {
             Material.RED_SHULKER_BOX,
             Material.BLACK_SHULKER_BOX
     });
-
+    
     // @formatter:on
 
     /**
@@ -207,8 +211,9 @@ public enum ColoredMaterial {
     /**
      * This creates a new constant of {@link ColoredMaterial}.
      * The array must have a length of 16 and cannot contain null elements!
-     *
-     * @param materials The {@link Material Materials} for this {@link ColoredMaterial}.
+     * 
+     * @param materials
+     *            The {@link Material Materials} for this {@link ColoredMaterial}.
      */
     ColoredMaterial(@Nonnull Material[] materials) {
         Validate.noNullElements(materials, "The List cannot contain any null elements");
@@ -220,22 +225,22 @@ public enum ColoredMaterial {
     /**
      * This returns an ordered {@link List} of {@link Material Materials}
      * that are part o this {@link ColoredMaterial}.
-     *
+     * 
      * @return An ordered {@link List} of {@link Material Materials}
      */
-    public @Nonnull
-    List<Material> asList() {
+    public @Nonnull List<Material> asList() {
         return list;
     }
 
     /**
      * This returns the {@link Material} at the given index.
-     *
-     * @param index The index
+     * 
+     * @param index
+     *            The index
+     * 
      * @return The {@link Material} at that index
      */
-    public @Nonnull
-    Material get(int index) {
+    public @Nonnull Material get(int index) {
         Validate.isTrue(index >= 0 && index < 16, "The index must be between 0 and 15 (inclusive).");
 
         return list.get(index);
@@ -243,12 +248,13 @@ public enum ColoredMaterial {
 
     /**
      * This returns the {@link Material} with the given {@link DyeColor}.
-     *
-     * @param color The {@link DyeColor}
+     * 
+     * @param color
+     *            The {@link DyeColor}
+     * 
      * @return The {@link Material} with that {@link DyeColor}
      */
-    public @Nonnull
-    Material get(@Nonnull DyeColor color) {
+    public @Nonnull Material get(@Nonnull DyeColor color) {
         Validate.notNull(color, "Color cannot be null!");
 
         return get(color.ordinal());

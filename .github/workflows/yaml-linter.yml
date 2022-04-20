@@ -3,10 +3,10 @@ name: YAML Linter
 on:
   push:
     paths:
-      - '**.yml'
+    - '**.yml'
   pull_request:
     branches:
-      - master
+    - master
 
 jobs:
   linter:
@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: YAML Linter
-        uses: ibiqlik/action-yamllint@v3.1.0
-        with:
-          config_file: '.github/configs/yaml-linter.yml'
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: YAML Linter
+      uses: ibiqlik/action-yamllint@v3.1.0
+      with:
+        config_file: '.github/configs/yaml-linter.yml'

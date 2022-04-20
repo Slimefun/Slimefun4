@@ -1,9 +1,15 @@
 package io.github.thebusybiscuit.slimefun4;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.junit.jupiter.api.*;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 class TestPluginClass {
 

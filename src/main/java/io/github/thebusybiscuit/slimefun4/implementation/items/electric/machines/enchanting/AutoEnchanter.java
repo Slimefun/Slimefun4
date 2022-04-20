@@ -1,5 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncAutoEnchanterProcessEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
@@ -8,18 +20,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The {@link AutoEnchanter}, in contrast to the {@link AutoDisenchanter}, adds
@@ -31,7 +34,9 @@ import java.util.Map;
  * @author Mooy1
  * @author StarWishSama
  * @author martinbrom
+ *
  * @see AutoDisenchanter
+ *
  */
 public class AutoEnchanter extends AbstractEnchantmentMachine {
 
@@ -117,7 +122,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
             enchantedItem.setAmount(1);
             enchantedItem.addUnsafeEnchantments(enchantments);
 
-            MachineRecipe recipe = new MachineRecipe(75 * enchantments.size() / getSpeed(), new ItemStack[]{target, enchantedBook}, new ItemStack[]{enchantedItem, new ItemStack(Material.BOOK)});
+            MachineRecipe recipe = new MachineRecipe(75 * enchantments.size() / getSpeed(), new ItemStack[] { target, enchantedBook }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
 
             if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                 return null;

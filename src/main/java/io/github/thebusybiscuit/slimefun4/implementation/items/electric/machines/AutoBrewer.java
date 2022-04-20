@@ -1,29 +1,34 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import java.util.EnumMap;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.EnumMap;
-import java.util.Map;
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
+ *
  * The {@link AutoBrewer} machine with most if not all potion recipes.
  *
  * @author Linox
+ *
  */
 public class AutoBrewer extends AContainer implements NotHopperable {
 
@@ -56,8 +61,7 @@ public class AutoBrewer extends AContainer implements NotHopperable {
     }
 
     @Override
-    protected @Nullable
-    MachineRecipe findNextRecipe(BlockMenu menu) {
+    protected @Nullable MachineRecipe findNextRecipe(BlockMenu menu) {
         ItemStack input1 = menu.getItemInSlot(getInputSlots()[0]);
         ItemStack input2 = menu.getItemInSlot(getInputSlots()[1]);
 
@@ -92,15 +96,14 @@ public class AutoBrewer extends AContainer implements NotHopperable {
                 menu.consumeItem(slot);
             }
 
-            return new MachineRecipe(30, new ItemStack[]{input1, input2}, new ItemStack[]{output});
+            return new MachineRecipe(30, new ItemStack[] { input1, input2 }, new ItemStack[] { output });
         } else {
             return null;
         }
     }
 
     @ParametersAreNonnullByDefault
-    private @Nullable
-    ItemStack brew(Material input, Material potionType, PotionMeta potion) {
+    private @Nullable ItemStack brew(Material input, Material potionType, PotionMeta potion) {
         PotionData data = potion.getBasePotionData();
 
         PotionType type = data.getType();
@@ -145,8 +148,10 @@ public class AutoBrewer extends AContainer implements NotHopperable {
 
     /**
      * Checks whether a given {@link Material} is a valid Potion material.
-     *
-     * @param mat The {@link Material} to check
+     * 
+     * @param mat
+     *            The {@link Material} to check
+     * 
      * @return Whether this {@link Material} is a valid potion
      */
     private boolean isPotion(@Nonnull Material mat) {
@@ -154,14 +159,12 @@ public class AutoBrewer extends AContainer implements NotHopperable {
     }
 
     @Override
-    public @Nonnull
-    ItemStack getProgressBar() {
+    public @Nonnull ItemStack getProgressBar() {
         return new ItemStack(Material.FISHING_ROD);
     }
 
     @Override
-    public @Nonnull
-    String getMachineIdentifier() {
+    public @Nonnull String getMachineIdentifier() {
         return "AUTO_BREWER";
     }
 }

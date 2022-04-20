@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -9,13 +11,13 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 
 /**
  * This {@link Event} is called when a {@link Player} interacts with a {@link MultiBlock}.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable {
 
@@ -34,14 +36,9 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
         this.clickedFace = face;
     }
 
-    @Nonnull
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
     /**
      * This method returns the {@link MultiBlock} which was interacted with.
-     *
+     * 
      * @return The {@link MultiBlock} of this {@link MultiBlockInteractEvent}
      */
     @Nonnull
@@ -51,7 +48,7 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
 
     /**
      * This returns the specific {@link Block} that was interacted with.
-     *
+     * 
      * @return The {@link Block} that was clicked
      */
     @Nonnull
@@ -61,7 +58,7 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
 
     /**
      * This returns the {@link BlockFace} that was clicked.
-     *
+     * 
      * @return The {@link BlockFace} that was clicked
      */
     @Nonnull
@@ -77,6 +74,11 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     @Nonnull

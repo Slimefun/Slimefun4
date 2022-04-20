@@ -1,13 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
-import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import org.apache.commons.lang.mutable.MutableObject;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,12 +10,26 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.inventory.*;
+import org.bukkit.inventory.CraftingInventory;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
+import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestCraftingTableListener {
 
@@ -48,7 +54,7 @@ class TestCraftingTableListener {
         Player player = server.addPlayer();
 
         CraftingInventory inv = Mockito.mock(CraftingInventory.class);
-        Mockito.when(inv.getContents()).thenReturn(new ItemStack[]{item, null, null, null, null, null, null, null, null});
+        Mockito.when(inv.getContents()).thenReturn(new ItemStack[] { item, null, null, null, null, null, null, null, null });
 
         InventoryView view = player.openInventory(inv);
         CraftItemEvent event = new CraftItemEvent(recipe, view, SlotType.RESULT, 9, ClickType.LEFT, InventoryAction.PICKUP_ALL);
@@ -70,7 +76,7 @@ class TestCraftingTableListener {
         }).when(inv).setResult(Mockito.any());
 
         Mockito.when(inv.getResult()).thenAnswer(invocation -> result.getValue());
-        Mockito.when(inv.getContents()).thenReturn(new ItemStack[]{null, null, item, null, null, null, null, null, null});
+        Mockito.when(inv.getContents()).thenReturn(new ItemStack[] { null, null, item, null, null, null, null, null, null });
 
         InventoryView view = player.openInventory(inv);
         PrepareItemCraftEvent event = new PrepareItemCraftEvent(inv, view, false);

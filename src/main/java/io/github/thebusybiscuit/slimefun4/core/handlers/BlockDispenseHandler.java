@@ -1,26 +1,29 @@
 package io.github.thebusybiscuit.slimefun4.core.handlers;
 
-import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
+import java.util.Optional;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
 import org.bukkit.event.block.BlockDispenseEvent;
 
-import java.util.Optional;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 
 /**
  * This {@link ItemHandler} is triggered when the {@link SlimefunItem} it was assigned to
  * is a {@link Dispenser} and was triggered.
- * <p>
+ * 
  * This {@link ItemHandler} is used for the {@link BlockPlacer}.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  * @see ItemHandler
  * @see BlockPlacer
+ * 
  */
 @FunctionalInterface
 public interface BlockDispenseHandler extends ItemHandler {

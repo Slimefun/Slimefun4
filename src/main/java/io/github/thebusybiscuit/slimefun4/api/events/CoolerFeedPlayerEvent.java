@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -11,15 +13,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 
 /**
  * This {@link Event} is called whenever a {@link Player} is
  * fed through a {@link Cooler}.
  *
  * @author TheBusyBiscuit
+ *
  * @see Cooler
+ *
  */
 public class CoolerFeedPlayerEvent extends PlayerEvent implements Cancellable {
 
@@ -38,11 +41,6 @@ public class CoolerFeedPlayerEvent extends PlayerEvent implements Cancellable {
         this.cooler = cooler;
         this.coolerItem = coolerItem;
         this.consumedItem = consumedItem;
-    }
-
-    @Nonnull
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     /**
@@ -81,8 +79,9 @@ public class CoolerFeedPlayerEvent extends PlayerEvent implements Cancellable {
      * The {@link ItemStack} must be a potion.
      * The {@link Player} will receive the {@link PotionEffect PotionEffects} of the
      * provided potion upon consumption.
-     *
-     * @param item The new {@link ItemStack}
+     * 
+     * @param item
+     *            The new {@link ItemStack}
      */
     public void setConsumedItem(@Nonnull ItemStack item) {
         Validate.notNull(item, "The consumed Item cannot be null!");
@@ -99,6 +98,11 @@ public class CoolerFeedPlayerEvent extends PlayerEvent implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     @Nonnull

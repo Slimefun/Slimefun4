@@ -1,5 +1,10 @@
 package me.mrCookieSlime.CSCoreLibPlugin.general.Inventory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -7,15 +12,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * An old remnant of CS-CoreLib.
  * This will be removed once we updated everything.
  * Don't look at the code, it will be gone soon, don't worry.
+ *
  */
 @Deprecated
 public class ChestMenu {
@@ -34,7 +35,8 @@ public class ChestMenu {
      * Creates a new ChestMenu with the specified
      * Title
      *
-     * @param title The title of the Menu
+     * @param title
+     *            The title of the Menu
      */
     public ChestMenu(String title) {
         this.title = ChatColor.translateAlternateColorCodes('&', title);
@@ -43,11 +45,22 @@ public class ChestMenu {
         this.items = new ArrayList<>();
         this.handlers = new HashMap<>();
 
-        this.open = p -> {
-        };
-        this.close = p -> {
-        };
+        this.open = p -> {};
+        this.close = p -> {};
         this.playerclick = (p, slot, item, action) -> isPlayerInventoryClickable();
+    }
+
+    /**
+     * Toggles whether Players can access there
+     * Inventory while viewing this Menu
+     *
+     * @param clickable
+     *            Whether the Player can access his Inventory
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu setPlayerInventoryClickable(boolean clickable) {
+        this.clickable = clickable;
+        return this;
     }
 
     /**
@@ -61,14 +74,15 @@ public class ChestMenu {
     }
 
     /**
-     * Toggles whether Players can access there
-     * Inventory while viewing this Menu
+     * Toggles whether Players can click the
+     * empty menu slots while viewing this Menu
      *
-     * @param clickable Whether the Player can access his Inventory
+     * @param emptyClickable
+     *            Whether the Player can click empty slots
      * @return The ChestMenu Instance
      */
-    public ChestMenu setPlayerInventoryClickable(boolean clickable) {
-        this.clickable = clickable;
+    public ChestMenu setEmptySlotsClickable(boolean emptyClickable) {
+        this.emptyClickable = emptyClickable;
         return this;
     }
 
@@ -83,22 +97,11 @@ public class ChestMenu {
     }
 
     /**
-     * Toggles whether Players can click the
-     * empty menu slots while viewing this Menu
-     *
-     * @param emptyClickable Whether the Player can click empty slots
-     * @return The ChestMenu Instance
-     */
-    public ChestMenu setEmptySlotsClickable(boolean emptyClickable) {
-        this.emptyClickable = emptyClickable;
-        return this;
-    }
-
-    /**
      * Adds a ClickHandler to ALL Slots of the
      * Player's Inventory
      *
-     * @param handler The MenuClickHandler
+     * @param handler
+     *            The MenuClickHandler
      * @return The ChestMenu Instance
      */
     public ChestMenu addPlayerInventoryClickHandler(MenuClickHandler handler) {
@@ -109,8 +112,10 @@ public class ChestMenu {
     /**
      * Adds an Item to the Inventory in that Slot
      *
-     * @param slot The Slot in the Inventory
-     * @param item The Item for that Slot
+     * @param slot
+     *            The Slot in the Inventory
+     * @param item
+     *            The Item for that Slot
      * @return The ChestMenu Instance
      */
     public ChestMenu addItem(int slot, ItemStack item) {
@@ -130,9 +135,12 @@ public class ChestMenu {
      * Adds an Item to the Inventory in that Slot
      * as well as a Click Handler
      *
-     * @param slot         The Slot in the Inventory
-     * @param item         The Item for that Slot
-     * @param clickHandler The MenuClickHandler for that Slot
+     * @param slot
+     *            The Slot in the Inventory
+     * @param item
+     *            The Item for that Slot
+     * @param clickHandler
+     *            The MenuClickHandler for that Slot
      * @return The ChestMenu Instance
      */
     public ChestMenu addItem(int slot, ItemStack item, MenuClickHandler clickHandler) {
@@ -144,7 +152,8 @@ public class ChestMenu {
     /**
      * Returns the ItemStack in that Slot
      *
-     * @param slot The Slot in the Inventory
+     * @param slot
+     *            The Slot in the Inventory
      * @return The ItemStack in that Slot
      */
     public ItemStack getItemInSlot(int slot) {
@@ -156,8 +165,10 @@ public class ChestMenu {
      * Executes a certain Action upon clicking an
      * Item in the Menu
      *
-     * @param slot    The Slot in the Inventory
-     * @param handler The MenuClickHandler
+     * @param slot
+     *            The Slot in the Inventory
+     * @param handler
+     *            The MenuClickHandler
      * @return The ChestMenu Instance
      */
     public ChestMenu addMenuClickHandler(int slot, MenuClickHandler handler) {
@@ -169,7 +180,8 @@ public class ChestMenu {
      * Executes a certain Action upon opening
      * this Menu
      *
-     * @param handler The MenuOpeningHandler
+     * @param handler
+     *            The MenuOpeningHandler
      * @return The ChestMenu Instance
      */
     public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
@@ -181,7 +193,8 @@ public class ChestMenu {
      * Executes a certain Action upon closing
      * this Menu
      *
-     * @param handler The MenuCloseHandler
+     * @param handler
+     *            The MenuCloseHandler
      * @return The ChestMenu Instance
      */
     public ChestMenu addMenuCloseHandler(MenuCloseHandler handler) {
@@ -232,8 +245,10 @@ public class ChestMenu {
     /**
      * Modifies an ItemStack in an ALREADY OPENED ChestMenu
      *
-     * @param slot The Slot of the Item which will be replaced
-     * @param item The new Item
+     * @param slot
+     *            The Slot of the Item which will be replaced
+     * @param item
+     *            The new Item
      */
     public void replaceExistingItem(int slot, ItemStack item) {
         setup();
@@ -242,8 +257,9 @@ public class ChestMenu {
 
     /**
      * Opens this Menu for the specified Player/s
-     *
-     * @param players The Players who will see this Menu
+     * 
+     * @param players
+     *            The Players who will see this Menu
      */
     public void open(Player... players) {
         setup();
@@ -258,7 +274,8 @@ public class ChestMenu {
     /**
      * Returns the MenuClickHandler which was registered for the specified Slot
      *
-     * @param slot The Slot in the Inventory
+     * @param slot
+     *            The Slot in the Inventory
      * @return The MenuClickHandler registered for the specified Slot
      */
     public MenuClickHandler getMenuClickHandler(int slot) {

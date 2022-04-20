@@ -1,8 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.inventory.ChestInventoryMock;
-import be.seeseemelk.mockbukkit.inventory.InventoryMock;
+import javax.annotation.Nonnull;
+
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice.MaterialChoice;
+import org.bukkit.inventory.ShapelessRecipe;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -10,14 +20,10 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice.MaterialChoice;
-import org.bukkit.inventory.ShapelessRecipe;
-import org.junit.jupiter.api.*;
 
-import javax.annotation.Nonnull;
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.inventory.ChestInventoryMock;
+import be.seeseemelk.mockbukkit.inventory.InventoryMock;
 
 class TestAutoCrafter {
 

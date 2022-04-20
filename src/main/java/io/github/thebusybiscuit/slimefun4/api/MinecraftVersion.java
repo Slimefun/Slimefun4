@@ -1,18 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.papermc.lib.PaperLib;
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.papermc.lib.PaperLib;
 
 /**
  * This enum holds all versions of Minecraft that we currently support.
- *
+ * 
  * @author TheBusyBiscuit
  * @author Walshy
+ * 
  * @see Slimefun
+ *
  */
 public enum MinecraftVersion {
 
@@ -66,9 +69,11 @@ public enum MinecraftVersion {
      * This constructs a new {@link MinecraftVersion} with the given name.
      * This constructor forces the {@link MinecraftVersion} to be real.
      * It must be a real version of Minecraft.
-     *
-     * @param majorVersion The major version of minecraft as an {@link Integer}
-     * @param name         The display name of this {@link MinecraftVersion}
+     * 
+     * @param majorVersion
+     *            The major version of minecraft as an {@link Integer}
+     * @param name
+     *            The display name of this {@link MinecraftVersion}
      */
     MinecraftVersion(int majorVersion, @Nonnull String name) {
         this.name = name;
@@ -80,9 +85,11 @@ public enum MinecraftVersion {
      * This constructs a new {@link MinecraftVersion} with the given name.
      * A virtual {@link MinecraftVersion} (unknown or unit test) is not an actual
      * version of Minecraft but rather a state of the {@link Server} software.
-     *
-     * @param name    The display name of this {@link MinecraftVersion}
-     * @param virtual Whether this {@link MinecraftVersion} is virtual
+     * 
+     * @param name
+     *            The display name of this {@link MinecraftVersion}
+     * @param virtual
+     *            Whether this {@link MinecraftVersion} is virtual
      */
     MinecraftVersion(@Nonnull String name, boolean virtual) {
         this.name = name;
@@ -92,11 +99,10 @@ public enum MinecraftVersion {
 
     /**
      * This returns the name of this {@link MinecraftVersion} in a readable format.
-     *
+     * 
      * @return The name of this {@link MinecraftVersion}
      */
-    public @Nonnull
-    String getName() {
+    public @Nonnull String getName() {
         return name;
     }
 
@@ -106,7 +112,7 @@ public enum MinecraftVersion {
      * a state of the {@link Server} software used.
      * Virtual {@link MinecraftVersion MinecraftVersions} include "UNKNOWN" and
      * "UNIT TEST".
-     *
+     * 
      * @return Whether this {@link MinecraftVersion} is virtual or not
      */
     public boolean isVirtual() {
@@ -121,8 +127,10 @@ public enum MinecraftVersion {
      * It is equivalent to the "major" version
      * <p>
      * Example: {@literal "1.13"} returns {@literal 13}
-     *
-     * @param minecraftVersion The {@link Integer} version to match
+     * 
+     * @param minecraftVersion
+     *            The {@link Integer} version to match
+     * 
      * @return Whether this {@link MinecraftVersion} matches the specified version id
      */
     public boolean isMinecraftVersion(int minecraftVersion) {
@@ -132,10 +140,12 @@ public enum MinecraftVersion {
     /**
      * This method checks whether this {@link MinecraftVersion} is newer or equal to
      * the given {@link MinecraftVersion},
-     * <p>
+     * 
      * An unknown version will default to {@literal false}.
-     *
-     * @param version The {@link MinecraftVersion} to compare
+     * 
+     * @param version
+     *            The {@link MinecraftVersion} to compare
+     * 
      * @return Whether this {@link MinecraftVersion} is newer or equal to the given {@link MinecraftVersion}
      */
     public boolean isAtLeast(@Nonnull MinecraftVersion version) {
@@ -152,7 +162,7 @@ public enum MinecraftVersion {
          * this will essentially always return true and result in a tautology.
          * This is most definitely an oversight from us and should be fixed, therefore
          * we will trigger an exception.
-         *
+         * 
          * In order to not disrupt server operations, this exception is only thrown during
          * unit tests since the oversight itself will be harmless.
          */
@@ -165,10 +175,12 @@ public enum MinecraftVersion {
 
     /**
      * This checks whether this {@link MinecraftVersion} is older than the specified {@link MinecraftVersion}.
-     * <p>
+     * 
      * An unknown version will default to {@literal true}.
-     *
-     * @param version The {@link MinecraftVersion} to compare
+     * 
+     * @param version
+     *            The {@link MinecraftVersion} to compare
+     * 
      * @return Whether this {@link MinecraftVersion} is older than the given one
      */
     public boolean isBefore(@Nonnull MinecraftVersion version) {

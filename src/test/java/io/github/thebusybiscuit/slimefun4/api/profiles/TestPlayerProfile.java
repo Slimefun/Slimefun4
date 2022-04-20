@@ -1,18 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.api.profiles;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.OfflinePlayerMock;
+import java.util.Iterator;
+import java.util.Optional;
+
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.junit.jupiter.api.*;
 
-import java.util.Iterator;
-import java.util.Optional;
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.OfflinePlayerMock;
 
 class TestPlayerProfile {
 
@@ -39,8 +45,7 @@ class TestPlayerProfile {
         Assertions.assertEquals(profile, Slimefun.getRegistry().getPlayerProfiles().get(player.getUniqueId()));
 
         // This profile should now be in memory and return true
-        Assertions.assertTrue(PlayerProfile.get(player, p -> {
-        }));
+        Assertions.assertTrue(PlayerProfile.get(player, p -> {}));
         Assertions.assertTrue(PlayerProfile.request(player));
 
         // The Player is offline so this should return null
@@ -121,8 +126,7 @@ class TestPlayerProfile {
     @Test
     @DisplayName("Test nullability for Player profiles")
     void testNullPlayerGetProfile() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> PlayerProfile.get(null, p -> {
-        }));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PlayerProfile.get(null, p -> {}));
     }
 
     @Test

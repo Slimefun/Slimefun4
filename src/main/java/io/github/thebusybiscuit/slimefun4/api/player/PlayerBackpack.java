@@ -1,25 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.api.player;
 
-import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
+import java.io.File;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.io.File;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 
 /**
  * This class represents the instance of a {@link SlimefunBackpack} that is ready to
  * be opened.
- * <p>
+ * 
  * It holds an actual {@link Inventory} and represents the backpack on the
  * level of an individual {@link ItemStack} as opposed to the class {@link SlimefunBackpack}.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  * @see SlimefunBackpack
  * @see BackpackListener
  */
@@ -36,9 +39,11 @@ public class PlayerBackpack {
 
     /**
      * This constructor loads an existing Backpack
-     *
-     * @param profile The {@link PlayerProfile} of this Backpack
-     * @param id      The id of this Backpack
+     * 
+     * @param profile
+     *            The {@link PlayerProfile} of this Backpack
+     * @param id
+     *            The id of this Backpack
      */
     public PlayerBackpack(@Nonnull PlayerProfile profile, int id) {
         this(profile, id, profile.getConfig().getInt(CONFIG_PREFIX + id + ".size"));
@@ -50,10 +55,13 @@ public class PlayerBackpack {
 
     /**
      * This constructor creates a new Backpack
-     *
-     * @param profile The {@link PlayerProfile} of this Backpack
-     * @param id      The id of this Backpack
-     * @param size    The size of this Backpack
+     * 
+     * @param profile
+     *            The {@link PlayerProfile} of this Backpack
+     * @param id
+     *            The id of this Backpack
+     * @param size
+     *            The size of this Backpack
      */
     public PlayerBackpack(@Nonnull PlayerProfile profile, int id, int size) {
         if (size < 9 || size > 54 || size % 9 != 0) {
@@ -73,7 +81,7 @@ public class PlayerBackpack {
 
     /**
      * This returns the id of this {@link PlayerBackpack}
-     *
+     * 
      * @return The id of this {@link PlayerBackpack}
      */
     public int getId() {
@@ -82,7 +90,7 @@ public class PlayerBackpack {
 
     /**
      * This method returns the {@link PlayerProfile} this {@link PlayerBackpack} belongs to
-     *
+     * 
      * @return The owning {@link PlayerProfile}
      */
     @Nonnull
@@ -92,7 +100,7 @@ public class PlayerBackpack {
 
     /**
      * This returns the size of this {@link PlayerBackpack}.
-     *
+     * 
      * @return The size of this {@link PlayerBackpack}
      */
     public int getSize() {
@@ -100,9 +108,35 @@ public class PlayerBackpack {
     }
 
     /**
+     * This method returns the {@link Inventory} of this {@link PlayerBackpack}
+     * 
+     * @return The {@link Inventory} of this {@link PlayerBackpack}
+     */
+    @Nonnull
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    /**
+     * This will open the {@link Inventory} of this backpack to every {@link Player}
+     * that was passed onto this method.
+     * 
+     * @param players
+     *            The players who this Backpack will be shown to
+     */
+    public void open(Player... players) {
+        Slimefun.runSync(() -> {
+            for (Player p : players) {
+                p.openInventory(inventory);
+            }
+        });
+    }
+
+    /**
      * This will change the current size of this Backpack to the specified size.
-     *
-     * @param size The new size for this Backpack
+     * 
+     * @param size
+     *            The new size for this Backpack
      */
     public void setSize(int size) {
         if (size < 9 || size > 54 || size % 9 != 0) {
@@ -121,30 +155,6 @@ public class PlayerBackpack {
         this.inventory = inv;
 
         markDirty();
-    }
-
-    /**
-     * This method returns the {@link Inventory} of this {@link PlayerBackpack}
-     *
-     * @return The {@link Inventory} of this {@link PlayerBackpack}
-     */
-    @Nonnull
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    /**
-     * This will open the {@link Inventory} of this backpack to every {@link Player}
-     * that was passed onto this method.
-     *
-     * @param players The players who this Backpack will be shown to
-     */
-    public void open(Player... players) {
-        Slimefun.runSync(() -> {
-            for (Player p : players) {
-                p.openInventory(inventory);
-            }
-        });
     }
 
     /**

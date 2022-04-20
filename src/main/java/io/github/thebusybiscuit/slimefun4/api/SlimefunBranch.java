@@ -1,15 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
-import io.github.bakedlibs.dough.common.CommonPatterns;
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 
-import javax.annotation.Nonnull;
+import io.github.bakedlibs.dough.common.CommonPatterns;
 
 /**
  * This enum represents the branch this Slimefun build is on.
  * development or stable, unofficial or even unknown.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public enum SlimefunBranch {
 
@@ -56,18 +58,17 @@ public enum SlimefunBranch {
     /**
      * This returns the name of this {@link SlimefunBranch}. The name is just a more readable
      * version of the enum constant.
-     *
+     * 
      * @return The name of this {@link SlimefunBranch}
      */
-    public @Nonnull
-    String getName() {
+    public @Nonnull String getName() {
         return name;
     }
 
     /**
      * This method returns whether this {@link SlimefunBranch} is considered official.
      * Or whether it was unofficially modified.
-     *
+     * 
      * @return Whether this branch is an official one.
      */
     public boolean isOfficial() {

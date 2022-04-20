@@ -1,10 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
-import io.github.bakedlibs.dough.collections.RandomizedSet;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
@@ -12,7 +9,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.bakedlibs.dough.collections.RandomizedSet;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class FisherAndroid extends ProgrammableAndroid {
 

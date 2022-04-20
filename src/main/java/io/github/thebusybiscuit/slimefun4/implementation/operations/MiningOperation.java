@@ -1,19 +1,22 @@
 package io.github.thebusybiscuit.slimefun4.implementation.operations;
 
-import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
-import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
-import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 
 /**
  * This {@link MachineOperation} represents a {@link GEOMiner}
  * mining a {@link GEOResource}.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see GEOMiner
+ *
  */
 public class MiningOperation implements MachineOperation {
 
@@ -39,11 +42,10 @@ public class MiningOperation implements MachineOperation {
     /**
      * This returns the result of this operation, the {@link ItemStack}
      * that will be returned in the end.
-     *
+     * 
      * @return The result of this operation
      */
-    public @Nonnull
-    ItemStack getResult() {
+    public @Nonnull ItemStack getResult() {
         return result;
     }
 

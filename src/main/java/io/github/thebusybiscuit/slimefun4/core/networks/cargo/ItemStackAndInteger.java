@@ -1,10 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 class ItemStackAndInteger {
 
@@ -22,14 +23,12 @@ class ItemStackAndInteger {
         return number;
     }
 
-    public @Nonnull
-    ItemStack getItem() {
+    public @Nonnull ItemStack getItem() {
         initializeItem();
         return item;
     }
 
-    public @Nonnull
-    ItemStackWrapper getItemStackWrapper() {
+    public @Nonnull ItemStackWrapper getItemStackWrapper() {
         if (wrapper == null) {
             wrapper = ItemStackWrapper.wrap(item);
         }

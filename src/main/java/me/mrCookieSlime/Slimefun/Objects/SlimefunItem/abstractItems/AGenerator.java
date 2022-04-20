@@ -1,5 +1,20 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -18,6 +33,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.operations.FuelOperatio
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -25,25 +41,12 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class AGenerator extends AbstractEnergyProvider implements MachineProcessHolder<FuelOperation> {
 
-    private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
-    private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
-    private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
+    private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
+    private static final int[] border_in = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
+    private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
     private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>(this);
 
@@ -138,12 +141,12 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
     @Override
     public int[] getInputSlots() {
-        return new int[]{19, 20};
+        return new int[] { 19, 20 };
     }
 
     @Override
     public int[] getOutputSlots() {
-        return new int[]{24, 25};
+        return new int[] { 24, 25 };
     }
 
     @Override
@@ -220,7 +223,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
     /**
      * This method returns the max amount of electricity this machine can hold.
-     *
+     * 
      * @return The max amount of electricity this Block can store.
      */
     public int getCapacity() {
@@ -228,11 +231,23 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
     }
 
     /**
+     * This method returns the amount of energy that is consumed per operation.
+     * 
+     * @return The rate of energy consumption
+     */
+    @Override
+    public int getEnergyProduction() {
+        return energyProducedPerTick;
+    }
+
+    /**
      * This sets the energy capacity for this machine.
      * This method <strong>must</strong> be called before registering the item
      * and only before registering.
-     *
-     * @param capacity The amount of energy this machine can store
+     * 
+     * @param capacity
+     *            The amount of energy this machine can store
+     * 
      * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
      */
     public final AGenerator setCapacity(int capacity) {
@@ -247,19 +262,11 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
     }
 
     /**
-     * This method returns the amount of energy that is consumed per operation.
-     *
-     * @return The rate of energy consumption
-     */
-    @Override
-    public int getEnergyProduction() {
-        return energyProducedPerTick;
-    }
-
-    /**
      * This method sets the energy produced by this machine per tick.
-     *
-     * @param energyProduced The energy produced per tick
+     * 
+     * @param energyProduced
+     *            The energy produced per tick
+     * 
      * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
      */
     public final AGenerator setEnergyProduction(int energyProduced) {

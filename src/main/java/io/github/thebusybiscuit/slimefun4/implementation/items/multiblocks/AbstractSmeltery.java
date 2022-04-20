@@ -1,13 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.papermc.lib.PaperLib;
+import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -18,13 +14,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
 
 /**
  * An abstract super class for the {@link Smeltery} and {@link MakeshiftSmeltery}.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 abstract class AbstractSmeltery extends MultiBlockMachine {
 

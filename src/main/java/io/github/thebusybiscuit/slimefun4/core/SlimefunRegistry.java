@@ -1,5 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Piglin;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.collections.KeyMap;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
@@ -15,28 +38,18 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import org.apache.commons.lang.Validate;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Server;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Piglin;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class houses a lot of instances of {@link Map} and {@link List} that hold
  * various mappings and collections related to {@link SlimefunItem}.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public final class SlimefunRegistry {
 
@@ -50,18 +63,7 @@ public final class SlimefunRegistry {
     private final List<Research> researches = new LinkedList<>();
     private final List<String> researchRanks = new ArrayList<>();
     private final Set<UUID> researchingPlayers = Collections.synchronizedSet(new HashSet<>());
-    private final Set<String> tickers = new HashSet<>();
-    private final Set<SlimefunItem> radioactive = new HashSet<>();
-    private final Set<ItemStack> barterDrops = new HashSet<>();
-    private final KeyMap<GEOResource> geoResources = new KeyMap<>();
-    private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
-    private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
-    private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
-    private final Map<SlimefunGuideMode, SlimefunGuideImplementation> guides = new EnumMap<>(SlimefunGuideMode.class);
-    private final Map<EntityType, Set<ItemStack>> mobDrops = new EnumMap<>(EntityType.class);
-    private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
-    private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
-    private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
+
     // TODO: Move this all into a proper "config cache" class
     private boolean backwardsCompatibility;
     private boolean automaticallyLoadItems;
@@ -71,9 +73,26 @@ public final class SlimefunRegistry {
     private boolean disableLearningAnimation;
     private boolean logDuplicateBlockEntries;
     private boolean talismanActionBarMessages;
+
+    private final Set<String> tickers = new HashSet<>();
+    private final Set<SlimefunItem> radioactive = new HashSet<>();
+    private final Set<ItemStack> barterDrops = new HashSet<>();
+
     private NamespacedKey soulboundKey;
     private NamespacedKey itemChargeKey;
     private NamespacedKey guideKey;
+
+    private final KeyMap<GEOResource> geoResources = new KeyMap<>();
+
+    private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
+    private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
+    private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
+    private final Map<SlimefunGuideMode, SlimefunGuideImplementation> guides = new EnumMap<>(SlimefunGuideMode.class);
+    private final Map<EntityType, Set<ItemStack>> mobDrops = new EnumMap<>(EntityType.class);
+
+    private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
+    private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
+    private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
 
     public void load(@Nonnull Slimefun plugin, @Nonnull Config cfg) {
         Validate.notNull(plugin, "The Plugin cannot be null!");
@@ -103,7 +122,7 @@ public final class SlimefunRegistry {
      * Auto-Loading will automatically call {@link SlimefunItem#load()} when the item is registered.
      * Normally that method is called after the {@link Server} finished starting up.
      * But in the unusual scenario if a {@link SlimefunItem} is registered after that, this is gonna cover that.
-     *
+     * 
      * @return Whether auto-loading is enabled
      */
     public boolean isAutoLoadingEnabled() {
@@ -114,7 +133,7 @@ public final class SlimefunRegistry {
      * This method returns whether backwards-compatibility is enabled.
      * Backwards compatibility allows Slimefun to recognize items from older versions but comes
      * at a huge performance cost.
-     *
+     * 
      * @return Whether backwards compatibility is enabled
      */
     public boolean isBackwardsCompatible() {
@@ -125,8 +144,9 @@ public final class SlimefunRegistry {
      * This method sets the status of backwards compatibility.
      * Backwards compatibility allows Slimefun to recognize items from older versions but comes
      * at a huge performance cost.
-     *
-     * @param compatible Whether backwards compatibility should be enabled
+     * 
+     * @param compatible
+     *            Whether backwards compatibility should be enabled
      */
     public void setBackwardsCompatible(boolean compatible) {
         backwardsCompatibility = compatible;
@@ -137,8 +157,9 @@ public final class SlimefunRegistry {
      * call {@link SlimefunItem#load()}.
      * Normally this method call is delayed but when the {@link Server} is already running,
      * the method can be called instantaneously.
-     *
-     * @param mode Whether auto-loading should be enabled
+     * 
+     * @param mode
+     *            Whether auto-loading should be enabled
      */
     public void setAutoLoadingMode(boolean mode) {
         automaticallyLoadItems = mode;
@@ -146,27 +167,25 @@ public final class SlimefunRegistry {
 
     /**
      * This returns a {@link List} containing every enabled {@link ItemGroup}.
-     *
+     * 
      * @return {@link List} containing every enabled {@link ItemGroup}
      */
-    public @Nonnull
-    List<ItemGroup> getAllItemGroups() {
+    public @Nonnull List<ItemGroup> getAllItemGroups() {
         return categories;
     }
 
     /**
      * This {@link List} contains every {@link SlimefunItem}, even disabled items.
-     *
+     * 
      * @return A {@link List} containing every {@link SlimefunItem}
      */
-    public @Nonnull
-    List<SlimefunItem> getAllSlimefunItems() {
+    public @Nonnull List<SlimefunItem> getAllSlimefunItems() {
         return slimefunItems;
     }
 
     /**
      * This {@link List} contains every <strong>enabled</strong> {@link SlimefunItem}.
-     *
+     * 
      * @return A {@link List} containing every enabled {@link SlimefunItem}
      */
     @Nonnull
@@ -176,7 +195,7 @@ public final class SlimefunRegistry {
 
     /**
      * This returns a {@link List} containing every enabled {@link Research}.
-     *
+     * 
      * @return A {@link List} containing every enabled {@link Research}
      */
     @Nonnull
@@ -187,9 +206,9 @@ public final class SlimefunRegistry {
     /**
      * This method returns a {@link Set} containing the {@link UUID} of every
      * {@link Player} who is currently unlocking a {@link Research}.
-     *
+     * 
      * @return A {@link Set} holding the {@link UUID} from every {@link Player}
-     * who is currently unlocking a {@link Research}
+     *         who is currently unlocking a {@link Research}
      */
     @Nonnull
     public Set<UUID> getCurrentlyResearchingPlayers() {
@@ -201,20 +220,20 @@ public final class SlimefunRegistry {
         return researchRanks;
     }
 
-    public boolean isResearchingEnabled() {
-        return enableResearches;
-    }
-
     public void setResearchingEnabled(boolean enabled) {
         enableResearches = enabled;
     }
 
-    public boolean isFreeCreativeResearchingEnabled() {
-        return freeCreativeResearches;
+    public boolean isResearchingEnabled() {
+        return enableResearches;
     }
 
     public void setFreeCreativeResearchingEnabled(boolean enabled) {
         freeCreativeResearches = enabled;
+    }
+
+    public boolean isFreeCreativeResearchingEnabled() {
+        return freeCreativeResearches;
     }
 
     public boolean isResearchFireworkEnabled() {
@@ -232,7 +251,7 @@ public final class SlimefunRegistry {
 
     /**
      * This method returns a {@link List} of every enabled {@link MultiBlock}.
-     *
+     * 
      * @return A {@link List} containing every enabled {@link MultiBlock}
      */
     @Nonnull
@@ -247,8 +266,10 @@ public final class SlimefunRegistry {
      * This mainly only exists for internal purposes, if you want to open a certain section
      * using the {@link SlimefunGuide}, then please use the static methods provided in the
      * {@link SlimefunGuide} class.
-     *
-     * @param mode The {@link SlimefunGuideMode}
+     * 
+     * @param mode
+     *            The {@link SlimefunGuideMode}
+     * 
      * @return The corresponding {@link SlimefunGuideImplementation}
      */
     @Nonnull
@@ -267,7 +288,7 @@ public final class SlimefunRegistry {
     /**
      * This returns a {@link Map} connecting the {@link EntityType} with a {@link Set}
      * of {@link ItemStack ItemStacks} which would be dropped when an {@link Entity} of that type was killed.
-     *
+     * 
      * @return The {@link Map} of custom mob drops
      */
     @Nonnull
@@ -278,7 +299,7 @@ public final class SlimefunRegistry {
     /**
      * This returns a {@link Set} of {@link ItemStack ItemStacks} which can be obtained by bartering
      * with {@link Piglin Piglins}.
-     *
+     * 
      * @return A {@link Set} of bartering drops
      */
     @Nonnull

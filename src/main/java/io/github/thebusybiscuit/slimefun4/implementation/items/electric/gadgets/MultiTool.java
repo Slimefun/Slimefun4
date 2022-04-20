@@ -1,5 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -9,19 +22,13 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
 
 /**
  * The {@link MultiTool} is an electric device which can mimic
  * the behaviour of any other {@link SlimefunItem}.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class MultiTool extends SlimefunItem implements Rechargeable {
 

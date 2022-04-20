@@ -1,6 +1,7 @@
-package io.github.thebusybiscuit.slimefun4.integrations;
+package me.mrCookieSlime.integrations;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,14 +52,13 @@ class OrebfuscatorIntegration implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onExplosiveToolBreakBlocks(ExplosiveToolBreakBlocksEvent event) {
-        Set<Block> blocks = new HashSet<>();
-        blocks.addAll(event.getAdditionalBlocks());
+        Set<Block> blocks = new HashSet<>(event.getAdditionalBlocks());
         blocks.add(event.getPrimaryBlock());
         this.service.deobfuscate(blocks);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onReactorExplode(ReactorExplodeEvent event) {
-        this.service.deobfuscate(Arrays.asList(event.getLocation().getBlock()));
+        this.service.deobfuscate(Collections.singletonList(event.getLocation().getBlock()));
     }
 }

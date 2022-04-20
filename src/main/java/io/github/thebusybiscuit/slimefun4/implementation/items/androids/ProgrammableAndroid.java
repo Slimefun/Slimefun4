@@ -1,5 +1,36 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Dispenser;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Rotatable;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
@@ -16,8 +47,13 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.*;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -29,37 +65,12 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.apache.commons.lang.Validate;
-import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Dispenser;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Rotatable;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.logging.Level;
 
 public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock, RecipeDisplayItem {
 
     private static final List<BlockFace> POSSIBLE_ROTATIONS = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-    private static final int[] BORDER = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-    private static final int[] OUTPUT_BORDER = {10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41};
+    private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private static final int[] OUTPUT_BORDER = { 10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41 };
     private static final String DEFAULT_SCRIPT = "START-TURN_LEFT-REPEAT";
     private static final int MAX_SCRIPT_LENGTH = 54;
 
@@ -182,7 +193,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     /**
      * This returns the {@link AndroidType} that is associated with this {@link ProgrammableAndroid}.
-     *
+     * 
      * @return The type of this {@link ProgrammableAndroid}
      */
     public AndroidType getAndroidType() {
@@ -192,7 +203,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     /**
      * This returns the {@link AndroidFuelSource} for this {@link ProgrammableAndroid}.
      * It determines what kind of fuel is required to run it.
-     *
+     * 
      * @return The required type of fuel
      */
     public AndroidFuelSource getFuelSource() {
@@ -661,7 +672,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @Override
     public int[] getOutputSlots() {
-        return new int[]{20, 21, 22, 29, 30, 31};
+        return new int[] { 20, 21, 22, 29, 30, 31 };
     }
 
     public int getTier() {

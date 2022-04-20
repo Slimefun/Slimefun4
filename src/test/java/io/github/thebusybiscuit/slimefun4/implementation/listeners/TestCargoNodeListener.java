@@ -1,15 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoInputNode;
-import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import io.github.thebusybiscuit.slimefun4.test.providers.SlimefunItemsSource;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,8 +8,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoInputNode;
+import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
+import io.github.thebusybiscuit.slimefun4.test.providers.SlimefunItemsSource;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestCargoNodeListener {
 
@@ -41,7 +47,7 @@ class TestCargoNodeListener {
 
     @ParameterizedTest
     @DisplayName("Test placing Cargo nodes on valid sides of blocks")
-    @SlimefunItemsSource(items = {"CARGO_INPUT_NODE", "CARGO_OUTPUT_NODE", "CARGO_OUTPUT_NODE_2"})
+    @SlimefunItemsSource(items = { "CARGO_INPUT_NODE", "CARGO_OUTPUT_NODE", "CARGO_OUTPUT_NODE_2" })
     void testSidePlacement(ItemStack item) {
         Player player = server.addPlayer();
         Location l = new Location(player.getWorld(), 190, 50, 400);

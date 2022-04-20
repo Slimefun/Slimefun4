@@ -2,7 +2,7 @@ extends: default
 locale: en_US.UTF-8
 
 yaml-files:
-  - '*.yml'
+- '*.yml'
 
 rules:
 
@@ -10,7 +10,7 @@ rules:
   line-length: disable
 
   truthy:
-    allowed-values: [ 'true', 'false' ]
+    allowed-values: ['true', 'false']
     ## We don't want it to trigger for the 'on' in our workflows
     check-keys: false
 

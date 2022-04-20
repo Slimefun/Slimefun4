@@ -1,12 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
-import io.github.bakedlibs.dough.skins.PlayerSkin;
-import io.github.bakedlibs.dough.skins.UUIDLookup;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.Bukkit;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,13 +11,24 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.Bukkit;
+
+import io.github.bakedlibs.dough.skins.PlayerSkin;
+import io.github.bakedlibs.dough.skins.UUIDLookup;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 /**
  * This {@link GitHubTask} represents a {@link Runnable} that is run every X minutes.
  * It retrieves every {@link Contributor} of this project from GitHub.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see GitHubService
  * @see Contributor
+ *
  */
 class GitHubTask implements Runnable {
 
@@ -108,7 +112,7 @@ class GitHubTask implements Runnable {
                 Thread.currentThread().interrupt();
             } catch (Exception x) {
                 // Too many requests
-                Slimefun.logger().log(Level.WARNING, "Attempted to refresh skin cache, got this response: {0}: {1}", new Object[]{x.getClass().getSimpleName(), x.getMessage()});
+                Slimefun.logger().log(Level.WARNING, "Attempted to refresh skin cache, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
                 Slimefun.logger().log(Level.WARNING, "This usually means mojang.com is temporarily down or started to rate-limit this connection, nothing to worry about!");
 
                 String msg = x.getMessage();
@@ -125,8 +129,7 @@ class GitHubTask implements Runnable {
         return 0;
     }
 
-    private @Nullable
-    String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws InterruptedException, ExecutionException, TimeoutException {
+    private @Nullable String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws InterruptedException, ExecutionException, TimeoutException {
         Optional<UUID> uuid = contributor.getUniqueId();
 
         if (!uuid.isPresent()) {

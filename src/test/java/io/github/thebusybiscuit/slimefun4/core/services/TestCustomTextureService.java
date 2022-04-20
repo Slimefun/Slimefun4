@@ -1,15 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import java.util.Arrays;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.junit.jupiter.api.*;
 
-import java.util.Arrays;
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 class TestCustomTextureService {
 

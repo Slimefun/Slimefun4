@@ -1,5 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.ItemUtils;
@@ -12,29 +28,17 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * This abstract super class is responsible for some utility methods for machines which
  * are capable of upgrading backpacks.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see EnhancedCraftingTable
  * @see MagicWorkbench
  * @see ArmorForge
+ *
  */
 abstract class AbstractCraftingTable extends MultiBlockMachine {
 
@@ -43,8 +47,7 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
         super(itemGroup, item, recipe, trigger);
     }
 
-    protected @Nonnull
-    Inventory createVirtualInventory(@Nonnull Inventory inv) {
+    protected @Nonnull Inventory createVirtualInventory(@Nonnull Inventory inv) {
         Inventory fakeInv = Bukkit.createInventory(null, 9, "Fake Inventory");
 
         for (int j = 0; j < inv.getContents().length; j++) {
@@ -111,8 +114,7 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
         }
     }
 
-    private @Nonnull
-    Optional<String> retrieveID(@Nullable ItemStack backpack, int size) {
+    private @Nonnull Optional<String> retrieveID(@Nullable ItemStack backpack, int size) {
         if (backpack != null) {
             for (String line : backpack.getItemMeta().getLore()) {
                 if (line.startsWith(ChatColors.color("&7ID: ")) && line.contains("#")) {

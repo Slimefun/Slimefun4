@@ -1,15 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
-import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 class TeleporterCommand extends SubCommand {
 

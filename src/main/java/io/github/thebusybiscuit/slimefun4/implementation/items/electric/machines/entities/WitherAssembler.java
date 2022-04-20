@@ -1,26 +1,31 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Wither;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 
 /**
  * The {@link WitherAssembler} is an electrical machine that can automatically spawn
  * a {@link Wither} if the required ingredients have been provided.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see IronGolemAssembler
+ *
  */
 public class WitherAssembler extends AbstractEntityAssembler<Wither> {
 

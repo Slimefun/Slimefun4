@@ -1,16 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.utils.biomes;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import com.google.gson.JsonElement;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import com.google.gson.JsonElement;
+
+import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 class TestBiomeMapParser {
 
@@ -98,7 +105,7 @@ class TestBiomeMapParser {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = {true, false})
+    @ValueSource(booleans = { true, false })
     @DisplayName("Test lenient parser")
     void testLenientParsing(boolean isLenient) {
         BiomeMapParser<Integer> parser = new BiomeMapParser<>(key, AS_INT);

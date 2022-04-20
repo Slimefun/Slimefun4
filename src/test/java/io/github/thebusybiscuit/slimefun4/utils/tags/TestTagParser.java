@@ -1,12 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.utils.tags;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import javax.annotation.Nonnull;
+
+import org.bukkit.NamespacedKey;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.NamespacedKey;
-import org.junit.jupiter.api.*;
 
-import javax.annotation.Nonnull;
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 class TestTagParser {
 
@@ -38,8 +44,7 @@ class TestTagParser {
         TagParser parser = new TagParser(key);
 
         String nullValue = null;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(nullValue, (a, b) -> {
-        }));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(nullValue, (a, b) -> {}));
     }
 
     @Test
@@ -95,8 +100,7 @@ class TestTagParser {
 
     private void assertMisconfiguration(@Nonnull String json) {
         TagParser parser = new TagParser(key);
-        Assertions.assertThrows(TagMisconfigurationException.class, () -> parser.parse(json, (a, b) -> {
-        }));
+        Assertions.assertThrows(TagMisconfigurationException.class, () -> parser.parse(json, (a, b) -> {}));
     }
 
 }

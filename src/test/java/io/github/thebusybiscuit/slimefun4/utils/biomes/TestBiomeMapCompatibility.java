@@ -1,21 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.utils.biomes;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.EnumSource;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,11 +11,32 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+
 /**
  * This test checks if biome maps work across multiple versions of Minecraft.
  * A similar test can be written for Material Tags :?
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 class TestBiomeMapCompatibility {
 
@@ -69,72 +74,6 @@ class TestBiomeMapCompatibility {
         }
     }
 
-    /**
-     * We manually specify here which biome map works on which minecraft versions.
-     *
-     * @return A {@link Stream} of {@link Arguments} for our unit test.
-     */
-    private static @Nonnull
-    Stream<Arguments> biomeMaps() {
-        Map<String, MinecraftVersion[]> testCases = new HashMap<>();
-
-        // @formatter:off
-        testCases.put("nether_ice_v1.14", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_14,
-                MinecraftVersion.MINECRAFT_1_15
-        });
-
-        testCases.put("nether_ice_v1.16", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_16,
-                MinecraftVersion.MINECRAFT_1_17,
-                MinecraftVersion.MINECRAFT_1_18
-        });
-
-        testCases.put("oil_v1.14", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_14,
-                MinecraftVersion.MINECRAFT_1_15,
-                MinecraftVersion.MINECRAFT_1_16,
-                MinecraftVersion.MINECRAFT_1_17
-        });
-
-        testCases.put("oil_v1.18", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_18
-        });
-
-        testCases.put("salt_v1.14", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_14,
-                MinecraftVersion.MINECRAFT_1_15,
-                MinecraftVersion.MINECRAFT_1_16,
-                MinecraftVersion.MINECRAFT_1_17
-        });
-
-        testCases.put("salt_v1.18", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_18
-        });
-
-        testCases.put("uranium_v1.14", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_14,
-                MinecraftVersion.MINECRAFT_1_15
-        });
-
-        testCases.put("uranium_v1.16", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_16
-        });
-
-        testCases.put("uranium_v1.17", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_17
-        });
-
-        testCases.put("uranium_v1.18", new MinecraftVersion[]{
-                MinecraftVersion.MINECRAFT_1_18
-        });
-        // @formatter:on
-
-        return testCases.entrySet().stream().flatMap(entry -> {
-            return Arrays.stream(entry.getValue()).map(version -> Arguments.of(entry.getKey(), version));
-        });
-    }
-
     @ParameterizedTest(name = "Test if {0} has a biome resource")
     @EnumSource(value = MinecraftVersion.class)
     void testMissingBiomeResources(@Nonnull MinecraftVersion version) {
@@ -148,6 +87,71 @@ class TestBiomeMapCompatibility {
     @ParametersAreNonnullByDefault
     void testCompatibilities(String name, MinecraftVersion version) {
         assertCompatibility(name, version);
+    }
+
+    /**
+     * We manually specify here which biome map works on which minecraft versions.
+     * 
+     * @return A {@link Stream} of {@link Arguments} for our unit test.
+     */
+    private static @Nonnull Stream<Arguments> biomeMaps() {
+        Map<String, MinecraftVersion[]> testCases = new HashMap<>();
+
+        // @formatter:off
+        testCases.put("nether_ice_v1.14", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_14,
+            MinecraftVersion.MINECRAFT_1_15
+        });
+        
+        testCases.put("nether_ice_v1.16", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_16,
+            MinecraftVersion.MINECRAFT_1_17,
+            MinecraftVersion.MINECRAFT_1_18
+        });
+        
+        testCases.put("oil_v1.14", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_14,
+            MinecraftVersion.MINECRAFT_1_15,
+            MinecraftVersion.MINECRAFT_1_16,
+            MinecraftVersion.MINECRAFT_1_17
+        });
+        
+        testCases.put("oil_v1.18", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_18
+        });
+        
+        testCases.put("salt_v1.14", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_14,
+            MinecraftVersion.MINECRAFT_1_15,
+            MinecraftVersion.MINECRAFT_1_16,
+            MinecraftVersion.MINECRAFT_1_17
+        });
+        
+        testCases.put("salt_v1.18", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_18
+        });
+        
+        testCases.put("uranium_v1.14", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_14,
+            MinecraftVersion.MINECRAFT_1_15
+        });
+        
+        testCases.put("uranium_v1.16", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_16
+        });
+        
+        testCases.put("uranium_v1.17", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_17
+        });
+        
+        testCases.put("uranium_v1.18", new MinecraftVersion[] {
+            MinecraftVersion.MINECRAFT_1_18
+        });
+        // @formatter:on
+
+        return testCases.entrySet().stream().flatMap(entry -> {
+            return Arrays.stream(entry.getValue()).map(version -> Arguments.of(entry.getKey(), version));
+        });
     }
 
     @ParametersAreNonnullByDefault

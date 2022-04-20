@@ -1,17 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.operations;
 
-import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-import org.apache.commons.lang.Validate;
-import org.bukkit.inventory.ItemStack;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang.Validate;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+
 /**
  * This {@link MachineOperation} represents the process of burning fuel.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class FuelOperation implements MachineOperation {
 

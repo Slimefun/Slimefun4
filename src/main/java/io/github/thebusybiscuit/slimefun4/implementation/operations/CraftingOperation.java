@@ -1,16 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.implementation.operations;
 
-import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
 /**
  * This {@link MachineOperation} represents a crafting process.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class CraftingOperation implements MachineOperation {
 
@@ -40,13 +43,11 @@ public class CraftingOperation implements MachineOperation {
         currentTicks += num;
     }
 
-    public @Nonnull
-    ItemStack[] getIngredients() {
+    public @Nonnull ItemStack[] getIngredients() {
         return ingredients;
     }
 
-    public @Nonnull
-    ItemStack[] getResults() {
+    public @Nonnull ItemStack[] getResults() {
         return results;
     }
 

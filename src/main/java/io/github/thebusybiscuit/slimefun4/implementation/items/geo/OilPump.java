@@ -1,5 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.geo;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.OptionalInt;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -9,21 +21,12 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Arrays;
-import java.util.List;
-import java.util.OptionalInt;
 
 public class OilPump extends AContainer implements RecipeDisplayItem {
 
@@ -94,7 +97,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
                     OptionalInt supplies = Slimefun.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (supplies.isPresent() && supplies.getAsInt() > 0) {
-                        MachineRecipe recipe = new MachineRecipe(26, new ItemStack[]{emptyBucket}, new ItemStack[]{SlimefunItems.OIL_BUCKET});
+                        MachineRecipe recipe = new MachineRecipe(26, new ItemStack[] { emptyBucket }, new ItemStack[] { SlimefunItems.OIL_BUCKET });
 
                         inv.consumeItem(slot);
                         Slimefun.getGPSNetwork().getResourceManager().setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);

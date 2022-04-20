@@ -1,6 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import java.util.Optional;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
@@ -9,13 +20,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Optional;
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 class TestSlimefunItem {
 
@@ -55,7 +61,7 @@ class TestSlimefunItem {
     void testRecipe() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RECIPE_TEST", new CustomItemStack(Material.DIAMOND, "&dAnother one bites the test"));
 
-        ItemStack[] recipe = {null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null};
+        ItemStack[] recipe = { null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null };
         item.setRecipe(recipe);
         item.register(plugin);
 
@@ -101,7 +107,7 @@ class TestSlimefunItem {
 
     @ParameterizedTest
     @DisplayName("Test SlimefunItem#isItem(...)")
-    @ValueSource(booleans = {true, false})
+    @ValueSource(booleans = { true, false })
     void testIsItem(boolean compatibility) {
         ItemStack item = new CustomItemStack(Material.BEACON, "&cItem Test");
         String id = "IS_ITEM_TEST" + (compatibility ? "_COMPATIBLE" : "");

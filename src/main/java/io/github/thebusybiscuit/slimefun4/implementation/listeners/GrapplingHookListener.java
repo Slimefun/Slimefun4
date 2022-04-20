@@ -1,40 +1,53 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityPortalEnterEvent;
+import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 
 /**
  * This {@link Listener} is responsible for the mechanics behind the {@link GrapplingHook}.
- *
+ * 
  * @author TheBusyBiscuit
  * @author Linox
  * @author BlackBeltPanda
+ * 
  * @see GrapplingHook
+ *
  */
 public class GrapplingHookListener implements Listener {
 
+    private GrapplingHook grapplingHook;
+
     private final Map<UUID, GrapplingHookEntity> activeHooks = new HashMap<>();
     private final Set<UUID> invulnerability = new HashSet<>();
-    private GrapplingHook grapplingHook;
 
     public void register(@Nonnull Slimefun plugin, @Nonnull GrapplingHook grapplingHook) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);

@@ -1,5 +1,29 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.Tag;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.RecipeChoice.MaterialChoice;
+
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
@@ -25,37 +49,27 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoice
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.Tag;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.RecipeChoice.MaterialChoice;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
-import java.util.logging.Level;
 
 /**
  * The {@link SurvivalSlimefunGuide} is the standard version of our {@link SlimefunGuide}.
  * It uses an {@link Inventory} to display {@link SlimefunGuide} contents.
  *
  * @author TheBusyBiscuit
+ * 
  * @see SlimefunGuide
  * @see SlimefunGuideImplementation
  * @see CheatSheetSlimefunGuide
+ *
  */
 public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int MAX_ITEM_GROUPS = 36;
     private static final Sound sound = Sound.ITEM_BOOK_PAGE_TURN;
 
-    private final int[] recipeSlots = {3, 4, 5, 12, 13, 14, 21, 22, 23};
+    private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final ItemStack item;
     private final boolean showVanillaRecipes;
     private final boolean showHiddenItemGroupsInSearch;
@@ -66,48 +80,23 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
-    @ParametersAreNonnullByDefault
-    private static @Nonnull
-    ItemStack getDisplayItem(Player p, boolean isSlimefunRecipe, ItemStack item) {
-        if (isSlimefunRecipe) {
-            SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
-
-            if (slimefunItem == null) {
-                return item;
-            }
-
-            String lore = hasPermission(p, slimefunItem) ? "&fNeeds to be unlocked in " + slimefunItem.getItemGroup().getDisplayName(p) : "&fNo Permission";
-            return slimefunItem.canUse(p, false) ? item : new CustomItemStack(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", lore);
-        } else {
-            return item;
-        }
-    }
-
-    @ParametersAreNonnullByDefault
-    private static boolean hasPermission(Player p, SlimefunItem item) {
-        return Slimefun.getPermissionsService().hasPermission(p, item);
-    }
-
     /**
      * This returns the {@link Sound} which is played when someone navigates through
      * the {@link SlimefunGuide}
-     *
+     * 
      * @return The {@link Sound}
      */
-    public @Nonnull
-    Sound getSound() {
+    public @Nonnull Sound getSound() {
         return sound;
     }
 
     @Override
-    public @Nonnull
-    SlimefunGuideMode getMode() {
+    public @Nonnull SlimefunGuideMode getMode() {
         return SlimefunGuideMode.SURVIVAL_MODE;
     }
 
     @Override
-    public @Nonnull
-    ItemStack getItem() {
+    public @Nonnull ItemStack getItem() {
         return item;
     }
 
@@ -118,12 +107,14 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     /**
      * Returns a {@link List} of visible {@link ItemGroup} instances that the {@link SlimefunGuide} would display.
      *
-     * @param p       The {@link Player} who opened his {@link SlimefunGuide}
-     * @param profile The {@link PlayerProfile} of the {@link Player}
+     * @param p
+     *            The {@link Player} who opened his {@link SlimefunGuide}
+     * @param profile
+     *            The {@link PlayerProfile} of the {@link Player}
+     * 
      * @return a {@link List} of visible {@link ItemGroup} instances
      */
-    protected @Nonnull
-    List<ItemGroup> getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+    protected @Nonnull List<ItemGroup> getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<ItemGroup> groups = new LinkedList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
@@ -454,7 +445,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             recipeType = new RecipeType(optional.get());
             result = recipe.getResult();
         } else {
-            recipeItems = new ItemStack[]{null, null, null, null, new CustomItemStack(Material.BARRIER, "&4We are somehow unable to show you this Recipe :/"), null, null, null, null};
+            recipeItems = new ItemStack[] { null, null, null, null, new CustomItemStack(Material.BARRIER, "&4We are somehow unable to show you this Recipe :/"), null, null, null, null };
         }
 
         ChestMenu menu = create(p);
@@ -650,6 +641,22 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @ParametersAreNonnullByDefault
+    private static @Nonnull ItemStack getDisplayItem(Player p, boolean isSlimefunRecipe, ItemStack item) {
+        if (isSlimefunRecipe) {
+            SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+
+            if (slimefunItem == null) {
+                return item;
+            }
+
+            String lore = hasPermission(p, slimefunItem) ? "&fNeeds to be unlocked in " + slimefunItem.getItemGroup().getDisplayName(p) : "&fNo Permission";
+            return slimefunItem.canUse(p, false) ? item : new CustomItemStack(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", lore);
+        } else {
+            return item;
+        }
+    }
+
+    @ParametersAreNonnullByDefault
     private void displayRecipes(Player p, PlayerProfile profile, ChestMenu menu, RecipeDisplayItem sfItem, int page) {
         List<ItemStack> recipes = sfItem.getDisplayRecipes();
 
@@ -730,8 +737,12 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
     }
 
-    private @Nonnull
-    ChestMenu create(@Nonnull Player p) {
+    @ParametersAreNonnullByDefault
+    private static boolean hasPermission(Player p, SlimefunItem item) {
+        return Slimefun.getPermissionsService().hasPermission(p, item);
+    }
+
+    private @Nonnull ChestMenu create(@Nonnull Player p) {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.main"));
 
         menu.setEmptySlotsClickable(false);

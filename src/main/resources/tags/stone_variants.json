@@ -1,8 +1,8 @@
 {
-  "values": [
-    "minecraft:stone",
-    "minecraft:granite",
-    "minecraft:andesite",
-    "minecraft:diorite"
-  ]
+	"values" : [
+		"minecraft:stone",
+		"minecraft:granite",
+		"minecraft:andesite",
+		"minecraft:diorite"
+	]
 }

@@ -1,10 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -12,15 +22,11 @@ import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Level;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 /**
  * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is
@@ -28,9 +34,11 @@ import java.util.logging.Level;
  * It collects timings data for any ticked {@link Block} and the corresponding {@link SlimefunItem}.
  * This allows developers to identify laggy {@link SlimefunItem SlimefunItems} or {@link SlimefunAddon SlimefunAddons}.
  * But it also enables Server Admins to locate lag-inducing areas on the {@link Server}.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see TickerTask
+ *
  */
 public class SlimefunProfiler {
 
@@ -60,20 +68,25 @@ public class SlimefunProfiler {
      * an array everytime it is called.
      */
     private final PerformanceRating[] performanceRatings = PerformanceRating.values();
+
+    /**
+     * This boolean marks whether we are currently profiling or not.
+     */
+    private volatile boolean isProfiling = false;
+
     /**
      * This {@link AtomicInteger} holds the amount of blocks that still need to be
      * profiled.
      */
     private final AtomicInteger queued = new AtomicInteger(0);
+
+    private long totalElapsedTime;
+
     private final Map<ProfiledBlock, Long> timings = new ConcurrentHashMap<>();
     private final Queue<PerformanceInspector> requests = new ConcurrentLinkedQueue<>();
+
     private final AtomicLong totalMsTicked = new AtomicLong();
     private final AtomicInteger ticksPassed = new AtomicInteger();
-    /**
-     * This boolean marks whether we are currently profiling or not.
-     */
-    private volatile boolean isProfiling = false;
-    private long totalElapsedTime;
 
     /**
      * This method terminates the {@link SlimefunProfiler}.
@@ -95,7 +108,7 @@ public class SlimefunProfiler {
 
     /**
      * This method starts a new profiler entry.
-     *
+     * 
      * @return A timestamp, best fed back into {@link #closeEntry(Location, SlimefunItem, long)}
      */
     public long newEntry() {
@@ -111,10 +124,11 @@ public class SlimefunProfiler {
      * This method schedules a given amount of entries for the future.
      * Be careful to {@link #closeEntry(Location, SlimefunItem, long)} all of them again!
      * No {@link PerformanceSummary} will be sent until all entries were closed.
-     * <p>
+     * 
      * If the specified amount is negative, scheduled entries will be removed
-     *
-     * @param amount The amount of entries that should be scheduled. Can be negative
+     * 
+     * @param amount
+     *            The amount of entries that should be scheduled. Can be negative
      */
     public void scheduleEntries(int amount) {
         if (isProfiling) {
@@ -125,10 +139,14 @@ public class SlimefunProfiler {
     /**
      * This method closes a previously started entry.
      * Make sure to call {@link #newEntry()} to get the timestamp in advance.
+     * 
+     * @param l
+     *            The {@link Location} of our {@link Block}
+     * @param item
+     *            The {@link SlimefunItem} at this {@link Location}
+     * @param timestamp
+     *            The timestamp marking the start of this entry, you can retrieve it using {@link #newEntry()}
      *
-     * @param l         The {@link Location} of our {@link Block}
-     * @param item      The {@link SlimefunItem} at this {@link Location}
-     * @param timestamp The timestamp marking the start of this entry, you can retrieve it using {@link #newEntry()}
      * @return The total timings of this entry
      */
     public long closeEntry(@Nonnull Location l, @Nonnull SlimefunItem item, long timestamp) {
@@ -225,8 +243,9 @@ public class SlimefunProfiler {
     /**
      * This method requests a summary for the given {@link PerformanceInspector}.
      * The summary will be sent upon the next available moment in time.
-     *
-     * @param inspector The {@link PerformanceInspector} who shall receive this summary.
+     * 
+     * @param inspector
+     *            The {@link PerformanceInspector} who shall receive this summary.
      */
     public void requestSummary(@Nonnull PerformanceInspector inspector) {
         Validate.notNull(inspector, "Cannot request a summary for null");
@@ -324,7 +343,7 @@ public class SlimefunProfiler {
 
     /**
      * This method returns the current {@link PerformanceRating}.
-     *
+     * 
      * @return The current performance grade
      */
     @Nonnull
@@ -352,8 +371,10 @@ public class SlimefunProfiler {
     /**
      * This method checks whether the {@link SlimefunProfiler} has collected timings on
      * the given {@link Block}
-     *
-     * @param b The {@link Block}
+     * 
+     * @param b
+     *            The {@link Block}
+     * 
      * @return Whether timings of this {@link Block} have been collected
      */
     public boolean hasTimings(@Nonnull Block b) {

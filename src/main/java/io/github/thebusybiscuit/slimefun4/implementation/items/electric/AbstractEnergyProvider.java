@@ -1,5 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -10,28 +23,20 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
-import org.apache.commons.lang.Validate;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * This is an abstract super class for machines that produce energy.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see EnergyNetProvider
  * @see AGenerator
  * @see Reactor
+ *
  */
 public abstract class AbstractEnergyProvider extends SlimefunItem implements InventoryBlock, RecipeDisplayItem, EnergyNetProvider {
 
@@ -45,9 +50,9 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
     /**
      * This method returns the title that is used for the {@link Inventory} of an
      * {@link AbstractEnergyProvider} that has been opened by a Player.
-     * <p>
+     * 
      * Override this method to set the title.
-     *
+     * 
      * @return The title of the {@link Inventory} of this {@link AbstractEnergyProvider}
      */
     @Nonnull
@@ -58,9 +63,9 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
     /**
      * This method returns the {@link ItemStack} that this {@link AGenerator} will
      * use as a progress bar.
-     * <p>
+     * 
      * Override this method to set the progress bar.
-     *
+     * 
      * @return The {@link ItemStack} to use as the progress bar
      */
     @Nonnull
@@ -68,7 +73,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
 
     /**
      * This method returns the amount of energy that is produced per tick.
-     *
+     * 
      * @return The rate of energy generation
      */
     public abstract int getEnergyProduction();

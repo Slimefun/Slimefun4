@@ -1,5 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.elevator;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -13,20 +31,9 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
 
 /**
  * The {@link ElevatorPlate} is a quick way of teleportation.
@@ -139,15 +146,15 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             // @formatter:off
             if (floor.getAltitude() == b.getY()) {
                 menu.addItem(i, new CustomItemStack(
-                        Material.COMPASS,
-                        ChatColor.GRAY.toString() + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
-                        Slimefun.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor.getName()
+                    Material.COMPASS,
+                    ChatColor.GRAY.toString() + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
+                    Slimefun.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor.getName()
                 ), ChestMenuUtils.getEmptyClickHandler());
             } else {
                 menu.addItem(i, new CustomItemStack(
-                        Material.PAPER,
-                        ChatColor.GRAY.toString() + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
-                        Slimefun.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor.getName()
+                    Material.PAPER,
+                    ChatColor.GRAY.toString() + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
+                    Slimefun.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor.getName()
                 ), (player, slot, itemStack, clickAction) -> {
                     teleport(player, floor);
                     return false;

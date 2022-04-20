@@ -1,15 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
-import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -27,6 +17,18 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
+import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestGrindstoneListener {
 

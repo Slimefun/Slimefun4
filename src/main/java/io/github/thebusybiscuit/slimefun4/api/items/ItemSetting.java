@@ -1,20 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
-import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.apache.commons.lang.Validate;
+import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-import java.util.Objects;
+
+import org.apache.commons.lang.Validate;
+
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This class represents a Setting for a {@link SlimefunItem} that can be modified via
  * the {@code Items.yml} {@link Config} file.
- *
- * @param <T> The type of data stored under this {@link ItemSetting}
+ * 
  * @author TheBusyBiscuit
+ *
+ * @param <T>
+ *            The type of data stored under this {@link ItemSetting}
  */
 public class ItemSetting<T> {
 
@@ -27,10 +31,13 @@ public class ItemSetting<T> {
 
     /**
      * This creates a new {@link ItemSetting} with the given key and default value
-     *
-     * @param item         The {@link SlimefunItem} this {@link ItemSetting} belongs to
-     * @param key          The key under which this setting will be stored (relative to the {@link SlimefunItem})
-     * @param defaultValue The default value for this {@link ItemSetting}
+     * 
+     * @param item
+     *            The {@link SlimefunItem} this {@link ItemSetting} belongs to
+     * @param key
+     *            The key under which this setting will be stored (relative to the {@link SlimefunItem})
+     * @param defaultValue
+     *            The default value for this {@link ItemSetting}
      */
     @ParametersAreNonnullByDefault
     public ItemSetting(SlimefunItem item, String key, T defaultValue) {
@@ -46,8 +53,10 @@ public class ItemSetting<T> {
     /**
      * This method checks if a given input would be valid as a value for this
      * {@link ItemSetting}. You can override this method to implement your own checks.
-     *
-     * @param input The input value to validate
+     * 
+     * @param input
+     *            The input value to validate
+     * 
      * @return Whether the given input was valid
      */
     public boolean validateInput(T input) {
@@ -58,8 +67,9 @@ public class ItemSetting<T> {
      * This method updates this {@link ItemSetting} with the given value.
      * Override this method to catch changes of a value.
      * A value may never be null.
-     *
-     * @param newValue The new value for this {@link ItemSetting}
+     * 
+     * @param newValue
+     *            The new value for this {@link ItemSetting}
      */
     public void update(@Nonnull T newValue) {
         if (validateInput(newValue)) {
@@ -73,31 +83,28 @@ public class ItemSetting<T> {
 
     /**
      * This returns the key of this {@link ItemSetting}.
-     *
+     * 
      * @return The key under which this setting is stored (relative to the {@link SlimefunItem})
      */
-    public @Nonnull
-    String getKey() {
+    public @Nonnull String getKey() {
         return key;
     }
 
     /**
      * This returns the associated {@link SlimefunItem} for this {@link ItemSetting}.
-     *
+     * 
      * @return The associated {@link SlimefunItem}
      */
-    protected @Nonnull
-    SlimefunItem getItem() {
+    protected @Nonnull SlimefunItem getItem() {
         return item;
     }
 
     /**
      * This returns the <strong>current</strong> value of this {@link ItemSetting}.
-     *
+     * 
      * @return The current value
      */
-    public @Nonnull
-    T getValue() {
+    public @Nonnull T getValue() {
         if (value != null) {
             return value;
         } else {
@@ -108,18 +115,19 @@ public class ItemSetting<T> {
 
     /**
      * This returns the <strong>default</strong> value of this {@link ItemSetting}.
-     *
+     * 
      * @return The default value
      */
-    public @Nonnull
-    T getDefaultValue() {
+    public @Nonnull T getDefaultValue() {
         return defaultValue;
     }
 
     /**
      * This method checks if this {@link ItemSetting} stores the given data type.
-     *
-     * @param c The class of data type you want to compare
+     * 
+     * @param c
+     *            The class of data type you want to compare
+     * 
      * @return Whether this {@link ItemSetting} stores the given type
      */
     public boolean isType(@Nonnull Class<?> c) {
@@ -129,17 +137,17 @@ public class ItemSetting<T> {
     /**
      * This is an error message which should provide further context on what values
      * are allowed.
-     *
+     * 
      * @return An error message which is displayed when this {@link ItemSetting} is misconfigured.
      */
-    protected @Nonnull
-    String getErrorMessage() {
+    protected @Nonnull String getErrorMessage() {
         return "Only '" + defaultValue.getClass().getSimpleName() + "' values are allowed!";
     }
 
     /**
      * This method is called by a {@link SlimefunItem} which wants to load its {@link ItemSetting}
      * from the {@link Config} file.
+     * 
      */
     @SuppressWarnings("unchecked")
     public void reload() {
@@ -158,9 +166,9 @@ public class ItemSetting<T> {
                 // @formatter:off
                 item.warn(
                         "We have found an invalid config setting in your Items.yml!" +
-                                "\n  at \"" + item.getId() + "." + getKey() + "\"" +
-                                "\n  " + configuredValue + " is not a valid input!" +
-                                "\n" + getErrorMessage()
+                        "\n  at \"" + item.getId() + "." + getKey() + "\"" +
+                        "\n  " + configuredValue + " is not a valid input!" +
+                        "\n" + getErrorMessage()
                 );
                 // @formatter:on
             }
@@ -171,9 +179,9 @@ public class ItemSetting<T> {
             // @formatter:off
             item.warn(
                     "We have found an invalid config setting in your Items.yml!" +
-                            "\nPlease only use settings that are valid." +
-                            "\n  at \"" + item.getId() + "." + getKey() + "\"" +
-                            "\n  Expected \"" + defaultValue.getClass().getSimpleName() + "\" but found: \"" + found + "\""
+                    "\nPlease only use settings that are valid." +
+                    "\n  at \"" + item.getId() + "." + getKey() + "\"" +
+                    "\n  Expected \"" + defaultValue.getClass().getSimpleName() + "\" but found: \"" + found + "\""
             );
             // @formatter:on
         }

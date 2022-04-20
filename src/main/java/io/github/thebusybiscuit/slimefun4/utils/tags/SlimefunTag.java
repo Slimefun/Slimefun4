@@ -1,5 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.utils.tags;
 
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
+import org.bukkit.block.data.Waterlogged;
+
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
@@ -7,17 +25,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFu
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.CropGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.*;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
-import org.bukkit.block.data.Waterlogged;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.stream.Stream;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfTheSeeker;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfVeinMining;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPickaxe;
 
 /**
  * This enum contains various implementations of the {@link Tag} interface.
@@ -27,7 +39,9 @@ import java.util.stream.Stream;
  * and follow Minecraft's tags.json format.
  *
  * @author TheBusyBiscuit
+ *
  * @see TagParser
+ *
  */
 public enum SlimefunTag implements Tag<Material> {
 
@@ -270,41 +284,10 @@ public enum SlimefunTag implements Tag<Material> {
     }
 
     /**
-     * This method reloads every single {@link SlimefunTag} from the resources directory.
-     * It is equivalent to running {@link #reload()} on every single {@link SlimefunTag} manually.
-     * <p>
-     * Do keep in mind though that any misconfigured {@link SlimefunTag} will abort the entire
-     * method and throw a {@link TagMisconfigurationException}. So one faulty {@link SlimefunTag}
-     * will stop the reloading process.
-     *
-     * @throws TagMisconfigurationException This is thrown if one of the {@link SlimefunTag SlimefunTags} could not be parsed correctly
-     */
-    public static void reloadAll() throws TagMisconfigurationException {
-        for (SlimefunTag tag : valuesCache) {
-            tag.reload();
-        }
-    }
-
-    /**
-     * Get a value from the cache map rather than calling {@link Enum#valueOf(Class, String)}.
-     * This is 25-40% quicker than the standard {@link Enum#valueOf(Class, String)} depending on
-     * your Java version. It also means that you can avoid an IllegalArgumentException which let's
-     * face it is always good.
-     *
-     * @param value The value which you would like to look up.
-     * @return The {@link SlimefunTag} or null if it does not exist.
-     */
-    public static @Nullable
-    SlimefunTag getTag(@Nonnull String value) {
-        Validate.notNull(value, "A tag cannot be null!");
-
-        return nameLookup.get(value);
-    }
-
-    /**
      * This method reloads this {@link SlimefunTag} from our resources directory.
      *
-     * @throws TagMisconfigurationException This is thrown whenever a {@link SlimefunTag} could not be parsed properly
+     * @throws TagMisconfigurationException
+     *             This is thrown whenever a {@link SlimefunTag} could not be parsed properly
      */
     public void reload() throws TagMisconfigurationException {
         new TagParser(this).parse(this, (materials, tags) -> {
@@ -316,9 +299,25 @@ public enum SlimefunTag implements Tag<Material> {
         });
     }
 
+    /**
+     * This method reloads every single {@link SlimefunTag} from the resources directory.
+     * It is equivalent to running {@link #reload()} on every single {@link SlimefunTag} manually.
+     *
+     * Do keep in mind though that any misconfigured {@link SlimefunTag} will abort the entire
+     * method and throw a {@link TagMisconfigurationException}. So one faulty {@link SlimefunTag}
+     * will stop the reloading process.
+     *
+     * @throws TagMisconfigurationException
+     *             This is thrown if one of the {@link SlimefunTag SlimefunTags} could not be parsed correctly
+     */
+    public static void reloadAll() throws TagMisconfigurationException {
+        for (SlimefunTag tag : valuesCache) {
+            tag.reload();
+        }
+    }
+
     @Override
-    public @Nonnull
-    NamespacedKey getKey() {
+    public @Nonnull NamespacedKey getKey() {
         return key;
     }
 
@@ -340,8 +339,7 @@ public enum SlimefunTag implements Tag<Material> {
     }
 
     @Override
-    public @Nonnull
-    Set<Material> getValues() {
+    public @Nonnull Set<Material> getValues() {
         if (additionalTags.isEmpty()) {
             return Collections.unmodifiableSet(includedMaterials);
         } else {
@@ -376,8 +374,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return An immutable {@link Set} of all sub tags.
      */
-    public @Nonnull
-    Set<Tag<Material>> getSubTags() {
+    public @Nonnull Set<Tag<Material>> getSubTags() {
         return Collections.unmodifiableSet(additionalTags);
     }
 
@@ -386,8 +383,7 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return A {@link Material} array for this {@link Tag}
      */
-    public @Nonnull
-    Material[] toArray() {
+    public @Nonnull Material[] toArray() {
         return getValues().toArray(new Material[0]);
     }
 
@@ -396,9 +392,25 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @return A {@link Stream} of {@link Material Materials}
      */
-    public @Nonnull
-    Stream<Material> stream() {
+    public @Nonnull Stream<Material> stream() {
         return getValues().stream();
+    }
+
+    /**
+     * Get a value from the cache map rather than calling {@link Enum#valueOf(Class, String)}.
+     * This is 25-40% quicker than the standard {@link Enum#valueOf(Class, String)} depending on
+     * your Java version. It also means that you can avoid an IllegalArgumentException which let's
+     * face it is always good.
+     *
+     * @param value
+     *            The value which you would like to look up.
+     *
+     * @return The {@link SlimefunTag} or null if it does not exist.
+     */
+    public static @Nullable SlimefunTag getTag(@Nonnull String value) {
+        Validate.notNull(value, "A tag cannot be null!");
+
+        return nameLookup.get(value);
     }
 
 }

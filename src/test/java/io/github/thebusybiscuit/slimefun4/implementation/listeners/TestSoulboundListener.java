@@ -1,15 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
-import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.Material;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -19,6 +9,18 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
+import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.PlayerMock;
 
 class TestSoulboundListener {
 
@@ -38,7 +40,7 @@ class TestSoulboundListener {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = {true, false})
+    @ValueSource(booleans = { true, false })
     @DisplayName("Test if the soulbound item is dropped or not")
     void testItemDrop(boolean soulbound) {
         PlayerMock player = server.addPlayer();
@@ -53,7 +55,7 @@ class TestSoulboundListener {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = {true, false})
+    @ValueSource(booleans = { true, false })
     @DisplayName("Test if soulbound item is dropped if disabled")
     void testItemDropIfItemDisabled(boolean enabled) {
         PlayerMock player = server.addPlayer();
@@ -77,7 +79,7 @@ class TestSoulboundListener {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = {true, false})
+    @ValueSource(booleans = { true, false })
     @DisplayName("Test if soulbound item is returned to player")
     void testItemRecover(boolean soulbound) {
         PlayerMock player = server.addPlayer();

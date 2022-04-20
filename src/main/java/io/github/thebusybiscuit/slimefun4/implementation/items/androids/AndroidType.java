@@ -4,9 +4,11 @@ import javax.annotation.Nonnull;
 
 /**
  * This enum holds all the different types a {@link ProgrammableAndroid} can represent.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see ProgrammableAndroid
+ *
  */
 public enum AndroidType {
 

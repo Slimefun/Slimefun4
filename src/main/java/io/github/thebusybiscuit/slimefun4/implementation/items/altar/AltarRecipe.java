@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
-import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.bukkit.inventory.ItemStack;
 
 public class AltarRecipe {
 

@@ -1,11 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -13,11 +14,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
 

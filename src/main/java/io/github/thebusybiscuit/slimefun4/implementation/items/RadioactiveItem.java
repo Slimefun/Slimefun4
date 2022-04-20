@@ -1,5 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -9,22 +15,19 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A quick and easy implementation of {@link SlimefunItem} that also implements the
  * interface {@link Radioactive}.
  * This implementation is {@link NotPlaceable}!
- * <p>
+ * 
  * Simply specify a level of {@link Radioactivity} in the constructor.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see Radioactive
  * @see Radioactivity
+ *
  */
 public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPlaceable {
 
@@ -35,12 +38,17 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
 
     /**
      * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
-     *
-     * @param itemGroup     The {@link ItemGroup} of this {@link SlimefunItem}
-     * @param radioactivity the level of {@link Radioactivity}
-     * @param item          the {@link SlimefunItemStack} this {@link SlimefunItem} represents
-     * @param recipeType    The {@link RecipeType} for this item
-     * @param recipe        The recipe of how to craft this {@link SlimefunItem}
+     * 
+     * @param itemGroup
+     *            The {@link ItemGroup} of this {@link SlimefunItem}
+     * @param radioactivity
+     *            the level of {@link Radioactivity}
+     * @param item
+     *            the {@link SlimefunItemStack} this {@link SlimefunItem} represents
+     * @param recipeType
+     *            The {@link RecipeType} for this item
+     * @param recipe
+     *            The recipe of how to craft this {@link SlimefunItem}
      */
     @ParametersAreNonnullByDefault
     public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -49,13 +57,19 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
 
     /**
      * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
-     *
-     * @param itemGroup     The {@link ItemGroup} of this {@link SlimefunItem}
-     * @param radioactivity the level of {@link Radioactivity}
-     * @param item          the {@link SlimefunItemStack} this {@link SlimefunItem} represents
-     * @param recipeType    The {@link RecipeType} for this item
-     * @param recipe        The recipe of how to craft this {@link SlimefunItem}
-     * @param recipeOutput  The recipe output
+     * 
+     * @param itemGroup
+     *            The {@link ItemGroup} of this {@link SlimefunItem}
+     * @param radioactivity
+     *            the level of {@link Radioactivity}
+     * @param item
+     *            the {@link SlimefunItemStack} this {@link SlimefunItem} represents
+     * @param recipeType
+     *            The {@link RecipeType} for this item
+     * @param recipe
+     *            The recipe of how to craft this {@link SlimefunItem}
+     * @param recipeOutput
+     *            The recipe output
      */
     @ParametersAreNonnullByDefault
     public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {

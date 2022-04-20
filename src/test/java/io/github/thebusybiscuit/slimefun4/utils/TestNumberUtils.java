@@ -1,10 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
 
 class TestNumberUtils {
 

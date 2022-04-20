@@ -1,12 +1,13 @@
 package me.mrCookieSlime.CSCoreLibPlugin.Configuration;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * An old remnant of CS-CoreLib.
@@ -24,7 +25,8 @@ public class Config {
     /**
      * Creates a new Config Object for the specified File
      *
-     * @param file The File for which the Config object is created for
+     * @param file
+     *            The File for which the Config object is created for
      */
     public Config(File file) {
         this(file, YamlConfiguration.loadConfiguration(file));
@@ -33,8 +35,10 @@ public class Config {
     /**
      * Creates a new Config Object for the specified File and FileConfiguration
      *
-     * @param file   The File to save to
-     * @param config The FileConfiguration
+     * @param file
+     *            The File to save to
+     * @param config
+     *            The FileConfiguration
      */
     public Config(File file, FileConfiguration config) {
         this.file = file;
@@ -45,7 +49,8 @@ public class Config {
      * Creates a new Config Object for the File with in
      * the specified Location
      *
-     * @param path The Path of the File which the Config object is created for
+     * @param path
+     *            The Path of the File which the Config object is created for
      */
     public Config(String path) {
         this.file = new File(path);
@@ -73,8 +78,10 @@ public class Config {
     /**
      * Sets the Value for the specified Path
      *
-     * @param path  The path in the Config File
-     * @param value The Value for that Path
+     * @param path
+     *            The path in the Config File
+     * @param value
+     *            The Value for that Path
      */
     public void setValue(String path, Object value) {
         this.config.set(path, value);
@@ -86,28 +93,29 @@ public class Config {
     public void save() {
         try {
             config.save(file);
-        } catch (IOException e) {
-        }
+        } catch (IOException e) {}
     }
 
     /**
      * Saves the Config Object to a File
-     *
-     * @param file The File you are saving this Config to
+     * 
+     * @param file
+     *            The File you are saving this Config to
      */
     public void save(File file) {
         try {
             config.save(file);
-        } catch (IOException e) {
-        }
+        } catch (IOException e) {}
     }
 
     /**
      * Sets the Value for the specified Path
      * (IF the Path does not yet exist)
      *
-     * @param path  The path in the Config File
-     * @param value The Value for that Path
+     * @param path
+     *            The path in the Config File
+     * @param value
+     *            The Value for that Path
      */
     public void setDefaultValue(String path, Object value) {
         if (!contains(path)) {
@@ -118,7 +126,8 @@ public class Config {
     /**
      * Checks whether the Config contains the specified Path
      *
-     * @param path The path in the Config File
+     * @param path
+     *            The path in the Config File
      * @return True/false
      */
     public boolean contains(String path) {
@@ -128,7 +137,8 @@ public class Config {
     /**
      * Returns the Object at the specified Path
      *
-     * @param path The path in the Config File
+     * @param path
+     *            The path in the Config File
      * @return The Value at that Path
      */
     public Object getValue(String path) {
@@ -138,7 +148,8 @@ public class Config {
     /**
      * Returns the String at the specified Path
      *
-     * @param path The path in the Config File
+     * @param path
+     *            The path in the Config File
      * @return The String at that Path
      */
     public String getString(String path) {
@@ -151,8 +162,7 @@ public class Config {
     public void createFile() {
         try {
             this.file.createNewFile();
-        } catch (IOException e) {
-        }
+        } catch (IOException e) {}
     }
 
     /**
@@ -167,7 +177,8 @@ public class Config {
     /**
      * Returns all Sub-Paths in this Config
      *
-     * @param path The path in the Config File
+     * @param path
+     *            The path in the Config File
      * @return All Sub-Paths of the specified Path
      */
     public Set<String> getKeys(String path) {

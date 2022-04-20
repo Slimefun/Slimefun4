@@ -1,13 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import javax.annotation.Nonnull;
-import java.util.UUID;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 
 /**
  * This {@link Event} is called when the {@link PlayerProfile} of a {@link Player}
@@ -16,7 +18,9 @@ import java.util.UUID;
  * a custom {@link PlayerProfile} if necessary.
  *
  * @author TheBusyBiscuit
+ *
  * @see PlayerProfile
+ *
  */
 public class AsyncProfileLoadEvent extends Event {
 
@@ -35,11 +39,6 @@ public class AsyncProfileLoadEvent extends Event {
     }
 
     @Nonnull
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    @Nonnull
     public UUID getPlayerUUID() {
         return uniqueId;
     }
@@ -52,14 +51,20 @@ public class AsyncProfileLoadEvent extends Event {
     /**
      * This method can be used to inject your custom {@link PlayerProfile} implementations.
      * However, the passed {@link PlayerProfile} must have the same {@link UUID} as the original one!
-     *
-     * @param profile The {@link PlayerProfile}
+     * 
+     * @param profile
+     *            The {@link PlayerProfile}
      */
     public void setProfile(@Nonnull PlayerProfile profile) {
         Validate.notNull(profile, "The PlayerProfile cannot be null!");
         Validate.isTrue(profile.getUUID().equals(uniqueId), "Cannot inject a PlayerProfile with a different UUID");
 
         this.profile = profile;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     @Nonnull

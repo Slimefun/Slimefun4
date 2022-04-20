@@ -8,7 +8,9 @@ import org.bukkit.entity.Bee;
  *
  * @author Linox
  * @author Seggan
+ *
  * @see ProtectiveArmor
+ *
  */
 public enum ProtectionType {
 

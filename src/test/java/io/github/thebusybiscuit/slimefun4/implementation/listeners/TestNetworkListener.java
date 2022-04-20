@@ -1,10 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.thebusybiscuit.slimefun4.api.network.Network;
-import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -18,6 +13,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestNetworkListener {
 

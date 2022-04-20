@@ -1,16 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -22,17 +16,27 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.UUID;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
 
 /**
  * The {@link GrapplingHook} is a simple {@link SlimefunItem} which allows a {@link Player}
  * to launch towards a target destination via right click.
  * It also has a cool visual effect where it shows a leash following a fired {@link Arrow}.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see GrapplingHookListener
+ *
  */
 public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
@@ -48,8 +52,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
     }
 
     @Override
-    public @Nonnull
-    ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
             UUID uuid = p.getUniqueId();

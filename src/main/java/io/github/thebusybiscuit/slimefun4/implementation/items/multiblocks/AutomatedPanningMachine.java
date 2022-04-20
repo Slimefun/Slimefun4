@@ -1,5 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -11,28 +27,16 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChes
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import org.bukkit.Effect;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * The {@link AutomatedPanningMachine} is a {@link MultiBlockMachine} that
  * functions as a semi-automatic version of the {@link GoldPan} and {@link NetherGoldPan}.
- *
+ * 
  * @author TheBusyBiscuit
  * @author Liruxo
+ * 
  * @see GoldPan
+ *
  */
 public class AutomatedPanningMachine extends MultiBlockMachine {
 
@@ -41,7 +45,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public AutomatedPanningMachine(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[]{null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null}, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
     }
 
     @Override

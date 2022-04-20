@@ -1,22 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
-import javax.annotation.Nonnull;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * This {@link Listener} makes sure that an {@link AndroidMineEvent} gets properly propagated
  * to the {@link BlockBreakHandler#onAndroidBreak(AndroidMineEvent)} method of a placed block.
  * If that block is a {@link SlimefunItem} of course.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see BlockBreakHandler
+ *
  */
 public class MiningAndroidListener implements Listener {
 

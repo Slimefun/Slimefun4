@@ -1,24 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
-import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
 /**
  * This Service is responsible for automatically saving {@link Player} and {@link Block}
  * data.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class AutoSavingService {
 
@@ -26,9 +30,11 @@ public class AutoSavingService {
 
     /**
      * This method starts the {@link AutoSavingService} with the given interval.
-     *
-     * @param plugin   The current instance of Slimefun
-     * @param interval The interval in which to run this task
+     * 
+     * @param plugin
+     *            The current instance of Slimefun
+     * @param interval
+     *            The interval in which to run this task
      */
     public void start(@Nonnull Slimefun plugin, int interval) {
         this.interval = interval;

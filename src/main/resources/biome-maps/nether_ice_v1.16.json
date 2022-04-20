@@ -1,22 +1,22 @@
 [
-  {
-    "value": 32,
-    "biomes": [
-      "minecraft:nether_wastes",
-      "minecraft:soul_sand_valley"
-    ]
-  },
-  {
-    "value": 48,
-    "biomes": [
-      "minecraft:crimson_forest",
-      "minecraft:warped_forest"
-    ]
-  },
-  {
-    "value": 64,
-    "biomes": [
-      "minecraft:basalt_deltas"
-    ]
-  }
+    {
+        "value" : 32,
+        "biomes" : [
+            "minecraft:nether_wastes",
+            "minecraft:soul_sand_valley"
+        ]
+    },
+    {
+        "value" : 48,
+        "biomes" : [
+            "minecraft:crimson_forest",
+            "minecraft:warped_forest"
+        ]
+    },
+    {
+        "value" : 64,
+        "biomes" : [
+            "minecraft:basalt_deltas"
+        ]
+    }
 ]

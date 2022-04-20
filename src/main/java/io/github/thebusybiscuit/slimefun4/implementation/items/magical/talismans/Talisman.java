@@ -1,15 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.api.researches.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -26,24 +25,29 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 public class Talisman extends SlimefunItem {
 
     protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), new CustomItemStack(SlimefunItems.COMMON_TALISMAN, "&7Talismans - &aTier I"), 2);
     private static final String WIKI_PAGE = "Talismans";
+
+    private final SlimefunItemStack enderTalisman;
+
     protected final String suffix;
     protected final boolean consumable;
     protected final boolean cancel;
     protected final PotionEffect[] effects;
     protected final int chance;
-    private final SlimefunItemStack enderTalisman;
 
     @ParametersAreNonnullByDefault
     public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, PotionEffect... effects) {
@@ -84,6 +88,60 @@ public class Talisman extends SlimefunItem {
             enderTalisman = new SlimefunItemStack("ENDER_" + getId(), getItem().getType(), name, lore.toArray(new String[0]));
         } else {
             enderTalisman = null;
+        }
+    }
+
+    /**
+     * This returns whether the {@link Talisman} will be consumed upon use.
+     * 
+     * @return Whether this {@link Talisman} is consumed on use.
+     */
+    public boolean isConsumable() {
+        return consumable;
+    }
+
+    /**
+     * This returns the chance of this {@link Talisman} activating.
+     * The chance will be between 1 and 100.
+     * 
+     * @return The chance of this {@link Talisman} activating.
+     */
+    public int getChance() {
+        return chance;
+    }
+
+    @Nonnull
+    public PotionEffect[] getEffects() {
+        return effects;
+    }
+
+    protected boolean isEventCancelled() {
+        return cancel;
+    }
+
+    @Nullable
+    private SlimefunItemStack getEnderVariant() {
+        return enderTalisman;
+    }
+
+    @Override
+    public void postRegister() {
+        EnderTalisman talisman = new EnderTalisman(this, getEnderVariant());
+        talisman.register(getAddon());
+    }
+
+    @Override
+    public void load() {
+        super.load();
+        loadEnderTalisman();
+    }
+
+    void loadEnderTalisman() {
+        EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(getEnderVariant());
+        Optional<Research> research = Research.getResearch(new NamespacedKey(Slimefun.instance(), "ender_talismans"));
+
+        if (talisman != null && research.isPresent()) {
+            talisman.setResearch(research.get());
         }
     }
 
@@ -186,84 +244,11 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    @Nullable
-    private static Player getPlayerByEventType(@Nonnull Event e) {
-        if (e instanceof EntityDeathEvent) {
-            return ((EntityDeathEvent) e).getEntity().getKiller();
-        } else if (e instanceof BlockBreakEvent) {
-            return ((BlockBreakEvent) e).getPlayer();
-        } else if (e instanceof BlockDropItemEvent) {
-            return ((BlockDropItemEvent) e).getPlayer();
-        } else if (e instanceof PlayerEvent) {
-            return ((PlayerEvent) e).getPlayer();
-        } else if (e instanceof EntityEvent) {
-            return (Player) ((EntityEvent) e).getEntity();
-        } else if (e instanceof EnchantItemEvent) {
-            return ((EnchantItemEvent) e).getEnchanter();
-        }
-
-        return null;
-    }
-
-    /**
-     * This returns whether the {@link Talisman} will be consumed upon use.
-     *
-     * @return Whether this {@link Talisman} is consumed on use.
-     */
-    public boolean isConsumable() {
-        return consumable;
-    }
-
-    /**
-     * This returns the chance of this {@link Talisman} activating.
-     * The chance will be between 1 and 100.
-     *
-     * @return The chance of this {@link Talisman} activating.
-     */
-    public int getChance() {
-        return chance;
-    }
-
-    @Nonnull
-    public PotionEffect[] getEffects() {
-        return effects;
-    }
-
-    protected boolean isEventCancelled() {
-        return cancel;
-    }
-
-    @Nullable
-    private SlimefunItemStack getEnderVariant() {
-        return enderTalisman;
-    }
-
-    @Override
-    public void postRegister() {
-        EnderTalisman talisman = new EnderTalisman(this, getEnderVariant());
-        talisman.register(getAddon());
-    }
-
-    @Override
-    public void load() {
-        super.load();
-        loadEnderTalisman();
-    }
-
-    void loadEnderTalisman() {
-        EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(getEnderVariant());
-        Optional<Research> research = Research.getResearch(new NamespacedKey(Slimefun.instance(), "ender_talismans"));
-
-        if (talisman != null && research.isPresent()) {
-            talisman.setResearch(research.get());
-        }
-    }
-
     /**
      * This returns whether the {@link Talisman} is silent.
      * A silent {@link Talisman} will not send a message to a {@link Player}
      * when activated.
-     *
+     * 
      * @return Whether this {@link Talisman} is silent
      */
     public boolean isSilent() {
@@ -279,8 +264,9 @@ public class Talisman extends SlimefunItem {
      * This method sends the given {@link Player} the message of this {@link Talisman}.
      * Dependent on the selected config setting, the message will be sent via the actionbar
      * or in the chat window.
-     *
-     * @param p The {@link Player} who shall receive the message
+     * 
+     * @param p
+     *            The {@link Player} who shall receive the message
      */
     public void sendMessage(@Nonnull Player p) {
         Validate.notNull(p, "The Player must not be null.");
@@ -311,5 +297,24 @@ public class Talisman extends SlimefunItem {
         }
 
         return true;
+    }
+
+    @Nullable
+    private static Player getPlayerByEventType(@Nonnull Event e) {
+        if (e instanceof EntityDeathEvent) {
+            return ((EntityDeathEvent) e).getEntity().getKiller();
+        } else if (e instanceof BlockBreakEvent) {
+            return ((BlockBreakEvent) e).getPlayer();
+        } else if (e instanceof BlockDropItemEvent) {
+            return ((BlockDropItemEvent) e).getPlayer();
+        } else if (e instanceof PlayerEvent) {
+            return ((PlayerEvent) e).getPlayer();
+        } else if (e instanceof EntityEvent) {
+            return (Player) ((EntityEvent) e).getEntity();
+        } else if (e instanceof EnchantItemEvent) {
+            return ((EnchantItemEvent) e).getEnchanter();
+        }
+
+        return null;
     }
 }

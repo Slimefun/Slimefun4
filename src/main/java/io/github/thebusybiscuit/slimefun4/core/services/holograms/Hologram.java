@@ -1,19 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.core.services.holograms;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+
 /**
  * This represents an {@link ArmorStand} that can expire and be renamed.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 class Hologram {
 
@@ -39,8 +41,9 @@ class Hologram {
 
     /**
      * This creates a new {@link Hologram} for the given {@link UUID}.
-     *
-     * @param uniqueId The {@link UUID} of the corresponding {@link ArmorStand}
+     * 
+     * @param uniqueId
+     *            The {@link UUID} of the corresponding {@link ArmorStand}
      */
     Hologram(@Nonnull UUID uniqueId) {
         this.uniqueId = uniqueId;
@@ -52,7 +55,7 @@ class Hologram {
      * and also updates the "lastAccess" timestamp.
      * <p>
      * If the {@link ArmorStand} was removed, it will return null.
-     *
+     * 
      * @return The {@link ArmorStand} or null.
      */
     @Nullable
@@ -70,7 +73,7 @@ class Hologram {
 
     /**
      * This checks if the associated {@link ArmorStand} has despawned.
-     *
+     * 
      * @return Whether the {@link ArmorStand} despawned
      */
     boolean hasDespawned() {
@@ -81,7 +84,7 @@ class Hologram {
      * This returns whether this {@link Hologram} has expired.
      * The armorstand will expire if the last access has been more than 10
      * minutes ago.
-     *
+     * 
      * @return Whether this {@link Hologram} has expired
      */
     boolean hasExpired() {
@@ -90,8 +93,9 @@ class Hologram {
 
     /**
      * This method sets the label of this {@link Hologram}.
-     *
-     * @param label The label to set
+     * 
+     * @param label
+     *            The label to set
      */
     void setLabel(@Nullable String label) {
         if (Objects.equals(this.label, label)) {

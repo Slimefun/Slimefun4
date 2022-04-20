@@ -1,26 +1,31 @@
 package me.mrCookieSlime.Slimefun.api;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
-
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+
 /**
  * This class is used to speed up parsing of a {@link JsonObject} that is stored at
  * a given {@link Location}.
- * <p>
+ * 
  * This simply utilises a {@link HashMap} to cache the data and then provides the same getters
  * as a normal {@link Config}.
- *
+ * 
  * @author creator3
+ * 
  * @see BlockStorage
+ *
  */
 public class BlockInfoConfig extends Config {
 

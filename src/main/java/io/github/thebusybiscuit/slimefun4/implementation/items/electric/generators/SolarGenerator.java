@@ -1,5 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -9,24 +16,21 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.World.Environment;
-import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 /**
  * The {@link SolarGenerator} is a simple {@link EnergyNetProvider} which generates energy if
  * it has direct contact with sunlight.
- * <p>
+ * 
  * Some versions of the {@link SolarGenerator} will even generate energy at night, this is determined by
  * {@link #getNightEnergy()}.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see EnergyNet
  * @see EnergyNetProvider
+ *
  */
 public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
 
@@ -54,7 +58,7 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     /**
      * This method returns the amount of energy that this {@link SolarGenerator}
      * produces during the day.
-     *
+     * 
      * @return The amount of energy generated at daylight
      */
     public int getDayEnergy() {
@@ -64,7 +68,7 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     /**
      * This method returns the amount of energy that this {@link SolarGenerator}
      * produces during the night.
-     *
+     * 
      * @return The amount of energy generated at night time
      */
     public int getNightEnergy() {
@@ -103,8 +107,10 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     /**
      * This method returns whether a given {@link World} has daytime.
      * It will also return false if a thunderstorm is active in this world.
-     *
-     * @param world The {@link World} to check
+     * 
+     * @param world
+     *            The {@link World} to check
+     * 
      * @return Whether the given {@link World} has daytime and no active thunderstorm
      */
     private boolean isDaytime(World world) {

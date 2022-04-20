@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
@@ -10,13 +11,14 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 
 /**
  * This {@link Event} is fired whenever a {@link BlockPlacer} wants to place a {@link Block}.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  */
 public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
@@ -30,10 +32,13 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
     /**
      * This creates a new {@link BlockPlacerPlaceEvent}.
-     *
-     * @param blockPlacer The {@link BlockPlacer}
-     * @param placedItem  The {@link ItemStack} of the {@link Block} that was placed
-     * @param block       The placed {@link Block}
+     * 
+     * @param blockPlacer
+     *            The {@link BlockPlacer}
+     * @param placedItem
+     *            The {@link ItemStack} of the {@link Block} that was placed
+     * @param block
+     *            The placed {@link Block}
      */
     @ParametersAreNonnullByDefault
     public BlockPlacerPlaceEvent(Block blockPlacer, ItemStack placedItem, Block block) {
@@ -41,11 +46,6 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
         this.placedItem = placedItem;
         this.blockPlacer = blockPlacer;
-    }
-
-    @Nonnull
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     /**
@@ -60,7 +60,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
     /**
      * This returns the placed {@link ItemStack}.
-     *
+     * 
      * @return The placed {@link ItemStack}
      */
     @Nonnull
@@ -70,8 +70,9 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
     /**
      * This sets the placed {@link ItemStack}.
-     *
-     * @param item The {@link ItemStack} to be placed
+     * 
+     * @param item
+     *            The {@link ItemStack} to be placed
      */
     public void setItemStack(@Nonnull ItemStack item) {
         Validate.notNull(item, "The ItemStack must not be null!");
@@ -102,6 +103,11 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
      */
     public void setImmutable() {
         locked = true;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     @Nonnull

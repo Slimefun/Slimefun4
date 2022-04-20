@@ -1,23 +1,27 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 
-import javax.annotation.Nonnull;
-import java.util.logging.Level;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * This Task initializes all items, some listeners and various other stuff.
  * This has been moved to its own class to make timings log easier to read, so
  * they say "SlimefunStartupTask" instead of "Slimefun:lambda:123456789".
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class SlimefunStartupTask implements Runnable {
 
@@ -26,9 +30,11 @@ public class SlimefunStartupTask implements Runnable {
 
     /**
      * This initializes our {@link SlimefunStartupTask} for the given {@link Slimefun}.
-     *
-     * @param plugin   The main instance of our {@link Slimefun}
-     * @param runnable A {@link Runnable} containing additional operations that need to be run
+     * 
+     * @param plugin
+     *            The main instance of our {@link Slimefun}
+     * @param runnable
+     *            A {@link Runnable} containing additional operations that need to be run
      */
     public SlimefunStartupTask(@Nonnull Slimefun plugin, @Nonnull Runnable runnable) {
         this.plugin = plugin;

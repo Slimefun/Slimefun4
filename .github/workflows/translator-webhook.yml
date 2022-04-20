@@ -3,9 +3,9 @@ name: Translation Notifier
 on:
   push:
     branches:
-      - master
+    - master
     paths:
-      - 'src/main/resources/languages/en/**.yml'
+    - 'src/main/resources/languages/en/**.yml'
 
 jobs:
   notify:

@@ -1,7 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import java.util.List;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -9,14 +20,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.List;
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestBackpackCommand {
 
@@ -62,7 +68,7 @@ class TestBackpackCommand {
 
     @ParameterizedTest
     @DisplayName("Test /sf backpack with invalid id parameters")
-    @ValueSource(strings = {"", "    ", "ABC", "-100", "123456789"})
+    @ValueSource(strings = { "", "    ", "ABC", "-100", "123456789" })
     void testNonExistentBackpacks(String id) throws InterruptedException {
         Player player = server.addPlayer();
         player.setOp(true);

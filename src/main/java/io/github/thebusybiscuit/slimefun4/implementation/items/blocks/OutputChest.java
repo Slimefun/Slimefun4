@@ -1,14 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
-import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,25 +14,34 @@ import org.bukkit.block.Chest;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Optional;
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
+import io.papermc.lib.PaperLib;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * The {@link OutputChest} can be used to capture the output items from a {@link MultiBlockMachine}.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see MultiBlockMachine
+ *
  */
 public class OutputChest extends SlimefunItem {
 
     // @formatter:off
     private static final BlockFace[] possibleFaces = {
-            BlockFace.UP,
-            BlockFace.NORTH,
-            BlockFace.EAST,
-            BlockFace.SOUTH,
-            BlockFace.WEST
+        BlockFace.UP,
+        BlockFace.NORTH,
+        BlockFace.EAST,
+        BlockFace.SOUTH,
+        BlockFace.WEST
     };
     // @formatter:on
 
@@ -53,9 +58,12 @@ public class OutputChest extends SlimefunItem {
      * This {@link Optional} will be empty if no {@link OutputChest} was found or if no {@link OutputChest}
      * could fit the {@link ItemStack} inside.
      * Otherwise the {@link Inventory} of the {@link OutputChest} will be returned (as an {@link Optional}).
-     *
-     * @param b    The {@link Block} from which to look for an adjacent {@link OutputChest}
-     * @param item The {@link ItemStack} to insert
+     * 
+     * @param b
+     *            The {@link Block} from which to look for an adjacent {@link OutputChest}
+     * @param item
+     *            The {@link ItemStack} to insert
+     * 
      * @return An {@link Optional} describing the result
      */
     @Nonnull

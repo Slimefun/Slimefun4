@@ -1,18 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors;
 
-import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
 
 /**
  * This implementation of {@link PerformanceInspector} refers to a {@link CommandSender}
  * which is preferabbly a {@link ConsoleCommandSender}.
  * But it can theoretically be used for any type of {@link CommandSender} as it uses uncolored texts.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class ConsolePerformanceInspector implements PerformanceInspector {
 
@@ -28,9 +30,11 @@ public class ConsolePerformanceInspector implements PerformanceInspector {
 
     /**
      * This creates a new {@link ConsolePerformanceInspector} for the given {@link CommandSender}.
-     *
-     * @param console The {@link CommandSender}, preferabbly a {@link ConsoleCommandSender}
-     * @param verbose Whether the summary will be verbose or not
+     * 
+     * @param console
+     *            The {@link CommandSender}, preferabbly a {@link ConsoleCommandSender}
+     * @param verbose
+     *            Whether the summary will be verbose or not
      */
     public ConsolePerformanceInspector(@Nonnull CommandSender console, boolean verbose) {
         Validate.notNull(console, "CommandSender cannot be null");

@@ -1,8 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,17 +13,17 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
  * This {@link Listener} is responsible for handling any {@link Soulbound} items.
  * A {@link Soulbound} {@link ItemStack} will not drop upon a {@link Player Player's} death.
  * Instead the {@link ItemStack} is saved and given back to the {@link Player} when they respawn.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 public class SoulboundListener implements Listener {
 

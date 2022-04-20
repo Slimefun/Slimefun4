@@ -1,22 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.WorldMock;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.BlockFormEvent;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.WorldMock;
 
 class TestInfiniteBlockGenerators {
 
@@ -31,12 +37,6 @@ class TestInfiniteBlockGenerators {
     @AfterAll
     public static void unload() {
         MockBukkit.unmock();
-    }
-
-    private static Stream<Arguments> provideFaces() {
-        BlockFace[] faces = {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
-        Stream<BlockFace> stream = Arrays.stream(faces);
-        return stream.flatMap(a -> Arrays.stream(faces).filter(b -> a != b).map(b -> Arguments.of(a, b)));
     }
 
     @Test
@@ -138,7 +138,7 @@ class TestInfiniteBlockGenerators {
     }
 
     @ParameterizedTest
-    @EnumSource(value = BlockFace.class, names = {"NORTH", "EAST", "SOUTH", "WEST"})
+    @EnumSource(value = BlockFace.class, names = { "NORTH", "EAST", "SOUTH", "WEST" })
     @DisplayName("Test if a Stone Generator can be detected")
     void testValidStoneGenerator(BlockFace water) {
         InfiniteBlockGenerator generator = InfiniteBlockGenerator.STONE_GENERATOR;
@@ -157,5 +157,11 @@ class TestInfiniteBlockGenerators {
         server.getPluginManager().clearEvents();
 
         Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block));
+    }
+
+    private static Stream<Arguments> provideFaces() {
+        BlockFace[] faces = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
+        Stream<BlockFace> stream = Arrays.stream(faces);
+        return stream.flatMap(a -> Arrays.stream(faces).filter(b -> a != b).map(b -> Arguments.of(a, b)));
     }
 }

@@ -1,9 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.test.mocks;
 
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import javax.annotation.Nonnull;
+
 import org.bukkit.OfflinePlayer;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 
 public class MockProfile extends PlayerProfile {
 

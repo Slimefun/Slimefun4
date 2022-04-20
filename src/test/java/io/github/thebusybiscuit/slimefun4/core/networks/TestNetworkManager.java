@@ -1,22 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.core.networks;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.thebusybiscuit.slimefun4.api.network.Network;
-import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
-import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
-import io.github.thebusybiscuit.slimefun4.test.mocks.MockNetwork;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mockito;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
+
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
+import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
+import io.github.thebusybiscuit.slimefun4.test.mocks.MockNetwork;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestNetworkManager {
 
@@ -49,7 +55,7 @@ class TestNetworkManager {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = {true, false})
+    @ValueSource(booleans = { true, false })
     @DisplayName("Test visualizer setting")
     void testVisualizerSetting(boolean enabled) {
         NetworkManager manager = new NetworkManager(200, enabled, false);
@@ -58,7 +64,7 @@ class TestNetworkManager {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = {true, false})
+    @ValueSource(booleans = { true, false })
     @DisplayName("Test item deletion setting")
     void testItemDeletionSetting(boolean enabled) {
         NetworkManager manager = new NetworkManager(200, true, enabled);

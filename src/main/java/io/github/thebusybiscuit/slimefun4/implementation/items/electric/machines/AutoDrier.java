@@ -1,26 +1,30 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
 /**
  * The {@link AutoDrier} is an implementation of {@link AContainer} that features recipes
  * related to "drying out" items.
  * It also allows you to convert Rotten Flesh into Leather.
- *
+ * 
  * @author Linox
+ *
  */
 public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHopperable {
 

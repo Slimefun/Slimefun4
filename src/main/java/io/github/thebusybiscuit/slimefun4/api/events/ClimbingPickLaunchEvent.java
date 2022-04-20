@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -11,23 +13,26 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
 
 /**
  * An {@link Event} that is called whenever a {@link Player} has
  * used a {@link ClimbingPick} on a climbable surface.
  *
  * @author Linox
+ *
  * @see ClimbingPick
+ *
  */
 public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
+
+    private Vector velocity;
     private final ClimbingPick pick;
     private final ItemStack itemStack;
     private final Block block;
-    private Vector velocity;
+
     private boolean cancelled;
 
     @ParametersAreNonnullByDefault
@@ -38,11 +43,6 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
         this.pick = pick;
         this.itemStack = itemStack;
         this.block = block;
-    }
-
-    @Nonnull
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     /**
@@ -59,7 +59,8 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
     /**
      * Use this to change the velocity {@link Vector} applied to the {@link Player}.
      *
-     * @param velocity The {@link Vector} velocity to apply
+     * @param velocity
+     *            The {@link Vector} velocity to apply
      */
     public void setVelocity(@Nonnull Vector velocity) {
         Validate.notNull(velocity);
@@ -104,6 +105,11 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     @Nonnull

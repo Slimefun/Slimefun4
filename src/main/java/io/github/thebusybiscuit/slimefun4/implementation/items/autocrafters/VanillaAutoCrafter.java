@@ -1,17 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
-import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,22 +24,31 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.papermc.lib.PaperLib;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 /**
  * The {@link VanillaAutoCrafter} is an implementation of the {@link AbstractAutoCrafter}.
  * It can craft items that are crafted using a normal crafting table.
  * Only {@link ShapedRecipe} and {@link ShapelessRecipe} are therefore supported.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see AbstractAutoCrafter
  * @see EnhancedAutoCrafter
  * @see VanillaRecipe
+ *
  */
 public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
@@ -53,8 +58,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
     }
 
     @Override
-    public @Nullable
-    AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
+    public @Nullable AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof Skull) {

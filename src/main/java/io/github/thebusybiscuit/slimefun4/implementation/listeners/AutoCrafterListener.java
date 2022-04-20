@@ -1,12 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.VanillaAutoCrafter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
+import java.util.Optional;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.GameRule;
 import org.bukkit.Keyed;
 import org.bukkit.block.Block;
@@ -18,8 +15,13 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Optional;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.VanillaAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
 
 /**
  * This {@link Listener} is responsible for providing interactions to the auto crafters.
@@ -29,6 +31,7 @@ import java.util.Optional;
  *
  * @author TheBusyBiscuit
  * @author LilBC
+ * 
  * @see VanillaAutoCrafter
  * @see EnhancedAutoCrafter
  */

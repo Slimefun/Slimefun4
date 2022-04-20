@@ -1,12 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.test.mocks;
 
+import java.util.Map;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
-import org.bukkit.Location;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Map;
 
 public class MockNetwork extends Network {
 

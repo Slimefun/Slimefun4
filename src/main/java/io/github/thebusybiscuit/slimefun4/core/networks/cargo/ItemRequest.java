@@ -1,10 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import java.util.Objects;
+
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Objects;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 class ItemRequest {
 

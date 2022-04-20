@@ -1,15 +1,22 @@
 package io.github.thebusybiscuit.slimefun4.utils.biomes;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import com.google.gson.JsonElement;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.NamespacedKey;
-import org.bukkit.block.Biome;
-import org.junit.jupiter.api.*;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Biome;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import com.google.gson.JsonElement;
+
+import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 class TestBiomeMap {
 
@@ -93,8 +100,7 @@ class TestBiomeMap {
     }
 
     @ParametersAreNonnullByDefault
-    private @Nonnull
-    <T> BiomeMap<T> createBiomeMap(BiomeDataConverter<T> function, String json) {
+    private @Nonnull <T> BiomeMap<T> createBiomeMap(BiomeDataConverter<T> function, String json) {
         BiomeMapParser<T> parser = new BiomeMapParser<>(key, function);
 
         try {

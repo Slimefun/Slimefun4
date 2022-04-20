@@ -1,16 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import java.io.File;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.plugin.Plugin;
+
 import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.updater.GitHubBuildsUpdater;
 import io.github.bakedlibs.dough.updater.PluginUpdater;
 import io.github.bakedlibs.dough.versions.PrefixedVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.plugin.Plugin;
-
-import javax.annotation.Nonnull;
-import java.io.File;
-import java.util.logging.Level;
 
 /**
  * This Class represents our {@link PluginUpdater} Service.
@@ -18,6 +20,7 @@ import java.util.logging.Level;
  * to check for updates and to download them automatically.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class UpdaterService {
 
@@ -41,9 +44,12 @@ public class UpdaterService {
      * This will create a new {@link UpdaterService} for the given {@link Slimefun}.
      * The {@link File} should be the result of the getFile() operation of that {@link Plugin}.
      *
-     * @param plugin  The instance of Slimefun
-     * @param version The current version of Slimefun
-     * @param file    The {@link File} of this {@link Plugin}
+     * @param plugin
+     *            The instance of Slimefun
+     * @param version
+     *            The current version of Slimefun
+     * @param file
+     *            The {@link File} of this {@link Plugin}
      */
     public UpdaterService(@Nonnull Slimefun plugin, @Nonnull String version, @Nonnull File file) {
         this.plugin = plugin;
@@ -84,8 +90,7 @@ public class UpdaterService {
      *
      * @return The branch this build of Slimefun is on.
      */
-    public @Nonnull
-    SlimefunBranch getBranch() {
+    public @Nonnull SlimefunBranch getBranch() {
         return branch;
     }
 

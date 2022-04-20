@@ -1,13 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
+import java.util.function.Consumer;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -18,9 +15,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Consumer;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestGuideOpening {
 
@@ -39,8 +42,7 @@ class TestGuideOpening {
     }
 
     @ParametersAreNonnullByDefault
-    private @Nonnull
-    PlayerProfile prepare(SlimefunGuideImplementation guide, Consumer<GuideHistory> consumer) throws InterruptedException {
+    private @Nonnull PlayerProfile prepare(SlimefunGuideImplementation guide, Consumer<GuideHistory> consumer) throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
@@ -53,8 +55,7 @@ class TestGuideOpening {
     @DisplayName("Test if the Slimefun Guide Main Menu can be opened from the History")
     void testOpenMainMenu() throws InterruptedException {
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
-        PlayerProfile profile = prepare(guide, history -> {
-        });
+        PlayerProfile profile = prepare(guide, history -> {});
         Mockito.verify(guide).openMainMenu(profile, 1);
     }
 

@@ -5,9 +5,9 @@ import org.bukkit.inventory.ItemStack;
 // This class will be rewritten in the "Recipe Rewrite"
 public class MachineRecipe {
 
+    private int ticks;
     private final ItemStack[] input;
     private final ItemStack[] output;
-    private int ticks;
 
     public MachineRecipe(int seconds, ItemStack[] input, ItemStack[] output) {
         this.ticks = seconds * 2;
@@ -23,12 +23,12 @@ public class MachineRecipe {
         return this.output;
     }
 
-    public int getTicks() {
-        return ticks;
-    }
-
     public void setTicks(int ticks) {
         this.ticks = ticks;
+    }
+
+    public int getTicks() {
+        return ticks;
     }
 
 }

@@ -1,19 +1,22 @@
 package io.github.thebusybiscuit.slimefun4.api.items.settings;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import org.apache.commons.lang.Validate;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
 /**
  * This variation of {@link ItemSetting} allows you to define an {@link Integer} range
  * and enforces this range using the {@link #validateInput(Integer)} method.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see ItemSetting
  * @see DoubleRangeSetting
+ *
  */
 public class IntRangeSetting extends ItemSetting<Integer> {
 
@@ -42,7 +45,7 @@ public class IntRangeSetting extends ItemSetting<Integer> {
 
     /**
      * This returns the minimum value of this {@link IntRangeSetting}.
-     *
+     * 
      * @return The minimum value
      */
     public final int getMinimum() {
@@ -51,7 +54,7 @@ public class IntRangeSetting extends ItemSetting<Integer> {
 
     /**
      * This returns the maximum value of this {@link IntRangeSetting}.
-     *
+     * 
      * @return The maximum value
      */
     public final int getMaximum() {

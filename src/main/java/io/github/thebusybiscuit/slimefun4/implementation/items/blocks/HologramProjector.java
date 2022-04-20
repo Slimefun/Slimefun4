@@ -1,5 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -15,30 +28,21 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link HologramProjector} is a very simple block which allows the {@link Player}
  * to create a floating text that is completely configurable.
- *
+ * 
  * @author TheBusyBiscuit
  * @author Kry-Vosa
  * @author SoSeDiK
+ * 
  * @see HologramOwner
  * @see HologramsService
+ *
  */
 public class HologramProjector extends SlimefunItem implements HologramOwner {
 
@@ -51,53 +55,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         addItemHandler(onPlace(), onRightClick(), onBreak());
     }
 
-    private static ArmorStand getArmorStand(@Nonnull Block projector, boolean createIfNoneExists) {
-        String nametag = BlockStorage.getLocationInfo(projector.getLocation(), "text");
-        double offset = Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER));
-        Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
-
-        for (Entity n : l.getChunk().getEntities()) {
-            if (n instanceof ArmorStand && l.distanceSquared(n.getLocation()) < 0.4) {
-                String customName = n.getCustomName();
-
-                if (customName != null && customName.equals(nametag)) {
-                    return (ArmorStand) n;
-                }
-            }
-        }
-
-        if (!createIfNoneExists) {
-            return null;
-        }
-
-        ArmorStand hologram = spawnArmorStand(l);
-        hologram.setCustomName(nametag);
-        return hologram;
-    }
-
-    private static @Nonnull
-    ArmorStand spawnArmorStand(@Nonnull Location l) {
-        ArmorStand armorStand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
-        armorStand.setVisible(false);
-        armorStand.setSilent(true);
-        armorStand.setMarker(true);
-        armorStand.setGravity(false);
-        armorStand.setBasePlate(false);
-        armorStand.setCustomNameVisible(true);
-        armorStand.setRemoveWhenFarAway(false);
-        return armorStand;
-    }
-
-    private static void killArmorStand(@Nonnull Block b) {
-        ArmorStand hologram = getArmorStand(b, false);
-
-        if (hologram != null) {
-            hologram.remove();
-        }
-    }
-
-    private @Nonnull
-    BlockPlaceHandler onPlace() {
+    private @Nonnull BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
@@ -113,8 +71,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         };
     }
 
-    private @Nonnull
-    BlockBreakHandler onBreak() {
+    private @Nonnull BlockBreakHandler onBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
@@ -124,8 +81,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         };
     }
 
-    public @Nonnull
-    BlockUseHandler onRightClick() {
+    public @Nonnull BlockUseHandler onRightClick() {
         return e -> {
             e.cancel();
 
@@ -176,5 +132,49 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         });
 
         menu.open(p);
+    }
+
+    private static ArmorStand getArmorStand(@Nonnull Block projector, boolean createIfNoneExists) {
+        String nametag = BlockStorage.getLocationInfo(projector.getLocation(), "text");
+        double offset = Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER));
+        Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
+
+        for (Entity n : l.getChunk().getEntities()) {
+            if (n instanceof ArmorStand && l.distanceSquared(n.getLocation()) < 0.4) {
+                String customName = n.getCustomName();
+
+                if (customName != null && customName.equals(nametag)) {
+                    return (ArmorStand) n;
+                }
+            }
+        }
+
+        if (!createIfNoneExists) {
+            return null;
+        }
+
+        ArmorStand hologram = spawnArmorStand(l);
+        hologram.setCustomName(nametag);
+        return hologram;
+    }
+
+    private static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location l) {
+        ArmorStand armorStand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
+        armorStand.setVisible(false);
+        armorStand.setSilent(true);
+        armorStand.setMarker(true);
+        armorStand.setGravity(false);
+        armorStand.setBasePlate(false);
+        armorStand.setCustomNameVisible(true);
+        armorStand.setRemoveWhenFarAway(false);
+        return armorStand;
+    }
+
+    private static void killArmorStand(@Nonnull Block b) {
+        ArmorStand hologram = getArmorStand(b, false);
+
+        if (hologram != null) {
+            hologram.remove();
+        }
     }
 }

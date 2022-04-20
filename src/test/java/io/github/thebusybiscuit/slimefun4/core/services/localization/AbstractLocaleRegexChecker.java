@@ -1,16 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import org.apache.commons.lang.Validate;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.params.provider.Arguments;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +10,19 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.provider.Arguments;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 class AbstractLocaleRegexChecker {
 
@@ -42,14 +44,7 @@ class AbstractLocaleRegexChecker {
         MockBukkit.unmock();
     }
 
-    static @Nonnull
-    Stream<Arguments> getAllLanguageFiles() {
-        Stream<LanguagePreset> stream = Arrays.stream(LanguagePreset.values());
-        return stream.flatMap(a -> Arrays.stream(LanguageFile.values()).map(b -> Arguments.of(a, b)));
-    }
-
-    public @Nonnull
-    Pattern getPattern() {
+    public @Nonnull Pattern getPattern() {
         return this.pattern;
     }
 
@@ -98,6 +93,11 @@ class AbstractLocaleRegexChecker {
         if (hasMatch) {
             Assertions.fail("Mistake found @ \"" + location + "\" - \"" + matcher.group() + "\"!");
         }
+    }
+
+    static @Nonnull Stream<Arguments> getAllLanguageFiles() {
+        Stream<LanguagePreset> stream = Arrays.stream(LanguagePreset.values());
+        return stream.flatMap(a -> Arrays.stream(LanguageFile.values()).map(b -> Arguments.of(a, b)));
     }
 
 }

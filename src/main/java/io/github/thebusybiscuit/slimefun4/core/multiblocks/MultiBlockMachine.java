@@ -1,5 +1,25 @@
 package io.github.thebusybiscuit.slimefun4.core.multiblocks;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Container;
+import org.bukkit.block.Dispenser;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -14,31 +34,15 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHan
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Container;
-import org.bukkit.block.Dispenser;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * A {@link MultiBlockMachine} is a {@link SlimefunItem} that is built in the {@link World}.
  * It holds recipes and a {@link MultiBlock} object which represents its structure.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see MultiBlock
+ *
  */
 public abstract class MultiBlockMachine extends SlimefunItem implements NotPlaceable, RecipeDisplayItem {
 
@@ -62,40 +66,20 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         this(itemGroup, item, recipe, new ItemStack[0], trigger);
     }
 
-    private static @Nonnull
-    Material[] convertItemStacksToMaterial(@Nonnull ItemStack[] items) {
-        List<Material> materials = new ArrayList<>();
-
-        for (ItemStack item : items) {
-            if (item == null) {
-                materials.add(null);
-            } else if (item.getType() == Material.FLINT_AND_STEEL) {
-                materials.add(Material.FIRE);
-            } else {
-                materials.add(item.getType());
-            }
-        }
-
-        return materials.toArray(new Material[0]);
-    }
-
     protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
         // Override this method to register some default recipes
     }
 
-    public @Nonnull
-    List<ItemStack[]> getRecipes() {
+    public @Nonnull List<ItemStack[]> getRecipes() {
         return recipes;
     }
 
     @Override
-    public @Nonnull
-    List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         return displayRecipes;
     }
 
-    public @Nonnull
-    MultiBlock getMultiBlock() {
+    public @Nonnull MultiBlock getMultiBlock() {
         return multiblock;
     }
 
@@ -103,7 +87,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         Validate.notNull(output, "Recipes must have an Output!");
 
         recipes.add(input);
-        recipes.add(new ItemStack[]{output});
+        recipes.add(new ItemStack[] { output });
     }
 
     @Override
@@ -125,13 +109,12 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
             SlimefunItem item = SlimefunItem.getByItem(recipeItem);
 
             if (item == null || !item.isDisabled()) {
-                recipes.add(new ItemStack[]{recipeItem});
+                recipes.add(new ItemStack[] { recipeItem });
             }
         }
     }
 
-    protected @Nonnull
-    MultiBlockInteractionHandler getInteractionHandler() {
+    protected @Nonnull MultiBlockInteractionHandler getInteractionHandler() {
         return (p, mb, b) -> {
             if (mb.equals(getMultiBlock())) {
                 if (canUse(p, true) && Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK)) {
@@ -152,22 +135,24 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
      * Fallbacks to the old system of putting the adding back into the dispenser.
      * Optional last argument Inventory placeCheckerInv is for a {@link MultiBlockMachine} that create
      * a dummy inventory to check if there's a space for the adding, i.e. Enhanced crafting table
-     *
-     * @param adding    The {@link ItemStack} that should be added
-     * @param dispBlock The {@link Block} of our {@link Dispenser}
-     * @param dispInv   The {@link Inventory} of our {@link Dispenser}
+     * 
+     * @param adding
+     *            The {@link ItemStack} that should be added
+     * @param dispBlock
+     *            The {@link Block} of our {@link Dispenser}
+     * @param dispInv
+     *            The {@link Inventory} of our {@link Dispenser}
+     * 
      * @return The target {@link Inventory}
      */
 
     @ParametersAreNonnullByDefault
-    protected @Nullable
-    Inventory findOutputInventory(ItemStack adding, Block dispBlock, Inventory dispInv) {
+    protected @Nullable Inventory findOutputInventory(ItemStack adding, Block dispBlock, Inventory dispInv) {
         return findOutputInventory(adding, dispBlock, dispInv, dispInv);
     }
 
     @ParametersAreNonnullByDefault
-    protected @Nullable
-    Inventory findOutputInventory(ItemStack product, Block dispBlock, Inventory dispInv, Inventory placeCheckerInv) {
+    protected @Nullable Inventory findOutputInventory(ItemStack product, Block dispBlock, Inventory dispInv, Inventory placeCheckerInv) {
         Optional<Inventory> outputChest = OutputChest.findOutputChestFor(dispBlock, product);
 
         /*
@@ -185,9 +170,13 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     /**
      * This method handles an output {@link ItemStack} from the {@link MultiBlockMachine} which has a crafting delay
      *
-     * @param outputItem A crafted {@link ItemStack} from {@link MultiBlockMachine}
-     * @param block      Main {@link Block} of our {@link Container} from {@link MultiBlockMachine}
-     * @param blockInv   The {@link Inventory} of our {@link Container}
+     * @param outputItem
+     *            A crafted {@link ItemStack} from {@link MultiBlockMachine}
+     * @param block
+     *            Main {@link Block} of our {@link Container} from {@link MultiBlockMachine}
+     * @param blockInv
+     *            The {@link Inventory} of our {@link Container}
+     *
      */
     @ParametersAreNonnullByDefault
     protected void handleCraftedItem(ItemStack outputItem, Block block, Inventory blockInv) {
@@ -203,6 +192,22 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
                 SlimefunUtils.spawnItem(block.getLocation(), rest, ItemSpawnReason.MULTIBLOCK_MACHINE_OVERFLOW, true);
             }
         }
+    }
+
+    private static @Nonnull Material[] convertItemStacksToMaterial(@Nonnull ItemStack[] items) {
+        List<Material> materials = new ArrayList<>();
+
+        for (ItemStack item : items) {
+            if (item == null) {
+                materials.add(null);
+            } else if (item.getType() == Material.FLINT_AND_STEEL) {
+                materials.add(Material.FIRE);
+            } else {
+                materials.add(item.getType());
+            }
+        }
+
+        return materials.toArray(new Material[0]);
     }
 
 }

@@ -1,14 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
-import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
-import io.github.bakedlibs.dough.skins.PlayerHead;
-import io.github.bakedlibs.dough.skins.PlayerSkin;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.function.Consumer;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -21,18 +23,23 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.function.Consumer;
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
+import io.github.bakedlibs.dough.skins.PlayerHead;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 /**
  * The {@link SlimefunItemStack} functions as the base for any
  * {@link SlimefunItem}.
- *
+ * 
  * @author TheBusyBiscuit
  * @author Walshy
+ *
  */
 public class SlimefunItemStack extends ItemStack {
 
@@ -189,38 +196,12 @@ public class SlimefunItemStack extends ItemStack {
         this.texture = getTexture(id, texture);
     }
 
-    private static @Nonnull
-    ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
-        if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
-            return new ItemStack(Material.PLAYER_HEAD);
-        }
-
-        PlayerSkin skin = PlayerSkin.fromBase64(getTexture(id, texture));
-        return PlayerHead.getItemStack(skin);
-    }
-
-    private static @Nonnull
-    String getTexture(@Nonnull String id, @Nonnull String texture) {
-        Validate.notNull(id, "The id cannot be null");
-        Validate.notNull(texture, "The texture cannot be null");
-
-        if (texture.startsWith("ey")) {
-            return texture;
-        } else if (CommonPatterns.HEXADECIMAL.matcher(texture).matches()) {
-            String value = "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}";
-            return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
-        } else {
-            throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
-        }
-    }
-
     /**
      * Returns the id that was given to this {@link SlimefunItemStack}.
-     *
+     * 
      * @return The {@link SlimefunItem} id for this {@link SlimefunItemStack}
      */
-    public final @Nonnull
-    String getItemId() {
+    public final @Nonnull String getItemId() {
         return id;
     }
 
@@ -230,31 +211,31 @@ public class SlimefunItemStack extends ItemStack {
      *
      * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
      */
-    public @Nullable
-    SlimefunItem getItem() {
+    public @Nullable SlimefunItem getItem() {
         return SlimefunItem.getById(id);
     }
 
     /**
      * This method returns the associated {@link SlimefunItem} and casts it to the provided
      * {@link Class}.
-     * <p>
+     * 
      * If no item was found or the found {@link SlimefunItem} is not of the requested type,
      * the method will return null.
-     *
-     * @param <T>  The type of {@link SlimefunItem} to cast this to
-     * @param type The {@link Class} of the target {@link SlimefunItem}
+     * 
+     * @param <T>
+     *            The type of {@link SlimefunItem} to cast this to
+     * @param type
+     *            The {@link Class} of the target {@link SlimefunItem}
+     * 
      * @return The {@link SlimefunItem} this {@link SlimefunItem} represents, casted to the given type
      */
 
-    public @Nullable
-    <T extends SlimefunItem> T getItem(@Nonnull Class<T> type) {
+    public @Nullable <T extends SlimefunItem> T getItem(@Nonnull Class<T> type) {
         SlimefunItem item = getItem();
         return type.isInstance(item) ? type.cast(item) : null;
     }
 
-    public @Nonnull
-    ItemMetaSnapshot getItemMetaSnapshot() {
+    public @Nonnull ItemMetaSnapshot getItemMetaSnapshot() {
         return itemMetaSnapshot;
     }
 
@@ -288,19 +269,40 @@ public class SlimefunItemStack extends ItemStack {
         locked = true;
     }
 
-    public @Nonnull
-    Optional<String> getSkullTexture() {
+    public @Nonnull Optional<String> getSkullTexture() {
         return Optional.ofNullable(texture);
     }
 
-    public @Nullable
-    String getDisplayName() {
+    public @Nullable String getDisplayName() {
         if (itemMetaSnapshot == null) {
             // Just to be extra safe
             return null;
         }
 
         return itemMetaSnapshot.getDisplayName().orElse(null);
+    }
+
+    private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
+        if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            return new ItemStack(Material.PLAYER_HEAD);
+        }
+
+        PlayerSkin skin = PlayerSkin.fromBase64(getTexture(id, texture));
+        return PlayerHead.getItemStack(skin);
+    }
+
+    private static @Nonnull String getTexture(@Nonnull String id, @Nonnull String texture) {
+        Validate.notNull(id, "The id cannot be null");
+        Validate.notNull(texture, "The texture cannot be null");
+
+        if (texture.startsWith("ey")) {
+            return texture;
+        } else if (CommonPatterns.HEXADECIMAL.matcher(texture).matches()) {
+            String value = "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}";
+            return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+        } else {
+            throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
+        }
     }
 
     @Override

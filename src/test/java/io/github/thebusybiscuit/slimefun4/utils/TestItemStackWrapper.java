@@ -1,16 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.junit.jupiter.api.*;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
+import be.seeseemelk.mockbukkit.MockBukkit;
 
 class TestItemStackWrapper {
 
@@ -83,7 +90,7 @@ class TestItemStackWrapper {
     @Test
     @DisplayName("Test wrapping an ItemStack Array")
     void testWrapArray() {
-        ItemStack[] items = {new ItemStack(Material.DIAMOND), null, new ItemStack(Material.EMERALD), new CustomItemStack(Material.REDSTONE, "&4Firey thing", "with lore :o")};
+        ItemStack[] items = { new ItemStack(Material.DIAMOND), null, new ItemStack(Material.EMERALD), new CustomItemStack(Material.REDSTONE, "&4Firey thing", "with lore :o") };
         ItemStackWrapper[] wrappers = ItemStackWrapper.wrapArray(items);
 
         Assertions.assertEquals(items.length, wrappers.length);

@@ -1,9 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.block.BlockMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import java.util.stream.Stream;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import io.github.thebusybiscuit.slimefun4.api.events.ClimbingPickLaunchEvent;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,19 +27,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.presets.SlimefunItemTest;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.EnumSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
-import javax.annotation.Nonnull;
-import java.util.stream.Stream;
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.block.BlockMock;
+import be.seeseemelk.mockbukkit.entity.PlayerMock;
 
 class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
@@ -43,16 +50,6 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     @AfterAll
     public static void unload() {
         MockBukkit.unmock();
-    }
-
-    private static Stream<Arguments> getStrongSurfaces() throws TagMisconfigurationException {
-        SlimefunTag.reloadAll();
-        return SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.getValues().stream().map(Arguments::of);
-    }
-
-    private static Stream<Arguments> getWeakSurfaces() throws TagMisconfigurationException {
-        SlimefunTag.reloadAll();
-        return SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.getValues().stream().map(Arguments::of);
     }
 
     @Override
@@ -84,6 +81,11 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         Assertions.assertEquals(1, pick.getClimbableSurfaces().stream().filter(s -> s.getType() == surface).count());
     }
 
+    private static Stream<Arguments> getStrongSurfaces() throws TagMisconfigurationException {
+        SlimefunTag.reloadAll();
+        return SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.getValues().stream().map(Arguments::of);
+    }
+
     @ParameterizedTest
     @DisplayName("Test Climbing Pick on weak surfaces")
     @MethodSource("getWeakSurfaces")
@@ -94,6 +96,11 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         Assertions.assertTrue(SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.isTagged(surface));
         Assertions.assertEquals(WEAK_SURFACE_DEFAULT, speed);
         Assertions.assertEquals(1, pick.getClimbableSurfaces().stream().filter(s -> s.getType() == surface).count());
+    }
+
+    private static Stream<Arguments> getWeakSurfaces() throws TagMisconfigurationException {
+        SlimefunTag.reloadAll();
+        return SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.getValues().stream().map(Arguments::of);
     }
 
     @Test
@@ -118,7 +125,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
     @ParameterizedTest
     @DisplayName("Test Climbing Pick on various Block Faces")
-    @EnumSource(value = BlockFace.class, names = {"UP", "DOWN", "NORTH", "EAST", "SOUTH", "WEST"})
+    @EnumSource(value = BlockFace.class, names = { "UP", "DOWN", "NORTH", "EAST", "SOUTH", "WEST" })
     void testItemUse(BlockFace face) {
         PlayerMock player = server.addPlayer();
         ClimbingPick pick = registerSlimefunItem(plugin, "TEST_CLIMBING_PICK_" + face.name());

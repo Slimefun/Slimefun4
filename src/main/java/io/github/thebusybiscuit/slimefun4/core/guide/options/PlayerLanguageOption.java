@@ -1,5 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -10,16 +20,8 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 class PlayerLanguageOption implements SlimefunGuideOption<String> {
 

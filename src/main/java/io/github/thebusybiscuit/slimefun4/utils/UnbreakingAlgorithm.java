@@ -1,16 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
-import org.bukkit.enchantments.Enchantment;
+import java.util.function.IntFunction;
 
 import javax.annotation.Nonnull;
-import java.util.function.IntFunction;
+
+import org.bukkit.enchantments.Enchantment;
+
+import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 
 /**
  * This a enum evaluating and indicating a {@link DamageableItem} 's chance to be damaged
  * depending if it is a tool or an armor
  *
  * @author RobotHanzo
+ * 
  * @see DamageableItem
  */
 public enum UnbreakingAlgorithm {
@@ -36,9 +39,12 @@ public enum UnbreakingAlgorithm {
      * This method will randomly decide if the item should be damaged or not
      * based on the internal formula of this {@link UnbreakingAlgorithm}.
      * If this method returns true, the item should not take damage.
-     *
-     * @param unbreakingLevel The {@link Integer} level of the unbreaking {@link Enchantment}
+     * 
+     * @param unbreakingLevel
+     *            The {@link Integer} level of the unbreaking {@link Enchantment}
+     * 
      * @return Whether to save the item from taking damage
+     *
      */
     public boolean evaluate(int unbreakingLevel) {
         if (unbreakingLevel > 0) {

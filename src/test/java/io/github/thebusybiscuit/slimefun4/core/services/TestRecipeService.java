@@ -1,17 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.bakedlibs.dough.recipes.RecipeSnapshot;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.RecipeChoice.MaterialChoice;
-import org.junit.jupiter.api.*;
-
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.RecipeChoice.MaterialChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import io.github.bakedlibs.dough.recipes.RecipeSnapshot;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestRecipeService {
 
@@ -105,7 +116,7 @@ class TestRecipeService {
         service.refresh();
 
         RecipeChoice[] shape = service.getRecipeShape(recipe);
-        Assertions.assertArrayEquals(new RecipeChoice[]{choice, null, choice, null, choice, null, choice, null, choice}, shape);
+        Assertions.assertArrayEquals(new RecipeChoice[] { choice, null, choice, null, choice, null, choice, null, choice }, shape);
     }
 
     @Test
@@ -123,7 +134,7 @@ class TestRecipeService {
         service.refresh();
 
         RecipeChoice[] shape = service.getRecipeShape(recipe);
-        Assertions.assertArrayEquals(new RecipeChoice[]{choice, choice, null, choice, choice, null}, shape);
+        Assertions.assertArrayEquals(new RecipeChoice[] { choice, choice, null, choice, choice, null }, shape);
     }
 
     @Test
@@ -141,7 +152,7 @@ class TestRecipeService {
         server.addRecipe(recipe);
         service.refresh();
 
-        Assertions.assertArrayEquals(new RecipeChoice[]{choice}, service.getRecipeShape(recipe));
+        Assertions.assertArrayEquals(new RecipeChoice[] { choice }, service.getRecipeShape(recipe));
     }
 
     @Test

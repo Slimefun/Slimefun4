@@ -1,11 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
-import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -21,14 +18,19 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * The Boots of the Stomper are boots which damage nearby enemies whenever the {@link Player}
  * takes fall damage.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class StomperBoots extends SlimefunItem {
 
@@ -40,7 +42,8 @@ public class StomperBoots extends SlimefunItem {
     /**
      * This will apply the "stomp" effect to the given {@link EntityDamageEvent}.
      *
-     * @param fallDamageEvent The {@link EntityDamageEvent} in which the {@link Player} has taken fall damage
+     * @param fallDamageEvent
+     *            The {@link EntityDamageEvent} in which the {@link Player} has taken fall damage
      */
     public void stomp(@Nonnull EntityDamageEvent fallDamageEvent) {
         Player player = (Player) fallDamageEvent.getEntity();
@@ -73,8 +76,11 @@ public class StomperBoots extends SlimefunItem {
     /**
      * This gives us the "shockwave" {@link Vector} for a given target.
      *
-     * @param origin The {@link Location} of our {@link Player}
-     * @param target The {@link Location} of the {@link Entity} we are pushing away
+     * @param origin
+     *            The {@link Location} of our {@link Player}
+     * @param target
+     *            The {@link Location} of the {@link Entity} we are pushing away
+     *
      * @return A {@link Vector} to determine the velocity for our {@link Entity}
      */
     @Nonnull
@@ -95,8 +101,10 @@ public class StomperBoots extends SlimefunItem {
      * collision with {@link LivingEntity#setCollidable(boolean)} or
      * gravity with {@link LivingEntity#setGravity(boolean)}.
      *
-     * @param entity The {@link LivingEntity} to check.
-     * @param player The {@link Player} using the {@link StomperBoots}.
+     * @param entity
+     *            The {@link LivingEntity} to check.
+     * @param player
+     *            The {@link Player} using the {@link StomperBoots}.
      * @return If the entity can move.
      */
     protected boolean canPush(@Nonnull Player player, @Nonnull LivingEntity entity) {

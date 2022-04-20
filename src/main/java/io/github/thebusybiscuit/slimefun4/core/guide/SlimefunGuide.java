@@ -1,5 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -7,27 +17,20 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Optional;
 
 /**
  * This is a static utility class that provides convenient access to the methods
  * of {@link SlimefunGuideImplementation} that abstracts away the actual implementation.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see SlimefunGuideImplementation
  * @see SurvivalSlimefunGuide
+ *
  */
 public final class SlimefunGuide {
 
-    private SlimefunGuide() {
-    }
+    private SlimefunGuide() {}
 
     @Nonnull
     public static ItemStack getItem(@Nonnull SlimefunGuideMode design) {
@@ -101,8 +104,10 @@ public final class SlimefunGuide {
 
     /**
      * This method checks if a given {@link ItemStack} is a {@link SlimefunGuide}.
-     *
-     * @param item The {@link ItemStack} to check
+     * 
+     * @param item
+     *            The {@link ItemStack} to check
+     * 
      * @return Whether this {@link ItemStack} represents a {@link SlimefunGuide}
      */
     public static boolean isGuideItem(@Nullable ItemStack item) {

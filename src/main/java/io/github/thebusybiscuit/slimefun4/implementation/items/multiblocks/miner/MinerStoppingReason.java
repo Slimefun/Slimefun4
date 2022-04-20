@@ -1,17 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
+import javax.annotation.Nonnull;
+
 import org.bukkit.block.Chest;
 import org.bukkit.block.data.type.Piston;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 
 /**
  * This enum holds various different reasons as to why an {@link IndustrialMiner}
  * may stop mining.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 enum MinerStoppingReason {
 

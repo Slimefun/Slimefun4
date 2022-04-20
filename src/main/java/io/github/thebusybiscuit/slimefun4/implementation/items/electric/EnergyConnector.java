@@ -1,5 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -9,20 +16,16 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * This {@link EnergyNetComponent} is a connector for the {@link EnergyNet} networks.
  * They work similar to {@link Capacitor capacitors}.
  *
  * @author Linox
+ *
  * @see EnergyNet
  * @see EnergyNetComponent
+ *
  */
 public class EnergyConnector extends SimpleSlimefunItem<BlockUseHandler> implements EnergyNetComponent {
 
@@ -32,8 +35,7 @@ public class EnergyConnector extends SimpleSlimefunItem<BlockUseHandler> impleme
     }
 
     @Override
-    public @Nonnull
-    BlockUseHandler getItemHandler() {
+    public @Nonnull BlockUseHandler getItemHandler() {
         return e -> {
             if (!e.getClickedBlock().isPresent()) {
                 return;
@@ -51,8 +53,7 @@ public class EnergyConnector extends SimpleSlimefunItem<BlockUseHandler> impleme
     }
 
     @Override
-    public final @Nonnull
-    EnergyNetComponentType getEnergyComponentType() {
+    public final @Nonnull EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONNECTOR;
     }
 

@@ -1,8 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.attributes.PiglinBarterDrop;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Piglin;
@@ -15,9 +17,9 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.PiglinBarterDrop;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This {@link Listener} prevents a {@link Piglin} from bartering with a
@@ -27,6 +29,7 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author poma123
  * @author dNiym
+ * 
  */
 public class PiglinListener implements Listener {
 

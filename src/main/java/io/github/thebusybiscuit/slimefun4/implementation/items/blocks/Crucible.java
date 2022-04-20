@@ -1,18 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
-import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -25,19 +19,29 @@ import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * The {@link Crucible} is a machine which turns blocks into liquids.
  * It is a very reliable source of lava and water.
  * The liquids will accumulate over time above the machine.
- *
+ * 
  * @author TheBusyBiscuit
  * @author Sfiguz7
+ *
  */
 public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements RecipeDisplayItem {
 
@@ -153,9 +157,11 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
     /**
      * This method starts the process of generating liquids.
-     *
-     * @param block   The {@link Block} where to generate the liquid
-     * @param isWater Whether we generate water or lava.
+     * 
+     * @param block
+     *            The {@link Block} where to generate the liquid
+     * @param isWater
+     *            Whether we generate water or lava.
      */
     private void generateLiquid(@Nonnull Block block, boolean isWater) {
         // Fixes #2877 - If water in the nether is disabled, abort and play an effect.

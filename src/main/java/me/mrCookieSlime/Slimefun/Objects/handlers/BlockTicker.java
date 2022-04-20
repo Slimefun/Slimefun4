@@ -1,13 +1,15 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
+import java.util.Optional;
+
+import org.bukkit.block.Block;
+
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import org.bukkit.block.Block;
 
-import java.util.Optional;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public abstract class BlockTicker implements ItemHandler {
 
@@ -36,17 +38,20 @@ public abstract class BlockTicker implements ItemHandler {
     /**
      * This method must be overridden to define whether a Block
      * needs to be run on the main server thread (World Manipulation requires that)
-     *
+     * 
      * @return Whether this task should run on the main server thread
      */
     public abstract boolean isSynchronized();
 
     /**
      * This method is called every tick for every block
-     *
-     * @param b    The {@link Block} that was ticked
-     * @param item The corresponding {@link SlimefunItem}
-     * @param data The data stored in this {@link Block}
+     * 
+     * @param b
+     *            The {@link Block} that was ticked
+     * @param item
+     *            The corresponding {@link SlimefunItem}
+     * @param data
+     *            The data stored in this {@link Block}
      */
     public abstract void tick(Block b, SlimefunItem item, Config data);
 

@@ -1,23 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import java.util.Random;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Random;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Our {@link OreDictionary} implementation for MC 1.16 or higher.
- *
+ * 
  * @author TheBusyBiscuit
+ *
  */
 class OreDictionary16 extends OreDictionary14 {
 
     @Override
     @ParametersAreNonnullByDefault
-    public @Nonnull
-    ItemStack getDrops(Material material, Random random) {
+    public @Nonnull ItemStack getDrops(Material material, Random random) {
         switch (material) {
             case NETHER_GOLD_ORE:
                 // In 1.16, breaking nether gold ores should get gold nuggets

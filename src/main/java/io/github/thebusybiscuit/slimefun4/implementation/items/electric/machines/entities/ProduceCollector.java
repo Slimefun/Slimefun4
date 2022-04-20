@@ -1,5 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Ageable;
+import org.bukkit.entity.Cow;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Goat;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.MushroomCow;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -12,32 +33,20 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
 
 /**
  * The {@link ProduceCollector} allows you to collect produce from animals.
  * Providing it with a bucket and a nearby {@link Cow} will allow you to obtain milk.
- *
+ * 
  * @author TheBusyBiscuit
  * @author Walshy
+ *
  */
 public class ProduceCollector extends AContainer implements RecipeDisplayItem {
 
@@ -76,8 +85,9 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
 
     /**
      * This method adds a new {@link AnimalProduce} to this machine.
-     *
-     * @param produce The {@link AnimalProduce} to add
+     * 
+     * @param produce
+     *            The {@link AnimalProduce} to add
      */
     public void addProduce(@Nonnull AnimalProduce produce) {
         Validate.notNull(produce, "A produce cannot be null");
@@ -103,8 +113,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    public @Nonnull
-    List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
 
         displayRecipes.add(new CustomItemStack(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
@@ -122,8 +131,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    protected @Nullable
-    MachineRecipe findNextRecipe(@Nonnull BlockMenu inv) {
+    protected @Nullable MachineRecipe findNextRecipe(@Nonnull BlockMenu inv) {
         for (int slot : getInputSlots()) {
             for (AnimalProduce produce : animalProduces) {
                 ItemStack item = inv.getItemInSlot(slot);
@@ -158,14 +166,12 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    public @Nonnull
-    String getMachineIdentifier() {
+    public @Nonnull String getMachineIdentifier() {
         return "PRODUCE_COLLECTOR";
     }
 
     @Override
-    public @Nonnull
-    ItemStack getProgressBar() {
+    public @Nonnull ItemStack getProgressBar() {
         return new ItemStack(Material.SHEARS);
     }
 

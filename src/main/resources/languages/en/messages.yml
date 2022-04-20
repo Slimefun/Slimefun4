@@ -47,9 +47,9 @@ guide:
   work-in-progress: 'This feature is not fully finished yet!'
 
   locked-itemgroup:
-    - 'To unlock this category you will'
-    - 'need to unlock all items from the'
-    - 'following categories'
+  - 'To unlock this category you will'
+  - 'need to unlock all items from the'
+  - 'following categories'
 
   search:
     message: '&bWhat would you like to search for?'
@@ -89,10 +89,10 @@ guide:
     change: 'Click to select a new language'
 
     description:
-      - '&7You now have the option to change'
-      - '&7the language in which Slimefun'
-      - '&7will be presented to you. Items'
-      - '&7cannot be translated for now.'
+    - '&7You now have the option to change'
+    - '&7the language in which Slimefun'
+    - '&7will be presented to you. Items'
+    - '&7cannot be translated for now.'
 
     translations:
       name: '&aIs something missing?'
@@ -134,10 +134,10 @@ guide:
     profile-link: 'Click to visit their profile on GitHub'
     open: 'Click to see our contributors'
     description:
-      - '&7Slimefun is an open-source project'
-      - '&7and maintained by a large community of people.'
-      - '&7Over &e%contributors% &7people have worked on'
-      - '&7Slimefun throughout all these years.'
+    - '&7Slimefun is an open-source project'
+    - '&7and maintained by a large community of people.'
+    - '&7Over &e%contributors% &7people have worked on'
+    - '&7Slimefun throughout all these years.'
 
     roles:
       developer: '&6Developer'
@@ -187,15 +187,15 @@ messages:
 
     tooltips:
       enabled:
-        - '&aThis recipe is currently enabled'
-        - ''
-        - '&eLeft Click &7to temporarily disable the recipe'
-        - '&eRight Click &7to remove this recipe'
+      - '&aThis recipe is currently enabled'
+      - ''
+      - '&eLeft Click &7to temporarily disable the recipe'
+      - '&eRight Click &7to remove this recipe'
       disabled:
-        - '&cThis recipe is currently disabled'
-        - ''
-        - '&eLeft Click &7to re-enable this recipe'
-        - '&eRight Click &7to remove this recipe'
+      - '&cThis recipe is currently disabled'
+      - ''
+      - '&eLeft Click &7to re-enable this recipe'
+      - '&eRight Click &7to remove this recipe'
 
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'
@@ -249,20 +249,20 @@ messages:
   diet-cookie: '&eYou are starting to feel very light...'
 
   fortune-cookie:
-    - '&7Help me, I am trapped in a Fortune Cookie Factory!'
-    - '&7You will die tomorrow...     by a Creeper'
-    - '&7At some point in your Life something bad will happen!!!'
-    - '&7Next week you will notice that this is not the real world, you are in a computer game'
-    - '&7This cookie will taste good in a few seconds'
-    - '&7The last word you will hear is gonna be "EXTERMINATE!!!"'
-    - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s not worth it.'
-    - '&742. The answer is 42.'
-    - '&7A Walshy a day will keep the troubles away.'
-    - '&7Never dig straight down!'
-    - '&7Tis but a flesh wound!'
-    - '&7Always look on the bright side of life!'
-    - '&7This one was actually a Biscuit and not a Cookie'
-    - '&7Neon signs are LIT!'
+  - '&7Help me, I am trapped in a Fortune Cookie Factory!'
+  - '&7You will die tomorrow...     by a Creeper'
+  - '&7At some point in your Life something bad will happen!!!'
+  - '&7Next week you will notice that this is not the real world, you are in a computer game'
+  - '&7This cookie will taste good in a few seconds'
+  - '&7The last word you will hear is gonna be "EXTERMINATE!!!"'
+  - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s not worth it.'
+  - '&742. The answer is 42.'
+  - '&7A Walshy a day will keep the troubles away.'
+  - '&7Never dig straight down!'
+  - '&7Tis but a flesh wound!'
+  - '&7Always look on the bright side of life!'
+  - '&7This one was actually a Biscuit and not a Cookie'
+  - '&7Neon signs are LIT!'
 
   above-limit-level: '&cCannot (dis)enchant an enchantment level higher than %level%!'
 
@@ -363,9 +363,9 @@ gps:
     duplicate: '&4You have already created a waypoint named: &f%waypoint%'
 
   insufficient-complexity:
-    - '&4Insufficient GPS Network Complexity: &c%complexity%'
-    - '&4a) You do not have a GPS Network setup yet'
-    - '&4b) Your GPS Network is not complex enough'
+  - '&4Insufficient GPS Network Complexity: &c%complexity%'
+  - '&4a) You do not have a GPS Network setup yet'
+  - '&4b) Your GPS Network is not complex enough'
 
   geo:
     scan-required: '&4GEO-Scan required! &cScan this chunk using a GEO-Scanner first!'
@@ -411,13 +411,13 @@ android:
       INTERFACE_FUEL: '&cPull Fuel from the faced Interface'
 
     enter-name:
-      - ''
-      - '&ePlease type in a name for your script'
-      - ''
+    - ''
+    - '&ePlease type in a name for your script'
+    - ''
 
     uploaded:
-      - '&bUploading...'
-      - '&aSuccessfully uploaded your script!'
+    - '&bUploading...'
+    - '&aSuccessfully uploaded your script!'
 
     rating:
       own: '&4You cannot rate your own script!'

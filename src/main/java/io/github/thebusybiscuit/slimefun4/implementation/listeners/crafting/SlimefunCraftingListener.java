@@ -1,12 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import javax.annotation.Nullable;
+
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 
 interface SlimefunCraftingListener extends Listener {
 
