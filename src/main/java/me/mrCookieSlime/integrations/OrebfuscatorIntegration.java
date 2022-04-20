@@ -1,31 +1,26 @@
 package me.mrCookieSlime.integrations;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import net.imprex.orebfuscator.api.OrebfuscatorService;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
-import net.imprex.orebfuscator.api.OrebfuscatorService;
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * 
  * This handles block breaks with orebfuscator
- * 
- * @author NgLoader
  *
+ * @author NgLoader
  */
 class OrebfuscatorIntegration implements Listener {
 

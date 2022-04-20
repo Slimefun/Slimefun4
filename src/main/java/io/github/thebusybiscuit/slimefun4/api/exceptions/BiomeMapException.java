@@ -1,17 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.api.exceptions;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
 import org.bukkit.NamespacedKey;
 
-import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A {@link BiomeMapException} is thrown whenever a {@link BiomeMap}
  * contains illegal, invalid or unknown values.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class BiomeMapException extends Exception {
 
@@ -20,11 +18,9 @@ public class BiomeMapException extends Exception {
     /**
      * This constructs a new {@link BiomeMapException} for the given
      * {@link BiomeMap}'s {@link NamespacedKey} with the provided context.
-     * 
-     * @param key
-     *            The {@link NamespacedKey} of our {@link BiomeMap}
-     * @param message
-     *            The message to display
+     *
+     * @param key     The {@link NamespacedKey} of our {@link BiomeMap}
+     * @param message The message to display
      */
     @ParametersAreNonnullByDefault
     public BiomeMapException(NamespacedKey key, String message) {
@@ -34,11 +30,9 @@ public class BiomeMapException extends Exception {
     /**
      * This constructs a new {@link BiomeMapException} for the given
      * {@link BiomeMap}'s {@link NamespacedKey} with the provided context.
-     * 
-     * @param key
-     *            The {@link NamespacedKey} of our {@link BiomeMap}
-     * @param cause
-     *            The {@link Throwable} which has caused this to happen
+     *
+     * @param key   The {@link NamespacedKey} of our {@link BiomeMap}
+     * @param cause The {@link Throwable} which has caused this to happen
      */
     @ParametersAreNonnullByDefault
     public BiomeMapException(NamespacedKey key, Throwable cause) {

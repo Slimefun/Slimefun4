@@ -1,37 +1,33 @@
 package io.github.thebusybiscuit.slimefun4.core.multiblocks;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * A {@link MultiBlock} represents a structure build in a {@link World}.
  * A {@link MultiBlock} is often linked to a {@link MultiBlockMachine} and is used
  * to recognize that machine in a {@link MultiBlockInteractEvent}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Liruxo
- * 
  * @see MultiBlockMachine
  * @see MultiBlockInteractionHandler
  * @see MultiBlockInteractEvent
- *
  */
 public class MultiBlock {
 
@@ -50,16 +46,10 @@ public class MultiBlock {
         }
     }
 
-    @Nonnull
-    public static Set<Tag<Material>> getSupportedTags() {
-        return SUPPORTED_TAGS;
-    }
-
     private final SlimefunItem item;
     private final Material[] blocks;
     private final BlockFace trigger;
     private final boolean isSymmetric;
-
     public MultiBlock(@Nonnull SlimefunItem item, Material[] build, @Nonnull BlockFace trigger) {
         Validate.notNull(item, "A MultiBlock requires a SlimefunItem!");
 
@@ -78,12 +68,17 @@ public class MultiBlock {
     }
 
     @Nonnull
-    public SlimefunItem getSlimefunItem() {
-        return item;
+    public static Set<Tag<Material>> getSupportedTags() {
+        return SUPPORTED_TAGS;
     }
 
     private static boolean isSymmetric(@Nonnull Material[] blocks) {
         return blocks[0] == blocks[2] && blocks[3] == blocks[5] && blocks[6] == blocks[8];
+    }
+
+    @Nonnull
+    public SlimefunItem getSlimefunItem() {
+        return item;
     }
 
     @Nonnull
@@ -149,7 +144,7 @@ public class MultiBlock {
     /**
      * This returns whether this {@link MultiBlock} is a symmetric structure or whether
      * the left and right side differ.
-     * 
+     *
      * @return Whether this {@link MultiBlock} is a symmetric structure
      */
     public boolean isSymmetric() {

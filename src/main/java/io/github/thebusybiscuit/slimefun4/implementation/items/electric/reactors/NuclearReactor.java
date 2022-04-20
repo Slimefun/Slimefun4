@@ -1,28 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link NuclearReactor} is an implementation of {@link Reactor} that uses
  * any {@link Radioactive} material to generate energy.
  * It needs water coolant as well as a steady supply of Reactor Coolant Cells
- * 
- * @author TheBusyBiscuit
- * 
- * @see NetherStarReactor
  *
+ * @author TheBusyBiscuit
+ * @see NetherStarReactor
  */
 public abstract class NuclearReactor extends Reactor {
 

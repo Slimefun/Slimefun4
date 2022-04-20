@@ -1,24 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
@@ -38,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.operations.FuelOperatio
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
@@ -46,34 +26,49 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The abstract {@link Reactor} class is very similar to {@link AGenerator} but is
  * exclusively used for Reactors.
- * 
+ *
  * @author John000708
  * @author AlexLander123
  * @author TheBusyBiscuit
- * 
  * @see AGenerator
  * @see NuclearReactor
  * @see NetherStarReactor
- *
  */
 public abstract class Reactor extends AbstractEnergyProvider implements HologramOwner, MachineProcessHolder<FuelOperation> {
 
     private static final String MODE = "reactor-mode";
     private static final int INFO_SLOT = 49;
     private static final int COOLANT_DURATION = 50;
-    private static final BlockFace[] WATER_BLOCKS = { BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST };
+    private static final BlockFace[] WATER_BLOCKS = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
 
-    private static final int[] border = { 0, 1, 2, 3, 5, 6, 7, 8, 12, 13, 14, 21, 23 };
-    private static final int[] border_1 = { 9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47 };
-    private static final int[] border_2 = { 15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53 };
-    private static final int[] border_3 = { 30, 31, 32, 39, 41, 48, 50 };
+    private static final int[] border = {0, 1, 2, 3, 5, 6, 7, 8, 12, 13, 14, 21, 23};
+    private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
+    private static final int[] border_2 = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
+    private static final int[] border_3 = {30, 31, 32, 39, 41, 48, 50};
 
     // No coolant border
-    private static final int[] border_4 = { 25, 34, 43 };
+    private static final int[] border_4 = {25, 34, 43};
 
     private final Set<Location> explosionsQueue = new HashSet<>();
     private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>(this);
@@ -232,7 +227,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     /**
      * This method returns the {@link ItemStack} that is required to cool this {@link Reactor}.
      * If it returns null, then no cooling is required.
-     * 
+     *
      * @return The {@link ItemStack} required to cool this {@link Reactor}
      */
     @Nullable
@@ -242,7 +237,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
      * This method returns the displayed icon above the fuel input slot.
      * It should reflect the {@link ItemStack} used to power the reactor.
      * This method does <b>not</b> determine the fuel input, only the icon.
-     * 
+     *
      * @return The {@link ItemStack} used as the fuel icon for this {@link Reactor}.
      */
     @Nonnull
@@ -252,7 +247,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
      * This method returns whether this {@link Reactor} requires as some form of
      * coolant.
      * It is a not-null check performed on {@link #getCoolant()}
-     * 
+     *
      * @return Whether this {@link Reactor} requires cooling
      */
     protected final boolean needsCooling() {
@@ -261,21 +256,21 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
     @Override
     public int[] getInputSlots() {
-        return new int[] { 19, 28, 37, 25, 34, 43 };
+        return new int[]{19, 28, 37, 25, 34, 43};
     }
 
     public int[] getFuelSlots() {
-        return new int[] { 19, 28, 37 };
+        return new int[]{19, 28, 37};
     }
 
     @Nonnull
     public int[] getCoolantSlots() {
-        return needsCooling() ? new int[] { 25, 34, 43 } : new int[0];
+        return needsCooling() ? new int[]{25, 34, 43} : new int[0];
     }
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] { 40 };
+        return new int[]{40};
     }
 
     @Override
@@ -401,16 +396,11 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
     /**
      * This method cools the given {@link Reactor}.
-     * 
-     * @param reactor
-     *            The {@link Location} of this {@link Reactor}
-     * @param menu
-     *            The {@link Inventory} of this {@link Reactor}
-     * @param accessPort
-     *            The {@link ReactorAccessPort}, if available
-     * @param operation
-     *            The {@link FuelOperation} of this {@link Reactor}
-     * 
+     *
+     * @param reactor    The {@link Location} of this {@link Reactor}
+     * @param menu       The {@link Inventory} of this {@link Reactor}
+     * @param accessPort The {@link ReactorAccessPort}, if available
+     * @param operation  The {@link FuelOperation} of this {@link Reactor}
      * @return Whether the {@link Reactor} was successfully cooled, if not it should explode
      */
     private boolean hasEnoughCoolant(@Nonnull Location reactor, @Nonnull BlockMenu menu, @Nullable BlockMenu accessPort, @Nonnull FuelOperation operation) {

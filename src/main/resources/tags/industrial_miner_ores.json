@@ -1,9 +1,9 @@
 {
-	"values" : [
-		"#slimefun:ores",
-		{
-			"id" : "minecraft:gilded_blackstone",
-			"required" : false
-		}
-	]
+  "values": [
+    "#slimefun:ores",
+    {
+      "id": "minecraft:gilded_blackstone",
+      "required": false
+    }
+  ]
 }

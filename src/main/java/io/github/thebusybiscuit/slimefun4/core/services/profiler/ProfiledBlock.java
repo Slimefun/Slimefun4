@@ -1,23 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
-import java.util.Objects;
-
-import javax.annotation.Nonnull;
-
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * This represents an entry in our {@link SlimefunProfiler}.
  * It is a modification of {@link BlockPosition} to be as memory-efficient as possible.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 final class ProfiledBlock {
 
@@ -40,11 +37,9 @@ final class ProfiledBlock {
     /**
      * This creates a new {@link ProfiledBlock} for the given {@link Location} and
      * the {@link SlimefunItem} found at this {@link Location}.
-     * 
-     * @param l
-     *            The {@link Location}
-     * @param item
-     *            The {@link SlimefunItem} found at that {@link Location}
+     *
+     * @param l    The {@link Location}
+     * @param item The {@link SlimefunItem} found at that {@link Location}
      */
     ProfiledBlock(@Nonnull Location l, @Nonnull SlimefunItem item) {
         this.world = l.getWorld();
@@ -55,9 +50,8 @@ final class ProfiledBlock {
     /**
      * This is just a <strong>dummy</strong> constructor.
      * Please only use this for comparisons or lookups.
-     * 
-     * @param b
-     *            A {@link Block}
+     *
+     * @param b A {@link Block}
      */
     ProfiledBlock(@Nonnull Block b) {
         this.world = b.getWorld();
@@ -67,14 +61,10 @@ final class ProfiledBlock {
 
     /**
      * This compresses our {@link Location} into a long for more efficient memory usage
-     * 
-     * @param x
-     *            The x value
-     * @param y
-     *            The y value
-     * @param z
-     *            The z value
-     * 
+     *
+     * @param x The x value
+     * @param y The y value
+     * @param z The z value
      * @return A {@link Long} representation of this {@link Location}
      */
     private static long getLocationAsLong(int x, int y, int z) {

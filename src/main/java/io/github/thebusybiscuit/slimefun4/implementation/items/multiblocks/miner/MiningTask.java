@@ -1,18 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
-import java.util.UUID;
-import java.util.logging.Level;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.bakedlibs.dough.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
+import io.papermc.lib.PaperLib;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -23,25 +20,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.bakedlibs.dough.scheduling.TaskQueue;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
-import io.papermc.lib.PaperLib;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  * This represents a running instance of an {@link IndustrialMiner}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
  * @see IndustrialMiner
  * @see AdvancedIndustrialMiner
- *
  */
 class MiningTask implements Runnable {
 
@@ -80,9 +69,8 @@ class MiningTask implements Runnable {
 
     /**
      * This starts the {@link IndustrialMiner} at the given {@link Block}.
-     * 
-     * @param b
-     *            The {@link Block} which marks the center of this {@link IndustrialMiner}
+     *
+     * @param b The {@link Block} which marks the center of this {@link IndustrialMiner}
      */
     void start(@Nonnull Block b) {
         miner.activeMiners.put(b.getLocation(), this);
@@ -102,9 +90,8 @@ class MiningTask implements Runnable {
     /**
      * This method stops the {@link IndustrialMiner} with an error message.
      * The error message is a path to the location in Slimefun's localization files.
-     * 
-     * @param reason
-     *            The reason why we stop
+     *
+     * @param reason The reason why we stop
      */
     void stop(@Nonnull MinerStoppingReason reason) {
         Player p = Bukkit.getPlayer(owner);
@@ -251,10 +238,8 @@ class MiningTask implements Runnable {
     /**
      * This refuels the {@link IndustrialMiner} and pushes the given {@link ItemStack} to
      * its {@link Chest}.
-     * 
-     * @param item
-     *            The {@link ItemStack} to push to the {@link Chest}.
-     * 
+     *
+     * @param item The {@link ItemStack} to push to the {@link Chest}.
      * @return Whether the operation was successful
      */
     private boolean push(@Nonnull ItemStack item) {

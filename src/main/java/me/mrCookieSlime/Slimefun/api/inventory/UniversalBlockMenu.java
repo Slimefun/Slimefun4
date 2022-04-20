@@ -1,8 +1,8 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
-import java.io.File;
-
 import io.github.bakedlibs.dough.config.Config;
+
+import java.io.File;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 public class UniversalBlockMenu extends DirtyChestMenu {

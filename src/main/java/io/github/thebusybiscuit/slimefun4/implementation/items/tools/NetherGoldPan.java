@@ -1,25 +1,22 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The {@link NetherGoldPan} is a variant of the regular {@link GoldPan}
  * which can be used on Soul Sand.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class NetherGoldPan extends GoldPan {
 
@@ -29,12 +26,14 @@ public class NetherGoldPan extends GoldPan {
     }
 
     @Override
-    public @Nonnull Material getInputMaterial() {
+    public @Nonnull
+    Material getInputMaterial() {
         return Material.SOUL_SAND;
     }
 
     @Override
-    protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
+    protected @Nonnull
+    Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
         settings.add(new GoldPanDrop(this, "chance.QUARTZ", 50, new ItemStack(Material.QUARTZ)));

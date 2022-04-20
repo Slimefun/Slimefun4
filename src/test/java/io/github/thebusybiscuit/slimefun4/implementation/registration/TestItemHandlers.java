@@ -1,15 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.registration;
 
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.bukkit.Material;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
+import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -18,8 +9,11 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockItemHandler;
+import org.bukkit.Material;
+import org.junit.jupiter.api.*;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 class TestItemHandlers {
 
@@ -71,7 +65,8 @@ class TestItemHandlers {
     @Test
     @DisplayName("Test validation for BowShootHandler")
     void testBowShootHandler() {
-        BowShootHandler handler = (e, n) -> {};
+        BowShootHandler handler = (e, n) -> {
+        };
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "NOT_A_BOW", new CustomItemStack(Material.KELP, "&bNot a bow!"));
 
         Optional<IncompatibleItemHandlerException> exception = handler.validate(item);

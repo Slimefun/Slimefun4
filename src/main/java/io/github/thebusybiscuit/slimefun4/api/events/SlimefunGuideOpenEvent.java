@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -9,13 +8,12 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import javax.annotation.Nonnull;
 
 /**
  * This {@link Event} is called whenever a {@link Player} tries to open the Slimefun Guide book.
- * 
- * @author Linox
  *
+ * @author Linox
  * @see SlimefunGuideMode
  */
 public class SlimefunGuideOpenEvent extends Event implements Cancellable {
@@ -34,6 +32,11 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
         this.player = p;
         this.guide = guide;
         this.layout = layout;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     /**
@@ -72,8 +75,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     /**
      * Changes the {@link SlimefunGuideMode} that was tried to be opened with.
      *
-     * @param layout
-     *            The new {@link SlimefunGuideMode}
+     * @param layout The new {@link SlimefunGuideMode}
      */
     public void setGuideLayout(@Nonnull SlimefunGuideMode layout) {
         Validate.notNull(layout, "You must specify a layout that is not-null!");
@@ -88,11 +90,6 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
-    }
-
-    @Nonnull
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     @Nonnull

@@ -1,29 +1,25 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import org.bukkit.Keyed;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
  * This interface represents an option in the {@link SlimefunGuide}.
- * 
- * @author TheBusyBiscuit
  *
- * @param <T>
- *            The type of value for this option
+ * @param <T> The type of value for this option
+ * @author TheBusyBiscuit
  */
 public interface SlimefunGuideOption<T> extends Keyed {
 
     /**
      * This returns the {@link SlimefunAddon} which added this {@link SlimefunGuideOption}.
-     * 
+     *
      * @return The registering {@link SlimefunAddon}
      */
     @Nonnull

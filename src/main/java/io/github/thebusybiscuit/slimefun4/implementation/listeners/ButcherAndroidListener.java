@@ -1,13 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -19,17 +15,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This {@link Listener} handles the collection of drops from an {@link Entity} that was
  * killed by a {@link ButcherAndroid}.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class ButcherAndroidListener implements Listener {
 
@@ -71,11 +68,9 @@ public class ButcherAndroidListener implements Listener {
      * Some items are not dropped by default.
      * Wither Skeleton Skulls but for some weird reason
      * even Blaze rods...
-     * 
-     * @param drops
-     *            The {@link List} of item drops
-     * @param entityType
-     *            The {@link EntityType} of the killed entity
+     *
+     * @param drops      The {@link List} of item drops
+     * @param entityType The {@link EntityType} of the killed entity
      */
     @ParametersAreNonnullByDefault
     private void addExtraDrops(List<ItemStack> drops, EntityType entityType) {

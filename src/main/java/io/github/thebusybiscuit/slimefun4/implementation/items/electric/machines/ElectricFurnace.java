@@ -1,7 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import org.bukkit.Material;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.FurnaceRecipe;
@@ -9,20 +13,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link ElectricFurnace} is an electric version of the {@link Furnace}.
  * As the name would probably suggest.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class ElectricFurnace extends AContainer implements NotHopperable {
 
@@ -39,7 +36,7 @@ public class ElectricFurnace extends AContainer implements NotHopperable {
 
                 if (choice instanceof MaterialChoice) {
                     for (Material input : ((MaterialChoice) choice).getChoices()) {
-                        registerRecipe(4, new ItemStack[] { new ItemStack(input) }, new ItemStack[] { recipe.getResult() });
+                        registerRecipe(4, new ItemStack[]{new ItemStack(input)}, new ItemStack[]{recipe.getResult()});
                     }
                 }
             }

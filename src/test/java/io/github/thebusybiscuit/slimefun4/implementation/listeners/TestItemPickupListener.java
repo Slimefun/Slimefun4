@@ -1,8 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
-
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
+import be.seeseemelk.mockbukkit.inventory.HopperInventoryMock;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -16,15 +21,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
-import be.seeseemelk.mockbukkit.inventory.HopperInventoryMock;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 class TestItemPickupListener {
 
@@ -45,7 +43,7 @@ class TestItemPickupListener {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = { true, false })
+    @ValueSource(booleans = {true, false})
     void testNoPickupFlagForEntities(boolean flag) {
         Player player = server.addPlayer();
         Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.COMPASS));
@@ -61,7 +59,7 @@ class TestItemPickupListener {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = { true, false })
+    @ValueSource(booleans = {true, false})
     void testNoPickupFlagForInventories(boolean flag) {
         Inventory inventory = new HopperInventoryMock(null);
         Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.COMPASS));
@@ -77,7 +75,7 @@ class TestItemPickupListener {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = { true, false })
+    @ValueSource(booleans = {true, false})
     void testAltarProbeForEntities(boolean flag) {
         Player player = server.addPlayer();
         ItemStack stack;
@@ -105,7 +103,7 @@ class TestItemPickupListener {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = { true, false })
+    @ValueSource(booleans = {true, false})
     void testAltarProbeForInventories(boolean flag) {
         Inventory inventory = new HopperInventoryMock(null);
         ItemStack stack;

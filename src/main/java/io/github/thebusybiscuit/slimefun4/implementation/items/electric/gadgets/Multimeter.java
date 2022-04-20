@@ -1,13 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
 
-import java.util.Optional;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -18,15 +10,19 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 
 /**
  * The {@link Multimeter} is used to measure charge and capacity of any {@link EnergyNetComponent}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
  * @see EnergyNet
  * @see EnergyNetComponent
- *
  */
 public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
 

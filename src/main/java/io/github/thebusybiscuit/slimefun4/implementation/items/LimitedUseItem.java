@@ -1,21 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -26,6 +10,20 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class represents an item with a limited number of uses.
@@ -35,7 +33,6 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  * @author Walshy
  * @author TheBusyBiscuit
  * @author martinbrom
- *
  * @see StormStaff
  */
 public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> {
@@ -64,12 +61,11 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      * Sets the maximum number of times this item can be used.
      * The number must be greater than zero.
      *
-     * @param count
-     *            The maximum number of times this item can be used.
-     * 
+     * @param count The maximum number of times this item can be used.
      * @return The {@link LimitedUseItem} for chaining of setters
      */
-    public final @Nonnull LimitedUseItem setMaxUseCount(int count) {
+    public final @Nonnull
+    LimitedUseItem setMaxUseCount(int count) {
         Validate.isTrue(count > 0, "The maximum use count must be greater than zero!");
 
         maxUseCount = count;
@@ -81,7 +77,8 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      *
      * @return The {@link NamespacedKey} to store/load the amount of uses
      */
-    protected @Nonnull NamespacedKey getStorageKey() {
+    protected @Nonnull
+    NamespacedKey getStorageKey() {
         return defaultUsageKey;
     }
 

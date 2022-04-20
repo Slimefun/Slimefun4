@@ -1,11 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -14,15 +16,10 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
 
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The {@link AutoDisenchanter}, in contrast to the {@link AutoEnchanter}, removes
@@ -37,9 +34,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @author mrcoffee1026
  * @author VoidAngel
  * @author StarWishSama
- *
  * @see AutoEnchanter
- *
  */
 public class AutoDisenchanter extends AbstractEnchantmentMachine {
 
@@ -81,7 +76,8 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
     }
 
     @ParametersAreNonnullByDefault
-    private @Nullable MachineRecipe disenchant(BlockMenu menu, ItemStack item, ItemStack book) {
+    private @Nullable
+    MachineRecipe disenchant(BlockMenu menu, ItemStack item, ItemStack book) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
 
         // Find enchantments
@@ -102,7 +98,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
             transferEnchantments(disenchantedItem, enchantedBook, enchantments);
 
-            MachineRecipe recipe = new MachineRecipe(90 * enchantments.size() / this.getSpeed(), new ItemStack[] { book, item }, new ItemStack[] { disenchantedItem, enchantedBook });
+            MachineRecipe recipe = new MachineRecipe(90 * enchantments.size() / this.getSpeed(), new ItemStack[]{book, item}, new ItemStack[]{disenchantedItem, enchantedBook});
 
             if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                 return null;

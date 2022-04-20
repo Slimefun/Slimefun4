@@ -1,30 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.util.Vector;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -34,14 +9,32 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.util.Vector;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * The {@link SeismicAxe} is an interesting weapon. It spawns ghostly block entities in a straight line
  * when right-clicked. These blocks launch up from the ground and damage any {@link LivingEntity} in its way.
  * It is quite similar to a shockwave.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable, DamageableItem {
 
@@ -81,10 +74,10 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
                 for (Entity n : ground.getChunk().getEntities()) {
                     // @formatter:off
                     if (
-                        n instanceof LivingEntity && n.getType() != EntityType.ARMOR_STAND
-                        && !n.getUniqueId().equals(p.getUniqueId())
-                        && canReach(p.getLocation(), n.getLocation(), groundLocation)
-                        && pushedEntities.add(n.getUniqueId())
+                            n instanceof LivingEntity && n.getType() != EntityType.ARMOR_STAND
+                                    && !n.getUniqueId().equals(p.getUniqueId())
+                                    && canReach(p.getLocation(), n.getLocation(), groundLocation)
+                                    && pushedEntities.add(n.getUniqueId())
                     ) {
                         pushEntity(p, n);
                     }
@@ -116,8 +109,8 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
         double minPlayerDistanceSquared = MIN_PLAYER_DISTANCE * MIN_PLAYER_DISTANCE;
 
         // @formatter:off
-        return entityLocation.distanceSquared(groundLocation) < maxGroundDistanceSquared 
-            && playerLocation.distanceSquared(entityLocation) > minPlayerDistanceSquared;
+        return entityLocation.distanceSquared(groundLocation) < maxGroundDistanceSquared
+                && playerLocation.distanceSquared(entityLocation) > minPlayerDistanceSquared;
         // @formatter:on
     }
 
@@ -149,7 +142,8 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
         }
     }
 
-    private @Nonnull Block findGround(@Nonnull Block b) {
+    private @Nonnull
+    Block findGround(@Nonnull Block b) {
         if (b.getType() == Material.AIR) {
             int minHeight = WorldUtils.getMinHeight(b.getWorld());
             for (int y = 0; b.getY() - y > minHeight; y++) {

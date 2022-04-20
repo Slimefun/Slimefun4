@@ -1,20 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import java.util.Optional;
-
+import be.seeseemelk.mockbukkit.MockBukkit;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
-import be.seeseemelk.mockbukkit.MockBukkit;
+import java.util.Optional;
 
 class TestItemDataService {
 

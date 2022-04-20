@@ -1,13 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import javax.annotation.Nonnull;
-
-import org.bukkit.command.CommandSender;
-
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.command.CommandSender;
+
+import javax.annotation.Nonnull;
 
 /**
  * The debug command will allow server owners to get information for us developers.
@@ -22,7 +21,8 @@ public class DebugCommand extends SubCommand {
     }
 
     @Override
-    protected @Nonnull String getDescription() {
+    protected @Nonnull
+    String getDescription() {
         return "commands.debug.description";
     }
 

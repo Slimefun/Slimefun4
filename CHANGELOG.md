@@ -1,4 +1,5 @@
 # Table of contents
+
 - [Release Candidate 32 (TBD)](#release-candidate-32-tbd)
 - [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
 - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
@@ -32,7 +33,6 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-
 ## Release Candidate 32 (TBD)
 
 #### Additions
@@ -40,14 +40,17 @@
 #### Changes
 
 #### Fixes
+
 * Fixed #3445
 * Fixed #3504
 * Fixed #3534
 
 ## Release Candidate 31 (14 Mar 2022)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#31
 
 #### Additions
+
 * Added Armored Jetpack
 * Added Cocoa Beans as a fuel type for the Bio-Generator
 * Added Beetroots and Beetroot seeds as fuel types for the Bio-Generator
@@ -55,7 +58,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#31
 * Added Glow Berries as a fuel type for the Bio-Generator
 * Added Glow Lichen as a fuel type for the Bio-Generator
 * Added Spore Blossom as a fuel type for the Bio-Generator
-* Added a new item setting for Freezers to allow them to use a 9:1 "vanilla" ratio instead of 1:1 (1:1 by default, like before)
+* Added a new item setting for Freezers to allow them to use a 9:1 "vanilla" ratio instead of 1:1 (1:1 by default, like
+  before)
 * (API) Added `PlayerProfile#hasUnlockedEverything()` to check if a player has unlocked all researches
 * (API) Added `Research#getUnlocalizedName()`
 * Added support for the plugin "HuskTowns"
@@ -66,11 +70,13 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#31
 * (API) Added Shulker boxes to `ColoredMaterial` enum
 
 #### Changes
+
 * (API) `BiomeMapParser` is now `public`
 * (API) `BiomeMap.fromJson` now allows you to specify if you want the BiomeMap to be parsed leniently
 * Some translation updates
 
 #### Fixes
+
 * Fixed #3390
 * Fixed research issues for vanilla items, e.g. Trident or Totem of Undying
 * Fixed #3368
@@ -88,9 +94,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#31
 * Fixed #3336 (again)
 
 ## Release Candidate 30 (31 Dec 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
 
 #### Additions
+
 * Added a ton of wiki links to the guide
 * (API) Added "GRAVITY_AFFECTED_BLOCKS" tag
 * (API) Added "Biome-Maps" for more in-depth GEO resource configuration (developers only for now)
@@ -99,10 +107,12 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
 * Added Talisman of Farmer
 
 #### Changes
+
 * GEO resource distributions have been slightly adjusted
 * Salt can now also generate in the Nether (as a GEO resource)
 
 #### Fixes
+
 * Crimson and Warped Pressure Plates are now properly recognized as pressure plates
 * Fixed #3336
 * (API) Fixed `Parachute` constructor parameter being ignored
@@ -110,23 +120,28 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
 * Fixed (Easter) Apple Pie recipe yielding (Christmas) Apple Pies
 
 ## Release Candidate 29 (07 Nov 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
 
 #### Additions
+
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
 * The Electric Crucible now also accepts Netherrack
 * The Electric Crucible now also accepts Stone
 * Added the ability to shift-click in the Cheat Sheet menu
 * Added the ability to break blocks normally with a Lumber Axe when sneaking
 * Added an option to allow Solar Generators to operate in "night-mode" in other dimensions
-* Added `/sf debug <test case>` (This allows server owners to get more in-depth logging which they can forward to developers for better bug/lag investigations)
+* Added `/sf debug <test case>` (This allows server owners to get more in-depth logging which they can forward to
+  developers for better bug/lag investigations)
 * Added an option to disable data backups on disable
 
 #### Changes
+
 * Massive performance improvements for Cargo networks
 * (API) `SolarGenerator` has a new constructor to accept capacity
 
 #### Fixes
+
 * Fixed #3218
 * Fixed #3241
 * Fixed #3248
@@ -139,17 +154,22 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
 * Fixed smithing table issue on 1.15 and lower
 
 ## Release Candidate 28 (06 Sep 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#28
 
 #### Fixes
+
 * Fixed Metrics
 * Fixed some naming conventions and localization keys for RC-27
 
 ## Release Candidate 27 (03 Sep 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#27
 
 ### **Breaking Changes (API)**
-This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
+
+This RC brings a lot of breaking changes to the API. For more info on why we did this and what
+happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
 
 * Category has been renamed to ItemGroup.
 * All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun4.api.items.groups`
@@ -157,11 +177,13 @@ This RC brings a lot of breaking changes to the API. For more info on why we did
 * The SlimefunItemStack class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
 * The ItemHandler class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
 * The RecipeType class has been relocated to `io.github.thebusybiscuit.slimefun4.api.recipes`
-* Research classes have been moved from `io.github.thebusybiscuit.slimefun4.core.researching` to `io.github.thebusybiscuit.slimefun4.api.researches`
+* Research classes have been moved from `io.github.thebusybiscuit.slimefun4.core.researching`
+  to `io.github.thebusybiscuit.slimefun4.api.researches`
 * The main class `SlimefunPlugin` was renamed to `Slimefun`
 * CS-CoreLib2 was removed and replaced by dough
 
 #### Additions
+
 * A couple more items have their wiki page linked ingame now
 * Added Orebfuscator compatibility
 * You can now "sneak + left click" to only break one block at a time when using an explosive pickaxe or shovel
@@ -174,6 +196,7 @@ This RC brings a lot of breaking changes to the API. For more info on why we did
 * Added 9 "Raw Copper -> 1 Raw Copper Block" recipe to Electric Press
 
 #### Changes
+
 * Copper wire can no longer be placed down
 * Slimefun chains can no longer be placed down
 * (API) FlexCategories can now also appear in non-survival Slimefun guides
@@ -181,6 +204,7 @@ This RC brings a lot of breaking changes to the API. For more info on why we did
 * Research message was modified to also show the category of the item
 
 #### Fixes
+
 * Fixed #3164
 * Fixed #3177
 * Fixed unbreakable Flint and Steel still being damaged in Ignition Chambers
@@ -194,9 +218,11 @@ This RC brings a lot of breaking changes to the API. For more info on why we did
 * Fixed Ender Lumps showing an incorrect recipe in the guide
 
 ## Release Candidate 26 (20 Jul 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
 
 #### Additions
+
 * Diamonds can now be ground into Carbon using a Grind Stone
 * Deepslate ores can now be doubled using an Ore Crusher
 * Tridents can now be crafted
@@ -207,18 +233,22 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
 * (API) Added `LimitedUseItem`
 
 #### Changes
+
 * The Industrial Miner now properly drops raw ores in 1.17+ instead of ore blocks
 
 #### Fixes
+
 * Fixed #2966
 * Fixed Auto-Crafters bypassing the `doLimitedCrafting` gamerule
 * Fixed "Talisman of Anvil" having issues with off-hand items
 * Fixed #3136
 
 ## Release Candidate 25 (20 Jun 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 
 #### Additions
+
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
 * Added a startup warning for when CS-CoreLib is still installed
 * (API) Added WeaponUseHandler
@@ -235,24 +265,30 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 * The Icy Bow now gives a freezing effect on 1.17
 
 #### Changes
+
 * (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
 * (API) Removed AsyncGeneratorProcessCompleteEvent
 * (API) Removed AsyncMachineProcessCompleteEvent
 * (API) Removed AsyncReactorProcessCompleteEvent
 
 #### Fixes
+
 * Fixed #3105
 * Fixed #3116
 
 ## Release Candidate 24 (03 Jun 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
 
 #### Additions
+
 * (API) Added AsyncMachineOperationFinishEvent
 * The speed of the Ancient Altar can now be configured in the `Items.yml` file
-* The message "You do not have enough knowledge to understand this" now includes the name of the item you need to research.
+* The message "You do not have enough knowledge to understand this" now includes the name of the item you need to
+  research.
 
 #### Changes
+
 * (API) Refactored "Machine Process" API
 * (API) Deprecated AsyncGeneratorProcessCompleteEvent
 * (API) Deprecated AsyncMachineProcessCompleteEvent
@@ -261,6 +297,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
 * Some performance optimizations to Cargo networks
 
 #### Fixes
+
 * Fixed #3064
 * Fixed #2964
 * Fixed #2979
@@ -278,9 +315,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
 * Fixed #3095
 
 ## Release Candidate 23 (19 May 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
 
 #### Additions
+
 * Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
 * Added "8 Coal Blocks -> 9 Carbon" recipe to Compressor
 * Added "8 Coal Blocks -> 9 Carbon" recipe to Carbon Press
@@ -298,6 +337,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
 * Added Portable Teleporter
 
 #### Changes
+
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
 * Photovoltaic Cells can no longer be placed
 * Batteries can no longer be placed
@@ -308,6 +348,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
 * Memory and performance improvements for Cargo and Energy networks
 
 #### Fixes
+
 * Fixed #2987
 * Fixed #2989
 * Fixed #2977
@@ -326,9 +367,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
 * Fixed #3060
 
 ## Release Candidate 22 (18 Apr 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 
 #### Additions
+
 * Added Vanilla Auto-Crafter
 * Added Enhanced Auto-Crafter
 * Added "Smart-Filling" mode to Cargo Input nodes
@@ -347,6 +390,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 * (API) Added AutoEnchantEvent
 
 #### Changes
+
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
 * Ancient Pedestals can now be found under "Magical Gadgets"
 * Removed all functionality from the old Automated Crafting Chamber
@@ -355,6 +399,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 * Small performance improvements
 
 #### Fixes
+
 * Fixed #1161
 * Fixed #2862
 * Fixed #2887
@@ -378,9 +423,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 * Fixed #2942
 
 ## Release Candidate 21 (14 Mar 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 
 #### Additions
+
 * Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
 * Added an option to allow Talismans to send their notifications via the Actionbar
 * (API) Added support for nested Categories
@@ -389,6 +436,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 * /sf versions now shows the Java version and some useful tooltips
 
 #### Changes
+
 * Deprecated Automatic Crafting Chamber
 * Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
 * Androids operating on a Cobblestone/Stone/Basalt generator now work faster
@@ -397,6 +445,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 * (API) Improved ItemSetting API and error handling
 
 #### Fixes
+
 * Fixed #2794
 * Fixed #2793
 * Fixed #2809
@@ -422,9 +471,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 * Fixed #2883
 
 ## Release Candidate 20 (30 Jan 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#20
 
 #### Additions
+
 * Added a new language: Bulgarian
 * Added a new language: Hebrew
 * (API) Added AsyncProfileLoadEvent
@@ -433,10 +484,12 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#20
 * Added Tier 3 Electric Ore Grinder
 
 #### Changes
+
 * Massive performance improvements to holograms/armorstands
 * Slimefun no longer requires CS-CoreLib to be installed
 
 #### Fixes
+
 * Fixed elevator floor order
 * Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
 * Fixed #2560
@@ -461,13 +514,16 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#20
 * Fixed #2679
 
 ## Release Candidate 19 (11 Jan 2021)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#19
 
 #### Additions
+
 * Added Bee Armor (1.15+ only)
 * (API) Added AndroidFarmEvent
 
 #### Changes
+
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
 * General performance improvements
@@ -477,6 +533,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#19
 * The Elevator has an Inventory menu now
 
 #### Fixes
+
 * Fixed a couple of compatibility issues with ItemsAdder
 * Fixed #2575
 * Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
@@ -488,9 +545,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#19
 * Fixed #2675
 
 ## Release Candidate 18 (03 Dec 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#18
 
 #### Additions
+
 * The Smelters Pick now also works on Ancient Debris
 * (API) Added PlayerPreResearchEvent
 * Added a config option to disable network visualizations
@@ -502,6 +561,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#18
 * Added 4 bricks -> 1 brick block recipe to the Electric Press
 
 #### Changes
+
 * Removed 1.13 support
 * Cooling Units can no longer be placed down
 * Heating Coils can no longer be placed down
@@ -518,6 +578,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#18
 * Memory and performance improvements for ticking blocks
 
 #### Fixes
+
 * Fixed #2448
 * Fixed #2470
 * Fixed #2478
@@ -554,9 +615,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#18
 * Fixed #2583
 
 ## Release Candidate 17 (17 Oct 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#17
 
 #### Additions
+
 * Added /sf charge
 * Added Energized Energy Capacitor
 * Added various new fuel types to the Coal Generator
@@ -578,12 +641,14 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#17
 * Added mcMMO support/integration
 
 #### Changes
+
 * Improved Auto-Updater (Multi-Threading and more)
 * General performance improvements
 * /sf cheat now shows seasonal categories all year through
 * GPS devices now require chest-access in that area to be used
 
 #### Fixes
+
 * Fixed #2300
 * Fixed #2296
 * Fixed colors of Cheat Sheet Slimefun Guide
@@ -627,9 +692,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#17
 * Fixed a dupe bug with mcMMO
 
 ## Release Candidate 16 (07 Sep 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
 
 #### Additions
+
 * Added an option for Industrial Miners to mine Ancient Debris
 * Added a new language: Korean
 * (API) Added support for adding custom Piglin Barter drops
@@ -647,6 +714,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
 * Added item breaking sounds to some slimefun tools
 
 #### Changes
+
 * Performance improvement for Programmable Android rotations
 * Removed Gravel -> Flint recipe from the Grind stone
 * Performance improvements for miner talismans
@@ -670,6 +738,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
 * Magnesium Salt in Magnesium-Salt generators now lasts longer
 
 #### Fixes
+
 * Fixed Programmable Androids rotating in the wrong direction
 * Fixed #2176
 * Fixed #2164
@@ -715,11 +784,14 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
 * Fixed Teleports getting stuck sometimes
 
 ## Release Candidate 15 (01 Aug 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
 
 #### Additions
+
 * Added "Bone Block -> Bone meal" recipe to the Grind Stone
-* Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to release updates to metrics (bStats) independently from the main plugin
+* Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to release updates to metrics (
+  bStats) independently from the main plugin
 * Added "Compressed Carbon -> Carbon" recipe to the Ore Crusher
 * Added "Carbon -> Coal" recipe to the Ore Crusher
 * Added an option to disable the message "Ignoring duplicate block"
@@ -731,6 +803,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
 * Added a permission node for /sf debug_fish
 
 #### Changes
+
 * Refactored and reworked the Generator API
 * Small performance improvements to Energy networks
 * Big performance improvements to Cargo networks when using ChestTerminal
@@ -749,6 +822,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
 * Ancient Pedestals now support for protection plugins
 
 #### Fixes
+
 * Fixed Slimefun Armor sometimes not applying its effects
 * Fixed #2075
 * Fixed #2093
@@ -770,9 +844,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
 * Fixed #2166
 
 ## Release Candidate 14 (12 Jul 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
 
 #### Additions
+
 * Added support for Minecraft 1.16
 * Added a starting sound for the Ancient Altar
 * Added config option to disable backwards compatibility and improve performance
@@ -796,6 +872,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
 * Added Indonesian translations
 
 #### Changes
+
 * Coolant Cells now last twice as long
 * Ticking blocks will now catch more errors caused by addons
 * Changed the texture for the Nuclear Reactor
@@ -819,6 +896,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
 * Moved Soulbound Backpack to the "Magical Gadgets" Category
 
 #### Fixes
+
 * Fixed #2005
 * Fixed #2009
 * Fixed a chunk caching issue for GEO resources
@@ -849,9 +927,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
 * Fixed a NullPointerException when Generators throw an Error Report
 
 ## Release Candidate 13 (16 Jun 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
 
 #### Additions
+
 * Added Dried Kelp Blocks recipe to the Electric Press
 * Added Bone Blocks recipe to the Electric Press
 * Added thai translations
@@ -867,6 +947,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
 * Added Bamboo to possible fishing loot for the Fishing Android
 
 #### Changes
+
 * Removed Digital Miner
 * Removed Advanced Digital Miner
 * Dried Kelp Blocks can now be used in the Coal Generator
@@ -882,6 +963,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
 * Changed tooltip on jetpacks and jet boots to say "Crouch" instead of "Hold Shift"
 
 #### Fixes
+
 * Fixed Ore Washer recipes showing up twice
 * Fixed #1942
 * Fixed a few memory leaks
@@ -900,9 +982,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
 * Fixed research fireworks still dealing damage sometimes
 
 ## Release Candidate 12 (27 May 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 
 #### Additions
+
 * Added Ukrainian translations
 * Added /sf backpack to restore lost backpacks
 * Added automated Unit Tests
@@ -910,6 +994,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 * Added an option to call an explosion event when using explosive tools
 
 #### Changes
+
 * Little performance improvements
 * Bandages, Rags and Splints will no longer be consumed if your health is full and you are not on fire
 * Player Profiles (researches and stuff) are now loaded completely asynchronously
@@ -918,6 +1003,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 * Finished Italian translations
 
 #### Fixes
+
 * Fixed #1824
 * Fixed #1833
 * Fixed #1834
@@ -945,9 +1031,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 * Fixed #1935
 
 ## Release Candidate 11 (25 Apr 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#11
 
 #### Additions
+
 * Added GEOResourceGenerationEvent
 * Added AncientAltarCraftEvent
 * Added SlimefunGuide-Options API
@@ -960,6 +1048,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#11
 * Added Output Chest support to the Composter
 
 #### Changes
+
 * Replaced GuideHandlers with FlexCategories
 * Removed support for old EmeraldEnchants versions
 * Updated the book variant of the guide to use the newer API
@@ -981,6 +1070,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#11
 * API requests to Mojang are now spread across a longer time period to prevent rate-limits
 
 #### Fixes
+
 * Fixed error message when clicking empty slots in the Slimefun Guide
 * Fixed #1779
 * Fixed localized messages not showing in the book guide
@@ -1003,9 +1093,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#11
 * Fixed GPS Emergency Transmitters not working
 
 ## Release Candidate 10 (28 Mar 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
 
 #### Additions
+
 * Added some new charts to bStats
 * Added a new language: Turkish
 * Multiblocks that use Fences or Trap doors now accept all wood types
@@ -1019,6 +1111,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
 * The Slimefun Guide can now remember what page of a Category or Minecraft Item you were on
 
 #### Changes
+
 * Removed some deprecated parts of the API
 * Internal clean up and further documentation
 * Changed Automatic Ignition Chamber to be a Dropper
@@ -1032,6 +1125,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
 * Moved EmeraldsEnchants integration from EmeraldEnchants to Slimefun
 
 #### Fixes
+
 * Fixed some languages showing numbers larger than 100%
 * Fixed #1570
 * Fixed #1686
@@ -1050,31 +1144,39 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
 * Fixed #1768
 
 ## Release Candidate 9 (07 Mar 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#9
 
 #### Fixes
+
 * Fixed Solar Generators not working
 
 ## Release Candidate 8 (06 Mar 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#8
 
 #### Fixes
+
 * Fixed bStats Metrics not sending properly
 
 ## Release Candidate 7 (06 Mar 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#7
 
 #### Additions
+
 * Added translations for Recipe Types
 * Added Rainbow Concrete
 * Added Rainbow Glazed Terracotta
 * Added more internal documentation
 
 #### Changes
+
 * Researches now use their namespaced keys in the Researches.yml
 * A lot of API changes
 
 #### Fixes
+
 * Fixed #1553
 * Fixed #1513
 * Fixed #1557
@@ -1086,9 +1188,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#7
 * Fixed #1613
 
 ## Release Candidate 6 (16 Feb 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#6
 
 #### Additions
+
 * Added a new language: Japanese
 * Added a new language: Swedish
 * Added a new language: Czech
@@ -1096,18 +1200,22 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#6
 * Added a new language: Arabic
 
 #### Changes
+
 * /sf research now uses namespaced keys instead of ids
 
 #### Fixes
+
 * Fixed #1515
 * Fixed back-button in guide-settings not working via commands
 * Fixed #1516
 * Fixed magician talisman not being able to enchant books
 
 ## Release Candidate 5 (09 Feb 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 
 #### Additions
+
 * Added preset messages.yml files
 * Added user-configurable localization
 * Added many more options to the messages.yml
@@ -1125,6 +1233,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 * Added translatability to geo-resources
 
 #### Changes
+
 * Removed Solar Array
 * A lot of internal cleanup
 * Performance improvements for GEO Miner and Oil Pump
@@ -1133,6 +1242,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 * Changed GEO-Resources API
 
 #### Fixes
+
 * Fixed #1355
 * Fixed Localization mistakes
 * Fixed #1366
@@ -1159,9 +1269,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 * Fixed Android Script Component textures
 
 ## Release Candidate 4 (06 Jan 2020)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 
 #### Additions
+
 * Added 1.15 support (1.14 and 1.15 are both supported)
 * Added custom model support to Slimefun Guide and some Recipe Types
 * Added Nether Gold Pan
@@ -1185,6 +1297,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Added Addons to the guide settings
 
 #### Changes
+
 * Revamped Guide Settings menu
 * Changed some Category icons
 * Changed Grappling Hook recipe
@@ -1200,6 +1313,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Oil Pump now shows its "Bucket -> Oil" recipe
 
 #### Fixes
+
 * Fixed Research Titles
 * Fixed #1264
 * Fixed #1261
@@ -1235,9 +1349,11 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Fixed #1354
 
 ## Release Candidate 3 (21 Nov 2019)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
 
 #### Additions
+
 * Smeltery now shows some recipes in the guide
 * Added Sweet Berry Juice
 * MultiBlocks that require fences will now accept all types of wooden fences
@@ -1251,8 +1367,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
 * Added AutoDisenchantEvent
 * Added "Flint to Cobblestone" Recipe to the Compressor
 
-
 #### Changes
+
 * Changed Ignition Chamber Recipe
 * /sf cheat no longer allows you to spawn in MultiBlocks
 * Removed Heavy Armor
@@ -1265,6 +1381,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
 * Performance improvements for the Slimefun Guide
 
 #### Fixes
+
 * Fixed Stone Chunk -> Cobblestone Recipe not working
 * Fixed #1145
 * Fixed #1157
@@ -1286,23 +1403,29 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
 * Fixed Ancient Altar allowing you to craft locked items
 
 ## Release Candidate 2 (29 Sep 2019)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#2
 
 #### Additions
+
 * Added GEO - Miner
 * Added more bStats Charts
 
 #### Changes
+
 * Reworked MultiBlocks
 * Removed the Saw Mill
 
 ### Fixes
+
 * Fixed Basic Machines not showing all recipes
 * Fixed #1129
 * Fixed #1130
 * Fixed Auto-Updater for stable builds
 
 ## Release Candidate 1 (26 Sep 2019)
+
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#1
 
-* First "stable" release since over a year. Stable builds will NOT receive support for bug reports since they are technically outdated. 
+* First "stable" release since over a year. Stable builds will NOT receive support for bug reports since they are
+  technically outdated. 

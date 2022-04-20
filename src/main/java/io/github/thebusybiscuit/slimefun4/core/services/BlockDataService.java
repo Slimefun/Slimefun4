@@ -1,11 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import java.util.Optional;
-import java.util.logging.Level;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.papermc.lib.PaperLib;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -19,17 +15,18 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.papermc.lib.PaperLib;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.logging.Level;
 
 /**
  * The {@link BlockDataService} is similar to the {@link CustomItemDataService},
  * it is responsible for storing NBT data inside a {@link TileState}.
- * 
+ * <p>
  * This is used to speed up performance and prevent
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class BlockDataService implements Keyed {
 
@@ -39,11 +36,9 @@ public class BlockDataService implements Keyed {
      * This creates a new {@link BlockDataService} for the given {@link Plugin}.
      * The {@link Plugin} and key will together form a {@link NamespacedKey} used to store
      * data on a {@link TileState}.
-     * 
-     * @param plugin
-     *            The {@link Plugin} responsible for this service
-     * @param key
-     *            The key under which to store data
+     *
+     * @param plugin The {@link Plugin} responsible for this service
+     * @param key    The key under which to store data
      */
     public BlockDataService(@Nonnull Plugin plugin, @Nonnull String key) {
         namespacedKey = new NamespacedKey(plugin, key);
@@ -56,11 +51,9 @@ public class BlockDataService implements Keyed {
 
     /**
      * This will store the given {@link String} inside the NBT data of the given {@link Block}
-     * 
-     * @param b
-     *            The {@link Block} in which to store the given value
-     * @param value
-     *            The value to store
+     *
+     * @param b     The {@link Block} in which to store the given value
+     * @param value The value to store
      */
     public void setBlockData(@Nonnull Block b, @Nonnull String value) {
         Validate.notNull(b, "The block cannot be null!");
@@ -90,10 +83,8 @@ public class BlockDataService implements Keyed {
 
     /**
      * This method returns the NBT data previously stored inside this {@link Block}.
-     * 
-     * @param b
-     *            The {@link Block} to retrieve data from
-     * 
+     *
+     * @param b The {@link Block} to retrieve data from
      * @return The stored value
      */
     public Optional<String> getBlockData(@Nonnull Block b) {
@@ -122,13 +113,11 @@ public class BlockDataService implements Keyed {
      * This method checks whether the given {@link Material} is a Tile Entity.
      * This is used to determine whether the {@link Block} produced by this {@link Material}
      * produces a {@link TileState}, making it useable as a {@link PersistentDataHolder}.
-     * 
+     * <p>
      * Due to {@link Block#getState()} being a very expensive call performance-wise though,
      * this simple lookup method is used instead.
-     * 
-     * @param type
-     *            The {@link Material} to check for
-     * 
+     *
+     * @param type The {@link Material} to check for
      * @return Whether the given {@link Material} is considered a Tile Entity
      */
     public boolean isTileEntity(@Nullable Material type) {

@@ -1,9 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-
+import be.seeseemelk.mockbukkit.MockBukkit;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -12,16 +11,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
-import be.seeseemelk.mockbukkit.MockBukkit;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 class TestAbstractRecipe {
 

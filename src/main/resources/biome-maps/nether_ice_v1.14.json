@@ -1,8 +1,8 @@
 [
-    {
-        "value" : 32,
-        "biomes" : [
-            "minecraft:nether"
-        ]
-    }
+  {
+    "value": 32,
+    "biomes": [
+      "minecraft:nether"
+    ]
+  }
 ]

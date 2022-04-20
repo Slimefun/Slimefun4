@@ -1,13 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import java.text.DecimalFormat;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import com.google.gson.JsonObject;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -17,22 +18,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import com.google.gson.JsonObject;
-
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
-import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.text.DecimalFormat;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.UUID;
 
 /**
  * The {@link TapeMeasure} is used to measure the distance between two {@link Block Blocks}.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
@@ -45,7 +41,8 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
     }
 
     @Override
-    public @Nonnull ItemUseHandler getItemHandler() {
+    public @Nonnull
+    ItemUseHandler getItemHandler() {
         return e -> {
             e.cancel();
 
@@ -91,7 +88,8 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
     }
 
     @ParametersAreNonnullByDefault
-    public @Nonnull Optional<Location> getAnchor(Player p, ItemStack item) {
+    public @Nonnull
+    Optional<Location> getAnchor(Player p, ItemStack item) {
         ItemMeta meta = item.getItemMeta();
 
         String data = meta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
@@ -117,7 +115,8 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
     }
 
     @ParametersAreNonnullByDefault
-    public @Nonnull OptionalDouble getDistance(Player p, ItemStack item, Block block) {
+    public @Nonnull
+    OptionalDouble getDistance(Player p, ItemStack item, Block block) {
         Optional<Location> anchor = getAnchor(p, item);
 
         if (anchor.isPresent()) {

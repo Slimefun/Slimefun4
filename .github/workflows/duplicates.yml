@@ -2,7 +2,7 @@ name: Mark Issue as duplicate
 
 on:
   issue_comment:
-    types: [created]
+    types: [ created ]
 
 jobs:
   comment:

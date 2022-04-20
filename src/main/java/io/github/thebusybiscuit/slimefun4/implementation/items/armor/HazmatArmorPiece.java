@@ -1,27 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Represents 1 {@link SlimefunArmorPiece} of the Hazmat armor set.
  * One of the very few utilisations of {@link ProtectiveArmor}.
  *
  * @author Linox
- *
  * @see SlimefunArmorPiece
  * @see ProtectiveArmor
- *
  */
 public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveArmor {
 
@@ -32,7 +29,7 @@ public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveAr
     public HazmatArmorPiece(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
         super(itemGroup, item, recipeType, recipe, effects);
 
-        types = new ProtectionType[] { ProtectionType.BEES, ProtectionType.RADIATION };
+        types = new ProtectionType[]{ProtectionType.BEES, ProtectionType.RADIATION};
         namespacedKey = new NamespacedKey(Slimefun.instance(), "hazmat_suit");
     }
 

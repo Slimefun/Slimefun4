@@ -1,17 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
-import java.util.Random;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Random;
+
 /**
  * Our {@link OreDictionary} implementation for MC 1.17 or higher.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 class OreDictionary17 extends OreDictionary16 {
 

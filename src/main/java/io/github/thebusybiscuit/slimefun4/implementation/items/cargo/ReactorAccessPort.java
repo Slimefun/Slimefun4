@@ -1,15 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -24,30 +14,37 @@ import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBre
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.CoolantCell;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link ReactorAccessPort} is a block which acts as an interface
  * between a {@link Reactor} and a {@link CargoNet}.
  * Any item placed into the port will get transferred to the {@link Reactor}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author AlexLander123
- *
  */
 public class ReactorAccessPort extends SlimefunItem {
 
     private static final int INFO_SLOT = 49;
 
-    private final int[] background = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 21, 23 };
-    private final int[] fuelBorder = { 9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47 };
-    private final int[] inputBorder = { 15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53 };
-    private final int[] outputBorder = { 30, 31, 32, 39, 41, 48, 50 };
+    private final int[] background = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 21, 23};
+    private final int[] fuelBorder = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
+    private final int[] inputBorder = {15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53};
+    private final int[] outputBorder = {30, 31, 32, 39, 41, 48, 50};
 
     @ParametersAreNonnullByDefault
     public ReactorAccessPort(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -116,6 +113,11 @@ public class ReactorAccessPort extends SlimefunItem {
     }
 
     @Nonnull
+    public static int[] getOutputSlots() {
+        return new int[]{40};
+    }
+
+    @Nonnull
     private BlockBreakHandler onBreak() {
         return new SimpleBlockBreakHandler() {
 
@@ -146,22 +148,17 @@ public class ReactorAccessPort extends SlimefunItem {
 
     @Nonnull
     public int[] getInputSlots() {
-        return new int[] { 19, 28, 37, 25, 34, 43 };
+        return new int[]{19, 28, 37, 25, 34, 43};
     }
 
     @Nonnull
     public int[] getFuelSlots() {
-        return new int[] { 19, 28, 37 };
+        return new int[]{19, 28, 37};
     }
 
     @Nonnull
     public int[] getCoolantSlots() {
-        return new int[] { 25, 34, 43 };
-    }
-
-    @Nonnull
-    public static int[] getOutputSlots() {
-        return new int[] { 40 };
+        return new int[]{25, 34, 43};
     }
 
     @Nullable

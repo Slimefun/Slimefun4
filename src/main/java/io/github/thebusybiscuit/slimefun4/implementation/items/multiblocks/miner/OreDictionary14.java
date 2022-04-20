@@ -1,24 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Random;
+
 /**
  * Our {@link OreDictionary} implementation for MC 1.14 or higher.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 class OreDictionary14 implements OreDictionary {
 
     @Override
     @ParametersAreNonnullByDefault
-    public @Nonnull ItemStack getDrops(Material material, Random random) {
+    public @Nonnull
+    ItemStack getDrops(Material material, Random random) {
         switch (material) {
             case COAL_ORE:
                 return new ItemStack(Material.COAL);

@@ -1,16 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.apache.commons.lang.Validate;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
-
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import javax.annotation.Nonnull;
 
 /**
  * An {@link Event} that is called whenever an {@link AutoEnchanter} is
@@ -38,6 +36,11 @@ public class AsyncAutoEnchanterProcessEvent extends Event implements Cancellable
         this.item = item;
         this.enchantedBook = enchantedBook;
         this.menu = menu;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     /**
@@ -68,11 +71,6 @@ public class AsyncAutoEnchanterProcessEvent extends Event implements Cancellable
     @Nonnull
     public BlockMenu getMenu() {
         return menu;
-    }
-
-    @Nonnull
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     @Nonnull

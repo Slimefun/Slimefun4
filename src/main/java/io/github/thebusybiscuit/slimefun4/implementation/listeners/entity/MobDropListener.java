@@ -1,10 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
 
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -13,22 +14,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
-import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
+import javax.annotation.Nonnull;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This {@link Listener} is responsible for handling any custom mob drops.
  * These drops can also be randomized using the interface {@link RandomMobDrop}, otherwise
  * they will be handled via {@link RecipeType}.
- * 
- * @author TheBusyBiscuit
- * 
- * @see RandomMobDrop
  *
+ * @author TheBusyBiscuit
+ * @see RandomMobDrop
  */
 public class MobDropListener implements Listener {
 

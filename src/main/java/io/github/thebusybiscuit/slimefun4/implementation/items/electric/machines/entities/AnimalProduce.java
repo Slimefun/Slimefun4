@@ -1,23 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities;
 
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.function.Predicate;
 
 /**
  * An {@link AnimalProduce} can be obtained via the {@link ProduceCollector}.
- * 
- * @author TheBusyBiscuit
- * 
- * @see ProduceCollector
  *
+ * @author TheBusyBiscuit
+ * @see ProduceCollector
  */
 public class AnimalProduce extends MachineRecipe implements Predicate<LivingEntity> {
 
@@ -25,7 +21,7 @@ public class AnimalProduce extends MachineRecipe implements Predicate<LivingEnti
 
     @ParametersAreNonnullByDefault
     public AnimalProduce(ItemStack input, ItemStack result, Predicate<LivingEntity> predicate) {
-        super(5, new ItemStack[] { input }, new ItemStack[] { result });
+        super(5, new ItemStack[]{input}, new ItemStack[]{result});
         Validate.notNull(predicate, "The Predicate must not be null");
 
         this.predicate = predicate;

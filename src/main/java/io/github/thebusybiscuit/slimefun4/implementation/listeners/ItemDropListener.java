@@ -1,21 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import javax.annotation.Nonnull;
-
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerDropItemEvent;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerDropItemEvent;
+
+import javax.annotation.Nonnull;
 
 /**
  * Listens to the {@link PlayerDropItemEvent} to call any {@link ItemDropHandler}.
  *
  * @author TheBusyBiscuit
- * 
  * @see ItemDropHandler
  */
 public class ItemDropListener implements Listener {

@@ -1,18 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes;
 
-import java.util.Collection;
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -23,18 +10,27 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collection;
+import java.util.Optional;
 
 /**
  * This {@link SlimefunItem} allows you to convert any {@link ItemStack} into a
  * {@link SoulboundItem}. It is also one of the very few utilisations of {@link ItemDropHandler}.
- * 
+ *
  * @author Linox
  * @author Walshy
  * @author TheBusyBiscuit
- * 
  * @see ItemDropHandler
  * @see Soulbound
- *
  */
 public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
@@ -108,10 +104,8 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
      * This method checks whether a given {@link Entity} is an {@link Item} which can
      * be bound to a soul. We exclude the {@link SoulboundRune} itself and any already
      * {@link Soulbound} {@link Item}.
-     * 
-     * @param entity
-     *            The {@link Entity} to check
-     * 
+     *
+     * @param entity The {@link Entity} to check
      * @return Whether this {@link Entity} is compatible
      */
     private boolean findCompatibleItem(@Nonnull Entity entity) {

@@ -1,34 +1,34 @@
 [
-    {
-        "value" : 5,
-        "biomes" : [
-            "minecraft:desert",
-            "minecraft:beach",
-            "minecraft:stony_shore"
-        ]
-    },
-    {
-        "value" : 8,
-        "biomes" : [
-            "minecraft:jagged_peaks",
-            "minecraft:stony_peaks",
-            "minecraft:windswept_hills",
-            "minecraft:windswept_gravelly_hills"
-        ]
-    },
-    {
-        "value" : 12,
-        "biomes" : [
-            "minecraft:badlands",
-            "minecraft:eroded_badlands",
-            "minecraft:wooded_badlands",
-            "minecraft:dripstone_caves"
-        ]
-    },
-    {
-        "value" : 16,
-        "biomes" : [
-            "minecraft:basalt_deltas"
-        ]
-    }
+  {
+    "value": 5,
+    "biomes": [
+      "minecraft:desert",
+      "minecraft:beach",
+      "minecraft:stony_shore"
+    ]
+  },
+  {
+    "value": 8,
+    "biomes": [
+      "minecraft:jagged_peaks",
+      "minecraft:stony_peaks",
+      "minecraft:windswept_hills",
+      "minecraft:windswept_gravelly_hills"
+    ]
+  },
+  {
+    "value": 12,
+    "biomes": [
+      "minecraft:badlands",
+      "minecraft:eroded_badlands",
+      "minecraft:wooded_badlands",
+      "minecraft:dripstone_caves"
+    ]
+  },
+  {
+    "value": 16,
+    "biomes": [
+      "minecraft:basalt_deltas"
+    ]
+  }
 ]

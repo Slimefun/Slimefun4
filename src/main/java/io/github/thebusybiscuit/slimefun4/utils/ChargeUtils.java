@@ -1,13 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.annotation.Nonnull;
-
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -15,9 +10,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.Nonnull;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * This is just a simple helper class to provide static methods to the {@link Rechargeable}
@@ -25,16 +23,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  *
  * @author TheBusyBiscuit
  * @author WalshyDev
- *
  * @see Rechargeable
- *
  */
 public final class ChargeUtils {
 
     private static final String LORE_PREFIX = ChatColors.color("&8\u21E8 &e\u26A1 &7");
     private static final Pattern REGEX = Pattern.compile(ChatColors.color("(&c&o)?" + LORE_PREFIX) + "[0-9.]+ / [0-9.]+ J");
 
-    private ChargeUtils() {}
+    private ChargeUtils() {
+    }
 
     public static void setCharge(@Nonnull ItemMeta meta, float charge, float capacity) {
         Validate.notNull(meta, "Meta cannot be null!");

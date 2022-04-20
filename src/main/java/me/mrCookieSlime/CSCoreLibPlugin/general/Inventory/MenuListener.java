@@ -1,9 +1,7 @@
 package me.mrCookieSlime.CSCoreLibPlugin.general.Inventory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,15 +10,15 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * An old {@link Listener} for CS-CoreLib
- * 
- * @deprecated This is an old remnant of CS-CoreLib, the last bits of the past. They will be removed once everything is
- *             updated.
  *
+ * @deprecated This is an old remnant of CS-CoreLib, the last bits of the past. They will be removed once everything is
+ * updated.
  */
 @Deprecated
 public class MenuListener implements Listener {

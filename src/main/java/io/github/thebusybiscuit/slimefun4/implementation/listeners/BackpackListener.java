@@ -1,14 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,27 +22,26 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * This {@link Listener} is responsible for all events centered around a {@link SlimefunBackpack}.
  * This also includes the {@link Cooler}
- * 
+ *
  * @author TheBusyBiscuit
  * @author Walshy
  * @author NihilistBrew
  * @author AtomicScience
  * @author VoidAngel
  * @author John000708
- * 
  * @see SlimefunBackpack
  * @see PlayerBackpack
- *
  */
 public class BackpackListener implements Listener {
 
@@ -172,15 +168,11 @@ public class BackpackListener implements Listener {
 
     /**
      * This method sets the id for a backpack onto the given {@link ItemStack}.
-     * 
-     * @param backpackOwner
-     *            The owner of this backpack
-     * @param item
-     *            The {@link ItemStack} to modify
-     * @param line
-     *            The line at which the ID should be replaced
-     * @param id
-     *            The id of this backpack
+     *
+     * @param backpackOwner The owner of this backpack
+     * @param item          The {@link ItemStack} to modify
+     * @param line          The line at which the ID should be replaced
+     * @param id            The id of this backpack
      */
     public void setBackpackId(@Nonnull OfflinePlayer backpackOwner, @Nonnull ItemStack item, int line, int id) {
         Validate.notNull(backpackOwner, "Backpacks must have an owner!");

@@ -1,25 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.geo;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.OptionalInt;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -30,31 +10,37 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.apache.commons.lang.Validate;
+import org.bukkit.*;
+import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The {@link ResourceManager} is responsible for registering and managing a {@link GEOResource}.
  * You have to use the {@link ResourceManager} if you want to generate or consume a {@link GEOResource} too.
- * 
+ *
  * @author TheBusyBiscuit
- * 
  * @see GEOResource
  * @see GEOMiner
  * @see GEOScanner
- *
  */
 public class ResourceManager {
 
-    private final int[] backgroundSlots = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 48, 49, 50, 52, 53 };
+    private final int[] backgroundSlots = {0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 48, 49, 50, 52, 53};
     private final Config config;
 
     /**
      * This will create a new {@link ResourceManager}.
-     * 
-     * @param plugin
-     *            Our {@link Slimefun} instance
+     *
+     * @param plugin Our {@link Slimefun} instance
      */
     public ResourceManager(@Nonnull Slimefun plugin) {
         config = new Config(plugin, "resources.yml");
@@ -63,9 +49,8 @@ public class ResourceManager {
     /**
      * This method registers the given {@link GEOResource}.
      * It may never be called directly, use {@link GEOResource#register()} instead.
-     * 
-     * @param resource
-     *            The {@link GEOResource} to register
+     *
+     * @param resource The {@link GEOResource} to register
      */
     void register(@Nonnull GEOResource resource) {
         Validate.notNull(resource, "Cannot register null as a GEO-Resource");
@@ -92,19 +77,15 @@ public class ResourceManager {
      * This method returns the amount of a certain {@link GEOResource} found in a given {@link Chunk}.
      * The result is an {@link OptionalInt} which will be empty if this {@link GEOResource}
      * has not been generated at that {@link Location} yet.
-     * 
-     * @param resource
-     *            The {@link GEOResource} to query
-     * @param world
-     *            The {@link World} of this {@link Location}
-     * @param x
-     *            The {@link Chunk} x coordinate
-     * @param z
-     *            The {@link Chunk} z coordinate
-     * 
+     *
+     * @param resource The {@link GEOResource} to query
+     * @param world    The {@link World} of this {@link Location}
+     * @param x        The {@link Chunk} x coordinate
+     * @param z        The {@link Chunk} z coordinate
      * @return An {@link OptionalInt}, either empty or containing the amount of the given {@link GEOResource}
      */
-    public @Nonnull OptionalInt getSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
+    public @Nonnull
+    OptionalInt getSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
         Validate.notNull(resource, "Cannot get supplies for null");
         Validate.notNull(world, "World must not be null");
 
@@ -120,17 +101,12 @@ public class ResourceManager {
 
     /**
      * This method will set the supplies in a given {@link Chunk} to the specified value.
-     * 
-     * @param resource
-     *            The {@link GEOResource}
-     * @param world
-     *            The {@link World}
-     * @param x
-     *            The x coordinate of that {@link Chunk}
-     * @param z
-     *            The z coordinate of that {@link Chunk}
-     * @param value
-     *            The new supply value
+     *
+     * @param resource The {@link GEOResource}
+     * @param world    The {@link World}
+     * @param x        The x coordinate of that {@link Chunk}
+     * @param z        The z coordinate of that {@link Chunk}
+     * @param value    The new supply value
      */
     public void setSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z, int value) {
         Validate.notNull(resource, "Cannot set supplies for null");
@@ -146,16 +122,11 @@ public class ResourceManager {
      * <p>
      * This method will invoke {@link #setSupplies(GEOResource, World, int, int, int)} and also calls a
      * {@link GEOResourceGenerationEvent}.
-     * 
-     * @param resource
-     *            The {@link GEOResource} to generate
-     * @param world
-     *            The {@link World}
-     * @param x
-     *            The x coordinate of that {@link Chunk}
-     * @param z
-     *            The z coordinate of that {@link Chunk}
-     * 
+     *
+     * @param resource The {@link GEOResource} to generate
+     * @param world    The {@link World}
+     * @param x        The x coordinate of that {@link Chunk}
+     * @param z        The z coordinate of that {@link Chunk}
      * @return The new supply value
      */
     private int generate(@Nonnull GEOResource resource, @Nonnull World world, int x, int y, int z) {
@@ -198,17 +169,14 @@ public class ResourceManager {
     /**
      * This method will start a geo-scan at the given {@link Block} and display the result
      * of that scan to the given {@link Player}.
-     * 
+     * <p>
      * Note that scans are always per {@link Chunk}, not per {@link Block}, the {@link Block}
      * parameter only determines the {@link Location} that was clicked but it will still scan
      * the entire {@link Chunk}.
-     * 
-     * @param p
-     *            The {@link Player} who requested these results
-     * @param block
-     *            The {@link Block} which the scan starts at
-     * @param page
-     *            The page to display
+     *
+     * @param p     The {@link Player} who requested these results
+     * @param block The {@link Block} which the scan starts at
+     * @param page  The page to display
      */
     public void scan(@Nonnull Player p, @Nonnull Block block, int page) {
         if (Slimefun.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {

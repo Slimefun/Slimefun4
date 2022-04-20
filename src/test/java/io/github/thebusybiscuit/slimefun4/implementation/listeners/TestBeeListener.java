@@ -1,5 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.BeeListener;
+import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import org.bukkit.Material;
 import org.bukkit.entity.Bee;
 import org.bukkit.entity.Player;
@@ -12,16 +20,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
-
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.BeeListener;
-import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 
 class TestBeeListener {
 
@@ -43,7 +41,7 @@ class TestBeeListener {
 
     @ParameterizedTest
     @DisplayName("Test Bee damage protection")
-    @ValueSource(booleans = { true, false })
+    @ValueSource(booleans = {true, false})
     void testBeeDamage(boolean hasArmor) throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);

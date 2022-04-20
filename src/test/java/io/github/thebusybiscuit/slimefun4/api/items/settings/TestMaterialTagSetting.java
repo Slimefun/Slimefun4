@@ -1,24 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.api.items.settings;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
+import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
+import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.junit.jupiter.api.*;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 class TestMaterialTagSetting {
 

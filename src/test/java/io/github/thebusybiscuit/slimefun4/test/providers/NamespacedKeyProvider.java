@@ -1,8 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.test.providers;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -10,6 +7,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.support.AnnotationConsumer;
 import org.mockito.Mockito;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class NamespacedKeyProvider implements ArgumentsProvider, AnnotationConsumer<NamespacedKeySource> {
 

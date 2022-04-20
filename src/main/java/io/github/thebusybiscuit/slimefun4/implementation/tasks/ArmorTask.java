@@ -1,22 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.World.Environment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -29,14 +12,28 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The {@link ArmorTask} is responsible for handling {@link PotionEffect PotionEffects} for
  * {@link Radioactive} items or any {@link SlimefunArmorPiece}.
  * It also handles the prevention of radiation through a Hazmat Suit
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class ArmorTask implements Runnable {
 
@@ -45,9 +42,8 @@ public class ArmorTask implements Runnable {
 
     /**
      * This creates a new {@link ArmorTask}.
-     * 
-     * @param radioactiveFire
-     *            Whether radiation also causes a {@link Player} to burn
+     *
+     * @param radioactiveFire Whether radiation also causes a {@link Player} to burn
      */
     public ArmorTask(boolean radioactiveFire) {
         this.radioactiveFire = radioactiveFire;
@@ -65,7 +61,7 @@ public class ArmorTask implements Runnable {
     /**
      * This returns a {@link Set} of {@link PotionEffect PotionEffects} which get applied to
      * a {@link Player} when they are exposed to deadly radiation.
-     * 
+     *
      * @return The {@link Set} of {@link PotionEffect PotionEffects} applied upon radioactive contact
      */
     @Nonnull

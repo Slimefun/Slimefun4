@@ -1,22 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Queue;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,42 +26,26 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.network.Network;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import io.papermc.lib.PaperLib;
-
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.*;
 
 /**
  * An abstract super class of {@link CargoNet} that handles
  * interactions with ChestTerminal.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 abstract class AbstractItemNetwork extends Network {
 
-    private static final int[] slots = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
-    private static final int[] TERMINAL_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42 };
+    private static final int[] slots = {19, 20, 21, 28, 29, 30, 37, 38, 39};
+    private static final int[] TERMINAL_SLOTS = {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
     private static final int TERMINAL_OUT_SLOT = 17;
-
-    private final ItemStack terminalPlaceholderItem = new CustomItemStack(Material.BARRIER, "&4No Item cached");
-
     protected final Set<Location> terminals = new HashSet<>();
     protected final Set<Location> imports = new HashSet<>();
     protected final Set<Location> exports = new HashSet<>();
-
+    private final ItemStack terminalPlaceholderItem = new CustomItemStack(Material.BARRIER, "&4No Item cached");
     /**
      * This represents a {@link Queue} of requests to handle
      */
@@ -282,10 +263,8 @@ abstract class AbstractItemNetwork extends Network {
     /**
      * This method updates every terminal on the network with {@link ItemStack ItemStacks}
      * found in any provider of the network.
-     * 
-     * @param providers
-     *            A {@link Set} of providers to this {@link AbstractItemNetwork}
-     * 
+     *
+     * @param providers A {@link Set} of providers to this {@link AbstractItemNetwork}
      * @return The time it took to compute this operation
      */
     protected long updateTerminals(@Nonnull Set<Location> providers) {
@@ -343,9 +322,8 @@ abstract class AbstractItemNetwork extends Network {
     /**
      * This will mark the {@link ItemFilter} of the given node dirty.
      * It will also invalidate the cached rotation.
-     * 
-     * @param node
-     *            The {@link Location} of the cargo node
+     *
+     * @param node The {@link Location} of the cargo node
      */
     public void markCargoNodeConfigurationDirty(@Nonnull Location node) {
         ItemFilter filter = filterCache.get(node);

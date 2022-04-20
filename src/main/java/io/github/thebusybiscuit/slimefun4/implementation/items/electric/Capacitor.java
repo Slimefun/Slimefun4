@@ -1,10 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,18 +7,20 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A {@link Capacitor} is an {@link EnergyNetComponent} that serves as the energy
  * storage of an {@link EnergyNet}.
- * 
+ * <p>
  * It is represented by {@code EnergyNetComponentType.CAPACITOR}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
  * @see EnergyNet
  * @see EnergyNetComponent
- *
  */
 public class Capacitor extends SlimefunItem implements EnergyNetComponent {
 

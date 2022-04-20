@@ -1,11 +1,12 @@
 package me.mrCookieSlime.integrations;
 
-import java.util.function.Consumer;
-import java.util.logging.Level;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
+import com.gmail.nossr50.util.skills.SkillUtils;
+import dev.lone.itemsadder.api.ItemsAdder;
+import io.github.bakedlibs.dough.protection.ProtectionManager;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -14,26 +15,19 @@ import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
-import com.gmail.nossr50.util.skills.SkillUtils;
-
-import io.github.bakedlibs.dough.protection.ProtectionManager;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
-
-import dev.lone.itemsadder.api.ItemsAdder;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.function.Consumer;
+import java.util.logging.Level;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
  * that are not necessarily a dependency or a {@link SlimefunAddon}.
- * 
+ * <p>
  * Integration with these plugins happens inside Slimefun itself.
- * 
- * @author TheBusyBiscuit
- * 
- * @see Slimefun
  *
+ * @author TheBusyBiscuit
+ * @see Slimefun
  */
 public class IntegrationsManager {
 
@@ -65,9 +59,8 @@ public class IntegrationsManager {
 
     /**
      * This initializes the {@link IntegrationsManager}
-     * 
-     * @param plugin
-     *            Our instance of {@link Slimefun}
+     *
+     * @param plugin Our instance of {@link Slimefun}
      */
     public IntegrationsManager(@Nonnull Slimefun plugin) {
         this.plugin = plugin;
@@ -75,7 +68,7 @@ public class IntegrationsManager {
 
     /**
      * This method returns whether the {@link IntegrationsManager} was enabled yet.
-     * 
+     *
      * @return Whether this {@link IntegrationsManager} has been enabled already.
      */
     public boolean isEnabled() {
@@ -156,7 +149,7 @@ public class IntegrationsManager {
 
     /**
      * This method checks if the given addon is installed.
-     * 
+     *
      * @return Whether that addon is installed on the {@link Server}
      */
     private boolean isAddonInstalled() {
@@ -173,11 +166,9 @@ public class IntegrationsManager {
      * we integrate into.
      * Calling this method will probably log the error and provide the version of this {@link Plugin}
      * for error analysis.
-     * 
-     * @param name
-     *            The name of the {@link Plugin}
-     * @param throwable
-     *            The {@link Throwable} to throw
+     *
+     * @param name      The name of the {@link Plugin}
+     * @param throwable The {@link Throwable} to throw
      */
     @ParametersAreNonnullByDefault
     protected void logError(String name, Throwable throwable) {
@@ -185,7 +176,7 @@ public class IntegrationsManager {
 
         if (externalPlugin != null) {
             String version = externalPlugin.getDescription().getVersion();
-            Slimefun.logger().log(Level.WARNING, "Is {0} v{1} up to date?", new Object[] { name, version });
+            Slimefun.logger().log(Level.WARNING, "Is {0} v{1} up to date?", new Object[]{name, version});
             Slimefun.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with \"" + name + " v" + version + "\"");
         } else {
             Slimefun.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with the plugin \"" + name + "\"");
@@ -195,18 +186,16 @@ public class IntegrationsManager {
     /**
      * This method loads an integration with a {@link Plugin} of the specified name.
      * If that {@link Plugin} is installed and enabled, the provided callback will be run.
-     * 
-     * @param pluginName
-     *            The name of this {@link Plugin}
-     * @param consumer
-     *            The callback to run if that {@link Plugin} is installed and enabled
+     *
+     * @param pluginName The name of this {@link Plugin}
+     * @param consumer   The callback to run if that {@link Plugin} is installed and enabled
      */
     private void load(@Nonnull String pluginName, @Nonnull Consumer<Plugin> consumer) {
         Plugin integration = plugin.getServer().getPluginManager().getPlugin(pluginName);
 
         if (integration != null && integration.isEnabled()) {
             String version = integration.getDescription().getVersion();
-            Slimefun.logger().log(Level.INFO, "Hooked into Plugin: {0} v{1}", new Object[] { pluginName, version });
+            Slimefun.logger().log(Level.INFO, "Hooked into Plugin: {0} v{1}", new Object[]{pluginName, version});
 
             try {
                 // Run our callback
@@ -221,20 +210,19 @@ public class IntegrationsManager {
     /**
      * This returns out instance of the {@link ProtectionManager}.
      * This bridge is used to hook into any third-party protection {@link Plugin}.
-     * 
+     *
      * @return Our instanceof of the {@link ProtectionManager}
      */
-    public @Nonnull ProtectionManager getProtectionManager() {
+    public @Nonnull
+    ProtectionManager getProtectionManager() {
         return protectionManager;
     }
 
     /**
      * This checks if one of our third party integrations faked an {@link Event}.
      * Faked {@link Event Events} should be ignored in our logic.
-     * 
-     * @param event
-     *            The {@link Event} to test
-     * 
+     *
+     * @param event The {@link Event} to test
      * @return Whether this is a fake event
      */
     public boolean isEventFaked(@Nonnull Event event) {
@@ -245,10 +233,8 @@ public class IntegrationsManager {
     /**
      * This checks if one of our third party integrations has placed a custom
      * {@link Block} at this {@link Location}.
-     * 
-     * @param block
-     *            The {@link Block} to check
-     * 
+     *
+     * @param block The {@link Block} to check
      * @return Whether a different custom {@link Block} exists at that {@link Location}
      */
     @SuppressWarnings("deprecation")
@@ -267,10 +253,8 @@ public class IntegrationsManager {
     /**
      * This checks if one of our third party integrations defines a given
      * {@link ItemStack} as custom.
-     * 
-     * @param item
-     *            The {@link ItemStack} to check
-     * 
+     *
+     * @param item The {@link ItemStack} to check
      * @return Whether this {@link ItemStack} is a custom item
      */
     @SuppressWarnings("deprecation")
@@ -291,9 +275,8 @@ public class IntegrationsManager {
      * Some plugins apply enchantments for a short amount of time and remove it later.
      * We don't want these items to be exploited using an {@link AutoDisenchanter} for example,
      * so we want to be able to strip those temporary enchantments in advance.
-     * 
-     * @param item
-     *            The {@link ItemStack}
+     *
+     * @param item The {@link ItemStack}
      */
     public void removeTemporaryEnchantments(@Nonnull ItemStack item) {
         if (isMcMMOInstalled) {

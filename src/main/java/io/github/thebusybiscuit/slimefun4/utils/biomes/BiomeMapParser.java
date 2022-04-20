@@ -1,36 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.utils.biomes;
 
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.NamespacedKey;
-import org.bukkit.block.Biome;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
 import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import org.apache.commons.lang.Validate;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Biome;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.*;
 
 /**
  * The {@link BiomeMapParser} allows you to parse json data into a {@link BiomeMap}.
- * 
- * @author TheBusyBiscuit
  *
- * @param <T>
- *            The data type of the resulting {@link BiomeMap}
- * 
+ * @param <T> The data type of the resulting {@link BiomeMap}
+ * @author TheBusyBiscuit
  * @see BiomeMap
  */
 class BiomeMapParser<T> {
@@ -54,11 +44,9 @@ class BiomeMapParser<T> {
      * This constructs a new {@link BiomeMapParser}.
      * <p>
      * To parse data, use the {@link #read(JsonArray)} or {@link #read(String)} method.
-     * 
-     * @param key
-     *            The {@link NamespacedKey} for the resulting {@link BiomeMap}
-     * @param valueConverter
-     *            A function to convert {@link JsonElement}s into your desired data type
+     *
+     * @param key            The {@link NamespacedKey} for the resulting {@link BiomeMap}
+     * @param valueConverter A function to convert {@link JsonElement}s into your desired data type
      */
     @ParametersAreNonnullByDefault
     BiomeMapParser(NamespacedKey key, BiomeDataConverter<T> valueConverter) {
@@ -70,30 +58,29 @@ class BiomeMapParser<T> {
     }
 
     /**
-     * This method sets the "lenient" flag for this parser.
-     * <p>
-     * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
-     * could not be found.
-     * The default value is false.
-     * 
-     * @param isLenient
-     *            Whether this parser should be lenient or not.
-     */
-    void setLenient(boolean isLenient) {
-        this.isLenient = isLenient;
-    }
-
-    /**
      * This method returns whether this parser is flagged as "lenient".
      * <p>
      * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
      * could not be found.
      * The default value is false.
-     * 
+     *
      * @return Whether this parser is lenient or not.
      */
     boolean isLenient() {
         return isLenient;
+    }
+
+    /**
+     * This method sets the "lenient" flag for this parser.
+     * <p>
+     * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
+     * could not be found.
+     * The default value is false.
+     *
+     * @param isLenient Whether this parser should be lenient or not.
+     */
+    void setLenient(boolean isLenient) {
+        this.isLenient = isLenient;
     }
 
     void read(@Nonnull String json) throws BiomeMapException {
@@ -157,7 +144,8 @@ class BiomeMapParser<T> {
         }
     }
 
-    private @Nonnull Set<Biome> readBiomes(@Nonnull JsonArray array) throws BiomeMapException {
+    private @Nonnull
+    Set<Biome> readBiomes(@Nonnull JsonArray array) throws BiomeMapException {
         Validate.notNull(array, "The JSON array should not be null!");
         Set<Biome> biomes = EnumSet.noneOf(Biome.class);
 
@@ -196,7 +184,7 @@ class BiomeMapParser<T> {
      * <p>
      * Make sure to parse data via {@link #read(JsonArray)} or {@link #read(String)}
      * before calling this method! Otherwise the resulting {@link BiomeMap} will be empty.
-     * 
+     *
      * @return The resulting {@link BiomeMap}
      */
     @Nonnull

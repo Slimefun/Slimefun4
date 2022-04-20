@@ -1,29 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.api.geo;
 
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.NamespacedKey;
-import org.bukkit.World.Environment;
-import org.bukkit.block.Biome;
-import org.bukkit.inventory.ItemStack;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
+import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import org.bukkit.NamespacedKey;
+import org.bukkit.World.Environment;
+import org.bukkit.block.Biome;
+import org.bukkit.inventory.ItemStack;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 
 @TestMethodOrder(value = OrderAnnotation.class)
 class TestResourceRegistration {
@@ -56,7 +47,8 @@ class TestResourceRegistration {
     }
 
     @ParametersAreNonnullByDefault
-    private @Nonnull GEOResource testResource(NamespacedKey key, String name, ItemStack item, boolean miner, int deviation) {
+    private @Nonnull
+    GEOResource testResource(NamespacedKey key, String name, ItemStack item, boolean miner, int deviation) {
         Optional<GEOResource> optional = Slimefun.getRegistry().getGEOResources().get(key);
         Assertions.assertTrue(optional.isPresent());
 

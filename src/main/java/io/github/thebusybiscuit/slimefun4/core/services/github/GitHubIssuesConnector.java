@@ -1,17 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
 import kong.unirest.JsonNode;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
 
 class GitHubIssuesConnector extends GitHubConnector {
 

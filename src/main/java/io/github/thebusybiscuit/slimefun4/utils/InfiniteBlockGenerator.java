@@ -1,11 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
+import io.papermc.lib.PaperLib;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,17 +11,17 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.block.BlockFormEvent;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
-import io.papermc.lib.PaperLib;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.function.Predicate;
 
 /**
  * This enum holds various ways of infinite block generators.
  * The most prominent member of these is the standard Cobblestone Generator.
  * We use this enum for performance optimizations for the {@link MinerAndroid}.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public enum InfiniteBlockGenerator implements Predicate<Block> {
 
@@ -44,7 +41,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
     BASALT_GENERATOR("BASALT");
 
     private static final InfiniteBlockGenerator[] valuesCached = values();
-    private static final BlockFace[] sameLevelFaces = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
+    private static final BlockFace[] sameLevelFaces = {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
 
     private final Material material;
 
@@ -53,23 +50,41 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
     }
 
     /**
+     * This will attempt to find an {@link InfiniteBlockGenerator} at the given {@link Block}.
+     *
+     * @param b The {@link Block}
+     * @return An {@link InfiniteBlockGenerator} or null if none was found.
+     */
+    public static @Nullable
+    InfiniteBlockGenerator findAt(@Nonnull Block b) {
+        Validate.notNull(b, "Cannot find a generator without a Location!");
+
+        for (InfiniteBlockGenerator generator : valuesCached) {
+            if (generator.test(b)) {
+                return generator;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * This returns the generated {@link Material} of this {@link InfiniteBlockGenerator}.
      * This method can return null if the associated {@link Material} is not available in the current
      * {@link MinecraftVersion}.
-     * 
+     *
      * @return The generated {@link Material} or null
      */
-    public @Nullable Material getGeneratedMaterial() {
+    public @Nullable
+    Material getGeneratedMaterial() {
         return material;
     }
 
     /**
      * Similar to {@link #test(Block)} this tests whether this {@link InfiniteBlockGenerator}
      * exists at the given {@link Block}.
-     * 
-     * @param b
-     *            The {@link Block}
-     * 
+     *
+     * @param b The {@link Block}
      * @return Whether this {@link InfiniteBlockGenerator} exists at the given {@link Block}
      */
     @Override
@@ -136,37 +151,16 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * This method calls a {@link BlockFormEvent} for this {@link InfiniteBlockGenerator}.
      * There are a few plugins who catch these events to inject custom {@link Material Materials} into
      * Cobblestone Generators, so we wanna give them the oppurtunity to catch this as well.
-     * 
-     * @param block
-     *            The {@link Block} where the liquid has solidified
-     * 
+     *
+     * @param block The {@link Block} where the liquid has solidified
      * @return Our called {@link BlockFormEvent}
      */
-    public @Nonnull BlockFormEvent callEvent(@Nonnull Block block) {
+    public @Nonnull
+    BlockFormEvent callEvent(@Nonnull Block block) {
         Validate.notNull(block, "The Block cannot be null!");
         BlockState state = PaperLib.getBlockState(block, false).getState();
         BlockFormEvent event = new BlockFormEvent(block, state);
         Bukkit.getPluginManager().callEvent(event);
         return event;
-    }
-
-    /**
-     * This will attempt to find an {@link InfiniteBlockGenerator} at the given {@link Block}.
-     * 
-     * @param b
-     *            The {@link Block}
-     * 
-     * @return An {@link InfiniteBlockGenerator} or null if none was found.
-     */
-    public static @Nullable InfiniteBlockGenerator findAt(@Nonnull Block b) {
-        Validate.notNull(b, "Cannot find a generator without a Location!");
-
-        for (InfiniteBlockGenerator generator : valuesCached) {
-            if (generator.test(b)) {
-                return generator;
-            }
-        }
-
-        return null;
     }
 }

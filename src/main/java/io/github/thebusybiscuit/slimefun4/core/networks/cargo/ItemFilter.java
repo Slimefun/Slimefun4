@@ -1,42 +1,31 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-
-import javax.annotation.Nullable;
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
-import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
-import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.inventory.meta.ItemMeta;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * The {@link ItemFilter} is a performance-optimization for our {@link CargoNet}.
  * It is a snapshot of a cargo node's configuration.
- * 
+ *
  * @author TheBusyBiscuit
- * 
  * @see CargoNet
  * @see CargoNetworkTask
- *
  */
 class ItemFilter implements Predicate<ItemStack> {
 
@@ -70,21 +59,38 @@ class ItemFilter implements Predicate<ItemStack> {
     /**
      * This creates a new {@link ItemFilter} for the given {@link Block}.
      * This will copy all settings from that {@link Block} to this filter.
-     * 
-     * @param b
-     *            The {@link Block}
+     *
+     * @param b The {@link Block}
      */
     public ItemFilter(@Nonnull Block b) {
         update(b);
         checkCustomItems = Slimefun.getCfg().getBoolean("options.allow-custom-items-in-cargo-filters");
     }
 
+    public static boolean altItemCompare(@Nullable ItemStack item, @Nullable ItemStack sfitem) {
+        if (item == null) {
+            return sfitem == null;
+        } else if (sfitem == null) {
+            return false;
+        } else if (item.getType() != sfitem.getType()) {
+            return false;
+        } else {
+            SlimefunItem sfitem1 = SlimefunItem.getByItem(item);
+            SlimefunItem sfitem2 = SlimefunItem.getByItem(sfitem);
+            if (sfitem1 != null && sfitem2 != null) {
+                return sfitem1.getId().equals(sfitem2.getId());
+            } else if (sfitem1 == null && sfitem2 == null) {
+                return item.getType() == sfitem.getType();
+            }
+        }
+        return false;
+    }
+
     /**
      * This updates or refreshes the {@link ItemFilter} to copy the settings
      * from the given {@link Block}. It takes a new snapshot.
-     * 
-     * @param b
-     *            The {@link Block}
+     *
+     * @param b The {@link Block}
      */
     public void update(@Nonnull Block b) {
         // Store the returned Config instance to avoid heavy calls
@@ -141,9 +147,8 @@ class ItemFilter implements Predicate<ItemStack> {
     /**
      * This will clear the {@link ItemFilter} and reject <strong>any</strong>
      * {@link ItemStack}.
-     * 
-     * @param rejectOnMatch
-     *            Whether the item should be rejected on matches
+     *
+     * @param rejectOnMatch Whether the item should be rejected on matches
      */
     private void clear(boolean rejectOnMatch) {
         this.items.clear();
@@ -153,7 +158,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
     /**
      * Whether this {@link ItemFilter} is outdated and needs to be refreshed.
-     * 
+     *
      * @return Whether the filter is outdated.
      */
     public boolean isDirty() {
@@ -222,24 +227,5 @@ class ItemFilter implements Predicate<ItemStack> {
             // If no particular item was matched, we fallback to our default value.
             return rejectOnMatch;
         }
-    }
-
-    public static boolean altItemCompare(@Nullable ItemStack item, @Nullable ItemStack sfitem) {
-        if (item == null) {
-            return sfitem == null;
-        } else if (sfitem == null) {
-            return false;
-        }  else if (item.getType() != sfitem.getType()) {
-            return false;
-        } else {
-            SlimefunItem sfitem1 = SlimefunItem.getByItem(item);
-            SlimefunItem sfitem2 = SlimefunItem.getByItem(sfitem);
-            if (sfitem1 != null && sfitem2 != null) {
-                return sfitem1.getId().equals(sfitem2.getId());
-            } else if (sfitem1 == null && sfitem2 == null) {
-                return item.getType() == sfitem.getType();
-            }
-        }
-        return false;
     }
 }

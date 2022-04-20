@@ -1,27 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.registration;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.stream.Stream;
-
-import javax.annotation.Nonnull;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
+import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -31,8 +10,20 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import javax.annotation.Nonnull;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Stream;
 
 @TestMethodOrder(value = OrderAnnotation.class)
 class TestRegistration {
@@ -48,6 +39,16 @@ class TestRegistration {
     @AfterAll
     public static void unload() {
         MockBukkit.unmock();
+    }
+
+    private static @Nonnull
+    Stream<Arguments> allItems() {
+        return Slimefun.getRegistry().getAllSlimefunItems().stream().map(Arguments::of);
+    }
+
+    private static @Nonnull
+    Stream<Arguments> allResearches() {
+        return Slimefun.getRegistry().getResearches().stream().map(Arguments::of);
     }
 
     @Test
@@ -138,13 +139,5 @@ class TestRegistration {
     void testForEmptyResearches(@Nonnull Research research) throws IOException {
         // This test is related to Issue #3368
         Assertions.assertFalse(research.getAffectedItems().isEmpty());
-    }
-
-    private static @Nonnull Stream<Arguments> allItems() {
-        return Slimefun.getRegistry().getAllSlimefunItems().stream().map(Arguments::of);
-    }
-
-    private static @Nonnull Stream<Arguments> allResearches() {
-        return Slimefun.getRegistry().getResearches().stream().map(Arguments::of);
     }
 }

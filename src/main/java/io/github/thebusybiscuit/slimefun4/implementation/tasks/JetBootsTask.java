@@ -1,17 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import javax.annotation.Nonnull;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class JetBootsTask extends AbstractPlayerTask {
 

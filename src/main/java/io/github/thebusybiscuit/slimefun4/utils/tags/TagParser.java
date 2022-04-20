@@ -1,5 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.utils.tags;
 
+import com.google.gson.*;
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import org.apache.commons.lang.Validate;
+import org.bukkit.*;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,35 +22,11 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.Keyed;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-
-import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-
 /**
  * The {@link TagParser} is responsible for parsing a JSON input into a {@link SlimefunTag}.
- * 
- * @author TheBusyBiscuit
- * 
- * @see SlimefunTag
  *
+ * @author TheBusyBiscuit
+ * @see SlimefunTag
  */
 public class TagParser implements Keyed {
 
@@ -51,9 +38,8 @@ public class TagParser implements Keyed {
 
     /**
      * This constructs a new {@link TagParser}.
-     * 
-     * @param key
-     *            The {@link NamespacedKey} of the resulting {@link SlimefunTag}
+     *
+     * @param key The {@link NamespacedKey} of the resulting {@link SlimefunTag}
      */
     public TagParser(@Nonnull NamespacedKey key) {
         this.key = key;
@@ -61,9 +47,8 @@ public class TagParser implements Keyed {
 
     /**
      * This constructs a new {@link TagParser} for the given {@link SlimefunTag}
-     * 
-     * @param tag
-     *            The {@link SlimefunTag} to parse inputs for
+     *
+     * @param tag The {@link SlimefunTag} to parse inputs for
      */
     TagParser(@Nonnull SlimefunTag tag) {
         this(tag.getKey());
@@ -82,15 +67,11 @@ public class TagParser implements Keyed {
     /**
      * This will parse the given JSON {@link String} and run the provided callback with {@link Set Sets} of
      * matched {@link Material Materials} and {@link Tag Tags}.
-     * 
-     * @param json
-     *            The JSON {@link String} to parse
-     * @param callback
-     *            A callback to run after successfully parsing the input
-     * 
-     * @throws TagMisconfigurationException
-     *             This is thrown whenever the given input is malformed or no adequate
-     *             {@link Material} or {@link Tag} could be found
+     *
+     * @param json     The JSON {@link String} to parse
+     * @param callback A callback to run after successfully parsing the input
+     * @throws TagMisconfigurationException This is thrown whenever the given input is malformed or no adequate
+     *                                      {@link Material} or {@link Tag} could be found
      */
     public void parse(@Nonnull String json, @Nonnull BiConsumer<Set<Material>, Set<Tag<Material>>> callback) throws TagMisconfigurationException {
         Validate.notNull(json, "Cannot parse a null String");
@@ -196,7 +177,8 @@ public class TagParser implements Keyed {
     }
 
     @Override
-    public @Nonnull NamespacedKey getKey() {
+    public @Nonnull
+    NamespacedKey getKey() {
         return key;
     }
 

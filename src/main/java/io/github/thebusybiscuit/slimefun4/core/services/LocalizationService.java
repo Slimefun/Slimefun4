@@ -1,5 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.LanguageFile;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import org.apache.commons.lang.Validate;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,35 +31,12 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Server;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-
-import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.LanguageFile;
-import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-
 /**
  * As the name suggests, this Service is responsible for Localization.
  * It is used for managing the {@link Language} of a {@link Player} and the entire {@link Server}.
- * 
- * @author TheBusyBiscuit
- * 
- * @see Language
  *
+ * @author TheBusyBiscuit
+ * @see Language
  */
 public class LocalizationService extends SlimefunLocalization {
 
@@ -92,7 +88,7 @@ public class LocalizationService extends SlimefunLocalization {
 
     /**
      * This method returns whether translations are enabled on this {@link Server}.
-     * 
+     *
      * @return Whether translations are enabled
      */
     public boolean isEnabled() {
@@ -134,10 +130,8 @@ public class LocalizationService extends SlimefunLocalization {
 
     /**
      * This returns whether the given {@link Language} is loaded or not.
-     * 
-     * @param id
-     *            The id of that {@link Language}
-     * 
+     *
+     * @param id The id of that {@link Language}
      * @return Whether or not this {@link Language} is loaded
      */
     public boolean isLanguageLoaded(@Nonnull String id) {
@@ -225,10 +219,8 @@ public class LocalizationService extends SlimefunLocalization {
      * This returns the progress of translation for any given {@link Language}.
      * The progress is determined by the amount of translated strings divided by the amount
      * of strings in the english {@link Language} file and multiplied by 100.0
-     * 
-     * @param lang
-     *            The {@link Language} to get the progress of
-     * 
+     *
+     * @param lang The {@link Language} to get the progress of
      * @return A percentage {@code (0.0 - 100.0)} for the progress of translation of that {@link Language}
      */
     public double calculateProgress(@Nonnull Language lang) {
@@ -252,7 +244,8 @@ public class LocalizationService extends SlimefunLocalization {
         return Math.min(NumberUtils.reparseDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
     }
 
-    private @Nonnull FileConfiguration getConfigurationFromStream(@Nonnull String file, @Nullable FileConfiguration defaults) {
+    private @Nonnull
+    FileConfiguration getConfigurationFromStream(@Nonnull String file, @Nullable FileConfiguration defaults) {
         InputStream inputStream = plugin.getClass().getResourceAsStream(file);
 
         if (inputStream == null) {

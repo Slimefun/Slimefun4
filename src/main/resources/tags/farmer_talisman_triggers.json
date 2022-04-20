@@ -1,8 +1,8 @@
 {
-  "values" : [
+  "values": [
     {
-      "id" : "#minecraft:crops",
-      "required" : false
+      "id": "#minecraft:crops",
+      "required": false
     },
     "minecraft:beetroots",
     "minecraft:carrots",

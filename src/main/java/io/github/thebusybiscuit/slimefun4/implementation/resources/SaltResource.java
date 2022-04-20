@@ -1,19 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.resources;
 
-import org.bukkit.World.Environment;
-import org.bukkit.block.Biome;
-
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
+import org.bukkit.World.Environment;
+import org.bukkit.block.Biome;
 
 /**
  * A {@link GEOResource} which consists of Salt.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 class SaltResource extends AbstractResource {
 

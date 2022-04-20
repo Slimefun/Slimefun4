@@ -1,5 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import org.apache.commons.lang.Validate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -11,22 +18,12 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.apache.commons.lang.Validate;
-
-import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-
 /**
  * This Service is responsible for grabbing every {@link Contributor} to this project
  * from GitHub and holding data associated to the project repository, such
  * as open issues or pending pull requests.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class GitHubService {
 
@@ -48,9 +45,8 @@ public class GitHubService {
 
     /**
      * This creates a new {@link GitHubService} for the given repository.
-     * 
-     * @param repository
-     *            The repository to create this {@link GitHubService} for
+     *
+     * @param repository The repository to create this {@link GitHubService} for
      */
     public GitHubService(@Nonnull String repository) {
         this.repository = repository;
@@ -62,9 +58,8 @@ public class GitHubService {
     /**
      * This will start the {@link GitHubService} and run the asynchronous {@link GitHubTask}
      * every so often to update its data.
-     * 
-     * @param plugin
-     *            Our instance of {@link Slimefun}
+     *
+     * @param plugin Our instance of {@link Slimefun}
      */
     public void start(@Nonnull Slimefun plugin) {
         loadConnectors(false);
@@ -104,7 +99,8 @@ public class GitHubService {
         contributors.put(name, contributor);
     }
 
-    public @Nonnull Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
+    public @Nonnull
+    Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
         Validate.notNull(minecraftName, "Minecraft username must not be null.");
         Validate.notNull(profileURL, "GitHub profile url must not be null.");
         Validate.notNull(role, "Role should not be null.");
@@ -118,7 +114,8 @@ public class GitHubService {
         return contributor;
     }
 
-    public @Nonnull Contributor addContributor(@Nonnull String username, @Nonnull String role, int commits) {
+    public @Nonnull
+    Contributor addContributor(@Nonnull String username, @Nonnull String role, int commits) {
         Validate.notNull(username, "Username must not be null.");
         Validate.notNull(role, "Role should not be null.");
         Validate.isTrue(commits >= 0, "Commit count cannot be negative.");
@@ -157,7 +154,8 @@ public class GitHubService {
         }));
     }
 
-    protected @Nonnull Set<GitHubConnector> getConnectors() {
+    protected @Nonnull
+    Set<GitHubConnector> getConnectors() {
         return connectors;
     }
 
@@ -167,16 +165,17 @@ public class GitHubService {
 
     /**
      * This returns the {@link Contributor Contributors} to this project.
-     * 
+     *
      * @return A {@link ConcurrentMap} containing all {@link Contributor Contributors}
      */
-    public @Nonnull ConcurrentMap<String, Contributor> getContributors() {
+    public @Nonnull
+    ConcurrentMap<String, Contributor> getContributors() {
         return contributors;
     }
 
     /**
      * This returns the amount of forks of our repository
-     * 
+     *
      * @return The amount of forks
      */
     public int getForks() {
@@ -185,7 +184,7 @@ public class GitHubService {
 
     /**
      * This method returns the amount of stargazers of the repository.
-     * 
+     *
      * @return The amount of people who starred the repository
      */
     public int getStars() {
@@ -194,7 +193,7 @@ public class GitHubService {
 
     /**
      * This returns the amount of open Issues on our repository.
-     * 
+     *
      * @return The amount of open issues
      */
     public int getOpenIssues() {
@@ -203,16 +202,17 @@ public class GitHubService {
 
     /**
      * Returns the id of Slimefun's GitHub Repository. (e.g. "Slimefun/Slimefun4").
-     * 
+     *
      * @return The id of our GitHub Repository
      */
-    public @Nonnull String getRepository() {
+    public @Nonnull
+    String getRepository() {
         return repository;
     }
 
     /**
      * This method returns the amount of pending pull requests.
-     * 
+     *
      * @return The amount of pending pull requests
      */
     public int getPendingPullRequests() {
@@ -221,10 +221,11 @@ public class GitHubService {
 
     /**
      * This returns the date and time of the last commit to this repository.
-     * 
+     *
      * @return A {@link LocalDateTime} object representing the date and time of the latest commit
      */
-    public @Nonnull LocalDateTime getLastUpdate() {
+    public @Nonnull
+    LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
@@ -252,13 +253,12 @@ public class GitHubService {
 
     /**
      * This returns the cached skin texture for a given username.
-     * 
-     * @param username
-     *            The minecraft username
-     * 
+     *
+     * @param username The minecraft username
      * @return The cached skin texture for that user (or null)
      */
-    protected @Nullable String getCachedTexture(@Nonnull String username) {
+    protected @Nullable
+    String getCachedTexture(@Nonnull String username) {
         return texturesCache.getString(username);
     }
 }

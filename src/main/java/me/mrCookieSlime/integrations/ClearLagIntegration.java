@@ -1,23 +1,20 @@
 package me.mrCookieSlime.integrations;
 
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.minebuilders.clearlag.Clearlag;
+import me.minebuilders.clearlag.events.EntityRemoveEvent;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
-import me.minebuilders.clearlag.Clearlag;
-import me.minebuilders.clearlag.events.EntityRemoveEvent;
+import javax.annotation.Nonnull;
 
 /**
  * This handles all integrations with {@link Clearlag}.
  * We don't want it to clear our altar items.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 class ClearLagIntegration implements Listener {
 

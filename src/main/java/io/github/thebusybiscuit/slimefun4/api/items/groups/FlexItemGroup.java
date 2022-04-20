@@ -1,28 +1,25 @@
 package io.github.thebusybiscuit.slimefun4.api.items.groups;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
 /**
  * A {@link FlexItemGroup} is a {@link ItemGroup} inside the {@link SlimefunGuide} that can
  * be completely modified.
  * It cannot hold any {@link SlimefunItem} but can be completely overridden
  * to perform any action upon being opened.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public abstract class FlexItemGroup extends ItemGroup {
 
@@ -49,14 +46,10 @@ public abstract class FlexItemGroup extends ItemGroup {
     /**
      * This method returns whether this {@link FlexItemGroup} is visible under the given context.
      * Implementing this method gives full flexibility over who can see the ItemGroup when and where.
-     * 
-     * @param p
-     *            The {@link Player} who opened his {@link SlimefunGuide}
-     * @param profile
-     *            The {@link PlayerProfile} of the {@link Player}
-     * @param layout
-     *            The {@link SlimefunGuideMode} in which this {@link FlexItemGroup} is viewed
-     * 
+     *
+     * @param p       The {@link Player} who opened his {@link SlimefunGuide}
+     * @param profile The {@link PlayerProfile} of the {@link Player}
+     * @param layout  The {@link SlimefunGuideMode} in which this {@link FlexItemGroup} is viewed
      * @return Whether to display this {@link FlexItemGroup}
      */
     @ParametersAreNonnullByDefault
@@ -66,13 +59,10 @@ public abstract class FlexItemGroup extends ItemGroup {
      * This method is called when a {@link Player} opens this {@link FlexItemGroup}.
      * This is an abstract method which needs to be implemented in order to determine what this
      * {@link FlexItemGroup} should actually do as it cannot hold any items.
-     * 
-     * @param p
-     *            The {@link Player} who wants to open this {@link FlexItemGroup}
-     * @param profile
-     *            The corresponding {@link PlayerProfile} for that {@link Player}
-     * @param layout
-     *            The current {@link SlimefunGuideMode}
+     *
+     * @param p       The {@link Player} who wants to open this {@link FlexItemGroup}
+     * @param profile The corresponding {@link PlayerProfile} for that {@link Player}
+     * @param layout  The current {@link SlimefunGuideMode}
      */
     public abstract void open(Player p, PlayerProfile profile, SlimefunGuideMode layout);
 
@@ -82,7 +72,8 @@ public abstract class FlexItemGroup extends ItemGroup {
     }
 
     @Override
-    public final @Nonnull List<SlimefunItem> getItems() {
+    public final @Nonnull
+    List<SlimefunItem> getItems() {
         throw new UnsupportedOperationException("A FlexItemGroup has no items!");
     }
 

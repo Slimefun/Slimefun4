@@ -1,26 +1,25 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class holds the implementations of every {@link SubCommand}.
  * The implementations themselves are package-private, this class only provides
  * a static setup method
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public final class SlimefunSubCommands {
 
-    private SlimefunSubCommands() {}
+    private SlimefunSubCommands() {
+    }
 
     @Nonnull
     public static Collection<SubCommand> getAllCommands(@Nonnull SlimefunCommand cmd) {

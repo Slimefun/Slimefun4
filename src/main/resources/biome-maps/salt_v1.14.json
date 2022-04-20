@@ -1,30 +1,30 @@
 [
-    {
-        "value" : 20,
-        "biomes" : [
-            "minecraft:swamp",
-            "minecraft:swamp_hills"
-        ]
-    },
-    {
-        "value" : 40,
-        "biomes" : [
-            "minecraft:beach",
-            "minecraft:gravelly_mountains",
-            "minecraft:stone_shore"
-        ]
-    },
-    {
-        "value" : 60,
-        "biomes" : [
-            "minecraft:ocean",
-            "minecraft:cold_ocean",
-            "minecraft:warm_ocean",
-            "minecraft:lukewarm_ocean",
-            "minecraft:deep_ocean",
-            "minecraft:deep_cold_ocean",
-            "minecraft:deep_warm_ocean",
-            "minecraft:deep_lukewarm_ocean"
-        ]
-    }
+  {
+    "value": 20,
+    "biomes": [
+      "minecraft:swamp",
+      "minecraft:swamp_hills"
+    ]
+  },
+  {
+    "value": 40,
+    "biomes": [
+      "minecraft:beach",
+      "minecraft:gravelly_mountains",
+      "minecraft:stone_shore"
+    ]
+  },
+  {
+    "value": 60,
+    "biomes": [
+      "minecraft:ocean",
+      "minecraft:cold_ocean",
+      "minecraft:warm_ocean",
+      "minecraft:lukewarm_ocean",
+      "minecraft:deep_ocean",
+      "minecraft:deep_cold_ocean",
+      "minecraft:deep_warm_ocean",
+      "minecraft:deep_lukewarm_ocean"
+    ]
+  }
 ]

@@ -1,20 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.LongConsumer;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
@@ -25,22 +10,28 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.LongConsumer;
 
 /**
  * The {@link EnergyNet} is an implementation of {@link Network} that deals with
  * electrical energy being send from and to nodes.
- * 
+ *
  * @author meiamsome
  * @author TheBusyBiscuit
- * 
  * @see Network
  * @see EnergyNetComponent
  * @see EnergyNetProvider
  * @see EnergyNetComponentType
- *
  */
 public class EnergyNet extends Network implements HologramOwner {
 
@@ -52,6 +43,49 @@ public class EnergyNet extends Network implements HologramOwner {
 
     protected EnergyNet(@Nonnull Location l) {
         super(Slimefun.getNetworkManager(), l);
+    }
+
+    @Nullable
+    private static EnergyNetComponent getComponent(@Nonnull Location l) {
+        SlimefunItem item = BlockStorage.check(l);
+
+        if (item instanceof EnergyNetComponent) {
+            return ((EnergyNetComponent) item);
+        }
+
+        return null;
+    }
+
+    /**
+     * This attempts to get an {@link EnergyNet} from a given {@link Location}.
+     * If no suitable {@link EnergyNet} could be found, {@code null} will be returned.
+     *
+     * @param l The target {@link Location}
+     * @return The {@link EnergyNet} at that {@link Location}, or {@code null}
+     */
+    @Nullable
+    public static EnergyNet getNetworkFromLocation(@Nonnull Location l) {
+        return Slimefun.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class).orElse(null);
+    }
+
+    /**
+     * This attempts to get an {@link EnergyNet} from a given {@link Location}.
+     * If no suitable {@link EnergyNet} could be found, a new one will be created.
+     *
+     * @param l The target {@link Location}
+     * @return The {@link EnergyNet} at that {@link Location}, or a new one
+     */
+    @Nonnull
+    public static EnergyNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
+        Optional<EnergyNet> energyNetwork = Slimefun.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);
+
+        if (energyNetwork.isPresent()) {
+            return energyNetwork.get();
+        } else {
+            EnergyNet network = new EnergyNet(l);
+            Slimefun.getNetworkManager().registerNetwork(network);
+            return network;
+        }
     }
 
     @Override
@@ -268,53 +302,6 @@ public class EnergyNet extends Network implements HologramOwner {
         } else {
             String netGain = NumberUtils.getCompactDouble(supply - demand);
             updateHologram(b, "&2&l+ &a" + netGain + " &7J &e\u26A1");
-        }
-    }
-
-    @Nullable
-    private static EnergyNetComponent getComponent(@Nonnull Location l) {
-        SlimefunItem item = BlockStorage.check(l);
-
-        if (item instanceof EnergyNetComponent) {
-            return ((EnergyNetComponent) item);
-        }
-
-        return null;
-    }
-
-    /**
-     * This attempts to get an {@link EnergyNet} from a given {@link Location}.
-     * If no suitable {@link EnergyNet} could be found, {@code null} will be returned.
-     *
-     * @param l
-     *            The target {@link Location}
-     *
-     * @return The {@link EnergyNet} at that {@link Location}, or {@code null}
-     */
-    @Nullable
-    public static EnergyNet getNetworkFromLocation(@Nonnull Location l) {
-        return Slimefun.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class).orElse(null);
-    }
-
-    /**
-     * This attempts to get an {@link EnergyNet} from a given {@link Location}.
-     * If no suitable {@link EnergyNet} could be found, a new one will be created.
-     * 
-     * @param l
-     *            The target {@link Location}
-     * 
-     * @return The {@link EnergyNet} at that {@link Location}, or a new one
-     */
-    @Nonnull
-    public static EnergyNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
-        Optional<EnergyNet> energyNetwork = Slimefun.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);
-
-        if (energyNetwork.isPresent()) {
-            return energyNetwork.get();
-        } else {
-            EnergyNet network = new EnergyNet(l);
-            Slimefun.getNetworkManager().registerNetwork(network);
-            return network;
         }
     }
 }

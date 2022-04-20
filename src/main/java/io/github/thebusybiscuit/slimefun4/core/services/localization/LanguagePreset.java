@@ -1,19 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
+import org.bukkit.inventory.ItemStack;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.inventory.ItemStack;
 
 /**
  * This enum holds info about a {@link Language} that is embedded in our resources folder.
  * Every enum constant holds the key of that {@link Language} as well as a texture hash
  * for the {@link ItemStack} to display.
- * 
- * @author TheBusyBiscuit
- * 
- * @see Language
  *
+ * @author TheBusyBiscuit
+ * @see Language
  */
 public enum LanguagePreset {
 
@@ -88,17 +86,18 @@ public enum LanguagePreset {
 
     /**
      * This returns the id of this {@link Language}.
-     * 
+     *
      * @return The language code
      */
-    public @Nonnull String getLanguageCode() {
+    public @Nonnull
+    String getLanguageCode() {
         return id;
     }
 
     /**
      * This returns whether this {@link LanguagePreset} is "release-ready".
      * A release-ready {@link Language} will be available in RC builds of Slimefun.
-     * 
+     *
      * @return Whether this {@link Language} is "release-ready"
      */
     boolean isReadyForRelease() {
@@ -110,20 +109,22 @@ public enum LanguagePreset {
      * This will be the flag of the corresponding country.
      * (Not accurate I know, but better than having all languages
      * look the same by using the same items)
-     * 
+     *
      * @return The texture hash of this language
      */
-    public @Nonnull String getTexture() {
+    public @Nonnull
+    String getTexture() {
         return textureHash;
     }
 
     /**
      * This returns the direction of text for
      * this language.
-     * 
+     *
      * @return The direction of text for this language
      */
-    public @Nonnull TextDirection getTextDirection() {
+    public @Nonnull
+    TextDirection getTextDirection() {
         return textDirection;
     }
 }

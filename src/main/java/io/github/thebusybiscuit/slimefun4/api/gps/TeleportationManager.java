@@ -1,24 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -28,23 +9,33 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.papermc.lib.PaperLib;
-
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import org.apache.commons.lang.Validate;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * The {@link TeleportationManager} handles the process of teleportation for a {@link Player}
  * who is using a {@link Teleporter}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
  * @see GPSNetwork
  * @see Teleporter
- *
  */
 public final class TeleportationManager {
 
-    private final int[] teleporterBorder = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
-    private final int[] teleporterInventory = { 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43 };
+    private final int[] teleporterBorder = {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+    private final int[] teleporterInventory = {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 
     /**
      * This {@link Set} holds the {@link UUID} of all Players that are
@@ -55,12 +46,9 @@ public final class TeleportationManager {
     /**
      * Opens the GUI of the teleporter and calculates the network complexity of the {@link Player}
      *
-     * @param p
-     *            {@link Player} to be teleported
-     * @param ownerUUID
-     *            {@link UUID} of the {@link Player} who owns the teleporter device
-     * @param b
-     *            {@link Block} from where the {@link Player} is being teleported
+     * @param p         {@link Player} to be teleported
+     * @param ownerUUID {@link UUID} of the {@link Player} who owns the teleporter device
+     * @param b         {@link Block} from where the {@link Player} is being teleported
      */
     @ParametersAreNonnullByDefault
     public void openTeleporterGUI(Player p, UUID ownerUUID, Block b) {
@@ -97,14 +85,14 @@ public final class TeleportationManager {
 
                     // @formatter:off
                     String[] lore = {
-                        "",
-                        "&8\u21E8 &7" + Slimefun.getLocalization().getResourceString(p, "tooltips.world") + ": &f" + l.getWorld().getName(),
-                        "&8\u21E8 &7X: &f" + l.getX(),
-                        "&8\u21E8 &7Y: &f" + l.getY(),
-                        "&8\u21E8 &7Z: &f" + l.getZ(),
-                        "&8\u21E8 &7" + Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.gui.time") + ": &f" + time + "s",
-                        "",
-                        "&8\u21E8 &c" + Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.gui.tooltip")
+                            "",
+                            "&8\u21E8 &7" + Slimefun.getLocalization().getResourceString(p, "tooltips.world") + ": &f" + l.getWorld().getName(),
+                            "&8\u21E8 &7X: &f" + l.getX(),
+                            "&8\u21E8 &7Y: &f" + l.getY(),
+                            "&8\u21E8 &7Z: &f" + l.getZ(),
+                            "&8\u21E8 &7" + Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.gui.time") + ": &f" + time + "s",
+                            "",
+                            "&8\u21E8 &c" + Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.gui.tooltip")
                     };
                     // @formatter:on
 
@@ -136,21 +124,17 @@ public final class TeleportationManager {
      * to the destination {@link Location}, given the specified complexity.
      * <p>
      * The returned time will be measured in 500ms intervals.
-     * 
+     *
      * <ul>
      * <li>A returned time of {@literal 100} will mean 50,000ms (50s) of real-life time.</li>
      * <li>A returned time of {@literal 10} will mean 5,000ms (5s) of real-life time.</li>
      * <li>A returned time of {@literal 2} will mean 1,000ms (1s) of real-life time.</li>
      * <li>and so on...</li>
      * </ul>
-     * 
-     * @param complexity
-     *            The complexity of the {@link GPSNetwork}
-     * @param source
-     *            The source {@link Location}
-     * @param destination
-     *            The destination {@link Location}
-     * 
+     *
+     * @param complexity  The complexity of the {@link GPSNetwork}
+     * @param source      The source {@link Location}
+     * @param destination The destination {@link Location}
      * @return The amount of time the teleportation will take
      */
     public int getTeleportationTime(int complexity, @Nonnull Location source, @Nonnull Location destination) {

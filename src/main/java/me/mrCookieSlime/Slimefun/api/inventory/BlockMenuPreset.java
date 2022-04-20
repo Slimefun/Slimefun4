@@ -1,11 +1,10 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -14,12 +13,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 public abstract class BlockMenuPreset extends ChestMenu {
@@ -27,11 +24,9 @@ public abstract class BlockMenuPreset extends ChestMenu {
     private final Set<Integer> occupiedSlots = new HashSet<>();
     private final String inventoryTitle;
     private final String id;
-
+    private final boolean universal;
     // -1 means "automatically update according to the contents"
     private int size = -1;
-
-    private final boolean universal;
     private boolean locked;
 
     protected BlockMenuPreset(@Nonnull String id, @Nonnull String title) {
@@ -51,6 +46,20 @@ public abstract class BlockMenuPreset extends ChestMenu {
         Slimefun.getRegistry().getMenuPresets().put(id, this);
     }
 
+    @Nullable
+    public static BlockMenuPreset getPreset(@Nullable String id) {
+        return id == null ? null : Slimefun.getRegistry().getMenuPresets().get(id);
+    }
+
+    public static boolean isInventory(String id) {
+        return Slimefun.getRegistry().getMenuPresets().containsKey(id);
+    }
+
+    public static boolean isUniversalInventory(String id) {
+        BlockMenuPreset preset = Slimefun.getRegistry().getMenuPresets().get(id);
+        return preset != null && preset.isUniversal();
+    }
+
     private void checkIfLocked() {
         if (locked) {
             throw new UnsupportedOperationException("You cannot modify the BlockMenuPreset anymore, modify the individual instances instead.");
@@ -63,12 +72,9 @@ public abstract class BlockMenuPreset extends ChestMenu {
      * This method returns whether a given {@link Player} is allowed to open the
      * {@link BlockMenu} of that {@link Block}.
      * Override this as necessary.
-     * 
-     * @param b
-     *            The {@link Block} trying to be opened
-     * @param p
-     *            The {@link Player} who wants to open the {@link BlockMenu}
-     * 
+     *
+     * @param b The {@link Block} trying to be opened
+     * @param p The {@link Player} who wants to open the {@link BlockMenu}
      * @return Whether that {@link Player} is allowed
      */
     public abstract boolean canOpen(@Nonnull Block b, @Nonnull Player p);
@@ -78,16 +84,11 @@ public abstract class BlockMenuPreset extends ChestMenu {
     /**
      * This method is called whenever an {@link ItemStack} changes.
      * You can override this as necessary if you need to listen to these events
-     * 
-     * @param menu
-     *            The {@link Inventory} affected by this
-     * @param slot
-     *            The affected slot
-     * @param previous
-     *            The {@link ItemStack} in that slot before the operation
-     * @param next
-     *            The {@link ItemStack} that it changes to
-     * 
+     *
+     * @param menu     The {@link Inventory} affected by this
+     * @param slot     The affected slot
+     * @param previous The {@link ItemStack} in that slot before the operation
+     * @param next     The {@link ItemStack} that it changes to
      * @return The new outcome of this operation
      */
     @Nullable
@@ -112,11 +113,9 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     /**
      * This method will draw unclickable background items into this {@link BlockMenuPreset}.
-     * 
-     * @param item
-     *            The {@link ItemStack} that should be used as background
-     * @param slots
-     *            The slots which should be treated as background
+     *
+     * @param item  The {@link ItemStack} that should be used as background
+     * @param slots The slots which should be treated as background
      */
     public void drawBackground(@Nonnull ItemStack item, @Nonnull int[] slots) {
         Validate.notNull(item, "The background item cannot be null!");
@@ -129,9 +128,8 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     /**
      * This method will draw unclickable background items into this {@link BlockMenuPreset}.
-     * 
-     * @param slots
-     *            The slots which should be treated as background
+     *
+     * @param slots The slots which should be treated as background
      */
     public void drawBackground(@Nonnull int[] slots) {
         drawBackground(ChestMenuUtils.getBackground(), slots);
@@ -166,7 +164,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     /**
      * This method returns the size of this {@link BlockMenuPreset}.
      * If the size has not been determined yet, this will return -1.
-     * 
+     *
      * @return The size of this {@link BlockMenuPreset}
      */
     public int getSize() {
@@ -180,7 +178,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     /**
      * This returns the title of this {@link BlockMenuPreset}, the title will
      * be visible in every {@link InventoryView} for any menu created using this {@link BlockMenuPreset}.
-     * 
+     *
      * @return The inventory title for this {@link BlockMenuPreset}
      */
     public String getTitle() {
@@ -189,7 +187,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     /**
      * This method returns whether this {@link BlockMenuPreset} will spawn a {@link UniversalBlockMenu}.
-     * 
+     *
      * @return Whether this {@link BlockMenuPreset} is universal
      */
     public boolean isUniversal() {
@@ -265,7 +263,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     /**
      * This returns the id of the associated {@link SlimefunItem}.
      * It also doubles as the id for this {@link BlockMenuPreset}.
-     * 
+     *
      * @return Our identifier
      */
 
@@ -276,27 +274,13 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     /**
      * This returns the {@link SlimefunItem} associated with this {@link BlockMenuPreset}.
-     * 
+     *
      * @return The associated {@link SlimefunItem}
      */
 
     @Nonnull
     public SlimefunItem getSlimefunItem() {
         return SlimefunItem.getById(id);
-    }
-
-    @Nullable
-    public static BlockMenuPreset getPreset(@Nullable String id) {
-        return id == null ? null : Slimefun.getRegistry().getMenuPresets().get(id);
-    }
-
-    public static boolean isInventory(String id) {
-        return Slimefun.getRegistry().getMenuPresets().containsKey(id);
-    }
-
-    public static boolean isUniversalInventory(String id) {
-        BlockMenuPreset preset = Slimefun.getRegistry().getMenuPresets().get(id);
-        return preset != null && preset.isUniversal();
     }
 
 }

@@ -1,5 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -7,27 +20,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
-
 /**
  * The {@link MagicianTalisman} is a special kind of {@link Talisman} which awards a {@link Player}
  * with an extra {@link Enchantment} when they enchant their {@link ItemStack}.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class MagicianTalisman extends Talisman {
 
@@ -63,13 +60,10 @@ public class MagicianTalisman extends Talisman {
     /**
      * This method picks a random {@link TalismanEnchantment} for the provided {@link ItemStack}.
      * The method will return null, if null was provided or no applicable {@link Enchantment} was found.
-     * 
-     * @param item
-     *            The {@link ItemStack} to find an {@link Enchantment} for
-     * @param existingEnchantments
-     *            A {@link Set} containing the {@link Enchantment Enchantments} that currently exist on the
-     *            {@link ItemStack}
-     * 
+     *
+     * @param item                 The {@link ItemStack} to find an {@link Enchantment} for
+     * @param existingEnchantments A {@link Set} containing the {@link Enchantment Enchantments} that currently exist on the
+     *                             {@link ItemStack}
      * @return An applicable {@link TalismanEnchantment} or null
      */
     @Nullable

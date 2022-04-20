@@ -1,29 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.annotation.Nonnull;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.inventory.ItemStack;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -32,13 +10,27 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Makes
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCrusher;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
-
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class PostSetup {
 
-    private PostSetup() {}
+    private PostSetup() {
+    }
 
     public static void setupWiki() {
         Slimefun.logger().log(Level.INFO, "Loading Wiki pages...");
@@ -115,14 +107,14 @@ public final class PostSetup {
     /**
      * This method counts the amount of {@link SlimefunItem SlimefunItems} registered
      * by Slimefun itself and not by any addons.
-     * 
+     *
      * @return The amount of {@link SlimefunItem SlimefunItems} added by Slimefun itself
      */
     private static int countNonAddonItems() {
         // @formatter:off
         return (int) Slimefun.getRegistry().getEnabledSlimefunItems().stream()
-                        .filter(item -> item.getAddon() instanceof Slimefun)
-                        .count();
+                .filter(item -> item.getAddon() instanceof Slimefun)
+                .count();
         // @formatter:on
     }
 
@@ -138,7 +130,7 @@ public final class PostSetup {
                     input = recipe;
                 } else {
                     if (input[0] != null && recipe[0] != null) {
-                        grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });
+                        grinderRecipes.add(new ItemStack[]{input[0], recipe[0]});
                     }
 
                     input = null;
@@ -155,7 +147,7 @@ public final class PostSetup {
                     input = recipe;
                 } else {
                     if (input[0] != null && recipe[0] != null) {
-                        grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });
+                        grinderRecipes.add(new ItemStack[]{input[0], recipe[0]});
                     }
 
                     input = null;
@@ -170,7 +162,7 @@ public final class PostSetup {
             stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
         }
 
-        stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] { recipe[0] }, new ItemStack[] { recipe[1] }));
+        stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[]{recipe[0]}, new ItemStack[]{recipe[1]}));
     }
 
     private static void loadSmelteryRecipes() {
@@ -217,12 +209,12 @@ public final class PostSetup {
 
         // We want to redirect Dust to Ingot Recipes
         if (ingredients.size() == 1 && isDust(ingredients.get(0))) {
-            makeshiftSmeltery.addRecipe(new ItemStack[] { ingredients.get(0) }, output[0]);
+            makeshiftSmeltery.addRecipe(new ItemStack[]{ingredients.get(0)}, output[0]);
 
-            registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[] { ingredients.get(0) }, new ItemStack[] { output[0] });
-            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[] { output[0] }, new ItemStack[] { ingredients.get(0) });
+            registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]});
+            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)});
         } else {
-            registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[] { output[0] });
+            registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]});
         }
     }
 

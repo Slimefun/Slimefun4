@@ -1,24 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors;
 
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
-
-import net.md_5.bungee.api.chat.TextComponent;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 /**
  * This implementation of {@link PerformanceInspector} refers to a {@link Player}.
  * It also supports {@link TextComponent TextComponents} for rich text messages.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class PlayerPerformanceInspector implements PerformanceInspector {
 
@@ -29,9 +25,8 @@ public class PlayerPerformanceInspector implements PerformanceInspector {
 
     /**
      * This creates a new {@link PlayerPerformanceInspector} for the given {@link Player}.
-     * 
-     * @param player
-     *            The {@link Player}
+     *
+     * @param player The {@link Player}
      */
     public PlayerPerformanceInspector(@Nonnull Player player) {
         Validate.notNull(player, "Player cannot be null");

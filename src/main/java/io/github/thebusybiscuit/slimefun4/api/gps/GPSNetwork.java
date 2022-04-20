@@ -1,25 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Server;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.World.Environment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -35,25 +15,30 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Telepo
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.apache.commons.lang.Validate;
+import org.bukkit.*;
+import org.bukkit.World.Environment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 /**
  * The {@link GPSNetwork} is a manager class for all {@link GPSTransmitter Transmitters} and waypoints.
  * There can only be one instance of this class per {@link Server}.
  * It is also responsible for teleportation and resource management.
- * 
+ *
  * @author TheBusyBiscuit
- * 
  * @see TeleportationManager
  * @see ResourceManager
- *
  */
 public class GPSNetwork {
 
-    private final int[] border = { 0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
-    private final int[] inventory = { 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43 };
+    private final int[] border = {0, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+    private final int[] inventory = {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
 
     private final Map<UUID, Set<Location>> transmitters = new HashMap<>();
     private final TeleportationManager teleportation = new TeleportationManager();
@@ -62,9 +47,8 @@ public class GPSNetwork {
     /**
      * This constructs a new {@link GPSNetwork}.
      * Note that this network is per {@link Server} and not per {@link Player}.
-     * 
-     * @param plugin
-     *            Our {@link Slimefun} instance
+     *
+     * @param plugin Our {@link Slimefun} instance
      */
     public GPSNetwork(@Nonnull Slimefun plugin) {
         resourceManager = new ResourceManager(plugin);
@@ -72,13 +56,10 @@ public class GPSNetwork {
 
     /**
      * This method updates the status of a {@link GPSTransmitter}.
-     * 
-     * @param l
-     *            The {@link Location} of the {@link GPSTransmitter}
-     * @param uuid
-     *            The {@link UUID} who the {@link GPSTransmitter} belongs to
-     * @param online
-     *            Whether that {@link GPSTransmitter} is online
+     *
+     * @param l      The {@link Location} of the {@link GPSTransmitter}
+     * @param uuid   The {@link UUID} who the {@link GPSTransmitter} belongs to
+     * @param online Whether that {@link GPSTransmitter} is online
      */
     public void updateTransmitter(@Nonnull Location l, @Nonnull UUID uuid, boolean online) {
         Set<Location> set = transmitters.computeIfAbsent(uuid, id -> new HashSet<>());
@@ -94,10 +75,8 @@ public class GPSNetwork {
      * This method calculates the GPS complexity for the given {@link UUID}.
      * The complexity is determined by the Y level of each {@link GPSTransmitter}
      * multiplied by the multiplier of that transmitter.
-     * 
-     * @param uuid
-     *            The {@link UUID} who to calculate it for
-     * 
+     *
+     * @param uuid The {@link UUID} who to calculate it for
      * @return The network complexity for that {@link UUID}
      */
     public int getNetworkComplexity(@Nonnull UUID uuid) {
@@ -122,10 +101,8 @@ public class GPSNetwork {
     /**
      * This method returns the amount of {@link GPSTransmitter Transmitters} for the
      * given {@link UUID}.
-     * 
-     * @param uuid
-     *            The {@link UUID} who these transmitters belong to
-     * 
+     *
+     * @param uuid The {@link UUID} who these transmitters belong to
      * @return The amount of transmitters
      */
     public int countTransmitters(@Nonnull UUID uuid) {
@@ -136,9 +113,8 @@ public class GPSNetwork {
     /**
      * This method opens the {@link GPSTransmitter} control panel to the given
      * {@link Player}.
-     * 
-     * @param p
-     *            The {@link Player}
+     *
+     * @param p The {@link Player}
      */
     public void openTransmitterControlPanel(@Nonnull Player p) {
         ChestMenu menu = new ChestMenu(ChatColor.BLUE + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.title"));
@@ -190,14 +166,11 @@ public class GPSNetwork {
      * The icon is dependent on the {@link Environment} of the waypoint's {@link World}.
      * However if the name of this waypoint indicates that this is actually a deathmarker
      * then a different texture will be used.
-     * 
+     * <p>
      * Otherwise it will return a globe, a nether or end sphere according to the {@link Environment}.
-     * 
-     * @param name
-     *            The name of a waypoint
-     * @param environment
-     *            The {@link Environment} of the waypoint's {@link World}
-     * 
+     *
+     * @param name        The name of a waypoint
+     * @param environment The {@link Environment} of the waypoint's {@link World}
      * @return An icon for this waypoint
      */
     @Nonnull
@@ -262,11 +235,9 @@ public class GPSNetwork {
     /**
      * This method will prompt the given {@link Player} to enter a name for a waypoint.
      * After entering the name, it will be added to his waypoint list.
-     * 
-     * @param p
-     *            The {@link Player} who should get a new waypoint
-     * @param l
-     *            The {@link Location} of the new waypoint
+     *
+     * @param p The {@link Player} who should get a new waypoint
+     * @param l The {@link Location} of the new waypoint
      */
     public void createWaypoint(@Nonnull Player p, @Nonnull Location l) {
         Validate.notNull(p, "Player cannot be null!");
@@ -287,13 +258,10 @@ public class GPSNetwork {
 
     /**
      * This method adds a new waypoint with the given name and {@link Location} for that {@link Player}.
-     * 
-     * @param p
-     *            The {@link Player} to get the new waypoint
-     * @param name
-     *            The name of this waypoint
-     * @param l
-     *            The {@link Location} of this waypoint
+     *
+     * @param p    The {@link Player} to get the new waypoint
+     * @param name The name of this waypoint
+     * @param l    The {@link Location} of this waypoint
      */
     public void addWaypoint(@Nonnull Player p, @Nonnull String name, @Nonnull Location l) {
         Validate.notNull(p, "Player cannot be null!");
@@ -332,10 +300,8 @@ public class GPSNetwork {
     /**
      * This method returns a {@link Set} of {@link Location Locations} for all {@link GPSTransmitter Transmitters}
      * owned by the given {@link UUID}.
-     * 
-     * @param uuid
-     *            The {@link UUID} owning those transmitters
-     * 
+     *
+     * @param uuid The {@link UUID} owning those transmitters
      * @return A {@link Set} with all {@link Location Locations} of transmitters for this {@link UUID}
      */
     @Nonnull
@@ -346,7 +312,7 @@ public class GPSNetwork {
     /**
      * This returns the {@link TeleportationManager} for this {@link GPSNetwork}.
      * It is responsible for all actions that relate to the {@link Teleporter}.
-     * 
+     *
      * @return The {@link TeleportationManager} for this {@link GPSNetwork}
      */
     @Nonnull
@@ -357,7 +323,7 @@ public class GPSNetwork {
     /**
      * This returns the {@link ResourceManager} for this {@link GPSNetwork}.
      * Use this to access {@link GEOResource GEOResources}.
-     * 
+     *
      * @return The {@link ResourceManager} for this {@link GPSNetwork}
      */
     @Nonnull

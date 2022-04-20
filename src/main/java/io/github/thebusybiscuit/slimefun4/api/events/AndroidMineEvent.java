@@ -1,22 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * This {@link Event} is fired before a {@link MinerAndroid} mines a {@link Block}.
  * If this {@link Event} is cancelled, the {@link Block} will not be mined.
- * 
+ *
  * @author poma123
- * 
  */
 public class AndroidMineEvent extends Event implements Cancellable {
 
@@ -27,15 +25,18 @@ public class AndroidMineEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     /**
-     * @param block
-     *            The mined {@link Block}
-     * @param android
-     *            The {@link AndroidInstance} that triggered this {@link Event}
+     * @param block   The mined {@link Block}
+     * @param android The {@link AndroidInstance} that triggered this {@link Event}
      */
     @ParametersAreNonnullByDefault
     public AndroidMineEvent(Block block, AndroidInstance android) {
         this.block = block;
         this.android = android;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     /**
@@ -67,11 +68,6 @@ public class AndroidMineEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
-    }
-
-    @Nonnull
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     @Nonnull

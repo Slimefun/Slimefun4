@@ -1,17 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import java.io.File;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
+import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.junit.jupiter.api.*;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import java.io.File;
 
 class TestUpdaterService {
 

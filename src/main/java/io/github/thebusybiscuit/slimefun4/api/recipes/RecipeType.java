@@ -1,26 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.function.BiConsumer;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Keyed;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -31,6 +10,19 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
+import org.bukkit.ChatColor;
+import org.bukkit.Keyed;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 // TODO: Remove this class and rewrite the recipe system
 public class RecipeType implements Keyed {
@@ -118,49 +110,6 @@ public class RecipeType implements Keyed {
         this.key = NamespacedKey.minecraft(recipe.getRecipeClass().getSimpleName().toLowerCase(Locale.ROOT).replace("recipe", ""));
     }
 
-    public void register(ItemStack[] recipe, ItemStack result) {
-        if (consumer != null) {
-            consumer.accept(recipe, result);
-        } else {
-            SlimefunItem slimefunItem = SlimefunItem.getById(this.machine);
-
-            if (slimefunItem instanceof MultiBlockMachine) {
-                ((MultiBlockMachine) slimefunItem).addRecipe(recipe, result);
-            }
-        }
-    }
-
-    public @Nullable ItemStack toItem() {
-        return this.item;
-    }
-
-    public @Nonnull ItemStack getItem(Player p) {
-        return Slimefun.getLocalization().getRecipeTypeItem(p, this);
-    }
-
-    public SlimefunItem getMachine() {
-        return SlimefunItem.getById(machine);
-    }
-
-    @Override
-    public final @Nonnull NamespacedKey getKey() {
-        return key;
-    }
-
-    @Override
-    public final boolean equals(Object obj) {
-        if (obj instanceof RecipeType) {
-            return ((RecipeType) obj).getKey().equals(this.getKey());
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public final int hashCode() {
-        return getKey().hashCode();
-    }
-
     @ParametersAreNonnullByDefault
     private static void registerBarterDrop(ItemStack[] recipe, ItemStack output) {
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
@@ -231,5 +180,51 @@ public class RecipeType implements Keyed {
     public static ItemStack getRecipeOutputList(MultiBlockMachine machine, ItemStack[] input) {
         List<ItemStack[]> recipes = machine.getRecipes();
         return recipes.get((recipes.indexOf(input) + 1))[0];
+    }
+
+    public void register(ItemStack[] recipe, ItemStack result) {
+        if (consumer != null) {
+            consumer.accept(recipe, result);
+        } else {
+            SlimefunItem slimefunItem = SlimefunItem.getById(this.machine);
+
+            if (slimefunItem instanceof MultiBlockMachine) {
+                ((MultiBlockMachine) slimefunItem).addRecipe(recipe, result);
+            }
+        }
+    }
+
+    public @Nullable
+    ItemStack toItem() {
+        return this.item;
+    }
+
+    public @Nonnull
+    ItemStack getItem(Player p) {
+        return Slimefun.getLocalization().getRecipeTypeItem(p, this);
+    }
+
+    public SlimefunItem getMachine() {
+        return SlimefunItem.getById(machine);
+    }
+
+    @Override
+    public final @Nonnull
+    NamespacedKey getKey() {
+        return key;
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj instanceof RecipeType) {
+            return ((RecipeType) obj).getKey().equals(this.getKey());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public final int hashCode() {
+        return getKey().hashCode();
     }
 }

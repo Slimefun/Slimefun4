@@ -1,25 +1,20 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
-import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
 // This class will be deprecated, relocated and rewritten in a future version.
 public class BlockMenu extends DirtyChestMenu {
 
     private Location location;
-
-    private static String serializeLocation(Location l) {
-        return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();
-    }
 
     public BlockMenu(BlockMenuPreset preset, Location l) {
         super(preset);
@@ -46,6 +41,10 @@ public class BlockMenu extends DirtyChestMenu {
         }
 
         this.getContents();
+    }
+
+    private static String serializeLocation(Location l) {
+        return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();
     }
 
     public void save(Location l) {
@@ -94,11 +93,9 @@ public class BlockMenu extends DirtyChestMenu {
     /**
      * This method drops the contents of this {@link BlockMenu} on the ground at the given
      * {@link Location}.
-     * 
-     * @param l
-     *            Where to drop these items
-     * @param slots
-     *            The slots of items that should be dropped
+     *
+     * @param l     Where to drop these items
+     * @param slots The slots of items that should be dropped
      */
     public void dropItems(Location l, int... slots) {
         for (int slot : slots) {

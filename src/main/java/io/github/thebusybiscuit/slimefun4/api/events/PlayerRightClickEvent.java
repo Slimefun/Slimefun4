@@ -1,9 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-
+import io.github.bakedlibs.dough.data.TriStateOptional;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,10 +15,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.data.TriStateOptional;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
  * The {@link PlayerRightClickEvent} is our custom version of the {@link PlayerInteractEvent}.
@@ -28,9 +25,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * of the {@link ItemStack} and/or {@link Block} involved.
  * This allows us (and addons) to efficiently check the used {@link SlimefunItem} without the need
  * to do a heavy lookup or item comparison.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class PlayerRightClickEvent extends PlayerEvent {
 
@@ -56,9 +52,8 @@ public class PlayerRightClickEvent extends PlayerEvent {
     /**
      * This constructs a new {@link PlayerRightClickEvent} based on the original {@link PlayerInteractEvent}.
      * The {@link Result} of the original {@link PlayerInteractEvent} will be copied.
-     * 
-     * @param originalEvent
-     *            The original {@link PlayerInteractEvent}
+     *
+     * @param originalEvent The original {@link PlayerInteractEvent}
      */
     public PlayerRightClickEvent(@Nonnull PlayerInteractEvent originalEvent) {
         super(originalEvent.getPlayer());
@@ -78,10 +73,15 @@ public class PlayerRightClickEvent extends PlayerEvent {
         }
     }
 
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     /**
      * This returns the original {@link PlayerInteractEvent} that triggered this
      * {@link PlayerRightClickEvent}.
-     * 
+     *
      * @return The original {@link PlayerInteractEvent}
      */
     @Nonnull
@@ -93,7 +93,7 @@ public class PlayerRightClickEvent extends PlayerEvent {
      * This method returns the {@link ItemStack} that was held in the hand of the {@link Player}.
      * It will never return null, should there be no {@link ItemStack} then it will return
      * {@code new ItemStack(Material.AIR)}.
-     * 
+     *
      * @return The {@link ItemStack} that the {@link Player} right clicked with
      */
     @Nonnull
@@ -104,7 +104,7 @@ public class PlayerRightClickEvent extends PlayerEvent {
     /**
      * This returns the hand that was used in this interaction.
      * Can either be {@code EquipmentSlot.HAND} or {@code EquipmentSlot.OFF_HAND}.
-     * 
+     *
      * @return The hand used in this {@link Event}
      */
     @Nonnull
@@ -175,11 +175,6 @@ public class PlayerRightClickEvent extends PlayerEvent {
     public void setUseBlock(@Nonnull Result result) {
         Validate.notNull(result, "Result cannot be null");
         blockResult = result;
-    }
-
-    @Nonnull
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     @Nonnull

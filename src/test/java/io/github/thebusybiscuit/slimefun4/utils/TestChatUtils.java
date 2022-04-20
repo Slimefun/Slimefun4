@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import io.github.bakedlibs.dough.common.ChatColors;
 import org.bukkit.ChatColor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import io.github.bakedlibs.dough.common.ChatColors;
 
 class TestChatUtils {
 

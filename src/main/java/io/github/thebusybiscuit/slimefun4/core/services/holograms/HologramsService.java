@@ -1,16 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.holograms;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.logging.Level;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -24,15 +16,20 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.logging.Level;
 
 /**
  * This service is responsible for handling holograms.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  * @see HologramOwner
  */
 public class HologramsService {
@@ -70,9 +67,8 @@ public class HologramsService {
 
     /**
      * This constructs a new {@link HologramsService}.
-     * 
-     * @param plugin
-     *            Our {@link Plugin} instance
+     *
+     * @param plugin Our {@link Plugin} instance
      */
     public HologramsService(@Nonnull Plugin plugin) {
         this.plugin = plugin;
@@ -91,7 +87,7 @@ public class HologramsService {
 
     /**
      * This returns the default {@link Hologram} offset.
-     * 
+     *
      * @return The default offset
      */
     @Nonnull
@@ -118,12 +114,9 @@ public class HologramsService {
      * This returns the {@link Hologram} associated with the given {@link Location}.
      * If createIfNoneExists is set to true a new {@link ArmorStand} will be spawned
      * if no existing one could be found.
-     * 
-     * @param loc
-     *            The {@link Location}
-     * @param createIfNoneExists
-     *            Whether to create a new {@link ArmorStand} if none was found
-     * 
+     *
+     * @param loc                The {@link Location}
+     * @param createIfNoneExists Whether to create a new {@link ArmorStand} if none was found
      * @return The existing (or newly created) hologram
      */
     @Nullable
@@ -184,10 +177,8 @@ public class HologramsService {
     /**
      * This checks if a given {@link Entity} is an {@link ArmorStand}
      * and whether it has the correct attributes to be considered a {@link Hologram}.
-     * 
-     * @param n
-     *            The {@link Entity} to check
-     * 
+     *
+     * @param n The {@link Entity} to check
      * @return Whether this could be a hologram
      */
     private boolean isHologram(@Nonnull Entity n) {
@@ -204,14 +195,10 @@ public class HologramsService {
     /**
      * This will cast the {@link Entity} to an {@link ArmorStand} and it will apply
      * all necessary attributes to the {@link ArmorStand}, then return a {@link Hologram}.
-     * 
-     * @param position
-     *            The {@link BlockPosition} of this hologram
-     * @param entity
-     *            The {@link Entity}
-     * @param container
-     *            The {@link PersistentDataContainer} of the given {@link Entity}
-     * 
+     *
+     * @param position  The {@link BlockPosition} of this hologram
+     * @param entity    The {@link Entity}
+     * @param container The {@link PersistentDataContainer} of the given {@link Entity}
      * @return The {@link Hologram}
      */
     @Nullable
@@ -246,11 +233,9 @@ public class HologramsService {
      * You can use it to set the nametag or other properties.
      * <p>
      * <strong>This method must be executed on the main {@link Server} {@link Thread}.</strong>
-     * 
-     * @param loc
-     *            The {@link Location}
-     * @param consumer
-     *            The callback to run
+     *
+     * @param loc      The {@link Location}
+     * @param consumer The callback to run
      */
     private void updateHologram(@Nonnull Location loc, @Nonnull Consumer<Hologram> consumer) {
         Validate.notNull(loc, "Location must not be null");
@@ -280,12 +265,10 @@ public class HologramsService {
      * This removes the {@link Hologram} at that given {@link Location}.
      * <p>
      * <strong>This method must be executed on the main {@link Server} {@link Thread}.</strong>
-     * 
-     * @param loc
-     *            The {@link Location}
-     * 
+     *
+     * @param loc The {@link Location}
      * @return Whether the {@link Hologram} could be removed, false if the {@link Hologram} does not
-     *         exist or was already removed
+     * exist or was already removed
      */
     public boolean removeHologram(@Nonnull Location loc) {
         Validate.notNull(loc, "Location cannot be null");
@@ -313,11 +296,9 @@ public class HologramsService {
 
     /**
      * This will update the label of the {@link Hologram}.
-     * 
-     * @param loc
-     *            The {@link Location} of this {@link Hologram}
-     * @param label
-     *            The label to set, can be null
+     *
+     * @param loc   The {@link Location} of this {@link Hologram}
+     * @param label The label to set, can be null
      */
     public void setHologramLabel(@Nonnull Location loc, @Nullable String label) {
         Validate.notNull(loc, "Location must not be null");

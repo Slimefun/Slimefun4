@@ -13,16 +13,16 @@ api-version: '1.14'
 
 # (Soft) dependencies of Slimefun, we hook into these plugins.
 softdepend:
-- PlaceholderAPI
-- WorldEdit
-- ClearLag
-- mcMMO
-- ItemsAdder
-- Orebfuscator
+  - PlaceholderAPI
+  - WorldEdit
+  - ClearLag
+  - mcMMO
+  - ItemsAdder
+  - Orebfuscator
 
 # We hook into these plugins too, but they depend on Slimefun.
 loadBefore:
-- ChestTerminal
+  - ChestTerminal
 
 # Our commands
 commands:

@@ -1,71 +1,57 @@
 package io.github.thebusybiscuit.slimefun4.api.network;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * An abstract Network class to manage networks in a stateful way
- * 
+ *
  * @author meiamsome
  * @author TheBusyBiscuit
- * 
  * @see NetworkListener
  * @see NetworkManager
- *
  */
 public abstract class Network {
 
+    protected final Set<Location> regulatorNodes = new HashSet<>();
+    protected final Set<Location> connectorNodes = new HashSet<>();
+    protected final Set<Location> terminusNodes = new HashSet<>();
     /**
      * Our {@link NetworkManager} instance.
      */
     private final NetworkManager manager;
-
-    /**
-     * The {@link Location} of the regulator of this {@link Network}.
-     */
-    protected Location regulator;
-
     /**
      * The {@link UUID} of the {@link World} this {@link Network} exists within.
      */
     private final UUID worldId;
-
     /**
      * This {@link Set} holds all {@link Network} positions that are part of this {@link Network}.
      * The {@link World} should be equal for all positions, therefore we can save memory by simply
      * storing {@link BlockPosition#getAsLong(int, int, int)}.
      */
     private final Set<Long> positions = new HashSet<>();
-
     private final Queue<Location> nodeQueue = new ArrayDeque<>();
-    protected final Set<Location> regulatorNodes = new HashSet<>();
-    protected final Set<Location> connectorNodes = new HashSet<>();
-    protected final Set<Location> terminusNodes = new HashSet<>();
+    /**
+     * The {@link Location} of the regulator of this {@link Network}.
+     */
+    protected Location regulator;
 
     /**
      * This constructs a new {@link Network} at the given {@link Location}.
-     * 
-     * @param manager
-     *            The {@link NetworkManager} instance
-     * @param regulator
-     *            The {@link Location} marking the regulator of this {@link Network}.
+     *
+     * @param manager   The {@link NetworkManager} instance
+     * @param regulator The {@link Location} marking the regulator of this {@link Network}.
      */
     protected Network(@Nonnull NetworkManager manager, @Nonnull Location regulator) {
         Validate.notNull(manager, "A NetworkManager must be provided");
@@ -83,9 +69,9 @@ public abstract class Network {
      * This method returns the range of the {@link Network}.
      * The range determines how far the {@link Network} will search for
      * nearby nodes from any given node.
-     * 
+     * <p>
      * It basically translates to the maximum distance between nodes.
-     * 
+     *
      * @return the range of this {@link Network}
      */
     public abstract int getRange();
@@ -93,31 +79,27 @@ public abstract class Network {
     /**
      * This method assigns the given {@link Location} a type of {@link NetworkComponent}
      * for classification.
-     * 
-     * @param l
-     *            The {@link Location} to classify
-     * 
+     *
+     * @param l The {@link Location} to classify
      * @return The assigned type of {@link NetworkComponent} for this {@link Location}
      */
-    public abstract @Nullable NetworkComponent classifyLocation(@Nonnull Location l);
+    public abstract @Nullable
+    NetworkComponent classifyLocation(@Nonnull Location l);
 
     /**
      * This method is called whenever a {@link Location} in this {@link Network} changes
      * its classification.
-     * 
-     * @param l
-     *            The {@link Location} that is changing its classification
-     * @param from
-     *            The {@link NetworkComponent} this {@link Location} was previously classified as
-     * @param to
-     *            The {@link NetworkComponent} this {@link Location} is changing to
+     *
+     * @param l    The {@link Location} that is changing its classification
+     * @param from The {@link NetworkComponent} this {@link Location} was previously classified as
+     * @param to   The {@link NetworkComponent} this {@link Location} is changing to
      */
     public abstract void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
 
     /**
      * This returns the size of this {@link Network}. It is equivalent to the amount
      * of {@link Location Locations} connected to this {@link Network}.
-     * 
+     *
      * @return The size of this {@link Network}
      */
     public int getSize() {
@@ -126,9 +108,8 @@ public abstract class Network {
 
     /**
      * This method adds the given {@link Location} to this {@link Network}.
-     * 
-     * @param l
-     *            The {@link Location} to add
+     *
+     * @param l The {@link Location} to add
      */
     protected void addLocationToNetwork(@Nonnull Location l) {
         Validate.notNull(l, "You cannot add a Location to a Network which is null!");
@@ -142,9 +123,8 @@ public abstract class Network {
     /**
      * This method marks the given {@link Location} as dirty and adds it to a {@link Queue}
      * to handle this update.
-     * 
-     * @param l
-     *            The {@link Location} to update
+     *
+     * @param l The {@link Location} to update
      */
     public void markDirty(@Nonnull Location l) {
         if (regulator.equals(l)) {
@@ -156,10 +136,8 @@ public abstract class Network {
 
     /**
      * This method checks whether the given {@link Location} is part of this {@link Network}.
-     * 
-     * @param l
-     *            The {@link Location} to check for
-     * 
+     *
+     * @param l The {@link Location} to check for
      * @return Whether the given {@link Location} is part of this {@link Network}
      */
     public boolean connectsTo(@Nonnull Location l) {
@@ -174,7 +152,8 @@ public abstract class Network {
         }
     }
 
-    private @Nullable NetworkComponent getCurrentClassification(@Nonnull Location l) {
+    private @Nullable
+    NetworkComponent getCurrentClassification(@Nonnull Location l) {
         if (regulatorNodes.contains(l)) {
             return NetworkComponent.REGULATOR;
         } else if (connectorNodes.contains(l)) {
@@ -254,10 +233,11 @@ public abstract class Network {
 
     /**
      * This returns the {@link Location} of the regulator block for this {@link Network}
-     * 
+     *
      * @return The {@link Location} of our regulator
      */
-    public @Nonnull Location getRegulator() {
+    public @Nonnull
+    Location getRegulator() {
         return regulator;
     }
 
