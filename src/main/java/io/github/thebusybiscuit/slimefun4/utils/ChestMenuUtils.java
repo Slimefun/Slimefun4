@@ -132,7 +132,6 @@ public final class ChestMenuUtils {
     }
 
     public static void updateProgressbar(@Nonnull ChestMenu menu, int slot, int timeLeft, int time, @Nonnull ItemStack indicator) {
-        // System.out.println("here  "+timeLeft+" "+time);
         Inventory inv = menu.toInventory();
 
         // We don't need to update the progress bar if noone is watching :o
@@ -179,8 +178,6 @@ public final class ChestMenuUtils {
     }
 
     private static short getDurability(@Nonnull ItemStack item, int timeLeft, int max) {
-        // System.out.println("here2  " + item.getType().getMaxDurability() + " " + timeLeft + " " + max);
-        // System.out.println("here3  " + item.getType().getMaxDurability() + " " + item.getType().getMaxDurability() * timeLeft / max);
         return (short) ((item.getType().getMaxDurability() / max) * timeLeft);
     }
 
