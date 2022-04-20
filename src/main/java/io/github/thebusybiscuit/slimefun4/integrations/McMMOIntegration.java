@@ -1,4 +1,4 @@
-package me.mrCookieSlime.integrations;
+package io.github.thebusybiscuit.slimefun4.integrations;
 
 import javax.annotation.Nonnull;
 

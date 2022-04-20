@@ -1,7 +1,10 @@
-package me.mrCookieSlime.integrations;
+package io.github.thebusybiscuit.slimefun4.integrations;
+
+import java.util.Iterator;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,6 +36,14 @@ class ClearLagIntegration implements Listener {
 
     @EventHandler
     public void onEntityRemove(EntityRemoveEvent e) {
-        e.getEntityList().removeIf(n -> n instanceof Item && SlimefunUtils.hasNoPickupFlag((Item) n));
+        Iterator<Entity> iterator = e.getEntityList().iterator();
+
+        while (iterator.hasNext()) {
+            Entity n = iterator.next();
+
+            if (n instanceof Item && SlimefunUtils.hasNoPickupFlag((Item) n)) {
+                iterator.remove();
+            }
+        }
     }
 }
