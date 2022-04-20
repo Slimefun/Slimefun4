@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.integrations;
+package me.mrCookieSlime.integrations;
 
 import java.util.Optional;
 import java.util.Set;

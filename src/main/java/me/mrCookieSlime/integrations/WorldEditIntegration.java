@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.integrations;
+package me.mrCookieSlime.integrations;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

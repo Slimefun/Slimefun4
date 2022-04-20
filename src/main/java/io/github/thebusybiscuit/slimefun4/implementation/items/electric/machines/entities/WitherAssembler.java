@@ -77,7 +77,7 @@ public class WitherAssembler extends AbstractEntityAssembler<Wither> {
         w = l.getWorld().spawn(l, Wither.class);
         w.setAI(false);
         if (Slimefun.instance() != null) {
-            System.out.println("Wither assembled spawning wither, setting metadata");
+            //System.out.println("Wither assembled spawning wither, setting metadata");
             w.setMetadata("wither-assembler", new FixedMetadataValue(Slimefun.instance(), true));
         }
         return w;

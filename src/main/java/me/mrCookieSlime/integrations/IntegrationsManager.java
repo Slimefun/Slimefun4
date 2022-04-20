@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.integrations;
+package me.mrCookieSlime.integrations;
 
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -151,20 +151,17 @@ public class IntegrationsManager {
             isOrebfuscatorInstalled = true;
         });
 
-        isChestTerminalInstalled = isAddonInstalled("ChestTerminal");
+        isChestTerminalInstalled = isAddonInstalled();
     }
 
     /**
      * This method checks if the given addon is installed.
      * 
-     * @param addon
-     *            The name of the addon
-     * 
      * @return Whether that addon is installed on the {@link Server}
      */
-    private boolean isAddonInstalled(@Nonnull String addon) {
-        if (plugin.getServer().getPluginManager().isPluginEnabled(addon)) {
-            Slimefun.logger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
+    private boolean isAddonInstalled() {
+        if (plugin.getServer().getPluginManager().isPluginEnabled("ChestTerminal")) {
+            Slimefun.logger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", "ChestTerminal");
             return true;
         } else {
             return false;
