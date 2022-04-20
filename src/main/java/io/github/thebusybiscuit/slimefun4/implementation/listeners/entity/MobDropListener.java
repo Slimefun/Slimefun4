@@ -59,7 +59,7 @@ public class MobDropListener implements Listener {
 
         if (e.getEntityType().equals(EntityType.WITHER)) {
             if (e.getEntity().hasMetadata("wither-assembler")) {
-                //System.out.println("Wither assembled wither found, removing drops.");
+                System.out.println("Wither assembled wither found, removing drops.");
                 e.getDrops().clear();
             }
         }

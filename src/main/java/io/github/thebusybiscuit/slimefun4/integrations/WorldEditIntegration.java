@@ -1,4 +1,4 @@
-package me.mrCookieSlime.integrations;
+package io.github.thebusybiscuit.slimefun4.integrations;
 
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
