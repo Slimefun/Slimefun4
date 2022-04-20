@@ -80,14 +80,12 @@ public class MachineProcessor<T extends MachineOperation> {
      *
      * @param loc       The {@link Location} at which our machine is located.
      * @param operation The {@link MachineOperation} to start
-     * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
-     * {@link MachineOperation} has already been started at that {@link Location}.
      */
-    public boolean startOperation(@Nonnull Location loc, @Nonnull T operation) {
+    public void startOperation(@Nonnull Location loc, @Nonnull T operation) {
         Validate.notNull(loc, "The location must not be null");
         Validate.notNull(operation, "The operation cannot be null");
 
-        return startOperation(new BlockPosition(loc), operation);
+        startOperation(new BlockPosition(loc), operation);
     }
 
     /**
@@ -95,14 +93,12 @@ public class MachineProcessor<T extends MachineOperation> {
      *
      * @param b         The {@link Block} at which our machine is located.
      * @param operation The {@link MachineOperation} to start
-     * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
-     * {@link MachineOperation} has already been started at that {@link Block}.
      */
-    public boolean startOperation(@Nonnull Block b, @Nonnull T operation) {
+    public void startOperation(@Nonnull Block b, @Nonnull T operation) {
         Validate.notNull(b, "The Block must not be null");
         Validate.notNull(operation, "The machine operation cannot be null");
 
-        return startOperation(new BlockPosition(b), operation);
+        startOperation(new BlockPosition(b), operation);
     }
 
     /**
@@ -110,14 +106,12 @@ public class MachineProcessor<T extends MachineOperation> {
      *
      * @param pos       The {@link BlockPosition} of our machine
      * @param operation The {@link MachineOperation} to start
-     * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
-     * {@link MachineOperation} has already been started at that {@link BlockPosition}.
      */
-    public boolean startOperation(@Nonnull BlockPosition pos, @Nonnull T operation) {
+    public void startOperation(@Nonnull BlockPosition pos, @Nonnull T operation) {
         Validate.notNull(pos, "The BlockPosition must not be null");
         Validate.notNull(operation, "The machine operation cannot be null");
 
-        return machines.putIfAbsent(pos, operation) == null;
+        machines.putIfAbsent(pos, operation);
     }
 
     /**
@@ -165,36 +159,30 @@ public class MachineProcessor<T extends MachineOperation> {
      * This will end the {@link MachineOperation} at the given {@link Location}.
      *
      * @param loc The {@link Location} at which our machine is located.
-     * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
-     * {@link MachineOperation} to begin with.
      */
-    public boolean endOperation(@Nonnull Location loc) {
+    public void endOperation(@Nonnull Location loc) {
         Validate.notNull(loc, "The location should not be null");
 
-        return endOperation(new BlockPosition(loc));
+        endOperation(new BlockPosition(loc));
     }
 
     /**
      * This will end the {@link MachineOperation} at the given {@link Block}.
      *
      * @param b The {@link Block} at which our machine is located.
-     * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
-     * {@link MachineOperation} to begin with.
      */
-    public boolean endOperation(@Nonnull Block b) {
+    public void endOperation(@Nonnull Block b) {
         Validate.notNull(b, "The Block should not be null");
 
-        return endOperation(new BlockPosition(b));
+        endOperation(new BlockPosition(b));
     }
 
     /**
      * This will end the {@link MachineOperation} at the given {@link BlockPosition}.
      *
      * @param pos The {@link BlockPosition} at which our machine is located.
-     * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
-     * {@link MachineOperation} to begin with.
      */
-    public boolean endOperation(@Nonnull BlockPosition pos) {
+    public void endOperation(@Nonnull BlockPosition pos) {
         Validate.notNull(pos, "The BlockPosition cannot be null");
 
         T operation = machines.remove(pos);
@@ -209,9 +197,6 @@ public class MachineProcessor<T extends MachineOperation> {
                 Bukkit.getPluginManager().callEvent(event);
             }
 
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -227,6 +212,12 @@ public class MachineProcessor<T extends MachineOperation> {
         // Update the progress bar in our inventory (if anyone is watching)
         int remainingTicks = operation.getRemainingTicks();
         int totalTicks = operation.getTotalTicks();
+        // System.out.println("Operation: " + operation);
+        // System.out.println("Remaining ticks: " + remainingTicks + " " + "Total ticks: " + totalTicks);
+        if (!(remainingTicks > 0) && !(totalTicks > 0)) {
+            // System.out.println("Values too low, returning.");
+            return;
+        }
         ChestMenuUtils.updateProgressbar(inv, slot, remainingTicks, totalTicks, getProgressBar());
     }
 
