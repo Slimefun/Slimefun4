@@ -252,12 +252,10 @@ public class MachineProcessor<T extends MachineOperation> {
         int remainingTicks = operation.getRemainingTicks();
         int totalTicks = operation.getTotalTicks();
 
-        // If the operation is finished, we don't need to update the progress bar.
-        if (remainingTicks <= 0 && totalTicks <= 0) {
-            return;
+        // Fixes #3538 - If the operation is finished, we don't need to update the progress bar.
+        if (remainingTicks > 0 || totalTicks > 0) {
+            ChestMenuUtils.updateProgressbar(inv, slot, remainingTicks, totalTicks, getProgressBar());
         }
-
-        ChestMenuUtils.updateProgressbar(inv, slot, remainingTicks, totalTicks, getProgressBar());
     }
 
 }
