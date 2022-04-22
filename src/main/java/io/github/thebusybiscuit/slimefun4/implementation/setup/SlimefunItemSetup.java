@@ -2387,7 +2387,7 @@ public final class SlimefunItemSetup {
         new OrganicFertilizer(itemGroups.misc, SlimefunItems.COCOA_FERTILIZER, SlimefunItems.COCOA_ORGANIC_FOOD)
         .register(plugin);
 
-    new OrganicFertilizer(itemGroups.misc, SlimefunItems.SEAGRASS_FERTILIZER, SlimefunItems.SEAGRASS_ORGANIC_FOOD)
+        new OrganicFertilizer(itemGroups.misc, SlimefunItems.SEAGRASS_FERTILIZER, SlimefunItems.SEAGRASS_ORGANIC_FOOD)
         .register(plugin);
 
         new CropGrowthAccelerator(itemGroups.electricity, SlimefunItems.CROP_GROWTH_ACCELERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
