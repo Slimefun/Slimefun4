@@ -36,6 +36,8 @@
 ## Release Candidate 32 (TBD)
 
 #### Additions
+* Added Organic Food for Seagrass
+* Added Organic Fertilizer for Seagrass
 
 #### Changes
 
