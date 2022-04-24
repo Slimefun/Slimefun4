@@ -2324,6 +2324,9 @@ public final class SlimefunItemSetup {
         new OrganicFood(itemGroups.misc, SlimefunItems.COCOA_ORGANIC_FOOD, Material.COCOA_BEANS)
         .register(plugin);
 
+        new OrganicFood(itemGroups.misc, SlimefunItems.SEAGRASS_ORGANIC_FOOD, Material.SEAGRASS)
+        .register(plugin);
+
         new AutoBreeder(itemGroups.electricity, SlimefunItems.AUTO_BREEDER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.GOLD_18K, SlimefunItems.TIN_CAN, SlimefunItems.GOLD_18K, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.HAY_BLOCK), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.LEAD_INGOT})
         .register(plugin);
@@ -2382,6 +2385,9 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new OrganicFertilizer(itemGroups.misc, SlimefunItems.COCOA_FERTILIZER, SlimefunItems.COCOA_ORGANIC_FOOD)
+        .register(plugin);
+
+        new OrganicFertilizer(itemGroups.misc, SlimefunItems.SEAGRASS_FERTILIZER, SlimefunItems.SEAGRASS_ORGANIC_FOOD)
         .register(plugin);
 
         new CropGrowthAccelerator(itemGroups.electricity, SlimefunItems.CROP_GROWTH_ACCELERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
