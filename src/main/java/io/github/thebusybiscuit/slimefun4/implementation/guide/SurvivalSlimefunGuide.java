@@ -311,7 +311,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 try {
                     if (isSurvivalMode()) {
                         displayItem(profile, sfitem, true);
-                    } else {
+                    } else if (pl.hasPermission("slimefun.cheat.items")) {
                         if (sfitem instanceof MultiBlockMachine) {
                             Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                         } else {
@@ -323,6 +323,13 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
                             pl.getInventory().addItem(clonedItem);
                         }
+                    } else {
+                        /*
+                         * Fixes #3548 - If for whatever reason,
+                         * an unpermitted players gets access to this guide,
+                         * this will be our last line of defense to prevent any exploit.
+                         */
+                        Slimefun.getLocalization().sendMessage(pl, "messages.no-permission", true);
                     }
                 } catch (Exception | LinkageError x) {
                     printErrorMessage(pl, x);
