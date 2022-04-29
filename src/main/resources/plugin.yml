@@ -20,10 +20,6 @@ softdepend:
 - ItemsAdder
 - Orebfuscator
 
-# We hook into these plugins too, but they depend on Slimefun.
-loadBefore:
-- ChestTerminal
-
 # Our commands
 commands:
   slimefun:
