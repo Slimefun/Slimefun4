@@ -40,6 +40,7 @@
 * Added Organic Fertilizer for Seagrass
 
 #### Changes
+* Removed support for ChestTerminal
 
 #### Fixes
 * Fixed #3445
