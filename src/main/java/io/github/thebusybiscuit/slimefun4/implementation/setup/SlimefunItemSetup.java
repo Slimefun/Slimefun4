@@ -220,6 +220,8 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  *
  */
 public final class SlimefunItemSetup {
+    private static final int energyrange = Slimefun.getCfg().getInt("networks.energy-connector-range");
+    private static final int cargorange = Slimefun.getCfg().getInt("networks.cargo-connector-range");
 
     private static boolean registeredItems = false;
 
@@ -1514,7 +1516,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT})
         .register(plugin);
 
-        new EnergyConnector(itemGroups.electricity, SlimefunItems.ENERGY_CONNECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new EnergyConnector(itemGroups.electricity, energyrange, SlimefunItems.ENERGY_CONNECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.CARBON, SlimefunItems.COPPER_WIRE, SlimefunItems.CARBON, SlimefunItems.COPPER_WIRE, new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.COPPER_WIRE, SlimefunItems.CARBON, SlimefunItems.COPPER_WIRE, SlimefunItems.CARBON},
         new SlimefunItemStack(SlimefunItems.ENERGY_CONNECTOR, 8))
         .register(plugin);
@@ -2504,7 +2506,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.HOLOGRAM_PROJECTOR, null, SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARGO_MOTOR, SlimefunItems.REINFORCED_PLATE, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.ALUMINUM_BRONZE_INGOT})
         .register(plugin);
 
-        new CargoConnectorNode(itemGroups.cargo, SlimefunItems.CARGO_CONNECTOR_NODE, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new CargoConnectorNode(itemGroups.cargo, cargorange,SlimefunItems.CARGO_CONNECTOR_NODE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.BRONZE_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.BRONZE_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.CARGO_MOTOR, SlimefunItems.SILVER_INGOT, SlimefunItems.BRONZE_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.BRONZE_INGOT}, 
         new SlimefunItemStack(SlimefunItems.CARGO_CONNECTOR_NODE, 4))
         .register(plugin);

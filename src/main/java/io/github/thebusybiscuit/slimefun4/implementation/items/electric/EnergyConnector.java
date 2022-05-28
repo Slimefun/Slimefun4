@@ -28,10 +28,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
  *
  */
 public class EnergyConnector extends SimpleSlimefunItem<BlockUseHandler> implements EnergyNetComponent {
+    public static int RANGE;
 
     @ParametersAreNonnullByDefault
-    public EnergyConnector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public EnergyConnector(ItemGroup itemGroup, int range, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
+
+        RANGE = range;
     }
 
     @Override

@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.test.mocks;
 
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
@@ -28,7 +29,7 @@ public class MockNetwork extends Network {
     }
 
     @Override
-    public NetworkComponent classifyLocation(Location l) {
+    public NetworkComponent classifyLocation(@Nonnull Location l) {
         if (l.equals(regulator)) {
             return NetworkComponent.REGULATOR;
         } else {
