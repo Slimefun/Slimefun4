@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-public class HeatedPressureChamber extends AContainer {
+public class HeatedPressureChamber extends AContainer extends RecipeDisplayItem {
 
     @ParametersAreNonnullByDefault
     public HeatedPressureChamber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
