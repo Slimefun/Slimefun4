@@ -38,6 +38,7 @@
 #### Additions
 * Added Organic Food for Seagrass
 * Added Organic Fertilizer for Seagrass
+* Added compatibility for Minecraft 1.19
 
 #### Changes
 * Removed support for ChestTerminal
@@ -48,6 +49,7 @@
 * Fixed #3534
 * Fixed #3538
 * Fixed #3548
+* Fixed an issue with machines being placed below y=0
 
 ## Release Candidate 31 (14 Mar 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#31
