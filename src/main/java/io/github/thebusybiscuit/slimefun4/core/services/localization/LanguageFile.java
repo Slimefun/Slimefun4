@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import com.google.common.base.Preconditions;
 
-
 /**
  * This enum holds the different types of files each {@link Language} holds.
  * 

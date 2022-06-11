@@ -16,7 +16,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Preconditions;
 
-
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
