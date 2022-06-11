@@ -61,8 +61,8 @@ public abstract class AbstractRecipe {
      */
     @ParametersAreNonnullByDefault
     protected AbstractRecipe(Collection<Predicate<ItemStack>> ingredients, ItemStack result) {
-        Preconditions.checkArgument(ingredients != null && !ingredients.isEmpty(), "The input predicates cannot be null or an empty array");
-        Preconditions.checkArgument(result != null, "The recipe result must not be null!");
+        Validate.notEmpty(ingredients, "The input predicates cannot be null or an empty array");
+        Preconditions.checkNotNull(result, "The recipe result must not be null!");
 
         this.ingredients = ingredients;
         this.result = result;

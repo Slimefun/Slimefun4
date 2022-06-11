@@ -72,7 +72,7 @@ public class CustomTextureService {
      *            Whether to save this file
      */
     public void register(@Nonnull Collection<SlimefunItem> items, boolean save) {
-        Preconditions.checkArgument(items != null && !items.isEmpty(), "items must neither be null or empty");
+        Validate.notEmpty(items, "items must neither be null or empty.");
 
         loadDefaultValues();
 

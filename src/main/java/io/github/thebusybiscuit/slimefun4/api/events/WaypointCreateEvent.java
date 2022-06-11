@@ -85,7 +85,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
      *            The name for this waypoint
      */
     public void setName(@Nonnull String name) {
-        Preconditions.checkArgument(name != null && !name.isEmpty(), "The name of a waypoint must not be empty!");
+        Validate.notEmpty(name, "The name of a waypoint must not be empty!");
         this.name = name;
     }
 
