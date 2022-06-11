@@ -108,7 +108,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
     @ParametersAreNonnullByDefault
     private boolean hasSurroundingMaterials(Block b, Material... materials) {
         Preconditions.checkNotNull(b, "The Block cannot be null!");
-        Validate.notEmpty(materials, "Materials need to have a size of at least one!");
+        Preconditions.checkArgument(materials != null && materials.length > 0, "Materials need to have a size of at least one!");
 
         boolean[] matches = new boolean[materials.length];
         int count = 0;
