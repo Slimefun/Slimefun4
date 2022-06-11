@@ -390,7 +390,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
      * @return Whether charge was taken if its chargeable
      */
     protected boolean takeCharge(@Nonnull Location l) {
-        Preconditions.checkNotNull(l, "Can't attempt to take charge from a null location!");
+        Preconditions.checkArgument(l != null, "Can't attempt to take charge from a null location!");
 
         if (isChargeable()) {
             int charge = getCharge(l);

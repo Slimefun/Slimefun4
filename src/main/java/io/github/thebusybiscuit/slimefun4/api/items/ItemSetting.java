@@ -42,9 +42,9 @@ public class ItemSetting<T> {
      */
     @ParametersAreNonnullByDefault
     public ItemSetting(SlimefunItem item, String key, T defaultValue) {
-        Preconditions.checkNotNull(item, "The provided SlimefunItem must not be null!");
-        Preconditions.checkNotNull(key, "The key of an ItemSetting is not allowed to be null!");
-        Preconditions.checkNotNull(defaultValue, "The default value of an ItemSetting is not allowed to be null!");
+        Preconditions.checkArgument(item != null, "The provided SlimefunItem must not be null!");
+        Preconditions.checkArgument(key != null, "The key of an ItemSetting is not allowed to be null!");
+        Preconditions.checkArgument(defaultValue != null, "The default value of an ItemSetting is not allowed to be null!");
 
         this.item = item;
         this.key = key;
@@ -165,7 +165,7 @@ public class ItemSetting<T> {
      */
     @SuppressWarnings("unchecked")
     public void reload() {
-        Preconditions.checkNotNull(item, "Cannot apply settings for a non-existing SlimefunItem");
+        Preconditions.checkArgument(item != null, "Cannot apply settings for a non-existing SlimefunItem");
 
         Slimefun.getItemCfg().setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
         Object configuredValue = Slimefun.getItemCfg().getValue(item.getId() + '.' + getKey());

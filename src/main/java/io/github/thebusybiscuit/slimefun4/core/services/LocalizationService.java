@@ -114,7 +114,7 @@ public class LocalizationService extends SlimefunLocalization {
     @Override
     @Nullable
     public Language getLanguage(@Nonnull String id) {
-        Preconditions.checkNotNull(id, "The language id cannot be null");
+        Preconditions.checkArgument(id != null, "The language id cannot be null");
         return languages.get(id);
     }
 
@@ -126,7 +126,7 @@ public class LocalizationService extends SlimefunLocalization {
 
     @Override
     public boolean hasLanguage(@Nonnull String id) {
-        Preconditions.checkNotNull(id, "The language id cannot be null");
+        Preconditions.checkArgument(id != null, "The language id cannot be null");
 
         // Checks if our jar files contains a messages.yml file for that language
         String file = LanguageFile.MESSAGES.getFilePath(id);
@@ -142,7 +142,7 @@ public class LocalizationService extends SlimefunLocalization {
      * @return Whether or not this {@link Language} is loaded
      */
     public boolean isLanguageLoaded(@Nonnull String id) {
-        Preconditions.checkNotNull(id, "The language cannot be null!");
+        Preconditions.checkArgument(id != null, "The language cannot be null!");
         return languages.containsKey(id);
     }
 
@@ -153,7 +153,7 @@ public class LocalizationService extends SlimefunLocalization {
 
     @Override
     public Language getLanguage(@Nonnull Player p) {
-        Preconditions.checkNotNull(p, "Player cannot be null!");
+        Preconditions.checkArgument(p != null, "Player cannot be null!");
 
         PersistentDataContainer container = p.getPersistentDataContainer();
         String language = container.get(languageKey, PersistentDataType.STRING);
@@ -206,8 +206,8 @@ public class LocalizationService extends SlimefunLocalization {
 
     @Override
     protected void addLanguage(@Nonnull String id, @Nonnull String texture) {
-        Preconditions.checkNotNull(id, "The language id cannot be null!");
-        Preconditions.checkNotNull(texture, "The language texture cannot be null");
+        Preconditions.checkArgument(id != null, "The language id cannot be null!");
+        Preconditions.checkArgument(texture != null, "The language texture cannot be null");
 
         if (hasLanguage(id)) {
             Language language = new Language(id, texture);
@@ -233,7 +233,7 @@ public class LocalizationService extends SlimefunLocalization {
      * @return A percentage {@code (0.0 - 100.0)} for the progress of translation of that {@link Language}
      */
     public double calculateProgress(@Nonnull Language lang) {
-        Preconditions.checkNotNull(lang, "Cannot get the language progress of null");
+        Preconditions.checkArgument(lang != null, "Cannot get the language progress of null");
 
         Set<String> defaultKeys = getTotalKeys(languages.get("en"));
 

@@ -69,8 +69,8 @@ public abstract class Network {
      *            The {@link Location} marking the regulator of this {@link Network}.
      */
     protected Network(@Nonnull NetworkManager manager, @Nonnull Location regulator) {
-        Preconditions.checkNotNull(manager, "A NetworkManager must be provided");
-        Preconditions.checkNotNull(regulator, "No regulator was specified");
+        Preconditions.checkArgument(manager != null, "A NetworkManager must be provided");
+        Preconditions.checkArgument(regulator != null, "No regulator was specified");
 
         this.manager = manager;
         this.regulator = regulator;
@@ -132,7 +132,7 @@ public abstract class Network {
      *            The {@link Location} to add
      */
     protected void addLocationToNetwork(@Nonnull Location l) {
-        Preconditions.checkNotNull(l, "You cannot add a Location to a Network which is null!");
+        Preconditions.checkArgument(l != null, "You cannot add a Location to a Network which is null!");
         Preconditions.checkArgument(l.getWorld().getUID().equals(worldId), "Networks cannot exist in multiple worlds!");
 
         if (positions.add(BlockPosition.getAsLong(l))) {
@@ -164,7 +164,7 @@ public abstract class Network {
      * @return Whether the given {@link Location} is part of this {@link Network}
      */
     public boolean connectsTo(@Nonnull Location l) {
-        Preconditions.checkNotNull(l, "The Location cannot be null.");
+        Preconditions.checkArgument(l != null, "The Location cannot be null.");
 
         if (this.regulator.equals(l)) {
             return true;

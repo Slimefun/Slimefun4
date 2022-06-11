@@ -39,10 +39,10 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
     public ExplosiveToolBreakBlocksEvent(Player player, Block block, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
         super(player);
 
-        Preconditions.checkNotNull(block, "The center block cannot be null!");
-        Preconditions.checkNotNull(blocks, "Blocks cannot be null");
-        Preconditions.checkNotNull(item, "Item cannot be null");
-        Preconditions.checkNotNull(explosiveTool, "ExplosiveTool cannot be null");
+        Preconditions.checkArgument(block != null, "The center block cannot be null!");
+        Preconditions.checkArgument(blocks != null, "Blocks cannot be null");
+        Preconditions.checkArgument(item != null, "Item cannot be null");
+        Preconditions.checkArgument(explosiveTool != null, "ExplosiveTool cannot be null");
 
         this.mainBlock = block;
         this.additionalBlocks = blocks;

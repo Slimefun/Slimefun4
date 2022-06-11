@@ -93,8 +93,8 @@ public interface EnergyNetComponent extends ItemAttribute {
      * @return The charge stored at that {@link Location}
      */
     default int getCharge(@Nonnull Location l, @Nonnull Config data) {
-        Preconditions.checkNotNull(l, "Location was null!");
-        Preconditions.checkNotNull(data, "data was null!");
+        Preconditions.checkArgument(l != null, "Location was null!");
+        Preconditions.checkArgument(data != null, "data was null!");
 
         // Emergency fallback, this cannot hold a charge, so we'll just return zero
         if (!isChargeable()) {
@@ -121,7 +121,7 @@ public interface EnergyNetComponent extends ItemAttribute {
      *            The new charge
      */
     default void setCharge(@Nonnull Location l, int charge) {
-        Preconditions.checkNotNull(l, "Location was null!");
+        Preconditions.checkArgument(l != null, "Location was null!");
         Preconditions.checkArgument(charge >= 0, "You can only set a charge of zero or more!");
 
         try {
@@ -147,7 +147,7 @@ public interface EnergyNetComponent extends ItemAttribute {
     }
 
     default void addCharge(@Nonnull Location l, int charge) {
-        Preconditions.checkNotNull(l, "Location was null!");
+        Preconditions.checkArgument(l != null, "Location was null!");
         Preconditions.checkArgument(charge > 0, "You can only add a positive charge!");
 
         try {
@@ -174,7 +174,7 @@ public interface EnergyNetComponent extends ItemAttribute {
     }
 
     default void removeCharge(@Nonnull Location l, int charge) {
-        Preconditions.checkNotNull(l, "Location was null!");
+        Preconditions.checkArgument(l != null, "Location was null!");
         Preconditions.checkArgument(charge > 0, "The charge to remove must be greater than zero!");
 
         try {

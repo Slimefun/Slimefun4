@@ -49,8 +49,8 @@ public class Contributor {
      *            A link to their GitHub profile
      */
     public Contributor(@Nonnull String minecraftName, @Nonnull String profile) {
-        Preconditions.checkNotNull(minecraftName, "Username must never be null!");
-        Preconditions.checkNotNull(profile, "The profile cannot be null!");
+        Preconditions.checkArgument(minecraftName != null, "Username must never be null!");
+        Preconditions.checkArgument(profile != null, "The profile cannot be null!");
 
         githubUsername = profile.substring(profile.lastIndexOf('/') + 1);
         minecraftUsername = minecraftName;
@@ -64,7 +64,7 @@ public class Contributor {
      *            The username of this {@link Contributor}
      */
     public Contributor(@Nonnull String username) {
-        Preconditions.checkNotNull(username, "Username must never be null!");
+        Preconditions.checkArgument(username != null, "Username must never be null!");
 
         githubUsername = username;
         minecraftUsername = username;
@@ -81,7 +81,7 @@ public class Contributor {
      *            The amount of contributions made as that role
      */
     public void setContributions(@Nonnull String role, int commits) {
-        Preconditions.checkNotNull(role, "The role cannot be null!");
+        Preconditions.checkArgument(role != null, "The role cannot be null!");
         Preconditions.checkArgument(commits >= 0, "Contributions cannot be negative");
 
         contributions.put(role, commits);
@@ -142,7 +142,7 @@ public class Contributor {
      * @return The amount of contributions this {@link Contributor} submitted as the given role
      */
     public int getContributions(@Nonnull String role) {
-        Preconditions.checkNotNull(role, "The role cannot be null!");
+        Preconditions.checkArgument(role != null, "The role cannot be null!");
 
         return contributions.getOrDefault(role, 0);
     }

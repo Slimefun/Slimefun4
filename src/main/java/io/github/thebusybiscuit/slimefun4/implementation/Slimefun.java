@@ -998,7 +998,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
      * @return The resulting {@link BukkitTask} or null if Slimefun was disabled
      */
     public static @Nullable BukkitTask runSync(@Nonnull Runnable runnable, long delay) {
-        Preconditions.checkNotNull(runnable, "Cannot run null");
+        Preconditions.checkArgument(runnable != null, "Cannot run null");
         Preconditions.checkArgument(delay >= 0, "The delay cannot be negative");
 
         // Run the task instantly within a Unit Test
@@ -1027,7 +1027,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
      * @return The resulting {@link BukkitTask} or null if Slimefun was disabled
      */
     public static @Nullable BukkitTask runSync(@Nonnull Runnable runnable) {
-        Preconditions.checkNotNull(runnable, "Cannot run null");
+        Preconditions.checkArgument(runnable != null, "Cannot run null");
 
         // Run the task instantly within a Unit Test
         if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {

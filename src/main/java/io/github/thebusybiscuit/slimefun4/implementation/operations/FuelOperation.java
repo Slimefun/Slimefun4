@@ -30,7 +30,7 @@ public class FuelOperation implements MachineOperation {
     }
 
     public FuelOperation(@Nonnull ItemStack ingredient, @Nullable ItemStack result, int totalTicks) {
-        Preconditions.checkNotNull(ingredient, "The Ingredient cannot be null");
+        Preconditions.checkArgument(ingredient != null, "The Ingredient cannot be null");
         Preconditions.checkArgument(totalTicks > 0, "The amount of total ticks must be a positive integer");
 
         this.ingredient = ingredient;

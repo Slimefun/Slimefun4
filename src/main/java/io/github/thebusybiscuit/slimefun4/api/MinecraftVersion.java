@@ -156,7 +156,7 @@ public enum MinecraftVersion {
      * @return Whether this {@link MinecraftVersion} is newer or equal to the given {@link MinecraftVersion}
      */
     public boolean isAtLeast(@Nonnull MinecraftVersion version) {
-        Preconditions.checkNotNull(version, "A Minecraft version cannot be null!");
+        Preconditions.checkArgument(version != null, "A Minecraft version cannot be null!");
 
         if (this == UNKNOWN) {
             return false;
@@ -191,7 +191,7 @@ public enum MinecraftVersion {
      * @return Whether this {@link MinecraftVersion} is older than the given one
      */
     public boolean isBefore(@Nonnull MinecraftVersion version) {
-        Preconditions.checkNotNull(version, "A Minecraft version cannot be null!");
+        Preconditions.checkArgument(version != null, "A Minecraft version cannot be null!");
 
         if (this == UNKNOWN) {
             return true;

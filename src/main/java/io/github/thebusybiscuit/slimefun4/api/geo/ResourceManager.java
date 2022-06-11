@@ -69,8 +69,8 @@ public class ResourceManager {
      *            The {@link GEOResource} to register
      */
     void register(@Nonnull GEOResource resource) {
-        Preconditions.checkNotNull(resource, "Cannot register null as a GEO-Resource");
-        Preconditions.checkNotNull(resource.getKey(), "GEO-Resources must have a NamespacedKey which is not null");
+        Preconditions.checkArgument(resource != null, "Cannot register null as a GEO-Resource");
+        Preconditions.checkArgument(resource.getKey() != null, "GEO-Resources must have a NamespacedKey which is not null");
 
         // Resources may only be registered once
         if (Slimefun.getRegistry().getGEOResources().containsKey(resource.getKey())) {
@@ -106,8 +106,8 @@ public class ResourceManager {
      * @return An {@link OptionalInt}, either empty or containing the amount of the given {@link GEOResource}
      */
     public @Nonnull OptionalInt getSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
-        Preconditions.checkNotNull(resource, "Cannot get supplies for null");
-        Preconditions.checkNotNull(world, "World must not be null");
+        Preconditions.checkArgument(resource != null, "Cannot get supplies for null");
+        Preconditions.checkArgument(world != null, "World must not be null");
 
         String key = resource.getKey().toString().replace(':', '-');
         String value = BlockStorage.getChunkInfo(world, x, z, key);
@@ -134,8 +134,8 @@ public class ResourceManager {
      *            The new supply value
      */
     public void setSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z, int value) {
-        Preconditions.checkNotNull(resource, "Cannot set supplies for null");
-        Preconditions.checkNotNull(world, "World cannot be null");
+        Preconditions.checkArgument(resource != null, "Cannot set supplies for null");
+        Preconditions.checkArgument(world != null, "World cannot be null");
 
         String key = resource.getKey().toString().replace(':', '-');
         BlockStorage.setChunkInfo(world, x, z, key, String.valueOf(value));
@@ -160,8 +160,8 @@ public class ResourceManager {
      * @return The new supply value
      */
     private int generate(@Nonnull GEOResource resource, @Nonnull World world, int x, int y, int z) {
-        Preconditions.checkNotNull(resource, "Cannot generate resources for null");
-        Preconditions.checkNotNull(world, "World cannot be null");
+        Preconditions.checkArgument(resource != null, "Cannot generate resources for null");
+        Preconditions.checkArgument(world != null, "World cannot be null");
 
         // Get the corresponding Block (and Biome)
         Block block = world.getBlockAt(x << 4, y, z << 4);
@@ -171,7 +171,7 @@ public class ResourceManager {
          * getBiome() is marked as NotNull, but it seems like some servers ignore this entirely.
          * We have seen multiple reports on Tuinity where it has indeed returned null.
          */
-        Preconditions.checkNotNull(biome, "Biome appears to be null for position: " + new BlockPosition(block));
+        Preconditions.checkArgument(biome != null, "Biome appears to be null for position: " + new BlockPosition(block));
 
         // Make sure the value is not below zero.
         int value = Math.max(0, resource.getDefaultSupply(world.getEnvironment(), biome));

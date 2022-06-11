@@ -228,15 +228,15 @@ public class TickerTask implements Runnable {
 
     @ParametersAreNonnullByDefault
     public void queueMove(Location from, Location to) {
-        Preconditions.checkNotNull(from, "Source Location cannot be null!");
-        Preconditions.checkNotNull(to, "Target Location cannot be null!");
+        Preconditions.checkArgument(from != null, "Source Location cannot be null!");
+        Preconditions.checkArgument(to != null, "Target Location cannot be null!");
 
         movingQueue.put(from, to);
     }
 
     @ParametersAreNonnullByDefault
     public void queueDelete(Location l, boolean destroy) {
-        Preconditions.checkNotNull(l, "Location must not be null!");
+        Preconditions.checkArgument(l != null, "Location must not be null!");
 
         deletionQueue.put(l, destroy);
     }
@@ -255,7 +255,7 @@ public class TickerTask implements Runnable {
      * @return Whether this {@link Location} has been reserved and will be filled upon the next tick
      */
     public boolean isOccupiedSoon(@Nonnull Location l) {
-        Preconditions.checkNotNull(l, "Null is not a valid Location!");
+        Preconditions.checkArgument(l != null, "Null is not a valid Location!");
 
         return movingQueue.containsValue(l);
     }
@@ -269,7 +269,7 @@ public class TickerTask implements Runnable {
      * @return Whether this {@link Location} will be deleted on the next tick
      */
     public boolean isDeletedSoon(@Nonnull Location l) {
-        Preconditions.checkNotNull(l, "Null is not a valid Location!");
+        Preconditions.checkArgument(l != null, "Null is not a valid Location!");
 
         return deletionQueue.containsKey(l);
     }
@@ -310,7 +310,7 @@ public class TickerTask implements Runnable {
      */
     @Nonnull
     public Set<Location> getLocations(@Nonnull Chunk chunk) {
-        Preconditions.checkNotNull(chunk, "The Chunk cannot be null!");
+        Preconditions.checkArgument(chunk != null, "The Chunk cannot be null!");
 
         Set<Location> locations = tickingLocations.getOrDefault(new ChunkPosition(chunk), new HashSet<>());
         return Collections.unmodifiableSet(locations);
@@ -323,7 +323,7 @@ public class TickerTask implements Runnable {
      *            The {@link Location} to activate
      */
     public void enableTicker(@Nonnull Location l) {
-        Preconditions.checkNotNull(l, "Location cannot be null!");
+        Preconditions.checkArgument(l != null, "Location cannot be null!");
 
         ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
         Set<Location> newValue = new HashSet<>();
@@ -348,7 +348,7 @@ public class TickerTask implements Runnable {
      *            The {@link Location} to remove
      */
     public void disableTicker(@Nonnull Location l) {
-        Preconditions.checkNotNull(l, "Location cannot be null!");
+        Preconditions.checkArgument(l != null, "Location cannot be null!");
 
         ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
         Set<Location> locations = tickingLocations.get(chunk);

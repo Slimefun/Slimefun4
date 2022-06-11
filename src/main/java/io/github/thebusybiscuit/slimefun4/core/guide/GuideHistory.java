@@ -38,7 +38,7 @@ public class GuideHistory {
      *            The {@link PlayerProfile} this {@link GuideHistory} was made for
      */
     public GuideHistory(@Nonnull PlayerProfile profile) {
-        Preconditions.checkNotNull(profile, "Cannot create a GuideHistory without a PlayerProfile!");
+        Preconditions.checkArgument(profile != null, "Cannot create a GuideHistory without a PlayerProfile!");
         this.profile = profile;
     }
 
@@ -105,7 +105,7 @@ public class GuideHistory {
      *            The {@link SlimefunItem} that should be added to this {@link GuideHistory}
      */
     public void add(@Nonnull SlimefunItem item) {
-        Preconditions.checkNotNull(item, "Cannot add a non-existing SlimefunItem to the GuideHistory!");
+        Preconditions.checkArgument(item != null, "Cannot add a non-existing SlimefunItem to the GuideHistory!");
         queue.add(new GuideEntry<>(item, 0));
     }
 
@@ -116,12 +116,12 @@ public class GuideHistory {
      *            The term that the {@link Player} searched for
      */
     public void add(@Nonnull String searchTerm) {
-        Preconditions.checkNotNull(searchTerm, "Cannot add an empty Search Term to the GuideHistory!");
+        Preconditions.checkArgument(searchTerm != null, "Cannot add an empty Search Term to the GuideHistory!");
         queue.add(new GuideEntry<>(searchTerm, 0));
     }
 
     private <T> void refresh(@Nonnull T object, int page) {
-        Preconditions.checkNotNull(object, "Cannot add a null Entry to the GuideHistory!");
+        Preconditions.checkArgument(object != null, "Cannot add a null Entry to the GuideHistory!");
         Preconditions.checkArgument(page >= 0, "page must not be negative!");
 
         GuideEntry<?> lastEntry = getLastEntry(false);

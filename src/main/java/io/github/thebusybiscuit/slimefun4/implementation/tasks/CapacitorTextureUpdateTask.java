@@ -46,7 +46,7 @@ public class CapacitorTextureUpdateTask implements Runnable {
      *            The capacity of this {@link Capacitor}
      */
     public CapacitorTextureUpdateTask(@Nonnull Location l, double charge, double capacity) {
-        Preconditions.checkNotNull(l, "The Location cannot be null");
+        Preconditions.checkArgument(l != null, "The Location cannot be null");
 
         this.l = l;
         this.filledPercentage = charge / capacity;

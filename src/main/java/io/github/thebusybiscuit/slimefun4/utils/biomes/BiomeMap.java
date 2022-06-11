@@ -61,31 +61,31 @@ public class BiomeMap<T> implements Keyed {
      */
     @ParametersAreNonnullByDefault
     public BiomeMap(NamespacedKey namespacedKey) {
-        Preconditions.checkNotNull(namespacedKey, "The key must not be null.");
+        Preconditions.checkArgument(namespacedKey != null, "The key must not be null.");
 
         this.namespacedKey = namespacedKey;
     }
 
     public @Nullable T get(@Nonnull Biome biome) {
-        Preconditions.checkNotNull(biome, "The biome shall not be null.");
+        Preconditions.checkArgument(biome != null, "The biome shall not be null.");
 
         return dataMap.get(biome);
     }
 
     public @Nonnull T getOrDefault(@Nonnull Biome biome, T defaultValue) {
-        Preconditions.checkNotNull(biome, "The biome should not be null.");
+        Preconditions.checkArgument(biome != null, "The biome should not be null.");
 
         return dataMap.getOrDefault(biome, defaultValue);
     }
 
     public boolean containsKey(@Nonnull Biome biome) {
-        Preconditions.checkNotNull(biome, "The biome must not be null.");
+        Preconditions.checkArgument(biome != null, "The biome must not be null.");
 
         return dataMap.containsKey(biome);
     }
 
     public boolean containsValue(@Nonnull T value) {
-        Preconditions.checkNotNull(value, "The value must not be null.");
+        Preconditions.checkArgument(value != null, "The value must not be null.");
 
         return dataMap.containsValue(value);
     }
@@ -101,26 +101,26 @@ public class BiomeMap<T> implements Keyed {
     }
 
     public boolean put(@Nonnull Biome biome, @Nonnull T value) {
-        Preconditions.checkNotNull(biome, "The biome should not be null.");
-        Preconditions.checkNotNull(value, "Values cannot be null.");
+        Preconditions.checkArgument(biome != null, "The biome should not be null.");
+        Preconditions.checkArgument(value != null, "Values cannot be null.");
 
         return dataMap.put(biome, value) == null;
     }
 
     public void putAll(@Nonnull Map<Biome, T> map) {
-        Preconditions.checkNotNull(map, "The map should not be null.");
+        Preconditions.checkArgument(map != null, "The map should not be null.");
 
         dataMap.putAll(map);
     }
 
     public void putAll(@Nonnull BiomeMap<T> map) {
-        Preconditions.checkNotNull(map, "The map should not be null.");
+        Preconditions.checkArgument(map != null, "The map should not be null.");
 
         dataMap.putAll(map.dataMap);
     }
 
     public boolean remove(@Nonnull Biome biome) {
-        Preconditions.checkNotNull(biome, "The biome cannot be null.");
+        Preconditions.checkArgument(biome != null, "The biome cannot be null.");
 
         return dataMap.remove(biome) != null;
     }
@@ -160,9 +160,9 @@ public class BiomeMap<T> implements Keyed {
 
     @ParametersAreNonnullByDefault
     public static <T> @Nonnull BiomeMap<T> fromResource(NamespacedKey key, JavaPlugin plugin, String path, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
-        Preconditions.checkNotNull(key, "The key shall not be null.");
-        Preconditions.checkNotNull(plugin, "The plugin shall not be null.");
-        Preconditions.checkNotNull(path, "The path should not be null!");
+        Preconditions.checkArgument(key != null, "The key shall not be null.");
+        Preconditions.checkArgument(plugin != null, "The plugin shall not be null.");
+        Preconditions.checkArgument(path != null, "The path should not be null!");
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path), StandardCharsets.UTF_8))) {
             return fromJson(key, reader.lines().collect(Collectors.joining("")), valueConverter);

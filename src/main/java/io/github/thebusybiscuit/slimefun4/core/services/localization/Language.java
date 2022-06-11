@@ -46,8 +46,8 @@ public final class Language {
      *            The hash of the skull texture to use
      */
     public Language(@Nonnull String id, @Nonnull String hash) {
-        Preconditions.checkNotNull(id, "A Language must have an id that is not null!");
-        Preconditions.checkNotNull(hash, "A Language must have a texture that is not null!");
+        Preconditions.checkArgument(id != null, "A Language must have an id that is not null!");
+        Preconditions.checkArgument(hash != null, "A Language must have a texture that is not null!");
 
         this.id = id;
         this.item = SlimefunUtils.getCustomHead(hash);
@@ -89,8 +89,8 @@ public final class Language {
     }
 
     public void setFile(@Nonnull LanguageFile file, @Nonnull FileConfiguration config) {
-        Preconditions.checkNotNull(file, "The provided file should not be null.");
-        Preconditions.checkNotNull(config, "The provided config should not be null.");
+        Preconditions.checkArgument(file != null, "The provided file should not be null.");
+        Preconditions.checkArgument(config != null, "The provided config should not be null.");
 
         files.put(file, config);
     }

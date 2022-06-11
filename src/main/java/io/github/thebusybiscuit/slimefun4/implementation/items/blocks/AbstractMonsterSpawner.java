@@ -51,7 +51,7 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
      */
     @Nonnull
     public Optional<EntityType> getEntityType(@Nonnull ItemStack item) {
-        Preconditions.checkNotNull(item, "The Item cannot be null");
+        Preconditions.checkArgument(item != null, "The Item cannot be null");
 
         ItemMeta meta = item.getItemMeta();
 
@@ -78,7 +78,7 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
      */
     @Nonnull
     public ItemStack getItemForEntityType(@Nonnull EntityType type) {
-        Preconditions.checkNotNull(type, "The EntityType cannot be null");
+        Preconditions.checkArgument(type != null, "The EntityType cannot be null");
 
         ItemStack item = getItem().clone();
         ItemMeta meta = item.getItemMeta();

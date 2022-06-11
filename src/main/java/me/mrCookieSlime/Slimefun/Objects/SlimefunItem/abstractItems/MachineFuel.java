@@ -24,7 +24,7 @@ public class MachineFuel implements Predicate<ItemStack> {
     }
 
     public MachineFuel(int seconds, ItemStack fuel, ItemStack output) {
-        Preconditions.checkNotNull(fuel, "Fuel must never be null!");
+        Preconditions.checkArgument(fuel != null, "Fuel must never be null!");
         Preconditions.checkArgument(seconds > 0, "Fuel must last at least one second!");
 
         this.ticks = seconds * 2;

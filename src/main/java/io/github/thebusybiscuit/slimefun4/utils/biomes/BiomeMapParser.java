@@ -63,8 +63,8 @@ public class BiomeMapParser<T> {
      */
     @ParametersAreNonnullByDefault
     public BiomeMapParser(NamespacedKey key, BiomeDataConverter<T> valueConverter) {
-        Preconditions.checkNotNull(key, "The key shall not be null.");
-        Preconditions.checkNotNull(valueConverter, "You must provide a Function to convert raw json values to your desired data type.");
+        Preconditions.checkArgument(key != null, "The key shall not be null.");
+        Preconditions.checkArgument(valueConverter != null, "You must provide a Function to convert raw json values to your desired data type.");
 
         this.key = key;
         this.valueConverter = valueConverter;
@@ -98,7 +98,7 @@ public class BiomeMapParser<T> {
     }
 
     public void read(@Nonnull String json) throws BiomeMapException {
-        Preconditions.checkNotNull(json, "The JSON string should not be null!");
+        Preconditions.checkArgument(json != null, "The JSON string should not be null!");
         JsonArray root = null;
 
         try {
@@ -115,7 +115,7 @@ public class BiomeMapParser<T> {
     }
 
     public void read(@Nonnull JsonArray json) throws BiomeMapException {
-        Preconditions.checkNotNull(json, "The JSON Array should not be null!");
+        Preconditions.checkArgument(json != null, "The JSON Array should not be null!");
 
         for (JsonElement element : json) {
             if (element instanceof JsonObject) {
@@ -127,7 +127,7 @@ public class BiomeMapParser<T> {
     }
 
     private void readEntry(@Nonnull JsonObject entry) throws BiomeMapException {
-        Preconditions.checkNotNull(entry, "The JSON entry should not be null!");
+        Preconditions.checkArgument(entry != null, "The JSON entry should not be null!");
 
         /*
          * Check if the entry has a "value" element.
@@ -159,7 +159,7 @@ public class BiomeMapParser<T> {
     }
 
     private @Nonnull Set<Biome> readBiomes(@Nonnull JsonArray array) throws BiomeMapException {
-        Preconditions.checkNotNull(array, "The JSON array should not be null!");
+        Preconditions.checkArgument(array != null, "The JSON array should not be null!");
         Set<Biome> biomes = EnumSet.noneOf(Biome.class);
 
         for (JsonElement element : array) {

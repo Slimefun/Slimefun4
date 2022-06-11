@@ -36,7 +36,7 @@ public enum LanguageFile {
 
     @Nonnull
     public String getFilePath(@Nonnull String languageId) {
-        Preconditions.checkNotNull(languageId, "Language id must not be null!");
+        Preconditions.checkArgument(languageId != null, "Language id must not be null!");
         return "/languages/" + languageId + '/' + fileName;
     }
 

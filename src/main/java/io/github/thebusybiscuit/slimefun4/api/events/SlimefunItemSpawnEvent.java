@@ -64,7 +64,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
      *            The {@link Location} where to drop the {@link ItemStack}
      */
     public void setLocation(@Nonnull Location location) {
-        Preconditions.checkNotNull(location, "The Location cannot be null!");
+        Preconditions.checkArgument(location != null, "The Location cannot be null!");
 
         this.location = location;
     }
@@ -85,7 +85,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
      *            The {@link ItemStack} to drop
      */
     public void setItemStack(@Nonnull ItemStack itemStack) {
-        Preconditions.checkNotNull(itemStack, "Cannot drop null.");
+        Preconditions.checkArgument(itemStack != null, "Cannot drop null.");
         Preconditions.checkArgument(!itemStack.getType().isAir(), "Cannot drop air.");
 
         this.itemStack = itemStack;

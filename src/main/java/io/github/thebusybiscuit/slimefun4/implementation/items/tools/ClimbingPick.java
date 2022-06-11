@@ -124,7 +124,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
      * @return The climbing speed for this {@link Material} or 0.
      */
     public double getClimbingSpeed(@Nonnull Material type) {
-        Preconditions.checkNotNull(type, "The surface cannot be null");
+        Preconditions.checkArgument(type != null, "The surface cannot be null");
         ClimbableSurface surface = surfaces.get(type);
 
         if (surface != null) {

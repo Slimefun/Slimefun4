@@ -270,8 +270,8 @@ public class GPSNetwork {
      *            The {@link Location} of the new waypoint
      */
     public void createWaypoint(@Nonnull Player p, @Nonnull Location l) {
-        Preconditions.checkNotNull(p, "Player cannot be null!");
-        Preconditions.checkNotNull(l, "Waypoint Location cannot be null!");
+        Preconditions.checkArgument(p != null, "Player cannot be null!");
+        Preconditions.checkArgument(l != null, "Waypoint Location cannot be null!");
 
         PlayerProfile.get(p, profile -> {
             if ((profile.getWaypoints().size() + 2) > inventory.length) {
@@ -297,9 +297,9 @@ public class GPSNetwork {
      *            The {@link Location} of this waypoint
      */
     public void addWaypoint(@Nonnull Player p, @Nonnull String name, @Nonnull Location l) {
-        Preconditions.checkNotNull(p, "Player cannot be null!");
-        Preconditions.checkNotNull(name, "Waypoint name cannot be null!");
-        Preconditions.checkNotNull(l, "Waypoint Location cannot be null!");
+        Preconditions.checkArgument(p != null, "Player cannot be null!");
+        Preconditions.checkArgument(name != null, "Waypoint name cannot be null!");
+        Preconditions.checkArgument(l != null, "Waypoint Location cannot be null!");
 
         PlayerProfile.get(p, profile -> {
             if ((profile.getWaypoints().size() + 2) > inventory.length) {

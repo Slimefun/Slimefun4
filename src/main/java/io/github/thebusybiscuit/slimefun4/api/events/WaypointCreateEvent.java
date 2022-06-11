@@ -38,8 +38,8 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
     public WaypointCreateEvent(@Nonnull Player player, @Nonnull String name, @Nonnull Location location) {
         super(player);
 
-        Preconditions.checkNotNull(location, "Location must not be null!");
-        Preconditions.checkNotNull(name, "Name must not be null!");
+        Preconditions.checkArgument(location != null, "Location must not be null!");
+        Preconditions.checkArgument(name != null, "Name must not be null!");
 
         this.location = location;
         this.name = name;
@@ -64,7 +64,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
      *            The {@link Location} to set
      */
     public void setLocation(@Nonnull Location loc) {
-        Preconditions.checkNotNull(loc, "Cannot set the Location to null!");
+        Preconditions.checkArgument(loc != null, "Cannot set the Location to null!");
         this.location = loc;
     }
 

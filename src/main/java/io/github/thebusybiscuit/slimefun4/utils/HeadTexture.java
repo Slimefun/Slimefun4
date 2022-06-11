@@ -128,7 +128,7 @@ public enum HeadTexture {
     private final UUID uuid;
 
     HeadTexture(@Nonnull String texture) {
-        Preconditions.checkNotNull(texture, "Texture cannot be null");
+        Preconditions.checkArgument(texture != null, "Texture cannot be null");
         Preconditions.checkArgument(CommonPatterns.HEXADECIMAL.matcher(texture).matches(), "Textures must be in hexadecimal.");
 
         this.texture = texture;

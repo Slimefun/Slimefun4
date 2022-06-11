@@ -45,7 +45,7 @@ public enum SlimefunBranch {
     private final boolean official;
 
     SlimefunBranch(@Nonnull String name, boolean official) {
-        Preconditions.checkNotNull(name, "The branch name cannot be null");
+        Preconditions.checkArgument(name != null, "The branch name cannot be null");
 
         this.name = name;
         this.official = official;

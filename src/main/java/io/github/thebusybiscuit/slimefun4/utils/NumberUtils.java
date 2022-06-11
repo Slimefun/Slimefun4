@@ -90,7 +90,7 @@ public final class NumberUtils {
      * @return The {@link LocalDateTime} for the given input
      */
     public static @Nonnull LocalDateTime parseGitHubDate(@Nonnull String date) {
-        Preconditions.checkNotNull(date, "Provided date was null");
+        Preconditions.checkArgument(date != null, "Provided date was null");
         return LocalDateTime.parse(date.substring(0, date.length() - 1));
     }
 
@@ -156,8 +156,8 @@ public final class NumberUtils {
      * @return The elapsed time as a {@link String}
      */
     public static @Nonnull String getElapsedTime(@Nonnull LocalDateTime current, @Nonnull LocalDateTime priorDate) {
-        Preconditions.checkNotNull(current, "Provided current date was null");
-        Preconditions.checkNotNull(priorDate, "Provided past date was null");
+        Preconditions.checkArgument(current != null, "Provided current date was null");
+        Preconditions.checkArgument(priorDate != null, "Provided past date was null");
 
         long hours = Duration.between(priorDate, current).toHours();
 

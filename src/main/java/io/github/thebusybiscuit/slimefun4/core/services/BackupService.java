@@ -79,7 +79,7 @@ public class BackupService implements Runnable {
     }
 
     private void createBackup(@Nonnull ZipOutputStream output) throws IOException {
-        Preconditions.checkNotNull(output, "The Output Stream cannot be null!");
+        Preconditions.checkArgument(output != null, "The Output Stream cannot be null!");
 
         for (File folder : new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
             addDirectory(output, folder, "stored-blocks/" + folder.getName());

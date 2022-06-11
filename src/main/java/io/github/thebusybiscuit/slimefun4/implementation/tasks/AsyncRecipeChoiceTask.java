@@ -48,14 +48,14 @@ public class AsyncRecipeChoiceTask implements Runnable {
      *            The {@link Inventory} to start this task for
      */
     public void start(@Nonnull Inventory inv) {
-        Preconditions.checkNotNull(inv, "Inventory must not be null");
+        Preconditions.checkArgument(inv != null, "Inventory must not be null");
 
         inventory = inv;
         id = Bukkit.getScheduler().runTaskTimerAsynchronously(Slimefun.instance(), this, 0, UPDATE_INTERVAL).getTaskId();
     }
 
     public void add(int slot, @Nonnull MaterialChoice choice) {
-        Preconditions.checkNotNull(choice, "Cannot add a null RecipeChoice");
+        Preconditions.checkArgument(choice != null, "Cannot add a null RecipeChoice");
 
         lock.writeLock().lock();
 
@@ -67,7 +67,7 @@ public class AsyncRecipeChoiceTask implements Runnable {
     }
 
     public void add(int slot, @Nonnull Tag<Material> tag) {
-        Preconditions.checkNotNull(tag, "Cannot add a null Tag");
+        Preconditions.checkArgument(tag != null, "Cannot add a null Tag");
 
         lock.writeLock().lock();
 

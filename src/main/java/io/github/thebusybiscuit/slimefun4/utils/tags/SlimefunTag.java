@@ -409,7 +409,7 @@ public enum SlimefunTag implements Tag<Material> {
      * @return The {@link SlimefunTag} or null if it does not exist.
      */
     public static @Nullable SlimefunTag getTag(@Nonnull String value) {
-        Preconditions.checkNotNull(value, "A tag cannot be null!");
+        Preconditions.checkArgument(value != null, "A tag cannot be null!");
 
         return nameLookup.get(value);
     }

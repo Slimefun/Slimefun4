@@ -62,7 +62,7 @@ public class MultiBlock {
     private final boolean isSymmetric;
 
     public MultiBlock(@Nonnull SlimefunItem item, Material[] build, @Nonnull BlockFace trigger) {
-        Preconditions.checkNotNull(item, "A MultiBlock requires a SlimefunItem!");
+        Preconditions.checkArgument(item != null, "A MultiBlock requires a SlimefunItem!");
 
         if (build == null || build.length != 9) {
             throw new IllegalArgumentException("MultiBlocks must have a length of 9!");

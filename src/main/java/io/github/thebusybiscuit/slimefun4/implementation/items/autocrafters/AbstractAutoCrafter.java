@@ -127,8 +127,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     @ParametersAreNonnullByDefault
     public void onRightClick(Block b, Player p) {
-        Preconditions.checkNotNull(b, "The Block must not be null!");
-        Preconditions.checkNotNull(p, "The Player cannot be null!");
+        Preconditions.checkArgument(b != null, "The Block must not be null!");
+        Preconditions.checkArgument(p != null, "The Player cannot be null!");
 
         // Check if we have a valid chest below
         if (!isValidInventory(b.getRelative(BlockFace.DOWN))) {
@@ -247,7 +247,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      *            The {@link AbstractRecipe} to select
      */
     protected void setSelectedRecipe(@Nonnull Block b, @Nullable AbstractRecipe recipe) {
-        Preconditions.checkNotNull(b, "The Block cannot be null!");
+        Preconditions.checkArgument(b != null, "The Block cannot be null!");
 
         BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
         BlockState state = result.getState();
@@ -283,9 +283,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     @ParametersAreNonnullByDefault
     protected void showRecipe(Player p, Block b, AbstractRecipe recipe) {
-        Preconditions.checkNotNull(p, "The Player should not be null");
-        Preconditions.checkNotNull(b, "The Block should not be null");
-        Preconditions.checkNotNull(recipe, "The Recipe should not be null");
+        Preconditions.checkArgument(p != null, "The Player should not be null");
+        Preconditions.checkArgument(b != null, "The Block should not be null");
+        Preconditions.checkArgument(recipe != null, "The Recipe should not be null");
 
         ChestMenu menu = new ChestMenu(getItemName());
         menu.setPlayerInventoryClickable(false);
@@ -408,8 +408,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * @return Whether this crafting operation was successful or not
      */
     public boolean craft(@Nonnull Inventory inv, @Nonnull AbstractRecipe recipe) {
-        Preconditions.checkNotNull(inv, "The Inventory must not be null");
-        Preconditions.checkNotNull(recipe, "The Recipe shall not be null");
+        Preconditions.checkArgument(inv != null, "The Inventory must not be null");
+        Preconditions.checkArgument(recipe != null, "The Recipe shall not be null");
 
         // Make sure that the Recipe is actually enabled
         if (!recipe.isEnabled()) {
@@ -561,7 +561,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     @Override
     public void register(@Nonnull SlimefunAddon addon) {
-        Preconditions.checkNotNull(addon, "A SlimefunAddon cannot be null!");
+        Preconditions.checkArgument(addon != null, "A SlimefunAddon cannot be null!");
         this.addon = addon;
 
         if (getCapacity() <= 0) {

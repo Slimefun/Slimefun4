@@ -85,7 +85,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     }
 
     public void addRecipe(ItemStack[] input, ItemStack output) {
-        Preconditions.checkNotNull(output, "Recipes must have an Output!");
+        Preconditions.checkArgument(output != null, "Recipes must have an Output!");
 
         recipes.add(input);
         recipes.add(new ItemStack[] { output });

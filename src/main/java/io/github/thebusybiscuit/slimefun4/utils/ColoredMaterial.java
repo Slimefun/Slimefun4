@@ -217,9 +217,9 @@ public enum ColoredMaterial {
      *            The {@link Material Materials} for this {@link ColoredMaterial}.
      */
     ColoredMaterial(@Nonnull Material[] materials) {
-        Preconditions.checkNotNull(materials, "The List cannot be null");
+        Preconditions.checkArgument(materials != null, "The List cannot be null");
         for (Material material : materials) {
-            Preconditions.checkNotNull(material, "The List cannot contain any null elements");
+            Preconditions.checkArgument(material != null, "The List cannot contain any null elements");
         }
         Preconditions.checkArgument(materials.length == 16, "Expected 16, received: " + materials.length + ". Did you miss a color?");
 
@@ -259,7 +259,7 @@ public enum ColoredMaterial {
      * @return The {@link Material} with that {@link DyeColor}
      */
     public @Nonnull Material get(@Nonnull DyeColor color) {
-        Preconditions.checkNotNull(color, "Color cannot be null!");
+        Preconditions.checkArgument(color != null, "Color cannot be null!");
 
         return get(color.ordinal());
     }

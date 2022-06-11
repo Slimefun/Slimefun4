@@ -31,8 +31,8 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
     public ResearchUnlockEvent(@Nonnull Player p, @Nonnull Research research) {
         super(!Bukkit.isPrimaryThread());
 
-        Preconditions.checkNotNull(p, "The Player cannot be null");
-        Preconditions.checkNotNull(research, "Research cannot be null");
+        Preconditions.checkArgument(p != null, "The Player cannot be null");
+        Preconditions.checkArgument(research != null, "Research cannot be null");
 
         this.player = p;
         this.research = research;

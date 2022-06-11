@@ -15,7 +15,7 @@ class ItemStackAndInteger {
     private int number;
 
     ItemStackAndInteger(@Nonnull ItemStack item, int amount) {
-        Preconditions.checkNotNull(item, "Item cannot be null!");
+        Preconditions.checkArgument(item != null, "Item cannot be null!");
         this.number = amount;
         this.item = item;
     }

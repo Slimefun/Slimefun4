@@ -64,8 +64,8 @@ public class BlockDataService implements Keyed {
      *            The value to store
      */
     public void setBlockData(@Nonnull Block b, @Nonnull String value) {
-        Preconditions.checkNotNull(b, "The block cannot be null!");
-        Preconditions.checkNotNull(value, "The value cannot be null!");
+        Preconditions.checkArgument(b != null, "The block cannot be null!");
+        Preconditions.checkArgument(value != null, "The value cannot be null!");
 
         /**
          * Don't use PaperLib here, it seems to be quite buggy in block-placing scenarios
@@ -98,7 +98,7 @@ public class BlockDataService implements Keyed {
      * @return The stored value
      */
     public Optional<String> getBlockData(@Nonnull Block b) {
-        Preconditions.checkNotNull(b, "The block cannot be null!");
+        Preconditions.checkArgument(b != null, "The block cannot be null!");
 
         BlockState state = PaperLib.getBlockState(b, false).getState();
         PersistentDataContainer container = getPersistentDataContainer(state);

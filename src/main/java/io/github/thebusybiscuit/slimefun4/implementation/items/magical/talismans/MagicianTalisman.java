@@ -75,8 +75,8 @@ public class MagicianTalisman extends Talisman {
      */
     @Nullable
     public TalismanEnchantment getRandomEnchantment(@Nonnull ItemStack item, @Nonnull Set<Enchantment> existingEnchantments) {
-        Preconditions.checkNotNull(item, "The ItemStack cannot be null");
-        Preconditions.checkNotNull(existingEnchantments, "The Enchantments Set cannot be null");
+        Preconditions.checkArgument(item != null, "The ItemStack cannot be null");
+        Preconditions.checkArgument(existingEnchantments != null, "The Enchantments Set cannot be null");
 
         // @formatter:off
         List<TalismanEnchantment> enabled = enchantments.stream()

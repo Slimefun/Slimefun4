@@ -69,8 +69,8 @@ public class OutputChest extends SlimefunItem {
      */
     @Nonnull
     public static Optional<Inventory> findOutputChestFor(@Nonnull Block b, @Nonnull ItemStack item) {
-        Preconditions.checkNotNull(b, "The target block must not be null!");
-        Preconditions.checkNotNull(item, "The ItemStack should not be null!");
+        Preconditions.checkArgument(b != null, "The target block must not be null!");
+        Preconditions.checkArgument(item != null, "The ItemStack should not be null!");
 
         for (BlockFace face : possibleFaces) {
             Block potentialOutput = b.getRelative(face);

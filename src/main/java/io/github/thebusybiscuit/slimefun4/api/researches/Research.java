@@ -68,8 +68,8 @@ public class Research implements Keyed {
      * 
      */
     public Research(@Nonnull NamespacedKey key, int id, @Nonnull String defaultName, int defaultCost) {
-        Preconditions.checkNotNull(key, "A NamespacedKey must be provided");
-        Preconditions.checkNotNull(defaultName, "A default name must be specified");
+        Preconditions.checkArgument(key != null, "A NamespacedKey must be provided");
+        Preconditions.checkArgument(defaultName != null, "A default name must be specified");
 
         this.key = key;
         this.id = id;

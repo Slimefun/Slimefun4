@@ -30,7 +30,7 @@ class AbstractLocaleRegexChecker {
     private final Pattern pattern;
 
     AbstractLocaleRegexChecker(@Nonnull Pattern pattern) {
-        Preconditions.checkNotNull(pattern, "The pattern cannot be null.");
+        Preconditions.checkArgument(pattern != null, "The pattern cannot be null.");
 
         this.pattern = pattern;
     }

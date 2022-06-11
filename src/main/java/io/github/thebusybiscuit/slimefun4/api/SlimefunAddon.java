@@ -87,7 +87,7 @@ public interface SlimefunAddon {
      * @return Whether this {@link SlimefunAddon} depends on the given {@link Plugin}
      */
     default boolean hasDependency(@Nonnull String dependency) {
-        Preconditions.checkNotNull(dependency, "The dependency cannot be null");
+        Preconditions.checkArgument(dependency != null, "The dependency cannot be null");
 
         // Well... it cannot depend on itself but you get the idea.
         if (getJavaPlugin().getName().equalsIgnoreCase(dependency)) {

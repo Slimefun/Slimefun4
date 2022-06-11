@@ -129,7 +129,7 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
 
     @Override
     public int getSelectedChannel(@Nonnull Block b) {
-        Preconditions.checkNotNull(b, "Block must not be null");
+        Preconditions.checkArgument(b != null, "Block must not be null");
 
         if (!BlockStorage.hasBlockInfo(b)) {
             return 0;

@@ -57,7 +57,7 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
     @Override
     @Nullable
     public AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
-        Preconditions.checkNotNull(b, "The Block cannot be null!");
+        Preconditions.checkArgument(b != null, "The Block cannot be null!");
 
         BlockState state = PaperLib.getBlockState(b, false).getState();
 

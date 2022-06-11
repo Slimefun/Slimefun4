@@ -94,7 +94,7 @@ public class TagParser implements Keyed {
      *             {@link Material} or {@link Tag} could be found
      */
     public void parse(@Nonnull String json, @Nonnull BiConsumer<Set<Material>, Set<Tag<Material>>> callback) throws TagMisconfigurationException {
-        Preconditions.checkNotNull(json, "Cannot parse a null String");
+        Preconditions.checkArgument(json != null, "Cannot parse a null String");
 
         try {
             Set<Material> materials = EnumSet.noneOf(Material.class);

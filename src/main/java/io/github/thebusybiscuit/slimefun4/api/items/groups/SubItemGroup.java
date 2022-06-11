@@ -34,7 +34,7 @@ public class SubItemGroup extends ItemGroup {
     public SubItemGroup(NamespacedKey key, NestedItemGroup parent, ItemStack item, int tier) {
         super(key, item, tier);
 
-        Preconditions.checkNotNull(parent, "The parent group cannot be null");
+        Preconditions.checkArgument(parent != null, "The parent group cannot be null");
 
         parentItemGroup = parent;
         parent.addSubGroup(this);

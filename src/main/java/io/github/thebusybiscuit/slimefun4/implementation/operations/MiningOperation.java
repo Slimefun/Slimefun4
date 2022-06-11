@@ -27,7 +27,7 @@ public class MiningOperation implements MachineOperation {
     private int currentTicks = 0;
 
     public MiningOperation(@Nonnull ItemStack result, int totalTicks) {
-        Preconditions.checkNotNull(result, "The result cannot be null");
+        Preconditions.checkArgument(result != null, "The result cannot be null");
         Preconditions.checkArgument(totalTicks >= 0, "The amount of total ticks must be a positive integer or zero, received: " + totalTicks);
 
         this.result = result;

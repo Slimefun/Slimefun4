@@ -27,7 +27,7 @@ public class AnimalProduce extends MachineRecipe implements Predicate<LivingEnti
     @ParametersAreNonnullByDefault
     public AnimalProduce(ItemStack input, ItemStack result, Predicate<LivingEntity> predicate) {
         super(5, new ItemStack[] { input }, new ItemStack[] { result });
-        Preconditions.checkNotNull(predicate, "The Predicate must not be null");
+        Preconditions.checkArgument(predicate != null, "The Predicate must not be null");
 
         this.predicate = predicate;
     }

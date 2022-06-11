@@ -155,8 +155,8 @@ public final class TeleportationManager {
      * @return The amount of time the teleportation will take
      */
     public int getTeleportationTime(int complexity, @Nonnull Location source, @Nonnull Location destination) {
-        Preconditions.checkNotNull(source, "Source cannot be null");
-        Preconditions.checkNotNull(source, "Destination cannot be null");
+        Preconditions.checkArgument(source != null, "Source cannot be null");
+        Preconditions.checkArgument(source != null, "Destination cannot be null");
 
         if (complexity < 100) {
             return 100;

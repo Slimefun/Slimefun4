@@ -42,7 +42,7 @@ public class SeasonalItemGroup extends ItemGroup {
     @ParametersAreNonnullByDefault
     public SeasonalItemGroup(NamespacedKey key, Month month, int tier, ItemStack item) {
         super(key, item, tier);
-        Preconditions.checkNotNull(month, "The Month cannot be null");
+        Preconditions.checkArgument(month != null, "The Month cannot be null");
 
         this.month = month;
     }

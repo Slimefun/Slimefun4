@@ -586,14 +586,14 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @Nonnull
     public String getScript(@Nonnull Location l) {
-        Preconditions.checkNotNull(l, "Location for android not specified");
+        Preconditions.checkArgument(l != null, "Location for android not specified");
         String script = BlockStorage.getLocationInfo(l, "script");
         return script != null ? script : DEFAULT_SCRIPT;
     }
 
     public void setScript(@Nonnull Location l, @Nonnull String script) {
-        Preconditions.checkNotNull(l, "Location for android not specified");
-        Preconditions.checkNotNull(script, "No script given");
+        Preconditions.checkArgument(l != null, "Location for android not specified");
+        Preconditions.checkArgument(script != null, "No script given");
         Preconditions.checkArgument(script.startsWith(Instruction.START.name() + '-'), "A script must begin with a 'START' token.");
         Preconditions.checkArgument(script.endsWith('-' + Instruction.REPEAT.name()), "A script must end with a 'REPEAT' token.");
         Preconditions.checkArgument(CommonPatterns.DASH.split(script).length <= MAX_SCRIPT_LENGTH, "Scripts may not have more than " + MAX_SCRIPT_LENGTH + " segments");
@@ -639,7 +639,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     }
 
     public void registerFuelType(@Nonnull MachineFuel fuel) {
-        Preconditions.checkNotNull(fuel, "Cannot register null as a Fuel type");
+        Preconditions.checkArgument(fuel != null, "Cannot register null as a Fuel type");
 
         fuelTypes.add(fuel);
     }
@@ -878,7 +878,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @ParametersAreNonnullByDefault
     public void addItems(Block b, ItemStack... items) {
-        Preconditions.checkNotNull(b, "The Block cannot be null.");
+        Preconditions.checkArgument(b != null, "The Block cannot be null.");
 
         BlockMenu inv = BlockStorage.getInventory(b);
 

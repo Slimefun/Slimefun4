@@ -91,7 +91,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
     }
 
     public void registerFuel(@Nonnull MachineFuel fuel) {
-        Preconditions.checkNotNull(fuel, "Machine Fuel cannot be null!");
+        Preconditions.checkArgument(fuel != null, "Machine Fuel cannot be null!");
         fuelTypes.add(fuel);
     }
 

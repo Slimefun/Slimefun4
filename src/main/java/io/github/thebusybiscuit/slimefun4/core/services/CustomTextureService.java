@@ -131,7 +131,7 @@ public class CustomTextureService {
      * @return The configured custom model data
      */
     public int getModelData(@Nonnull String id) {
-        Preconditions.checkNotNull(id, "Cannot get the ModelData for 'null'");
+        Preconditions.checkArgument(id != null, "Cannot get the ModelData for 'null'");
 
         return config.getInt(id);
     }
@@ -146,8 +146,8 @@ public class CustomTextureService {
      *            The id for which to get the configured model data
      */
     public void setTexture(@Nonnull ItemStack item, @Nonnull String id) {
-        Preconditions.checkNotNull(item, "The Item cannot be null!");
-        Preconditions.checkNotNull(id, "Cannot store null on an Item!");
+        Preconditions.checkArgument(item != null, "The Item cannot be null!");
+        Preconditions.checkArgument(id != null, "Cannot store null on an Item!");
 
         ItemMeta im = item.getItemMeta();
         setTexture(im, id);
@@ -164,8 +164,8 @@ public class CustomTextureService {
      *            The id for which to get the configured model data
      */
     public void setTexture(@Nonnull ItemMeta im, @Nonnull String id) {
-        Preconditions.checkNotNull(im, "The ItemMeta cannot be null!");
-        Preconditions.checkNotNull(id, "Cannot store null on an ItemMeta!");
+        Preconditions.checkArgument(im != null, "The ItemMeta cannot be null!");
+        Preconditions.checkArgument(id != null, "Cannot store null on an ItemMeta!");
 
         int data = getModelData(id);
         im.setCustomModelData(data == 0 ? null : data);

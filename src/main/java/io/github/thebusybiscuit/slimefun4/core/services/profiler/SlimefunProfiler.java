@@ -151,8 +151,8 @@ public class SlimefunProfiler {
      * @return The total timings of this entry
      */
     public long closeEntry(@Nonnull Location l, @Nonnull SlimefunItem item, long timestamp) {
-        Preconditions.checkNotNull(l, "Location must not be null!");
-        Preconditions.checkNotNull(item, "You need to specify a SlimefunItem!");
+        Preconditions.checkArgument(l != null, "Location must not be null!");
+        Preconditions.checkArgument(item != null, "You need to specify a SlimefunItem!");
 
         if (timestamp == 0) {
             return 0;
@@ -249,7 +249,7 @@ public class SlimefunProfiler {
      *            The {@link PerformanceInspector} who shall receive this summary.
      */
     public void requestSummary(@Nonnull PerformanceInspector inspector) {
-        Preconditions.checkNotNull(inspector, "Cannot request a summary for null");
+        Preconditions.checkArgument(inspector != null, "Cannot request a summary for null");
 
         requests.add(inspector);
     }
@@ -293,7 +293,7 @@ public class SlimefunProfiler {
     }
 
     protected int getBlocksInChunk(@Nonnull String chunk) {
-        Preconditions.checkNotNull(chunk, "The chunk cannot be null!");
+        Preconditions.checkArgument(chunk != null, "The chunk cannot be null!");
         int blocks = 0;
 
         for (ProfiledBlock block : timings.keySet()) {
@@ -310,7 +310,7 @@ public class SlimefunProfiler {
     }
 
     protected int getBlocksOfId(@Nonnull String id) {
-        Preconditions.checkNotNull(id, "The id cannot be null!");
+        Preconditions.checkArgument(id != null, "The id cannot be null!");
         int blocks = 0;
 
         for (ProfiledBlock block : timings.keySet()) {
@@ -323,7 +323,7 @@ public class SlimefunProfiler {
     }
 
     protected int getBlocksFromPlugin(@Nonnull String pluginName) {
-        Preconditions.checkNotNull(pluginName, "The Plugin name cannot be null!");
+        Preconditions.checkArgument(pluginName != null, "The Plugin name cannot be null!");
         int blocks = 0;
 
         for (ProfiledBlock block : timings.keySet()) {
@@ -379,27 +379,27 @@ public class SlimefunProfiler {
      * @return Whether timings of this {@link Block} have been collected
      */
     public boolean hasTimings(@Nonnull Block b) {
-        Preconditions.checkNotNull(b, "Cannot get timings for a null Block");
+        Preconditions.checkArgument(b != null, "Cannot get timings for a null Block");
 
         return timings.containsKey(new ProfiledBlock(b));
     }
 
     public String getTime(@Nonnull Block b) {
-        Preconditions.checkNotNull(b, "Cannot get timings for a null Block");
+        Preconditions.checkArgument(b != null, "Cannot get timings for a null Block");
 
         long time = timings.getOrDefault(new ProfiledBlock(b), 0L);
         return NumberUtils.getAsMillis(time);
     }
 
     public String getTime(@Nonnull Chunk chunk) {
-        Preconditions.checkNotNull(chunk, "Cannot get timings for a null Chunk");
+        Preconditions.checkArgument(chunk != null, "Cannot get timings for a null Chunk");
 
         long time = getByChunk().getOrDefault(chunk.getWorld().getName() + " (" + chunk.getX() + ',' + chunk.getZ() + ')', 0L);
         return NumberUtils.getAsMillis(time);
     }
 
     public String getTime(@Nonnull SlimefunItem item) {
-        Preconditions.checkNotNull(item, "Cannot get timings for a null SlimefunItem");
+        Preconditions.checkArgument(item != null, "Cannot get timings for a null SlimefunItem");
 
         long time = getByItem().getOrDefault(item.getId(), 0L);
         return NumberUtils.getAsMillis(time);

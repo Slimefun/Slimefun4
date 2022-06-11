@@ -126,7 +126,7 @@ public class NetworkManager {
             return Optional.empty();
         }
 
-        Preconditions.checkNotNull(type, "Type must not be null");
+        Preconditions.checkArgument(type != null, "Type must not be null");
 
         for (Network network : networks) {
             if (type.isInstance(network) && network.connectsTo(l)) {
@@ -144,7 +144,7 @@ public class NetworkManager {
             return new ArrayList<>();
         }
 
-        Preconditions.checkNotNull(type, "Type must not be null");
+        Preconditions.checkArgument(type != null, "Type must not be null");
         List<T> list = new ArrayList<>();
 
         for (Network network : networks) {
@@ -163,7 +163,7 @@ public class NetworkManager {
      *            The {@link Network} to register
      */
     public void registerNetwork(@Nonnull Network network) {
-        Preconditions.checkNotNull(network, "Cannot register a null Network");
+        Preconditions.checkArgument(network != null, "Cannot register a null Network");
         networks.add(network);
     }
 
@@ -174,7 +174,7 @@ public class NetworkManager {
      *            The {@link Network} to remove
      */
     public void unregisterNetwork(@Nonnull Network network) {
-        Preconditions.checkNotNull(network, "Cannot unregister a null Network");
+        Preconditions.checkArgument(network != null, "Cannot unregister a null Network");
         networks.remove(network);
     }
 
@@ -186,7 +186,7 @@ public class NetworkManager {
      *            The {@link Location} to update
      */
     public void updateAllNetworks(@Nonnull Location l) {
-        Preconditions.checkNotNull(l, "The Location cannot be null");
+        Preconditions.checkArgument(l != null, "The Location cannot be null");
 
         try {
             /*

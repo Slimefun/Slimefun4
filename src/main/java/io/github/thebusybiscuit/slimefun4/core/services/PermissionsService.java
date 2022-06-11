@@ -107,7 +107,7 @@ public class PermissionsService {
      */
     @Nonnull
     public Optional<String> getPermission(@Nonnull SlimefunItem item) {
-        Preconditions.checkNotNull(item, "Cannot get permissions for null");
+        Preconditions.checkArgument(item != null, "Cannot get permissions for null");
         String permission = permissions.get(item.getId());
 
         if (permission == null || permission.equals("none")) {
@@ -126,7 +126,7 @@ public class PermissionsService {
      *            The {@link Permission} to set
      */
     public void setPermission(@Nonnull SlimefunItem item, @Nullable String permission) {
-        Preconditions.checkNotNull(item, "You cannot set the permission for null");
+        Preconditions.checkArgument(item != null, "You cannot set the permission for null");
         permissions.put(item.getId(), permission != null ? permission : "none");
     }
 

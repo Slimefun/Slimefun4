@@ -169,12 +169,12 @@ public class PlayerRightClickEvent extends PlayerEvent {
     }
 
     public void setUseItem(@Nonnull Result result) {
-        Preconditions.checkNotNull(result, "Result cannot be null");
+        Preconditions.checkArgument(result != null, "Result cannot be null");
         itemResult = result;
     }
 
     public void setUseBlock(@Nonnull Result result) {
-        Preconditions.checkNotNull(result, "Result cannot be null");
+        Preconditions.checkArgument(result != null, "Result cannot be null");
         blockResult = result;
     }
 

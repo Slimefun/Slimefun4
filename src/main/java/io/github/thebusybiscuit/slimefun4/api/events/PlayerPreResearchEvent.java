@@ -36,9 +36,9 @@ public class PlayerPreResearchEvent extends Event implements Cancellable {
 
     @ParametersAreNonnullByDefault
     public PlayerPreResearchEvent(Player p, Research research, SlimefunItem slimefunItem) {
-        Preconditions.checkNotNull(p, "The Player cannot be null");
-        Preconditions.checkNotNull(research, "Research cannot be null");
-        Preconditions.checkNotNull(slimefunItem, "SlimefunItem cannot be null");
+        Preconditions.checkArgument(p != null, "The Player cannot be null");
+        Preconditions.checkArgument(research != null, "Research cannot be null");
+        Preconditions.checkArgument(slimefunItem != null, "SlimefunItem cannot be null");
 
         this.player = p;
         this.research = research;

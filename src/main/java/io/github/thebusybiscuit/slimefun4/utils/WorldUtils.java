@@ -29,7 +29,7 @@ public final class WorldUtils {
      * @return The minimum Y of the given world.
      */
     public static int getMinHeight(@Nonnull World world) {
-        Preconditions.checkNotNull(world, "World cannot be null!");
+        Preconditions.checkArgument(world != null, "World cannot be null!");
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             return world.getMinHeight();

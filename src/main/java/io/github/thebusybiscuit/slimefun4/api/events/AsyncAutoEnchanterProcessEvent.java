@@ -32,9 +32,9 @@ public class AsyncAutoEnchanterProcessEvent extends Event implements Cancellable
     public AsyncAutoEnchanterProcessEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantedBook, @Nonnull BlockMenu menu) {
         super(true);
 
-        Preconditions.checkNotNull(item, "The item to enchant cannot be null!");
-        Preconditions.checkNotNull(enchantedBook, "The enchanted book to enchant cannot be null!");
-        Preconditions.checkNotNull(menu, "The menu of auto-enchanter cannot be null!");
+        Preconditions.checkArgument(item != null, "The item to enchant cannot be null!");
+        Preconditions.checkArgument(enchantedBook != null, "The enchanted book to enchant cannot be null!");
+        Preconditions.checkArgument(menu != null, "The menu of auto-enchanter cannot be null!");
 
         this.item = item;
         this.enchantedBook = enchantedBook;

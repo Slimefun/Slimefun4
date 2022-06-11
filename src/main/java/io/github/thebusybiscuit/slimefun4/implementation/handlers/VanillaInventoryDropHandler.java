@@ -50,7 +50,7 @@ public class VanillaInventoryDropHandler<T extends BlockState & InventoryHolder>
      */
     public VanillaInventoryDropHandler(@Nonnull Class<T> blockStateClass) {
         super(false, true);
-        Preconditions.checkNotNull(blockStateClass, "The provided class must not be null!");
+        Preconditions.checkArgument(blockStateClass != null, "The provided class must not be null!");
 
         this.blockStateClass = blockStateClass;
     }

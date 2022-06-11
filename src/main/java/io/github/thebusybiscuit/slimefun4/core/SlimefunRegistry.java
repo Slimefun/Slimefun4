@@ -96,8 +96,8 @@ public final class SlimefunRegistry {
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
 
     public void load(@Nonnull Slimefun plugin, @Nonnull Config cfg) {
-        Preconditions.checkNotNull(plugin, "The Plugin cannot be null!");
-        Preconditions.checkNotNull(cfg, "The Config cannot be null!");
+        Preconditions.checkArgument(plugin != null, "The Plugin cannot be null!");
+        Preconditions.checkArgument(cfg != null, "The Config cannot be null!");
 
         soulboundKey = new NamespacedKey(plugin, "soulbound");
         itemChargeKey = new NamespacedKey(plugin, "item_charge");
@@ -275,7 +275,7 @@ public final class SlimefunRegistry {
      */
     @Nonnull
     public SlimefunGuideImplementation getSlimefunGuide(@Nonnull SlimefunGuideMode mode) {
-        Preconditions.checkNotNull(mode, "The Guide mode cannot be null");
+        Preconditions.checkArgument(mode != null, "The Guide mode cannot be null");
 
         SlimefunGuideImplementation guide = guides.get(mode);
 
@@ -345,7 +345,7 @@ public final class SlimefunRegistry {
 
     @Nonnull
     public Set<ItemHandler> getGlobalItemHandlers(@Nonnull Class<? extends ItemHandler> identifier) {
-        Preconditions.checkNotNull(identifier, "The identifier for an ItemHandler cannot be null!");
+        Preconditions.checkArgument(identifier != null, "The identifier for an ItemHandler cannot be null!");
 
         return globalItemHandlers.computeIfAbsent(identifier, c -> new HashSet<>());
     }

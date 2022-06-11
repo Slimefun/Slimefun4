@@ -33,7 +33,7 @@ public class AsyncProfileLoadEvent extends Event {
     public AsyncProfileLoadEvent(@Nonnull PlayerProfile profile) {
         super(true);
 
-        Preconditions.checkNotNull(profile, "The Profile cannot be null");
+        Preconditions.checkArgument(profile != null, "The Profile cannot be null");
 
         this.uniqueId = profile.getUUID();
         this.profile = profile;
@@ -57,7 +57,7 @@ public class AsyncProfileLoadEvent extends Event {
      *            The {@link PlayerProfile}
      */
     public void setProfile(@Nonnull PlayerProfile profile) {
-        Preconditions.checkNotNull(profile, "The PlayerProfile cannot be null!");
+        Preconditions.checkArgument(profile != null, "The PlayerProfile cannot be null!");
         Preconditions.checkArgument(profile.getUUID().equals(uniqueId), "Cannot inject a PlayerProfile with a different UUID");
 
         this.profile = profile;

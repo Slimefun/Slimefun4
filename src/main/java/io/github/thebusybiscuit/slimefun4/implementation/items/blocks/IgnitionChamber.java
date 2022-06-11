@@ -72,8 +72,8 @@ public class IgnitionChamber extends SlimefunItem {
      */
     @ParametersAreNonnullByDefault
     public static boolean useFlintAndSteel(Player p, Block smelteryBlock) {
-        Preconditions.checkNotNull(p, "The Player must not be null!");
-        Preconditions.checkNotNull(smelteryBlock, "The smeltery block cannot be null!");
+        Preconditions.checkArgument(p != null, "The Player must not be null!");
+        Preconditions.checkArgument(smelteryBlock != null, "The smeltery block cannot be null!");
 
         Inventory inv = findIgnitionChamber(smelteryBlock);
 

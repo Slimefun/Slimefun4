@@ -85,7 +85,7 @@ public class CoolerFeedPlayerEvent extends PlayerEvent implements Cancellable {
      *            The new {@link ItemStack}
      */
     public void setConsumedItem(@Nonnull ItemStack item) {
-        Preconditions.checkNotNull(item, "The consumed Item cannot be null!");
+        Preconditions.checkArgument(item != null, "The consumed Item cannot be null!");
         Preconditions.checkArgument(item.getItemMeta() instanceof PotionMeta, "The item must be a potion!");
 
         this.consumedItem = item;

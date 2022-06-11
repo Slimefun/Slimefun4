@@ -270,7 +270,7 @@ public class Talisman extends SlimefunItem {
      *            The {@link Player} who shall receive the message
      */
     public void sendMessage(@Nonnull Player p) {
-        Preconditions.checkNotNull(p, "The Player must not be null.");
+        Preconditions.checkArgument(p != null, "The Player must not be null.");
 
         // Check if this Talisman has a message
         if (!isSilent()) {

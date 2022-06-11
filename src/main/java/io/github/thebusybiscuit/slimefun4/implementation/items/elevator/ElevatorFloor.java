@@ -42,8 +42,8 @@ class ElevatorFloor {
      *            The {@link Block} of this floor
      */
     public ElevatorFloor(@Nonnull String name, int number, @Nonnull Block block) {
-        Preconditions.checkNotNull(name, "An ElevatorFloor must have a name");
-        Preconditions.checkNotNull(block, "An ElevatorFloor must have a block");
+        Preconditions.checkArgument(name != null, "An ElevatorFloor must have a name");
+        Preconditions.checkArgument(block != null, "An ElevatorFloor must have a block");
 
         this.name = name;
         this.number = number;

@@ -283,7 +283,7 @@ public enum Instruction {
 
     @ParametersAreNonnullByDefault
     public void execute(ProgrammableAndroid android, Block b, BlockMenu inventory, BlockFace face) {
-        Preconditions.checkNotNull(method, "Instruction '" + name() + "' must be executed manually!");
+        Preconditions.checkArgument(method != null, "Instruction '" + name() + "' must be executed manually!");
         method.perform(android, b, inventory, face);
     }
 
@@ -300,7 +300,7 @@ public enum Instruction {
      */
     @Nullable
     public static Instruction getInstruction(@Nonnull String value) {
-        Preconditions.checkNotNull(value, "An Instruction cannot be null!");
+        Preconditions.checkArgument(value != null, "An Instruction cannot be null!");
         return nameLookup.get(value);
     }
 }

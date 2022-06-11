@@ -593,9 +593,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     @ParametersAreNonnullByDefault
     public void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
-        Preconditions.checkNotNull(p, "The Player cannot be null!");
-        Preconditions.checkNotNull(profile, "The Profile cannot be null!");
-        Preconditions.checkNotNull(menu, "The Inventory cannot be null!");
+        Preconditions.checkArgument(p != null, "The Player cannot be null!");
+        Preconditions.checkArgument(profile != null, "The Profile cannot be null!");
+        Preconditions.checkArgument(menu != null, "The Inventory cannot be null!");
 
         for (int i = 0; i < 9; i++) {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());

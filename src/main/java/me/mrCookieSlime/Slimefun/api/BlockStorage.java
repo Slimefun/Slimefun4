@@ -399,7 +399,7 @@ public class BlockStorage {
      */
     @Nullable
     public static Map<Location, Config> getRawStorage(@Nonnull World world) {
-        Preconditions.checkNotNull(world, "World cannot be null!");
+        Preconditions.checkArgument(world != null, "World cannot be null!");
 
         BlockStorage storage = getStorage(world);
         if (storage != null) {

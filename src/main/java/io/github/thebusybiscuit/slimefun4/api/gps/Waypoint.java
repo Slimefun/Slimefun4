@@ -50,10 +50,10 @@ public class Waypoint {
      */
     @ParametersAreNonnullByDefault
     public Waypoint(PlayerProfile profile, String id, Location loc, String name) {
-        Preconditions.checkNotNull(profile, "Profile must never be null!");
-        Preconditions.checkNotNull(id, "id must never be null!");
-        Preconditions.checkNotNull(loc, "Location must never be null!");
-        Preconditions.checkNotNull(name, "Name must never be null!");
+        Preconditions.checkArgument(profile != null, "Profile must never be null!");
+        Preconditions.checkArgument(id != null, "id must never be null!");
+        Preconditions.checkArgument(loc != null, "Location must never be null!");
+        Preconditions.checkArgument(name != null, "Name must never be null!");
 
         this.profile = profile;
         this.id = id;

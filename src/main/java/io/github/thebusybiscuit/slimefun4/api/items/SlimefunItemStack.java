@@ -53,7 +53,7 @@ public class SlimefunItemStack extends ItemStack {
     public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item) {
         super(item);
 
-        Preconditions.checkNotNull(id, "The Item id must never be null!");
+        Preconditions.checkArgument(id != null, "The Item id must never be null!");
         Preconditions.checkArgument(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
 
         if (Slimefun.instance() == null) {
@@ -293,8 +293,8 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     private static @Nonnull String getTexture(@Nonnull String id, @Nonnull String texture) {
-        Preconditions.checkNotNull(id, "The id cannot be null");
-        Preconditions.checkNotNull(texture, "The texture cannot be null");
+        Preconditions.checkArgument(id != null, "The id cannot be null");
+        Preconditions.checkArgument(texture != null, "The texture cannot be null");
 
         if (texture.startsWith("ey")) {
             return texture;

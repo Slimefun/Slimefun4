@@ -38,9 +38,9 @@ abstract class AbstractResource implements GEOResource {
 
     @ParametersAreNonnullByDefault
     AbstractResource(String key, String defaultName, ItemStack item, int maxDeviation, boolean geoMiner) {
-        Preconditions.checkNotNull(key, "NamespacedKey cannot be null!");
-        Preconditions.checkNotNull(defaultName, "The default name cannot be null!");
-        Preconditions.checkNotNull(item, "item cannot be null!");
+        Preconditions.checkArgument(key != null, "NamespacedKey cannot be null!");
+        Preconditions.checkArgument(defaultName != null, "The default name cannot be null!");
+        Preconditions.checkArgument(item != null, "item cannot be null!");
 
         this.key = new NamespacedKey(Slimefun.instance(), key);
         this.defaultName = defaultName;
@@ -90,8 +90,8 @@ abstract class AbstractResource implements GEOResource {
      */
     @ParametersAreNonnullByDefault
     static final @Nonnull BiomeMap<Integer> getBiomeMap(AbstractResource resource, String path) {
-        Preconditions.checkNotNull(resource, "Resource cannot be null.");
-        Preconditions.checkNotNull(path, "Path cannot be null.");
+        Preconditions.checkArgument(resource != null, "Resource cannot be null.");
+        Preconditions.checkArgument(path != null, "Path cannot be null.");
 
         try {
             return BiomeMap.fromResource(resource.getKey(), Slimefun.instance(), path, JsonElement::getAsInt);

@@ -91,7 +91,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
      *            The {@link AnimalProduce} to add
      */
     public void addProduce(@Nonnull AnimalProduce produce) {
-        Preconditions.checkNotNull(produce, "A produce cannot be null");
+        Preconditions.checkArgument(produce != null, "A produce cannot be null");
 
         this.animalProduces.add(produce);
     }

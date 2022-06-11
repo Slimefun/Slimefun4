@@ -105,9 +105,9 @@ public class GitHubService {
     }
 
     public @Nonnull Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
-        Preconditions.checkNotNull(minecraftName, "Minecraft username must not be null.");
-        Preconditions.checkNotNull(profileURL, "GitHub profile url must not be null.");
-        Preconditions.checkNotNull(role, "Role should not be null.");
+        Preconditions.checkArgument(minecraftName != null, "Minecraft username must not be null.");
+        Preconditions.checkArgument(profileURL != null, "GitHub profile url must not be null.");
+        Preconditions.checkArgument(role != null, "Role should not be null.");
         Preconditions.checkArgument(commits >= 0, "Commit count cannot be negative.");
 
         String username = profileURL.substring(profileURL.lastIndexOf('/') + 1);
@@ -119,8 +119,8 @@ public class GitHubService {
     }
 
     public @Nonnull Contributor addContributor(@Nonnull String username, @Nonnull String role, int commits) {
-        Preconditions.checkNotNull(username, "Username must not be null.");
-        Preconditions.checkNotNull(role, "Role should not be null.");
+        Preconditions.checkArgument(username != null, "Username must not be null.");
+        Preconditions.checkArgument(role != null, "Role should not be null.");
         Preconditions.checkArgument(commits >= 0, "Commit count cannot be negative.");
 
         Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(username));

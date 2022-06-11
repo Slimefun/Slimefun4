@@ -46,7 +46,7 @@ public class NestedItemGroup extends FlexItemGroup {
      *            The {@link SubItemGroup} to add.
      */
     public void addSubGroup(@Nonnull SubItemGroup group) {
-        Preconditions.checkNotNull(group, "The sub item group cannot be null!");
+        Preconditions.checkArgument(group != null, "The sub item group cannot be null!");
 
         subGroups.add(group);
     }
@@ -58,7 +58,7 @@ public class NestedItemGroup extends FlexItemGroup {
      *            The {@link SubItemGroup} to remove.
      */
     public void removeSubGroup(@Nonnull SubItemGroup group) {
-        Preconditions.checkNotNull(group, "The sub item group cannot be null!");
+        Preconditions.checkArgument(group != null, "The sub item group cannot be null!");
 
         subGroups.remove(group);
     }

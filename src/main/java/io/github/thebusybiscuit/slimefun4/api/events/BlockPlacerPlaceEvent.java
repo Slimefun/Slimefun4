@@ -76,7 +76,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
      *            The {@link ItemStack} to be placed
      */
     public void setItemStack(@Nonnull ItemStack item) {
-        Preconditions.checkNotNull(item, "The ItemStack must not be null!");
+        Preconditions.checkArgument(item != null, "The ItemStack must not be null!");
 
         if (!locked) {
             this.placedItem = item;

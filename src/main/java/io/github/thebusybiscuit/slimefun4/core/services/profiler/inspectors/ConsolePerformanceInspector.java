@@ -38,7 +38,7 @@ public class ConsolePerformanceInspector implements PerformanceInspector {
      *            Whether the summary will be verbose or not
      */
     public ConsolePerformanceInspector(@Nonnull CommandSender console, boolean verbose) {
-        Preconditions.checkNotNull(console, "CommandSender cannot be null");
+        Preconditions.checkArgument(console != null, "CommandSender cannot be null");
 
         this.console = console;
         this.verbose = verbose;

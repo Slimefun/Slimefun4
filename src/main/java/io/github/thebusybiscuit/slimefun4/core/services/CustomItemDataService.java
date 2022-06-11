@@ -65,8 +65,8 @@ public class CustomItemDataService implements Keyed {
      *            The id to store on the {@link ItemStack}
      */
     public void setItemData(@Nonnull ItemStack item, @Nonnull String id) {
-        Preconditions.checkNotNull(item, "The Item cannot be null!");
-        Preconditions.checkNotNull(id, "Cannot store null on an Item!");
+        Preconditions.checkArgument(item != null, "The Item cannot be null!");
+        Preconditions.checkArgument(id != null, "Cannot store null on an Item!");
 
         ItemMeta im = item.getItemMeta();
         setItemData(im, id);
@@ -83,8 +83,8 @@ public class CustomItemDataService implements Keyed {
      *            The id to store on the {@link ItemMeta}
      */
     public void setItemData(@Nonnull ItemMeta meta, @Nonnull String id) {
-        Preconditions.checkNotNull(meta, "The ItemMeta cannot be null!");
-        Preconditions.checkNotNull(id, "Cannot store null on an ItemMeta!");
+        Preconditions.checkArgument(meta != null, "The ItemMeta cannot be null!");
+        Preconditions.checkArgument(id != null, "Cannot store null on an ItemMeta!");
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(namespacedKey, PersistentDataType.STRING, id);
@@ -118,7 +118,7 @@ public class CustomItemDataService implements Keyed {
      * @return An {@link Optional} describing the result
      */
     public @Nonnull Optional<String> getItemData(@Nonnull ItemMeta meta) {
-        Preconditions.checkNotNull(meta, "Cannot read data from null!");
+        Preconditions.checkArgument(meta != null, "Cannot read data from null!");
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
         return Optional.ofNullable(container.get(namespacedKey, PersistentDataType.STRING));
@@ -137,8 +137,8 @@ public class CustomItemDataService implements Keyed {
      * @return Whether both metas have data on them and its the same.
      */
     public boolean hasEqualItemData(@Nonnull ItemMeta meta1, @Nonnull ItemMeta meta2) {
-        Preconditions.checkNotNull(meta1, "Cannot read data from null (first arg)");
-        Preconditions.checkNotNull(meta2, "Cannot read data from null (second arg)");
+        Preconditions.checkArgument(meta1 != null, "Cannot read data from null (first arg)");
+        Preconditions.checkArgument(meta2 != null, "Cannot read data from null (second arg)");
 
         Optional<String> data1 = getItemData(meta1);
 

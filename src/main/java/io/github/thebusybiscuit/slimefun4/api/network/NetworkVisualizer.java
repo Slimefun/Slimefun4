@@ -34,8 +34,8 @@ class NetworkVisualizer implements Runnable {
      *            The {@link Network} to visualize
      */
     NetworkVisualizer(@Nonnull Network network, @Nonnull Color color) {
-        Preconditions.checkNotNull(network, "The network should not be null.");
-        Preconditions.checkNotNull(color, "The color cannot be null.");
+        Preconditions.checkArgument(network != null, "The network should not be null.");
+        Preconditions.checkArgument(color != null, "The color cannot be null.");
 
         this.network = network;
         this.particleOptions = new DustOptions(color, 3F);

@@ -25,8 +25,8 @@ public class ReactorExplodeEvent extends Event {
     private final Reactor reactor;
 
     public ReactorExplodeEvent(@Nonnull Location l, @Nonnull Reactor reactor) {
-        Preconditions.checkNotNull(l, "A Location must be provided");
-        Preconditions.checkNotNull(reactor, "A Reactor cannot be null");
+        Preconditions.checkArgument(l != null, "A Location must be provided");
+        Preconditions.checkArgument(reactor != null, "A Reactor cannot be null");
 
         this.location = l;
         this.reactor = reactor;

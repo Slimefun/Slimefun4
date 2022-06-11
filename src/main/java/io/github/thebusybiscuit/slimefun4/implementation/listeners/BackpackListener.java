@@ -184,8 +184,8 @@ public class BackpackListener implements Listener {
      *            The id of this backpack
      */
     public void setBackpackId(@Nonnull OfflinePlayer backpackOwner, @Nonnull ItemStack item, int line, int id) {
-        Preconditions.checkNotNull(backpackOwner, "Backpacks must have an owner!");
-        Preconditions.checkNotNull(item, "Cannot set the id onto null!");
+        Preconditions.checkArgument(backpackOwner != null, "Backpacks must have an owner!");
+        Preconditions.checkArgument(item != null, "Cannot set the id onto null!");
 
         ItemMeta im = item.getItemMeta();
 

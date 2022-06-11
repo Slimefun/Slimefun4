@@ -47,7 +47,7 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
      *            The callback to run when the task has completed
      */
     PlayerResearchTask(@Nonnull Research research, boolean isInstant, @Nullable Consumer<Player> callback) {
-        Preconditions.checkNotNull(research, "The Research must not be null");
+        Preconditions.checkArgument(research != null, "The Research must not be null");
 
         this.research = research;
         this.isInstant = isInstant;

@@ -42,7 +42,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, boolean universal) {
         super(title);
 
-        Preconditions.checkNotNull(id, "You need to specify an id!");
+        Preconditions.checkArgument(id != null, "You need to specify an id!");
 
         this.id = id;
         this.inventoryTitle = title;
@@ -120,7 +120,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
      *            The slots which should be treated as background
      */
     public void drawBackground(@Nonnull ItemStack item, @Nonnull int[] slots) {
-        Preconditions.checkNotNull(item, "The background item cannot be null!");
+        Preconditions.checkArgument(item != null, "The background item cannot be null!");
         checkIfLocked();
 
         for (int slot : slots) {
@@ -250,7 +250,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     }
 
     public void newInstance(@Nonnull BlockMenu menu, @Nonnull Location l) {
-        Preconditions.checkNotNull(l, "Cannot create a new BlockMenu without a Location");
+        Preconditions.checkArgument(l != null, "Cannot create a new BlockMenu without a Location");
 
         Slimefun.runSync(() -> {
             locked = true;

@@ -71,9 +71,9 @@ public class LockedItemGroup extends ItemGroup {
     @ParametersAreNonnullByDefault
     public LockedItemGroup(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
         super(key, item, tier);
-        Preconditions.checkNotNull(parents, "A LockedItemGroup must not have any 'null' parents!");
+        Preconditions.checkArgument(parents != null, "A LockedItemGroup must not have any 'null' parents!");
         for (NamespacedKey parent : parents) {
-            Preconditions.checkNotNull(parent, "A LockedItemGroup must not have any 'null' parents!");
+            Preconditions.checkArgument(parent != null, "A LockedItemGroup must not have any 'null' parents!");
         }
 
         this.keys = parents;
@@ -155,8 +155,8 @@ public class LockedItemGroup extends ItemGroup {
      * @return Whether the {@link Player} has fully completed all parent categories, otherwise false
      */
     public boolean hasUnlocked(@Nonnull Player p, @Nonnull PlayerProfile profile) {
-        Preconditions.checkNotNull(p, "The player cannot be null!");
-        Preconditions.checkNotNull(profile, "The Profile cannot be null!");
+        Preconditions.checkArgument(p != null, "The player cannot be null!");
+        Preconditions.checkArgument(profile != null, "The Profile cannot be null!");
 
         for (ItemGroup parent : parents) {
             for (SlimefunItem item : parent.getItems()) {

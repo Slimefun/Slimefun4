@@ -35,7 +35,7 @@ public class PlayerPerformanceInspector implements PerformanceInspector {
      *            The {@link Player}
      */
     public PlayerPerformanceInspector(@Nonnull Player player) {
-        Preconditions.checkNotNull(player, "Player cannot be null");
+        Preconditions.checkArgument(player != null, "Player cannot be null");
 
         this.uuid = player.getUniqueId();
     }

@@ -221,7 +221,7 @@ public final class SlimefunUtils {
      * @return An {@link ItemStack} with this Head texture
      */
     public static @Nonnull ItemStack getCustomHead(@Nonnull String texture) {
-        Preconditions.checkNotNull(texture, "The provided texture is null");
+        Preconditions.checkArgument(texture != null, "The provided texture is null");
 
         if (Slimefun.instance() == null) {
             throw new PrematureCodeException("You cannot instantiate a custom head before Slimefun was loaded.");
@@ -396,8 +396,8 @@ public final class SlimefunUtils {
      * @return Whether the two lores are equal
      */
     public static boolean equalsLore(@Nonnull List<String> lore1, @Nonnull List<String> lore2) {
-        Preconditions.checkNotNull(lore1, "Cannot compare lore that is null!");
-        Preconditions.checkNotNull(lore2, "Cannot compare lore that is null!");
+        Preconditions.checkArgument(lore1 != null, "Cannot compare lore that is null!");
+        Preconditions.checkArgument(lore2 != null, "Cannot compare lore that is null!");
 
         List<String> longerList = lore1.size() > lore2.size() ? lore1 : lore2;
         List<String> shorterList = lore1.size() > lore2.size() ? lore2 : lore1;
@@ -435,7 +435,7 @@ public final class SlimefunUtils {
     }
 
     public static void updateCapacitorTexture(@Nonnull Location l, int charge, int capacity) {
-        Preconditions.checkNotNull(l, "Cannot update a texture for null");
+        Preconditions.checkArgument(l != null, "Cannot update a texture for null");
         Preconditions.checkArgument(capacity > 0, "Capacity must be greater than zero!");
 
         Slimefun.runSync(new CapacitorTextureUpdateTask(l, charge, capacity));
@@ -457,7 +457,7 @@ public final class SlimefunUtils {
      * @return Whether the {@link Player} is able to use that item.
      */
     public static boolean canPlayerUseItem(@Nonnull Player p, @Nullable ItemStack item, boolean sendMessage) {
-        Preconditions.checkNotNull(p, "The player cannot be null");
+        Preconditions.checkArgument(p != null, "The player cannot be null");
 
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 

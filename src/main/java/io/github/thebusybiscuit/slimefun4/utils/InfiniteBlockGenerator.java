@@ -75,7 +75,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      */
     @Override
     public boolean test(@Nonnull Block b) {
-        Preconditions.checkNotNull(b, "Block cannot be null!");
+        Preconditions.checkArgument(b != null, "Block cannot be null!");
 
         /*
          * This will eliminate non-matching base materials If we
@@ -107,7 +107,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
 
     @ParametersAreNonnullByDefault
     private boolean hasSurroundingMaterials(Block b, Material... materials) {
-        Preconditions.checkNotNull(b, "The Block cannot be null!");
+        Preconditions.checkArgument(b != null, "The Block cannot be null!");
         Preconditions.checkArgument(materials != null && materials.length > 0, "Materials need to have a size of at least one!");
 
         boolean[] matches = new boolean[materials.length];
@@ -144,7 +144,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * @return Our called {@link BlockFormEvent}
      */
     public @Nonnull BlockFormEvent callEvent(@Nonnull Block block) {
-        Preconditions.checkNotNull(block, "The Block cannot be null!");
+        Preconditions.checkArgument(block != null, "The Block cannot be null!");
         BlockState state = PaperLib.getBlockState(block, false).getState();
         BlockFormEvent event = new BlockFormEvent(block, state);
         Bukkit.getPluginManager().callEvent(event);
@@ -160,7 +160,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * @return An {@link InfiniteBlockGenerator} or null if none was found.
      */
     public static @Nullable InfiniteBlockGenerator findAt(@Nonnull Block b) {
-        Preconditions.checkNotNull(b, "Cannot find a generator without a Location!");
+        Preconditions.checkArgument(b != null, "Cannot find a generator without a Location!");
 
         for (InfiniteBlockGenerator generator : valuesCached) {
             if (generator.test(b)) {

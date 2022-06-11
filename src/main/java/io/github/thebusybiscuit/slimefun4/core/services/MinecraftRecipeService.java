@@ -87,7 +87,7 @@ public class MinecraftRecipeService {
      *            A callback to run when the {@link RecipeSnapshot} has been created.
      */
     public void subscribe(@Nonnull Consumer<RecipeSnapshot> subscription) {
-        Preconditions.checkNotNull(subscription, "Callback must not be null!");
+        Preconditions.checkArgument(subscription != null, "Callback must not be null!");
         subscriptions.add(subscription);
     }
 
@@ -135,7 +135,7 @@ public class MinecraftRecipeService {
      */
     @Nonnull
     public RecipeChoice[] getRecipeShape(@Nonnull Recipe recipe) {
-        Preconditions.checkNotNull(recipe, "Recipe must not be null!");
+        Preconditions.checkArgument(recipe != null, "Recipe must not be null!");
 
         if (recipe instanceof ShapedRecipe) {
             List<RecipeChoice> choices = new LinkedList<>();
@@ -190,7 +190,7 @@ public class MinecraftRecipeService {
      */
     @Nullable
     public Recipe getRecipe(@Nonnull NamespacedKey key) {
-        Preconditions.checkNotNull(key, "The NamespacedKey should not be null");
+        Preconditions.checkArgument(key != null, "The NamespacedKey should not be null");
 
         if (snapshot != null) {
             // We operate on a cached HashMap which is much faster than Bukkit's method.

@@ -38,7 +38,7 @@ public final class ChargeUtils {
     private ChargeUtils() {}
 
     public static void setCharge(@Nonnull ItemMeta meta, float charge, float capacity) {
-        Preconditions.checkNotNull(meta, "Meta cannot be null!");
+        Preconditions.checkArgument(meta != null, "Meta cannot be null!");
         Preconditions.checkArgument(charge >= 0, "Charge has to be equal to or greater than 0!");
         Preconditions.checkArgument(capacity > 0, "Capacity has to be greater than 0!");
         Preconditions.checkArgument(charge <= capacity, "Charge may not be bigger than the capacity!");
@@ -65,7 +65,7 @@ public final class ChargeUtils {
     }
 
     public static float getCharge(@Nonnull ItemMeta meta) {
-        Preconditions.checkNotNull(meta, "Meta cannot be null!");
+        Preconditions.checkArgument(meta != null, "Meta cannot be null!");
 
         NamespacedKey key = Slimefun.getRegistry().getItemChargeDataKey();
         PersistentDataContainer container = meta.getPersistentDataContainer();

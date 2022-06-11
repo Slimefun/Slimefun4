@@ -129,7 +129,7 @@ public class HologramsService {
      */
     @Nullable
     private Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
-        Preconditions.checkNotNull(loc, "Location cannot be null");
+        Preconditions.checkArgument(loc != null, "Location cannot be null");
 
         BlockPosition position = new BlockPosition(loc);
         Hologram hologram = cache.get(position);
@@ -254,8 +254,8 @@ public class HologramsService {
      *            The callback to run
      */
     private void updateHologram(@Nonnull Location loc, @Nonnull Consumer<Hologram> consumer) {
-        Preconditions.checkNotNull(loc, "Location must not be null");
-        Preconditions.checkNotNull(consumer, "Callbacks must not be null");
+        Preconditions.checkArgument(loc != null, "Location must not be null");
+        Preconditions.checkArgument(consumer != null, "Callbacks must not be null");
 
         Runnable runnable = () -> {
             try {
@@ -289,7 +289,7 @@ public class HologramsService {
      *         exist or was already removed
      */
     public boolean removeHologram(@Nonnull Location loc) {
-        Preconditions.checkNotNull(loc, "Location cannot be null");
+        Preconditions.checkArgument(loc != null, "Location cannot be null");
 
         if (Bukkit.isPrimaryThread()) {
             try {
@@ -321,7 +321,7 @@ public class HologramsService {
      *            The label to set, can be null
      */
     public void setHologramLabel(@Nonnull Location loc, @Nullable String label) {
-        Preconditions.checkNotNull(loc, "Location must not be null");
+        Preconditions.checkArgument(loc != null, "Location must not be null");
 
         updateHologram(loc, hologram -> hologram.setLabel(label));
     }
