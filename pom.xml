@@ -26,7 +26,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Spigot properties -->
-        <spigot.version>1.18.1</spigot.version>
+        <spigot.version>1.19</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -208,6 +208,10 @@
                             <pattern>kong.unirest</pattern>
                             <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.unirest</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>org.apache.commons.lang</pattern>
+                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.commons.lang</shadedPattern>
+                        </relocation>
                     </relocations>
 
                     <!-- Exclude unneeded metadata files from shaded dependencies -->
@@ -350,7 +354,7 @@
         <dependency>
             <groupId>io.github.baked-libs</groupId>
             <artifactId>dough-api</artifactId>
-            <version>1.1.3</version>
+            <version>1.2.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -501,6 +505,13 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- TODO: Remove this dependency -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
