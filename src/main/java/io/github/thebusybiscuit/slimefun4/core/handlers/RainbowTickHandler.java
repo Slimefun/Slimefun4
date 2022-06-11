@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.handlers;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -40,11 +41,11 @@ public class RainbowTickHandler extends BlockTicker {
     private Material material;
 
     public RainbowTickHandler(@Nonnull List<Material> materials) {
-        Validate.noNullElements(materials, "A RainbowTicker cannot have a Material that is null!");
-
-        if (materials.isEmpty()) {
-            throw new IllegalArgumentException("A RainbowTicker must have at least one Material associated with it!");
+        Preconditions.checkArgument(materials != null && !materials.isEmpty(), "A RainbowTicker must have at least one Material associated with it!");
+        for (Material value : materials) {
+            Preconditions.checkNotNull(value, "A RainbowTicker cannot have a Material that is null!");
         }
+
 
         glassPanes = containsGlassPanes(materials);
         iterator = new LoopIterator<>(materials);
