@@ -7,7 +7,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
@@ -61,7 +62,7 @@ public abstract class AbstractRecipe {
     @ParametersAreNonnullByDefault
     protected AbstractRecipe(Collection<Predicate<ItemStack>> ingredients, ItemStack result) {
         Validate.notEmpty(ingredients, "The input predicates cannot be null or an empty array");
-        Validate.notNull(result, "The recipe result must not be null!");
+        Preconditions.checkNotNull(result, "The recipe result must not be null!");
 
         this.ingredients = ingredients;
         this.result = result;

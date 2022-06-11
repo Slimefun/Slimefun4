@@ -14,7 +14,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -152,9 +153,9 @@ public class SlimefunItem implements Placeable {
      */
     @ParametersAreNonnullByDefault
     public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        Validate.notNull(itemGroup, "'itemGroup' is not allowed to be null!");
-        Validate.notNull(item, "'item' is not allowed to be null!");
-        Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
+        Preconditions.checkNotNull(itemGroup, "'itemGroup' is not allowed to be null!");
+        Preconditions.checkNotNull(item, "'item' is not allowed to be null!");
+        Preconditions.checkNotNull(recipeType, "'recipeType' is not allowed to be null!");
 
         this.itemGroup = itemGroup;
         this.itemStackTemplate = item;
@@ -167,10 +168,10 @@ public class SlimefunItem implements Placeable {
     // Previously deprecated constructor, now only for internal purposes
     @ParametersAreNonnullByDefault
     protected SlimefunItem(ItemGroup itemGroup, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-        Validate.notNull(itemGroup, "'itemGroup' is not allowed to be null!");
-        Validate.notNull(item, "'item' is not allowed to be null!");
-        Validate.notNull(id, "'id' is not allowed to be null!");
-        Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
+        Preconditions.checkNotNull(itemGroup, "'itemGroup' is not allowed to be null!");
+        Preconditions.checkNotNull(item, "'item' is not allowed to be null!");
+        Preconditions.checkNotNull(id, "'id' is not allowed to be null!");
+        Preconditions.checkNotNull(recipeType, "'recipeType' is not allowed to be null!");
 
         this.itemGroup = itemGroup;
         this.itemStackTemplate = item;
@@ -416,8 +417,8 @@ public class SlimefunItem implements Placeable {
      *            The {@link SlimefunAddon} that this {@link SlimefunItem} belongs to.
      */
     public void register(@Nonnull SlimefunAddon addon) {
-        Validate.notNull(addon, "A SlimefunAddon cannot be null!");
-        Validate.notNull(addon.getJavaPlugin(), "SlimefunAddon#getJavaPlugin() is not allowed to return null!");
+        Preconditions.checkNotNull(addon, "A SlimefunAddon cannot be null!");
+        Preconditions.checkNotNull(addon.getJavaPlugin(), "SlimefunAddon#getJavaPlugin() is not allowed to return null!");
 
         this.addon = addon;
 
@@ -681,7 +682,7 @@ public class SlimefunItem implements Placeable {
      *            The {@link RecipeType} for this {@link SlimefunItem}
      */
     public void setRecipeType(@Nonnull RecipeType type) {
-        Validate.notNull(type, "The RecipeType is not allowed to be null!");
+        Preconditions.checkNotNull(type, "The RecipeType is not allowed to be null!");
         this.recipeType = type;
     }
 
@@ -692,7 +693,7 @@ public class SlimefunItem implements Placeable {
      *            The new {@link ItemGroup}
      */
     public void setItemGroup(@Nonnull ItemGroup itemGroup) {
-        Validate.notNull(itemGroup, "The ItemGroup is not allowed to be null!");
+        Preconditions.checkNotNull(itemGroup, "The ItemGroup is not allowed to be null!");
 
         this.itemGroup.remove(this);
         itemGroup.add(this);
@@ -876,7 +877,7 @@ public class SlimefunItem implements Placeable {
      *            The associated wiki page
      */
     public final void addOfficialWikipage(@Nonnull String page) {
-        Validate.notNull(page, "Wiki page cannot be null.");
+        Preconditions.checkNotNull(page, "Wiki page cannot be null.");
         wikiURL = Optional.of("https://github.com/Slimefun/Slimefun4/wiki/" + page);
     }
 
@@ -986,7 +987,7 @@ public class SlimefunItem implements Placeable {
      *            The message to send
      */
     public void info(@Nonnull String message) {
-        Validate.notNull(addon, "Cannot log a message for an unregistered item!");
+        Preconditions.checkNotNull(addon, "Cannot log a message for an unregistered item!");
 
         String msg = toString() + ": " + message;
         addon.getLogger().log(Level.INFO, msg);
@@ -1001,7 +1002,7 @@ public class SlimefunItem implements Placeable {
      *            The message to send
      */
     public void warn(@Nonnull String message) {
-        Validate.notNull(addon, "Cannot send a warning for an unregistered item!");
+        Preconditions.checkNotNull(addon, "Cannot send a warning for an unregistered item!");
 
         String msg = toString() + ": " + message;
         addon.getLogger().log(Level.WARNING, msg);
@@ -1022,7 +1023,7 @@ public class SlimefunItem implements Placeable {
      *            The {@link Throwable} to throw as a stacktrace.
      */
     public void error(@Nonnull String message, @Nonnull Throwable throwable) {
-        Validate.notNull(addon, "Cannot send an error for an unregistered item!");
+        Preconditions.checkNotNull(addon, "Cannot send an error for an unregistered item!");
         addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
 
         if (addon.getBugTrackerURL() != null) {
@@ -1060,7 +1061,7 @@ public class SlimefunItem implements Placeable {
      * @return Whether this {@link Player} is able to use this {@link SlimefunItem}.
      */
     public boolean canUse(@Nonnull Player p, boolean sendMessage) {
-        Validate.notNull(p, "The Player cannot be null!");
+        Preconditions.checkNotNull(p, "The Player cannot be null!");
 
         if (getState() == ItemState.VANILLA_FALLBACK) {
             // Vanilla items (which fell back) can always be used.

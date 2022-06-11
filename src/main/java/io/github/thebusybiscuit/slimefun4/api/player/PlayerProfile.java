@@ -17,7 +17,8 @@ import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -175,7 +176,7 @@ public class PlayerProfile {
      *            Whether the {@link Research} should be unlocked or locked
      */
     public void setResearched(@Nonnull Research research, boolean unlock) {
-        Validate.notNull(research, "Research must not be null!");
+        Preconditions.checkNotNull(research, "Research must not be null!");
         dirty = true;
 
         if (unlock) {
@@ -248,7 +249,7 @@ public class PlayerProfile {
      *            The {@link Waypoint} to add
      */
     public void addWaypoint(@Nonnull Waypoint waypoint) {
-        Validate.notNull(waypoint, "Cannot add a 'null' waypoint!");
+        Preconditions.checkNotNull(waypoint, "Cannot add a 'null' waypoint!");
 
         for (Waypoint wp : waypoints) {
             if (wp.getId().equals(waypoint.getId())) {
@@ -273,7 +274,7 @@ public class PlayerProfile {
      *            The {@link Waypoint} to remove
      */
     public void removeWaypoint(@Nonnull Waypoint waypoint) {
-        Validate.notNull(waypoint, "Cannot remove a 'null' waypoint!");
+        Preconditions.checkNotNull(waypoint, "Cannot remove a 'null' waypoint!");
 
         if (waypoints.remove(waypoint)) {
             waypointsFile.setValue(waypoint.getId(), null);
@@ -383,7 +384,7 @@ public class PlayerProfile {
      * @return If the {@link OfflinePlayer} was cached or not.
      */
     public static boolean get(@Nonnull OfflinePlayer p, @Nonnull Consumer<PlayerProfile> callback) {
-        Validate.notNull(p, "Cannot get a PlayerProfile for: null!");
+        Preconditions.checkNotNull(p, "Cannot get a PlayerProfile for: null!");
 
         UUID uuid = p.getUniqueId();
         PlayerProfile profile = Slimefun.getRegistry().getPlayerProfiles().get(uuid);
@@ -414,7 +415,7 @@ public class PlayerProfile {
      * @return Whether the {@link PlayerProfile} was already loaded
      */
     public static boolean request(@Nonnull OfflinePlayer p) {
-        Validate.notNull(p, "Cannot request a Profile for null");
+        Preconditions.checkNotNull(p, "Cannot request a Profile for null");
 
         if (!Slimefun.getRegistry().getPlayerProfiles().containsKey(p.getUniqueId())) {
             // Should probably prevent multiple requests for the same profile in the future
@@ -477,7 +478,7 @@ public class PlayerProfile {
     }
 
     public boolean hasFullProtectionAgainst(@Nonnull ProtectionType type) {
-        Validate.notNull(type, "ProtectionType must not be null.");
+        Preconditions.checkNotNull(type, "ProtectionType must not be null.");
 
         int armorCount = 0;
         NamespacedKey setId = null;

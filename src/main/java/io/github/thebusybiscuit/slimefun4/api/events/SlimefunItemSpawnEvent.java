@@ -3,7 +3,8 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Location;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -63,7 +64,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
      *            The {@link Location} where to drop the {@link ItemStack}
      */
     public void setLocation(@Nonnull Location location) {
-        Validate.notNull(location, "The Location cannot be null!");
+        Preconditions.checkNotNull(location, "The Location cannot be null!");
 
         this.location = location;
     }
@@ -84,8 +85,8 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
      *            The {@link ItemStack} to drop
      */
     public void setItemStack(@Nonnull ItemStack itemStack) {
-        Validate.notNull(itemStack, "Cannot drop null.");
-        Validate.isTrue(!itemStack.getType().isAir(), "Cannot drop air.");
+        Preconditions.checkNotNull(itemStack, "Cannot drop null.");
+        Preconditions.checkArgument(!itemStack.getType().isAir(), "Cannot drop air.");
 
         this.itemStack = itemStack;
     }

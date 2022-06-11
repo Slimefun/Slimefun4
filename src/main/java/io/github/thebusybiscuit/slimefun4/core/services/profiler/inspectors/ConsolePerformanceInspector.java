@@ -2,7 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
@@ -37,7 +38,7 @@ public class ConsolePerformanceInspector implements PerformanceInspector {
      *            Whether the summary will be verbose or not
      */
     public ConsolePerformanceInspector(@Nonnull CommandSender console, boolean verbose) {
-        Validate.notNull(console, "CommandSender cannot be null");
+        Preconditions.checkNotNull(console, "CommandSender cannot be null");
 
         this.console = console;
         this.verbose = verbose;

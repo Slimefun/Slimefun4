@@ -11,7 +11,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -128,7 +129,7 @@ public class HologramsService {
      */
     @Nullable
     private Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
-        Validate.notNull(loc, "Location cannot be null");
+        Preconditions.checkNotNull(loc, "Location cannot be null");
 
         BlockPosition position = new BlockPosition(loc);
         Hologram hologram = cache.get(position);
@@ -253,8 +254,8 @@ public class HologramsService {
      *            The callback to run
      */
     private void updateHologram(@Nonnull Location loc, @Nonnull Consumer<Hologram> consumer) {
-        Validate.notNull(loc, "Location must not be null");
-        Validate.notNull(consumer, "Callbacks must not be null");
+        Preconditions.checkNotNull(loc, "Location must not be null");
+        Preconditions.checkNotNull(consumer, "Callbacks must not be null");
 
         Runnable runnable = () -> {
             try {
@@ -288,7 +289,7 @@ public class HologramsService {
      *         exist or was already removed
      */
     public boolean removeHologram(@Nonnull Location loc) {
-        Validate.notNull(loc, "Location cannot be null");
+        Preconditions.checkNotNull(loc, "Location cannot be null");
 
         if (Bukkit.isPrimaryThread()) {
             try {
@@ -320,7 +321,7 @@ public class HologramsService {
      *            The label to set, can be null
      */
     public void setHologramLabel(@Nonnull Location loc, @Nullable String label) {
-        Validate.notNull(loc, "Location must not be null");
+        Preconditions.checkNotNull(loc, "Location must not be null");
 
         updateHologram(loc, hologram -> hologram.setLabel(label));
     }

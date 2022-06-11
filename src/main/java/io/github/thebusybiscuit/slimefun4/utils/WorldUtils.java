@@ -2,7 +2,8 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.World;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -28,7 +29,7 @@ public final class WorldUtils {
      * @return The minimum Y of the given world.
      */
     public static int getMinHeight(@Nonnull World world) {
-        Validate.notNull(world, "World cannot be null!");
+        Preconditions.checkNotNull(world, "World cannot be null!");
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             return world.getMinHeight();

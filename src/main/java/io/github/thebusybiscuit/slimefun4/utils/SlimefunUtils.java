@@ -11,7 +11,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -220,7 +221,7 @@ public final class SlimefunUtils {
      * @return An {@link ItemStack} with this Head texture
      */
     public static @Nonnull ItemStack getCustomHead(@Nonnull String texture) {
-        Validate.notNull(texture, "The provided texture is null");
+        Preconditions.checkNotNull(texture, "The provided texture is null");
 
         if (Slimefun.instance() == null) {
             throw new PrematureCodeException("You cannot instantiate a custom head before Slimefun was loaded.");
@@ -395,8 +396,8 @@ public final class SlimefunUtils {
      * @return Whether the two lores are equal
      */
     public static boolean equalsLore(@Nonnull List<String> lore1, @Nonnull List<String> lore2) {
-        Validate.notNull(lore1, "Cannot compare lore that is null!");
-        Validate.notNull(lore2, "Cannot compare lore that is null!");
+        Preconditions.checkNotNull(lore1, "Cannot compare lore that is null!");
+        Preconditions.checkNotNull(lore2, "Cannot compare lore that is null!");
 
         List<String> longerList = lore1.size() > lore2.size() ? lore1 : lore2;
         List<String> shorterList = lore1.size() > lore2.size() ? lore2 : lore1;
@@ -434,8 +435,8 @@ public final class SlimefunUtils {
     }
 
     public static void updateCapacitorTexture(@Nonnull Location l, int charge, int capacity) {
-        Validate.notNull(l, "Cannot update a texture for null");
-        Validate.isTrue(capacity > 0, "Capacity must be greater than zero!");
+        Preconditions.checkNotNull(l, "Cannot update a texture for null");
+        Preconditions.checkArgument(capacity > 0, "Capacity must be greater than zero!");
 
         Slimefun.runSync(new CapacitorTextureUpdateTask(l, charge, capacity));
     }
@@ -456,7 +457,7 @@ public final class SlimefunUtils {
      * @return Whether the {@link Player} is able to use that item.
      */
     public static boolean canPlayerUseItem(@Nonnull Player p, @Nullable ItemStack item, boolean sendMessage) {
-        Validate.notNull(p, "The player cannot be null");
+        Preconditions.checkNotNull(p, "The player cannot be null");
 
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 

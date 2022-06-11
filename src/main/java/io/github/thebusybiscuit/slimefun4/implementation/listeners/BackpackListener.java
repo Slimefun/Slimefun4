@@ -9,7 +9,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -183,8 +184,8 @@ public class BackpackListener implements Listener {
      *            The id of this backpack
      */
     public void setBackpackId(@Nonnull OfflinePlayer backpackOwner, @Nonnull ItemStack item, int line, int id) {
-        Validate.notNull(backpackOwner, "Backpacks must have an owner!");
-        Validate.notNull(item, "Cannot set the id onto null!");
+        Preconditions.checkNotNull(backpackOwner, "Backpacks must have an owner!");
+        Preconditions.checkNotNull(item, "Cannot set the id onto null!");
 
         ItemMeta im = item.getItemMeta();
 

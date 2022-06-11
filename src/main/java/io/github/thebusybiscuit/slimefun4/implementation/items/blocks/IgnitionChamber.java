@@ -4,7 +4,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -71,8 +72,8 @@ public class IgnitionChamber extends SlimefunItem {
      */
     @ParametersAreNonnullByDefault
     public static boolean useFlintAndSteel(Player p, Block smelteryBlock) {
-        Validate.notNull(p, "The Player must not be null!");
-        Validate.notNull(smelteryBlock, "The smeltery block cannot be null!");
+        Preconditions.checkNotNull(p, "The Player must not be null!");
+        Preconditions.checkNotNull(smelteryBlock, "The smeltery block cannot be null!");
 
         Inventory inv = findIgnitionChamber(smelteryBlock);
 

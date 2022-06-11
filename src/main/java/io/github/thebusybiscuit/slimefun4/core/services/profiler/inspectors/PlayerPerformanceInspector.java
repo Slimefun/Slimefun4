@@ -5,7 +5,8 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -34,7 +35,7 @@ public class PlayerPerformanceInspector implements PerformanceInspector {
      *            The {@link Player}
      */
     public PlayerPerformanceInspector(@Nonnull Player player) {
-        Validate.notNull(player, "Player cannot be null");
+        Preconditions.checkNotNull(player, "Player cannot be null");
 
         this.uuid = player.getUniqueId();
     }

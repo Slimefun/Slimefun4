@@ -15,7 +15,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +30,7 @@ class AbstractLocaleRegexChecker {
     private final Pattern pattern;
 
     AbstractLocaleRegexChecker(@Nonnull Pattern pattern) {
-        Validate.notNull(pattern, "The pattern cannot be null.");
+        Preconditions.checkNotNull(pattern, "The pattern cannot be null.");
 
         this.pattern = pattern;
     }

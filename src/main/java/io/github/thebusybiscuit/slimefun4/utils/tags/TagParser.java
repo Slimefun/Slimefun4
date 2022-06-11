@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -93,7 +94,7 @@ public class TagParser implements Keyed {
      *             {@link Material} or {@link Tag} could be found
      */
     public void parse(@Nonnull String json, @Nonnull BiConsumer<Set<Material>, Set<Tag<Material>>> callback) throws TagMisconfigurationException {
-        Validate.notNull(json, "Cannot parse a null String");
+        Preconditions.checkNotNull(json, "Cannot parse a null String");
 
         try {
             Set<Material> materials = EnumSet.noneOf(Material.class);

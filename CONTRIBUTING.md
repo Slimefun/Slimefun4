@@ -131,7 +131,7 @@ But do try to follow our code style as best as you can.*
 * Do not declare multiple fields/variables on the same line! (e.g. Don't do this: `int x, y, z;`)
 * Use a Logger, try to avoid `System.out.println(...)` and `Throwable#printStacktrace()`, use `Logger#log` instead!
 * Do not use Exceptions to validate data, empty catch blocks are a very bad practice, use other means like a regular expression to validate data.
-* If a parameter is annotated with `@Nonnull`, you should enforce this behaviour by doing `Validate.notNull(variable, "...");` and give a meaningful message about what went wrong
+* If a parameter is annotated with `@Nonnull`, you should enforce this behaviour by doing `Preconditions.checkNotNull(variable, "...");` and give a meaningful message about what went wrong
 * Any `switch/case` should always have a `default:` case at the end.
 * If you are working with a resource that must be closed, use a `try/with-resource`, this will automatically close the resource at the end. (e.g. `try (InputStream stream = ...) {`)
 * Array designators should be placed behind the type, not the variable name. (e.g. `int[] myArray`)
