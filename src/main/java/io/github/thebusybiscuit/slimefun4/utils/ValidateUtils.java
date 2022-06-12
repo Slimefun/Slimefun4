@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
 import com.google.common.base.Preconditions;
-import org.apache.commons.lang.Validate;
 
 import java.util.Collection;
 
@@ -23,7 +22,6 @@ public final class ValidateUtils {
      */
     public static void notEmpty(Collection<?> collection, String message) {
         Preconditions.checkArgument(collection != null && collection.size() != 0, message);
-        Validate.notEmpty(collection);
     }
 
 
