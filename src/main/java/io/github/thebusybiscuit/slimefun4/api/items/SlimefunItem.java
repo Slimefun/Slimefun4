@@ -49,6 +49,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Slimefu
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ValidateUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -796,8 +797,8 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
     public final void addItemHandler(ItemHandler... handlers) {
-        Validate.notEmpty(handlers, "You cannot add zero handlers...");
-        Validate.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
+        ValidateUtils.notEmpty(handlers, "You cannot add zero handlers...");
+        ValidateUtils.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
 
         // Make sure they are added before the item was registered.
         if (state != ItemState.UNREGISTERED) {
@@ -824,8 +825,8 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
      */
     public final void addItemSetting(ItemSetting<?>... settings) {
-        Validate.notEmpty(settings, "You cannot add zero settings...");
-        Validate.noNullElements(settings, "You cannot add any 'null' ItemSettings!");
+        ValidateUtils.notEmpty(settings, "You cannot add zero settings...");
+        ValidateUtils.noNullElements(settings, "You cannot add any 'null' ItemSettings!");
 
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemSetting after the SlimefunItem was registered.");

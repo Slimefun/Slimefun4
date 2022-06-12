@@ -21,6 +21,7 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.ValidateUtils;
 
 /**
  * This Service is responsible for applying custom model data to any {@link SlimefunItemStack}
@@ -72,7 +73,7 @@ public class CustomTextureService {
      *            Whether to save this file
      */
     public void register(@Nonnull Collection<SlimefunItem> items, boolean save) {
-        Validate.notEmpty(items, "items must neither be null or empty.");
+        ValidateUtils.notEmpty(items, "items must neither be null or empty.");
 
         loadDefaultValues();
 

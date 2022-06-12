@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.utils.ValidateUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
@@ -61,7 +62,7 @@ public abstract class AbstractRecipe {
      */
     @ParametersAreNonnullByDefault
     protected AbstractRecipe(Collection<Predicate<ItemStack>> ingredients, ItemStack result) {
-        Validate.notEmpty(ingredients, "The input predicates cannot be null or an empty array");
+        ValidateUtils.notEmpty(ingredients, "The input predicates cannot be null or an empty array");
         Preconditions.checkNotNull(result, "The recipe result must not be null!");
 
         this.ingredients = ingredients;

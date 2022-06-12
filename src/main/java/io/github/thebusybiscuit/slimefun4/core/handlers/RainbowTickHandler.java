@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.google.common.base.Preconditions;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -19,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
 import io.github.thebusybiscuit.slimefun4.utils.ColoredMaterial;
+import io.github.thebusybiscuit.slimefun4.utils.ValidateUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -40,7 +39,7 @@ public class RainbowTickHandler extends BlockTicker {
     private Material material;
 
     public RainbowTickHandler(@Nonnull List<Material> materials) {
-        Validate.noNullElements(materials, "A RainbowTicker cannot have a Material that is null!");
+        ValidateUtils.noNullElements(materials, "A RainbowTicker cannot have a Material that is null!");
 
         if (materials.isEmpty()) {
             throw new IllegalArgumentException("A RainbowTicker must have at least one Material associated with it!");

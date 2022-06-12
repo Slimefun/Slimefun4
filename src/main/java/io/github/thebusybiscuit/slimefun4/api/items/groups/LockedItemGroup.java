@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.ValidateUtils;
 
 /**
  * Represents a {@link ItemGroup} that cannot be opened until the parent group(s)
@@ -71,7 +72,7 @@ public class LockedItemGroup extends ItemGroup {
     @ParametersAreNonnullByDefault
     public LockedItemGroup(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
         super(key, item, tier);
-        Validate.noNullElements(parents, "A LockedItemGroup must not have any 'null' parents!");
+        ValidateUtils.noNullElements(parents, "A LockedItemGroup must not have any 'null' parents!");
 
         this.keys = parents;
     }
