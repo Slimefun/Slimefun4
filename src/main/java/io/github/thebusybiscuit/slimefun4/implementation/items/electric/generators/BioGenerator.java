@@ -54,6 +54,7 @@ public class BioGenerator extends AGenerator {
         registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
         registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
         registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_BERRIES)));
         registerFuel(new MachineFuel(2, new ItemStack(Material.COCOA_BEANS)));
         registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT)));
         registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT_SEEDS)));
