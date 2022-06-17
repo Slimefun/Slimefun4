@@ -1270,10 +1270,12 @@ public final class SlimefunItemSetup {
         new ItemStack[] {new ItemStack(Material.SWEET_BERRIES), null, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new Juice(itemGroups.food, SlimefunItems.GLOW_BERRY_JUICE, RecipeType.JUICER,
-        new ItemStack[] {new ItemStack(Material.GLOW_BERRIES), null, null, null, null, null, null, null, null})
-        .register(plugin);
-
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_17)){            
+            new Juice(itemGroups.food, SlimefunItems.GLOW_BERRY_JUICE, RecipeType.JUICER,
+            new ItemStack[] {new ItemStack(Material.GLOW_BERRIES), null, null, null, null, null, null, null, null})
+            .register(plugin);
+        }
+        
         new Juice(itemGroups.food, SlimefunItems.GOLDEN_APPLE_JUICE, RecipeType.JUICER,
         new ItemStack[] {new ItemStack(Material.GOLDEN_APPLE), null, null, null, null, null, null, null, null})
         .register(plugin);
