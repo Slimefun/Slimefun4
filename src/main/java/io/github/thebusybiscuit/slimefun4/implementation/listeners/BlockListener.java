@@ -10,6 +10,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockBreakEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -85,12 +88,18 @@ public class BlockListener implements Listener {
             if (!sfItem.canUse(e.getPlayer(), true)) {
                 e.setCancelled(true);
             } else {
-                if (Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
-                    Slimefun.getBlockDataService().setBlockData(e.getBlock(), sfItem.getId());
+                SlimefunBlockPlaceEvent placeEvent = new SlimefunBlockPlaceEvent(e.getPlayer(), item, e.getBlock(), sfItem);
+                Bukkit.getPluginManager().callEvent(placeEvent);
+                if (placeEvent.isCancelled()) {
+                    e.setCancelled(true);
+                } else {
+                    if (Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
+                        Slimefun.getBlockDataService().setBlockData(e.getBlock(), sfItem.getId());
+                    }
+                    BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getId(), true);
+                    sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
                 }
 
-                BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getId(), true);
-                sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
             }
         }
     }
@@ -113,20 +122,29 @@ public class BlockListener implements Listener {
         }
 
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-        checkForSensitiveBlockAbove(e, item);
-
-        int fortune = getBonusDropsWithFortune(item, e.getBlock());
-        List<ItemStack> drops = new ArrayList<>();
-
-        if (!e.isCancelled() && !item.getType().isAir()) {
-            callToolHandler(e, item, fortune, drops);
+        SlimefunItem sfItem = BlockStorage.check(e.getBlock());
+        SlimefunBlockBreakEvent breakEvent = null;
+        if (sfItem != null) {
+            breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
+            Bukkit.getPluginManager().callEvent(breakEvent);
+            if (breakEvent.isCancelled()) {
+                e.setCancelled(true);
+            }
         }
 
-        if (!e.isCancelled()) {
-            callBlockHandler(e, item, drops);
-        }
+        if (!e.isCancelled() && (breakEvent == null || !breakEvent.isCancelled())) {
+            checkForSensitiveBlockAbove(e, item);
 
-        dropItems(e, drops);
+            int fortune = getBonusDropsWithFortune(item, e.getBlock());
+            List<ItemStack> drops = new ArrayList<>();
+
+            if (!item.getType().isAir()) {
+                callToolHandler(e, item, fortune, drops);
+            }
+
+            callBlockHandler(e, item, drops, sfItem);
+            dropItems(e, drops);
+        }
     }
 
     @ParametersAreNonnullByDefault
@@ -143,8 +161,7 @@ public class BlockListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    private void callBlockHandler(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-        SlimefunItem sfItem = BlockStorage.check(e.getBlock());
+    private void callBlockHandler(BlockBreakEvent e, ItemStack item, List<ItemStack> drops, @Nullable SlimefunItem sfItem) {
 
         if (sfItem == null && Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
             Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(e.getBlock());
@@ -168,7 +185,7 @@ public class BlockListener implements Listener {
 
     @ParametersAreNonnullByDefault
     private void dropItems(BlockBreakEvent e, List<ItemStack> drops) {
-        if (!drops.isEmpty() && !e.isCancelled()) {
+        if (!drops.isEmpty()) {
             // Notify plugins like CoreProtect
             Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.BREAK_BLOCK);
 
