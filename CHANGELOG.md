@@ -1,5 +1,5 @@
 # Table of contents
-- [Release Candidate 32 (TBD)](#release-candidate-32-tbd)
+- [Release Candidate 32 (26 Jun 2022)](#release-candidate-32-26-jun-2022)
 - [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
 - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
 - [Release Candidate 29 (07 Nov 2021)](#release-candidate-29-07-nov-2021)
@@ -33,7 +33,8 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 
-## Release Candidate 32 (TBD)
+## Release Candidate 32 (26 Jun 2022)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
 
 #### Additions
 * Added Organic Food for Seagrass
