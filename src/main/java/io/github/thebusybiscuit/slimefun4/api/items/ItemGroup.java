@@ -90,8 +90,7 @@ public class ItemGroup implements Keyed {
     }
 
     @Override
-    @Nonnull
-    public final NamespacedKey getKey() {
+    public final @Nonnull NamespacedKey getKey() {
         return key;
     }
 
@@ -115,6 +114,16 @@ public class ItemGroup implements Keyed {
 
         Slimefun.getRegistry().getAllItemGroups().add(this);
         sortCategoriesByTier();
+    }
+
+    /**
+     * This method returns whether this {@link ItemGroup} has been registered yet.
+     * More specifically: Whether {@link #register(SlimefunAddon)} was called or not.
+     * 
+     * @return Whether this {@link ItemGroup} has been registered
+     */
+    public boolean isRegistered() {
+        return this.addon != null && Slimefun.getRegistry().getAllItemGroups().contains(this);
     }
 
     /**
@@ -157,8 +166,7 @@ public class ItemGroup implements Keyed {
      * 
      * @return The {@link SlimefunAddon} or null if unregistered
      */
-    @Nullable
-    public final SlimefunAddon getAddon() {
+    public final @Nullable SlimefunAddon getAddon() {
         return addon;
     }
 
@@ -174,6 +182,10 @@ public class ItemGroup implements Keyed {
         if (items.contains(item)) {
             // Ignore duplicate entries
             return;
+        }
+
+        if (isRegistered() && !item.getAddon().getName().equals(this.addon.getName())) {
+            item.warn("This item does not belong into ItemGroup " + this + " as that group belongs to " + this.addon.getName());
         }
 
         items.add(item);
@@ -199,8 +211,7 @@ public class ItemGroup implements Keyed {
      * 
      * @return A localized display item for this {@link ItemGroup}
      */
-    @Nonnull
-    public ItemStack getItem(@Nonnull Player p) {
+    public @Nonnull ItemStack getItem(@Nonnull Player p) {
         return new CustomItemStack(item, meta -> {
             String name = Slimefun.getLocalization().getItemGroupName(p, getKey());
 
@@ -224,8 +235,7 @@ public class ItemGroup implements Keyed {
      * 
      * @return The unlocalized name of this {@link ItemGroup}
      */
-    @Nonnull
-    public String getUnlocalizedName() {
+    public @Nonnull String getUnlocalizedName() {
         return ChatColor.stripColor(item.getItemMeta().getDisplayName());
     }
 
@@ -238,8 +248,7 @@ public class ItemGroup implements Keyed {
      * 
      * @return The localized name of this {@link ItemGroup}
      */
-    @Nonnull
-    public String getDisplayName(@Nonnull Player p) {
+    public @Nonnull String getDisplayName(@Nonnull Player p) {
         String localized = Slimefun.getLocalization().getItemGroupName(p, getKey());
 
         if (localized != null) {
@@ -254,8 +263,7 @@ public class ItemGroup implements Keyed {
      * 
      * @return the list of SlimefunItems bound to this {@link ItemGroup}
      */
-    @Nonnull
-    public List<SlimefunItem> getItems() {
+    public @Nonnull List<SlimefunItem> getItems() {
         return items;
     }
 
@@ -269,6 +277,52 @@ public class ItemGroup implements Keyed {
      */
     public boolean contains(@Nullable SlimefunItem item) {
         return item != null && items.contains(item);
+    }
+
+    /**
+     * This method returns whether this {@link ItemGroup} can be accessed
+     * by the given {@link Player}. If an {@link ItemGroup} is not accessible,
+     * it will not show up in the {@link SlimefunGuide} nor will items from this
+     * {@link ItemGroup} show up in the guide search.
+     * 
+     * @param p
+     *            The {@link Player} to check for
+     * 
+     * @return Whether this {@link ItemGroup} is accessible by the given {@link Player}
+     */
+    public boolean isAccessible(@Nonnull Player p) {
+        return true;
+    }
+
+    /**
+     * This method returns whether this {@link ItemGroup} can be viewed
+     * by the given {@link Player}. Empty {@link ItemGroup ItemGroups} will not
+     * be visible. This includes {@link ItemGroup ItemGroups} where every {@link SlimefunItem}
+     * is disabled. If an {@link ItemGroup} is not accessible by the {@link Player},
+     * see {@link #isAccessible(Player)}, this method will also return false.
+     * 
+     * @param p
+     *            The {@link Player} to check for
+     * 
+     * @return Whether this {@link ItemGroup} is visible to the given {@link Player}
+     */
+    public boolean isVisible(@Nonnull Player p) {
+        if (items.isEmpty() || !isAccessible(p)) {
+            return false;
+        }
+
+        for (SlimefunItem slimefunItem : getItems()) {
+            /*
+             * If any item for this item group is visible,
+             * the item group itself is also visible.
+             * Empty item groups are not displayed.
+             */
+            if (!slimefunItem.isHidden() && !slimefunItem.isDisabledIn(p.getWorld())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -301,24 +355,9 @@ public class ItemGroup implements Keyed {
      * 
      * @return Whether this {@link ItemGroup} will be hidden to the given {@link Player}
      */
+    @Deprecated
     public boolean isHidden(@Nonnull Player p) {
-        for (SlimefunItem slimefunItem : getItems()) {
-            if (!slimefunItem.isHidden() && !slimefunItem.isDisabledIn(p.getWorld())) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * This method returns whether this {@link ItemGroup} has been registered yet.
-     * More specifically: Whether {@link #register(SlimefunAddon)} was called or not.
-     * 
-     * @return Whether this {@link ItemGroup} has been registered
-     */
-    public boolean isRegistered() {
-        return Slimefun.getRegistry().getAllItemGroups().contains(this);
+        return !isVisible(p);
     }
 
 }
