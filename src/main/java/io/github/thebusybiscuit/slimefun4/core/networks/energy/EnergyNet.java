@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyConnector;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
@@ -44,8 +45,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class EnergyNet extends Network implements HologramOwner {
 
-    private static final int RANGE = 6;
-
     private final Map<Location, EnergyNetProvider> generators = new HashMap<>();
     private final Map<Location, EnergyNetComponent> capacitors = new HashMap<>();
     private final Map<Location, EnergyNetComponent> consumers = new HashMap<>();
@@ -55,13 +54,13 @@ public class EnergyNet extends Network implements HologramOwner {
     }
 
     @Override
-    public int getRange() {
-        return RANGE;
+    public String getId() {
+        return "ENERGY_NETWORK";
     }
 
     @Override
-    public String getId() {
-        return "ENERGY_NETWORK";
+    public int getRange() {
+        return EnergyConnector.RANGE;
     }
 
     @Override

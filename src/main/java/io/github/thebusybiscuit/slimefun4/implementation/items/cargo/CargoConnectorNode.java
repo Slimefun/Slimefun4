@@ -26,10 +26,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
  *
  */
 public class CargoConnectorNode extends SimpleSlimefunItem<BlockUseHandler> {
+    public static int RANGE;
 
     @ParametersAreNonnullByDefault
-    public CargoConnectorNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public CargoConnectorNode(ItemGroup itemGroup, int range, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
+
+        RANGE = range;
     }
 
     @Nonnull

@@ -40,6 +40,8 @@ networks:
   cargo-ticker-delay: 0
   enable-visualizer: true
   delete-excess-items: false
+  cargo-connector-range: 5
+  energy-connector-range: 6
 
 talismans:
   use-actionbar: true

@@ -20,6 +20,7 @@ import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoConnectorNode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -41,7 +42,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
-    private static final int RANGE = 5;
     private static final int TICK_DELAY = Slimefun.getCfg().getInt("networks.cargo-ticker-delay");
 
     private final Set<Location> inputNodes = new HashSet<>();
@@ -83,7 +83,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
     @Override
     public int getRange() {
-        return RANGE;
+        return CargoConnectorNode.RANGE;
     }
 
     @Override
