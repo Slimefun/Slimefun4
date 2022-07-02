@@ -99,10 +99,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
             case "CARGO_NODE" -> NetworkComponent.CONNECTOR;
             case "CARGO_NODE_INPUT",
                 "CARGO_NODE_OUTPUT",
-                "CARGO_NODE_OUTPUT_ADVANCED",
-                "CT_IMPORT_BUS",
-                "CT_EXPORT_BUS",
-                "CHEST_TERMINAL" -> NetworkComponent.TERMINUS;
+                "CARGO_NODE_OUTPUT_ADVANCED" -> NetworkComponent.TERMINUS;
             default -> null;
         };
     }
