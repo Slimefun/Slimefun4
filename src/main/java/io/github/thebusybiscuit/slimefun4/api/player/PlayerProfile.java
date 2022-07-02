@@ -487,9 +487,7 @@ public class PlayerProfile {
 
             if (!armorPiece.isPresent()) {
                 setId = null;
-            } else if (armorPiece.get() instanceof ProtectiveArmor) {
-                ProtectiveArmor protectedArmor = (ProtectiveArmor) armorPiece.get();
-
+            } else if (armorPiece.get() instanceof ProtectiveArmor protectedArmor) {
                 if (setId == null && protectedArmor.isFullSetRequired()) {
                     setId = protectedArmor.getArmorSetId();
                 }

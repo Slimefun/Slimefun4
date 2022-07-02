@@ -482,8 +482,8 @@ public class SlimefunItem implements Placeable {
             }
 
             // Lock the SlimefunItemStack from any accidental manipulations
-            if (itemStackTemplate instanceof SlimefunItemStack && isItemStackImmutable()) {
-                ((SlimefunItemStack) itemStackTemplate).lock();
+            if (itemStackTemplate instanceof SlimefunItemStack slimefunItemStack && isItemStackImmutable()) {
+                slimefunItemStack.lock();
             }
 
             postRegister();

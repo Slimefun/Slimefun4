@@ -81,19 +81,19 @@ class VanillaRecipe extends AbstractRecipe {
         RecipeChoice[] choices = Slimefun.getMinecraftRecipeService().getRecipeShape(recipe);
         ItemStack[] items = new ItemStack[9];
 
-        if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
-            items[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));
+        if (choices.length == 1 && choices[0] instanceof MaterialChoice materialChoice) {
+            items[4] = new ItemStack(materialChoice.getChoices().get(0));
 
-            if (((MaterialChoice) choices[0]).getChoices().size() > 1) {
-                task.add(slots[4], (MaterialChoice) choices[0]);
+            if (materialChoice.getChoices().size() > 1) {
+                task.add(slots[4], materialChoice);
             }
         } else {
             for (int i = 0; i < choices.length; i++) {
-                if (choices[i] instanceof MaterialChoice) {
-                    items[i] = new ItemStack(((MaterialChoice) choices[i]).getChoices().get(0));
+                if (choices[i] instanceof MaterialChoice materialChoice) {
+                    items[i] = new ItemStack(materialChoice.getChoices().get(0));
 
-                    if (((MaterialChoice) choices[i]).getChoices().size() > 1) {
-                        task.add(slots[i], (MaterialChoice) choices[i]);
+                    if (materialChoice.getChoices().size() > 1) {
+                        task.add(slots[i], materialChoice);
                     }
                 }
             }
@@ -107,8 +107,8 @@ class VanillaRecipe extends AbstractRecipe {
 
     @Override
     public String toString() {
-        if (recipe instanceof Keyed) {
-            return ((Keyed) recipe).getKey().toString();
+        if (recipe instanceof Keyed keyed) {
+            return keyed.getKey().toString();
         } else {
             return "invalid-recipe";
         }
