@@ -43,8 +43,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
         BlockState state = PaperLib.getBlockState(dispenser, false).getState();
 
-        if (state instanceof Dispenser) {
-            Dispenser disp = (Dispenser) state;
+        if (state instanceof Dispenser disp) {
             Inventory inv = disp.getInventory();
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
@@ -76,8 +75,8 @@ public class MagicWorkbench extends AbstractCraftingTable {
         if (outputInv != null) {
             SlimefunItem sfItem = SlimefunItem.getByItem(output);
 
-            if (sfItem instanceof SlimefunBackpack) {
-                upgradeBackpack(p, inv, (SlimefunBackpack) sfItem, output);
+            if (sfItem instanceof SlimefunBackpack slimefunBackpack) {
+                upgradeBackpack(p, inv, slimefunBackpack, output);
             }
 
             for (int j = 0; j < 9; j++) {
