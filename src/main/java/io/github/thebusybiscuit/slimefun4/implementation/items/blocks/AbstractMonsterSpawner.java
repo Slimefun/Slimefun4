@@ -86,8 +86,8 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
         if (meta instanceof BlockStateMeta stateMeta) {
             BlockState state = stateMeta.getBlockState();
 
-            if (state instanceof CreatureSpawner creatureSpawner) {
-                creatureSpawner.setSpawnedType(type);
+            if (state instanceof CreatureSpawner spawner) {
+                spawner.setSpawnedType(type);
             }
 
             stateMeta.setBlockState(state);

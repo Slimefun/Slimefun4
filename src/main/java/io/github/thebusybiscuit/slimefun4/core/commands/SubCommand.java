@@ -80,8 +80,7 @@ public abstract class SubCommand {
      * 
      * @return A possibly localized description of this {@link SubCommand}
      */
-    @Nonnull
-    public String getDescription(@Nonnull CommandSender sender) {
+    public @Nonnull String getDescription(@Nonnull CommandSender sender) {
         if (sender instanceof Player player) {
             return Slimefun.getLocalization().getMessage(player, getDescription());
         } else {

@@ -106,7 +106,7 @@ public class TagParser implements Keyed {
                 JsonArray values = child.getAsJsonArray();
 
                 for (JsonElement element : values) {
-                    if (element instanceof JsonPrimitive jsonPrimitive && jsonPrimitive.isString()) {
+                    if (element instanceof JsonPrimitive primitive && primitive.isString()) {
                         // Strings will be parsed directly
                         parsePrimitiveValue(element.getAsString(), materials, tags, true);
                     } else if (element instanceof JsonObject) {
