@@ -76,10 +76,10 @@ public class RainbowTickHandler extends BlockTicker {
         }
 
         for (Material type : materials) {
-            /**
-             * This BlockData is purely virtual and only created on startup, it should have
-             * no impact on performance, in fact it should save performance as it preloads
-             * the data but also saves heavy calls for other Materials
+            /*
+              This BlockData is purely virtual and only created on startup, it should have
+              no impact on performance, in fact it should save performance as it preloads
+              the data but also saves heavy calls for other Materials
              */
             if (type.createBlockData() instanceof GlassPane) {
                 return true;
@@ -92,9 +92,9 @@ public class RainbowTickHandler extends BlockTicker {
     @Override
     public void tick(Block b, SlimefunItem item, Config data) {
         if (b.getType() == Material.AIR) {
-            /**
-             * The block was broken, setting the Material now would result in a
-             * duplication glitch
+            /*
+              The block was broken, setting the Material now would result in a
+              duplication glitch
              */
             return;
         }
@@ -102,12 +102,9 @@ public class RainbowTickHandler extends BlockTicker {
         if (glassPanes) {
             BlockData blockData = b.getBlockData();
 
-            if (blockData instanceof GlassPane) {
+            if (blockData instanceof GlassPane previousData) {
                 BlockData block = material.createBlockData(bd -> {
-                    if (bd instanceof GlassPane) {
-                        GlassPane previousData = (GlassPane) blockData;
-                        GlassPane nextData = (GlassPane) bd;
-
+                    if (bd instanceof GlassPane nextData) {
                         nextData.setWaterlogged(previousData.isWaterlogged());
 
                         for (BlockFace face : previousData.getAllowedFaces()) {

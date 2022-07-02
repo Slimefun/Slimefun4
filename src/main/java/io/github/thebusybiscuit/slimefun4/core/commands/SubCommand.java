@@ -82,8 +82,8 @@ public abstract class SubCommand {
      */
     @Nonnull
     public String getDescription(@Nonnull CommandSender sender) {
-        if (sender instanceof Player) {
-            return Slimefun.getLocalization().getMessage((Player) sender, getDescription());
+        if (sender instanceof Player player) {
+            return Slimefun.getLocalization().getMessage(player, getDescription());
         } else {
             return Slimefun.getLocalization().getMessage(getDescription());
         }
