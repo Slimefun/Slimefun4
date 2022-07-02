@@ -515,7 +515,7 @@ public class PlayerProfile {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof PlayerProfile && uuid.equals(((PlayerProfile) obj).uuid);
+        return obj instanceof PlayerProfile profile && uuid.equals(profile.uuid);
     }
 
     @Override
