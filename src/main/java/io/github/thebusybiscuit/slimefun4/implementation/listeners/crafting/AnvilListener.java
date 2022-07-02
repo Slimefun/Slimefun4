@@ -34,7 +34,7 @@ public class AnvilListener implements SlimefunCraftingListener {
 
             if (hasUnallowedItems(item1, item2)) {
                 e.setResult(Result.DENY);
-                Slimefun.getLocalization().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
+                Slimefun.getLocalization().sendMessage(e.getWhoClicked(), "anvil.not-working", true);
             }
         }
     }

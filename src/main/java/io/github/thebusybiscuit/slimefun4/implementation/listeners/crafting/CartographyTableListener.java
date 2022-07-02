@@ -34,7 +34,7 @@ public class CartographyTableListener implements SlimefunCraftingListener {
 
             if (hasUnallowedItems(item1, item2)) {
                 e.setResult(Result.DENY);
-                Slimefun.getLocalization().sendMessage((Player) e.getWhoClicked(), "cartography_table.not-working", true);
+                Slimefun.getLocalization().sendMessage(e.getWhoClicked(), "cartography_table.not-working", true);
             }
         }
     }
