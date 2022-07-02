@@ -28,10 +28,10 @@ class TeleporterCommand extends SubCommand {
                 } else if (args.length == 2) {
 
                     @SuppressWarnings("deprecation")
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
+                    OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[1]);
 
-                    if (offlinePlayer.getName() != null) {
-                        Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, offlinePlayer.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
+                    if (targetPlayer.getName() != null) {
+                        Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, targetPlayer.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
                     } else {
                         Slimefun.getLocalization().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
                     }

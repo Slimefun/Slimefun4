@@ -34,17 +34,17 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
     @Override
     public void onInteract(Player p, Block b) {
-        Block dispenser = locateDispenser(b);
+        Block possibleDispener = locateDispenser(b);
 
-        if (dispenser == null) {
+        if (possibleDispener == null) {
             // How even...
             return;
         }
 
-        BlockState state = PaperLib.getBlockState(dispenser, false).getState();
+        BlockState state = PaperLib.getBlockState(possibleDispener, false).getState();
 
-        if (state instanceof Dispenser disp) {
-            Inventory inv = disp.getInventory();
+        if (state instanceof Dispenser dispenser) {
+            Inventory inv = dispenser.getInventory();
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
             for (int i = 0; i < inputs.size(); i++) {
@@ -52,7 +52,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
                     ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(inv, dispenser, p, b, output);
+                        craft(inv, possibleDispener, p, b, output);
                     }
 
                     return;

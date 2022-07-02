@@ -137,6 +137,7 @@ public class BlockDataService implements Keyed {
             return false;
         }
 
+        // TODO: Add designated SlimefunTag
         return switch (type) {
             case PLAYER_HEAD,
                 PLAYER_WALL_HEAD,

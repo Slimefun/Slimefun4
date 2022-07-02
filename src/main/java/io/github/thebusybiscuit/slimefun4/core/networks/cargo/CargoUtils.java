@@ -70,6 +70,7 @@ final class CargoUtils {
 
         Material type = block.getType();
 
+        // TODO: Add designated SlimefunTag
         return switch (type) {
             case CHEST,
                 TRAPPED_CHEST,

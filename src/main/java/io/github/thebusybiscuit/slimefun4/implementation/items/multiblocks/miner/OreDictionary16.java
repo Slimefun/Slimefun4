@@ -20,9 +20,8 @@ class OreDictionary16 extends OreDictionary14 {
     @ParametersAreNonnullByDefault
     public @Nonnull ItemStack getDrops(Material material, Random random) {
         return switch (material) {
-            case NETHER_GOLD_ORE ->
-                // In 1.16, breaking nether gold ores should get gold nuggets
-                new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
+            // In 1.16, breaking nether gold ores should get gold nuggets
+            case NETHER_GOLD_ORE -> new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
             case ANCIENT_DEBRIS -> new ItemStack(Material.ANCIENT_DEBRIS);
             default -> super.getDrops(material, random);
         };

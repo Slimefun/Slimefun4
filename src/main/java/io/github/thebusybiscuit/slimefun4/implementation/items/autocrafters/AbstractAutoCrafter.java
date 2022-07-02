@@ -202,6 +202,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     protected boolean isValidInventory(@Nonnull Block block) {
         Material type = block.getType();
 
+        // TODO: Add designated SlimefunTag
         return switch (type) {
             case CHEST,
                 TRAPPED_CHEST,
