@@ -103,10 +103,10 @@ public class EnergyNet extends Network implements HologramOwner {
                     consumers.put(l, component);
                     break;
                 case GENERATOR:
-                    if (component instanceof EnergyNetProvider energyNetProvider) {
-                        generators.put(l, energyNetProvider);
-                    } else if (component instanceof SlimefunItem slimefunItem) {
-                        slimefunItem.warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
+                    if (component instanceof EnergyNetProvider provider) {
+                        generators.put(l, provider);
+                    } else if (component instanceof SlimefunItem item) {
+                        item.warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
                     }
                     break;
                 default:
@@ -272,8 +272,8 @@ public class EnergyNet extends Network implements HologramOwner {
     private static EnergyNetComponent getComponent(@Nonnull Location l) {
         SlimefunItem item = BlockStorage.check(l);
 
-        if (item instanceof EnergyNetComponent energyNetComponent) {
-            return energyNetComponent;
+        if (item instanceof EnergyNetComponent component) {
+            return component;
         }
 
         return null;

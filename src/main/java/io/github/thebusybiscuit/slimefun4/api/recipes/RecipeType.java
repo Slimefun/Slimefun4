@@ -124,8 +124,8 @@ public class RecipeType implements Keyed {
         } else {
             SlimefunItem slimefunItem = SlimefunItem.getById(this.machine);
 
-            if (slimefunItem instanceof MultiBlockMachine multiBlockMachine) {
-                multiBlockMachine.addRecipe(recipe, result);
+            if (slimefunItem instanceof MultiBlockMachine mbm) {
+                mbm.addRecipe(recipe, result);
             }
         }
     }
