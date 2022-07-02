@@ -43,9 +43,7 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
             if (e.getClickedBlock().isPresent() && block.isPresent()) {
                 SlimefunItem item = block.get();
 
-                if (item instanceof EnergyNetComponent) {
-                    EnergyNetComponent component = (EnergyNetComponent) item;
-
+                if (item instanceof EnergyNetComponent component) {
                     if (component.isChargeable()) {
                         e.cancel();
 
