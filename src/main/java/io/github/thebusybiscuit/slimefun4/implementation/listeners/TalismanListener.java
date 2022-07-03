@@ -99,8 +99,8 @@ public class TalismanListener implements Listener {
                     Talisman.trigger(e, SlimefunItems.TALISMAN_WARRIOR);
                     break;
                 case PROJECTILE:
-                    if (e instanceof EntityDamageByEntityEvent) {
-                        onProjectileDamage((EntityDamageByEntityEvent) e);
+                    if (e instanceof EntityDamageByEntityEvent entityDamageByEntityEvent) {
+                        onProjectileDamage(entityDamageByEntityEvent);
                     }
                     break;
                 default:
@@ -111,9 +111,7 @@ public class TalismanListener implements Listener {
 
     private void onProjectileDamage(@Nonnull EntityDamageByEntityEvent e) {
         // "Fixes" #1022 - We just ignore Tridents now.
-        if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
-            Projectile projectile = (Projectile) e.getDamager();
-
+        if (e.getDamager() instanceof Projectile projectile && !(e.getDamager() instanceof Trident)) {
             if (Talisman.trigger(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
                 Player p = (Player) e.getEntity();
                 returnProjectile(p, projectile);
@@ -138,8 +136,7 @@ public class TalismanListener implements Listener {
         returnedProjectile.setShooter(projectile.getShooter());
         returnedProjectile.setVelocity(direction);
 
-        if (projectile instanceof AbstractArrow) {
-            AbstractArrow firedArrow = (AbstractArrow) projectile;
+        if (projectile instanceof AbstractArrow firedArrow) {
             AbstractArrow returnedArrow = (AbstractArrow) returnedProjectile;
 
             returnedArrow.setDamage(firedArrow.getDamage());
@@ -188,14 +185,12 @@ public class TalismanListener implements Listener {
         List<ItemStack> items = new ArrayList<>(drops);
 
         // Prevent duplication of items stored inside a Horse's chest
-        if (entity instanceof ChestedHorse) {
-            ChestedHorse horse = (ChestedHorse) entity;
-
-            if (horse.isCarryingChest()) {
+        if (entity instanceof ChestedHorse chestedHorse) {
+            if (chestedHorse.isCarryingChest()) {
                 // The chest is not included in getStorageContents()
                 items.remove(new ItemStack(Material.CHEST));
 
-                for (ItemStack item : horse.getInventory().getStorageContents()) {
+                for (ItemStack item : chestedHorse.getInventory().getStorageContents()) {
                     items.remove(item);
                 }
             }
@@ -252,8 +247,8 @@ public class TalismanListener implements Listener {
             ItemStack item = e.getBrokenItem().clone();
             ItemMeta meta = item.getItemMeta();
 
-            if (meta instanceof Damageable) {
-                ((Damageable) meta).setDamage(0);
+            if (meta instanceof Damageable damageable) {
+                damageable.setDamage(0);
             }
 
             item.setItemMeta(meta);

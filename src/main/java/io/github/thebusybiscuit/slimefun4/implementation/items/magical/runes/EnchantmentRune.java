@@ -183,9 +183,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
     }
 
     private boolean findCompatibleItem(@Nonnull Entity n) {
-        if (n instanceof Item) {
-            Item item = (Item) n;
-
+        if (n instanceof Item item) {
             return !isItem(item.getItemStack());
         }
 
