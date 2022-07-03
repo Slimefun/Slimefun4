@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -40,7 +41,8 @@ public class CoolerListener implements Listener {
     private final Slimefun plugin;
     private final Cooler cooler;
 
-    public CoolerListener(@Nonnull Slimefun plugin, @Nonnull Cooler cooler) {
+    @ParametersAreNonnullByDefault
+    public CoolerListener(Slimefun plugin, Cooler cooler) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
         this.plugin = plugin;
@@ -49,10 +51,8 @@ public class CoolerListener implements Listener {
 
     @EventHandler
     public void onHungerLoss(FoodLevelChangeEvent e) {
-        if (e.getEntity() instanceof Player player) {
-            if (e.getFoodLevel() < player.getFoodLevel()) {
-                checkAndConsume(player);
-            }
+        if (e.getEntity() instanceof Player player && e.getFoodLevel() < player.getFoodLevel()) {
+            checkAndConsume(player);
         }
     }
 
