@@ -194,20 +194,21 @@ public enum SlimefunTag implements Tag<Material> {
 
     /**
      * All materials (ores) which the {@link PickaxeOfTheSeeker} recognizes.
-     */    PICKAXE_OF_THE_SEEKER_BLOCKS,
+     */
+    PICKAXE_OF_THE_SEEKER_BLOCKS,
 
     /**
-     * All the materials that can pickaxe break in {@link SmeltersTool}
+     * All the materials that can pickaxe smelt in {@link SmeltersTool}.
      */
     SMELTERS_PICKAXE_BLOCKS,
 
     /**
-     * All the materials that can shovel break in {@link SmeltersTool}
+     * All the materials that can shovel smelt in {@link SmeltersTool}.
      */
     SMELTERS_SHOVEL_BLOCKS,
 
     /**
-     * All the materials that can axe break in {@link SmeltersTool}
+     * All the materials that can axe smelt in {@link SmeltersTool}.
      */
     SMELTERS_AXE_BLOCKS,
 
@@ -260,7 +261,14 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials that are affected by gravity.
      */
-    GRAVITY_AFFECTED_BLOCKS;
+    GRAVITY_AFFECTED_BLOCKS,
+
+    /**
+     * Different types of Tools.
+     */
+    PICKAXES,
+    SHOVELS,
+    AXES;
 
     /**
      * Lookup table for tag names.
