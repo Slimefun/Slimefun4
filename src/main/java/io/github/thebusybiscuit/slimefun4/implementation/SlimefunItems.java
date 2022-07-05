@@ -203,6 +203,7 @@ public final class SlimefunItems {
     /* Tools */
     public static final SlimefunItemStack SMELTERS_PICKAXE = new SlimefunItemStack("SMELTERS_PICKAXE", Material.DIAMOND_PICKAXE, "&6Smelter's Pickaxe", "&c&lAuto-Smelting", "", "&9Works with Fortune");
     public static final SlimefunItemStack SMELTERS_SHOVEL = new SlimefunItemStack("SMELTERS_SHOVEL", Material.DIAMOND_SHOVEL, "&6Smelter's Shovel", "&c&lAuto-Smelting", "", "&9Works with Fortune");
+    public static final SlimefunItemStack SMELTERS_AXE = new SlimefunItemStack("SMELTERS_AXE", Material.DIAMOND_AXE, "&6Smelter's Axe", "&c&lAuto-Smelting", "", "&9Works with Fortune");
     public static final SlimefunItemStack LUMBER_AXE = new SlimefunItemStack("LUMBER_AXE", Material.DIAMOND_AXE, "&6Lumber Axe", "&a&oCuts down the whole Tree...");
     public static final SlimefunItemStack PICKAXE_OF_CONTAINMENT = new SlimefunItemStack("PICKAXE_OF_CONTAINMENT", Material.IRON_PICKAXE, "&cPickaxe of Containment", "", "&9Can pickup Spawners");
     public static final SlimefunItemStack HERCULES_PICKAXE = new SlimefunItemStack("HERCULES_PICKAXE", Material.IRON_PICKAXE, "&9Hercules' Pickaxe", "", "&fSo powerful that it", "&fcrushes all mined Ores", "&finto Dust...");

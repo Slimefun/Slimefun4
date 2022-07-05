@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.*;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -190,21 +191,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Portab
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.SharedActivationPlate;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Teleporter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.TeleporterPylon;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosivePickaxe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.HerculesPickaxe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.LumberAxe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfContainment;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfTheSeeker;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfVeinMining;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PortableCrafter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PortableDustbin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersTool;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.TapeMeasure;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.ExplosiveBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
@@ -817,6 +803,10 @@ public final class SlimefunItemSetup {
 
         new SmeltersTool(itemGroups.tools, SlimefunItems.SMELTERS_SHOVEL, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.LAVA_CRYSTAL, null, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
+        .register(plugin);
+
+        new SmeltersTool(itemGroups.tools, SlimefunItems.SMELTERS_AXE, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null})
         .register(plugin);
 
         new SlimefunItem(itemGroups.magicalResources, SlimefunItems.COMMON_TALISMAN, RecipeType.MAGIC_WORKBENCH,

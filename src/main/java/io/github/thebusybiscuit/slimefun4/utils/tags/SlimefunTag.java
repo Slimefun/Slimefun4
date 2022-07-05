@@ -194,13 +194,22 @@ public enum SlimefunTag implements Tag<Material> {
 
     /**
      * All materials (ores) which the {@link PickaxeOfTheSeeker} recognizes.
-     */
-    PICKAXE_OF_THE_SEEKER_BLOCKS,
+     */    PICKAXE_OF_THE_SEEKER_BLOCKS,
 
     /**
-     * All materials which the {@link SmeltersTool} will try and smelt.
+     * All the materials that can pickaxe break in {@link SmeltersTool}
      */
     SMELTERS_PICKAXE_BLOCKS,
+
+    /**
+     * All the materials that can shovel break in {@link SmeltersTool}
+     */
+    SMELTERS_SHOVEL_BLOCKS,
+
+    /**
+     * All the materials that can axe break in {@link SmeltersTool}
+     */
+    SMELTERS_AXE_BLOCKS,
 
     /**
      * All materials (ores) which the {@link IndustrialMiner} will try to mine.

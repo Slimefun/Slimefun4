@@ -1,32 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import java.util.Collection;
-import java.util.Optional;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Effect;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bukkit.Effect;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
-/**
- * The {@link SmeltersTool} automatically smelts any ore you mine.
- * 
- * @author TheBusyBiscuit
- *
- */
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collection;
+import java.util.Optional;
+
 public class SmeltersTool extends SimpleSlimefunItem<ToolUseHandler> implements DamageableItem {
 
     @ParametersAreNonnullByDefault
@@ -35,21 +27,51 @@ public class SmeltersTool extends SimpleSlimefunItem<ToolUseHandler> implements 
     }
 
     @Override
-    public @Nonnull ToolUseHandler getItemHandler() {
+    public @Nonnull
+    ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
             Block b = e.getBlock();
+            if (e.getPlayer().getInventory().getItemInMainHand().equals(SlimefunItems.SMELTERS_PICKAXE)) {
+                if (SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
+                    Collection<ItemStack> blockDrops = b.getDrops(tool);
 
-            if (SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
-                Collection<ItemStack> blockDrops = b.getDrops(tool);
-
-                for (ItemStack drop : blockDrops) {
-                    if (drop != null && !drop.getType().isAir()) {
-                        smelt(b, drop, fortune);
-                        drops.add(drop);
+                    for (ItemStack drop : blockDrops) {
+                        if (drop != null && !drop.getType().isAir()) {
+                            smelt(b, drop, fortune);
+                            drops.add(drop);
+                        }
                     }
-                }
 
-                damageItem(e.getPlayer(), tool);
+                    damageItem(e.getPlayer(), tool);
+                }
+            }
+            if (e.getPlayer().getInventory().getItemInMainHand().equals(SlimefunItems.SMELTERS_SHOVEL)) {
+                if (SlimefunTag.SMELTERS_SHOVEL_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
+                    Collection<ItemStack> blockDrops = b.getDrops(tool);
+
+                    for (ItemStack drop : blockDrops) {
+                        if (drop != null && !drop.getType().isAir()) {
+                            smelt(b, drop, fortune);
+                            drops.add(drop);
+                        }
+                    }
+
+                    damageItem(e.getPlayer(), tool);
+                }
+            }
+            if (e.getPlayer().getInventory().getItemInMainHand().equals(SlimefunItems.SMELTERS_AXE)) {
+                if (SlimefunTag.SMELTERS_AXE_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
+                    Collection<ItemStack> blockDrops = b.getDrops(tool);
+
+                    for (ItemStack drop : blockDrops) {
+                        if (drop != null && !drop.getType().isAir()) {
+                            smelt(b, drop, fortune);
+                            drops.add(drop);
+                        }
+                    }
+
+                    damageItem(e.getPlayer(), tool);
+                }
             }
         };
     }
