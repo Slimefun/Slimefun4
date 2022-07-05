@@ -203,7 +203,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfTh
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfVeinMining;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PortableCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PortableDustbin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPickaxe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersTool;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.TapeMeasure;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.ExplosiveBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
@@ -811,8 +811,12 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.MAGICAL_ZOMBIE_PILLS, 2))
         .register(plugin);
 
-        new SmeltersPickaxe(itemGroups.tools, SlimefunItems.SMELTERS_PICKAXE, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SmeltersTool(itemGroups.tools, SlimefunItems.SMELTERS_PICKAXE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
+        .register(plugin);
+
+        new SmeltersTool(itemGroups.tools, SlimefunItems.SMELTERS_SHOVEL, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null, SlimefunItems.LAVA_CRYSTAL, null, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
         .register(plugin);
 
         new SlimefunItem(itemGroups.magicalResources, SlimefunItems.COMMON_TALISMAN, RecipeType.MAGIC_WORKBENCH,

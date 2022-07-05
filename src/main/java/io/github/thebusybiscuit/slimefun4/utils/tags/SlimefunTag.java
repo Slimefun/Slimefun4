@@ -29,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPic
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfTheSeeker;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfVeinMining;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPickaxe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersTool;
 
 /**
  * This enum contains various implementations of the {@link Tag} interface.
@@ -198,7 +198,7 @@ public enum SlimefunTag implements Tag<Material> {
     PICKAXE_OF_THE_SEEKER_BLOCKS,
 
     /**
-     * All materials which the {@link SmeltersPickaxe} will try and smelt.
+     * All materials which the {@link SmeltersTool} will try and smelt.
      */
     SMELTERS_PICKAXE_BLOCKS,
 

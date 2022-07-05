@@ -22,15 +22,15 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
- * The {@link SmeltersPickaxe} automatically smelts any ore you mine.
+ * The {@link SmeltersTool} automatically smelts any ore you mine.
  * 
  * @author TheBusyBiscuit
  *
  */
-public class SmeltersPickaxe extends SimpleSlimefunItem<ToolUseHandler> implements DamageableItem {
+public class SmeltersTool extends SimpleSlimefunItem<ToolUseHandler> implements DamageableItem {
 
     @ParametersAreNonnullByDefault
-    public SmeltersPickaxe(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public SmeltersTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
