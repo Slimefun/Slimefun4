@@ -268,7 +268,14 @@ public enum SlimefunTag implements Tag<Material> {
      */
     PICKAXES,
     SHOVELS,
-    AXES;
+    AXES,
+    HOES,
+
+    /**
+     * All of the different type of tools combined above
+     */
+
+    TOOLS;
 
     /**
      * Lookup table for tag names.

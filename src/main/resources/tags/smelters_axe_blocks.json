@@ -13,10 +13,6 @@
     "minecraft:stripped_acacia_log",
     "minecraft:stripped_dark_oak_log",
     {
-      "id" : "minecraft:mangrove_log",
-      "required" : false
-    },
-    {
       "id" : "minecraft:crimson_stem",
       "required" : false
     },
@@ -25,15 +21,19 @@
       "required" : false
     },
     {
-      "id" : "minecraft:stripped_mangrove_log",
-      "required" : false
-    },
-    {
       "id" : "minecraft:stripped_crimson_stem",
       "required" : false
     },
     {
       "id" : "minecraft:stripped_warped_stem",
+      "required" : false
+    },
+    {
+      "id" : "minecraft:stripped_mangrove_log",
+      "required" : false
+    },
+    {
+      "id" : "minecraft:mangrove_log",
       "required" : false
     }
   ]
