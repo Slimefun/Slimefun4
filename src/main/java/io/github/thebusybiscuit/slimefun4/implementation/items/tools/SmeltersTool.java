@@ -49,7 +49,7 @@ public class SmeltersTool extends SimpleSlimefunItem<ToolUseHandler> implements 
 
                 damageItem(e.getPlayer(), tool);
             }
-            if (SlimefunTag.SHOVELS.isTagged(stack.getType()) && SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
+            if (SlimefunTag.SHOVELS.isTagged(stack.getType()) && SlimefunTag.SMELTERS_SHOVEL_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
                 Collection<ItemStack> blockDrops = b.getDrops(tool);
 
                 for (ItemStack drop : blockDrops) {
@@ -61,7 +61,7 @@ public class SmeltersTool extends SimpleSlimefunItem<ToolUseHandler> implements 
 
                 damageItem(e.getPlayer(), tool);
             }
-            if (SlimefunTag.AXES.isTagged(stack.getType()) && SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
+            if (SlimefunTag.AXES.isTagged(stack.getType()) && SlimefunTag.SMELTERS_AXE_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
                 Collection<ItemStack> blockDrops = b.getDrops(tool);
 
                 for (ItemStack drop : blockDrops) {
