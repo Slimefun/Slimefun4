@@ -326,10 +326,25 @@ public class ItemGroup implements Keyed {
         return false;
     }
 
+    /**
+     * Returns if items from other addons are allowed to be
+     * added to this {@link ItemGroup}.
+     *
+     * @return true if items from other addons are allowed to be added to this {@link ItemGroup}.
+     */
     public boolean areOtherAddonItemsAllowed() {
         return allowOtherAddonItems;
     }
 
+    /**
+     * This method will set if this {@link ItemGroup} will
+     * allow {@link SlimefunItem}s from other addons to
+     * be added, without a warning, into the group. False by default.
+     * If set to true, Slimefun will not warn about items being added.
+     *
+     * @param allowOtherAddons
+     *                          Whether items from another addon are allowable
+     */
     public void setAllowOtherAddonItems(boolean allowOtherAddons) {
         this.allowOtherAddonItems = allowOtherAddons;
     }
