@@ -11,14 +11,7 @@
 		"#minecraft:small_flowers",
 		"#minecraft:coral_blocks",
 		"#minecraft:corals",
-		{
-			"id" : "#minecraft:carpets",
-			"required" : false
-		},
-		{
-			"id" : "#minecraft:wool_carpets",
-			"required" : false
-		},
+		"slimefun:wool_carpets",
 		"#minecraft:banners",
 		"minecraft:sugar_cane",
 		"minecraft:cactus",
