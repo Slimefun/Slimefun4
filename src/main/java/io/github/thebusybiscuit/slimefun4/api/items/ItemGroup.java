@@ -44,6 +44,7 @@ public class ItemGroup implements Keyed {
     protected final NamespacedKey key;
     protected final ItemStack item;
     protected int tier;
+    protected boolean allowOtherAddonItems = false;
 
     /**
      * Constructs a new {@link ItemGroup} with the given {@link NamespacedKey} as an identifier
@@ -184,7 +185,7 @@ public class ItemGroup implements Keyed {
             return;
         }
 
-        if (isRegistered() && !item.getAddon().getName().equals(this.addon.getName())) {
+        if (isRegistered() && !item.getAddon().getName().equals(this.addon.getName()) && !this.allowOtherAddonItems) {
             item.warn("This item does not belong into ItemGroup " + this + " as that group belongs to " + this.addon.getName());
         }
 
@@ -323,6 +324,14 @@ public class ItemGroup implements Keyed {
         }
 
         return false;
+    }
+
+    public boolean areOtherAddonItemsAllowed() {
+        return allowOtherAddonItems;
+    }
+
+    public void setAllowOtherAddonItems(boolean allowOtherAddons) {
+        this.allowOtherAddonItems = allowOtherAddons;
     }
 
     @Override
