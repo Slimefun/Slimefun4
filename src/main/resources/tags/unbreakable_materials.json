@@ -12,6 +12,10 @@
 		{
 			"id" : "minecraft:jigsaw",
 			"required" : false
+		},
+		{
+			"id" : "minecraft:reinforced_deepslate",
+			"required" : false
 		}
 	]
 }
