@@ -44,7 +44,7 @@ public class ItemGroup implements Keyed {
     protected final NamespacedKey key;
     protected final ItemStack item;
     protected int tier;
-    protected boolean allowOtherAddonItems = false;
+    protected boolean crossAddonItemGroup = false;
 
     /**
      * Constructs a new {@link ItemGroup} with the given {@link NamespacedKey} as an identifier
@@ -185,7 +185,7 @@ public class ItemGroup implements Keyed {
             return;
         }
 
-        if (isRegistered() && !item.getAddon().getName().equals(this.addon.getName()) && !this.allowOtherAddonItems) {
+        if (isRegistered() && !item.getAddon().getName().equals(this.addon.getName()) && !isCrossAddonItemGroup()) {
             item.warn("This item does not belong into ItemGroup " + this + " as that group belongs to " + this.addon.getName());
         }
 
@@ -332,8 +332,8 @@ public class ItemGroup implements Keyed {
      *
      * @return true if items from other addons are allowed to be added to this {@link ItemGroup}.
      */
-    public boolean areOtherAddonItemsAllowed() {
-        return allowOtherAddonItems;
+    public boolean isCrossAddonItemGroup() {
+        return crossAddonItemGroup;
     }
 
     /**
@@ -342,11 +342,11 @@ public class ItemGroup implements Keyed {
      * be added, without a warning, into the group. False by default.
      * If set to true, Slimefun will not warn about items being added.
      *
-     * @param allowOtherAddons
+     * @param crossAddonItemGroup
      *                          Whether items from another addon are allowable
      */
-    public void setAllowOtherAddonItems(boolean allowOtherAddons) {
-        this.allowOtherAddonItems = allowOtherAddons;
+    public void setCrossAddonItemGroup(boolean crossAddonItemGroup) {
+        this.crossAddonItemGroup = crossAddonItemGroup;
     }
 
     @Override
