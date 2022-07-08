@@ -9,13 +9,13 @@
 
     <!-- Our default version will be UNOFFICIAL, this will prevent auto updates -->
     <!-- from overriding our local test file -->
-    <version>4.9-UNOFFICIAL</version>
+    <version>4.9-French</version>
     <inceptionYear>2013</inceptionYear>
     <packaging>jar</packaging>
 
     <!-- Project Info -->
     <description>Slimefun is a Spigot/Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
-    <url>https://github.com/Slimefun/Slimefun4</url>
+    <url>https://github.com/amarcais53/Slimefun4_FR</url>
 
     <properties>
         <!-- UTF-8 is our standard encoding for source files -->
