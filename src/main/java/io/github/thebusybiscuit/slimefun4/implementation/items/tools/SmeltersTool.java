@@ -27,17 +27,17 @@ public class SmeltersTool extends SimpleSlimefunItem<ToolUseHandler> implements 
     }
 
     @Override
-    public @Nonnull
-    ToolUseHandler getItemHandler() {
+    public @Nonnull ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
-            Block b = e.getBlock();
+            Block block = e.getBlock();
+            Material blockType = block.getType();
 
-            if (isValid(tool, b)) {
-                Collection<ItemStack> blockDrops = b.getDrops(tool);
+            if (block.isPreferredTool(tool) && SlimefunTag.SMELTERS_BLOCKS.isTagged(blockType) && BlockStorage.hasBlockInfo(block)) {
+                Collection<ItemStack> blockDrops = block.getDrops(tool);
 
                 for (ItemStack drop : blockDrops) {
                     if (drop != null && !drop.getType().isAir()) {
-                        smelt(b, drop, fortune);
+                        smelt(block, drop, fortune);
                         drops.add(drop);
                     }
                 }
@@ -45,24 +45,6 @@ public class SmeltersTool extends SimpleSlimefunItem<ToolUseHandler> implements 
                 damageItem(e.getPlayer(), tool);
             }
         };
-    }
-
-    private boolean isValid(@Nonnull ItemStack tool, @Nonnull Block b) {
-        if (BlockStorage.hasBlockInfo(b)) {
-            return false;
-        } else {
-            Material toolMaterial = tool.getType();
-            Material blockMaterial = b.getType();
-            if (SlimefunTag.PICKAXES.isTagged(toolMaterial) && SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(blockMaterial)) {
-                return true;
-            } else if (SlimefunTag.SHOVELS.isTagged(toolMaterial) && SlimefunTag.SMELTERS_SHOVEL_BLOCKS.isTagged(blockMaterial)) {
-                return true;
-            } else if (SlimefunTag.AXES.isTagged(toolMaterial) && SlimefunTag.SMELTERS_AXE_BLOCKS.isTagged(blockMaterial)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
 
     @ParametersAreNonnullByDefault

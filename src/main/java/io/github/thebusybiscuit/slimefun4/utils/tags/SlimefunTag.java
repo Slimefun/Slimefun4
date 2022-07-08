@@ -213,6 +213,11 @@ public enum SlimefunTag implements Tag<Material> {
     SMELTERS_AXE_BLOCKS,
 
     /**
+     * All the materials that can be smelt with {@link SmeltersTool}.
+     */
+    SMELTERS_BLOCKS,
+
+    /**
      * All materials (ores) which the {@link IndustrialMiner} will try to mine.
      */
     INDUSTRIAL_MINER_ORES,
@@ -274,7 +279,6 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All of the different type of tools combined above
      */
-
     TOOLS;
 
     /**
