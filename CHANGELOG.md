@@ -37,11 +37,15 @@
 ## Release Candidate 33 (TBD)
 
 #### Additions
+* (API) Added Tinted Glass to "GLASS_BLOCKS" tag
+* (API) Added "WOOL_CARPETS" tag (for compatibility across MC 1.19/1.18 tags)
 
 #### Changes
 * Slimefun now requires Java 16
 
 #### Fixes
+* Fixed #3597
+* Fixed an issue related to "Bee Wings"
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32

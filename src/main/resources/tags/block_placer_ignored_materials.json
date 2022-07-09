@@ -3,6 +3,7 @@
 		"#slimefun:sensitive_materials",
 		"#slimefun:tall_flowers",
 		"#slimefun:mushrooms",
+		"#slimefun:wool_carpets",
 		"#minecraft:beds",
 		"#minecraft:buttons",
 		"#minecraft:signs",
@@ -11,14 +12,6 @@
 		"#minecraft:small_flowers",
 		"#minecraft:coral_blocks",
 		"#minecraft:corals",
-		{
-			"id" : "#minecraft:carpets",
-			"required" : false
-		},
-		{
-			"id" : "#minecraft:wool_carpets",
-			"required" : false
-		},
 		"#minecraft:banners",
 		"minecraft:sugar_cane",
 		"minecraft:cactus",
