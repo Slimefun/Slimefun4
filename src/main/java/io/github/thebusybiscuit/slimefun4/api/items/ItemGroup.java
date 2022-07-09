@@ -185,7 +185,7 @@ public class ItemGroup implements Keyed {
             return;
         }
 
-        if (isRegistered() && !item.getAddon().getName().equals(this.addon.getName()) && !isCrossAddonItemGroup()) {
+        if (isRegistered() && !isCrossAddonItemGroup() && !item.getAddon().getName().equals(this.addon.getName())) {
             item.warn("This item does not belong into ItemGroup " + this + " as that group belongs to " + this.addon.getName());
         }
 
