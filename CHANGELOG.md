@@ -37,6 +37,8 @@
 ## Release Candidate 33 (TBD)
 
 #### Additions
+* (API) Added Tinted Glass to "GLASS_BLOCKS" tag
+* (API) Added "WOOL_CARPETS" tag (for compatibility across MC 1.19/1.18 tags)
 
 #### Changes
 
