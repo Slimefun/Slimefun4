@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPic
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfTheSeeker;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfVeinMining;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersTool;
 
 /**
@@ -198,19 +199,9 @@ public enum SlimefunTag implements Tag<Material> {
     PICKAXE_OF_THE_SEEKER_BLOCKS,
 
     /**
-     * All the materials that can pickaxe smelt in {@link SmeltersTool}.
+     * All materials (ores) which the {@link SmeltersPickaxe} smelts.
      */
     SMELTERS_PICKAXE_BLOCKS,
-
-    /**
-     * All the materials that can shovel smelt in {@link SmeltersTool}.
-     */
-    SMELTERS_SHOVEL_BLOCKS,
-
-    /**
-     * All the materials that can axe smelt in {@link SmeltersTool}.
-     */
-    SMELTERS_AXE_BLOCKS,
 
     /**
      * All the materials that can be smelt with {@link SmeltersTool}.
@@ -266,20 +257,7 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials that are affected by gravity.
      */
-    GRAVITY_AFFECTED_BLOCKS,
-
-    /**
-     * Different types of Tools.
-     */
-    PICKAXES,
-    SHOVELS,
-    AXES,
-    HOES,
-
-    /**
-     * All of the different type of tools combined above
-     */
-    TOOLS;
+    GRAVITY_AFFECTED_BLOCKS;
 
     /**
      * Lookup table for tag names.
