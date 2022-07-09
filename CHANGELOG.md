@@ -44,6 +44,7 @@
 
 #### Fixes
 * Fixed #3597
+* Fixed an issue related to "Bee Wings"
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
