@@ -144,24 +144,24 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
         ReactorMode mode = getReactorMode(b.getLocation());
 
         switch (mode) {
-            case GENERATOR:
+            case GENERATOR -> {
                 menu.replaceExistingItem(4, new CustomItemStack(SlimefunItems.NUCLEAR_REACTOR, "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7\u21E8 Click to change the Focus to &eProduction"));
                 menu.addMenuClickHandler(4, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
                     updateInventory(menu, b);
                     return false;
                 });
-                break;
-            case PRODUCTION:
+            }
+            case PRODUCTION -> {
                 menu.replaceExistingItem(4, new CustomItemStack(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7\u21E8 Click to change the Focus to &ePower Generation"));
                 menu.addMenuClickHandler(4, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
                     updateInventory(menu, b);
                     return false;
                 });
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
         BlockMenu port = getAccessPort(b.getLocation());
