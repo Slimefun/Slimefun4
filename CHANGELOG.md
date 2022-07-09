@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 33 (TBD)](#release-candidate-33-tbd)
 - [Release Candidate 32 (26 Jun 2022)](#release-candidate-32-26-jun-2022)
 - [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
 - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
@@ -32,6 +33,15 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+
+## Release Candidate 33 (TBD)
+
+#### Additions
+
+#### Changes
+
+#### Fixes
+* Fixed #3597
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
