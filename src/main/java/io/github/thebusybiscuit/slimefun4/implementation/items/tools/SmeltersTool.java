@@ -32,7 +32,7 @@ public class SmeltersTool extends SimpleSlimefunItem<ToolUseHandler> implements 
             Block block = e.getBlock();
             Material blockType = block.getType();
 
-            if (block.isPreferredTool(tool) && SlimefunTag.SMELTERS_BLOCKS.isTagged(blockType) && BlockStorage.hasBlockInfo(block)) {
+            if (block.isPreferredTool(tool) && SlimefunTag.SMELTERS_BLOCKS.isTagged(blockType) && !BlockStorage.hasBlockInfo(block)) {
                 Collection<ItemStack> blockDrops = block.getDrops(tool);
 
                 for (ItemStack drop : blockDrops) {
