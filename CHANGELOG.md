@@ -39,9 +39,9 @@
 #### Additions
 
 #### Changes
-* Slimefun now requires Java 16
 
 #### Fixes
+* Fixed #3597
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
