@@ -31,8 +31,7 @@ public class BeeListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Bee && e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
+        if (e.getDamager() instanceof Bee && e.getEntity() instanceof Player p) {
             Optional<PlayerProfile> optional = PlayerProfile.find(p);
 
             if (!optional.isPresent()) {

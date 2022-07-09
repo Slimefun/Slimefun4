@@ -48,8 +48,7 @@ public class SlimefunBootsListener implements Listener {
 
     @EventHandler
     public void onEnderPearlDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof EnderPearl && e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
+        if (e.getDamager() instanceof EnderPearl && e.getEntity() instanceof Player p) {
             SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 
             if (boots instanceof EnderBoots && boots.canUse(p, true)) {

@@ -134,11 +134,10 @@ public class Waypoint {
      */
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Waypoint)) {
+        if (!(obj instanceof Waypoint waypoint)) {
             return false;
         }
 
-        Waypoint waypoint = (Waypoint) obj;
         return profile.getUUID().equals(waypoint.getOwner().getUUID()) && id.equals(waypoint.getId()) && location.equals(waypoint.getLocation()) && name.equals(waypoint.getName());
     }
 

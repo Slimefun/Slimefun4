@@ -90,8 +90,7 @@ public class OreWasher extends MultiBlockMachine {
         Block dispBlock = b.getRelative(BlockFace.UP);
         BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
 
-        if (state instanceof Dispenser) {
-            Dispenser disp = (Dispenser) state;
+        if (state instanceof Dispenser disp) {
             Inventory inv = disp.getInventory();
 
             for (ItemStack input : inv.getContents()) {

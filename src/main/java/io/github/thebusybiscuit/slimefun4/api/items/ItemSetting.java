@@ -213,8 +213,7 @@ public class ItemSetting<T> {
 
     @Override
     public final boolean equals(Object obj) {
-        if (obj instanceof ItemSetting) {
-            ItemSetting<?> setting = (ItemSetting<?>) obj;
+        if (obj instanceof ItemSetting<?> setting) {
             return Objects.equals(getKey(), setting.getKey()) && Objects.equals(getItem(), setting.getItem());
         } else {
             return false;

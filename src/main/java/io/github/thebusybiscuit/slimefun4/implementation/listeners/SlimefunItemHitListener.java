@@ -29,11 +29,10 @@ public class SlimefunItemHitListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (!(e.getDamager() instanceof Player)) {
+        if (!(e.getDamager() instanceof Player p)) {
             return;
         }
 
-        Player p = (Player) e.getDamager();
         ItemStack item = p.getInventory().getItemInMainHand();
 
         if (!item.getType().isAir()) {

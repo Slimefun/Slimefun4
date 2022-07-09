@@ -115,8 +115,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
      * @return Whether this {@link Entity} is compatible
      */
     private boolean findCompatibleItem(@Nonnull Entity entity) {
-        if (entity instanceof Item) {
-            Item item = (Item) entity;
+        if (entity instanceof Item item) {
 
             return !SlimefunUtils.isSoulbound(item.getItemStack()) && !isItem(item.getItemStack());
         }

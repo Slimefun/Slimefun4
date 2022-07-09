@@ -98,11 +98,9 @@ public class MultiBlock {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof MultiBlock)) {
+        if (!(obj instanceof MultiBlock mb)) {
             return false;
         }
-
-        MultiBlock mb = (MultiBlock) obj;
 
         if (trigger == mb.getTriggerBlock() && isSymmetric == mb.isSymmetric) {
             for (int i = 0; i < mb.getStructure().length; i++) {

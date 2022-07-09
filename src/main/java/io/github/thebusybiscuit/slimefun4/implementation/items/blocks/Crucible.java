@@ -220,14 +220,13 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
     @ParametersAreNonnullByDefault
     private void runPostTask(Block block, Sound sound, int times) {
-        if (!(block.getBlockData() instanceof Levelled)) {
+        if (!(block.getBlockData() instanceof Levelled le)) {
             block.getWorld().playSound(block.getLocation(), Sound.BLOCK_METAL_BREAK, 1F, 1F);
             return;
         }
 
         block.getWorld().playSound(block.getLocation(), sound, 1F, 1F);
         int level = 8 - times;
-        Levelled le = (Levelled) block.getBlockData();
         le.setLevel(level);
         block.setBlockData(le, false);
 
