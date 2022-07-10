@@ -95,6 +95,7 @@ guide:
       - '&7数年にわたり&e%contributors%&7人以上の人々が，'
       - '&7Slimefunに取り組んできました。'
 messages:
+  not-researched: '&4あなたにはこれを理解する知識が足りません。&f"%item%&f" &cのロックを解除してください。'
   not-enough-xp: '&4リサーチの遂行に必要な経験値が足りません'
   unlocked: '&bリサーチが完了しました &7"%research%"'
   only-players: '&4プレイヤー専用コマンドです'
