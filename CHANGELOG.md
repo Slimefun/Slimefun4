@@ -41,6 +41,7 @@
 * (API) Added "WOOL_CARPETS" tag (for compatibility across MC 1.19/1.18 tags)
 * Added a new language: Persian
 * Added a new language: Romanian
+* (API) Added a method for item groups to allow addons to choose if they want to allow items from other addons
 
 #### Changes
 
