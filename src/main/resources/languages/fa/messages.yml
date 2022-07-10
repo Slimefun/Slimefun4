@@ -1,1 +1,42 @@
 ---
+commands:
+  debug:
+    disabled: '&7حالت اشکال زدایی غیرفعال شد.'
+placeholderapi:
+  profile-loading: 'لودينگ...'
+guide:
+  locked: 'قفل شده است'
+  work-in-progress: 'اين قابليت هنوز کامل نشده!'
+  search:
+    inventory: 'جست و جو برای: %item%'
+  tooltips:
+    open-itemgroup: 'براي باز کردن کليک کنيد'
+  pages:
+    previous: 'صفحه ي قبل'
+  back:
+    title: 'برگشت'
+  languages:
+    translations:
+      lore: 'برای افزودن ترجمه خود کلیک کنید'
+  title:
+    main: 'راهنمای Slimefun'
+    settings: 'تنظیمات و اطلاعات'
+    bugs: 'گزارش اشکال ها'
+  credits:
+    roles:
+      translator: '&9مترجم'
+messages:
+  disabled-in-world: '&4&lاين آيتم در این جهان غير فعال شده است'
+  link-prompt: '&eاینجا کلیک کنید:'
+languages:
+  default: 'پیشفرض سرور'
+  en: 'انگلیسی'
+  de: 'آلمانی'
+  fr: 'فرانسوی'
+  it: 'ایتالیایی'
+  es: 'اسپانیایی'
+  nl: 'هلندی'
+  hu: 'مجارستانی'
+  ar: 'عربی'
+  ja: 'ژاپنی'
+  fa: 'فارسی'
