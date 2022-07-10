@@ -91,6 +91,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
         Material saplingType = null;
         Predicate<Material> soilRequirement = null;
 
+        // TODO: Create a record that holds `saplingType` and `soilRequirement` to further simplify this.
         switch (logType) {
             case OAK_LOG, OAK_WOOD, STRIPPED_OAK_LOG, STRIPPED_OAK_WOOD -> {
                 saplingType = Material.OAK_SAPLING;
