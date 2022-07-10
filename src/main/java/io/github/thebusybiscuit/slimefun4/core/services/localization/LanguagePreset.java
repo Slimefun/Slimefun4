@@ -50,7 +50,7 @@ public enum LanguagePreset {
     HEBREW("he", TextDirection.RIGHT_TO_LEFT, "1ba086a2cc7272cf5ba49c80248546c22e5ef1bab54120e8a8e5d9e75b6a"),
     ARABIC("ar", TextDirection.RIGHT_TO_LEFT, "a4be759a9cf7f0a19a7e8e62f23789ad1d21cebae38af9d9541676a3db001572"),
     TURKISH("tr", "9852b9aba3482348514c1034d0affe73545c9de679ae4647f99562b5e5f47d09"),
-    PERSIAN("fa", false, "5cd9badf1972583b663b44b1e027255de8f275aa1e89defcf77782ba6fcc652"),
+    PERSIAN("fa", false, TextDirection.RIGHT_TO_LEFT, "5cd9badf1972583b663b44b1e027255de8f275aa1e89defcf77782ba6fcc652"),
     SERBIAN("sr", false, "5b0483a4f0ddf4fbbc977b127b3d294d7a869f995366e3f50f6b05a70f522510"),
     AFRIKAANS("af", false, "961a1eacc10524d1f45f23b0e487bb2fc33948d9676b418b19a3da0b109d0e3c"),
     MALAY("ms", false, "754b9041dea6db6db44750f1385a743adf653767b4b8802cad4c585dd3f5be46"),
