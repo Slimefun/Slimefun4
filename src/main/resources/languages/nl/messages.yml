@@ -25,8 +25,14 @@ commands:
     not-rechargeable: Dit item kan niet opgeladen worden!
   timings:
     please-wait: '&eWacht eventjes... De resultaten komen er aan!'
+    verbose-player: '&4De Verbose flag kan niet gebruikt worden door een Player!'
+    unknown-flag: '&4Onbekende flag: &c%flag%'
   debug:
     description: 'Voer debug logging voor de ontwikkelaars uit'
+    current: '&7Huidige test: &6%test_case%'
+    none-running: '&7Geen tests worden op dit moment gedaan!'
+    running: '&7Debug modus uitvoeren met test: &6%test%'
+    disabled: '&7Debugmodus uitgeschakeld.'
 placeholderapi:
   profile-loading: 'Aan het laden...'
 guide:
@@ -99,6 +105,7 @@ guide:
     wiki: 'Slimefun4 Wiki'
     addons: 'Uitbreidingen voor Slimefun4'
     bugs: 'Fouten rapporteren'
+    source: 'Bron Code'
     versions: 'Geïnstalleerde versies'
   credits:
     commit: 'Bijdrage'
