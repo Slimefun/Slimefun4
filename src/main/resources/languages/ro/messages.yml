@@ -1,1 +1,45 @@
 ---
+placeholderapi:
+  profile-loading: 'Se încarcă...'
+guide:
+  work-in-progress: 'Această caracteristică nu a fost finalizată încă!'
+  search:
+    message: '&bCe doresti sa cauti?'
+    name: '&7Cauta...'
+    tooltip: '&bClick pentru a căuta un obiect'
+    inventory: 'Caută pentru: %item%'
+  pages:
+    previous: 'Pagina anterioară'
+    next: 'Pagina următoare'
+  back:
+    guide: 'Inapoi la Ghidul Slimefun'
+  languages:
+    translations:
+      name: '&aLipseste ceva?'
+  title:
+    main: 'Ghid Slimefun'
+    settings: 'Setări și informații'
+    bugs: 'Raportare Buguri'
+    versions: 'Versiuni instalate'
+messages:
+  link-prompt: '&eClick aici:'
+languages:
+  en: 'Engleză'
+  de: 'Germană'
+  fr: 'Franceză'
+  it: 'Italiană'
+  es: 'Spaniolă'
+  sv: 'Suedeză'
+  nl: 'Olandeză'
+  cs: 'Cehă'
+  hu: 'Maghiară'
+  ru: 'Rusă'
+  sk: 'Slovacă'
+  vi: 'Vietnameză'
+  id: 'Indoneziană'
+  el: 'Greacă'
+  he: 'Ebraică'
+  ar: 'Arabă'
+  fi: 'Finlandeză'
+  uk: 'Ucraineană'
+  be: 'Belarusă'
