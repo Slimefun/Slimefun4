@@ -42,6 +42,7 @@
 * Added a new language: Persian
 * Added a new language: Romanian
 * (API) Added a method for item groups to allow addons to choose if they want to allow items from other addons
+* Added a new option to Eletric Gold Pans: "override-output-limit"
 
 #### Changes
 
