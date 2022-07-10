@@ -39,6 +39,8 @@
 #### Additions
 * (API) Added Tinted Glass to "GLASS_BLOCKS" tag
 * (API) Added "WOOL_CARPETS" tag (for compatibility across MC 1.19/1.18 tags)
+* Added a new language: Persian
+* Added a new language: Romanian
 
 #### Changes
 
@@ -46,6 +48,7 @@
 * Fixed #3597
 * Fixed an issue related to "Bee Wings"
 * Fixed #3573
+* Fixed "round-robin" mode for cargo networks being very unreliable
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
