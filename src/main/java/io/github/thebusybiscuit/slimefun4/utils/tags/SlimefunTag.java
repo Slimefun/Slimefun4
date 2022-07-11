@@ -251,7 +251,12 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials that are affected by gravity.
      */
-    GRAVITY_AFFECTED_BLOCKS;
+    GRAVITY_AFFECTED_BLOCKS,
+
+    /**
+     * All wool carpets
+     */
+    WOOL_CARPETS;
 
     /**
      * Lookup table for tag names.

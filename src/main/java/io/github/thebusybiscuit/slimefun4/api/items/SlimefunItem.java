@@ -985,7 +985,8 @@ public class SlimefunItem implements Placeable {
      * @param message
      *            The message to send
      */
-    public void info(@Nonnull String message) {
+    @ParametersAreNonnullByDefault
+    public void info(String message) {
         Validate.notNull(addon, "Cannot log a message for an unregistered item!");
 
         String msg = toString() + ": " + message;
@@ -1000,7 +1001,8 @@ public class SlimefunItem implements Placeable {
      * @param message
      *            The message to send
      */
-    public void warn(@Nonnull String message) {
+    @ParametersAreNonnullByDefault
+    public void warn(String message) {
         Validate.notNull(addon, "Cannot send a warning for an unregistered item!");
 
         String msg = toString() + ": " + message;
@@ -1021,7 +1023,8 @@ public class SlimefunItem implements Placeable {
      * @param throwable
      *            The {@link Throwable} to throw as a stacktrace.
      */
-    public void error(@Nonnull String message, @Nonnull Throwable throwable) {
+    @ParametersAreNonnullByDefault
+    public void error(String message, Throwable throwable) {
         Validate.notNull(addon, "Cannot send an error for an unregistered item!");
         addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
 
@@ -1036,6 +1039,19 @@ public class SlimefunItem implements Placeable {
         if (throwable instanceof RuntimeException && Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             throw (RuntimeException) throwable;
         }
+    }
+
+    /**
+     * This method informs the given {@link Player} that this {@link SlimefunItem}
+     * will be removed soon.
+     * 
+     * @param player
+     *            The {@link Player} to inform.
+     */
+    @ParametersAreNonnullByDefault
+    public void sendDeprecationWarning(Player player) {
+        Validate.notNull(player, "The Player must not be null.");
+        Slimefun.getLocalization().sendMessage(player, "messages.deprecated-item");
     }
 
     /**
