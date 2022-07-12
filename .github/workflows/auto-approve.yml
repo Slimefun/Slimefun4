@@ -8,12 +8,14 @@ permissions:
 jobs:
   auto-approve:
 
-    permissions:
-      pull-requests: write  # for hmarr/auto-approve-action to approve PRs
     name: Auto approve Pull Request
     runs-on: ubuntu-latest
 
-    ## Only run this on the main repo
+    # for hmarr/auto-approve-action to approve PRs
+    permissions:
+      pull-requests: write
+
+    # Only run this on the main repo
     if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
 
     steps:

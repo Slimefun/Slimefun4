@@ -7,6 +7,9 @@ on:
     - '!src/main/resources/languages/**'
     - 'pom.xml'
 
+permissions:
+  contents: read
+
 jobs:
   report:
 

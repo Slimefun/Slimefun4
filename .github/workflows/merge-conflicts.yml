@@ -5,6 +5,10 @@ on:
     branches:
     - master
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   validate:
 
