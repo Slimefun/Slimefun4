@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.MultimeterInformational;
+import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -42,6 +44,7 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
 
             if (e.getClickedBlock().isPresent() && block.isPresent()) {
                 SlimefunItem item = block.get();
+                Player p = e.getPlayer();
 
                 if (item instanceof EnergyNetComponent) {
                     EnergyNetComponent component = (EnergyNetComponent) item;
@@ -53,11 +56,16 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
                         String stored = NumberUtils.getCompactDouble(component.getCharge(l)) + " J";
                         String capacity = NumberUtils.getCompactDouble(component.getCapacity()) + " J";
 
-                        Player p = e.getPlayer();
                         p.sendMessage("");
                         Slimefun.getLocalization().sendMessage(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity));
                         p.sendMessage("");
                     }
+                }
+
+                if (item instanceof MultiBlockInteractionHandler) {
+                    MultimeterInformational informational = (MultimeterInformational) item;
+                    e.cancel();
+                    p.sendMessage(informational.getAdditionalInfo());
                 }
             }
         };
