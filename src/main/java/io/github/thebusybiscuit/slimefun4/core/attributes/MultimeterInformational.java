@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import org.bukkit.entity.Player;
+
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
 
 import javax.annotation.Nonnull;
@@ -16,6 +19,12 @@ import javax.annotation.Nonnull;
  */
 public interface MultimeterInformational extends ItemAttribute {
 
+    /**
+     * This method returns the {@link String}s that will be messaged to
+     * the {@link Player} when the MultiMeter is used on the block.
+     *
+     * @return Our {@link MachineProcessor}
+     */
     @Nonnull
     String[] getAdditionalInfo();
 
