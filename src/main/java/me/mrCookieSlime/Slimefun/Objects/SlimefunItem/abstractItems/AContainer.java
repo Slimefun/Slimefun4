@@ -196,7 +196,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     public final AContainer setCapacity(int capacity) {
         Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
 
-        if (getState() == ItemState.UNREGISTERED) {
+        if (getState() == ItemState.NOT_YET_REGISTERED_SON) {
             this.energyCapacity = capacity;
             return this;
         } else {

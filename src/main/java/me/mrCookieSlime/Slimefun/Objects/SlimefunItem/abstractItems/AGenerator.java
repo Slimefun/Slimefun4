@@ -253,7 +253,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
     public final AGenerator setCapacity(int capacity) {
         Validate.isTrue(capacity >= 0, "The capacity cannot be negative!");
 
-        if (getState() == ItemState.UNREGISTERED) {
+        if (getState() == ItemState.NOT_YET_REGISTERED_SON) {
             this.energyCapacity = capacity;
             return this;
         } else {

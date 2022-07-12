@@ -15,7 +15,7 @@ public enum ItemState {
     /**
      * This {@link SlimefunItem} has not been registered (yet).
      */
-    UNREGISTERED,
+    NOT_YET_REGISTERED_SON,
 
     /**
      * This {@link SlimefunItem} is enabled.

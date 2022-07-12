@@ -67,7 +67,7 @@ class TestRegistration {
     @MethodSource("allItems")
     @ParameterizedTest(name = "Assert that {0} is enabled")
     void testNoDisabledItems(@Nonnull SlimefunItem item) {
-        Assertions.assertNotEquals(ItemState.UNREGISTERED, item.getState(), item.toString() + " was not registered?");
+        Assertions.assertNotEquals(ItemState.NOT_YET_REGISTERED_SON, item.getState(), item.toString() + " was not registered?");
     }
 
     @Test

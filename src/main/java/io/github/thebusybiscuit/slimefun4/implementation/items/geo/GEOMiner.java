@@ -124,7 +124,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     public final GEOMiner setCapacity(int capacity) {
         Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
 
-        if (getState() == ItemState.UNREGISTERED) {
+        if (getState() == ItemState.NOT_YET_REGISTERED_SON) {
             this.energyCapacity = capacity;
             return this;
         } else {

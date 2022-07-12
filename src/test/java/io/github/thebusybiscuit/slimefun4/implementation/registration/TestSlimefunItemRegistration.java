@@ -40,7 +40,7 @@ class TestSlimefunItemRegistration {
         String id = "TEST_ITEM";
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, id, new CustomItemStack(Material.DIAMOND, "&cTest"));
 
-        Assertions.assertEquals(ItemState.UNREGISTERED, item.getState());
+        Assertions.assertEquals(ItemState.NOT_YET_REGISTERED_SON, item.getState());
 
         item.register(plugin);
 
@@ -82,7 +82,7 @@ class TestSlimefunItemRegistration {
         Assertions.assertThrows(IdConflictException.class, () -> item2.register(plugin));
 
         Assertions.assertEquals(ItemState.ENABLED, item.getState());
-        Assertions.assertEquals(ItemState.UNREGISTERED, item2.getState());
+        Assertions.assertEquals(ItemState.NOT_YET_REGISTERED_SON, item2.getState());
     }
 
     @Test

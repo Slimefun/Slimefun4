@@ -90,7 +90,7 @@ public class SlimefunItem implements Placeable {
     /**
      * This is the state of this {@link SlimefunItem}.
      */
-    private ItemState state = ItemState.UNREGISTERED;
+    private ItemState state = ItemState.NOT_YET_REGISTERED_SON;
 
     /**
      * This is the {@link ItemGroup} in which this {@link SlimefunItem} can be found.
@@ -359,7 +359,7 @@ public class SlimefunItem implements Placeable {
      * @return Whether this {@link SlimefunItem} is disabled.
      */
     public boolean isDisabled() {
-        if (state == ItemState.UNREGISTERED) {
+        if (state == ItemState.NOT_YET_REGISTERED_SON) {
             error("isDisabled() cannot be called before registering the item", new UnregisteredItemException(this));
             return false;
         }
@@ -378,7 +378,7 @@ public class SlimefunItem implements Placeable {
      * @return Whether this {@link SlimefunItem} is disabled in that world (or in general).
      */
     public boolean isDisabledIn(@Nonnull World world) {
-        if (state == ItemState.UNREGISTERED) {
+        if (state == ItemState.NOT_YET_REGISTERED_SON) {
             error("isDisabled(World) cannot be called before registering the item", new UnregisteredItemException(this));
             return false;
         }
@@ -799,7 +799,7 @@ public class SlimefunItem implements Placeable {
         Validate.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
 
         // Make sure they are added before the item was registered.
-        if (state != ItemState.UNREGISTERED) {
+        if (state != ItemState.NOT_YET_REGISTERED_SON) {
             throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
         }
 
@@ -826,7 +826,7 @@ public class SlimefunItem implements Placeable {
         Validate.notEmpty(settings, "You cannot add zero settings...");
         Validate.noNullElements(settings, "You cannot add any 'null' ItemSettings!");
 
-        if (state != ItemState.UNREGISTERED) {
+        if (state != ItemState.NOT_YET_REGISTERED_SON) {
             throw new UnsupportedOperationException("You cannot add an ItemSetting after the SlimefunItem was registered.");
         }
 
