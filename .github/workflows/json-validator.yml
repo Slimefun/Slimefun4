@@ -8,6 +8,9 @@ on:
     paths:
     - 'src/main/resources/wiki.json'
 
+permissions:
+  contents: read
+
 jobs:
   validate:
 

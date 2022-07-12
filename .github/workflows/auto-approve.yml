@@ -2,9 +2,14 @@ name: Auto approve
 
 on: pull_request
 
+permissions:
+  contents: read
+
 jobs:
   auto-approve:
 
+    permissions:
+      pull-requests: write  # for hmarr/auto-approve-action to approve PRs
     name: Auto approve Pull Request
     runs-on: ubuntu-latest
 
