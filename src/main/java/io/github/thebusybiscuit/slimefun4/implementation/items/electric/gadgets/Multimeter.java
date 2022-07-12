@@ -62,7 +62,8 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
                     }
                 }
 
-                if (item instanceof MultiBlockInteractionHandler) {
+                // If the block is also MultimeterInformational, we want to display the messages determined by the item
+                if (item instanceof MultimeterInformational) {
                     MultimeterInformational informational = (MultimeterInformational) item;
                     e.cancel();
                     p.sendMessage(informational.getAdditionalInfo());
