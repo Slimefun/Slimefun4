@@ -39,13 +39,20 @@
 #### Additions
 * (API) Added Tinted Glass to "GLASS_BLOCKS" tag
 * (API) Added "WOOL_CARPETS" tag (for compatibility across MC 1.19/1.18 tags)
+* Added a new language: Persian
+* Added a new language: Romanian
+* (API) Added a method for item groups to allow addons to choose if they want to allow items from other addons
+* Added a new option to Eletric Gold Pans: "override-output-limit"
 
 #### Changes
+* Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
 * Slimefun now requires Java 16
 
 #### Fixes
 * Fixed #3597
 * Fixed an issue related to "Bee Wings"
+* Fixed #3573
+* Fixed "round-robin" mode for cargo networks being very unreliable
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32

@@ -12,4 +12,5 @@ dependency-reduced-pom.xml
 .factorypath
 .project
 *.iml
+*.bak
 .DS_Store

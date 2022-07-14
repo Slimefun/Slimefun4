@@ -22,7 +22,37 @@ slimefun:
   misc_power_items: Belangrijke energie gerelateerde voorwerpen
   battery: Je eerste batterij
   steel_plate: Stalen beplating
+  parachute: Parachute
+  grappling_hook: Enterhaak
+  jetpacks: Jetpacks
+  solar_panel_and_helmet: Zonne-energie
+  elemental_staff: Elementaire Staven
+  grind_stone: Vermaal Steen
+  cactus_armor: Cactus Pak
+  gold_pan: Gouden Pan
+  magical_book_cover: Magisch Boeken Verbinden
+  slimefun_metals: Nieuwe Metalen
+  ore_crusher: Erts verdubbelen
+  bronze: Bronzen Creatie
+  compressor_and_carbon: Koolstof creatie
+  gilded_iron_armor: Verguld Ijzeren Harnas
+  synthetic_diamond: Synthetische Diamanten
+  pressure_chamber: Druk Kamer
+  synthetic_sapphire: Synthetische Sapphires
+  damascus_steel: Damascus Staal
+  damascus_steel_armor: Damascus Staal Harnas
+  reinforced_alloy: Versterkte Legering
+  carbonado: Zwarte diamanten
+  magic_workbench: Magische werkbank
+  wind_staff: Wind Staf
+  reinforced_armor: Versterkte Legering Harnas
   ore_washer: Erts Wasser
+  gold_carats: Puur Goud
+  silicon: Silicon Valley
+  fire_staff: Vuur Staf
+  gilded_iron: Glinsterend Ijzer
+  synthetic_emerald: Valse Edelsteen
+  chainmail_armor: Kettingen Armor
   wizard_talisman: Talisman van de Tovenaar
   lumber_axe: Houthakkers Bijl
   hazmat_suit: Hazmat Pak
@@ -73,6 +103,20 @@ slimefun:
   reinforced_furnace: Verstevigde Oven
   carbonado_furnace: Karbonado Gehoekte Oven
   electric_motor: Opwarmen
+  bio_reactor: Bio-Reactor
+  auto_anvil: Automatisch Aambeeld
+  multimeter: Energie Meting
+  gps_setup: Basis GPS Setup
+  programmable_androids: Programmeerbare Robots
+  android_interfaces: Android Interfaces
+  geo_scanner: GEO-Scans
+  combustion_reactor: Verbrandings Reactor
+  teleporter: Teleporteerder Basis Componenten
+  teleporter_activation_plates: Teleport Activatie
+  better_solar_generators: Geüpgraded Zonnepanelen
+  better_gps_transmitters: Geüpgrade zenders
+  energy_connectors: Bedrade verbindingen
+  butcher_androids: Slager Robots
   organic_food: Organisch Voedsel
   auto_breeder: Geautomatiseerde Voeding
   advanced_android: Geavanceerde Androids
@@ -90,3 +134,21 @@ slimefun:
   cargo_nodes: Vracht setup
   electric_ingot_machines: Elektrische Staaf Fabricatie
   medium_tier_electric_ingot_machines: Snelle Staaf Fabricatie
+  high_tier_electric_ingot_machines: Super Snelle Staaf Fabricatie
+  automated_crafting_chamber: Geautomatiseerd maken
+  better_food_fabricator: Geüpgraded Voedsel Fabricatie
+  reactor_access_port: Reactor Interactie
+  fluid_pump: Vloeistof Pomp
+  better_freezer: Geüpgraded Freezer
+  boosted_uranium: Nooit-Eindigende cirkel
+  trash_can: Afval
+  electric_smeltery: Elektrische Smelterij
+  better_electric_furnace: Geüpgraded Elektrische oven
+  trident: Drietand
+  lava_generator: Lava Generator
+  tape_measure: Rolmaat
+  bee_armor: Bij Harnas
+  produce_collector: Geautomatiseerd Melken
+  improved_generators: Verbeterde Generatoren
+  ingredients_and_cheese: Slimefun keuken
+  portable_teleporter: Teleportatie van Overal

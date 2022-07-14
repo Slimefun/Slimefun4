@@ -146,6 +146,7 @@ messages:
   multimeter: '&b已储存的能源: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4你不能使用 Slimefun 的物品和猪灵易物'
   bee-suit-slow-fall: '&e你的蜂翅将会让你安全缓降'
+  deprecated-item: '&4该物品已被弃用，将在不久后从 Slimefun 中移除。'
   multi-tool:
     mode-change: '&b%device% 的模式已切换为: &9%mode%'
     not-shears: '&c多功能工具 (Multi Tool) 不能作为剪刀使用!'

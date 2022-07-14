@@ -17,11 +17,11 @@ slimefun:
   sword_of_beheading: 処刑人の剣
   basic_circuit_board: 基本電子回路
   advanced_circuit_board: 発展電子回路
-  smeltery: 精錬所
-  steel: スチールの時代
+  smeltery: 製錬機
+  steel: 鋼鉄時代
   misc_power_items: エネルギーコア
   battery: はじめてのバッテリー
-  steel_plate: スチールの加工
+  steel_plate: 鋼鉄の加工
   steel_thruster: 推進機
   parachute: パラシュート
   grappling_hook: グラップリングフック
@@ -29,7 +29,7 @@ slimefun:
   multitools: マルチツール
   solar_panel_and_helmet: 太陽光の利用
   elemental_staff: 属性の杖
-  grind_stone: 石臼
+  grind_stone: 砥石
   cactus_armor: サボテン防具
   gold_pan: パンニング
   magical_book_cover: 魔法の本の作り方
@@ -39,7 +39,7 @@ slimefun:
   alloys: 合金Ⅰ
   compressor_and_carbon: 石炭紀
   gilded_iron_armor: 金メッキ防具
-  synthetic_diamond: 合成ダイヤモンド
+  synthetic_diamond: 人工ダイヤモンド
   pressure_chamber: 圧力室
   synthetic_sapphire: 合成サファイア
   damascus_steel: ダマスカス鋼の時代
@@ -210,6 +210,7 @@ slimefun:
   better_heated_pressure_chamber: 加熱圧力室Ⅱ
   elytra: エリトラ
   special_elytras: スペシャルエリトラ
+  trident: トライデント
   electric_crucible: 電気るつぼⅠ
   better_electric_crucibles: 電気るつぼⅡ
   advanced_electric_smeltery: 電気精錬所Ⅱ
@@ -250,3 +251,4 @@ slimefun:
   elytra_cap: 衝撃緩和装備
   bee_armor: 蜂アーマー
   book_binder: エンチャントの本の製本
+  improved_generators: 発電機の改良型
