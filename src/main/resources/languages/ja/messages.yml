@@ -29,6 +29,7 @@ commands:
     verbose-player: '&4プレイヤーはverboseフラグを使用できません！'
     unknown-flag: '&4未知のフラグです: &c%flag%'
   debug:
+    current: '&7現在のテストケース: &6%test_case%'
     disabled: '&7デバッグモードを無効化しました.'
 placeholderapi:
   profile-loading: 'ロード中…'
@@ -77,6 +78,17 @@ guide:
     translations:
       name: '&a他の言語をお探しですか？'
       lore: 'クリックで他の言語に翻訳する'
+  options:
+    learning-animation:
+      enabled:
+        click: '&eクリックで学習のアニメーションを無効化'
+      disabled:
+        text:
+          - '&b学習のアニメーション：&4なし'
+          - ''
+          - '&7You can now toggle whether you'
+          - '&7will see information about your pondering in chat'
+          - '&7upon researching an item.'
   title:
     main: 'Slimefunガイド'
     settings: '設定・情報'
@@ -87,6 +99,8 @@ guide:
     source: 'ソースコード'
     versions: 'バージョン一覧'
   credits:
+    commit: 'コミット'
+    commits: 'コミット'
     profile-link: 'クリックでGitHubのプロファイルを開く'
     open: 'クリックでコントリビュータを表示'
     description:
@@ -94,6 +108,11 @@ guide:
       - '&7オープンソースのプロジェクトです。'
       - '&7数年にわたり&e%contributors%&7人以上の人々が，'
       - '&7Slimefunに取り組んできました。'
+    roles:
+      developer: '&6開発者'
+      wiki: '&3ウィキ編集者'
+      resourcepack: '&cリソースパック作者'
+      translator: '&9訳者'
 messages:
   not-researched: '&4あなたにはこれを理解する知識が足りません。&f"%item%&f" &cのロックを解除してください。'
   not-enough-xp: '&4リサーチの遂行に必要な経験値が足りません'
@@ -116,6 +135,7 @@ messages:
   multimeter: '&bエネルギー残量: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4Slimefunアイテムはピグリンとの物々交換に使用できません'
   bee-suit-slow-fall: '&e蜂の羽が着地を安全でゆっくりにした'
+  deprecated-item: '&4このアイテムは廃止予定です。近日中にSlimefunから削除されます。'
   multi-tool:
     mode-change: '&b%device% モード変更: &9%mode%'
     not-shears: '&cMulti Toolはハサミとして利用できません！'
@@ -179,6 +199,8 @@ messages:
     - '&7常に前向きに生きていこう！'
     - '&7これはビスケットなんかではなくクッキーに違いない'
     - '&7ネオンサインが眩しい！'
+  pickaxe-of-the-seeker:
+    no-ores: '&c近くに鉱石が見当たりません'
 machines:
   pattern-not-found: '&eレシピが確認できません、アイテムを正しく配置してください'
   unknown-material: '&eアイテムを識別できません、レシピ通りに配置してください'
