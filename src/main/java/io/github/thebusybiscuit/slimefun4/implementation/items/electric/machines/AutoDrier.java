@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
