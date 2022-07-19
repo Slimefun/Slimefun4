@@ -35,8 +35,8 @@ class StatsCommand extends SubCommand {
             } else {
                 Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
-        } else if (sender instanceof Player) {
-            PlayerProfile.get((Player) sender, profile -> profile.sendStats(sender));
+        } else if (sender instanceof Player player) {
+            PlayerProfile.get(player, profile -> profile.sendStats(sender));
         } else {
             Slimefun.getLocalization().sendMessage(sender, "messages.only-players", true);
         }

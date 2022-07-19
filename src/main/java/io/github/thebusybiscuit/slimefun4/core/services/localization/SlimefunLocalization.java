@@ -348,8 +348,8 @@ public abstract class SlimefunLocalization implements Keyed {
 
         String prefix = addPrefix ? getChatPrefix() : "";
 
-        if (recipient instanceof Player) {
-            recipient.sendMessage(ChatColors.color(prefix + getMessage((Player) recipient, key)));
+        if (recipient instanceof Player player) {
+            recipient.sendMessage(ChatColors.color(prefix + getMessage(player, key)));
         } else {
             recipient.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + getMessage(key))));
         }
@@ -383,8 +383,8 @@ public abstract class SlimefunLocalization implements Keyed {
 
         String prefix = addPrefix ? getChatPrefix() : "";
 
-        if (recipient instanceof Player) {
-            recipient.sendMessage(ChatColors.color(prefix + function.apply(getMessage((Player) recipient, key))));
+        if (recipient instanceof Player player) {
+            recipient.sendMessage(ChatColors.color(prefix + function.apply(getMessage(player, key))));
         } else {
             recipient.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + function.apply(getMessage(key)))));
         }
@@ -393,8 +393,8 @@ public abstract class SlimefunLocalization implements Keyed {
     public void sendMessages(@Nonnull CommandSender recipient, @Nonnull String key) {
         String prefix = getChatPrefix();
 
-        if (recipient instanceof Player) {
-            for (String translation : getMessages((Player) recipient, key)) {
+        if (recipient instanceof Player player) {
+            for (String translation : getMessages(player, key)) {
                 String message = ChatColors.color(prefix + translation);
                 recipient.sendMessage(message);
             }
@@ -410,8 +410,8 @@ public abstract class SlimefunLocalization implements Keyed {
     public void sendMessages(CommandSender recipient, String key, boolean addPrefix, UnaryOperator<String> function) {
         String prefix = addPrefix ? getChatPrefix() : "";
 
-        if (recipient instanceof Player) {
-            for (String translation : getMessages((Player) recipient, key)) {
+        if (recipient instanceof Player player) {
+            for (String translation : getMessages(player, key)) {
                 String message = ChatColors.color(prefix + function.apply(translation));
                 recipient.sendMessage(message);
             }

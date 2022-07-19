@@ -21,9 +21,9 @@ class OpenGuideCommand extends SubCommand {
     @Override
     @ParametersAreNonnullByDefault
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender instanceof Player) {
+        if (sender instanceof Player player) {
             if (sender.hasPermission("slimefun.command.open_guide")) {
-                SlimefunGuide.openGuide((Player) sender, SlimefunGuideMode.SURVIVAL_MODE);
+                SlimefunGuide.openGuide(player, SlimefunGuideMode.SURVIVAL_MODE);
             } else {
                 Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }

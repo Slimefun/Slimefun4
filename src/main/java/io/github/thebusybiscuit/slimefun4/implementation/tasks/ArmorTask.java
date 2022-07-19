@@ -137,8 +137,8 @@ public class ArmorTask implements Runnable {
 
         SlimefunItem item = SlimefunItem.getByItem(helmet);
 
-        if (item instanceof SolarHelmet && item.canUse(p, true)) {
-            ((SolarHelmet) item).rechargeItems(p);
+        if (item instanceof SolarHelmet solarHelmet && item.canUse(p, true)) {
+            solarHelmet.rechargeItems(p);
         }
     }
 

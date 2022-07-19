@@ -140,11 +140,11 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
 
         for (Entity n : l.getChunk().getEntities()) {
-            if (n instanceof ArmorStand && l.distanceSquared(n.getLocation()) < 0.4) {
+            if (n instanceof ArmorStand armorStand && l.distanceSquared(n.getLocation()) < 0.4) {
                 String customName = n.getCustomName();
 
                 if (customName != null && customName.equals(nametag)) {
-                    return (ArmorStand) n;
+                    return armorStand;
                 }
             }
         }

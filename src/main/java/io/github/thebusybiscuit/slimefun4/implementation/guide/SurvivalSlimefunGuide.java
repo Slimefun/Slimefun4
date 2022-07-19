@@ -119,8 +119,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
             try {
-                if (group instanceof FlexItemGroup) {
-                    if (((FlexItemGroup) group).isVisible(p, profile, getMode())) {
+                if (group instanceof FlexItemGroup flexItemGroup) {
+                    if (flexItemGroup.isVisible(p, profile, getMode())) {
                         groups.add(group);
                     }
                 } else if (!group.isHidden(p)) {
@@ -233,8 +233,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        if (itemGroup instanceof FlexItemGroup) {
-            ((FlexItemGroup) itemGroup).open(p, profile, getMode());
+        if (itemGroup instanceof FlexItemGroup flexItemGroup) {
+            flexItemGroup.open(p, profile, getMode());
             return;
         }
 
@@ -493,19 +493,19 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private <T extends Recipe> void showRecipeChoices(T recipe, ItemStack[] recipeItems, AsyncRecipeChoiceTask task) {
         RecipeChoice[] choices = Slimefun.getMinecraftRecipeService().getRecipeShape(recipe);
 
-        if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
-            recipeItems[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));
+        if (choices.length == 1 && choices[0] instanceof MaterialChoice materialChoice) {
+            recipeItems[4] = new ItemStack(materialChoice.getChoices().get(0));
 
-            if (((MaterialChoice) choices[0]).getChoices().size() > 1) {
-                task.add(recipeSlots[4], (MaterialChoice) choices[0]);
+            if (materialChoice.getChoices().size() > 1) {
+                task.add(recipeSlots[4], materialChoice);
             }
         } else {
             for (int i = 0; i < choices.length; i++) {
-                if (choices[i] instanceof MaterialChoice) {
-                    recipeItems[i] = new ItemStack(((MaterialChoice) choices[i]).getChoices().get(0));
+                if (choices[i] instanceof MaterialChoice materialChoice) {
+                    recipeItems[i] = new ItemStack(materialChoice.getChoices().get(0));
 
-                    if (((MaterialChoice) choices[i]).getChoices().size() > 1) {
-                        task.add(recipeSlots[i], (MaterialChoice) choices[i]);
+                    if (materialChoice.getChoices().size() > 1) {
+                        task.add(recipeSlots[i], materialChoice);
                     }
                 }
             }
@@ -545,8 +545,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         displayItem(menu, profile, p, item, result, recipeType, recipe, task);
 
-        if (item instanceof RecipeDisplayItem) {
-            displayRecipes(p, profile, menu, (RecipeDisplayItem) item, 0);
+        if (item instanceof RecipeDisplayItem recipeDisplayItem) {
+            displayRecipes(p, profile, menu, recipeDisplayItem, 0);
         }
 
         menu.open(p);

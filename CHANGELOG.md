@@ -43,8 +43,11 @@
 * Added a new language: Romanian
 * (API) Added a method for item groups to allow addons to choose if they want to allow items from other addons
 * Added a new option to Eletric Gold Pans: "override-output-limit"
+* Added "Mud -> Clay" recipe to the Auto Drier
 
 #### Changes
+* Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
+* Slimefun now requires Java 16
 
 #### Fixes
 * Fixed #3597

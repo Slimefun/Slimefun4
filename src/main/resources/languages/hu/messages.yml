@@ -146,6 +146,7 @@ messages:
   multimeter: '&bTárolt energia: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4Slimefun tárgyakat nem cserélhetsz el a piglinekkel.'
   bee-suit-slow-fall: '&eA Bee Wings segít neked visszatérni a földre lassan és biztonságosan'
+  deprecated-item: '&4Ez a tárgy elavult, és hamarosan eltávolítjuk a Slimefunból.'
   multi-tool:
     mode-change: '&b%device% mód átállítva: &9%mode%'
     not-shears: '&cA Multi Tool nem használható óllóként!'

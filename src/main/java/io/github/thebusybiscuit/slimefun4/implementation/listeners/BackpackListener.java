@@ -94,12 +94,12 @@ public class BackpackListener implements Listener {
         if (item != null) {
             SlimefunItem backpack = SlimefunItem.getByItem(item);
 
-            if (backpack instanceof SlimefunBackpack) {
+            if (backpack instanceof SlimefunBackpack slimefunBackpack) {
                 if (e.getClick() == ClickType.NUMBER_KEY) {
                     if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
                         ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
 
-                        if (!isAllowed((SlimefunBackpack) backpack, hotbarItem)) {
+                        if (!isAllowed(slimefunBackpack, hotbarItem)) {
                             e.setCancelled(true);
                         }
                     }
@@ -107,10 +107,10 @@ public class BackpackListener implements Listener {
                     // Fixes #3265
                     ItemStack offHandItem = e.getWhoClicked().getInventory().getItemInOffHand();
 
-                    if (!isAllowed((SlimefunBackpack) backpack, offHandItem)) {
+                    if (!isAllowed(slimefunBackpack, offHandItem)) {
                         e.setCancelled(true);
                     }
-                } else if (!isAllowed((SlimefunBackpack) backpack, e.getCurrentItem())) {
+                } else if (!isAllowed(slimefunBackpack, e.getCurrentItem())) {
                     e.setCancelled(true);
                 }
             }
