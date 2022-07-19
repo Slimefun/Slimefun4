@@ -99,8 +99,7 @@ public class MinecraftRecipeService {
      * 
      * @return An {@link Optional} describing the furnace output of the given {@link ItemStack}
      */
-    @Nonnull
-    public Optional<ItemStack> getFurnaceOutput(@Nullable ItemStack input) {
+    public @Nonnull Optional<ItemStack> getFurnaceOutput(@Nullable ItemStack input) {
         if (snapshot == null || input == null) {
             return Optional.empty();
         }
@@ -132,18 +131,17 @@ public class MinecraftRecipeService {
      * 
      * @return An Array of {@link RecipeChoice} representing the shape of this {@link Recipe}
      */
-    @Nonnull
-    public RecipeChoice[] getRecipeShape(@Nonnull Recipe recipe) {
+    public @Nonnull RecipeChoice[] getRecipeShape(@Nonnull Recipe recipe) {
         Validate.notNull(recipe, "Recipe must not be null!");
 
-        if (recipe instanceof ShapedRecipe) {
+        if (recipe instanceof ShapedRecipe shapedRecipe) {
             List<RecipeChoice> choices = new LinkedList<>();
 
-            for (String row : ((ShapedRecipe) recipe).getShape()) {
+            for (String row : shapedRecipe.getShape()) {
                 int columns = row.toCharArray().length;
 
                 for (char key : row.toCharArray()) {
-                    choices.add(((ShapedRecipe) recipe).getChoiceMap().get(key));
+                    choices.add(shapedRecipe.getChoiceMap().get(key));
                 }
 
                 while (columns < 3) {
@@ -167,8 +165,7 @@ public class MinecraftRecipeService {
      * 
      * @return An array of {@link Recipe Recipes} to craft the given {@link ItemStack}
      */
-    @Nonnull
-    public Recipe[] getRecipesFor(@Nullable ItemStack item) {
+    public @Nonnull Recipe[] getRecipesFor(@Nullable ItemStack item) {
         if (snapshot == null || item == null) {
             return new Recipe[0];
         } else {
@@ -187,8 +184,7 @@ public class MinecraftRecipeService {
      * 
      * @return The corresponding {@link Recipe} or null
      */
-    @Nullable
-    public Recipe getRecipe(@Nonnull NamespacedKey key) {
+    public @Nullable Recipe getRecipe(@Nonnull NamespacedKey key) {
         Validate.notNull(key, "The NamespacedKey should not be null");
 
         if (snapshot != null) {

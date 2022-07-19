@@ -47,9 +47,9 @@ public class EnhancedFurnaceListener implements Listener {
 
         SlimefunItem furnace = BlockStorage.check(e.getBlock());
 
-        if (furnace instanceof EnhancedFurnace && ((EnhancedFurnace) furnace).getFuelEfficiency() > 0) {
+        if (furnace instanceof EnhancedFurnace enhancedFurnace && enhancedFurnace.getFuelEfficiency() > 0) {
             int burnTime = e.getBurnTime();
-            int newBurnTime = ((EnhancedFurnace) furnace).getFuelEfficiency() * burnTime;
+            int newBurnTime = enhancedFurnace.getFuelEfficiency() * burnTime;
 
             e.setBurnTime(Math.min(newBurnTime, Short.MAX_VALUE - 1));
         }
@@ -64,14 +64,14 @@ public class EnhancedFurnaceListener implements Listener {
 
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
-        if (sfItem instanceof EnhancedFurnace) {
+        if (sfItem instanceof EnhancedFurnace enhancedFurnace) {
             BlockState state = PaperLib.getBlockState(e.getBlock(), false).getState();
 
-            if (state instanceof Furnace) {
-                FurnaceInventory inventory = ((Furnace) state).getInventory();
+            if (state instanceof Furnace furnace) {
+                FurnaceInventory inventory = furnace.getInventory();
 
                 boolean multiplier = SlimefunTag.ENHANCED_FURNACE_LUCK_MATERIALS.isTagged(inventory.getSmelting().getType());
-                int amount = multiplier ? ((EnhancedFurnace) sfItem).getRandomOutputAmount() : 1;
+                int amount = multiplier ? enhancedFurnace.getRandomOutputAmount() : 1;
                 Optional<ItemStack> result = Slimefun.getMinecraftRecipeService().getFurnaceOutput(inventory.getSmelting());
 
                 if (result.isPresent()) {

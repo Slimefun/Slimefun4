@@ -222,8 +222,7 @@ public class BlockPlacer extends SlimefunItem {
                     if (meta.hasDisplayName()) {
                         BlockStateSnapshotResult blockState = PaperLib.getBlockState(facedBlock, false);
 
-                        if ((blockState.getState() instanceof Nameable)) {
-                            Nameable nameable = ((Nameable) blockState.getState());
+                        if (blockState.getState() instanceof Nameable nameable) {
                             nameable.setCustomName(meta.getDisplayName());
 
                             if (blockState.isSnapshot()) {

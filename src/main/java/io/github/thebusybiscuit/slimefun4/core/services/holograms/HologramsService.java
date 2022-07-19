@@ -191,11 +191,9 @@ public class HologramsService {
      * @return Whether this could be a hologram
      */
     private boolean isHologram(@Nonnull Entity n) {
-        if (n instanceof ArmorStand) {
-            ArmorStand armorstand = (ArmorStand) n;
-
+        if (n instanceof ArmorStand armorStand) {
             // The absolute minimum requirements to count as a hologram
-            return !armorstand.isVisible() && armorstand.isSilent() && !armorstand.hasGravity();
+            return !armorStand.isVisible() && armorStand.isSilent() && !armorStand.hasGravity();
         } else {
             return false;
         }
@@ -216,22 +214,20 @@ public class HologramsService {
      */
     @Nullable
     private Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
-        if (entity instanceof ArmorStand) {
-            ArmorStand armorstand = (ArmorStand) entity;
-
-            armorstand.setVisible(false);
-            armorstand.setInvulnerable(true);
-            armorstand.setSilent(true);
-            armorstand.setMarker(true);
-            armorstand.setAI(false);
-            armorstand.setGravity(false);
-            armorstand.setRemoveWhenFarAway(false);
+        if (entity instanceof ArmorStand armorStand) {
+            armorStand.setVisible(false);
+            armorStand.setInvulnerable(true);
+            armorStand.setSilent(true);
+            armorStand.setMarker(true);
+            armorStand.setAI(false);
+            armorStand.setGravity(false);
+            armorStand.setRemoveWhenFarAway(false);
 
             // Set a persistent tag to re-identify the correct hologram later
             container.set(persistentDataKey, PersistentDataType.LONG, position.getPosition());
 
             // Store in cache for faster access
-            Hologram hologram = new Hologram(armorstand.getUniqueId());
+            Hologram hologram = new Hologram(armorStand.getUniqueId());
             cache.put(position, hologram);
 
             return hologram;

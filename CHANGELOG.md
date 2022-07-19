@@ -47,6 +47,7 @@
 
 #### Changes
 * Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
+* Slimefun now requires Java 16
 
 #### Fixes
 * Fixed #3597

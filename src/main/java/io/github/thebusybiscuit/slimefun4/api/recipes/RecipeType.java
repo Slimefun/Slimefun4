@@ -99,8 +99,8 @@ public class RecipeType implements Keyed {
         this.key = key;
         this.consumer = callback;
 
-        if (item instanceof SlimefunItemStack) {
-            this.machine = ((SlimefunItemStack) item).getItemId();
+        if (item instanceof SlimefunItemStack slimefunItemStack) {
+            this.machine = slimefunItemStack.getItemId();
         } else {
             this.machine = "";
         }
@@ -109,7 +109,7 @@ public class RecipeType implements Keyed {
     public RecipeType(NamespacedKey key, ItemStack item) {
         this.key = key;
         this.item = item;
-        this.machine = item instanceof SlimefunItemStack ? ((SlimefunItemStack) item).getItemId() : "";
+        this.machine = item instanceof SlimefunItemStack slimefunItemStack ? slimefunItemStack.getItemId() : "";
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {
@@ -124,8 +124,8 @@ public class RecipeType implements Keyed {
         } else {
             SlimefunItem slimefunItem = SlimefunItem.getById(this.machine);
 
-            if (slimefunItem instanceof MultiBlockMachine) {
-                ((MultiBlockMachine) slimefunItem).addRecipe(recipe, result);
+            if (slimefunItem instanceof MultiBlockMachine mbm) {
+                mbm.addRecipe(recipe, result);
             }
         }
     }
@@ -149,8 +149,8 @@ public class RecipeType implements Keyed {
 
     @Override
     public final boolean equals(Object obj) {
-        if (obj instanceof RecipeType) {
-            return ((RecipeType) obj).getKey().equals(this.getKey());
+        if (obj instanceof RecipeType recipeType) {
+            return recipeType.getKey().equals(this.getKey());
         } else {
             return false;
         }
