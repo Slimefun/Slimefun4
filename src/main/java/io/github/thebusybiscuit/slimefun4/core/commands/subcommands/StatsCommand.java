@@ -23,6 +23,12 @@ class StatsCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
+        // Check if researching is even enabled
+        if (!Slimefun.getRegistry().isResearchingEnabled()) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.researching-is-disabled");
+            return;
+        }
+
         if (args.length > 1) {
             if (sender.hasPermission("slimefun.stats.others") || sender instanceof ConsoleCommandSender) {
                 Optional<Player> player = PlayerList.findByName(args[1]);

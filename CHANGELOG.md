@@ -48,6 +48,9 @@
 #### Changes
 * Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
 * Slimefun now requires Java 16
+* "Connected / Not connected" messages for cargo nodes are now sent via the actionbar
+* "/sf stats" can no longer be used if researching is disabled
+* "/sf research" can no longer be used if researching is disabled
 
 #### Fixes
 * Fixed #3597
