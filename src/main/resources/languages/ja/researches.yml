@@ -189,6 +189,7 @@ slimefun:
   cargo_basics: カーゴ素材
   cargo_nodes: カーゴ運搬術
   electric_ingot_machines: 自動インゴット作成Ⅰ
+  medium_tier_electric_ingot_machines: 自動インゴット作成Ⅱ
   high_tier_electric_ingot_machines: 自動インゴット作成Ⅱ
   automated_crafting_chamber: 自動クラフト
   better_food_fabricator: オーガニック食品生成所
@@ -251,4 +252,9 @@ slimefun:
   elytra_cap: 衝撃緩和装備
   bee_armor: 蜂アーマー
   book_binder: エンチャントの本の製本
+  auto_crafting: 自動クラフト
+  produce_collector: 自動搾乳
   improved_generators: 発電機の改良型
+  ingredients_and_cheese: スライムファン料理
+  medium_tier_auto_enchanting: 高度なエンチャント操作術
+  portable_teleporter: どこでもテレポート
