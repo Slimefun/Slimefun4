@@ -220,8 +220,6 @@ machines:
     pick-a-floor: '&3- Bir kat seçin -'
     current-floor: '&eŞu anda bulunduğunuz kat:'
     click-to-teleport: '&7Bu yere ışınlanmak için &eTıkla:'
-    enter-name: '&7Lütfen sohbette yeni katınız için bir ad yazın. &r(Renk kodları destekleniyor!)'
-    named: '&2Bu kat başarıyla isimlendirildi: &r%floor%'
   TELEPORTER:
     teleporting: '&3Işınlanılıyor...'
     teleported: '&3Işınlanıldı!'
