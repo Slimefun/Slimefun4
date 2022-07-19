@@ -158,8 +158,6 @@ machines:
     pick-a-floor: '&3- Výber podlažia  -'
     current-floor: '&eToto je podlažie na ktorom sa práve nachádzaš:'
     click-to-teleport: '&eKlikni &7pre teleportáciu na toto podlažie:'
-    enter-name: '&7Prosím zadaj meno pre podlažie do chatu. &r(Kódy farieb sú podporované!)'
-    named: '&2Úspešne pomenované podlažie:&r%floor%'
   TELEPORTER:
     teleporting: '&3Teleportujem...'
     teleported: '&3Bol si teleportovaný!'
