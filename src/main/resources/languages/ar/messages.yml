@@ -161,8 +161,6 @@ machines:
     pick-a-floor: '&3- اختر طابق -'
     current-floor: '&eهذا هو الطابق الحالي:'
     click-to-teleport: '&eاضغط &7للذهاب لهذا الطابق:'
-    enter-name: '&7الرجاء ادخال أسم الطابق في الشات. &r(رموز الألوان مدعومة!)'
-    named: '&2تم تسمية الطابق: &r%floor%'
   TELEPORTER:
     teleporting: '&3يتم الإنتقال...'
     teleported: '&3تم الإنتقال!'
