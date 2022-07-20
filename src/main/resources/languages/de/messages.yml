@@ -256,8 +256,6 @@ machines:
     pick-a-floor: '&3- Wähle eine Etage -'
     current-floor: '&eDeine aktuelle Etage:'
     click-to-teleport: '&eKlicke hier &7um zu dieser Etage zu teleportieren:'
-    enter-name: '&7Bitte gebe ins Chatfenser einen Namen für diese Etage ein. &r(Farbcodes werden unterstützt!)'
-    named: '&2Diese Etage wurde erfolgreich &r"%floor%&r" &2genannt'
   TELEPORTER:
     teleporting: '&3Du wirst teleportiert...'
     teleported: '&3Erfolgreich teleportiert!'

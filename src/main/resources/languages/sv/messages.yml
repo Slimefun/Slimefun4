@@ -156,8 +156,6 @@ machines:
     pick-a-floor: '&3- Välj en våning -'
     current-floor: '&eDetta är våningen som du är på just nu:'
     click-to-teleport: '&eKlicka &7för att förflyttas till denna våning:'
-    enter-name: '&7Skriv in önskad namn till våningen i chatten. &r(Färg Koder stöds!)'
-    named: '&2Bytte namn till våningen till: &r%floor%'
   TELEPORTER:
     teleporting: '&3Teleporterar...'
     teleported: '&3Teleporterad!'

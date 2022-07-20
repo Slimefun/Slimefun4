@@ -1,5 +1,14 @@
 ---
 slimefun:
+  walking_sticks: عصای راه رفتن
+  portable_crafter: میز کار همراه
+  fortune_cookie: شیرینی بخت
+  portable_dustbin: سطل زباله مجازی
+  meat_jerky: گوشت جرکی
+  armor_forge: ساخت زره
+  glowstone_armor: زره براق
+  lumps: توده ها و جادو
+  ender_backpack: کوله پشتی پایان جهان
   battery: اولین باتری شما
   parachute: چتر نجات
   solar_panel_and_helmet: نیروی خورشیدی
@@ -9,11 +18,22 @@ slimefun:
   night_vision_googles: عینک دید در شب
   backpacks: کوله پشتی ها
   juicer: نوشیدنی های خوشمزه
+  carbonado_furnace: کوره لبه دار کربونادو
+  block_placer: بلوک گذار
+  scroll_of_dimensional_teleposition: چرخاندن چیزها
+  special_bows: رابین هود
   tome_of_knowledge_sharing: اشتراک گذاری با دوستان
+  flask_of_knowledge: ذخیره‌سازی XP
+  hardened_glass: مقاومت در برابر انفجار
   golden_apple_juice: معجون طلایی
+  cooler: نوشیدنی های قابل حمل
+  ancient_altar: محراب باستانی
+  rainbow_blocks: بلوک های رنگین کمانی
+  duct_tape: نوار چسب
   plastic_sheet: پلاستیک
   oil: نفت
   fuel: سوخت
+  electric_ore_grinding: خرد کردن و آسیاب کردن
   trash_can: اشغال
   trident: نیزه سه شاخه
   auto_drier: یک روز خشک

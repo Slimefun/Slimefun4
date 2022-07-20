@@ -174,8 +174,6 @@ machines:
     pick-a-floor: '&3- Wybierz piętro-'
     current-floor: '&eTo jest piętro, na którym aktualnie jesteś:'
     click-to-teleport: '&eKliknij &7aby teleportować się na to piętro:'
-    enter-name: '&7Wprowadź żądaną nazwę piętra na czacie. &r(Kody kolorów są obsługiwane!)'
-    named: '&2Pomyślnie nazwano podłogę: &r% floor%'
   TELEPORTER:
     teleporting: '&3Teleportuje...'
     teleported: '&3Przeteleportowano!'

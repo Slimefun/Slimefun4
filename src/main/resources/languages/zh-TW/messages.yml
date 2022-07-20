@@ -257,8 +257,6 @@ machines:
     pick-a-floor: '&3- 選擇樓層 -'
     current-floor: '&e這是你現在的樓層：'
     click-to-teleport: '&e按這 &7來傳送到該樓層：'
-    enter-name: '&7請輸入你的樓層名稱&r（可以輸入顏色代碼）'
-    named: '&2成功命名此樓層為 ：&r%floor%'
   TELEPORTER:
     teleporting: '&3傳送中...'
     teleported: '&3傳送成功！'
@@ -402,3 +400,5 @@ languages:
   mk: '馬其頓語'
   sr: '塞爾維亞語'
   be: '白俄羅斯語'
+  si-LK: '僧伽羅語'
+  lt: '立陶宛語'

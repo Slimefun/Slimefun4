@@ -256,8 +256,6 @@ machines:
     pick-a-floor: '&3- Vyber si patro -'
     current-floor: '&eAktuální patro:'
     click-to-teleport: '&eKliknutím &7se teleportuješ na toto patro:'
-    enter-name: '&7Zadej název podlaží do chatu. &r(Barvy jsou podporovány!)'
-    named: '&2Podlaží úspěšně pojmenováno: &r%floor%'
   TELEPORTER:
     teleporting: '&3Teleportuji...'
     teleported: '&3Teleportace dokončena!'

@@ -1,1 +1,24 @@
 ---
+tooltips:
+  results: 'نتایج GEO اسکنر'
+  chunk: 'قطعه اسکن شده'
+  world: 'جهان'
+  unit: 'واحد'
+  units: 'واحد ها'
+resources:
+  slimefun:
+    oil: 'نفت'
+    nether_ice: 'یخ جهنمی'
+    salt: 'نمک'
+    uranium: 'اورانیوم'
+  slimefunorechunks:
+    iron_ore_chunk: 'قطعه سنگ آهن'
+    gold_ore_chunk: 'قطعه سنگ طلا'
+    copper_ore_chunk: 'قطعه سنگ مس'
+    tin_ore_chunk: 'سنگ معدن قلع'
+    silver_ore_chunk: 'سنگ معدن نقره'
+    aluminum_ore_chunk: 'سنگ معدن آلمینیوم'
+    lead_ore_chunk: 'سنگ معدن سرب'
+    zinc_ore_chunk: 'سنگ معدن روی'
+    nickel_ore_chunk: 'سنگ معدن نیکل'
+    cobalt_ore_chunk: 'سنگ معدن کبالت'

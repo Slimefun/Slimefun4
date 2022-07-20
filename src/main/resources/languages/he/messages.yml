@@ -256,8 +256,6 @@ machines:
     pick-a-floor: '&3- בחר קומה -'
     current-floor: '&e אתה נמצא כרגע על קומה:'
     click-to-teleport: '&eלחץ &7 כדי להשתגר לקומה:'
-    enter-name: '&7 אנא הכנס את שם הרצפה הרצוי לצ''אט שלך. &r (קודי צבע נתמכים!)'
-    named: '&2 בהצלחה נקבע שם קומה זאת: &f%floor%'
   TELEPORTER:
     teleporting: '&3משתגר....'
     teleported: '&3שוגר!'

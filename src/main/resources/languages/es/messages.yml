@@ -256,8 +256,6 @@ machines:
     pick-a-floor: '&3- Selecciona un piso -'
     current-floor: '&eTe encuentras en este piso:'
     click-to-teleport: '&eClic &7para ir a este piso:'
-    enter-name: '&7Por favor, escribe en el chat el nombre para el piso deseado. &r(¡Se permiten códigos de color!)'
-    named: '&2Has dado nombre a este piso: &r%floor%'
   TELEPORTER:
     teleporting: '&3Teletransportando...'
     teleported: '&3¡Teletransportado!'
