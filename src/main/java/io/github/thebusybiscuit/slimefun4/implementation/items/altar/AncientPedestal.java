@@ -46,7 +46,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * @author Redemption198
  * @author TheBusyBiscuit
  * @author StarWishsama
- * 
+ *
  * @see AncientAltar
  * @see AncientAltarListener
  * @see AncientAltarTask
@@ -104,10 +104,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         Location l = pedestal.getLocation().clone().add(0.5, 1.2, 0.5);
 
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
-            if (n instanceof Item && n.isValid()) {
-                Optional<Item> item = Optional.of((Item) n);
-
-                startItemWatcher(pedestal.getLocation(), (Item) n);
+            if (n instanceof Item item && item.isValid()) {
+                startItemWatcher(pedestal.getLocation(), item);
                 return item;
             }
         }
@@ -116,8 +114,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     private boolean testItem(@Nullable Entity n) {
-        if (n instanceof Item && n.isValid()) {
-            Item item = (Item) n;
+        if (n instanceof Item item && n.isValid()) {
             ItemMeta meta = item.getItemStack().getItemMeta();
 
             return meta.hasDisplayName() && meta.getDisplayName().startsWith(ITEM_PREFIX);

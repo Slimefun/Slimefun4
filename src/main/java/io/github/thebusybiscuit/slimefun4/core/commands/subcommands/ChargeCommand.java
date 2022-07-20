@@ -33,14 +33,12 @@ class ChargeCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender instanceof Player) {
+        if (sender instanceof Player player) {
             if (sender.hasPermission("slimefun.command.charge")) {
-                Player p = (Player) sender;
-                ItemStack item = p.getInventory().getItemInMainHand();
+                ItemStack item = player.getInventory().getItemInMainHand();
                 SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 
-                if (slimefunItem instanceof Rechargeable) {
-                    Rechargeable rechargeableItem = (Rechargeable) slimefunItem;
+                if (slimefunItem instanceof Rechargeable rechargeableItem) {
                     rechargeableItem.setItemCharge(item, rechargeableItem.getMaxItemCharge(item));
                     Slimefun.getLocalization().sendMessage(sender, "commands.charge.charge-success", true);
                 } else {

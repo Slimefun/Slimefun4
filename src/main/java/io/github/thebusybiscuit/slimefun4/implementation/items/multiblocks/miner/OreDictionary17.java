@@ -19,34 +19,25 @@ class OreDictionary17 extends OreDictionary16 {
     @ParametersAreNonnullByDefault
     public ItemStack getDrops(Material material, Random random) {
         // In 1.17, breaking metal ores should get raw metals. Also support deepslate ores.
-        switch (material) {
-            case COAL_ORE:
-            case DEEPSLATE_COAL_ORE:
-                return new ItemStack(Material.COAL);
-            case DIAMOND_ORE:
-            case DEEPSLATE_DIAMOND_ORE:
-                return new ItemStack(Material.DIAMOND);
-            case EMERALD_ORE:
-            case DEEPSLATE_EMERALD_ORE:
-                return new ItemStack(Material.EMERALD);
-            case REDSTONE_ORE:
-            case DEEPSLATE_REDSTONE_ORE:
-                return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
-            case LAPIS_ORE:
-            case DEEPSLATE_LAPIS_ORE:
-                return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
-            case COPPER_ORE:
-            case DEEPSLATE_COPPER_ORE:
-                return new ItemStack(Material.RAW_COPPER);
-            case IRON_ORE:
-            case DEEPSLATE_IRON_ORE:
-                return new ItemStack(Material.RAW_IRON);
-            case GOLD_ORE:
-            case DEEPSLATE_GOLD_ORE:
-                return new ItemStack(Material.RAW_GOLD);
-            default:
-                return super.getDrops(material, random);
-        }
+        return switch (material) {
+            case COAL_ORE,
+                DEEPSLATE_COAL_ORE -> new ItemStack(Material.COAL);
+            case DIAMOND_ORE,
+                DEEPSLATE_DIAMOND_ORE -> new ItemStack(Material.DIAMOND);
+            case EMERALD_ORE,
+                DEEPSLATE_EMERALD_ORE -> new ItemStack(Material.EMERALD);
+            case REDSTONE_ORE,
+                DEEPSLATE_REDSTONE_ORE -> new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
+            case LAPIS_ORE,
+                DEEPSLATE_LAPIS_ORE -> new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+            case COPPER_ORE,
+                DEEPSLATE_COPPER_ORE -> new ItemStack(Material.RAW_COPPER);
+            case IRON_ORE,
+                DEEPSLATE_IRON_ORE -> new ItemStack(Material.RAW_IRON);
+            case GOLD_ORE,
+                DEEPSLATE_GOLD_ORE -> new ItemStack(Material.RAW_GOLD);
+            default -> super.getDrops(material, random);
+        };
     }
 
 }

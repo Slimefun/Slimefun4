@@ -19,6 +19,7 @@ commands:
   timings:
     please-wait: '&eProszę poczekać sekundę... Wyniki przychodzą!'
   debug:
+    description: 'Uruchom debugowanie dla programistów'
     none-running: '&7Nie ma obecnie żadnego przypadku testowego!'
     disabled: '&7Wyłączono tryb debugowania.'
 guide:
@@ -158,6 +159,7 @@ machines:
   full-inventory: '&eEkwipunek jest pełny!'
   in-use: '&cEkwipunek tego bloku jest na razie otworzony przez innego gracza.'
   ignition-chamber-no-flint: '&cDo Komory Zapłonowej brakuje Krzesiwa.'
+  inventory-empty: '&6Pomyślnie zbudowałeś ten Multiblock. Kontynuuj umieszczając przedmioty wewnątrz dozownika i kliknij na mnie ponownie, aby stworzyć przedmiot, który chcesz!'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4Ołtarz nie jest otoczony potrzebną ilością cokołów &c(%pedestals% / 8)'
     unknown-catalyst: '&4Nieznany katalizator! &cZamiast tego użyj prawidłowego przepisu!'
@@ -191,11 +193,19 @@ machines:
     must-be-placed: '&4Musi być umieszczony na skrzyni lub maszynie!'
 anvil:
   not-working: '&4Nie możesz używać przedmiotów Slimefun w kowadle!'
+brewing_stand:
+  not-working: '&4Nie możesz używać przedmiotów ze Slimefun''a w statywie alchemicznym!'
+cartography_table:
+  not-working: '&4Nie możesz używać przedmiotów ze Slimefun''a w stole kartograficznym!'
+villagers:
+  no-trading: '&4Nie możesz handlować przedmiotami ze Slimefun''a z Wieśniakami!'
 backpack:
   already-open: '&cPrzepraszamy, ten plecak jest otwarty gdzie indziej!'
   no-stack: '&cNie możesz stakować plecaków'
 workbench:
   not-enhanced: '&4Nie można używać przedmiotów Slimefun w zwykłym stole warsztatowym'
+cauldron:
+  no-discoloring: '&4Nie możesz zmienić koloru Zbroi ze Slimefun''a'
 gps:
   deathpoint: '&4Punkt śmierci &7%date%'
   waypoint:
@@ -216,6 +226,7 @@ android:
   scripts:
     already-uploaded: '&4Ten skrypt został już przesłany.'
     editor: 'Edytor skryptów'
+    too-long: '&cSkrypt jest za długi, aby go edytować!'
     instructions:
       START: '&2Uruchom skrypt'
       REPEAT: '&9 Powtórz skrypt'

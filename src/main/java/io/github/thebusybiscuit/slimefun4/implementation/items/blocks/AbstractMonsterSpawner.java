@@ -83,12 +83,11 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
         ItemMeta meta = item.getItemMeta();
 
         // Fixes #2583 - Proper NBT handling of Spawners
-        if (meta instanceof BlockStateMeta) {
-            BlockStateMeta stateMeta = (BlockStateMeta) meta;
+        if (meta instanceof BlockStateMeta stateMeta) {
             BlockState state = stateMeta.getBlockState();
 
-            if (state instanceof CreatureSpawner) {
-                ((CreatureSpawner) state).setSpawnedType(type);
+            if (state instanceof CreatureSpawner spawner) {
+                spawner.setSpawnedType(type);
             }
 
             stateMeta.setBlockState(state);
