@@ -106,7 +106,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
             if (n instanceof Item item && item.isValid()) {
                 startItemWatcher(pedestal.getLocation(), item);
-                return item;
+                return Optional.of(item);
             }
         }
 
