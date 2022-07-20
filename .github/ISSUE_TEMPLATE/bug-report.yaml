@@ -113,6 +113,7 @@ body:
     label: '🎮 Minecraft Version'
     description: 'Please select the Minecraft version of the server'
     options:
+      - 1.19.x
       - 1.18.x
       - 1.17.x
       - 1.16.x

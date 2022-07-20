@@ -60,9 +60,6 @@ public class IntegrationsManager {
     private boolean isItemsAdderInstalled = false;
     private boolean isOrebfuscatorInstalled = false;
 
-    // Addon support
-    private boolean isChestTerminalInstalled = false;
-
     /**
      * This initializes the {@link IntegrationsManager}
      * 
@@ -150,25 +147,6 @@ public class IntegrationsManager {
             new OrebfuscatorIntegration(plugin).register();
             isOrebfuscatorInstalled = true;
         });
-
-        isChestTerminalInstalled = isAddonInstalled("ChestTerminal");
-    }
-
-    /**
-     * This method checks if the given addon is installed.
-     * 
-     * @param addon
-     *            The name of the addon
-     * 
-     * @return Whether that addon is installed on the {@link Server}
-     */
-    private boolean isAddonInstalled(@Nonnull String addon) {
-        if (plugin.getServer().getPluginManager().isPluginEnabled(addon)) {
-            Slimefun.logger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -326,10 +304,6 @@ public class IntegrationsManager {
 
     public boolean isItemsAdderInstalled() {
         return isItemsAdderInstalled;
-    }
-
-    public boolean isChestTerminalInstalled() {
-        return isChestTerminalInstalled;
     }
 
     public boolean isOrebfuscatorInstalled() {

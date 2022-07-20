@@ -40,14 +40,29 @@ public class SubItemGroup extends ItemGroup {
     }
 
     @Override
-    public final boolean isHidden(@Nonnull Player p) {
+    public final boolean isVisible(@Nonnull Player p) {
         /*
          * Sub Categories are always hidden,
          * they won't show up in the normal guide view.
          */
+        return false;
+    }
+
+    @Override
+    public final boolean isAccessible(@Nonnull Player p) {
+        /*
+         * Sub Categories are accessible, they are invisible
+         * but their items are available to the guide search.
+         */
         return true;
     }
 
+    /**
+     * This method returns the parent {@link NestedItemGroup} which this
+     * {@link SubItemGroup} belongs to.
+     * 
+     * @return The parent {@link NestedItemGroup}
+     */
     public final @Nonnull NestedItemGroup getParent() {
         return parentItemGroup;
     }
