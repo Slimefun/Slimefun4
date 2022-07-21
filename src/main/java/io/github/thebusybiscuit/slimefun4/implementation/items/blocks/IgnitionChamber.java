@@ -116,8 +116,8 @@ public class IgnitionChamber extends SlimefunItem {
             if (block.getType() == Material.DROPPER && BlockStorage.check(block) instanceof IgnitionChamber) {
                 BlockState state = PaperLib.getBlockState(b.getRelative(face), false).getState();
 
-                if (state instanceof Dropper) {
-                    return ((Dropper) state).getInventory();
+                if (state instanceof Dropper dropper) {
+                    return dropper.getInventory();
                 }
             }
         }

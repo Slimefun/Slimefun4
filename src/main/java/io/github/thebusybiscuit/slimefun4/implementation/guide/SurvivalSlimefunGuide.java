@@ -72,9 +72,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final ItemStack item;
     private final boolean showVanillaRecipes;
+    private final boolean showHiddenItemGroupsInSearch;
 
-    public SurvivalSlimefunGuide(boolean showVanillaRecipes) {
+    public SurvivalSlimefunGuide(boolean showVanillaRecipes, boolean showHiddenItemGroupsInSearch) {
         this.showVanillaRecipes = showVanillaRecipes;
+        this.showHiddenItemGroupsInSearch = showHiddenItemGroupsInSearch;
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
@@ -117,8 +119,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
             try {
-                if (group instanceof FlexItemGroup) {
-                    if (((FlexItemGroup) group).isVisible(p, profile, getMode())) {
+                if (group instanceof FlexItemGroup flexItemGroup) {
+                    if (flexItemGroup.isVisible(p, profile, getMode())) {
                         groups.add(group);
                     }
                 } else if (!group.isHidden(p)) {
@@ -231,8 +233,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        if (itemGroup instanceof FlexItemGroup) {
-            ((FlexItemGroup) itemGroup).open(p, profile, getMode());
+        if (itemGroup instanceof FlexItemGroup flexItemGroup) {
+            flexItemGroup.open(p, profile, getMode());
             return;
         }
 
@@ -309,7 +311,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 try {
                     if (isSurvivalMode()) {
                         displayItem(profile, sfitem, true);
-                    } else {
+                    } else if (pl.hasPermission("slimefun.cheat.items")) {
                         if (sfitem instanceof MultiBlockMachine) {
                             Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                         } else {
@@ -321,6 +323,13 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
                             pl.getInventory().addItem(clonedItem);
                         }
+                    } else {
+                        /*
+                         * Fixes #3548 - If for whatever reason,
+                         * an unpermitted players gets access to this guide,
+                         * this will be our last line of defense to prevent any exploit.
+                         */
+                        Slimefun.getLocalization().sendMessage(pl, "messages.no-permission", true);
                     }
                 } catch (Exception | LinkageError x) {
                     printErrorMessage(pl, x);
@@ -358,7 +367,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 break;
             }
 
-            if (!slimefunItem.isHidden() && isSearchFilterApplicable(slimefunItem, searchTerm)) {
+            if (!slimefunItem.isHidden() && isItemGroupAccessible(p, slimefunItem) && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = new CustomItemStack(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
@@ -385,6 +394,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.open(p);
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean isItemGroupAccessible(Player p, SlimefunItem slimefunItem) {
+        return showHiddenItemGroupsInSearch || slimefunItem.getItemGroup().isAccessible(p);
     }
 
     @ParametersAreNonnullByDefault
@@ -479,19 +493,19 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private <T extends Recipe> void showRecipeChoices(T recipe, ItemStack[] recipeItems, AsyncRecipeChoiceTask task) {
         RecipeChoice[] choices = Slimefun.getMinecraftRecipeService().getRecipeShape(recipe);
 
-        if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
-            recipeItems[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));
+        if (choices.length == 1 && choices[0] instanceof MaterialChoice materialChoice) {
+            recipeItems[4] = new ItemStack(materialChoice.getChoices().get(0));
 
-            if (((MaterialChoice) choices[0]).getChoices().size() > 1) {
-                task.add(recipeSlots[4], (MaterialChoice) choices[0]);
+            if (materialChoice.getChoices().size() > 1) {
+                task.add(recipeSlots[4], materialChoice);
             }
         } else {
             for (int i = 0; i < choices.length; i++) {
-                if (choices[i] instanceof MaterialChoice) {
-                    recipeItems[i] = new ItemStack(((MaterialChoice) choices[i]).getChoices().get(0));
+                if (choices[i] instanceof MaterialChoice materialChoice) {
+                    recipeItems[i] = new ItemStack(materialChoice.getChoices().get(0));
 
-                    if (((MaterialChoice) choices[i]).getChoices().size() > 1) {
-                        task.add(recipeSlots[i], (MaterialChoice) choices[i]);
+                    if (materialChoice.getChoices().size() > 1) {
+                        task.add(recipeSlots[i], materialChoice);
                     }
                 }
             }
@@ -531,8 +545,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         displayItem(menu, profile, p, item, result, recipeType, recipe, task);
 
-        if (item instanceof RecipeDisplayItem) {
-            displayRecipes(p, profile, menu, (RecipeDisplayItem) item, 0);
+        if (item instanceof RecipeDisplayItem recipeDisplayItem) {
+            displayRecipes(p, profile, menu, recipeDisplayItem, 0);
         }
 
         menu.open(p);

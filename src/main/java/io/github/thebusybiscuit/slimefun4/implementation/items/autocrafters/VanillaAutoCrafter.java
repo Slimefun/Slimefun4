@@ -61,9 +61,9 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
     public @Nullable AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
-        if (state instanceof Skull) {
+        if (state instanceof Skull skull) {
             // Read the stored value from persistent data storage
-            PersistentDataContainer container = ((Skull) state).getPersistentDataContainer();
+            PersistentDataContainer container = skull.getPersistentDataContainer();
             String value = container.get(recipeStorageKey, PersistentDataType.STRING);
 
             if (value != null) {

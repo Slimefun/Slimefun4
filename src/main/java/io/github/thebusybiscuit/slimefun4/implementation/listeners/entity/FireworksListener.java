@@ -28,15 +28,14 @@ public class FireworksListener implements Listener {
 
     @EventHandler
     public void onResearchFireworkDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Firework) {
-            Firework firework = (Firework) e.getDamager();
+        if (e.getDamager() instanceof Firework firework) {
             FireworkMeta meta = firework.getFireworkMeta();
 
-            /**
-             * We could use Peristent Data for this in the future, but ItemMeta display names
-             * work pretty reliably too and they don't cause any memory leaks like metadata.
-             * 
-             * Entity display names do not work either as Firework cannot be named.
+            /*
+              We could use Peristent Data for this in the future, but ItemMeta display names
+              work pretty reliably too and they don't cause any memory leaks like metadata.
+
+              Entity display names do not work either as Firework cannot be named.
              */
             if (meta.hasDisplayName() && meta.getDisplayName().equals(ChatColor.GREEN + "Slimefun Research")) {
                 e.setCancelled(true);

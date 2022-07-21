@@ -146,6 +146,7 @@ messages:
   multimeter: '&b已储存的能源: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4你不能使用 Slimefun 的物品和猪灵易物'
   bee-suit-slow-fall: '&e你的蜂翅将会让你安全缓降'
+  deprecated-item: '&4该物品已被弃用，将在不久后从 Slimefun 中移除。'
   multi-tool:
     mode-change: '&b%device% 的模式已切换为: &9%mode%'
     not-shears: '&c多功能工具 (Multi Tool) 不能作为剪刀使用!'
@@ -256,8 +257,6 @@ machines:
     pick-a-floor: '&3- 选择一个楼层 -'
     current-floor: '&e你现在所在的楼层:'
     click-to-teleport: '&e单击 &7传送至楼层:'
-    enter-name: '&7请为你的楼层起个名字吧! &r(支持颜色代码)'
-    named: '&2成功将此层命名为: &r%floor%'
   TELEPORTER:
     teleporting: '&3传送中...'
     teleported: '&3传送成功!'

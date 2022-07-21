@@ -126,8 +126,6 @@ machines:
     pick-a-floor: '&3- Izvēlies stāvu -'
     current-floor: '&ePatreizējais stāvs:'
     click-to-teleport: '&eSpied, &7lai teleportētos uz šo stāvu:'
-    enter-name: '&7Čatā ieraksti vēlamo stāvu. &r(Krāsu kodi ir atbalstīti!)'
-    named: '&2Stāvs nosaukts par &r%floor%'
   TELEPORTER:
     teleporting: '&3Teleportēju...'
     teleported: '&3Teleportēts!'

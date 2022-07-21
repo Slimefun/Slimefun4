@@ -232,8 +232,6 @@ machines:
     pick-a-floor: '&3- Pumili ng palapag -'
     current-floor: '&eIto ang sahig na iyong naroroon:'
     click-to-teleport: '&ePindutin ito &7para magteleport sa palapag na ito:'
-    enter-name: '&7I-enter ang gusto mong makita sa Hologram Text galing sa Chat. &r(Supported ang Color Codes)'
-    named: '&2Napangalanan na ang floor na: &r%floor%'
   TELEPORTER:
     teleporting: '&3Nagte-teleport...'
     teleported: '&3Nagteleport!'

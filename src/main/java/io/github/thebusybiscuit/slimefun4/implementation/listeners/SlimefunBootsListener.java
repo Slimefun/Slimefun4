@@ -68,9 +68,9 @@ public class SlimefunBootsListener implements Listener {
                 return;
             }
 
-            if (boots instanceof StomperBoots) {
+            if (boots instanceof StomperBoots stomperBoots) {
                 e.setCancelled(true);
-                ((StomperBoots) boots).stomp(e);
+                stomperBoots.stomp(e);
             } else if (boots instanceof LongFallBoots) {
                 e.setCancelled(true);
 

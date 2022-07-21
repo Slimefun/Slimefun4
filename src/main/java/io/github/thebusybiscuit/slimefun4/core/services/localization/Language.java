@@ -59,8 +59,7 @@ public final class Language {
      * 
      * @return The identifier of this {@link Language}
      */
-    @Nonnull
-    public String getId() {
+    public @Nonnull String getId() {
         return id;
     }
 
@@ -101,8 +100,7 @@ public final class Language {
      * 
      * @return The {@link ItemStack} used to display this {@link Language}
      */
-    @Nonnull
-    public ItemStack getItem() {
+    public @Nonnull ItemStack getItem() {
         return item;
     }
 
@@ -114,8 +112,7 @@ public final class Language {
      *            The {@link Player} to localize the name for
      * @return The localized name of this {@link Language}
      */
-    @Nonnull
-    public String getName(@Nonnull Player p) {
+    public @Nonnull String getName(@Nonnull Player p) {
         return Slimefun.getLocalization().getMessage(p, "languages." + id);
     }
 
@@ -136,7 +133,11 @@ public final class Language {
 
     @Nonnull
     FileConfiguration[] getFiles() {
-        return Arrays.stream(LanguageFile.valuesCached).map(this::getFile).toArray(FileConfiguration[]::new);
+        // @formatter:off
+        return Arrays.stream(LanguageFile.valuesCached)
+                .map(this::getFile)
+                .toArray(FileConfiguration[]::new);
+        // @formatter:on
     }
 
 }
