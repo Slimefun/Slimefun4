@@ -439,7 +439,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.215</version>
+            <version>2.1.216</version>
             <scope>provided</scope>
 
             <exclusions>
