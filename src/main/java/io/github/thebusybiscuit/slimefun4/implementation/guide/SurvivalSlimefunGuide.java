@@ -300,7 +300,17 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNoPermissionItem(), sfitem.getItemName(), message.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
         } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
-            menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNotResearchedItem(), ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level(s)"));
+            String unlockCost = Slimefun.getLocalization()
+                    .getMessage(p, "guide.unlock.cost")
+                    .replace("%cost%", String.valueOf(research.getCost()));
+            menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNotResearchedItem(),
+                    ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()),
+                    "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"),
+                    "",
+                    Slimefun.getLocalization().getMessage(p, "guide.unlock.click"),
+                    "",
+                    unlockCost
+            ));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 research.unlockFromGuide(this, p, profile, sfitem, itemGroup, page);
                 return false;
@@ -559,10 +569,22 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeType recipeType, ItemStack[] recipe, AsyncRecipeChoiceTask task) {
         addBackButton(menu, 0, p, profile);
 
-        MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
+        MenuClickHandler clickHandler = (pl, slot, itemStack, action) -> {
             try {
-                if (itemstack != null && itemstack.getType() != Material.BARRIER) {
-                    displayItem(profile, itemstack, 0, true);
+                if (itemStack != null && itemStack.getType() != Material.BARRIER) {
+                    displayItem(profile, itemStack, 0, true);
+                }
+            } catch (Exception | LinkageError x) {
+                printErrorMessage(pl, x);
+            }
+            return false;
+        };
+
+        MenuClickHandler lockedClickHandler = (pl, slot, itemStack, action) -> {
+            try {
+                SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
+                if (sfItem != null) {
+                    this.unlockItem(pl, sfItem, player -> displayItem(profile, itemStack, 0, true));
                 }
             } catch (Exception | LinkageError x) {
                 printErrorMessage(pl, x);
@@ -574,7 +596,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
-            menu.addItem(recipeSlots[i], recipeItem, clickHandler);
+            MenuClickHandler handler = (recipeItem instanceof UnlockableItemStack) ? lockedClickHandler : clickHandler;
+
+            menu.addItem(recipeSlots[i], recipeItem, handler);
 
             if (recipeItem != null && item instanceof MultiBlockMachine) {
                 for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
@@ -652,12 +676,19 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         if (isSlimefunRecipe) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 
-            if (slimefunItem == null) {
+            if (slimefunItem == null || slimefunItem.canUse(p, false)) {
+                // Just return the item if it is usable or isn't a Slimefun item
                 return item;
             }
 
-            String lore = hasPermission(p, slimefunItem) ? "&fNeeds to be unlocked in " + slimefunItem.getItemGroup().getDisplayName(p) : "&fNo Permission";
-            return slimefunItem.canUse(p, false) ? item : new CustomItemStack(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", lore);
+            if (!Slimefun.getPermissionsService().hasPermission(p, slimefunItem)) {
+                return new CustomItemStack(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", Slimefun.getLocalization().getMessage(p, "guide.no-permission"));
+            } else {
+                if (!slimefunItem.getItem().hasItemMeta()) {
+                    return new CustomItemStack(Material.BARRIER, ItemUtils.getItemName(item));
+                }
+                return new UnlockableItemStack(slimefunItem.getId(), slimefunItem.getItem(), p);
+            }
         } else {
             return item;
         }

@@ -27,7 +27,7 @@ commands:
     not-rechargeable: This item can not be charged!
 
   timings:
-    description: Timings for Slimefun and its addon
+    description: 'Timings for Slimefun and its addon'
     please-wait: '&ePlease wait a second... The results are coming in!'
     verbose-player: '&4The verbose flag cannot be used by a Player!'
     unknown-flag: '&4Unknown flag: &c%flag%'
@@ -44,7 +44,12 @@ placeholderapi:
 
 guide:
   locked: 'LOCKED'
+  no-permission: '&fNo Permission'
   work-in-progress: 'This feature is not fully finished yet!'
+
+  unlock:
+    click: '&a> Click to unlock'
+    cost: '&7Cost: &b%cost% level(s)'
 
   locked-itemgroup:
   - 'To unlock this category you will'
