@@ -9,7 +9,7 @@ guide:
   locked: 'قفل شده است'
   work-in-progress: 'اين قابليت هنوز کامل نشده!'
   search:
-    message: '&bدوست دارید دنبال چه چیزی بگردید?'
+    message: '&b دنبال چی میگردی؟'
     name: '&7جست و جو...'
     tooltip: '&bبراي جست و جو کليک کنيد'
     inventory: 'جست و جو برای: %item%'
@@ -33,7 +33,7 @@ guide:
   credits:
     roles:
       wiki: '&3ویرایش کننده ویکی'
-      translator: '&9مترجم'
+      translator: '&9(amir22games;) )مترجم'
 messages:
   disabled-in-world: '&4&lاين آيتم در این جهان غير فعال شده است'
   no-pvp: '&cشما نمی توانید در اینجا مبارزه کنید!'
@@ -52,7 +52,7 @@ android:
   scripts:
     uploaded:
       - '&bدرحال آپلود...'
-      - '&aSuccessfully uploaded your script!'
+      - '&aشما با موفقیت کد خود را آپلود کردید!'
 languages:
   default: 'پیشفرض سرور'
   en: 'انگلیسی'
