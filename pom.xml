@@ -481,7 +481,7 @@
         <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>itemsadder-api</artifactId>
-            <version>3.2.1b</version>
+            <version>3.2.3c</version>
             <scope>provided</scope>
 
             <exclusions>
