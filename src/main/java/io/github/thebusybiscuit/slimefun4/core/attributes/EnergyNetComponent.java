@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bukkit.entity.Player;
 
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks
@@ -197,6 +198,19 @@ public interface EnergyNetComponent extends ItemAttribute {
         } catch (Exception | LinkageError x) {
             Slimefun.logger().log(Level.SEVERE, x, () -> "Exception while trying to remove an energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
         }
+    }
+
+    /**
+     * Override this method to display additional information to the {@link Player} when a
+     * {@link io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter} is used.
+     *
+     * @param player
+     *              The {@link Player} who is using the {@link Multimeter}
+     * @param l
+     *              The {@link Location} of the {@link EnergyNetComponent}
+     */
+    default void sendMultimeterInfo(@Nonnull Player player, @Nonnull Location location) {
+        // Do nothing by default
     }
 
 }

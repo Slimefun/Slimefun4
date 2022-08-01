@@ -13,9 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.attributes.MultimeterInformational;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -59,14 +57,8 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
                         p.sendMessage("");
                         Slimefun.getLocalization().sendMessage(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity));
                         p.sendMessage("");
+                        component.sendMultimeterInfo(p, l);
                     }
-                }
-
-                // If the block is also MultimeterInformational, we want to display the messages determined by the item
-                if (item instanceof MultimeterInformational) {
-                    MultimeterInformational informational = (MultimeterInformational) item;
-                    e.cancel();
-                    p.sendMessage(informational.getAdditionalInfo());
                 }
             }
         };
