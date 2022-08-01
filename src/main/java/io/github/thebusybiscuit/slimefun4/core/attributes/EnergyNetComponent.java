@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.entity.Player;
 import org.bukkit.Location;
 
 import io.github.bakedlibs.dough.blocks.BlockPosition;
@@ -18,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.entity.Player;
 
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks
