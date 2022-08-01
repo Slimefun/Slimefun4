@@ -181,8 +181,6 @@ machines:
     pick-a-floor: '&3- Pilih Lantai -'
     current-floor: '&eAnda sedang berada di lantai ini:'
     click-to-teleport: '&eKlik &7untuk teleport ke lantai ini:'
-    enter-name: '&7Silakan masukan nama lantai pada kolom chat. &r(Mendukung warna teks!)'
-    named: '&2Berhasil merubah nama lantai: &r%floor%'
   TELEPORTER:
     teleporting: '&3Melakukan teleportasi...'
     teleported: '&3Teleportasi selesai!'

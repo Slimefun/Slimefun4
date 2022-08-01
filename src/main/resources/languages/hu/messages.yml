@@ -257,8 +257,6 @@ machines:
     pick-a-floor: '&3- Válassz emeletet -'
     current-floor: '&eEzen az emeleten tartózkodsz:'
     click-to-teleport: '&eKattints&7, hogy erre az emeletre teleportálj:'
-    enter-name: '&7Kérlek írd be a kívánt emelet nevét a chatre. &r(Színkódok is használhatóak!)'
-    named: '&2Sikeresen elnevezted ezt az emeletet: &r%floor%'
   TELEPORTER:
     teleporting: '&3Teleportálás...'
     teleported: '&3Teleportálva!'

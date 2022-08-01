@@ -227,16 +227,14 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     private @Nonnull ItemStack getFilledBucket(@Nonnull Block fluid) {
-        switch (fluid.getType()) {
-            case LAVA:
-                return new ItemStack(Material.LAVA_BUCKET);
-            case WATER:
-            case BUBBLE_COLUMN:
-                return new ItemStack(Material.WATER_BUCKET);
-            default:
+        return switch (fluid.getType()) {
+            case LAVA -> new ItemStack(Material.LAVA_BUCKET);
+            case WATER,
+                BUBBLE_COLUMN -> new ItemStack(Material.WATER_BUCKET);
+            default ->
                 // Fallback for any new liquids
-                return new ItemStack(Material.BUCKET);
-        }
+                new ItemStack(Material.BUCKET);
+        };
     }
 
     /**
@@ -251,9 +249,8 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         if (block.isLiquid()) {
             BlockData data = block.getBlockData();
 
-            if (data instanceof Levelled) {
+            if (data instanceof Levelled levelled) {
                 // Check if this is a full block.
-                Levelled levelled = (Levelled) data;
                 return levelled.getLevel() == 0;
             }
         }

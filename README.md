@@ -31,6 +31,7 @@ Here is a full summary of the differences between the two different versions of 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
 | **Minecraft version(s)** | :video_game: **1.14.\* - 1.19.\*** | :video_game: **1.14.\* - 1.19.\*** |
+| **Java version** | :computer: **Java 16 (or higher)** | :computer: **Java 8 (or higher)** |
 | **automatic updates** | :heavy_check_mark: | :heavy_check_mark: |
 | **frequent updates** | :heavy_check_mark: | :x: |
 | **latest content** | :heavy_check_mark: | :x: |

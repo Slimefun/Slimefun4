@@ -60,8 +60,8 @@ public class ElytraImpactListener implements Listener {
                         e.setDamage(0);
                         p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
 
-                        if (item instanceof DamageableItem) {
-                            ((DamageableItem) item).damageItem(p, p.getInventory().getHelmet());
+                        if (item instanceof DamageableItem damageableItem) {
+                            damageableItem.damageItem(p, p.getInventory().getHelmet());
                         }
                     }
                 }

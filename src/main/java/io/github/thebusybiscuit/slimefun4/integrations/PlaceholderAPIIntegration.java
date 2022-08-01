@@ -82,8 +82,8 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
             if (profile.isPresent()) {
                 Stream<Research> stream = profile.get().getResearches().stream();
                 return String.valueOf(stream.mapToInt(Research::getCost).sum());
-            } else if (p instanceof Player) {
-                return getProfilePlaceholder((Player) p);
+            } else if (p instanceof Player player) {
+                return getProfilePlaceholder(player);
             }
         }
 
@@ -93,8 +93,8 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
             if (profile.isPresent()) {
                 Set<Research> set = profile.get().getResearches();
                 return String.valueOf(set.size());
-            } else if (p instanceof Player) {
-                return getProfilePlaceholder((Player) p);
+            } else if (p instanceof Player player) {
+                return getProfilePlaceholder(player);
             }
         }
 
@@ -108,8 +108,8 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
             if (profile.isPresent()) {
                 Set<Research> set = profile.get().getResearches();
                 return String.valueOf(Math.round(((set.size() * 100.0F) / Slimefun.getRegistry().getResearches().size()) * 100.0F) / 100.0F);
-            } else if (p instanceof Player) {
-                return getProfilePlaceholder((Player) p);
+            } else if (p instanceof Player player) {
+                return getProfilePlaceholder(player);
             }
         }
 
@@ -118,8 +118,8 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
 
             if (profile.isPresent()) {
                 return profile.get().getTitle();
-            } else if (p instanceof Player) {
-                return getProfilePlaceholder((Player) p);
+            } else if (p instanceof Player player) {
+                return getProfilePlaceholder(player);
             }
         }
 
@@ -131,8 +131,7 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
             return Slimefun.getProfiler().getTime();
         }
 
-        if (isPlaceholder(p, false, params, "language") && p instanceof Player) {
-            Player player = (Player) p;
+        if (isPlaceholder(p, false, params, "language") && p instanceof Player player) {
             return Slimefun.getLocalization().getLanguage(player).getName(player);
         }
 

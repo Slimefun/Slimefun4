@@ -1,6 +1,7 @@
 ---
 commands:
   debug:
+    description: 'ثبت اشکال زدایی را برای توسعه دهندگان اجرا کنید'
     disabled: '&7حالت اشکال زدایی غیرفعال شد.'
 placeholderapi:
   profile-loading: 'لودينگ...'
@@ -8,13 +9,19 @@ guide:
   locked: 'قفل شده است'
   work-in-progress: 'اين قابليت هنوز کامل نشده!'
   search:
+    message: '&bدوست دارید دنبال چه چیزی بگردید?'
+    name: '&7جست و جو...'
+    tooltip: '&bبراي جست و جو کليک کنيد'
     inventory: 'جست و جو برای: %item%'
   tooltips:
     open-itemgroup: 'براي باز کردن کليک کنيد'
+    versions-notice: 'این موارد هنگام گزارش باگ بسیار مهم هستند!'
   pages:
     previous: 'صفحه ي قبل'
+    next: 'صفحه ی بعد'
   back:
     title: 'برگشت'
+    settings: 'به صفحه تنظیمات بازگرد'
   languages:
     translations:
       lore: 'برای افزودن ترجمه خود کلیک کنید'
@@ -22,12 +29,30 @@ guide:
     main: 'راهنمای Slimefun'
     settings: 'تنظیمات و اطلاعات'
     bugs: 'گزارش اشکال ها'
+    source: 'کد منبع'
   credits:
     roles:
+      wiki: '&3ویرایش کننده ویکی'
       translator: '&9مترجم'
 messages:
   disabled-in-world: '&4&lاين آيتم در این جهان غير فعال شده است'
+  no-pvp: '&cشما نمی توانید در اینجا مبارزه کنید!'
   link-prompt: '&eاینجا کلیک کنید:'
+machines:
+  TELEPORTER:
+    teleporting: '&3درحال جا به جایی...'
+    teleported: '&3جا به جا شدی!'
+  CARGO_NODES:
+    connected: '&2وصل است!'
+    not-connected: '&4وصل نیست!'
+gps:
+  status-online: 'آنلاین'
+  status-offline: 'آفلاین'
+android:
+  scripts:
+    uploaded:
+      - '&bدرحال آپلود...'
+      - '&aSuccessfully uploaded your script!'
 languages:
   default: 'پیشفرض سرور'
   en: 'انگلیسی'
@@ -37,6 +62,13 @@ languages:
   es: 'اسپانیایی'
   nl: 'هلندی'
   hu: 'مجارستانی'
+  ru: 'روسی'
+  el: 'یونانی'
   ar: 'عربی'
+  da: 'دانمارکی'
+  fi: 'فنلاندی'
+  uk: 'اوکراینی'
+  ms: 'مالایی'
+  'no': 'نروژی'
   ja: 'ژاپنی'
   fa: 'فارسی'

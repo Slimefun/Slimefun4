@@ -177,8 +177,6 @@ machines:
     pick-a-floor: "&3- 바닥을 고르세요 -\n"
     current-floor: '&e현재 사용 중인 층은 다음과 같습니다:'
     click-to-teleport: '&e해당 층으로 텔레포트를 하실려면 클릭:'
-    enter-name: '&7원하는 플로어 이름을 채팅에 입력하십시오. &r(색상 코드가 지원됨!)'
-    named: '&2이 층의 이름을 성공적으로 지정함: &r%floor%'
   TELEPORTER:
     teleporting: '&3텔레포팅중...'
     teleported: '&3텔레포트!'

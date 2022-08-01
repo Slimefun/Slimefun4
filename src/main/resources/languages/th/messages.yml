@@ -150,8 +150,6 @@ machines:
     pick-a-floor: '&3- เลือกชั้น -'
     current-floor: '&eคุณกำลังอยู่ที่ชั้น:'
     click-to-teleport: '&eคลิก &7ไปยังชั้น:'
-    enter-name: '&7โปรดพิมพ์ชั้นที่ต้องการในแชท. &r(รองรับรหัสสี!)'
-    named: '&2สำเร็จ ชื่อของชั้นนี้คือ : &r%floor%'
   TELEPORTER:
     teleporting: '&3กำลังเทเลพอต...'
     teleported: '&3เทเลพอตสำเร็จ!'

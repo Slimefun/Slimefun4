@@ -20,10 +20,10 @@ class GuideCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender instanceof Player) {
+        if (sender instanceof Player player) {
             if (sender.hasPermission("slimefun.command.guide")) {
                 SlimefunGuideMode design = SlimefunGuide.getDefaultMode();
-                ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(design).clone());
+                player.getInventory().addItem(SlimefunGuide.getItem(design).clone());
             } else {
                 Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
