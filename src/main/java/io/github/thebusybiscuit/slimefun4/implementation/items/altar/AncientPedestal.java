@@ -6,8 +6,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -28,6 +26,8 @@ import org.bukkit.entity.EntityType;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -81,9 +81,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
                     Item stack = entity.get();
 
                     if (stack.isValid()) {
-                        getArmorStand(b).removePassenger(stack);
                         stack.removeMetadata("no_pickup", Slimefun.instance());
-                        b.getWorld().dropItem(b.getLocation(), getOriginalItemStack(stack, b));
+                        b.getWorld().dropItem(b.getLocation(), getOriginalItemStack(stack));
                         stack.remove();
                     }
                 }
@@ -119,7 +118,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
         }
     }
 
-    public @Nonnull ItemStack getOriginalItemStack(@Nonnull Item item, @Nonnull Block block) {
+    public @Nonnull ItemStack getOriginalItemStack(@Nonnull Item item) {
         ItemStack stack = item.getItemStack().clone();
         String customName = item.getCustomName();
 
