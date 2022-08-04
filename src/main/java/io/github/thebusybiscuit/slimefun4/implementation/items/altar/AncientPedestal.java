@@ -57,8 +57,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> implements HologramOwner {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
-
-    public static NamespacedKey key;
+    private static NamespacedKey key;
 
     @ParametersAreNonnullByDefault
     public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, Plugin plugin) {
