@@ -27,7 +27,6 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -55,7 +54,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ArmorStandUtils;
  * @see AncientAltarTask
  *
  */
-public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> implements HologramOwner {
+public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
     private static NamespacedKey key;
