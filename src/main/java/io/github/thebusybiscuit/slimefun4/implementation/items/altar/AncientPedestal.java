@@ -177,7 +177,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     private static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location l, @Nonnull BlockPosition blockPosition) {
-        ArmorStand armorStand = ArmorStandUtils.spawnArmorStand(l);
+        ArmorStand armorStand = ArmorStandUtils.spawnFakeHologram(l);
         PersistentDataContainer container = armorStand.getPersistentDataContainer();
         container.set(key, PersistentDataType.LONG, blockPosition.getPosition());
         armorStand.setCustomNameVisible(false);

@@ -10,14 +10,14 @@ import javax.annotation.Nonnull;
 public class ArmorStandUtils {
 
     /**
-     * This method returns a template {@link ArmorStand} that has all of its
-     * values set.
+     * This method returns a template {@link ArmorStand} that has all of
+     * the values a normal Hologram uses.
      *
-     * @param l
+     * @param location
      *            The {@link Location} to spawn the Armor Stand at
      * @return the {@link ArmorStand}
      */
-    public static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location location) {
+    public static @Nonnull ArmorStand spawnFakeHologram(@Nonnull Location location) {
         Validate.notNull(location, "Location cannot be null!");
 
         ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);

@@ -29,10 +29,10 @@ public class TestArmorStandUtils {
 
     @Test
     @DisplayName("Test Spawn Armor Stand")
-    void TestSummonArmorStand() {
+    void TestSummonFakeHologram() {
         // Make sure it's in the right place
         Location testLocation = new Location(world, 100, 100, 100);
-        ArmorStand output = ArmorStandUtils.spawnArmorStand(testLocation);
+        ArmorStand output = ArmorStandUtils.spawnFakeHologram(testLocation);
         Assertions.assertEquals(testLocation, output.getLocation());
 
         // Make sure all values are set Properly
@@ -45,6 +45,6 @@ public class TestArmorStandUtils {
         Assertions.assertFalse(output.getRemoveWhenFarAway());
 
         // Test Exceptions
-        Assertions.assertThrows(IllegalArgumentException.class, () -> ArmorStandUtils.spawnArmorStand(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ArmorStandUtils.spawnFakeHologram(null));
     }
 }
