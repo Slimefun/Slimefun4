@@ -30,6 +30,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveSh
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfTheSeeker;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfVeinMining;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPickaxe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersTool;
 
 /**
  * This enum contains various implementations of the {@link Tag} interface.
@@ -198,9 +199,14 @@ public enum SlimefunTag implements Tag<Material> {
     PICKAXE_OF_THE_SEEKER_BLOCKS,
 
     /**
-     * All materials which the {@link SmeltersPickaxe} will try and smelt.
+     * All materials (ores) which the {@link SmeltersPickaxe} smelts.
      */
     SMELTERS_PICKAXE_BLOCKS,
+
+    /**
+     * All the materials that can be smelt with {@link SmeltersTool}.
+     */
+    SMELTERS_BLOCKS,
 
     /**
      * All materials (ores) which the {@link IndustrialMiner} will try to mine.
