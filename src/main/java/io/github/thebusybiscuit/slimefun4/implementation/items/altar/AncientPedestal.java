@@ -73,8 +73,6 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
 
             @Override
             public void onBlockBreak(@Nonnull Block b) {
-
-
                 Optional<Item> entity = getPlacedItem(b);
 
                 if (entity.isPresent()) {
@@ -176,7 +174,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
             }
         }
 
-        return spawnArmorStand(l,blockPosition);
+        return spawnArmorStand(l, blockPosition);
     }
 
     private static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location l, BlockPosition blockPosition) {
