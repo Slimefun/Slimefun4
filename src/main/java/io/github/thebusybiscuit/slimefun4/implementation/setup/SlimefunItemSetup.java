@@ -1503,7 +1503,7 @@ public final class SlimefunItemSetup {
 
         new AncientPedestal(itemGroups.magicalGadgets, SlimefunItems.ANCIENT_PEDESTAL, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN), null, new ItemStack(Material.STONE), null, new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN)}, 
-        new SlimefunItemStack(SlimefunItems.ANCIENT_PEDESTAL, 4),plugin)
+        new SlimefunItemStack(SlimefunItems.ANCIENT_PEDESTAL, 4), plugin)
         .register(plugin);
 
         new AncientAltar(itemGroups.magicalGadgets, SlimefunItems.ANCIENT_ALTAR, RecipeType.MAGIC_WORKBENCH,

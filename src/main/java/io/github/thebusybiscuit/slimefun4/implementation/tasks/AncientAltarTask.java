@@ -133,7 +133,7 @@ public class AncientAltarTask implements Runnable {
         } else {
             Item entity = item.get();
             particleLocations.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
-            items.add(pedestalItem.getOriginalItemStack(entity,pedestal));
+            items.add(pedestalItem.getOriginalItemStack(entity, pedestal));
             pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
 
             dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);

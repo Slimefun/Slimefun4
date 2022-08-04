@@ -219,7 +219,7 @@ public class AncientAltarListener implements Listener {
             Optional<Item> stack = pedestalItem.getPlacedItem(pedestal);
 
             if (stack.isPresent()) {
-                input.add(pedestalItem.getOriginalItemStack(stack.get(),pedestal));
+                input.add(pedestalItem.getOriginalItemStack(stack.get(), pedestal));
             }
         }
 
