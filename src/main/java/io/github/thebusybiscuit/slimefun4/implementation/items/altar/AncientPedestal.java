@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -21,7 +22,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -40,6 +40,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ArmorStandUtils;
 
 /**
  * The {@link AncientPedestal} is a part of the {@link AncientAltar}.
@@ -176,16 +177,11 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
         return spawnArmorStand(l, blockPosition);
     }
 
-    private static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location l, BlockPosition blockPosition) {
-        ArmorStand armorStand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
+    private static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location l, @Nonnull BlockPosition blockPosition) {
+        ArmorStand armorStand = ArmorStandUtils.spawnArmorStand(l);
         PersistentDataContainer container = armorStand.getPersistentDataContainer();
         container.set(key, PersistentDataType.LONG, blockPosition.getPosition());
-        armorStand.setVisible(false);
-        armorStand.setSilent(true);
-        armorStand.setMarker(true);
-        armorStand.setGravity(false);
-        armorStand.setBasePlate(false);
-        armorStand.setRemoveWhenFarAway(false);
+        armorStand.setCustomNameVisible(false);
 
         return armorStand;
     }
