@@ -13,7 +13,6 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
@@ -26,6 +25,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -164,9 +164,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
         for (Entity n : l.getChunk().getEntities()) {
             if (n instanceof ArmorStand armorStand && l.distanceSquared(n.getLocation()) < 0.4) {
-                PersistentDataContainer container = n.getPersistentDataContainer();
-
-                if (container.has(key, PersistentDataType.LONG) && container.get(key, PersistentDataType.LONG) == blockPosition.getPosition()) {
+                if (PersistentDataAPI.has(armorStand, key, PersistentDataType.LONG) && PersistentDataAPI.getLong(armorStand, key) == blockPosition.getPosition()) {
                     return armorStand;
                 }
             }
@@ -177,8 +175,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     private static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location l, @Nonnull BlockPosition blockPosition) {
         ArmorStand armorStand = ArmorStandUtils.spawnFakeHologram(l);
-        PersistentDataContainer container = armorStand.getPersistentDataContainer();
-        container.set(key, PersistentDataType.LONG, blockPosition.getPosition());
+        PersistentDataAPI.setLong(armorStand, key, blockPosition.getPosition());
         armorStand.setCustomNameVisible(false);
 
         return armorStand;
