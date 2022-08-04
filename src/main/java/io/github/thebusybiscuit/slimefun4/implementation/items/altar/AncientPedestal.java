@@ -1,20 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 import io.github.bakedlibs.dough.common.ChatColors;
@@ -46,14 +54,17 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * @see AncientAltarTask
  *
  */
-public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
+public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> implements HologramOwner {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
+    public static NamespacedKey key;
+
     @ParametersAreNonnullByDefault
-    public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public AncientPedestal(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, Plugin plugin) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
 
+        key = new NamespacedKey(plugin, "altar_hologram");
         addItemHandler(onBreak());
     }
 
@@ -62,17 +73,21 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
             @Override
             public void onBlockBreak(@Nonnull Block b) {
+
+
                 Optional<Item> entity = getPlacedItem(b);
 
                 if (entity.isPresent()) {
                     Item stack = entity.get();
 
                     if (stack.isValid()) {
+                        getArmorStand(b).removePassenger(stack);
                         stack.removeMetadata("no_pickup", Slimefun.instance());
-                        b.getWorld().dropItem(b.getLocation(), getOriginalItemStack(stack));
+                        b.getWorld().dropItem(b.getLocation(), getOriginalItemStack(stack, b));
                         stack.remove();
                     }
                 }
+                killArmorStand(b);
             }
         };
     }
@@ -104,7 +119,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         }
     }
 
-    public @Nonnull ItemStack getOriginalItemStack(@Nonnull Item item) {
+    public @Nonnull ItemStack getOriginalItemStack(@Nonnull Item item, @Nonnull Block block) {
         ItemStack stack = item.getItemStack().clone();
         String customName = item.getCustomName();
 
@@ -136,12 +151,54 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         Item entity = SlimefunUtils.spawnItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM);
 
         if (entity != null) {
+            ArmorStand armorStand = getArmorStand(b);
             entity.setVelocity(new Vector(0, 0.1, 0));
+            entity.setUnlimitedLifetime(true);
+            entity.setInvulnerable(true);
             entity.setCustomNameVisible(true);
             entity.setCustomName(nametag);
-            entity.setUnlimitedLifetime(true);
             SlimefunUtils.markAsNoPickup(entity, "altar_item");
+            armorStand.addPassenger(entity);
             p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
+        }
+    }
+
+    public static ArmorStand getArmorStand(@Nonnull Block pedestal) {
+        BlockPosition blockPosition = new BlockPosition(pedestal.getLocation());
+        Location l = new Location(pedestal.getWorld(), pedestal.getX() + 0.5, pedestal.getY() + 1, pedestal.getZ() + 0.5);
+
+        for (Entity n : l.getChunk().getEntities()) {
+            if (n instanceof ArmorStand armorStand && l.distanceSquared(n.getLocation()) < 0.4) {
+                PersistentDataContainer container = n.getPersistentDataContainer();
+
+                if (container.has(key, PersistentDataType.LONG) && container.get(key, PersistentDataType.LONG) == blockPosition.getPosition()) {
+                    return armorStand;
+                }
+            }
+        }
+
+        return spawnArmorStand(l,blockPosition);
+    }
+
+    private static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location l, BlockPosition blockPosition) {
+        ArmorStand armorStand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
+        PersistentDataContainer container = armorStand.getPersistentDataContainer();
+        container.set(key, PersistentDataType.LONG, blockPosition.getPosition());
+        armorStand.setVisible(false);
+        armorStand.setSilent(true);
+        armorStand.setMarker(true);
+        armorStand.setGravity(false);
+        armorStand.setBasePlate(false);
+        armorStand.setRemoveWhenFarAway(false);
+
+        return armorStand;
+    }
+
+    private static void killArmorStand(@Nonnull Block b) {
+        ArmorStand pedestal = getArmorStand(b);
+
+        if (pedestal != null) {
+            pedestal.remove();
         }
     }
 }

@@ -152,6 +152,7 @@ public class AncientAltarListener implements Listener {
         } else if (!removedItems.contains(stack.get().getUniqueId())) {
             Item entity = stack.get();
             UUID uuid = entity.getUniqueId();
+            AncientPedestal.getArmorStand(pedestal).removePassenger(entity);
             removedItems.add(uuid);
 
             Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
@@ -164,7 +165,7 @@ public class AncientAltarListener implements Listener {
              * Drop the item instead if the player's inventory is full and
              * no stack space left else add remaining items from the returned map value
              */
-            Map<Integer, ItemStack> remainingItemMap = p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity));
+            Map<Integer, ItemStack> remainingItemMap = p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity, pedestal));
 
             for (ItemStack item : remainingItemMap.values()) {
                 p.getWorld().dropItem(pedestal.getLocation().add(0, 1, 0), item.clone());
@@ -218,7 +219,7 @@ public class AncientAltarListener implements Listener {
             Optional<Item> stack = pedestalItem.getPlacedItem(pedestal);
 
             if (stack.isPresent()) {
-                input.add(pedestalItem.getOriginalItemStack(stack.get()));
+                input.add(pedestalItem.getOriginalItemStack(stack.get(),pedestal));
             }
         }
 
