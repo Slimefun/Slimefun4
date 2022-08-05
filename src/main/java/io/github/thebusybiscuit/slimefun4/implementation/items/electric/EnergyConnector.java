@@ -70,7 +70,7 @@ public class EnergyConnector extends SimpleSlimefunItem<BlockUseHandler> impleme
         return 0;
     }
 
-    @Override
+
     public int getRange() {
         return RANGE;
     }

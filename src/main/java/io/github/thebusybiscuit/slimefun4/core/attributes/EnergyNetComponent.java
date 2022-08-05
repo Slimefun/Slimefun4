@@ -35,6 +35,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public interface EnergyNetComponent extends ItemAttribute {
 
+
     /**
      * This method returns the Type of {@link EnergyNetComponentType} this {@link SlimefunItem} represents.
      * It describes how this Block will interact with an {@link EnergyNet}.
@@ -198,6 +199,7 @@ public interface EnergyNetComponent extends ItemAttribute {
             Slimefun.logger().log(Level.SEVERE, x, () -> "Exception while trying to remove an energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
         }
     }
+    
     /**
      * This method gets the current range of a {@link EnergyNetComponentType}
      *
