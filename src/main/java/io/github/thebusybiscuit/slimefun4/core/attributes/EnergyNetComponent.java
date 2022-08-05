@@ -201,7 +201,7 @@ public interface EnergyNetComponent extends ItemAttribute {
     }
     
     /**
-     * This method gets the current range of a {@link EnergyNetComponentType}
+     * This method gets the current range of a {@link EnergyNetComponentType} items
      *
      * @author TerslenK
      */

@@ -60,6 +60,7 @@ public class EnergyConnector extends SimpleSlimefunItem<BlockUseHandler> impleme
         };
     }
 
+
     @Override
     public final @Nonnull EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONNECTOR;
