@@ -143,6 +143,7 @@ class MiningTask implements Runnable {
             if (fuelLevel <= 0) {
                 // This Miner has not enough fuel.
                 stop(MinerStoppingReason.NO_FUEL);
+                return;
             }
         });
 
@@ -197,7 +198,7 @@ class MiningTask implements Runnable {
                         return;
                     }
 
-                    if (miner.canMine(b.getType()) && push(miner.getOutcome(b.getType()))) {
+                    if (miner.canMine(b) && push(miner.getOutcome(b.getType()))) {
                         furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, b.getType());
                         furnace.getWorld().playSound(furnace.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.2F, 1F);
 
@@ -267,8 +268,8 @@ class MiningTask implements Runnable {
             if (chest.getType() == Material.CHEST) {
                 BlockState state = PaperLib.getBlockState(chest, false).getState();
 
-                if (state instanceof Chest chestState) {
-                    Inventory inv = chestState.getBlockInventory();
+                if (state instanceof Chest) {
+                    Inventory inv = ((Chest) state).getBlockInventory();
 
                     if (InvUtils.fits(inv, item)) {
                         inv.addItem(item);
@@ -298,8 +299,8 @@ class MiningTask implements Runnable {
         if (chest.getType() == Material.CHEST) {
             BlockState state = PaperLib.getBlockState(chest, false).getState();
 
-            if (state instanceof Chest chestState) {
-                Inventory inv = chestState.getBlockInventory();
+            if (state instanceof Chest) {
+                Inventory inv = ((Chest) state).getBlockInventory();
                 this.fuelLevel = grabFuelFrom(inv);
             }
         }
