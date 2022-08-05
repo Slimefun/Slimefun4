@@ -70,7 +70,12 @@ public final class LoreBuilder {
     }
 
     public static @Nonnull String range(int blocks) {
-        return "&7Range: &c" + blocks + " blocks";
+        if (blocks == 0) {
+            return "&7Range: &eNo Range";
+        }
+        else {
+            return "&7Range: &c" + blocks + " blocks";
+        }
     }
 
     public static @Nonnull String usesLeft(int usesLeft) {

@@ -44,7 +44,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class EnergyNet extends Network implements HologramOwner {
 
-    private static final int RANGE = 6;
+    private static final int RANGE = EnergyNetComponent.getRange;
 
     private final Map<Location, EnergyNetProvider> generators = new HashMap<>();
     private final Map<Location, EnergyNetComponent> capacitors = new HashMap<>();
