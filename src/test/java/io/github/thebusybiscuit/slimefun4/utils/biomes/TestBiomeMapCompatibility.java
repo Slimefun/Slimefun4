@@ -98,10 +98,6 @@ class TestBiomeMapCompatibility {
         Map<String, MinecraftVersion[]> testCases = new HashMap<>();
 
         // @formatter:off
-        testCases.put("nether_ice_v1.14", new MinecraftVersion[] {
-            MinecraftVersion.MINECRAFT_1_14,
-            MinecraftVersion.MINECRAFT_1_15
-        });
         
         testCases.put("nether_ice_v1.16", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_16,
@@ -111,8 +107,6 @@ class TestBiomeMapCompatibility {
         });
         
         testCases.put("oil_v1.14", new MinecraftVersion[] {
-            MinecraftVersion.MINECRAFT_1_14,
-            MinecraftVersion.MINECRAFT_1_15,
             MinecraftVersion.MINECRAFT_1_16,
             MinecraftVersion.MINECRAFT_1_17
         });
@@ -123,8 +117,6 @@ class TestBiomeMapCompatibility {
         });
         
         testCases.put("salt_v1.14", new MinecraftVersion[] {
-            MinecraftVersion.MINECRAFT_1_14,
-            MinecraftVersion.MINECRAFT_1_15,
             MinecraftVersion.MINECRAFT_1_16,
             MinecraftVersion.MINECRAFT_1_17
         });
@@ -132,11 +124,6 @@ class TestBiomeMapCompatibility {
         testCases.put("salt_v1.18", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_18,
             MinecraftVersion.MINECRAFT_1_19
-        });
-        
-        testCases.put("uranium_v1.14", new MinecraftVersion[] {
-            MinecraftVersion.MINECRAFT_1_14,
-            MinecraftVersion.MINECRAFT_1_15
         });
         
         testCases.put("uranium_v1.16", new MinecraftVersion[] {
