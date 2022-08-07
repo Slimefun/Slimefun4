@@ -32,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -53,7 +54,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ArmorStandUtils;
  * @see AncientAltarTask
  *
  */
-public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
+public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> implements NotHopperable {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
     private static NamespacedKey key;
