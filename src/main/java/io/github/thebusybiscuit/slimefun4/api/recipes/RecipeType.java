@@ -163,9 +163,7 @@ public class RecipeType implements Keyed {
 
     @ParametersAreNonnullByDefault
     private static void registerBarterDrop(ItemStack[] recipe, ItemStack output) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            Slimefun.getRegistry().getBarteringDrops().add(output);
-        }
+        Slimefun.getRegistry().getBarteringDrops().add(output);
     }
 
     @ParametersAreNonnullByDefault

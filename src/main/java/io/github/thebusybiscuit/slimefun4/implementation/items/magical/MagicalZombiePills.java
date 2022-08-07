@@ -64,7 +64,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
             if (entity instanceof ZombieVillager zombieVillager) {
                 useItem(p, item);
                 healZombieVillager(zombieVillager, p);
-            } else if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie pigZombie) {
+            } else if (entity instanceof PigZombie pigZombie) {
                 useItem(p, item);
                 healZombifiedPiglin(pigZombie);
             }

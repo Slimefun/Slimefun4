@@ -43,11 +43,7 @@ public class MultiBlock {
         SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
         SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
         SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
-
-        // Add Soul Fire support on 1.16
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            SUPPORTED_TAGS.add(Tag.FIRE);
-        }
+        SUPPORTED_TAGS.add(Tag.FIRE);
     }
 
     @Nonnull

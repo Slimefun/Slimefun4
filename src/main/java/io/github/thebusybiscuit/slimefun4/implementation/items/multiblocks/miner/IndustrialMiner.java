@@ -212,7 +212,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     public boolean canMine(@Nonnull Material type) {
         MinecraftVersion version = Slimefun.getMinecraftVersion();
 
-        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16) && type == Material.ANCIENT_DEBRIS) {
+        if (type == Material.ANCIENT_DEBRIS) {
             return canMineAncientDebris.getValue();
         } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
             return canMineDeepslateOres.getValue();

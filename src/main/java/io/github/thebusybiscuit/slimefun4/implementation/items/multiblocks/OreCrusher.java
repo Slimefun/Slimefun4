@@ -119,13 +119,11 @@ public class OreCrusher extends MultiBlockMachine {
         // @formatter:on
 
         // Gold ore variants (1.16+)
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            displayRecipes.add(new ItemStack(Material.NETHER_GOLD_ORE));
-            displayRecipes.add(doubleOres.getGoldNuggets());
+        displayRecipes.add(new ItemStack(Material.NETHER_GOLD_ORE));
+        displayRecipes.add(doubleOres.getGoldNuggets());
 
-            displayRecipes.add(new ItemStack(Material.GILDED_BLACKSTONE));
-            displayRecipes.add(doubleOres.getGoldNuggets());
-        }
+        displayRecipes.add(new ItemStack(Material.GILDED_BLACKSTONE));
+        displayRecipes.add(doubleOres.getGoldNuggets());
 
         // Raw metal ores (1.17+)
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
