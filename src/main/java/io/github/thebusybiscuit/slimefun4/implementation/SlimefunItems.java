@@ -257,10 +257,7 @@ public final class SlimefunItems {
         hazmatLore.add("");
         hazmatLore.add(ChatColor.GOLD + "Full set effects:");
         hazmatLore.add(ChatColor.YELLOW + "- Radiation immunity");
-
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            hazmatLore.add(ChatColor.YELLOW + "- Bee Sting protection");
-        }
+        hazmatLore.add(ChatColor.YELLOW + "- Bee Sting protection");
     }
 
     public static final SlimefunItemStack SCUBA_HELMET = new SlimefunItemStack("SCUBA_HELMET", Material.LEATHER_HELMET, Color.ORANGE, "&cScuba Helmet", "", "&7Allows you to breathe underwater");

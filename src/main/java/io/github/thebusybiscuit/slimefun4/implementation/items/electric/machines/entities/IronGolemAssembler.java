@@ -73,11 +73,7 @@ public class IronGolemAssembler extends AbstractEntityAssembler<IronGolem> {
 
     @Override
     public IronGolem spawnEntity(Location l) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            // This sound doesn't exist in 1.14 and earlier :/
-            l.getWorld().playSound(l, Sound.ENTITY_IRON_GOLEM_REPAIR, 0.5F, 1);
-        }
-
+        l.getWorld().playSound(l, Sound.ENTITY_IRON_GOLEM_REPAIR, 0.5F, 1);
         return l.getWorld().spawn(l, IronGolem.class);
     }
 

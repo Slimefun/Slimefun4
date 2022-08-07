@@ -90,10 +90,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
 
     private void healZombieVillager(@Nonnull ZombieVillager zombieVillager, @Nonnull Player p) {
         zombieVillager.setConversionTime(1);
-
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            zombieVillager.setConversionPlayer(p);
-        }
+        zombieVillager.setConversionPlayer(p);
     }
 
     private void healZombifiedPiglin(@Nonnull PigZombie zombiePiglin) {
