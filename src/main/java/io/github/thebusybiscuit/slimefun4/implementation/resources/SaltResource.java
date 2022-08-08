@@ -30,7 +30,7 @@ class SaltResource extends AbstractResource {
             // 1.18+ renamed most biomes
             biomes = getBiomeMap(this, "/biome-maps/salt_v1.18.json");
         } else {
-            biomes = getBiomeMap(this, "/biome-maps/salt_v1.14.json");
+            biomes = getBiomeMap(this, "/biome-maps/salt_v1.16.json");
         }
     }
 
