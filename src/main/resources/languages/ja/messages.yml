@@ -147,6 +147,7 @@ messages:
   piglin-barter: '&4Slimefunアイテムはピグリンとの物々交換に使用できません'
   bee-suit-slow-fall: '&e蜂の羽が着地を安全でゆっくりにした'
   deprecated-item: '&4このアイテムは廃止予定です。近日中にSlimefunから削除されます。'
+  researching-is-disabled: '%cこのサーバーではリサーチが無効化されていました。すべてがデフォルトでアンロックされました！'
   multi-tool:
     mode-change: '&b%device% モード変更: &9%mode%'
     not-shears: '&cMulti Toolはハサミとして利用できません！'
@@ -257,6 +258,7 @@ machines:
     pick-a-floor: '&3- 行先の選択 -'
     current-floor: '&e現在の階:'
     click-to-teleport: '&eクリック&7でこの階に移動:'
+    editor-title: 'エレベーターの設定'
   TELEPORTER:
     teleporting: '&3テレポート中…'
     teleported: '&3テレポート完了！'
@@ -272,6 +274,7 @@ machines:
     waypoints: 'ウェイポイント一覧'
   CARGO_NODES:
     must-be-placed: '&4チェストや機械に対して設置してください！'
+    not-connected: '&4接続されていません!'
   INDUSTRIAL_MINER:
     no-fuel: '&cIndustrial Minerは燃料切れです！上のチェストに燃料を補充してください。'
     piston-facing: '&cIndustrial Minerのピストンは上向きに設置してください！'
@@ -301,6 +304,8 @@ cauldron:
   no-discoloring: '&4Slimefunアイテムの脱色はできません'
 gps:
   deathpoint: '&4死亡地点 &7%date%'
+  status-online: 'オンライン'
+  status-offline: 'オフライン'
   waypoint:
     new: '&eウェイポイント名をチャットで入力してください&7（カラーコード対応）'
     added: '&a新しいウェイポイントを登録しました'

@@ -153,10 +153,10 @@ slimefun:
   electric_ore_grinding: 粉砕粉砕
   heated_pressure_chamber: 加熱圧力室Ⅰ
   coal_generator: 火力発電所
-  bio_reactor: バイオマス発電所
+  bio_reactor: バイオリアクター
   auto_enchanting: エンチャント操作術
-  auto_anvil: 電動修理術
-  multimeter: マルチメーター
+  auto_anvil: 自動金床
+  multimeter: 電力計測
   gps_setup: GPS時代の夜明け
   gps_emergency_transmitter: 緊急戦線復帰
   programmable_androids: アンドロイド
@@ -250,7 +250,7 @@ slimefun:
   iron_golem_assembler: 人造アイアンゴーレム
   villager_rune: 村人の初期化
   elytra_cap: 衝撃緩和装備
-  bee_armor: 蜂アーマー
+  bee_armor: 養蜂用防護服
   book_binder: エンチャントの本の製本
   auto_crafting: 自動クラフト
   produce_collector: 自動搾乳
