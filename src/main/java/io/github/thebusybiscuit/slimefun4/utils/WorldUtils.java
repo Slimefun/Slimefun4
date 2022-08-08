@@ -5,9 +5,6 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.World;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
 /**
  * This class holds utilities for {@link World}. This will become especially useful with the changes
  * in the "Cliffs and Caves" update.
