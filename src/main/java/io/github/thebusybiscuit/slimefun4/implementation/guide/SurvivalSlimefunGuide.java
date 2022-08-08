@@ -303,7 +303,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
             menu.addItem(index, createLockedItem(p, sfitem, research));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-                research.unlockFromGuide(this, p, profile, sfitem, itemGroup, page);
+                research.unlockFromGuide(this, p, profile, sfitem, player -> openItemGroup(profile, itemGroup, page));
                 return false;
             });
         } else {
@@ -353,8 +353,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             "",
             locale.getMessage(p, "guide.unlock.click"),
             "",
-            locale.getMessage(p, "guide.unlock.cost")
-                .replace("%cost%", String.valueOf(research.getCost()))
+            locale.getMessage(p, "guide.unlock.cost").replace("%cost%", String.valueOf(research.getCost()))
         );
         // @formatter:on
     }
@@ -592,8 +591,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         MenuClickHandler lockedClickHandler = (pl, slot, itemStack, action) -> {
             try {
                 SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
-                if (sfItem != null) {
-                    unlockItem(pl, sfItem, player -> displayItem(profile, itemStack, 0, true));
+
+                if (sfItem != null && sfItem.getResearch() != null) {
+                    sfItem.getResearch().unlockFromGuide(this, p, profile, sfItem, player -> displayItem(profile, itemStack, 0, true));
                 }
             } catch (Exception | LinkageError x) {
                 printErrorMessage(pl, x);
