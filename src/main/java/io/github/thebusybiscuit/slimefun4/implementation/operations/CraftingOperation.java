@@ -6,6 +6,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
@@ -21,10 +22,13 @@ public class CraftingOperation implements MachineOperation {
     private final ItemStack[] results;
 
     private final int totalTicks;
+    private int tickRate;
     private int currentTicks = 0;
 
     public CraftingOperation(@Nonnull MachineRecipe recipe) {
         this(recipe.getInput(), recipe.getOutput(), recipe.getTicks());
+
+        this.tickRate = Slimefun.getCfg().getInt("URID.custom-ticker-delay");
     }
 
     public CraftingOperation(@Nonnull ItemStack[] ingredients, @Nonnull ItemStack[] results, int totalTicks) {
@@ -35,12 +39,21 @@ public class CraftingOperation implements MachineOperation {
         this.ingredients = ingredients;
         this.results = results;
         this.totalTicks = totalTicks;
+
+        this.tickRate = Slimefun.getCfg().getInt("URID.custom-ticker-delay");
     }
 
     @Override
     public void addProgress(int num) {
         Validate.isTrue(num > 0, "Progress must be positive.");
-        currentTicks += num;
+
+        /**
+         * Normalize the tickrate to the config value custom-ticker-delay.
+         * This makes the machines run nearly the same speed on changing the delay.
+         */
+        int normalizedTickRate = (int) Math.round((tickRate / 10.0d) * num);
+
+        currentTicks += normalizedTickRate;
     }
 
     public @Nonnull ItemStack[] getIngredients() {

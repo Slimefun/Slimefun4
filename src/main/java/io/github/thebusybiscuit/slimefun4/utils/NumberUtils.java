@@ -25,6 +25,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  *
  */
 public final class NumberUtils {
+    /**
+     * Save config value for tick rate
+     */
+    private static final int TICK_RATE = Slimefun.getCfg().getInt("URID.custom-ticker-delay");
 
     /**
      * This is our {@link DecimalFormat} for decimal values.
@@ -35,7 +39,8 @@ public final class NumberUtils {
     /**
      * We do not want any instance of this to be created.
      */
-    private NumberUtils() {}
+    private NumberUtils() {
+    }
 
     /**
      * This method formats a given {@link Integer} to be displayed nicely with
@@ -171,8 +176,30 @@ public final class NumberUtils {
         }
     }
 
-    public static @Nonnull String getTimeLeft(int seconds) {
+    public static @Nonnull String getTimeLeft(int ticksLeft) {
         String timeleft = "";
+
+        /**
+         * This is the amount calculated in addProgress(). 
+         * This will be the scale used for timer.
+         */
+        double timeScale = (TICK_RATE / 10.0d) * 1;
+        double normalScale = ((timeScale) - Math.round(timeScale));
+
+        int seconds = 0;
+
+        //Adjust for positive change
+        if (normalScale < 0) {
+            seconds = (int) (ticksLeft * (normalScale / 2 + 1.0d));
+        }
+        // Adjust for negative change 
+        else if (normalScale > 0) {
+            seconds = (int) (ticksLeft * (normalScale + 1.0d));
+        }
+        // No change 
+        else {
+            seconds = ticksLeft;
+        }
 
         int minutes = (int) (seconds / 60L);
 
