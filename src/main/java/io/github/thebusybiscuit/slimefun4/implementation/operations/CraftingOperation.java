@@ -27,8 +27,6 @@ public class CraftingOperation implements MachineOperation {
 
     public CraftingOperation(@Nonnull MachineRecipe recipe) {
         this(recipe.getInput(), recipe.getOutput(), recipe.getTicks());
-
-        this.tickRate = Slimefun.getCfg().getInt("URID.custom-ticker-delay");
     }
 
     public CraftingOperation(@Nonnull ItemStack[] ingredients, @Nonnull ItemStack[] results, int totalTicks) {
