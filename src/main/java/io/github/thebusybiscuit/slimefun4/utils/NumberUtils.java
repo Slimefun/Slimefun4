@@ -183,7 +183,7 @@ public final class NumberUtils {
          * This is the amount calculated in addProgress(). 
          * This will be the scale used for timer.
          */
-        double timeScale = (TICK_RATE / 10.0d) * 1;
+        double timeScale = (TICK_RATE / 10.0d);
         double normalScale = ((timeScale) - Math.round(timeScale));
 
         int seconds = 0;
