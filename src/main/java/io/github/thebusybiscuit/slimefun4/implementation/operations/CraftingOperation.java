@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
 /**
@@ -49,7 +48,7 @@ public class CraftingOperation implements MachineOperation {
         int tickRate = Slimefun.getCfg().getInt("URID.custom-ticker-delay");
         int normalizedTickRate = (int) Math.round((tickRate / 10.0D) * num);
 
-        currentTicks += normalizedTickRate;
+        currentTicks += Math.max(normalizedTickRate, num);
     }
 
     public @Nonnull ItemStack[] getIngredients() {
