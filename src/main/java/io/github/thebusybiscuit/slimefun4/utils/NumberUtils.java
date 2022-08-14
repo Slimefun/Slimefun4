@@ -180,7 +180,7 @@ public final class NumberUtils {
         double timeScale = Slimefun.getCfg().getInt("URID.custom-ticker-delay") / 10.0D;
         double normalScale = timeScale - Math.round(timeScale);
 
-        int seconds = 0;
+        int seconds = ticksLeft;
 
         if (normalScale < 0) {
             //Adjust for positive change
@@ -188,9 +188,6 @@ public final class NumberUtils {
         } else if (normalScale > 0) {
             // Adjust for negative change 
             seconds = (int) (ticksLeft * (normalScale + 1.0D));
-        } else {
-            // No change 
-            seconds = ticksLeft;
         }
 
         int minutes = (int) (seconds / 60L);
