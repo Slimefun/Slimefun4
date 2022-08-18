@@ -177,7 +177,7 @@ public final class NumberUtils {
          * This is the amount calculated in addProgress(). 
          * This will be the scale used for timer.
          */
-        double timeScale = Slimefun.getCfg().getInt("URID.custom-ticker-delay") / 10.0D;
+        double timeScale = Slimefun.getTickerTask().getTickRate() / 10.0D;
         double normalScale = timeScale - Math.round(timeScale);
 
         int seconds = ticksLeft;
