@@ -45,7 +45,7 @@ public class CraftingOperation implements MachineOperation {
          * Normalize the tickrate to the config value custom-ticker-delay.
          * This makes the machines run nearly the same speed on changing the delay.
          */
-        int tickRate = Slimefun.getCfg().getInt("URID.custom-ticker-delay");
+        int tickRate = Slimefun.getTickerTask().getTickRate();
         int normalizedTickRate = (int) Math.round((tickRate / 10.0D) * num);
 
         currentTicks += Math.max(normalizedTickRate, num);
