@@ -146,6 +146,7 @@ messages:
   multimeter: '&bאחסון אנרגיה: &3%stored% &b/ &3%capacity%'
   piglin-barter: 'אתה לא יכול לסחור עם חזירונים באמצעות חפצי סליים פאן'
   bee-suit-slow-fall: '&eכנפי הדבורה שלך יעזרו לך להגיע לקרקע בצורה איטית ובטוחה'
+  deprecated-item: '&4פריט זה מיושן ויוסר מסליים פאן בקרוב.'
   multi-tool:
     mode-change: '&b%device% &9: המצב השתנה ל: %mode%'
     not-shears: '&c מולטי טול לא יכול לשמש כמזמרה!'
