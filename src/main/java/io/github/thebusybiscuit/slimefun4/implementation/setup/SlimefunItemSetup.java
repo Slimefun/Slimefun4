@@ -2439,6 +2439,13 @@ public final class SlimefunItemSetup {
         .setProcessingSpeed(2)
         .register(plugin);
 
+        new Freezer(itemGroups.electricity, SlimefunItems.FREEZER_3, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.FREEZER_2, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.COOLING_UNIT, SlimefunItems.COOLING_UNIT, SlimefunItems.COOLING_UNIT})
+        .setCapacity(256)
+        .setEnergyConsumption(21)
+        .setProcessingSpeed(3)
+        .register(plugin);
+
         new CoolantCell(itemGroups.technicalComponents, SlimefunItems.REACTOR_COOLANT_CELL, RecipeType.FREEZER,
         new ItemStack[] {new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
         .register(plugin);
