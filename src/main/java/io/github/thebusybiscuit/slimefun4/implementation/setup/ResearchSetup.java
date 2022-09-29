@@ -113,7 +113,6 @@ public final class ResearchSetup {
         register("gold_armor", 87, "Shiny Armor", 13, SlimefunItems.GOLDEN_HELMET_12K, SlimefunItems.GOLDEN_CHESTPLATE_12K, SlimefunItems.GOLDEN_LEGGINGS_12K, SlimefunItems.GOLDEN_BOOTS_12K);
         register("night_vision_googles", 89, "Night Vision Goggles", 10, SlimefunItems.NIGHT_VISION_GOGGLES);
         register("pickaxe_of_containment", 90, "Pickaxe of Containment", 14, SlimefunItems.PICKAXE_OF_CONTAINMENT, SlimefunItems.BROKEN_SPAWNER);
-        register("hercules_pickaxe", 91, "Hercules Pickaxe", 28, SlimefunItems.HERCULES_PICKAXE);
         register("table_saw", 92, "Table Saw", 4, SlimefunItems.TABLE_SAW);
         register("slime_steel_armor", 93, "Slimy Steel Armor", 27, SlimefunItems.SLIME_HELMET_STEEL, SlimefunItems.SLIME_CHESTPLATE_STEEL, SlimefunItems.SLIME_LEGGINGS_STEEL, SlimefunItems.SLIME_BOOTS_STEEL);
         register("blade_of_vampires", 94, "Blade of Vampires", 26, SlimefunItems.BLADE_OF_VAMPIRES);
