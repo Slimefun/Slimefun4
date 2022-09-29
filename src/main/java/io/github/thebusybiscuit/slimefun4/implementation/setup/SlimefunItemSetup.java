@@ -2621,6 +2621,12 @@ public final class SlimefunItemSetup {
             .register(plugin);
         }
 
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            new Juice(itemGroups.food, SlimefunItems.GLOW_BERRY_JUICE, RecipeType.JUICER,
+            new ItemStack[] {new ItemStack(Material.GLOW_BERRIES), null, null, null, null, null, null, null, null})
+            .register(plugin);
+        }
+
         new ElytraCap(itemGroups.magicalArmor, SlimefunItems.ELYTRA_CAP, RecipeType.ARMOR_FORGE,
         new ItemStack[] {new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.SLIME_BALL)})
         .register(plugin);
