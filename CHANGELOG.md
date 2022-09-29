@@ -57,6 +57,7 @@
 * Fixed an issue related to "Bee Wings"
 * Fixed #3573
 * Fixed "round-robin" mode for cargo networks being very unreliable
+* Fixed #3664
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32

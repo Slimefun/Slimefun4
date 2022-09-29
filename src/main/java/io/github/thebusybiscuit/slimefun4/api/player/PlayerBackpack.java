@@ -1,10 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.api.player;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -128,6 +131,20 @@ public class PlayerBackpack {
         Slimefun.runSync(() -> {
             for (Player p : players) {
                 p.openInventory(inventory);
+            }
+        });
+    }
+
+    /**
+     * This will close the {@link Inventory} of this backpack for every {@link Player}
+     * that has opened it.
+     */
+    public void closeForAll() {
+        Slimefun.runSync(() -> {
+            Iterator<HumanEntity> iterator = new ArrayList<>(inventory.getViewers()).iterator();
+
+            while (iterator.hasNext()) {
+                iterator.next().closeInventory();
             }
         });
     }

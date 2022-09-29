@@ -123,7 +123,11 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
 
                     PlayerProfile.fromUUID(UUID.fromString(idSplit[0]), profile -> {
                         Optional<PlayerBackpack> optional = profile.getBackpack(Integer.parseInt(idSplit[1]));
-                        optional.ifPresent(playerBackpack -> playerBackpack.setSize(size));
+                        optional.ifPresent(playerBackpack -> {
+                            // Safety feature for Issue #3664
+                            playerBackpack.closeForAll();
+                            playerBackpack.setSize(size);
+                        });
                     });
 
                     return Optional.of(id);
