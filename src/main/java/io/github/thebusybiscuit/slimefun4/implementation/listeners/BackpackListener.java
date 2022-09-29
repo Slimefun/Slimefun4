@@ -96,6 +96,7 @@ public class BackpackListener implements Listener {
 
             if (backpack instanceof SlimefunBackpack slimefunBackpack) {
                 if (e.getClick() == ClickType.NUMBER_KEY) {
+                    // Prevent disallowed items from being moved using number keys.
                     if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
                         ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
 
@@ -103,12 +104,19 @@ public class BackpackListener implements Listener {
                             e.setCancelled(true);
                         }
                     }
-                } else if (e.getClick() == ClickType.SWAP_OFFHAND && e.getClickedInventory().getType() != InventoryType.PLAYER) {
-                    // Fixes #3265
-                    ItemStack offHandItem = e.getWhoClicked().getInventory().getItemInOffHand();
+                } else if (e.getClick() == ClickType.SWAP_OFFHAND) {
+                    if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
+                        // Fixes #3265 - Don't move disallowed items using the off hand.
+                        ItemStack offHandItem = e.getWhoClicked().getInventory().getItemInOffHand();
 
-                    if (!isAllowed(slimefunBackpack, offHandItem)) {
-                        e.setCancelled(true);
+                        if (!isAllowed(slimefunBackpack, offHandItem)) {
+                            e.setCancelled(true);
+                        }
+                    } else {
+                        // Fixes #3664 - Do not swap the backpack to your off hand.
+                        if (e.getCurrentItem() != null && e.getCurrentItem().isSimilar(item)) {
+                            e.setCancelled(true);
+                        }
                     }
                 } else if (!isAllowed(slimefunBackpack, e.getCurrentItem())) {
                     e.setCancelled(true);

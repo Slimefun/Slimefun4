@@ -146,6 +146,8 @@ messages:
   multimeter: '&bאחסון אנרגיה: &3%stored% &b/ &3%capacity%'
   piglin-barter: 'אתה לא יכול לסחור עם חזירונים באמצעות חפצי סליים פאן'
   bee-suit-slow-fall: '&eכנפי הדבורה שלך יעזרו לך להגיע לקרקע בצורה איטית ובטוחה'
+  deprecated-item: '&4פריט זה מיושן ויוסר מסליים פאן בקרוב.'
+  researching-is-disabled: '&cמחקר לא פעיל בשרת זה. לפי ברירת מחדל הכול פתוח!'
   multi-tool:
     mode-change: '&b%device% &9: המצב השתנה ל: %mode%'
     not-shears: '&c מולטי טול לא יכול לשמש כמזמרה!'
@@ -256,6 +258,9 @@ machines:
     pick-a-floor: '&3- בחר קומה -'
     current-floor: '&e אתה נמצא כרגע על קומה:'
     click-to-teleport: '&eלחץ &7 כדי להשתגר לקומה:'
+    enter-name: '&7אנא הכנס את שם הרצפה הרצוי לצ''אט שלך. &f(קודי צבע נתמכים!)'
+    named: '&2 בהצלחה נקבע שם קומה זאת: &f%floor%'
+    editor-title: 'הגדר מעלית זו'
   TELEPORTER:
     teleporting: '&3משתגר....'
     teleported: '&3שוגר!'
@@ -271,6 +276,8 @@ machines:
     waypoints: 'סקירת נקודות דרך'
   CARGO_NODES:
     must-be-placed: '&4חייב להיות מונח על תיבה או מכונה!'
+    connected: '&2מחובר!'
+    not-connected: '&4לא מחובר!'
   INDUSTRIAL_MINER:
     no-fuel: 'לכורה התעשייתית שלך אזל הדלק! שים את הדלק שלך בתיבה מעל.'
     piston-facing: '&cהכורה התעשייתי שלך דורש בוכנות מופנות כלפי מעלה!'
@@ -300,6 +307,8 @@ cauldron:
   no-discoloring: '&4אתה לא יכול לשנות את הצבע של שריון סליים פאן'
 gps:
   deathpoint: "&4נקודת מוות\n&7%date%"
+  status-online: 'מקוון'
+  status-offline: 'לא מקוון'
   waypoint:
     new: '&eהקלד שם לנקודת הדרך החדשה שלך בצ''אט. (קודי צבע נתמכים!)'
     added: '&a נוסף בהצלחה נקודת דרך חדשה'
@@ -399,3 +408,5 @@ languages:
   mk: 'מקדונית'
   sr: 'סרבית'
   be: 'בלארוסית'
+  si-LK: 'סינהאלית'
+  lt: 'ליטאית'

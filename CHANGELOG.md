@@ -44,6 +44,8 @@
 * (API) Added a method for item groups to allow addons to choose if they want to allow items from other addons
 * Added a new option to Eletric Gold Pans: "override-output-limit"
 * Added "Mud -> Clay" recipe to the Auto Drier
+* Added a third tier for Freezers
+* Added Glow Berry Juice
 
 #### Changes
 * Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
@@ -51,12 +53,15 @@
 * "Connected / Not connected" messages for cargo nodes are now sent via the actionbar
 * "/sf stats" can no longer be used if researching is disabled
 * "/sf research" can no longer be used if researching is disabled
+* Removed the Hercules Pickaxe from Slimefun
 
 #### Fixes
 * Fixed #3597
 * Fixed an issue related to "Bee Wings"
 * Fixed #3573
 * Fixed "round-robin" mode for cargo networks being very unreliable
+* Fixed #3664
+* Fixed #3651
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
