@@ -195,7 +195,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosivePi
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.HerculesPickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.LumberAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfContainment;
@@ -1030,10 +1029,6 @@ public final class SlimefunItemSetup {
 
         new PickaxeOfContainment(itemGroups.tools, SlimefunItems.PICKAXE_OF_CONTAINMENT, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
-        .register(plugin);
-
-        new HerculesPickaxe(itemGroups.tools, SlimefunItems.HERCULES_PICKAXE, RecipeType.MAGIC_WORKBENCH,
-        new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
         .register(plugin);
         
         new TableSaw(itemGroups.basicMachines, SlimefunItems.TABLE_SAW).register(plugin);

@@ -51,6 +51,7 @@
 * "Connected / Not connected" messages for cargo nodes are now sent via the actionbar
 * "/sf stats" can no longer be used if researching is disabled
 * "/sf research" can no longer be used if researching is disabled
+* Removed the Hercules Pickaxe from Slimefun
 
 #### Fixes
 * Fixed #3597
@@ -58,6 +59,7 @@
 * Fixed #3573
 * Fixed "round-robin" mode for cargo networks being very unreliable
 * Fixed #3664
+* Fixed #3651
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
