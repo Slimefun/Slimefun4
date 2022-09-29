@@ -45,6 +45,7 @@
 * Added a new option to Eletric Gold Pans: "override-output-limit"
 * Added "Mud -> Clay" recipe to the Auto Drier
 * Added a third tier for Freezers
+* Added Glow Berry Juice
 
 #### Changes
 * Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
