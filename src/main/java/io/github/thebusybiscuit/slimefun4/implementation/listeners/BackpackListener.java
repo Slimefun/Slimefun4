@@ -155,10 +155,6 @@ public class BackpackListener implements Listener {
             p.closeInventory();
         }
 
-        if (p.getInventory().getItemInMainHand() == item) {
-            return;
-        }
-
         // Check if someone else is currently viewing this backpack
         if (!backpacks.containsValue(item)) {
             p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
