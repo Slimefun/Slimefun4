@@ -164,7 +164,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
                 case MANGROVE_LOG:
                 case STRIPPED_MANGROVE_LOG:
                     saplingType = Material.MANGROVE_PROPAGULE;
-                    soilRequirement = SlimefunTag.MANGROVE_GROW_BLOCKS::isTagged;
+                    soilRequirement = SlimefunTag.MANGROVE_BASE_BLOCKS::isTagged;
                     break;
                 default:
                     break;

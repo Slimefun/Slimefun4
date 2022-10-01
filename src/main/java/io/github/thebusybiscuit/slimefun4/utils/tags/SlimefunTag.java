@@ -147,7 +147,7 @@ public enum SlimefunTag implements Tag<Material> {
      * All block types for mangrove to grow on.
      * This includes all dirt variants, mud and clay.
      */
-    MANGROVE_GROW_BLOCKS,
+    MANGROVE_BASE_BLOCKS,
 
     /**
      * All variants of concrete powder.
