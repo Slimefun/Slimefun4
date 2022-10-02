@@ -66,11 +66,7 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
     @Nonnull
     public ItemUseHandler onItemUse() {
         return e -> {
-            if (e.getClickedBlock().isPresent()) {
-                if (e.getPlayer().isSneaking()) {
-                    return;
-                }
-
+            if (e.getClickedBlock().isPresent() && !e.getPlayer().isSneaking()) {
                 Block block = e.getClickedBlock().get();
 
                 if (isUnstrippedLog(block)) {
