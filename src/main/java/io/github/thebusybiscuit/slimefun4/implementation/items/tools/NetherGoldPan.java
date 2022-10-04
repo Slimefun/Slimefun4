@@ -41,7 +41,7 @@ public class NetherGoldPan extends GoldPan {
         settings.add(new GoldPanDrop(this, "chance.GOLD_NUGGET", 25, new ItemStack(Material.GOLD_NUGGET)));
         settings.add(new GoldPanDrop(this, "chance.NETHER_WART", 10, new ItemStack(Material.NETHER_WART)));
         settings.add(new GoldPanDrop(this, "chance.BLAZE_POWDER", 8, new ItemStack(Material.BLAZE_POWDER)));
-        settings.add(new GoldPanDrop(this, "change.SOUL_SOIL", 5, new ItemStack(Material.SOUL_SOIL)));
+        settings.add(new GoldPanDrop(this, "chance.SOUL_SOIL", 5, new ItemStack(Material.SOUL_SOIL)));
         settings.add(new GoldPanDrop(this, "chance.GLOWSTONE_DUST", 5, new ItemStack(Material.GLOWSTONE_DUST)));
         settings.add(new GoldPanDrop(this, "chance.GHAST_TEAR", 2, new ItemStack(Material.GHAST_TEAR)));
 
