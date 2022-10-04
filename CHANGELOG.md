@@ -62,6 +62,7 @@
 * Fixed "round-robin" mode for cargo networks being very unreliable
 * Fixed #3664
 * Fixed #3651
+* Fixed #3677
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
