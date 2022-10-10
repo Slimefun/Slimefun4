@@ -168,8 +168,7 @@ public class DebugFishListener implements Listener {
             p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + Slimefun.getProfiler().getTime(b.getChunk())));
         }
 
-        if (item instanceof EnergyNetComponent) {
-            EnergyNetComponent component = (EnergyNetComponent) item;
+        if (item instanceof EnergyNetComponent component) {
             p.sendMessage(ChatColors.color("&dEnergyNet Component"));
             p.sendMessage(ChatColors.color("  &dType: &e" + component.getEnergyComponentType()));
 

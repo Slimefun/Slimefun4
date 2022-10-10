@@ -57,7 +57,7 @@ public class AutoCrafterListener implements Listener {
 
             SlimefunItem block = slimefunBlock.get();
 
-            if (block instanceof AbstractAutoCrafter) {
+            if (block instanceof AbstractAutoCrafter crafter) {
                 Optional<SlimefunItem> slimefunItem = e.getSlimefunItem();
 
                 if (!e.getPlayer().isSneaking() && slimefunItem.isPresent() && slimefunItem.get() instanceof Multimeter) {
@@ -80,8 +80,6 @@ public class AutoCrafterListener implements Listener {
                 }
 
                 // Fixes 2896 - Forward the interaction before items get handled.
-                AbstractAutoCrafter crafter = (AbstractAutoCrafter) block;
-
                 try {
                     crafter.onRightClick(clickedBlock.get(), e.getPlayer());
                 } catch (Exception | LinkageError x) {
@@ -94,7 +92,7 @@ public class AutoCrafterListener implements Listener {
     @ParametersAreNonnullByDefault
     private boolean hasUnlockedRecipe(Player p, ItemStack item) {
         for (Recipe recipe : Slimefun.getMinecraftRecipeService().getRecipesFor(item)) {
-            if (recipe instanceof Keyed && !p.hasDiscoveredRecipe(((Keyed) recipe).getKey())) {
+            if (recipe instanceof Keyed keyed && !p.hasDiscoveredRecipe(keyed.getKey())) {
                 return false;
             }
         }

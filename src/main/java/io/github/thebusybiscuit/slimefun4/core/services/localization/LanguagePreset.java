@@ -50,13 +50,15 @@ public enum LanguagePreset {
     HEBREW("he", TextDirection.RIGHT_TO_LEFT, "1ba086a2cc7272cf5ba49c80248546c22e5ef1bab54120e8a8e5d9e75b6a"),
     ARABIC("ar", TextDirection.RIGHT_TO_LEFT, "a4be759a9cf7f0a19a7e8e62f23789ad1d21cebae38af9d9541676a3db001572"),
     TURKISH("tr", "9852b9aba3482348514c1034d0affe73545c9de679ae4647f99562b5e5f47d09"),
-    PERSIAN("fa", false, "5cd9badf1972583b663b44b1e027255de8f275aa1e89defcf77782ba6fcc652"),
+    PERSIAN("fa", false, TextDirection.RIGHT_TO_LEFT, "5cd9badf1972583b663b44b1e027255de8f275aa1e89defcf77782ba6fcc652"),
     SERBIAN("sr", false, "5b0483a4f0ddf4fbbc977b127b3d294d7a869f995366e3f50f6b05a70f522510"),
     AFRIKAANS("af", false, "961a1eacc10524d1f45f23b0e487bb2fc33948d9676b418b19a3da0b109d0e3c"),
     MALAY("ms", false, "754b9041dea6db6db44750f1385a743adf653767b4b8802cad4c585dd3f5be46"),
     THAI("th", "2a7916e4a852f7e6f3f3de19c7fb57686a37bce834bd54684a7dbef8d53fb"),
     MACEDONIAN("mk", "a0e0b0b5d87a855466980a101a757bcdb5f77d9f7287889f3efa998ee0472fc0"),
-    TAGALOG("tl", "9306c0c1ce6a9c61bb42a572c49e6d0ed20e0e6b3d122cc64c339cbf78e9e937");
+    TAGALOG("tl", "9306c0c1ce6a9c61bb42a572c49e6d0ed20e0e6b3d122cc64c339cbf78e9e937"),
+    SINHALA("si-LK", false, "4b26572c48344ee1fc4b2d89fd0866989a3e256ce19ee05384bc3ca76f2409c5"),
+    LITHUANIAN("lt", false, "de3d829741976d8330d6947d6eea64ee57aed2f26286ff63844e9089367c11");
 
     private final String id;
     private final boolean releaseReady;

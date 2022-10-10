@@ -28,13 +28,13 @@ public class AnvilListener implements SlimefunCraftingListener {
 
     @EventHandler(ignoreCancelled = true)
     public void onAnvil(InventoryClickEvent e) {
-        if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.ANVIL && e.getWhoClicked() instanceof Player) {
+        if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.ANVIL && e.getWhoClicked() instanceof Player player) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
 
             if (hasUnallowedItems(item1, item2)) {
                 e.setResult(Result.DENY);
-                Slimefun.getLocalization().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
+                Slimefun.getLocalization().sendMessage(player, "anvil.not-working", true);
             }
         }
     }

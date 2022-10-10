@@ -167,6 +167,8 @@ messages:
   multimeter: '&bStored Energy: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4You cannot barter with piglins using Slimefun items'
   bee-suit-slow-fall: '&eYour Bee Wings will help you to get back to the ground safe and slow'
+  deprecated-item: '&4This item has been deprecated and will be removed from Slimefun soon.'
+  researching-is-disabled: '&cResearching has been disabled on this server. Everything is unlocked by default!'
 
   multi-tool:
     mode-change: '&b%device% mode changed to: &9%mode%'
@@ -295,8 +297,9 @@ machines:
     pick-a-floor: '&3- Pick a floor -'
     current-floor: '&eThis is the floor you are currently on:'
     click-to-teleport: '&eClick &7to teleport to this floor:'
-    enter-name: '&7Please enter your desired floor name into your Chat. &r(Color Codes are supported!)'
-    named: '&2Successfully named this floor: &r%floor%'
+    enter-name: '&7Please enter your desired floor name into your Chat. &f(Color Codes are supported!)'
+    named: '&2Successfully named this floor: &f%floor%'
+    editor-title: 'Configure this elevator'
 
   TELEPORTER:
     teleporting: '&3Teleporting...'
@@ -316,6 +319,8 @@ machines:
 
   CARGO_NODES:
     must-be-placed: '&4Must be placed onto a chest or machine!'
+    connected: '&2Connected!'
+    not-connected: '&4Not connected!'
 
   INDUSTRIAL_MINER:
     no-fuel: '&cYour Industrial Miner ran out of fuel! Put your fuel into the chest above.'
@@ -355,6 +360,8 @@ cauldron:
 
 gps:
   deathpoint: '&4Deathpoint &7%date%'
+  status-online: 'ONLINE'
+  status-offline: 'OFFLINE'
   waypoint:
     new: '&ePlease type in a name for your new waypoint in the chat. &7(Color Codes supported!)'
     added: '&aSuccessfully added a new waypoint'
@@ -464,3 +471,5 @@ languages:
   mk: 'Macedonian'
   sr: 'Serbian'
   be: 'Belarusian'
+  si-LK: 'Sinhala'
+  lt: 'Lithuanian'

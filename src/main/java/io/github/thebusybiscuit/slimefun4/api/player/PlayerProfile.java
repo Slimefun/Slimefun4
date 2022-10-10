@@ -487,9 +487,7 @@ public class PlayerProfile {
 
             if (!armorPiece.isPresent()) {
                 setId = null;
-            } else if (armorPiece.get() instanceof ProtectiveArmor) {
-                ProtectiveArmor protectedArmor = (ProtectiveArmor) armorPiece.get();
-
+            } else if (armorPiece.get() instanceof ProtectiveArmor protectedArmor) {
                 if (setId == null && protectedArmor.isFullSetRequired()) {
                     setId = protectedArmor.getArmorSetId();
                 }
@@ -517,7 +515,7 @@ public class PlayerProfile {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof PlayerProfile && uuid.equals(((PlayerProfile) obj).uuid);
+        return obj instanceof PlayerProfile profile && uuid.equals(profile.uuid);
     }
 
     @Override

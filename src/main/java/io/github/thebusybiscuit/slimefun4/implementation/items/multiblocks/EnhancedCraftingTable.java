@@ -33,12 +33,11 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
 
     @Override
     public void onInteract(Player p, Block b) {
-        Block dispenser = b.getRelative(BlockFace.DOWN);
-        BlockState state = PaperLib.getBlockState(dispenser, false).getState();
+        Block possibleDispenser = b.getRelative(BlockFace.DOWN);
+        BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
 
-        if (state instanceof Dispenser) {
-            Dispenser disp = (Dispenser) state;
-            Inventory inv = disp.getInventory();
+        if (state instanceof Dispenser dispenser) {
+            Inventory inv = dispenser.getInventory();
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
             for (int i = 0; i < inputs.size(); i++) {
@@ -46,7 +45,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
                     ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(inv, dispenser, p, b, output);
+                        craft(inv, possibleDispenser, p, b, output);
                     }
 
                     return;
@@ -68,8 +67,8 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
         if (outputInv != null) {
             SlimefunItem sfItem = SlimefunItem.getByItem(output);
 
-            if (sfItem instanceof SlimefunBackpack) {
-                upgradeBackpack(p, inv, (SlimefunBackpack) sfItem, output);
+            if (sfItem instanceof SlimefunBackpack backpack) {
+                upgradeBackpack(p, inv, backpack, output);
             }
 
             for (int j = 0; j < 9; j++) {
