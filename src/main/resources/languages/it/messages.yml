@@ -189,8 +189,6 @@ machines:
     pick-a-floor: '&3- Scegli un piano -'
     current-floor: '&eQuesto è il piano su cui ti trovi attualmente:'
     click-to-teleport: '&eClick &7per teletrasportarti su questo piano:'
-    enter-name: '&7Si prega di inserire il nome del piano desiderato nella chat. &r (i codici colore sono supportati!)'
-    named: '&2Successivamente chiamato questo piano: &r%floor%'
   TELEPORTER:
     teleporting: '&3Teletrasporto...'
     teleported: '&3Teletrasportato!'

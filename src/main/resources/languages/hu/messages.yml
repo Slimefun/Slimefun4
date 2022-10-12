@@ -146,6 +146,7 @@ messages:
   multimeter: '&bTárolt energia: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4Slimefun tárgyakat nem cserélhetsz el a piglinekkel.'
   bee-suit-slow-fall: '&eA Bee Wings segít neked visszatérni a földre lassan és biztonságosan'
+  deprecated-item: '&4Ez a tárgy elavult, és hamarosan eltávolítjuk a Slimefunból.'
   multi-tool:
     mode-change: '&b%device% mód átállítva: &9%mode%'
     not-shears: '&cA Multi Tool nem használható óllóként!'
@@ -256,8 +257,6 @@ machines:
     pick-a-floor: '&3- Válassz emeletet -'
     current-floor: '&eEzen az emeleten tartózkodsz:'
     click-to-teleport: '&eKattints&7, hogy erre az emeletre teleportálj:'
-    enter-name: '&7Kérlek írd be a kívánt emelet nevét a chatre. &r(Színkódok is használhatóak!)'
-    named: '&2Sikeresen elnevezted ezt az emeletet: &r%floor%'
   TELEPORTER:
     teleporting: '&3Teleportálás...'
     teleported: '&3Teleportálva!'

@@ -206,8 +206,6 @@ machines:
     pick-a-floor: '&4- Chọn một tầng -'
     current-floor: '&eĐây là tầng mà bạn hiện đang ở:'
     click-to-teleport: '&eẤn &7để dịch chuyển đến tầng:'
-    enter-name: '&7Vui lòng nhập tên tầng mong muốn của bạn vào Khung trò chuyện. &r(Mã màu được hỗ trợ)'
-    named: '&2Đặt tên thành công cho tầng này: &r%floor%'
   TELEPORTER:
     teleporting: '&3Đang dịch chuyển...'
     teleported: '&3Đã dịch chuyển!'

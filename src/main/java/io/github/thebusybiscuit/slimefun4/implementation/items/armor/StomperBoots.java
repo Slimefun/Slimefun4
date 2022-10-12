@@ -51,7 +51,7 @@ public class StomperBoots extends SlimefunItem {
         player.setVelocity(new Vector(0, 0.7, 0));
 
         for (Entity entity : player.getNearbyEntities(4, 4, 4)) {
-            if (entity instanceof LivingEntity && canPush(player, (LivingEntity) entity)) {
+            if (entity instanceof LivingEntity livingEntity && canPush(player, livingEntity)) {
                 Vector velocity = getShockwave(player.getLocation(), entity.getLocation());
                 entity.setVelocity(velocity);
 
@@ -61,7 +61,7 @@ public class StomperBoots extends SlimefunItem {
                     Bukkit.getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
-                        ((LivingEntity) entity).damage(event.getDamage());
+                        livingEntity.damage(event.getDamage());
                     }
                 }
             }

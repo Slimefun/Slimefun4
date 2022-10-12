@@ -36,6 +36,16 @@ public abstract class FlexItemGroup extends ItemGroup {
         super(key, item, tier);
     }
 
+    @Override
+    public final boolean isVisible(@Nonnull Player p) {
+        /*
+         * We can stop this method right here.
+         * We provide a custom method with more parameters for this.
+         * See isVisible(...)
+         */
+        return true;
+    }
+
     /**
      * This method returns whether this {@link FlexItemGroup} is visible under the given context.
      * Implementing this method gives full flexibility over who can see the ItemGroup when and where.
@@ -65,16 +75,6 @@ public abstract class FlexItemGroup extends ItemGroup {
      *            The current {@link SlimefunGuideMode}
      */
     public abstract void open(Player p, PlayerProfile profile, SlimefunGuideMode layout);
-
-    @Override
-    public final boolean isHidden(@Nonnull Player p) {
-        /*
-         * We can stop this method right here.
-         * We provide a custom method with more parameters for this.
-         * See isVisible(...)
-         */
-        return false;
-    }
 
     @Override
     public final void add(@Nonnull SlimefunItem item) {

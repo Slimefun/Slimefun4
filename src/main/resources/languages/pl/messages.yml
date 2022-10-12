@@ -19,6 +19,7 @@ commands:
   timings:
     please-wait: '&eProszę poczekać sekundę... Wyniki przychodzą!'
   debug:
+    description: 'Uruchom debugowanie dla programistów'
     none-running: '&7Nie ma obecnie żadnego przypadku testowego!'
     disabled: '&7Wyłączono tryb debugowania.'
 guide:
@@ -158,6 +159,7 @@ machines:
   full-inventory: '&eEkwipunek jest pełny!'
   in-use: '&cEkwipunek tego bloku jest na razie otworzony przez innego gracza.'
   ignition-chamber-no-flint: '&cDo Komory Zapłonowej brakuje Krzesiwa.'
+  inventory-empty: '&6Pomyślnie zbudowałeś ten Multiblock. Kontynuuj umieszczając przedmioty wewnątrz dozownika i kliknij na mnie ponownie, aby stworzyć przedmiot, który chcesz!'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4Ołtarz nie jest otoczony potrzebną ilością cokołów &c(%pedestals% / 8)'
     unknown-catalyst: '&4Nieznany katalizator! &cZamiast tego użyj prawidłowego przepisu!'
@@ -172,8 +174,6 @@ machines:
     pick-a-floor: '&3- Wybierz piętro-'
     current-floor: '&eTo jest piętro, na którym aktualnie jesteś:'
     click-to-teleport: '&eKliknij &7aby teleportować się na to piętro:'
-    enter-name: '&7Wprowadź żądaną nazwę piętra na czacie. &r(Kody kolorów są obsługiwane!)'
-    named: '&2Pomyślnie nazwano podłogę: &r% floor%'
   TELEPORTER:
     teleporting: '&3Teleportuje...'
     teleported: '&3Przeteleportowano!'
@@ -191,11 +191,19 @@ machines:
     must-be-placed: '&4Musi być umieszczony na skrzyni lub maszynie!'
 anvil:
   not-working: '&4Nie możesz używać przedmiotów Slimefun w kowadle!'
+brewing_stand:
+  not-working: '&4Nie możesz używać przedmiotów ze Slimefun''a w statywie alchemicznym!'
+cartography_table:
+  not-working: '&4Nie możesz używać przedmiotów ze Slimefun''a w stole kartograficznym!'
+villagers:
+  no-trading: '&4Nie możesz handlować przedmiotami ze Slimefun''a z Wieśniakami!'
 backpack:
   already-open: '&cPrzepraszamy, ten plecak jest otwarty gdzie indziej!'
   no-stack: '&cNie możesz stakować plecaków'
 workbench:
   not-enhanced: '&4Nie można używać przedmiotów Slimefun w zwykłym stole warsztatowym'
+cauldron:
+  no-discoloring: '&4Nie możesz zmienić koloru Zbroi ze Slimefun''a'
 gps:
   deathpoint: '&4Punkt śmierci &7%date%'
   waypoint:
@@ -207,7 +215,7 @@ gps:
     - '&4a) Nie masz jeszcze skonfigurowanej sieci GPS'
     - '&4b) Twoja sieć GPS nie jest wystarczająco złożona'
   geo:
-    scan-required: '&4Wymagany jest skan GEO-Skan! &cNajpierw zeskanuj ten fragment za pomocą skanera GEO!'
+    scan-required: '&4Wymagany jest skan GEO-Skan! &cNajpierw zeskanuj ten fragment za pomocą GEO-skanera!'
 inventory:
   no-access: '&4Nie masz dostępu do tego bloku'
 android:
@@ -216,6 +224,7 @@ android:
   scripts:
     already-uploaded: '&4Ten skrypt został już przesłany.'
     editor: 'Edytor skryptów'
+    too-long: '&cSkrypt jest za długi, aby go edytować!'
     instructions:
       START: '&2Uruchom skrypt'
       REPEAT: '&9 Powtórz skrypt'
@@ -276,14 +285,14 @@ languages:
   he: 'Hebrajski'
   pt: 'Portugalski (Portugalia)'
   pt-BR: 'Portugalski (Brazylia)'
-  ar: 'Arabski (Arabic)'
+  ar: 'Arabski'
   af: 'Afrykański (Afrikaans)'
-  da: 'Duński (Danish)'
-  fi: 'Fiński (Finnish)'
-  uk: 'Ukraiński (Ukrainian)'
-  ms: 'Malajski (Malay)'
+  da: 'Duński'
+  fi: 'Fiński'
+  uk: 'Ukraiński'
+  ms: 'Malajski'
   'no': 'Norweski'
-  ja: 'Japonia'
+  ja: 'Japoński'
   fa: 'Perski'
   th: 'Tajski'
   tl: 'Filipiński'

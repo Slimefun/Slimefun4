@@ -40,7 +40,7 @@ class BackpackCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender instanceof Player) {
+        if (sender instanceof Player player) {
             if (sender.hasPermission("slimefun.command.backpack")) {
                 if (args.length != 3) {
                     Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf backpack <Player> <ID>"));
@@ -71,7 +71,7 @@ class BackpackCommand extends SubCommand {
                     Slimefun.runSync(() -> {
                         ItemStack item = SlimefunItems.RESTORED_BACKPACK.clone();
                         Slimefun.getBackpackListener().setBackpackId(backpackOwner, item, 2, id);
-                        ((Player) sender).getInventory().addItem(item);
+                        player.getInventory().addItem(item);
                         Slimefun.getLocalization().sendMessage(sender, "commands.backpack.restored-backpack-given");
                     });
                 });

@@ -106,7 +106,7 @@ public class TagParser implements Keyed {
                 JsonArray values = child.getAsJsonArray();
 
                 for (JsonElement element : values) {
-                    if (element instanceof JsonPrimitive && ((JsonPrimitive) element).isString()) {
+                    if (element instanceof JsonPrimitive primitive && primitive.isString()) {
                         // Strings will be parsed directly
                         parsePrimitiveValue(element.getAsString(), materials, tags, true);
                     } else if (element instanceof JsonObject) {
@@ -182,7 +182,7 @@ public class TagParser implements Keyed {
         JsonElement required = entry.get("required");
 
         // Check if the entry contains elements of the correct type
-        if (id instanceof JsonPrimitive && ((JsonPrimitive) id).isString() && required instanceof JsonPrimitive && ((JsonPrimitive) required).isBoolean()) {
+        if (id instanceof JsonPrimitive idJson && idJson.isString() && required instanceof JsonPrimitive requiredJson && requiredJson.isBoolean()) {
             boolean isRequired = required.getAsBoolean();
 
             /*

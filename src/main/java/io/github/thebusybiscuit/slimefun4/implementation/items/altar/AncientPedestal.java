@@ -86,8 +86,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
 
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
-            if (n instanceof Item) {
-                return Optional.of((Item) n);
+            if (n instanceof Item item) {
+                return Optional.of(item);
             }
         }
 
@@ -95,8 +95,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     private boolean testItem(@Nullable Entity n) {
-        if (n instanceof Item && n.isValid()) {
-            Item item = (Item) n;
+        if (n instanceof Item item && n.isValid()) {
             ItemMeta meta = item.getItemStack().getItemMeta();
 
             return meta.hasDisplayName() && meta.getDisplayName().startsWith(ITEM_PREFIX);

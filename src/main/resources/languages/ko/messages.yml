@@ -1,9 +1,7 @@
 ---
 commands:
   help: 이 도움말 화면을 표시합니다
-  cheat: 당신은 치트 아이템을 허용
-  give: 슬라임펀 아이템을 주다.
-  guide: Slimefun 가이드 책 제공
+  cheat: 치트 아이템 허용
   teleporter: 다른 플레이어의 웨이포인트 보기
   versions: 설치된 모든 애드온 리스트
   search: 주어진 단어로 가이드 검색
@@ -15,12 +13,14 @@ commands:
     reset-target: '&c지식이 재설정됨'
   backpack:
     description: 기존 배낭의 사본을 가져옵니다
-    invalid-id: '&4ID는 음수가 아닌 숫자 여야합니다!'
+    invalid-id: '&4ID는 음수가 아닌 숫자여야 합니다!'
     player-never-joined: '&4그 이름의 플레이어를 찾을 수 없습니다!'
     backpack-does-not-exist: '&4지정된 배낭이 없습니다!'
     restored-backpack-given: '&a배낭이 복원되어 인벤토리에 추가되었습니다!'
   charge:
     description: 당신이 들고 있는 아이템을 충전합니다
+  debug:
+    description: '개발자를 위한 디버그 로깅을 시작합니다.'
 placeholderapi:
   profile-loading: '로딩중...'
 guide:
@@ -104,19 +104,19 @@ messages:
   auto-crafting:
     select: '이 제작법을 고르십시오'
   talisman:
-    anvil: '&a&o당신의 탈리스맨이 당신의 도구가 부셔지는 것을 막아줬습니다.'
-    miner: '&a&o당신의 탈리스맨이 당신의 방울을 두 배로 늘렸어요'
-    hunter: '&a&o당신의 탈리스맨이 당신의 방울을 두 배로 늘렸어요'
-    lava: '&a&o당신의 탈리스맨은 당신을 용암에 타죽는 것으로부터 구했습니다.'
-    water: '&a&o당신의 탈리스맨이 당신을 익사로부터 구했어요'
-    angel: '&a&o당신의 탈리스맨이 당신을 낙상 피해로부터 구했습니다.'
-    fire: '&a&o당신의 탈리스맨은 당신을 불에 타죽는 것으로부터 구했습니다.'
-    magician: '&a&o당신의 탈리스맨이 당신에게 추가 약속을 했습니다.'
+    anvil: '&a&o당신의 부적이 당신의 도구가 부셔지는 것을 막아줬습니다.'
+    miner: '&a&o당신의 부적이 당신의 아이템 획득량을 두 배로 늘렸습니다'
+    hunter: '&a&o당신의 부적이 당신의 아이템 획득량을 두 배로 늘렸습니다'
+    lava: '&a&o당신의 부적은 당신을 용암에 타죽는 것으로부터 구했습니다'
+    water: '&a&o당신의 부적이 당신을 익사로부터 구했습니다'
+    angel: '&a&o당신의 부적이 당신을 낙하 피해로부터 구했습니다.'
+    fire: '&a&o당신의 부적이 당신이 불에 타죽는 것으로부터 구했습니다'
+    magician: '&a&o당신의 부적이 당신에게 추가 인첸트를 부여했습니다'
     traveller: '&a&o당신의 탈리스맨이 당신에게 스피드 부스트를 주었습니다.'
-    warrior: '&a&o당신의 탈리스맨은 당신의 힘을 잠시 향상시켰습니다.'
-    knight: '&a&o당신의 탈리스맨은 당신에게 5초의 재생 시간을 주었습니다.'
-    whirlwind: "&a&o당신의 탈리스맨은 발사체를 반사했다.\n"
-    wizard: "&a&o당신의 탈리스맨은 당신에게 더 나은 행운 레벨을 주었지만, 아마도 몇몇 다른 인첸트 레벨도 낮췄을 것입니다.\n"
+    warrior: '&a&o당신의 탈리스맨이 당신에게 힘 효과를 주었습니다'
+    knight: '&a&o당신의 부적이 당신에게 5초동안 재생 효과를 주었습니다.'
+    whirlwind: '&a&o당신의 부적이 발사체를 반사했습니다'
+    wizard: '&a&o당신의 부적이 당신에게 행운 효과를 주었지만, 몇몇 다른 인첸트 레벨도 낮췄습니다'
   soulbound-rune:
     fail: '&c한 번에 한 항목만 영혼에 묶을 수 있습니다.'
     success: '&a이 아이템을 당신의 영혼에 성공적으로 묶었습니다! 당신은 죽을 때 그것을 간직할 것입니다.'
@@ -177,8 +177,6 @@ machines:
     pick-a-floor: "&3- 바닥을 고르세요 -\n"
     current-floor: '&e현재 사용 중인 층은 다음과 같습니다:'
     click-to-teleport: '&e해당 층으로 텔레포트를 하실려면 클릭:'
-    enter-name: '&7원하는 플로어 이름을 채팅에 입력하십시오. &r(색상 코드가 지원됨!)'
-    named: '&2이 층의 이름을 성공적으로 지정함: &r%floor%'
   TELEPORTER:
     teleporting: '&3텔레포팅중...'
     teleported: '&3텔레포트!'

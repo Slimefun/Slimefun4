@@ -27,6 +27,7 @@ commands:
     description: Slimefun ve Eklentileri için zamanlamalar
     please-wait: '&eLütfen bir saniye bekleyin... Sonuçlar geliyor!'
     verbose-player: '&4Ayrıntılı bayrak bir oyuncu tarafından kullanılamaz!'
+    unknown-flag: '&4Bilinmeyen Bayrak: &c%flag%'
   debug:
     description: 'Developerlar için hata ayıklamayı başlat'
     disabled: '&7Hata ayıklama kapalı.'
@@ -82,6 +83,7 @@ guide:
     settings: 'Ayarlar & Bilgi'
     languages: 'Tercih ettiğiniz dili seçin'
     credits: 'Slimefun4 Katkıda Bulunanlar'
+    wiki: 'Slimefun4 Wiki'
     addons: 'Slimefun4 için Eklentiler'
     bugs: 'Hata Raporları'
     source: 'Kaynak Kodu'
@@ -131,6 +133,11 @@ messages:
         - '&aBu tarif şu anda etkin'
         - ''
         - '&eLeft Click &7to temporarily disable the recipe'
+        - '&eRight Click &7to remove this recipe'
+      disabled:
+        - '&cBu tarif şu anda devre dışı'
+        - ''
+        - '&eLeft Click &7to re-enable this recipe'
         - '&eRight Click &7to remove this recipe'
   talisman:
     anvil: '&a&oTılsım aletinizi kırılmadan kurtardı'
@@ -198,6 +205,7 @@ machines:
   full-inventory: '&eÜzgünüm, envanterim çok dolu!'
   in-use: '&cBu Bloğun envanteri şu anda farklı bir Oyuncu tarafından açıldı.'
   ignition-chamber-no-flint: '&cAteşleme Odasında Çakmak eksik.'
+  inventory-empty: '&6Bu çoklu bloğu başarıyla oluşturdunuz. Dağıtıcının içine öğeleri yerleştirerek devam edin ve istediğiniz öğeyi oluşturmak için tekrar tıklayın!'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4Altar, gerekli Sütun miktarı ile çevrili değil &c(%pedestals% / 8)'
     unknown-catalyst: '&4Bilinmeyen Katalizör! &cDoğru Tarifi kullanın!'
@@ -212,8 +220,6 @@ machines:
     pick-a-floor: '&3- Bir kat seçin -'
     current-floor: '&eŞu anda bulunduğunuz kat:'
     click-to-teleport: '&7Bu yere ışınlanmak için &eTıkla:'
-    enter-name: '&7Lütfen sohbette yeni katınız için bir ad yazın. &r(Renk kodları destekleniyor!)'
-    named: '&2Bu kat başarıyla isimlendirildi: &r%floor%'
   TELEPORTER:
     teleporting: '&3Işınlanılıyor...'
     teleported: '&3Işınlanıldı!'
@@ -251,6 +257,8 @@ backpack:
   no-stack: '&cSırt Çantalarını istifleyemezsiniz'
 workbench:
   not-enhanced: '&4Slimefun Eşyalarını normal bir üretim masasında kullanamazsınız'
+cauldron:
+  no-discoloring: '&4Slimefun Zırhını renk değiştiremezsiniz'
 gps:
   deathpoint: '&4Ölüm Noktası &7%date%'
   waypoint:

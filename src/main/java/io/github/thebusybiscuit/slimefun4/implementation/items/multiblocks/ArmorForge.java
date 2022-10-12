@@ -31,12 +31,11 @@ public class ArmorForge extends AbstractCraftingTable {
 
     @Override
     public void onInteract(Player p, Block b) {
-        Block dispenser = b.getRelative(BlockFace.DOWN);
-        BlockState state = PaperLib.getBlockState(dispenser, false).getState();
+        Block possibleDispenser = b.getRelative(BlockFace.DOWN);
+        BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
 
-        if (state instanceof Dispenser) {
-            Dispenser disp = (Dispenser) state;
-            Inventory inv = disp.getInventory();
+        if (state instanceof Dispenser dispenser) {
+            Inventory inv = dispenser.getInventory();
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
             for (int i = 0; i < inputs.size(); i++) {
@@ -44,7 +43,7 @@ public class ArmorForge extends AbstractCraftingTable {
                     ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(p, output, inv, dispenser);
+                        craft(p, output, inv, possibleDispenser);
                     }
 
                     return;

@@ -28,13 +28,13 @@ public class CartographyTableListener implements SlimefunCraftingListener {
 
     @EventHandler(ignoreCancelled = true)
     public void onCartographyTable(InventoryClickEvent e) {
-        if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.CARTOGRAPHY && e.getWhoClicked() instanceof Player) {
+        if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.CARTOGRAPHY && e.getWhoClicked() instanceof Player player) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
 
             if (hasUnallowedItems(item1, item2)) {
                 e.setResult(Result.DENY);
-                Slimefun.getLocalization().sendMessage((Player) e.getWhoClicked(), "cartography_table.not-working", true);
+                Slimefun.getLocalization().sendMessage(player, "cartography_table.not-working", true);
             }
         }
     }

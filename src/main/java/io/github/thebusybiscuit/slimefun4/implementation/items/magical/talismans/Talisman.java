@@ -162,11 +162,9 @@ public class Talisman extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     public static boolean trigger(Event e, SlimefunItem item, boolean sendMessage) {
-        if (!(item instanceof Talisman)) {
+        if (!(item instanceof Talisman talisman)) {
             return false;
         }
-
-        Talisman talisman = (Talisman) item;
 
         if (ThreadLocalRandom.current().nextInt(100) > talisman.getChance()) {
             return false;
@@ -239,8 +237,8 @@ public class Talisman extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     private static void cancelEvent(Event e, Talisman talisman) {
-        if (e instanceof Cancellable && talisman.isEventCancelled()) {
-            ((Cancellable) e).setCancelled(true);
+        if (e instanceof Cancellable cancellable && talisman.isEventCancelled()) {
+            cancellable.setCancelled(true);
         }
     }
 
@@ -301,18 +299,18 @@ public class Talisman extends SlimefunItem {
 
     @Nullable
     private static Player getPlayerByEventType(@Nonnull Event e) {
-        if (e instanceof EntityDeathEvent) {
-            return ((EntityDeathEvent) e).getEntity().getKiller();
-        } else if (e instanceof BlockBreakEvent) {
-            return ((BlockBreakEvent) e).getPlayer();
-        } else if (e instanceof BlockDropItemEvent) {
-            return ((BlockDropItemEvent) e).getPlayer();
-        } else if (e instanceof PlayerEvent) {
-            return ((PlayerEvent) e).getPlayer();
-        } else if (e instanceof EntityEvent) {
-            return (Player) ((EntityEvent) e).getEntity();
-        } else if (e instanceof EnchantItemEvent) {
-            return ((EnchantItemEvent) e).getEnchanter();
+        if (e instanceof EntityDeathEvent entityDeathEvent) {
+            return entityDeathEvent.getEntity().getKiller();
+        } else if (e instanceof BlockBreakEvent blockBreakEvent) {
+            return blockBreakEvent.getPlayer();
+        } else if (e instanceof BlockDropItemEvent blockDropItemEvent) {
+            return blockDropItemEvent.getPlayer();
+        } else if (e instanceof PlayerEvent playerEvent) {
+            return playerEvent.getPlayer();
+        } else if (e instanceof EntityEvent entityEvent) {
+            return (Player) entityEvent.getEntity();
+        } else if (e instanceof EnchantItemEvent enchantItemEvent) {
+            return enchantItemEvent.getEnchanter();
         }
 
         return null;

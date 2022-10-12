@@ -137,12 +137,12 @@ public final class ChestMenuUtils {
         ItemMeta im = item.getItemMeta();
         im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-        if (im instanceof Damageable) {
-            ((Damageable) im).setDamage(getDurability(item, timeLeft, time));
+        if (im instanceof Damageable damageable) {
+            damageable.setDamage(getDurability(item, timeLeft, time));
         }
 
         im.setDisplayName(" ");
-        im.setLore(Arrays.asList(getProgressBar(timeLeft, time), "", ChatColor.GRAY + NumberUtils.getTimeLeft(timeLeft / 2) + " left"));
+        im.setLore(Arrays.asList(getProgressBar(timeLeft, time), "", ChatColor.GRAY + NumberUtils.getTimeLeft(timeLeft / 2)));
         item.setItemMeta(im);
 
         menu.replaceExistingItem(slot, item);
