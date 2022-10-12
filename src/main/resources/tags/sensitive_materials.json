@@ -28,6 +28,10 @@
         {
             "id" : "minecraft:large_amethyst_bud",
             "required" : false
+        },
+        {
+            "id" : "minecraft:sculk_vein",
+            "required" : false
         }
     ]
 }

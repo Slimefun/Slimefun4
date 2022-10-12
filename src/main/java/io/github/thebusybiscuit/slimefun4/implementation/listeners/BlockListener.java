@@ -223,11 +223,12 @@ public class BlockListener implements Listener {
                 // Fixes #2944 - Don't forget to clear the Block Data
                 BlockStorage.clearBlockInfo(blockAbove);
             } else {
-                finalDrops.addAll(blockAbove.getDrops());
+                finalDrops.addAll(blockAbove.getDrops()); // We must drop top block manually due to SPIGOT-6728
             }
 
             blockAbove.setType(Material.AIR);
 
+            // Drop our final drops
             for (ItemStack drop : finalDrops) {
                 if (drop != null && !drop.getType().isAir()) {
                     blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), drop);
