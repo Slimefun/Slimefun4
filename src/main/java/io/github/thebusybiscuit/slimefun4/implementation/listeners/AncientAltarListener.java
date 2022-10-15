@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -157,7 +158,7 @@ public class AncientAltarListener implements Listener {
             Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
 
             entity.remove();
-            p.playSound(pedestal.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
+            SoundEffect.ANCIENT_ALTAR_ITEM_PICK_UP_SOUND.playFor(p);
 
             /*
              * Fixes #3476
@@ -217,9 +218,7 @@ public class AncientAltarListener implements Listener {
         for (Block pedestal : pedestals) {
             Optional<Item> stack = pedestalItem.getPlacedItem(pedestal);
 
-            if (stack.isPresent()) {
-                input.add(pedestalItem.getOriginalItemStack(stack.get()));
-            }
+            stack.ifPresent(item -> input.add(pedestalItem.getOriginalItemStack(item)));
         }
 
         Optional<ItemStack> result = getRecipeOutput(catalyst, input);
@@ -233,7 +232,7 @@ public class AncientAltarListener implements Listener {
                     ItemUtils.consumeItem(p.getInventory().getItemInMainHand(), false);
                 }
 
-                b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1, 1);
+                SoundEffect.ANCIENT_ALTAR_START_SOUND.playAt(b);
 
                 AncientAltarTask task = new AncientAltarTask(this, b, altarItem.getStepDelay(), result.get(), pedestals, consumed, p);
                 Slimefun.runSync(task, 10L);

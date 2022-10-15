@@ -12,7 +12,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
@@ -31,6 +31,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -123,7 +124,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
             menu.open(p);
             task.start(menu.toInventory());
-            p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+            SoundEffect.VANILLA_AUTO_CRAFTER_UPDATE_RECIPE_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
         }
     }
 
@@ -134,7 +135,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
         menu.replaceExistingItem(46, ChestMenuUtils.getPreviousButton(p, index + 1, recipes.size()));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
             if (index > 0) {
-                pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(pl);
                 offerRecipe(p, b, recipes, index - 1, menu, task);
             }
 
@@ -144,7 +145,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
         menu.replaceExistingItem(52, ChestMenuUtils.getNextButton(p, index + 1, recipes.size()));
         menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
             if (index < (recipes.size() - 1)) {
-                pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(pl);
                 offerRecipe(p, b, recipes, index + 1, menu, task);
             }
 
@@ -158,7 +159,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
             setSelectedRecipe(b, recipe);
             pl.closeInventory();
 
-            p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+            SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(pl);
             Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-set");
             showRecipe(p, b, recipe);
 

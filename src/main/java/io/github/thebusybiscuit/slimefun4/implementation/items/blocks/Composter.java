@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -94,7 +95,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                         });
 
                         tasks.thenRun(20, () -> {
-                            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                            SoundEffect.COMPOSTER_COMPOST_SOUND.playFor(p);
                             pushItem(b, output.clone());
                         });
 

@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -156,7 +157,7 @@ public class OreWasher extends MultiBlockMachine {
             outputInv.addItem(output.clone());
 
             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-            b.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+            SoundEffect.ORE_WASHER_WASH_SOUND.playAt(b);
         } else {
             Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }

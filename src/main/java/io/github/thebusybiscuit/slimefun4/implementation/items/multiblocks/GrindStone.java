@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -105,6 +106,7 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
     }
 
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
@@ -129,11 +131,10 @@ public class GrindStone extends MultiBlockMachine {
                             removing.setAmount(1);
                             inv.removeItem(removing);
                             outputInv.addItem(output);
-                            p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
+                            SoundEffect.GRIND_STONE_INTERACT_SOUND.playAt(b);
                         } else {
                             Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
-
                         return;
                     }
                 }
@@ -142,5 +143,4 @@ public class GrindStone extends MultiBlockMachine {
             Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
-
 }

@@ -6,10 +6,10 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -116,7 +116,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
             int usesLeft = pdc.getOrDefault(key, PersistentDataType.INTEGER, getMaxUseCount());
 
             if (usesLeft == 1) {
-                p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+                SoundEffect.LIMITED_USE_ITEM_BREAK_SOUND.playFor(p);
                 item.setAmount(0);
                 item.setType(Material.AIR);
             } else {

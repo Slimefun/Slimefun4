@@ -9,6 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -98,7 +99,7 @@ public class Compressor extends MultiBlockMachine {
                 if (j < 3) {
                     p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
                 } else {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    SoundEffect.COMPRESSOR_CRAFT_SOUND.playAt(p.getLocation(), SoundCategory.BLOCKS);
                     handleCraftedItem(output, dispenser, dispInv);
                 }
             }, i * 20L);

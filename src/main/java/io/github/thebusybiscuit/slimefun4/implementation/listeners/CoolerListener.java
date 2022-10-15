@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -123,7 +124,7 @@ public class CoolerListener implements Listener {
                 }
 
                 p.setSaturation(6F);
-                p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_DRINK, 1F, 1F);
+                SoundEffect.COOLER_CONSUME_SOUND.playFor(p);
                 inv.setItem(slot, null);
                 backpack.markDirty();
 

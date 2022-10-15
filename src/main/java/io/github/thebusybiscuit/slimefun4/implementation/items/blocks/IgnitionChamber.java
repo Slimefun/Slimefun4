@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -94,13 +95,13 @@ public class IgnitionChamber extends SlimefunItem {
                 if (((Damageable) meta).getDamage() >= item.getType().getMaxDurability()) {
                     // The Flint and Steel broke
                     item.setAmount(0);
-                    smelteryBlock.getWorld().playSound(smelteryBlock.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+                    SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
                 } else {
                     item.setItemMeta(meta);
                 }
             }
 
-            smelteryBlock.getWorld().playSound(smelteryBlock.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
+            SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
             return true;
         } else {
             // Notify the Player there is a chamber but without any Flint and Steel
