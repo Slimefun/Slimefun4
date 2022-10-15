@@ -1,7 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -20,11 +22,12 @@ public class Vitamins extends MedicalSupply<ItemUseHandler> {
         super(itemGroup, 8, item, recipeType, recipe);
     }
 
+    @Nonnull
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
+            SoundEffect.VITAMINS_CONSUME_SOUND.playFor(p);
 
             if (p.getGameMode() != GameMode.CREATIVE) {
                 ItemUtils.consumeItem(e.getItem(), false);
@@ -36,5 +39,4 @@ public class Vitamins extends MedicalSupply<ItemUseHandler> {
             heal(p);
         };
     }
-
 }

@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Player;
@@ -48,8 +48,7 @@ public class SlimefunBootsListener implements Listener {
 
     @EventHandler
     public void onEnderPearlDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof EnderPearl && e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
+        if (e.getDamager() instanceof EnderPearl && e.getEntity() instanceof Player p) {
             SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 
             if (boots instanceof EnderBoots && boots.canUse(p, true)) {
@@ -71,12 +70,9 @@ public class SlimefunBootsListener implements Listener {
             if (boots instanceof StomperBoots stomperBoots) {
                 e.setCancelled(true);
                 stomperBoots.stomp(e);
-            } else if (boots instanceof LongFallBoots) {
+            } else if (boots instanceof LongFallBoots longFallBoots) {
                 e.setCancelled(true);
-
-                if (boots.getId().equals("BEE_BOOTS")) {
-                    e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.BLOCK_HONEY_BLOCK_FALL, 1, 2);
-                }
+                longFallBoots.getSoundEffect().playAt(p.getLocation(), SoundCategory.PLAYERS);
             }
         }
     }

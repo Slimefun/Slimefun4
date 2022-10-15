@@ -97,6 +97,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
 * Added "Mud -> Clay" recipe to the Auto Drier
 * Added a third tier for Freezers
 * Added Glow Berry Juice
+* Added sound effects for Slime Boots
+* Added `sounds.yml` file to configure sound effects for Slimefun
 
 #### Changes
 * Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
