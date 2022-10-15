@@ -9,7 +9,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;

@@ -36,7 +36,7 @@ final class ContributorsMenu {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.credits"));
 
         menu.setEmptySlotsClickable(false);
-        menu.addMenuOpeningHandler(SoundEffect.GUIDE_CONTRIBUTORS_OPEN_SOUND::playFor);
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
 
         ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 53);
 

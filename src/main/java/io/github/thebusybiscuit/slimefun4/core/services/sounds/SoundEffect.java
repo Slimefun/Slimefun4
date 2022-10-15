@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.services.sounds;
 
-import java.util.Locale;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;

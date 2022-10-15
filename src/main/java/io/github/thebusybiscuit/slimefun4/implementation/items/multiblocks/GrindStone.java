@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -105,6 +106,7 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
     }
 
+    @Nonnull
     @Override
     public @Nonnull List<ItemStack> getDisplayRecipes() {
         return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
