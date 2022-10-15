@@ -87,7 +87,7 @@ class TestItemGroups {
         Player player = server.addPlayer();
 
         // Empty Item Groups are also hidden
-        Assertions.assertTrue(group.isHidden(player));
+        Assertions.assertFalse(group.isVisible(player));
 
         SlimefunItem disabledItem = TestUtilities.mockSlimefunItem(plugin, "DISABLED_ITEM_GROUP_ITEM", new CustomItemStack(Material.BEETROOT, "&4Disabled"));
         Slimefun.getItemCfg().setValue("DISABLED_ITEM_GROUP_ITEM.enabled", false);
@@ -96,7 +96,7 @@ class TestItemGroups {
         disabledItem.load();
 
         // A disabled Item should also make the ItemGroup hide
-        Assertions.assertTrue(group.isHidden(player));
+        Assertions.assertFalse(group.isVisible(player));
 
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUP_HIDDEN_TEST", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
         item.setItemGroup(group);
@@ -105,10 +105,10 @@ class TestItemGroups {
         item.load();
 
         // A hidden Item should also make the ItemGroup hide
-        Assertions.assertTrue(group.isHidden(player));
+        Assertions.assertFalse(group.isVisible(player));
 
         item.setHidden(false);
-        Assertions.assertFalse(group.isHidden(player));
+        Assertions.assertTrue(group.isVisible(player));
     }
 
     @Test
@@ -201,11 +201,11 @@ class TestItemGroups {
         Player player = server.addPlayer();
 
         Assertions.assertEquals(month, group.getMonth());
-        Assertions.assertFalse(group.isHidden(player));
+        Assertions.assertTrue(group.isVisible(player));
 
         // ItemGroup with future Month
         SeasonalItemGroup itemGroup2 = new SeasonalItemGroup(group.getKey(), month.plus(6), 1, new CustomItemStack(Material.MILK_BUCKET, "&dSeasonal Test"));
-        Assertions.assertTrue(itemGroup2.isHidden(player));
+        Assertions.assertFalse(itemGroup2.isVisible(player));
     }
 
     @Test
@@ -225,7 +225,7 @@ class TestItemGroups {
         };
 
         Player player = server.addPlayer();
-        Assertions.assertFalse(group.isHidden(player));
+        Assertions.assertTrue(group.isVisible(player));
 
         Assertions.assertThrows(UnsupportedOperationException.class, () -> group.add(null));
         Assertions.assertThrows(UnsupportedOperationException.class, () -> group.contains(null));

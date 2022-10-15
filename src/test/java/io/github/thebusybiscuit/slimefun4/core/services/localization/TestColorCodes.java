@@ -13,23 +13,31 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Your friendly neighbourhood spellcheck.
- * Brought to you by our Discord bot "@WalshBot".
- * No more incorrect spelling of "Slimefun".
+ * We need to make sure that color codes are still working properly.
+ * <p>
+ * Sometimes, the color code can be accidentally removed as people see
+ * it as part of the word on first look. This test is designed to catch
+ * these cases. It is not perfect but it does catch a few instances.
+ * <p>
+ * The test checks for color chars (ampersands) that have no follow-up
+ * chatcolor key but rather a preceeding one.
+ * <p>
+ * The test will catch occurences like "a& ", "b&Hello" or "7&", "5& a".
+ * The test will however ignore valid color codes such as "a&a".
  * 
  * @author TheBusyBiscuit
  *
  */
-class TestSlimefunSpelling extends AbstractLocaleRegexChecker {
+class TestColorCodes extends AbstractLocaleRegexChecker {
 
-    TestSlimefunSpelling() {
-        super(Pattern.compile("[Ss]lime(?:F|( [Ff]))un"));
+    TestColorCodes() {
+        super(Pattern.compile("[a-f0-9klmno]&[^a-f0-9klmno]"));
     }
 
     @ParameterizedTest
     @ParametersAreNonnullByDefault
     @MethodSource("getAllLanguageFiles")
-    @DisplayName("Test correct spelling of Slimefun in language files")
+    @DisplayName("Test for mistakes in color codes for Slimefun locale files")
     void testSpelling(LanguagePreset lang, LanguageFile file) throws IOException {
         try (BufferedReader reader = readLanguageFile(lang, file)) {
             if (reader == null) {

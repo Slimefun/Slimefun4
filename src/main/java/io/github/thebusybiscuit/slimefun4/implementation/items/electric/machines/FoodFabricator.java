@@ -29,6 +29,7 @@ public class FoodFabricator extends AContainer {
         registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.DRIED_KELP) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.KELP_ORGANIC_FOOD, OrganicFood.OUTPUT) });
         registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.COCOA_BEANS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.COCOA_ORGANIC_FOOD, OrganicFood.OUTPUT) });
         registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.SWEET_BERRIES) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.SEAGRASS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEAGRASS_ORGANIC_FOOD, OrganicFood.OUTPUT) });
     }
 
     @Override

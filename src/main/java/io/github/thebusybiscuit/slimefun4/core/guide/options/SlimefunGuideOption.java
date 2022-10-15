@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Keyed;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +26,7 @@ public interface SlimefunGuideOption<T> extends Keyed {
      * 
      * @return The registering {@link SlimefunAddon}
      */
+    @Nonnull
     SlimefunAddon getAddon();
 
     Optional<ItemStack> getDisplayItem(Player p, ItemStack guide);

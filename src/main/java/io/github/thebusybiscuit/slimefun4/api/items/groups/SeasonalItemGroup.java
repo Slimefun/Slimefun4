@@ -56,12 +56,12 @@ public class SeasonalItemGroup extends ItemGroup {
     }
 
     @Override
-    public boolean isHidden(@Nonnull Player p) {
-        // Hide this ItemGroup if the month differs
+    public boolean isAccessible(@Nonnull Player p) {
+        // Block this ItemGroup if the month differs
         if (month != LocalDate.now().getMonth()) {
-            return true;
+            return false;
         }
 
-        return super.isHidden(p);
+        return super.isAccessible(p);
     }
 }

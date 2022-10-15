@@ -25,6 +25,7 @@ slimefun:
   steel_thruster: Propulsor de Acero
   parachute: Paracaídas
   grappling_hook: Gancho
+  jetpacks: Jetpack
   multitools: Multi Herramientas
   solar_panel_and_helmet: Energía solar
   elemental_staff: Bastónes Elementales
@@ -50,6 +51,7 @@ slimefun:
   reinforced_armor: Armadura Reforzada
   ore_washer: Tamizador
   gold_carats: Oro Puro
+  silicon: Silicon Valley
   fire_staff: Vara de Fuego
   smelters_pickaxe: Pico Fundidor
   common_talisman: Talismán Común
@@ -60,6 +62,7 @@ slimefun:
   water_talisman: Talismán del Pez
   angel_talisman: Talismán del Ángel
   fire_talisman: Talismán del Bombero
+  caveman_talisman: Talismán del Cavernícola
   wise_talisman: Talismán del Sabio
   lava_crystal: Situación Ardiente
   magician_talisman: Talismán del Mago
@@ -122,6 +125,7 @@ slimefun:
   electric_motor: Calentando Motores
   block_placer: Colocador de Bloques
   scroll_of_dimensional_teleposition: Volteando cosas por aquí
+  special_bows: Robin Hood
   tome_of_knowledge_sharing: Compartiendo con amigos
   flask_of_knowledge: Almacenamiento de EXP
   hardened_glass: Resistiendo Explosiones
@@ -185,6 +189,7 @@ slimefun:
   cargo_basics: Fundamentos de Cargas
   cargo_nodes: Configuración de Carga
   electric_ingot_machines: Fabricación Eléctrica de Lingotes
+  medium_tier_electric_ingot_machines: Fabricación Eléctrica de Lingotes
   high_tier_electric_ingot_machines: Lingotes Super Rápidos
   automated_crafting_chamber: Crafteo Automatizado
   better_food_fabricator: Fabricación de Alimentos Mejorado
@@ -204,7 +209,9 @@ slimefun:
   high_tier_carbon_press: Carbón Prensado Definitivo
   wither_assembler: Mata Withers Automatizado
   better_heated_pressure_chamber: Maquina de Presión Caliente Mejorada
+  elytra: Élitros
   special_elytras: Elytras Especiales
+  trident: Tridente
   electric_crucible: Crisól Electrificado
   better_electric_crucibles: Crisoles Calientes
   advanced_electric_smeltery: Fundición Eléctrica Avanzada
@@ -235,6 +242,7 @@ slimefun:
   advanced_industrial_miner: Minería Mejorada
   magical_zombie_pills: De-Zombificación
   auto_brewer: Alquimia Industrial
+  climbing_pick: Incursor de Bloques
   shulker_shell: Shulkers Sintéticos
   enchantment_rune: Encantamiento Antiguo
   lead_clothing: Ropa de Plomo
@@ -243,3 +251,11 @@ slimefun:
   villager_rune: Restablece los Intercambios de los Aldeanos
   elytra_cap: Equipo de choque
   bee_armor: Armadura de Abeja
+  book_binder: Atadura de Libros de Encantamiento
+  auto_crafting: Crafteo Automatizado
+  produce_collector: Ordeño Automático
+  improved_generators: Generadores Improvisados
+  ingredients_and_cheese: Cocina de Slimefun
+  medium_tier_auto_enchanting: Mejorar Encantar y Desencantar Automático
+  portable_teleporter: Teletransporte en tu bolsillo
+  farmer_talisman: Talisman del Granjero

@@ -12,6 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -117,6 +118,15 @@ public class Research implements Keyed {
     public @Nonnull String getName(@Nonnull Player p) {
         String localized = Slimefun.getLocalization().getResearchName(p, key);
         return localized != null ? localized : name;
+    }
+
+    /**
+     * Retrieve the name of this {@link Research} without any localization nor coloring.
+     *
+     * @return The unlocalized, decolorized name for this {@link Research}
+     */
+    public @Nonnull String getUnlocalizedName() {
+        return ChatColor.stripColor(name);
     }
 
     /**
