@@ -30,6 +30,7 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemUseHandler> {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
+    @Nonnull
     @Override
     public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {

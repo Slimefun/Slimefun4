@@ -37,6 +37,7 @@ public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
         addItemSetting(multiplier);
     }
 
+    @Nonnull
     @Override
     public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;

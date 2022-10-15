@@ -37,6 +37,7 @@ public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
+    @Nonnull
     @Override
     public @Nonnull EntityInteractHandler getItemHandler() {
         return (e, item, offhand) -> {

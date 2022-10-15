@@ -33,6 +33,7 @@ public class PressureChamber extends MultiBlockMachine {
         super(itemGroup, item, new ItemStack[] { new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON) }, BlockFace.UP);
     }
 
+    @Nonnull
     @Override
     public @Nonnull List<ItemStack> getDisplayRecipes() {
         return recipes.stream().map(items -> items[0]).collect(Collectors.toList());

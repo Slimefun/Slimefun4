@@ -34,5 +34,4 @@ public class SoundConfiguration {
     public float getPitch() {
         return pitch;
     }
-
 }

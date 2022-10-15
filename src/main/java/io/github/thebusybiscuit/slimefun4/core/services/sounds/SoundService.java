@@ -44,7 +44,7 @@ public class SoundService {
         );
         // @formatter:on
 
-        config.getConfiguration().options().copyHeader(true);
+        config.getConfiguration().options().parseComments(true);
     }
 
     /**

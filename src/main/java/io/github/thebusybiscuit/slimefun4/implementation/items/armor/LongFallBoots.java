@@ -14,7 +14,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 /**
  * {@link LongFallBoots} are a pair of boots which negate fall damage.
  * Nameworthy examples of this are Slime Boots and Bee Boots.
- * <p>
+ *  <p>
  * <i>Yes, you just found a Portal reference :P</i>
  * 
  * @author TheBusyBiscuit

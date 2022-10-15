@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.Material;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
@@ -49,6 +50,7 @@ public class Compressor extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.COAL));
     }
 
+    @Nonnull
     @Override
     public @Nonnull List<ItemStack> getDisplayRecipes() {
         return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
@@ -93,6 +95,7 @@ public class Compressor extends MultiBlockMachine {
             int j = i;
 
             Slimefun.runSync(() -> {
+                // TODO: Convert this mess into Sound Effects
                 if (j < 3) {
                     if (j == 1) {
                         SoundEffect.COMPRESSOR_CRAFT_CONTRACT_SOUND.playFor(p);
