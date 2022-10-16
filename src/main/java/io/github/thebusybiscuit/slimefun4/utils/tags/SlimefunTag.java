@@ -260,9 +260,24 @@ public enum SlimefunTag implements Tag<Material> {
     GRAVITY_AFFECTED_BLOCKS,
 
     /**
-     * All wool carpets
+     * All wool carpets.
      */
-    WOOL_CARPETS;
+    WOOL_CARPETS,
+
+    /**
+     * All storage blocks.
+     */
+    STORAGE_BLOCKS,
+
+    /**
+     * All blocks with an inventory.
+     */
+    INVENTORY_BLOCKS,
+
+    /**
+     * All tile entities.
+     */
+    TILE_ENTITIES;
 
     /**
      * Lookup table for tag names.

@@ -1,0 +1,13 @@
+{
+  "values" : [
+    "#slimefun:storage_blocks",
+    "minecraft:furnace",
+    "minecraft:dispenser",
+    "minecraft:dropper",
+    "minecraft:hopper",
+    "minecraft:brewing_stand",
+    "minecraft:blast_furnace",
+    "minecraft:smoker",
+    "minecraft:campfire"
+  ]
+}
