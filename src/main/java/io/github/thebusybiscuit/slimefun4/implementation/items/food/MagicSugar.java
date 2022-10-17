@@ -32,7 +32,6 @@ public class MagicSugar extends SimpleSlimefunItem<ItemUseHandler> {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    @Nonnull
     @Override
     public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {

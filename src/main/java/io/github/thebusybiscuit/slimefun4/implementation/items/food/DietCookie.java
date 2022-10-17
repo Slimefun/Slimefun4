@@ -32,7 +32,6 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    @Nonnull
     @Override
     public @Nonnull ItemConsumptionHandler getItemHandler() {
         return (e, p, item) -> {

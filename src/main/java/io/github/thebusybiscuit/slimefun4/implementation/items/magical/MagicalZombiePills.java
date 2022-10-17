@@ -45,7 +45,6 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         addItemHandler(onRightClick());
     }
 
-    @Nonnull
     @Override
     public @Nonnull EntityInteractHandler getItemHandler() {
         return (e, item, offhand) -> {
