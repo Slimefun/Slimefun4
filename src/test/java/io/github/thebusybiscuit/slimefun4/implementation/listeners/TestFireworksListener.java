@@ -21,11 +21,12 @@ import be.seeseemelk.mockbukkit.ServerMock;
 class TestFireworksListener {
 
     private static ServerMock server;
+    private static Slimefun plugin;
 
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        Slimefun plugin = MockBukkit.load(Slimefun.class);
+        plugin = MockBukkit.load(Slimefun.class);
         new FireworksListener(plugin);
     }
 

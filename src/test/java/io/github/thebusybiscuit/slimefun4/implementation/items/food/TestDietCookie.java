@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
@@ -52,7 +53,7 @@ class TestDietCookie implements SlimefunItemTest<DietCookie> {
 
         simulateConsumption(player, cookie);
 
-        player.assertSoundHeard(Sound.ENTITY_GENERIC_EAT);
+        player.assertSoundHeard(SoundEffect.DIET_COOKIE_CONSUME_SOUND.getDefaultSoundId());
         Assertions.assertTrue(player.hasPotionEffect(PotionEffectType.LEVITATION));
     }
 

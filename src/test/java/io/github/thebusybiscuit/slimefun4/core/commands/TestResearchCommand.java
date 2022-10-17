@@ -19,7 +19,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 class TestResearchCommand {
 
     private static ServerMock server;
-
+    private static Slimefun plugin;
     private static Research research;
     private static Research research2;
 
@@ -27,7 +27,7 @@ class TestResearchCommand {
     public static void load() {
         server = MockBukkit.mock();
 
-        Slimefun plugin = MockBukkit.load(Slimefun.class);
+        plugin = MockBukkit.load(Slimefun.class);
         research = new Research(new NamespacedKey(plugin, "command_test"), 999, "Test", 10);
         research.register();
 

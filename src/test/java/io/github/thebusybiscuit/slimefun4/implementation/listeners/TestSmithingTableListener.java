@@ -30,6 +30,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 class TestSmithingTableListener {
 
     private static SmithingTableListener listener;
+    private static Slimefun plugin;
     private static ServerMock server;
 
     private static SlimefunItem slimefunIngot;
@@ -40,7 +41,7 @@ class TestSmithingTableListener {
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        Slimefun plugin = MockBukkit.load(Slimefun.class);
+        plugin = MockBukkit.load(Slimefun.class);
         listener = new SmithingTableListener(plugin);
 
         slimefunTool = TestUtilities.mockSlimefunItem(plugin, "MOCK_DIAMOND_SWORD", new CustomItemStack(Material.DIAMOND_SWORD, "&6Mock"));
