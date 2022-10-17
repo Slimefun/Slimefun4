@@ -202,7 +202,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     protected boolean isValidInventory(@Nonnull Block block) {
         Material type = block.getType();
 
-        return SlimefunTag.STORAGE_BLOCKS.isTagged(type);
+        return SlimefunTag.AUTO_CRAFTER_SUPPORTED_STORAGE.isTagged(type);
     }
 
     /**
