@@ -43,21 +43,17 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
             if (e.getClickedBlock().isPresent() && block.isPresent()) {
                 SlimefunItem item = block.get();
 
-                if (item instanceof EnergyNetComponent) {
-                    EnergyNetComponent component = (EnergyNetComponent) item;
+                if (item instanceof EnergyNetComponent component && component.isChargeable()) {
+                    e.cancel();
 
-                    if (component.isChargeable()) {
-                        e.cancel();
+                    Location l = e.getClickedBlock().get().getLocation();
+                    String stored = NumberUtils.getCompactDouble(component.getCharge(l)) + " J";
+                    String capacity = NumberUtils.getCompactDouble(component.getCapacity()) + " J";
 
-                        Location l = e.getClickedBlock().get().getLocation();
-                        String stored = NumberUtils.getCompactDouble(component.getCharge(l)) + " J";
-                        String capacity = NumberUtils.getCompactDouble(component.getCapacity()) + " J";
-
-                        Player p = e.getPlayer();
-                        p.sendMessage("");
-                        Slimefun.getLocalization().sendMessage(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity));
-                        p.sendMessage("");
-                    }
+                    Player p = e.getPlayer();
+                    p.sendMessage("");
+                    Slimefun.getLocalization().sendMessage(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity));
+                    p.sendMessage("");
                 }
             }
         };

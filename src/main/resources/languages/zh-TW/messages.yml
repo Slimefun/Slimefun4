@@ -146,6 +146,7 @@ messages:
   multimeter: '&b已儲存的能量：&3%stored% &b最大容量：&3%capacity%'
   piglin-barter: '&4你不能用 Slimefun 物品和豬布林交易'
   bee-suit-slow-fall: '&e你的蜂翅將會幫你緩慢且安全的回到地面'
+  deprecated-item: '&4這個物品已被棄用，將在不久後從 Slimefun 中移除。'
   multi-tool:
     mode-change: '&b%device% 模式切換成：&9%mode%'
     not-shears: '&c不要把它當剪刀用！'
@@ -256,8 +257,6 @@ machines:
     pick-a-floor: '&3- 選擇樓層 -'
     current-floor: '&e這是你現在的樓層：'
     click-to-teleport: '&e按這 &7來傳送到該樓層：'
-    enter-name: '&7請輸入你的樓層名稱&r（可以輸入顏色代碼）'
-    named: '&2成功命名此樓層為 ：&r%floor%'
   TELEPORTER:
     teleporting: '&3傳送中...'
     teleported: '&3傳送成功！'
@@ -401,3 +400,5 @@ languages:
   mk: '馬其頓語'
   sr: '塞爾維亞語'
   be: '白俄羅斯語'
+  si-LK: '僧伽羅語'
+  lt: '立陶宛語'

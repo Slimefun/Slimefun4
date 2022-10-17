@@ -60,8 +60,8 @@ public class ElytraImpactListener implements Listener {
                         SoundEffect.ELYTRA_CAP_IMPACT_SOUND.playFor(p);
                         e.setCancelled(true);
 
-                        if (item instanceof DamageableItem) {
-                            ((DamageableItem) item).damageItem(p, p.getInventory().getHelmet());
+                        if (item instanceof DamageableItem damageableItem) {
+                            damageableItem.damageItem(p, p.getInventory().getHelmet());
                         }
                     }
                 }

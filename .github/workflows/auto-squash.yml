@@ -1,4 +1,4 @@
-name: Auto squash Crowdin updates
+name: Auto squash pull requests
 
 on:
   pull_request_review:
@@ -12,9 +12,9 @@ on:
   status: {}
 
 jobs:
-  autosquash:
+  autosquash-crowdin:
 
-    name: Auto squash
+    name: Auto squash (Crowdin)
     runs-on: ubuntu-latest
 
     ## Only run this on the main repo
@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Auto squash
-      uses: pascalgn/automerge-action@v0.14.3
+      uses: pascalgn/automerge-action@v0.15.3
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         UPDATE_RETRIES: 0
@@ -31,3 +31,23 @@ jobs:
         MERGE_DELETE_BRANCH: true
         MERGE_LABELS: '📄 Translations Update'
         MERGE_COMMIT_MESSAGE: '[CI skip] New locale updates from Crowdin'
+
+  autosquash-renovate:
+
+    name: Auto squash (Renovate)
+    runs-on: ubuntu-latest
+
+    ## Only run this on the main repo
+    if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
+
+    steps:
+    - name: Auto squash
+      uses: pascalgn/automerge-action@v0.15.3
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        UPDATE_RETRIES: 0
+        MERGE_METHOD: squash
+        MERGE_FORKS: false
+        MERGE_DELETE_BRANCH: true
+        MERGE_LABELS: '🚨 Dependency Update'
+        MERGE_COMMIT_MESSAGE: '[CI skip] ${{ github.event.pull_request.title }}'

@@ -203,10 +203,9 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             // Fixes #2903 - Cancel physics update to resolve weird overlapping
             block.setType(water ? Material.WATER : Material.LAVA, false);
         } else {
-            if (water && block.getBlockData() instanceof Waterlogged) {
-                Waterlogged wl = (Waterlogged) block.getBlockData();
-                wl.setWaterlogged(true);
-                block.setBlockData(wl, false);
+            if (water && block.getBlockData() instanceof Waterlogged waterlogged) {
+                waterlogged.setWaterlogged(true);
+                block.setBlockData(waterlogged, false);
                 block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
                 return;
             }

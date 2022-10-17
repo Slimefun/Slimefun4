@@ -203,8 +203,6 @@ machines:
     pick-a-floor: '&3- Escolha um andar -'
     current-floor: '&eEste é o andar em que você está atualmente:'
     click-to-teleport: '&eClique aqui &7para teleportar-se para o andar:'
-    enter-name: '&7Digite o nome do andar no bate-papo. &r(Códigos de cores são suportados!)'
-    named: '&2Andar nomeado com sucesso para: &r%floor%'
   TELEPORTER:
     teleporting: '&3Teleportando-se...'
     teleported: '&3Teleportado(a)!'

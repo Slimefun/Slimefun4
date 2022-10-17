@@ -19,6 +19,8 @@ commands:
     player-never-joined: '&4Tidak ada pemain dengan nama itu'
     backpack-does-not-exist: '&4Ransel yang ditentukan tidak ada!'
     restored-backpack-given: '&a Backpack Anda telah di tambahkan ke inventory Anda!'
+  debug:
+    disabled: '&7Mode debug dinonaktifkan.'
 placeholderapi:
   profile-loading: 'Memuat...'
 guide:
@@ -58,6 +60,22 @@ guide:
     translations:
       name: '&aAda yang kurang?'
       lore: 'Klik untuk menambahkan terjemahan anda'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bAnimasi Pembelajaran: &aYa'
+          - ''
+          - '&7You can now toggle whether you'
+          - '&7will see information about your pondering in chat'
+          - '&7upon researching an item.'
+      disabled:
+        text:
+          - '&bAnimasi Pembelajaran: &4Tidak'
+          - ''
+          - '&7You can now toggle whether you'
+          - '&7will see information about your pondering in chat'
+          - '&7upon researching an item.'
   title:
     main: 'Panduan Slimefun'
     settings: 'Pengaturan & Informasi'
@@ -69,6 +87,7 @@ guide:
   credits:
     commit: 'Melakukan'
     profile-link: 'Klik untuk mengunjungi profil mereka di GitHub'
+    open: 'Klik untuk melihat kontributor kami'
     roles:
       developer: '&6Para Pengembang'
       wiki: '&3Pengedit Wiki'
@@ -93,6 +112,8 @@ messages:
   disabled-item: '&4&lBenda Ini Telah Dinonakrifkan! Bagaimana Anda Mendapatkannya?'
   no-tome-yourself: '&cKamu Tidak Bisa Menggunakan &4Tome Of Knowledge &cUntuk Diri Anda Sendiri...'
   multimeter: '&bEnergi Yang Telah Tersimpan: &3%stored% &b/ &3%capacity%'
+  auto-crafting:
+    select: 'Pilih resep ini'
   talisman:
     anvil: '&a&oJimat Anda Mencegah  Barang Mu Agar Tidak Hancur'
     miner: '&a&oJimat Anda Baru Saja Melipat Gandakan Penghasilan Mu'
@@ -137,6 +158,8 @@ messages:
     - '& 7Selalu lihat sisi terang hidup!'
     - '&7Yang ini sebenarnya biskuit dan bukan kue'
     - '&7Neon signs are LIT!'
+  pickaxe-of-the-seeker:
+    no-ores: '&cTidak dapat menemukan bijih terdekat!'
 machines:
   pattern-not-found: '&eMaaf, Saya tidak mengenali resep ini. Letakan benda pada dispenser \ sesuai dengan pola.'
   unknown-material: '&eMaaf, Saya tidak mengenali benda yang ada di dalam dispenser. Masukan benda yang saya ketahui.'
@@ -158,8 +181,6 @@ machines:
     pick-a-floor: '&3- Pilih Lantai -'
     current-floor: '&eAnda sedang berada di lantai ini:'
     click-to-teleport: '&eKlik &7untuk teleport ke lantai ini:'
-    enter-name: '&7Silakan masukan nama lantai pada kolom chat. &r(Mendukung warna teks!)'
-    named: '&2Berhasil merubah nama lantai: &r%floor%'
   TELEPORTER:
     teleporting: '&3Melakukan teleportasi...'
     teleported: '&3Teleportasi selesai!'
@@ -179,11 +200,16 @@ machines:
     no-fuel: '&c Penambang Industri Anda kehabisan bahan bakar! Masuklah bahan bakar Anda ke peti di atas.'
     piston-facing: '& c Penambang Industri Anda membutuhkan piston untuk menghadap ke atas!'
     destroyed: '&c Penambang Industri Anda tampaknya telah hancurkan.'
+    already-running: '&cIndustrial Miner sudah berjalan!'
     full-chest: '&c Penambang Industri Anda penuh!'
     no-permission: '& 4Tampaknya Anda tidak memiliki izin untuk mengoperasikan Penambang Industri Ini'
     finished: '&e Penambang Industri Anda telah selesai! Itu memperoleh total% bijih% bijih!'
 anvil:
   not-working: '&4Anda bisa menggunakan barang Slimefun di landasan!'
+brewing_stand:
+  not-working: '&4Anda tidak dapat menggunakan item Slimefun di tempat pembuatan ramuan!'
+villagers:
+  no-trading: '&4Anda tidak dapat menukar item Slimefun dengan Penduduk Desa!'
 backpack:
   already-open: '&cMaaf, tas ini dibuka di tempat lain!'
   no-stack: '&cAnda tidak bisa menumpuk tas'
@@ -279,8 +305,10 @@ languages:
   ja: 'Jepang'
   fa: 'Persia'
   th: 'Thailand'
+  tl: 'Tagalog'
   ro: 'Rumania'
   bg: 'Bulgaria'
   ko: 'Korea'
   tr: 'Turki'
   hr: 'Croation'
+  be: 'Belarusian'

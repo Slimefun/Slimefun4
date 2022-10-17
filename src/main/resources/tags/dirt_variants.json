@@ -11,6 +11,14 @@
 			"id": "minecraft:dirt_path",
 			"required": false
 		},
+		{
+			"id": "minecraft:rooted_dirt",
+			"required": false
+		},
+		{
+			"id": "minecraft:mud",
+			"required": false
+		},
 		"minecraft:farmland",
 		"minecraft:podzol",
 		"minecraft:mycelium"

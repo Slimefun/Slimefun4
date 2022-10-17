@@ -106,18 +106,17 @@ public class GrindStone extends MultiBlockMachine {
 
     @Override
     public void onInteract(Player p, Block b) {
-        Block dispBlock = b.getRelative(BlockFace.DOWN);
-        BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
+        Block possibleDispenser = b.getRelative(BlockFace.DOWN);
+        BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
 
-        if (state instanceof Dispenser) {
-            Dispenser disp = (Dispenser) state;
-            Inventory inv = disp.getInventory();
+        if (state instanceof Dispenser dispenser) {
+            Inventory inv = dispenser.getInventory();
 
             for (ItemStack current : inv.getContents()) {
                 for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
                     if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
                         ItemStack output = RecipeType.getRecipeOutput(this, convert);
-                        Inventory outputInv = findOutputInventory(output, dispBlock, inv);
+                        Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
 
                         if (outputInv != null) {
                             ItemStack removing = current.clone();

@@ -113,7 +113,6 @@ public final class ResearchSetup {
         register("gold_armor", 87, "Shiny Armor", 13, SlimefunItems.GOLDEN_HELMET_12K, SlimefunItems.GOLDEN_CHESTPLATE_12K, SlimefunItems.GOLDEN_LEGGINGS_12K, SlimefunItems.GOLDEN_BOOTS_12K);
         register("night_vision_googles", 89, "Night Vision Goggles", 10, SlimefunItems.NIGHT_VISION_GOGGLES);
         register("pickaxe_of_containment", 90, "Pickaxe of Containment", 14, SlimefunItems.PICKAXE_OF_CONTAINMENT, SlimefunItems.BROKEN_SPAWNER);
-        register("hercules_pickaxe", 91, "Hercules Pickaxe", 28, SlimefunItems.HERCULES_PICKAXE);
         register("table_saw", 92, "Table Saw", 4, SlimefunItems.TABLE_SAW);
         register("slime_steel_armor", 93, "Slimy Steel Armor", 27, SlimefunItems.SLIME_HELMET_STEEL, SlimefunItems.SLIME_CHESTPLATE_STEEL, SlimefunItems.SLIME_LEGGINGS_STEEL, SlimefunItems.SLIME_BOOTS_STEEL);
         register("blade_of_vampires", 94, "Blade of Vampires", 26, SlimefunItems.BLADE_OF_VAMPIRES);
@@ -144,7 +143,7 @@ public final class ResearchSetup {
         register("bound_weapons", 125, "Soulbound Weapons", 29, SlimefunItems.SOULBOUND_SWORD, SlimefunItems.SOULBOUND_BOW, SlimefunItems.SOULBOUND_TRIDENT);
         register("bound_tools", 126, "Soulbound Tools", 29, SlimefunItems.SOULBOUND_PICKAXE, SlimefunItems.SOULBOUND_AXE, SlimefunItems.SOULBOUND_SHOVEL, SlimefunItems.SOULBOUND_HOE);
         register("bound_armor", 127, "Soulbound Armor", 29, SlimefunItems.SOULBOUND_HELMET, SlimefunItems.SOULBOUND_CHESTPLATE, SlimefunItems.SOULBOUND_LEGGINGS, SlimefunItems.SOULBOUND_BOOTS);
-        register("juicer", 129, "Delicious Drinks", 29, SlimefunItems.JUICER, SlimefunItems.APPLE_JUICE, SlimefunItems.MELON_JUICE, SlimefunItems.CARROT_JUICE, SlimefunItems.PUMPKIN_JUICE, SlimefunItems.SWEET_BERRY_JUICE);
+        register("juicer", 129, "Delicious Drinks", 29, SlimefunItems.JUICER, SlimefunItems.APPLE_JUICE, SlimefunItems.MELON_JUICE, SlimefunItems.CARROT_JUICE, SlimefunItems.PUMPKIN_JUICE, SlimefunItems.SWEET_BERRY_JUICE, SlimefunItems.GLOW_BERRY_JUICE);
         register("repaired_spawner", 130, "Repairing Spawners", 15, SlimefunItems.REPAIRED_SPAWNER);
         register("enhanced_furnace", 132, "Enhanced Furnace", 7, SlimefunItems.ENHANCED_FURNACE, SlimefunItems.ENHANCED_FURNACE_2);
         register("more_enhanced_furnaces", 133, "Better Furnaces", 18, SlimefunItems.ENHANCED_FURNACE_3, SlimefunItems.ENHANCED_FURNACE_4, SlimefunItems.ENHANCED_FURNACE_5, SlimefunItems.ENHANCED_FURNACE_6, SlimefunItems.ENHANCED_FURNACE_7);
@@ -200,14 +199,14 @@ public final class ResearchSetup {
         register("energized_gps_transmitter", 189, "Top Tier Transmitter", 44, SlimefunItems.GPS_TRANSMITTER_4);
         register("energy_regulator", 190, "Energy Networks 101", 6, SlimefunItems.ENERGY_REGULATOR);
         register("butcher_androids", 191, "Butcher Androids", 32, SlimefunItems.PROGRAMMABLE_ANDROID_BUTCHER);
-        register("organic_food", 192, "Organic Food", 25, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.WHEAT_ORGANIC_FOOD, SlimefunItems.CARROT_ORGANIC_FOOD, SlimefunItems.POTATO_ORGANIC_FOOD, SlimefunItems.SEEDS_ORGANIC_FOOD, SlimefunItems.BEETROOT_ORGANIC_FOOD, SlimefunItems.MELON_ORGANIC_FOOD, SlimefunItems.APPLE_ORGANIC_FOOD, SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, SlimefunItems.KELP_ORGANIC_FOOD, SlimefunItems.COCOA_ORGANIC_FOOD);
+        register("organic_food", 192, "Organic Food", 25, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.WHEAT_ORGANIC_FOOD, SlimefunItems.CARROT_ORGANIC_FOOD, SlimefunItems.POTATO_ORGANIC_FOOD, SlimefunItems.SEEDS_ORGANIC_FOOD, SlimefunItems.BEETROOT_ORGANIC_FOOD, SlimefunItems.MELON_ORGANIC_FOOD, SlimefunItems.APPLE_ORGANIC_FOOD, SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, SlimefunItems.KELP_ORGANIC_FOOD, SlimefunItems.COCOA_ORGANIC_FOOD, SlimefunItems.SEAGRASS_ORGANIC_FOOD);
         register("auto_breeder", 193, "Automated Feeding", 25, SlimefunItems.AUTO_BREEDER);
         register("advanced_android", 194, "Advanced Androids", 60, SlimefunItems.PROGRAMMABLE_ANDROID_2);
         register("advanced_butcher_android", 195, "Advanced Androids - Butcher", 30, SlimefunItems.PROGRAMMABLE_ANDROID_2_BUTCHER);
         register("advanced_fisherman_android", 196, "Advanced Androids - Fisherman", 30, SlimefunItems.PROGRAMMABLE_ANDROID_2_FISHERMAN);
         register("animal_growth_accelerator", 197, "Animal Growth Manipulation", 32, SlimefunItems.ANIMAL_GROWTH_ACCELERATOR);
         register("xp_collector", 198, "XP Collector", 36, SlimefunItems.EXP_COLLECTOR);
-        register("organic_fertilizer", 199, "Organic Fertilizer", 36, SlimefunItems.FOOD_COMPOSTER, SlimefunItems.WHEAT_FERTILIZER, SlimefunItems.CARROT_FERTILIZER, SlimefunItems.POTATO_FERTILIZER, SlimefunItems.SEEDS_FERTILIZER, SlimefunItems.BEETROOT_FERTILIZER, SlimefunItems.MELON_FERTILIZER, SlimefunItems.APPLE_FERTILIZER, SlimefunItems.SWEET_BERRIES_FERTILIZER, SlimefunItems.KELP_FERTILIZER, SlimefunItems.COCOA_FERTILIZER);
+        register("organic_fertilizer", 199, "Organic Fertilizer", 36, SlimefunItems.FOOD_COMPOSTER, SlimefunItems.WHEAT_FERTILIZER, SlimefunItems.CARROT_FERTILIZER, SlimefunItems.POTATO_FERTILIZER, SlimefunItems.SEEDS_FERTILIZER, SlimefunItems.BEETROOT_FERTILIZER, SlimefunItems.MELON_FERTILIZER, SlimefunItems.APPLE_FERTILIZER, SlimefunItems.SWEET_BERRIES_FERTILIZER, SlimefunItems.KELP_FERTILIZER, SlimefunItems.COCOA_FERTILIZER, SlimefunItems.SEAGRASS_FERTILIZER);
         register("crop_growth_accelerator", 200, "Crop Growth Acceleration", 40, SlimefunItems.CROP_GROWTH_ACCELERATOR);
         register("better_crop_growth_accelerator", 201, "Upgraded Crop Growth Accelerator", 44, SlimefunItems.CROP_GROWTH_ACCELERATOR_2);
         register("reactor_essentials", 202, "Reactor Essentials", 36, SlimefunItems.REACTOR_COOLANT_CELL, SlimefunItems.NEPTUNIUM, SlimefunItems.PLUTONIUM);
@@ -221,7 +220,7 @@ public final class ResearchSetup {
         register("better_food_fabricator", 211, "Upgraded Food Fabrication", 28, SlimefunItems.FOOD_FABRICATOR_2, SlimefunItems.FOOD_COMPOSTER_2);
         register("reactor_access_port", 212, "Reactor Interaction", 18, SlimefunItems.REACTOR_ACCESS_PORT);
         register("fluid_pump", 213, "Fluid Pump", 28, SlimefunItems.FLUID_PUMP);
-        register("better_freezer", 214, "Upgraded Freezer", 29, SlimefunItems.FREEZER_2);
+        register("better_freezer", 214, "Upgraded Freezer", 29, SlimefunItems.FREEZER_2, SlimefunItems.FREEZER_3);
         register("boosted_uranium", 215, "Never-Ending Circle", 30, SlimefunItems.BOOSTED_URANIUM);
         register("trash_can", 216, "Trash", 8, SlimefunItems.TRASH_CAN);
         register("advanced_output_node", 217, "Advanced Output Node", 24, SlimefunItems.CARGO_OUTPUT_NODE_2);

@@ -125,6 +125,7 @@ slimefun:
   electric_motor: Riscaldamento
   block_placer: Posizionatore di blocchi
   scroll_of_dimensional_teleposition: Rovesciare le cose
+  special_bows: Robin Hood
   tome_of_knowledge_sharing: Condivisione con gli amici
   flask_of_knowledge: Immagazzinamento di XP
   hardened_glass: Resistere alle Esplosioni
@@ -249,6 +250,7 @@ slimefun:
   iron_golem_assembler: Costruttore di Golem di ferro
   villager_rune: Ripristina Scambi dei Villager
   elytra_cap: Equipaggiamento d'emergenza
+  bee_armor: Armatura Ape
   book_binder: Rilegatura del Libro di Incantesimi
   auto_crafting: Fabbricazione Automatica
   produce_collector: Mungitura Automatica
