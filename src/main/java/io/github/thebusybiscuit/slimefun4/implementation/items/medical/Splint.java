@@ -25,9 +25,8 @@ public class Splint extends SimpleSlimefunItem<ItemUseHandler> {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
-    @Nonnull
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
 

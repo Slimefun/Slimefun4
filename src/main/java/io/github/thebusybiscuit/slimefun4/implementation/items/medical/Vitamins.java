@@ -21,9 +21,8 @@ public class Vitamins extends MedicalSupply<ItemUseHandler> {
         super(itemGroup, 8, item, recipeType, recipe);
     }
 
-    @Nonnull
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
             SoundEffect.VITAMINS_CONSUME_SOUND.playFor(p);

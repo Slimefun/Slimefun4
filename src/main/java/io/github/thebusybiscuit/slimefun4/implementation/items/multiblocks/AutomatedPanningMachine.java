@@ -49,9 +49,8 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
         super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
     }
 
-    @Nonnull
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> recipes = new ArrayList<>();
 
         recipes.addAll(goldPan.getDisplayRecipes());

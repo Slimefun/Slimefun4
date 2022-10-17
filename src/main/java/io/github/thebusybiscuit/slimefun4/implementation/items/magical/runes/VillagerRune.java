@@ -37,9 +37,8 @@ public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
-    @Nonnull
     @Override
-    public EntityInteractHandler getItemHandler() {
+    public @Nonnull EntityInteractHandler getItemHandler() {
         return (e, item, offhand) -> {
             if (e.isCancelled() || !Slimefun.getProtectionManager().hasPermission(e.getPlayer(), e.getRightClicked().getLocation(), Interaction.INTERACT_ENTITY)) {
                 // They don't have permission to use it in this area

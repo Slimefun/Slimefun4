@@ -50,9 +50,8 @@ public class Compressor extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.COAL));
     }
 
-    @Nonnull
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
     }
 
