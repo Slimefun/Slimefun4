@@ -267,12 +267,12 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All storage blocks.
      */
-    AUTO_CRAFTER_SUPPORTED_STORAGE,
+    AUTO_CRAFTER_SUPPORTED_STORAGE_blocks,
 
     /**
      * All blocks with an inventory.
      */
-    CARGO_SUPPORTED_INVENTORIES,
+    CARGO_SUPPORTED_storage_blocks,
 
     /**
      * All tile entities.
