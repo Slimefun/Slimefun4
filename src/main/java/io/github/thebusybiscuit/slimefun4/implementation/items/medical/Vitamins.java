@@ -21,7 +21,6 @@ public class Vitamins extends MedicalSupply<ItemUseHandler> {
         super(itemGroup, 8, item, recipeType, recipe);
     }
 
-    @Nonnull
     @Override
     public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {

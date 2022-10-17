@@ -106,7 +106,6 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
     }
 
-    @Nonnull
     @Override
     public @Nonnull List<ItemStack> getDisplayRecipes() {
         return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
