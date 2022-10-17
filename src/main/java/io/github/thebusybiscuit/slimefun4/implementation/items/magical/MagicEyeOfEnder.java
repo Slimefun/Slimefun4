@@ -31,9 +31,8 @@ public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemUseHandler> {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    @Nonnull
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             e.cancel();
 

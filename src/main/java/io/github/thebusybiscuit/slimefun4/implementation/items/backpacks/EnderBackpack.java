@@ -30,9 +30,8 @@ public class EnderBackpack extends SimpleSlimefunItem<ItemUseHandler> implements
         super(itemGroup, item, recipeType, recipe);
     }
 
-    @Nonnull
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
             p.openInventory(p.getEnderChest());

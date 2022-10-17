@@ -63,7 +63,7 @@ public final class SlimefunGuideSettings {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.settings"));
 
         menu.setEmptySlotsClickable(false);
-        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_OPEN_SETTING_SOUND::playFor);
 
         ChestMenuUtils.drawBackground(menu, BACKGROUND_SLOTS);
 

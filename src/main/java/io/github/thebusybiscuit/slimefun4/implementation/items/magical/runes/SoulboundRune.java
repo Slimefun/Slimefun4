@@ -46,9 +46,8 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         super(itemGroup, item, type, recipe);
     }
 
-    @Nonnull
     @Override
-    public ItemDropHandler getItemHandler() {
+    public @Nonnull ItemDropHandler getItemHandler() {
         return (e, p, item) -> {
             if (isItem(item.getItemStack())) {
 

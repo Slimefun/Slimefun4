@@ -32,7 +32,6 @@ import be.seeseemelk.mockbukkit.ServerMock;
 class TestCoolerListener {
 
     private static ServerMock server;
-    private static Slimefun plugin;
     private static CoolerListener listener;
 
     private static Cooler cooler;
@@ -41,7 +40,7 @@ class TestCoolerListener {
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        plugin = MockBukkit.load(Slimefun.class);
+        Slimefun plugin = MockBukkit.load(Slimefun.class);
 
         ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "cooler_test"), new CustomItemStack(Material.SNOWBALL, "Mr. Freeze"));
         SlimefunItemStack item = new SlimefunItemStack("TEST_COOLER", Material.SNOWBALL, "&6Test Cooler", "", "&7ID: <ID>");

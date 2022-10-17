@@ -80,7 +80,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.languages"));
 
         menu.setEmptySlotsClickable(false);
-        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_LANGUAGE_OPEN_SOUND::playFor);
 
         for (int i = 0; i < 9; i++) {
             if (i == 1) {

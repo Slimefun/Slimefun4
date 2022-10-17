@@ -400,8 +400,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.19</artifactId>
-            <version>2.29.0</version>
+            <artifactId>MockBukkit-v1.18</artifactId>
+            <version>2.0.0</version>
             <scope>test</scope>
 
             <exclusions>

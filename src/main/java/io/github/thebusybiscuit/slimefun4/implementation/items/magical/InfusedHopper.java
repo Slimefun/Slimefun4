@@ -53,9 +53,8 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
         addItemHandler(new VanillaInventoryDropHandler<>(org.bukkit.block.Hopper.class));
     }
 
-    @Nonnull
     @Override
-    public BlockTicker getItemHandler() {
+    public @Nonnull BlockTicker getItemHandler() {
         return new BlockTicker() {
 
             @Override
