@@ -51,7 +51,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -879,7 +878,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @ParametersAreNonnullByDefault
     protected void move(Block b, BlockFace face, Block block) {
-        if (block.getY() > WorldUtils.getMinHeight(block.getWorld()) && block.getY() < block.getWorld().getMaxHeight() && block.isEmpty()) {
+        if (block.getY() > block.getWorld().getMinHeight() && block.getY() < block.getWorld().getMaxHeight() && block.isEmpty()) {
 
             if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
                 return;
