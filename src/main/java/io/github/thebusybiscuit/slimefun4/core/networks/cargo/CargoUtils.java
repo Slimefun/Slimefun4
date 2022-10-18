@@ -69,7 +69,7 @@ final class CargoUtils {
         }
 
         Material type = block.getType();
-        return SlimefunTag.CARGO_SUPPORTED_storage_blocks.isTagged(type);
+        return SlimefunTag.CARGO_SUPPORTED_STORAGE_BLOCKS.isTagged(type);
     }
 
     @Nonnull

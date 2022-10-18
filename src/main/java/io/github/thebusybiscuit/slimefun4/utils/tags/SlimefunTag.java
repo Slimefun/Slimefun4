@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -265,14 +266,14 @@ public enum SlimefunTag implements Tag<Material> {
     WOOL_CARPETS,
 
     /**
-     * All storage blocks.
+     * All supported storage blocks for the {@link AbstractAutoCrafter}
      */
-    AUTO_CRAFTER_SUPPORTED_STORAGE_blocks,
+    AUTO_CRAFTER_SUPPORTED_STORAGE_BLOCKS,
 
     /**
-     * All blocks with an inventory.
+     * All supported storage blocks for cargo.
      */
-    CARGO_SUPPORTED_storage_blocks,
+    CARGO_SUPPORTED_STORAGE_BLOCKS,
 
     /**
      * All tile entities.

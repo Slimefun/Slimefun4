@@ -667,7 +667,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private void displayRecipes(Player p, PlayerProfile profile, ChestMenu menu, RecipeDisplayItem sfItem, int page) {
         List<ItemStack> recipes = sfItem.getDisplayRecipes();
 
-        if (!recipes.isEmpty()) {
+        if (recipes != null && !recipes.isEmpty()) {
             menu.addItem(53, null);
 
             if (page == 0) {
