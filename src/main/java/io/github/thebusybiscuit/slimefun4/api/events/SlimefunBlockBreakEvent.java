@@ -34,7 +34,7 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
     /**
      * 
      * @param player
-     *        The {@link Player} who broke this {@link SlimefunItem}  
+     *        The {@link Player} who broke this {@link SlimefunItem}
      * @param brokenItem
      *        The {@link ItemStack} held by the {@link Player}
      * @param blockBroken
@@ -53,7 +53,7 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
     }
 
     /**
-     * This returns the broken {@link Block}
+     * This gets the broken {@link Block}
      * 
      * @return The broken {@link Block}
      */
@@ -63,7 +63,7 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
     }
 
     /**
-     * This returns the {@link SlimefunItem}
+     * This gets the {@link SlimefunItem}
      * 
      * @return The {@link SlimefunItem}
      */
@@ -73,7 +73,7 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
     }
 
     /**
-     * This returns the broken {@link ItemStack}.
+     * This gets the broken {@link ItemStack}.
      * 
      * @return The broken {@link ItemStack}
      */
@@ -83,7 +83,7 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
     }
 
     /**
-     * This returns the {@link Player}
+     * This gets the {@link Player}
      * 
      * @return The {@link Player}
      */
@@ -112,5 +112,4 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
     public HandlerList getHandlers() {
         return getHandlerList();
     }
-
 }

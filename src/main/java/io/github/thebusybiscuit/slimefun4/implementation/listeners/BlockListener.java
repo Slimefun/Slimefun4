@@ -90,6 +90,7 @@ public class BlockListener implements Listener {
             } else {
                 SlimefunBlockPlaceEvent placeEvent = new SlimefunBlockPlaceEvent(e.getPlayer(), item, e.getBlock(), sfItem);
                 Bukkit.getPluginManager().callEvent(placeEvent);
+
                 if (placeEvent.isCancelled()) {
                     e.setCancelled(true);
                 } else {
@@ -124,9 +125,11 @@ public class BlockListener implements Listener {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
         SlimefunBlockBreakEvent breakEvent = null;
+
         if (sfItem != null) {
             breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
             Bukkit.getPluginManager().callEvent(breakEvent);
+
             if (breakEvent.isCancelled()) {
                 e.setCancelled(true);
             }
