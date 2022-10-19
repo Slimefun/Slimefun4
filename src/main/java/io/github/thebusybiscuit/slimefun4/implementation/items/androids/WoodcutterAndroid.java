@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.blocks.Vein;
 import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -152,13 +153,12 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
             switch (logType) {
-                case MANGROVE_LOG:
-                case STRIPPED_MANGROVE_LOG:
+                case MANGROVE_LOG,
+                    STRIPPED_MANGROVE_LOG -> {
                     saplingType = Material.MANGROVE_PROPAGULE;
                     soilRequirement = SlimefunTag.MANGROVE_BASE_BLOCKS::isTagged;
-                    break;
-                default:
-                    break;
+                }
+                default -> {}
             }
         }
 
