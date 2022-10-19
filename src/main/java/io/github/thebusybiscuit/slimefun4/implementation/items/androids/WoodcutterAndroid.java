@@ -150,6 +150,18 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
             default -> {}
         }
 
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
+            switch (logType) {
+                case MANGROVE_LOG:
+                case STRIPPED_MANGROVE_LOG:
+                    saplingType = Material.MANGROVE_PROPAGULE;
+                    soilRequirement = SlimefunTag.MANGROVE_BASE_BLOCKS::isTagged;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         if (saplingType != null && soilRequirement != null) {
             if (soilRequirement.test(block.getRelative(BlockFace.DOWN).getType())) {
                 // Replant the block
