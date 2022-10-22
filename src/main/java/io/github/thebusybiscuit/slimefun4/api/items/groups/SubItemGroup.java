@@ -76,7 +76,6 @@ public class SubItemGroup extends ItemGroup {
         return super.isVisible(p);
     }
 
-
     /**
      * This method returns the parent {@link NestedItemGroup} which this
      * {@link SubItemGroup} belongs to.
