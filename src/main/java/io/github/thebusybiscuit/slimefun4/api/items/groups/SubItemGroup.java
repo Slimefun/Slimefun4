@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.items.groups;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -46,6 +47,10 @@ public class SubItemGroup extends ItemGroup {
          * they won't show up in the normal guide view.
          */
         return false;
+    }
+
+    public final boolean isVisibleInNested(@Nonnull Player p) {
+        return super.isVisible(p);
     }
 
     @Override
