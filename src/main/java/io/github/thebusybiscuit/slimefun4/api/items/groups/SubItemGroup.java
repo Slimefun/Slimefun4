@@ -15,9 +15,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 /**
  * The {@link SubItemGroup} is a child {@link ItemGroup} of the
  * {@link NestedItemGroup}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see NestedItemGroup
  *
  */
@@ -49,10 +49,6 @@ public class SubItemGroup extends ItemGroup {
         return false;
     }
 
-    public final boolean isVisibleInNested(@Nonnull Player p) {
-        return super.isVisible(p);
-    }
-
     @Override
     public final boolean isAccessible(@Nonnull Player p) {
         /*
@@ -63,9 +59,28 @@ public class SubItemGroup extends ItemGroup {
     }
 
     /**
+     * This method returns whether this {@link SubItemGroup} can be viewed
+     * by the given {@link Player} in a {@link NestedItemGroup}.
+     * Empty {@link ItemGroup ItemGroups} will not be visible.
+     * This includes {@link ItemGroup ItemGroups} where every {@link SlimefunItem}
+     * is disabled. If an {@link ItemGroup} is not accessible by the {@link Player},
+     * see {@link #isAccessible(Player)}, this method will also return false.
+     *
+     * @param p
+     *            The {@link Player} to check for
+     *
+     * @return Whether this {@link SubItemGroup} is visible to the given {@link Player}
+     * in the {@link NestedItemGroup}
+     */
+    public final boolean isVisibleInNested(@Nonnull Player p) {
+        return super.isVisible(p);
+    }
+
+
+    /**
      * This method returns the parent {@link NestedItemGroup} which this
      * {@link SubItemGroup} belongs to.
-     * 
+     *
      * @return The parent {@link NestedItemGroup}
      */
     public final @Nonnull NestedItemGroup getParent() {
