@@ -68,6 +68,10 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
                     p.addPotionEffect(effect);
                     break;
                 }
+                else if (effect.getType().equals(PotionEffectType.ABSORPTION)) {
+                    p.addPotionEffect(effect);
+                    break;
+                }
             }
 
             removeGlassBottle(p, item);
