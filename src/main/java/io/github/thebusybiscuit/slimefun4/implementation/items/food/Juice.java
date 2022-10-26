@@ -64,11 +64,7 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
              * Minecraft has been broken when it comes to Saturation potions for a long time
              */
             for (PotionEffect effect : effects) {
-                if (effect.getType().equals(PotionEffectType.SATURATION)) {
-                    p.addPotionEffect(effect);
-                    break;
-                }
-                else if (effect.getType().equals(PotionEffectType.ABSORPTION)) {
+                if (effect.getType().equals(PotionEffectType.SATURATION) || effect.getType().equals(PotionEffectType.ABSORPTION)) {
                     p.addPotionEffect(effect);
                     break;
                 }
