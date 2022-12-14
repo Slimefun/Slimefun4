@@ -28,9 +28,8 @@ final class StartupWarnings {
         logger.log(Level.SEVERE, PREFIX + "It looks like you are still using CS-CoreLib.");
         logger.log(Level.SEVERE, PREFIX);
         logger.log(Level.SEVERE, PREFIX + "Slimefun no longer requires CS-CoreLib to be");
-        logger.log(Level.SEVERE, PREFIX + "installed as of January 30th 2021.");
-        logger.log(Level.SEVERE, PREFIX);
-        logger.log(Level.SEVERE, PREFIX + "You need to remove CS-CoreLib for Slimefun to run.");
+        logger.log(Level.SEVERE, PREFIX + "installed as of January 30th 2021. You need to");
+        logger.log(Level.SEVERE, PREFIX + "remove CS-CoreLib for Slimefun to run.");
         logger.log(Level.SEVERE, BORDER);
     }
 
