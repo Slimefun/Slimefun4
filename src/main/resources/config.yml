@@ -41,6 +41,9 @@ networks:
   enable-visualizer: true
   delete-excess-items: false
 
+waypoints:
+  max-allowed: 21
+
 talismans:
   use-actionbar: true
 

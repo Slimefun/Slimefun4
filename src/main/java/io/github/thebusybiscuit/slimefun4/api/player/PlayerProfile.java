@@ -47,6 +47,7 @@ public class PlayerProfile {
 
     private final Config configFile;
     private final Config waypointsFile;
+    private final Config settings;
 
     private boolean dirty = false;
     private boolean markedForDeletion = false;
@@ -64,6 +65,7 @@ public class PlayerProfile {
 
         configFile = new Config("data-storage/Slimefun/Players/" + uuid.toString() + ".yml");
         waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
+        settings = new Config("plugins/Slimefun/config.yml");
 
         loadProfileData();
     }
@@ -240,7 +242,9 @@ public class PlayerProfile {
             }
         }
 
-        if (waypoints.size() < 5) { //i dont actually know how much you want cuz i never played this server and have no clue how to balance it but i just wanted to help and b included -zune
+        int maxWaypoints = settings.getInt("waypoints.max-allowed");
+
+        if (waypoints.size() < maxWaypoints) {
             waypoints.add(waypoint);
 
             waypointsFile.setValue(waypoint.getId(), waypoint.getLocation());
