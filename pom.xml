@@ -360,7 +360,7 @@
         <dependency>
             <groupId>io.papermc</groupId>
             <artifactId>paperlib</artifactId>
-            <version>1.0.7</version>
+            <version>1.0.8</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
