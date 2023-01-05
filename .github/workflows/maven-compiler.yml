@@ -12,6 +12,7 @@ on:
     - '.github/workflows/**'
     - 'src/**'
     - 'pom.xml'
+    - 'CHANGELOG.md'
 
 permissions:
   contents: read
