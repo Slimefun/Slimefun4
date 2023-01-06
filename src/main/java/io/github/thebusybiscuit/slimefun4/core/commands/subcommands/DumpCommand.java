@@ -18,14 +18,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Checks the contents of BlockStorage and creates a file of the contents.
+ * Provides commands to dump data for triaging
  *
  * @author Sefiraat
  */
-class BlockStorageCommand extends SubCommand {
+class DumpCommand extends SubCommand {
 
     @ParametersAreNonnullByDefault
-    BlockStorageCommand(Slimefun plugin, SlimefunCommand cmd) {
+    DumpCommand(Slimefun plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "dump", false);
     }
 
