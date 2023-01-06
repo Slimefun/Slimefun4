@@ -41,8 +41,7 @@ commands:
 
   dump:
     description: 'Contains commands to dump data to files'
-    blockstorage:
-      complete: '&aAll blocks processed, file saved to: &6%path%'
+    complete: '&aDump completed, file saved to: &6%path%'
 
 placeholderapi:
   profile-loading: 'Loading...'

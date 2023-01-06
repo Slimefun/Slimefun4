@@ -10,16 +10,18 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Provides commands to dump data for triaging
@@ -28,7 +30,7 @@ import java.util.Map;
  */
 class DumpCommand extends SubCommand {
 
-    private static final String PATH = Slimefun.instance().getDataFolder().getAbsolutePath() + "/dumps/";
+    private static final String PATH = Slimefun.instance().getDataFolder().getAbsolutePath() + "\\dumps\\";
 
     @ParametersAreNonnullByDefault
     DumpCommand(Slimefun plugin, SlimefunCommand cmd) {
@@ -45,14 +47,18 @@ class DumpCommand extends SubCommand {
         if (sender.hasPermission("slimefun.command.dump") || sender instanceof ConsoleCommandSender) {
             String sub = args[1];
             if (sub.equalsIgnoreCase("blockstorage")) {
-                Bukkit.getScheduler().runTaskAsynchronously(this.plugin, task -> dumpBlockStorage(sender));
+                Bukkit.getScheduler().runTaskAsynchronously(
+                    this.plugin,
+                    task -> createDump(sender, "blockstorage", this::dumpBlockStorage)
+                );
             }
         } else {
             Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
         }
     }
 
-    private String getAndCreatePath(@Nonnull String filePrefix) {
+    @ParametersAreNonnullByDefault
+    private void createDump(CommandSender sender, String filePrefix, Supplier<List<String>> dump) {
         final String dateTimeStamp = new SimpleDateFormat("'_'yyyyMMddHHmm'.txt'").format(new Date());
         final String fullPath = PATH + filePrefix + dateTimeStamp;
         final File directory = new File(PATH);
@@ -61,15 +67,24 @@ class DumpCommand extends SubCommand {
             directory.mkdir();
         }
 
-        return fullPath;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath))) {
+            writer.write("Dump created at: " + dateTimeStamp + "\n");
+            for (String string : dump.get()) {
+                writer.write(string + "\n");
+            }
+
+            Slimefun.getLocalization().sendMessage(
+                sender,
+                "commands.dump.complete",
+                true,
+                msg -> msg.replace("%path%", fullPath)
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void writeHeader(@Nonnull BufferedWriter writer) throws IOException {
-        final String dateTimeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
-        writer.write("Dump created at: " + dateTimeStamp + "\n");
-    }
-
-    private void dumpBlockStorage(CommandSender sender) {
+    private List<String> dumpBlockStorage() {
         final Map<String, Integer> map = new LinkedHashMap<>();
         for (World world : Bukkit.getWorlds()) {
             for (Config value : BlockStorage.getRawStorage(world).values()) {
@@ -77,29 +92,9 @@ class DumpCommand extends SubCommand {
                 map.merge(id, 1, Integer::sum);
             }
         }
-
-        final String fullPath = getAndCreatePath("blockstorage_dump");
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath))) {
-            writeHeader(writer);
-            map.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEach(
-                entry -> {
-                    final String message = entry.getKey() + " -> " + entry.getValue();
-                    try {
-                        writer.write(message + "\n");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            );
-            Slimefun.getLocalization().sendMessage(
-                sender,
-                "commands.dump.blockstorage.complete",
-                true,
-                msg -> msg.replace("%path%", fullPath)
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return map.entrySet().stream()
+            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+            .map(stringIntegerEntry -> stringIntegerEntry.getKey() + " -> " + stringIntegerEntry.getValue())
+            .toList();
     }
 }
