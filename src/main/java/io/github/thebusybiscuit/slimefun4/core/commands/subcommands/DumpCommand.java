@@ -10,10 +10,14 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -23,6 +27,8 @@ import java.util.Map;
  * @author Sefiraat
  */
 class DumpCommand extends SubCommand {
+
+    private static final String PATH = Slimefun.instance().getDataFolder().getAbsolutePath() + "/dumps/";
 
     @ParametersAreNonnullByDefault
     DumpCommand(Slimefun plugin, SlimefunCommand cmd) {
@@ -46,6 +52,23 @@ class DumpCommand extends SubCommand {
         }
     }
 
+    private String getAndCreatePath(@Nonnull String filePrefix) {
+        final String dateTimeStamp = new SimpleDateFormat("'_'yyyyMMddHHmm'.txt'").format(new Date());
+        final String fullPath = PATH + filePrefix + dateTimeStamp;
+        final File directory = new File(PATH);
+
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+
+        return fullPath;
+    }
+
+    private void writeHeader(@Nonnull BufferedWriter writer) throws IOException {
+        final String dateTimeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
+        writer.write("Dump created at: " + dateTimeStamp + "\n");
+    }
+
     private void dumpBlockStorage(CommandSender sender) {
         final Map<String, Integer> map = new LinkedHashMap<>();
         for (World world : Bukkit.getWorlds()) {
@@ -55,9 +78,10 @@ class DumpCommand extends SubCommand {
             }
         }
 
-        final String path = Slimefun.instance().getDataFolder().getAbsolutePath();
+        final String fullPath = getAndCreatePath("blockstorage_dump");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path + "/blockstorage_dump.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath))) {
+            writeHeader(writer);
             map.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEach(
                 entry -> {
                     final String message = entry.getKey() + " -> " + entry.getValue();
@@ -72,7 +96,7 @@ class DumpCommand extends SubCommand {
                 sender,
                 "commands.dump.blockstorage.complete",
                 true,
-                msg -> msg.replace("%path%", path)
+                msg -> msg.replace("%path%", fullPath)
             );
         } catch (IOException e) {
             e.printStackTrace();
