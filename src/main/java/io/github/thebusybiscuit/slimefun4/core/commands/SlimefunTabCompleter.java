@@ -52,6 +52,12 @@ class SlimefunTabCompleter implements TabCompleter {
                 // Returning null will make it fallback to the default arguments (all online players)
                 return null;
             }
+        } else if (args[0].equalsIgnoreCase("dump")) {
+            // Only one option here for now, but preparing for further usages of /sf dump
+            List<String> suggestions = new LinkedList<>();
+            suggestions.add("blockstorage");
+
+            return createReturnList(suggestions, args[1]);
         } else if (args.length == 4 && args[0].equalsIgnoreCase("give")) {
             return createReturnList(Arrays.asList("1", "2", "4", "8", "16", "32", "64"), args[3]);
         } else {

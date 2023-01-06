@@ -39,9 +39,10 @@ commands:
     running: '&7Running debug mode with test: &6%test%'
     disabled: '&7Disabled debug mode.'
 
-  blockstorage:
-    description: 'Collects and writes the contents of BlockStorage to a file'
-    complete: '&aAll blocks processed, file saved to: &6%path%'
+  dump:
+    description: 'Contains commands to dump data to files'
+    blockstorage:
+      complete: '&aAll blocks processed, file saved to: &6%path%'
 
 placeholderapi:
   profile-loading: 'Loading...'
