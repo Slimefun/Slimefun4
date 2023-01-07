@@ -54,8 +54,7 @@ class SlimefunTabCompleter implements TabCompleter {
             }
         } else if (args[0].equalsIgnoreCase("dump")) {
             // Only one option here for now, but preparing for further usages of /sf dump
-            List<String> suggestions = new LinkedList<>();
-            suggestions.add("blockstorage");
+            List<String> suggestions = List.of("blockstorage");
 
             return createReturnList(suggestions, args[1]);
         } else if (args.length == 4 && args[0].equalsIgnoreCase("give")) {
