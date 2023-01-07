@@ -128,12 +128,12 @@ public class SlimefunItemStack extends ItemStack {
                 im.setLore(lines);
             }
 
-            if (im instanceof LeatherArmorMeta) {
-                ((LeatherArmorMeta) im).setColor(color);
+            if (im instanceof LeatherArmorMeta leatherArmorMeta) {
+                leatherArmorMeta.setColor(color);
             }
 
-            if (im instanceof PotionMeta) {
-                ((PotionMeta) im).setColor(color);
+            if (im instanceof PotionMeta potionMeta) {
+                potionMeta.setColor(color);
             }
         });
     }
@@ -154,9 +154,9 @@ public class SlimefunItemStack extends ItemStack {
                 im.setLore(lines);
             }
 
-            if (im instanceof PotionMeta) {
-                ((PotionMeta) im).setColor(color);
-                ((PotionMeta) im).addCustomEffect(effect, true);
+            if (im instanceof PotionMeta potionMeta) {
+                potionMeta.setColor(color);
+                potionMeta.addCustomEffect(effect, true);
 
                 if (effect.getType().equals(PotionEffectType.SATURATION)) {
                     im.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);

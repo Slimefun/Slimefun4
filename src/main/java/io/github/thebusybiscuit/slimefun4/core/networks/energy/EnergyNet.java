@@ -75,16 +75,13 @@ public class EnergyNet extends Network implements HologramOwner {
         if (component == null) {
             return null;
         } else {
-            switch (component.getEnergyComponentType()) {
-                case CONNECTOR:
-                case CAPACITOR:
-                    return NetworkComponent.CONNECTOR;
-                case CONSUMER:
-                case GENERATOR:
-                    return NetworkComponent.TERMINUS;
-                default:
-                    return null;
-            }
+            return switch (component.getEnergyComponentType()) {
+                case CONNECTOR,
+                    CAPACITOR -> NetworkComponent.CONNECTOR;
+                case CONSUMER,
+                    GENERATOR -> NetworkComponent.TERMINUS;
+                default -> null;
+            };
         }
     }
 
@@ -106,10 +103,10 @@ public class EnergyNet extends Network implements HologramOwner {
                     consumers.put(l, component);
                     break;
                 case GENERATOR:
-                    if (component instanceof EnergyNetProvider) {
-                        generators.put(l, (EnergyNetProvider) component);
-                    } else if (component instanceof SlimefunItem) {
-                        ((SlimefunItem) component).warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
+                    if (component instanceof EnergyNetProvider provider) {
+                        generators.put(l, provider);
+                    } else if (component instanceof SlimefunItem item) {
+                        item.warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
                     }
                     break;
                 default:
@@ -275,8 +272,8 @@ public class EnergyNet extends Network implements HologramOwner {
     private static EnergyNetComponent getComponent(@Nonnull Location l) {
         SlimefunItem item = BlockStorage.check(l);
 
-        if (item instanceof EnergyNetComponent) {
-            return ((EnergyNetComponent) item);
+        if (item instanceof EnergyNetComponent component) {
+            return component;
         }
 
         return null;

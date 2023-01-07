@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 33 (07 Jan 2023)](#release-candidate-33-07-jan-2023)
 - [Release Candidate 32 (26 Jun 2022)](#release-candidate-32-26-jun-2022)
 - [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
 - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
@@ -32,6 +33,40 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+
+## Release Candidate 33 (07 Jan 2023)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
+
+#### Additions
+* (API) Added Tinted Glass to "GLASS_BLOCKS" tag
+* (API) Added "WOOL_CARPETS" tag (for compatibility across MC 1.19/1.18 tags)
+* Added a new language: Persian
+* Added a new language: Romanian
+* (API) Added a method for item groups to allow addons to choose if they want to allow items from other addons
+* Added a new option to Eletric Gold Pans: "override-output-limit"
+* Added "Mud -> Clay" recipe to the Auto Drier
+* Added a third tier for Freezers
+* Added Glow Berry Juice
+
+#### Changes
+* Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
+* Slimefun now requires Java 16
+* "Connected / Not connected" messages for cargo nodes are now sent via the actionbar
+* "/sf stats" can no longer be used if researching is disabled
+* "/sf research" can no longer be used if researching is disabled
+* Removed the Hercules Pickaxe from Slimefun
+* If CS-CoreLib is present, Slimefun will disable itself (previously it would just error)
+
+#### Fixes
+* Fixed #3597
+* Fixed an issue related to "Bee Wings"
+* Fixed #3573
+* Fixed "round-robin" mode for cargo networks being very unreliable
+* Fixed #3664
+* Fixed #3651
+* Fixed #3677
+* Fixed #3705
+* Fixed BlockPlacer being able to place disabled items
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32

@@ -7,12 +7,12 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -32,9 +32,8 @@ public class CargoConnectorNode extends SimpleSlimefunItem<BlockUseHandler> {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
-    @Nonnull
     @Override
-    public BlockUseHandler getItemHandler() {
+    public @Nonnull BlockUseHandler getItemHandler() {
         return e -> {
             if (!e.getClickedBlock().isPresent()) {
                 return;
@@ -44,9 +43,9 @@ public class CargoConnectorNode extends SimpleSlimefunItem<BlockUseHandler> {
             Block b = e.getClickedBlock().get();
 
             if (CargoNet.getNetworkFromLocation(b.getLocation()) != null) {
-                p.sendMessage(ChatColors.color("&7Connected: " + "&2\u2714"));
+                Slimefun.getLocalization().sendActionbarMessage(p, "machines.CARGO_NODES.connected", false);
             } else {
-                p.sendMessage(ChatColors.color("&7Connected: " + "&4\u2718"));
+                Slimefun.getLocalization().sendActionbarMessage(p, "machines.CARGO_NODES.not-connected", false);
             }
         };
     }

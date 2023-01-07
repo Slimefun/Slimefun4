@@ -62,9 +62,9 @@ class Hologram {
     ArmorStand getArmorStand() {
         Entity n = Bukkit.getEntity(uniqueId);
 
-        if (n instanceof ArmorStand && n.isValid()) {
+        if (n instanceof ArmorStand armorStand && n.isValid()) {
             this.lastAccess = System.currentTimeMillis();
-            return (ArmorStand) n;
+            return armorStand;
         } else {
             this.lastAccess = 0;
             return null;

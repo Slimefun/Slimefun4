@@ -1,1 +1,169 @@
 ---
+commands:
+  help: Mostra este ecrã de ajuda
+  cheat: Deixa-te fazer batota
+  versions: Lista os Addons Instalados
+placeholderapi:
+  profile-loading: 'A carregar...'
+guide:
+  locked: 'BLOQUEADO'
+  search:
+    name: '&7Pesquisar...'
+  tooltips:
+    open-itemgroup: 'Clique para abrir'
+  pages:
+    previous: 'Página anterior'
+    next: 'Página seguinte'
+  back:
+    title: 'Voltar atrás'
+    guide: 'Voltar para o Guia Slimefun'
+    settings: 'Voltar ao Painel de Configurações'
+  languages:
+    updated: '&aO teu idioma foi alterado para: &b%lang%'
+    selected-language: 'Seleção atual:'
+    select: 'Clique para selecionar esta linguagem'
+    select-default: 'Clique para selecionar a linguagem padrão'
+    change: 'Cliqua para selecionar uma linguagem nova'
+    translations:
+      name: '&aFalta alguma coisa?'
+      lore: 'Cliqua para adicionar a tua própria tradução'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bAnimação de descoberta: &aSim'
+          - ''
+          - '&7You can now toggle whether you'
+          - '&7will see information about your pondering in chat'
+          - '&7upon researching an item.'
+      disabled:
+        text:
+          - '&bAnimação de descoberta: &aNão'
+          - ''
+          - '&7You can now toggle whether you'
+          - '&7will see information about your pondering in chat'
+          - '&7upon researching an item.'
+  title:
+    main: 'Guia Slimefun'
+    settings: 'Configurações e informação'
+    languages: 'Selecione a sua linguagem'
+    credits: 'Contribuidores de Slimefun4'
+    wiki: 'Wiki de Slimefun4'
+    addons: 'Addons para Slimefun4'
+    bugs: 'Bugs'
+    source: 'Código fonte'
+    versions: 'Versões instaladas'
+  credits:
+    commit: 'Commit'
+    commits: 'Commits'
+    profile-link: 'Clica para visitar o perfil dele no GitHub'
+    open: 'Clica para ver os nossos colaboradores'
+    roles:
+      developer: '&6Desenvolvedor'
+      wiki: '&3Editor de Wiki'
+      resourcepack: '&cArtista de Resourcepack'
+      translator: '&9Tradutor'
+messages:
+  usage: '&4Utilização: &c%usage%'
+  not-online: '&4%player% &cnão está online!'
+  invalid-item: '&4%item% &cnão é um item válido!'
+  invalid-amount: '&4%amount% &cnão é um valor válido: deve ser maior que 0!'
+  hungry: '&cEstás com demasiada fome para fazer isso!'
+  disabled-in-world: '&4&lEsse item foi desativado neste mundo'
+  disabled-item: '&4&lEsse item foi desativado! Como é que o conseguiste?'
+  link-prompt: '&eClique aqui:'
+machines:
+  full-inventory: '&eDesculpa, o meu inventário está cheio!'
+  HOLOGRAM_PROJECTOR:
+    inventory-title: 'Editor de Holograma'
+  ELEVATOR:
+    pick-a-floor: '&3- Escolha um piso -'
+  TELEPORTER:
+    teleporting: '&3A teletransportar...'
+    teleported: '&3Teletransportado!'
+    cancelled: '&4Teletransporte cancelado!'
+    gui:
+      tooltip: 'Clica para te teletransportares'
+      time: 'Tempo estimado'
+inventory:
+  no-access: '&4Não tens permissão para aceder este bloco'
+android:
+  scripts:
+    already-uploaded: '&4Este script já foi enviado.'
+    editor: 'Editor de scripts'
+    too-long: '&cEste script é demasiado longo para editar!'
+    instructions:
+      START: '&2Iniciar Script'
+      REPEAT: '&9Repetir script'
+      WAIT: '&eAguardar 0.5s'
+      GO_FORWARD: '&7Mover para frente'
+      GO_UP: '&7Mover para cima'
+      GO_DOWN: '&7Mover para baixo'
+      TURN_LEFT: '&7Virar à esquerda'
+      TURN_RIGHT: '&7Virar à direita'
+      DIG_UP: '&bEscavar para cima'
+      DIG_FORWARD: '&bEscavar para a frente'
+      DIG_DOWN: '&bEscavar para baixo'
+      MOVE_AND_DIG_UP: '&bMover e Escavar para cima'
+      MOVE_AND_DIG_FORWARD: '&bMover e Escavar para a frente'
+      MOVE_AND_DIG_DOWN: '&bMover e Escavar para baixo'
+      ATTACK_MOBS_ANIMALS: '&4Atacar &c(Mobs Hostis e Animais)'
+      ATTACK_MOBS: '&4Atacar &c(Mobs Hostis)'
+      ATTACK_ANIMALS: '&4Atacar &c(Animais)'
+      ATTACK_ANIMALS_ADULT: '&4Atacar &c(Animais &7[Adult]&c)'
+      CHOP_TREE: '&cCortar e Replantar'
+      CATCH_FISH: '&bPescar'
+      FARM_FORWARD: '&bColher e Replantar'
+      FARM_DOWN: '&bColher e Replantar &7(Bloco de baixo)'
+      FARM_EXOTIC_FORWARD: '&bColher e Replantar Avançado'
+      FARM_EXOTIC_DOWN: '&bColher e Replantar Avançado&7(Bloco de baixo)'
+    enter-name:
+      - ''
+      - '&ePor favor, digita um nome para o teu script'
+      - ''
+    uploaded:
+      - '&bA enviar...'
+      - '&aScript enviado!'
+    rating:
+      own: '&4Não podes avaliar o teu próprio script!'
+      already: '&4Já deixou uma avaliação para este script!'
+languages:
+  default: 'Padrão do Servidor'
+  en: 'Inglês'
+  de: 'Alemão'
+  fr: 'Francês'
+  it: 'Italiano'
+  es: 'Espanhol'
+  sv: 'Sueco'
+  nl: 'Holandês'
+  cs: 'Checo'
+  hu: 'Húngaro'
+  lv: 'Latvio'
+  ru: 'Russo'
+  sk: 'Eslovaco'
+  zh-CN: 'Chines (China)'
+  vi: 'Vietnamita'
+  id: 'Indonésio'
+  el: 'Grego'
+  he: 'Hebraico'
+  pt: 'Português (Portugal)'
+  pt-BR: 'Português (Brasil)'
+  ar: 'Árabe'
+  af: 'Afrikaans'
+  da: 'Dinamarquês'
+  fi: 'Finlandês'
+  uk: 'Ucraniano'
+  ms: 'Malaio'
+  'no': 'Norueguês'
+  ja: 'Japonês'
+  fa: 'Persa'
+  th: 'Tailandês'
+  tl: 'Tagalog'
+  ro: 'Romeno'
+  bg: 'Búlgaro'
+  ko: 'Coreano'
+  tr: 'Turco'
+  hr: 'Croata'
+  mk: 'Macedónio'
+  sr: 'Sérvio'
+  be: 'Bielorrusso'

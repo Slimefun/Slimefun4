@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.HiddenItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
@@ -195,7 +196,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosivePi
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.HerculesPickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.LumberAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfContainment;
@@ -532,11 +532,11 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(itemGroups.resources, SlimefunItems.LEAD_DUST, RecipeType.ORE_WASHER,
+        new SlimefunItem(itemGroups.resources, SlimefunItems.SILVER_DUST, RecipeType.ORE_WASHER,
         new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
         .register(plugin);
         
-        new SlimefunItem(itemGroups.resources, SlimefunItems.SILVER_DUST, RecipeType.ORE_WASHER,
+        new SlimefunItem(itemGroups.resources, SlimefunItems.LEAD_DUST, RecipeType.ORE_WASHER,
         new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
         .register(plugin);
 
@@ -1031,10 +1031,6 @@ public final class SlimefunItemSetup {
         new PickaxeOfContainment(itemGroups.tools, SlimefunItems.PICKAXE_OF_CONTAINMENT, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
         .register(plugin);
-
-        new HerculesPickaxe(itemGroups.tools, SlimefunItems.HERCULES_PICKAXE, RecipeType.MAGIC_WORKBENCH,
-        new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})
-        .register(plugin);
         
         new TableSaw(itemGroups.basicMachines, SlimefunItems.TABLE_SAW).register(plugin);
 
@@ -1374,6 +1370,10 @@ public final class SlimefunItemSetup {
         new KnowledgeFlask(itemGroups.magicalGadgets, SlimefunItems.FLASK_OF_KNOWLEDGE, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {null, null, null, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.GLASS_PANE), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.MAGIC_LUMP_2, null}, 
         new SlimefunItemStack(SlimefunItems.FLASK_OF_KNOWLEDGE, 8))
+        .register(plugin);
+
+        new HiddenItem(itemGroups.magicalGadgets, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, RecipeType.INTERACT,
+        new ItemStack[] {SlimefunItems.FLASK_OF_KNOWLEDGE, null, null, null, null, null, null, null, null})
         .register(plugin);
 
         new BirthdayCake(itemGroups.birthday, new SlimefunItemStack("BIRTHDAY_CAKE", Material.CAKE, "&bBirthday Cake"), RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2444,6 +2444,13 @@ public final class SlimefunItemSetup {
         .setProcessingSpeed(2)
         .register(plugin);
 
+        new Freezer(itemGroups.electricity, SlimefunItems.FREEZER_3, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.FREEZER_2, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.COOLING_UNIT, SlimefunItems.COOLING_UNIT, SlimefunItems.COOLING_UNIT})
+        .setCapacity(256)
+        .setEnergyConsumption(21)
+        .setProcessingSpeed(3)
+        .register(plugin);
+
         new CoolantCell(itemGroups.technicalComponents, SlimefunItems.REACTOR_COOLANT_CELL, RecipeType.FREEZER,
         new ItemStack[] {new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
         .register(plugin);
@@ -2604,13 +2611,19 @@ public final class SlimefunItemSetup {
         }
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            new VillagerRune(itemGroups.magicalResources, SlimefunItems.VILLAGER_RUNE, RecipeType.ANCIENT_ALTAR, 
+            new VillagerRune(itemGroups.magicalResources, SlimefunItems.VILLAGER_RUNE, RecipeType.ANCIENT_ALTAR,
             new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.STRANGE_NETHER_GOO, SlimefunItems.FIRE_RUNE, SlimefunItems.STRANGE_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3},
             new SlimefunItemStack(SlimefunItems.VILLAGER_RUNE, 3))
             .register(plugin);
 
             new StrangeNetherGoo(itemGroups.magicalResources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
             new ItemStack[] {null, null, null, null, new CustomItemStack(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
+            .register(plugin);
+        }
+
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            new Juice(itemGroups.food, SlimefunItems.GLOW_BERRY_JUICE, RecipeType.JUICER,
+            new ItemStack[] {new ItemStack(Material.GLOW_BERRIES), null, null, null, null, null, null, null, null})
             .register(plugin);
         }
 

@@ -144,6 +144,12 @@ public enum SlimefunTag implements Tag<Material> {
     FUNGUS_SOIL,
 
     /**
+     * All block types for mangrove to grow on.
+     * This includes all dirt variants, mud and clay.
+     */
+    MANGROVE_BASE_BLOCKS,
+
+    /**
      * All variants of concrete powder.
      * Can you believe there is no tag for this already?
      */
@@ -251,7 +257,12 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials that are affected by gravity.
      */
-    GRAVITY_AFFECTED_BLOCKS;
+    GRAVITY_AFFECTED_BLOCKS,
+
+    /**
+     * All wool carpets
+     */
+    WOOL_CARPETS;
 
     /**
      * Lookup table for tag names.

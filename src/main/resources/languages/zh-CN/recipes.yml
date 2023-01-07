@@ -22,10 +22,10 @@ slimefun:
       - '如合成表所示'
       - '使用磨石制作'
   smeltery:
-    name: '冶炼机 (Smeltery)'
+    name: '冶炼炉 (Smeltery)'
     lore:
       - '如合成表所示'
-      - '用冶炼机合成'
+      - '用冶炼炉合成'
   ore_crusher:
     name: '矿石粉碎机 (Ore Crusher)'
     lore:

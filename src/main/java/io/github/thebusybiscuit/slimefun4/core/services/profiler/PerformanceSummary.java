@@ -95,9 +95,9 @@ class PerformanceSummary {
         List<Entry<String, Long>> results = stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
         String prefix = count + " " + name + (count != 1 ? 's' : "");
 
-        if (inspector instanceof PlayerPerformanceInspector) {
+        if (inspector instanceof PlayerPerformanceInspector playerPerformanceInspector) {
             TextComponent component = summarizeAsTextComponent(count, prefix, results, formatter);
-            ((PlayerPerformanceInspector) inspector).sendMessage(component);
+            playerPerformanceInspector.sendMessage(component);
         } else {
             String text = summarizeAsString(inspector, count, prefix, results, formatter);
             inspector.sendMessage(text);
