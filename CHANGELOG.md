@@ -54,6 +54,7 @@
 * "/sf stats" can no longer be used if researching is disabled
 * "/sf research" can no longer be used if researching is disabled
 * Removed the Hercules Pickaxe from Slimefun
+* If CS-CoreLib is present, Slimefun will disable itself (previously it would just error)
 
 #### Fixes
 * Fixed #3597
@@ -63,6 +64,8 @@
 * Fixed #3664
 * Fixed #3651
 * Fixed #3677
+* Fixed #3705
+* Fixed BlockPlacer being able to place disabled items
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
