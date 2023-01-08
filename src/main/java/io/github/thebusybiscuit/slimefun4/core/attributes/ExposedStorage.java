@@ -25,7 +25,7 @@ public interface ExposedStorage extends ItemAttribute {
 
     /**
      * This method should return the full contents of the block in question
-     * summarized into a map of {@link ItemStack} and total amount stored.
+     * summarized into an immutable map of {@link ItemStack} and total amount stored.
      * The {@link ItemStack} is representative only and shouldn't be used
      * directly.
      *
@@ -36,9 +36,31 @@ public interface ExposedStorage extends ItemAttribute {
      * @param location
      *          The {@link Location} of the storage block that the content request
      *
-     * @return A {@link Map} that lists all exposed items and their quantity
+     * @return An immutable {@link Map} that lists all exposed items and their quantity
      */
     @Nonnull Map<ItemStack, Integer> getStoredItems(@Nonnull Location location);
+
+    /**
+     * This method should return a count of how many matching items exist within the ExposedStorage
+     *
+     * @param location
+     *          The {@link Location} of the storage block to count items from
+     * @param similarStack
+     *          An {@link ItemStack} that will be used to match against stored items.
+     *
+     * @return The number of matching items held in the block
+     */
+    int getAmount(@Nonnull Location location, @Nonnull ItemStack similarStack);
+
+    /**
+     * This method should return a total count of how many items are within the ExposedStorage
+     *
+     * @param location
+     *          The {@link Location} of the storage block to count items from
+     *
+     * @return The number of items held in the block
+     */
+    long getAmount(@Nonnull Location location);
 
     /**
      * This method should is used to withdraw an item from the storage.
