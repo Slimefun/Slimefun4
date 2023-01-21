@@ -117,8 +117,8 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
         }
 
         /*
-         * If override is false, remove those with lower level so we don't override existing enchants
-         * This also removes those with the same level so they aren't accounted for enchanting time
+         * If override is false, remove those with lower level, so we don't override existing enchants
+         * This also removes those with the same level, so they aren't accounted for enchanting time
          */
         if (!overrideExistingEnchantsLvl.getValue()) {
             enchantments.entrySet().removeIf(e -> target.getEnchantmentLevel(e.getKey()) >= e.getValue());
