@@ -34,6 +34,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @author Mooy1
  * @author StarWishSama
  * @author martinbrom
+ * @author J3fftw1
  *
  * @see AutoDisenchanter
  *
@@ -42,11 +43,18 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
 
     private final ItemSetting<Boolean> overrideExistingEnchantsLvl = new ItemSetting<>(this, "override-existing-enchants-lvl", false);
 
+    /*
+    * Default value is -1, Minecraft doesn't limit enchants by default.
+    * -1 means its disabled and doesn't check for a max number of enchantments.
+    */
+    private final ItemSetting<Integer> maxEnchants = new ItemSetting<>(this, "max-enchants", -1);
+
     @ParametersAreNonnullByDefault
     public AutoEnchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(overrideExistingEnchantsLvl);
+        addItemSetting(maxEnchants);
     }
 
     @Override
@@ -114,6 +122,14 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
          */
         if (!overrideExistingEnchantsLvl.getValue()) {
             enchantments.entrySet().removeIf(e -> target.getEnchantmentLevel(e.getKey()) >= e.getValue());
+        }
+
+        /*
+         * When maxEnchants is set to -1 it will be ignored. When it's set to 0 it will not allow any enchants to go
+         * on an item. When maxEnchants is set to any other value it will allow that many enchants to go on the item.
+         */
+        if (maxEnchants.getValue() != -1 && target.getEnchantments().size() >= maxEnchants.getValue()) {
+            return null;
         }
 
         // Check if we found any valid enchantments
