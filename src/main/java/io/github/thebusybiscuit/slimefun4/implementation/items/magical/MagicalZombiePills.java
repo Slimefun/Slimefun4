@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -64,7 +63,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
             if (entity instanceof ZombieVillager zombieVillager) {
                 useItem(p, item);
                 healZombieVillager(zombieVillager, p);
-            } else if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie pigZombie) {
+            } else if (entity instanceof PigZombie pigZombie) {
                 useItem(p, item);
                 healZombifiedPiglin(pigZombie);
             }
@@ -90,10 +89,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
 
     private void healZombieVillager(@Nonnull ZombieVillager zombieVillager, @Nonnull Player p) {
         zombieVillager.setConversionTime(1);
-
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            zombieVillager.setConversionPlayer(p);
-        }
+        zombieVillager.setConversionPlayer(p);
     }
 
     private void healZombifiedPiglin(@Nonnull PigZombie zombiePiglin) {

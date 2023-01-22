@@ -519,27 +519,4 @@ public final class SlimefunUtils {
     public static @Nullable Item spawnItem(Location loc, ItemStack item, ItemSpawnReason reason) {
         return spawnItem(loc, item, reason, false);
     }
-
-    /**
-     * Helper method to check if an Inventory is empty (has no items in "storage").
-     * If the MC version is 1.16 or above
-     * this will call {@link Inventory#isEmpty()} (Which calls MC code resulting in a faster method).
-     *
-     * @param inventory
-     *            The {@link Inventory} to check.
-     * 
-     * @return True if the inventory is empty and false otherwise
-     */
-    public static boolean isInventoryEmpty(@Nonnull Inventory inventory) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            return inventory.isEmpty();
-        } else {
-            for (ItemStack is : inventory.getStorageContents()) {
-                if (is != null && !is.getType().isAir()) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
 }
