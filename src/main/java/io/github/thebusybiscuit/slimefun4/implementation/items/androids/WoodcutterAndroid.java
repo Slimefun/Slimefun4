@@ -92,82 +92,73 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
         Predicate<Material> soilRequirement = null;
 
         switch (logType) {
-            case OAK_LOG:
-            case OAK_WOOD:
-            case STRIPPED_OAK_LOG:
-            case STRIPPED_OAK_WOOD:
+            case OAK_LOG,
+                OAK_WOOD,
+                STRIPPED_OAK_LOG,
+                STRIPPED_OAK_WOOD -> {
                 saplingType = Material.OAK_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
-                break;
-            case BIRCH_LOG:
-            case BIRCH_WOOD:
-            case STRIPPED_BIRCH_LOG:
-            case STRIPPED_BIRCH_WOOD:
+            }
+            case BIRCH_LOG,
+                BIRCH_WOOD,
+                STRIPPED_BIRCH_LOG,
+                STRIPPED_BIRCH_WOOD -> {
                 saplingType = Material.BIRCH_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
-                break;
-            case JUNGLE_LOG:
-            case JUNGLE_WOOD:
-            case STRIPPED_JUNGLE_LOG:
-            case STRIPPED_JUNGLE_WOOD:
+            }
+            case JUNGLE_LOG,
+                JUNGLE_WOOD,
+                STRIPPED_JUNGLE_LOG,
+                STRIPPED_JUNGLE_WOOD -> {
                 saplingType = Material.JUNGLE_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
-                break;
-            case SPRUCE_LOG:
-            case SPRUCE_WOOD:
-            case STRIPPED_SPRUCE_LOG:
-            case STRIPPED_SPRUCE_WOOD:
+            }
+            case SPRUCE_LOG,
+                SPRUCE_WOOD,
+                STRIPPED_SPRUCE_LOG,
+                STRIPPED_SPRUCE_WOOD -> {
                 saplingType = Material.SPRUCE_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
-                break;
-            case ACACIA_LOG:
-            case ACACIA_WOOD:
-            case STRIPPED_ACACIA_LOG:
-            case STRIPPED_ACACIA_WOOD:
+            }
+            case ACACIA_LOG,
+                ACACIA_WOOD,
+                STRIPPED_ACACIA_LOG,
+                STRIPPED_ACACIA_WOOD -> {
                 saplingType = Material.ACACIA_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
-                break;
-            case DARK_OAK_LOG:
-            case DARK_OAK_WOOD:
-            case STRIPPED_DARK_OAK_LOG:
-            case STRIPPED_DARK_OAK_WOOD:
+            }
+            case DARK_OAK_LOG,
+                DARK_OAK_WOOD,
+                STRIPPED_DARK_OAK_LOG,
+                STRIPPED_DARK_OAK_WOOD -> {
                 saplingType = Material.DARK_OAK_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
-                break;
-            default:
-                break;
-        }
-
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            switch (logType) {
-                case CRIMSON_STEM:
-                case CRIMSON_HYPHAE:
-                case STRIPPED_CRIMSON_STEM:
-                case STRIPPED_CRIMSON_HYPHAE:
-                    saplingType = Material.CRIMSON_FUNGUS;
-                    soilRequirement = SlimefunTag.FUNGUS_SOIL::isTagged;
-                    break;
-                case WARPED_STEM:
-                case WARPED_HYPHAE:
-                case STRIPPED_WARPED_STEM:
-                case STRIPPED_WARPED_HYPHAE:
-                    saplingType = Material.WARPED_FUNGUS;
-                    soilRequirement = SlimefunTag.FUNGUS_SOIL::isTagged;
-                    break;
-                default:
-                    break;
             }
+            case CRIMSON_STEM,
+                CRIMSON_HYPHAE,
+                STRIPPED_CRIMSON_STEM,
+                STRIPPED_CRIMSON_HYPHAE -> {
+                saplingType = Material.CRIMSON_FUNGUS;
+                soilRequirement = SlimefunTag.FUNGUS_SOIL::isTagged;
+            }
+            case WARPED_STEM,
+                WARPED_HYPHAE,
+                STRIPPED_WARPED_STEM,
+                STRIPPED_WARPED_HYPHAE -> {
+                saplingType = Material.WARPED_FUNGUS;
+                soilRequirement = SlimefunTag.FUNGUS_SOIL::isTagged;
+            }
+            default -> {}
         }
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
             switch (logType) {
-                case MANGROVE_LOG:
-                case STRIPPED_MANGROVE_LOG:
+                case MANGROVE_LOG,
+                    STRIPPED_MANGROVE_LOG -> {
                     saplingType = Material.MANGROVE_PROPAGULE;
                     soilRequirement = SlimefunTag.MANGROVE_BASE_BLOCKS::isTagged;
-                    break;
-                default:
-                    break;
+                }
+                default -> {}
             }
         }
 

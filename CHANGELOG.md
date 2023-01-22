@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 33 (TBD)](#release-candidate-33-tbd)
+- [Release Candidate 34 (TBD)](#release-candidate-34-tbd)
+- [Release Candidate 33 (07 Jan 2023)](#release-candidate-33-07-jan-2023)
 - [Release Candidate 32 (26 Jun 2022)](#release-candidate-32-26-jun-2022)
 - [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
 - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
@@ -34,7 +35,16 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 
-## Release Candidate 33 (TBD)
+## Release Candidate 34 (TBD)
+
+#### Additions
+
+#### Changes
+
+#### Fixes
+
+## Release Candidate 33 (07 Jan 2023)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
 
 #### Additions
 * (API) Added Tinted Glass to "GLASS_BLOCKS" tag
@@ -54,6 +64,7 @@
 * "/sf stats" can no longer be used if researching is disabled
 * "/sf research" can no longer be used if researching is disabled
 * Removed the Hercules Pickaxe from Slimefun
+* If CS-CoreLib is present, Slimefun will disable itself (previously it would just error)
 
 #### Fixes
 * Fixed #3597
@@ -63,6 +74,8 @@
 * Fixed #3664
 * Fixed #3651
 * Fixed #3677
+* Fixed #3705
+* Fixed BlockPlacer being able to place disabled items
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32

@@ -29,7 +29,6 @@ import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
@@ -189,7 +188,7 @@ class MiningTask implements Runnable {
                 furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, Material.STONE);
 
                 World world = start.getWorld();
-                for (int y = height; y > WorldUtils.getMinHeight(world); y--) {
+                for (int y = height; y > world.getMinHeight(); y--) {
                     Block b = world.getBlockAt(x, y, z);
 
                     if (!Slimefun.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(owner), b, Interaction.BREAK_BLOCK)) {

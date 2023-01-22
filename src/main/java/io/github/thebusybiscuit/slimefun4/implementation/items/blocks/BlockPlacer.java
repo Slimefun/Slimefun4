@@ -104,7 +104,7 @@ public class BlockPlacer extends SlimefunItem {
 
                 if (item != null) {
                     // Check if this Item can even be placed down
-                    if (!(item instanceof NotPlaceable)) {
+                    if (!(item instanceof NotPlaceable) && !item.isDisabledIn(dispenser.getWorld())) {
                         placeSlimefunBlock(item, e.getItem(), facedBlock, dispenser);
                     }
                 } else if (!Slimefun.getIntegrations().isCustomItem(e.getItem())) {
