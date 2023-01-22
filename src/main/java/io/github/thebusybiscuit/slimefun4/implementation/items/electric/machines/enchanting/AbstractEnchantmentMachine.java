@@ -28,6 +28,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  *
  * @author TheBusyBiscuit
  * @author Rothes
+ * @author J3fftw1
  *
  * @see AutoEnchanter
  * @see AutoDisenchanter
@@ -40,6 +41,12 @@ abstract class AbstractEnchantmentMachine extends AContainer {
     private final ItemSetting<Boolean> useIgnoredLores = new ItemSetting<>(this, "use-ignored-lores", false);
     private final ItemSetting<List<String>> ignoredLores = new ItemSetting<>(this, "ignored-lores", Collections.singletonList("&7- &cCan't be used in " + this.getItemName()));
 
+    /*
+     * Default value is -1, Minecraft doesn't limit enchants by default.
+     * -1 means its disabled and doesn't check for a max number of enchantments.
+     */
+    private final ItemSetting<Integer> maxEnchants = new ItemSetting<>(this, "max-enchants", -1);
+
     @ParametersAreNonnullByDefault
     protected AbstractEnchantmentMachine(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -48,6 +55,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         addItemSetting(levelLimit);
         addItemSetting(useIgnoredLores);
         addItemSetting(ignoredLores);
+        addItemSetting(maxEnchants);
     }
 
     protected boolean isEnchantmentLevelAllowed(int enchantmentLevel) {
@@ -83,5 +91,9 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         }
 
         return false;
+    }
+
+    protected boolean IsEnchantmentAmountAllowed(@Nonnull ItemStack item ) {
+        return maxEnchants.getValue() != -1 && item.getEnchantments().size() >= maxEnchants.getValue();
     }
 }
