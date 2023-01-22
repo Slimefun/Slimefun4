@@ -109,8 +109,8 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
         }
 
         /*
-         * If override is false, remove those with lower level, so we don't override existing enchants
-         * This also removes those with the same level, so they aren't accounted for enchanting time
+         * If override is false, remove those with lower level so we don't override existing enchants
+         * This also removes those with the same level so they aren't accounted for enchanting time
          */
         if (!overrideExistingEnchantsLvl.getValue()) {
             enchantments.entrySet().removeIf(e -> target.getEnchantmentLevel(e.getKey()) >= e.getValue());
@@ -120,7 +120,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
          * When maxEnchants is set to -1 it will be ignored. When it's set to 0 it will not allow any enchants to go
          * on an item. When maxEnchants is set to any other value it will allow that many enchants to go on the item.
          */
-        if (IsEnchantmentAmountAllowed(target)) {
+        if (isEnchantmentAmountAllowed(target)) {
             return null;
         }
 

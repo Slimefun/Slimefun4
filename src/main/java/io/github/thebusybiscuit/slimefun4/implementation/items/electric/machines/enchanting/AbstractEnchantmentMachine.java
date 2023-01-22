@@ -91,7 +91,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         return false;
     }
 
-    protected boolean IsEnchantmentAmountAllowed(@Nonnull ItemStack item ) {
+    protected boolean isEnchantmentAmountAllowed(@Nonnull ItemStack item ) {
         return !useMaxEnchants.getValue() || item.getEnchantments().size() >= maxEnchants.getValue();
     }
 }
