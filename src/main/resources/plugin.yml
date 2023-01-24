@@ -58,7 +58,7 @@ permissions:
     default: op
   slimefun.command.versions:
     description: Allows you to do /sf versions
-    default: op
+    default: true
   slimefun.command.backpack:
     description: Allows you to do /sf backpack
     default: op
