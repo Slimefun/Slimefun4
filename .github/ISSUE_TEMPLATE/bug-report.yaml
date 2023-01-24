@@ -117,8 +117,6 @@ body:
       - 1.18.x
       - 1.17.x
       - 1.16.x
-      - 1.15.x
-      - 1.14.x
       - (Older versions are not supported)
 
 - id: slimefun-version

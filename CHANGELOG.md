@@ -40,6 +40,7 @@
 #### Additions
 
 #### Changes
+* Removed 1.14.* and 1.15.* support
 
 #### Fixes
 
