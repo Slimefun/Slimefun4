@@ -81,6 +81,9 @@ public class GrindStone extends MultiBlockMachine {
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             recipes.add(new ItemStack(Material.AMETHYST_BLOCK));
             recipes.add(new ItemStack(Material.AMETHYST_SHARD, 4));
+
+            recipes.add(new ItemStack(Material.COBBLED_DEEPSLATE));
+            recipes.add(new ItemStack(Material.GRAVEL));
         }
 
         recipes.add(SlimefunItems.MAGIC_LUMP_2);

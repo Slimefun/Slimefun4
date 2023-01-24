@@ -97,6 +97,11 @@ public class OreCrusher extends MultiBlockMachine {
 
         recipes.add(SlimefunItems.COMPRESSED_CARBON);
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
+
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            recipes.add(new ItemStack(Material.COBBLED_DEEPSLATE, 8));
+            recipes.add(new ItemStack(Material.SAND, 1));
+        }
     }
 
     public boolean isOreDoublingEnabled() {
