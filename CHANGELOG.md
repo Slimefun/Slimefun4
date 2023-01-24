@@ -40,7 +40,8 @@
 #### Additions
 
 #### Changes
-
+* Removed 1.14.* and 1.15.* support
+* 
 #### Fixes
 
 ## Release Candidate 33 (07 Jan 2023)

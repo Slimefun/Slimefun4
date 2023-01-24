@@ -30,9 +30,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 /**
  * This {@link SlimefunItem} allows you to convert any {@link ZombieVillager} to
  * their {@link Villager} variant. It is also one of the very few utilisations of {@link EntityInteractHandler}.
- * 
- * This item does not work on earlier versions than 1.14 as the {@link ZombieVillager} {@link EntityType}
- * did not exist back then.
  *
  * @author Linox
  *
