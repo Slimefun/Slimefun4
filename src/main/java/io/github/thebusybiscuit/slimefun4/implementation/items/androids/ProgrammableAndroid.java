@@ -605,7 +605,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 // Coal, Charcoal & Bamboo
                 registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
                 registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
-                registerFuelType(new MachineFuel(8, new ItemStack(Material.BAMBOO)));
+                registerFuelType(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
 
                 // Logs
                 for (Material mat : Tag.LOGS.getValues()) {
