@@ -38,11 +38,14 @@
 ## Release Candidate 34 (TBD)
 
 #### Additions
+* Added "Cobbled Deepslate -> Gravel" recipe to the Grind Stone
+* Added "Cobbled Deepslate -> Sand" recipe to the Ore Crusher
 
 #### Changes
 * Removed 1.14.* and 1.15.* support
 
 #### Fixes
+* Fixed #3741
 
 ## Release Candidate 33 (07 Jan 2023)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
