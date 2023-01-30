@@ -70,6 +70,11 @@ public class EnhancedFurnaceListener implements Listener {
             if (state instanceof Furnace furnace) {
                 FurnaceInventory inventory = furnace.getInventory();
 
+                // This if statement fixes #3741
+                if (inventory.getSmelting() == null) {
+                    return;
+                }
+
                 boolean multiplier = SlimefunTag.ENHANCED_FURNACE_LUCK_MATERIALS.isTagged(inventory.getSmelting().getType());
                 int amount = multiplier ? enhancedFurnace.getRandomOutputAmount() : 1;
                 Optional<ItemStack> result = Slimefun.getMinecraftRecipeService().getFurnaceOutput(inventory.getSmelting());
