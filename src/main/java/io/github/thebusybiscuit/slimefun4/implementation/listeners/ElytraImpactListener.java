@@ -23,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
  * The {@link Listener} for the {@link ElytraCap}.
  *
  * @author Seggan
+ * @author J3fftw1
  * 
  * @see ElytraCap
  */
@@ -34,35 +35,31 @@ public class ElytraImpactListener implements Listener {
 
     @EventHandler
     public void onPlayerCrash(EntityDamageEvent e) {
-        if (!(e.getEntity() instanceof Player)) {
+        if (!(e.getEntity() instanceof Player p)) {
             // We only wanna handle damaged Players
             return;
         }
 
-        if (e.getCause() == DamageCause.FALL || e.getCause() == DamageCause.FLY_INTO_WALL) {
-            Player p = (Player) e.getEntity();
+        if ((e.getCause() == DamageCause.FALL || e.getCause() == DamageCause.FLY_INTO_WALL) && p.isGliding()) {
+            Optional<PlayerProfile> optional = PlayerProfile.find(p);
 
-            if (p.isGliding()) {
-                Optional<PlayerProfile> optional = PlayerProfile.find(p);
+            if (optional.isEmpty()) {
+                PlayerProfile.request(p);
+                return;
+            }
 
-                if (!optional.isPresent()) {
-                    PlayerProfile.request(p);
-                    return;
-                }
+            PlayerProfile profile = optional.get();
+            Optional<SlimefunArmorPiece> helmet = profile.getArmor()[3].getItem();
 
-                PlayerProfile profile = optional.get();
-                Optional<SlimefunArmorPiece> helmet = profile.getArmor()[0].getItem();
+            if (helmet.isPresent()) {
+                SlimefunItem item = helmet.get();
 
-                if (helmet.isPresent()) {
-                    SlimefunItem item = helmet.get();
+                if (item.canUse(p, true) && profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
+                    e.setCancelled(true);
+                    p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
 
-                    if (item.canUse(p, true) && profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
-                        e.setDamage(0);
-                        p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
-
-                        if (item instanceof DamageableItem damageableItem) {
-                            damageableItem.damageItem(p, p.getInventory().getHelmet());
-                        }
+                    if (item instanceof DamageableItem damageableItem) {
+                        damageableItem.damageItem(p, p.getInventory().getHelmet());
                     }
                 }
             }
