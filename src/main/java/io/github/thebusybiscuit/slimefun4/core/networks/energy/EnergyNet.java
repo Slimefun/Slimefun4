@@ -60,24 +60,20 @@ public class EnergyNet extends Network implements HologramOwner {
         return RANGE;
     }
 
-    @Nonnull
-    public Map<Location, EnergyNetProvider> getGenerators() {
+    public @Nonnull Map<Location, EnergyNetProvider> getGenerators() {
         return Collections.unmodifiableMap(generators);
     }
     
-    @Nonnull
-    public Map<Location, EnergyNetComponent> getCapacitors() {
+    public @Nonnull Map<Location, EnergyNetComponent> getCapacitors() {
         return Collections.unmodifiableMap(capacitors);
     }
     
-    @Nonnull
-    public Map<Location, EnergyNetComponent> getConsumers() {
+    public @Nonnull Map<Location, EnergyNetComponent> getConsumers() {
         return Collections.unmodifiableMap(consumers);
     }
 
-    @Nonnull
     @Override
-    public String getId() {
+    public @Nonnull String getId() {
         return "ENERGY_NETWORK";
     }
 
