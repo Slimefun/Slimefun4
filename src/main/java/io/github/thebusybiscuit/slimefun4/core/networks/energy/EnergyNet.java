@@ -1,20 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.LongConsumer;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
@@ -25,13 +10,26 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.LongConsumer;
 
 /**
  * The {@link EnergyNet} is an implementation of {@link Network} that deals with
- * electrical energy being send from and to nodes.
+ * electrical energy being sent from and to nodes.
  * 
  * @author meiamsome
  * @author TheBusyBiscuit
@@ -58,7 +56,23 @@ public class EnergyNet extends Network implements HologramOwner {
     public int getRange() {
         return RANGE;
     }
+    
+    @Nonnull
+    public Map<Location, EnergyNetProvider> getGenerators() {
+        return Collections.unmodifiableMap(generators);
+    }
+    
+    @Nonnull
+    public Map<Location, EnergyNetComponent> getCapacitors() {
+        return Collections.unmodifiableMap(capacitors);
+    }
+    
+    @Nonnull
+    public Map<Location, EnergyNetComponent> getConsumers() {
+        return Collections.unmodifiableMap(consumers);
+    }
 
+    @Nonnull
     @Override
     public String getId() {
         return "ENERGY_NETWORK";
@@ -96,21 +110,17 @@ public class EnergyNet extends Network implements HologramOwner {
 
         if (component != null) {
             switch (component.getEnergyComponentType()) {
-                case CAPACITOR:
-                    capacitors.put(l, component);
-                    break;
-                case CONSUMER:
-                    consumers.put(l, component);
-                    break;
-                case GENERATOR:
+                case CAPACITOR -> capacitors.put(l, component);
+                case CONSUMER -> consumers.put(l, component);
+                case GENERATOR -> {
                     if (component instanceof EnergyNetProvider provider) {
                         generators.put(l, provider);
                     } else if (component instanceof SlimefunItem item) {
                         item.warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
                     }
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
         }
     }
@@ -261,10 +271,10 @@ public class EnergyNet extends Network implements HologramOwner {
     private void updateHologram(@Nonnull Block b, double supply, double demand) {
         if (demand > supply) {
             String netLoss = NumberUtils.getCompactDouble(demand - supply);
-            updateHologram(b, "&4&l- &c" + netLoss + " &7J &e\u26A1");
+            updateHologram(b, "&4&l- &c" + netLoss + " &7J &e⚡");
         } else {
             String netGain = NumberUtils.getCompactDouble(supply - demand);
-            updateHologram(b, "&2&l+ &a" + netGain + " &7J &e\u26A1");
+            updateHologram(b, "&2&l+ &a" + netGain + " &7J &e⚡");
         }
     }
 
