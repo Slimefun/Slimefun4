@@ -59,15 +59,32 @@ public class EnergyNet extends Network implements HologramOwner {
     public int getRange() {
         return RANGE;
     }
-
+    
+    /**
+     * @return An immutable {@link HashMap}
+     * With a Key of {@link Location} to a Value of {@link EnergyNetProvider}
+     * Containing all {@link EnergyNetProvider} in the Energy Network
+     */
     public @Nonnull Map<Location, EnergyNetProvider> getGenerators() {
         return Collections.unmodifiableMap(generators);
     }
     
+    /**
+     * @return An immutable {@link HashMap}
+     * With a Key of {@link Location} to a Value of {@link EnergyNetProvider}
+     * Containing all {@link EnergyNetComponent} with the {@link EnergyNetComponentType#CAPACITOR}
+     * in the Energy Network
+     */
     public @Nonnull Map<Location, EnergyNetComponent> getCapacitors() {
         return Collections.unmodifiableMap(capacitors);
     }
     
+    /**
+     * @return An immutable {@link HashMap}
+     * With a Key of {@link Location} to a Value of {@link EnergyNetProvider}
+     * Containing all {@link EnergyNetComponent} with the {@link EnergyNetComponentType#CONSUMER}
+     * in the Energy Network
+     */
     public @Nonnull Map<Location, EnergyNetComponent> getConsumers() {
         return Collections.unmodifiableMap(consumers);
     }
