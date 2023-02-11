@@ -61,32 +61,27 @@ public class EnergyNet extends Network implements HologramOwner {
     }
     
     /**
-     * This creates an Immutable Version of {@link #generators}.
-     * Using a Key of {@link Location} to a Value of {@link EnergyNetProvider}.
-     * This Map contains all the {@link EnergyNetProvider} in this Energy Network
-     * @return {@link HashMap}
+     * This creates an immutable {@link Map} of {@link EnergyNetProvider}s.
+     *
+     * @return An immutable {@link Map} of generators
      */
     public @Nonnull Map<Location, EnergyNetProvider> getGenerators() {
         return Collections.unmodifiableMap(generators);
     }
     
     /**
-     * This creates an Immutable Version of {@link #capacitors}.
-     * Using a Key of {@link Location} to a Value of {@link EnergyNetProvider}.
-     * This Map contains all the {@link EnergyNetComponent} with the {@link EnergyNetComponentType#CAPACITOR}
-     * in this Energy Network
-     * @return {@link Map}
+     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CAPACITOR} {@link EnergyNetComponent}s.
+     *
+     * @return An immutable {@link Map} of capacitors
      */
     public @Nonnull Map<Location, EnergyNetComponent> getCapacitors() {
         return Collections.unmodifiableMap(capacitors);
     }
     
     /**
-     * This creates an Immutable Version of {@link #consumers}.
-     * Using a Key of {@link Location} to a Value of {@link EnergyNetProvider}.
-     * This Map contains all the {@link EnergyNetComponent} with the {@link EnergyNetComponentType#CONSUMER}
-     * in this Energy .
-     * @return {@link Map}
+     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CONSUMER} {@link EnergyNetComponent}s.
+     *
+     * @return An immutable {@link Map} of consumers
      */
     public @Nonnull Map<Location, EnergyNetComponent> getConsumers() {
         return Collections.unmodifiableMap(consumers);
