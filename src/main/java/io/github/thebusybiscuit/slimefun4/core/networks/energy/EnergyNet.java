@@ -61,7 +61,7 @@ public class EnergyNet extends Network implements HologramOwner {
     }
     
     /**
-     * This creates an immutable {@link Map} of {@link EnergyNetProvider}s within this EnergyNet instance.
+     * This creates an immutable {@link Map} of {@link EnergyNetProvider}s within this {@link EnergyNet} instance.
      *
      * @return An immutable {@link Map} of generators
      */
@@ -70,7 +70,7 @@ public class EnergyNet extends Network implements HologramOwner {
     }
     
     /**
-     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CAPACITOR} {@link EnergyNetComponent}s within this EnergyNet instance.
+     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CAPACITOR} {@link EnergyNetComponent}s within this {@link EnergyNet} instance.
      *
      * @return An immutable {@link Map} of capacitors
      */
@@ -79,7 +79,7 @@ public class EnergyNet extends Network implements HologramOwner {
     }
     
     /**
-     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CONSUMER} {@link EnergyNetComponent}s within this EnergyNet instance.
+     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CONSUMER} {@link EnergyNetComponent}s within this {@link EnergyNet} instance.
      *
      * @return An immutable {@link Map} of consumers
      */
