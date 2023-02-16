@@ -392,12 +392,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>2.0.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.18</artifactId>
             <version>2.0.0</version>
@@ -520,11 +514,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>jeff-media-thirdparty</id>
-            <url>https://hub.jeff-media.com/nexus/repository/jeff-media-thirdparty</url>
-        </repository>
-    </distributionManagement>
 </project>
