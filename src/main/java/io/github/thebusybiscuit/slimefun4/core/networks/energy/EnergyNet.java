@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -31,7 +32,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * The {@link EnergyNet} is an implementation of {@link Network} that deals with
- * electrical energy being send from and to nodes.
+ * electrical energy being sent from and to nodes.
  * 
  * @author meiamsome
  * @author TheBusyBiscuit
@@ -58,9 +59,36 @@ public class EnergyNet extends Network implements HologramOwner {
     public int getRange() {
         return RANGE;
     }
+    
+    /**
+     * This creates an immutable {@link Map} of {@link EnergyNetProvider}s within this {@link EnergyNet} instance.
+     *
+     * @return An immutable {@link Map} of generators
+     */
+    public @Nonnull Map<Location, EnergyNetProvider> getGenerators() {
+        return Collections.unmodifiableMap(generators);
+    }
+    
+    /**
+     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CAPACITOR} {@link EnergyNetComponent}s within this {@link EnergyNet} instance.
+     *
+     * @return An immutable {@link Map} of capacitors
+     */
+    public @Nonnull Map<Location, EnergyNetComponent> getCapacitors() {
+        return Collections.unmodifiableMap(capacitors);
+    }
+    
+    /**
+     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CONSUMER} {@link EnergyNetComponent}s within this {@link EnergyNet} instance.
+     *
+     * @return An immutable {@link Map} of consumers
+     */
+    public @Nonnull Map<Location, EnergyNetComponent> getConsumers() {
+        return Collections.unmodifiableMap(consumers);
+    }
 
     @Override
-    public String getId() {
+    public @Nonnull String getId() {
         return "ENERGY_NETWORK";
     }
 
