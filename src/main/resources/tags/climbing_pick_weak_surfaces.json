@@ -2,8 +2,6 @@
 	"values" : [
 		"#slimefun:concrete_powders",
 		"#minecraft:sand",
-		"minecraft:gravel",
-        "minecraft:skulk",
-        "minecraft:clay"
+		"minecraft:gravel"
 	]
 }
