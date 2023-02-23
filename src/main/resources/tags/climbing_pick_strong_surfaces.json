@@ -4,11 +4,6 @@
 		"#slimefun:terracotta",
 		"#slimefun:stone_variants",
 		"minecraft:netherrack",
-		"minecraft:calcite",
-		"minecraft:deepslate",
-		"minecraft:dripstone_block",
-		"minecraft:smooth_basalt",
-		"minecraft:tuff", 
 		{
 			"id" : "minecraft:blackstone",
 			"required" : false
