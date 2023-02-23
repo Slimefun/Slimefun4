@@ -40,9 +40,20 @@
 #### Additions
 * Added "Cobbled Deepslate -> Gravel" recipe to the Grind Stone
 * Added "Cobbled Deepslate -> Sand" recipe to the Ore Crusher
+* (API) Added EnergyNet#getGenerators()
+* (API) Added EnergyNet#getCapacitors()
+* (API) Added EnergyNet#getConsumers()
 
 #### Changes
 * Removed 1.14.* and 1.15.* support
+* The Climbing Pick now also works on:
+  * Calcite
+  * Deepslate
+  * Dripstone blocks
+  * Smooth Basalt
+  * Tuff
+  * Clay
+  * Skulk
 
 #### Fixes
 * Fixed #3741
