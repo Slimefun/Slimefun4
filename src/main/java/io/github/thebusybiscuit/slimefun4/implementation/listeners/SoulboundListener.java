@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -16,6 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * This {@link Listener} is responsible for handling any {@link Soulbound} items.
@@ -58,20 +61,16 @@ public class SoulboundListener implements Listener {
 
         // Remove soulbound items from our drops
         e.getDrops().removeIf(itemStack -> SlimefunUtils.isSoulbound(itemStack, p.getWorld()));
-    }
-
-    @EventHandler
-    public void onRespawn(PlayerRespawnEvent e) {
-        returnSoulboundItems(e.getPlayer());
-    }
-
-    private void returnSoulboundItems(@Nonnull Player p) {
-        Map<Integer, ItemStack> items = soulbound.remove(p.getUniqueId());
-
-        if (items != null) {
-            for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
-                p.getInventory().setItem(entry.getKey(), entry.getValue());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Map<Integer, ItemStack> items = soulbound.remove(p.getUniqueId());
+                if (items != null) {
+                    for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
+                        p.getInventory().setItem(entry.getKey(), entry.getValue());
+                    }
+                }
             }
-        }
+        }.runTaskLater(JavaPlugin.getPlugin(Slimefun.class), 1);
     }
 }
