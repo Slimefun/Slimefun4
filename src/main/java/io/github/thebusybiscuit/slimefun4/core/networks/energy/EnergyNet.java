@@ -157,7 +157,9 @@ public class EnergyNet extends Network implements HologramOwner {
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
             updateHologram(b, "&4No Energy Network found");
         } else {
-            int supply = tickAllGenerators(timestamp::getAndAdd) + tickAllCapacitors();
+            int generatorsSupply = tickAllGenerators(timestamp::getAndAdd);
+            int capacitorsSupply = tickAllCapacitors();
+            int supply = overflowSafeAddition(generatorsSupply, capacitorsSupply);
             int remainingEnergy = supply;
             int demand = 0;
 
@@ -245,7 +247,7 @@ public class EnergyNet extends Network implements HologramOwner {
                 int energy = provider.getGeneratedOutput(loc, data);
 
                 if (provider.isChargeable()) {
-                    energy += provider.getCharge(loc, data);
+                    energy = overflowSafeAddition(energy, provider.getCharge(loc, data));
                 }
 
                 if (provider.willExplode(loc, data)) {
@@ -257,7 +259,7 @@ public class EnergyNet extends Network implements HologramOwner {
                         loc.getWorld().createExplosion(loc, 0F, false);
                     });
                 } else {
-                    supply += energy;
+                    supply = overflowSafeAddition(supply, energy);
                 }
             } catch (Exception | LinkageError throwable) {
                 explodedBlocks.add(loc);
@@ -280,10 +282,21 @@ public class EnergyNet extends Network implements HologramOwner {
         int supply = 0;
 
         for (Map.Entry<Location, EnergyNetComponent> entry : capacitors.entrySet()) {
-            supply += entry.getValue().getCharge(entry.getKey());
+            supply = overflowSafeAddition(supply, entry.getValue().getCharge(entry.getKey()));
         }
 
         return supply;
+    }
+    
+    /**
+     * This detects if 2 integers will overflow and if they will, returns {@link Integer#MAX_VALUE}
+     * @param i1 the first integer
+     * @param i2 the second integer
+     * @return {@link Integer#MAX_VALUE} if overflow detected else the sum of i1 and i2
+     */
+    private int overflowSafeAddition(int i1, int i2) {
+        boolean willOverflow = (i1 == Integer.MAX_VALUE || i2 == Integer.MAX_VALUE) || i1 >= 0 ? i2 > Integer.MAX_VALUE - i1 : i2 < Integer.MIN_VALUE - i1;
+        return willOverflow ? Integer.MAX_VALUE : i1 + i2;
     }
 
     private void updateHologram(@Nonnull Block b, double supply, double demand) {
