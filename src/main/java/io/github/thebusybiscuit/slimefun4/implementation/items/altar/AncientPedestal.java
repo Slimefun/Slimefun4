@@ -181,6 +181,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
             entity.setVelocity(new Vector(0, 0.1, 0));
             entity.setCustomNameVisible(true);
             entity.setCustomName(nametag);
+            armorStand.setCustomName(nametag);
+            armorStand.setCustomNameVisible(false);
             armorStand.addPassenger(entity);
             SlimefunUtils.markAsNoPickup(entity, "altar_item");
             p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
