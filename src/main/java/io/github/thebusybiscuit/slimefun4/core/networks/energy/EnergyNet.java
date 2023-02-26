@@ -159,7 +159,7 @@ public class EnergyNet extends Network implements HologramOwner {
         } else {
             int generatorsSupply = tickAllGenerators(timestamp::getAndAdd);
             int capacitorsSupply = tickAllCapacitors();
-            int supply = overflowSafeAddition(generatorsSupply, capacitorsSupply);
+            int supply = flowSafeAddition(generatorsSupply, capacitorsSupply);
             int remainingEnergy = supply;
             int demand = 0;
 
@@ -171,7 +171,7 @@ public class EnergyNet extends Network implements HologramOwner {
 
                 if (charge < capacity) {
                     int availableSpace = capacity - charge;
-                    demand += availableSpace;
+                    demand = flowSafeAddition(demand, availableSpace);
 
                     if (remainingEnergy > 0) {
                         if (remainingEnergy > availableSpace) {
@@ -247,7 +247,7 @@ public class EnergyNet extends Network implements HologramOwner {
                 int energy = provider.getGeneratedOutput(loc, data);
 
                 if (provider.isChargeable()) {
-                    energy = overflowSafeAddition(energy, provider.getCharge(loc, data));
+                    energy = flowSafeAddition(energy, provider.getCharge(loc, data));
                 }
 
                 if (provider.willExplode(loc, data)) {
@@ -259,7 +259,7 @@ public class EnergyNet extends Network implements HologramOwner {
                         loc.getWorld().createExplosion(loc, 0F, false);
                     });
                 } else {
-                    supply = overflowSafeAddition(supply, energy);
+                    supply = flowSafeAddition(supply, energy);
                 }
             } catch (Exception | LinkageError throwable) {
                 explodedBlocks.add(loc);
@@ -282,21 +282,28 @@ public class EnergyNet extends Network implements HologramOwner {
         int supply = 0;
 
         for (Map.Entry<Location, EnergyNetComponent> entry : capacitors.entrySet()) {
-            supply = overflowSafeAddition(supply, entry.getValue().getCharge(entry.getKey()));
+            supply = flowSafeAddition(supply, entry.getValue().getCharge(entry.getKey()));
         }
 
         return supply;
     }
     
     /**
-     * This detects if 2 integers will overflow and if they will, returns {@link Integer#MAX_VALUE}
+     * This detects if 2 integers will overflow/underflow and if they will, returns the corresponding value
      * @param i1 the first integer
      * @param i2 the second integer
-     * @return {@link Integer#MAX_VALUE} if overflow detected else the sum of i1 and i2
+     * @return {@link Integer#MAX_VALUE} if overflow detected, {@link Integer#MIN_VALUE} if underflow detected, otherwise the sum of i1 and i2
      */
-    private int overflowSafeAddition(int i1, int i2) {
-        boolean willOverflow = (i1 == Integer.MAX_VALUE || i2 == Integer.MAX_VALUE) || i1 >= 0 ? i2 > Integer.MAX_VALUE - i1 : i2 < Integer.MIN_VALUE - i1;
-        return willOverflow ? Integer.MAX_VALUE : i1 + i2;
+    private int flowSafeAddition(int i1, int i2) {
+        boolean willOverflow = (i1 == Integer.MAX_VALUE && i2 > 0|| i2 == Integer.MAX_VALUE && i1 > 0) || i1 > 0 && i2 > Integer.MAX_VALUE - i1;
+        boolean willUnderflow = (i1 == Integer.MIN_VALUE && i2 < 0|| i2 == Integer.MIN_VALUE && i1 < 0) || i1 < 0 && i2 < Integer.MIN_VALUE - i1;
+        if (willOverflow) {
+            return Integer.MAX_VALUE;
+        } else if (willUnderflow) {
+            return Integer.MIN_VALUE;
+        } else {
+            return i1 + i2;
+        }
     }
 
     private void updateHologram(@Nonnull Block b, double supply, double demand) {
