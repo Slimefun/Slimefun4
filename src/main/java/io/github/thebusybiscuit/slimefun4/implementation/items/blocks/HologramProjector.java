@@ -9,7 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -155,6 +154,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         }
 
         ArmorStand hologram = ArmorStandUtils.spawnArmorStand(l);
+        hologram.setCustomNameVisible(true);
         hologram.setCustomName(nametag);
         return hologram;
     }

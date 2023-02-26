@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 public class ArmorStandUtils {
     /**
      * Spawns an {@link ArmorStand} at the given {@link Location}
-     * (Invisible, Silent, Marker, NoGravity, NoBasePlate, Visible CustomName, NoRemoveWhenFarAway)
+     * (Invisible, Silent, Marker, NoGravity, NoBasePlate, NoRemoveWhenFarAway)
      *
      * @param location The {@link Location} to spawn the {@link ArmorStand}
      * @return The spawned {@link ArmorStand}
@@ -32,7 +32,6 @@ public class ArmorStandUtils {
         armorStand.setMarker(true);
         armorStand.setGravity(false);
         armorStand.setBasePlate(false);
-        armorStand.setCustomNameVisible(true);
         armorStand.setRemoveWhenFarAway(false);
         return armorStand;
     }

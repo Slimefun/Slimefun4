@@ -67,7 +67,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
             @Override
             public void onBlockBreak(@Nonnull Block b) {
                 Optional<Item> entity = getPlacedItem(b);
-                Optional<ArmorStand> armorStand = getArmorStand(b);
+                ArmorStand armorStand = getArmorStand(b, false);
                 
                 if (entity.isPresent()) {
                     Item stack = entity.get();
@@ -79,12 +79,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
                     }
                 }
                 
-                if (armorStand.isPresent()) {
-                    ArmorStand stand = armorStand.get();
-                    
-                    if (stand.isValid()) {
-                        stand.remove();
-                    }
+                if (armorStand != null && armorStand.isValid()) {
+                    armorStand.remove();
                 }
             }
         };
@@ -107,21 +103,21 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
         return Optional.empty();
     }
     
-    public @Nonnull Optional<ArmorStand> getArmorStand(@Nonnull Block pedestal) {
+    public @Nullable ArmorStand getArmorStand(@Nonnull Block pedestal, boolean createIfNoneExists) {
         Optional<Item> entity = getPlacedItem(pedestal);
         
         if (entity.isPresent() && entity.get().getVehicle() instanceof ArmorStand armorStand) {
-            return Optional.of(armorStand);
+            return armorStand;
         }
     
         Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testArmorStand)) {
             if (n instanceof ArmorStand armorStand) {
-                return Optional.of(armorStand);
+                return armorStand;
             }
         }
         
-        return Optional.empty();
+        return createIfNoneExists ? ArmorStandUtils.spawnArmorStand(l) : null;
     }
 
     private boolean testItem(@Nullable Entity n) {
@@ -162,7 +158,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
 
     public void placeItem(@Nonnull Player p, @Nonnull Block b) {
         ItemStack hand = p.getInventory().getItemInMainHand();
-        ItemStack displayItem = new CustomItemStack(hand, ITEM_PREFIX + System.nanoTime());
+        String displayName = ITEM_PREFIX + System.nanoTime();
+        ItemStack displayItem = new CustomItemStack(hand, displayName);
         displayItem.setAmount(1);
 
         // Get the display name of the original Item in the Player's hand
@@ -175,14 +172,13 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
         Item entity = SlimefunUtils.spawnItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM);
 
         if (entity != null) {
-            ArmorStand armorStand = getArmorStand(b).orElse(ArmorStandUtils.spawnArmorStand(b.getLocation().add(0.5, 1.2, 0.5)));
+            ArmorStand armorStand = getArmorStand(b, true);
             entity.setInvulnerable(true);
             entity.setUnlimitedLifetime(true);
             entity.setVelocity(new Vector(0, 0.1, 0));
             entity.setCustomNameVisible(true);
             entity.setCustomName(nametag);
-            armorStand.setCustomName(nametag);
-            armorStand.setCustomNameVisible(false);
+            armorStand.setCustomName(displayName);
             armorStand.addPassenger(entity);
             SlimefunUtils.markAsNoPickup(entity, "altar_item");
             p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
