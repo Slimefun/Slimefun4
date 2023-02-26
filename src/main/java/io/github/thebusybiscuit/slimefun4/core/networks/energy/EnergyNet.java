@@ -295,8 +295,8 @@ public class EnergyNet extends Network implements HologramOwner {
      * @return {@link Integer#MAX_VALUE} if overflow detected, {@link Integer#MIN_VALUE} if underflow detected, otherwise the sum of i1 and i2
      */
     private int flowSafeAddition(int i1, int i2) {
-        boolean willOverflow = (i1 == Integer.MAX_VALUE && i2 > 0|| i2 == Integer.MAX_VALUE && i1 > 0) || i1 > 0 && i2 > Integer.MAX_VALUE - i1;
-        boolean willUnderflow = (i1 == Integer.MIN_VALUE && i2 < 0|| i2 == Integer.MIN_VALUE && i1 < 0) || i1 < 0 && i2 < Integer.MIN_VALUE - i1;
+        boolean willOverflow = (i1 == Integer.MAX_VALUE && i2 > 0 || i2 == Integer.MAX_VALUE && i1 > 0) || i1 > 0 && i2 > Integer.MAX_VALUE - i1;
+        boolean willUnderflow = (i1 == Integer.MIN_VALUE && i2 < 0 || i2 == Integer.MIN_VALUE && i1 < 0) || i1 < 0 && i2 < Integer.MIN_VALUE - i1;
         if (willOverflow) {
             return Integer.MAX_VALUE;
         } else if (willUnderflow) {
