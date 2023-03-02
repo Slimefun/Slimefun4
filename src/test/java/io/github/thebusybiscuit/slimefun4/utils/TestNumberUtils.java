@@ -107,13 +107,13 @@ class TestNumberUtils {
     @Test
     @DisplayName("Test limited addition")
     void testLimitedAddition() {
-        Assertions.assertEquals(1000, NumberUtils.limitedAddition(1000, 1, 1000, -1000));
-        Assertions.assertEquals(1000, NumberUtils.limitedAddition(1, 1000, 1000, -1000));
-        Assertions.assertEquals(1000, NumberUtils.limitedAddition(999, 2, 1000, -1000));
-        Assertions.assertEquals(1000, NumberUtils.limitedAddition(2, 999, 1000, -1000));
-        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-1000, -1, 1000, -1000));
-        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-1, -1000, 1000, -1000));
-        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-999, -2, 1000, -1000));
-        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-2, -999, 1000, -1000));
+        Assertions.assertEquals(1000, NumberUtils.limitedAddition(1000, 1, -1000, 1000));
+        Assertions.assertEquals(1000, NumberUtils.limitedAddition(1, 1000, -1000, 1000));
+        Assertions.assertEquals(1000, NumberUtils.limitedAddition(999, 2, -1000, 1000));
+        Assertions.assertEquals(1000, NumberUtils.limitedAddition(2, 999, -1000, 1000));
+        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-1000, -1, -1000, 1000));
+        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-1, -1000, -1000, 1000));
+        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-999, -2, -1000, 1000));
+        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-2, -999, -1000, 1000));
     }
 }
