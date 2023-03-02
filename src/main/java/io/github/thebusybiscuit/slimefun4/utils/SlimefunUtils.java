@@ -121,7 +121,7 @@ public final class SlimefunUtils {
         if (item != null && item.getType() != Material.AIR) {
             ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
-            if (!SlimefunItems.SOULBOUND_RUNE.getItem().isDisabled() && hasSoulboundFlag(meta)) {
+            if (SlimefunItems.SOULBOUND_RUNE.getItem() != null && !SlimefunItems.SOULBOUND_RUNE.getItem().isDisabled() && hasSoulboundFlag(meta)) {
                 return true;
             }
 
