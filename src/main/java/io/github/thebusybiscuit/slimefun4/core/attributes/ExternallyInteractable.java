@@ -41,10 +41,10 @@ public interface ExternallyInteractable {
         private final Set<ItemStack> resultItems = new HashSet<>();
 
         /**
-         * Creates a new InteractionResult
+         * Creates a new InteractionResult.
          *
          * @param successful
-         *                   Whether the interaction was successful or not
+         *                   Whether the interaction was successful or not.
          */
         @ParametersAreNonnullByDefault
         public InteractionResult(boolean successful) {
@@ -61,10 +61,19 @@ public interface ExternallyInteractable {
         }
 
         /**
-         * Adds an or several {@link ItemStack}'s into the result
+         * Adds an or several {@link ItemStack}'s into the result.
          */
         public void addResultItems(ItemStack... itemStacks) {
             Collections.addAll(resultItems, itemStacks);
+        }
+
+        /**
+         * This returned whether items are included as part of the result.
+         *
+         * @return True if items are included in the result.
+         */
+        public boolean resultedInItems() {
+            return !this.resultItems.isEmpty();
         }
 
         /**
