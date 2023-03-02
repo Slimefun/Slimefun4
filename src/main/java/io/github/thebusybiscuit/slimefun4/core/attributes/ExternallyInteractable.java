@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -60,13 +61,20 @@ public interface ExternallyInteractable {
         }
 
         /**
+         * Adds an or several {@link ItemStack}'s into the result
+         */
+        public void addResultItems(ItemStack... itemStacks) {
+            Collections.addAll(resultItems, itemStacks);
+        }
+
+        /**
          * Returns the {@link ItemStack}(s) produced as a result of this interaction, if any.
          *
-         * @return A list of {@link ItemStack}(s) to process.
+         * @return An unmodifiable {@link Set} of {@link ItemStack}(s) created due to the interaction.
          */
         @Nonnull
         public Set<ItemStack> getResultItems() {
-            return resultItems;
+            return Collections.unmodifiableSet(resultItems);
         }
     }
 }
