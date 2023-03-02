@@ -281,4 +281,34 @@ public final class NumberUtils {
             return 0;
         }
     }
+    
+    /**
+     * This detects if 2 integers will overflow/underflow and if they will, returns the corresponding value
+     * @param a the first integer
+     * @param b the second integer
+     * @return {@link Integer#MAX_VALUE} if overflow detected, {@link Integer#MIN_VALUE} if underflow detected, otherwise the sum of i1 and i2
+     */
+    public static int flowSafeAddition(int a, int b) {
+        return limitedAddition(a, b, Integer.MAX_VALUE, Integer.MIN_VALUE);
+    }
+    
+    /**
+     * This detects if 2 integers will overflow/underflow past a maximum or minimum value and if they will, returns the corresponding value
+     * @param a the first integer
+     * @param b the second integer
+     * @param max the maximum value for the operation
+     * @param min the minimum value for the operation
+     * @return {@link Integer#MAX_VALUE} if overflow detected, {@link Integer#MIN_VALUE} if underflow detected, otherwise the sum of i1 and i2
+     */
+    public static int limitedAddition(int a, int b, int max, int min) {
+        boolean willOverflow = (a == max && b > 0 || b == max && a > 0) || a > 0 && b > max - a;
+        boolean willUnderflow = (a == min && b < 0 || b == min && a < 0) || a < 0 && b < min - a;
+        if (willOverflow) {
+            return max;
+        } else if (willUnderflow) {
+            return min;
+        } else {
+            return a + b;
+        }
+    }
 }
