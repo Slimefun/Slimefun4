@@ -109,6 +109,8 @@ public final class SlimefunUtils {
      * This method checks whether the given {@link ItemStack} is considered {@link Soulbound}.
      * If the provided item is a {@link SlimefunItem} then this method will also check that the item
      * is enabled in the provided {@link World}.
+     * If the provided item is {@link Soulbound} through the {@link SlimefunItems#SOULBOUND_RUNE}, then this
+     * method will also check that the {@link SlimefunItems#SOULBOUND_RUNE} is enabled in the provided {@link World}
      *
      * @param item
      *            The {@link ItemStack} to check for
@@ -121,7 +123,8 @@ public final class SlimefunUtils {
         if (item != null && item.getType() != Material.AIR) {
             ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
-            if (SlimefunItems.SOULBOUND_RUNE.getItem() != null && !SlimefunItems.SOULBOUND_RUNE.getItem().isDisabled() && hasSoulboundFlag(meta)) {
+            SlimefunItem rune = SlimefunItems.SOULBOUND_RUNE.getItem();
+            if (hasSoulboundFlag(meta) && rune != null && !rune.isDisabled() && (world == null || !rune.isDisabledIn(world))) {
                 return true;
             }
 
