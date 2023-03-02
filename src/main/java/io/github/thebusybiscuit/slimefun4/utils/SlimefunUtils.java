@@ -124,7 +124,7 @@ public final class SlimefunUtils {
             ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
             SlimefunItem rune = SlimefunItems.SOULBOUND_RUNE.getItem();
-            if (hasSoulboundFlag(meta) && rune != null && !rune.isDisabled() && (world == null || !rune.isDisabledIn(world))) {
+            if (rune != null && !rune.isDisabled() && (world == null || !rune.isDisabledIn(world)) && hasSoulboundFlag(meta)) {
                 return true;
             }
 
