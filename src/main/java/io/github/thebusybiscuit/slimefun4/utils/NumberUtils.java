@@ -302,10 +302,14 @@ public final class NumberUtils {
      */
     public static int limitedAddition(int a, int b, int max, int min) {
         boolean willOverflow = (a == max && b > 0 || b == max && a > 0) || a > 0 && b > max - a;
-        boolean willUnderflow = (a == min && b < 0 || b == min && a < 0) || a < 0 && b < min - a;
+
         if (willOverflow) {
             return max;
-        } else if (willUnderflow) {
+        }
+
+        boolean willUnderflow = (a == min && b < 0 || b == min && a < 0) || a < 0 && b < min - a;
+
+        if (willUnderflow) {
             return min;
         } else {
             return a + b;
