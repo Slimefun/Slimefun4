@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -120,7 +121,7 @@ public final class SlimefunUtils {
         if (item != null && item.getType() != Material.AIR) {
             ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
-            if (hasSoulboundFlag(meta)) {
+            if (!SlimefunItems.SOULBOUND_RUNE.getItem().isDisabled() && hasSoulboundFlag(meta)) {
                 return true;
             }
 
