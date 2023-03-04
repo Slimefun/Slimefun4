@@ -43,6 +43,7 @@
 * (API) Added EnergyNet#getGenerators()
 * (API) Added EnergyNet#getCapacitors()
 * (API) Added EnergyNet#getConsumers()
+* Added Bamboo as a fuel type for Tier 1 Androids
 
 #### Changes
 * Removed 1.14.* and 1.15.* support
@@ -57,6 +58,8 @@
 
 #### Fixes
 * Fixed #3741
+* Fixed #3724
+* Fixed #3462
 
 ## Release Candidate 33 (07 Jan 2023)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
