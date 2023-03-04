@@ -19,12 +19,31 @@ import javax.annotation.Nonnull;
  */
 public class ArmorStandUtils {
     /**
+     * Spawns an {@link ArmorStand} at the given {@link Location} with the given custom name
+     * (Invisible, Silent, Marker, NoGravity, NoBasePlate, NoRemoveWhenFarAway, VisibleCustomName)
+     *
+     * @param location The {@link Location} to spawn the {@link ArmorStand}
+     * @param customName The {@link String} custom name the {@link ArmorStand} should display
+     *
+     * @return The spawned {@link ArmorStand}
+     */
+    @Nonnull
+    public static ArmorStand spawnArmorStand(@Nonnull Location location, @Nonnull String customName) {
+        ArmorStand armorStand = spawnArmorStand(location);
+        armorStand.setCustomName(customName);
+        armorStand.setCustomNameVisible(true);
+        return armorStand;
+    }
+    
+    /**
      * Spawns an {@link ArmorStand} at the given {@link Location}
      * (Invisible, Silent, Marker, NoGravity, NoBasePlate, NoRemoveWhenFarAway)
      *
      * @param location The {@link Location} to spawn the {@link ArmorStand}
+     *
      * @return The spawned {@link ArmorStand}
      */
+    @Nonnull
     public static ArmorStand spawnArmorStand(@Nonnull Location location) {
         ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
         armorStand.setVisible(false);

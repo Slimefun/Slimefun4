@@ -152,11 +152,8 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         if (!createIfNoneExists) {
             return null;
         }
-
-        ArmorStand hologram = ArmorStandUtils.spawnArmorStand(l);
-        hologram.setCustomNameVisible(true);
-        hologram.setCustomName(nametag);
-        return hologram;
+        
+        return ArmorStandUtils.spawnArmorStand(l, nametag);
     }
 
     private static void killArmorStand(@Nonnull Block b) {
