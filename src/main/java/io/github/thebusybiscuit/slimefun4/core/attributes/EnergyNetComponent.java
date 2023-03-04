@@ -202,7 +202,7 @@ public interface EnergyNetComponent extends ItemAttribute {
 
     /**
      * Override this method to display additional information to the {@link Player} when a
-     * {@link io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter} is used.
+     * {@link Multimeter} is used.
      *
      * @param player
      *              The {@link Player} who is using the {@link Multimeter}
