@@ -23,7 +23,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
@@ -56,6 +55,7 @@ public class RecipeType implements Keyed {
 
     public static final RecipeType MOB_DROP = new RecipeType(new NamespacedKey(Slimefun.instance(), "mob_drop"), new CustomItemStack(Material.IRON_SWORD, "&bMob Drop"), RecipeType::registerMobDrop, "", "&rKill the specified Mob to obtain this Item");
     public static final RecipeType BARTER_DROP = new RecipeType(new NamespacedKey(Slimefun.instance(), "barter_drop"), new CustomItemStack(Material.GOLD_INGOT, "&bBarter Drop"), RecipeType::registerBarterDrop, "&aBarter with piglins for a chance", "&ato obtain this item");
+    public static final RecipeType INTERACT = new RecipeType(new NamespacedKey(Slimefun.instance(), "interact"), new CustomItemStack(Material.PLAYER_HEAD, "&bInteract", "", "&a&oRight click with this item"));
 
     public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(Slimefun.instance(), "heated_pressure_chamber"), SlimefunItems.HEATED_PRESSURE_CHAMBER);
     public static final RecipeType FOOD_FABRICATOR = new RecipeType(new NamespacedKey(Slimefun.instance(), "food_fabricator"), SlimefunItems.FOOD_FABRICATOR);
@@ -163,9 +163,7 @@ public class RecipeType implements Keyed {
 
     @ParametersAreNonnullByDefault
     private static void registerBarterDrop(ItemStack[] recipe, ItemStack output) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            Slimefun.getRegistry().getBarteringDrops().add(output);
-        }
+        Slimefun.getRegistry().getBarteringDrops().add(output);
     }
 
     @ParametersAreNonnullByDefault

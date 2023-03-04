@@ -1,10 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.api.player;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -130,6 +134,30 @@ public class PlayerBackpack {
                 p.openInventory(inventory);
             }
         });
+    }
+
+    /**
+     * This will close the {@link Inventory} of this backpack for every {@link Player}
+     * that has opened it.
+     * 
+     * This process has to run on the main server thread.
+     * 
+     * @return A {@link CompletableFuture}.
+     */
+    public CompletableFuture<Void> closeForAll() {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+
+        Slimefun.runSync(() -> {
+            Iterator<HumanEntity> iterator = new ArrayList<>(inventory.getViewers()).iterator();
+
+            while (iterator.hasNext()) {
+                iterator.next().closeInventory();
+            }
+
+            future.complete(null);
+        });
+
+        return future;
     }
 
     /**

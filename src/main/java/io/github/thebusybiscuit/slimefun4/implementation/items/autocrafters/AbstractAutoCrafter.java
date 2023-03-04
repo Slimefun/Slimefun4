@@ -28,7 +28,6 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
@@ -202,13 +201,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     protected boolean isValidInventory(@Nonnull Block block) {
         Material type = block.getType();
 
-        // TODO: Add designated SlimefunTag
-        return switch (type) {
-            case CHEST,
-                TRAPPED_CHEST,
-                BARREL -> true;
-            default -> SlimefunTag.SHULKER_BOXES.isTagged(type);
-        };
+        return SlimefunTag.AUTO_CRAFTER_SUPPORTED_STORAGE_BLOCKS.isTagged(type);
     }
 
     /**
@@ -478,24 +471,15 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     private ItemStack getLeftoverItem(@Nonnull ItemStack item) {
         Material type = item.getType();
 
-        switch (type) {
-            case WATER_BUCKET:
-            case LAVA_BUCKET:
-            case MILK_BUCKET:
-                return new ItemStack(Material.BUCKET);
-            case DRAGON_BREATH:
-            case POTION:
-                return new ItemStack(Material.GLASS_BOTTLE);
-            default:
-                MinecraftVersion minecraftVersion = Slimefun.getMinecraftVersion();
-
-                // Honey does not exist in 1.14
-                if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15) && type == Material.HONEY_BOTTLE) {
-                    return new ItemStack(Material.GLASS_BOTTLE);
-                } else {
-                    return null;
-                }
-        }
+        return switch (type) {
+            case WATER_BUCKET,
+                LAVA_BUCKET,
+                MILK_BUCKET -> new ItemStack(Material.BUCKET);
+            case DRAGON_BREATH,
+                POTION,
+                HONEY_BOTTLE -> new ItemStack(Material.GLASS_BOTTLE);
+            default -> null;
+        };
     }
 
     /**
