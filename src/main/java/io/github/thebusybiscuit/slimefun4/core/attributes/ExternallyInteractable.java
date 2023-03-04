@@ -14,7 +14,7 @@ import java.util.Set;
  * Implement this interface for any {@link SlimefunItem} to provide methods for
  * external code to 'interact' with the item when placed as a block in the world.
  *
- * @author TheBusyBiscuit
+ * @author Sefiraat
  *
  */
 public interface ExternallyInteractable {
