@@ -216,10 +216,10 @@ public class IndustrialMiner extends MultiBlockMachine {
 
         if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16) && type == Material.ANCIENT_DEBRIS) {
             return canMineAncientDebris.getValue() && !BlockStorage.hasBlockInfo(block);
-        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(block.getType())) {
+        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
             return canMineDeepslateOres.getValue() && !BlockStorage.hasBlockInfo(block);
         } else {
-            return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(block.getType()) && !BlockStorage.hasBlockInfo(block);
+            return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type) && !BlockStorage.hasBlockInfo(block);
         }
     }
 
