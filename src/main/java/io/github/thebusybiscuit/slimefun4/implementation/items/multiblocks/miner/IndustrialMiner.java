@@ -214,7 +214,7 @@ public class IndustrialMiner extends MultiBlockMachine {
         MinecraftVersion version = Slimefun.getMinecraftVersion();
         Material type = block.getType();
 
-        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16) && type == Material.ANCIENT_DEBRIS) {
+        if (type == Material.ANCIENT_DEBRIS) {
             return canMineAncientDebris.getValue() && !BlockStorage.hasBlockInfo(block);
         } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
             return canMineDeepslateOres.getValue() && !BlockStorage.hasBlockInfo(block);
