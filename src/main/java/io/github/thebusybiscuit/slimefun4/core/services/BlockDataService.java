@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -137,32 +138,7 @@ public class BlockDataService implements Keyed {
             return false;
         }
 
-        // TODO: Add designated SlimefunTag
-        return switch (type) {
-            case PLAYER_HEAD,
-                PLAYER_WALL_HEAD,
-                CHEST,
-                DISPENSER,
-                BREWING_STAND,
-                DROPPER,
-                FURNACE,
-                BLAST_FURNACE,
-                HOPPER,
-                LECTERN,
-                JUKEBOX,
-                ENDER_CHEST,
-                ENCHANTING_TABLE,
-                DAYLIGHT_DETECTOR,
-                SMOKER,
-                BARREL,
-                SPAWNER,
-                BEACON ->
-                // All of the above Materials are Tile Entities
-                true;
-            default ->
-                // Otherwise we assume they're not Tile Entities
-                false;
-        };
+        return SlimefunTag.TILE_ENTITIES.isTagged(type);
     }
 
 }

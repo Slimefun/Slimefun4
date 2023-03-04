@@ -2,15 +2,56 @@
 commands:
   help: Mostra este ecrã de ajuda
   cheat: Deixa-te fazer batota
+  give: Dá itens de Slimefun a alguém
+  guide: Dá-te um guia de Slimefun
+  teleporter: Vê os Waypoints de outros
   versions: Lista os Addons Instalados
+  open_guide: Abre o guia de slimefun sem utilizar o livro
+  stats: Mostra estatísticas de um jogador
+  research:
+    description: Desbloqueia/Apaga pesquisas de um jogador
+    reset: '&cTu apagaste a sabedoria do %player%'
+    reset-target: '&cA tua sabedoria foi apagada'
+  backpack:
+    description: Recuperar uma cópia de uma mochila existente
+    invalid-id: '&4O id deve ser um número não-negativo!'
+    player-never-joined: '&4Nenhum jogador com este nome foi encontrado!'
+    backpack-does-not-exist: 'A mochila especificada não existe!'
+    restored-backpack-given: '&aA sua mochila foi restaurada e adicionada ao seu inventário!'
+  charge:
+    description: Carrega o item que estás a segurar
+    charge-success: O item foi carregado!
+    not-rechargeable: Este item não pode ser carregado!
+  timings:
+    description: Timings de Slimefun e addons
+    please-wait: '&ePor favor, espere um segundo... Os resultados estão a chegar!'
+    verbose-player: '&4A flag verbose não pode ser utilizada por um jogador!'
+    unknown-flag: '&4Flag desconhecida: &c%flag%'
+  debug:
+    disabled: '&7Modo de debug desabilitado.'
 placeholderapi:
   profile-loading: 'A carregar...'
 guide:
   locked: 'BLOQUEADO'
+  work-in-progress: 'Isto ainda não está totalmente concluído!'
+  locked-itemgroup:
+    - 'Para desbloquear esta categoria tu vais ter de'
+    - 'precisas de desbloquear todos os itens das'
+    - 'categorias seguintes'
   search:
+    message: '&bO que gostarias de procurar?'
     name: '&7Pesquisar...'
+    tooltip: '&bClica para procurar um item'
+    inventory: 'À procura de: %item%'
   tooltips:
     open-itemgroup: 'Clique para abrir'
+    versions-notice: 'Estes são muito importantes para dar report a bugs!'
+    wiki: 'Veja este item na Wiki oficial do Slimefun'
+    recipes:
+      machine: 'Itens feitos nesta máquina'
+      miner: 'Recursos que podes obter com este Miner'
+      generator: 'Tipos de combustível disponíveis'
+      gold-pan: 'Recursos que podes obter'
   pages:
     previous: 'Página anterior'
     next: 'Página seguinte'
@@ -24,6 +65,11 @@ guide:
     select: 'Clique para selecionar esta linguagem'
     select-default: 'Clique para selecionar a linguagem padrão'
     change: 'Cliqua para selecionar uma linguagem nova'
+    description:
+      - '&7Agora tens a opção de alterar'
+      - '&7o idioma em que Slimefun'
+      - '&7lhe irá ser apresentado. Itens'
+      - '&7não podem ser traduzido por agora.'
     translations:
       name: '&aFalta alguma coisa?'
       lore: 'Cliqua para adicionar a tua própria tradução'
@@ -64,6 +110,9 @@ guide:
       resourcepack: '&cArtista de Resourcepack'
       translator: '&9Tradutor'
 messages:
+  only-players: '&4Este comando é apenas para Jogadores'
+  unknown-player: '&4Jogador Desconhecido: &c%player%'
+  no-permission: '&4Não tens as permissões necessárias para fazer isto'
   usage: '&4Utilização: &c%usage%'
   not-online: '&4%player% &cnão está online!'
   invalid-item: '&4%item% &cnão é um item válido!'
@@ -71,20 +120,49 @@ messages:
   hungry: '&cEstás com demasiada fome para fazer isso!'
   disabled-in-world: '&4&lEsse item foi desativado neste mundo'
   disabled-item: '&4&lEsse item foi desativado! Como é que o conseguiste?'
+  piglin-barter: '&4Não podes trocar com piglins utilizando itens de Slimefun'
+  auto-crafting:
+    tooltips:
+      disabled:
+        - '&cEsta receita está desativada no momento'
+        - ''
+        - '&eLeft Click &7to re-enable this recipe'
+        - '&eRight Click &7to remove this recipe'
+  no-pvp: '&cNão podes fazer pvp aqui!'
+  opening-guide: '&bA abrir o guia, isto pode demorar alguns segundos...'
+  opening-backpack: '&bA abrir a mochila, isto pode demorar alguns segundos...'
   link-prompt: '&eClique aqui:'
 machines:
   full-inventory: '&eDesculpa, o meu inventário está cheio!'
   HOLOGRAM_PROJECTOR:
     inventory-title: 'Editor de Holograma'
   ELEVATOR:
+    no-destinations: '&4Não foram encontrados destinos'
     pick-a-floor: '&3- Escolha um piso -'
   TELEPORTER:
     teleporting: '&3A teletransportar...'
     teleported: '&3Teletransportado!'
     cancelled: '&4Teletransporte cancelado!'
     gui:
+      title: 'Os teus waypoints'
       tooltip: 'Clica para te teletransportares'
       time: 'Tempo estimado'
+  GPS_CONTROL_PANEL:
+    transmitters: 'Transmissores'
+    waypoints: 'Waypoints'
+anvil:
+  not-working: '&4Não podes usar itens de Slimefun em uma bigorna!'
+  mcmmo-salvaging: '&4Não podes destruir itens do Slimefun!'
+brewing_stand:
+  not-working: '&4Não podes usar itens do Slimefun em um suporte de poções!'
+cartography_table:
+  not-working: '&4Não podes usar itens do Slimefun em uma mesa de cartografia!'
+smithing_table:
+  not-working: '&4Você não pode usar um item do Slimefun como um material de ferreiro!'
+villagers:
+  no-trading: '&4Não podes trocar itens de Slimefun com Villagers!'
+backpack:
+  already-open: '&cEsta mochila está aberta em outro lugar!'
 inventory:
   no-access: '&4Não tens permissão para aceder este bloco'
 android:
@@ -134,6 +212,7 @@ languages:
   fr: 'Francês'
   it: 'Italiano'
   es: 'Espanhol'
+  pl: 'Polaco'
   sv: 'Sueco'
   nl: 'Holandês'
   cs: 'Checo'
