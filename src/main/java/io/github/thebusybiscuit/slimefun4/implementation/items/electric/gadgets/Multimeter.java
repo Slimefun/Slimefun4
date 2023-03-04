@@ -52,9 +52,8 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
 
                     Player p = e.getPlayer();
                     p.sendMessage("");
-                    Slimefun.getLocalization().sendMessage(p, "messages.multimeter", false, str -> str.replace("%stored%", stored).replace("%capacity%", capacity));
-                    p.sendMessage("");
                     component.sendMultimeterInfo(p, l);
+                    p.sendMessage("");
                 }
             }
         };
