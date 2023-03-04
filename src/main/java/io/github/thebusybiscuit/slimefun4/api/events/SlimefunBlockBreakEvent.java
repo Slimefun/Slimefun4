@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * This {@link Event} is fired whenever a {@link BlockPlacer} wants to place a {@link Block}.
+ * This {@link Event} is fired whenever a {@link SlimefunItem} placed as a {@link Block} in the world is broken.
  * 
  * @author J3fftw1
  * 
