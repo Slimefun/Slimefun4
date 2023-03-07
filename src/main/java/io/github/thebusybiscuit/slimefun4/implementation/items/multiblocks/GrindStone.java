@@ -78,6 +78,9 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.QUARTZ_BLOCK));
         recipes.add(new ItemStack(Material.QUARTZ, 4));
 
+        recipes.add(new ItemStack(Material.BASALT, 2));
+        recipes.add(new ItemStack(Material.BLACKSTONE));
+
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             recipes.add(new ItemStack(Material.AMETHYST_BLOCK));
             recipes.add(new ItemStack(Material.AMETHYST_SHARD, 4));
