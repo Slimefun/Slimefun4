@@ -44,6 +44,7 @@
 * (API) Added EnergyNet#getCapacitors()
 * (API) Added EnergyNet#getConsumers()
 * Added Bamboo as a fuel type for Tier 1 Androids
+* Added "Basalt -> Blackstone" recipe to the Grind Stone
 
 #### Changes
 * Removed 1.14.* and 1.15.* support
@@ -62,6 +63,7 @@
 * Fixed #3462
 * Fixed #3758
 * Fixed #3701
+* Fixed #3361
 
 ## Release Candidate 33 (07 Jan 2023)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
