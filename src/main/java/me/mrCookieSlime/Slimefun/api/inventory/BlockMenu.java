@@ -16,14 +16,25 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 public class BlockMenu extends DirtyChestMenu {
 
     private Location location;
+    private boolean display;
 
     private static String serializeLocation(Location l) {
         return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();
     }
-
+    
+    public BlockMenu(BlockMenuPreset preset, Location l, boolean display) {
+        super(preset);
+        this.location = l;
+        this.display = display;
+        
+        preset.clone(this);
+        this.getContents();
+    }
+    
     public BlockMenu(BlockMenuPreset preset, Location l) {
         super(preset);
         this.location = l;
+        this.display = false;
 
         preset.clone(this);
         this.getContents();
@@ -32,6 +43,7 @@ public class BlockMenu extends DirtyChestMenu {
     public BlockMenu(BlockMenuPreset preset, Location l, Config cfg) {
         super(preset);
         this.location = l;
+        this.display = false;
 
         for (int i = 0; i < 54; i++) {
             if (cfg.contains(String.valueOf(i))) {
@@ -49,7 +61,8 @@ public class BlockMenu extends DirtyChestMenu {
     }
 
     public void save(Location l) {
-        if (!isDirty()) {
+        // If it is not modified or just a display menu, we do not need to save it
+        if (!isDirty() || display) {
             return;
         }
 
@@ -89,6 +102,10 @@ public class BlockMenu extends DirtyChestMenu {
 
     public Location getLocation() {
         return location;
+    }
+    
+    public boolean isDisplay() {
+        return display;
     }
 
     /**
