@@ -59,16 +59,13 @@ public class SoulboundListener implements Listener {
 
         // Remove soulbound items from our drops
         e.getDrops().removeIf(itemStack -> SlimefunUtils.isSoulbound(itemStack, p.getWorld()));
-        new BukkitRunnable() {
+        new BukkitRunnable(){
             @Override
             public void run() {
-                Map<Integer, ItemStack> items = soulbound.remove(p.getUniqueId());
-                if (items != null) {
-                    for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
-                        p.getInventory().setItem(entry.getKey(), entry.getValue());
-                    }
+                for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
+                    p.getInventory().setItem(entry.getKey(), entry.getValue());
                 }
             }
-        }.runTaskLater(JavaPlugin.getPlugin(Slimefun.class), 1);
+        }.runTaskAsynchronously(JavaPlugin.getPlugin(Slimefun.class));
     }
 }
