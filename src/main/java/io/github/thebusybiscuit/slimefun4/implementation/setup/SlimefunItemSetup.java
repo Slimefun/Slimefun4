@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.EnchantedItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.HiddenItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -152,7 +153,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.Enc
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.SoulboundRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.VillagerRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.FireStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.WaterStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.WindStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
@@ -689,7 +689,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, new ItemStack(Material.LILY_PAD), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.STAFF_ELEMENTAL, new ItemStack(Material.LILY_PAD), SlimefunItems.STAFF_ELEMENTAL, null, null})
         .register(plugin);
         
-        new FireStaff(itemGroups.magicalGadgets, SlimefunItems.STAFF_FIRE, RecipeType.MAGIC_WORKBENCH,
+        new EnchantedItem(itemGroups.magicalGadgets, SlimefunItems.STAFF_FIRE, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {null, null, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, null})
         .register(plugin);        
         

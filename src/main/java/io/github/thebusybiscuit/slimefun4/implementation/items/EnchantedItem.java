@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves;
+package io.github.thebusybiscuit.slimefun4.implementation.items;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -13,15 +13,16 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
- * The {@link FireStaff} is a magical {@link SlimefunItem}, enchanted with Fire Aspect 5.
+ * The {@link EnchantedItem} is an enchanted {@link SlimefunItem}.
+ * By default, this class sets items to be not disenchantable.
  * 
  * @author Fury_Phoenix
  *
  */
-public class FireStaff extends SlimefunItem {
+public class EnchantedItem extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public FireStaff(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public EnchantedItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         disenchantable = false;
     }
