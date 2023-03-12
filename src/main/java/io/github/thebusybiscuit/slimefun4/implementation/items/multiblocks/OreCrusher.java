@@ -97,6 +97,11 @@ public class OreCrusher extends MultiBlockMachine {
 
         recipes.add(SlimefunItems.COMPRESSED_CARBON);
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
+
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            recipes.add(new ItemStack(Material.COBBLED_DEEPSLATE, 8));
+            recipes.add(new ItemStack(Material.SAND, 1));
+        }
     }
 
     public boolean isOreDoublingEnabled() {
@@ -119,13 +124,11 @@ public class OreCrusher extends MultiBlockMachine {
         // @formatter:on
 
         // Gold ore variants (1.16+)
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            displayRecipes.add(new ItemStack(Material.NETHER_GOLD_ORE));
-            displayRecipes.add(doubleOres.getGoldNuggets());
+        displayRecipes.add(new ItemStack(Material.NETHER_GOLD_ORE));
+        displayRecipes.add(doubleOres.getGoldNuggets());
 
-            displayRecipes.add(new ItemStack(Material.GILDED_BLACKSTONE));
-            displayRecipes.add(doubleOres.getGoldNuggets());
-        }
+        displayRecipes.add(new ItemStack(Material.GILDED_BLACKSTONE));
+        displayRecipes.add(doubleOres.getGoldNuggets());
 
         // Raw metal ores (1.17+)
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
