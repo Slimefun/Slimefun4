@@ -103,7 +103,8 @@ public final class SlimefunRegistry {
         guideKey = new NamespacedKey(plugin, "slimefun_guide_mode");
 
         boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
-        guides.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide(showVanillaRecipes));
+        boolean showHiddenItemGroupsInSearch = cfg.getBoolean("guide.show-hidden-item-groups-in-search");
+        guides.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide(showVanillaRecipes, showHiddenItemGroupsInSearch));
         guides.put(SlimefunGuideMode.CHEAT_MODE, new CheatSheetSlimefunGuide());
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));

@@ -50,13 +50,11 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
     protected final Map<Location, Integer> roundRobin = new HashMap<>();
     private int tickDelayThreshold = 0;
 
-    @Nullable
-    public static CargoNet getNetworkFromLocation(@Nonnull Location l) {
+    public static @Nullable CargoNet getNetworkFromLocation(@Nonnull Location l) {
         return Slimefun.getNetworkManager().getNetworkFromLocation(l, CargoNet.class).orElse(null);
     }
 
-    @Nonnull
-    public static CargoNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
+    public static @Nonnull CargoNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
         Optional<CargoNet> cargoNetwork = Slimefun.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
 
         if (cargoNetwork.isPresent()) {
@@ -120,9 +118,6 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         if (from == NetworkComponent.TERMINUS) {
             inputNodes.remove(l);
             outputNodes.remove(l);
-            terminals.remove(l);
-            imports.remove(l);
-            exports.remove(l);
         }
 
         if (to == NetworkComponent.TERMINUS) {
@@ -134,15 +129,6 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
                 case "CARGO_NODE_OUTPUT":
                 case "CARGO_NODE_OUTPUT_ADVANCED":
                     outputNodes.add(l);
-                    break;
-                case "CHEST_TERMINAL":
-                    terminals.add(l);
-                    break;
-                case "CT_IMPORT_BUS":
-                    imports.add(l);
-                    break;
-                case "CT_EXPORT_BUS":
-                    exports.add(l);
                     break;
                 default:
                     break;
@@ -173,34 +159,27 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
             // Reset the internal threshold, so we can start skipping again
             tickDelayThreshold = 0;
 
-            // Chest Terminal Stuff
-            Set<Location> chestTerminalInputs = new HashSet<>();
-            Set<Location> chestTerminalOutputs = new HashSet<>();
-
-            Map<Location, Integer> inputs = mapInputNodes(chestTerminalInputs);
-            Map<Integer, List<Location>> outputs = mapOutputNodes(chestTerminalOutputs);
+            Map<Location, Integer> inputs = mapInputNodes();
+            Map<Integer, List<Location>> outputs = mapOutputNodes();
 
             if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
                 display();
             }
 
-            Slimefun.getProfiler().scheduleEntries((terminals.isEmpty() ? 1 : 2) + inputs.size());
+            Slimefun.getProfiler().scheduleEntries(inputs.size() + 1);
 
-            CargoNetworkTask runnable = new CargoNetworkTask(this, inputs, outputs, chestTerminalInputs, chestTerminalOutputs);
+            CargoNetworkTask runnable = new CargoNetworkTask(this, inputs, outputs);
             Slimefun.runSync(runnable);
         }
     }
 
-    @Nonnull
-    private Map<Location, Integer> mapInputNodes(@Nonnull Set<Location> chestTerminalNodes) {
+    private @Nonnull Map<Location, Integer> mapInputNodes() {
         Map<Location, Integer> inputs = new HashMap<>();
 
         for (Location node : inputNodes) {
             int frequency = getFrequency(node);
 
-            if (frequency == 16) {
-                chestTerminalNodes.add(node);
-            } else if (frequency >= 0 && frequency < 16) {
+            if (frequency >= 0 && frequency < 16) {
                 inputs.put(node, frequency);
             }
         }
@@ -208,8 +187,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         return inputs;
     }
 
-    @Nonnull
-    private Map<Integer, List<Location>> mapOutputNodes(@Nonnull Set<Location> chestTerminalOutputs) {
+    private @Nonnull Map<Integer, List<Location>> mapOutputNodes() {
         Map<Integer, List<Location>> output = new HashMap<>();
 
         List<Location> list = new LinkedList<>();
@@ -217,11 +195,6 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
         for (Location node : outputNodes) {
             int frequency = getFrequency(node);
-
-            if (frequency == 16) {
-                chestTerminalOutputs.add(node);
-                continue;
-            }
 
             if (frequency != lastFrequency && lastFrequency != -1) {
                 output.merge(lastFrequency, list, (prev, next) -> {

@@ -30,6 +30,7 @@ public class FoodComposter extends AContainer implements RecipeDisplayItem {
         registerRecipe(30, new ItemStack[] { SlimefunItems.KELP_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.KELP_FERTILIZER, OrganicFertilizer.OUTPUT) });
         registerRecipe(30, new ItemStack[] { SlimefunItems.COCOA_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.COCOA_FERTILIZER, OrganicFertilizer.OUTPUT) });
         registerRecipe(30, new ItemStack[] { SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SWEET_BERRIES_FERTILIZER, OrganicFertilizer.OUTPUT) });
+        registerRecipe(30, new ItemStack[] { SlimefunItems.SEAGRASS_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEAGRASS_FERTILIZER, OrganicFertilizer.OUTPUT) });
     }
 
     @Override
