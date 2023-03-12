@@ -257,7 +257,7 @@ public final class SlimefunUtils {
                 continue;
             }
 
-            if (isItemSimilar(stack, item, checkLore, false)) {
+            if (isItemSimilar(stack, item, checkLore, false, true)) {
                 return true;
             }
         }
@@ -265,11 +265,75 @@ public final class SlimefunUtils {
         return false;
     }
 
+    /**
+     * Compares two {@link ItemStack}s and returns if they are similar or not.
+     * Takes into account some shortcut checks specific to {@link SlimefunItem}s
+     * for performance.
+     * Will check for distintion of items by default and will also confirm the amount
+     * is the same.
+     * @see DistinctiveItem
+     *
+     * @param item
+     *            The {@link ItemStack} being tested.
+     * @param sfitem
+     *            The {@link ItemStack} that {@param item} is being compared against.
+     * @param checkLore
+     *            Whether to include the current lore of either item in the comparison
+     *
+     * @return True if the given {@link ItemStack}s are similar under the given constraints
+     */
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore) {
-        return isItemSimilar(item, sfitem, checkLore, true);
+        return isItemSimilar(item, sfitem, checkLore, true, true);
     }
 
+    /**
+     * Compares two {@link ItemStack}s and returns if they are similar or not.
+     * Takes into account some shortcut checks specific to {@link SlimefunItem}s
+     * for performance.
+     * Will check for distintion of items by default
+     * @see DistinctiveItem
+     *
+     * @param item
+     *            The {@link ItemStack} being tested.
+     * @param sfitem
+     *            The {@link ItemStack} that {@param item} is being compared against.
+     * @param checkLore
+     *            Whether to include the current lore of either item in the comparison
+     * @param checkAmount
+     *            Whether to include the item's amount(s) in the comparison
+     *
+     * @return True if the given {@link ItemStack}s are similar under the given constraints
+     */
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount) {
+        return isItemSimilar(item, sfitem, checkLore, checkAmount, true);
+    }
+
+    /**
+     * Compares two {@link ItemStack}s and returns if they are similar or not.
+     * Takes into account some shortcut checks specific to {@link SlimefunItem}s
+     * for performance.
+     *
+     * @param item
+     *            The {@link ItemStack} being tested.
+     * @param sfitem
+     *            The {@link ItemStack} that {@param item} is being compared against.
+     * @param checkLore
+     *            Whether to include the current lore of either item in the comparison
+     * @param checkAmount
+     *            Whether to include the item's amount(s) in the comparison
+     * @param checkDistinction
+     *            Whether to check for special distinctive properties of the items.
+     *            @see DistinctiveItem
+     *
+     * @return True if the given {@link ItemStack}s are similar under the given constraints
+     */
+    public static boolean isItemSimilar(
+        @Nullable ItemStack item,
+        @Nullable ItemStack sfitem,
+        boolean checkLore,
+        boolean checkAmount,
+        boolean checkDistinction
+    ) {
         if (item == null) {
             return sfitem == null;
         } else if (sfitem == null) {
@@ -288,7 +352,7 @@ public final class SlimefunUtils {
                  * Some items can't rely on just IDs matching and will implement Distinctive Item
                  * in which case we want to use the method provided to compare
                  */
-                if (stackOne instanceof DistinctiveItem && stackTwo instanceof DistinctiveItem) {
+                if (checkDistinction && stackOne instanceof DistinctiveItem && stackTwo instanceof DistinctiveItem) {
                     return ((DistinctiveItem) stackOne).canStack(stackOne.getItemMeta(), stackTwo.getItemMeta());
                 }
                 return true;
@@ -302,16 +366,18 @@ public final class SlimefunUtils {
                 String id = Slimefun.getItemDataService().getItemData(itemMeta).orElse(null);
 
                 if (id != null) {
-                    /*
-                     * PR #3417
-                     *
-                     * Some items can't rely on just IDs matching and will implement Distinctive Item
-                     * in which case we want to use the method provided to compare
-                     */
-                    Optional<DistinctiveItem> optionalDistinctive = getDistinctiveItem(id);
-                    if (optionalDistinctive.isPresent()) {
-                        ItemMeta sfItemMeta = sfitem.getItemMeta();
-                        return optionalDistinctive.get().canStack(sfItemMeta, itemMeta);
+                    if (checkDistinction) {
+                        /*
+                         * PR #3417
+                         *
+                         * Some items can't rely on just IDs matching and will implement Distinctive Item
+                         * in which case we want to use the method provided to compare
+                         */
+                        Optional<DistinctiveItem> optionalDistinctive = getDistinctiveItem(id);
+                        if (optionalDistinctive.isPresent()) {
+                            ItemMeta sfItemMeta = sfitem.getItemMeta();
+                            return optionalDistinctive.get().canStack(sfItemMeta, itemMeta);
+                        }
                     }
                     return id.equals(((SlimefunItemStack) sfitem).getItemId());
                 }
