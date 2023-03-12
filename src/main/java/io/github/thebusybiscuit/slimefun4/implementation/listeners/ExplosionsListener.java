@@ -56,19 +56,8 @@ public class ExplosionsListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityBreak(EntityChangeBlockEvent e) {
         if (e.getEntity().getType() == EntityType.WITHER || e.getEntity().getType() == EntityType.WITHER_SKULL) {
+
             removeResistantBlock(e.getBlock());
-        }
-    }
-
-    private void removeResistantBlock(@Nonnull Block block) {
-        final SlimefunItem item = BlockStorage.check(block);
-
-        if (item != null
-            && !(item instanceof WitherProof)
-            && !item.callItemHandler(BlockBreakHandler.class, handler -> handleExplosion(handler, block))
-        ) {
-            BlockStorage.clearBlockInfo(block);
-            block.setType(Material.AIR);
         }
     }
 
@@ -81,6 +70,24 @@ public class ExplosionsListener implements Listener {
                 blocks.remove();
                 removeResistantBlock(block);
             }
+        }
+    }
+
+    private void removeResistantBlock(@Nonnull Block block) {
+        SlimefunItem slimefunItem = BlockStorage.check(block);
+
+        if (slimefunItem != null) {
+            removeResistantBlock(block, slimefunItem);
+        }
+    }
+
+    private void removeResistantBlock(@Nonnull Block block, @Nonnull SlimefunItem slimefunItem) {
+        // Fixes #3414 - This check removes the ghost block created by withers.
+        if (!(slimefunItem instanceof WitherProof)
+            && !slimefunItem.callItemHandler(BlockBreakHandler.class, handler -> handleExplosion(handler, block))
+        ) {
+            BlockStorage.clearBlockInfo(block);
+            block.setType(Material.AIR);
         }
     }
 
