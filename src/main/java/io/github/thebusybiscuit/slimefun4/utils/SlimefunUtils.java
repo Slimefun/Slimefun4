@@ -327,13 +327,7 @@ public final class SlimefunUtils {
      *
      * @return True if the given {@link ItemStack}s are similar under the given constraints
      */
-    public static boolean isItemSimilar(
-        @Nullable ItemStack item,
-        @Nullable ItemStack sfitem,
-        boolean checkLore,
-        boolean checkAmount,
-        boolean checkDistinction
-    ) {
+    public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount, boolean checkDistinction) {
         if (item == null) {
             return sfitem == null;
         } else if (sfitem == null) {
