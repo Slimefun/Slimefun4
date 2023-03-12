@@ -26,6 +26,7 @@ commands:
   timings:
     description: Mga pagsasaoras o tiyempo para sa Slimefun at kanyang addon
     please-wait: '&eMaghintay po ng ilang segundo... Ang mga resulta ay dumarating!'
+    verbose-player: '&4Ang verbose flag ay hindi maaaring gamitin ng Player!'
   debug:
     none-running: '&7Walang kaso ng pagsubok ang kasalukuyang pinapatakbo!'
     running: '&7Pinapatakbo ang debug mode kasama ang test: &6%test%'
@@ -86,6 +87,12 @@ guide:
           - '&7will see information about your pondering in chat'
           - '&7upon researching an item.'
       disabled:
+        text:
+          - '&bLearning Animation: &4No'
+          - ''
+          - '&7You can now toggle whether you'
+          - '&7makikita ang impormasyon na pinagtatakahan mo sa chat'
+          - '&7upon researching an item.'
         click: '&eI-click para paganahin ang iyong karunungang animasyon'
   title:
     main: 'Gabay para sa Slimefun'
@@ -232,8 +239,6 @@ machines:
     pick-a-floor: '&3- Pumili ng palapag -'
     current-floor: '&eIto ang sahig na iyong naroroon:'
     click-to-teleport: '&ePindutin ito &7para magteleport sa palapag na ito:'
-    enter-name: '&7I-enter ang gusto mong makita sa Hologram Text galing sa Chat. &r(Supported ang Color Codes)'
-    named: '&2Napangalanan na ang floor na: &r%floor%'
   TELEPORTER:
     teleporting: '&3Nagte-teleport...'
     teleported: '&3Nagteleport!'

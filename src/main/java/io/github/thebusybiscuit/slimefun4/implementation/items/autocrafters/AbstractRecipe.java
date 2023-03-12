@@ -136,10 +136,10 @@ public abstract class AbstractRecipe {
      */
     @Nullable
     public static AbstractRecipe of(@Nullable Recipe recipe) {
-        if (recipe instanceof ShapedRecipe) {
-            return new VanillaRecipe((ShapedRecipe) recipe);
-        } else if (recipe instanceof ShapelessRecipe) {
-            return new VanillaRecipe((ShapelessRecipe) recipe);
+        if (recipe instanceof ShapedRecipe shapedRecipe) {
+            return new VanillaRecipe(shapedRecipe);
+        } else if (recipe instanceof ShapelessRecipe shapelessRecipe) {
+            return new VanillaRecipe(shapelessRecipe);
         } else {
             return null;
         }

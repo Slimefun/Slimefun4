@@ -91,4 +91,29 @@ class TestNumberUtils {
         Assertions.assertEquals("-2Q", NumberUtils.getCompactDouble(-2000000000000000.0));
     }
 
+    @Test
+    @DisplayName("Test flow safe addition")
+    void testFlowSafeAddition() {
+        Assertions.assertEquals(Integer.MAX_VALUE, NumberUtils.flowSafeAddition(Integer.MAX_VALUE, 1));
+        Assertions.assertEquals(Integer.MAX_VALUE, NumberUtils.flowSafeAddition(1, Integer.MAX_VALUE));
+        Assertions.assertEquals(Integer.MAX_VALUE, NumberUtils.flowSafeAddition(Integer.MAX_VALUE - 1, 2));
+        Assertions.assertEquals(Integer.MAX_VALUE, NumberUtils.flowSafeAddition(2, Integer.MAX_VALUE - 1));
+        Assertions.assertEquals(Integer.MIN_VALUE, NumberUtils.flowSafeAddition(Integer.MIN_VALUE, -1));
+        Assertions.assertEquals(Integer.MIN_VALUE, NumberUtils.flowSafeAddition(-1, Integer.MIN_VALUE));
+        Assertions.assertEquals(Integer.MIN_VALUE, NumberUtils.flowSafeAddition(Integer.MIN_VALUE + 1, -2));
+        Assertions.assertEquals(Integer.MIN_VALUE, NumberUtils.flowSafeAddition(-2, Integer.MIN_VALUE + 1));
+    }
+    
+    @Test
+    @DisplayName("Test limited addition")
+    void testLimitedAddition() {
+        Assertions.assertEquals(1000, NumberUtils.limitedAddition(1000, 1, -1000, 1000));
+        Assertions.assertEquals(1000, NumberUtils.limitedAddition(1, 1000, -1000, 1000));
+        Assertions.assertEquals(1000, NumberUtils.limitedAddition(999, 2, -1000, 1000));
+        Assertions.assertEquals(1000, NumberUtils.limitedAddition(2, 999, -1000, 1000));
+        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-1000, -1, -1000, 1000));
+        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-1, -1000, -1000, 1000));
+        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-999, -2, -1000, 1000));
+        Assertions.assertEquals(-1000, NumberUtils.limitedAddition(-2, -999, -1000, 1000));
+    }
 }

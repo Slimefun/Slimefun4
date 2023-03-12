@@ -93,7 +93,7 @@ guide:
         click: '&e单击禁用解锁研究动画'
       disabled:
         text:
-          - '&b解锁动画: &a禁用'
+          - '&b解锁动画: &4禁用'
           - ''
           - '&7现在你可以选择是否'
           - '&7跳过解锁物品研究'
@@ -146,6 +146,8 @@ messages:
   multimeter: '&b已储存的能源: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4你不能使用 Slimefun 的物品和猪灵易物'
   bee-suit-slow-fall: '&e你的蜂翅将会让你安全缓降'
+  deprecated-item: '&4该物品已被弃用，将在不久后从 Slimefun 中移除。'
+  researching-is-disabled: '&c该服务器已禁用研究，所有物品都已解锁！'
   multi-tool:
     mode-change: '&b%device% 的模式已切换为: &9%mode%'
     not-shears: '&c多功能工具 (Multi Tool) 不能作为剪刀使用!'
@@ -256,8 +258,9 @@ machines:
     pick-a-floor: '&3- 选择一个楼层 -'
     current-floor: '&e你现在所在的楼层:'
     click-to-teleport: '&e单击 &7传送至楼层:'
-    enter-name: '&7请为你的楼层起个名字吧! &r(支持颜色代码)'
-    named: '&2成功将此层命名为: &r%floor%'
+    enter-name: '&7请为你的楼层起个名字吧! &f(支持颜色代码)'
+    named: '&2成功将此层命名为: &f%floor%'
+    editor-title: '电梯设置'
   TELEPORTER:
     teleporting: '&3传送中...'
     teleported: '&3传送成功!'
@@ -273,6 +276,8 @@ machines:
     waypoints: '传送点列表'
   CARGO_NODES:
     must-be-placed: '&4货运节点必须放置在箱子或机器上!'
+    connected: '&2已连接！'
+    not-connected: '&4未连接！'
   INDUSTRIAL_MINER:
     no-fuel: '&c你的工业矿机没有燃料了! 将燃料放入它上面的箱子里.'
     piston-facing: '&c你的工业矿机需要放置一个向上的活塞!'
@@ -302,6 +307,8 @@ cauldron:
   no-discoloring: '&4你不能用炼药锅洗去 Slimefun 物品的颜色'
 gps:
   deathpoint: '&4死亡点 &7%date%'
+  status-online: '在线'
+  status-offline: '离线'
   waypoint:
     new: '&e给你的路径点起个名字吧 &7(支持彩色代码!)'
     added: '&a成功添加了新的传送点'
@@ -401,3 +408,5 @@ languages:
   mk: '马其顿语'
   sr: '塞尔维亚语'
   be: '白俄罗斯语'
+  si-LK: '僧伽罗语'
+  lt: '立陶宛语'

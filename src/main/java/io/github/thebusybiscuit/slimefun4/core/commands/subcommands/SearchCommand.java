@@ -23,11 +23,11 @@ class SearchCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender instanceof Player) {
+        if (sender instanceof Player player) {
             if (sender.hasPermission("slimefun.command.search")) {
                 if (args.length > 1) {
                     String query = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                    PlayerProfile.get((Player) sender, profile -> SlimefunGuide.openSearch(profile, query, SlimefunGuideMode.SURVIVAL_MODE, true));
+                    PlayerProfile.get(player, profile -> SlimefunGuide.openSearch(profile, query, SlimefunGuideMode.SURVIVAL_MODE, true));
                 } else {
                     Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf search <SearchTerm>"));
                 }

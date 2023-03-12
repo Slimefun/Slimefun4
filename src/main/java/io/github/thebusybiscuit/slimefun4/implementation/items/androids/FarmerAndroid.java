@@ -42,7 +42,7 @@ public class FarmerAndroid extends ProgrammableAndroid {
             return;
         }
 
-        if (data instanceof Ageable && ((Ageable) data).getAge() >= ((Ageable) data).getMaximumAge()) {
+        if (data instanceof Ageable ageable && ageable.getAge() >= ageable.getMaximumAge()) {
             drop = getDropFromCrop(blockType);
         }
 
@@ -57,8 +57,8 @@ public class FarmerAndroid extends ProgrammableAndroid {
             if (drop != null && menu.pushItem(drop, getOutputSlots()) == null) {
                 block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, blockType);
 
-                if (data instanceof Ageable) {
-                    ((Ageable) data).setAge(0);
+                if (data instanceof Ageable ageable) {
+                    ageable.setAge(0);
                     block.setBlockData(data);
                 }
             }
@@ -68,24 +68,16 @@ public class FarmerAndroid extends ProgrammableAndroid {
     private ItemStack getDropFromCrop(Material crop) {
         Random random = ThreadLocalRandom.current();
 
-        switch (crop) {
-            case WHEAT:
-                return new ItemStack(Material.WHEAT, random.nextInt(2) + 1);
-            case POTATOES:
-                return new ItemStack(Material.POTATO, random.nextInt(3) + 1);
-            case CARROTS:
-                return new ItemStack(Material.CARROT, random.nextInt(3) + 1);
-            case BEETROOTS:
-                return new ItemStack(Material.BEETROOT, random.nextInt(3) + 1);
-            case COCOA:
-                return new ItemStack(Material.COCOA_BEANS, random.nextInt(3) + 1);
-            case NETHER_WART:
-                return new ItemStack(Material.NETHER_WART, random.nextInt(3) + 1);
-            case SWEET_BERRY_BUSH:
-                return new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
-            default:
-                return null;
-        }
+        return switch (crop) {
+            case WHEAT -> new ItemStack(Material.WHEAT, random.nextInt(2) + 1);
+            case POTATOES -> new ItemStack(Material.POTATO, random.nextInt(3) + 1);
+            case CARROTS -> new ItemStack(Material.CARROT, random.nextInt(3) + 1);
+            case BEETROOTS -> new ItemStack(Material.BEETROOT, random.nextInt(3) + 1);
+            case COCOA -> new ItemStack(Material.COCOA_BEANS, random.nextInt(3) + 1);
+            case NETHER_WART -> new ItemStack(Material.NETHER_WART, random.nextInt(3) + 1);
+            case SWEET_BERRY_BUSH -> new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
+            default -> null;
+        };
     }
 
 }

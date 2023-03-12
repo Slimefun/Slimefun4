@@ -53,10 +53,10 @@ public class ChargingBench extends AContainer {
     private boolean charge(Block b, BlockMenu inv, int slot, ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-        if (sfItem instanceof Rechargeable) {
+        if (sfItem instanceof Rechargeable rechargeable) {
             float charge = getEnergyConsumption() / 2F;
 
-            if (((Rechargeable) sfItem).addItemCharge(item, charge)) {
+            if (rechargeable.addItemCharge(item, charge)) {
                 removeCharge(b.getLocation(), getEnergyConsumption());
             } else if (inv.fits(item, getOutputSlots())) {
                 inv.pushItem(item, getOutputSlots());

@@ -43,6 +43,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
 import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -109,6 +110,8 @@ public final class SlimefunUtils {
      * This method checks whether the given {@link ItemStack} is considered {@link Soulbound}.
      * If the provided item is a {@link SlimefunItem} then this method will also check that the item
      * is enabled in the provided {@link World}.
+     * If the provided item is {@link Soulbound} through the {@link SlimefunItems#SOULBOUND_RUNE}, then this
+     * method will also check that the {@link SlimefunItems#SOULBOUND_RUNE} is enabled in the provided {@link World}
      *
      * @param item
      *            The {@link ItemStack} to check for
@@ -121,7 +124,8 @@ public final class SlimefunUtils {
         if (item != null && item.getType() != Material.AIR) {
             ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
-            if (hasSoulboundFlag(meta)) {
+            SlimefunItem rune = SlimefunItems.SOULBOUND_RUNE.getItem();
+            if (rune != null && !rune.isDisabled() && (world == null || !rune.isDisabledIn(world)) && hasSoulboundFlag(meta)) {
                 return true;
             }
 

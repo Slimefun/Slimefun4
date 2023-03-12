@@ -146,6 +146,7 @@ messages:
   multimeter: '&bÉnergie stockée: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4Vous ne pouvez pas troquer des objets Slimefun avec les piglins'
   bee-suit-slow-fall: '&eVos ailes d''abeille vous aideront à revenir au sol lentement et en toute sécurité'
+  deprecated-item: '&4Cet élément est vieux et sera bientôt retiré de Slimefun.'
   multi-tool:
     mode-change: 'Le mode de &b%device% a été changé : &9%mode%'
     not-shears: '&cLe MultiTool ne peut pas être utilisé comme cisaille !'
@@ -256,8 +257,6 @@ machines:
     pick-a-floor: '&3- Sélectionnez un étage -'
     current-floor: '&eVous êtes actuellement à cet étage :'
     click-to-teleport: '&eCliquez &7pour vous téléporter à cet étage :'
-    enter-name: '&7Entrez le nom de cet étage dans le chat. &r(Les codes couleur sont acceptés!)'
-    named: '&2Vous avez bien renommé cet étage : &r%floor%'
   TELEPORTER:
     teleporting: '&3Téléportation...'
     teleported: '&3Téléportation terminée !'
@@ -401,3 +400,5 @@ languages:
   mk: 'Macédonien'
   sr: 'Serbe'
   be: 'Biélorusse'
+  si-LK: 'Singhalais'
+  lt: 'Lithuanien'

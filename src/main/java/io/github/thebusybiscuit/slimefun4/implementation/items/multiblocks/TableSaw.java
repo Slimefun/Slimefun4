@@ -44,7 +44,13 @@ public class TableSaw extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public TableSaw(ItemGroup group, SlimefunItemStack item) {
-        super(group, item, new ItemStack[] { null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null }, BlockFace.SELF);
+        // @formatter:off
+        super(group, item, new ItemStack[] {
+            null, null, null,
+            new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB),
+            null, new ItemStack(Material.IRON_BLOCK), null
+        }, BlockFace.SELF);
+        // @formatter:on
 
         for (Material log : Tag.LOGS.getValues()) {
             Optional<Material> planks = getPlanks(log);
@@ -61,10 +67,29 @@ public class TableSaw extends MultiBlockMachine {
         }
     }
 
+    /**
+     * This method returns the corresponding plank {@link Material} for a given wood {@link Material}.
+     * The result is wrapped by an {@link Optional}.
+     * <p>
+     * {@literal Material.OAK_LOG} for example will return {@literal Material.OAK_PLANKS}.
+     * 
+     * @param log
+     *            The log type.
+     * 
+     * @return An {@link Optional} containing the corresponding plank type (or an empty {@link Optional})
+     */
     private @Nonnull Optional<Material> getPlanks(@Nonnull Material log) {
         String materialName = log.name().replace("STRIPPED_", "");
-        materialName = materialName.substring(0, materialName.lastIndexOf('_')) + "_PLANKS";
-        return Optional.ofNullable(Material.getMaterial(materialName));
+        int endIndex = materialName.lastIndexOf('_');
+
+        if (endIndex > 0) {
+            materialName = materialName.substring(0, endIndex) + "_PLANKS";
+            return Optional.ofNullable(Material.getMaterial(materialName));
+        } else {
+            // Fixed #3651 - Do not panic because of one weird wood type.
+            warn("Could not find a corresponding plank for wood type: '" + log.name() + "'");
+            return Optional.empty();
+        }
     }
 
     @Override

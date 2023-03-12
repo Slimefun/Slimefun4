@@ -44,6 +44,7 @@ public class ItemGroup implements Keyed {
     protected final NamespacedKey key;
     protected final ItemStack item;
     protected int tier;
+    protected boolean crossAddonItemGroup = false;
 
     /**
      * Constructs a new {@link ItemGroup} with the given {@link NamespacedKey} as an identifier
@@ -184,7 +185,7 @@ public class ItemGroup implements Keyed {
             return;
         }
 
-        if (isRegistered() && !item.getAddon().getName().equals(this.addon.getName())) {
+        if (isRegistered() && !isCrossAddonItemGroup() && !item.getAddon().getName().equals(this.addon.getName())) {
             item.warn("This item does not belong into ItemGroup " + this + " as that group belongs to " + this.addon.getName());
         }
 
@@ -325,10 +326,33 @@ public class ItemGroup implements Keyed {
         return false;
     }
 
+    /**
+     * Returns if items from other addons are allowed to be
+     * added to this {@link ItemGroup}.
+     *
+     * @return true if items from other addons are allowed to be added to this {@link ItemGroup}.
+     */
+    public boolean isCrossAddonItemGroup() {
+        return crossAddonItemGroup;
+    }
+
+    /**
+     * This method will set if this {@link ItemGroup} will
+     * allow {@link SlimefunItem}s from other addons to
+     * be added, without a warning, into the group. False by default.
+     * If set to true, Slimefun will not warn about items being added.
+     *
+     * @param crossAddonItemGroup
+     *                          Whether items from another addon are allowable
+     */
+    public void setCrossAddonItemGroup(boolean crossAddonItemGroup) {
+        this.crossAddonItemGroup = crossAddonItemGroup;
+    }
+
     @Override
     public final boolean equals(Object obj) {
-        if (obj instanceof ItemGroup) {
-            return ((ItemGroup) obj).getKey().equals(getKey());
+        if (obj instanceof ItemGroup group) {
+            return group.getKey().equals(this.getKey());
         } else {
             return false;
         }
