@@ -31,7 +31,6 @@ public class SlimefunBlockPlaceEvent extends BlockEvent implements Cancellable {
 
     private boolean cancelled = false;
 
-
     /**
      *
      * @param player

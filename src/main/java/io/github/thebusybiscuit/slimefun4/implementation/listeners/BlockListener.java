@@ -100,7 +100,6 @@ public class BlockListener implements Listener {
                     BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getId(), true);
                     sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
                 }
-
             }
         }
     }
