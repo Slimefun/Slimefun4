@@ -1,1 +1,100 @@
 ---
+commands:
+  timings:
+    please-wait: '&eTe rugam sa astepti o secunda... Rezultatele se incarca!'
+placeholderapi:
+  profile-loading: 'Se încarcă...'
+guide:
+  work-in-progress: 'Această caracteristică nu a fost finalizată încă!'
+  search:
+    message: '&bCe doresti sa cauti?'
+    name: '&7Cauta...'
+    tooltip: '&bClick pentru a căuta un obiect'
+    inventory: 'Caută pentru: %item%'
+  tooltips:
+    versions-notice: 'Acestea sunt foarte importante atunci când raportezi problemele!'
+    wiki: 'Vezi acest articol pe Wiki-ul Slimefun Oficial'
+  pages:
+    previous: 'Pagina anterioară'
+    next: 'Pagina următoare'
+  back:
+    guide: 'Inapoi la Ghidul Slimefun'
+  languages:
+    selected-language: 'Selectare actuală:'
+    select: 'Click pentru a selecta această limbă'
+    select-default: 'Click pentru a selecta limba implicita'
+    change: 'Click pentru a selecta o nouă limbă'
+    translations:
+      name: '&aLipseste ceva?'
+      lore: 'Click pentru a adăuga propria ta traducere'
+  title:
+    main: 'Ghid Slimefun'
+    settings: 'Setări și informații'
+    languages: 'Selectați limba preferată'
+    credits: 'Contribuitori Slimefun4'
+    wiki: 'Wiki Slimefun4'
+    addons: 'Addons pentru Slimefun4'
+    bugs: 'Raportare Buguri'
+    source: 'Cod sursă'
+    versions: 'Versiuni instalate'
+  credits:
+    commit: 'Commit'
+    commits: 'Commit-uri'
+    profile-link: 'Faceți clic pentru a le vizita profilul pe GitHub'
+    open: 'Click pentru a vedea contribuitorii noștri'
+    roles:
+      developer: '&6Dezvoltator'
+      wiki: '&3Editor Wiki'
+      resourcepack: '&cArtist Resurse'
+      translator: '&9Traducator'
+messages:
+  not-researched: '&4Nu ai suficiente cunostinte pentru a intelege acest obiect. &cVa trebui sa deblochezi &f"%item%&f"'
+  not-enough-xp: '&4Nu ai suficient XP pentru a debloca acest obiect'
+  unlocked: '&bAi deblocat &7"%research%"'
+  only-players: '&4Aceasta comanda este doar pentru jucatori'
+  link-prompt: '&eClick aici:'
+machines:
+  TELEPORTER:
+    teleporting: '&3Teleportare...'
+    teleported: '&3Teleportat!'
+    cancelled: '&4Teleportare anulata!'
+    invulnerability: '&b&lAi primit 30 de secunde de Invulnerabilitate!'
+    gui:
+      title: 'Punctele tale de referinta'
+      tooltip: 'Click pentru teleportare'
+      time: 'Timp estimat'
+languages:
+  en: 'Engleză'
+  de: 'Germană'
+  fr: 'Franceză'
+  it: 'Italiană'
+  es: 'Spaniolă'
+  pl: 'Poloneză'
+  sv: 'Suedeză'
+  nl: 'Olandeză'
+  cs: 'Cehă'
+  hu: 'Maghiară'
+  lv: 'Letonă'
+  ru: 'Rusă'
+  sk: 'Slovacă'
+  zh-CN: 'Chineză (China)'
+  zh-TW: 'Chineză (Taiwan)'
+  vi: 'Vietnameză'
+  id: 'Indoneziană'
+  el: 'Greacă'
+  he: 'Ebraică'
+  pt: 'Portugheză (Portugalia)'
+  ar: 'Arabă'
+  fi: 'Finlandeză'
+  uk: 'Ucraineană'
+  ja: 'Japoneză'
+  fa: 'Persiană'
+  th: 'Tailandeza'
+  tl: 'Tagalog'
+  ro: 'Română'
+  bg: 'Bulgară'
+  ko: 'Coreeană'
+  hr: 'Croată'
+  mk: 'Macedoneană'
+  sr: 'Sârbă'
+  be: 'Belarusă'

@@ -128,7 +128,8 @@ public final class TeleportationManager {
         teleporterUsers.add(uuid);
 
         int time = getTeleportationTime(complexity, source, destination);
-        updateProgress(uuid, Math.max(1, 100 / time), 0, source, destination, resistance);
+        int speed = Math.max(1, 100 / time);
+        updateProgress(uuid, speed, 0, source, destination, resistance);
     }
 
     /**
@@ -162,7 +163,10 @@ public final class TeleportationManager {
         }
 
         int speed = 50_000 + complexity * complexity;
-        return 1 + Math.min(4 * distanceSquared(source, destination) / speed, 40);
+        int unsafeTime = Math.min(4 * distanceSquared(source, destination) / speed, 40);
+
+        // Fixes #3573 - Using Math.max is a safer way to ensure values > 0 than relying on addition.
+        return Math.max(1, unsafeTime);
     }
 
     @ParametersAreNonnullByDefault

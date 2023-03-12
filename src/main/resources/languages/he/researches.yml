@@ -189,6 +189,7 @@ slimefun:
   cargo_basics: מטען בסיסי
   cargo_nodes: התקן מטען
   electric_ingot_machines: ייצור מטילים חשמלי
+  medium_tier_electric_ingot_machines: ייצור מטלים מהיר
   high_tier_electric_ingot_machines: ייצור מטלים מהיר מאוד
   automated_crafting_chamber: יצירה אוטומטית
   better_food_fabricator: ייצור מזון משודרג
@@ -251,5 +252,10 @@ slimefun:
   elytra_cap: גלגל שיניים מרסק
   bee_armor: שריון דבורים
   book_binder: כריכת ספר קסום
+  auto_crafting: יצירה אוטומטית
+  produce_collector: חליבה אוטומטית
+  improved_generators: גנרטורים משופרים
+  ingredients_and_cheese: מטבח לסליים פאן
+  medium_tier_auto_enchanting: כישוף והסרת כישוף אוטומטי מהיר
   portable_teleporter: שיגור מכל מקום
   farmer_talisman: קמע האיכר

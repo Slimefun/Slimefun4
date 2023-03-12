@@ -119,8 +119,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
             try {
-                if (group instanceof FlexItemGroup) {
-                    if (((FlexItemGroup) group).isVisible(p, profile, getMode())) {
+                if (group instanceof FlexItemGroup flexItemGroup) {
+                    if (flexItemGroup.isVisible(p, profile, getMode())) {
                         groups.add(group);
                     }
                 } else if (!group.isHidden(p)) {
@@ -233,8 +233,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        if (itemGroup instanceof FlexItemGroup) {
-            ((FlexItemGroup) itemGroup).open(p, profile, getMode());
+        if (itemGroup instanceof FlexItemGroup flexItemGroup) {
+            flexItemGroup.open(p, profile, getMode());
             return;
         }
 
@@ -332,7 +332,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                         Slimefun.getLocalization().sendMessage(pl, "messages.no-permission", true);
                     }
                 } catch (Exception | LinkageError x) {
-                    printErrorMessage(pl, x);
+                    printErrorMessage(pl, sfitem, x);
                 }
 
                 return false;
@@ -383,7 +383,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                             displayItem(profile, slimefunItem, true);
                         }
                     } catch (Exception | LinkageError x) {
-                        printErrorMessage(pl, x);
+                        printErrorMessage(pl, slimefunItem, x);
                     }
 
                     return false;
@@ -493,19 +493,19 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private <T extends Recipe> void showRecipeChoices(T recipe, ItemStack[] recipeItems, AsyncRecipeChoiceTask task) {
         RecipeChoice[] choices = Slimefun.getMinecraftRecipeService().getRecipeShape(recipe);
 
-        if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
-            recipeItems[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));
+        if (choices.length == 1 && choices[0] instanceof MaterialChoice materialChoice) {
+            recipeItems[4] = new ItemStack(materialChoice.getChoices().get(0));
 
-            if (((MaterialChoice) choices[0]).getChoices().size() > 1) {
-                task.add(recipeSlots[4], (MaterialChoice) choices[0]);
+            if (materialChoice.getChoices().size() > 1) {
+                task.add(recipeSlots[4], materialChoice);
             }
         } else {
             for (int i = 0; i < choices.length; i++) {
-                if (choices[i] instanceof MaterialChoice) {
-                    recipeItems[i] = new ItemStack(((MaterialChoice) choices[i]).getChoices().get(0));
+                if (choices[i] instanceof MaterialChoice materialChoice) {
+                    recipeItems[i] = new ItemStack(materialChoice.getChoices().get(0));
 
-                    if (((MaterialChoice) choices[i]).getChoices().size() > 1) {
-                        task.add(recipeSlots[i], (MaterialChoice) choices[i]);
+                    if (materialChoice.getChoices().size() > 1) {
+                        task.add(recipeSlots[i], materialChoice);
                     }
                 }
             }
@@ -545,8 +545,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         displayItem(menu, profile, p, item, result, recipeType, recipe, task);
 
-        if (item instanceof RecipeDisplayItem) {
-            displayRecipes(p, profile, menu, (RecipeDisplayItem) item, 0);
+        if (item instanceof RecipeDisplayItem recipeDisplayItem) {
+            displayRecipes(p, profile, menu, recipeDisplayItem, 0);
         }
 
         menu.open(p);
@@ -761,6 +761,12 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private void printErrorMessage(Player p, Throwable x) {
         p.sendMessage(ChatColor.DARK_RED + "An internal server error has occurred. Please inform an admin, check the console for further info.");
         Slimefun.logger().log(Level.SEVERE, "An error has occurred while trying to open a SlimefunItem in the guide!", x);
+    }
+
+    @ParametersAreNonnullByDefault
+    private void printErrorMessage(Player p, SlimefunItem item, Throwable x) {
+        p.sendMessage(ChatColor.DARK_RED + "An internal server error has occurred. Please inform an admin, check the console for further info.");
+        item.error("This item has caused an error message to be thrown while viewing it in the Slimefun guide.", x);
     }
 
 }

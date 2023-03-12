@@ -23,7 +23,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
@@ -56,6 +55,7 @@ public class RecipeType implements Keyed {
 
     public static final RecipeType MOB_DROP = new RecipeType(new NamespacedKey(Slimefun.instance(), "mob_drop"), new CustomItemStack(Material.IRON_SWORD, "&bMob Drop"), RecipeType::registerMobDrop, "", "&rKill the specified Mob to obtain this Item");
     public static final RecipeType BARTER_DROP = new RecipeType(new NamespacedKey(Slimefun.instance(), "barter_drop"), new CustomItemStack(Material.GOLD_INGOT, "&bBarter Drop"), RecipeType::registerBarterDrop, "&aBarter with piglins for a chance", "&ato obtain this item");
+    public static final RecipeType INTERACT = new RecipeType(new NamespacedKey(Slimefun.instance(), "interact"), new CustomItemStack(Material.PLAYER_HEAD, "&bInteract", "", "&a&oRight click with this item"));
 
     public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(Slimefun.instance(), "heated_pressure_chamber"), SlimefunItems.HEATED_PRESSURE_CHAMBER);
     public static final RecipeType FOOD_FABRICATOR = new RecipeType(new NamespacedKey(Slimefun.instance(), "food_fabricator"), SlimefunItems.FOOD_FABRICATOR);
@@ -99,8 +99,8 @@ public class RecipeType implements Keyed {
         this.key = key;
         this.consumer = callback;
 
-        if (item instanceof SlimefunItemStack) {
-            this.machine = ((SlimefunItemStack) item).getItemId();
+        if (item instanceof SlimefunItemStack slimefunItemStack) {
+            this.machine = slimefunItemStack.getItemId();
         } else {
             this.machine = "";
         }
@@ -109,7 +109,7 @@ public class RecipeType implements Keyed {
     public RecipeType(NamespacedKey key, ItemStack item) {
         this.key = key;
         this.item = item;
-        this.machine = item instanceof SlimefunItemStack ? ((SlimefunItemStack) item).getItemId() : "";
+        this.machine = item instanceof SlimefunItemStack slimefunItemStack ? slimefunItemStack.getItemId() : "";
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {
@@ -124,8 +124,8 @@ public class RecipeType implements Keyed {
         } else {
             SlimefunItem slimefunItem = SlimefunItem.getById(this.machine);
 
-            if (slimefunItem instanceof MultiBlockMachine) {
-                ((MultiBlockMachine) slimefunItem).addRecipe(recipe, result);
+            if (slimefunItem instanceof MultiBlockMachine mbm) {
+                mbm.addRecipe(recipe, result);
             }
         }
     }
@@ -149,8 +149,8 @@ public class RecipeType implements Keyed {
 
     @Override
     public final boolean equals(Object obj) {
-        if (obj instanceof RecipeType) {
-            return ((RecipeType) obj).getKey().equals(this.getKey());
+        if (obj instanceof RecipeType recipeType) {
+            return recipeType.getKey().equals(this.getKey());
         } else {
             return false;
         }
@@ -163,9 +163,7 @@ public class RecipeType implements Keyed {
 
     @ParametersAreNonnullByDefault
     private static void registerBarterDrop(ItemStack[] recipe, ItemStack output) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            Slimefun.getRegistry().getBarteringDrops().add(output);
-        }
+        Slimefun.getRegistry().getBarteringDrops().add(output);
     }
 
     @ParametersAreNonnullByDefault

@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -144,6 +145,12 @@ public enum SlimefunTag implements Tag<Material> {
     FUNGUS_SOIL,
 
     /**
+     * All block types for mangrove to grow on.
+     * This includes all dirt variants, mud and clay.
+     */
+    MANGROVE_BASE_BLOCKS,
+
+    /**
      * All variants of concrete powder.
      * Can you believe there is no tag for this already?
      */
@@ -251,7 +258,27 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials that are affected by gravity.
      */
-    GRAVITY_AFFECTED_BLOCKS;
+    GRAVITY_AFFECTED_BLOCKS,
+
+    /**
+     * All wool carpets.
+     */
+    WOOL_CARPETS,
+
+    /**
+     * All supported storage blocks for the {@link AbstractAutoCrafter}
+     */
+    AUTO_CRAFTER_SUPPORTED_STORAGE_BLOCKS,
+
+    /**
+     * All supported storage blocks for cargo.
+     */
+    CARGO_SUPPORTED_STORAGE_BLOCKS,
+
+    /**
+     * All tile entities.
+     */
+    TILE_ENTITIES;
 
     /**
      * Lookup table for tag names.

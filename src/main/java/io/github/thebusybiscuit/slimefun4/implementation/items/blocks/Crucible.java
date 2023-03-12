@@ -90,13 +90,11 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             items.add(new ItemStack(Material.LAVA_BUCKET));
         }
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            items.add(new ItemStack(Material.BLACKSTONE, 8));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(new ItemStack(Material.BLACKSTONE, 8));
+        items.add(new ItemStack(Material.LAVA_BUCKET));
 
-            items.add(new ItemStack(Material.BASALT, 12));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
-        }
+        items.add(new ItemStack(Material.BASALT, 12));
+        items.add(new ItemStack(Material.LAVA_BUCKET));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             items.add(new ItemStack(Material.COBBLED_DEEPSLATE, 12));
@@ -199,14 +197,13 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     }
 
     private void placeLiquid(@Nonnull Block block, boolean water) {
-        if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
+        if (block.getType().isAir()) {
             // Fixes #2903 - Cancel physics update to resolve weird overlapping
             block.setType(water ? Material.WATER : Material.LAVA, false);
         } else {
-            if (water && block.getBlockData() instanceof Waterlogged) {
-                Waterlogged wl = (Waterlogged) block.getBlockData();
-                wl.setWaterlogged(true);
-                block.setBlockData(wl, false);
+            if (water && block.getBlockData() instanceof Waterlogged waterlogged) {
+                waterlogged.setWaterlogged(true);
+                block.setBlockData(waterlogged, false);
                 block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
                 return;
             }
@@ -221,14 +218,13 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
     @ParametersAreNonnullByDefault
     private void runPostTask(Block block, Sound sound, int times) {
-        if (!(block.getBlockData() instanceof Levelled)) {
+        if (!(block.getBlockData() instanceof Levelled le)) {
             block.getWorld().playSound(block.getLocation(), Sound.BLOCK_METAL_BREAK, 1F, 1F);
             return;
         }
 
         block.getWorld().playSound(block.getLocation(), sound, 1F, 1F);
         int level = 8 - times;
-        Levelled le = (Levelled) block.getBlockData();
         le.setLevel(level);
         block.setBlockData(le, false);
 

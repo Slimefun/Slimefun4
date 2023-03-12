@@ -51,7 +51,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -95,7 +94,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
+                boolean open = p.getUniqueId().toString().equals(BlockStorage.getLocationInfo(b.getLocation(), "owner")) || p.hasPermission("slimefun.android.bypass");
 
                 if (!open) {
                     Slimefun.getLocalization().sendMessage(p, "inventory.no-access", true);
@@ -156,8 +155,8 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 BlockStorage.addBlockInfo(b, "paused", "true");
 
                 BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
-                    if (data instanceof Rotatable) {
-                        ((Rotatable) data).setRotation(p.getFacing());
+                    if (data instanceof Rotatable rotatable) {
+                        rotatable.setRotation(p.getFacing());
                     }
                 });
 
@@ -207,16 +206,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
      * @return The required type of fuel
      */
     public AndroidFuelSource getFuelSource() {
-        switch (getTier()) {
-            case 1:
-                return AndroidFuelSource.SOLID;
-            case 2:
-                return AndroidFuelSource.LIQUID;
-            case 3:
-                return AndroidFuelSource.NUCLEAR;
-            default:
-                throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
-        }
+        return switch (getTier()) {
+            case 1 -> AndroidFuelSource.SOLID;
+            case 2 -> AndroidFuelSource.LIQUID;
+            case 3 -> AndroidFuelSource.NUCLEAR;
+            default -> throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
+        };
     }
 
     @Override
@@ -602,14 +597,15 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     private void registerDefaultFuelTypes() {
         switch (getFuelSource()) {
-            case SOLID:
+            case SOLID -> {
                 registerFuelType(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
                 registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
                 registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
 
-                // Coal & Charcoal
+                // Coal, Charcoal & Bamboo
                 registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
                 registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
+                registerFuelType(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
 
                 // Logs
                 for (Material mat : Tag.LOGS.getValues()) {
@@ -620,20 +616,18 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 for (Material mat : Tag.PLANKS.getValues()) {
                     registerFuelType(new MachineFuel(1, new ItemStack(mat)));
                 }
-
-                break;
-            case LIQUID:
+            }
+            case LIQUID -> {
                 registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
                 registerFuelType(new MachineFuel(200, SlimefunItems.OIL_BUCKET));
                 registerFuelType(new MachineFuel(500, SlimefunItems.FUEL_BUCKET));
-                break;
-            case NUCLEAR:
+            }
+            case NUCLEAR -> {
                 registerFuelType(new MachineFuel(2500, SlimefunItems.URANIUM));
                 registerFuelType(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
                 registerFuelType(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
-                break;
-            default:
-                throw new IllegalStateException("Unhandled Fuel Source: " + getFuelSource());
+            }
+            default -> throw new IllegalStateException("Unhandled Fuel Source: " + getFuelSource());
         }
     }
 
@@ -760,8 +754,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         BlockFace rotation = POSSIBLE_ROTATIONS.get(index);
 
         BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
-            if (data instanceof Rotatable) {
-                Rotatable rotatable = ((Rotatable) data);
+            if (data instanceof Rotatable rotatable) {
                 rotatable.setRotation(rotation.getOppositeFace());
             }
         });
@@ -774,14 +767,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         if (facedBlock.getType() == Material.DISPENSER && BlockStorage.check(facedBlock, "ANDROID_INTERFACE_ITEMS")) {
             BlockState state = PaperLib.getBlockState(facedBlock, false).getState();
 
-            if (state instanceof Dispenser) {
-                Dispenser d = (Dispenser) state;
-
+            if (state instanceof Dispenser dispenser) {
                 for (int slot : getOutputSlots()) {
                     ItemStack stack = menu.getItemInSlot(slot);
 
                     if (stack != null) {
-                        Optional<ItemStack> optional = d.getInventory().addItem(stack).values().stream().findFirst();
+                        Optional<ItemStack> optional = dispenser.getInventory().addItem(stack).values().stream().findFirst();
 
                         if (optional.isPresent()) {
                             menu.replaceExistingItem(slot, optional.get());
@@ -798,14 +789,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         if (facedBlock.getType() == Material.DISPENSER && BlockStorage.check(facedBlock, "ANDROID_INTERFACE_FUEL")) {
             BlockState state = PaperLib.getBlockState(facedBlock, false).getState();
 
-            if (state instanceof Dispenser) {
-                Dispenser d = (Dispenser) state;
-
+            if (state instanceof Dispenser dispenser) {
                 for (int slot = 0; slot < 9; slot++) {
-                    ItemStack item = d.getInventory().getItem(slot);
+                    ItemStack item = dispenser.getInventory().getItem(slot);
 
                     if (item != null) {
-                        insertFuel(menu, d.getInventory(), slot, menu.getItemInSlot(43), item);
+                        insertFuel(menu, dispenser.getInventory(), slot, menu.getItemInSlot(43), item);
                     }
                 }
             }
@@ -890,15 +879,14 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @ParametersAreNonnullByDefault
     protected void move(Block b, BlockFace face, Block block) {
-        if (block.getY() > WorldUtils.getMinHeight(block.getWorld()) && block.getY() < block.getWorld().getMaxHeight() && block.isEmpty()) {
+        if (block.getY() > block.getWorld().getMinHeight() && block.getY() < block.getWorld().getMaxHeight() && block.isEmpty()) {
 
             if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
                 return;
             }
 
             BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
-                if (data instanceof Rotatable) {
-                    Rotatable rotatable = ((Rotatable) data);
+                if (data instanceof Rotatable rotatable) {
                     rotatable.setRotation(face.getOppositeFace());
                 }
             });

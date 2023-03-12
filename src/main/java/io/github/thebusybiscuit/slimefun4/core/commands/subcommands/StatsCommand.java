@@ -23,6 +23,12 @@ class StatsCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
+        // Check if researching is even enabled
+        if (!Slimefun.getRegistry().isResearchingEnabled()) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.researching-is-disabled");
+            return;
+        }
+
         if (args.length > 1) {
             if (sender.hasPermission("slimefun.stats.others") || sender instanceof ConsoleCommandSender) {
                 Optional<Player> player = PlayerList.findByName(args[1]);
@@ -35,8 +41,8 @@ class StatsCommand extends SubCommand {
             } else {
                 Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
-        } else if (sender instanceof Player) {
-            PlayerProfile.get((Player) sender, profile -> profile.sendStats(sender));
+        } else if (sender instanceof Player player) {
+            PlayerProfile.get(player, profile -> profile.sendStats(sender));
         } else {
             Slimefun.getLocalization().sendMessage(sender, "messages.only-players", true);
         }

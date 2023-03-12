@@ -134,6 +134,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  */
 public final class Slimefun extends JavaPlugin implements SlimefunAddon {
 
+    /**
+     * This is the Java version we recommend server owners to use.
+     * This does not necessarily mean that it's the minimum version
+     * required to run Slimefun.
+     */
     private static final int RECOMMENDED_JAVA_VERSION = 17;
 
     /**
@@ -264,6 +269,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Check if CS-CoreLib is installed (it is no longer needed)
         if (getServer().getPluginManager().getPlugin("CS-CoreLib") != null) {
             StartupWarnings.discourageCSCoreLib(logger);
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         // Encourage newer Java version
@@ -625,18 +632,10 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new AutoCrafterListener(this);
         new SlimefunItemHitListener(this);
         new MiddleClickListener(this);
-
-        // Bees were added in 1.15
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            new BeeListener(this);
-            new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
-        }
-
-        // Piglins were added in 1.16
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            new PiglinListener(this);
-            new SmithingTableListener(this);
-        }
+        new BeeListener(this);
+        new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
+        new PiglinListener(this);
+        new SmithingTableListener(this);
 
         // Item-specific Listeners
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());

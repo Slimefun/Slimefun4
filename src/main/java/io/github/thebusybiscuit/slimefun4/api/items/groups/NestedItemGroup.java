@@ -103,6 +103,10 @@ public class NestedItemGroup extends FlexItemGroup {
             target++;
 
             SubItemGroup itemGroup = subGroups.get(target);
+            if (!itemGroup.isVisibleInNested(p)) {
+                continue;
+            }
+
             menu.addItem(index, itemGroup.getItem(p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 SlimefunGuide.openItemGroup(profile, itemGroup, mode, 1);

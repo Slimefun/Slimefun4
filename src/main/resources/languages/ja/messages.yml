@@ -29,6 +29,10 @@ commands:
     verbose-player: '&4プレイヤーはverboseフラグを使用できません！'
     unknown-flag: '&4未知のフラグです: &c%flag%'
   debug:
+    description: '開発者のためのデバッグログを実行'
+    current: '&7現在のテストケース: &6%test_case%'
+    none-running: '&7現在実行中のテストケースはありません'
+    running: '&7テストでデバッグモードを実行中: &6%test%'
     disabled: '&7デバッグモードを無効化しました.'
 placeholderapi:
   profile-loading: 'ロード中…'
@@ -77,16 +81,37 @@ guide:
     translations:
       name: '&a他の言語をお探しですか？'
       lore: 'クリックで他の言語に翻訳する'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&b学習のアニメーション：&aあり'
+          - ''
+          - '&7アイテムをリサーチする時に'
+          - '&7リサーチ中の情報をチャットへ表示'
+          - '&7するかを切り替えることができます。'
+        click: '&eクリックで学習のアニメーションを無効化'
+      disabled:
+        text:
+          - '&b学習のアニメーション：&4なし'
+          - ''
+          - '&7アイテムをリサーチする時に'
+          - '&7リサーチ中の情報をチャットへ表示'
+          - '&7するかを切り替えることができます。'
+        click: '&eクリックで学習のアニメーションを再生する'
   title:
     main: 'Slimefunガイド'
     settings: '設定・情報'
     languages: '言語の選択'
     credits: 'Slimefun4 開発者'
+    wiki: 'スライムファン４のウィキ'
     addons: 'Slimefun4 アドオン'
     bugs: 'バグ報告'
     source: 'ソースコード'
     versions: 'バージョン一覧'
   credits:
+    commit: 'コミット'
+    commits: 'コミット'
     profile-link: 'クリックでGitHubのプロファイルを開く'
     open: 'クリックでコントリビュータを表示'
     description:
@@ -94,7 +119,13 @@ guide:
       - '&7オープンソースのプロジェクトです。'
       - '&7数年にわたり&e%contributors%&7人以上の人々が，'
       - '&7Slimefunに取り組んできました。'
+    roles:
+      developer: '&6開発者'
+      wiki: '&3ウィキ編集者'
+      resourcepack: '&cリソースパック作者'
+      translator: '&9訳者'
 messages:
+  not-researched: '&4あなたにはこれを理解する知識が足りません。&f"%item%&f" &cのロックを解除してください。'
   not-enough-xp: '&4リサーチの遂行に必要な経験値が足りません'
   unlocked: '&bリサーチが完了しました &7"%research%"'
   only-players: '&4プレイヤー専用コマンドです'
@@ -115,14 +146,38 @@ messages:
   multimeter: '&bエネルギー残量: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4Slimefunアイテムはピグリンとの物々交換に使用できません'
   bee-suit-slow-fall: '&e蜂の羽が着地を安全でゆっくりにした'
+  deprecated-item: '&4このアイテムは廃止予定です。近日中にSlimefunから削除されます。'
+  researching-is-disabled: '%cこのサーバーではリサーチが無効化されていました。すべてがデフォルトでアンロックされました！'
   multi-tool:
     mode-change: '&b%device% モード変更: &9%mode%'
     not-shears: '&cMulti Toolはハサミとして利用できません！'
   auto-crafting:
+    select-a-recipe: '&7クラフトしたいアイテムを持ち、このブロックに &eスニーク+右クリックしてください'
+    recipe-set: '&aこの機械にレシピをうまく設定しました。'
+    recipe-removed: '&eこの機械からレシピをうまく削除しました。いつでも新しいレシピを設定できます！'
+    no-recipes: '&c持っているアイテムのレシピが見当たりませんでした'
+    missing-chest: '&cチェストがありません！自動クラフターはチェストの上に設置が必要とするです'
     select: 'このレシピを選択'
+    temporarily-disabled: '&eこの自動クラフターは一時的に無効化されました。いつでも再び有効化できます！'
+    re-enabled: '&eこの自動クラフターは再び有効化されました！'
+    recipe-unavailable: |
+      &cこのアイテムは、サーバーによって無効化されているか、あなたがまだアンロックしていません。
+      &7このアイテムを作成したことが無い場合、一度作成してみることでアンロックされます。
+    tooltips:
+      enabled:
+        - '&a現在このレシピは有効化されています'
+        - ''
+        - '&e左クリック &7でレシピを一時的に無効化します'
+        - '&e右クリック &7でこのレシピを削除します'
+      disabled:
+        - '&a現在このレシピは一時的に無効化されています'
+        - ''
+        - '&e左クリック &7でこのレシピを再び有効化します'
+        - '&e右クリック &7でこのレシピを削除します'
   talisman:
     anvil: '&a&oタリスマンがツールの損壊を防いだ'
     miner: '&a&oタリスマンがドロップを倍にした'
+    farmer: '&a&o御守がドロップを二倍にした'
     hunter: '&a&oタリスマンがドロップを倍にした'
     lava: '&a&oタリスマンが炎上から身を護った'
     water: '&a&oタリスマンが水没から身を護った'
@@ -178,6 +233,9 @@ messages:
     - '&7常に前向きに生きていこう！'
     - '&7これはビスケットなんかではなくクッキーに違いない'
     - '&7ネオンサインが眩しい！'
+  above-limit-level: '&c%level%レベルより高いレベルのエンチャントの操作はできません！'
+  pickaxe-of-the-seeker:
+    no-ores: '&c近くに鉱石が見当たりません'
 machines:
   pattern-not-found: '&eレシピが確認できません、アイテムを正しく配置してください'
   unknown-material: '&eアイテムを識別できません、レシピ通りに配置してください'
@@ -185,6 +243,7 @@ machines:
   full-inventory: '&eインベントリが一杯です！'
   in-use: '&cこのブロックは他のプレイヤーが開いています'
   ignition-chamber-no-flint: '&cIgnition Chamberに火打石と打ち金がありません'
+  inventory-empty: '&6マルチブロックが完成しました。ディスペンサーの中にアイテムを入れ、もう一度クリックしてアイテムをクラフトしましょう！'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4祭壇にAncient Pedestalが不足しています &c(%pedestals% / 8)'
     unknown-catalyst: '&4不明な素材です！&c正しいレシピを使用してください'
@@ -199,8 +258,7 @@ machines:
     pick-a-floor: '&3- 行先の選択 -'
     current-floor: '&e現在の階:'
     click-to-teleport: '&eクリック&7でこの階に移動:'
-    enter-name: '&7指定したい階の名前をチャットで入力してください&r（カラーコード対応）'
-    named: '&2階の名前を変更しました: &r%floor%'
+    editor-title: 'エレベーターの設定'
   TELEPORTER:
     teleporting: '&3テレポート中…'
     teleported: '&3テレポート完了！'
@@ -216,6 +274,7 @@ machines:
     waypoints: 'ウェイポイント一覧'
   CARGO_NODES:
     must-be-placed: '&4チェストや機械に対して設置してください！'
+    not-connected: '&4接続されていません!'
   INDUSTRIAL_MINER:
     no-fuel: '&cIndustrial Minerは燃料切れです！上のチェストに燃料を補充してください。'
     piston-facing: '&cIndustrial Minerのピストンは上向きに設置してください！'
@@ -232,6 +291,8 @@ brewing_stand:
   not-working: '&4Slimefunアイテムは醸造台で使えません！'
 cartography_table:
   not-working: '&4Slimefunアイテムは製図台を使用できません！'
+smithing_table:
+  not-working: '&4スライムファンアイテムは鍛冶の材料として使用できません'
 villagers:
   no-trading: '&4Slimefunアイテムは村人との取引に使用できません！'
 backpack:
@@ -243,6 +304,8 @@ cauldron:
   no-discoloring: '&4Slimefunアイテムの脱色はできません'
 gps:
   deathpoint: '&4死亡地点 &7%date%'
+  status-online: 'オンライン'
+  status-offline: 'オフライン'
   waypoint:
     new: '&eウェイポイント名をチャットで入力してください&7（カラーコード対応）'
     added: '&a新しいウェイポイントを登録しました'
@@ -342,3 +405,5 @@ languages:
   mk: 'マケドニア語'
   sr: 'セルビア語'
   be: 'ベラルーシ語'
+  si-LK: 'シンハラ語'
+  lt: 'リトアニア語'

@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -123,7 +124,11 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
 
                     PlayerProfile.fromUUID(UUID.fromString(idSplit[0]), profile -> {
                         Optional<PlayerBackpack> optional = profile.getBackpack(Integer.parseInt(idSplit[1]));
-                        optional.ifPresent(playerBackpack -> playerBackpack.setSize(size));
+                        optional.ifPresent(playerBackpack -> {
+                            // Safety feature for Issue #3664
+                            CompletableFuture<Void> future = playerBackpack.closeForAll();
+                            future.thenRun(() -> playerBackpack.setSize(size));
+                        });
                     });
 
                     return Optional.of(id);

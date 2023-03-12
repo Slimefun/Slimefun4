@@ -36,9 +36,9 @@ public class WitherListener implements Listener {
             SlimefunItem item = BlockStorage.check(e.getBlock());
 
             // Hardened Glass is excluded from here
-            if (item instanceof WitherProof && !item.getId().equals(SlimefunItems.HARDENED_GLASS.getItemId())) {
+            if (item instanceof WitherProof witherProofBlock && !item.getId().equals(SlimefunItems.HARDENED_GLASS.getItemId())) {
                 e.setCancelled(true);
-                ((WitherProof) item).onAttack(e.getBlock(), (Wither) e.getEntity());
+                witherProofBlock.onAttack(e.getBlock(), (Wither) e.getEntity());
             }
         }
     }

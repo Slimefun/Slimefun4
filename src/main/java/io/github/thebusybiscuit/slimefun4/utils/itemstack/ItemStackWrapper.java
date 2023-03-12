@@ -132,8 +132,8 @@ public final class ItemStackWrapper extends ItemStack {
     public static @Nonnull ItemStackWrapper wrap(@Nonnull ItemStack itemStack) {
         Validate.notNull(itemStack, "The ItemStack cannot be null!");
 
-        if (itemStack instanceof ItemStackWrapper) {
-            return (ItemStackWrapper) itemStack;
+        if (itemStack instanceof ItemStackWrapper wrapper) {
+            return wrapper;
         }
 
         return new ItemStackWrapper(itemStack);

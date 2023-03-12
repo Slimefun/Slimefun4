@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
@@ -39,7 +40,9 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
     @Nonnull
     @Override
     public Optional<ItemStack> getDisplayItem(@Nonnull Player p, @Nonnull ItemStack guide) {
-        if (Slimefun.getRegistry().isLearningAnimationDisabled()) {
+        SlimefunRegistry registry = Slimefun.getRegistry();
+
+        if (!registry.isResearchingEnabled() || registry.isLearningAnimationDisabled()) {
             return Optional.empty();
         } else {
             boolean enabled = getSelectedOption(p, guide).orElse(true);

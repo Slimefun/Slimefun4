@@ -46,8 +46,7 @@ public class DispenserListener implements Listener {
                 machine.callItemHandler(BlockDispenseHandler.class, handler -> {
                     BlockState state = PaperLib.getBlockState(b, false).getState();
 
-                    if (state instanceof Dispenser) {
-                        Dispenser dispenser = (Dispenser) state;
+                    if (state instanceof Dispenser dispenser) {
                         BlockFace face = ((Directional) b.getBlockData()).getFacing();
                         Block block = b.getRelative(face);
                         handler.onBlockDispense(e, dispenser, block, machine);
