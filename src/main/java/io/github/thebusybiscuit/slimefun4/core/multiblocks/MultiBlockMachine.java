@@ -117,6 +117,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
 
             if ((inputItem == null || !inputItem.isDisabled()) && (outputItem == null || !outputItem.isDisabled())) {
                 recipes.add(new ItemStack[] { inputStack });
+                recipes.add(new ItemStack[] { outputStack });
             }
         }
     }
