@@ -27,8 +27,7 @@ import java.util.Collections;
 @ParametersAreNonnullByDefault
 public class WitherBuildPattern {
 
-    private WitherBuildPattern() {
-    }
+    private WitherBuildPattern() {}
 
     /**
      * Get the blocks which match the build pattern for a wither.
@@ -89,6 +88,5 @@ public class WitherBuildPattern {
         Block center = base.getRelative(BlockFace.UP, 2);
         return TShapedBlockPattern.getLineNorthSouth(center);
     }
-
 
 }

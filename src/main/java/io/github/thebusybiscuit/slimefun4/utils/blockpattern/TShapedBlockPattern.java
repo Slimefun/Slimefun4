@@ -20,8 +20,7 @@ import java.util.Collections;
 @ParametersAreNonnullByDefault
 public class TShapedBlockPattern {
 
-    private TShapedBlockPattern() {
-    }
+    private TShapedBlockPattern() {}
 
     /**
      * Get the blocks of a specified material which are in a T-shape pattern at a given location.
@@ -111,7 +110,7 @@ public class TShapedBlockPattern {
      * @param center The block at the center of the line
      * @return Returns a {@link Collection} of {@link Block}s comprised of the 3 blocks
      */
-    public static Collection<Block> getLineEastWest(Block center) {
+    public static @Nonnull Collection<Block> getLineEastWest(Block center) {
         Block east = center.getRelative(BlockFace.EAST);
         Block west = center.getRelative(BlockFace.WEST);
         return Arrays.asList(center, east, west);
