@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 import io.github.thebusybiscuit.slimefun4.storage.Storage;
 import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.CreatureBuildListener;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -654,6 +655,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         new PiglinListener(this);
         new SmithingTableListener(this);
         new JoinListener(this);
+        new CreatureBuildListener(this);
 
         // Item-specific Listeners
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
