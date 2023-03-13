@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils.blockpattern;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -43,6 +44,8 @@ public class WitherBuildPattern {
      * @return Returns non-null {@link Collection} of {@link Block}s which are eligible for creating a wither
      */
     public static @Nonnull Collection<Block> getMatchingBlocks(Location location) {
+        Validate.notNull(location, "Location cannot be null");
+        Validate.notNull(location.getWorld(), "Location#getWorld cannot be null");
         Collection<Block> baseEastWest = TShapedBlockPattern.getTShapeEastWest(location);
         if (TShapedBlockPattern.matches(Material.SOUL_SAND, baseEastWest)) {
             Collection<Block> blocks = new ArrayList<>(getWitherHeadsEastWest(location));
@@ -72,6 +75,8 @@ public class WitherBuildPattern {
      * @return Returns the line of blocks facing east-west
      */
     private static @Nonnull Collection<Block> getWitherHeadsEastWest(Location location) {
+        Validate.notNull(location, "Location cannot be null");
+        Validate.notNull(location.getWorld(), "Location#getWorld cannot be null");
         Block base = location.getBlock();
         Block center = base.getRelative(BlockFace.UP, 2);
         return TShapedBlockPattern.getLineEastWest(center);
@@ -84,6 +89,8 @@ public class WitherBuildPattern {
      * @return Returns the line of blocks facing north-south
      */
     private static @Nonnull Collection<Block> getWitherHeadsNorthSouth(Location location) {
+        Validate.notNull(location, "Location cannot be null");
+        Validate.notNull(location.getWorld(), "Location#getWorld cannot be null");
         Block base = location.getBlock();
         Block center = base.getRelative(BlockFace.UP, 2);
         return TShapedBlockPattern.getLineNorthSouth(center);
