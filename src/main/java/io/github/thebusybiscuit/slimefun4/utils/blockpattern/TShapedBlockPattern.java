@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils.blockpattern;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -37,6 +38,9 @@ public class TShapedBlockPattern {
      * in a T-Shape in no particular order
      */
     public static @Nonnull Collection<Block> getMatchingBlocks(Material material, Location location) {
+        Validate.notNull(material, "Material cannot be null");
+        Validate.notNull(location, "Location cannot be null");
+        Validate.notNull(location.getWorld(), "Location#getWorld cannot be null");
         Collection<Block> eastWest = getTShapeEastWest(location);
         if (matches(material, eastWest)) {
             return eastWest;
@@ -56,6 +60,8 @@ public class TShapedBlockPattern {
      * @return True if all blocks are of the specified material, false otherwise
      */
     public static boolean matches(Material material, Collection<Block> blocks) {
+        Validate.notNull(material, "Material cannot be null");
+        Validate.notNull(blocks, "blocks cannot be null");
         for (Block block : blocks) {
             if (block.getType() != material) {
                 return false;
@@ -71,6 +77,8 @@ public class TShapedBlockPattern {
      * @return Returns a {@link Collection} of {@link Block}s which match the T-shape
      */
     public static @Nonnull Collection<Block> getTShapeEastWest(Location location) {
+        Validate.notNull(location, "Location cannot be null");
+        Validate.notNull(location.getWorld(), "Location#getWorld cannot be null");
         Block base = location.getBlock();
         Block center = base.getRelative(BlockFace.UP);
         Collection<Block> blocks = new ArrayList<>(getLineEastWest(center));
@@ -85,6 +93,8 @@ public class TShapedBlockPattern {
      * @return Returns a {@link Collection} of {@link Block}s which match the T-shape
      */
     public static @Nonnull Collection<Block> getTShapeNorthSouth(Location location) {
+        Validate.notNull(location, "Location cannot be null");
+        Validate.notNull(location.getWorld(), "Location#getWorld cannot be null");
         Block base = location.getBlock();
         Block center = base.getRelative(BlockFace.UP);
         Collection<Block> blocks = new ArrayList<>(getLineNorthSouth(center));
@@ -99,6 +109,7 @@ public class TShapedBlockPattern {
      * @return Returns a {@link Collection} of {@link Block}s comprised of the 3 blocks
      */
     public static @Nonnull Collection<Block> getLineNorthSouth(Block center) {
+        Validate.notNull(center, "center cannot be null");
         Block north = center.getRelative(BlockFace.NORTH);
         Block south = center.getRelative(BlockFace.SOUTH);
         return Arrays.asList(center, north, south);
@@ -111,6 +122,7 @@ public class TShapedBlockPattern {
      * @return Returns a {@link Collection} of {@link Block}s comprised of the 3 blocks
      */
     public static @Nonnull Collection<Block> getLineEastWest(Block center) {
+        Validate.notNull(center, "center cannot be null");
         Block east = center.getRelative(BlockFace.EAST);
         Block west = center.getRelative(BlockFace.WEST);
         return Arrays.asList(center, east, west);

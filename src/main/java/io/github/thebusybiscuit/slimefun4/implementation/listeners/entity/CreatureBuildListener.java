@@ -14,6 +14,8 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This {@link Listener} makes sure that iron golems, snowman (snowmen) and withers cannot be
@@ -22,8 +24,11 @@ import java.util.Collection;
  */
 public class CreatureBuildListener implements Listener {
 
+    private final Logger logger;
+
     public CreatureBuildListener(Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        logger = plugin.getLogger();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -55,6 +60,7 @@ public class CreatureBuildListener implements Listener {
             default -> {
                 // This should not happen as we checked the SpawnReason earlier
                 // This return statement is just to make the compiler happy
+                logger.log(Level.WARNING, () -> "Unexpected EntityType" + event.getEntityType().name() + "spawned through unknown build pattern");
                 return;
             }
         }
