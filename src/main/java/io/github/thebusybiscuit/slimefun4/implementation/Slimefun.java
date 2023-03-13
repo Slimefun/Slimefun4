@@ -17,7 +17,6 @@ import javax.annotation.Nullable;
 import io.github.thebusybiscuit.slimefun4.storage.Storage;
 import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
 
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.CreatureBuildListener;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -111,6 +110,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.Craf
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.SmithingTableListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.BeeListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.CreatureBuildListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.EntityInteractionListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.IronGolemListener;

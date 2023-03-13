@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -35,24 +34,29 @@ public class CreatureBuildListener implements Listener {
                 && event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.BUILD_WITHER) {
             return;
         }
+
         Location location = event.getLocation();
         Collection<Block> removedBlocks;
-        if (event.getEntityType() == EntityType.IRON_GOLEM) {
-            // Add the iron blocks
-            removedBlocks = TShapedBlockPattern.getMatchingBlocks(Material.IRON_BLOCK, location);
-            // Add the carved pumpkin head
-            removedBlocks.add(location.getBlock().getRelative(BlockFace.UP, 2));
-        } else if (event.getEntityType() == EntityType.SNOWMAN) {
-            // Add the two snow blocks and the carved pumpkin head
-            Block base = location.getBlock();
-            removedBlocks = Arrays.asList(base, base.getRelative(BlockFace.UP), base.getRelative(BlockFace.UP, 2));
-        } else if (event.getEntityType() == EntityType.WITHER) {
-            // Add the soul sand and wither skulls
-            removedBlocks = WitherBuildPattern.getMatchingBlocks(location);
-        } else {
-            // This should not happen as we checked the SpawnReason earlier
-            // This return statement is just to make the compiler happy
-            return;
+        switch (event.getEntityType()) {
+            case IRON_GOLEM -> {
+                // Add the iron blocks
+                removedBlocks = TShapedBlockPattern.getMatchingBlocks(Material.IRON_BLOCK, location);
+                // Add the carved pumpkin head
+                removedBlocks.add(location.getBlock().getRelative(BlockFace.UP, 2));
+            }
+            case SNOWMAN -> {
+                // Add the two snow blocks and the carved pumpkin head
+                Block base = location.getBlock();
+                removedBlocks = Arrays.asList(base, base.getRelative(BlockFace.UP), base.getRelative(BlockFace.UP, 2));
+            }
+            case WITHER ->
+                // Add the soul sand and wither skulls
+                removedBlocks = WitherBuildPattern.getMatchingBlocks(location);
+            default -> {
+                // This should not happen as we checked the SpawnReason earlier
+                // This return statement is just to make the compiler happy
+                return;
+            }
         }
         for (Block block : removedBlocks) {
             if (BlockStorage.hasBlockInfo(block)) {
