@@ -104,12 +104,19 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     @Override
     public void load() {
         super.load();
+        
+        for (ItemStack inputStack : displayRecipes) {
+            int index = displayRecipes.indexOf(inputStack);
+            if (index % 2 != 0) {
+                continue;
+            }
+            
+            ItemStack outputStack = displayRecipes.size() - 1 < index + 1 ? null : displayRecipes.get(index + 1);
+            SlimefunItem inputItem = SlimefunItem.getByItem(inputStack);
+            SlimefunItem outputItem = SlimefunItem.getByItem(outputStack);
 
-        for (ItemStack recipeItem : displayRecipes) {
-            SlimefunItem item = SlimefunItem.getByItem(recipeItem);
-
-            if (item == null || !item.isDisabled()) {
-                recipes.add(new ItemStack[] { recipeItem });
+            if ((inputItem == null || !inputItem.isDisabled()) && (outputItem == null || !outputItem.isDisabled())) {
+                recipes.add(new ItemStack[] { inputStack });
             }
         }
     }
