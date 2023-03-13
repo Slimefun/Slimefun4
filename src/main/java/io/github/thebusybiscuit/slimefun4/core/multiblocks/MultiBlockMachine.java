@@ -106,7 +106,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         super.load();
         
         for (int i = 0; i < displayRecipes.size(); i += 2) {
-            ItemStack inputStack = displayRecipes.size() >= i + 1 ? displayRecipes.get(i) : null;
+            ItemStack inputStack = displayRecipes.get(i);
             ItemStack outputStack = displayRecipes.size() >= i + 2 ? displayRecipes.get(i + 1) : null;
             SlimefunItem inputItem = SlimefunItem.getByItem(inputStack);
             SlimefunItem outputItem = SlimefunItem.getByItem(outputStack);
