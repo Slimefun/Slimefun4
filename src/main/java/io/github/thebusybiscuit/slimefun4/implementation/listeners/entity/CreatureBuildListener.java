@@ -12,8 +12,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,22 +43,22 @@ public class CreatureBuildListener implements Listener {
         }
 
         Location location = event.getLocation();
-        Collection<Block> removedBlocks;
+        Collection<Block> removedBlocks = new ArrayList<>();
         switch (event.getEntityType()) {
             case IRON_GOLEM -> {
                 // Add the iron blocks
-                removedBlocks = TShapedBlockPattern.getMatchingBlocks(Material.IRON_BLOCK, location);
+                removedBlocks.addAll(TShapedBlockPattern.getMatchingBlocks(Material.IRON_BLOCK, location));
                 // Add the carved pumpkin head
                 removedBlocks.add(location.getBlock().getRelative(BlockFace.UP, 2));
             }
             case SNOWMAN -> {
                 // Add the two snow blocks and the carved pumpkin head
                 Block base = location.getBlock();
-                removedBlocks = Arrays.asList(base, base.getRelative(BlockFace.UP), base.getRelative(BlockFace.UP, 2));
+                removedBlocks.addAll(List.of(base, base.getRelative(BlockFace.UP), base.getRelative(BlockFace.UP, 2)));
             }
             case WITHER ->
                 // Add the soul sand and wither skulls
-                removedBlocks = WitherBuildPattern.getMatchingBlocks(location);
+                removedBlocks.addAll(WitherBuildPattern.getMatchingBlocks(location));
             default -> {
                 // This should not happen as we checked the SpawnReason earlier
                 // This return statement is just to make the compiler happy
