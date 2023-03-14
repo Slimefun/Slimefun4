@@ -47,9 +47,9 @@ public class WitherBuildPattern {
         Validate.notNull(location, "Location cannot be null");
         Validate.notNull(location.getWorld(), "Location#getWorld cannot be null");
         Collection<Block> baseEastWest = TShapedBlockPattern.getTShapeEastWest(location);
-        if (TShapedBlockPattern.matches(Material.SOUL_SAND, baseEastWest)) {
+        if (TShapedBlockPattern.allBlocksMatchMaterial(Material.SOUL_SAND, baseEastWest)) {
             Collection<Block> blocks = new ArrayList<>(getWitherHeadsEastWest(location));
-            if (!TShapedBlockPattern.matches(Material.WITHER_SKELETON_SKULL, blocks)) {
+            if (!TShapedBlockPattern.allBlocksMatchMaterial(Material.WITHER_SKELETON_SKULL, blocks)) {
                 return Collections.emptyList();
             }
             blocks.addAll(baseEastWest);
@@ -57,9 +57,9 @@ public class WitherBuildPattern {
         }
 
         Collection<Block> baseNorthSouth = TShapedBlockPattern.getTShapeNorthSouth(location);
-        if (TShapedBlockPattern.matches(Material.SOUL_SAND, baseNorthSouth)) {
+        if (TShapedBlockPattern.allBlocksMatchMaterial(Material.SOUL_SAND, baseNorthSouth)) {
             Collection<Block> blocks = new ArrayList<>(getWitherHeadsNorthSouth(location));
-            if (!TShapedBlockPattern.matches(Material.WITHER_SKELETON_SKULL, blocks)) {
+            if (!TShapedBlockPattern.allBlocksMatchMaterial(Material.WITHER_SKELETON_SKULL, blocks)) {
                 return Collections.emptyList();
             }
             blocks.addAll(baseNorthSouth);

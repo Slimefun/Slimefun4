@@ -42,11 +42,11 @@ public class TShapedBlockPattern {
         Validate.notNull(location, "Location cannot be null");
         Validate.notNull(location.getWorld(), "Location#getWorld cannot be null");
         Collection<Block> eastWest = getTShapeEastWest(location);
-        if (matches(material, eastWest)) {
+        if (allBlocksMatchMaterial(material, eastWest)) {
             return eastWest;
         }
         Collection<Block> northSouth = getTShapeNorthSouth(location);
-        if (matches(material, northSouth)) {
+        if (allBlocksMatchMaterial(material, northSouth)) {
             return northSouth;
         }
         return Collections.emptyList();
@@ -59,7 +59,7 @@ public class TShapedBlockPattern {
      * @param blocks   THe blocks to check
      * @return True if all blocks are of the specified material, false otherwise
      */
-    public static boolean matches(Material material, Collection<Block> blocks) {
+    public static boolean allBlocksMatchMaterial(Material material, Collection<Block> blocks) {
         Validate.notNull(material, "Material cannot be null");
         Validate.notNull(blocks, "blocks cannot be null");
         for (Block block : blocks) {
