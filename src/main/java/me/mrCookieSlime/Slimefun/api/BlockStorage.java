@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -605,6 +607,24 @@ public class BlockStorage {
 
     public static void clearBlockInfo(Location l, boolean destroy) {
         Slimefun.getTickerTask().queueDelete(l, destroy);
+    }
+
+    public static void clearAllBlockInfoAtChunk(Chunk chunk, boolean destroy) {
+        clearAllBlockInfoAtChunk(chunk.getWorld(), chunk.getX(), chunk.getZ(), destroy);
+    }
+
+    public static void clearAllBlockInfoAtChunk(World world, int chunkX, int chunkZ, boolean destroy) {
+        BlockStorage blockStorage = getStorage(world);
+        if (blockStorage == null) {
+            return;
+        }
+        Map<Location, Boolean> toClear = new HashMap<>(blockStorage.storage.size());
+        for (Location location : blockStorage.storage.keySet()) {
+            if (location.getBlockX() >> 4 == chunkX && location.getBlockZ() >> 4 == chunkZ) {
+                toClear.put(location, destroy);
+            }
+        }
+        Slimefun.getTickerTask().queueDelete(toClear);
     }
 
     /**
