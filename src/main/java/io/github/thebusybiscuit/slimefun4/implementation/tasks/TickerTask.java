@@ -238,11 +238,14 @@ public class TickerTask implements Runnable {
 
     @ParametersAreNonnullByDefault
     public void queueDelete(Collection<Location> locations, boolean destroy) {
-        Map<Location, Boolean> toDelete = new HashMap<>(locations.size());
+        Validate.notNull(locations, "Locations must not be null");
+
+        Map<Location, Boolean> toDelete = new HashMap<>(locations.size(), 1.0F);
         for (Location location : locations) {
+            Validate.notNull(location, "Locations must not contain null locations");
             toDelete.put(location, destroy);
         }
-        queueDelete(toDelete);
+        deletionQueue.putAll(toDelete);
     }
 
     @ParametersAreNonnullByDefault
