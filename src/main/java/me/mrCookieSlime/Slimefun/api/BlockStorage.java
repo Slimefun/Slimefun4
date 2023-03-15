@@ -617,7 +617,7 @@ public class BlockStorage {
         if (blockStorage == null) {
             return;
         }
-        Map<Location, Boolean> toClear = new HashMap<>(blockStorage.storage.size());
+        Map<Location, Boolean> toClear = new HashMap<>();
         for (Location location : blockStorage.storage.keySet()) {
             if (location.getBlockX() >> 4 == chunkX && location.getBlockZ() >> 4 == chunkZ) {
                 toClear.put(location, destroy);
