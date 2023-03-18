@@ -59,6 +59,8 @@ public class SoulboundListener implements Listener {
 
         // Remove soulbound items from our drops
         e.getDrops().removeIf(itemStack -> SlimefunUtils.isSoulbound(itemStack, p.getWorld()));
+        
+        // Set the items back to the player's inventory after the event
         new BukkitRunnable(){
             @Override
             public void run() {
@@ -66,6 +68,6 @@ public class SoulboundListener implements Listener {
                     p.getInventory().setItem(entry.getKey(), entry.getValue());
                 }
             }
-        }.runTaskAsynchronously(JavaPlugin.getPlugin(Slimefun.class));
+        }.runTask(JavaPlugin.getPlugin(Slimefun.class));
     }
 }
