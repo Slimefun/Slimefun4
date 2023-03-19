@@ -64,7 +64,6 @@ class ContributionsConnector extends GitHubConnector {
         ignoredAccounts.add("gitlocalize-app");
         ignoredAccounts.add("gitlocalize-app[bot]");
         ignoredAccounts.add("mt-gitlocalize");
-        ignoredAccounts.add("st392");
 
         // Known Minecraft aliases.
         aliases.put("WalshyDev", "HumanRightsAct");
@@ -78,6 +77,7 @@ class ContributionsConnector extends GitHubConnector {
         aliases.put("NCBPFluffyBear", "FluffyBear_");
         aliases.put("martinbrom", "OneTime97");
         aliases.put("LilBC", "Lil_BC");
+        aliases.put("st392", "BlueWood");
     }
 
     /**
