@@ -64,6 +64,7 @@ class ContributionsConnector extends GitHubConnector {
         ignoredAccounts.add("gitlocalize-app");
         ignoredAccounts.add("gitlocalize-app[bot]");
         ignoredAccounts.add("mt-gitlocalize");
+        ignoredAccounts.add("amarcais53");
 
         // Known Minecraft aliases.
         aliases.put("WalshyDev", "HumanRightsAct");
