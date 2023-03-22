@@ -57,7 +57,7 @@ public class UniversalBlockMenu extends DirtyChestMenu {
         changes = 0;
     }
 
-    public boolean shouldSave() {
+    public boolean willSave() {
         return this.shouldSave;
     }
 }

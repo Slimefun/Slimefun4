@@ -94,7 +94,7 @@ public class BlockMenu extends DirtyChestMenu {
         return location;
     }
     
-    public boolean shouldSave() {
+    public boolean willSave() {
         return shouldSave;
     }
 
