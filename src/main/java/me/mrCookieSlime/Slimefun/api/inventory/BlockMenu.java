@@ -32,12 +32,7 @@ public class BlockMenu extends DirtyChestMenu {
     }
     
     public BlockMenu(BlockMenuPreset preset, Location l) {
-        super(preset);
-        this.location = l;
-        this.display = false;
-
-        preset.clone(this);
-        this.getContents();
+        this(preset, l, false);
     }
 
     public BlockMenu(BlockMenuPreset preset, Location l, Config cfg) {
