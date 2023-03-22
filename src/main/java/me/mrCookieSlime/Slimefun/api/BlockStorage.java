@@ -757,7 +757,9 @@ public class BlockStorage {
         }
 
         BlockMenu menu = new BlockMenu(preset, l);
-        inventories.put(l, menu);
+        if (!menu.isDisplay()) {
+            inventories.put(l, menu);
+        }
         return menu;
     }
 
