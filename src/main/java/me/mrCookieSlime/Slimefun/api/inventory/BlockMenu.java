@@ -22,17 +22,13 @@ public class BlockMenu extends DirtyChestMenu {
         return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();
     }
     
-    public BlockMenu(BlockMenuPreset preset, Location l, boolean display) {
+    public BlockMenu(BlockMenuPreset preset, Location l) {
         super(preset);
         this.location = l;
-        this.display = display;
+        this.display = preset.isDisplay();
         
         preset.clone(this);
         this.getContents();
-    }
-    
-    public BlockMenu(BlockMenuPreset preset, Location l) {
-        this(preset, l, false);
     }
 
     public BlockMenu(BlockMenuPreset preset, Location l, Config cfg) {

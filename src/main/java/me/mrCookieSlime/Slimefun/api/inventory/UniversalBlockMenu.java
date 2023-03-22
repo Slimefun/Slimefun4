@@ -8,17 +8,13 @@ import io.github.bakedlibs.dough.config.Config;
 public class UniversalBlockMenu extends DirtyChestMenu {
     private final boolean display;
     
-    public UniversalBlockMenu(BlockMenuPreset preset, boolean display) {
+    public UniversalBlockMenu(BlockMenuPreset preset) {
         super(preset);
-        this.display = display;
+        this.display = preset.isDisplay();
         
         preset.clone(this);
 
         save();
-    }
-    
-    public UniversalBlockMenu(BlockMenuPreset preset) {
-        this(preset, false);
     }
 
     public UniversalBlockMenu(BlockMenuPreset preset, Config cfg) {
