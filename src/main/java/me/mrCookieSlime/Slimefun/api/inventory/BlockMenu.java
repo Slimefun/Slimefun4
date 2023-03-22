@@ -14,9 +14,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 public class BlockMenu extends DirtyChestMenu {
-
+    
+    private final boolean display;
     private Location location;
-    private boolean display;
 
     private static String serializeLocation(Location l) {
         return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();

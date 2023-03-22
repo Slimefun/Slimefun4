@@ -6,18 +6,25 @@ import io.github.bakedlibs.dough.config.Config;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 public class UniversalBlockMenu extends DirtyChestMenu {
-
-    public UniversalBlockMenu(BlockMenuPreset preset) {
+    private final boolean display;
+    
+    public UniversalBlockMenu(BlockMenuPreset preset, boolean display) {
         super(preset);
-
+        this.display = display;
+        
         preset.clone(this);
 
         save();
     }
+    
+    public UniversalBlockMenu(BlockMenuPreset preset) {
+        this(preset, false);
+    }
 
     public UniversalBlockMenu(BlockMenuPreset preset, Config cfg) {
         super(preset);
-
+        this.display = false;
+        
         for (int i = 0; i < 54; i++) {
             if (cfg.contains(String.valueOf(i))) {
                 addItem(i, cfg.getItem(String.valueOf(i)));
@@ -33,8 +40,8 @@ public class UniversalBlockMenu extends DirtyChestMenu {
         this.getContents();
     }
 
-    public void save() {
-        if (!isDirty()) {
+    public void save() {// If it is not modified or just a display menu, we do not need to save it
+        if (!isDirty() || display) {
             return;
         }
 
@@ -54,4 +61,7 @@ public class UniversalBlockMenu extends DirtyChestMenu {
         changes = 0;
     }
 
+    public boolean isDisplay() {
+        return this.display;
+    }
 }
