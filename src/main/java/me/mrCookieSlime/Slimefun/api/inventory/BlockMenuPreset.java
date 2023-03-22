@@ -30,30 +30,30 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     // -1 means "automatically update according to the contents"
     private int size = -1;
-    
+
     private final boolean universal;
-    private final boolean display;
+    private final boolean shouldSave;
     private boolean locked;
 
     protected BlockMenuPreset(@Nonnull String id, @Nonnull String title) {
-        this(id, title, false);
+        this(id, title, false, true);
     }
 
     protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, boolean universal) {
-        this(id, title, universal, false);
+        this(id, title, universal, true);
     }
     
-    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, boolean universal, boolean display) {
+    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, boolean universal, boolean shouldSave) {
         super(title);
-    
+
         Validate.notNull(id, "You need to specify an id!");
-    
+
         this.id = id;
         this.inventoryTitle = title;
         this.universal = universal;
-        this.display = display;
+        this.shouldSave = shouldSave;
         init();
-    
+
         Slimefun.getRegistry().getMenuPresets().put(id, this);
     }
 
@@ -203,12 +203,12 @@ public abstract class BlockMenuPreset extends ChestMenu {
     }
     
     /**
-     * This method returns whether this {@link BlockMenuPreset} will spawn a {@link BlockMenu} that is Display Only
+     * This method returns whether this {@link BlockMenuPreset} will spawn a {@link BlockMenu} that saves to file
      *
-     * @return Whether this {@link BlockMenuPreset} is Display Only
+     * @return Whether this {@link BlockMenuPreset} should save
      */
-    public boolean isDisplay() {
-        return display;
+    public boolean willSave() {
+        return shouldSave;
     }
 
     @Nonnull
