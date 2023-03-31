@@ -9,7 +9,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
-import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
@@ -20,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors
  * @author TheBusyBiscuit
  * 
  * @see Reactor
- * @see ReactorAccessPort
  * @see NuclearReactor
  * @see NetherStarReactor
  *

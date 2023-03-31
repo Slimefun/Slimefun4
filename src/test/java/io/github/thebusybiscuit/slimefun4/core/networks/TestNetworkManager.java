@@ -18,7 +18,6 @@ import org.mockito.Mockito;
 
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
-import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockNetwork;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -58,18 +57,9 @@ class TestNetworkManager {
     @ValueSource(booleans = { true, false })
     @DisplayName("Test visualizer setting")
     void testVisualizerSetting(boolean enabled) {
-        NetworkManager manager = new NetworkManager(200, enabled, false);
+        NetworkManager manager = new NetworkManager(200, enabled);
 
         Assertions.assertEquals(enabled, manager.isVisualizerEnabled());
-    }
-
-    @ParameterizedTest
-    @ValueSource(booleans = { true, false })
-    @DisplayName("Test item deletion setting")
-    void testItemDeletionSetting(boolean enabled) {
-        NetworkManager manager = new NetworkManager(200, true, enabled);
-
-        Assertions.assertEquals(enabled, manager.isItemDeletionEnabled());
     }
 
     @Test
@@ -120,7 +110,6 @@ class TestNetworkManager {
         Assertions.assertEquals(network, optional.get());
 
         Assertions.assertFalse(manager.getNetworkFromLocation(loc2, MockNetwork.class).isPresent());
-        Assertions.assertFalse(manager.getNetworkFromLocation(loc, CargoNet.class).isPresent());
     }
 
     @Test
@@ -135,7 +124,6 @@ class TestNetworkManager {
         manager.registerNetwork(network);
 
         Assertions.assertFalse(manager.getNetworksFromLocation(loc2, MockNetwork.class).contains(network));
-        Assertions.assertFalse(manager.getNetworksFromLocation(loc, CargoNet.class).contains(network));
         Assertions.assertTrue(manager.getNetworksFromLocation(loc, MockNetwork.class).contains(network));
     }
 
@@ -177,7 +165,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test empty network list for null locations")
     void testNullLocations() {
-        NetworkManager manager = new NetworkManager(10, false, false);
+        NetworkManager manager = new NetworkManager(10, false);
 
         Optional<Network> optional = manager.getNetworkFromLocation(null, Network.class);
         Assertions.assertNotNull(optional);

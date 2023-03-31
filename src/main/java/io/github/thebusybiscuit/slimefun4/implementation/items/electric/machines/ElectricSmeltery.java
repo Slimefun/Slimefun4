@@ -30,7 +30,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 /**
  * The {@link ElectricSmeltery} is an electric version of the standard {@link Smeltery}.
@@ -60,47 +59,6 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
                 return p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
             }
 
-            @Override
-            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                return new int[0];
-            }
-
-            @Override
-            public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
-                if (flow == ItemTransportFlow.WITHDRAW) {
-                    return getOutputSlots();
-                }
-
-                int fullSlots = 0;
-                List<Integer> slots = new LinkedList<>();
-
-                for (int slot : getInputSlots()) {
-                    ItemStack stack = menu.getItemInSlot(slot);
-                    if (stack != null && SlimefunUtils.isItemSimilar(stack, item, true, false)) {
-                        if (stack.getAmount() >= stack.getMaxStackSize()) {
-                            fullSlots++;
-                        }
-
-                        slots.add(slot);
-                    }
-                }
-
-                if (slots.isEmpty()) {
-                    return getInputSlots();
-                } else if (fullSlots == slots.size()) {
-                    // All slots with that item are already full
-                    return new int[0];
-                } else {
-                    Collections.sort(slots, compareSlots(menu));
-                    int[] array = new int[slots.size()];
-
-                    for (int i = 0; i < slots.size(); i++) {
-                        array[i] = slots.get(i);
-                    }
-
-                    return array;
-                }
-            }
         };
     }
 

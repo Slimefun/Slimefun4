@@ -212,18 +212,14 @@ public final class ResearchSetup {
         register("reactor_essentials", 202, "Reactor Essentials", 36, SlimefunItems.REACTOR_COOLANT_CELL, SlimefunItems.NEPTUNIUM, SlimefunItems.PLUTONIUM);
         register("nuclear_reactor", 203, "Nuclear Power Plant", 48, SlimefunItems.NUCLEAR_REACTOR);
         register("freezer", 204, "Mr Freeze", 20, SlimefunItems.FREEZER);
-        register("cargo_basics", 205, "Cargo Basics", 30, SlimefunItems.CARGO_MOTOR, SlimefunItems.CARGO_MANAGER, SlimefunItems.CARGO_CONNECTOR_NODE);
-        register("cargo_nodes", 206, "Cargo Setup", 30, SlimefunItems.CARGO_INPUT_NODE, SlimefunItems.CARGO_OUTPUT_NODE);
         register("electric_ingot_machines", 207, "Electric Ingot Fabrication", 18, SlimefunItems.ELECTRIC_GOLD_PAN, SlimefunItems.ELECTRIC_DUST_WASHER, SlimefunItems.ELECTRIC_INGOT_FACTORY);
         register("medium_tier_electric_ingot_machines", 208, "Fast Ingot Fabrication", 25, SlimefunItems.ELECTRIC_GOLD_PAN_2, SlimefunItems.ELECTRIC_DUST_WASHER_2, SlimefunItems.ELECTRIC_INGOT_FACTORY_2, SlimefunItems.ELECTRIC_ORE_GRINDER_2);
         register("high_tier_electric_ingot_machines", 209, "Super Fast Ingot Fabrication", 32, SlimefunItems.ELECTRIC_GOLD_PAN_3, SlimefunItems.ELECTRIC_DUST_WASHER_3, SlimefunItems.ELECTRIC_INGOT_FACTORY_3, SlimefunItems.ELECTRIC_ORE_GRINDER_3);
         register("better_food_fabricator", 211, "Upgraded Food Fabrication", 28, SlimefunItems.FOOD_FABRICATOR_2, SlimefunItems.FOOD_COMPOSTER_2);
-        register("reactor_access_port", 212, "Reactor Interaction", 18, SlimefunItems.REACTOR_ACCESS_PORT);
         register("fluid_pump", 213, "Fluid Pump", 28, SlimefunItems.FLUID_PUMP);
         register("better_freezer", 214, "Upgraded Freezer", 29, SlimefunItems.FREEZER_2, SlimefunItems.FREEZER_3);
         register("boosted_uranium", 215, "Never-Ending Circle", 30, SlimefunItems.BOOSTED_URANIUM);
         register("trash_can", 216, "Trash", 8, SlimefunItems.TRASH_CAN);
-        register("advanced_output_node", 217, "Advanced Output Node", 24, SlimefunItems.CARGO_OUTPUT_NODE_2);
         register("carbon_press", 218, "Carbon Press", 28, SlimefunItems.CARBON_PRESS);
         register("electric_smeltery", 219, "Electric Smeltery", 28, SlimefunItems.ELECTRIC_SMELTERY);
         register("better_electric_furnace", 220, "Upgraded Electric Furnace", 20, SlimefunItems.ELECTRIC_FURNACE_2, SlimefunItems.ELECTRIC_FURNACE_3);

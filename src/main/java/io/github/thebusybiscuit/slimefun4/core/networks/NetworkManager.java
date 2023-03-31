@@ -18,7 +18,6 @@ import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
-import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 
@@ -39,7 +38,6 @@ public class NetworkManager {
 
     private final int maxNodes;
     private final boolean enableVisualizer;
-    private final boolean deleteExcessItems;
 
     /**
      * Fixes #3041
@@ -58,14 +56,11 @@ public class NetworkManager {
      *            The maximum amount of nodes a {@link Network} can have
      * @param enableVisualizer
      *            Whether the {@link Network} visualizer is enabled
-     * @param deleteExcessItems
-     *            Whether excess items from a {@link CargoNet} should be voided
      */
-    public NetworkManager(int maxStepSize, boolean enableVisualizer, boolean deleteExcessItems) {
+    public NetworkManager(int maxStepSize, boolean enableVisualizer) {
         Validate.isTrue(maxStepSize > 0, "The maximal Network size must be above zero!");
 
         this.enableVisualizer = enableVisualizer;
-        this.deleteExcessItems = deleteExcessItems;
         maxNodes = maxStepSize;
     }
 
@@ -76,7 +71,7 @@ public class NetworkManager {
      *            The maximum amount of nodes a {@link Network} can have
      */
     public NetworkManager(int maxStepSize) {
-        this(maxStepSize, true, false);
+        this(maxStepSize, true);
     }
 
     /**
@@ -96,16 +91,6 @@ public class NetworkManager {
      */
     public boolean isVisualizerEnabled() {
         return enableVisualizer;
-    }
-
-    /**
-     * This returns whether excess items from a {@link CargoNet} should be voided
-     * instead of being dropped to the ground.
-     * 
-     * @return Whether to delete excess items
-     */
-    public boolean isItemDeletionEnabled() {
-        return deleteExcessItems;
     }
 
     /**

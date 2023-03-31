@@ -24,7 +24,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public class HeatedPressureChamber extends AContainer {
 
@@ -42,39 +41,6 @@ public class HeatedPressureChamber extends AContainer {
             @Override
             public boolean canOpen(Block b, Player p) {
                 return p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
-            }
-
-            @Override
-            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                return new int[0];
-            }
-
-            @Override
-            public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
-                if (flow == ItemTransportFlow.WITHDRAW) {
-                    return getOutputSlots();
-                }
-
-                List<Integer> slots = new ArrayList<>();
-
-                for (int slot : getInputSlots()) {
-                    if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true)) {
-                        slots.add(slot);
-                    }
-                }
-
-                if (slots.isEmpty()) {
-                    return getInputSlots();
-                } else {
-                    Collections.sort(slots, compareSlots(menu));
-                    int[] array = new int[slots.size()];
-
-                    for (int i = 0; i < slots.size(); i++) {
-                        array[i] = slots.get(i);
-                    }
-
-                    return array;
-                }
             }
         };
     }

@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 public abstract class BlockMenuPreset extends ChestMenu {
@@ -73,8 +72,6 @@ public abstract class BlockMenuPreset extends ChestMenu {
      */
     public abstract boolean canOpen(@Nonnull Block b, @Nonnull Player p);
 
-    public abstract int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow);
-
     /**
      * This method is called whenever an {@link ItemStack} changes.
      * You can override this as necessary if you need to listen to these events
@@ -98,11 +95,6 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
         // This method can optionally be overridden by implementations
-    }
-
-    public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
-        // This method will default to that method, it can be overridden by subclasses though
-        return getSlotsAccessedByItemTransport(flow);
     }
 
     @Override

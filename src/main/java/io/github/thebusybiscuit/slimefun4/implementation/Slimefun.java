@@ -68,7 +68,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListe
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
@@ -302,7 +301,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
             networkSize = 1;
         }
 
-        networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"), config.getBoolean("networks.delete-excess-items"));
+        networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"));
 
         // Setting up bStats
         new Thread(metricsService::start, "Slimefun Metrics").start();
@@ -599,7 +598,6 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new SlimefunItemInteractListener(this);
         new SlimefunItemConsumeListener(this);
         new BlockPhysicsListener(this);
-        new CargoNodeListener(this);
         new MultiBlockListener(this);
         new GadgetsListener(this);
         new DispenserListener(this);
