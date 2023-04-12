@@ -18,7 +18,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlace
  * This {@link Event} is fired whenever a {@link SlimefunItem} placed as a {@link Block} in the world is broken.
  * 
  * @author J3fftw1
- * 
  */
 public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
 
@@ -33,7 +32,6 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
 
 
     /**
-     * 
      * @param player
      *        The {@link Player} who broke this {@link SlimefunItem}
      * @param brokenItem

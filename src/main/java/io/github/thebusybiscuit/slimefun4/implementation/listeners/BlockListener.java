@@ -164,7 +164,6 @@ public class BlockListener implements Listener {
 
     @ParametersAreNonnullByDefault
     private void callBlockHandler(BlockBreakEvent e, ItemStack item, List<ItemStack> drops, @Nullable SlimefunItem sfItem) {
-
         if (sfItem == null && Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
             Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(e.getBlock());
 

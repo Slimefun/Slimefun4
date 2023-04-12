@@ -18,7 +18,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlace
  * This {@link Event} is fired whenever a {@link SlimefunItem} is placed as a {@link Block} in the world.
  * 
  * @author J3fftw1
- * 
  */
 public class SlimefunBlockPlaceEvent extends BlockEvent implements Cancellable {
 
