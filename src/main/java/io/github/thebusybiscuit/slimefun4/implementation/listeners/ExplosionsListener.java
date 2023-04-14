@@ -56,7 +56,6 @@ public class ExplosionsListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityBreak(EntityChangeBlockEvent e) {
         if (e.getEntity().getType() == EntityType.WITHER || e.getEntity().getType() == EntityType.WITHER_SKULL) {
-
             removeResistantBlock(e.getBlock());
         }
     }
