@@ -68,7 +68,7 @@ public class ExplosionsListener implements Listener {
 
             if (item != null) {
                 blocks.remove();
-                removeResistantBlock(block);
+                removeResistantBlock(block, item);
             }
         }
     }
