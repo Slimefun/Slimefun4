@@ -71,11 +71,15 @@ public interface SlimefunGuideImplementation {
         if (p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {
-            float currentExp = ExperienceUtils.getPlayerCurrentExp(p.getLevel(), p.getExp());
-            float requiredExp = ExperienceUtils.convertLevelToFloatExp(research.getCost());
-            Number[] result = ExperienceUtils.convertExpToLevelAndProgress(currentExp - requiredExp);
-            p.setLevel((int) result[0]);
-            p.setExp((float) result[1]);
+            if (Slimefun.getCfg().getBoolean("researches.enable-real-xp-spending")) {
+                float currentExp = ExperienceUtils.getPlayerCurrentExp(p.getLevel(), p.getExp());
+                float requiredExp = ExperienceUtils.convertLevelToFloatExp(research.getCost());
+                Number[] result = ExperienceUtils.convertExpToLevelAndProgress(currentExp - requiredExp);
+                p.setLevel((int) result[0]);
+                p.setExp((float) result[1]);
+            } else {
+                p.setLevel(p.getLevel() - research.getCost());
+            }
 
             boolean skipLearningAnimation = Slimefun.getRegistry().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
             research.unlock(p, skipLearningAnimation, callback);

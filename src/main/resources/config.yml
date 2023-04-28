@@ -15,6 +15,7 @@ options:
   legacy-ore-grinder: true
   language: en
   enable-translations: true
+  enable-real-xp-spending: false
   log-duplicate-block-entries: true
   burn-players-when-radioactive: true
   drop-excess-sf-give-items: false
