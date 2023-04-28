@@ -9,7 +9,7 @@ import java.util.Map;
  * @author kingdom84521
  *
  * @see io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation
- * @see <a href="https://minecraft.fandom.com/wiki/Experience"></>
+ * @see <a href="https://minecraft.fandom.com/wiki/Experience"></a>
  *
  */
 public final class ExperienceUtils {
@@ -23,7 +23,7 @@ public final class ExperienceUtils {
      * @return xp in type {@link Float}
      */
 
-    public static @Nonnull float convertLevelToFloatExp(@Nonnull int level) {
+    public static float convertLevelToFloatExp(int level) {
         if (level > 31) {
             return (float) (4.5 * level * level - 162.5 * level + 2220);
         } else if (level > 16) {
@@ -33,7 +33,7 @@ public final class ExperienceUtils {
         }
     }
 
-    private static @Nonnull float getExpToNextLevel(@Nonnull int currentLevel) {
+    private static float getExpToNextLevel(int currentLevel) {
         if (currentLevel > 30) {
             return (float) 9 * currentLevel - 158;
         } else if (currentLevel > 15) {
@@ -43,11 +43,11 @@ public final class ExperienceUtils {
         }
     }
 
-    public static @Nonnull float getPlayerCurrentExp(@Nonnull int level, @Nonnull float progress) {
+    public static float getPlayerCurrentExp(int level, float progress) {
         return convertLevelToFloatExp(level) + (getExpToNextLevel(level) * progress);
     }
 
-    private static @Nonnull float convertExpToLevel(@Nonnull float exp) {
+    private static float convertExpToLevel(float exp) {
         if (exp >= 1508) {
             return (float) (325 + Math.sqrt(72 * exp - 54215)) / 18;
         } else if (exp >= 353) {
@@ -57,7 +57,7 @@ public final class ExperienceUtils {
         }
     }
 
-    public static @Nonnull Number[] convertExpToLevelAndProgress(@Nonnull float exp) {
+    public static Number[] convertExpToLevelAndProgress(float exp) {
         int level = (int) Math.floor(convertExpToLevel(exp));
         float progress = convertExpToLevel(exp) - level;
 
