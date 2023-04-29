@@ -15,7 +15,6 @@ options:
   legacy-ore-grinder: true
   language: en
   enable-translations: true
-  enable-real-xp-spending: false
   log-duplicate-block-entries: true
   burn-players-when-radioactive: true
   drop-excess-sf-give-items: false
@@ -30,6 +29,7 @@ researches:
   free-in-creative-mode: true
   enable-fireworks: true
   disable-learning-animation: false
+  convert-level-cost-to-exp: false
 
 URID:
   info-delay: 3000
