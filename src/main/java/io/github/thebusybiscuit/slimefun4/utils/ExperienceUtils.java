@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import javax.annotation.Nonnull;
-import java.util.Map;
+import org.apache.commons.lang.Validate;
 
 /**
  * Some helper methods for dealing with experience converting.
@@ -14,16 +13,28 @@ import java.util.Map;
  */
 public final class ExperienceUtils {
 
+    public static class LevelAndProgress {
+        public Integer level;
+        public Float progress;
+
+        public LevelAndProgress(int level, float progress) {
+            this.level = level;
+            this.progress = progress;
+        }
+    }
+
     /**
      * Helper method to calculate the level to exact xp
      *
      * @param level
-     *            The level to convert ( in type of {@link Integer} )
+     *            The level to convert
      *
-     * @return xp in type {@link Float}
+     * @return xp
      */
 
     public static float convertLevelToFloatExp(int level) {
+        Validate.isTrue(level >= 0, "Cannot process with a negative level number");
+
         if (level > 31) {
             return (float) (4.5 * level * level - 162.5 * level + 2220);
         } else if (level > 16) {
@@ -43,6 +54,17 @@ public final class ExperienceUtils {
         }
     }
 
+    /**
+     * Helper method to know the real xp player currently have
+     *
+     * @param level
+     *            Level that should be coming from Player.getLevel
+     * @param progress
+     *            Progress that currently show on the player's exp bar,
+     *            which should be coming from Player.getExp
+     *
+     * @return player current xp
+     */
     public static float getPlayerCurrentExp(int level, float progress) {
         return convertLevelToFloatExp(level) + (getExpToNextLevel(level) * progress);
     }
@@ -57,14 +79,19 @@ public final class ExperienceUtils {
         }
     }
 
-    public static Number[] convertExpToLevelAndProgress(float exp) {
+    /**
+     * Helper method to convert the amount of xp to exact level and progress
+     *
+     * @param exp
+     *            The exp to convert
+     *
+     * @return
+     */
+    public static LevelAndProgress convertExpToLevelAndProgress(float exp) {
         int level = (int) Math.floor(convertExpToLevel(exp));
         float progress = convertExpToLevel(exp) - level;
 
-        Number[] levelAndProgress = new Number[2];
-
-        levelAndProgress[0] = level;
-        levelAndProgress[1] = progress;
+        LevelAndProgress levelAndProgress = new LevelAndProgress(level, progress);
 
         return levelAndProgress;
     }

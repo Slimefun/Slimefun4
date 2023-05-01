@@ -71,12 +71,12 @@ public interface SlimefunGuideImplementation {
         if (p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {
-            if (Slimefun.getCfg().getBoolean("researches.convert-level-cost-to-exp")) {
+            if (Slimefun.getRegistry().isUsingVanillaExpFormula()) {
                 float currentExp = ExperienceUtils.getPlayerCurrentExp(p.getLevel(), p.getExp());
                 float requiredExp = ExperienceUtils.convertLevelToFloatExp(research.getCost());
-                Number[] result = ExperienceUtils.convertExpToLevelAndProgress(currentExp - requiredExp);
-                p.setLevel((int) result[0]);
-                p.setExp((float) result[1]);
+                ExperienceUtils.LevelAndProgress result = ExperienceUtils.convertExpToLevelAndProgress(currentExp - requiredExp);
+                p.setLevel(result.level);
+                p.setExp(result.progress);
             } else {
                 p.setLevel(p.getLevel() - research.getCost());
             }

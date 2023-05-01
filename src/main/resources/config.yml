@@ -29,7 +29,7 @@ researches:
   free-in-creative-mode: true
   enable-fireworks: true
   disable-learning-animation: false
-  convert-level-cost-to-exp: false
+  use-vanilla-exp-cost-formula: false
 
 URID:
   info-delay: 3000
