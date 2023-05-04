@@ -1,27 +1,30 @@
 package io.github.thebusybiscuit.slimefun4.utils.itemstack;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
+import io.github.bakedlibs.dough.skins.PlayerHead;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
+import kong.unirest.json.JSONObject;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * This {@link ItemStack}, which is <b>not intended for actual usage</b>, caches its {@link ItemMeta}.
  * This significantly speeds up any {@link ItemStack} comparisons a lot.
- * 
+ * <p>
  * You cannot invoke {@link #equals(Object)}, {@link #hashCode()} or any of its setter on an
  * {@link ItemStackWrapper}.<br>
  * Please be very careful when using this.
- * 
+ *
  * @author TheBusyBiscuit
  * @author md5sha256
- *
  */
 public final class ItemStackWrapper extends ItemStack {
 
@@ -108,8 +111,7 @@ public final class ItemStackWrapper extends ItemStack {
      * Creates an {@link ItemStackWrapper} of an {@link ItemStack}. This method
      * will not check if the passed {@link ItemStack} has already been wrapped
      *
-     * @param itemStack
-     *            The {@link ItemStack} to wrap
+     * @param itemStack The {@link ItemStack} to wrap
      * @return Returns an {@link ItemStackWrapper} of the passed {@link ItemStack}
      * @see #wrap(ItemStack)
      */
@@ -124,8 +126,7 @@ public final class ItemStackWrapper extends ItemStack {
      * will return the the casted reference of the passed {@link ItemStack} if it
      * is already an {@link ItemStackWrapper}
      *
-     * @param itemStack
-     *            The {@link ItemStack} to wrap
+     * @param itemStack The {@link ItemStack} to wrap
      * @return Returns an {@link ItemStackWrapper} of the passed {@link ItemStack}
      * @see #forceWrap(ItemStack)
      */
@@ -141,10 +142,8 @@ public final class ItemStackWrapper extends ItemStack {
 
     /**
      * This creates an {@link ItemStackWrapper} array from a given {@link ItemStack} array.
-     * 
-     * @param items
-     *            The array of {@link ItemStack ItemStacks} to transform
-     * 
+     *
+     * @param items The array of {@link ItemStack ItemStacks} to transform
      * @return An {@link ItemStackWrapper} array
      */
     public static @Nonnull ItemStackWrapper[] wrapArray(@Nonnull ItemStack[] items) {
@@ -163,10 +162,8 @@ public final class ItemStackWrapper extends ItemStack {
 
     /**
      * This creates an {@link ItemStackWrapper} {@link List} from a given {@link ItemStack} {@link List} *
-     * 
-     * @param items
-     *            The {@link List} of {@link ItemStack ItemStacks} to transform
-     * 
+     *
+     * @param items The {@link List} of {@link ItemStack ItemStacks} to transform
      * @return An {@link ItemStackWrapper} array
      */
     public static @Nonnull List<ItemStackWrapper> wrapList(@Nonnull List<ItemStack> items) {
@@ -184,4 +181,36 @@ public final class ItemStackWrapper extends ItemStack {
         return list;
     }
 
+    public String toJSON() {
+        JSONObject object = new JSONObject();
+        object.put("type", getType().toString());
+        object.put("amount", getAmount());
+        assert getItemMeta() != null;
+        object.put("displayName", getItemMeta().getDisplayName());
+        assert getItemMeta().getLore() != null;
+        object.put("lore", getItemMeta().getLore());
+        if (getItemMeta() instanceof SkullMeta) {
+            object.put("textures", Objects.requireNonNull(((SkullMeta) getItemMeta()).getOwnerProfile()).getTextures().getSkin());
+        }
+
+        return object.toString();
+    }
+
+    public static ItemStack fromJSON(String json) {
+        if (json == null) throw new IllegalArgumentException("JSON cannot be null!");
+        JSONObject object = new JSONObject(json);
+        ItemStack item = new ItemStack(new ItemStack(Material.valueOf(object.getString("type")), object.getInt("amount")));
+        if (object.has("textures")) {
+            PlayerSkin skin = PlayerSkin.fromURL(object.getString("textures"));
+            item = PlayerHead.getItemStack(skin);
+        }
+        String name = object.getString("displayName");
+        List lore = object.getJSONArray("lore").toList();
+        ItemMeta itemMeta = item.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName(name);
+        itemMeta.setLore(lore);
+        item.setItemMeta(itemMeta);
+        return item;
+    }
 }
