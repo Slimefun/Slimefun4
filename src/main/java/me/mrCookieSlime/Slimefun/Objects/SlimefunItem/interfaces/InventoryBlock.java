@@ -1,7 +1,11 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
 
 import java.lang.reflect.Array;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -10,13 +14,14 @@ import org.bukkit.inventory.Inventory;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 /**
  * 
- * @deprecated This interface is not designed to be used by addons. The entire inventory system will be replaced
+ * @deprecated This interface is not designed to be used by addons. The entire
+ *             inventory system will be replaced
  *             eventually.
  *
  */
@@ -43,6 +48,12 @@ public interface InventoryBlock {
     }
 
     default void createPreset(SlimefunItem item, String title, Consumer<BlockMenuPreset> setup) {
+        createPreset(item, title, null, setup);
+    }
+
+    default void createPreset(SlimefunItem item, String title,
+            @Nullable BiFunction<@Nonnull BlockMenu, @Nonnull Block, Void> onNewInstance,
+            Consumer<BlockMenuPreset> setup) {
         new BlockMenuPreset(item.getId(), title) {
 
             @Override
@@ -64,7 +75,15 @@ public interface InventoryBlock {
                 if (p.hasPermission("slimefun.inventory.bypass")) {
                     return true;
                 } else {
-                    return item.canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
+                    return item.canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b.getLocation(),
+                            Interaction.INTERACT_BLOCK);
+                }
+            }
+
+            @Override
+            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+                if (onNewInstance != null) {
+                    onNewInstance.apply(menu, b);
                 }
             }
         };
