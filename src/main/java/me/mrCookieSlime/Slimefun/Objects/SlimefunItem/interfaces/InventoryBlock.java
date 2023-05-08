@@ -20,8 +20,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 /**
  * 
- * @deprecated This interface is not designed to be used by addons. The entire
- *             inventory system will be replaced
+ * @deprecated This interface is not designed to be used by addons. The entire inventory system will be replaced
  *             eventually.
  *
  */
