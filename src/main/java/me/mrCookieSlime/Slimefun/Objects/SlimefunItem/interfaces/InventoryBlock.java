@@ -51,9 +51,7 @@ public interface InventoryBlock {
         createPreset(item, title, null, setup);
     }
 
-    default void createPreset(SlimefunItem item, String title,
-            @Nullable BiFunction<@Nonnull BlockMenu, @Nonnull Block, Void> onNewInstance,
-            Consumer<BlockMenuPreset> setup) {
+    default void createPreset(SlimefunItem item, String title, @Nullable BiFunction<@Nonnull BlockMenu, @Nonnull Block, Void> onNewInstance, Consumer<BlockMenuPreset> setup) {
         new BlockMenuPreset(item.getId(), title) {
 
             @Override
