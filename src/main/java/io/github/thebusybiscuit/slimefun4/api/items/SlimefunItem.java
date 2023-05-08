@@ -649,6 +649,11 @@ public class SlimefunItem implements Placeable {
      *            The new {@link Research} for this {@link SlimefunItem}, or null
      */
     public void setResearch(@Nullable Research research) {
+        if (this.isDisabled()) {
+            // Disabled items should not be bindable to research
+            return;
+        }
+
         if (this.research != null) {
             this.research.getAffectedItems().remove(this);
         }

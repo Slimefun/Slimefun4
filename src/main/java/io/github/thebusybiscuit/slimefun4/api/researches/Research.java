@@ -84,12 +84,13 @@ public class Research implements Keyed {
     /**
      * This method returns whether this {@link Research} is enabled.
      * {@code false} can mean that this particular {@link Research} was disabled or that
-     * researches altogether have been disabled.
+     * researches altogether have been disabled, or that this {@link Research} as no bound
+     * {@link SlimefunItem} and is therefore not-unlockable.
      * 
      * @return Whether this {@link Research} is enabled or not
      */
     public boolean isEnabled() {
-        return Slimefun.getRegistry().isResearchingEnabled() && enabled;
+        return Slimefun.getRegistry().isResearchingEnabled() && enabled && items.size() > 0;
     }
 
     /**
