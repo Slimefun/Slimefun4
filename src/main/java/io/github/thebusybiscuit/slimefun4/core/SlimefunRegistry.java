@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -200,7 +201,9 @@ public final class SlimefunRegistry {
      */
     @Nonnull
     public List<Research> getResearches() {
-        return researches;
+        // Some researches might not be enabled after being added to the list, in the case they have no items
+        // due to the SlimefunItem later being bound to another research, or being disabled globally
+        return researches.stream().filter(research -> research.isEnabled()).collect(Collectors.toList());
     }
 
     /**

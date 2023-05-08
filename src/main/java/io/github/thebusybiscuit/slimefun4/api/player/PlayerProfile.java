@@ -337,8 +337,7 @@ public class PlayerProfile {
     public void sendStats(@Nonnull CommandSender sender) {
         Set<Research> unlockedResearches = getResearches();
         int levels = unlockedResearches.stream().mapToInt(Research::getCost).sum();
-        int allResearches = Slimefun.getRegistry().getResearches().stream()
-            .filter(research -> research.isEnabled()).collect(Collectors.toList()).size();
+        int allResearches = Slimefun.getRegistry().getResearches().size();
 
         float progress = Math.round(((unlockedResearches.size() * 100.0F) / allResearches) * 100.0F) / 100.0F;
 
