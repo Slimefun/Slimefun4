@@ -211,7 +211,8 @@ public final class SlimefunRegistry {
      */
     @Nonnull
     public List<Research> getEnabledResearches() {
-        return researches.stream().filter(research -> research.isEnabled()).collect(Collectors.toList());
+        return researches.stream().filter(
+            research -> research.isEnabled() && research.getAffectedItems().size() > 0).collect(Collectors.toList());
     }
 
     /**

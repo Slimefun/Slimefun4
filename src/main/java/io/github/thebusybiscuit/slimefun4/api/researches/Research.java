@@ -90,7 +90,7 @@ public class Research implements Keyed {
      * @return Whether this {@link Research} is enabled or not
      */
     public boolean isEnabled() {
-        return Slimefun.getRegistry().isResearchingEnabled() && enabled && items.size() > 0;
+        return Slimefun.getRegistry().isResearchingEnabled() && enabled;
     }
 
     /**
