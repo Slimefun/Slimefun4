@@ -205,12 +205,12 @@ public class PlayerProfile {
     }
 
     /**
-     * This method returns whether this {@link Player} has unlocked all {@link Research Researches}.
+     * This method returns whether this {@link Player} has unlocked all enabled {@link Research Researches}.
      * 
-     * @return Whether they unlocked every {@link Research}
+     * @return Whether they unlocked every enabled {@link Research}
      */
     public boolean hasUnlockedEverything() {
-        for (Research research : Slimefun.getRegistry().getResearches()) {
+        for (Research research : Slimefun.getRegistry().getEnabledResearches()) {
             // If there is a single Research not unlocked: They haven't unlocked everything.
             if (!hasUnlocked(research)) {
                 return false;
@@ -336,15 +336,15 @@ public class PlayerProfile {
     public void sendStats(@Nonnull CommandSender sender) {
         Set<Research> unlockedResearches = getResearches();
         int levels = unlockedResearches.stream().mapToInt(Research::getCost).sum();
-        int allResearches = Slimefun.getRegistry().getResearches().size();
+        int allEnabledResearches = Slimefun.getRegistry().getEnabledResearches().size();
 
-        float progress = Math.round(((unlockedResearches.size() * 100.0F) / allResearches) * 100.0F) / 100.0F;
+        float progress = Math.min(Math.round(((unlockedResearches.size() * 100.0F) / allEnabledResearches) * 100.0F) / 100.0F, 100.0F);
 
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Statistics for Player: &b" + name));
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Title: " + ChatColor.AQUA + getTitle()));
-        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + unlockedResearches.size() + " / " + allResearches + ')'));
+        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + unlockedResearches.size() + " / " + allEnabledResearches + ')'));
         sender.sendMessage(ChatColors.color("&7Total XP Levels spent: " + ChatColor.AQUA + levels));
     }
 

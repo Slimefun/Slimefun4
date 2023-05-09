@@ -195,14 +195,22 @@ public final class SlimefunRegistry {
     }
 
     /**
+     * This returns a {@link List} containing every {@link Research}.
+     * 
+     * @return A {@link List} containing every {@link Research}
+     */
+    @Nonnull
+    public List<Research> getResearches() {
+        return researches;
+    }
+
+    /**
      * This returns a {@link List} containing every enabled {@link Research}.
      * 
      * @return A {@link List} containing every enabled {@link Research}
      */
     @Nonnull
-    public List<Research> getResearches() {
-        // Some researches might not be enabled after being added to the list, in the case they have no items
-        // due to the SlimefunItem later being bound to another research, or being disabled globally
+    public List<Research> getEnabledResearches() {
         return researches.stream().filter(research -> research.isEnabled()).collect(Collectors.toList());
     }
 
