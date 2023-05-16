@@ -8,14 +8,10 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
@@ -35,7 +31,7 @@ public class SoulboundListener implements Listener {
 
     private final Config soulboundCache = new Config("plugins/Slimefun/cache/soulbound/death.yml");
 
-    public SoulboundListener(@Nonnull Slimefun plugin) {
+    public void register(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -97,26 +93,6 @@ public class SoulboundListener implements Listener {
         soulboundCache.save();
     }
 
-    @EventHandler
-    public void onQuit(PlayerQuitEvent e) {
-        if (e.getPlayer().getHealth() == 0)
-            saveCache(e.getPlayer().getUniqueId());
-    }
-
-    @EventHandler
-    public void onKick(PlayerKickEvent e) {
-        if (e.getPlayer().getHealth() == 0)
-            saveCache(e.getPlayer().getUniqueId());
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPluginDisable(PluginDisableEvent event) {
-        System.out.println(soulbound);
-        if(event.getPlugin() instanceof Slimefun)
-            System.out.println(soulbound);
-        System.out.println(soulbound);
-    }
-
     private void saveCache(@Nonnull UUID uuid) {
         soulbound.get(uuid).forEach((integer, itemStack) -> {
             ItemStackWrapper itemStackWrapper = ItemStackWrapper.wrap(itemStack);
@@ -126,20 +102,7 @@ public class SoulboundListener implements Listener {
         soulboundCache.save();
     }
 
-    private void saveCache(@Nonnull UUID uuid, @Nonnull Map<Integer, ItemStack> items) {
-        items.forEach((integer, itemStack) -> {
-            ItemStackWrapper itemStackWrapper = ItemStackWrapper.wrap(itemStack);
-            soulboundCache.setValue(uuid + "." + integer, itemStackWrapper.toJSON());
-
-        });
-        soulboundCache.save();
-    }
-
-
     //save all soulbound items when the plugin is disabled
-
-
-    //TODO sauvegarder lorsque le plugin se désactive
     public void saveAll() {
         soulbound.forEach((uuid, integerItemStackMap) -> saveCache(uuid));
     }

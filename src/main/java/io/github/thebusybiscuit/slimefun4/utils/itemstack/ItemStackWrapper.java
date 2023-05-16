@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.utils.itemstack;
 
 import io.github.bakedlibs.dough.skins.PlayerHead;
 import io.github.bakedlibs.dough.skins.PlayerSkin;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import kong.unirest.json.JSONObject;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -185,12 +186,13 @@ public final class ItemStackWrapper extends ItemStack {
         JSONObject object = new JSONObject();
         object.put("type", getType().toString());
         object.put("amount", getAmount());
-        assert getItemMeta() != null;
-        object.put("displayName", getItemMeta().getDisplayName());
-        assert getItemMeta().getLore() != null;
-        object.put("lore", getItemMeta().getLore());
-        if (getItemMeta() instanceof SkullMeta) {
-            object.put("textures", Objects.requireNonNull(((SkullMeta) getItemMeta()).getOwnerProfile()).getTextures().getSkin());
+        if (getItemMeta() != null) {
+            object.put("displayName", getItemMeta().getDisplayName());
+            if (getItemMeta().getLore() != null)
+                object.put("lore", getItemMeta().getLore());
+            if (getItemMeta() instanceof SkullMeta) {
+                object.put("textures", Objects.requireNonNull(((SkullMeta) getItemMeta()).getOwnerProfile()).getTextures().getSkin());
+            }
         }
 
         return object.toString();
@@ -205,12 +207,17 @@ public final class ItemStackWrapper extends ItemStack {
             item = PlayerHead.getItemStack(skin);
         }
         String name = object.getString("displayName");
-        List lore = object.getJSONArray("lore").toList();
         ItemMeta itemMeta = item.getItemMeta();
-        assert itemMeta != null;
-        itemMeta.setDisplayName(name);
-        itemMeta.setLore(lore);
-        item.setItemMeta(itemMeta);
+        if (itemMeta != null) {
+            if (object.has("lore")) {
+                List lore = object.getJSONArray("lore").toList();
+                itemMeta.setLore(lore);
+
+            }
+            itemMeta.setDisplayName(name);
+            item.setItemMeta(itemMeta);
+        }
+        SlimefunUtils.setSoulbound(item, true);
         return item;
     }
 }
