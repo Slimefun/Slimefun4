@@ -181,43 +181,4 @@ public final class ItemStackWrapper extends ItemStack {
 
         return list;
     }
-
-    public String toJSON() {
-        JSONObject object = new JSONObject();
-        object.put("type", getType().toString());
-        object.put("amount", getAmount());
-        if (getItemMeta() != null) {
-            object.put("displayName", getItemMeta().getDisplayName());
-            if (getItemMeta().getLore() != null)
-                object.put("lore", getItemMeta().getLore());
-            if (getItemMeta() instanceof SkullMeta) {
-                object.put("textures", Objects.requireNonNull(((SkullMeta) getItemMeta()).getOwnerProfile()).getTextures().getSkin());
-            }
-        }
-
-        return object.toString();
-    }
-
-    public static ItemStack fromJSON(String json) {
-        if (json == null) throw new IllegalArgumentException("JSON cannot be null!");
-        JSONObject object = new JSONObject(json);
-        ItemStack item = new ItemStack(new ItemStack(Material.valueOf(object.getString("type")), object.getInt("amount")));
-        if (object.has("textures")) {
-            PlayerSkin skin = PlayerSkin.fromURL(object.getString("textures"));
-            item = PlayerHead.getItemStack(skin);
-        }
-        String name = object.getString("displayName");
-        ItemMeta itemMeta = item.getItemMeta();
-        if (itemMeta != null) {
-            if (object.has("lore")) {
-                List lore = object.getJSONArray("lore").toList();
-                itemMeta.setLore(lore);
-
-            }
-            itemMeta.setDisplayName(name);
-            item.setItemMeta(itemMeta);
-        }
-        SlimefunUtils.setSoulbound(item, true);
-        return item;
-    }
 }

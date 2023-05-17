@@ -5,7 +5,7 @@ import java.util.*;
 import javax.annotation.Nonnull;
 
 import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * This {@link Listener} is responsible for handling any {@link Soulbound} items.
  * A {@link Soulbound} {@link ItemStack} will not drop upon a {@link Player Player's} death.
  * Instead the {@link ItemStack} is saved and given back to the {@link Player} when they respawn.
+ * If the server restarts while there are {@link Player Player's} on the death screen, the {@link ItemStack} is saved in a {@link Config} file.
  *
  * @author TheBusyBiscuit
  */
@@ -80,14 +81,13 @@ public class SoulboundListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         if (!soulbound.containsKey(e.getPlayer().getUniqueId())) {
-            Set<String> keys = soulboundCache.getKeys(e.getPlayer().getUniqueId().toString());
-            Map<Integer, ItemStack> items = new HashMap<>();
-            keys.forEach((s) -> {
-                String value = soulboundCache.getString(e.getPlayer().getUniqueId() + "." + s);
-                ItemStack item = ItemStackWrapper.fromJSON(value);
-                items.put(Integer.parseInt(s), item);
-            });
-            soulbound.put(e.getPlayer().getUniqueId(), items);
+            MemorySection o = (MemorySection) soulboundCache.getConfiguration().get(e.getPlayer().getUniqueId().toString());
+            if(o != null) {
+                Set<String> keys = o.getKeys(false);
+                Map<Integer, ItemStack> items = new HashMap<>();
+                keys.forEach((s) -> items.put(Integer.parseInt(s), (ItemStack) o.get(s)));
+                soulbound.put(e.getPlayer().getUniqueId(), items);
+            }
         }
         soulboundCache.setValue(e.getPlayer().getUniqueId().toString(), null);
         soulboundCache.save();
@@ -95,8 +95,7 @@ public class SoulboundListener implements Listener {
 
     private void saveCache(@Nonnull UUID uuid) {
         soulbound.get(uuid).forEach((integer, itemStack) -> {
-            ItemStackWrapper itemStackWrapper = ItemStackWrapper.wrap(itemStack);
-            soulboundCache.setValue(uuid + "." + integer, itemStackWrapper.toJSON());
+            soulboundCache.setValue(uuid + "." + integer, itemStack);
 
         });
         soulboundCache.save();
