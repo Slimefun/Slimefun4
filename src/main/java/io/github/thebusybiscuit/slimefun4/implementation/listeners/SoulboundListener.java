@@ -1,10 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import io.github.bakedlibs.dough.config.Config;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.bakedlibs.dough.config.Config;
 
 /**
  * This {@link Listener} is responsible for handling any {@link Soulbound} items.
@@ -80,16 +83,17 @@ public class SoulboundListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        if (!soulbound.containsKey(e.getPlayer().getUniqueId())) {
-            MemorySection o = (MemorySection) soulboundCache.getConfiguration().get(e.getPlayer().getUniqueId().toString());
-            if(o != null) {
-                Set<String> keys = o.getKeys(false);
+        UUID uuid = e.getPlayer().getUniqueId();
+        if (!soulbound.containsKey(uuid)) {
+            MemorySection memorySection = (MemorySection) soulboundCache.getConfiguration().get(uuid.toString());
+            if (memorySection != null) {
+                Set<String> keys = memorySection.getKeys(false);
                 Map<Integer, ItemStack> items = new HashMap<>();
-                keys.forEach((s) -> items.put(Integer.parseInt(s), (ItemStack) o.get(s)));
-                soulbound.put(e.getPlayer().getUniqueId(), items);
+                keys.forEach((s) -> items.put(Integer.parseInt(s), (ItemStack) memorySection.get(s)));
+                soulbound.put(uuid, items);
             }
         }
-        soulboundCache.setValue(e.getPlayer().getUniqueId().toString(), null);
+        soulboundCache.setValue(uuid.toString(), null);
         soulboundCache.save();
     }
 
