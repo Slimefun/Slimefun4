@@ -48,7 +48,7 @@ public class VillagerTradingListener implements Listener {
             }
 
             if (e.getResult() == Result.DENY) {
-                Slimefun.getLocalization().sendMessage((Player) e.getWhoClicked(), "villagers.no-trading", true);
+                Slimefun.getLocalization().sendMessage(e.getWhoClicked(), "villagers.no-trading", true);
             }
         }
     }
