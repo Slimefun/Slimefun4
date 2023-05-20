@@ -110,6 +110,7 @@ public class SlimefunItem implements Placeable {
     protected boolean disenchantable = true;
     protected boolean hidden = false;
     protected boolean useableInWorkbench = false;
+    protected boolean tradable = false;
 
     private Optional<String> wikiURL = Optional.empty();
 
@@ -736,6 +737,35 @@ public class SlimefunItem implements Placeable {
      */
     public @Nonnull SlimefunItem setUseableInWorkbench(boolean useable) {
         this.useableInWorkbench = useable;
+
+        return this;
+    }
+
+    /**
+     * This method returns whether this {@link SlimefunItem} is allowed to
+     * be traded with villagers or wandering traders.
+     *
+     * Items of type {@link VanillaItem} may be used in workbenches for example.
+     *
+     * @see #setTradable(boolean)
+     *
+     * @return Whether this {@link SlimefunItem} can be traded.
+     */
+    public boolean isTradable() {
+        return tradable;
+    }
+
+    /**
+     * This sets whether this {@link SlimefunItem} is allowed to be
+     * traded with villagers or wandering traders.
+     *
+     * @param tradable
+     *            Whether this {@link SlimefunItem} should be tradable
+     *
+     * @return This instance of {@link SlimefunItem}
+     */
+    public @Nonnull SlimefunItem setTradable(boolean tradable) {
+        this.tradable = tradable;
 
         return this;
     }

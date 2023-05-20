@@ -54,6 +54,6 @@ public class VillagerTradingListener implements Listener {
     }
 
     private boolean isUnallowed(@Nullable SlimefunItem item) {
-        return item != null && !(item instanceof VanillaItem) && !(item instanceof SyntheticEmerald) && !item.isDisabled();
+        return item != null && item.isTradable() && !item.isDisabled();
     }
 }

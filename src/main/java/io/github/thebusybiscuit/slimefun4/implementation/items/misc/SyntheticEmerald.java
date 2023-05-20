@@ -27,6 +27,7 @@ public class SyntheticEmerald extends SlimefunItem {
         super(itemGroup, item, recipeType, recipe);
 
         setUseableInWorkbench(true);
+        setTradable(true);
     }
 
 }
