@@ -175,7 +175,10 @@ public class BlockListener implements Listener {
             // Fixes #2560
             if (e.isDropItems()) {
                 // Disable normal block drops
-                e.setDropItems(false);
+                // replace broken block with air so connected blocks (like signs) can drop, Fixes #3831
+                e.setCancelled(true);
+                e.getBlock().setType(Material.AIR);
+                e.setDropItems(true);
 
                 for (ItemStack drop : drops) {
                     // Prevent null or air from being dropped
