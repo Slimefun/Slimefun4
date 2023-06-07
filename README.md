@@ -28,17 +28,17 @@ Slimefun 4 can be downloaded **for free** on our builds page.<br>
 We currently provide two distinct versions of Slimefun, development builds and "stable" builds.<br>
 Here is a full summary of the differences between the two different versions of Slimefun.
 
-| | development (latest)                                                                                        | "stable" |
-| ------------------ |-------------------------------------------------------------------------------------------------------------| -------- |
-| **Minecraft version(s)** | :video_game: **1.16.\* - 1..\***                                                                            | :video_game: **1.14.\* - 1.19.\*** |
-| **Java version** | :computer: **Java 16 (or higher)**                                                                          | :computer: **Java 16 (or higher)** |
-| **automatic updates** | :heavy_check_mark:                                                                                          | :heavy_check_mark: |
-| **frequent updates** | :heavy_check_mark:                                                                                          | :x: |
-| **latest content** | :heavy_check_mark:                                                                                          | :x: |
-| **Discord support** | :heavy_check_mark:                                                                                          | :x: |
-| **Bug Reports** | :heavy_check_mark:                                                                                          | :x: |
-| **testing before release** | :x:                                                                                                         | :heavy_check_mark: |
-| **change logs** | :x:                                                                                                         | :memo: **[change log](https://github.com/Slimefun/Slimefun4/blob/master/CHANGELOG.md)** |
+| | development (latest) | "stable" |
+| ------------------ | -------- | -------- |
+| **Minecraft version(s)** | :video_game: **1.16.\* - 1.19.\*** | :video_game: **1.14.\* - 1.19.\*** |
+| **Java version** | :computer: **Java 16 (or higher)** | :computer: **Java 16 (or higher)** |
+| **automatic updates** | :heavy_check_mark: | :heavy_check_mark: |
+| **frequent updates** | :heavy_check_mark: | :x: |
+| **latest content** | :heavy_check_mark: | :x: |
+| **Discord support** | :heavy_check_mark: | :x: |
+| **Bug Reports** | :heavy_check_mark: | :x: |
+| **testing before release** | :x: | :heavy_check_mark: |
+| **change logs** | :x: | :memo: **[change log](https://github.com/Slimefun/Slimefun4/blob/master/CHANGELOG.md)** |
 | **Download link** | :floppy_disk: **[download latest](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :floppy_disk: **[download "stable"](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
 **:exclamation: We wholeheartedly recommend you to use _development builds_, they are the most recent version of Slimefun and also receive the most frequent updates! In fact, "stable" builds are so outdated that we won't accept bug reports from them at all.**
