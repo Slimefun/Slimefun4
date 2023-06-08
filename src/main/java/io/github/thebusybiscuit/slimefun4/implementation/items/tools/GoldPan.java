@@ -66,7 +66,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     /**
      * This method returns the target {@link Material}s for this {@link GoldPan}.
      * 
-     * @return The {@link Material} this {@link GoldPan} can be used on
+     * @return The {@link Material}s this {@link GoldPan} can be used on
      */
     public @Nonnull Set<Material> getInputMaterials() {
         return inputMaterials;
