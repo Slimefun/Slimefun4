@@ -118,7 +118,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         if (entity instanceof Item) {
             Item item = (Item) entity;
 
-            return !SlimefunUtils.isSoulbound(item.getItemStack()) && !isItem(item.getItemStack());
+            return item.getPickupDelay() == 0 && !SlimefunUtils.isSoulbound(item.getItemStack()) && !isItem(item.getItemStack());
         }
 
         return false;
