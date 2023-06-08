@@ -131,7 +131,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             if (block.isPresent()) {
                 Block b = block.get();
 
-                if (getInputMaterials().contains(b.getType()) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Interaction.BREAK_BLOCK)) {
+                if (isInputMaterialCorrect(b.getType()) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Interaction.BREAK_BLOCK)) {
                     ItemStack output = getRandomOutput();
 
                     b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
