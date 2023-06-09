@@ -109,5 +109,4 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
 
         b.setType(Material.AIR);
     }
-
 }
