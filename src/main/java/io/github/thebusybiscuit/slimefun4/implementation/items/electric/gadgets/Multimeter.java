@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
  * The {@link Multimeter} is used to measure charge and capacity of any {@link EnergyNetComponent}.
  * 
  * @author TheBusyBiscuit
- * 
+ *
  * @see EnergyNet
  * @see EnergyNetComponent
  *
@@ -43,17 +43,12 @@ public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
             if (e.getClickedBlock().isPresent() && block.isPresent()) {
                 SlimefunItem item = block.get();
 
-                if (item instanceof EnergyNetComponent component && component.isChargeable()) {
+                if (item instanceof EnergyNetComponent component) {
+                    Location location = e.getClickedBlock().get().getLocation();
+                    Player player = e.getPlayer();
+
                     e.cancel();
-
-                    Location l = e.getClickedBlock().get().getLocation();
-                    String stored = NumberUtils.getCompactDouble(component.getCharge(l)) + " J";
-                    String capacity = NumberUtils.getCompactDouble(component.getCapacity()) + " J";
-
-                    Player p = e.getPlayer();
-                    p.sendMessage("");
-                    component.sendMultimeterInfo(p, l);
-                    p.sendMessage("");
+                    component.sendMultimeterInfo(player, location);
                 }
             }
         };

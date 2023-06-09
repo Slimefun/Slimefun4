@@ -4,6 +4,7 @@ import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
@@ -29,7 +30,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * You can also specify a capacity for this Block via {@link EnergyNetComponent#getCapacity()}.
  * 
  * @author TheBusyBiscuit
- * 
+ *
  * @see EnergyNetComponentType
  * @see EnergyNet
  *
@@ -201,16 +202,29 @@ public interface EnergyNetComponent extends ItemAttribute {
     }
 
     /**
-     * Override this method to display additional information to the {@link Player} when a
-     * {@link Multimeter} is used.
+     * Override this method to change what information shown to the {@link Player} when a
+     * {@link Multimeter} is used on this component.
      *
      * @param player
-     *              The {@link Player} who is using the {@link Multimeter}
-     * @param l
-     *              The {@link Location} of the {@link EnergyNetComponent}
+     *                The {@link Player} who is using the {@link Multimeter}
+     * @param location
+     *                The {@link Location} of the {@link EnergyNetComponent}
      */
     default void sendMultimeterInfo(@Nonnull Player player, @Nonnull Location location) {
-        // Do nothing by default
+        // By default, we will display the stored J and capacity of the target machine if it's chargeable
+        if (isChargeable()) {
+            String stored = NumberUtils.getCompactDouble(getCharge(location)) + " J";
+            String capacity = NumberUtils.getCompactDouble(getCapacity()) + " J";
+
+            player.sendMessage("");
+            Slimefun.getLocalization().sendMessage(
+                player,
+                "messages.multimeter",
+                false,
+                str -> str.replace("%stored%", stored).replace("%capacity%", capacity)
+            );
+            player.sendMessage("");
+        }
     }
 
 }
