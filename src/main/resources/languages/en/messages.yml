@@ -346,7 +346,8 @@ smithing_table:
   not-working: '&4You cannot use a Slimefun item as a smithing material!'
 
 villagers:
-  no-trading: '&4You cannot trade this Slimefun item with Villagers or Wandering Traders!'
+  no-trading: '&4You cannot trade Slimefun items with Villagers!'
+  no-trading-new: '&4You cannot trade this Slimefun item with Villagers or Wandering Traders!'
 
 backpack:
   already-open: '&cSorry, this Backpack is open somewhere else!'
