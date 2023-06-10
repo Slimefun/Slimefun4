@@ -130,7 +130,8 @@ public class BlockStorage {
         }
 
         loadChunks();
-        //TODO properly support loading inventories
+
+        // TODO: properly support loading inventories
         if (!Slimefun.instance().isUnitTest()) {
             loadInventories();
         }

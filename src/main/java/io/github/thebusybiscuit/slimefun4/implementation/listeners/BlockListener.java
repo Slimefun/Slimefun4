@@ -97,6 +97,7 @@ public class BlockListener implements Listener {
                     if (Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
                         Slimefun.getBlockDataService().setBlockData(e.getBlock(), sfItem.getId());
                     }
+
                     BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getId(), true);
                     sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
                 }

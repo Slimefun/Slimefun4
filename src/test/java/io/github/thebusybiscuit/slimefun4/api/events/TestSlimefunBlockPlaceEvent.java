@@ -26,9 +26,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class TestSlimefunBlockPlaceEvent {
+
     private static ServerMock server;
     private static Slimefun plugin;
     private static SlimefunItem slimefunItem;
+
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();

@@ -41,12 +41,15 @@ class TestSlimefunBlockBreakEvent {
     private static ServerMock server;
     private static Slimefun plugin;
     private static SlimefunItem slimefunItem;
+
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(Slimefun.class);
+
         new BlockListener(plugin);
-        slimefunItem = TestUtilities.mockSlimefunItem(plugin, "FOOD_COMPOSTER", new ItemStack(Material.GREEN_TERRACOTTA));
+
+         slimefunItem = TestUtilities.mockSlimefunItem(plugin, "FOOD_COMPOSTER", new ItemStack(Material.GREEN_TERRACOTTA));
         slimefunItem.register(plugin);
     }
 
