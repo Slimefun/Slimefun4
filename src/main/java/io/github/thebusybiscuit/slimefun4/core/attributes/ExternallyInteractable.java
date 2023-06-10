@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,8 +29,7 @@ public interface ExternallyInteractable {
      *
      * @return The {@link InteractionResult} denoting the result of the interaction.
      */
-    @Nonnull
-    InteractionResult onInteract(@Nonnull Location location);
+    @Nonnull InteractionResult onInteract(@Nonnull Location location);
 
     /**
      * This class represents the result of an interaction on an {@link ExternallyInteractable} item.
@@ -37,8 +37,8 @@ public interface ExternallyInteractable {
     class InteractionResult {
 
         private final boolean interactionSuccessful;
-        @Nonnull
-        private final Set<ItemStack> resultItems = new HashSet<>();
+        private @Nullable String resultMessage;
+        private final @Nonnull Set<ItemStack> resultItems = new HashSet<>();
 
         /**
          * Creates a new InteractionResult.
@@ -81,9 +81,36 @@ public interface ExternallyInteractable {
          *
          * @return An unmodifiable {@link Set} of {@link ItemStack}(s) created due to the interaction.
          */
-        @Nonnull
-        public Set<ItemStack> getResultItems() {
+        public @Nonnull Set<ItemStack> getResultItems() {
             return Collections.unmodifiableSet(resultItems);
+        }
+
+        /**
+         * Sets a custom result message for this interaction.
+         *
+         * @param
+         *       resultMessage The message to be sent with the Result
+         */
+        public void setResultMessage(@Nullable String resultMessage) {
+            this.resultMessage = resultMessage;
+        }
+
+        /**
+         * Returns whether this result has a result message or not.
+         *
+         * @return True if a result message is present
+         */
+        public boolean hasResultMessage() {
+            return this.resultMessage != null;
+        }
+
+        /**
+         * Returns the custom result message for this result.
+         *
+         * @return A String of the provided custom result message.
+         */
+        public @Nullable String getResultMessage() {
+            return resultMessage;
         }
     }
 }
