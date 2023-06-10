@@ -83,6 +83,8 @@ public class BlockListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
         ItemStack item = e.getItemInHand();
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        
+        // TODO Protection manager is null in testing environment.
         if (!Slimefun.instance().isUnitTest()) {
             Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.BREAK_BLOCK);
         }
