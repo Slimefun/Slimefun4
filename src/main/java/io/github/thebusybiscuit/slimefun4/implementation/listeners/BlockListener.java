@@ -123,18 +123,20 @@ public class BlockListener implements Listener {
 
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
-        SlimefunBlockBreakEvent breakEvent = null;
 
-        if (sfItem != null) {
-            breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
-            Bukkit.getPluginManager().callEvent(breakEvent);
-
-            if (breakEvent.isCancelled()) {
-                e.setCancelled(true);
-            }
+        if (sfItem == null) {
+            return;
         }
 
-        if (!e.isCancelled() && (breakEvent == null || !breakEvent.isCancelled())) {
+        SlimefunBlockBreakEvent breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
+        Bukkit.getPluginManager().callEvent(breakEvent);
+
+        if (breakEvent.isCancelled()) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if (!e.isCancelled()) {
             checkForSensitiveBlockAbove(e, item);
 
             int fortune = getBonusDropsWithFortune(item, e.getBlock());
