@@ -60,9 +60,9 @@ public class SlimefunBlockBreakEvent extends Event implements Cancellable {
     }
 
     /**
-     * This gets the {@link SlimefunItem}
+     * This gets the {@link SlimefunItem} being broken
      * 
-     * @return The {@link SlimefunItem}
+     * @return The {@link SlimefunItem} being broken
      */
     @Nonnull
     public SlimefunItem getSlimefunItem() {

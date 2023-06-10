@@ -59,9 +59,9 @@ public class SlimefunBlockPlaceEvent extends Event implements Cancellable {
     }
 
     /**
-     * This gets the {@link SlimefunItem}
+     * This gets the {@link SlimefunItem} being placed
      *
-     * @return The {@link SlimefunItem}
+     * @return The {@link SlimefunItem} being placed
      */
     @Nonnull
     public SlimefunItem getSlimefunItem() {
