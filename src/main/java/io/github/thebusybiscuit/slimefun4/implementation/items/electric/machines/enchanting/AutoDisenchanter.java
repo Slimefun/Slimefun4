@@ -94,7 +94,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             }
         }
 
-        if (isEnchantmentAmountAllowed(item)) {
+        if (!isEnchantmentAmountAllowed(enchantments.size())) {
             return null;
         }
 

@@ -40,7 +40,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
     private final ItemSetting<Boolean> useLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting levelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
     private final ItemSetting<Integer> maxEnchants = new IntRangeSetting(this, "max-enchants", 0, 10, Short.MAX_VALUE);
-    private final ItemSetting<Boolean> useMaxEnchants= new ItemSetting<>(this, "use-max-encahnts", false);
+    private final ItemSetting<Boolean> useMaxEnchants= new ItemSetting<>(this, "use-max-enchants", false);
     private final ItemSetting<Boolean> useIgnoredLores = new ItemSetting<>(this, "use-ignored-lores", false);
     private final ItemSetting<List<String>> ignoredLores = new ItemSetting<>(this, "ignored-lores", Collections.singletonList("&7- &cCan't be used in " + this.getItemName()));
 
@@ -91,7 +91,10 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         return false;
     }
 
-    protected boolean isEnchantmentAmountAllowed(@Nonnull ItemStack item ) {
-        return !useMaxEnchants.getValue() || item.getEnchantments().size() >= maxEnchants.getValue();
+    protected boolean isEnchantmentAmountAllowed(int numberOfEnchants) {
+        if (!useMaxEnchants.getValue()) {
+            return true;
+        }
+        return numberOfEnchants <= maxEnchants.getValue();
     }
 }
