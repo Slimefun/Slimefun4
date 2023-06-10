@@ -63,9 +63,9 @@ public class TestSlimefunBlockPlaceEvent {
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
         Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
+        BlockStorage.clearBlockInfo(block);
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
-        BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
         BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
             block, block.getState(), blockAgainst, itemStack, player, true, EquipmentSlot.HAND
@@ -85,9 +85,9 @@ public class TestSlimefunBlockPlaceEvent {
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
         Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
+        BlockStorage.clearBlockInfo(block);
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
-        BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
         BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
             block, block.getState(), blockAgainst, itemStack, player, true, EquipmentSlot.HAND
@@ -121,9 +121,9 @@ public class TestSlimefunBlockPlaceEvent {
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
         Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
+        BlockStorage.clearBlockInfo(block);
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
-        BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
         BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
             block, block.getState(), blockAgainst, itemStack, player, true, EquipmentSlot.HAND
