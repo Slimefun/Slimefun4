@@ -130,7 +130,10 @@ public class BlockStorage {
         }
 
         loadChunks();
-//        loadInventories();
+        //TODO properly support loading inventories
+        if (!Slimefun.instance().isUnitTest()) {
+            loadInventories();
+        }
         Slimefun.getRegistry().getWorlds().put(world.getName(), this);
     }
 
