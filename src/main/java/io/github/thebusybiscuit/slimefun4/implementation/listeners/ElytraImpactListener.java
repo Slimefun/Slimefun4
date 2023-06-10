@@ -1,10 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import org.bukkit.event.entity.EntityToggleGlideEvent;
 
 /**
  * The {@link Listener} for the {@link ElytraCap}.
@@ -29,8 +34,20 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
  */
 public class ElytraImpactListener implements Listener {
 
+    private final Set<UUID> gliding =  new HashSet<>();
+
     public ElytraImpactListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
+    @EventHandler
+    public void onGlideToggle(EntityToggleGlideEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof Player player && player.isGliding()) {
+            UUID uuid = player.getUniqueId();
+            gliding.add(uuid);
+        }
+        Slimefun.instance().getServer().getScheduler().runTaskLater(Slimefun.instance(), gliding::clear, 1);
     }
 
     @EventHandler
@@ -40,7 +57,9 @@ public class ElytraImpactListener implements Listener {
             return;
         }
 
-        if ((e.getCause() == DamageCause.FALL || e.getCause() == DamageCause.FLY_INTO_WALL) && p.isGliding()) {
+        if ((e.getCause() == DamageCause.FALL || e.getCause() == DamageCause.FLY_INTO_WALL)
+            && (p.isGliding() || gliding.contains(p.getUniqueId()))
+        ) {
             Optional<PlayerProfile> optional = PlayerProfile.find(p);
 
             if (optional.isEmpty()) {
