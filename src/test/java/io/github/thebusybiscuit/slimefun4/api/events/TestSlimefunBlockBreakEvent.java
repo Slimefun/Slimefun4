@@ -54,7 +54,7 @@ class TestSlimefunBlockBreakEvent {
 
     @Test
     @DisplayName("Test firing Slimefun Block Break Event")
-    void testEventIsFired() throws InterruptedException {
+    void testEventIsFired() {
         Player player = new PlayerMock(server, "SomePlayer");
 
         World world = server.addSimpleWorld("my_world");

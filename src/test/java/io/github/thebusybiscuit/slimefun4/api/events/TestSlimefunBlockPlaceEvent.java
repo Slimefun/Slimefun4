@@ -51,7 +51,7 @@ public class TestSlimefunBlockPlaceEvent {
 
     @Test
     @DisplayName("Test firing Slimefun Block place Event")
-    void testEventIsFired() throws InterruptedException {
+    void testEventIsFired() {
         Player player = new PlayerMock(server, "SomePlayer");
 
         World world = server.addSimpleWorld("my_world");
@@ -105,7 +105,7 @@ public class TestSlimefunBlockPlaceEvent {
 
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
-        
+
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
