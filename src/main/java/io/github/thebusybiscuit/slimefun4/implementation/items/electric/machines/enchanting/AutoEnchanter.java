@@ -120,7 +120,15 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
          * When maxEnchants is set to -1 it will be ignored. When it's set to 0 it will not allow any enchants to go
          * on an item. When maxEnchants is set to any other value it will allow that many enchants to go on the item.
          */
-        if (isEnchantmentAmountAllowed(target)) {
+        int preExistingEnchants = 0;
+        for (Map.Entry<Enchantment, Integer> entry : target.getEnchantments().entrySet()) {
+            if (meta.hasEnchant(entry.getKey())) {
+                preExistingEnchants++;
+            }
+        }
+        int totalEnchants = enchantments.size() + preExistingEnchants;
+
+        if (!isEnchantmentAmountAllowed(totalEnchants)) {
             return null;
         }
 
