@@ -12,20 +12,19 @@ import org.bukkit.event.block.BlockEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 
 /**
  * This {@link Event} is fired whenever a {@link SlimefunItem} placed as a {@link Block} in the world is broken.
  * 
  * @author J3fftw1
  */
-public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
+public class SlimefunBlockBreakEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
     private final Block blockBroken;
     private final SlimefunItem slimefunItem;
-    private final ItemStack brokenItem;
+    private final ItemStack heldItem;
     private final Player player;
 
     private boolean cancelled = false;
@@ -34,7 +33,7 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
     /**
      * @param player
      *        The {@link Player} who broke this {@link SlimefunItem}
-     * @param brokenItem
+     * @param heldItem
      *        The {@link ItemStack} held by the {@link Player}
      * @param blockBroken
      *        The {@link Block} broken by the {@link Player}
@@ -42,11 +41,11 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
      *        The {@link SlimefunItem} within the {@link ItemStack}
      */
     @ParametersAreNonnullByDefault
-    public SlimefunBlockBreakEvent(Player player, ItemStack brokenItem, Block blockBroken, SlimefunItem slimefunItem) {
-        super(blockBroken);
+    public SlimefunBlockBreakEvent(Player player, ItemStack heldItem, Block blockBroken, SlimefunItem slimefunItem) {
+        super();
         
         this.player = player;
-        this.brokenItem = brokenItem;
+        this.heldItem = heldItem;
         this.blockBroken = blockBroken;
         this.slimefunItem = slimefunItem;
     }
@@ -72,13 +71,13 @@ public class SlimefunBlockBreakEvent extends BlockEvent implements Cancellable {
     }
 
     /**
-     * This gets the broken {@link ItemStack}.
+     * The {@link ItemStack} held by the {@link Player}
      * 
-     * @return The broken {@link ItemStack}
+     * @return The held {@link ItemStack}
      */
     @Nonnull
-    public ItemStack getItemStack() {
-        return brokenItem;
+    public ItemStack getHeldItem() {
+        return heldItem;
     }
 
     /**

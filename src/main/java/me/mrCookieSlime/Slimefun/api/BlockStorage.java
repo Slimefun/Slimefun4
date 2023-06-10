@@ -130,8 +130,7 @@ public class BlockStorage {
         }
 
         loadChunks();
-        loadInventories();
-
+//        loadInventories();
         Slimefun.getRegistry().getWorlds().put(world.getName(), this);
     }
 

@@ -8,18 +8,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.block.BlockEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 
 /**
  * This {@link Event} is fired whenever a {@link SlimefunItem} is placed as a {@link Block} in the world.
  * 
  * @author J3fftw1
  */
-public class SlimefunBlockPlaceEvent extends BlockEvent implements Cancellable {
+public class SlimefunBlockPlaceEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
@@ -42,7 +40,7 @@ public class SlimefunBlockPlaceEvent extends BlockEvent implements Cancellable {
      */
     @ParametersAreNonnullByDefault
     public SlimefunBlockPlaceEvent(Player player, ItemStack placedItem, Block blockPlaced, SlimefunItem slimefunItem) {
-        super(blockPlaced);
+        super();
 
         this.player = player;
         this.placedItem = placedItem;

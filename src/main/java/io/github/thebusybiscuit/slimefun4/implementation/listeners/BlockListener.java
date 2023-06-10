@@ -110,12 +110,10 @@ public class BlockListener implements Listener {
         if (Slimefun.getIntegrations().isEventFaked(e)) {
             return;
         }
-
         // Also ignore custom blocks which were placed by other plugins
         if (Slimefun.getIntegrations().isCustomBlock(e.getBlock())) {
             return;
         }
-
         // Ignore blocks which we have marked as deleted (Fixes #2771)
         if (Slimefun.getTickerTask().isDeletedSoon(e.getBlock().getLocation())) {
             return;
@@ -124,11 +122,9 @@ public class BlockListener implements Listener {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
         SlimefunBlockBreakEvent breakEvent = null;
-
         if (sfItem != null) {
             breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
             Bukkit.getPluginManager().callEvent(breakEvent);
-
             if (breakEvent.isCancelled()) {
                 e.setCancelled(true);
             }
