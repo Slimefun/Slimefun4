@@ -53,7 +53,7 @@ class TestSlimefunBlockBreakEvent {
     }
 
     @Test
-    @DisplayName("Test firing Slimefun Block Break Event")
+    @DisplayName("Test that SlimefunBlockBreakEvent is fired when a SlimefunItem is broken")
     void testEventIsFired() {
         Player player = new PlayerMock(server, "SomePlayer");
 
@@ -68,7 +68,7 @@ class TestSlimefunBlockBreakEvent {
     }
 
     @Test
-    @DisplayName("Test getting the getters from the event")
+    @DisplayName("Test the getters are set to the right values")
     void testGetters() {
         Player player = new PlayerMock(server, "SomePlayer");
         ItemStack itemStack = new ItemStack(Material.IRON_PICKAXE);
@@ -92,7 +92,7 @@ class TestSlimefunBlockBreakEvent {
     }
 
     @Test
-    @DisplayName("Test the event cancelling")
+    @DisplayName("Test that the SlimefunBlockBreakEvent & BlockBreakEvent events are cancelled correctly")
     void testIsCancelled() {
         server.getPluginManager().registerEvents(new Listener() {
             @EventHandler
@@ -111,9 +111,11 @@ class TestSlimefunBlockBreakEvent {
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
-        server.getPluginManager().callEvent(new BlockBreakEvent(block, player));
+        BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
+        server.getPluginManager().callEvent(blockBreakEvent);
         server.getPluginManager().assertEventFired(SlimefunBlockBreakEvent.class, e -> {
             Assertions.assertTrue(e.isCancelled());
+            Assertions.assertTrue(blockBreakEvent.isCancelled());
             return true;
         });
     }

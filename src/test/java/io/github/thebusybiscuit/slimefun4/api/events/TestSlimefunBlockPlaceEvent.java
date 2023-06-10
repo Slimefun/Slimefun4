@@ -34,7 +34,9 @@ public class TestSlimefunBlockPlaceEvent {
     public static void load() {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(Slimefun.class);
+
         new BlockListener(plugin);
+
         slimefunItem = TestUtilities.mockSlimefunItem(plugin, "FOOD_COMPOSTER", new ItemStack(Material.GREEN_TERRACOTTA));
         slimefunItem.register(plugin);
     }
@@ -50,7 +52,7 @@ public class TestSlimefunBlockPlaceEvent {
     }
 
     @Test
-    @DisplayName("Test firing Slimefun Block place Event")
+    @DisplayName("Test that SlimefunBlockPlaceEvent is fired when a SlimefunItem is placed")
     void testEventIsFired() {
         Player player = new PlayerMock(server, "SomePlayer");
 
@@ -66,7 +68,7 @@ public class TestSlimefunBlockPlaceEvent {
     }
 
     @Test
-    @DisplayName("Test getting the getters from the event")
+    @DisplayName("Test the getters are set to the right values")
     void testGetters() {
         Player player = new PlayerMock(server, "SomePlayer");
         ItemStack itemStack = new ItemStack(Material.GREEN_TERRACOTTA);
@@ -90,7 +92,7 @@ public class TestSlimefunBlockPlaceEvent {
     }
 
     @Test
-    @DisplayName("Test the event cancelling")
+    @DisplayName("Test that the SlimefunBlockPlaceEvent & BlockPlaceEvent events are cancelled correctly")
     void testIsCancelled() {
         server.getPluginManager().registerEvents(new Listener() {
             @EventHandler

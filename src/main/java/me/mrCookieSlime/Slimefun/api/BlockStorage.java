@@ -131,7 +131,7 @@ public class BlockStorage {
 
         loadChunks();
 
-        // TODO: properly support loading inventories
+        // TODO: properly support loading inventories within unit tests
         if (!Slimefun.instance().isUnitTest()) {
             loadInventories();
         }
