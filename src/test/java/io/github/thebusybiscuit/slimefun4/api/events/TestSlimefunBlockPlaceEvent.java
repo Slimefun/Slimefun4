@@ -14,8 +14,11 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -55,15 +58,21 @@ public class TestSlimefunBlockPlaceEvent {
     @DisplayName("Test that SlimefunBlockPlaceEvent is fired when a SlimefunItem is placed")
     void testEventIsFired() {
         Player player = new PlayerMock(server, "SomePlayer");
+        ItemStack itemStack = slimefunItem.getItem();
+        player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
-        ItemStack vanillaItem = new ItemStack(Material.GREEN_TERRACOTTA);
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
+        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
-        server.getPluginManager().callEvent(new SlimefunBlockPlaceEvent(player, vanillaItem, block, slimefunItem));
+        BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
+            block, block.getState(), blockAgainst, itemStack, player, true, EquipmentSlot.HAND
+        );
+
+        server.getPluginManager().callEvent(blockPlaceEvent);
         server.getPluginManager().assertEventFired(SlimefunBlockPlaceEvent.class, e -> true);
     }
 
@@ -71,16 +80,21 @@ public class TestSlimefunBlockPlaceEvent {
     @DisplayName("Test the getters are set to the right values")
     void testGetters() {
         Player player = new PlayerMock(server, "SomePlayer");
-        ItemStack itemStack = new ItemStack(Material.GREEN_TERRACOTTA);
+        ItemStack itemStack = slimefunItem.getItem();
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
+        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
-        server.getPluginManager().callEvent(new SlimefunBlockPlaceEvent(player, itemStack, block, slimefunItem));
+        BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
+            block, block.getState(), blockAgainst, itemStack, player, true, EquipmentSlot.HAND
+        );
+
+        server.getPluginManager().callEvent(blockPlaceEvent);
         server.getPluginManager().assertEventFired(SlimefunBlockPlaceEvent.class, e -> {
             Assertions.assertEquals(block, e.getBlockPlaced());
             Assertions.assertEquals(slimefunItem, e.getSlimefunItem());
@@ -102,18 +116,24 @@ public class TestSlimefunBlockPlaceEvent {
         }, plugin);
 
         Player player = new PlayerMock(server, "SomePlayer");
-        ItemStack itemStack = new ItemStack(Material.GREEN_TERRACOTTA);
+        ItemStack itemStack = slimefunItem.getItem();
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
+        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
-        server.getPluginManager().callEvent(new SlimefunBlockPlaceEvent(player, itemStack, block, slimefunItem));
+        BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
+            block, block.getState(), blockAgainst, itemStack, player, true, EquipmentSlot.HAND
+        );
+
+        server.getPluginManager().callEvent(blockPlaceEvent);
         server.getPluginManager().assertEventFired(SlimefunBlockPlaceEvent.class, e -> {
             Assertions.assertTrue(e.isCancelled());
+            Assertions.assertTrue(blockPlaceEvent.isCancelled());
             return true;
         });
     }
