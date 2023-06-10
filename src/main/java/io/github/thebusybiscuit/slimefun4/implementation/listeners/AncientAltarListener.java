@@ -141,7 +141,7 @@ public class AncientAltarListener implements Listener {
             // Check if the Item in hand is valid
             if (p.getInventory().getItemInMainHand().getType() != Material.AIR) {
                 // Check for pedestal obstructions
-                if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
+                if (!pedestal.getRelative(0, 1, 0).getType().isAir()) {
                     Slimefun.getLocalization().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
                     return;
                 }

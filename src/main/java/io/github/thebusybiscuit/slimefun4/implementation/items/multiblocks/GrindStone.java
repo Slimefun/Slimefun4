@@ -78,9 +78,15 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.QUARTZ_BLOCK));
         recipes.add(new ItemStack(Material.QUARTZ, 4));
 
+        recipes.add(new ItemStack(Material.BASALT, 2));
+        recipes.add(new ItemStack(Material.BLACKSTONE));
+
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             recipes.add(new ItemStack(Material.AMETHYST_BLOCK));
             recipes.add(new ItemStack(Material.AMETHYST_SHARD, 4));
+
+            recipes.add(new ItemStack(Material.COBBLED_DEEPSLATE));
+            recipes.add(new ItemStack(Material.GRAVEL));
         }
 
         recipes.add(SlimefunItems.MAGIC_LUMP_2);
@@ -106,18 +112,17 @@ public class GrindStone extends MultiBlockMachine {
 
     @Override
     public void onInteract(Player p, Block b) {
-        Block dispBlock = b.getRelative(BlockFace.DOWN);
-        BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
+        Block possibleDispenser = b.getRelative(BlockFace.DOWN);
+        BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
 
-        if (state instanceof Dispenser) {
-            Dispenser disp = (Dispenser) state;
-            Inventory inv = disp.getInventory();
+        if (state instanceof Dispenser dispenser) {
+            Inventory inv = dispenser.getInventory();
 
             for (ItemStack current : inv.getContents()) {
                 for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
                     if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
                         ItemStack output = RecipeType.getRecipeOutput(this, convert);
-                        Inventory outputInv = findOutputInventory(output, dispBlock, inv);
+                        Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
 
                         if (outputInv != null) {
                             ItemStack removing = current.clone();

@@ -1,1 +1,150 @@
 ---
+commands:
+  help: اين صفحه ي کمک را نشان بده
+  cheat: به شما اجازه ي تقلب آيتم مي دهد
+  teleporter: محل تلپورت پلير ديگر را ببينيد
+  versions: همه ي افزونه های نصب شده را به صورت يک ليست به شما نشان ميدهد
+  search: دنبال کلمه داده شده در کتاب راهنما می گردد
+  research:
+    description: تحقیقات یک پلیر را باز یا ریست میکند
+    reset-target: '&cدانش شما بازنشانی شده است'
+  backpack:
+    description: يک کپي از کوله پشتي موجود را بازیابي کنید
+  charge:
+    charge-success: وسیله شما شارژ شد!
+    not-rechargeable: اين وسیله قابل شارژ نيست!
+  debug:
+    description: 'ثبت اشکال زدایی را برای توسعه دهندگان اجرا کنید'
+    disabled: '&7حالت اشکال زدایی غیرفعال شد.'
+placeholderapi:
+  profile-loading: 'لودينگ...'
+guide:
+  locked: 'قفل شده است'
+  work-in-progress: 'اين قابليت هنوز کامل نشده!'
+  locked-itemgroup:
+    - 'براي باز کردن اين گروه شما بايد'
+    - 'نیاز به باز کردن قفل همه موارد از'
+    - 'دسته های زیر'
+  search:
+    message: '&bدوست دارید دنبال چه چیزی بگردید?'
+    name: '&7جست و جو...'
+    tooltip: '&bبراي جست و جو کليک کنيد'
+    inventory: 'جست و جو برای: %item%'
+  tooltips:
+    open-itemgroup: 'براي باز کردن کليک کنيد'
+    versions-notice: 'این موارد هنگام گزارش باگ بسیار مهم هستند!'
+    wiki: 'این آیتم را در ویکی رسمی Slimefun مشاهده کنید'
+    recipes:
+      generator: 'نوع هاي موجود سوخت'
+  pages:
+    previous: 'صفحه ي قبل'
+    next: 'صفحه ی بعد'
+  back:
+    title: 'برگشت'
+    settings: 'به صفحه تنظیمات بازگرد'
+  languages:
+    selected-language: 'در حال حاضر انتخاب شده:'
+    select: 'برای انتخاب این زبان کلیک کنید'
+    select-default: 'برای انتخاب زبان پیش فرض کلیک کنید'
+    change: 'برای انتخاب زبان جدید کلیک کنید'
+    description:
+      - '&7اکنون این گزینه را دارید که تغییر دهید'
+      - '&7زبان در Slimefun'
+      - '&7به شما ارائه خواهد شد. آیتم ها'
+      - '&7فعلا قابل ترجمه نیست.'
+    translations:
+      name: '&aچیزی فراموش شده است?'
+      lore: 'برای افزودن ترجمه خود کلیک کنید'
+  title:
+    main: 'راهنمای Slimefun'
+    settings: 'تنظیمات و اطلاعات'
+    credits: 'مشارکت کنندگان Slimefun4'
+    wiki: 'ویکی Slimefun4'
+    addons: 'افزون ها برای Slimefun4'
+    bugs: 'گزارش اشکال ها'
+    source: 'کد منبع'
+    versions: 'نسخه های نصب شده'
+  credits:
+    profile-link: 'برای دیدن نمایه آنها در GitHub کلیک کنید'
+    open: 'برای دیدن مشارکت کنندگان ما کلیک کنید'
+    roles:
+      developer: '&6توسعه دهندگان'
+      wiki: '&3ویرایش کننده ویکی'
+      resourcepack: '&cهنرمند بسته منابع'
+      translator: '&9مترجم'
+messages:
+  hungry: '&cشما برای انجام این کار زیادی گرسنه هستید! برای انجام آن نوار گرسنگی خود را پر کنید!'
+  disabled-in-world: '&4&lاين آيتم در این جهان غير فعال شده است'
+  auto-crafting:
+    select: 'این دستور غذا را انتخاب کنید'
+  soulbound-rune:
+    fail: '&cشما نمی توانید چند وسیله را به طور همزمان به روح خود متصل کنید.'
+    success: '&aشما با موفقیت این مورد را به روح خود متصل کردید! در صورت مردن شما این وسیله را از دست نمی دهید.'
+  tape-measure:
+    distance: '&7اندازه گیری انجام شده. &eفاصله: %distance%'
+  no-pvp: '&cشما نمی توانید در اینجا مبارزه کنید!'
+  link-prompt: '&eاینجا کلیک کنید:'
+machines:
+  HOLOGRAM_PROJECTOR:
+    inventory-title: 'ویرایشگر هولوگرام'
+  ELEVATOR:
+    no-destinations: '&4مقصدی پیدا نشد'
+  TELEPORTER:
+    teleporting: '&3درحال جا به جایی...'
+    teleported: '&3جا به جا شدی!'
+    gui:
+      title: 'نقاط راه شما'
+      tooltip: 'کلیک برای جا به جایی'
+      time: 'زمان تخمین زده شده'
+  GPS_CONTROL_PANEL:
+    waypoints: 'نمای کلی نقطه راه'
+  CARGO_NODES:
+    connected: '&2وصل است!'
+    not-connected: '&4وصل نیست!'
+gps:
+  status-online: 'آنلاین'
+  status-offline: 'آفلاین'
+android:
+  scripts:
+    editor: 'ویرایش برنامه'
+    uploaded:
+      - '&bدرحال آپلود...'
+      - '&aSuccessfully uploaded your script!'
+languages:
+  default: 'پیشفرض سرور'
+  en: 'انگلیسی'
+  de: 'آلمانی'
+  fr: 'فرانسوی'
+  it: 'ایتالیایی'
+  es: 'اسپانیایی'
+  pl: 'لهستانی'
+  nl: 'هلندی'
+  cs: 'کشور چک'
+  hu: 'مجارستانی'
+  ru: 'روسی'
+  zh-TW: 'چینی (تایوان)'
+  vi: 'ویتنامی'
+  id: 'اندونزیایی'
+  el: 'یونانی'
+  he: 'عبری'
+  pt: 'پرتغالی (پرتغال)'
+  pt-BR: 'پرتغالی (برزیل)'
+  ar: 'عربی'
+  da: 'دانمارکی'
+  fi: 'فنلاندی'
+  uk: 'اوکراینی'
+  ms: 'مالایی'
+  'no': 'نروژی'
+  ja: 'ژاپنی'
+  fa: 'فارسی'
+  th: 'تایلندی'
+  tl: 'تاگالوگی'
+  ro: 'رومانیایی'
+  bg: 'بلغاری'
+  ko: 'کره ای'
+  tr: 'ترکی'
+  hr: 'کرواتی'
+  mk: 'مقدونی'
+  sr: 'صربی'
+  si-LK: 'سینهالی'
+  lt: 'لیتوانیایی'

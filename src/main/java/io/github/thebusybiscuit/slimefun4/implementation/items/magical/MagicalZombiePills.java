@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -31,9 +30,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 /**
  * This {@link SlimefunItem} allows you to convert any {@link ZombieVillager} to
  * their {@link Villager} variant. It is also one of the very few utilisations of {@link EntityInteractHandler}.
- * 
- * This item does not work on earlier versions than 1.14 as the {@link ZombieVillager} {@link EntityType}
- * did not exist back then.
  *
  * @author Linox
  *
@@ -61,12 +57,12 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
 
             Player p = e.getPlayer();
 
-            if (entity instanceof ZombieVillager) {
+            if (entity instanceof ZombieVillager zombieVillager) {
                 useItem(p, item);
-                healZombieVillager((ZombieVillager) entity, p);
-            } else if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie) {
+                healZombieVillager(zombieVillager, p);
+            } else if (entity instanceof PigZombie pigZombie) {
                 useItem(p, item);
-                healZombifiedPiglin((PigZombie) entity);
+                healZombifiedPiglin(pigZombie);
             }
         };
     }
@@ -90,10 +86,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
 
     private void healZombieVillager(@Nonnull ZombieVillager zombieVillager, @Nonnull Player p) {
         zombieVillager.setConversionTime(1);
-
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            zombieVillager.setConversionPlayer(p);
-        }
+        zombieVillager.setConversionPlayer(p);
     }
 
     private void healZombifiedPiglin(@Nonnull PigZombie zombiePiglin) {

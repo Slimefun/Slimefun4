@@ -70,10 +70,8 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
 
     private EntityInteractHandler onRightClickEntity() {
         return (e, item, hand) -> {
-            if (e.getRightClicked() instanceof Sheep) {
-                Sheep s = (Sheep) e.getRightClicked();
-
-                if (s.getCustomName() != null) {
+            if (e.getRightClicked() instanceof Sheep sheep) {
+                if (sheep.getCustomName() != null) {
                     e.setCancelled(true);
                     return;
                 }
@@ -83,9 +81,9 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
                 }
 
                 // Give Sheep color, name and effect
-                s.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 2));
-                s.setColor(DyeColor.PURPLE);
-                s.setCustomName(ChatColor.DARK_PURPLE + "Tainted Sheep");
+                sheep.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 2));
+                sheep.setColor(DyeColor.PURPLE);
+                sheep.setCustomName(ChatColor.DARK_PURPLE + "Tainted Sheep");
                 e.setCancelled(true);
 
             }

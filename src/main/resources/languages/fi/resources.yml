@@ -1,1 +1,11 @@
 ---
+tooltips:
+  results: 'GEO-Skannauksen Tulokset'
+  world: 'Maailma'
+  unit: 'Yksikkö'
+  units: 'Yksiköt'
+resources:
+  slimefun:
+    oil: 'Öljy'
+    salt: 'Suola'
+    uranium: 'Uraani'

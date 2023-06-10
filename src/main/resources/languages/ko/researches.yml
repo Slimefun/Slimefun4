@@ -10,24 +10,24 @@ slimefun:
   lumps: 덩어리 및 마법
   ender_backpack: 엔더 가방
   ender_armor: 엔더 갑옷
-  magic_eye_of_ender: 엔더의 마법 눈
+  magic_eye_of_ender: 마법의 엔더의 눈
   magic_sugar: 마법 설탕
   monster_jerky: 몬스터 육포
   slime_armor: 슬라임 갑옷
-  sword_of_beheading: 참수의 검
+  sword_of_beheading: 머리 획득의 검
   basic_circuit_board: 기본 회로 기판
   advanced_circuit_board: 고급 회로 기판
   smeltery: 제련소
   steel: 철강 시대
   misc_power_items: 중요한 전원 관련 항목
-  battery: 첫 번째 배터리
+  battery: 당신의 첫번째 배터리
   steel_plate: 강철 도금
   steel_thruster: 강철 스러스터
   parachute: 낙하산
-  grappling_hook: 갈고리 훅
+  grappling_hook: 그래플링 훅
   jetpacks: 제트팩
   multitools: 멀티 툴
-  solar_panel_and_helmet: 태양 광 발전
+  solar_panel_and_helmet: 태양광 발전
   elemental_staff: 원소 지팡이
   grind_stone: 맷돌
   cactus_armor: 선인장 갑옷
@@ -206,6 +206,7 @@ slimefun:
   better_heated_pressure_chamber: 업그레이드 된 가열 압력 챔버
   elytra: 겉날개
   special_elytras: 특별한 겉날개
+  trident: 삼지창
   electric_crucible: 전기 도가니(Electrified Crucible)
   better_electric_crucibles: 뜨거운 도가니
   advanced_electric_smeltery: 고급 전기 제련소

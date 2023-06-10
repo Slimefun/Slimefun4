@@ -29,7 +29,6 @@ import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
@@ -141,7 +140,7 @@ class MiningTask implements Runnable {
             consumeFuel();
 
             if (fuelLevel <= 0) {
-                // This Miner has not enough fuel.
+                // This Miner has not got enough fuel to run.
                 stop(MinerStoppingReason.NO_FUEL);
                 return;
             }
@@ -190,7 +189,7 @@ class MiningTask implements Runnable {
                 furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, Material.STONE);
 
                 World world = start.getWorld();
-                for (int y = height; y > WorldUtils.getMinHeight(world); y--) {
+                for (int y = height; y > world.getMinHeight(); y--) {
                     Block b = world.getBlockAt(x, y, z);
 
                     if (!Slimefun.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(owner), b, Interaction.BREAK_BLOCK)) {
@@ -198,7 +197,7 @@ class MiningTask implements Runnable {
                         return;
                     }
 
-                    if (miner.canMine(b.getType()) && push(miner.getOutcome(b.getType()))) {
+                    if (miner.canMine(b) && push(miner.getOutcome(b.getType()))) {
                         furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, b.getType());
                         furnace.getWorld().playSound(furnace.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.2F, 1F);
 
@@ -268,8 +267,8 @@ class MiningTask implements Runnable {
             if (chest.getType() == Material.CHEST) {
                 BlockState state = PaperLib.getBlockState(chest, false).getState();
 
-                if (state instanceof Chest) {
-                    Inventory inv = ((Chest) state).getBlockInventory();
+                if (state instanceof Chest chestState) {
+                    Inventory inv = chestState.getBlockInventory();
 
                     if (InvUtils.fits(inv, item)) {
                         inv.addItem(item);
@@ -299,8 +298,8 @@ class MiningTask implements Runnable {
         if (chest.getType() == Material.CHEST) {
             BlockState state = PaperLib.getBlockState(chest, false).getState();
 
-            if (state instanceof Chest) {
-                Inventory inv = ((Chest) state).getBlockInventory();
+            if (state instanceof Chest chestState) {
+                Inventory inv = chestState.getBlockInventory();
                 this.fuelLevel = grabFuelFrom(inv);
             }
         }

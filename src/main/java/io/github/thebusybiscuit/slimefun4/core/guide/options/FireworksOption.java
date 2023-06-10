@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 class FireworksOption implements SlimefunGuideOption<Boolean> {
@@ -26,7 +27,9 @@ class FireworksOption implements SlimefunGuideOption<Boolean> {
 
     @Override
     public Optional<ItemStack> getDisplayItem(Player p, ItemStack guide) {
-        if (Slimefun.getRegistry().isResearchFireworkEnabled()) {
+        SlimefunRegistry registry = Slimefun.getRegistry();
+
+        if (registry.isResearchingEnabled() && registry.isResearchFireworkEnabled()) {
             boolean enabled = getSelectedOption(p, guide).orElse(true);
             ItemStack item = new CustomItemStack(Material.FIREWORK_ROCKET, "&bFireworks: &" + (enabled ? "aYes" : "4No"), "", "&7You can now toggle whether you", "&7will be presented with a big firework", "&7upon researching an item.", "", "&7\u21E8 &eClick to " + (enabled ? "disable" : "enable") + " your fireworks");
             return Optional.of(item);

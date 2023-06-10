@@ -57,9 +57,8 @@ public class Compressor extends MultiBlockMachine {
         Block dispBlock = b.getRelative(BlockFace.DOWN);
         BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
 
-        if (state instanceof Dispenser) {
-            Dispenser disp = (Dispenser) state;
-            Inventory inv = disp.getInventory();
+        if (state instanceof Dispenser dispenser) {
+            Inventory inv = dispenser.getInventory();
 
             for (ItemStack item : inv.getContents()) {
                 for (ItemStack recipeInput : RecipeType.getRecipeInputs(this)) {

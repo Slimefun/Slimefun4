@@ -24,9 +24,16 @@ commands:
     charge-success: Item is opgeladen!
     not-rechargeable: Dit item kan niet opgeladen worden!
   timings:
+    description: Tijden voor Slimefun en de toevoeging
     please-wait: '&eWacht eventjes... De resultaten komen er aan!'
+    verbose-player: '&4De Verbose flag kan niet gebruikt worden door een Player!'
+    unknown-flag: '&4Onbekende flag: &c%flag%'
   debug:
     description: 'Voer debug logging voor de ontwikkelaars uit'
+    current: '&7Huidige test: &6%test_case%'
+    none-running: '&7Geen tests worden op dit moment gedaan!'
+    running: '&7Debug modus uitvoeren met test: &6%test%'
+    disabled: '&7Debugmodus uitgeschakeld.'
 placeholderapi:
   profile-loading: 'Aan het laden...'
 guide:
@@ -91,13 +98,16 @@ guide:
           - '&7Je kunt nu wisselen of je'
           - '&7zal informatie over je gedachten in de chat zien'
           - '&7wanneer een item onderzocht wordt.'
+        click: '&eKlik om je leer animatie aan te zetten'
   title:
     main: 'Slimefun Handboek'
     settings: 'Instellingen & Informatie'
     languages: 'Kies een taal bij voorkeur'
     credits: 'Slimefun4 Bijdragers'
+    wiki: 'Slimefun4 Wiki'
     addons: 'Uitbreidingen voor Slimefun4'
     bugs: 'Fouten rapporteren'
+    source: 'Bron Code'
     versions: 'Geïnstalleerde versies'
   credits:
     commit: 'Bijdrage'
@@ -115,6 +125,7 @@ guide:
       resourcepack: '&cGrafische bundel Ontwikkelaar'
       translator: '&9Vertaler'
 messages:
+  not-researched: '&4Je hebt niet genoeg Slimefun kennis om dit te begrijpen. &cJe moet het &f"%item%&f" ontgrendelen'
   not-enough-xp: '&4Je hebt niet genoeg XP om dit te ontgrendelen'
   unlocked: '&bJe hebt &7"%research%" ontgrendeld'
   only-players: '&4Dit commando is alleen voor spelers'
@@ -135,14 +146,37 @@ messages:
   multimeter: '&bOpgeslagen energie: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4Je kunt geen Slimefun spullen met piglins ruilen'
   bee-suit-slow-fall: '&eJe Bee Wings zullen je helpen om weer veilig op de grond te komen'
+  deprecated-item: '&4Dit item is verouderd en zal binnenkort uit Slimefun worden verwijderd.'
   multi-tool:
     mode-change: '&b%device% mode veranderd naar: &9%mode%'
     not-shears: '&cEen Mutli Tool kan niet gebruikt worden als een schaar!'
   auto-crafting:
+    select-a-recipe: '&eBuk en klik je rechtermuis om &7dit blok met item dat je het wil laten maken maken.'
+    recipe-set: '&aJe hebt succesvol het recept voor deze machine gezet.'
+    recipe-removed: '&eJe hebt het recept succesvol verwijderd van deze machine. Je kunt nu een nieuw recept neerzetten op elk moment!'
+    no-recipes: '&cWe konden geen geldige recpten vinden voor het voorwerp dat je vasthoudt.'
+    missing-chest: '&cOntbrekende kist! Auto-Crafters moeten boven een kist geplaatst worden.'
     select: 'Selecteer dit recept'
+    temporarily-disabled: '&eDeze Auto-Crafter is momenteel uitgeschakeld. Je kunt het op elk moment weer inschakelen!'
+    re-enabled: '&eDeze Auto-Crafter is opnieuw ingeschakeld!'
+    recipe-unavailable: |
+      &cDit item is uitgeschakeld op je server, of je hebt het nog niet ontgrendeld.
+      &7Probeer het item te maken als je dit nog niet gedaan hebt om het recept te kunnen ontgrendelen.
+    tooltips:
+      enabled:
+        - '&aDit recept is momenteel ingeschakend'
+        - ''
+        - '&eKlik de linkermuis knop &7om tijdenlijk het recept uit te schakelen'
+        - '&eKlik je rechtermuis knop &7om dit recept te verwijderen'
+      disabled:
+        - '&cDit recept is tijdelijk uitgeschakeld'
+        - ''
+        - '&eLKlik je linkermuisknop &7om dit recept opnieuw aan te zetten'
+        - '&eKlik je rechtermuis knop &7om dit recept te verwijderen'
   talisman:
     anvil: '&a&oJe Talisman heeft voorkomen dat je uitrusting is gebroken'
     miner: '&a&oJe Talisman heeft zonet de gewonnen mineralen verdubbeld'
+    farmer: '&a&oJe Talisman heeft je buit verdubbeld'
     hunter: '&a&oJe Talisman heeft zonet je buit verdubbeld'
     lava: '&a&oJe Talisman heeft je gered van een vurige dood'
     water: '&a&oJe Talisman heeft je gered van de verdrinkingsdood'
@@ -198,6 +232,7 @@ messages:
     - '&7Kijk altijd naar de blije kant van je leven!'
     - '&7Deze was eigenlijk een biscuitje en geen koekje'
     - '&7Neon borden zijn LIT!'
+  above-limit-level: '&cKan niet een hoger level dan %level% (on)betoveren!'
   pickaxe-of-the-seeker:
     no-ores: '&cKan geen erts dichtbij vinden!'
 machines:
@@ -207,6 +242,7 @@ machines:
   full-inventory: '&eSorry, mijn inventaris is te vol!'
   in-use: '&cDit blok is al in gebruik door een andere speler'
   ignition-chamber-no-flint: '&cDe ontstekingskamer heeft geen aansteker meer'
+  inventory-empty: '&6Je hebt succesvol dit Mutliblok gebouwd. Ga door door blokken in de dispensers te plaatsen en klik mij opnieuw aan on het gewenste voorwerp te maken!'
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4Het altaar is niet omringt met het nodige aantal sokkels &c(%pedestals% / 8)'
     unknown-catalyst: '&4Onbepaalde katalysator! &cGebruik het juiste recept'
@@ -221,8 +257,6 @@ machines:
     pick-a-floor: '&3- Kies een verdieping -'
     current-floor: '&eDit is de verdieping waar je nu bent:'
     click-to-teleport: '&eKlik &7om naar deze verdieping te gaan:'
-    enter-name: '&7Type astublieft de gewenste verdieping in het gespreksvenster. &r(Kleurcodes zijn ondersteund)'
-    named: '&2Deze verdieping succesvol vernoemt naar: &r%floor%'
   TELEPORTER:
     teleporting: '&3Bezig met teleporteren...'
     teleported: '&3Geteleporteerd!'
@@ -254,6 +288,8 @@ brewing_stand:
   not-working: '&4Je kunt geen Slimefun spullen in een brouwstandaard doen!'
 cartography_table:
   not-working: '&4Je kunt Slimefun items niet in een cartografie tafel gebruiken!'
+smithing_table:
+  not-working: '&4Je kunt geen Slimefun voorwerp gebruiken als een smeedmateriaal!'
 villagers:
   no-trading: '&4Je kunt geen Slimefun spullen met villagers ruilen!'
 backpack:
@@ -346,6 +382,7 @@ languages:
   pt: 'Portugees  (Portugal)'
   pt-BR: 'Portugees (Brazilië)'
   ar: 'Arabisch'
+  af: 'Afrikaans'
   da: 'Deens'
   fi: 'Fins'
   uk: 'Oekraïens'
@@ -354,6 +391,7 @@ languages:
   ja: 'Japans'
   fa: 'Perzisch'
   th: 'Thais'
+  tl: 'Tagalog'
   ro: 'Roemeens'
   bg: 'Bulgaars'
   ko: 'Koreaans'
@@ -362,3 +400,5 @@ languages:
   mk: 'Macedonisch'
   sr: 'Servisch'
   be: 'Wit-Russisch/Russisch'
+  si-LK: 'Singalees'
+  lt: 'Litouws'

@@ -146,10 +146,13 @@ messages:
   multimeter: '&bGespeicherte Energie: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4Du kannst Piglins keine Slimefun-Gegenständen anbieten!'
   bee-suit-slow-fall: '&eDeine Bienenflügel haben dir eine sichere Landung ermöglicht'
+  deprecated-item: '&4Dieses Item ist veraltet und wird bald aus Slimefun entfernt.'
+  researching-is-disabled: '&cDas Freischalten von Items wurde auf diesem Server deaktiviert. Alles ist bereits automatisch freigeschaltet!'
   multi-tool:
     mode-change: '&bDer Modus von deinem Multi-Tool wurde geändert zu: &9%mode%'
     not-shears: '&cEinMulti Tool kann nicht als Schere verwendet werden!'
   auto-crafting:
+    select-a-recipe: '&eHocke + Rechtsklick &7mit dem Gegenstand, welcher hergestellt werden soll.'
     recipe-set: '&aDu hast das Rezept für diese Maschine erfolgreich gesetzt.'
     recipe-removed: '&eDu hast das Rezept erfolgreich von dieser Maschine entfernt. Du kannst jederzeit ein neues Rezept festlegen!'
     no-recipes: '&cWir konnten keine gültigen Rezepte für diesen Gegenstand finden.'
@@ -174,6 +177,7 @@ messages:
   talisman:
     anvil: '&a&oDein Talisman hat dein Werkzeug vor dem Zerfall gerettet'
     miner: '&a&oDein Talisman hat soeben die Drops verdoppelt'
+    farmer: '&a&oDein Talisman hat deine Drops verdoppelt'
     hunter: '&a&oDein Talisman hat soeben die Drops verdoppelt'
     lava: '&a&oDein Talisman hat dich vor dem Verbrennen gerettet'
     water: '&a&oDein Talisman hat dich vor dem Ertrinken gerettet'
@@ -254,8 +258,9 @@ machines:
     pick-a-floor: '&3- Wähle eine Etage -'
     current-floor: '&eDeine aktuelle Etage:'
     click-to-teleport: '&eKlicke hier &7um zu dieser Etage zu teleportieren:'
-    enter-name: '&7Bitte gebe ins Chatfenser einen Namen für diese Etage ein. &r(Farbcodes werden unterstützt!)'
-    named: '&2Diese Etage wurde erfolgreich &r"%floor%&r" &2genannt'
+    enter-name: '&7Bitte gebe ins Chatfenser einen Namen für diese Etage ein. &f(Farbcodes werden unterstützt!)'
+    named: '&2Diese Etage wurde erfolgreich &f"%floor%&f" &2genannt'
+    editor-title: 'Konfiguriere diesen Aufzug'
   TELEPORTER:
     teleporting: '&3Du wirst teleportiert...'
     teleported: '&3Erfolgreich teleportiert!'
@@ -271,6 +276,8 @@ machines:
     waypoints: 'Wegpunkte-Übersicht'
   CARGO_NODES:
     must-be-placed: '&4Dieser Block muss an die Seite einer Maschine oder Kiste platziert werden!'
+    connected: '&2Verbunden!'
+    not-connected: '&4Nicht verbunden!'
   INDUSTRIAL_MINER:
     no-fuel: '&cDein Industrial Miner hat keinen Treibstoff mehr! Platziere den benötigten Treibstoff in die Kiste.'
     piston-facing: '&cEinIndustrial Miner erfordert Kolben, die nach oben zeigen!'
@@ -300,6 +307,8 @@ cauldron:
   no-discoloring: '&4Du kannst Slimefun-Rüstung nicht entfärben'
 gps:
   deathpoint: '&4Todespunkt &7%date%'
+  status-online: 'ONLINE'
+  status-offline: 'OFFLINE'
   waypoint:
     new: '&eBitte gebe ins Chatfenser einen Namen für deinen Wegpunkt ein. &7(Farbcodes werden unterstützt!)'
     added: '&aEin neuer Wegpunkt wurde hinzugefügt'
@@ -399,3 +408,5 @@ languages:
   mk: 'Mazedonisch'
   sr: 'Serbisch'
   be: 'Belarusisch'
+  si-LK: 'Singhalesisch'
+  lt: 'Litauisch'

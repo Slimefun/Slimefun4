@@ -1,7 +1,7 @@
 ---
 slimefun:
   walking_sticks: Vychádzkové paličky
-  portable_crafter: Prenosný crafter
+  portable_crafter: Prenosný pracovný stôl
   fortune_cookie: Koláčik šťastia
   portable_dustbin: Prenosný kôš
   meat_jerky: Sušené mäso
@@ -13,14 +13,14 @@ slimefun:
   magic_eye_of_ender: Magiké Oko Endu
   magic_sugar: Magický cukor
   monster_jerky: Sušené mäso z monštier
-  slime_armor: Slime brnenie
+  slime_armor: Slizové brnenie
   sword_of_beheading: Meč popráv
   basic_circuit_board: Základná obvodová doska
   advanced_circuit_board: Pokročilá obvodová doska
   smeltery: Taviareň
   steel: Vek ocele
   misc_power_items: Dôležité  veci súvisiace s energiou
-  battery: Tvoja prvá baterka
+  battery: Tvoja prvá batéria
   steel_plate: Oceľové pokovovanie
   steel_thruster: Oceľová tryska
   parachute: Padák

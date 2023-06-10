@@ -49,8 +49,8 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
         ItemMeta meta = item.getItemMeta();
 
-        if (meta instanceof PotionMeta) {
-            effects = ((PotionMeta) meta).getCustomEffects();
+        if (meta instanceof PotionMeta potionMeta) {
+            effects = potionMeta.getCustomEffects();
         } else {
             effects = new ArrayList<>();
         }
@@ -64,7 +64,7 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
              * Minecraft has been broken when it comes to Saturation potions for a long time
              */
             for (PotionEffect effect : effects) {
-                if (effect.getType().equals(PotionEffectType.SATURATION)) {
+                if (effect.getType() == PotionEffectType.SATURATION || effect.getType() == PotionEffectType.ABSORPTION) {
                     p.addPotionEffect(effect);
                     break;
                 }

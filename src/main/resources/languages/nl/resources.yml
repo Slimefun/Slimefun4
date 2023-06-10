@@ -10,6 +10,7 @@ resources:
     oil: 'Olie'
     nether_ice: 'Netherijs'
     salt: 'Zout'
+    uranium: 'Uranium'
   slimefunorechunks:
     iron_ore_chunk: 'Ijzer erts brok'
     gold_ore_chunk: 'Gouden erts brok'

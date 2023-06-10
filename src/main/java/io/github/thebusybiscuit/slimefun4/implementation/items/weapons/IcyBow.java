@@ -36,16 +36,14 @@ public class IcyBow extends SlimefunBow {
     @Override
     public BowShootHandler onShoot() {
         return (e, n) -> {
-            if (n instanceof Player) {
-                Player p = (Player) n;
-
+            if (n instanceof Player player) {
                 // Fixes #3060 - Don't apply effects if the arrow was successfully blocked.
-                if (p.isBlocking() && e.getFinalDamage() <= 0) {
+                if (player.isBlocking() && e.getFinalDamage() <= 0) {
                     return;
                 }
 
                 if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-                    p.setFreezeTicks(60);
+                    player.setFreezeTicks(60);
                 }
             }
             n.getWorld().playEffect(n.getLocation(), Effect.STEP_SOUND, Material.ICE);
