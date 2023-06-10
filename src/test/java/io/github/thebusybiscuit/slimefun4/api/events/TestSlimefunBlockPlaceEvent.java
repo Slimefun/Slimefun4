@@ -13,15 +13,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -45,16 +44,20 @@ public class TestSlimefunBlockPlaceEvent {
         MockBukkit.unmock();
     }
 
+    @BeforeEach
+    public void beforeEach() {
+        server.getPluginManager().clearEvents();
+    }
+
     @Test
     @DisplayName("Test firing Slimefun Block place Event")
     void testEventIsFired() throws InterruptedException {
-        server.getPluginManager().clearEvents();
-
         Player player = new PlayerMock(server, "SomePlayer");
-        ItemStack itemStack = new ItemStack(Material.IRON_PICKAXE);
+
         World world = server.addSimpleWorld("my_world");
         ItemStack vanillaItem = new ItemStack(Material.GREEN_TERRACOTTA);
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
+
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
@@ -65,13 +68,13 @@ public class TestSlimefunBlockPlaceEvent {
     @Test
     @DisplayName("Test getting the getters from the event")
     void testGetters() {
-        server.getPluginManager().clearEvents();
-
         Player player = new PlayerMock(server, "SomePlayer");
         ItemStack itemStack = new ItemStack(Material.GREEN_TERRACOTTA);
         player.getInventory().setItemInMainHand(itemStack);
+
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
+
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
@@ -89,7 +92,6 @@ public class TestSlimefunBlockPlaceEvent {
     @Test
     @DisplayName("Test the event cancelling")
     void testIsCancelled() {
-        server.getPluginManager().clearEvents();
         server.getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onBlockPlace(SlimefunBlockPlaceEvent event) {
@@ -100,8 +102,10 @@ public class TestSlimefunBlockPlaceEvent {
         Player player = new PlayerMock(server, "SomePlayer");
         ItemStack itemStack = new ItemStack(Material.GREEN_TERRACOTTA);
         player.getInventory().setItemInMainHand(itemStack);
+
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
+        
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
