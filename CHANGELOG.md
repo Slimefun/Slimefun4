@@ -40,6 +40,7 @@
 #### Additions
 * Added "Cobbled Deepslate -> Gravel" recipe to the Grind Stone
 * Added "Cobbled Deepslate -> Sand" recipe to the Ore Crusher
+* Added compatibility for Minecraft 1.20
 
 #### Changes
 * Removed 1.14.* and 1.15.* support
