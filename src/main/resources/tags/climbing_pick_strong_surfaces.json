@@ -11,6 +11,26 @@
 		{
 			"id" : "minecraft:basalt",
 			"required" : false
-		}
+		},
+		{
+			"id" : "minecraft:calcite",
+			"required" : false
+		},	
+		{
+			"id" : "minecraft:deepslate",
+			"required" : false
+		},	
+		{
+			"id" : "minecraft:dripstone_block",
+			"required" : false
+		},
+		{
+			"id" : "minecraft:smooth_basalt",
+			"required" : false
+		},	
+		{
+			"id" : "minecraft:tuff",
+			"required" : false
+		}	
 	]
 }

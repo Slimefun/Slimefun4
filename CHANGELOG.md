@@ -40,12 +40,33 @@
 #### Additions
 * Added "Cobbled Deepslate -> Gravel" recipe to the Grind Stone
 * Added "Cobbled Deepslate -> Sand" recipe to the Ore Crusher
+* (API) Added EnergyNet#getGenerators()
+* (API) Added EnergyNet#getCapacitors()
+* (API) Added EnergyNet#getConsumers()
+* Added Bamboo as a fuel type for Tier 1 Androids
+* Added "Basalt -> Blackstone" recipe to the Grind Stone
+* Added compatibility for Minecraft 1.20
 
 #### Changes
 * Removed 1.14.* and 1.15.* support
+* The Climbing Pick now also works on:
+  * Calcite
+  * Deepslate
+  * Dripstone blocks
+  * Smooth Basalt
+  * Tuff
+  * Clay
+  * Skulk
 
 #### Fixes
 * Fixed #3741
+* Fixed #3724
+* Fixed #3462
+* Fixed #3758
+* Fixed #3701
+* Fixed #3361
+* Fixed #3254
+* Fixed #3443
 
 ## Release Candidate 33 (07 Jan 2023)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
