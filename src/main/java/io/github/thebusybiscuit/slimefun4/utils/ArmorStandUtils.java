@@ -1,12 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramProjector;
+import javax.annotation.Nonnull;
+
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 
-import javax.annotation.Nonnull;
+import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramProjector;
 
 /**
  * This class holds utilities for {@link ArmorStand}, useful for classes
