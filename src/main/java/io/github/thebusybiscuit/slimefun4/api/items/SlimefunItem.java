@@ -536,7 +536,6 @@ public class SlimefunItem implements Placeable {
     }
 
     private void loadItemHandlers() {
-
         for (ItemHandler handler : itemhandlers.values()) {
             Optional<IncompatibleItemHandlerException> exception = handler.validate(this);
 
