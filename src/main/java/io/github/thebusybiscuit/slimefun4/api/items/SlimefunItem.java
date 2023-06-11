@@ -475,7 +475,7 @@ public class SlimefunItem implements Placeable {
                 // The item has been disabled.
                 state = ItemState.DISABLED;
             }
-            
+
             // Now we can be certain this item should be enabled
             if (state == ItemState.ENABLED) {
                 onEnable();
