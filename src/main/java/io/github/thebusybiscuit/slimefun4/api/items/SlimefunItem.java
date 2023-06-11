@@ -475,10 +475,18 @@ public class SlimefunItem implements Placeable {
                 // The item has been disabled.
                 state = ItemState.DISABLED;
             }
-
+            
             // Now we can be certain this item should be enabled
             if (state == ItemState.ENABLED) {
                 onEnable();
+            } else {
+                // Clear item handlers if we are disabled so that calling them isn't possible later on
+                for (ItemHandler handler : this.itemhandlers.values()) {
+                    if (handler instanceof BlockTicker) {
+                        Slimefun.getRegistry().getTickerBlocks().remove(getId());
+                    }
+                }
+                this.itemhandlers.clear();
             }
 
             // Lock the SlimefunItemStack from any accidental manipulations
