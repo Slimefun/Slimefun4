@@ -25,6 +25,7 @@ placeholderapi:
   profile-loading: 'Memuat...'
 guide:
   locked: 'TERKUNCI'
+  work-in-progress: 'Fitur ini belum sepenuhnya selesai!'
   locked-itemgroup:
     - 'Untuk membuka kategori ini anda'
     - 'harus membuka semua barang dari'
@@ -57,6 +58,7 @@ guide:
     selected-language: 'Yang sedang dipilih:'
     select: 'Klik untuk memilih bahasa ini'
     select-default: 'Klik untuk menggunakan bahasa standar server'
+    change: 'Klik untuk memilih sebuah bahasa baru'
     translations:
       name: '&aAda yang kurang?'
       lore: 'Klik untuk menambahkan terjemahan anda'
@@ -84,6 +86,7 @@ guide:
     addons: 'Addons untuk Slimefun4'
     bugs: 'Laporkan masalah'
     source: 'Kode sumber'
+    versions: 'Versi Terinstal'
   credits:
     commit: 'Melakukan'
     profile-link: 'Klik untuk mengunjungi profil mereka di GitHub'
@@ -196,6 +199,8 @@ machines:
     waypoints: 'Gambaran titik jalan'
   CARGO_NODES:
     must-be-placed: '&4Harus diletakan di dalam peti atau mesin!'
+    connected: '&2Terhubung!'
+    not-connected: '&4Tidak Terhubung!'
   INDUSTRIAL_MINER:
     no-fuel: '&c Penambang Industri Anda kehabisan bahan bakar! Masuklah bahan bakar Anda ke peti di atas.'
     piston-facing: '& c Penambang Industri Anda membutuhkan piston untuk menghadap ke atas!'
@@ -311,4 +316,8 @@ languages:
   ko: 'Korea'
   tr: 'Turki'
   hr: 'Croation'
+  mk: 'Makedonia'
+  sr: 'Serbian'
   be: 'Belarusian'
+  si-LK: 'Sinhala'
+  lt: 'Lithuanian'

@@ -69,21 +69,7 @@ final class CargoUtils {
         }
 
         Material type = block.getType();
-
-        // TODO: Add designated SlimefunTag
-        return switch (type) {
-            case CHEST,
-                TRAPPED_CHEST,
-                FURNACE,
-                DISPENSER,
-                DROPPER,
-                HOPPER,
-                BREWING_STAND,
-                BARREL,
-                BLAST_FURNACE,
-                SMOKER -> true;
-            default -> SlimefunTag.SHULKER_BOXES.isTagged(type);
-        };
+        return SlimefunTag.CARGO_SUPPORTED_STORAGE_BLOCKS.isTagged(type);
     }
 
     @Nonnull

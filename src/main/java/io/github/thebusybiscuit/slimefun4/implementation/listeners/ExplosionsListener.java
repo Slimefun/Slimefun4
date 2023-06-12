@@ -9,10 +9,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -50,6 +53,13 @@ public class ExplosionsListener implements Listener {
         removeResistantBlocks(e.blockList().iterator());
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityBreak(EntityChangeBlockEvent e) {
+        if (e.getEntity().getType() == EntityType.WITHER || e.getEntity().getType() == EntityType.WITHER_SKULL) {
+            removeResistantBlock(e.getBlock());
+        }
+    }
+
     private void removeResistantBlocks(@Nonnull Iterator<Block> blocks) {
         while (blocks.hasNext()) {
             Block block = blocks.next();
@@ -57,12 +67,26 @@ public class ExplosionsListener implements Listener {
 
             if (item != null) {
                 blocks.remove();
-
-                if (!(item instanceof WitherProof) && !item.callItemHandler(BlockBreakHandler.class, handler -> handleExplosion(handler, block))) {
-                    BlockStorage.clearBlockInfo(block);
-                    block.setType(Material.AIR);
-                }
+                removeResistantBlock(block, item);
             }
+        }
+    }
+
+    private void removeResistantBlock(@Nonnull Block block) {
+        SlimefunItem slimefunItem = BlockStorage.check(block);
+
+        if (slimefunItem != null) {
+            removeResistantBlock(block, slimefunItem);
+        }
+    }
+
+    private void removeResistantBlock(@Nonnull Block block, @Nonnull SlimefunItem slimefunItem) {
+        // Fixes #3414 - This check removes the ghost block created by withers.
+        if (!(slimefunItem instanceof WitherProof)
+            && !slimefunItem.callItemHandler(BlockBreakHandler.class, handler -> handleExplosion(handler, block))
+        ) {
+            BlockStorage.clearBlockInfo(block);
+            block.setType(Material.AIR);
         }
     }
 

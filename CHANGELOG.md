@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 33 (TBD)](#release-candidate-33-tbd)
+- [Release Candidate 34 (TBD)](#release-candidate-34-tbd)
+- [Release Candidate 33 (07 Jan 2023)](#release-candidate-33-07-jan-2023)
 - [Release Candidate 32 (26 Jun 2022)](#release-candidate-32-26-jun-2022)
 - [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
 - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
@@ -34,7 +35,41 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 
-## Release Candidate 33 (TBD)
+## Release Candidate 34 (TBD)
+
+#### Additions
+* Added "Cobbled Deepslate -> Gravel" recipe to the Grind Stone
+* Added "Cobbled Deepslate -> Sand" recipe to the Ore Crusher
+* (API) Added EnergyNet#getGenerators()
+* (API) Added EnergyNet#getCapacitors()
+* (API) Added EnergyNet#getConsumers()
+* Added Bamboo as a fuel type for Tier 1 Androids
+* Added "Basalt -> Blackstone" recipe to the Grind Stone
+* Added compatibility for Minecraft 1.20
+
+#### Changes
+* Removed 1.14.* and 1.15.* support
+* The Climbing Pick now also works on:
+  * Calcite
+  * Deepslate
+  * Dripstone blocks
+  * Smooth Basalt
+  * Tuff
+  * Clay
+  * Skulk
+
+#### Fixes
+* Fixed #3741
+* Fixed #3724
+* Fixed #3462
+* Fixed #3758
+* Fixed #3701
+* Fixed #3361
+* Fixed #3254
+* Fixed #3443
+
+## Release Candidate 33 (07 Jan 2023)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
 
 #### Additions
 * (API) Added Tinted Glass to "GLASS_BLOCKS" tag
@@ -54,6 +89,7 @@
 * "/sf stats" can no longer be used if researching is disabled
 * "/sf research" can no longer be used if researching is disabled
 * Removed the Hercules Pickaxe from Slimefun
+* If CS-CoreLib is present, Slimefun will disable itself (previously it would just error)
 
 #### Fixes
 * Fixed #3597
@@ -63,6 +99,8 @@
 * Fixed #3664
 * Fixed #3651
 * Fixed #3677
+* Fixed #3705
+* Fixed BlockPlacer being able to place disabled items
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
