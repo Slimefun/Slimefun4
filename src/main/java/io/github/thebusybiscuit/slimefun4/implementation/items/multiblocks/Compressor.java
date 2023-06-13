@@ -94,9 +94,12 @@ public class Compressor extends MultiBlockMachine {
             int j = i;
 
             Slimefun.runSync(() -> {
-                // TODO: Convert this mess into Sound Effects
                 if (j < 3) {
-                    p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
+                    if (j == 1) {
+                        SoundEffect.COMPRESSOR_CRAFT_CONTRACT_SOUND.playFor(p);
+                    } else {
+                        SoundEffect.COMPRESSOR_CRAFT_EXTEND_SOUND.playFor(p);
+                    }
                 } else {
                     SoundEffect.COMPRESSOR_CRAFT_SOUND.playAt(p.getLocation(), SoundCategory.BLOCKS);
                     handleCraftedItem(output, dispenser, dispInv);
