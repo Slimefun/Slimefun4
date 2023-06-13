@@ -100,7 +100,7 @@ public class Compressor extends MultiBlockMachine {
                     } else {
                         SoundEffect.COMPRESSOR_CRAFT_EXTEND_SOUND.playFor(p);
                     }
-                }
+                 }
             }, i * 20L);
         }
     }
