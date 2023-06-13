@@ -205,7 +205,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             if (water && block.getBlockData() instanceof Waterlogged waterlogged) {
                 waterlogged.setWaterlogged(true);
                 block.setBlockData(waterlogged, false);
-                SoundEffect.CRUCIBLE_PLACE_LIQUID_SOUND.playAt(block);
+                SoundEffect.CRUCIBLE_PLACE_WATER_SOUND.playAt(block);
                 return;
             }
 
@@ -213,7 +213,6 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                 BlockStorage.clearBlockInfo(block);
             }
         }
-
         runPostTask(block, water ? SoundEffect.CRUCIBLE_PLACE_WATER_SOUND : SoundEffect.CRUCIBLE_PLACE_LAVA_SOUND, 1);
     }
 
