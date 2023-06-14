@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
