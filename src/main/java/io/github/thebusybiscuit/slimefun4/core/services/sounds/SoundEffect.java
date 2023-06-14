@@ -127,10 +127,6 @@ public enum SoundEffect {
         Validate.isTrue(volume >= 0, "The volume cannot be a negative number.");
         Validate.isTrue(pitch >= 0.5, "A pitch below 0.5 has no effect on the sound.");
 
-        /*
-         * Only Minecraft 1.16+ implements Keyed for Sound.
-         * So we need to check this first.
-         */
         this.defaultSound = sound.getKey().getKey();
         this.defaultVolume = volume;
         this.defaultPitch = pitch;
@@ -174,7 +170,7 @@ public enum SoundEffect {
         Validate.notNull(loc, "The location should not be null.");
         SoundConfiguration config = getConfiguration();
 
-        if (config != null) {
+        if (config != null && loc.getWorld() != null) {
             loc.getWorld().playSound(loc, config.getSoundId(), category, config.getVolume(), config.getPitch());
         }
     }
