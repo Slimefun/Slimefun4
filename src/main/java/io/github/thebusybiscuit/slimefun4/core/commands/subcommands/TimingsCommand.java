@@ -30,31 +30,32 @@ class TimingsCommand extends SubCommand {
     }
 
     @Override
+    @Nonnull
     protected String getDescription() {
         return "commands.timings.description";
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender.hasPermission("slimefun.command.timings") || sender instanceof ConsoleCommandSender) {
-            if (hasInvalidFlags(sender, args)) {
-                return;
-            }
-
-            boolean verbose = hasFlag(args, "verbose");
-
-            if (verbose && sender instanceof Player) {
-                Slimefun.getLocalization().sendMessage(sender, "commands.timings.verbose-player", true);
-                return;
-            }
-
-            Slimefun.getLocalization().sendMessage(sender, "commands.timings.please-wait", true);
-
-            PerformanceInspector inspector = inspectorOf(sender, verbose);
-            Slimefun.getProfiler().requestSummary(inspector);
-        } else {
+        if (!sender.hasPermission("slimefun.command.timings") && !(sender instanceof ConsoleCommandSender)) {
             Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            return;
         }
+
+        if (hasInvalidFlags(sender, args)) {
+            return;
+        }
+
+        boolean verbose = hasFlag(args, "verbose");
+        if (verbose && sender instanceof Player) {
+            Slimefun.getLocalization().sendMessage(sender, "commands.timings.verbose-player", true);
+            return;
+        }
+
+        Slimefun.getLocalization().sendMessage(sender, "commands.timings.please-wait", true);
+        PerformanceInspector inspector = inspectorOf(sender, verbose);
+        Slimefun.getProfiler().requestSummary(inspector);
     }
 
     @ParametersAreNonnullByDefault

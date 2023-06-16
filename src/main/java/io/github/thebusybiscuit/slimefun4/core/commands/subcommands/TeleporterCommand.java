@@ -20,30 +20,35 @@ class TeleporterCommand extends SubCommand {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender instanceof Player player) {
-            if (sender.hasPermission("slimefun.command.teleporter")) {
-                if (args.length == 1) {
-                    Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, player.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
-                } else if (args.length == 2) {
-
-                    @SuppressWarnings("deprecation")
-                    OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[1]);
-
-                    if (targetPlayer.getName() != null) {
-                        Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, targetPlayer.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
-                    } else {
-                        Slimefun.getLocalization().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
-                    }
-                } else {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter [Player]"));
-                }
-            } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.no-permission");
-            }
-        } else {
+        if (!(sender instanceof Player player)) {
             Slimefun.getLocalization().sendMessage(sender, "messages.only-players");
+            return;
         }
+
+        if (!sender.hasPermission("slimefun.command.teleporter")) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.no-permission");
+            return;
+        }
+
+        if (args.length != 1 && args.length != 2) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter [Player]"));
+        }
+
+        if (args.length == 1) {
+            Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, player.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
+            return;
+        }
+
+        @SuppressWarnings("deprecation")
+        OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[1]);
+        if (targetPlayer.getName() == null) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
+            return;
+        }
+
+        Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, targetPlayer.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
     }
 
 }

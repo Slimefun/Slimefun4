@@ -50,17 +50,22 @@ class VersionsCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(@Nonnull CommandSender sender, @Nonnull String[] args) {
-        if (sender.hasPermission("slimefun.command.versions") || sender instanceof ConsoleCommandSender) {
-            /*
-             * After all these years... Spigot still displays as "CraftBukkit".
-             * so we will just fix this inconsistency for them :)
-             */
-            String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
-            ComponentBuilder builder = new ComponentBuilder();
+    @ParametersAreNonnullByDefault
+    public void onExecute(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("slimefun.command.versions") && !(sender instanceof ConsoleCommandSender)) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            return;
+        }
 
-            // @formatter:off
-            builder.append("This Server uses the following setup of Slimefun:\n")
+        /*
+         * After all these years... Spigot still displays as "CraftBukkit".
+         * so we will just fix this inconsistency for them :)
+         */
+        String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
+        ComponentBuilder builder = new ComponentBuilder();
+
+        // @formatter:off
+        builder.append("This Server uses the following setup of Slimefun:\n")
                 .color(ChatColor.GRAY)
                 .append(serverSoftware)
                 .color(ChatColor.GREEN)
@@ -70,57 +75,55 @@ class VersionsCommand extends SubCommand {
                 .color(ChatColor.GREEN)
                 .append(Slimefun.getVersion() + '\n')
                 .color(ChatColor.DARK_GREEN);
-            // @formatter:on
+        // @formatter:on
 
-            if (Slimefun.getMetricsService().getVersion() != null) {
-                // @formatter:off
-                builder.append("Metrics-Module ")
+        if (Slimefun.getMetricsService().getVersion() != null) {
+            // @formatter:off
+            builder.append("Metrics-Module ")
                     .color(ChatColor.GREEN)
                     .append("#" + Slimefun.getMetricsService().getVersion() + '\n')
                     .color(ChatColor.DARK_GREEN);
-                // @formatter:on
-            }
-
-            addJavaVersion(builder);
-
-            if (Slimefun.getRegistry().isBackwardsCompatible()) {
-                // @formatter:off
-                HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                    "Backwards compatibility has a negative impact on performance!\n" +
-                    "We recommend you to disable this setting unless your server still " +
-                    "has legacy Slimefun items (from before summer 2019) in circulation."
-                ));
-                // @formatter:on
-
-                builder.append("\nBackwards compatibility enabled!\n").color(ChatColor.RED).event(hoverEvent);
-            }
-
-            builder.append("\n").event((HoverEvent) null);
-            addPluginVersions(builder);
-
-            sender.spigot().sendMessage(builder.create());
-        } else {
-            Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            // @formatter:on
         }
+
+        addJavaVersion(builder);
+
+        if (Slimefun.getRegistry().isBackwardsCompatible()) {
+            // @formatter:off
+            HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
+                    "Backwards compatibility has a negative impact on performance!\n" +
+                            "We recommend you to disable this setting unless your server still " +
+                            "has legacy Slimefun items (from before summer 2019) in circulation."
+            ));
+            // @formatter:on
+
+            builder.append("\nBackwards compatibility enabled!\n").color(ChatColor.RED).event(hoverEvent);
+        }
+
+        builder.append("\n").event((HoverEvent) null);
+        addPluginVersions(builder);
+
+        sender.spigot().sendMessage(builder.create());
     }
 
     private void addJavaVersion(@Nonnull ComponentBuilder builder) {
         int version = NumberUtils.getJavaVersion();
 
-        if (version < RECOMMENDED_JAVA_VERSION) {
-            // @formatter:off
-            builder.append("Java " + version).color(ChatColor.RED)
+        if (version >= RECOMMENDED_JAVA_VERSION) {
+            builder.append("Java ").color(ChatColor.GREEN).append(version + "\n").color(ChatColor.DARK_GREEN);
+            return;
+        }
+
+        // @formatter:off
+        builder.append("Java " + version).color(ChatColor.RED)
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                    "Your Java version is out of date!\n!" +
-                    "You should use Java " + RECOMMENDED_JAVA_VERSION + " or higher.\n" +
-                    JAVA_VERSION_NOTICE
+                        "Your Java version is out of date!\n!" +
+                                "You should use Java " + RECOMMENDED_JAVA_VERSION + " or higher.\n" +
+                                JAVA_VERSION_NOTICE
                 )))
                 .append("\n")
                 .event((HoverEvent) null);
-            // @formatter:on
-        } else {
-            builder.append("Java ").color(ChatColor.GREEN).append(version + "\n").color(ChatColor.DARK_GREEN);
-        }
+        // @formatter:on
     }
 
     private void addPluginVersions(@Nonnull ComponentBuilder builder) {

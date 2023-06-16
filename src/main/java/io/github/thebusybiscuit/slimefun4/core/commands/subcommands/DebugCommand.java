@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.command.CommandSender;
 
@@ -22,11 +23,13 @@ public class DebugCommand extends SubCommand {
     }
 
     @Override
-    protected @Nonnull String getDescription() {
+    @Nonnull
+    protected String getDescription() {
         return "commands.debug.description";
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onExecute(@Nonnull CommandSender sender, @Nonnull String[] args) {
         if (!sender.hasPermission("slimefun.command.debug")) {
             Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);

@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,6 +31,7 @@ class SlimefunTabCompleter implements TabCompleter {
 
     @Nullable
     @Override
+    @ParametersAreNonnullByDefault
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             return createReturnList(command.getSubCommandNames(), args[0]);
