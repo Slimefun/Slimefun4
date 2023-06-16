@@ -111,7 +111,13 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         Preconditions.checkArgument(displayRecipes.size() % 2 == 0, "This MultiBlockMachine's display recipes were illegally modified!");
         for (int i = 0; i < displayRecipes.size(); i += 2) {
             ItemStack inputStack = displayRecipes.get(i);
-            ItemStack outputStack = displayRecipes.size() >= i + 2 ? displayRecipes.get(i + 1) : null;
+            ItemStack outputStack:
+            if (displayRecipes.size() >= i + 2) {
+                outputStack = displayRecipes.get(i + 1);
+            } else {
+                outputStack = null;
+            }
+
             SlimefunItem inputItem = SlimefunItem.getByItem(inputStack);
             SlimefunItem outputItem = SlimefunItem.getByItem(outputStack);
             
