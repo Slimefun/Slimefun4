@@ -9,7 +9,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.base.Preconditions;
+
 import org.apache.commons.lang.Validate;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -104,7 +107,8 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     @Override
     public void load() {
         super.load();
-        
+
+        Preconditions.checkArgument(displayRecipes.size() % 2 == 0, "This MultiBlockMachine's display recipes were illegally modified!");
         for (int i = 0; i < displayRecipes.size(); i += 2) {
             ItemStack inputStack = displayRecipes.get(i);
             ItemStack outputStack = displayRecipes.size() >= i + 2 ? displayRecipes.get(i + 1) : null;
