@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -16,6 +14,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;

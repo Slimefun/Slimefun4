@@ -59,7 +59,7 @@ public interface DamageableItem extends ItemAttribute {
 
             ItemMeta meta = item.getItemMeta();
 
-            if (meta != null &&!meta.isUnbreakable()) {
+            if (meta != null && !meta.isUnbreakable()) {
                 Damageable damageable = (Damageable) meta;
 
                 if (damageable.getDamage() >= item.getType().getMaxDurability()) {
