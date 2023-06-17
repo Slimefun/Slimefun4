@@ -141,14 +141,12 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
 
     public @Nonnull ItemStack getOriginalItemStack(@Nonnull Item item) {
         ItemStack stack = item.getItemStack().clone();
+        ItemMeta im = stack.getItemMeta();
         String customName = item.getCustomName();
+        im.setDisplayName(null);
+        stack.setItemMeta(im);
 
-        if (customName != null && customName.equals(ItemUtils.getItemName(new ItemStack(stack.getType())))) {
-            ItemMeta im = stack.getItemMeta();
-            im.setDisplayName(null);
-            stack.setItemMeta(im);
-        } else {
-            ItemMeta im = stack.getItemMeta();
+        if (customName == null || !customName.equals(ItemUtils.getItemName(stack))) {
             im.setDisplayName(customName);
             stack.setItemMeta(im);
         }
