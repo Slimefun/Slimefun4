@@ -46,13 +46,13 @@ public class ArmorStandUtils {
      */
     @Nonnull
     public static ArmorStand spawnArmorStand(@Nonnull Location location) {
-        ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
-        armorStand.setVisible(false);
-        armorStand.setSilent(true);
-        armorStand.setMarker(true);
-        armorStand.setGravity(false);
-        armorStand.setBasePlate(false);
-        armorStand.setRemoveWhenFarAway(false);
-        return armorStand;
+        return location.getWorld().spawn(location, ArmorStand.class, armorStand -> {
+            armorStand.setVisible(false);
+            armorStand.setSilent(true);
+            armorStand.setMarker(true);
+            armorStand.setGravity(false);
+            armorStand.setBasePlate(false);
+            armorStand.setRemoveWhenFarAway(false);
+        });
     }
 }
