@@ -143,6 +143,13 @@ public class EnergyNet extends Network implements HologramOwner {
         }
     }
 
+    @Override
+    protected void addLocationToNetwork(@Nonnull Location l) {
+        if (EnergyNet.getNetworkFromLocation(l) == null) {
+            super.addLocationToNetwork(l);
+        }
+    }
+
     public void tick(@Nonnull Block b) {
         AtomicLong timestamp = new AtomicLong(Slimefun.getProfiler().newEntry());
 
@@ -298,8 +305,7 @@ public class EnergyNet extends Network implements HologramOwner {
         }
     }
 
-    @Nullable
-    private static EnergyNetComponent getComponent(@Nonnull Location l) {
+    private static @Nullable EnergyNetComponent getComponent(@Nonnull Location l) {
         SlimefunItem item = BlockStorage.check(l);
 
         if (item instanceof EnergyNetComponent component) {
@@ -318,8 +324,7 @@ public class EnergyNet extends Network implements HologramOwner {
      *
      * @return The {@link EnergyNet} at that {@link Location}, or {@code null}
      */
-    @Nullable
-    public static EnergyNet getNetworkFromLocation(@Nonnull Location l) {
+    public static @Nullable EnergyNet getNetworkFromLocation(@Nonnull Location l) {
         return Slimefun.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class).orElse(null);
     }
 
@@ -332,8 +337,7 @@ public class EnergyNet extends Network implements HologramOwner {
      * 
      * @return The {@link EnergyNet} at that {@link Location}, or a new one
      */
-    @Nonnull
-    public static EnergyNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
+    public static @Nonnull EnergyNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
         Optional<EnergyNet> energyNetwork = Slimefun.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);
 
         if (energyNetwork.isPresent()) {
