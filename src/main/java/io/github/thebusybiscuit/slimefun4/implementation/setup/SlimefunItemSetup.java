@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.EnchantedItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.HiddenItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -688,6 +689,10 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, new ItemStack(Material.LILY_PAD), SlimefunItems.MAGIC_LUMP_2, null, SlimefunItems.STAFF_ELEMENTAL, new ItemStack(Material.LILY_PAD), SlimefunItems.STAFF_ELEMENTAL, null, null})
         .register(plugin);
         
+        new EnchantedItem(itemGroups.magicalGadgets, SlimefunItems.STAFF_FIRE, RecipeType.MAGIC_WORKBENCH,
+        new ItemStack[] {null, null, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, null})
+        .register(plugin);        
+        
         String[] multiToolItems = new String[] {"PORTABLE_CRAFTER", "MAGIC_EYE_OF_ENDER", "STAFF_ELEMENTAL_WIND", "GRAPPLING_HOOK"};
 
         new MultiTool(itemGroups.technicalGadgets, SlimefunItems.DURALUMIN_MULTI_TOOL, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -791,10 +796,6 @@ public final class SlimefunItemSetup {
 
         new UnplaceableBlock(itemGroups.magicalResources, SlimefunItems.LAVA_CRYSTAL, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.FIRE_RUNE, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1})
-        .register(plugin);
-
-        new SlimefunItem(itemGroups.magicalGadgets, SlimefunItems.STAFF_FIRE, RecipeType.MAGIC_WORKBENCH,
-        new ItemStack[] {null, null, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, SlimefunItems.STAFF_ELEMENTAL, null, null})
         .register(plugin);
         
         new StormStaff(itemGroups.magicalGadgets, SlimefunItems.STAFF_STORM, RecipeType.ANCIENT_ALTAR,
@@ -2591,35 +2592,31 @@ public final class SlimefunItemSetup {
         
         MinecraftVersion minecraftVersion = Slimefun.getMinecraftVersion();
 
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            new SlimefunItem(itemGroups.magicalArmor, SlimefunItems.BEE_HELMET, RecipeType.ARMOR_FORGE,
-            new ItemStack[] {SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK), null, null, null})
-            .register(plugin);
+        new SlimefunItem(itemGroups.magicalArmor, SlimefunItems.BEE_HELMET, RecipeType.ARMOR_FORGE,
+        new ItemStack[] {SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK), null, null, null})
+        .register(plugin);
 
-            new BeeWings(itemGroups.magicalArmor, SlimefunItems.BEE_WINGS, RecipeType.ARMOR_FORGE,
-            new ItemStack[] {SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.ELYTRA), new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK)})
-            .register(plugin);
+        new BeeWings(itemGroups.magicalArmor, SlimefunItems.BEE_WINGS, RecipeType.ARMOR_FORGE,
+        new ItemStack[] {SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.ELYTRA), new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK)})
+        .register(plugin);
 
-            new SlimefunItem(itemGroups.magicalArmor, SlimefunItems.BEE_LEGGINGS, RecipeType.ARMOR_FORGE,
-            new ItemStack[] {SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK)})
-            .register(plugin);
+        new SlimefunItem(itemGroups.magicalArmor, SlimefunItems.BEE_LEGGINGS, RecipeType.ARMOR_FORGE,
+        new ItemStack[] {SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK)})
+        .register(plugin);
 
-            new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.BEE_BOOTS, RecipeType.ARMOR_FORGE,
-            new ItemStack[] {null, null, null, SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), null, new ItemStack(Material.HONEY_BLOCK)},
-            new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 2)})
-            .register(plugin);
-        }
+        new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.BEE_BOOTS, RecipeType.ARMOR_FORGE,
+        new ItemStack[] {null, null, null, SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), null, new ItemStack(Material.HONEY_BLOCK)},
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 2)})
+        .register(plugin);
 
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            new VillagerRune(itemGroups.magicalResources, SlimefunItems.VILLAGER_RUNE, RecipeType.ANCIENT_ALTAR,
-            new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.STRANGE_NETHER_GOO, SlimefunItems.FIRE_RUNE, SlimefunItems.STRANGE_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3},
-            new SlimefunItemStack(SlimefunItems.VILLAGER_RUNE, 3))
-            .register(plugin);
+        new VillagerRune(itemGroups.magicalResources, SlimefunItems.VILLAGER_RUNE, RecipeType.ANCIENT_ALTAR,
+        new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.STRANGE_NETHER_GOO, SlimefunItems.FIRE_RUNE, SlimefunItems.STRANGE_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3},
+        new SlimefunItemStack(SlimefunItems.VILLAGER_RUNE, 3))
+        .register(plugin);
 
-            new StrangeNetherGoo(itemGroups.magicalResources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
-            new ItemStack[] {null, null, null, null, new CustomItemStack(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
-            .register(plugin);
-        }
+        new StrangeNetherGoo(itemGroups.magicalResources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
+        new ItemStack[] {null, null, null, null, new CustomItemStack(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
+        .register(plugin);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             new Juice(itemGroups.food, SlimefunItems.GLOW_BERRY_JUICE, RecipeType.JUICER,

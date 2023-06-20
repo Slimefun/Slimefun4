@@ -42,6 +42,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
 import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -108,6 +109,8 @@ public final class SlimefunUtils {
      * This method checks whether the given {@link ItemStack} is considered {@link Soulbound}.
      * If the provided item is a {@link SlimefunItem} then this method will also check that the item
      * is enabled in the provided {@link World}.
+     * If the provided item is {@link Soulbound} through the {@link SlimefunItems#SOULBOUND_RUNE}, then this
+     * method will also check that the {@link SlimefunItems#SOULBOUND_RUNE} is enabled in the provided {@link World}
      *
      * @param item
      *            The {@link ItemStack} to check for
@@ -120,7 +123,8 @@ public final class SlimefunUtils {
         if (item != null && item.getType() != Material.AIR) {
             ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
-            if (hasSoulboundFlag(meta)) {
+            SlimefunItem rune = SlimefunItems.SOULBOUND_RUNE.getItem();
+            if (rune != null && !rune.isDisabled() && (world == null || !rune.isDisabledIn(world)) && hasSoulboundFlag(meta)) {
                 return true;
             }
 
@@ -518,28 +522,5 @@ public final class SlimefunUtils {
     @ParametersAreNonnullByDefault
     public static @Nullable Item spawnItem(Location loc, ItemStack item, ItemSpawnReason reason) {
         return spawnItem(loc, item, reason, false);
-    }
-
-    /**
-     * Helper method to check if an Inventory is empty (has no items in "storage").
-     * If the MC version is 1.16 or above
-     * this will call {@link Inventory#isEmpty()} (Which calls MC code resulting in a faster method).
-     *
-     * @param inventory
-     *            The {@link Inventory} to check.
-     * 
-     * @return True if the inventory is empty and false otherwise
-     */
-    public static boolean isInventoryEmpty(@Nonnull Inventory inventory) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            return inventory.isEmpty();
-        } else {
-            for (ItemStack is : inventory.getStorageContents()) {
-                if (is != null && !is.getType().isAir()) {
-                    return false;
-                }
-            }
-            return true;
-        }
     }
 }

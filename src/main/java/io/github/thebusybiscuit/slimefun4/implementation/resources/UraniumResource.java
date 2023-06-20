@@ -32,11 +32,8 @@ class UraniumResource extends AbstractResource {
         } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             // 1.17+ introduced cave biomes
             biomes = getBiomeMap(this, "/biome-maps/uranium_v1.17.json");
-        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            // 1.16+ introduced Nether biomes
-            biomes = getBiomeMap(this, "/biome-maps/uranium_v1.16.json");
         } else {
-            biomes = getBiomeMap(this, "/biome-maps/uranium_v1.14.json");
+            biomes = getBiomeMap(this, "/biome-maps/uranium_v1.16.json");
         }
     }
 

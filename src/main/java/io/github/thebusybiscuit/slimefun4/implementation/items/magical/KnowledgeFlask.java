@@ -32,6 +32,7 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemUseHandler> {
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
+            e.cancel();
             Player p = e.getPlayer();
 
             if (p.getLevel() >= 1 && (!e.getClickedBlock().isPresent() || !(e.getClickedBlock().get().getType().isInteractable()))) {
@@ -47,7 +48,6 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemUseHandler> {
                 p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
 
                 ItemUtils.consumeItem(e.getItem(), false);
-                e.cancel();
             }
         };
     }
