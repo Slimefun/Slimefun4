@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 34 (TBD)](#release-candidate-34-tbd)
+- [Release Candidate 35 (TBD)](#release-candidate-35-tbd)
+- [Release Candidate 34 (20 Jun 2023)](#release-candidate-34-20-jun-2023)
 - [Release Candidate 33 (07 Jan 2023)](#release-candidate-33-07-jan-2023)
 - [Release Candidate 32 (26 Jun 2022)](#release-candidate-32-26-jun-2022)
 - [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
@@ -34,8 +35,16 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## Release Candidate 35 (TBD)
 
-## Release Candidate 34 (TBD)
+#### Additions
+
+#### Changes
+
+#### Fixes
+
+## Release Candidate 34 (20 Jun 2023)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#34
 
 #### Additions
 * Added "Cobbled Deepslate -> Gravel" recipe to the Grind Stone
@@ -45,6 +54,7 @@
 * (API) Added EnergyNet#getConsumers()
 * Added Bamboo as a fuel type for Tier 1 Androids
 * Added "Basalt -> Blackstone" recipe to the Grind Stone
+* Added a way to automate salt with the Ore Washer
 * Added compatibility for Minecraft 1.20
 
 #### Changes
@@ -57,6 +67,7 @@
   * Tuff
   * Clay
   * Skulk
+* Lumber Axe no longer works when shifting
 
 #### Fixes
 * Fixed #3741
@@ -67,6 +78,11 @@
 * Fixed #3361
 * Fixed #3254
 * Fixed #3443
+* Fixed #3511
+* Fixed #3524
+* Fixed #3657
+* Fixed #3768
+* Fixed #3414
 
 ## Release Candidate 33 (07 Jan 2023)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
