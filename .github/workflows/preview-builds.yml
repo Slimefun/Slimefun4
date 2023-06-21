@@ -8,6 +8,7 @@ on:
     paths:
       - 'src/**'
       - 'pom.xml'
+      - '.github/workflows/**'
 
 permissions:
   pull-requests: write
