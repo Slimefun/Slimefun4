@@ -130,8 +130,11 @@ public class BlockStorage {
         }
 
         loadChunks();
-        loadInventories();
 
+        // TODO: properly support loading inventories within unit tests
+        if (!Slimefun.instance().isUnitTest()) {
+            loadInventories();
+        }
         Slimefun.getRegistry().getWorlds().put(world.getName(), this);
     }
 
