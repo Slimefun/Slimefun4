@@ -58,8 +58,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#34
 * Added "Basalt -> Blackstone" recipe to the Grind Stone
 * Added a way to automate salt with the Ore Washer
 * Added compatibility for Minecraft 1.20
-* Added sound effects to all items
-* Added `sounds.yml` file to configure sound effects for Slimefun
 
 #### Changes
 * Removed 1.14.* and 1.15.* support
@@ -331,10 +329,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 * Added "Raw Copper -> Copper Dust" recipe to the Ore Crusher
 * Debug Fish can now read Slimefun Tags for vanilla blocks
 * The Icy Bow now gives a freezing effect on 1.17
-=======
-* Added sound effects for Slime Boots
-* Added `sounds.yml` file to configure sound effects for Slimefun
->>>>>>> 2dbace3e0 (Update CHANGELOG.md)
 
 #### Changes
 * (API) Removed `SlimefunItem#getID()` (renamed to `SlimefunItem#getId()`)
