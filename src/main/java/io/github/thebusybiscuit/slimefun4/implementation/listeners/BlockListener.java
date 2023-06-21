@@ -129,16 +129,15 @@ public class BlockListener implements Listener {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
-        if (sfItem == null) {
-            return;
-        }
+        // If there is a Slimefun Block here, call our BreakEvent and, if cancelled, cancel this event and return
+        if (sfItem != null) {
+            SlimefunBlockBreakEvent breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
+            Bukkit.getPluginManager().callEvent(breakEvent);
 
-        SlimefunBlockBreakEvent breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
-        Bukkit.getPluginManager().callEvent(breakEvent);
-
-        if (breakEvent.isCancelled()) {
-            e.setCancelled(true);
-            return;
+            if (breakEvent.isCancelled()) {
+                e.setCancelled(true);
+                return;
+            }
         }
 
         if (!e.isCancelled()) {
