@@ -58,6 +58,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#34
 * Added "Basalt -> Blackstone" recipe to the Grind Stone
 * Added a way to automate salt with the Ore Washer
 * Added compatibility for Minecraft 1.20
+* Added sound effects to all items
+* Added `sounds.yml` file to configure sound effects for Slimefun
 
 #### Changes
 * Removed 1.14.* and 1.15.* support
@@ -99,8 +101,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
 * Added "Mud -> Clay" recipe to the Auto Drier
 * Added a third tier for Freezers
 * Added Glow Berry Juice
-* Added sound effects for Slime Boots
-* Added `sounds.yml` file to configure sound effects for Slimefun
 
 #### Changes
 * Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
