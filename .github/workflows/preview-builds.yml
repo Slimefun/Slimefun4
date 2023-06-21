@@ -56,9 +56,7 @@ jobs:
             #### Slimefun preview jar
             This is the preview jar for this Pull Request.
             This can be used for reviewers to test this PR.
-            
+
             https://preview-builds.walshy.dev/download/Slimefun/${{ github.event.number }}/${{ github.run.number }}
-            
+
             *Pusher: @${{ github.actor }}, Action: ${{ github.event_name }}*
-
-
