@@ -38,6 +38,8 @@
 ## Release Candidate 35 (TBD)
 
 #### Additions
+* Added sound effects to all items
+* Added `sounds.yml` file to configure sound effects for Slimefun
 
 #### Changes
 
@@ -56,8 +58,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#34
 * Added "Basalt -> Blackstone" recipe to the Grind Stone
 * Added a way to automate salt with the Ore Washer
 * Added compatibility for Minecraft 1.20
-* Added sound effects to all items
-* Added `sounds.yml` file to configure sound effects for Slimefun
 
 #### Changes
 * Removed 1.14.* and 1.15.* support
