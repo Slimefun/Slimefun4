@@ -2,10 +2,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -128,16 +130,22 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
         ItemMeta bookMeta = book.getItemMeta();
         ((Repairable) bookMeta).setRepairCost(((Repairable) itemMeta).getRepairCost());
         ((Repairable) itemMeta).setRepairCost(0);
-        item.setItemMeta(itemMeta);
         book.setItemMeta(bookMeta);
 
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
 
         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-            item.removeEnchantment(entry.getKey());
-            meta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
+            boolean wasEnchantmentRemoved = itemMeta.removeEnchant(entry.getKey()),
+                    stillHasEnchantment = itemMeta.getEnchants().containsKey(entry.getKey());
+
+            // Prevent future enchantment duplication
+            if(wasEnchantmentRemoved && !stillHasEnchantment)
+                meta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
+            else //                                                                                                     Get Enchantment "Name"
+                Slimefun.logger().log(Level.SEVERE, "AutoDisenchanter has failed to remove enchantment \"{0}\"", entry.getKey().getKey().getKey());
         }
 
+        item.setItemMeta(itemMeta);
         book.setItemMeta(meta);
     }
 
