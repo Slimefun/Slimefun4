@@ -145,6 +145,7 @@ public class EnergyNet extends Network implements HologramOwner {
 
     @Override
     protected void addLocationToNetwork(@Nonnull Location l) {
+        // TODO: Add a generic fix for all Network implementations
         if (EnergyNet.getNetworkFromLocation(l) == null) {
             super.addLocationToNetwork(l);
         }
