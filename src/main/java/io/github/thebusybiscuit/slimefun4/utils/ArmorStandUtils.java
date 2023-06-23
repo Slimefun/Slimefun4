@@ -28,8 +28,7 @@ public class ArmorStandUtils {
      *
      * @return The spawned {@link ArmorStand}
      */
-    @Nonnull
-    public static ArmorStand spawnArmorStand(@Nonnull Location location, @Nonnull String customName) {
+    public static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location location, @Nonnull String customName) {
         ArmorStand armorStand = spawnArmorStand(location);
         armorStand.setCustomName(customName);
         armorStand.setCustomNameVisible(true);
@@ -44,8 +43,7 @@ public class ArmorStandUtils {
      *
      * @return The spawned {@link ArmorStand}
      */
-    @Nonnull
-    public static ArmorStand spawnArmorStand(@Nonnull Location location) {
+    public static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location location) {
         return location.getWorld().spawn(location, ArmorStand.class, armorStand -> {
             armorStand.setVisible(false);
             armorStand.setSilent(true);
