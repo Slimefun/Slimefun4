@@ -7,6 +7,7 @@ on:
       - completed
 
 permissions:
+  contents: read
   pull-requests: write
 
 jobs:
@@ -57,11 +58,13 @@ jobs:
       - name: Post comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
+          number: ${{ env.WORKFLOW_PR_ID }}
           message: |
-            #### Slimefun preview jar
-            This is the preview jar for this Pull Request.
-            This can be used for reviewers to test this PR.
+            ### Slimefun preview build
+
+            A Slimefun preview build is available for testing!
 
             https://preview-builds.walshy.dev/download/Slimefun/${{ env.WORKFLOW_PR_ID }}/${{ env.WORKFLOW_RUN_ID }}
 
-            *Pusher: @${{ github.actor }}, Action: ${{ github.event_name }}*
+            > **Note**: This is not a supported build and is only here for the purposes of testing.
+            > Do not run this on a live server and do not report bugs anywhere but this PR!
