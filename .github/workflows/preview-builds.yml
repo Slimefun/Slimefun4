@@ -20,7 +20,7 @@ jobs:
       # Kinda jank way to grab the PR and run ID and then download the artifact
       # TODO: Move this code to our own mini-action
       - name: Grab PR & run ID and download the artifact
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
