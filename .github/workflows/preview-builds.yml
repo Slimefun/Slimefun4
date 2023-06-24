@@ -17,9 +17,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Kinda jank way to grab the PR and run ID
-      # However, not sure a better way
-      - name: Grab PR and run ID
+      # Kinda jank way to grab the PR and run ID and then download the artifact
+      # TODO: Move this code to our own mini-action
+      - name: Grab PR & run ID and download the artifact
         uses: actions/github-script@v5
         with:
           script: |
@@ -38,21 +38,32 @@ jobs:
                   `\nWORKFLOW_PR_ID=${match[1]}` +
                     `\nWORKFLOW_RUN_ID=${context.payload.workflow_run.id}`
                 );
+
+                const download = await github.rest.actions.downloadArtifact({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  artifact_id: artifact.id,
+                  archive_format: 'zip',
+                });
+                require('fs').writeFileSync(`${process.env.GITHUB_WORKSPACE}/preview.zip`, Buffer.from(download.data))
+
                 break;
               }
             }
 
-      # Download the artifact from the build workflow
-      - uses: actions/download-artifact@v3
-        with:
-          name: slimefun-${{ env.WORKFLOW_PR_ID }}
+      # Unzip the artifact
+      - name: Unzip
+        run: |
+          unzip preview.zip
+          rm preview.zip
+          mv 'Slimefun v4.9-UNOFFICIAL.jar' preview.jar
 
       - name: Upload to preview service
         run: |
           curl -v -X POST \
             -H 'Authorization: ${{ secrets.PUBLISH_TOKEN }}' \
-            -H "X-Checksum: $(sha256sum 'target/Slimefun v4.9-UNOFFICIAL.jar' | awk '{print $1}')" \
-            --data-binary '@target/Slimefun v4.9-UNOFFICIAL.jar' \
+            -H "X-Checksum: $(sha256sum 'preview.jar' | awk '{print $1}')" \
+            --data-binary '@preview.jar' \
             https://preview-builds.walshy.dev/upload/Slimefun/${{ env.WORKFLOW_PR_ID }}/${{ env.WORKFLOW_RUN_ID }}
 
       - name: Post comment
