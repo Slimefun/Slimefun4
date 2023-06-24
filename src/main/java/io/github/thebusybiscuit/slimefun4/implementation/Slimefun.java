@@ -282,7 +282,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         isNewlyInstalled = !new File("data-storage/Slimefun").exists();
 
         // Creating all necessary Folders
-        logger.log(Level.INFO, "Creating directories...");
+        logger.log(Level.INFO, "Creating some directories...");
         createDirectories();
 
         // Load various config settings into our cache
