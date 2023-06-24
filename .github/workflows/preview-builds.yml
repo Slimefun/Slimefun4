@@ -1,54 +1,58 @@
 name: Preview builds
 
 on:
-  push:
-    branches-ignore:
-      - master
-  pull_request:
-    paths:
-      - 'src/**'
-      - 'pom.xml'
-      - '.github/workflows/**'
+  workflow_run:
+    workflows: ["Java CI"]
+    types:
+      - completed
 
 permissions:
   pull-requests: write
-  contents: read
 
 jobs:
   preview:
-    if: ${{ github.repository_owner == 'Slimefun' }}
+    if: ${{ github.repository_owner == 'Slimefun' && github.event.workflow_run.conclusion == 'success' }}
     name: Build and Publish the jar
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3.11.0
+      # Kinda jank way to grab the PR and run ID
+      # However, not sure a better way
+      - name: Grab PR and run ID
+        uses: actions/github-script@v5
         with:
-          distribution: 'adopt'
-          java-version: '17'
-          java-package: jdk
-          architecture: x64
+          script: |
+            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.payload.workflow_run.id,
+            });
 
-      - name: Cache Maven packages
-        uses: actions/cache@v3
+            for (const artifact of allArtifacts.data.artifacts) {
+              // Extract the PR number from the artifact name
+              const match = /^slimefun-(\d+)$/.exec(artifact.name);
+              if (match) {
+                require("fs").appendFileSync(
+                  process.env.GITHUB_ENV,
+                  `\nWORKFLOW_PR_ID=${match[1]}` +
+                    `\nWORKFLOW_RUN_ID=${context.payload.workflow_run.id}`
+                );
+                break;
+              }
+            }
+
+      # Download the artifact from the build workflow
+      - uses: actions/download-artifact@v3
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
-      - name: Build with Maven
-        run: mvn package
+          name: slimefun-${{ env.WORKFLOW_PR_ID }}
 
       - name: Upload to preview service
         run: |
           curl -v -X POST \
             -H 'Authorization: ${{ secrets.PUBLISH_TOKEN }}' \
-            -H "X-Checksum: $(sha256sum 'target/Slimefun v4.9-UNOFFICIAL.jar')" \
+            -H "X-Checksum: $(sha256sum 'target/Slimefun v4.9-UNOFFICIAL.jar' | awk '{print $1}')" \
             --data-binary '@target/Slimefun v4.9-UNOFFICIAL.jar' \
-            https://preview-builds.walshy.dev/upload/Slimefun/${{ github.event.number }}/${{ github.run_number }}
+            https://preview-builds.walshy.dev/upload/Slimefun/${{ env.WORKFLOW_PR_ID }}/${{ env.WORKFLOW_RUN_ID }}
 
       - name: Post comment
         uses: marocchino/sticky-pull-request-comment@v2
@@ -58,6 +62,6 @@ jobs:
             This is the preview jar for this Pull Request.
             This can be used for reviewers to test this PR.
 
-            https://preview-builds.walshy.dev/download/Slimefun/${{ github.event.number }}/${{ github.run_number }}
+            https://preview-builds.walshy.dev/download/Slimefun/${{ env.WORKFLOW_PR_ID }}/${{ env.WORKFLOW_RUN_ID }}
 
             *Pusher: @${{ github.actor }}, Action: ${{ github.event_name }}*
