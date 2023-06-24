@@ -44,11 +44,11 @@ jobs:
 
       - name: Upload to preview service
         run: |
-          curl -X POST \
+          curl -v -X POST \
             -H 'Authorization: ${{ secrets.PUBLISH_TOKEN }}' \
             -H "X-Checksum: $(sha256sum 'target/Slimefun v4.9-UNOFFICIAL.jar')" \
             --data-binary '@target/Slimefun v4.9-UNOFFICIAL.jar' \
-            https://preview-builds.walshy.dev/upload/Slimefun/${{ github.event.number }}/${{ github.run.number }}
+            https://preview-builds.walshy.dev/upload/Slimefun/${{ github.event.number }}/${{ github.run_number }}
 
       - name: Post comment
         uses: marocchino/sticky-pull-request-comment@v2
@@ -58,6 +58,6 @@ jobs:
             This is the preview jar for this Pull Request.
             This can be used for reviewers to test this PR.
 
-            https://preview-builds.walshy.dev/download/Slimefun/${{ github.event.number }}/${{ github.run.number }}
+            https://preview-builds.walshy.dev/download/Slimefun/${{ github.event.number }}/${{ github.run_number }}
 
             *Pusher: @${{ github.actor }}, Action: ${{ github.event_name }}*
