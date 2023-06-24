@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramPr
  * @author JustAHuman
  */
 public class ArmorStandUtils {
+
     /**
      * Spawns an {@link ArmorStand} at the given {@link Location} with the given custom name
      * (Invisible, Silent, Marker, NoGravity, NoBasePlate, NoRemoveWhenFarAway, VisibleCustomName)
