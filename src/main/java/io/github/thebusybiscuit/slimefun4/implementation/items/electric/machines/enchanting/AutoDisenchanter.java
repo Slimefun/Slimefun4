@@ -135,11 +135,11 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
         EnchantmentStorageMeta meta = (EnchantmentStorageMeta) book.getItemMeta();
 
         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-            boolean wasEnchantmentRemoved = itemMeta.removeEnchant(entry.getKey()),
-                    stillHasEnchantment = itemMeta.getEnchants().containsKey(entry.getKey());
+            boolean wasEnchantmentRemoved = itemMeta.removeEnchant(entry.getKey());
+            boolean stillHasEnchantment = itemMeta.getEnchants().containsKey(entry.getKey());
 
             // Prevent future enchantment duplication
-            if(wasEnchantmentRemoved && !stillHasEnchantment)
+            if (wasEnchantmentRemoved && !stillHasEnchantment)
                 meta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
             else //                                                                                                     Get Enchantment "Name"
                 Slimefun.logger().log(Level.SEVERE, "AutoDisenchanter has failed to remove enchantment \"{0}\"", entry.getKey().getKey().getKey());
