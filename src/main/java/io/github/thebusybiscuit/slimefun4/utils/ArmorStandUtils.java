@@ -22,7 +22,8 @@ public class ArmorStandUtils {
 
     /**
      * Spawns an {@link ArmorStand} at the given {@link Location} with the given custom name
-     * (Invisible, Silent, Marker, NoGravity, NoBasePlate, NoRemoveWhenFarAway, VisibleCustomName)
+     * <br>
+     * Set Properties: Invisible, Silent, Marker, No-Gravity, No Base Plate, Don't Remove When Far Away
      *
      * @param location The {@link Location} to spawn the {@link ArmorStand}
      * @param customName The {@link String} custom name the {@link ArmorStand} should display
@@ -38,7 +39,8 @@ public class ArmorStandUtils {
     
     /**
      * Spawns an {@link ArmorStand} at the given {@link Location}
-     * (Invisible, Silent, Marker, NoGravity, NoBasePlate, NoRemoveWhenFarAway)
+     * <br>
+     * Set Properties: Invisible, Silent, Marker, No-Gravity, No Base Plate, Don't Remove When Far Away
      *
      * @param location The {@link Location} to spawn the {@link ArmorStand}
      *
