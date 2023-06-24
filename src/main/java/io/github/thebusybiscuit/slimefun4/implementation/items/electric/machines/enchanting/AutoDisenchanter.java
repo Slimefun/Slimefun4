@@ -141,8 +141,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             // Prevent future enchantment duplication
             if (wasEnchantmentRemoved && !stillHasEnchantment) {
                 meta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
-            }
-            else {
+            } else {
                 //                                                                                                      Get Enchantment Name
                 Slimefun.logger().log(Level.SEVERE, "AutoDisenchanter has failed to remove enchantment \"{0}\"", entry.getKey().getKey().getKey());
             }
