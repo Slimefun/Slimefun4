@@ -41,7 +41,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @see EnergyNetComponent
  * @see EnergyNetProvider
  * @see EnergyNetComponentType
- *
  */
 public class EnergyNet extends Network implements HologramOwner {
 
