@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -1088,6 +1089,13 @@ public class SlimefunItem implements Placeable {
             }
 
             return false;
+        } else if (Slimefun.instance().isIllegalChar().contains(p.getWorld())) {
+            // World contains an illegal character
+            if (sendMessage) {
+                Slimefun.getLocalization().sendMessage(p, "message.disabled-in.world", true);
+            }
+
+            return false;
         } else if (!Slimefun.getWorldSettingsService().isEnabled(p.getWorld(), this)) {
             // The Item was disabled in the current World
             if (sendMessage) {
@@ -1105,7 +1113,7 @@ public class SlimefunItem implements Placeable {
         } else if (hasResearch()) {
             Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
-            if (!profile.isPresent()) {
+            if (profile.isEmpty()) {
                 /*
                  * We will return false since we cannot know the answer yet.
                  * But we will schedule the Profile for loading and not send

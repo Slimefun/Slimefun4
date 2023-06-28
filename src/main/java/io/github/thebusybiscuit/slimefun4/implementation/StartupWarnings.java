@@ -35,20 +35,6 @@ final class StartupWarnings {
     }
 
     @ParametersAreNonnullByDefault
-    static void illegalCharacterInWorldName(Logger logger, String world) {
-        logger.log(Level.SEVERE, BORDER);
-        logger.log(Level.SEVERE, PREFIX + "It looks like your world uses an illegal character.");
-        logger.log(Level.SEVERE, PREFIX);
-        logger.log(Level.SEVERE, PREFIX + "{0} uses an illegal character.", world);
-        logger.log(Level.SEVERE, PREFIX + "Slimefun will not work when one of these characters are used:");
-        logger.log(Level.SEVERE, PREFIX +
-                "  < (less than)\n" + "  > (greater than)\n" + "  : (colon)\n" +
-                "  \" (double quote)\n" + "  / (forward slash)\n" + "  \\ (backslash)\n" +
-                "  | (vertical bar or pipe)\n" + "  ? (question mark)\n" + "  * (asterisk)\n"
-        );
-    }
-
-    @ParametersAreNonnullByDefault
     static void invalidMinecraftVersion(Logger logger, int majorVersion, String slimefunVersion) {
         logger.log(Level.SEVERE, BORDER);
         logger.log(Level.SEVERE, PREFIX + "Slimefun was not installed correctly!");

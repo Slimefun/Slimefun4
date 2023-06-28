@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -158,6 +160,11 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
      */
     private boolean isNewlyInstalled = false;
 
+    /**
+     * Keep track of if the server has a world file with an illegal character.
+     */
+    private List<World> illegalWorld = new ArrayList<>();
+
     // Various things we need
     private final SlimefunRegistry registry = new SlimefunRegistry();
     private final SlimefunCommand command = new SlimefunCommand(this);
@@ -279,9 +286,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
             // Regex contains the following characters <,>,:,/,\,|,?,*,.
             Pattern pattern = Pattern.compile("[\\.\\\\\\/\":><|?*]");
             if (pattern.matcher(world.getName()).find()) {
-                StartupWarnings.illegalCharacterInWorldName(logger, world.getName());
-                getServer().getPluginManager().disablePlugin(this);
-                return;
+                illegalWorld.add(world);
+            return;
             }
         }
 
@@ -579,7 +585,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     /**
      * This method creates all necessary directories (and sub directories) for Slimefun.
      */
-    private void createDirectories() {
+    private void  createDirectories() {
         String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
         String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings" };
 
@@ -971,6 +977,15 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static boolean isNewlyInstalled() {
         validateInstance();
         return instance.isNewlyInstalled;
+    }
+
+    /**
+     * This method returns a list of worlds that have illegal characters
+     *
+     * @return a list with worlds with illegal characters or an empty list.
+     */
+    public List<World> isIllegalChar() {
+        return illegalWorld;
     }
 
     /**
