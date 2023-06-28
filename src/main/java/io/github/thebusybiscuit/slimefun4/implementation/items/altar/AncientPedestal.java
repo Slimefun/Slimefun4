@@ -131,8 +131,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
     }
     
     private boolean testArmorStand(@Nullable Entity n) {
-        if (n instanceof ArmorStand armorStand && armorStand.isValid()) {
-            String customName = armorStand.getCustomName();
+        if (n instanceof ArmorStand && n.isValid()) {
+            String customName = n.getCustomName();
             return customName != null && customName.startsWith(ITEM_PREFIX);
         } else {
             return false;
