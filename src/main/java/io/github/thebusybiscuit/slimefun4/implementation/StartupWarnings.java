@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import org.bukkit.World;
 
 /**
  * This class stores some startup warnings we occasionally need to print.
@@ -31,6 +32,20 @@ final class StartupWarnings {
         logger.log(Level.SEVERE, PREFIX + "installed as of January 30th 2021. You need to");
         logger.log(Level.SEVERE, PREFIX + "remove CS-CoreLib for Slimefun to run.");
         logger.log(Level.SEVERE, BORDER);
+    }
+
+    @ParametersAreNonnullByDefault
+    static void illegalCharacterInWorldName(Logger logger, String world) {
+        logger.log(Level.SEVERE, BORDER);
+        logger.log(Level.SEVERE, PREFIX + "It looks like your world uses an illegal character.");
+        logger.log(Level.SEVERE, PREFIX);
+        logger.log(Level.SEVERE, PREFIX + "{0} uses an illegal character.", world);
+        logger.log(Level.SEVERE, PREFIX + "Slimefun will not work when one of these characters are used:");
+        logger.log(Level.SEVERE, PREFIX +
+                "  < (less than)\n" + "  > (greater than)\n" + "  : (colon)\n" +
+                "  \" (double quote)\n" + "  / (forward slash)\n" + "  \\ (backslash)\n" +
+                "  | (vertical bar or pipe)\n" + "  ? (question mark)\n" + "  * (asterisk)\n"
+        );
     }
 
     @ParametersAreNonnullByDefault

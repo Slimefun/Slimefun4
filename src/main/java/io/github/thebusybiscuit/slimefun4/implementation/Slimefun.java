@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -271,6 +272,17 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
             StartupWarnings.discourageCSCoreLib(logger);
             getServer().getPluginManager().disablePlugin(this);
             return;
+        }
+
+        // Check if world contains an illegal character
+        for (World world : Bukkit.getServer().getWorlds()) {
+            // Regex contains the following characters <,>,:,/,\,|,?,*,.
+            Pattern pattern = Pattern.compile("[\\.\\\\\\/\":><|?*]");
+            if (pattern.matcher(world.getName()).find()) {
+                StartupWarnings.illegalCharacterInWorldName(logger, world.getName());
+                getServer().getPluginManager().disablePlugin(this);
+                return;
+            }
         }
 
         // Encourage newer Java version
