@@ -1,11 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -585,7 +583,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     /**
      * This method creates all necessary directories (and sub directories) for Slimefun.
      */
-    private void  createDirectories() {
+    private void createDirectories() {
         String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
         String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings" };
 
