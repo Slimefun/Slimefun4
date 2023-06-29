@@ -377,7 +377,7 @@ public final class SlimefunItemSetup {
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.SLIME_BOOTS, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT)},
         new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)},
-        SoundEffect.SLIME_BOOTS_FALL_SOUND)
+            SoundEffect.SLIME_BOOTS_FALL_SOUND)
         .register(plugin);
 
         new SwordOfBeheading(itemGroups.weapons, SlimefunItems.SWORD_OF_BEHEADING, RecipeType.ENHANCED_CRAFTING_TABLE,

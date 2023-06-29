@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
@@ -21,7 +22,7 @@ public class Vitamins extends MedicalSupply<ItemUseHandler> {
     }
 
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
             SoundEffect.VITAMINS_CONSUME_SOUND.playFor(p);

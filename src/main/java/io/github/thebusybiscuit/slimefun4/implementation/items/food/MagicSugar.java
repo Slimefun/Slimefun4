@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
@@ -32,7 +33,7 @@ public class MagicSugar extends SimpleSlimefunItem<ItemUseHandler> {
     }
 
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             // Check if it is being placed into an ancient altar.
             if (e.getClickedBlock().isPresent()) {

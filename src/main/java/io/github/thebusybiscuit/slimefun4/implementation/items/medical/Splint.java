@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
-import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +26,7 @@ public class Splint extends SimpleSlimefunItem<ItemUseHandler> {
     }
 
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
 
@@ -39,11 +39,10 @@ public class Splint extends SimpleSlimefunItem<ItemUseHandler> {
                 ItemUtils.consumeItem(e.getItem(), false);
             }
 
-            SoundEffect.SPLINT_CONSUME_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
+            SoundEffect.SPLINT_CONSUME_SOUND.playFor(p);
             p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0));
 
             e.cancel();
         };
     }
-
 }

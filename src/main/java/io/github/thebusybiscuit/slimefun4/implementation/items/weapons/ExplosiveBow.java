@@ -53,8 +53,8 @@ public class ExplosiveBow extends SlimefunBow {
             SoundEffect.EXPLOSIVE_BOW_HIT_SOUND.playAt(target.getLocation(), SoundCategory.PLAYERS);
             int radius = range.getValue();
 
-            Collection<Entity> entites = target.getWorld().getNearbyEntities(target.getLocation(), radius, radius, radius, this::canDamage);
-            for (Entity nearby : entites) {
+            Collection<Entity> entities = target.getWorld().getNearbyEntities(target.getLocation(), radius, radius, radius, this::canDamage);
+            for (Entity nearby : entities) {
                 LivingEntity entity = (LivingEntity) nearby;
 
                 Vector distanceVector = entity.getLocation().toVector().subtract(target.getLocation().toVector()).add(new Vector(0, 0.75, 0));
@@ -77,7 +77,7 @@ public class ExplosiveBow extends SlimefunBow {
         };
     }
 
-    private boolean canDamage(@Nonnull Entity n) {
-        return n instanceof LivingEntity && !(n instanceof ArmorStand) && n.isValid();
+    private boolean canDamage(@Nonnull Entity entity) {
+        return entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity.isValid();
     }
 }

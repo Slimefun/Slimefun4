@@ -38,8 +38,10 @@
 ## Release Candidate 35 (TBD)
 
 #### Additions
+* Added `sounds.yml` file to configure sound effects for Slimefun
 
 #### Changes
+* Moved all sound effects to the new sound system
 
 #### Fixes
 

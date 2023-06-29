@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
@@ -37,7 +38,7 @@ public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
     }
 
     @Override
-    public EntityInteractHandler getItemHandler() {
+    public @Nonnull EntityInteractHandler getItemHandler() {
         return (e, item, offhand) -> {
             if (e.isCancelled() || !Slimefun.getProtectionManager().hasPermission(e.getPlayer(), e.getRightClicked().getLocation(), Interaction.INTERACT_ENTITY)) {
                 // They don't have permission to use it in this area

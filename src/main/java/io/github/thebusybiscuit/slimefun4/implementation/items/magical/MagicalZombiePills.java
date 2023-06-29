@@ -46,7 +46,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
     }
 
     @Override
-    public EntityInteractHandler getItemHandler() {
+    public @Nonnull EntityInteractHandler getItemHandler() {
         return (e, item, offhand) -> {
             Entity entity = e.getRightClicked();
 

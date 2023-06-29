@@ -34,35 +34,31 @@ public class ElytraImpactListener implements Listener {
 
     @EventHandler
     public void onPlayerCrash(EntityDamageEvent e) {
-        if (!(e.getEntity() instanceof Player)) {
+        if (!(e.getEntity() instanceof Player p)) {
             // We only wanna handle damaged Players
             return;
         }
 
-        if (e.getCause() == DamageCause.FALL || e.getCause() == DamageCause.FLY_INTO_WALL) {
-            Player p = (Player) e.getEntity();
+        if (e.getCause() == DamageCause.FALL || e.getCause() == DamageCause.FLY_INTO_WALL && p.isGliding()) {
+            Optional<PlayerProfile> optional = PlayerProfile.find(p);
 
-            if (p.isGliding()) {
-                Optional<PlayerProfile> optional = PlayerProfile.find(p);
+            if (optional.isEmpty()) {
+                PlayerProfile.request(p);
+                return;
+            }
 
-                if (!optional.isPresent()) {
-                    PlayerProfile.request(p);
-                    return;
-                }
+            PlayerProfile profile = optional.get();
+            Optional<SlimefunArmorPiece> helmet = profile.getArmor()[0].getItem();
 
-                PlayerProfile profile = optional.get();
-                Optional<SlimefunArmorPiece> helmet = profile.getArmor()[0].getItem();
+            if (helmet.isPresent()) {
+                SlimefunItem item = helmet.get();
 
-                if (helmet.isPresent()) {
-                    SlimefunItem item = helmet.get();
+                if (item.canUse(p, true) && profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
+                    SoundEffect.ELYTRA_CAP_IMPACT_SOUND.playFor(p);
+                    e.setCancelled(true);
 
-                    if (item.canUse(p, true) && profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
-                        SoundEffect.ELYTRA_CAP_IMPACT_SOUND.playFor(p);
-                        e.setCancelled(true);
-
-                        if (item instanceof DamageableItem damageableItem) {
-                            damageableItem.damageItem(p, p.getInventory().getHelmet());
-                        }
+                    if (item instanceof DamageableItem damageableItem) {
+                        damageableItem.damageItem(p, p.getInventory().getHelmet());
                     }
                 }
             }

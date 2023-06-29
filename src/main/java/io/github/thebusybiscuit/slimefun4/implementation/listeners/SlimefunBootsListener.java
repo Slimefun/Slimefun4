@@ -48,8 +48,7 @@ public class SlimefunBootsListener implements Listener {
 
     @EventHandler
     public void onEnderPearlDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof EnderPearl && e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
+        if (e.getDamager() instanceof EnderPearl && e.getEntity() instanceof Player p) {
             SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 
             if (boots instanceof EnderBoots && boots.canUse(p, true)) {
@@ -59,21 +58,22 @@ public class SlimefunBootsListener implements Listener {
     }
 
     private void onFallDamage(@Nonnull EntityDamageEvent e) {
-        Player p = (Player) e.getEntity();
-        SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
+        if (e.getEntity() instanceof Player p) {
+            SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 
-        if (boots != null) {
-            // Check if the boots were researched
-            if (!boots.canUse(p, true)) {
-                return;
-            }
+            if (boots != null) {
+                // Check if the boots were researched
+                if (!boots.canUse(p, true)) {
+                    return;
+                }
 
-            if (boots instanceof StomperBoots stomperBoots) {
-                e.setCancelled(true);
-                stomperBoots.stomp(e);
-            } else if (boots instanceof LongFallBoots) {
-                e.setCancelled(true);
-                ((LongFallBoots) boots).getSoundEffect().playAt(p.getLocation(), SoundCategory.PLAYERS);
+                if (boots instanceof StomperBoots stomperBoots) {
+                    e.setCancelled(true);
+                    stomperBoots.stomp(e);
+                } else if (boots instanceof LongFallBoots longFallBoots) {
+                    e.setCancelled(true);
+                    longFallBoots.getSoundEffect().playAt(p.getLocation(), SoundCategory.PLAYERS);
+                }
             }
         }
     }

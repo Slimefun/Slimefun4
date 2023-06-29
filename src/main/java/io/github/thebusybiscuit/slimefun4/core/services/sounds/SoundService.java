@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.sounds;
 
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -7,17 +8,16 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
-
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import com.google.common.base.Preconditions;
 
 /**
  * The {@link SoundService} is responsible for our sound management.
  * It allows server owners to fully customize their users' sound experience.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public class SoundService {
 
@@ -35,19 +35,20 @@ public class SoundService {
         config = new Config(plugin, "sounds.yml");
 
         // @formatter:off
-        config.getConfiguration().options().header(
-            "This file is used to assign the sounds which Slimefun will play." +
-            "\nYou can fully customize any sound you want and even change their pitch" +
-            "\nand volume. To disable a sound, simply set the volume to zero."
+        config.getConfiguration().options().setHeader(Collections.singletonList("""
+                This file is used to assign the sounds which Slimefun will play.
+                You can fully customize any sound you want and even change their pitch
+                and volume. To disable a sound, simply set the volume to zero.
+                """)
         );
         // @formatter:on
 
-        config.getConfiguration().options().copyHeader(true);
+        config.getConfiguration().options().parseComments(true);
     }
 
     /**
      * This method reloads every {@link SoundConfiguration}.
-     * 
+     *
      * @param save
      *            Whether to save the defaults to disk
      */
@@ -97,14 +98,14 @@ public class SoundService {
 
     /**
      * This returns the currently used (immutable) {@link SoundConfiguration} for the given {@link SoundEffect}.
-     * 
+     *
      * @param sound
      *            The {@link SoundEffect}
-     * 
+     *
      * @return The corresponding {@link SoundConfiguration}. This may be null if something went wrong
      */
     public @Nullable SoundConfiguration getConfiguration(@Nonnull SoundEffect sound) {
-        Validate.notNull(sound, "The sound must not be null!");
+        Preconditions.checkNotNull(sound, "The sound must not be null!");
         return soundMap.get(sound);
     }
 }

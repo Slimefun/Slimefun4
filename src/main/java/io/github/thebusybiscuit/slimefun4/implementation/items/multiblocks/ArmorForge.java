@@ -19,6 +19,7 @@ import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
@@ -39,9 +40,9 @@ public class ArmorForge extends AbstractCraftingTable {
             Inventory inv = dispenser.getInventory();
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
-            for (int i = 0; i < inputs.size(); i++) {
-                if (isCraftable(inv, inputs.get(i))) {
-                    ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+            for (ItemStack[] input : inputs) {
+                if (isCraftable(inv, input)) {
+                    ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
                         craft(p, output, inv, possibleDispenser);

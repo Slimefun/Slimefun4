@@ -17,8 +17,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -54,7 +54,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
     }
 
     @Override
-    public BlockTicker getItemHandler() {
+    public @Nonnull BlockTicker getItemHandler() {
         return new BlockTicker() {
 
             @Override
@@ -93,7 +93,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
                  * Play a sound if at least one item was teleported and
                  * the "silent" setting is set to false.
                  */
-                if (playSound && !silent.getValue().booleanValue()) {
+                if (playSound && !silent.getValue()) {
                     SoundEffect.INFUSED_HOPPER_TELEPORT_SOUND.playAt(b);
                 }
             }

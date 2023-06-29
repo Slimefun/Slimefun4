@@ -182,7 +182,7 @@ public enum Instruction {
     CHOP_TREE(AndroidType.WOODCUTTER, HeadTexture.SCRIPT_CHOP_TREE),
 
     /**
-     * This {@link Instruction} makes a {@link FisherAndroid} try to catch fish from
+     * This {@link Instruction} makes a {@link FishermanAndroid} try to catch fish from
      * the water below.
      */
     CATCH_FISH(AndroidType.FISHERMAN, HeadTexture.SCRIPT_FISH, (android, b, inv, face) -> android.fish(b, inv)),

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.block.EnderChest;
@@ -30,7 +31,7 @@ public class EnderBackpack extends SimpleSlimefunItem<ItemUseHandler> implements
     }
 
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
             p.openInventory(p.getEnderChest());

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
@@ -32,7 +33,7 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
     }
 
     @Override
-    public ItemConsumptionHandler getItemHandler() {
+    public @Nonnull ItemConsumptionHandler getItemHandler() {
         return (e, p, item) -> {
             Slimefun.getLocalization().sendMessage(p, "messages.diet-cookie");
             SoundEffect.DIET_COOKIE_CONSUME_SOUND.playFor(p);

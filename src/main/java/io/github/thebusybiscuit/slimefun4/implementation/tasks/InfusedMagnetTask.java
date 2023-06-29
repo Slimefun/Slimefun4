@@ -46,12 +46,10 @@ public class InfusedMagnetTask extends AbstractPlayerTask {
     protected void executeTask() {
         boolean playSound = false;
 
-        for (Entity n : p.getNearbyEntities(radius, radius, radius)) {
-            if (n instanceof Item item) {
-                if (!SlimefunUtils.hasNoPickupFlag(item) && item.getPickupDelay() <= 0 && p.getLocation().distanceSquared(item.getLocation()) > 0.3) {
-                    item.teleport(p.getLocation());
-                    playSound = true;
-                }
+        for (Entity entity : p.getNearbyEntities(radius, radius, radius)) {
+            if (entity instanceof Item item && !SlimefunUtils.hasNoPickupFlag(item) && item.getPickupDelay() <= 0 && p.getLocation().distanceSquared(item.getLocation()) > 0.3) {
+                item.teleport(p.getLocation());
+                playSound = true;
             }
         }
 
@@ -65,5 +63,4 @@ public class InfusedMagnetTask extends AbstractPlayerTask {
     protected boolean isValid() {
         return super.isValid() && p.getGameMode() != GameMode.SPECTATOR;
     }
-
 }

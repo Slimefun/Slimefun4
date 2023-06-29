@@ -72,9 +72,7 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
                 if (isUnstrippedLog(block)) {
                     List<Block> logs = Vein.find(block, MAX_STRIPPED, this::isUnstrippedLog);
 
-                    if (logs.contains(block)) {
-                        logs.remove(block);
-                    }
+                    logs.remove(block);
 
                     for (Block b : logs) {
                         if (!BlockStorage.hasBlockInfo(b) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b, Interaction.BREAK_BLOCK)) {

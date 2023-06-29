@@ -25,9 +25,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.TrashCan;
  * will be voided.
  * 
  * @author TheBusyBiscuit
- * 
- * @see TrashCan
- *
  */
 public class PortableDustbin extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
@@ -43,7 +40,7 @@ public class PortableDustbin extends SimpleSlimefunItem<ItemUseHandler> implemen
 
             Player p = e.getPlayer();
             p.openInventory(Bukkit.createInventory(null, 9 * 3, ChatColor.DARK_RED + "Delete Items"));
-            SoundEffect.TRASH_CAN_OPEN_SOUND.playFor(p);
+            SoundEffect.PORTABLE_DUSTBIN_OPEN_SOUND.playFor(p);
         };
     }
 }

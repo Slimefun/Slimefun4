@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.SoundCategory;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +32,7 @@ public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemUseHandler> {
     }
 
     @Override
-    public ItemUseHandler getItemHandler() {
+    public @Nonnull ItemUseHandler getItemHandler() {
         return e -> {
             e.cancel();
 
@@ -41,7 +40,7 @@ public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemUseHandler> {
 
             if (hasArmor(p.getInventory())) {
                 p.launchProjectile(EnderPearl.class);
-                SoundEffect.MAGICAL_EYE_OF_ENDER_USE_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
+                SoundEffect.MAGICAL_EYE_OF_ENDER_USE_SOUND.playFor(p);
             }
         };
     }

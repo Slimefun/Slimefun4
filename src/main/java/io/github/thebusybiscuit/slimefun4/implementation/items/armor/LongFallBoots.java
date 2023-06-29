@@ -6,10 +6,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 
 /**
  * {@link LongFallBoots} are a pair of boots which negate fall damage.
@@ -33,7 +33,7 @@ public class LongFallBoots extends SlimefunArmorPiece {
 
     /**
      * This returns the {@link SoundEffect} that is played upon landing with these boots.
-     * 
+     *
      * @return The {@link SoundEffect} played when landing
      */
     @Nonnull
