@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.TrashCan;
 
 /**
  * The {@link PortableDustbin} is one of the oldest items in Slimefun.
@@ -24,6 +25,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
  * will be voided.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see TrashCan
+ *
  */
 public class PortableDustbin extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 

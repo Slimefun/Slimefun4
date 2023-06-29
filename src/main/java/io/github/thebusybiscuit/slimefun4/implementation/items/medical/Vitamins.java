@@ -36,5 +36,4 @@ public class Vitamins extends MedicalSupply<ItemUseHandler> {
             heal(p);
         };
     }
-
 }

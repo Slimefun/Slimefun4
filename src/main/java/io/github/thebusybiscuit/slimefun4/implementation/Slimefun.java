@@ -252,6 +252,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         command.register();
         registry.load(this, config);
         loadTags();
+        soundService.reload(false);;
     }
 
     /**
@@ -340,7 +341,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         runSync(new SlimefunStartupTask(this, () -> {
             textureService.register(registry.getAllSlimefunItems(), true);
             permissionsService.register(registry.getAllSlimefunItems(), true);
-            soundService.reload();
+            soundService.reload(true);
 
             // This try/catch should prevent buggy Spigot builds from blocking item loading
             try {

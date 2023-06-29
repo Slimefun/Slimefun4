@@ -80,5 +80,4 @@ public class ExplosiveBow extends SlimefunBow {
     private boolean canDamage(@Nonnull Entity n) {
         return n instanceof LivingEntity && !(n instanceof ArmorStand) && n.isValid();
     }
-
 }
