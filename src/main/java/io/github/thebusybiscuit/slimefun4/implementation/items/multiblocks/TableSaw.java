@@ -29,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChes
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
  * you to turn Logs into Wooden Planks.
- *
+ * <p>
  * It also replaced the old "Saw Mill" from earlier versions.
  * 
  * @author dniym
