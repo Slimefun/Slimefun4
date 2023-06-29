@@ -837,12 +837,6 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         return instance.hologramsService;
     }
 
-    @Nonnull
-    public static SoundService getSoundService() {
-        validateInstance();
-        return instance.soundService;
-    }
-
     /**
      * This returns our {@link  SoundService} which handles the configuration of all sounds used in Slimefun
      *
