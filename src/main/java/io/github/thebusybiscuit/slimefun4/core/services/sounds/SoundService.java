@@ -8,16 +8,16 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.apache.commons.lang.Validate;
+
+import com.google.common.base.Preconditions;
 
 /**
  * The {@link SoundService} is responsible for our sound management.
  * It allows server owners to fully customize their users' sound experience.
  *
- *  @author TheBusyBiscuit
+ * @author TheBusyBiscuit
  */
 public class SoundService {
 

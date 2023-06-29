@@ -1,19 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.core.services.sounds;
 
-import java.util.Locale;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
+
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
+import com.google.common.base.Preconditions;
 
 /**
  * This enum holds references to all our sounds.
