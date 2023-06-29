@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.base.Preconditions;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.apache.commons.lang.Validate;
@@ -17,7 +18,6 @@ import org.apache.commons.lang.Validate;
  * It allows server owners to fully customize their users' sound experience.
  *
  *  @author TheBusyBiscuit
- *
  */
 public class SoundService {
 
@@ -105,7 +105,7 @@ public class SoundService {
      * @return The corresponding {@link SoundConfiguration}. This may be null if something went wrong
      */
     public @Nullable SoundConfiguration getConfiguration(@Nonnull SoundEffect sound) {
-        Validate.notNull(sound, "The sound must not be null!");
+        Preconditions.checkNotNull(sound, "The sound must not be null!");
         return soundMap.get(sound);
     }
 }
