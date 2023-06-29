@@ -94,5 +94,4 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
         SoundEffect.SMELTERY_CRAFT_SOUND.playAt(b);
         p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
     }
-
 }

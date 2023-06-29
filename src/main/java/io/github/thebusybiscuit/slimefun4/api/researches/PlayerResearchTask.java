@@ -94,6 +94,7 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
 
             Slimefun.runSync(() -> {
                 SoundEffect.PLAYER_RESEARCHING_SOUND.playFor(p);
+
                 Slimefun.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> {
                     String progress = RESEARCH_PROGRESS[index - 1] + "%";
                     return msg.replace(PLACEHOLDER, research.getName(p)).replace("%progress%", progress);

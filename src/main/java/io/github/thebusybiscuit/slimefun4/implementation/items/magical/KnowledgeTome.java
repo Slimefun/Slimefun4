@@ -76,5 +76,4 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
             }
         };
     }
-
 }
