@@ -31,6 +31,7 @@ class TestSmithingTableListener {
 
     private static SmithingTableListener listener;
     private static ServerMock server;
+    
     private static SlimefunItem slimefunIngot;
     private static SlimefunItem slimefunTool;
     private static VanillaItem vanillaIngot;

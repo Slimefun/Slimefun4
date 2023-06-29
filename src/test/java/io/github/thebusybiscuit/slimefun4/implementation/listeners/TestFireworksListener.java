@@ -21,7 +21,6 @@ import be.seeseemelk.mockbukkit.ServerMock;
 class TestFireworksListener {
 
     private static ServerMock server;
-    private static Slimefun plugin;
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();

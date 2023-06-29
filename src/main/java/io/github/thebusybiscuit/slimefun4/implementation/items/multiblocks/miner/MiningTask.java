@@ -198,7 +198,8 @@ class MiningTask implements Runnable {
                         return;
                     }
 
-                    if (miner.canMine(b) && push(miner.getOutcome(b.getType()))) {
+                    if (miner.canMine(b) && push(miner.getOutcome(b.getType()))) {\
+                        // Not changed since this is supposed to be a natural sound.
                         furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, b.getType());
 
                         SoundEffect.MINING_TASK_SOUND.playAt(furnace);
