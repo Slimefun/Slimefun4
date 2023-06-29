@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -21,6 +20,7 @@ import com.google.common.base.Preconditions;
  * This enum holds references to all our sounds.
  * 
  * @author TheBusyBiscuit
+ * @author J3fftw1
  *
  * @see SoundService
  * @see SoundConfiguration
@@ -33,7 +33,7 @@ public enum SoundEffect {
     ANCIENT_ALTAR_ITEM_PICK_UP_SOUND(Sound.ENTITY_ITEM_PICKUP, 1F, 1F),
     ANCIENT_ALTAR_FINISH_SOUND(Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F),
     ANCIENT_ALTAR_START_SOUND(Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1F, 1F),
-    ANCIENT_PEDESTAL_ITEM_PLACE_SOUND(Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F),
+    ANCIENT_PEDESTAL_ITEM_PLACE_SOUND(Sound.ENTITY_ITEM_PICKUP, 0.5F, 0.5F),
     ARMOR_FORGE_FINISH_SOUND(Sound.BLOCK_ANVIL_USE, 1F, 1F),
     ARMOR_FORGE_WORKING_SOUND(Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F),
     AUTO_CRAFTER_GUI_CLICK_SOUND(Sound.UI_BUTTON_CLICK, 1F, 1F),
@@ -152,7 +152,7 @@ public enum SoundEffect {
      * @param player The {@link Player} which to play the {@link Sound} to.
      */
     public void playFor(@Nonnull Player player) {
-        Validate.notNull(player, "Cannot play sounds to a Player that is null!");
+        Preconditions.checkNotNull(player, "Cannot play sounds to a Player that is null!");
         SoundConfiguration config = getConfiguration();
 
         if (config != null) {
