@@ -317,7 +317,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
 * Added a startup warning for when CS-CoreLib is still installed
 * (API) Added WeaponUseHandler
-<<<<<<< HEAD
 * Added support for Minecraft 1.17
 * Added "Deepslate -> Lava" recipe to the Crucible
 * Added "Cobbled Deepslate -> Lava" recipe to the Crucible
