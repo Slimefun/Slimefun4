@@ -4,10 +4,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -71,8 +72,7 @@ public class IronGolemAssembler extends AbstractEntityAssembler<IronGolem> {
 
     @Override
     public IronGolem spawnEntity(Location l) {
-        l.getWorld().playSound(l, Sound.ENTITY_IRON_GOLEM_REPAIR, 0.5F, 1);
+        SoundEffect.IRON_GOLEM_ASSEMBLER_ASSEMBLE_SOUND.playAt(l, SoundCategory.BLOCKS);
         return l.getWorld().spawn(l, IronGolem.class);
     }
-
 }

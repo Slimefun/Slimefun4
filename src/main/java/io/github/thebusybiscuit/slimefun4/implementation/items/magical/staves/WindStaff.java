@@ -5,7 +5,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
@@ -53,7 +53,7 @@ public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
                 }
 
                 p.setVelocity(p.getEyeLocation().getDirection().multiply(multiplier.getValue()));
-                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
+                SoundEffect.WIND_STAFF_USE_SOUND.playFor(p);
                 p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1);
                 p.setFallDistance(0F);
             } else {
@@ -61,5 +61,4 @@ public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
             }
         };
     }
-
 }
