@@ -5,7 +5,7 @@ on: workflow_call
 jobs:
   build:
 
-    name: Maven build
+    name: End to End Testing
     runs-on: ubuntu-latest
 
     steps:
