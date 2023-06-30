@@ -366,7 +366,7 @@ public final class SlimefunUtils {
                         /*
                          * PR #3417
                          *
-                         * Some items can't rely on just IDs matching and will implement Distinctive Item
+                         * Some items can't rely on just IDs matching and will implement {@link DistinctiveItem}
                          * in which case we want to use the method provided to compare
                          */
                         Optional<DistinctiveItem> optionalDistinctive = getDistinctiveItem(id);
