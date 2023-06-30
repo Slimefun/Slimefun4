@@ -1088,7 +1088,7 @@ public class SlimefunItem implements Placeable {
             }
 
             return false;
-        } else if (Slimefun.instance().isIllegalChar().contains(p.getWorld().getName())) {
+        } else if (Slimefun.instance().getDisabledWorlds().contains(p.getWorld().getName())) {
             // World contains an illegal character
             if (sendMessage) {
                 Slimefun.getLocalization().sendMessage(p, "message.disabled-in.world", true);
