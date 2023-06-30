@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
@@ -75,8 +76,8 @@ public class ElytraImpactListener implements Listener {
                 SlimefunItem item = helmet.get();
 
                 if (item.canUse(p, true) && profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
+                    SoundEffect.ELYTRA_CAP_IMPACT_SOUND.playFor(p);
                     e.setCancelled(true);
-                    p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
 
                     if (item instanceof DamageableItem damageableItem) {
                         damageableItem.damageItem(p, p.getInventory().getHelmet());

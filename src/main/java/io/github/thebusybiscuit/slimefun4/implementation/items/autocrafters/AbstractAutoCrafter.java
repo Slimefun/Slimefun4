@@ -15,7 +15,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -36,6 +35,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
@@ -314,7 +314,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         recipe.show(menu, task);
         menu.open(p);
 
-        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+        SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);
 
         // Only schedule the task if necessary
         if (!task.isEmpty()) {
@@ -325,7 +325,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     @ParametersAreNonnullByDefault
     private void setRecipeEnabled(Player p, Block b, boolean enabled) {
         p.closeInventory();
-        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+        SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         // Make sure the block is still a Skull
@@ -344,7 +344,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     private void deleteRecipe(Player p, Block b) {
         setSelectedRecipe(b, null);
         p.closeInventory();
-        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+        SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);
         Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-removed");
     }
 

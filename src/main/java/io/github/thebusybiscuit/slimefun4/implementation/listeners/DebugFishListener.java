@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
@@ -26,6 +25,7 @@ import io.github.bakedlibs.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
@@ -96,7 +96,7 @@ public class DebugFishListener implements Listener {
                 block.setType(Material.PLAYER_HEAD);
 
                 PlayerHead.setSkin(block, HeadTexture.MISSING_TEXTURE.getAsSkin(), true);
-                p.playSound(block.getLocation(), Sound.BLOCK_BAMBOO_PLACE, 1, 1);
+                SoundEffect.DEBUG_FISH_CLICK_SOUND.playFor(p);
             }, 2L);
         } else if (BlockStorage.hasBlockInfo(b)) {
             try {

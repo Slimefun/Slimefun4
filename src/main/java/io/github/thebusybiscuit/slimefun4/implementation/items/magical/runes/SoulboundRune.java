@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
@@ -46,7 +47,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
     }
 
     @Override
-    public ItemDropHandler getItemHandler() {
+    public @Nonnull ItemDropHandler getItemHandler() {
         return (e, p, item) -> {
             if (isItem(item.getItemStack())) {
 
@@ -85,7 +86,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                     if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
 
                         l.getWorld().createExplosion(l, 0);
-                        l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1);
+                        SoundEffect.SOULBOUND_RUNE_RITUAL_SOUND.playAt(l, SoundCategory.PLAYERS);
 
                         item.remove();
                         rune.remove();
@@ -115,13 +116,10 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
      * @return Whether this {@link Entity} is compatible
      */
     private boolean findCompatibleItem(@Nonnull Entity entity) {
-        if (entity instanceof Item) {
-            Item item = (Item) entity;
-
+        if (entity instanceof Item item) {
             return item.getPickupDelay() == 0 && !SlimefunUtils.isSoulbound(item.getItemStack()) && !isItem(item.getItemStack());
         }
 
         return false;
     }
-
 }
