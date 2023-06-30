@@ -10,7 +10,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
@@ -84,7 +84,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
         OptionalDouble distance = getDistance(p, item, block);
 
         if (distance.isPresent()) {
-            p.playSound(block.getLocation(), Sound.ITEM_BOOK_PUT, 1, 0.7F);
+            SoundEffect.TAPE_MEASURE_MEASURE_SOUND.playAt(block);
             String label = format.format(distance.getAsDouble());
             Slimefun.getLocalization().sendMessage(p, "messages.tape-measure.distance", msg -> msg.replace("%distance%", label));
         }

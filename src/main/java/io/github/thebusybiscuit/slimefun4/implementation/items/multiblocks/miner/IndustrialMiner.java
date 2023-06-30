@@ -31,6 +31,7 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 
 /**
@@ -202,22 +203,23 @@ public class IndustrialMiner extends MultiBlockMachine {
     }
 
     /**
-     * This returns whether this {@link IndustrialMiner} can mine the given {@link Material}.
+     * This returns whether this {@link IndustrialMiner} can mine the given {@link Block}.
+     *
+     * @param block
+     *            The {@link Block} to check
      * 
-     * @param type
-     *            The {@link Material} to check
-     * 
-     * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
+     * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Block}
      */
-    public boolean canMine(@Nonnull Material type) {
+    public boolean canMine(@Nonnull Block block) {
         MinecraftVersion version = Slimefun.getMinecraftVersion();
+        Material type = block.getType();
 
         if (type == Material.ANCIENT_DEBRIS) {
-            return canMineAncientDebris.getValue();
+            return canMineAncientDebris.getValue() && !BlockStorage.hasBlockInfo(block);
         } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
-            return canMineDeepslateOres.getValue();
+            return canMineDeepslateOres.getValue() && !BlockStorage.hasBlockInfo(block);
         } else {
-            return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type);
+            return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type) && !BlockStorage.hasBlockInfo(block);
         }
     }
 
