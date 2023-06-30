@@ -1,18 +1,7 @@
 name: End to End Testing
 
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'src/**'
-      - 'pom.xml'
-  pull_request:
-    paths:
-      - '.github/workflows/**'
-      - 'src/**'
-      - 'pom.xml'
-      - 'CHANGELOG.md'
+on: workflow_call
+
 jobs:
   build:
 
@@ -37,7 +26,7 @@ jobs:
           BUILD_JAR=$(curl -s "https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds" | jq '.builds[-1] | "\(.build) \(.downloads.application.name)"' -r)
           BUILD=$(echo "$BUILD_JAR" | awk '{print $1}')
           JAR_FILE=$(echo "$BUILD_JAR" | awk '{print $2}')
-          curl -o paper.jar "https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds/$BUILD/downloads/$JAR_FILE" 
+          curl -o paper.jar "https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds/$BUILD/downloads/$JAR_FILE"
 
       - name: Setup server
         run: |
@@ -48,9 +37,5 @@ jobs:
         with:
           name: slimefun-${{ github.event.number }}
           path: plugins/
-          
+
       - run: ls -la && ls -la plugins
-
-
-
-

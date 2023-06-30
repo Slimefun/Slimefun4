@@ -50,3 +50,5 @@ jobs:
       with:
         name: slimefun-${{ github.event.number }}
         path: 'target/Slimefun v4.9-UNOFFICIAL.jar'
+
+    - uses: ./.github/workflows/e2e-testing.yml
