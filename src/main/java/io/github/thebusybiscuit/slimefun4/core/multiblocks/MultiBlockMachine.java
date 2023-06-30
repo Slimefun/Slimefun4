@@ -119,6 +119,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
 
             SlimefunItem inputItem = SlimefunItem.getByItem(inputStack);
             SlimefunItem outputItem = SlimefunItem.getByItem(outputStack);
+            // If the input/output is not a Slimefun item or it's not disabled then it's valid.
             if ((inputItem == null || !inputItem.isDisabled()) && (outputItem == null || !outputItem.isDisabled())) {
                 recipes.add(new ItemStack[] { inputStack });
                 recipes.add(new ItemStack[] { outputStack });
