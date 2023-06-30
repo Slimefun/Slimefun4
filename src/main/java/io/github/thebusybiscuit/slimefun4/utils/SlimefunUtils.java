@@ -340,9 +340,7 @@ public final class SlimefunUtils {
             return false;
         } else if (checkAmount && item.getAmount() < sfitem.getAmount()) {
             return false;
-        } else if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
-            SlimefunItemStack stackOne = (SlimefunItemStack) sfitem;
-            SlimefunItemStack stackTwo = (SlimefunItemStack) item;
+        } else if (sfitem instanceof SlimefunItemStack stackOne && item instanceof SlimefunItemStack stackTwo) {
             if (stackOne.getItemId().equals(stackTwo.getItemId())) {
                 /*
                  * PR #3417
@@ -350,8 +348,8 @@ public final class SlimefunUtils {
                  * Some items can't rely on just IDs matching and will implement Distinctive Item
                  * in which case we want to use the method provided to compare
                  */
-                if (checkDistinction && stackOne instanceof DistinctiveItem && stackTwo instanceof DistinctiveItem) {
-                    return ((DistinctiveItem) stackOne).canStack(stackOne.getItemMeta(), stackTwo.getItemMeta());
+                if (checkDistinction && stackOne instanceof DistinctiveItem distinctive && stackTwo instanceof DistinctiveItem) {
+                    return distinctive.canStack(stackOne.getItemMeta(), stackTwo.getItemMeta());
                 }
                 return true;
             }
@@ -428,8 +426,8 @@ public final class SlimefunUtils {
 
     private static @Nonnull Optional<DistinctiveItem> getDistinctiveItem(@Nonnull String id) {
         SlimefunItem slimefunItem = SlimefunItem.getById(id);
-        if (slimefunItem instanceof DistinctiveItem) {
-            return Optional.of((DistinctiveItem) slimefunItem);
+        if (slimefunItem instanceof DistinctiveItem distinctive) {
+            return Optional.of(distinctive);
         }
         return Optional.empty();
     }
