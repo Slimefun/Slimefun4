@@ -3,10 +3,11 @@ name: End to End Testing
 on: workflow_call
 
 jobs:
-  build:
+  e2e-testing:
 
     name: End to End Testing
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - name: Checkout repository
@@ -38,4 +39,6 @@ jobs:
           name: slimefun-${{ github.event.number }}
           path: plugins/
 
-      - run: ls -la && ls -la plugins
+      - name: Run server
+        run: |
+          java -jar paper.jar --nogui
