@@ -109,6 +109,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         super.load();
 
         Preconditions.checkArgument(displayRecipes.size() % 2 == 0, "This MultiBlockMachine's display recipes were illegally modified!");
+
         for (int i = 0; i < displayRecipes.size(); i += 2) {
             ItemStack inputStack = displayRecipes.get(i);
             ItemStack outputStack = null;
