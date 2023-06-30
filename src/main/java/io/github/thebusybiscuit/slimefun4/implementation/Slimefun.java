@@ -287,7 +287,6 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         for (World world : Bukkit.getServer().getWorlds()) {
             if (pattern.matcher(world.getName()).find()) {
                 illegalWorld.add(world.getName());
-            return;
             }
         }
 
