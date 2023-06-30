@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.services.sounds;
 
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -42,7 +41,7 @@ public class SoundService {
         );
         // @formatter:on
 
-        config.getConfiguration().options().parseComments(true);
+        config.getConfiguration().options().copyHeader();
     }
 
     /**
