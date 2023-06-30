@@ -36,9 +36,9 @@ public class SoundService {
 
         // @formatter:off
         config.getConfiguration().options().header(
-                "This file is used to assign the sounds which Slimefun will play.\n" +
-                "You can fully customize any sound you want and even change their pitch\n" +
-                "and volume. To disable a sound, simply set the volume to zero.\n"
+            "This file is used to assign the sounds which Slimefun will play.\n" +
+            "You can fully customize any sound you want and even change their pitch\n" +
+            "and volume. To disable a sound, simply set the volume to zero.\n"
         );
         // @formatter:on
 
