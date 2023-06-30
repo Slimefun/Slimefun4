@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -161,7 +162,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     /**
      * Keep track of if the server has a world file with an illegal character.
      */
-    private List<World> illegalWorld = new ArrayList<>();
+    private Set<String> illegalWorld = new HashSet<>();
 
     // Various things we need
     private final SlimefunRegistry registry = new SlimefunRegistry();
@@ -279,12 +280,13 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
             return;
         }
 
+        // Regex contains the following characters <,>,:,/,\,|,?,*,.
+        Pattern pattern = Pattern.compile("[\\.\\\\\\/\":><|?*]");
+
         // Check if world contains an illegal character
         for (World world : Bukkit.getServer().getWorlds()) {
-            // Regex contains the following characters <,>,:,/,\,|,?,*,.
-            Pattern pattern = Pattern.compile("[\\.\\\\\\/\":><|?*]");
             if (pattern.matcher(world.getName()).find()) {
-                illegalWorld.add(world);
+                illegalWorld.add(world.getName());
             return;
             }
         }
@@ -978,11 +980,11 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     }
 
     /**
-     * This method returns a list of worlds that have illegal characters
+     * This method returns a set of worlds that have illegal characters
      *
-     * @return a list with worlds with illegal characters or an empty list.
+     * @return a set with worlds with illegal characters or an empty set.
      */
-    public List<World> isIllegalChar() {
+    public Set<String> isIllegalChar() {
         return illegalWorld;
     }
 
