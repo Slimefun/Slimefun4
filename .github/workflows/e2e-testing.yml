@@ -1,0 +1,44 @@
+name: End to End Testing
+
+on: workflow_call
+
+jobs:
+  e2e-testing:
+
+    name: End to End Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3.11.0
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+          java-package: jdk
+          architecture: x64
+
+      - name: Download latest paper
+        run: |
+          VERSION=$(curl -s https://api.papermc.io/v2/projects/paper | jq '.versions[-1]' -r)
+          BUILD_JAR=$(curl -s "https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds" | jq '.builds[-1] | "\(.build) \(.downloads.application.name)"' -r)
+          BUILD=$(echo "$BUILD_JAR" | awk '{print $1}')
+          JAR_FILE=$(echo "$BUILD_JAR" | awk '{print $2}')
+          curl -o paper.jar "https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds/$BUILD/downloads/$JAR_FILE"
+
+      - name: Setup server
+        run: |
+          echo 'eula=true' > eula.txt
+          mkdir plugins
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: slimefun-${{ github.event.number }}
+          path: plugins/
+
+      - name: Run server
+        run: |
+          java -jar paper.jar --nogui
