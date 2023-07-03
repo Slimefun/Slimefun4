@@ -306,7 +306,6 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                             Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                         } else {
                             ItemStack clonedItem = sfitem.getItem().clone();
-nt(clonedItem.ge
                             if (action.isShiftClicked()) {
                                 clonedItem.setAmoutMaxStackSize());
                             }
