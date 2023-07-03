@@ -24,6 +24,15 @@ public class LongFallBoots extends SlimefunArmorPiece {
 
     private final SoundEffect soundEffect;
 
+    /**
+     * @deprecated In RC-35, marked for removal in RC-36
+     */
+    @Deprecated
+    @ParametersAreNonnullByDefault
+    public LongFallBoots(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
+        this(itemGroup, item, recipeType, recipe, effects, SoundEffect.SLIME_BOOTS_FALL_SOUND);
+    }
+
     @ParametersAreNonnullByDefault
     public LongFallBoots(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects, SoundEffect soundEffect) {
         super(itemGroup, item, recipeType, recipe, effects);
