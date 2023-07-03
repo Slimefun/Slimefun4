@@ -94,6 +94,10 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             }
         }
 
+        if (!isEnchantmentAmountAllowed(enchantments.size())) {
+            return null;
+        }
+
         // Check if we found any valid enchantments
         if (!enchantments.isEmpty()) {
             ItemStack disenchantedItem = item.clone();

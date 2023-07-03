@@ -55,6 +55,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundService;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
@@ -175,6 +176,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
     private final HologramsService hologramsService = new HologramsService(this);
+    private final SoundService soundService = new SoundService(this);
 
     // Some other things we need
     private final IntegrationsManager integrations = new IntegrationsManager(this);
@@ -250,6 +252,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         command.register();
         registry.load(this, config);
         loadTags();
+        soundService.reload(false);
     }
 
     /**
@@ -269,6 +272,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Check if CS-CoreLib is installed (it is no longer needed)
         if (getServer().getPluginManager().getPlugin("CS-CoreLib") != null) {
             StartupWarnings.discourageCSCoreLib(logger);
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         // Encourage newer Java version
@@ -336,6 +341,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         runSync(new SlimefunStartupTask(this, () -> {
             textureService.register(registry.getAllSlimefunItems(), true);
             permissionsService.register(registry.getAllSlimefunItems(), true);
+            soundService.reload(true);
 
             // This try/catch should prevent buggy Spigot builds from blocking item loading
             try {
@@ -630,18 +636,10 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new AutoCrafterListener(this);
         new SlimefunItemHitListener(this);
         new MiddleClickListener(this);
-
-        // Bees were added in 1.15
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            new BeeListener(this);
-            new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
-        }
-
-        // Piglins were added in 1.16
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            new PiglinListener(this);
-            new SmithingTableListener(this);
-        }
+        new BeeListener(this);
+        new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
+        new PiglinListener(this);
+        new SmithingTableListener(this);
 
         // Item-specific Listeners
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
@@ -837,6 +835,17 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull HologramsService getHologramsService() {
         validateInstance();
         return instance.hologramsService;
+    }
+
+    /**
+     * This returns our {@link  SoundService} which handles the configuration of all sounds used in Slimefun
+     *
+     * @return Our instance of {@link SoundService}
+     */
+    @Nonnull
+    public static SoundService getSoundService() {
+        validateInstance();
+        return instance.soundService;
     }
 
     /**

@@ -254,12 +254,10 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         if (version != MinecraftVersion.UNIT_TEST) {
             p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 
-            if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-                if (hand == EquipmentSlot.HAND) {
-                    p.swingMainHand();
-                } else {
-                    p.swingOffHand();
-                }
+            if (hand == EquipmentSlot.HAND) {
+                p.swingMainHand();
+            } else {
+                p.swingOffHand();
             }
         }
     }

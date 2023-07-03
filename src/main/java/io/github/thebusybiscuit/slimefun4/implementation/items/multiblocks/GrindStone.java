@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -22,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -78,9 +78,15 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.QUARTZ_BLOCK));
         recipes.add(new ItemStack(Material.QUARTZ, 4));
 
+        recipes.add(new ItemStack(Material.BASALT, 2));
+        recipes.add(new ItemStack(Material.BLACKSTONE));
+
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             recipes.add(new ItemStack(Material.AMETHYST_BLOCK));
             recipes.add(new ItemStack(Material.AMETHYST_SHARD, 4));
+
+            recipes.add(new ItemStack(Material.COBBLED_DEEPSLATE));
+            recipes.add(new ItemStack(Material.GRAVEL));
         }
 
         recipes.add(SlimefunItems.MAGIC_LUMP_2);
@@ -100,7 +106,7 @@ public class GrindStone extends MultiBlockMachine {
     }
 
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
     }
 
@@ -123,11 +129,10 @@ public class GrindStone extends MultiBlockMachine {
                             removing.setAmount(1);
                             inv.removeItem(removing);
                             outputInv.addItem(output);
-                            p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
+                            SoundEffect.GRIND_STONE_INTERACT_SOUND.playAt(b);
                         } else {
                             Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
-
                         return;
                     }
                 }
@@ -136,5 +141,4 @@ public class GrindStone extends MultiBlockMachine {
             Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }
-
 }

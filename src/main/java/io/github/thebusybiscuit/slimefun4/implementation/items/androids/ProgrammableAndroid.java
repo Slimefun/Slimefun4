@@ -14,7 +14,6 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -45,13 +44,13 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -95,7 +94,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
+                boolean open = p.getUniqueId().toString().equals(BlockStorage.getLocationInfo(b.getLocation(), "owner")) || p.hasPermission("slimefun.android.bypass");
 
                 if (!open) {
                     Slimefun.getLocalization().sendMessage(p, "inventory.no-access", true);
@@ -374,7 +373,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         ChestMenu menu = new ChestMenu("Android Scripts");
 
         menu.setEmptySlotsClickable(false);
-        menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F));
+        menu.addMenuOpeningHandler(SoundEffect.PROGRAMMABLE_ANDROID_SCRIPT_DOWNLOAD_SOUND::playFor);
 
         List<Script> scripts = Script.getUploadedScripts(getAndroidType());
         int pages = (scripts.size() / 45) + 1;
@@ -603,9 +602,10 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
                 registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
 
-                // Coal & Charcoal
+                // Coal, Charcoal & Bamboo
                 registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
                 registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
+                registerFuelType(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
 
                 // Logs
                 for (Material mat : Tag.LOGS.getValues()) {
@@ -879,7 +879,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @ParametersAreNonnullByDefault
     protected void move(Block b, BlockFace face, Block block) {
-        if (block.getY() > WorldUtils.getMinHeight(block.getWorld()) && block.getY() < block.getWorld().getMaxHeight() && block.isEmpty()) {
+        if (block.getY() > block.getWorld().getMinHeight() && block.getY() < block.getWorld().getMaxHeight() && block.isEmpty()) {
 
             if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
                 return;
@@ -895,7 +895,11 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
             Slimefun.runSync(() -> {
                 PlayerSkin skin = PlayerSkin.fromBase64(texture);
-                PlayerHead.setSkin(block, skin, true);
+                Material type = block.getType();
+                // Ensure that this Block is still a Player Head
+                if (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD) {
+                    PlayerHead.setSkin(block, skin, true);
+                }
             });
 
             b.setType(Material.AIR);

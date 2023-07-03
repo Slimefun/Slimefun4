@@ -26,12 +26,9 @@ interface OreDictionary {
         if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             // MC 1.17 - 1.18
             return new OreDictionary17();
-        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+        } else {
             // MC 1.16
             return new OreDictionary16();
-        } else {
-            // MC 1.14 - 1.15
-            return new OreDictionary14();
         }
     }
 }

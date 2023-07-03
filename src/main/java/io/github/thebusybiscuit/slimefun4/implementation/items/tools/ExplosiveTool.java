@@ -9,7 +9,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -27,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -64,7 +64,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
                 Block b = e.getBlock();
 
                 b.getWorld().createExplosion(b.getLocation(), 0);
-                b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
+                SoundEffect.EXPLOSIVE_TOOL_EXPLODE_SOUND.playAt(b);
 
                 List<Block> blocks = findBlocks(b);
                 breakBlocks(e, p, tool, b, blocks, drops);
@@ -76,7 +76,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
     private void breakBlocks(BlockBreakEvent e, Player p, ItemStack item, Block b, List<Block> blocks, List<ItemStack> drops) {
         List<Block> blocksToDestroy = new ArrayList<>();
 
-        if (callExplosionEvent.getValue().booleanValue()) {
+        if (callExplosionEvent.getValue()) {
             BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
             Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
 

@@ -1,0 +1,10 @@
+{
+  "values" : [
+    "#slimefun:dirt_variants",
+    "minecraft:clay",
+    {
+      "id" : "minecraft:mud",
+      "required" : false
+    }
+  ]
+}

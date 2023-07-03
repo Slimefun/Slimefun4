@@ -1,5 +1,7 @@
 # Table of contents
-- [Release Candidate 33 (TBD)](#release-candidate-33-tbd)
+- [Release Candidate 35 (TBD)](#release-candidate-35-tbd)
+- [Release Candidate 34 (20 Jun 2023)](#release-candidate-34-20-jun-2023)
+- [Release Candidate 33 (07 Jan 2023)](#release-candidate-33-07-jan-2023)
 - [Release Candidate 32 (26 Jun 2022)](#release-candidate-32-26-jun-2022)
 - [Release Candidate 31 (14 Mar 2022)](#release-candidate-31-14-mar-2022)
 - [Release Candidate 30 (31 Dec 2021)](#release-candidate-30-31-dec-2021)
@@ -33,8 +35,59 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## Release Candidate 35 (TBD)
 
-## Release Candidate 33 (TBD)
+#### Additions
+* Added `sounds.yml` file to configure sound effects for Slimefun
+
+#### Changes
+* Moved all sound effects to the new sound system
+
+#### Fixes
+
+## Release Candidate 34 (20 Jun 2023)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#34
+
+#### Additions
+* Added "Cobbled Deepslate -> Gravel" recipe to the Grind Stone
+* Added "Cobbled Deepslate -> Sand" recipe to the Ore Crusher
+* (API) Added EnergyNet#getGenerators()
+* (API) Added EnergyNet#getCapacitors()
+* (API) Added EnergyNet#getConsumers()
+* Added Bamboo as a fuel type for Tier 1 Androids
+* Added "Basalt -> Blackstone" recipe to the Grind Stone
+* Added a way to automate salt with the Ore Washer
+* Added compatibility for Minecraft 1.20
+
+#### Changes
+* Removed 1.14.* and 1.15.* support
+* The Climbing Pick now also works on:
+  * Calcite
+  * Deepslate
+  * Dripstone blocks
+  * Smooth Basalt
+  * Tuff
+  * Clay
+  * Skulk
+* Lumber Axe no longer works when shifting
+
+#### Fixes
+* Fixed #3741
+* Fixed #3724
+* Fixed #3462
+* Fixed #3758
+* Fixed #3701
+* Fixed #3361
+* Fixed #3254
+* Fixed #3443
+* Fixed #3511
+* Fixed #3524
+* Fixed #3657
+* Fixed #3768
+* Fixed #3414
+
+## Release Candidate 33 (07 Jan 2023)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
 
 #### Additions
 * (API) Added Tinted Glass to "GLASS_BLOCKS" tag
@@ -44,6 +97,8 @@
 * (API) Added a method for item groups to allow addons to choose if they want to allow items from other addons
 * Added a new option to Eletric Gold Pans: "override-output-limit"
 * Added "Mud -> Clay" recipe to the Auto Drier
+* Added a third tier for Freezers
+* Added Glow Berry Juice
 
 #### Changes
 * Tree Growth Accelerators can now actually cause the Tree to fully grow (1.17+ only)
@@ -51,12 +106,19 @@
 * "Connected / Not connected" messages for cargo nodes are now sent via the actionbar
 * "/sf stats" can no longer be used if researching is disabled
 * "/sf research" can no longer be used if researching is disabled
+* Removed the Hercules Pickaxe from Slimefun
+* If CS-CoreLib is present, Slimefun will disable itself (previously it would just error)
 
 #### Fixes
 * Fixed #3597
 * Fixed an issue related to "Bee Wings"
 * Fixed #3573
 * Fixed "round-robin" mode for cargo networks being very unreliable
+* Fixed #3664
+* Fixed #3651
+* Fixed #3677
+* Fixed #3705
+* Fixed BlockPlacer being able to place disabled items
 
 ## Release Candidate 32 (26 Jun 2022)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32

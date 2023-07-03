@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -21,6 +21,7 @@ import io.github.bakedlibs.dough.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
@@ -49,7 +50,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
     }
 
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> recipes = new ArrayList<>();
 
         recipes.addAll(goldPan.getDisplayRecipes());
@@ -84,9 +85,9 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
                         b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
                     }
 
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    SoundEffect.AUTOMATED_PANNING_MACHINE_SUCCESS_SOUND.playAt(b);
                 } else {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARMOR_STAND_BREAK, 1F, 1F);
+                    SoundEffect.AUTOMATED_PANNING_MACHINE_FAIL_SOUND.playAt(b);
                 }
             });
 
@@ -95,5 +96,4 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
             Slimefun.getLocalization().sendMessage(p, "machines.wrong-item", true);
         }
     }
-
 }

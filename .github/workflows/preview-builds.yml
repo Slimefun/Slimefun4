@@ -1,0 +1,81 @@
+name: Preview builds
+
+on:
+  workflow_run:
+    workflows: ["Java CI"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  preview:
+    if: ${{ github.repository_owner == 'Slimefun' && github.event.workflow_run.conclusion == 'success' }}
+    name: Build and Publish the jar
+    runs-on: ubuntu-latest
+
+    steps:
+      # Kinda jank way to grab the PR and run ID and then download the artifact
+      # TODO: Move this code to our own mini-action
+      - name: Grab PR & run ID and download the artifact
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.payload.workflow_run.id,
+            });
+
+            for (const artifact of allArtifacts.data.artifacts) {
+              // Extract the PR number from the artifact name
+              const match = /^slimefun-(\d+)$/.exec(artifact.name);
+              if (match) {
+                require("fs").appendFileSync(
+                  process.env.GITHUB_ENV,
+                  `\nWORKFLOW_PR_ID=${match[1]}` +
+                    `\nWORKFLOW_RUN_ID=${context.payload.workflow_run.id}`
+                );
+
+                const download = await github.rest.actions.downloadArtifact({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  artifact_id: artifact.id,
+                  archive_format: 'zip',
+                });
+                require('fs').writeFileSync(`${process.env.GITHUB_WORKSPACE}/preview.zip`, Buffer.from(download.data))
+
+                break;
+              }
+            }
+
+      # Unzip the artifact
+      - name: Unzip
+        run: |
+          unzip preview.zip
+          rm preview.zip
+          mv 'Slimefun v4.9-UNOFFICIAL.jar' preview.jar
+
+      - name: Upload to preview service
+        run: |
+          curl -v -X POST \
+            -H 'Authorization: ${{ secrets.PUBLISH_TOKEN }}' \
+            -H "X-Checksum: $(sha256sum 'preview.jar' | awk '{print $1}')" \
+            --data-binary '@preview.jar' \
+            https://preview-builds.walshy.dev/upload/Slimefun/${{ env.WORKFLOW_PR_ID }}/${{ env.WORKFLOW_RUN_ID }}
+
+      - name: Post comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          number: ${{ env.WORKFLOW_PR_ID }}
+          message: |
+            ### Slimefun preview build
+
+            A Slimefun preview build is available for testing!
+
+            https://preview-builds.walshy.dev/download/Slimefun/${{ env.WORKFLOW_PR_ID }}/${{ env.WORKFLOW_RUN_ID }}
+
+            > **Note**: This is not a supported build and is only here for the purposes of testing.
+            > Do not run this on a live server and do not report bugs anywhere but this PR!

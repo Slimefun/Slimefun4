@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
@@ -45,25 +46,28 @@ public class ElectricDustWasher extends AContainer {
     @Override
     protected MachineRecipe findNextRecipe(BlockMenu menu) {
         for (int slot : getInputSlots()) {
-            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true, false)) {
+            ItemStack input = menu.getItemInSlot(slot);
+            MachineRecipe recipe = null;
+            if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE, true, false)) {
                 if (!legacyMode && !hasFreeSlot(menu)) {
                     return null;
                 }
 
-                ItemStack dust = oreWasher.getRandomDust();
-                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.SIFTED_ORE }, new ItemStack[] { dust });
+                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.SIFTED_ORE }, new ItemStack[] { oreWasher.getRandomDust() });
 
                 if (!legacyMode || menu.fits(recipe.getOutput()[0], getOutputSlots())) {
                     menu.consumeItem(slot);
                     return recipe;
                 }
-            } else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
-                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.PULVERIZED_ORE }, new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
+            } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
+                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.PULVERIZED_ORE }, new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
+            } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND), true)) {
+                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { new ItemStack(Material.SAND) }, new ItemStack[] { SlimefunItems.SALT });
+            }
 
-                if (menu.fits(recipe.getOutput()[0], getOutputSlots())) {
-                    menu.consumeItem(slot);
-                    return recipe;
-                }
+            if (recipe != null && menu.fits(recipe.getOutput()[0], getOutputSlots())) {
+                menu.consumeItem(slot);
+                return recipe;
             }
         }
 
@@ -83,7 +87,7 @@ public class ElectricDustWasher extends AContainer {
     }
 
     @Override
-    public String getMachineIdentifier() {
+    public @Nonnull String getMachineIdentifier() {
         return "ELECTRIC_DUST_WASHER";
     }
 
