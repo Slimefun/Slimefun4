@@ -38,6 +38,7 @@ public class RainbowArmorPiece extends SlimefunArmorPiece {
     public RainbowArmorPiece(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, DyeColor[] dyeColors) {
         super(itemGroup, item, recipeType, recipe, new PotionEffect[0]);
 
+        // TODO replace outstanding PR in Dough 184
         Validate.notEmpty(dyeColors, "RainbowArmorPiece colors cannot be empty!");
 
         if (!SlimefunTag.LEATHER_ARMOR.isTagged(item.getType())) {

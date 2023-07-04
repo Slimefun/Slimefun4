@@ -123,6 +123,8 @@
                         <!-- We can safely exclude them from the final jar -->
                         <exclude>**/package-info.java</exclude>
                     </excludes>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
 

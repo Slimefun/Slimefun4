@@ -20,6 +20,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  *             eventually.
  *
  */
+@Deprecated
 public interface InventoryBlock {
 
     /**

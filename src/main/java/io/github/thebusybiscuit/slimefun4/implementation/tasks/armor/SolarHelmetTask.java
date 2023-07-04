@@ -31,11 +31,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 public class SolarHelmetTask extends AbstractArmorTask {
 
     @Override
-    protected void onTick() {
-        // Do nothing
-    }
-
-    @Override
     @ParametersAreNonnullByDefault
     protected void onPlayerTick(Player p, PlayerProfile profile) {
         if (hasSunlight(p)) {

@@ -26,11 +26,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
 public class SlimefunArmorTask extends AbstractArmorTask {
 
     @Override
-    protected void onTick() {
-        // Do nothing
-    }
-
-    @Override
     @ParametersAreNonnullByDefault
     protected void onPlayerTick(Player p, PlayerProfile profile) {
         ItemStack[] armor = p.getInventory().getArmorContents();

@@ -2,7 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.radiation;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -32,9 +33,9 @@ public enum RadiationSymptom {
     private final PotionEffect potionEffect;
 
     RadiationSymptom(int minExposure, @Nonnull PotionEffectType type, int level) {
-        Validate.notNull(type, "The effect type cannot be null");
-        Validate.isTrue(minExposure > 0, "The minimum exposure must be greater than 0.");
-        Validate.isTrue(level >= 0, "The status effect level must be non-negative.");
+        Preconditions.checkNotNull(type, "The effect type cannot be null");
+        Preconditions.checkArgument(minExposure > 0, "The minimum exposure must be greater than 0.");
+        Preconditions.checkArgument(level >= 0, "The status effect level must be non-negative.");
 
         this.minExposure = minExposure;
         this.potionEffect = new PotionEffect(type, Slimefun.getCfg().getOrSetDefault("options.radiation-update-interval", 1) * 20 + 20, level);
@@ -48,7 +49,7 @@ public enum RadiationSymptom {
      */
 
     public void apply(@Nonnull Player p) {
-        Validate.notNull(p, "The player cannot be null");
+        Preconditions.checkNotNull(p, "The player cannot be null");
         Slimefun.runSync(() -> p.addPotionEffect(potionEffect));
     }
 

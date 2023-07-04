@@ -5,7 +5,8 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -49,7 +50,7 @@ public abstract class AbstractArmorTask implements Runnable {
      *            Delay between two "runs" of this task in ticks
      */
     public final void schedule(@Nonnull Slimefun plugin, long tickInterval) {
-        Validate.notNull(plugin, "The plugin instance cannot be null!");
+        Preconditions.checkNotNull(plugin, "The plugin instance cannot be null!");
 
         if (tickInterval < 1) {
             tickInterval = 1;

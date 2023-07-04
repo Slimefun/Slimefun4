@@ -35,8 +35,8 @@ public class RainbowArmorTask extends AbstractArmorTask {
                 HashedArmorpiece armorPiece = profile.getArmor()[i];
 
                 armorPiece.getItem().ifPresent(sfArmorPiece -> {
-                    if (sfArmorPiece instanceof RainbowArmorPiece && sfArmorPiece.canUse(p, true)) {
-                        updateRainbowArmor(item, (RainbowArmorPiece) sfArmorPiece);
+                    if (sfArmorPiece instanceof RainbowArmorPiece rainbowArmorPiece && rainbowArmorPiece.canUse(p, true)) {
+                        updateRainbowArmor(item, rainbowArmorPiece);
                     }
                 });
             }
