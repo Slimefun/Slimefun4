@@ -63,6 +63,18 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     }
 
     /**
+     * @deprecated
+     *
+     * This method returns the old {@link Material} that this {@link GoldPan} accepted
+     *
+     * @return The old {@link Material} this {@link GoldPan} could be used on
+     */
+    @Deprecated
+    public Material getInputMaterial() {
+        return Material.GRAVEL;
+    }
+
+    /**
      * This method returns the target {@link Material Materials} for this {@link GoldPan}.
      * 
      * @return The {@link Set} of {@link Material Materials} this {@link GoldPan} can be used on.

@@ -33,6 +33,12 @@ public class NetherGoldPan extends GoldPan {
     }
 
     @Override
+    @Deprecated
+    public Material getInputMaterial() {
+        return Material.SOUL_SAND;
+    }
+
+    @Override
     public @Nonnull Set<Material> getInputMaterials() {
         return inputMaterials;
     }

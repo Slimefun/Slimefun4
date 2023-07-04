@@ -47,6 +47,16 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     }
 
     /**
+     * @deprecated
+     * 
+     * @see ElectricGoldPan#isOutputLimitOverridden()
+     */
+    @Deprecated
+    public boolean isOutputLimitOverriden() {
+        return isOutputLimitOverridden();
+    }
+
+    /**
      * This returns whether the {@link ElectricGoldPan} will stop processing inputs
      * if both output slots contain items or if that default behavior should be
      * overridden and allow the {@link ElectricGoldPan} to continue processing inputs
