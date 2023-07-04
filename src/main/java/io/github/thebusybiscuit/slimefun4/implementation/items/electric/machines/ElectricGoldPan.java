@@ -93,16 +93,18 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
         for (int slot : getInputSlots()) {
             ItemStack item = menu.getItemInSlot(slot);
+            MachineRecipe recipe = null;
             ItemStack output = null;
 
             if (goldPan.isValidInput(item)) {
                 output = goldPan.getRandomOutput();
+                recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
             } else if (netherGoldPan.isValidInput(item)) {
                 output = netherGoldPan.getRandomOutput();
+                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
             }
 
             if (output != null && output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
-                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
                 menu.consumeItem(slot);
                 return recipe;
             }
