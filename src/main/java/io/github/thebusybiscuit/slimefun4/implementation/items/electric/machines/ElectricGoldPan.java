@@ -48,7 +48,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
     /**
      * @deprecated
-     * 
+     *
      * @see ElectricGoldPan#isOutputLimitOverridden()
      */
     @Deprecated
