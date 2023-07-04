@@ -65,12 +65,17 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     /**
      * This method returns the target {@link Material Materials} for this {@link GoldPan}.
      * 
-     * @return The {@link Set} of {@link Material Materials} this {@link GoldPan} can be used on
+     * @return The {@link Set} of {@link Material Materials} this {@link GoldPan} can be used on.
      */
     public @Nonnull Set<Material> getInputMaterials() {
         return Collections.unmodifiableSet(inputMaterials);
     }
 
+    /**
+     * This method returns the target {@link GoldPanDrop GoldPanDrops} for this {@link GoldPan}.
+     *
+     * @return The {@link Set} of {@link GoldPanDrop GoldPanDrops} this {@link GoldPan} can drop.
+     */
     protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
@@ -171,8 +176,8 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
                 continue;
             }
 
-            for (Material inputMaterial : getInputMaterials()) {
-                recipes.add(new ItemStack(inputMaterial));
+            for (Material material : getInputMaterials()) {
+                recipes.add(new ItemStack(material));
                 recipes.add(drop.getOutput());
             }
         }
@@ -180,11 +185,28 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return recipes;
     }
 
-    public boolean isValidInput(ItemStack input) {
-        Material inputMaterial = input.getType();
-        return isValidInputMaterial(inputMaterial) && SlimefunUtils.isItemSimilar(input, new ItemStack(inputMaterial), true, false);
+    /**
+     * This returns whether the {@link GoldPan} accepts the {@link ItemStack} as an input
+     *
+     * @param itemStack
+     *            The {@link ItemStack} to check
+     *
+     * @return If the {@link ItemStack} is valid
+     */
+    public boolean isValidInput(ItemStack itemStack) {
+        Material material = itemStack.getType();
+
+        return isValidInputMaterial(material) && SlimefunUtils.isItemSimilar(itemStack, new ItemStack(material), true, false);
     }
 
+    /**
+     * This returns whether the {@link GoldPan} accepts the {@link Material} as an input
+     *
+     * @param material
+     *            The {@link Material} to check
+     *
+     * @return If the {@link Material} is valid
+     */
     public boolean isValidInputMaterial(Material material) {
         return getInputMaterials().contains(material);
     }
