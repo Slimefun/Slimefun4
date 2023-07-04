@@ -15,6 +15,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.RadioactivityListener;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RainbowArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -361,8 +365,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         // Armor Update Task
         if (config.getBoolean("options.enable-armor-effects")) {
-            boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
-            getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
+            new SlimefunArmorTask().schedule(this, config.getInt("options.armor-update-interval") * 20L);
+            new RadiationTask().schedule(this, config.getInt("options.radiation-update-interval") * 20L);
+            new RainbowArmorTask().schedule(this, config.getInt("options.rainbow-armor-update-interval") * 20L);
         }
 
         // Starting our tasks
@@ -644,6 +649,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Item-specific Listeners
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
         new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem());
+        new RadioactivityListener(this);
         new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
         grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
         bowListener.register(this);

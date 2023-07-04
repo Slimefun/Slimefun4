@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,6 +35,7 @@ public class Vitamins extends MedicalSupply<ItemUseHandler> {
             e.cancel();
             p.setFireTicks(0);
             clearNegativeEffects(p);
+            RadiationUtils.clearExposure(p);
             heal(p);
         };
     }
