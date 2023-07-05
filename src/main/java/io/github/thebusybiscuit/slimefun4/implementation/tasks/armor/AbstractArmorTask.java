@@ -8,7 +8,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.google.common.base.Preconditions;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -29,7 +28,6 @@ public abstract class AbstractArmorTask implements Runnable {
     @Override
     public final void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            GameMode gameMode = p.getGameMode();
 
             if (!p.isValid() || p.isDead()) {
                 continue;
