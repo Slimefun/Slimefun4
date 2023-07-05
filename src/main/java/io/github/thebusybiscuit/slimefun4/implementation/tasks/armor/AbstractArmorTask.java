@@ -32,10 +32,7 @@ public abstract class AbstractArmorTask implements Runnable {
             GameMode gameMode = p.getGameMode();
 
             if (!p.isValid() || p.isDead()) {
-                //TODO solve this somehow
-//                if (gameMode == GameMode.CREATIVE || gameMode == GameMode.SPECTATOR) {
-                    continue;
-//                }
+                continue;
             }
 
             PlayerProfile.get(p, profile -> onPlayerTick(p, profile));

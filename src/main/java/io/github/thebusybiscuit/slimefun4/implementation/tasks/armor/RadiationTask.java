@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks.armor;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -36,7 +36,7 @@ public class RadiationTask extends AbstractArmorTask {
     protected void onPlayerTick(Player p,PlayerProfile profile) {
         int exposureTotal = 0;
 
-        if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
+        if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION) && p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR) {
             for (ItemStack item : p.getInventory()) {
                 if (item == null || item.getType().isAir()) {
                     continue;
