@@ -63,7 +63,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
     public void onInteract(Player p, Block b) {
         ItemStack input = p.getInventory().getItemInMainHand();
         Material material = input.getType();
-        ItemStack output = null;
+        ItemStack output;
 
         if (goldPan.isValidInputMaterial(material)) {
             output = goldPan.getRandomOutput();
