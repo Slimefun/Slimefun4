@@ -31,8 +31,11 @@ public abstract class AbstractArmorTask implements Runnable {
         for (Player p : Bukkit.getOnlinePlayers()) {
             GameMode gameMode = p.getGameMode();
 
-            if (!p.isValid() || p.isDead() || gameMode == GameMode.CREATIVE || gameMode == GameMode.SPECTATOR) {
-                continue;
+            if (!p.isValid() || p.isDead()) {
+                //TODO solve this somehow
+//                if (gameMode == GameMode.CREATIVE || gameMode == GameMode.SPECTATOR) {
+                    continue;
+//                }
             }
 
             PlayerProfile.get(p, profile -> onPlayerTick(p, profile));
