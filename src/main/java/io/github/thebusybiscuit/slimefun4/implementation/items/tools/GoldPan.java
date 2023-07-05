@@ -206,8 +206,11 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      * @return If the {@link ItemStack} is valid
      */
     public boolean isValidInput(ItemStack itemStack) {
-        Material material = itemStack.getType();
+        if (itemStack == null) {
+            return false;
+        }
 
+        Material material = itemStack.getType();
         return isValidInputMaterial(material) && SlimefunUtils.isItemSimilar(itemStack, new ItemStack(material), true, false);
     }
 
