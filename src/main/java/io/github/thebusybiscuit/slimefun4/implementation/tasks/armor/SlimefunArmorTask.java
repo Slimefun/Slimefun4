@@ -14,14 +14,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 
 /**
- * The {@link SlimefunArmorTask} is responsible for handling {@link PotionEffect PotionEffects} for
- * {@link Radioactive} items or any {@link SlimefunArmorPiece}.
- * It also handles the prevention of radiation through a Hazmat Suit
+ * The {@link SlimefunArmorTask} is responsible for handling {@link SlimefunArmorPiece}
  *
  * @author TheBusyBiscuit
  * @author martinbrom
  * @author Semisol
- *
  */
 public class SlimefunArmorTask extends AbstractArmorTask {
 

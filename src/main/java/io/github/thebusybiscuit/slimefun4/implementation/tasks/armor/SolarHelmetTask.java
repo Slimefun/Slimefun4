@@ -19,9 +19,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
- * The {@link SolarHelmetTask} is responsible for handling {@link PotionEffect PotionEffects} for
- * {@link Radioactive} items or any {@link SlimefunArmorPiece}.
- * It also handles the prevention of radiation through a Hazmat Suit
+ * The {@link SolarHelmetTask} is responsible for handling {@link SolarHelmet} for generating power
+ * and adding checks for if it has sunlight and if the player is actually wearing it.
  *
  * @author TheBusyBiscuit
  * @author martinbrom

@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks.armor;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.RadiationSymptom;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -11,6 +10,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RadiationSymptom;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
@@ -33,7 +33,7 @@ public class RadiationTask extends AbstractArmorTask {
 
     @Override
     @ParametersAreNonnullByDefault
-    protected void onPlayerTick(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+    protected void onPlayerTick(Player p,PlayerProfile profile) {
         int exposureTotal = 0;
 
         if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
