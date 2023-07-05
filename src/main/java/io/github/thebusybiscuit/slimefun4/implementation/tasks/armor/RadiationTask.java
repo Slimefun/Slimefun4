@@ -46,32 +46,31 @@ public class RadiationTask extends AbstractArmorTask {
                     exposureTotal += item.getAmount() * radioactiveItem.getRadioactivity().getExposureModifier();
                 }
             }
-        }
+            int exposureLevelBefore = RadiationUtils.getExposure(p);
 
-        int exposureLevelBefore = RadiationUtils.getExposure(p);
+            if (exposureTotal > 0) {
+                if (exposureLevelBefore == 0) {
+                    Slimefun.getLocalization().sendMessage(p, "messages.radiation");
+                }
 
-        if (exposureTotal > 0) {
-            if (exposureLevelBefore == 0) {
-                Slimefun.getLocalization().sendMessage(p, "messages.radiation");
+                RadiationUtils.addExposure(p, exposureTotal);
+            } else if (exposureLevelBefore > 0) {
+                RadiationUtils.removeExposure(p, 1);
             }
 
-            RadiationUtils.addExposure(p, exposureTotal);
-        } else if (exposureLevelBefore > 0) {
-            RadiationUtils.removeExposure(p, 1);
-        }
+            int exposureLevelAfter = RadiationUtils.getExposure(p);
 
-        int exposureLevelAfter = RadiationUtils.getExposure(p);
-
-        for (RadiationSymptom symptom : symptoms) {
-            if (symptom.shouldApply(exposureLevelAfter)) {
-                symptom.apply(p);
+            for (RadiationSymptom symptom : symptoms) {
+                if (symptom.shouldApply(exposureLevelAfter)) {
+                    symptom.apply(p);
+                }
             }
-        }
 
-        if (exposureLevelAfter > 0 || exposureLevelBefore > 0) {
-            String msg = Slimefun.getLocalization().getMessage(p, "actionbar.radiation").replace("%level%", "" + exposureLevelAfter);
-            BaseComponent[] components = new ComponentBuilder().append(ChatColors.color(msg)).create();
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
+            if (exposureLevelAfter > 0 || exposureLevelBefore > 0) {
+                String msg = Slimefun.getLocalization().getMessage(p, "actionbar.radiation").replace("%level%", "" + exposureLevelAfter);
+                BaseComponent[] components = new ComponentBuilder().append(ChatColors.color(msg)).create();
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
+            }
         }
     }
 }
