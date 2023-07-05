@@ -48,9 +48,10 @@ public class RainbowArmorTask extends AbstractArmorTask {
         Color[] colors = armorPiece.getColors();
         Color newColor = colors[(int) (currentColorIndex % colors.length)];
 
-        LeatherArmorMeta meta = (LeatherArmorMeta) itemStack.getItemMeta();
-        meta.setColor(newColor);
-        itemStack.setItemMeta(meta);
+        if (itemStack.getItemMeta() instanceof  LeatherArmorMeta leatherArmorMeta) {
+            leatherArmorMeta.setColor(newColor);
+            itemStack.setItemMeta(leatherArmorMeta);
+        }
     }
 
 }
