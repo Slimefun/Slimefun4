@@ -33,7 +33,7 @@ public class NetherGoldPan extends GoldPan {
     }
 
     @Override
-    @Deprecated
+    @Deprecated(since = "RC-36")
     public Material getInputMaterial() {
         return Material.SOUL_SAND;
     }
