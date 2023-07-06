@@ -112,13 +112,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.IronGo
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.PiglinListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.WitherListener;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RainbowArmorTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RainbowArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
