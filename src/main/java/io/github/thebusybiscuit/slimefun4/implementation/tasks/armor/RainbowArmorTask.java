@@ -53,5 +53,4 @@ public class RainbowArmorTask extends AbstractArmorTask {
             itemStack.setItemMeta(leatherArmorMeta);
         }
     }
-
 }

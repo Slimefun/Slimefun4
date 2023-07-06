@@ -33,7 +33,7 @@ public class RadiationTask extends AbstractArmorTask {
 
     @Override
     @ParametersAreNonnullByDefault
-    protected void onPlayerTick(Player p,PlayerProfile profile) {
+    protected void onPlayerTick(Player p, PlayerProfile profile) {
         int exposureTotal = 0;
 
         if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION) && p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR) {
