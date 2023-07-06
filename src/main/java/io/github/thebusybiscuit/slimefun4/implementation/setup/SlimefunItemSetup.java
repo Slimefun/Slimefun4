@@ -1006,7 +1006,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.PULVERIZED_ORE, null, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new UnplaceableBlock(itemGroups.misc, SlimefunItems.TINY_URANIUM, RecipeType.ORE_CRUSHER,
+        new RadioactiveItem(itemGroups.misc, Radioactivity.LOW, SlimefunItems.TINY_URANIUM, RecipeType.ORE_CRUSHER,
         new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER, null, null, null, null, null, null, null, null})
         .register(plugin);
 
