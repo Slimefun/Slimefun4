@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -231,6 +233,29 @@ public class TickerTask implements Runnable {
         Validate.notNull(l, "Location must not be null!");
 
         deletionQueue.put(l, destroy);
+    }
+
+
+    @ParametersAreNonnullByDefault
+    public void queueDelete(Collection<Location> locations, boolean destroy) {
+        Validate.notNull(locations, "Locations must not be null");
+
+        Map<Location, Boolean> toDelete = new HashMap<>(locations.size(), 1.0F);
+        for (Location location : locations) {
+            Validate.notNull(location, "Locations must not contain null locations");
+            toDelete.put(location, destroy);
+        }
+        deletionQueue.putAll(toDelete);
+    }
+
+    @ParametersAreNonnullByDefault
+    public void queueDelete(Map<Location, Boolean> locations) {
+        Validate.notNull(locations, "Locations must not be null");
+        for (Map.Entry<Location, Boolean> entry : locations.entrySet()) {
+            Validate.notNull(entry.getKey(), "Location in locations cannot be null");
+            Validate.notNull(entry.getValue(), "Boolean toDestroy in locations cannot be null");
+        }
+        deletionQueue.putAll(locations);
     }
 
     /**

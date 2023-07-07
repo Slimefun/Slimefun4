@@ -1,0 +1,52 @@
+name: Pull Request
+
+on:
+  pull_request:
+    paths:
+    - '.github/workflows/**'
+    - 'src/**'
+    - 'pom.xml'
+
+permissions:
+  contents: read
+
+jobs:
+  setup-preview-build:
+    name: Preview build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3.11.0
+      with:
+        distribution: 'adopt'
+        java-version: '17'
+        java-package: jdk
+        architecture: x64
+
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    # Setup for the preview build
+    - run: |
+        SHORT_COMMIT_HASH=$(git rev-parse --short=8 ${{ github.sha }})
+        JAR_VERSION="Preview Build #${{ github.event.number }}-$SHORT_COMMIT_HASH"
+        echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> "$GITHUB_ENV"
+        echo "JAR_VERSION=$JAR_VERSION" >> "$GITHUB_ENV"
+        sed -i "s/<version>4.9-UNOFFICIAL<\/version>/<version>$JAR_VERSION<\/version>/g" pom.xml
+
+    - name: Build with Maven
+      run: mvn package
+
+    - name: Upload the artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: slimefun-${{ github.event.number }}-${{ env.SHORT_COMMIT_HASH }}
+        path: 'target/Slimefun v${{ env.JAR_VERSION }}.jar'

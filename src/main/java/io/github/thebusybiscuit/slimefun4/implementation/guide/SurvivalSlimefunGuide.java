@@ -14,7 +14,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -44,6 +43,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -67,7 +67,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
 public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int MAX_ITEM_GROUPS = 36;
-    private static final Sound sound = Sound.ITEM_BOOK_PAGE_TURN;
 
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final ItemStack item;
@@ -78,16 +77,6 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         this.showVanillaRecipes = showVanillaRecipes;
         this.showHiddenItemGroupsInSearch = showHiddenItemGroupsInSearch;
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
-    }
-
-    /**
-     * This returns the {@link Sound} which is played when someone navigates through
-     * the {@link SlimefunGuide}
-     * 
-     * @return The {@link Sound}
-     */
-    public @Nonnull Sound getSound() {
-        return sound;
     }
 
     @Override
@@ -683,7 +672,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addMenuClickHandler(28, (pl, slot, itemstack, action) -> {
                 if (page > 0) {
                     displayRecipes(pl, profile, menu, sfItem, page - 1);
-                    pl.playSound(pl.getLocation(), sound, 1, 1);
+                    SoundEffect.GUIDE_BUTTON_CLICK_SOUND.playFor(pl);
                 }
 
                 return false;
@@ -693,7 +682,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addMenuClickHandler(34, (pl, slot, itemstack, action) -> {
                 if (recipes.size() > (18 * (page + 1))) {
                     displayRecipes(pl, profile, menu, sfItem, page + 1);
-                    pl.playSound(pl.getLocation(), sound, 1, 1);
+                    SoundEffect.GUIDE_BUTTON_CLICK_SOUND.playFor(pl);
                 }
 
                 return false;
@@ -753,7 +742,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.main"));
 
         menu.setEmptySlotsClickable(false);
-        menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), sound, 1, 1));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         return menu;
     }
 

@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.junit.jupiter.api.AfterAll;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.presets.SlimefunItemTest;
@@ -52,7 +52,7 @@ class TestDietCookie implements SlimefunItemTest<DietCookie> {
 
         simulateConsumption(player, cookie);
 
-        player.assertSoundHeard(Sound.ENTITY_GENERIC_EAT);
+        player.assertSoundHeard(SoundEffect.DIET_COOKIE_CONSUME_SOUND.getDefaultSoundId());
         Assertions.assertTrue(player.hasPotionEffect(PotionEffectType.LEVITATION));
     }
 

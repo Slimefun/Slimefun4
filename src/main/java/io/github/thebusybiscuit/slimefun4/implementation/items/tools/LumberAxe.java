@@ -72,9 +72,7 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
                 if (isUnstrippedLog(block)) {
                     List<Block> logs = Vein.find(block, MAX_STRIPPED, this::isUnstrippedLog);
 
-                    if (logs.contains(block)) {
-                        logs.remove(block);
-                    }
+                    logs.remove(block);
 
                     for (Block b : logs) {
                         if (!BlockStorage.hasBlockInfo(b) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b, Interaction.BREAK_BLOCK)) {
@@ -91,6 +89,7 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
     }
 
     private void stripLog(@Nonnull Block b) {
+        // No need for a SoundEffect here, this is supposed to be a vanilla sound.
         b.getWorld().playSound(b.getLocation(), Sound.ITEM_AXE_STRIP, 1, 1);
         Axis axis = ((Orientable) b.getBlockData()).getAxis();
         b.setType(Material.valueOf("STRIPPED_" + b.getType().name()));
