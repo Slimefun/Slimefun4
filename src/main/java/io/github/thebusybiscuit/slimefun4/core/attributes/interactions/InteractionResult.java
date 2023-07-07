@@ -44,14 +44,14 @@ public class InteractionResult {
     /**
      * Returns whether this result has a result message or not.
      *
-     * @return True if a result message is present
+     * @return true if a result message is present
      */
     public boolean hasResultMessage() {
         return this.resultMessage != null;
     }
 
     /**
-     * Returns the custom result message for this result.
+     * Returns the custom result message for this result or null if not set.
      *
      * @return A String of the provided custom result message.
      */
