@@ -32,7 +32,7 @@ public enum Radioactivity {
      * This is a high level of radiation.
      * It will cause death if the {@link Player} does not act quickly.
      */
-    HIGH(ChatColor.DARK_GREEN, 3),
+    HIGH(ChatColor.valueOf("#ffa500"), 3),
 
     /**
      * A very high level of radiation will be deadly.

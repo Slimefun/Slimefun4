@@ -28,7 +28,6 @@ public abstract class AbstractArmorTask implements Runnable {
     @Override
     public final void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
-
             if (!p.isValid() || p.isDead()) {
                 continue;
             }
