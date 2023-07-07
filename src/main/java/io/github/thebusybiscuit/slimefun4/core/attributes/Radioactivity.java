@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
