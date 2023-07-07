@@ -56,7 +56,7 @@ jobs:
         run: |
           unzip preview.zip
           rm preview.zip
-          mv 'Slimefun vPreview Build #${{ env.PR_NUMBER }}-${{ env.COMMIT_HASH }}' preview.jar
+          mv 'Slimefun vPreview Build #${{ env.PR_NUMBER }}-${{ env.COMMIT_HASH }}.jar' preview.jar
 
       - name: Upload to preview service
         run: |
