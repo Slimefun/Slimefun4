@@ -26,7 +26,7 @@ public class InteractionResult {
     /**
      * Returns whether the interaction was successful or not.
      *
-     * @return boolean denoting success.
+     * @return boolean denoting whether the interaction was successful or not.
      */
     public boolean isInteractionSuccessful() {
         return interactionSuccessful;
