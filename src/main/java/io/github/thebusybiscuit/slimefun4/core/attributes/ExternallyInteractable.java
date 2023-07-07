@@ -11,8 +11,8 @@ import javax.annotation.Nonnull;
  * external code to 'interact' with the item when placed as a block in the world.
  *
  * @author Sefiraat
- *
  */
+@FunctionalInterface
 public interface ExternallyInteractable {
 
     /**
