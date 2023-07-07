@@ -2,7 +2,7 @@ name: Preview builds
 
 on:
   workflow_run:
-    workflows: ["Java CI"]
+    workflows: ["Pull Request"]
     types:
       - completed
 
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Kinda jank way to grab the PR and run ID and then download the artifact
+      # Kinda jank way to grab the PR and commit hash and then download the artifact
       # TODO: Move this code to our own mini-action
       - name: Grab PR & run ID and download the artifact
         uses: actions/github-script@v6
@@ -30,13 +30,13 @@ jobs:
             });
 
             for (const artifact of allArtifacts.data.artifacts) {
-              // Extract the PR number from the artifact name
-              const match = /^slimefun-(\d+)$/.exec(artifact.name);
+              // Extract the PR number and commit hash from the artifact name
+              const match = /^slimefun-(\d+)-([a-f0-9]{8})$/.exec(artifact.name);
               if (match) {
                 require("fs").appendFileSync(
                   process.env.GITHUB_ENV,
-                  `\nWORKFLOW_PR_ID=${match[1]}` +
-                    `\nWORKFLOW_RUN_ID=${context.payload.workflow_run.id}`
+                  `\nPR_NUMBER=${match[1]}` +
+                    `\nCOMMIT_HASH=${match[2]}`
                 );
 
                 const download = await github.rest.actions.downloadArtifact({
@@ -56,26 +56,27 @@ jobs:
         run: |
           unzip preview.zip
           rm preview.zip
-          mv 'Slimefun v4.9-UNOFFICIAL.jar' preview.jar
+          mv 'Slimefun vPreview Build #${{ env.PR_NUMBER }}-${{ env.COMMIT_HASH }}' preview.jar
 
       - name: Upload to preview service
         run: |
-          curl -v -X POST \
+          curl -X POST \
             -H 'Authorization: ${{ secrets.PUBLISH_TOKEN }}' \
             -H "X-Checksum: $(sha256sum 'preview.jar' | awk '{print $1}')" \
             --data-binary '@preview.jar' \
-            https://preview-builds.walshy.dev/upload/Slimefun/${{ env.WORKFLOW_PR_ID }}/${{ env.WORKFLOW_RUN_ID }}
+            https://preview-builds.walshy.dev/upload/Slimefun/${{ env.PR_NUMBER }}/${{ env.COMMIT_HASH }}
 
       - name: Post comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          number: ${{ env.WORKFLOW_PR_ID }}
+          number: ${{ env.PR_NUMBER }}
           message: |
             ### Slimefun preview build
 
             A Slimefun preview build is available for testing!
+            Commit: ${{ env.COMMIT_HASH }}
 
-            https://preview-builds.walshy.dev/download/Slimefun/${{ env.WORKFLOW_PR_ID }}/${{ env.WORKFLOW_RUN_ID }}
+            https://preview-builds.walshy.dev/download/Slimefun/${{ env.PR_NUMBER }}/${{ env.COMMIT_HASH }}
 
             > **Note**: This is not a supported build and is only here for the purposes of testing.
             > Do not run this on a live server and do not report bugs anywhere but this PR!
