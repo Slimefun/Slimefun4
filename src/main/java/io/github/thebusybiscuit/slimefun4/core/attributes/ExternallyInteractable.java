@@ -17,6 +17,7 @@ import java.util.Set;
  *
  * @author Sefiraat
  */
+@FunctionalInterface
 public interface ExternallyInteractable {
 
     /**
