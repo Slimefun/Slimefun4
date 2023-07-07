@@ -56,11 +56,11 @@ jobs:
         run: |
           unzip preview.zip
           rm preview.zip
-          mv 'Slimefun vPreview Build \#${{ env.PR_NUMBER }}-${{ env.COMMIT_HASH }}' preview.jar
+          mv 'Slimefun vPreview Build #${{ env.PR_NUMBER }}-${{ env.COMMIT_HASH }}' preview.jar
 
       - name: Upload to preview service
         run: |
-          curl -v -X POST \
+          curl -X POST \
             -H 'Authorization: ${{ secrets.PUBLISH_TOKEN }}' \
             -H "X-Checksum: $(sha256sum 'preview.jar' | awk '{print $1}')" \
             --data-binary '@preview.jar' \
@@ -69,14 +69,14 @@ jobs:
       - name: Post comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          number: ${{ env.WORKFLOW_PR_ID }}
+          number: ${{ env.PR_NUMBER }}
           message: |
             ### Slimefun preview build
 
             A Slimefun preview build is available for testing!
             Commit: ${{ env.COMMIT_HASH }}
 
-            https://preview-builds.walshy.dev/download/Slimefun/${{ env.WORKFLOW_PR_ID }}/${{ env.WORKFLOW_RUN_ID }}
+            https://preview-builds.walshy.dev/download/Slimefun/${{ env.PR_NUMBER }}/${{ env.COMMIT_HASH }}
 
             > **Note**: This is not a supported build and is only here for the purposes of testing.
             > Do not run this on a live server and do not report bugs anywhere but this PR!

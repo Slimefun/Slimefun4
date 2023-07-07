@@ -44,9 +44,3 @@ jobs:
 
     - name: Build with Maven
       run: mvn package --file pom.xml
-
-    - name: Upload the artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: slimefun-${{ github.event.number }}
-        path: 'target/Slimefun v4.9-UNOFFICIAL.jar'
