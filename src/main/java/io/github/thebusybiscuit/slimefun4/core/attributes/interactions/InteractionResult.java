@@ -42,7 +42,7 @@ public class InteractionResult {
     }
 
     /**
-     * Returns whether this result has a result message or not.
+     * Returns whether this result has a result message or is null.
      *
      * @return true if a result message is present
      */
