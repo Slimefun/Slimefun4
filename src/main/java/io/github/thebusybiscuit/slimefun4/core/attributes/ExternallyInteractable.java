@@ -16,7 +16,6 @@ import java.util.Set;
  * external code to 'interact' with the item when placed as a block in the world.
  *
  * @author Sefiraat
- *
  */
 public interface ExternallyInteractable {
 
