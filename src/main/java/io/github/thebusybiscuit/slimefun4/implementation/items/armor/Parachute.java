@@ -9,7 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ParachuteTask;
 
 /**
  * The {@link Parachute} is a {@link SlimefunItem} that can be equipped as a chestplate.
@@ -28,7 +28,7 @@ public class Parachute extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     public Parachute(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+        super(itemGroup, item, recipeType, recipe);
     }
 
 }

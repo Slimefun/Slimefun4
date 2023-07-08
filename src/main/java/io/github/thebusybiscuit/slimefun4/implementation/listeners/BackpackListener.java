@@ -13,7 +13,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,6 +28,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
@@ -60,7 +61,7 @@ public class BackpackListener implements Listener {
         Player p = (Player) e.getPlayer();
 
         if (markBackpackDirty(p)) {
-            p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+            SoundEffect.BACKPACK_CLOSE_SOUND.playFor(p);
         }
     }
 
@@ -94,16 +95,31 @@ public class BackpackListener implements Listener {
         if (item != null) {
             SlimefunItem backpack = SlimefunItem.getByItem(item);
 
-            if (backpack instanceof SlimefunBackpack) {
+            if (backpack instanceof SlimefunBackpack slimefunBackpack) {
                 if (e.getClick() == ClickType.NUMBER_KEY) {
+                    // Prevent disallowed items from being moved using number keys.
                     if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
                         ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
 
-                        if (!isAllowed((SlimefunBackpack) backpack, hotbarItem)) {
+                        if (!isAllowed(slimefunBackpack, hotbarItem)) {
                             e.setCancelled(true);
                         }
                     }
-                } else if (!isAllowed((SlimefunBackpack) backpack, e.getCurrentItem())) {
+                } else if (e.getClick() == ClickType.SWAP_OFFHAND) {
+                    if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
+                        // Fixes #3265 - Don't move disallowed items using the off hand.
+                        ItemStack offHandItem = e.getWhoClicked().getInventory().getItemInOffHand();
+
+                        if (!isAllowed(slimefunBackpack, offHandItem)) {
+                            e.setCancelled(true);
+                        }
+                    } else {
+                        // Fixes #3664 - Do not swap the backpack to your off hand.
+                        if (e.getCurrentItem() != null && e.getCurrentItem().isSimilar(item)) {
+                            e.setCancelled(true);
+                        }
+                    }
+                } else if (!isAllowed(slimefunBackpack, e.getCurrentItem())) {
                     e.setCancelled(true);
                 }
             }
@@ -150,7 +166,7 @@ public class BackpackListener implements Listener {
 
         // Check if someone else is currently viewing this backpack
         if (!backpacks.containsValue(item)) {
-            p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+            SoundEffect.BACKPACK_OPEN_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
             backpacks.put(p.getUniqueId(), item);
 
             PlayerProfile.getBackpack(item, backpack -> {

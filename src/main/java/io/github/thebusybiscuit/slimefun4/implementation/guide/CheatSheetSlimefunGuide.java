@@ -34,7 +34,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
     private final ItemStack item;
 
     public CheatSheetSlimefunGuide() {
-        super(false);
+        super(false, true);
 
         item = new SlimefunGuideItem(this, "&cSlimefun Guide &4(Cheat Sheet)");
     }
@@ -46,7 +46,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
      *            The {@link Player} who opened his {@link SlimefunGuide}
      * @param profile
      *            The {@link PlayerProfile} of the {@link Player}
-     *            
+     * 
      * @return a {@link List} of visible {@link ItemGroup} instances
      */
     @Override
@@ -54,7 +54,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
         List<ItemGroup> groups = new LinkedList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
-            if (!(group instanceof FlexItemGroup) || ((FlexItemGroup) group).isVisible(p, profile, getMode())) {
+            if (!(group instanceof FlexItemGroup flexItemGroup) || flexItemGroup.isVisible(p, profile, getMode())) {
                 groups.add(group);
             }
         }

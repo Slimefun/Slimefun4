@@ -28,6 +28,12 @@ commands:
     please-wait: '&eAttendez s''il vous plaît, les résultats arrivent !'
     verbose-player: '&4Ce flag ne peux pas être utiliser par un joueur!'
     unknown-flag: '&4Flag inconnu: &c%flag%'
+  debug:
+    description: 'Lancer la journalisation de débogage pour les développeurs'
+    current: '&7Cas de test actuel : &6%test_case%'
+    none-running: '&7Aucun cas de test n''est actuellement en cours !'
+    running: '&7Mode de débogage en cours avec le test : &6%test%'
+    disabled: '&7Mode de débogage désactivé.'
 placeholderapi:
   profile-loading: 'Chargement...'
 guide:
@@ -140,6 +146,7 @@ messages:
   multimeter: '&bÉnergie stockée: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4Vous ne pouvez pas troquer des objets Slimefun avec les piglins'
   bee-suit-slow-fall: '&eVos ailes d''abeille vous aideront à revenir au sol lentement et en toute sécurité'
+  deprecated-item: '&4Cet élément est vieux et sera bientôt retiré de Slimefun.'
   multi-tool:
     mode-change: 'Le mode de &b%device% a été changé : &9%mode%'
     not-shears: '&cLe MultiTool ne peut pas être utilisé comme cisaille !'
@@ -169,6 +176,7 @@ messages:
   talisman:
     anvil: '&a&oVotre Talisman a empêché votre outil de casser'
     miner: '&a&oVotre talisman a doublé votre drop'
+    farmer: '&a&oVotre Talisman a doublé votre drop'
     hunter: '&a&oVotre talisman a doublé votre drop'
     lava: '&a&oVotre talisman vous a sauvé de la lave'
     water: '&a&oVotre talisman vous a évité la noyade'
@@ -249,8 +257,6 @@ machines:
     pick-a-floor: '&3- Sélectionnez un étage -'
     current-floor: '&eVous êtes actuellement à cet étage :'
     click-to-teleport: '&eCliquez &7pour vous téléporter à cet étage :'
-    enter-name: '&7Entrez le nom de cet étage dans le chat. &r(Les codes couleur sont acceptés!)'
-    named: '&2Vous avez bien renommé cet étage : &r%floor%'
   TELEPORTER:
     teleporting: '&3Téléportation...'
     teleported: '&3Téléportation terminée !'
@@ -282,6 +288,8 @@ brewing_stand:
   not-working: '&4Vous ne pouvez pas utiliser d''objets Slimefun dans un alambic!'
 cartography_table:
   not-working: '&4Vous ne pouvez pas utiliser d''objets Slimefun dans une table de cartographie !'
+smithing_table:
+  not-working: '&4Vous ne pouvez pas utiliser un objet Slimefun comme matériau de forge!'
 villagers:
   no-trading: '&4Vous ne pouvez pas échanger des objets Slimefun avec les villageois !'
 backpack:
@@ -392,3 +400,5 @@ languages:
   mk: 'Macédonien'
   sr: 'Serbe'
   be: 'Biélorusse'
+  si-LK: 'Singhalais'
+  lt: 'Lithuanien'

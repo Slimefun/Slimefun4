@@ -9,6 +9,8 @@ options:
   chat-prefix: '&a&lSlimefun 4&7> '
   armor-update-interval: 10
   enable-armor-effects: true
+  radiation-update-interval: 1
+  rainbow-armor-update-interval: 3
   auto-save-delay-in-minutes: 10
   legacy-ore-washer: false
   legacy-dust-washer: false
@@ -18,10 +20,12 @@ options:
   log-duplicate-block-entries: true
   burn-players-when-radioactive: true
   drop-excess-sf-give-items: false
+  backup-data: true
 
 guide:
   show-vanilla-recipes: true
   receive-on-first-join: true
+  show-hidden-item-groups-in-search: false
 
 researches:
   free-in-creative-mode: true

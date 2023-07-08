@@ -6,7 +6,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -23,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
@@ -47,11 +47,11 @@ public class StomperBoots extends SlimefunItem {
      */
     public void stomp(@Nonnull EntityDamageEvent fallDamageEvent) {
         Player player = (Player) fallDamageEvent.getEntity();
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 2F);
+        SoundEffect.STOMPER_BOOTS_STOMP_SOUND.playFor(player);
         player.setVelocity(new Vector(0, 0.7, 0));
 
         for (Entity entity : player.getNearbyEntities(4, 4, 4)) {
-            if (entity instanceof LivingEntity && canPush(player, (LivingEntity) entity)) {
+            if (entity instanceof LivingEntity livingEntity && canPush(player, livingEntity)) {
                 Vector velocity = getShockwave(player.getLocation(), entity.getLocation());
                 entity.setVelocity(velocity);
 
@@ -61,7 +61,7 @@ public class StomperBoots extends SlimefunItem {
                     Bukkit.getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
-                        ((LivingEntity) entity).damage(event.getDamage());
+                        livingEntity.damage(event.getDamage());
                     }
                 }
             }

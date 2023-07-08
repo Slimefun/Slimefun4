@@ -17,6 +17,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -67,22 +69,7 @@ final class CargoUtils {
         }
 
         Material type = block.getType();
-
-        switch (type) {
-            case CHEST:
-            case TRAPPED_CHEST:
-            case FURNACE:
-            case DISPENSER:
-            case DROPPER:
-            case HOPPER:
-            case BREWING_STAND:
-            case BARREL:
-            case BLAST_FURNACE:
-            case SMOKER:
-                return true;
-            default:
-                return SlimefunTag.SHULKER_BOXES.isTagged(type);
-        }
+        return SlimefunTag.CARGO_SUPPORTED_STORAGE_BLOCKS.isTagged(type);
     }
 
     @Nonnull
@@ -143,8 +130,8 @@ final class CargoUtils {
 
                 BlockState state = PaperLib.getBlockState(target, false).getState();
 
-                if (state instanceof InventoryHolder) {
-                    inventory = ((InventoryHolder) state).getInventory();
+                if (state instanceof InventoryHolder inventoryHolder) {
+                    inventory = inventoryHolder.getInventory();
                     inventories.put(target.getLocation(), inventory);
                     return withdrawFromVanillaInventory(network, node, template, inventory);
                 }
@@ -228,8 +215,8 @@ final class CargoUtils {
 
             BlockState state = PaperLib.getBlockState(target, false).getState();
 
-            if (state instanceof InventoryHolder) {
-                inventory = ((InventoryHolder) state).getInventory();
+            if (state instanceof InventoryHolder inventoryHolder) {
+                inventory = inventoryHolder.getInventory();
                 inventories.put(target.getLocation(), inventory);
                 return withdrawFromVanillaInventory(network, node, inventory);
             }
@@ -259,6 +246,7 @@ final class CargoUtils {
 
     @Nullable
     static ItemStack insert(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, boolean smartFill, ItemStack stack, ItemStackWrapper wrapper) {
+        Debug.log(TestCase.CARGO_INPUT_TESTING, "CargoUtils#insert");
         if (!matchesFilter(network, node, stack)) {
             return stack;
         }
@@ -275,8 +263,8 @@ final class CargoUtils {
 
                 BlockState state = PaperLib.getBlockState(target, false).getState();
 
-                if (state instanceof InventoryHolder) {
-                    inventory = ((InventoryHolder) state).getInventory();
+                if (state instanceof InventoryHolder inventoryHolder) {
+                    inventory = inventoryHolder.getInventory();
                     inventories.put(target.getLocation(), inventory);
                     return insertIntoVanillaInventory(stack, wrapper, smartFill, inventory);
                 }

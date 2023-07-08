@@ -23,15 +23,15 @@ import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.GrindStone;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCrusher;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -42,10 +42,9 @@ public final class PostSetup {
 
     public static void setupWiki() {
         Slimefun.logger().log(Level.INFO, "Loading Wiki pages...");
-        JsonParser parser = new JsonParser();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Slimefun.class.getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
-            JsonElement element = parser.parse(reader.lines().collect(Collectors.joining("")));
+            JsonElement element = JsonUtils.parseString(reader.lines().collect(Collectors.joining("")));
             JsonObject json = element.getAsJsonObject();
 
             for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
@@ -194,9 +193,7 @@ public final class PostSetup {
             }
 
             for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
-                if (item instanceof AContainer) {
-                    AContainer machine = (AContainer) item;
-
+                if (item instanceof AContainer machine) {
                     if (machine.getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
                         List<MachineRecipe> recipes = machine.getMachineRecipes();
                         Collections.sort(recipes, Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
@@ -234,12 +231,8 @@ public final class PostSetup {
 
     private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
-            if (item instanceof AContainer) {
-                AContainer container = (AContainer) item;
-
-                if (container.getMachineIdentifier().equals(machine)) {
-                    container.registerRecipe(seconds, input, output);
-                }
+            if (item instanceof AContainer container && container.getMachineIdentifier().equals(machine)) {
+                container.registerRecipe(seconds, input, output);
             }
         }
     }

@@ -9,7 +9,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
@@ -66,10 +66,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      *
      * @param count
      *            The maximum number of times this item can be used.
-     *            <<<<<<< HEAD
-     *            =======
      * 
-     *            >>>>>>> branch 'master' of https://github.com/Slimefun/Slimefun4.git
      * @return The {@link LimitedUseItem} for chaining of setters
      */
     public final @Nonnull LimitedUseItem setMaxUseCount(int count) {
@@ -119,7 +116,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
             int usesLeft = pdc.getOrDefault(key, PersistentDataType.INTEGER, getMaxUseCount());
 
             if (usesLeft == 1) {
-                p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+                SoundEffect.LIMITED_USE_ITEM_BREAK_SOUND.playFor(p);
                 item.setAmount(0);
                 item.setType(Material.AIR);
             } else {

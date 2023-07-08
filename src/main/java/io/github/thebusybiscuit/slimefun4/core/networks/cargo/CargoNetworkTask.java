@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Level;
 
 import javax.annotation.Nullable;
@@ -55,18 +54,13 @@ class CargoNetworkTask implements Runnable {
     private final Map<Location, Integer> inputs;
     private final Map<Integer, List<Location>> outputs;
 
-    private final Set<Location> chestTerminalInputs;
-    private final Set<Location> chestTerminalOutputs;
-
     @ParametersAreNonnullByDefault
-    CargoNetworkTask(CargoNet network, Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs, Set<Location> chestTerminalInputs, Set<Location> chestTerminalOutputs) {
+    CargoNetworkTask(CargoNet network, Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs) {
         this.network = network;
         this.manager = Slimefun.getNetworkManager();
 
         this.inputs = inputs;
         this.outputs = outputs;
-        this.chestTerminalInputs = chestTerminalInputs;
-        this.chestTerminalOutputs = chestTerminalOutputs;
     }
 
     @Override
@@ -74,11 +68,6 @@ class CargoNetworkTask implements Runnable {
         long timestamp = System.nanoTime();
 
         try {
-            // Chest Terminal Code
-            if (Slimefun.getIntegrations().isChestTerminalInstalled()) {
-                network.handleItemRequests(inventories, chestTerminalInputs, chestTerminalOutputs);
-            }
-
             /**
              * All operations happen here: Everything gets iterated from the Input Nodes.
              * (Apart from ChestTerminal Buses)
@@ -93,12 +82,6 @@ class CargoNetworkTask implements Runnable {
 
                 // This will prevent this timings from showing up for the Cargo Manager
                 timestamp += Slimefun.getProfiler().closeEntry(entry.getKey(), inputNode, nodeTimestamp);
-            }
-
-            // Chest Terminal Code
-            if (Slimefun.getIntegrations().isChestTerminalInstalled()) {
-                // This will deduct any CT timings and attribute them towards the actual terminal
-                timestamp += network.updateTerminals(chestTerminalInputs);
             }
         } catch (Exception | LinkageError x) {
             Slimefun.logger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking a Cargo network @ " + new BlockPosition(network.getRegulator()));
@@ -168,15 +151,19 @@ class CargoNetworkTask implements Runnable {
         boolean roundrobin = Objects.equals(cfg.getString("round-robin"), "true");
         boolean smartFill = Objects.equals(cfg.getString("smart-fill"), "true");
 
+        int index = 0;
         Collection<Location> destinations;
         if (roundrobin) {
+            // The current round-robin index of the (unsorted) outputNodes list,
+            // or the index at which to start searching for valid output nodes
+            index = network.roundRobin.getOrDefault(inputNode, 0);
             // Use an ArrayDeque to perform round-robin sorting
             // Since the impl for roundRobinSort just does Deque.addLast(Deque#removeFirst)
             // An ArrayDequeue is preferable as opposed to a LinkedList:
             // - The number of elements does not change.
             // - ArrayDequeue has better iterative performance
             Deque<Location> tempDestinations = new ArrayDeque<>(outputNodes);
-            roundRobinSort(inputNode, tempDestinations);
+            roundRobinSort(index, tempDestinations);
             destinations = tempDestinations;
         } else {
             // Using an ArrayList here since we won't need to sort the destinations
@@ -192,9 +179,14 @@ class CargoNetworkTask implements Runnable {
                 item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), smartFill, item, wrapper);
 
                 if (item == null) {
+                    if (roundrobin) {
+                        // The output was valid, set the round robin index to the node after this one
+                        network.roundRobin.put(inputNode, (index + 1) % outputNodes.size());
+                    }
                     break;
                 }
             }
+            index++;
         }
 
         return item;
@@ -204,27 +196,19 @@ class CargoNetworkTask implements Runnable {
      * This method sorts a given {@link Deque} of output node locations using a semi-accurate
      * round-robin method.
      * 
-     * @param inputNode
-     *            The {@link Location} of the input node
+     * @param index
+     *            The round-robin index of the input node
      * @param outputNodes
      *            A {@link Deque} of {@link Location Locations} of the output nodes
      */
-    private void roundRobinSort(Location inputNode, Deque<Location> outputNodes) {
-        int index = network.roundRobin.getOrDefault(inputNode, 0);
-
+    private void roundRobinSort(int index, Deque<Location> outputNodes) {
         if (index < outputNodes.size()) {
             // Not ideal but actually not bad performance-wise over more elegant alternatives
             for (int i = 0; i < index; i++) {
                 Location temp = outputNodes.removeFirst();
                 outputNodes.add(temp);
             }
-
-            index++;
-        } else {
-            index = 1;
         }
-
-        network.roundRobin.put(inputNode, index);
     }
 
 }

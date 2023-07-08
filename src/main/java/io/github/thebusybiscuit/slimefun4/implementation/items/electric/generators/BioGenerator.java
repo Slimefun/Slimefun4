@@ -10,8 +10,8 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
@@ -54,22 +54,29 @@ public class BioGenerator extends AGenerator {
         registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
         registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
         registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.COCOA_BEANS)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT_SEEDS)));
 
         // Small Flowers (formally just dandelions and poppies).
         for (Material m : Tag.SMALL_FLOWERS.getValues()) {
             registerFuel(new MachineFuel(1, new ItemStack(m)));
         }
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            registerFuel(new MachineFuel(4, new ItemStack(Material.HONEYCOMB)));
-            registerFuel(new MachineFuel(40, new ItemStack(Material.HONEYCOMB_BLOCK)));
-        }
+        registerFuel(new MachineFuel(4, new ItemStack(Material.HONEYCOMB)));
+        registerFuel(new MachineFuel(40, new ItemStack(Material.HONEYCOMB_BLOCK)));
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            registerFuel(new MachineFuel(4, new ItemStack(Material.SHROOMLIGHT)));
-            registerFuel(new MachineFuel(2, new ItemStack(Material.CRIMSON_FUNGUS)));
-            registerFuel(new MachineFuel(2, new ItemStack(Material.WARPED_FUNGUS)));
-            registerFuel(new MachineFuel(16, SlimefunItems.STRANGE_NETHER_GOO));
+        registerFuel(new MachineFuel(4, new ItemStack(Material.SHROOMLIGHT)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.CRIMSON_FUNGUS)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.WARPED_FUNGUS)));
+        registerFuel(new MachineFuel(16, SlimefunItems.STRANGE_NETHER_GOO));
+
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_BERRIES)));
+            registerFuel(new MachineFuel(3, new ItemStack(Material.SMALL_DRIPLEAF)));
+            registerFuel(new MachineFuel(3, new ItemStack(Material.BIG_DRIPLEAF)));
+            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_LICHEN)));
+            registerFuel(new MachineFuel(20, new ItemStack(Material.SPORE_BLOSSOM)));
         }
 
         // Leaves

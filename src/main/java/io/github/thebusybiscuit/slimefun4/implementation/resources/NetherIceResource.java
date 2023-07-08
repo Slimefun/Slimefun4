@@ -5,6 +5,7 @@ import org.bukkit.block.Biome;
 
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
 
 /**
  * A {@link GEOResource} which consists of nether ice.
@@ -13,15 +14,25 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
  * @author TheBusyBiscuit
  *
  */
-class NetherIceResource extends SlimefunResource {
+class NetherIceResource extends AbstractResource {
+
+    private static final int DEFAULT_NETHER_VALUE = 32;
+
+    private final BiomeMap<Integer> biomes;
 
     NetherIceResource() {
         super("nether_ice", "Nether Ice", SlimefunItems.NETHER_ICE, 6, true);
+
+        biomes = getBiomeMap(this, "/biome-maps/nether_ice_v1.16.json");
     }
 
     @Override
     public int getDefaultSupply(Environment environment, Biome biome) {
-        return environment == Environment.NETHER ? 32 : 0;
+        if (environment != Environment.NETHER) {
+            return 0;
+        } else {
+            return biomes.getOrDefault(biome, DEFAULT_NETHER_VALUE);
+        }
     }
 
 }

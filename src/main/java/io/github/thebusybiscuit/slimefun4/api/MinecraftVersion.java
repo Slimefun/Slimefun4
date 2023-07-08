@@ -20,18 +20,6 @@ import io.papermc.lib.PaperLib;
 public enum MinecraftVersion {
 
     /**
-     * This constant represents Minecraft (Java Edition) Version 1.14
-     * (The "Village &amp; Pillage" Update)
-     */
-    MINECRAFT_1_14(14, "1.14.x"),
-
-    /**
-     * This constant represents Minecraft (Java Edition) Version 1.15
-     * (The "Buzzy Bees" Update)
-     */
-    MINECRAFT_1_15(15, "1.15.x"),
-
-    /**
      * This constant represents Minecraft (Java Edition) Version 1.16
      * (The "Nether Update")
      */
@@ -40,9 +28,26 @@ public enum MinecraftVersion {
     /**
      * This constant represents Minecraft (Java Edition) Version 1.17
      * (The "Caves and Cliffs: Part I" Update)
-     *
      */
     MINECRAFT_1_17(17, "1.17.x"),
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.18
+     * (The "Caves and Cliffs: Part II" Update)
+     */
+    MINECRAFT_1_18(18, "1.18.x"),
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.19
+     * ("The Wild Update")
+     */
+    MINECRAFT_1_19(19, "1.19.x"),
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.20
+     * ("The Trails & Tales Update")
+     */
+    MINECRAFT_1_20(20, "1.20.x"),
 
     /**
      * This constant represents an exceptional state in which we were unable
@@ -148,6 +153,21 @@ public enum MinecraftVersion {
 
         if (this == UNKNOWN) {
             return false;
+        }
+
+        /**
+         * Unit-Test only code.
+         * Running #isAtLeast(...) should always be meaningful.
+         * If the provided version equals the lowest supported version, then
+         * this will essentially always return true and result in a tautology.
+         * This is most definitely an oversight from us and should be fixed, therefore
+         * we will trigger an exception.
+         * 
+         * In order to not disrupt server operations, this exception is only thrown during
+         * unit tests since the oversight itself will be harmless.
+         */
+        if (this == UNIT_TEST && version.ordinal() == 0) {
+            throw new IllegalArgumentException("Version " + version + " is the lowest supported version already!");
         }
 
         return this.ordinal() >= version.ordinal();

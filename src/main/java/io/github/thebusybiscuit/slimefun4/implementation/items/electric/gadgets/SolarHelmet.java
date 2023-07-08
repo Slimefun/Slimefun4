@@ -15,7 +15,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SolarHelmetTask;
 
 /**
  * The {@link SolarHelmet} can be worn by {@link Player}.
@@ -24,8 +24,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
  * or holding.
  * 
  * @author TheBusyBiscuit
- * 
- * @see ArmorTask
+ *
+ * @see SolarHelmetTask
  * @see Rechargeable
  *
  */
@@ -67,8 +67,8 @@ public class SolarHelmet extends SlimefunItem {
     private void recharge(@Nullable ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-        if (sfItem instanceof Rechargeable) {
-            ((Rechargeable) sfItem).addItemCharge(item, charge.getValue().floatValue());
+        if (sfItem instanceof Rechargeable rechargeable) {
+            rechargeable.addItemCharge(item, charge.getValue().floatValue());
         }
     }
 

@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -33,15 +34,25 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
  */
 public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
 
+    private final ItemSetting<Boolean> useNightEnergyInOtherDimensions = new ItemSetting<>(this, "other-dimensions-use-night-energy", false);
     private final int dayEnergy;
     private final int nightEnergy;
+    private final int capacity;
 
     @ParametersAreNonnullByDefault
-    public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int capacity) {
         super(itemGroup, item, recipeType, recipe);
 
         this.dayEnergy = dayEnergy;
         this.nightEnergy = nightEnergy;
+        this.capacity = capacity;
+
+        addItemSetting(useNightEnergyInOtherDimensions);
+    }
+
+    @ParametersAreNonnullByDefault
+    public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, dayEnergy, nightEnergy, item, recipeType, recipe, 0);
     }
 
     /**
@@ -65,13 +76,8 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     }
 
     @Override
-    public final int getCapacity() {
-        return 0;
-    }
-
-    @Override
-    public final boolean isChargeable() {
-        return false;
+    public int getCapacity() {
+        return capacity;
     }
 
     @Override
@@ -79,6 +85,10 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
         World world = l.getWorld();
 
         if (world.getEnvironment() != Environment.NORMAL) {
+            if (useNightEnergyInOtherDimensions.getValue()) {
+                return getNightEnergy();
+            }
+
             return 0;
         } else {
             boolean isDaytime = isDaytime(world);

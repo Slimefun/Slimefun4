@@ -61,8 +61,8 @@ public class GrapplingHookListener implements Listener {
             return;
         }
 
-        if (e.getDamager() instanceof Arrow) {
-            handleGrapplingHook((Arrow) e.getDamager());
+        if (e.getDamager() instanceof Arrow arrow) {
+            handleGrapplingHook(arrow);
         }
     }
 
@@ -73,8 +73,8 @@ public class GrapplingHookListener implements Listener {
         }
 
         Slimefun.runSync(() -> {
-            if (e.getEntity() instanceof Arrow) {
-                handleGrapplingHook((Arrow) e.getEntity());
+            if (e.getEntity() instanceof Arrow arrow) {
+                handleGrapplingHook(arrow);
             }
         }, 2L);
     }
@@ -86,8 +86,8 @@ public class GrapplingHookListener implements Listener {
         }
 
         // This is called when the arrow shoots off a painting or an item frame
-        if (e.getRemover() instanceof Arrow) {
-            handleGrapplingHook((Arrow) e.getRemover());
+        if (e.getRemover() instanceof Arrow arrow) {
+            handleGrapplingHook(arrow);
         }
     }
 
@@ -130,8 +130,8 @@ public class GrapplingHookListener implements Listener {
             return;
         }
 
-        if (e.getEntity() instanceof Arrow) {
-            handleGrapplingHook((Arrow) e.getEntity());
+        if (e.getEntity() instanceof Arrow arrow) {
+            handleGrapplingHook(arrow);
         }
     }
 
@@ -153,9 +153,8 @@ public class GrapplingHookListener implements Listener {
     }
 
     private void handleGrapplingHook(@Nullable Arrow arrow) {
-        if (arrow != null && arrow.isValid() && arrow.getShooter() instanceof Player) {
-            Player p = (Player) arrow.getShooter();
-            GrapplingHookEntity hook = activeHooks.get(p.getUniqueId());
+        if (arrow != null && arrow.isValid() && arrow.getShooter() instanceof Player player) {
+            GrapplingHookEntity hook = activeHooks.get(player.getUniqueId());
 
             if (hook != null) {
                 Location target = arrow.getLocation();
@@ -163,14 +162,14 @@ public class GrapplingHookListener implements Listener {
 
                 Vector velocity = new Vector(0.0, 0.2, 0.0);
 
-                if (p.getLocation().distance(target) < 3.0) {
-                    if (target.getY() <= p.getLocation().getY()) {
-                        velocity = target.toVector().subtract(p.getLocation().toVector());
+                if (player.getLocation().distance(target) < 3.0) {
+                    if (target.getY() <= player.getLocation().getY()) {
+                        velocity = target.toVector().subtract(player.getLocation().toVector());
                     }
                 } else {
-                    Location l = p.getLocation();
+                    Location l = player.getLocation();
                     l.setY(l.getY() + 0.5);
-                    p.teleport(l);
+                    player.teleport(l);
 
                     double g = -0.08;
                     double d = target.distance(l);
@@ -179,16 +178,16 @@ public class GrapplingHookListener implements Listener {
                     double vY = (1.0 + 0.04 * t) * (target.getY() - l.getY()) / t - 0.5D * g * t;
                     double vZ = (1.0 + 0.08 * t) * (target.getZ() - l.getZ()) / t;
 
-                    velocity = p.getVelocity();
+                    velocity = player.getVelocity();
                     velocity.setX(vX);
                     velocity.setY(vY);
                     velocity.setZ(vZ);
                 }
 
-                p.setVelocity(velocity);
+                player.setVelocity(velocity);
 
                 hook.remove();
-                Slimefun.runSync(() -> activeHooks.remove(p.getUniqueId()), 20L);
+                Slimefun.runSync(() -> activeHooks.remove(player.getUniqueId()), 20L);
             }
         }
     }

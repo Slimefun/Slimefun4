@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,8 +150,7 @@ public class PermissionsService {
      * 
      * @return The configured lore to display
      */
-    @Nonnull
-    public List<String> getLore(@Nonnull SlimefunItem item) {
+    public @Nonnull List<String> getLore(@Nonnull SlimefunItem item) {
         return config.getStringList(item.getId() + ".lore");
     }
 

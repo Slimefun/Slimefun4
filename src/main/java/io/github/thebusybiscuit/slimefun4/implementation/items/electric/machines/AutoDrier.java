@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
@@ -79,6 +81,11 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHoppe
 
         recipeList.add(new ItemStack(Material.COOKED_SALMON));
         recipeList.add(SlimefunItems.FISH_JERKY);
+
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
+            recipeList.add(new ItemStack(Material.MUD));
+            recipeList.add(new ItemStack(Material.CLAY));
+        }
 
         for (Material sapling : Tag.SAPLINGS.getValues()) {
             recipeList.add(new ItemStack(sapling));

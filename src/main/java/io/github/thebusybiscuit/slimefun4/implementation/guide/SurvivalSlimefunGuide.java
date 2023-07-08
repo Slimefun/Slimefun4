@@ -14,7 +14,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -44,6 +43,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -67,25 +67,16 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
 public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int MAX_ITEM_GROUPS = 36;
-    private static final Sound sound = Sound.ITEM_BOOK_PAGE_TURN;
 
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final ItemStack item;
     private final boolean showVanillaRecipes;
+    private final boolean showHiddenItemGroupsInSearch;
 
-    public SurvivalSlimefunGuide(boolean showVanillaRecipes) {
+    public SurvivalSlimefunGuide(boolean showVanillaRecipes, boolean showHiddenItemGroupsInSearch) {
         this.showVanillaRecipes = showVanillaRecipes;
+        this.showHiddenItemGroupsInSearch = showHiddenItemGroupsInSearch;
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
-    }
-
-    /**
-     * This returns the {@link Sound} which is played when someone navigates through
-     * the {@link SlimefunGuide}
-     * 
-     * @return The {@link Sound}
-     */
-    public @Nonnull Sound getSound() {
-        return sound;
     }
 
     @Override
@@ -117,8 +108,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
             try {
-                if (group instanceof FlexItemGroup) {
-                    if (((FlexItemGroup) group).isVisible(p, profile, getMode())) {
+                if (group instanceof FlexItemGroup flexItemGroup) {
+                    if (flexItemGroup.isVisible(p, profile, getMode())) {
                         groups.add(group);
                     }
                 } else if (!group.isHidden(p)) {
@@ -231,8 +222,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        if (itemGroup instanceof FlexItemGroup) {
-            ((FlexItemGroup) itemGroup).open(p, profile, getMode());
+        if (itemGroup instanceof FlexItemGroup flexItemGroup) {
+            flexItemGroup.open(p, profile, getMode());
             return;
         }
 
@@ -309,15 +300,28 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 try {
                     if (isSurvivalMode()) {
                         displayItem(profile, sfitem, true);
-                    } else {
+                    } else if (pl.hasPermission("slimefun.cheat.items")) {
                         if (sfitem instanceof MultiBlockMachine) {
                             Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                         } else {
-                            pl.getInventory().addItem(sfitem.getItem().clone());
+                            ItemStack clonedItem = sfitem.getItem().clone();
+
+                            if (action.isShiftClicked()) {
+                                clonedItem.setAmount(clonedItem.getMaxStackSize());
+                            }
+
+                            pl.getInventory().addItem(clonedItem);
                         }
+                    } else {
+                        /*
+                         * Fixes #3548 - If for whatever reason,
+                         * an unpermitted players gets access to this guide,
+                         * this will be our last line of defense to prevent any exploit.
+                         */
+                        Slimefun.getLocalization().sendMessage(pl, "messages.no-permission", true);
                     }
                 } catch (Exception | LinkageError x) {
-                    printErrorMessage(pl, x);
+                    printErrorMessage(pl, sfitem, x);
                 }
 
                 return false;
@@ -352,7 +356,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 break;
             }
 
-            if (!slimefunItem.isHidden() && isSearchFilterApplicable(slimefunItem, searchTerm)) {
+            if (!slimefunItem.isHidden() && isItemGroupAccessible(p, slimefunItem) && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = new CustomItemStack(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
@@ -368,7 +372,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                             displayItem(profile, slimefunItem, true);
                         }
                     } catch (Exception | LinkageError x) {
-                        printErrorMessage(pl, x);
+                        printErrorMessage(pl, slimefunItem, x);
                     }
 
                     return false;
@@ -379,6 +383,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.open(p);
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean isItemGroupAccessible(Player p, SlimefunItem slimefunItem) {
+        return showHiddenItemGroupsInSearch || slimefunItem.getItemGroup().isAccessible(p);
     }
 
     @ParametersAreNonnullByDefault
@@ -473,19 +482,19 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private <T extends Recipe> void showRecipeChoices(T recipe, ItemStack[] recipeItems, AsyncRecipeChoiceTask task) {
         RecipeChoice[] choices = Slimefun.getMinecraftRecipeService().getRecipeShape(recipe);
 
-        if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
-            recipeItems[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));
+        if (choices.length == 1 && choices[0] instanceof MaterialChoice materialChoice) {
+            recipeItems[4] = new ItemStack(materialChoice.getChoices().get(0));
 
-            if (((MaterialChoice) choices[0]).getChoices().size() > 1) {
-                task.add(recipeSlots[4], (MaterialChoice) choices[0]);
+            if (materialChoice.getChoices().size() > 1) {
+                task.add(recipeSlots[4], materialChoice);
             }
         } else {
             for (int i = 0; i < choices.length; i++) {
-                if (choices[i] instanceof MaterialChoice) {
-                    recipeItems[i] = new ItemStack(((MaterialChoice) choices[i]).getChoices().get(0));
+                if (choices[i] instanceof MaterialChoice materialChoice) {
+                    recipeItems[i] = new ItemStack(materialChoice.getChoices().get(0));
 
-                    if (((MaterialChoice) choices[i]).getChoices().size() > 1) {
-                        task.add(recipeSlots[i], (MaterialChoice) choices[i]);
+                    if (materialChoice.getChoices().size() > 1) {
+                        task.add(recipeSlots[i], materialChoice);
                     }
                 }
             }
@@ -525,8 +534,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         displayItem(menu, profile, p, item, result, recipeType, recipe, task);
 
-        if (item instanceof RecipeDisplayItem) {
-            displayRecipes(p, profile, menu, (RecipeDisplayItem) item, 0);
+        if (item instanceof RecipeDisplayItem recipeDisplayItem) {
+            displayRecipes(p, profile, menu, recipeDisplayItem, 0);
         }
 
         menu.open(p);
@@ -663,7 +672,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addMenuClickHandler(28, (pl, slot, itemstack, action) -> {
                 if (page > 0) {
                     displayRecipes(pl, profile, menu, sfItem, page - 1);
-                    pl.playSound(pl.getLocation(), sound, 1, 1);
+                    SoundEffect.GUIDE_BUTTON_CLICK_SOUND.playFor(pl);
                 }
 
                 return false;
@@ -673,7 +682,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addMenuClickHandler(34, (pl, slot, itemstack, action) -> {
                 if (recipes.size() > (18 * (page + 1))) {
                     displayRecipes(pl, profile, menu, sfItem, page + 1);
-                    pl.playSound(pl.getLocation(), sound, 1, 1);
+                    SoundEffect.GUIDE_BUTTON_CLICK_SOUND.playFor(pl);
                 }
 
                 return false;
@@ -733,7 +742,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.main"));
 
         menu.setEmptySlotsClickable(false);
-        menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), sound, 1, 1));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         return menu;
     }
 
@@ -741,6 +750,12 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private void printErrorMessage(Player p, Throwable x) {
         p.sendMessage(ChatColor.DARK_RED + "An internal server error has occurred. Please inform an admin, check the console for further info.");
         Slimefun.logger().log(Level.SEVERE, "An error has occurred while trying to open a SlimefunItem in the guide!", x);
+    }
+
+    @ParametersAreNonnullByDefault
+    private void printErrorMessage(Player p, SlimefunItem item, Throwable x) {
+        p.sendMessage(ChatColor.DARK_RED + "An internal server error has occurred. Please inform an admin, check the console for further info.");
+        item.error("This item has caused an error message to be thrown while viewing it in the Slimefun guide.", x);
     }
 
 }

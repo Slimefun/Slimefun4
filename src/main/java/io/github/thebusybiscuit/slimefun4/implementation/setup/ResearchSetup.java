@@ -2,14 +2,13 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 /**
  * This static setup class is used to register all default implementations of
@@ -101,7 +100,7 @@ public final class ResearchSetup {
         register("knight_talisman", 71, "Talisman of the Knight", 20, SlimefunItems.TALISMAN_KNIGHT);
         register("gilded_iron", 72, "Shiny Iron", 11, SlimefunItems.GILDED_IRON);
         register("synthetic_emerald", 73, "Fake Gem", 17, SlimefunItems.SYNTHETIC_EMERALD);
-        register("chainmail_armor", 74, "Chainmail Armor", 8, new ItemStack(Material.CHAINMAIL_HELMET), new ItemStack(Material.CHAINMAIL_CHESTPLATE), new ItemStack(Material.CHAINMAIL_LEGGINGS), new ItemStack(Material.CHAINMAIL_BOOTS));
+        register("chainmail_armor", 74, "Chainmail Armor", 8, "CHAIN_HELMET", "CHAIN_CHESTPLATE", "CHAIN_LEGGINGS", "CHAIN_BOOTS");
         register("whirlwind_talisman", 75, "Talisman of the Whirlwind", 19, SlimefunItems.TALISMAN_WHIRLWIND);
         register("wizard_talisman", 76, "Talisman of the Wizard", 22, SlimefunItems.TALISMAN_WIZARD);
         register("lumber_axe", 77, "Lumber Axe", 21, SlimefunItems.LUMBER_AXE);
@@ -114,7 +113,6 @@ public final class ResearchSetup {
         register("gold_armor", 87, "Shiny Armor", 13, SlimefunItems.GOLDEN_HELMET_12K, SlimefunItems.GOLDEN_CHESTPLATE_12K, SlimefunItems.GOLDEN_LEGGINGS_12K, SlimefunItems.GOLDEN_BOOTS_12K);
         register("night_vision_googles", 89, "Night Vision Goggles", 10, SlimefunItems.NIGHT_VISION_GOGGLES);
         register("pickaxe_of_containment", 90, "Pickaxe of Containment", 14, SlimefunItems.PICKAXE_OF_CONTAINMENT, SlimefunItems.BROKEN_SPAWNER);
-        register("hercules_pickaxe", 91, "Hercules Pickaxe", 28, SlimefunItems.HERCULES_PICKAXE);
         register("table_saw", 92, "Table Saw", 4, SlimefunItems.TABLE_SAW);
         register("slime_steel_armor", 93, "Slimy Steel Armor", 27, SlimefunItems.SLIME_HELMET_STEEL, SlimefunItems.SLIME_CHESTPLATE_STEEL, SlimefunItems.SLIME_LEGGINGS_STEEL, SlimefunItems.SLIME_BOOTS_STEEL);
         register("blade_of_vampires", 94, "Blade of Vampires", 26, SlimefunItems.BLADE_OF_VAMPIRES);
@@ -131,7 +129,7 @@ public final class ResearchSetup {
         register("crucible", 107, "Crucible", 13, SlimefunItems.CRUCIBLE);
         register("gilded_backpack", 108, "Gilded Backpack", 22, SlimefunItems.GILDED_BACKPACK);
         register("armored_jetpack", 111, "Armored Jetpack", 27, SlimefunItems.ARMORED_JETPACK);
-        register("ender_talismans", 112, "Ender Talismans", 28);
+        register("ender_talismans", 112, "Ender Talismans", 28, new String[0]);
         register("nickel_and_cobalt", 115, "Even more Ores", 10, SlimefunItems.NICKEL_INGOT, SlimefunItems.COBALT_INGOT);
         register("magnet", 116, "Magnetic Metals", 16, SlimefunItems.MAGNET);
         register("infused_magnet", 117, "Infused Magnets", 18, SlimefunItems.INFUSED_MAGNET);
@@ -145,7 +143,7 @@ public final class ResearchSetup {
         register("bound_weapons", 125, "Soulbound Weapons", 29, SlimefunItems.SOULBOUND_SWORD, SlimefunItems.SOULBOUND_BOW, SlimefunItems.SOULBOUND_TRIDENT);
         register("bound_tools", 126, "Soulbound Tools", 29, SlimefunItems.SOULBOUND_PICKAXE, SlimefunItems.SOULBOUND_AXE, SlimefunItems.SOULBOUND_SHOVEL, SlimefunItems.SOULBOUND_HOE);
         register("bound_armor", 127, "Soulbound Armor", 29, SlimefunItems.SOULBOUND_HELMET, SlimefunItems.SOULBOUND_CHESTPLATE, SlimefunItems.SOULBOUND_LEGGINGS, SlimefunItems.SOULBOUND_BOOTS);
-        register("juicer", 129, "Delicious Drinks", 29, SlimefunItems.JUICER, SlimefunItems.APPLE_JUICE, SlimefunItems.MELON_JUICE, SlimefunItems.CARROT_JUICE, SlimefunItems.PUMPKIN_JUICE, SlimefunItems.SWEET_BERRY_JUICE);
+        register("juicer", 129, "Delicious Drinks", 29, SlimefunItems.JUICER, SlimefunItems.APPLE_JUICE, SlimefunItems.MELON_JUICE, SlimefunItems.CARROT_JUICE, SlimefunItems.PUMPKIN_JUICE, SlimefunItems.SWEET_BERRY_JUICE, SlimefunItems.GLOW_BERRY_JUICE);
         register("repaired_spawner", 130, "Repairing Spawners", 15, SlimefunItems.REPAIRED_SPAWNER);
         register("enhanced_furnace", 132, "Enhanced Furnace", 7, SlimefunItems.ENHANCED_FURNACE, SlimefunItems.ENHANCED_FURNACE_2);
         register("more_enhanced_furnaces", 133, "Better Furnaces", 18, SlimefunItems.ENHANCED_FURNACE_3, SlimefunItems.ENHANCED_FURNACE_4, SlimefunItems.ENHANCED_FURNACE_5, SlimefunItems.ENHANCED_FURNACE_6, SlimefunItems.ENHANCED_FURNACE_7);
@@ -201,14 +199,14 @@ public final class ResearchSetup {
         register("energized_gps_transmitter", 189, "Top Tier Transmitter", 44, SlimefunItems.GPS_TRANSMITTER_4);
         register("energy_regulator", 190, "Energy Networks 101", 6, SlimefunItems.ENERGY_REGULATOR);
         register("butcher_androids", 191, "Butcher Androids", 32, SlimefunItems.PROGRAMMABLE_ANDROID_BUTCHER);
-        register("organic_food", 192, "Organic Food", 25, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.WHEAT_ORGANIC_FOOD, SlimefunItems.CARROT_ORGANIC_FOOD, SlimefunItems.POTATO_ORGANIC_FOOD, SlimefunItems.SEEDS_ORGANIC_FOOD, SlimefunItems.BEETROOT_ORGANIC_FOOD, SlimefunItems.MELON_ORGANIC_FOOD, SlimefunItems.APPLE_ORGANIC_FOOD, SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, SlimefunItems.KELP_ORGANIC_FOOD, SlimefunItems.COCOA_ORGANIC_FOOD);
+        register("organic_food", 192, "Organic Food", 25, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.WHEAT_ORGANIC_FOOD, SlimefunItems.CARROT_ORGANIC_FOOD, SlimefunItems.POTATO_ORGANIC_FOOD, SlimefunItems.SEEDS_ORGANIC_FOOD, SlimefunItems.BEETROOT_ORGANIC_FOOD, SlimefunItems.MELON_ORGANIC_FOOD, SlimefunItems.APPLE_ORGANIC_FOOD, SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, SlimefunItems.KELP_ORGANIC_FOOD, SlimefunItems.COCOA_ORGANIC_FOOD, SlimefunItems.SEAGRASS_ORGANIC_FOOD);
         register("auto_breeder", 193, "Automated Feeding", 25, SlimefunItems.AUTO_BREEDER);
         register("advanced_android", 194, "Advanced Androids", 60, SlimefunItems.PROGRAMMABLE_ANDROID_2);
         register("advanced_butcher_android", 195, "Advanced Androids - Butcher", 30, SlimefunItems.PROGRAMMABLE_ANDROID_2_BUTCHER);
         register("advanced_fisherman_android", 196, "Advanced Androids - Fisherman", 30, SlimefunItems.PROGRAMMABLE_ANDROID_2_FISHERMAN);
         register("animal_growth_accelerator", 197, "Animal Growth Manipulation", 32, SlimefunItems.ANIMAL_GROWTH_ACCELERATOR);
         register("xp_collector", 198, "XP Collector", 36, SlimefunItems.EXP_COLLECTOR);
-        register("organic_fertilizer", 199, "Organic Fertilizer", 36, SlimefunItems.FOOD_COMPOSTER, SlimefunItems.WHEAT_FERTILIZER, SlimefunItems.CARROT_FERTILIZER, SlimefunItems.POTATO_FERTILIZER, SlimefunItems.SEEDS_FERTILIZER, SlimefunItems.BEETROOT_FERTILIZER, SlimefunItems.MELON_FERTILIZER, SlimefunItems.APPLE_FERTILIZER, SlimefunItems.SWEET_BERRIES_FERTILIZER, SlimefunItems.KELP_FERTILIZER, SlimefunItems.COCOA_FERTILIZER);
+        register("organic_fertilizer", 199, "Organic Fertilizer", 36, SlimefunItems.FOOD_COMPOSTER, SlimefunItems.WHEAT_FERTILIZER, SlimefunItems.CARROT_FERTILIZER, SlimefunItems.POTATO_FERTILIZER, SlimefunItems.SEEDS_FERTILIZER, SlimefunItems.BEETROOT_FERTILIZER, SlimefunItems.MELON_FERTILIZER, SlimefunItems.APPLE_FERTILIZER, SlimefunItems.SWEET_BERRIES_FERTILIZER, SlimefunItems.KELP_FERTILIZER, SlimefunItems.COCOA_FERTILIZER, SlimefunItems.SEAGRASS_FERTILIZER);
         register("crop_growth_accelerator", 200, "Crop Growth Acceleration", 40, SlimefunItems.CROP_GROWTH_ACCELERATOR);
         register("better_crop_growth_accelerator", 201, "Upgraded Crop Growth Accelerator", 44, SlimefunItems.CROP_GROWTH_ACCELERATOR_2);
         register("reactor_essentials", 202, "Reactor Essentials", 36, SlimefunItems.REACTOR_COOLANT_CELL, SlimefunItems.NEPTUNIUM, SlimefunItems.PLUTONIUM);
@@ -222,7 +220,7 @@ public final class ResearchSetup {
         register("better_food_fabricator", 211, "Upgraded Food Fabrication", 28, SlimefunItems.FOOD_FABRICATOR_2, SlimefunItems.FOOD_COMPOSTER_2);
         register("reactor_access_port", 212, "Reactor Interaction", 18, SlimefunItems.REACTOR_ACCESS_PORT);
         register("fluid_pump", 213, "Fluid Pump", 28, SlimefunItems.FLUID_PUMP);
-        register("better_freezer", 214, "Upgraded Freezer", 29, SlimefunItems.FREEZER_2);
+        register("better_freezer", 214, "Upgraded Freezer", 29, SlimefunItems.FREEZER_2, SlimefunItems.FREEZER_3);
         register("boosted_uranium", 215, "Never-Ending Circle", 30, SlimefunItems.BOOSTED_URANIUM);
         register("trash_can", 216, "Trash", 8, SlimefunItems.TRASH_CAN);
         register("advanced_output_node", 217, "Advanced Output Node", 24, SlimefunItems.CARGO_OUTPUT_NODE_2);
@@ -236,7 +234,7 @@ public final class ResearchSetup {
         register("high_tier_carbon_press", 225, "Ultimate Carbon Press", 32, SlimefunItems.CARBON_PRESS_3);
         register("wither_assembler", 226, "Automated Wither Killer", 35, SlimefunItems.WITHER_ASSEMBLER);
         register("better_heated_pressure_chamber", 227, "Upgraded Heated Pressure Chamber", 20, SlimefunItems.HEATED_PRESSURE_CHAMBER_2);
-        register("elytra", 228, "Elytras", 20, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.ELYTRA));
+        register("elytra", 228, "Elytras", 20, "ELYTRA_SCALE", "ELYTRA");
         register("special_elytras", 229, "Special Elytras", 30, SlimefunItems.INFUSED_ELYTRA, SlimefunItems.SOULBOUND_ELYTRA);
         register("electric_crucible", 230, "Electrified Crucible", 26, SlimefunItems.ELECTRIFIED_CRUCIBLE);
         register("better_electric_crucibles", 231, "Hot Crucibles", 30, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.ELECTRIFIED_CRUCIBLE_3);
@@ -256,7 +254,7 @@ public final class ResearchSetup {
         register("soulbound_rune", 246, "Soulbound Rune", 60, SlimefunItems.SOULBOUND_RUNE);
         register("geo_miner", 247, "GEO-Miner", 24, SlimefunItems.GEO_MINER);
         register("lightning_rune", 248, "Lightning Rune", 24, SlimefunItems.LIGHTNING_RUNE);
-        register("totem_of_undying", 249, "Totem of Undying", 36, new ItemStack(Material.TOTEM_OF_UNDYING));
+        register("totem_of_undying", 249, "Totem of Undying", 36, "TOTEM_OF_UNDYING");
         register("charging_bench", 250, "Charging Bench", 8, SlimefunItems.CHARGING_BENCH);
         register("nether_gold_pan", 251, "Nether Gold Pan", 8, SlimefunItems.NETHER_GOLD_PAN);
         register("electric_press", 252, "Electric Press", 16, SlimefunItems.ELECTRIC_PRESS, SlimefunItems.ELECTRIC_PRESS_2);
@@ -288,7 +286,9 @@ public final class ResearchSetup {
         register("ingredients_and_cheese", 276, "Slimefun Cuisine", 5, SlimefunItems.SALT, SlimefunItems.WHEAT_FLOUR, SlimefunItems.HEAVY_CREAM, SlimefunItems.CHEESE, SlimefunItems.BUTTER);
         register("medium_tier_auto_enchanting", 277, "Fast Automatic Enchanting and Disenchanting", 48, SlimefunItems.AUTO_ENCHANTER_2, SlimefunItems.AUTO_DISENCHANTER_2);
         register("portable_teleporter", 278, "Teleportation from Anywhere", 42, SlimefunItems.PORTABLE_TELEPORTER);
-        register("trident", 279, "Trident", 20, new ItemStack(Material.TRIDENT));
+        register("trident", 279, "Trident", 20, "TRIDENT");
+        register("farmer_talisman", 280, "Talisman of the Farmer", 18, SlimefunItems.TALISMAN_FARMER);
+        register("rainbow_armor", 281, "I wanna see the rainbow high in the sky", 22, SlimefunItems.RAINBOW_HELMET, SlimefunItems.RAINBOW_CHESTPLATE, SlimefunItems.RAINBOW_LEGGINGS, SlimefunItems.RAINBOW_BOOTS);
     }
 
     @ParametersAreNonnullByDefault
@@ -297,6 +297,21 @@ public final class ResearchSetup {
 
         for (ItemStack item : items) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+            if (sfItem != null) {
+                research.addItems(sfItem);
+            }
+        }
+
+        research.register();
+    }
+
+    @ParametersAreNonnullByDefault
+    private static void register(String key, int id, String name, int defaultCost, String... items) {
+        Research research = new Research(new NamespacedKey(Slimefun.instance(), key), id, name, defaultCost);
+
+        for (String itemId : items) {
+            SlimefunItem sfItem = SlimefunItem.getById(itemId);
 
             if (sfItem != null) {
                 research.addItems(sfItem);

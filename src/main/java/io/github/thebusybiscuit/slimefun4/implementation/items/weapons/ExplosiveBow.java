@@ -7,7 +7,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -21,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 
 /**
  * The {@link ExplosiveBow} is a {@link SlimefunBow} which creates a fake explosion when it hits
@@ -49,28 +50,26 @@ public class ExplosiveBow extends SlimefunBow {
     public BowShootHandler onShoot() {
         return (e, target) -> {
             target.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, target.getLocation(), 1);
-            target.getWorld().playSound(target.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+            SoundEffect.EXPLOSIVE_BOW_HIT_SOUND.playAt(target.getLocation(), SoundCategory.PLAYERS);
             int radius = range.getValue();
 
-            Collection<Entity> entites = target.getWorld().getNearbyEntities(target.getLocation(), radius, radius, radius, this::canDamage);
-            for (Entity nearby : entites) {
+            Collection<Entity> entities = target.getWorld().getNearbyEntities(target.getLocation(), radius, radius, radius, this::canDamage);
+            for (Entity nearby : entities) {
                 LivingEntity entity = (LivingEntity) nearby;
 
-                Vector distanceVector = entity.getLocation().toVector().subtract(target.getLocation().toVector());
-                distanceVector.setY(distanceVector.getY() + 0.6);
-
-                Vector velocity = entity.getVelocity();
+                Vector distanceVector = entity.getLocation().toVector().subtract(target.getLocation().toVector()).add(new Vector(0, 0.75, 0));
 
                 double distanceSquared = distanceVector.lengthSquared();
-                double damage = calculateDamage(distanceSquared, e.getDamage());
+                double damage = e.getDamage() * (1 - (distanceSquared / (2 * range.getValue() * range.getValue())));
 
                 if (!entity.getUniqueId().equals(target.getUniqueId())) {
                     EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(e.getDamager(), entity, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
                     Bukkit.getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
-                        Vector knockback = velocity.add(distanceVector.normalize().multiply((int) (e.getDamage() / damage)));
-                        entity.setVelocity(knockback);
+                        distanceVector.setY(0.75);
+                        Vector knockback = distanceVector.normalize().multiply(2);
+                        entity.setVelocity(entity.getVelocity().add(knockback));
                         entity.damage(event.getDamage());
                     }
                 }
@@ -78,17 +77,7 @@ public class ExplosiveBow extends SlimefunBow {
         };
     }
 
-    private boolean canDamage(@Nonnull Entity n) {
-        return n instanceof LivingEntity && !(n instanceof ArmorStand) && n.isValid();
+    private boolean canDamage(@Nonnull Entity entity) {
+        return entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity.isValid();
     }
-
-    private double calculateDamage(double distanceSquared, double originalDamage) {
-        if (distanceSquared <= 0.05) {
-            return originalDamage;
-        }
-
-        double damage = originalDamage * (1 - (distanceSquared / (range.getValue() * range.getValue())));
-        return Math.min(Math.max(1, damage), originalDamage);
-    }
-
 }

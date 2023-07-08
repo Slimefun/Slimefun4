@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -44,7 +45,7 @@ public class MetricsService {
      * The Name of our repository - Version 2 of this repo (due to big breaking changes)
      */
     private static final String REPO_NAME = "MetricsModule2";
-    
+
     /**
      * The name of the metrics jar file.
      */
@@ -140,6 +141,8 @@ public class MetricsService {
                 try {
                     start.invoke(null);
                     plugin.getLogger().info("Metrics build #" + version + " started.");
+                } catch (InvocationTargetException e) {
+                    plugin.getLogger().log(Level.WARNING, "An exception was thrown while starting the metrics module", e.getCause());
                 } catch (Exception | LinkageError e) {
                     plugin.getLogger().log(Level.WARNING, "Failed to start metrics.", e);
                 }

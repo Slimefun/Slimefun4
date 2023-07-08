@@ -1,7 +1,7 @@
 ---
 commands:
-  help: 显示此帮助
-  cheat: 直接拿取 Slimefun 物品
+  help: 显示帮助文本
+  cheat: 通过作弊模式直接拿取 Slimefun 物品
   give: 给予玩家 Slimefun 物品
   guide: 获取一本 Slimefun 指南书
   teleporter: 查看其他玩家的公共传送点
@@ -10,11 +10,11 @@ commands:
   open_guide: 使用命令打开 Slimefun 指南
   stats: 查看玩家的统计数据
   research:
-    description: 解锁/重置玩家的研究
-    reset: '&c你已重置了 %player% 的所有研究'
-    reset-target: '&c你的所有研究已被重置'
+    description: 解锁/重置玩家的研究进度
+    reset: '&c你已重置了 %player% 的研究进度'
+    reset-target: '&c你的研究进度已被重置'
   backpack:
-    description: 获取你其中一个背包的拷贝
+    description: 获取你丢失的背包
     invalid-id: '&4背包 ID 必须为非负数!'
     player-never-joined: '&4找不到叫这个名字的玩家!'
     backpack-does-not-exist: '&4你指定的背包不存在!'
@@ -28,6 +28,12 @@ commands:
     please-wait: '&e请稍等一会...结果马上就来!'
     verbose-player: '&4该标记不能对玩家使用!'
     unknown-flag: '&4未知标记: &c%flag%'
+  debug:
+    description: '输出调试日志以供开发者使用'
+    current: '&7当前测试项: &6%test_case%'
+    none-running: '&7当前没有运行的测试项!'
+    running: '&7正在调试模式中运行该测试项: &6%test%'
+    disabled: '&7已禁用调试模式'
 placeholderapi:
   profile-loading: '加载中...'
 guide:
@@ -87,7 +93,7 @@ guide:
         click: '&e单击禁用解锁研究动画'
       disabled:
         text:
-          - '&b解锁动画: &a禁用'
+          - '&b解锁动画: &4禁用'
           - ''
           - '&7现在你可以选择是否'
           - '&7跳过解锁物品研究'
@@ -140,6 +146,8 @@ messages:
   multimeter: '&b已储存的能源: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4你不能使用 Slimefun 的物品和猪灵易物'
   bee-suit-slow-fall: '&e你的蜂翅将会让你安全缓降'
+  deprecated-item: '&4该物品已被弃用，将在不久后从 Slimefun 中移除。'
+  researching-is-disabled: '&c该服务器已禁用研究，所有物品都已解锁！'
   multi-tool:
     mode-change: '&b%device% 的模式已切换为: &9%mode%'
     not-shears: '&c多功能工具 (Multi Tool) 不能作为剪刀使用!'
@@ -152,6 +160,9 @@ messages:
     select: '选中此合成配方'
     temporarily-disabled: '&e成功关闭了自动合成机 (Auto-Crafter). 你可以随时重新启动它!'
     re-enabled: '&e成功重启了自动合成机 (Auto-Crafter)!'
+    recipe-unavailable: |
+      &c此物品无法使用. 可能是因为你没有解锁它, 或者物品被服务器禁用了.
+      &7如果你还没有解锁该物品, 请先解锁然后再合成.
     tooltips:
       enabled:
         - '&a正在使用此合成配方'
@@ -166,6 +177,7 @@ messages:
   talisman:
     anvil: '&a&o你的护身符使你的工具免于损坏'
     miner: '&a&o你的护身符使矿物双倍掉落了'
+    farmer: '&a&o你的护身符使掉落物翻倍了'
     hunter: '&a&o你的护身符使掉落物双倍掉落了'
     lava: '&a&o你的护身符将你从岩浆中救了出来'
     water: '&a&o你的护身符使你免于溺水'
@@ -246,8 +258,9 @@ machines:
     pick-a-floor: '&3- 选择一个楼层 -'
     current-floor: '&e你现在所在的楼层:'
     click-to-teleport: '&e单击 &7传送至楼层:'
-    enter-name: '&7请为你的楼层起个名字吧! &r(支持颜色代码)'
-    named: '&2成功将此层命名为: &r%floor%'
+    enter-name: '&7请为你的楼层起个名字吧! &f(支持颜色代码)'
+    named: '&2成功将此层命名为: &f%floor%'
+    editor-title: '电梯设置'
   TELEPORTER:
     teleporting: '&3传送中...'
     teleported: '&3传送成功!'
@@ -263,6 +276,8 @@ machines:
     waypoints: '传送点列表'
   CARGO_NODES:
     must-be-placed: '&4货运节点必须放置在箱子或机器上!'
+    connected: '&2已连接！'
+    not-connected: '&4未连接！'
   INDUSTRIAL_MINER:
     no-fuel: '&c你的工业矿机没有燃料了! 将燃料放入它上面的箱子里.'
     piston-facing: '&c你的工业矿机需要放置一个向上的活塞!'
@@ -279,6 +294,8 @@ brewing_stand:
   not-working: '&4你不能在酿造台中使用 Slimefun 物品!'
 cartography_table:
   not-working: '&4你不能在制图台中使用 Slimefun 物品!'
+smithing_table:
+  not-working: '&4你不能使用 Slimefun 物品作为锻造材料!'
 villagers:
   no-trading: '&4你不能用 Slimefun 的物品和村民交易!'
 backpack:
@@ -290,6 +307,8 @@ cauldron:
   no-discoloring: '&4你不能用炼药锅洗去 Slimefun 物品的颜色'
 gps:
   deathpoint: '&4死亡点 &7%date%'
+  status-online: '在线'
+  status-offline: '离线'
   waypoint:
     new: '&e给你的路径点起个名字吧 &7(支持彩色代码!)'
     added: '&a成功添加了新的传送点'
@@ -300,7 +319,7 @@ gps:
     - '&4a) 你还没有设置一个 GPS 网络'
     - '&4b) 你的 GPS 网络复杂度不够, 多放置几个 GPS 信号发射机'
   geo:
-    scan-required: '&4需要先进行 GEO 地形扫描! &c请先使用 GEO 地形扫描器!'
+    scan-required: '&4需要先进行自然资源扫描! &c请先使用自然资源扫描器!'
 inventory:
   no-access: '&4你没有权限使用这个方块'
 android:
@@ -389,3 +408,5 @@ languages:
   mk: '马其顿语'
   sr: '塞尔维亚语'
   be: '白俄罗斯语'
+  si-LK: '僧伽罗语'
+  lt: '立陶宛语'

@@ -28,8 +28,8 @@ import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
@@ -56,7 +56,7 @@ class MiningTask implements Runnable {
     private final int height;
 
     private boolean running = false;
-    private int fuel = 0;
+    private int fuelLevel = 0;
     private int ores = 0;
 
     private int x;
@@ -120,14 +120,6 @@ class MiningTask implements Runnable {
      * This method starts the warm-up animation for the {@link IndustrialMiner}.
      */
     private void warmUp() {
-        fuel = consumeFuel();
-
-        if (fuel <= 0) {
-            // This Miner has not enough fuel.
-            stop(MinerStoppingReason.NO_FUEL);
-            return;
-        }
-
         /*
          * This is our warm up animation.
          * The pistons will push after another in decreasing intervals
@@ -139,6 +131,21 @@ class MiningTask implements Runnable {
 
         queue.thenRun(8, () -> setPistonState(pistons[1], true));
         queue.thenRun(10, () -> setPistonState(pistons[1], false));
+
+        /*
+         * Fixes #3336
+         * Trigger each piston once, so that the structure is validated.
+         * Then consume fuel.
+         */
+        queue.thenRun(() -> {
+            consumeFuel();
+
+            if (fuelLevel <= 0) {
+                // This Miner has not got enough fuel to run.
+                stop(MinerStoppingReason.NO_FUEL);
+                return;
+            }
+        });
 
         queue.thenRun(6, () -> setPistonState(pistons[0], true));
         queue.thenRun(9, () -> setPistonState(pistons[0], false));
@@ -183,7 +190,7 @@ class MiningTask implements Runnable {
                 furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, Material.STONE);
 
                 World world = start.getWorld();
-                for (int y = height; y > WorldUtils.getMinHeight(world); y--) {
+                for (int y = height; y > world.getMinHeight(); y--) {
                     Block b = world.getBlockAt(x, y, z);
 
                     if (!Slimefun.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(owner), b, Interaction.BREAK_BLOCK)) {
@@ -191,12 +198,14 @@ class MiningTask implements Runnable {
                         return;
                     }
 
-                    if (miner.canMine(b.getType()) && push(miner.getOutcome(b.getType()))) {
+                    if (miner.canMine(b) && push(miner.getOutcome(b.getType()))) {
+                        // Not changed since this is supposed to be a natural sound.
                         furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, b.getType());
-                        furnace.getWorld().playSound(furnace.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.2F, 1F);
+
+                        SoundEffect.MINING_TASK_SOUND.playAt(furnace);
 
                         b.setType(Material.AIR);
-                        fuel--;
+                        fuelLevel--;
                         ores++;
 
                         // Repeat the same column when we hit an ore.
@@ -251,18 +260,18 @@ class MiningTask implements Runnable {
      * @return Whether the operation was successful
      */
     private boolean push(@Nonnull ItemStack item) {
-        if (fuel < 1) {
+        if (fuelLevel < 1) {
             // Restock fuel
-            fuel = consumeFuel();
+            consumeFuel();
         }
 
         // Check if there is enough fuel to run
-        if (fuel > 0) {
+        if (fuelLevel > 0) {
             if (chest.getType() == Material.CHEST) {
                 BlockState state = PaperLib.getBlockState(chest, false).getState();
 
-                if (state instanceof Chest) {
-                    Inventory inv = ((Chest) state).getBlockInventory();
+                if (state instanceof Chest chestState) {
+                    Inventory inv = chestState.getBlockInventory();
 
                     if (InvUtils.fits(inv, item)) {
                         inv.addItem(item);
@@ -287,28 +296,29 @@ class MiningTask implements Runnable {
 
     /**
      * This consumes fuel from the given {@link Chest}.
-     * 
-     * @return The gained fuel value
      */
-    private int consumeFuel() {
+    private void consumeFuel() {
         if (chest.getType() == Material.CHEST) {
             BlockState state = PaperLib.getBlockState(chest, false).getState();
 
-            if (state instanceof Chest) {
-                Inventory inv = ((Chest) state).getBlockInventory();
-                return consumeFuel(inv);
+            if (state instanceof Chest chestState) {
+                Inventory inv = chestState.getBlockInventory();
+                this.fuelLevel = grabFuelFrom(inv);
             }
         }
-
-        return 0;
     }
 
-    private int consumeFuel(@Nonnull Inventory inv) {
+    private int grabFuelFrom(@Nonnull Inventory inv) {
         for (int i = 0; i < inv.getSize(); i++) {
             for (MachineFuel fuelType : miner.fuelTypes) {
                 ItemStack item = inv.getContents()[i];
 
-                if (fuelType.test(item)) {
+                /*
+                 * Fixes #3336
+                 * Respects the state of the miner if there are
+                 * no errors during #setPistonState
+                 */
+                if (fuelType.test(item) && running) {
                     ItemUtils.consumeItem(item, false);
 
                     if (miner instanceof AdvancedIndustrialMiner) {

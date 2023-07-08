@@ -15,7 +15,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -28,7 +27,6 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
@@ -37,6 +35,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
@@ -175,8 +174,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         if (isValidInventory(targetBlock)) {
             BlockState state = PaperLib.getBlockState(targetBlock, false).getState();
 
-            if (state instanceof InventoryHolder) {
-                Inventory inv = ((InventoryHolder) state).getInventory();
+            if (state instanceof InventoryHolder inventoryHolder) {
+                Inventory inv = inventoryHolder.getInventory();
 
                 if (craft(inv, recipe)) {
                     // We are done crafting!
@@ -202,14 +201,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     protected boolean isValidInventory(@Nonnull Block block) {
         Material type = block.getType();
 
-        switch (type) {
-            case CHEST:
-            case TRAPPED_CHEST:
-            case BARREL:
-                return true;
-            default:
-                return SlimefunTag.SHULKER_BOXES.isTagged(type);
-        }
+        return SlimefunTag.AUTO_CRAFTER_SUPPORTED_STORAGE_BLOCKS.isTagged(type);
     }
 
     /**
@@ -251,16 +243,16 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
         BlockState state = result.getState();
 
-        if (state instanceof Skull) {
+        if (state instanceof Skull skull) {
             if (recipe == null) {
                 // Clear the value from persistent data storage
-                PersistentDataAPI.remove((Skull) state, recipeStorageKey);
+                PersistentDataAPI.remove(skull, recipeStorageKey);
 
                 // Also remove the "enabled" state since this should be per-recipe.
-                PersistentDataAPI.remove((Skull) state, recipeEnabledKey);
+                PersistentDataAPI.remove(skull, recipeEnabledKey);
             } else {
                 // Store the value to persistent data storage
-                PersistentDataAPI.setString((Skull) state, recipeStorageKey, recipe.toString());
+                PersistentDataAPI.setString(skull, recipeStorageKey, recipe.toString());
             }
 
             // Fixes #2899 - Update the BlockState if necessary
@@ -322,7 +314,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         recipe.show(menu, task);
         menu.open(p);
 
-        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+        SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);
 
         // Only schedule the task if necessary
         if (!task.isEmpty()) {
@@ -333,16 +325,16 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     @ParametersAreNonnullByDefault
     private void setRecipeEnabled(Player p, Block b, boolean enabled) {
         p.closeInventory();
-        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+        SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         // Make sure the block is still a Skull
-        if (state instanceof Skull) {
+        if (state instanceof Skull skull) {
             if (enabled) {
-                PersistentDataAPI.remove((Skull) state, recipeEnabledKey);
+                PersistentDataAPI.remove(skull, recipeEnabledKey);
                 Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.re-enabled");
             } else {
-                PersistentDataAPI.setByte((Skull) state, recipeEnabledKey, (byte) 1);
+                PersistentDataAPI.setByte(skull, recipeEnabledKey, (byte) 1);
                 Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.temporarily-disabled");
             }
         }
@@ -352,7 +344,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     private void deleteRecipe(Player p, Block b) {
         setSelectedRecipe(b, null);
         p.closeInventory();
-        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+        SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);
         Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-removed");
     }
 
@@ -479,24 +471,15 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     private ItemStack getLeftoverItem(@Nonnull ItemStack item) {
         Material type = item.getType();
 
-        switch (type) {
-            case WATER_BUCKET:
-            case LAVA_BUCKET:
-            case MILK_BUCKET:
-                return new ItemStack(Material.BUCKET);
-            case DRAGON_BREATH:
-            case POTION:
-                return new ItemStack(Material.GLASS_BOTTLE);
-            default:
-                MinecraftVersion minecraftVersion = Slimefun.getMinecraftVersion();
-
-                // Honey does not exist in 1.14
-                if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15) && type == Material.HONEY_BOTTLE) {
-                    return new ItemStack(Material.GLASS_BOTTLE);
-                } else {
-                    return null;
-                }
-        }
+        return switch (type) {
+            case WATER_BUCKET,
+                LAVA_BUCKET,
+                MILK_BUCKET -> new ItemStack(Material.BUCKET);
+            case DRAGON_BREATH,
+                POTION,
+                HONEY_BOTTLE -> new ItemStack(Material.GLASS_BOTTLE);
+            default -> null;
+        };
     }
 
     /**

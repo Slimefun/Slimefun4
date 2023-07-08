@@ -8,7 +8,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -26,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -86,8 +86,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
 
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
-            if (n instanceof Item) {
-                return Optional.of((Item) n);
+            if (n instanceof Item item) {
+                return Optional.of(item);
             }
         }
 
@@ -95,8 +95,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     private boolean testItem(@Nullable Entity n) {
-        if (n instanceof Item && n.isValid()) {
-            Item item = (Item) n;
+        if (n instanceof Item item && n.isValid()) {
             ItemMeta meta = item.getItemStack().getItemMeta();
 
             return meta.hasDisplayName() && meta.getDisplayName().startsWith(ITEM_PREFIX);
@@ -141,7 +140,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             entity.setCustomNameVisible(true);
             entity.setCustomName(nametag);
             SlimefunUtils.markAsNoPickup(entity, "altar_item");
-            p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
+            SoundEffect.ANCIENT_PEDESTAL_ITEM_PLACE_SOUND.playAt(b);
         }
     }
 }

@@ -255,11 +255,12 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             warn("Make sure to call '" + getClass().getSimpleName() + "#setProcessingSpeed(...)' before registering!");
         }
 
-        registerDefaultRecipes();
-
         if (getCapacity() > 0 && getEnergyConsumption() > 0 && getSpeed() > 0) {
             super.register(addon);
         }
+
+        // Fixes #3429 - Initialize Item Settings before recipes
+        registerDefaultRecipes();
     }
 
     /**
@@ -371,7 +372,11 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             MachineRecipe next = findNextRecipe(inv);
 
             if (next != null) {
-                processor.startOperation(b, new CraftingOperation(next));
+                currentOperation = new CraftingOperation(next);
+                processor.startOperation(b, currentOperation);
+
+                // Fixes #3534 - Update indicator immediately
+                processor.updateProgressBar(inv, 22, currentOperation);
             }
         }
     }

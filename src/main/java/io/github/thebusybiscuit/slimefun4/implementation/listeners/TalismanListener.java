@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -20,6 +21,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Ravager;
 import org.bukkit.entity.Trident;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -57,6 +59,7 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
  * @author StarWishsama
  * @author svr333
  * @author martinbrom
+ * @author Sfiguz7
  * 
  * @see Talisman
  *
@@ -97,8 +100,8 @@ public class TalismanListener implements Listener {
                     Talisman.trigger(e, SlimefunItems.TALISMAN_WARRIOR);
                     break;
                 case PROJECTILE:
-                    if (e instanceof EntityDamageByEntityEvent) {
-                        onProjectileDamage((EntityDamageByEntityEvent) e);
+                    if (e instanceof EntityDamageByEntityEvent entityDamageByEntityEvent) {
+                        onProjectileDamage(entityDamageByEntityEvent);
                     }
                     break;
                 default:
@@ -109,9 +112,7 @@ public class TalismanListener implements Listener {
 
     private void onProjectileDamage(@Nonnull EntityDamageByEntityEvent e) {
         // "Fixes" #1022 - We just ignore Tridents now.
-        if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
-            Projectile projectile = (Projectile) e.getDamager();
-
+        if (e.getDamager() instanceof Projectile projectile && !(e.getDamager() instanceof Trident)) {
             if (Talisman.trigger(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
                 Player p = (Player) e.getEntity();
                 returnProjectile(p, projectile);
@@ -136,8 +137,7 @@ public class TalismanListener implements Listener {
         returnedProjectile.setShooter(projectile.getShooter());
         returnedProjectile.setVelocity(direction);
 
-        if (projectile instanceof AbstractArrow) {
-            AbstractArrow firedArrow = (AbstractArrow) projectile;
+        if (projectile instanceof AbstractArrow firedArrow) {
             AbstractArrow returnedArrow = (AbstractArrow) returnedProjectile;
 
             returnedArrow.setDamage(firedArrow.getDamage());
@@ -186,17 +186,24 @@ public class TalismanListener implements Listener {
         List<ItemStack> items = new ArrayList<>(drops);
 
         // Prevent duplication of items stored inside a Horse's chest
-        if (entity instanceof ChestedHorse) {
-            ChestedHorse horse = (ChestedHorse) entity;
-
-            if (horse.isCarryingChest()) {
+        if (entity instanceof ChestedHorse chestedHorse) {
+            if (chestedHorse.isCarryingChest()) {
                 // The chest is not included in getStorageContents()
                 items.remove(new ItemStack(Material.CHEST));
 
-                for (ItemStack item : horse.getInventory().getStorageContents()) {
+                for (ItemStack item : chestedHorse.getInventory().getStorageContents()) {
                     items.remove(item);
                 }
             }
+        }
+
+        /*
+         * Fixes #3254
+         * Prevents saddle duplication from entities that don't drop
+         * saddle from their loot table
+         */
+        if (!(entity instanceof Ravager)) {
+            items.removeIf(item -> item.getType() == Material.SADDLE);
         }
 
         /*
@@ -250,8 +257,8 @@ public class TalismanListener implements Listener {
             ItemStack item = e.getBrokenItem().clone();
             ItemMeta meta = item.getItemMeta();
 
-            if (meta instanceof Damageable) {
-                ((Damageable) meta).setDamage(0);
+            if (meta instanceof Damageable damageable) {
+                damageable.setDamage(0);
             }
 
             item.setItemMeta(meta);
@@ -331,36 +338,43 @@ public class TalismanListener implements Listener {
 
             Material type = e.getBlockState().getType();
 
-            // We only want to double ores
-            if (SlimefunTag.MINER_TALISMAN_TRIGGERS.isTagged(type)) {
-                Collection<Item> drops = e.getItems();
+            // Handle double drops for Miner Talisman
+            doubleTalismanDrops(e, SlimefunItems.TALISMAN_MINER, SlimefunTag.MINER_TALISMAN_TRIGGERS, type, meta);
 
-                if (Talisman.trigger(e, SlimefunItems.TALISMAN_MINER, false)) {
-                    int dropAmount = getAmountWithFortune(type, meta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
+            // Handle double drops for Farmer Talisman
+            doubleTalismanDrops(e, SlimefunItems.TALISMAN_FARMER, SlimefunTag.FARMER_TALISMAN_TRIGGERS, type, meta);
+        }
+    }
 
-                    // Keep track of whether we actually doubled the drops or not
-                    boolean doubledDrops = false;
+    private void doubleTalismanDrops(BlockDropItemEvent e, SlimefunItemStack talismanItemStack, SlimefunTag tag, Material type, ItemMeta meta) {
+        if (tag.isTagged(type)) {
+            Collection<Item> drops = e.getItems();
 
-                    // Loop through all dropped items
-                    for (Item drop : drops) {
-                        ItemStack droppedItem = drop.getItemStack();
+            if (Talisman.trigger(e, talismanItemStack, false)) {
+                int dropAmount = getAmountWithFortune(type, meta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
 
-                        // We do not want to dupe blocks
-                        if (!droppedItem.getType().isBlock()) {
-                            int amount = Math.max(1, (dropAmount * 2) - droppedItem.getAmount());
-                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItemStack(droppedItem, amount));
-                            doubledDrops = true;
-                        }
+                // Keep track of whether we actually doubled the drops or not
+                boolean doubledDrops = false;
+
+                // Loop through all dropped items
+                for (Item drop : drops) {
+                    ItemStack droppedItem = drop.getItemStack();
+
+                    // We do not want to dupe blocks
+                    if (!droppedItem.getType().isBlock()) {
+                        int amount = Math.max(1, (dropAmount * 2) - droppedItem.getAmount());
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItemStack(droppedItem, amount));
+                        doubledDrops = true;
                     }
+                }
 
-                    // Fixes #2077
-                    if (doubledDrops) {
-                        Talisman talisman = SlimefunItems.TALISMAN_MINER.getItem(Talisman.class);
+                // Fixes #2077
+                if (doubledDrops) {
+                    Talisman talisman = talismanItemStack.getItem(Talisman.class);
 
-                        // Fixes #2818
-                        if (talisman != null) {
-                            talisman.sendMessage(e.getPlayer());
-                        }
+                    // Fixes #2818
+                    if (talisman != null) {
+                        talisman.sendMessage(e.getPlayer());
                     }
                 }
             }

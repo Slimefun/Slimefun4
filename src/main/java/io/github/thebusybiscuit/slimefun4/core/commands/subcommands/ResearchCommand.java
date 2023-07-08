@@ -33,6 +33,12 @@ class ResearchCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
+        // Check if researching is even enabled
+        if (!Slimefun.getRegistry().isResearchingEnabled()) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.researching-is-disabled");
+            return;
+        }
+
         if (args.length == 3) {
             if (!(sender instanceof Player) || sender.hasPermission("slimefun.cheat.researches")) {
                 Optional<Player> player = PlayerList.findByName(args[1]);

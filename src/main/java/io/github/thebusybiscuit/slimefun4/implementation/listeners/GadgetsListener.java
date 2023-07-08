@@ -9,16 +9,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.InfusedMagnetTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.InfusedMagnetTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetBootsTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetpackTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ParachuteTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
@@ -70,8 +70,8 @@ public class GadgetsListener implements Listener {
             return;
         }
 
-        if (chestplate instanceof Jetpack) {
-            double thrust = ((Jetpack) chestplate).getThrust();
+        if (chestplate instanceof Jetpack jetpack) {
+            double thrust = jetpack.getThrust();
 
             if (thrust > 0.2) {
                 new JetpackTask(p, (Jetpack) chestplate).scheduleRepeating(0, 3);
@@ -82,8 +82,8 @@ public class GadgetsListener implements Listener {
     }
 
     private void handleBoots(@Nonnull Player p, @Nullable SlimefunItem boots) {
-        if (boots instanceof JetBoots && boots.canUse(p, true)) {
-            double speed = ((JetBoots) boots).getSpeed();
+        if (boots instanceof JetBoots jetBoots && boots.canUse(p, true)) {
+            double speed = jetBoots.getSpeed();
 
             if (speed > 0.2) {
                 new JetBootsTask(p, (JetBoots) boots).scheduleRepeating(0, 2);

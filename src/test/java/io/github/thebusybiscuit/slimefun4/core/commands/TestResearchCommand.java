@@ -19,7 +19,6 @@ import be.seeseemelk.mockbukkit.ServerMock;
 class TestResearchCommand {
 
     private static ServerMock server;
-
     private static Research research;
     private static Research research2;
 

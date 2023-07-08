@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
 
 public class Medicine extends MedicalSupply<ItemConsumptionHandler> {
 
@@ -21,6 +22,7 @@ public class Medicine extends MedicalSupply<ItemConsumptionHandler> {
         return (e, p, item) -> {
             p.setFireTicks(0);
             clearNegativeEffects(p);
+            RadiationUtils.clearExposure(p);
             heal(p);
         };
     }
