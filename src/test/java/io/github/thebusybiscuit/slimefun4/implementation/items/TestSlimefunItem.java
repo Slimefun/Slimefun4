@@ -121,13 +121,9 @@ class TestSlimefunItem {
         Assertions.assertFalse(sfItem.isItem(new CustomItemStack(Material.REDSTONE, "&cTest")));
 
         if (compatibility) {
-            Slimefun.getRegistry().setBackwardsCompatible(true);
-
             Assertions.assertEquals(sfItem, SlimefunItem.getByItem(item));
             Assertions.assertTrue(sfItem.isItem(item));
             Assertions.assertTrue(sfItem.isItem(new CustomItemStack(Material.BEACON, "&cItem Test")));
-
-            Slimefun.getRegistry().setBackwardsCompatible(false);
         } else {
             Assertions.assertFalse(sfItem.isItem(item));
             Assertions.assertFalse(sfItem.isItem(new CustomItemStack(Material.BEACON, "&cItem Test")));

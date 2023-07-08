@@ -767,13 +767,7 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        // Backwards compatibility
-        if (Slimefun.getRegistry().isBackwardsCompatible()) {
-            boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
-            return SlimefunUtils.isItemSimilar(item, this.itemStackTemplate, !loreInsensitive);
-        } else {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -1179,33 +1173,8 @@ public class SlimefunItem implements Placeable {
 
         Optional<String> itemID = Slimefun.getItemDataService().getItemData(item);
 
-        if (itemID.isPresent()) {
-            return getById(itemID.get());
-        }
+        return itemID.map(SlimefunItem::getById).orElse(null);
 
-        // Backwards compatibility
-        if (Slimefun.getRegistry().isBackwardsCompatible()) {
-            // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
-            ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
-
-            /*
-             * Quite expensive performance-wise.
-             * But necessary for supporting legacy items
-             */
-            for (SlimefunItem sfi : Slimefun.getRegistry().getAllSlimefunItems()) {
-                if (sfi.isItem(wrapper)) {
-                    /*
-                     * If we have to loop all items for the given item, then at least
-                     * set the id via PersistentDataAPI for future performance boosts
-                     */
-                    Slimefun.getItemDataService().setItemData(item, sfi.getId());
-
-                    return sfi;
-                }
-            }
-        }
-
-        return null;
     }
 
 }

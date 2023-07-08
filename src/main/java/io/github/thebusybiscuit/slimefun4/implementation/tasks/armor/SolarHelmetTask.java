@@ -39,8 +39,7 @@ public class SolarHelmetTask extends AbstractArmorTask {
     private void checkForSolarHelmet(@Nonnull Player p) {
         ItemStack helmet = p.getInventory().getHelmet();
 
-        if (Slimefun.getRegistry().isBackwardsCompatible() && !SlimefunUtils.isItemSimilar(helmet, SlimefunItems.SOLAR_HELMET, true, false)) {
-            // Performance saver for slow backwards-compatible versions of Slimefun
+        if (!SlimefunUtils.isItemSimilar(helmet, SlimefunItems.SOLAR_HELMET, true, false)) {
             return;
         }
 
