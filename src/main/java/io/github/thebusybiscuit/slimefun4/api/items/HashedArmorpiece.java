@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
 
 /**
  * This class serves as a way of checking whether a {@link Player} has changed their armor
@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
  * @author TheBusyBiscuit
  *
  * @see SlimefunArmorPiece
- * @see ArmorTask
+ * @see SlimefunArmorTask
  */
 public final class HashedArmorpiece {
 

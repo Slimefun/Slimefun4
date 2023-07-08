@@ -145,6 +145,9 @@ guide:
       resourcepack: '&cResourcepack Artist'
       translator: '&9Translator'
 
+actionbar:
+  radiation: '&6Radiation Exposure Level: &c%level%&7/&e100'
+
 messages:
   not-researched: '&4You do not have enough knowledge to understand this. &cYou will need to unlock &f"%item%&f"'
   not-enough-xp: '&4You do not have enough XP to unlock this'
