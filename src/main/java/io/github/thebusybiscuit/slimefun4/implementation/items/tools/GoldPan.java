@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Effect;
@@ -64,8 +65,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
     /**
      * @deprecated since RC-36
-     *
-     * @see GoldPan#getInputMaterials()
+     * Use {@link GoldPan#getInputMaterials()} instead.
      */
     @Deprecated(since = "RC-36")
     public Material getInputMaterial() {
@@ -203,7 +203,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      *
      * @return If the {@link ItemStack} is valid
      */
-    public boolean isValidInput(ItemStack itemStack) {
+    public boolean isValidInput(@Nullable ItemStack itemStack) {
         if (itemStack == null) {
             return false;
         }
@@ -220,7 +220,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      *
      * @return If the {@link Material} is valid
      */
-    public boolean isValidInputMaterial(Material material) {
+    public boolean isValidInputMaterial(@Nonnull Material material) {
         return getInputMaterials().contains(material);
     }
 
