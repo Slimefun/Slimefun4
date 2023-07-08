@@ -14,7 +14,6 @@ import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
  * on death
  *
  * @author Semisol
- *
  */
 public class RadioactivityListener implements Listener {
 

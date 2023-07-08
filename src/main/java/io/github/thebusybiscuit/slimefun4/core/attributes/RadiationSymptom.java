@@ -16,6 +16,8 @@ import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
  * A symptom will be applied when the minExposure
  * threshold is reached on the {@link Player}'s
  * exposure level.
+ * When the {@link Player} gets above the minExposure threshold
+ * a potion effect will be applied from this enum.
  *
  * @author Semisol
  *
@@ -47,10 +49,9 @@ public enum RadiationSymptom {
      * @param p
      *            The player
      */
-
     public void apply(@Nonnull Player p) {
         Preconditions.checkNotNull(p, "The player cannot be null");
-        Slimefun.runSync(() -> p.addPotionEffect(potionEffect));
+        p.addPotionEffect(potionEffect);
     }
 
     /**

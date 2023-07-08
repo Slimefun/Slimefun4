@@ -119,6 +119,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RainbowArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SolarHelmetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
@@ -367,6 +368,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
             new SlimefunArmorTask().schedule(this, config.getInt("options.armor-update-interval") * 20L);
             new RadiationTask().schedule(this, config.getInt("options.radiation-update-interval") * 20L);
             new RainbowArmorTask().schedule(this, config.getInt("options.rainbow-armor-update-interval") * 20L);
+            new SolarHelmetTask().schedule(this, config.getInt("options.armor-update-interval"));
         }
 
         // Starting our tasks

@@ -25,7 +25,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * @author TheBusyBiscuit
  * @author martinbrom
  * @author Semisol
- *
  */
 public class SolarHelmetTask extends AbstractArmorTask {
 

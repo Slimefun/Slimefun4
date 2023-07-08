@@ -436,13 +436,13 @@ public final class SlimefunItemSetup {
         }, plugin);
 
         DyeColor[] rainbowArmorColors = {
-                DyeColor.RED,
-                DyeColor.ORANGE,
-                DyeColor.YELLOW,
-                DyeColor.LIME,
-                DyeColor.LIGHT_BLUE,
-                DyeColor.PURPLE,
-                DyeColor.MAGENTA
+            DyeColor.RED,
+            DyeColor.ORANGE,
+            DyeColor.YELLOW,
+            DyeColor.LIME,
+            DyeColor.LIGHT_BLUE,
+            DyeColor.PURPLE,
+            DyeColor.MAGENTA
         };
 
         new RainbowArmorPiece(itemGroups.magicalArmor, SlimefunItems.RAINBOW_HELMET, RecipeType.ARMOR_FORGE,

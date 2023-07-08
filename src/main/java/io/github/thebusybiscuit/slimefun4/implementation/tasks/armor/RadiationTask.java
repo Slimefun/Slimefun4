@@ -25,7 +25,6 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
  * {@link Radioactive} items.
  *
  * @author Semisol
- *
  */
 public class RadiationTask extends AbstractArmorTask {
 
@@ -62,7 +61,7 @@ public class RadiationTask extends AbstractArmorTask {
 
             for (RadiationSymptom symptom : symptoms) {
                 if (symptom.shouldApply(exposureLevelAfter)) {
-                    symptom.apply(p);
+                    Slimefun.runSync(() -> symptom.apply(p));
                 }
             }
 

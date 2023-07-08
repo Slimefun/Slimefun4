@@ -46,8 +46,8 @@ public class RainbowArmorPiece extends SlimefunArmorPiece {
         }
 
         colors = Arrays.stream(dyeColors)
-                .map(DyeColor::getColor)
-                .toArray(Color[]::new);
+            .map(DyeColor::getColor)
+            .toArray(Color[]::new);
     }
 
     /**
