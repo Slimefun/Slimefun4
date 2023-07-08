@@ -105,12 +105,11 @@ class TestSlimefunItem {
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.setRecipeType(null));
     }
 
-    @ParameterizedTest
+    @Test
     @DisplayName("Test SlimefunItem#isItem(...)")
-    @ValueSource(booleans = { true, false })
-    void testIsItem(boolean compatibility) {
+    void testIsItem() {
         ItemStack item = new CustomItemStack(Material.BEACON, "&cItem Test");
-        String id = "IS_ITEM_TEST" + (compatibility ? "_COMPATIBLE" : "");
+        String id = "IS_ITEM_TEST";
         SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, id, item);
         sfItem.register(plugin);
 
@@ -119,15 +118,8 @@ class TestSlimefunItem {
         Assertions.assertFalse(sfItem.isItem(null));
         Assertions.assertFalse(sfItem.isItem(new ItemStack(Material.BEACON)));
         Assertions.assertFalse(sfItem.isItem(new CustomItemStack(Material.REDSTONE, "&cTest")));
-
-        if (compatibility) {
-            Assertions.assertEquals(sfItem, SlimefunItem.getByItem(item));
-            Assertions.assertTrue(sfItem.isItem(item));
-            Assertions.assertTrue(sfItem.isItem(new CustomItemStack(Material.BEACON, "&cItem Test")));
-        } else {
-            Assertions.assertFalse(sfItem.isItem(item));
-            Assertions.assertFalse(sfItem.isItem(new CustomItemStack(Material.BEACON, "&cItem Test")));
-        }
+        Assertions.assertFalse(sfItem.isItem(item));
+        Assertions.assertFalse(sfItem.isItem(new CustomItemStack(Material.BEACON, "&cItem Test")));
 
         Assertions.assertEquals(sfItem, SlimefunItem.getByItem(new SlimefunItemStack(sfItem.getId(), item)));
     }
