@@ -17,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
  * threshold is reached on the {@link Player}'s
  * exposure level.
  * When the {@link Player} gets above the minExposure threshold
- * a potion effect will be applied from this enum.
+ * the {@link PotionEffect} will be applied.
  *
  * @author Semisol
  *
