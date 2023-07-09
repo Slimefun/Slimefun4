@@ -719,7 +719,12 @@ public class BlockStorage {
         if (updateTicker) {
             SlimefunItem item = SlimefunItem.getById(key);
 
-            if (item != null && item.isTicking() && value != null) {
+            if (item != null
+                && value != null
+                && l.getWorld() != null
+                && item.isTicking()
+                && !item.isDisabledIn(l.getWorld())
+            ) {
                 Slimefun.getTickerTask().enableTicker(l);
             }
         }
