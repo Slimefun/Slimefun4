@@ -62,17 +62,18 @@ class PerformanceSummary {
         summarizeTimings(totalTickedBlocks, "block", sender, items, entry -> {
             int count = profiler.getBlocksOfId(entry.getKey());
             String time = NumberUtils.getAsMillis(entry.getValue());
+            String message = entry.getKey() +  " - " + count + "x (%s)";
 
-            if (count > 1 && sender.getOrderType() != SummaryOrderType.AVERAGE) {
-                String average = NumberUtils.getAsMillis(entry.getValue() / count);
+            if (count <= 1) {
+                return String.format(message, time);
+            }
 
-                return entry.getKey() + " - " + count + "x (" + time + " | avg: " + average + ')';
-            } else if (count > 1 && sender.getOrderType() == SummaryOrderType.AVERAGE) {
-                String average = NumberUtils.getAsMillis(entry.getValue() / count);
+            String average = NumberUtils.getAsMillis(entry.getValue() / count);
 
-                return entry.getKey() + " - " + count + "x (" + average + " | total: " + time + ')';
+            if (sender.getOrderType() == SummaryOrderType.AVERAGE) {
+                return String.format(message, average + " | total: " + time);
             } else {
-                return entry.getKey() + " - " + count + "x (" + time + ')';
+                return String.format(message, time + " | avg: " + average);
             }
         });
 
@@ -183,20 +184,14 @@ class PerformanceSummary {
             rest--;
         }
 
-        builder.append(ChatColor.DARK_GRAY);
-
-        for (int i = 0; i < rest; i++) {
-            builder.append(':');
-        }
-
-        builder.append(" - ");
-
-        builder.append(rating.getColor()).append(ChatUtils.humanize(rating.name()));
-
-        builder.append(ChatColor.GRAY);
-        builder.append(" (");
-        builder.append(NumberUtils.roundDecimalNumber(percentage));
-        builder.append("%)");
+        builder.append(ChatColor.DARK_GRAY)
+            .append(":".repeat(Math.max(0, rest)))
+            .append(" - ")
+            .append(rating.getColor()).append(ChatUtils.humanize(rating.name()))
+            .append(ChatColor.GRAY)
+            .append(" (")
+            .append(NumberUtils.roundDecimalNumber(percentage))
+            .append("%)");
 
         return builder.toString();
     }
