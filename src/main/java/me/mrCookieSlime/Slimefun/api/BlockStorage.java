@@ -67,12 +67,12 @@ public class BlockStorage {
 
     @Nullable
     public static BlockStorage getStorage(@Nonnull World world) {
-        return Slimefun.getRegistry().getWorlds().get(world.getName());
+        return Slimefun.getRegistry().getWorlds().get(world.getUID());
     }
 
     @Nonnull
     public static BlockStorage getOrCreate(@Nonnull World world) {
-        BlockStorage storage = Slimefun.getRegistry().getWorlds().get(world.getName());
+        BlockStorage storage = Slimefun.getRegistry().getWorlds().get(world.getUID());
 
         if (storage == null) {
             return new BlockStorage(world);
@@ -136,7 +136,7 @@ public class BlockStorage {
         if (!Slimefun.instance().isUnitTest()) {
             loadInventories();
         }
-        Slimefun.getRegistry().getWorlds().put(world.getName(), this);
+        Slimefun.getRegistry().getWorlds().put(world.getUID(), this);
     }
 
     private void loadBlocks(File directory) {

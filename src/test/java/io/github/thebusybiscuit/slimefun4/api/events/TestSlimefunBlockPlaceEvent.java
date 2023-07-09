@@ -65,7 +65,7 @@ public class TestSlimefunBlockPlaceEvent {
         Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
         BlockStorage.clearBlockInfo(block);
 
-        Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
+        Slimefun.getRegistry().getWorlds().put(world.getUID(), new BlockStorage(world));
 
         BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
             block, block.getState(), blockAgainst, itemStack, player, true, EquipmentSlot.HAND
@@ -87,7 +87,7 @@ public class TestSlimefunBlockPlaceEvent {
         Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
         BlockStorage.clearBlockInfo(block);
 
-        Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
+        Slimefun.getRegistry().getWorlds().put(world.getUID(), new BlockStorage(world));
 
         BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
             block, block.getState(), blockAgainst, itemStack, player, true, EquipmentSlot.HAND
@@ -123,7 +123,7 @@ public class TestSlimefunBlockPlaceEvent {
         Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
         BlockStorage.clearBlockInfo(block);
 
-        Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
+        Slimefun.getRegistry().getWorlds().put(world.getUID(), new BlockStorage(world));
 
         BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
             block, block.getState(), blockAgainst, itemStack, player, true, EquipmentSlot.HAND

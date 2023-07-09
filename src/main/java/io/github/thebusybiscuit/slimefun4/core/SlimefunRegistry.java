@@ -85,7 +85,7 @@ public final class SlimefunRegistry {
     private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 
     private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
-    private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
+    private final Map<UUID, BlockStorage> worlds = new ConcurrentHashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
     private final Map<SlimefunGuideMode, SlimefunGuideImplementation> guides = new EnumMap<>(SlimefunGuideMode.class);
     private final Map<EntityType, Set<ItemStack>> mobDrops = new EnumMap<>(EntityType.class);
@@ -350,7 +350,7 @@ public final class SlimefunRegistry {
     }
 
     @Nonnull
-    public Map<String, BlockStorage> getWorlds() {
+    public Map<UUID, BlockStorage> getWorlds() {
         return worlds;
     }
 

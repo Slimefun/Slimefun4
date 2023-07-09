@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -428,7 +429,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         });
 
         // Save all registered Worlds
-        for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
+        for (Map.Entry<UUID, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
                 entry.getValue().saveAndRemove();
             } catch (Exception x) {
