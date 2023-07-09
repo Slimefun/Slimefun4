@@ -39,16 +39,12 @@ import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.handlers.GlobalItemHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
@@ -767,13 +763,7 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        // Backwards compatibility
-        if (Slimefun.getRegistry().isBackwardsCompatible()) {
-            boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
-            return SlimefunUtils.isItemSimilar(item, this.itemStackTemplate, !loreInsensitive);
-        } else {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -1179,33 +1169,8 @@ public class SlimefunItem implements Placeable {
 
         Optional<String> itemID = Slimefun.getItemDataService().getItemData(item);
 
-        if (itemID.isPresent()) {
-            return getById(itemID.get());
-        }
+        return itemID.map(SlimefunItem::getById).orElse(null);
 
-        // Backwards compatibility
-        if (Slimefun.getRegistry().isBackwardsCompatible()) {
-            // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
-            ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
-
-            /*
-             * Quite expensive performance-wise.
-             * But necessary for supporting legacy items
-             */
-            for (SlimefunItem sfi : Slimefun.getRegistry().getAllSlimefunItems()) {
-                if (sfi.isItem(wrapper)) {
-                    /*
-                     * If we have to loop all items for the given item, then at least
-                     * set the id via PersistentDataAPI for future performance boosts
-                     */
-                    Slimefun.getItemDataService().setItemData(item, sfi.getId());
-
-                    return sfi;
-                }
-            }
-        }
-
-        return null;
     }
 
 }
