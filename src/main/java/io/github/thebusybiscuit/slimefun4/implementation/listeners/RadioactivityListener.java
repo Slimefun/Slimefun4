@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -24,5 +25,6 @@ public class RadioactivityListener implements Listener {
     @EventHandler
     public void onPlayerDeath(@Nonnull PlayerDeathEvent e) {
         RadiationUtils.clearExposure(e.getEntity());
+        RadiationTask.addGracePeriod(e.getEntity());
     }
 }
