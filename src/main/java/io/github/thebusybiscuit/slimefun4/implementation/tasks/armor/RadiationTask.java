@@ -34,7 +34,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
  */
 public class RadiationTask extends AbstractArmorTask {
 
-    public static final int GRACE_PERIOD_DURATION = 15;
+    private static final int GRACE_PERIOD_DURATION = Slimefun.getCfg().getInt("options.radiation-grace-period");
     private static final Map<UUID, Long> ACTIVE_GRACE_PERIODS = new HashMap<>();
 
     private final RadiationSymptom[] symptoms = RadiationSymptom.values();
