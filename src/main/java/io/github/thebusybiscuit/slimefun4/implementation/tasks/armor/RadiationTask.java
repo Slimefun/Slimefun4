@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RadiationSymptom;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.RadioactivityListener;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
@@ -91,7 +92,7 @@ public class RadiationTask extends AbstractArmorTask {
      * Checks if the {@link Player} is within their grace period. A grace period is granted after death
      * to give enough time to remove the radioactive items before being killed once more, which
      * with KeepInventory on would result in a very hard-to-escape loop.
-     * @see io.github.thebusybiscuit.slimefun4.implementation.listeners.RadioactivityListener
+     * @see RadioactivityListener
      *
      * @param player
      *              The {@link Player} to check against.
