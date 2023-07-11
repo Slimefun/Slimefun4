@@ -621,8 +621,8 @@ public class BlockStorage {
             return;
         }
         Map<Location, Boolean> toClear = new HashMap<>();
-        Map<Location, Config> storage = blockStorage.getRawStorage();
-        for (Location location : storage.keySet()) {
+        // Unsafe: get raw storage for this world
+        for (Location location : blockStorage.storage.keySet()) {
             if (location.getBlockX() >> 4 == chunkX && location.getBlockZ() >> 4 == chunkZ) {
                 toClear.put(location, destroy);
             }
