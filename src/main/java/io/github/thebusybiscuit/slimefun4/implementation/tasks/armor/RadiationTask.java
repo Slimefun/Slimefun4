@@ -100,18 +100,19 @@ public class RadiationTask extends AbstractArmorTask {
      * @return Returns true if the {@link Player} is within their grace period.
      */
     private boolean withinGracePeriod(@Nonnull Player player) {
-        long gracePeriodEnd = ACTIVE_GRACE_PERIODS.getOrDefault(player.getUniqueId(), 0L);
-        if (gracePeriodEnd >= System.currentTimeMillis()) {
+        Long gracePeriodEnd = ACTIVE_GRACE_PERIODS.get(player.getUniqueId());
+
+        if (gracePeriodEnd == null) {
+            // No grace period present
+            return false;
+        } else if (gracePeriodEnd >= System.currentTimeMillis()) {
             // Player is within their grace period
             return true;
-        }
-
-        if (gracePeriodEnd > 0) {
+        } else {
             // A grace period was present but has since lapsed, remove the entry.
             ACTIVE_GRACE_PERIODS.remove(player.getUniqueId());
+            return false;
         }
-
-        return false;
     }
 
     /**
