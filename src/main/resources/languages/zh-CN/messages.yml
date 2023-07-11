@@ -124,6 +124,8 @@ guide:
       wiki: '&3Wiki 编辑者'
       resourcepack: '&c材质制作者'
       translator: '&9翻译者'
+actionbar:
+  radiation: '&6辐射暴露等级：&c%level%&7/&100'
 messages:
   not-researched: '&4你的知识还不足以理解这个物品. &c你需要先解锁 &f"%item%"&f'
   not-enough-xp: '&4你没有足够的经验来解锁这个研究'
