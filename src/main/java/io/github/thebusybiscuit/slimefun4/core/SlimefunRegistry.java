@@ -24,13 +24,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.collections.KeyMap;
-import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.core.config.SlimefunConfigManager;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
@@ -63,19 +63,11 @@ public final class SlimefunRegistry {
     private final List<Research> researches = new LinkedList<>();
     private final List<String> researchRanks = new ArrayList<>();
     private final Set<UUID> researchingPlayers = Collections.synchronizedSet(new HashSet<>());
-
-    // TODO: Move this all into a proper "config cache" class
-    private boolean automaticallyLoadItems;
-    private boolean enableResearches;
-    private boolean freeCreativeResearches;
-    private boolean researchFireworks;
-    private boolean disableLearningAnimation;
-    private boolean logDuplicateBlockEntries;
-    private boolean talismanActionBarMessages;
-
     private final Set<String> tickers = new HashSet<>();
     private final Set<SlimefunItem> radioactive = new HashSet<>();
     private final Set<ItemStack> barterDrops = new HashSet<>();
+
+    private boolean automaticallyLoadItems;
 
     private NamespacedKey soulboundKey;
     private NamespacedKey itemChargeKey;
@@ -93,26 +85,18 @@ public final class SlimefunRegistry {
     private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
 
-    public void load(@Nonnull Slimefun plugin, @Nonnull Config cfg) {
+    public void load(@Nonnull Slimefun plugin) {
         Validate.notNull(plugin, "The Plugin cannot be null!");
-        Validate.notNull(cfg, "The Config cannot be null!");
+        plugin.getJavaPlugin();
 
         soulboundKey = new NamespacedKey(plugin, "soulbound");
         itemChargeKey = new NamespacedKey(plugin, "item_charge");
         guideKey = new NamespacedKey(plugin, "slimefun_guide_mode");
 
-        boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
-        boolean showHiddenItemGroupsInSearch = cfg.getBoolean("guide.show-hidden-item-groups-in-search");
-        guides.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide(showVanillaRecipes, showHiddenItemGroupsInSearch));
+        guides.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide());
         guides.put(SlimefunGuideMode.CHEAT_MODE, new CheatSheetSlimefunGuide());
 
-        researchRanks.addAll(cfg.getStringList("research-ranks"));
-
-        freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
-        researchFireworks = cfg.getBoolean("researches.enable-fireworks");
-        disableLearningAnimation = cfg.getBoolean("researches.disable-learning-animation");
-        logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
-        talismanActionBarMessages = cfg.getBoolean("talismans.use-actionbar");
+        researchRanks.addAll(Slimefun.getConfigManager().getPluginConfig().getStringList("research-ranks"));
     }
 
     /**
@@ -195,34 +179,6 @@ public final class SlimefunRegistry {
         return researchRanks;
     }
 
-    public void setResearchingEnabled(boolean enabled) {
-        enableResearches = enabled;
-    }
-
-    public boolean isResearchingEnabled() {
-        return enableResearches;
-    }
-
-    public void setFreeCreativeResearchingEnabled(boolean enabled) {
-        freeCreativeResearches = enabled;
-    }
-
-    public boolean isFreeCreativeResearchingEnabled() {
-        return freeCreativeResearches;
-    }
-
-    public boolean isResearchFireworkEnabled() {
-        return researchFireworks;
-    }
-
-    /**
-     * Returns whether the research learning animations is disabled
-     *
-     * @return Whether the research learning animations is disabled
-     */
-    public boolean isLearningAnimationDisabled() {
-        return disableLearningAnimation;
-    }
 
     /**
      * This method returns a {@link List} of every enabled {@link MultiBlock}.
@@ -339,14 +295,6 @@ public final class SlimefunRegistry {
         return geoResources;
     }
 
-    public boolean logDuplicateBlockEntries() {
-        return logDuplicateBlockEntries;
-    }
-
-    public boolean useActionbarForTalismans() {
-        return talismanActionBarMessages;
-    }
-
     @Nonnull
     public NamespacedKey getSoulboundDataKey() {
         return soulboundKey;
@@ -362,4 +310,16 @@ public final class SlimefunRegistry {
         return guideKey;
     }
 
+    /**
+     * This has been moved.
+     * Our metrics module accesses this though.
+     *
+     * @deprecated Please use {@link SlimefunConfigManager#isFreeCreativeResearchingEnabled()}
+     *
+     * @return free research in creative?
+     */
+    @Deprecated
+    public boolean isFreeCreativeResearchingEnabled() {
+        return Slimefun.getConfigManager().isFreeCreativeResearchingEnabled();
+    }
 }

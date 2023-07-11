@@ -67,12 +67,16 @@ public interface SlimefunGuideImplementation {
     default void unlockItem(Player p, SlimefunItem sfitem, Consumer<Player> callback) {
         Research research = sfitem.getResearch();
 
-        if (p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled()) {
+        if (research == null) {
+            return;
+        }
+
+        if (p.getGameMode() == GameMode.CREATIVE && Slimefun.getConfigManager().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {
             p.setLevel(p.getLevel() - research.getCost());
 
-            boolean skipLearningAnimation = Slimefun.getRegistry().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
+            boolean skipLearningAnimation = Slimefun.getConfigManager().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
             research.unlock(p, skipLearningAnimation, callback);
         }
     }

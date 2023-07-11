@@ -89,7 +89,7 @@ public class Research implements Keyed {
      * @return Whether this {@link Research} is enabled or not
      */
     public boolean isEnabled() {
-        return Slimefun.getRegistry().isResearchingEnabled() && enabled;
+        return Slimefun.getConfigManager().isResearchingEnabled() && enabled;
     }
 
     /**
@@ -248,7 +248,7 @@ public class Research implements Keyed {
             return true;
         }
 
-        boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled();
+        boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && Slimefun.getConfigManager().isFreeCreativeResearchingEnabled();
         return creativeResearch || p.getLevel() >= cost;
     }
 

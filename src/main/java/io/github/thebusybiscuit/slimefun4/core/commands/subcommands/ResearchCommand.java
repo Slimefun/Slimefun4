@@ -34,7 +34,7 @@ class ResearchCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         // Check if researching is even enabled
-        if (!Slimefun.getRegistry().isResearchingEnabled()) {
+        if (!Slimefun.getConfigManager().isResearchingEnabled()) {
             Slimefun.getLocalization().sendMessage(sender, "messages.researching-is-disabled");
             return;
         }

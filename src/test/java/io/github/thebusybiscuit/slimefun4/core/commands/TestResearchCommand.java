@@ -42,11 +42,11 @@ class TestResearchCommand {
     @Test
     @DisplayName("Test /sf research all")
     void testResearchAll() throws InterruptedException {
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        server.executeConsole("slimefun", "research", player.getName(), "all").assertSucceeded();
+        server.executeConsole("sf", "research", player.getName(), "all").assertSucceeded();
 
         Assertions.assertTrue(profile.hasUnlocked(research));
         Assertions.assertTrue(profile.hasUnlocked(research2));
@@ -55,7 +55,7 @@ class TestResearchCommand {
     @Test
     @DisplayName("Test /sf research <research id>")
     void testResearchSpecific() throws InterruptedException {
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -68,7 +68,7 @@ class TestResearchCommand {
     @Test
     @DisplayName("Test /sf research reset")
     void testResearchReset() throws InterruptedException {
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 

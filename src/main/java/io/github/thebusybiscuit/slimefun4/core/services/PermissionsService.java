@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.base.Preconditions;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permissible;
@@ -57,17 +57,27 @@ public class PermissionsService {
      * @param save
      *            Whether to save the default values to our permissions file
      */
-    public void register(@Nonnull Iterable<SlimefunItem> items, boolean save) {
+    public void update(@Nonnull Iterable<SlimefunItem> items, boolean save) {
         for (SlimefunItem item : items) {
             if (item != null) {
-                String path = item.getId() + ".permission";
-
-                config.setDefaultValue(path, "none");
-                config.setDefaultValue(item.getId() + ".lore", new String[] { "&rYou do not have the permission", "&rto access this item." });
-
-                permissions.put(item.getId(), config.getString(path));
+                update(item, false);
             }
         }
+
+        if (save) {
+            config.save();
+        }
+    }
+
+    public void update(@Nonnull SlimefunItem item, boolean save) {
+        Preconditions.checkNotNull(item, "The Item should not be null!");
+
+        String path = item.getId() + ".permission";
+
+        config.setDefaultValue(path, "none");
+        config.setDefaultValue(item.getId() + ".lore", new String[] { "&rYou do not have the permission", "&rto access this item." });
+
+        permissions.put(item.getId(), config.getString(path));
 
         if (save) {
             config.save();

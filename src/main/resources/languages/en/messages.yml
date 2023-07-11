@@ -14,6 +14,12 @@ commands:
     reset: '&cYou have reset %player%''s Knowledge'
     reset-target: '&cYour Knowledge has been reset'
 
+  reload:
+    description: Reloads our config files
+    restart-required: '&eYour changes have been saved. But some of your changes require a restart to get applied!'
+    success: '&aYour configuration files have been successfully reloaded!'
+    errors: '&cYour configuration files have been reloaded, but some errors have been found! Please check your console for more info.'
+
   backpack:
     description: Retrieve a copy of an existing backpack
     invalid-id: '&4The id must be a non-negative number!'

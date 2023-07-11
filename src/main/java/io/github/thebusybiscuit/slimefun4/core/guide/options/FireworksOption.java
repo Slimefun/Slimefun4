@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
 import java.util.Optional;
 
+import io.github.thebusybiscuit.slimefun4.core.config.SlimefunConfigManager;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -13,23 +14,25 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
+import javax.annotation.Nonnull;
+
 class FireworksOption implements SlimefunGuideOption<Boolean> {
 
     @Override
-    public SlimefunAddon getAddon() {
+    public @Nonnull SlimefunAddon getAddon() {
         return Slimefun.instance();
     }
 
     @Override
-    public NamespacedKey getKey() {
+    public @Nonnull NamespacedKey getKey() {
         return new NamespacedKey(Slimefun.instance(), "research_fireworks");
     }
 
     @Override
     public Optional<ItemStack> getDisplayItem(Player p, ItemStack guide) {
-        SlimefunRegistry registry = Slimefun.getRegistry();
+        SlimefunConfigManager configManagerManager = Slimefun.getConfigManager();
 
-        if (registry.isResearchingEnabled() && registry.isResearchFireworkEnabled()) {
+        if (configManagerManager.isResearchingEnabled() && configManagerManager.isResearchFireworkEnabled()) {
             boolean enabled = getSelectedOption(p, guide).orElse(true);
             ItemStack item = new CustomItemStack(Material.FIREWORK_ROCKET, "&bFireworks: &" + (enabled ? "aYes" : "4No"), "", "&7You can now toggle whether you", "&7will be presented with a big firework", "&7upon researching an item.", "", "&7\u21E8 &eClick to " + (enabled ? "disable" : "enable") + " your fireworks");
             return Optional.of(item);

@@ -56,7 +56,7 @@ class TestResearchUnlocking {
     @DisplayName("Test Unlocking Researches")
     @ValueSource(booleans = { true, false })
     void testUnlock(boolean instant) throws InterruptedException {
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
         Player player = server.addPlayer();
         Research research = new Research(new NamespacedKey(plugin, "unlock_me"), 1842, "Unlock me", 500);
 

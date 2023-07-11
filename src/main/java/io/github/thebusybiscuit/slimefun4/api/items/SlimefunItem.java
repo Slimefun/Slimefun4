@@ -14,6 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.bakedlibs.dough.config.Config;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -432,13 +433,15 @@ public class SlimefunItem implements Placeable {
             Slimefun.getRegistry().getAllSlimefunItems().add(this);
             Slimefun.getRegistry().getSlimefunItemIds().put(id, this);
 
+            Config config = Slimefun.getConfigManager().getItemsConfig();
+
             // Items that are "not-configurable" cannot be configured.
             if (!(this instanceof NotConfigurable)) {
-                Slimefun.getItemCfg().setDefaultValue(id + ".enabled", true);
-                Slimefun.getItemCfg().setDefaultValue(id + ".can-be-used-in-workbenches", useableInWorkbench);
-                Slimefun.getItemCfg().setDefaultValue(id + ".hide-in-guide", hidden);
-                Slimefun.getItemCfg().setDefaultValue(id + ".allow-enchanting", enchantable);
-                Slimefun.getItemCfg().setDefaultValue(id + ".allow-disenchanting", disenchantable);
+                config.setDefaultValue(id + ".enabled", true);
+                config.setDefaultValue(id + ".can-be-used-in-workbenches", useableInWorkbench);
+                config.setDefaultValue(id + ".hide-in-guide", hidden);
+                config.setDefaultValue(id + ".allow-enchanting", enchantable);
+                config.setDefaultValue(id + ".allow-disenchanting", disenchantable);
 
                 // Load all item settings
                 for (ItemSetting<?> setting : itemSettings) {
@@ -446,7 +449,7 @@ public class SlimefunItem implements Placeable {
                 }
             }
 
-            if (ticking && !Slimefun.getCfg().getBoolean("URID.enable-tickers")) {
+            if (ticking && !Slimefun.getConfigManager().getPluginConfig().getBoolean("URID.enable-tickers")) {
                 state = ItemState.DISABLED;
                 return;
             }
@@ -457,13 +460,13 @@ public class SlimefunItem implements Placeable {
                  * Any other settings will remain as default.
                  */
                 state = ItemState.ENABLED;
-            } else if (Slimefun.getItemCfg().getBoolean(id + ".enabled")) {
+            } else if (config.getBoolean(id + ".enabled")) {
                 // The item has been enabled.
                 state = ItemState.ENABLED;
-                useableInWorkbench = Slimefun.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
-                hidden = Slimefun.getItemCfg().getBoolean(id + ".hide-in-guide");
-                enchantable = Slimefun.getItemCfg().getBoolean(id + ".allow-enchanting");
-                disenchantable = Slimefun.getItemCfg().getBoolean(id + ".allow-disenchanting");
+                useableInWorkbench = config.getBoolean(id + ".can-be-used-in-workbenches");
+                hidden = config.getBoolean(id + ".hide-in-guide");
+                enchantable = config.getBoolean(id + ".allow-enchanting");
+                disenchantable = config.getBoolean(id + ".allow-disenchanting");
             } else if (this instanceof VanillaItem) {
                 // This item is a vanilla "mock" but was disabled.
                 state = ItemState.VANILLA_FALLBACK;

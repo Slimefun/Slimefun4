@@ -67,14 +67,14 @@ class TestRegistration {
     @MethodSource("allItems")
     @ParameterizedTest(name = "Assert that {0} is enabled")
     void testNoDisabledItems(@Nonnull SlimefunItem item) {
-        Assertions.assertNotEquals(ItemState.UNREGISTERED, item.getState(), item.toString() + " was not registered?");
+        Assertions.assertNotEquals(ItemState.UNREGISTERED, item.getState(), item + " was not registered?");
     }
 
     @Test
     @Order(value = 3)
     @DisplayName("Test whether PostSetup.setupWiki() throws any Exceptions")
     void testWikiSetup() {
-        Assertions.assertDoesNotThrow(() -> PostSetup.setupWiki());
+        Assertions.assertDoesNotThrow(PostSetup::setupWiki);
     }
 
     @Test
@@ -103,19 +103,19 @@ class TestRegistration {
         // Not really ideal but still important to test.
         // Research amount is variable, so we can't test for that.
         // We are really only concerned about any runtime exceptions here.
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
 
         // It is important that this is run after item registration
-        Assertions.assertDoesNotThrow(() -> ResearchSetup.setupResearches());
+        Assertions.assertDoesNotThrow(ResearchSetup::setupResearches);
 
         // Running it a second time should NOT be allowed.
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> ResearchSetup.setupResearches());
+        Assertions.assertThrows(UnsupportedOperationException.class, ResearchSetup::setupResearches);
     }
 
     @Test
     @Order(value = 6)
     void testPostSetup() {
-        Assertions.assertDoesNotThrow(() -> PostSetup.loadItems());
+        Assertions.assertDoesNotThrow(PostSetup::loadItems);
     }
 
     @Test

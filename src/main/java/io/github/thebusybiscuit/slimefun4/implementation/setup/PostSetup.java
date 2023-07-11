@@ -107,8 +107,7 @@ public final class PostSetup {
 
         sender.sendMessage("");
 
-        Slimefun.getItemCfg().save();
-        Slimefun.getResearchCfg().save();
+        Slimefun.getConfigManager().saveFiles();
         Slimefun.getRegistry().setAutoLoadingMode(true);
     }
 

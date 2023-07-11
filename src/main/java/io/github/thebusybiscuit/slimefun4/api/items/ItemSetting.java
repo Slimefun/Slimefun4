@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.base.Preconditions;
 import org.apache.commons.lang.Validate;
 
 import io.github.bakedlibs.dough.config.Config;
@@ -163,11 +164,12 @@ public class ItemSetting<T> {
      * 
      */
     @SuppressWarnings("unchecked")
-    public void reload() {
-        Validate.notNull(item, "Cannot apply settings for a non-existing SlimefunItem");
+    public boolean reload() {
+        Preconditions.checkNotNull(item, "Cannot apply settings for a non-existing SlimefunItem");
 
-        Slimefun.getItemCfg().setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
-        Object configuredValue = Slimefun.getItemCfg().getValue(item.getId() + '.' + getKey());
+        Config config = Slimefun.getConfigManager().getItemsConfig();
+        config.setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
+        Object configuredValue = config.getValue(item.getId() + '.' + getKey());
 
         if (defaultValue.getClass().isInstance(configuredValue) || (configuredValue instanceof List && defaultValue instanceof List)) {
             // We can do an unsafe cast here, we did an isInstance(...) check before!
@@ -175,6 +177,7 @@ public class ItemSetting<T> {
 
             if (validateInput(newValue)) {
                 this.value = newValue;
+                return true;
             } else {
                 // @formatter:off
                 item.warn(
@@ -184,6 +187,7 @@ public class ItemSetting<T> {
                         "\n" + getErrorMessage()
                 );
                 // @formatter:on
+                return false;
             }
         } else {
             this.value = defaultValue;
@@ -197,6 +201,7 @@ public class ItemSetting<T> {
                     "\n  Expected \"" + defaultValue.getClass().getSimpleName() + "\" but found: \"" + found + "\""
             );
             // @formatter:on
+            return false;
         }
     }
 

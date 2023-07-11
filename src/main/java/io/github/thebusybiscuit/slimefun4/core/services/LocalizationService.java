@@ -62,7 +62,7 @@ public class LocalizationService extends SlimefunLocalization {
         languageKey = new NamespacedKey(plugin, LANGUAGE_PATH);
 
         if (serverDefaultLanguage != null) {
-            translationsEnabled = Slimefun.getCfg().getBoolean("options.enable-translations");
+            translationsEnabled = Slimefun.getConfigManager().getPluginConfig().getBoolean("options.enable-translations");
 
             defaultLanguage = new Language(serverDefaultLanguage, "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
             defaultLanguage.setFile(LanguageFile.MESSAGES, getConfig().getConfiguration());

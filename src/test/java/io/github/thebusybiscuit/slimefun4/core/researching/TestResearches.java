@@ -82,7 +82,7 @@ class TestResearches {
         research.addItems(item, null);
         research.register();
 
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
 
         Assertions.assertTrue(research.isEnabled());
         Assertions.assertEquals(research, item.getResearch());
@@ -101,8 +101,8 @@ class TestResearches {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItemStack(Material.TORCH, "&bResearch Test"));
         research.addItems(item);
 
-        Slimefun.getRegistry().setResearchingEnabled(true);
-        Slimefun.getResearchCfg().setValue(key.getNamespace() + '.' + key.getKey() + ".enabled", false);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
+        Slimefun.getConfigManager().getResearchConfig().setValue(key.getNamespace() + '.' + key.getKey() + ".enabled", false);
         research.register();
 
         Assertions.assertFalse(research.isEnabled());
@@ -115,11 +115,11 @@ class TestResearches {
         NamespacedKey key = new NamespacedKey(plugin, "globally_disabled_research");
         Research research = new Research(key, 3, "Test", 100);
 
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
         Assertions.assertTrue(research.isEnabled());
-        Slimefun.getRegistry().setResearchingEnabled(false);
+        Slimefun.getConfigManager().setResearchingEnabled(false);
         Assertions.assertFalse(research.isEnabled());
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
     }
 
     @Test
@@ -138,7 +138,7 @@ class TestResearches {
 
     @Test
     void testPlayerCanUnlockDisabledResearch() {
-        Slimefun.getRegistry().setResearchingEnabled(false);
+        Slimefun.getConfigManager().setResearchingEnabled(false);
 
         Player player = server.addPlayer();
         NamespacedKey key = new NamespacedKey(plugin, "disabled_unlockable_research");
@@ -146,19 +146,19 @@ class TestResearches {
 
         Assertions.assertTrue(research.canUnlock(player));
 
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
     }
 
     @Test
     @DisplayName("Test 'free creative researching' option")
     void testFreeCreativeResearch() {
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
 
         Player player = server.addPlayer();
         NamespacedKey key = new NamespacedKey(plugin, "free_creative_research");
         Research research = new Research(key, 153, "Test", 100);
 
-        Slimefun.getRegistry().setFreeCreativeResearchingEnabled(false);
+        Slimefun.getConfigManager().setFreeCreativeResearchingEnabled(false);
 
         player.setGameMode(GameMode.SURVIVAL);
         Assertions.assertFalse(research.canUnlock(player));
@@ -166,7 +166,7 @@ class TestResearches {
         player.setGameMode(GameMode.CREATIVE);
         Assertions.assertFalse(research.canUnlock(player));
 
-        Slimefun.getRegistry().setFreeCreativeResearchingEnabled(true);
+        Slimefun.getConfigManager().setFreeCreativeResearchingEnabled(true);
 
         player.setGameMode(GameMode.SURVIVAL);
         Assertions.assertFalse(research.canUnlock(player));
@@ -190,7 +190,7 @@ class TestResearches {
     @Test
     @DisplayName("Test PlayerPreResearchEvent")
     void testPreCanUnlockResearchEvent() throws InterruptedException {
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
 
         NamespacedKey key = new NamespacedKey(plugin, "simple_research");
         Research research = new Research(key, 250, "Test", 10);

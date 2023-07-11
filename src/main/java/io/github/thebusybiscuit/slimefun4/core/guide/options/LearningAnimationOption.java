@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
+import io.github.thebusybiscuit.slimefun4.core.config.SlimefunConfigManager;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
@@ -40,9 +40,9 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
     @Nonnull
     @Override
     public Optional<ItemStack> getDisplayItem(@Nonnull Player p, @Nonnull ItemStack guide) {
-        SlimefunRegistry registry = Slimefun.getRegistry();
+        SlimefunConfigManager configManager = Slimefun.getConfigManager();
 
-        if (!registry.isResearchingEnabled() || registry.isLearningAnimationDisabled()) {
+        if (!configManager.isResearchingEnabled() || configManager.isLearningAnimationDisabled()) {
             return Optional.empty();
         } else {
             boolean enabled = getSelectedOption(p, guide).orElse(true);
@@ -71,7 +71,7 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
 
     @Override
     public void setSelectedOption(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull Boolean value) {
-        PersistentDataAPI.setByte(p, getKey(), (byte) (value.booleanValue() ? 1 : 0));
+        PersistentDataAPI.setByte(p, getKey(), (byte) (value ? 1 : 0));
     }
 
 }

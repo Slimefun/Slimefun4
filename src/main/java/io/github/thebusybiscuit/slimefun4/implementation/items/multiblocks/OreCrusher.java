@@ -250,9 +250,10 @@ public class OreCrusher extends MultiBlockMachine {
         }
 
         @Override
-        public void reload() {
-            super.reload();
+        public boolean reload() {
+            boolean isSuccessful = super.reload();
             apply(getValue());
+            return isSuccessful;
         }
 
         public @Nonnull ItemStack getCoal() {

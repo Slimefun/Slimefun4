@@ -90,7 +90,7 @@ class TestItemGroups {
         Assertions.assertFalse(group.isVisible(player));
 
         SlimefunItem disabledItem = TestUtilities.mockSlimefunItem(plugin, "DISABLED_ITEM_GROUP_ITEM", new CustomItemStack(Material.BEETROOT, "&4Disabled"));
-        Slimefun.getItemCfg().setValue("DISABLED_ITEM_GROUP_ITEM.enabled", false);
+        Slimefun.getConfigManager().getItemsConfig().setValue("DISABLED_ITEM_GROUP_ITEM.enabled", false);
         disabledItem.setItemGroup(group);
         disabledItem.register(plugin);
         disabledItem.load();
@@ -174,7 +174,7 @@ class TestItemGroups {
         item.register(plugin);
         item.load();
 
-        Slimefun.getRegistry().setResearchingEnabled(true);
+        Slimefun.getConfigManager().setResearchingEnabled(true);
         Research research = new Research(new NamespacedKey(plugin, "cant_touch_this"), 432432, "MC Hammer", 90);
         research.addItems(item);
         research.register();
