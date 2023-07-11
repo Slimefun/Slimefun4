@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import javax.annotation.Nonnull;
@@ -56,7 +55,7 @@ class FireworksOption implements SlimefunGuideOption<Boolean> {
 
     @Override
     public void setSelectedOption(Player p, ItemStack guide, Boolean value) {
-        PersistentDataAPI.setByte(p, getKey(), value.booleanValue() ? (byte) 1 : (byte) 0);
+        PersistentDataAPI.setByte(p, getKey(), value ? (byte) 1 : (byte) 0);
     }
 
 }

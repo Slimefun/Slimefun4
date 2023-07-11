@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.bakedlibs.dough.config.Config;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -282,10 +283,11 @@ public class Research implements Keyed {
      * Registers this {@link Research}.
      */
     public void register() {
-        Slimefun.getResearchCfg().setDefaultValue("enable-researching", true);
+        Config pluginConfig = Slimefun.getConfigManager().getPluginConfig();
+        pluginConfig.setDefaultValue("enable-researching", true);
         String path = key.getNamespace() + '.' + key.getKey();
 
-        if (Slimefun.getResearchCfg().contains(path + ".enabled") && !Slimefun.getResearchCfg().getBoolean(path + ".enabled")) {
+        if (pluginConfig.contains(path + ".enabled") && !pluginConfig.getBoolean(path + ".enabled")) {
             for (SlimefunItem item : new ArrayList<>(items)) {
                 if (item != null) {
                     item.setResearch(null);
@@ -296,10 +298,10 @@ public class Research implements Keyed {
             return;
         }
 
-        Slimefun.getResearchCfg().setDefaultValue(path + ".cost", getCost());
-        Slimefun.getResearchCfg().setDefaultValue(path + ".enabled", true);
+        pluginConfig.setDefaultValue(path + ".cost", getCost());
+        pluginConfig.setDefaultValue(path + ".enabled", true);
 
-        setCost(Slimefun.getResearchCfg().getInt(path + ".cost"));
+        setCost(pluginConfig.getInt(path + ".cost"));
         enabled = true;
 
         Slimefun.getRegistry().getResearches().add(this);

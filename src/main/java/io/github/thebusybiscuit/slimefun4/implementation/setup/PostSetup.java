@@ -165,7 +165,7 @@ public final class PostSetup {
         // Favour 8 Cobblestone -> 1 Sand Recipe over 1 Cobblestone -> 1 Gravel Recipe
         Stream<ItemStack[]> stream = grinderRecipes.stream();
 
-        if (!Slimefun.getCfg().getBoolean("options.legacy-ore-grinder")) {
+        if (!Slimefun.getConfigManager().getPluginConfig().getBoolean("options.legacy-ore-grinder")) {
             stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
         }
 

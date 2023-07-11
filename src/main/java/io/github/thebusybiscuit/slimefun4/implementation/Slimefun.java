@@ -17,6 +17,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.config.SlimefunConfigManager;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -657,9 +658,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         backpackListener.register(this);
 
 
-        //todo fix later
         // Handle Slimefun Guide being given on Join
-//        new SlimefunGuideListener(this, config.getBoolean("guide.receive-on-first-join"));
+        new SlimefunGuideListener(this, configManager.getPluginConfig().getBoolean("guide.receive-on-first-join"));
 
         // Clear the Slimefun Guide History upon Player Leaving
         new PlayerProfileListener(this);
