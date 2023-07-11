@@ -123,46 +123,59 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
         });
     }
 
-    protected void tick(Block b) {
-        Iterator<Entity> iterator = b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 4.0, 4.0, n -> n instanceof ExperienceOrb && n.isValid()).iterator();
+    protected void tick(Block block) {
+        Iterator<Entity> iterator = block.getWorld().getNearbyEntities(block.getLocation(), 4.0, 4.0, 4.0, n -> n instanceof ExperienceOrb && n.isValid()).iterator();
         int experiencePoints = 0;
 
         while (iterator.hasNext() && experiencePoints == 0) {
             Entity entity = iterator.next();
 
-            if (getCharge(b.getLocation()) < ENERGY_CONSUMPTION) {
+            if (getCharge(block.getLocation()) < ENERGY_CONSUMPTION) {
                 return;
             }
 
-            experiencePoints = getStoredExperience(b) + ((ExperienceOrb) entity).getExperience();
+            experiencePoints = getStoredExperience(block) + ((ExperienceOrb) entity).getExperience();
 
-            removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
+            removeCharge(block.getLocation(), ENERGY_CONSUMPTION);
             entity.remove();
 
-            int withdrawn = 0;
-            BlockMenu menu = BlockStorage.getInventory(b);
-
-            for (int level = 0; level < getStoredExperience(b); level = level + 10) {
-                if (menu.fits(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, getOutputSlots())) {
-                    withdrawn = withdrawn + 10;
-                    menu.pushItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.clone(), getOutputSlots());
-                }
-            }
-
-            BlockStorage.addBlockInfo(b, DATA_KEY, String.valueOf(experiencePoints - withdrawn));
+            produceFlasks(block, experiencePoints);
         }
     }
 
-    private int getStoredExperience(Block b) {
-        Config cfg = BlockStorage.getLocationInfo(b.getLocation());
+    /**
+     * Produces Flasks of Knowledge for the given block until it either uses all stored
+     * experience or runs out of room.
+     *
+     * @param block
+     *                  The {@link Block} to produce flasks in.
+     * @param experiencePoints
+     *                  The number of experience points to use during production.
+     */
+    private void produceFlasks(@Nonnull Block block, int experiencePoints) {
+        int withdrawn = 0;
+        BlockMenu menu = BlockStorage.getInventory(block);
+        for (int level = 0; level < getStoredExperience(block); level = level + 10) {
+            if (menu.fits(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, getOutputSlots())) {
+                withdrawn = withdrawn + 10;
+                menu.pushItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.clone(), getOutputSlots());
+            } else {
+                // There is no room for more bottles, so lets stop checking if more will fit.
+                break;
+            }
+        }
+        BlockStorage.addBlockInfo(block, DATA_KEY, String.valueOf(experiencePoints - withdrawn));
+    }
+
+    private int getStoredExperience(Block block) {
+        Config cfg = BlockStorage.getLocationInfo(block.getLocation());
         String value = cfg.getString(DATA_KEY);
 
         if (value != null) {
             return Integer.parseInt(value);
         } else {
-            BlockStorage.addBlockInfo(b, DATA_KEY, "0");
+            BlockStorage.addBlockInfo(block, DATA_KEY, "0");
             return 0;
         }
     }
-
 }
