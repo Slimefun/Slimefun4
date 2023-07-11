@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
 import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
 
 /**
@@ -24,5 +25,6 @@ public class RadioactivityListener implements Listener {
     @EventHandler
     public void onPlayerDeath(@Nonnull PlayerDeathEvent e) {
         RadiationUtils.clearExposure(e.getEntity());
+        RadiationTask.addGracePeriod(e.getEntity());
     }
 }

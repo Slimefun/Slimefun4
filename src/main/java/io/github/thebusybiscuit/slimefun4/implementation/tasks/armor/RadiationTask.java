@@ -1,5 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks.armor;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
@@ -12,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RadiationSymptom;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.RadioactivityListener;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
@@ -28,13 +34,20 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
  */
 public class RadiationTask extends AbstractArmorTask {
 
+    private static final int GRACE_PERIOD_DURATION = Slimefun.getCfg().getInt("options.radiation-grace-period");
+    private static final Map<UUID, Long> ACTIVE_GRACE_PERIODS = new HashMap<>();
+
     private final RadiationSymptom[] symptoms = RadiationSymptom.values();
 
     @Override
     @ParametersAreNonnullByDefault
     protected void onPlayerTick(Player p, PlayerProfile profile) {
-        int exposureTotal = 0;
+        if (withinGracePeriod(p)) {
+            // Player is within their grace period and shouldn't have radiation effects applied.
+            return;
+        }
 
+        int exposureTotal = 0;
         if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION) && p.getGameMode() != GameMode.CREATIVE && p.getGameMode() != GameMode.SPECTATOR) {
             for (ItemStack item : p.getInventory()) {
                 if (item == null || item.getType().isAir()) {
@@ -73,5 +86,41 @@ public class RadiationTask extends AbstractArmorTask {
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
             }
         }
+    }
+
+    /**
+     * Checks if the {@link Player} is within their grace period. A grace period is granted after death
+     * to give enough time to remove the radioactive items before being killed once more, which
+     * with KeepInventory on would result in a very hard-to-escape loop.
+     * @see RadioactivityListener
+     *
+     * @param player
+     *              The {@link Player} to check against.
+     *
+     * @return Returns true if the {@link Player} is within their grace period.
+     */
+    private boolean withinGracePeriod(@Nonnull Player player) {
+        Long gracePeriodEnd = ACTIVE_GRACE_PERIODS.get(player.getUniqueId());
+
+        if (gracePeriodEnd == null) {
+            // No grace period present
+            return false;
+        } else if (gracePeriodEnd >= System.currentTimeMillis()) {
+            // Player is within their grace period
+            return true;
+        } else {
+            // A grace period was present but has since lapsed, remove the entry.
+            ACTIVE_GRACE_PERIODS.remove(player.getUniqueId());
+            return false;
+        }
+    }
+
+    /**
+     * Adds the given {@link Player}'s grace period to the collection.
+     *
+     * @param player The player to add the grace period to.
+     */
+    public static void addGracePeriod(@Nonnull Player player) {
+        ACTIVE_GRACE_PERIODS.put(player.getUniqueId(), System.currentTimeMillis() + (GRACE_PERIOD_DURATION * 1000L));
     }
 }
