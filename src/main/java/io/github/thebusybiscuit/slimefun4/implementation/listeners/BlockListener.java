@@ -103,7 +103,7 @@ public class BlockListener implements Listener {
                     }
 
                     BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getId(), true);
-                    sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
+                    sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e), placeEvent.getPlayer());
                 }
             }
         }
@@ -161,7 +161,7 @@ public class BlockListener implements Listener {
 
         if (tool != null) {
             if (tool.canUse(e.getPlayer(), true)) {
-                tool.callItemHandler(ToolUseHandler.class, handler -> handler.onToolUse(e, item, fortune, drops));
+                tool.callItemHandler(ToolUseHandler.class, handler -> handler.onToolUse(e, item, fortune, drops), e.getPlayer());
             } else {
                 e.setCancelled(true);
             }
@@ -179,7 +179,7 @@ public class BlockListener implements Listener {
         }
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-            sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(e, item, drops));
+            sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(e, item, drops), e.getPlayer());
 
             if (e.isCancelled()) {
                 return;

@@ -97,7 +97,7 @@ public class SlimefunItemInteractListener implements Listener {
             SlimefunItem sfItem = optional.get();
 
             if (sfItem.canUse(e.getPlayer(), true)) {
-                return sfItem.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
+                return sfItem.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event), e.getPlayer());
             } else {
                 event.setUseItem(Result.DENY);
             }
@@ -118,7 +118,7 @@ public class SlimefunItemInteractListener implements Listener {
                 return false;
             }
 
-            boolean interactable = sfItem.callItemHandler(BlockUseHandler.class, handler -> handler.onRightClick(event));
+            boolean interactable = sfItem.callItemHandler(BlockUseHandler.class, handler -> handler.onRightClick(event), event.getPlayer());
 
             if (!interactable) {
                 Player p = event.getPlayer();

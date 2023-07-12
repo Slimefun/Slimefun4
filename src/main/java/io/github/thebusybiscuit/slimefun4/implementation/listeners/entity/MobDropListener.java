@@ -55,7 +55,7 @@ public class MobDropListener implements Listener {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
                 if (sfItem != null && sfItem.canUse(p, true)) {
-                    sfItem.callItemHandler(EntityKillHandler.class, handler -> handler.onKill(e, e.getEntity(), p, item));
+                    sfItem.callItemHandler(EntityKillHandler.class, handler -> handler.onKill(e, e.getEntity(), p, item), p);
                 }
             }
         }

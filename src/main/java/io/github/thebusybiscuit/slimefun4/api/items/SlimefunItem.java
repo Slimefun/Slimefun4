@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
+import com.google.common.base.Preconditions;
 
 import io.github.bakedlibs.dough.collections.OptionalMap;
 import io.github.bakedlibs.dough.items.ItemUtils;
@@ -111,6 +112,7 @@ public class SlimefunItem implements Placeable {
 
     private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
     private final Set<ItemSetting<?>> itemSettings = new HashSet<>();
+    private @Nullable ItemCooldown cooldown;
 
     private boolean ticking = false;
     private BlockTicker blockTicker;
@@ -846,6 +848,53 @@ public class SlimefunItem implements Placeable {
         }
     }
 
+    public final void addCooldown(@Nonnull ItemCooldown cooldown) {
+        Preconditions.checkNotNull(cooldown, "The provided ItemCooldown must not be null");
+
+        for (Class<? extends ItemHandler> handler : cooldown.getManagedHandlers()) {
+            if (!itemhandlers.containsKey(handler)) {
+                throw new UnsupportedOperationException(
+                    "Cooldown has handlers not within this SlimefunItem, did you call this before adding ItemHandlers?"
+                );
+            }
+        }
+        this.cooldown = cooldown;
+    }
+
+    public @Nullable ItemCooldown getCooldown() {
+        return cooldown;
+    }
+
+    public boolean isOnCooldown(@Nonnull Class<? extends ItemHandler> handlerClass, @Nonnull Player player) {
+        if (cooldown == null) {
+            // This SlimefunItem has no associated cooldown.
+            return false;
+        } else if (cooldown.isHandlerAssigned(handlerClass)) {
+            // The cooldown does work on the given ItemHandler, return cooldown status
+            return cooldown.isOnCooldown(player);
+        } else {
+            // The cooldown does not interact with this ItemHandler
+            return false;
+        }
+    }
+
+    public long getCooldownEnd(@Nonnull Player player) {
+        return cooldown == null ? 0 : cooldown.getCooldownEnd(player);
+    }
+
+    public long getCooldownSecondsRemaining(@Nonnull Player player) {
+        return cooldown == null ? 0 : Math.max(0, cooldown.getCooldownSecondsRemaining(player));
+    }
+
+    public long applyCooldown(@Nonnull Class<? extends ItemHandler> handlerClass, @Nonnull Player player) {
+        if (cooldown != null && cooldown.isHandlerAssigned(handlerClass)) {
+            // The cooldown is present and works on the given ItemHandler, apply and return cooldown end
+            return cooldown.applyCooldown(player);
+        }
+        // The cooldown is either not present or does not interact with this ItemHandler
+        return 0;
+    }
+
     /**
      * This method is called before {@link #register(SlimefunAddon)}.
      * Override this method to add any additional setup, adding an {@link ItemHandler} for example.
@@ -945,6 +994,38 @@ public class SlimefunItem implements Placeable {
         }
 
         return false;
+    }
+
+    /**
+     * This method calls every {@link ItemHandler} of the given {@link Class}
+     * and performs the action as specified via the {@link Consumer}.
+     * This overload requires a {@link Player} and allows {@link ItemCooldown}s to be respected.
+     *
+     * @param c
+     *            The {@link Class} of the {@link ItemHandler} to call.
+     * @param callable
+     *            A {@link Consumer} that is called for any found {@link ItemHandler}.
+     * @param player
+     *            The {@link Player} to check against possible {@link ItemCooldown}s
+     * @param <T>
+     *            The type of {@link ItemHandler} to call.
+     *
+     * @return Whether or not an {@link ItemHandler} was successfully called.
+     */
+    @ParametersAreNonnullByDefault
+    public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable, Player player) {
+        if (isOnCooldown(c, player)) {
+            long remainingDuration = getCooldownSecondsRemaining(player);
+            Slimefun.getLocalization().sendMessage(
+                player,
+                "messages.on-cooldown",
+                msg -> msg.replace("%duration%", String.valueOf(remainingDuration))
+            );
+            return false;
+        }
+
+        applyCooldown(c, player);
+        return callItemHandler(c, callable);
     }
 
     /**
