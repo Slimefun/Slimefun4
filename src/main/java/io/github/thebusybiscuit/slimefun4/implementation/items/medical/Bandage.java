@@ -42,7 +42,7 @@ public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
 
     @Override
     public void postRegister() {
-        ItemCooldown cooldown = new ItemCooldown(this, cooldownDuration.getValue());
+        ItemCooldown cooldown = new ItemCooldown(cooldownDuration.getValue());
         cooldown.assignHandler(ItemUseHandler.class);
         addCooldown(cooldown);
     }

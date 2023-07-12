@@ -95,8 +95,10 @@ class TestItemHandlers {
         Player player = server.addPlayer();
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST_3", new CustomItemStack(Material.DIAMOND, "&cTest"));
         MockItemHandler handler = new MockItemHandler();
+        ItemCooldown cooldown = new ItemCooldown(1);
+
         item.addItemHandler(handler);
-        ItemCooldown cooldown = new ItemCooldown(item, 1);
+
         cooldown.assignHandler(MockItemHandler.class);
         item.addCooldown(cooldown);
 

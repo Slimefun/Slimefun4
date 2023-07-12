@@ -12,13 +12,11 @@ import org.bukkit.entity.Player;
 
 public class ItemCooldown {
 
-    private final SlimefunItem assignedItem;
     private final long durationSecs;
     private final Set<Class<? extends ItemHandler>> managedHandlers = new HashSet<>();
     private final Map<UUID, Long> activeCooldowns = new HashMap<>();
 
-    public ItemCooldown(SlimefunItem slimefunItem, long durationSecs) {
-        this.assignedItem = slimefunItem;
+    public ItemCooldown(long durationSecs) {
         this.durationSecs = durationSecs;
     }
 
@@ -79,10 +77,6 @@ public class ItemCooldown {
 
     private long getCooldownEnd(long duration) {
         return System.currentTimeMillis() + (duration * 1000);
-    }
-
-    public SlimefunItem getAssignedItem() {
-        return assignedItem;
     }
 
     public boolean isHandlerAssigned(@Nonnull Class<? extends ItemHandler> handlerClass) {
