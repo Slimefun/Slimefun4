@@ -9,6 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -23,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
@@ -31,6 +33,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBre
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
+import io.github.thebusybiscuit.slimefun4.utils.ArmorStandUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
@@ -40,13 +43,14 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * 
  * @author Redemption198
  * @author TheBusyBiscuit
+ * @author JustAHuman
  * 
  * @see AncientAltar
  * @see AncientAltarListener
  * @see AncientAltarTask
  *
  */
-public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
+public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> implements NotHopperable {
 
     public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
@@ -63,7 +67,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             @Override
             public void onBlockBreak(@Nonnull Block b) {
                 Optional<Item> entity = getPlacedItem(b);
-
+                ArmorStand armorStand = getArmorStand(b, false);
+                
                 if (entity.isPresent()) {
                     Item stack = entity.get();
 
@@ -72,6 +77,10 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
                         b.getWorld().dropItem(b.getLocation(), getOriginalItemStack(stack));
                         stack.remove();
                     }
+                }
+                
+                if (armorStand != null && armorStand.isValid()) {
+                    armorStand.remove();
                 }
             }
         };
@@ -93,6 +102,23 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
         return Optional.empty();
     }
+    
+    public @Nullable ArmorStand getArmorStand(@Nonnull Block pedestal, boolean createIfNoneExists) {
+        Optional<Item> entity = getPlacedItem(pedestal);
+        
+        if (entity.isPresent() && entity.get().getVehicle() instanceof ArmorStand armorStand) {
+            return armorStand;
+        }
+    
+        Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
+        for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testArmorStand)) {
+            if (n instanceof ArmorStand armorStand) {
+                return armorStand;
+            }
+        }
+        
+        return createIfNoneExists ? ArmorStandUtils.spawnArmorStand(l) : null;
+    }
 
     private boolean testItem(@Nullable Entity n) {
         if (n instanceof Item item && n.isValid()) {
@@ -103,17 +129,24 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
             return false;
         }
     }
+    
+    private boolean testArmorStand(@Nullable Entity n) {
+        if (n instanceof ArmorStand && n.isValid()) {
+            String customName = n.getCustomName();
+            return customName != null && customName.startsWith(ITEM_PREFIX);
+        } else {
+            return false;
+        }
+    }
 
     public @Nonnull ItemStack getOriginalItemStack(@Nonnull Item item) {
         ItemStack stack = item.getItemStack().clone();
+        ItemMeta im = stack.getItemMeta();
         String customName = item.getCustomName();
+        im.setDisplayName(null);
+        stack.setItemMeta(im);
 
-        if (customName.equals(ItemUtils.getItemName(new ItemStack(stack.getType())))) {
-            ItemMeta im = stack.getItemMeta();
-            im.setDisplayName(null);
-            stack.setItemMeta(im);
-        } else {
-            ItemMeta im = stack.getItemMeta();
+        if (customName == null || !customName.equals(ItemUtils.getItemName(stack))) {
             im.setDisplayName(customName);
             stack.setItemMeta(im);
         }
@@ -123,7 +156,8 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     public void placeItem(@Nonnull Player p, @Nonnull Block b) {
         ItemStack hand = p.getInventory().getItemInMainHand();
-        ItemStack displayItem = new CustomItemStack(hand, ITEM_PREFIX + System.nanoTime());
+        String displayName = ITEM_PREFIX + System.nanoTime();
+        ItemStack displayItem = new CustomItemStack(hand, displayName);
         displayItem.setAmount(1);
 
         // Get the display name of the original Item in the Player's hand
@@ -136,9 +170,14 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         Item entity = SlimefunUtils.spawnItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM);
 
         if (entity != null) {
+            ArmorStand armorStand = getArmorStand(b, true);
+            entity.setInvulnerable(true);
+            entity.setUnlimitedLifetime(true);
             entity.setVelocity(new Vector(0, 0.1, 0));
             entity.setCustomNameVisible(true);
             entity.setCustomName(nametag);
+            armorStand.setCustomName(displayName);
+            armorStand.addPassenger(entity);
             SlimefunUtils.markAsNoPickup(entity, "altar_item");
             SoundEffect.ANCIENT_PEDESTAL_ITEM_PLACE_SOUND.playAt(b);
         }
