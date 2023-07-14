@@ -1,12 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Effect;
@@ -38,15 +41,17 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * resources from Gravel.
  * 
  * @author TheBusyBiscuit
+ * @author svr333
+ * @author JustAHuman
  * 
  * @see NetherGoldPan
  * @see AutomatedPanningMachine
  * @see ElectricGoldPan
- *
  */
 public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
 
     private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
+    private final Set<Material> inputMaterials = new HashSet<>(Arrays.asList(Material.GRAVEL));
     private final Set<GoldPanDrop> drops = new HashSet<>();
 
     @ParametersAreNonnullByDefault
@@ -59,14 +64,28 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     }
 
     /**
-     * This method returns the target {@link Material} for this {@link GoldPan}.
-     * 
-     * @return The {@link Material} this {@link GoldPan} can be used on
+     * @deprecated since RC-36
+     * Use {@link GoldPan#getInputMaterials()} instead.
      */
-    public @Nonnull Material getInputMaterial() {
+    @Deprecated(since = "RC-36")
+    public Material getInputMaterial() {
         return Material.GRAVEL;
     }
 
+    /**
+     * This method returns the target {@link Material Materials} for this {@link GoldPan}.
+     * 
+     * @return The {@link Set} of {@link Material Materials} this {@link GoldPan} can be used on.
+     */
+    public @Nonnull Set<Material> getInputMaterials() {
+        return Collections.unmodifiableSet(inputMaterials);
+    }
+
+    /**
+     * This method returns the target {@link GoldPanDrop GoldPanDrops} for this {@link GoldPan}.
+     *
+     * @return The {@link Set} of {@link GoldPanDrop GoldPanDrops} this {@link GoldPan} can drop.
+     */
     protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
@@ -86,7 +105,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
     /**
      * <strong>Do not call this method directly</strong>.
-     * 
+     * <p>
      * This method is for internal purposes only.
      * It will update and re-calculate all weights in our {@link RandomizedSet}.
      */
@@ -127,7 +146,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
                 Block b = block.get();
 
                 // Check the clicked block type and for protections
-                if (b.getType() == getInputMaterial() && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Interaction.BREAK_BLOCK)) {
+                if (isValidInputMaterial(b.getType()) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), Interaction.BREAK_BLOCK)) {
                     ItemStack output = getRandomOutput();
 
                     b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -160,16 +179,49 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
     @Override
     public @Nonnull List<ItemStack> getDisplayRecipes() {
-        List<ItemStack> recipes = new LinkedList<>();
+        List<ItemStack> recipes = new ArrayList<>();
 
         for (GoldPanDrop drop : drops) {
-            if (drop.getValue() > 0) {
-                recipes.add(new ItemStack(getInputMaterial()));
+            if (drop.getValue() <= 0) {
+                continue;
+            }
+
+            for (Material material : getInputMaterials()) {
+                recipes.add(new ItemStack(material));
                 recipes.add(drop.getOutput());
             }
         }
 
         return recipes;
+    }
+
+    /**
+     * This returns whether the {@link GoldPan} accepts the {@link ItemStack} as an input
+     *
+     * @param itemStack
+     *            The {@link ItemStack} to check
+     *
+     * @return If the {@link ItemStack} is valid
+     */
+    public boolean isValidInput(@Nullable ItemStack itemStack) {
+        if (itemStack == null) {
+            return false;
+        }
+
+        Material material = itemStack.getType();
+        return isValidInputMaterial(material) && SlimefunUtils.isItemSimilar(itemStack, new ItemStack(material), true, false);
+    }
+
+    /**
+     * This returns whether the {@link GoldPan} accepts the {@link Material} as an input
+     *
+     * @param material
+     *            The {@link Material} to check
+     *
+     * @return If the {@link Material} is valid
+     */
+    public boolean isValidInputMaterial(@Nonnull Material material) {
+        return getInputMaterials().contains(material);
     }
 
 }
