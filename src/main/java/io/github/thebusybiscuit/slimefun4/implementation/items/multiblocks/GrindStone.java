@@ -36,6 +36,9 @@ public class GrindStone extends MultiBlockMachine {
 
     @Override
     protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
+        recipes.add(new ItemStack(Material.BLACKSTONE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+		
         recipes.add(new ItemStack(Material.BLAZE_ROD));
         recipes.add(new ItemStack(Material.BLAZE_POWDER, 4));
 
