@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ import org.bukkit.potion.PotionEffect;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.TalismanActivatedEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -206,7 +208,8 @@ public class Talisman extends SlimefunItem {
         consumeItem(inv, talisman, talismanItem);
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
-        Bukkit.getServer().getPluginManager().callEvent(new TalismanActivatedEvent(p, talisman, talismanItem));
+        TalismanActivatedEvent TalismanEvent = new TalismanActivatedEvent(p, talisman, talismanItem);
+        Bukkit.getServer().getPluginManager().callEvent(TalismanEvent);
         if (sendMessage) {
             talisman.sendMessage(p);
         }
