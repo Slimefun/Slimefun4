@@ -206,7 +206,7 @@ public class Talisman extends SlimefunItem {
         consumeItem(inv, talisman, talismanItem);
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
-
+        Bukkit.getServer().getPluginManager().callEvent(new TalismanActivatedEvent(p, talisman, talismanItem));
         if (sendMessage) {
             talisman.sendMessage(p);
         }
