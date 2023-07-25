@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
@@ -18,11 +19,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans
  *
  */
 
-public class TalismanActivatedEvent extends PlayerEvent {
+public class TalismanActivatedEvent extends PlayerEvent implements Cancellable {
 
 	private static HandlerList Handlers = new HandlerList();
 	private Talisman Talisman;
 	private ItemStack TalismanItem;
+	private boolean cancelled;
 	
 	
 	/**
@@ -69,6 +71,16 @@ public class TalismanActivatedEvent extends PlayerEvent {
 	public HandlerList getHandlers() {
 		// TODO Auto-generated method stub
 		return getHandlerList();
+	}
+	@Override
+	public boolean isCancelled() {
+		// TODO Auto-generated method stub
+		return this.cancelled;
+	}
+	@Override
+	public void setCancelled(boolean cancel) {
+		// TODO Auto-generated method stub
+		this.cancelled = cancel;
 	}
 
 	
