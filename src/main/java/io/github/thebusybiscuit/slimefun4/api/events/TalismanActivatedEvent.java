@@ -22,14 +22,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans
 public class TalismanActivatedEvent extends PlayerEvent implements Cancellable {
 
 	private static HandlerList Handlers = new HandlerList();
-	private Talisman Talisman;
-	private ItemStack TalismanItem;
+	private Talisman talisman;
+	private ItemStack talismanItemStack;
 	private boolean cancelled;
 	
 	
 	/**
 	 * 
-	 * @param who
+	 * @param player
 	 * 		The {@link Player} who activated the talisman.
 	 * 
 	 * @param talisman
@@ -39,11 +39,10 @@ public class TalismanActivatedEvent extends PlayerEvent implements Cancellable {
 	 * 		The {@link ItemStack} corresponding to the Talisman.
 	 */
 	@ParametersAreNonnullByDefault
-	public TalismanActivatedEvent(Player who, Talisman talisman, ItemStack talismanItem) {
-		super(who);
-		this.Talisman = talisman;
-		this.TalismanItem = talismanItem;
-		// TODO Auto-generated constructor stub
+	public TalismanActivatedEvent(Player player, Talisman talisman, ItemStack talismanItem) {
+		super(player);
+		this.talisman = talisman;
+		this.talismanItemStack = talismanItem;
 	}
 	/**
 	 * 
@@ -52,7 +51,7 @@ public class TalismanActivatedEvent extends PlayerEvent implements Cancellable {
 	 */
 	@Nonnull
 	public Talisman getTalisman() {
-		return this.Talisman;
+		return this.talisman;
 	}
 	/**
 	 * 
@@ -60,7 +59,7 @@ public class TalismanActivatedEvent extends PlayerEvent implements Cancellable {
 	 */
 	@Nonnull
 	public ItemStack getTalismanItem() {
-		return this.TalismanItem;
+		return this.talismanItemStack;
 	}
 
 	public static HandlerList getHandlerList() {
