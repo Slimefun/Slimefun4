@@ -211,6 +211,7 @@ public class Talisman extends SlimefunItem {
             consumeItem(inv, talisman, talismanItem);
             applyTalismanEffects(p, talisman);
             cancelEvent(e, talisman);
+
             if (sendMessage) {
                 talisman.sendMessage(p);
             }
