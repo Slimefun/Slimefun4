@@ -24,7 +24,7 @@ public class TalismanActivatedEvent extends PlayerEvent implements Cancellable {
 	private static HandlerList Handlers = new HandlerList();
 	private Talisman talisman;
 	private ItemStack talismanItemStack;
-	private boolean cancelled;
+	private boolean cancelled = false;
 	
 	
 	/**
