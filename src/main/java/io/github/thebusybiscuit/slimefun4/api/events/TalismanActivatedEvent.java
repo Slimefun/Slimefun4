@@ -68,17 +68,14 @@ public class TalismanActivatedEvent extends PlayerEvent implements Cancellable {
 	
 	@Override
 	public HandlerList getHandlers() {
-		// TODO Auto-generated method stub
 		return getHandlerList();
 	}
 	@Override
 	public boolean isCancelled() {
-		// TODO Auto-generated method stub
 		return this.cancelled;
 	}
 	@Override
 	public void setCancelled(boolean cancel) {
-		// TODO Auto-generated method stub
 		this.cancelled = cancel;
 	}
 
