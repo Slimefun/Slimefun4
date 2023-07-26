@@ -22,8 +22,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans
 public class TalismanActivatedEvent extends PlayerEvent implements Cancellable {
 
 	private static HandlerList Handlers = new HandlerList();
-	private Talisman Talisman;
-	private ItemStack TalismanItem;
+	private Talisman talisman;
+	private ItemStack talismanItemStack;
+
 	private boolean cancelled = false;
 	
 	
