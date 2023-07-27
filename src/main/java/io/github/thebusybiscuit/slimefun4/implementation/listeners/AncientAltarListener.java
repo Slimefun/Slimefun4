@@ -364,5 +364,4 @@ public class AncientAltarListener implements Listener {
             e.setCancelled(true);
         }
     }
-
 }
