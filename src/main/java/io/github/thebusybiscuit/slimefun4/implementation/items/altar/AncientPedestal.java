@@ -94,7 +94,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
     public @Nonnull Optional<Item> getPlacedItem(@Nonnull Block pedestal) {
         Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
 
-        for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testItem)) {
+        for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, AncientPedestal::testItem)) {
             if (n instanceof Item item) {
                 return Optional.of(item);
             }
@@ -120,7 +120,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
         return createIfNoneExists ? ArmorStandUtils.spawnArmorStand(l) : null;
     }
 
-    private boolean testItem(@Nullable Entity n) {
+    public static boolean testItem(@Nullable Entity n) {
         if (n instanceof Item item && n.isValid()) {
             ItemMeta meta = item.getItemStack().getItemMeta();
 
@@ -172,7 +172,6 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
         if (entity != null) {
             ArmorStand armorStand = getArmorStand(b, true);
             entity.setInvulnerable(true);
-            entity.setUnlimitedLifetime(true);
             entity.setVelocity(new Vector(0, 0.1, 0));
             entity.setCustomNameVisible(true);
             entity.setCustomName(nametag);
