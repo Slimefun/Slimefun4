@@ -57,6 +57,20 @@ public class BookBinder extends AContainer {
 
                 // Just return if no enchantments exist. This shouldn't ever happen. :NotLikeThis:
                 if (enchantments.size() > 0) {
+                    // If any of the books contain an enchantment level higher that the configured maximum: don't consume the items
+                    for (Map.Entry<Enchantment, Integer> entry : storedItemEnchantments.entrySet()) {
+                        int maxLevel = bypassVanillaMaxLevel.getValue() ? customMaxLevel.getValue() : entry.getKey().getMaxLevel();
+                        if (entry.getValue() > maxLevel) {
+                            return null;
+                        }
+                    }
+                    for (Map.Entry<Enchantment, Integer> entry : storedTargetEnchantments.entrySet()) {
+                        int maxLevel = bypassVanillaMaxLevel.getValue() ? customMaxLevel.getValue() : entry.getKey().getMaxLevel();
+                        if (entry.getValue() > maxLevel) {
+                            return null;
+                        }
+                    }
+
                     ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
 
                     EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();
@@ -67,6 +81,11 @@ public class BookBinder extends AContainer {
 
                     // Make sure we never return an enchanted book with no enchantments.
                     if (enchantMeta.getStoredEnchants().isEmpty()) {
+                        return null;
+                    }
+
+                    // If the output is the same as one of the inputs: don't consume items
+                    if (enchantMeta.getStoredEnchants().equals(storedItemEnchantments) || enchantMeta.getStoredEnchants().equals(storedTargetEnchantments)) {
                         return null;
                     }
 
