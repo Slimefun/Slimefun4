@@ -25,7 +25,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  *
  */
 public final class NumberUtils {
-
     /**
      * This is our {@link DecimalFormat} for decimal values.
      * This instance is not thread-safe!
@@ -171,8 +170,25 @@ public final class NumberUtils {
         }
     }
 
-    public static @Nonnull String getTimeLeft(int seconds) {
+    public static @Nonnull String getTimeLeft(int ticksLeft) {
         String timeleft = "";
+
+        /**
+         * This is the amount calculated in addProgress(). 
+         * This will be the scale used for timer.
+         */
+        double timeScale = Slimefun.getTickerTask().getTickRate() / 10.0D;
+        double normalScale = timeScale - Math.round(timeScale);
+
+        int seconds = ticksLeft;
+
+        if (normalScale < 0) {
+            //Adjust for positive change
+            seconds = (int) (ticksLeft * (normalScale / 2 + 1.0D));
+        } else if (normalScale > 0) {
+            // Adjust for negative change 
+            seconds = (int) (ticksLeft * (normalScale + 1.0D));
+        }
 
         int minutes = (int) (seconds / 60L);
 

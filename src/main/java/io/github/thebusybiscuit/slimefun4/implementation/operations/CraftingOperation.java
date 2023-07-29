@@ -6,7 +6,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
-
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
 /**
@@ -40,7 +40,15 @@ public class CraftingOperation implements MachineOperation {
     @Override
     public void addProgress(int num) {
         Validate.isTrue(num > 0, "Progress must be positive.");
-        currentTicks += num;
+
+        /**
+         * Normalize the tickrate to the config value custom-ticker-delay.
+         * This makes the machines run nearly the same speed on changing the delay.
+         */
+        int tickRate = Slimefun.getTickerTask().getTickRate();
+        int normalizedTickRate = (int) Math.round((tickRate / 10.0D) * num);
+
+        currentTicks += Math.max(normalizedTickRate, num);
     }
 
     public @Nonnull ItemStack[] getIngredients() {
