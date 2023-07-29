@@ -18,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEve
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 
 import net.imprex.orebfuscator.api.OrebfuscatorService;
 
@@ -68,8 +68,7 @@ class OrebfuscatorIntegration implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onGoldPanUse(PlayerRightClickEvent event) {
         if (event.getSlimefunItem().isPresent() && event.getClickedBlock().isPresent()) {
-            String id = event.getSlimefunItem().get().getId();
-            if (id.equals(SlimefunItems.GOLD_PAN.getItemId()) || id.equals(SlimefunItems.NETHER_GOLD_PAN.getItemId())) {
+            if (event.getSlimefunItem().get() instanceof GoldPan) {
                 this.service.deobfuscate(List.of(event.getClickedBlock().get()));
             }
         }
