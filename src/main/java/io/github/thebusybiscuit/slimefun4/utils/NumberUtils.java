@@ -170,11 +170,9 @@ public final class NumberUtils {
         }
     }
 
-    public static @Nonnull String getTimeLeft(int ticksLeft) {
-        String timeleft = "";
-
+    public static @Nonnull String getTimeLeftFromTick(int ticksLeft) {
         /**
-         * This is the amount calculated in addProgress(). 
+         * This is the amount calculated in addProgress().
          * This will be the scale used for timer.
          */
         double timeScale = Slimefun.getTickerTask().getTickRate() / 10.0D;
@@ -186,9 +184,15 @@ public final class NumberUtils {
             //Adjust for positive change
             seconds = (int) (ticksLeft * (normalScale / 2 + 1.0D));
         } else if (normalScale > 0) {
-            // Adjust for negative change 
+            // Adjust for negative change
             seconds = (int) (ticksLeft * (normalScale + 1.0D));
         }
+
+        return getTimeLeft(seconds);
+    }
+
+    public static @Nonnull String getTimeLeft(int seconds) {
+        String timeleft = "";
 
         int minutes = (int) (seconds / 60L);
 
