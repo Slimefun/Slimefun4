@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -45,6 +46,8 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
                 if (isCraftable(inv, input)) {
                     ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
                     MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
+
+                    Bukkit.getPluginManager().callEvent(event);
                     if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
                         craft(inv, possibleDispenser, p, b, event.getOutput());
                     }

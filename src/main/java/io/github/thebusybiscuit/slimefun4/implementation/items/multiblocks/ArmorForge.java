@@ -45,6 +45,7 @@ public class ArmorForge extends AbstractCraftingTable {
                 if (isCraftable(inv, input)) {
                     ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
                     MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
+
                     Bukkit.getPluginManager().callEvent(event);
                     if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
                         craft(p, event.getOutput(), inv, possibleDispenser);

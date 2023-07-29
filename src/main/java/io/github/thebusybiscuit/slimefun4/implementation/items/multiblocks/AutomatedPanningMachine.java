@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -76,6 +77,8 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
         }
 
         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
+
+        Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return;
         }

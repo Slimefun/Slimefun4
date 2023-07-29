@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -53,6 +54,8 @@ public class PressureChamber extends MultiBlockMachine {
                         ItemStack output = RecipeType.getRecipeOutput(this, convert);
                         Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
                         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, current, output);
+
+                        Bukkit.getPluginManager().callEvent(event);
                         if (event.isCancelled()) {
                             return;
                         }

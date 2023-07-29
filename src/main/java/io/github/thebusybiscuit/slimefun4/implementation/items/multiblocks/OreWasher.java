@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -145,8 +146,9 @@ public class OreWasher extends MultiBlockMachine {
                     } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
                         ItemStack output = SlimefunItems.PURE_ORE_CLUSTER;
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
-
                         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
+
+                        Bukkit.getPluginManager().callEvent(event);
                         if (event.isCancelled()) {
                             return;
                         }

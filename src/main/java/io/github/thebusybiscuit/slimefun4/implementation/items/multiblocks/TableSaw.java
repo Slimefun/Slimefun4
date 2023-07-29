@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -109,6 +110,8 @@ public class TableSaw extends MultiBlockMachine {
         }
 
         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, item, output);
+
+        Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return;
         }

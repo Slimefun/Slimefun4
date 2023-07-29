@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -189,6 +190,8 @@ public class OreCrusher extends MultiBlockMachine {
                         ItemStack adding = RecipeType.getRecipeOutput(this, convert);
                         Inventory outputInv = findOutputInventory(adding, possibleDispenser, inv);
                         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, current, adding);
+
+                        Bukkit.getPluginManager().callEvent(event);
                         if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, adding, true)) {
                             if (outputInv != null) {
                                 ItemStack removing = current.clone();

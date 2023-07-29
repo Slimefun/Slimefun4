@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -68,6 +69,8 @@ public class Compressor extends MultiBlockMachine {
                         ItemStack output = RecipeType.getRecipeOutput(this, recipeInput);
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
                         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, item, output);
+
+                        Bukkit.getPluginManager().callEvent(event);
                         if (event.isCancelled()) {
                             return;
                         }
