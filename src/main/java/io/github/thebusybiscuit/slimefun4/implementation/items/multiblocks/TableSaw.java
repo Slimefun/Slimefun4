@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -107,23 +108,23 @@ public class TableSaw extends MultiBlockMachine {
             return;
         }
 
+        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, item, output);
+        if (event.isCancelled()) {
+            return;
+        }
+
         if (p.getGameMode() != GameMode.CREATIVE) {
             ItemUtils.consumeItem(item, true);
         }
 
-        outputItems(b, output);
+        outputItems(b, event.getOutput());
         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
     }
 
     private @Nullable ItemStack getOutputFromMaterial(@Nonnull Material item) {
         if (Tag.LOGS.isTagged(item)) {
             Optional<Material> planks = getPlanks(item);
-
-            if (planks.isPresent()) {
-                return new ItemStack(planks.get(), 8);
-            } else {
-                return null;
-            }
+            return planks.map(material -> new ItemStack(material, 8)).orElse(null);
         } else if (Tag.PLANKS.isTagged(item)) {
             return new ItemStack(Material.STICK, 4);
         } else {

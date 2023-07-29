@@ -2,12 +2,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -84,8 +84,8 @@ public class OreWasher extends MultiBlockMachine {
     }
 
     @Override
-    public List<ItemStack> getDisplayRecipes() {
-        return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
+        return recipes.stream().map(items -> items[0]).toList();
     }
 
     @Override
@@ -93,15 +93,14 @@ public class OreWasher extends MultiBlockMachine {
         Block dispBlock = b.getRelative(BlockFace.UP);
         BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
 
-        if (state instanceof Dispenser) {
-            Dispenser disp = (Dispenser) state;
+        if (state instanceof Dispenser disp) {
             Inventory inv = disp.getInventory();
 
             for (ItemStack input : inv.getContents()) {
                 if (input != null) {
                     if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE, true)) {
                         ItemStack output = getRandomDust();
-                        Inventory outputInv = null;
+                        Inventory outputInv;
 
                         if (!legacyMode) {
                             /*
@@ -119,7 +118,12 @@ public class OreWasher extends MultiBlockMachine {
                             outputInv = findOutputInventory(output, dispBlock, inv);
                         }
 
-                        removeItem(p, b, inv, outputInv, input, output, 1);
+                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
+                        if (event.isCancelled()) {
+                            return;
+                        }
+
+                        removeItem(p, b, inv, outputInv, input, event.getOutput(), 1);
 
                         if (outputInv != null) {
                             outputInv.addItem(SlimefunItems.STONE_CHUNK);
@@ -130,14 +134,24 @@ public class OreWasher extends MultiBlockMachine {
                         ItemStack output = SlimefunItems.SALT;
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
-                        removeItem(p, b, inv, outputInv, input, output, 2);
+                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
+                        if (event.isCancelled()) {
+                            return;
+                        }
+
+                        removeItem(p, b, inv, outputInv, input, event.getOutput(), 2);
 
                         return;
                     } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
                         ItemStack output = SlimefunItems.PURE_ORE_CLUSTER;
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
-                        removeItem(p, b, inv, outputInv, input, output, 1);
+                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
+                        if (event.isCancelled()) {
+                            return;
+                        }
+
+                        removeItem(p, b, inv, outputInv, input, event.getOutput(), 1);
 
                         return;
                     }

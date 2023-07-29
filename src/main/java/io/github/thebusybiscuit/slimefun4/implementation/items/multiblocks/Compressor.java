@@ -16,6 +16,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -66,13 +67,17 @@ public class Compressor extends MultiBlockMachine {
                     if (recipeInput != null && SlimefunUtils.isItemSimilar(item, recipeInput, true)) {
                         ItemStack output = RecipeType.getRecipeOutput(this, recipeInput);
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
+                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, item, output);
+                        if (event.isCancelled()) {
+                            return;
+                        }
 
                         if (outputInv != null) {
                             ItemStack removing = item.clone();
                             removing.setAmount(recipeInput.getAmount());
                             inv.removeItem(removing);
 
-                            craft(p, output, dispBlock, inv);
+                            craft(p, event.getOutput(), dispBlock, inv);
                         } else {
                             Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }

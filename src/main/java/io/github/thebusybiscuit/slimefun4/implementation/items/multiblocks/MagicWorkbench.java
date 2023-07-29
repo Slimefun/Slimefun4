@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -50,9 +51,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
             for (ItemStack[] input : inputs) {
                 if (isCraftable(inv, input)) {
                     ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
-
-                    if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(inv, possibleDispener, p, b, output);
+                    MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
+                    if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
+                        craft(inv, possibleDispener, p, b, event.getOutput());
                     }
 
                     return;

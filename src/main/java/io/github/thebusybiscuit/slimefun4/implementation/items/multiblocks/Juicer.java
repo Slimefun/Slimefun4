@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -62,12 +63,17 @@ public class Juicer extends MultiBlockMachine {
                     if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
                         ItemStack adding = RecipeType.getRecipeOutput(this, convert);
                         Inventory outputInv = findOutputInventory(adding, possibleDispenser, inv);
+                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, current, adding);
+
+                        if (event.isCancelled()) {
+                            return;
+                        }
 
                         if (outputInv != null) {
                             ItemStack removing = current.clone();
                             removing.setAmount(1);
                             inv.removeItem(removing);
-                            outputInv.addItem(adding);
+                            outputInv.addItem(event.getOutput());
 
                             SoundEffect.JUICER_USE_SOUND.playAt(b);
                             // Not changed since this is supposed to be a natural sound.
