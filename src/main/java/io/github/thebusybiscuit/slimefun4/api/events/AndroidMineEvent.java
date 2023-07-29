@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAnd
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * This {@link Event} is fired before a {@link MinerAndroid} mines a {@link Block}.
@@ -44,6 +45,21 @@ public class AndroidMineEvent extends Event implements Cancellable {
         this.block = block;
         this.android = android;
         this.drops = drops;
+    }
+
+    /**
+     * @param block
+     *            The mined {@link Block}
+     * @param android
+     *            The {@link AndroidInstance} that triggered this {@link Event}
+     *
+     * @deprecated
+     *          Use {@link #AndroidMineEvent(Block, AndroidInstance, Collection)} instead
+     */
+    @Deprecated
+    @ParametersAreNonnullByDefault
+    public AndroidMineEvent(Block block, AndroidInstance android) {
+        this(block, android, Collections.emptyList());
     }
 
     /**
