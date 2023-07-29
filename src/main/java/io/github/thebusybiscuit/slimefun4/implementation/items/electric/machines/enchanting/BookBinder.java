@@ -57,18 +57,8 @@ public class BookBinder extends AContainer {
 
                 // Just return if no enchantments exist. This shouldn't ever happen. :NotLikeThis:
                 if (enchantments.size() > 0) {
-                    // If any of the books contain an enchantment level higher that the configured maximum: don't consume the items
-                    for (Map.Entry<Enchantment, Integer> entry : storedItemEnchantments.entrySet()) {
-                        int maxLevel = bypassVanillaMaxLevel.getValue() ? customMaxLevel.getValue() : entry.getKey().getMaxLevel();
-                        if (entry.getValue() > maxLevel) {
-                            return null;
-                        }
-                    }
-                    for (Map.Entry<Enchantment, Integer> entry : storedTargetEnchantments.entrySet()) {
-                        int maxLevel = bypassVanillaMaxLevel.getValue() ? customMaxLevel.getValue() : entry.getKey().getMaxLevel();
-                        if (entry.getValue() > maxLevel) {
-                            return null;
-                        }
+                    if (hasIllegalEnchants(storedItemEnchantments) || hasIllegalEnchants(storedTargetEnchantments)) {
+                        return null;
                     }
 
                     ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
@@ -114,6 +104,20 @@ public class BookBinder extends AContainer {
 
     private boolean isCompatible(@Nullable ItemStack item) {
         return item != null && item.getType() == Material.ENCHANTED_BOOK;
+    }
+
+    private boolean hasIllegalEnchants(@Nullable Map<Enchantment, Integer> enchantments) {
+        if (enchantments == null) {
+            return false;
+        }
+
+        for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+            int maxLevel = bypassVanillaMaxLevel.getValue() ? customMaxLevel.getValue() : entry.getKey().getMaxLevel();
+            if (entry.getValue() > maxLevel) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
