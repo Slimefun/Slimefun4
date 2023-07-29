@@ -112,8 +112,7 @@ public class BookBinder extends AContainer {
         }
 
         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-            int maxLevel = bypassVanillaMaxLevel.getValue() ? customMaxLevel.getValue() : entry.getKey().getMaxLevel();
-            if (entry.getValue() > maxLevel) {
+            if (bypassVanillaMaxLevel.getValue() && entry.getValue() > customMaxLevel.getValue() || !bypassVanillaMaxLevel.getValue() && entry.getValue() > entry.getKey().getMaxLevel()) {
                 return true;
             }
         }
