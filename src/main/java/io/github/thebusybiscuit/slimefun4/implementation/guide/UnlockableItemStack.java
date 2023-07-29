@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  * 
  * @see SurvivalSlimefunGuide
  */
-class UnlockableItemStack extends SlimefunItemStack {
+public class UnlockableItemStack extends SlimefunItemStack {
 
     @ParametersAreNonnullByDefault
     UnlockableItemStack(SlimefunItem item, Player p) {
