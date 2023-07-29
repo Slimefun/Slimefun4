@@ -42,12 +42,12 @@ public class DispenserListener implements Listener {
         if (b.getType() == Material.DISPENSER && b.getRelative(BlockFace.DOWN).getType() != Material.HOPPER) {
             SlimefunItem machine = BlockStorage.check(b);
 
-            if (machine != null) {
+            // Fixes #2959
+            if (machine != null && !machine.isDisabledIn(e.getBlock().getWorld())) {
                 machine.callItemHandler(BlockDispenseHandler.class, handler -> {
                     BlockState state = PaperLib.getBlockState(b, false).getState();
 
-                    if (state instanceof Dispenser) {
-                        Dispenser dispenser = (Dispenser) state;
+                    if (state instanceof Dispenser dispenser) {
                         BlockFace face = ((Directional) b.getBlockData()).getFacing();
                         Block block = b.getRelative(face);
                         handler.onBlockDispense(e, dispenser, block, machine);

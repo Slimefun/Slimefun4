@@ -39,16 +39,12 @@ import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.handlers.GlobalItemHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
@@ -221,6 +217,11 @@ public class SlimefunItem implements Placeable {
         return itemGroup;
     }
 
+    /**
+     * Retrieve the recipe for this {@link SlimefunItem}.
+     *
+     * @return An {@link ItemStack} array of 9 which represents the recipe for this {@link SlimefunItem}
+     */
     public @Nonnull ItemStack[] getRecipe() {
         return recipe;
     }
@@ -474,11 +475,19 @@ public class SlimefunItem implements Placeable {
             // Now we can be certain this item should be enabled
             if (state == ItemState.ENABLED) {
                 onEnable();
+            } else {
+                // Clear item handlers if we are disabled so that calling them isn't possible later on
+                for (ItemHandler handler : this.itemhandlers.values()) {
+                    if (handler instanceof BlockTicker) {
+                        Slimefun.getRegistry().getTickerBlocks().remove(getId());
+                    }
+                }
+                this.itemhandlers.clear();
             }
 
             // Lock the SlimefunItemStack from any accidental manipulations
-            if (itemStackTemplate instanceof SlimefunItemStack && isItemStackImmutable()) {
-                ((SlimefunItemStack) itemStackTemplate).lock();
+            if (itemStackTemplate instanceof SlimefunItemStack stack && isItemStackImmutable()) {
+                stack.lock();
             }
 
             postRegister();
@@ -655,7 +664,13 @@ public class SlimefunItem implements Placeable {
         this.research = research;
     }
 
-    public void setRecipe(ItemStack[] recipe) {
+    /**
+     * Sets the recipe for this {@link SlimefunItem}.
+     *
+     * @param recipe
+     *            The recipe for this {@link ItemStack}
+     */
+    public void setRecipe(@Nonnull ItemStack[] recipe) {
         if (recipe == null || recipe.length != 9) {
             throw new IllegalArgumentException("Recipes must be of length 9");
         }
@@ -663,6 +678,12 @@ public class SlimefunItem implements Placeable {
         this.recipe = recipe;
     }
 
+    /**
+     * Sets the {@link RecipeType} for this {@link SlimefunItem}.
+     *
+     * @param type
+     *            The {@link RecipeType} for this {@link SlimefunItem}
+     */
     public void setRecipeType(@Nonnull RecipeType type) {
         Validate.notNull(type, "The RecipeType is not allowed to be null!");
         this.recipeType = type;
@@ -738,8 +759,8 @@ public class SlimefunItem implements Placeable {
         }
 
         // If the given item is a SlimefunitemStack, simply compare the id
-        if (item instanceof SlimefunItemStack) {
-            return getId().equals(((SlimefunItemStack) item).getItemId());
+        if (item instanceof SlimefunItemStack stack) {
+            return getId().equals(stack.getItemId());
         }
 
         if (item.hasItemMeta()) {
@@ -750,13 +771,7 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        // Backwards compatibility
-        if (Slimefun.getRegistry().isBackwardsCompatible()) {
-            boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
-            return SlimefunUtils.isItemSimilar(item, this.itemStackTemplate, !loreInsensitive);
-        } else {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -790,10 +805,10 @@ public class SlimefunItem implements Placeable {
             itemhandlers.put(handler.getIdentifier(), handler);
 
             // Tickers are a special case (at the moment at least)
-            if (handler instanceof BlockTicker) {
+            if (handler instanceof BlockTicker ticker) {
                 ticking = true;
                 Slimefun.getRegistry().getTickerBlocks().add(getId());
-                blockTicker = (BlockTicker) handler;
+                blockTicker = ticker;
             }
         }
     }
@@ -968,7 +983,8 @@ public class SlimefunItem implements Placeable {
      * @param message
      *            The message to send
      */
-    public void info(@Nonnull String message) {
+    @ParametersAreNonnullByDefault
+    public void info(String message) {
         Validate.notNull(addon, "Cannot log a message for an unregistered item!");
 
         String msg = toString() + ": " + message;
@@ -983,7 +999,8 @@ public class SlimefunItem implements Placeable {
      * @param message
      *            The message to send
      */
-    public void warn(@Nonnull String message) {
+    @ParametersAreNonnullByDefault
+    public void warn(String message) {
         Validate.notNull(addon, "Cannot send a warning for an unregistered item!");
 
         String msg = toString() + ": " + message;
@@ -1004,7 +1021,8 @@ public class SlimefunItem implements Placeable {
      * @param throwable
      *            The {@link Throwable} to throw as a stacktrace.
      */
-    public void error(@Nonnull String message, @Nonnull Throwable throwable) {
+    @ParametersAreNonnullByDefault
+    public void error(String message, Throwable throwable) {
         Validate.notNull(addon, "Cannot send an error for an unregistered item!");
         addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
 
@@ -1016,9 +1034,22 @@ public class SlimefunItem implements Placeable {
         addon.getLogger().log(Level.SEVERE, message, throwable);
 
         // We definitely want to re-throw them during Unit Tests
-        if (throwable instanceof RuntimeException && Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
-            throw (RuntimeException) throwable;
+        if (throwable instanceof RuntimeException e && Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            throw e;
         }
+    }
+
+    /**
+     * This method informs the given {@link Player} that this {@link SlimefunItem}
+     * will be removed soon.
+     * 
+     * @param player
+     *            The {@link Player} to inform.
+     */
+    @ParametersAreNonnullByDefault
+    public void sendDeprecationWarning(Player player) {
+        Validate.notNull(player, "The Player must not be null.");
+        Slimefun.getLocalization().sendMessage(player, "messages.deprecated-item");
     }
 
     /**
@@ -1105,8 +1136,8 @@ public class SlimefunItem implements Placeable {
 
     @Override
     public final boolean equals(Object obj) {
-        if (obj instanceof SlimefunItem) {
-            return ((SlimefunItem) obj).getId().equals(getId());
+        if (obj instanceof SlimefunItem item) {
+            return item.getId().equals(this.getId());
         } else {
             return false;
         }
@@ -1117,48 +1148,37 @@ public class SlimefunItem implements Placeable {
         return getId().hashCode();
     }
 
+    /**
+     * Retrieve a {@link SlimefunItem} by its id.
+     *
+     * @param id
+     *            The id of the {@link SlimefunItem}
+     * @return The {@link SlimefunItem} associated with that id. Null if non-existent
+     */
     public static @Nullable SlimefunItem getById(@Nonnull String id) {
         return Slimefun.getRegistry().getSlimefunItemIds().get(id);
     }
 
+    /**
+     * Retrieve a {@link SlimefunItem} from an {@link ItemStack}.
+     *
+     * @param item
+     *            The {@link ItemStack} to check
+     * @return The {@link SlimefunItem} associated with this {@link ItemStack} if present, otherwise null
+     */
     public static @Nullable SlimefunItem getByItem(@Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return null;
         }
 
-        if (item instanceof SlimefunItemStack) {
-            return getById(((SlimefunItemStack) item).getItemId());
+        if (item instanceof SlimefunItemStack stack) {
+            return getById(stack.getItemId());
         }
 
         Optional<String> itemID = Slimefun.getItemDataService().getItemData(item);
 
-        if (itemID.isPresent()) {
-            return getById(itemID.get());
-        }
+        return itemID.map(SlimefunItem::getById).orElse(null);
 
-        // Backwards compatibility
-        if (Slimefun.getRegistry().isBackwardsCompatible()) {
-            // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
-            ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
-
-            /*
-             * Quite expensive performance-wise.
-             * But necessary for supporting legacy items
-             */
-            for (SlimefunItem sfi : Slimefun.getRegistry().getAllSlimefunItems()) {
-                if (sfi.isItem(wrapper)) {
-                    /*
-                     * If we have to loop all items for the given item, then at least
-                     * set the id via PersistentDataAPI for future performance boosts
-                     */
-                    Slimefun.getItemDataService().setItemData(item, sfi.getId());
-
-                    return sfi;
-                }
-            }
-        }
-
-        return null;
     }
 
 }

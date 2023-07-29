@@ -20,18 +20,6 @@ import io.papermc.lib.PaperLib;
 public enum MinecraftVersion {
 
     /**
-     * This constant represents Minecraft (Java Edition) Version 1.14
-     * (The "Village &amp; Pillage" Update)
-     */
-    MINECRAFT_1_14(14, "1.14.x"),
-
-    /**
-     * This constant represents Minecraft (Java Edition) Version 1.15
-     * (The "Buzzy Bees" Update)
-     */
-    MINECRAFT_1_15(15, "1.15.x"),
-
-    /**
      * This constant represents Minecraft (Java Edition) Version 1.16
      * (The "Nether Update")
      */
@@ -48,6 +36,18 @@ public enum MinecraftVersion {
      * (The "Caves and Cliffs: Part II" Update)
      */
     MINECRAFT_1_18(18, "1.18.x"),
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.19
+     * ("The Wild Update")
+     */
+    MINECRAFT_1_19(19, "1.19.x"),
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.20
+     * ("The Trails &amp; Tales Update")
+     */
+    MINECRAFT_1_20(20, "1.20.x"),
 
     /**
      * This constant represents an exceptional state in which we were unable

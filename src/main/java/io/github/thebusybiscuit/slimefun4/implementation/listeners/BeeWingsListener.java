@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.BeeWingsTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.BeeWingsTask;
 
 /**
  * This {@link Listener} is responsible for the slow falling effect given to the {@link Player}
@@ -36,7 +36,8 @@ public class BeeWingsListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onApproachGround(EntityToggleGlideEvent e) {
-        if (!e.isGliding() || wings.isDisabled() || !(e.getEntity() instanceof Player)) {
+
+        if (wings == null || !e.isGliding() || wings.isDisabled() || !(e.getEntity() instanceof Player)) {
             return;
         }
 

@@ -20,6 +20,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -130,8 +131,11 @@ public class BlockStorage {
         }
 
         loadChunks();
-        loadInventories();
 
+        // TODO: properly support loading inventories within unit tests
+        if (!Slimefun.instance().isUnitTest()) {
+            loadInventories();
+        }
         Slimefun.getRegistry().getWorlds().put(world.getName(), this);
     }
 
@@ -607,6 +611,25 @@ public class BlockStorage {
         Slimefun.getTickerTask().queueDelete(l, destroy);
     }
 
+    public static void clearAllBlockInfoAtChunk(Chunk chunk, boolean destroy) {
+        clearAllBlockInfoAtChunk(chunk.getWorld(), chunk.getX(), chunk.getZ(), destroy);
+    }
+
+    public static void clearAllBlockInfoAtChunk(World world, int chunkX, int chunkZ, boolean destroy) {
+        BlockStorage blockStorage = getStorage(world);
+        if (blockStorage == null) {
+            return;
+        }
+        Map<Location, Boolean> toClear = new HashMap<>();
+        // Unsafe: get raw storage for this world
+        for (Location location : blockStorage.storage.keySet()) {
+            if (location.getBlockX() >> 4 == chunkX && location.getBlockZ() >> 4 == chunkZ) {
+                toClear.put(location, destroy);
+            }
+        }
+        Slimefun.getTickerTask().queueDelete(toClear);
+    }
+
     /**
      * <strong>Do not call this method!</strong>.
      * This method is used for internal purposes only.
@@ -696,7 +719,12 @@ public class BlockStorage {
         if (updateTicker) {
             SlimefunItem item = SlimefunItem.getById(key);
 
-            if (item != null && item.isTicking() && value != null) {
+            if (item != null
+                && value != null
+                && l.getWorld() != null
+                && item.isTicking()
+                && !item.isDisabledIn(l.getWorld())
+            ) {
                 Slimefun.getTickerTask().enableTicker(l);
             }
         }

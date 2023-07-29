@@ -29,7 +29,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -68,8 +67,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         addItemHandler(onPlace());
     }
 
-    @Nonnull
-    private BlockPlaceHandler onPlace() {
+    private @Nonnull BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
@@ -81,9 +79,8 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         };
     }
 
-    @Nonnull
     @Override
-    public BlockUseHandler getItemHandler() {
+    public @Nonnull BlockUseHandler getItemHandler() {
         return e -> {
             Block b = e.getClickedBlock().get();
 
@@ -93,12 +90,11 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         };
     }
 
-    @Nonnull
-    public List<ElevatorFloor> getFloors(@Nonnull Block b) {
+    public @Nonnull List<ElevatorFloor> getFloors(@Nonnull Block b) {
         LinkedList<ElevatorFloor> floors = new LinkedList<>();
         int index = 0;
 
-        for (int y = WorldUtils.getMinHeight(b.getWorld()); y < b.getWorld().getMaxHeight(); y++) {
+        for (int y = b.getWorld().getMinHeight(); y < b.getWorld().getMaxHeight(); y++) {
             if (y == b.getY()) {
                 String name = ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), DATA_KEY));
                 floors.addFirst(new ElevatorFloor(name, index, b));
@@ -209,7 +205,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     @ParametersAreNonnullByDefault
     public void openEditor(Player p, Block b) {
-        ChestMenu menu = new ChestMenu("Elevator Settings");
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "machines.ELEVATOR.editor-title"));
 
         menu.addItem(4, new CustomItemStack(Material.NAME_TAG, "&7Floor Name &e(Click to edit)", "", ChatColor.WHITE + ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), DATA_KEY))));
         menu.addMenuClickHandler(4, (pl, slot, item, action) -> {

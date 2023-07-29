@@ -8,6 +8,9 @@ on:
     paths:
     - 'src/main/resources/wiki.json'
 
+permissions:
+  contents: read
+
 jobs:
   validate:
 
@@ -16,7 +19,7 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Validate wiki.json
       uses: docker://orrosenblatt/validate-json-action:latest@sha256:02370758b8b199e0477da11ecfdd498c75c561685056b5c31b925a4ab95df7f4
       env:

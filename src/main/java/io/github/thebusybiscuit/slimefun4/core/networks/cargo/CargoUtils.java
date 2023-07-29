@@ -69,22 +69,7 @@ final class CargoUtils {
         }
 
         Material type = block.getType();
-
-        switch (type) {
-            case CHEST:
-            case TRAPPED_CHEST:
-            case FURNACE:
-            case DISPENSER:
-            case DROPPER:
-            case HOPPER:
-            case BREWING_STAND:
-            case BARREL:
-            case BLAST_FURNACE:
-            case SMOKER:
-                return true;
-            default:
-                return SlimefunTag.SHULKER_BOXES.isTagged(type);
-        }
+        return SlimefunTag.CARGO_SUPPORTED_STORAGE_BLOCKS.isTagged(type);
     }
 
     @Nonnull
@@ -145,8 +130,8 @@ final class CargoUtils {
 
                 BlockState state = PaperLib.getBlockState(target, false).getState();
 
-                if (state instanceof InventoryHolder) {
-                    inventory = ((InventoryHolder) state).getInventory();
+                if (state instanceof InventoryHolder inventoryHolder) {
+                    inventory = inventoryHolder.getInventory();
                     inventories.put(target.getLocation(), inventory);
                     return withdrawFromVanillaInventory(network, node, template, inventory);
                 }
@@ -230,8 +215,8 @@ final class CargoUtils {
 
             BlockState state = PaperLib.getBlockState(target, false).getState();
 
-            if (state instanceof InventoryHolder) {
-                inventory = ((InventoryHolder) state).getInventory();
+            if (state instanceof InventoryHolder inventoryHolder) {
+                inventory = inventoryHolder.getInventory();
                 inventories.put(target.getLocation(), inventory);
                 return withdrawFromVanillaInventory(network, node, inventory);
             }
@@ -278,8 +263,8 @@ final class CargoUtils {
 
                 BlockState state = PaperLib.getBlockState(target, false).getState();
 
-                if (state instanceof InventoryHolder) {
-                    inventory = ((InventoryHolder) state).getInventory();
+                if (state instanceof InventoryHolder inventoryHolder) {
+                    inventory = inventoryHolder.getInventory();
                     inventories.put(target.getLocation(), inventory);
                     return insertIntoVanillaInventory(stack, wrapper, smartFill, inventory);
                 }

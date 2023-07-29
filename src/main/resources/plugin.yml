@@ -9,7 +9,7 @@ description: Slimefun basically turns your entire Server into a FTB modpack with
 
 # Technical settings
 main: io.github.thebusybiscuit.slimefun4.implementation.Slimefun
-api-version: '1.14'
+api-version: '1.16'
 
 # (Soft) dependencies of Slimefun, we hook into these plugins.
 softdepend:
@@ -19,10 +19,6 @@ softdepend:
 - mcMMO
 - ItemsAdder
 - Orebfuscator
-
-# We hook into these plugins too, but they depend on Slimefun.
-loadBefore:
-- ChestTerminal
 
 # Our commands
 commands:

@@ -24,14 +24,13 @@ final class StartupWarnings {
 
     @ParametersAreNonnullByDefault
     static void discourageCSCoreLib(Logger logger) {
-        logger.log(Level.WARNING, BORDER);
-        logger.log(Level.WARNING, PREFIX + "It looks like you are still using CS-CoreLib.");
-        logger.log(Level.WARNING, PREFIX);
-        logger.log(Level.WARNING, PREFIX + "Slimefun no longer requires CS-CoreLib to be");
-        logger.log(Level.WARNING, PREFIX + "installed as of January 30th 2021. It is safe");
-        logger.log(Level.WARNING, PREFIX + "to remove and we recommend you to uninstall");
-        logger.log(Level.WARNING, PREFIX + "CS-CoreLib from your server immediately.");
-        logger.log(Level.WARNING, BORDER);
+        logger.log(Level.SEVERE, BORDER);
+        logger.log(Level.SEVERE, PREFIX + "It looks like you are still using CS-CoreLib.");
+        logger.log(Level.SEVERE, PREFIX);
+        logger.log(Level.SEVERE, PREFIX + "Slimefun no longer requires CS-CoreLib to be");
+        logger.log(Level.SEVERE, PREFIX + "installed as of January 30th 2021. You need to");
+        logger.log(Level.SEVERE, PREFIX + "remove CS-CoreLib for Slimefun to run.");
+        logger.log(Level.SEVERE, BORDER);
     }
 
     @ParametersAreNonnullByDefault

@@ -83,18 +83,6 @@ class VersionsCommand extends SubCommand {
 
             addJavaVersion(builder);
 
-            if (Slimefun.getRegistry().isBackwardsCompatible()) {
-                // @formatter:off
-                HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                    "Backwards compatibility has a negative impact on performance!\n" +
-                    "We recommend you to disable this setting unless your server still " +
-                    "has legacy Slimefun items (from before summer 2019) in circulation."
-                ));
-                // @formatter:on
-
-                builder.append("\nBackwards compatibility enabled!\n").color(ChatColor.RED).event(hoverEvent);
-            }
-
             builder.append("\n").event((HoverEvent) null);
             addPluginVersions(builder);
 
@@ -146,7 +134,7 @@ class VersionsCommand extends SubCommand {
                 secondaryColor = ChatColor.DARK_GREEN;
                 String authors = String.join(", ", plugin.getDescription().getAuthors());
 
-                if (plugin instanceof SlimefunAddon && ((SlimefunAddon) plugin).getBugTrackerURL() != null) {
+                if (plugin instanceof SlimefunAddon addon && addon.getBugTrackerURL() != null) {
                     // @formatter:off
                     hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder()
                         .append("Author(s): ")
@@ -158,7 +146,7 @@ class VersionsCommand extends SubCommand {
                     ));
                     // @formatter:on
 
-                    clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, ((SlimefunAddon) plugin).getBugTrackerURL());
+                    clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, addon.getBugTrackerURL());
                 } else {
                     // @formatter:off
                     hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder()
@@ -173,7 +161,7 @@ class VersionsCommand extends SubCommand {
                 primaryColor = ChatColor.RED;
                 secondaryColor = ChatColor.DARK_RED;
 
-                if (plugin instanceof SlimefunAddon && ((SlimefunAddon) plugin).getBugTrackerURL() != null) {
+                if (plugin instanceof SlimefunAddon addon && addon.getBugTrackerURL() != null) {
                     // @formatter:off
                     hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder()
                         .append("This plugin is disabled.\nCheck the console for an error message.")
@@ -183,8 +171,6 @@ class VersionsCommand extends SubCommand {
                         .create()
                     ));
                     // @formatter:on
-
-                    SlimefunAddon addon = (SlimefunAddon) plugin;
 
                     if (addon.getBugTrackerURL() != null) {
                         clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, addon.getBugTrackerURL());

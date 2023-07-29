@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -26,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.utils.ArmorStandUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
@@ -55,8 +55,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         addItemHandler(onPlace(), onRightClick(), onBreak());
     }
 
-    @Nonnull
-    private BlockPlaceHandler onPlace() {
+    private @Nonnull BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
@@ -72,8 +71,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         };
     }
 
-    @Nonnull
-    private BlockBreakHandler onBreak() {
+    private @Nonnull BlockBreakHandler onBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
@@ -83,8 +81,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         };
     }
 
-    @Nonnull
-    public BlockUseHandler onRightClick() {
+    public @Nonnull BlockUseHandler onRightClick() {
         return e -> {
             e.cancel();
 
@@ -97,15 +94,22 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         };
     }
 
-    private static void openEditor(@Nonnull Player p, @Nonnull Block projector) {
+    private void openEditor(@Nonnull Player p, @Nonnull Block projector) {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "machines.HOLOGRAM_PROJECTOR.inventory-title"));
 
-        menu.addItem(0, new CustomItemStack(Material.NAME_TAG, "&7Text &e(Click to edit)", "", "&r" + ChatColors.color(BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
+        menu.addItem(0, new CustomItemStack(Material.NAME_TAG, "&7Text &e(Click to edit)", "", "&f" + ChatColors.color(BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             pl.closeInventory();
             Slimefun.getLocalization().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
 
             ChatUtils.awaitInput(pl, message -> {
+                // Fixes #3445 - Make sure the projector is not broken
+                if (!BlockStorage.check(projector, getId())) {
+                    // Hologram projector no longer exists.
+                    // TODO: Add a chat message informing the player that their message was ignored.
+                    return;
+                }
+
                 ArmorStand hologram = getArmorStand(projector, true);
                 hologram.setCustomName(ChatColors.color(message));
                 BlockStorage.addBlockInfo(projector, "text", hologram.getCustomName());
@@ -115,7 +119,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
             return false;
         });
 
-        menu.addItem(1, new CustomItemStack(Material.CLOCK, "&7Offset: &e" + NumberUtils.roundDecimalNumber(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER)) + 1.0D), "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
+        menu.addItem(1, new CustomItemStack(Material.CLOCK, "&7Offset: &e" + NumberUtils.roundDecimalNumber(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER)) + 1.0D), "", "&fLeft Click: &7+0.1", "&fRight Click: &7-0.1"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
             double offset = NumberUtils.reparseDouble(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER)) + (action.isRightClicked() ? -0.1F : 0.1F));
             ArmorStand hologram = getArmorStand(projector, true);
@@ -136,11 +140,11 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
 
         for (Entity n : l.getChunk().getEntities()) {
-            if (n instanceof ArmorStand && l.distanceSquared(n.getLocation()) < 0.4) {
+            if (n instanceof ArmorStand armorStand && l.distanceSquared(n.getLocation()) < 0.4) {
                 String customName = n.getCustomName();
 
                 if (customName != null && customName.equals(nametag)) {
-                    return (ArmorStand) n;
+                    return armorStand;
                 }
             }
         }
@@ -148,23 +152,8 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         if (!createIfNoneExists) {
             return null;
         }
-
-        ArmorStand hologram = spawnArmorStand(l);
-        hologram.setCustomName(nametag);
-        return hologram;
-    }
-
-    @Nonnull
-    private static ArmorStand spawnArmorStand(@Nonnull Location l) {
-        ArmorStand armorStand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
-        armorStand.setVisible(false);
-        armorStand.setSilent(true);
-        armorStand.setMarker(true);
-        armorStand.setGravity(false);
-        armorStand.setBasePlate(false);
-        armorStand.setCustomNameVisible(true);
-        armorStand.setRemoveWhenFarAway(false);
-        return armorStand;
+        
+        return ArmorStandUtils.spawnArmorStand(l, nametag);
     }
 
     private static void killArmorStand(@Nonnull Block b) {

@@ -6,7 +6,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -20,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -34,33 +34,32 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
     @Override
     public void onInteract(Player p, Block b) {
-        Block dispenser = locateDispenser(b);
+        Block possibleDispener = locateDispenser(b);
 
-        if (dispenser == null) {
+        if (possibleDispener == null) {
             // How even...
             return;
         }
 
-        BlockState state = PaperLib.getBlockState(dispenser, false).getState();
+        BlockState state = PaperLib.getBlockState(possibleDispener, false).getState();
 
-        if (state instanceof Dispenser) {
-            Dispenser disp = (Dispenser) state;
-            Inventory inv = disp.getInventory();
+        if (state instanceof Dispenser dispenser) {
+            Inventory inv = dispenser.getInventory();
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
-            for (int i = 0; i < inputs.size(); i++) {
-                if (isCraftable(inv, inputs.get(i))) {
-                    ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+            for (ItemStack[] input : inputs) {
+                if (isCraftable(inv, input)) {
+                    ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(inv, dispenser, p, b, output);
+                        craft(inv, possibleDispener, p, b, output);
                     }
 
                     return;
                 }
             }
 
-            if (SlimefunUtils.isInventoryEmpty(inv)) {
+            if (inv.isEmpty()) {
                 Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
             } else {
                 Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
@@ -76,8 +75,8 @@ public class MagicWorkbench extends AbstractCraftingTable {
         if (outputInv != null) {
             SlimefunItem sfItem = SlimefunItem.getByItem(output);
 
-            if (sfItem instanceof SlimefunBackpack) {
-                upgradeBackpack(p, inv, (SlimefunBackpack) sfItem, output);
+            if (sfItem instanceof SlimefunBackpack backpack) {
+                upgradeBackpack(p, inv, backpack, output);
             }
 
             for (int j = 0; j < 9; j++) {
@@ -104,9 +103,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
                 p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
 
                 if (current < 3) {
-                    p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F);
+                    SoundEffect.MAGIC_WORKBENCH_START_ANIMATION_SOUND.playAt(b);
                 } else {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND.playAt(b);
                     handleCraftedItem(output, dispenser, dispInv);
                 }
             }, j * 20L);

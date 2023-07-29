@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -28,6 +29,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  *
  * @author TheBusyBiscuit
  * @author Rothes
+ * @author J3fftw1
  *
  * @see AutoEnchanter
  * @see AutoDisenchanter
@@ -37,6 +39,8 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
     private final ItemSetting<Boolean> useLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting levelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
+    private final ItemSetting<Integer> maxEnchants = new IntRangeSetting(this, "max-enchants", 0, 10, Short.MAX_VALUE);
+    private final ItemSetting<Boolean> useMaxEnchants= new ItemSetting<>(this, "use-max-enchants", false);
     private final ItemSetting<Boolean> useIgnoredLores = new ItemSetting<>(this, "use-ignored-lores", false);
     private final ItemSetting<List<String>> ignoredLores = new ItemSetting<>(this, "ignored-lores", Collections.singletonList("&7- &cCan't be used in " + this.getItemName()));
 
@@ -48,6 +52,8 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         addItemSetting(levelLimit);
         addItemSetting(useIgnoredLores);
         addItemSetting(ignoredLores);
+        addItemSetting(maxEnchants);
+        addItemSetting(useMaxEnchants);
     }
 
     protected boolean isEnchantmentLevelAllowed(int enchantmentLevel) {
@@ -83,5 +89,12 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         }
 
         return false;
+    }
+
+    protected boolean isEnchantmentAmountAllowed(int numberOfEnchants) {
+        if (!useMaxEnchants.getValue()) {
+            return true;
+        }
+        return numberOfEnchants <= maxEnchants.getValue();
     }
 }

@@ -9,7 +9,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
@@ -27,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -90,13 +90,11 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             items.add(new ItemStack(Material.LAVA_BUCKET));
         }
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            items.add(new ItemStack(Material.BLACKSTONE, 8));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(new ItemStack(Material.BLACKSTONE, 8));
+        items.add(new ItemStack(Material.LAVA_BUCKET));
 
-            items.add(new ItemStack(Material.BASALT, 12));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
-        }
+        items.add(new ItemStack(Material.BASALT, 12));
+        items.add(new ItemStack(Material.LAVA_BUCKET));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             items.add(new ItemStack(Material.COBBLED_DEEPSLATE, 12));
@@ -168,7 +166,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         if (isWater && block.getWorld().getEnvironment() == Environment.NETHER && !allowWaterInNether.getValue()) {
             // We will still consume the items but won't generate water in the Nether.
             block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getLocation().add(0.5, 0.5, 0.5), 4);
-            block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
+            SoundEffect.CRUCIBLE_GENERATE_LIQUID_SOUND.playAt(block);
             return;
         }
 
@@ -177,7 +175,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         } else if (block.getType() == (isWater ? Material.LAVA : Material.WATER)) {
             int level = ((Levelled) block.getBlockData()).getLevel();
             block.setType(level == 0 || level == 8 ? Material.OBSIDIAN : Material.STONE);
-            block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
+            SoundEffect.CRUCIBLE_GENERATE_LIQUID_SOUND.playAt(block);
         } else {
             Slimefun.runSync(() -> placeLiquid(block, isWater), 50L);
         }
@@ -191,23 +189,22 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         }
 
         if (level == 0) {
-            block.getWorld().playSound(block.getLocation(), water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1F, 1F);
+            Slimefun.runSync(() -> runPostTask(block, water ? SoundEffect.CRUCIBLE_ADD_WATER_SOUND : SoundEffect.CRUCIBLE_ADD_LAVA_SOUND, 1));
         } else {
             int finalLevel = 7 - level;
-            Slimefun.runSync(() -> runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, finalLevel), 50L);
+            Slimefun.runSync(() -> runPostTask(block, water ? SoundEffect.CRUCIBLE_ADD_WATER_SOUND : SoundEffect.CRUCIBLE_ADD_LAVA_SOUND, finalLevel), 50L);
         }
     }
 
     private void placeLiquid(@Nonnull Block block, boolean water) {
-        if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
+        if (block.getType().isAir()) {
             // Fixes #2903 - Cancel physics update to resolve weird overlapping
             block.setType(water ? Material.WATER : Material.LAVA, false);
         } else {
-            if (water && block.getBlockData() instanceof Waterlogged) {
-                Waterlogged wl = (Waterlogged) block.getBlockData();
-                wl.setWaterlogged(true);
-                block.setBlockData(wl, false);
-                block.getWorld().playSound(block.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+            if (water && block.getBlockData() instanceof Waterlogged waterlogged) {
+                waterlogged.setWaterlogged(true);
+                block.setBlockData(waterlogged, false);
+                SoundEffect.CRUCIBLE_PLACE_WATER_SOUND.playAt(block);
                 return;
             }
 
@@ -215,27 +212,25 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                 BlockStorage.clearBlockInfo(block);
             }
         }
-
-        runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1);
+        runPostTask(block, water ? SoundEffect.CRUCIBLE_PLACE_WATER_SOUND : SoundEffect.CRUCIBLE_PLACE_LAVA_SOUND, 1);
     }
 
     @ParametersAreNonnullByDefault
-    private void runPostTask(Block block, Sound sound, int times) {
-        if (!(block.getBlockData() instanceof Levelled)) {
-            block.getWorld().playSound(block.getLocation(), Sound.BLOCK_METAL_BREAK, 1F, 1F);
+    private void runPostTask(Block block, SoundEffect sound, int times) {
+        if (!(block.getBlockData() instanceof Levelled le)) {
+            SoundEffect.CRUCIBLE_BLOCK_BREAK_SOUND.playAt(block);
             return;
         }
 
-        block.getWorld().playSound(block.getLocation(), sound, 1F, 1F);
+        sound.playAt(block);
         int level = 8 - times;
-        Levelled le = (Levelled) block.getBlockData();
         le.setLevel(level);
         block.setBlockData(le, false);
 
         if (times < 8) {
             Slimefun.runSync(() -> runPostTask(block, sound, times + 1), 50L);
         } else {
-            block.getWorld().playSound(block.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+            SoundEffect.CRUCIBLE_INTERACT_SOUND.playAt(block);
         }
     }
 

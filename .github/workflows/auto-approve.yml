@@ -2,18 +2,25 @@ name: Auto approve
 
 on: pull_request
 
+permissions:
+  contents: read
+
 jobs:
   auto-approve:
 
     name: Auto approve Pull Request
     runs-on: ubuntu-latest
 
-    ## Only run this on the main repo
+    # for hmarr/auto-approve-action to approve PRs
+    permissions:
+      pull-requests: write
+
+    # Only run this on the main repo
     if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
 
     steps:
     - name: Approve via actions
-      uses: hmarr/auto-approve-action@v2.1.0
+      uses: hmarr/auto-approve-action@v3.2.1
       if: github.actor == 'TheBusyBot' || github.actor == 'renovate[bot]'
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"

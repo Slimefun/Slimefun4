@@ -55,6 +55,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundService;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
@@ -81,10 +82,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHook
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.HopperListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.MiddleClickListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MiningAndroidListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.RadioactivityListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
@@ -113,7 +116,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesS
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RainbowArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SolarHelmetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
@@ -133,6 +139,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  */
 public final class Slimefun extends JavaPlugin implements SlimefunAddon {
 
+    /**
+     * This is the Java version we recommend server owners to use.
+     * This does not necessarily mean that it's the minimum version
+     * required to run Slimefun.
+     */
     private static final int RECOMMENDED_JAVA_VERSION = 17;
 
     /**
@@ -169,6 +180,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
     private final HologramsService hologramsService = new HologramsService(this);
+    private final SoundService soundService = new SoundService(this);
 
     // Some other things we need
     private final IntegrationsManager integrations = new IntegrationsManager(this);
@@ -244,6 +256,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         command.register();
         registry.load(this, config);
         loadTags();
+        soundService.reload(false);
     }
 
     /**
@@ -263,6 +276,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Check if CS-CoreLib is installed (it is no longer needed)
         if (getServer().getPluginManager().getPlugin("CS-CoreLib") != null) {
             StartupWarnings.discourageCSCoreLib(logger);
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         // Encourage newer Java version
@@ -330,6 +345,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         runSync(new SlimefunStartupTask(this, () -> {
             textureService.register(registry.getAllSlimefunItems(), true);
             permissionsService.register(registry.getAllSlimefunItems(), true);
+            soundService.reload(true);
 
             // This try/catch should prevent buggy Spigot builds from blocking item loading
             try {
@@ -349,8 +365,10 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         // Armor Update Task
         if (config.getBoolean("options.enable-armor-effects")) {
-            boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
-            getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
+            new SlimefunArmorTask().schedule(this, config.getInt("options.armor-update-interval") * 20L);
+            new RadiationTask().schedule(this, config.getInt("options.radiation-update-interval") * 20L);
+            new RainbowArmorTask().schedule(this, config.getInt("options.rainbow-armor-update-interval") * 20L);
+            new SolarHelmetTask().schedule(this, config.getInt("options.armor-update-interval"));
         }
 
         // Starting our tasks
@@ -623,22 +641,16 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new SoulboundListener(this);
         new AutoCrafterListener(this);
         new SlimefunItemHitListener(this);
-
-        // Bees were added in 1.15
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            new BeeListener(this);
-            new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
-        }
-
-        // Piglins were added in 1.16
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            new PiglinListener(this);
-            new SmithingTableListener(this);
-        }
+        new MiddleClickListener(this);
+        new BeeListener(this);
+        new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
+        new PiglinListener(this);
+        new SmithingTableListener(this);
 
         // Item-specific Listeners
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
         new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem());
+        new RadioactivityListener(this);
         new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
         grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
         bowListener.register(this);
@@ -830,6 +842,17 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull HologramsService getHologramsService() {
         validateInstance();
         return instance.hologramsService;
+    }
+
+    /**
+     * This returns our {@link  SoundService} which handles the configuration of all sounds used in Slimefun
+     *
+     * @return Our instance of {@link SoundService}
+     */
+    @Nonnull
+    public static SoundService getSoundService() {
+        validateInstance();
+        return instance.soundService;
     }
 
     /**

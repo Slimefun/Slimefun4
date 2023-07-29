@@ -89,7 +89,6 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
 
     @ParametersAreNonnullByDefault
     protected void addChannelSelector(Block b, BlockMenu menu, int slotPrev, int slotCurrent, int slotNext) {
-        boolean isChestTerminalInstalled = Slimefun.getIntegrations().isChestTerminalInstalled();
         int channel = getSelectedChannel(b);
 
         menu.replaceExistingItem(slotPrev, new CustomItemStack(HeadTexture.CARGO_ARROW_LEFT.getAsItemStack(), "&bPrevious Channel", "", "&e> Click to decrease the Channel ID by 1"));
@@ -97,11 +96,7 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
             int newChannel = channel - 1;
 
             if (newChannel < 0) {
-                if (isChestTerminalInstalled) {
-                    newChannel = 16;
-                } else {
-                    newChannel = 15;
-                }
+                newChannel = 15;
             }
 
             BlockStorage.addBlockInfo(b, FREQUENCY, String.valueOf(newChannel));
@@ -121,11 +116,7 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
         menu.addMenuClickHandler(slotNext, (p, slot, item, action) -> {
             int newChannel = channel + 1;
 
-            if (isChestTerminalInstalled) {
-                if (newChannel > 16) {
-                    newChannel = 0;
-                }
-            } else if (newChannel > 15) {
+            if (newChannel > 15) {
                 newChannel = 0;
             }
 
