@@ -67,10 +67,8 @@ class OrebfuscatorIntegration implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onGoldPanUse(PlayerRightClickEvent event) {
-        if (event.getSlimefunItem().isPresent() && event.getClickedBlock().isPresent()) {
-            if (event.getSlimefunItem().get() instanceof GoldPan) {
-                this.service.deobfuscate(List.of(event.getClickedBlock().get()));
-            }
+        if (event.getSlimefunItem().isPresent() && event.getClickedBlock().isPresent() && event.getSlimefunItem().get() instanceof GoldPan) {
+            this.service.deobfuscate(List.of(event.getClickedBlock().get()));
         }
     }
 }
