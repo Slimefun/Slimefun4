@@ -9,7 +9,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -83,7 +82,7 @@ public class ExplosionsListener implements Listener {
     private void removeResistantBlock(@Nonnull Block block, @Nonnull SlimefunItem slimefunItem) {
         // Fixes #3414 - This check removes the ghost block created by withers.
         if (!(slimefunItem instanceof WitherProof)
-            && !slimefunItem.callItemHandler(BlockBreakHandler.class, handler -> handleExplosion(handler, block))
+            && !slimefunItem.callItemHandler(BlockBreakHandler.class, handler -> handleExplosion(handler, block, slimefunItem))
         ) {
             BlockStorage.clearBlockInfo(block);
             block.setType(Material.AIR);
@@ -91,7 +90,7 @@ public class ExplosionsListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    private void handleExplosion(BlockBreakHandler handler, Block block) {
+    private void handleExplosion(BlockBreakHandler handler, Block block, SlimefunItem sfItem) {
         if (handler.isExplosionAllowed(block)) {
             BlockStorage.clearBlockInfo(block);
             block.setType(Material.AIR);
@@ -99,7 +98,7 @@ public class ExplosionsListener implements Listener {
             List<ItemStack> drops = new ArrayList<>();
             handler.onExplode(block, drops);
 
-            for (ItemStack drop : drops) {
+            for (ItemStack drop : sfItem.getDrops()) {
                 if (drop != null && !drop.getType().isAir()) {
                     block.getWorld().dropItemNaturally(block.getLocation(), drop);
                 }
