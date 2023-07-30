@@ -66,6 +66,7 @@ public class CreatureBuildListener implements Listener {
                 return;
             }
         }
+        
         for (Block block : removedBlocks) {
             if (BlockStorage.hasBlockInfo(block)) {
                 // We have found a special block; we should deny the creature spawn
