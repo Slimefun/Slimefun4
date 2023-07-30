@@ -1,9 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.blockpattern.TShapedBlockPattern;
-import io.github.thebusybiscuit.slimefun4.utils.blockpattern.WitherBuildPattern;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,12 +15,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.blockpattern.TShapedBlockPattern;
+import io.github.thebusybiscuit.slimefun4.utils.blockpattern.WitherBuildPattern;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * This {@link Listener} makes sure that iron golems, snowman (snowmen) and withers cannot be
