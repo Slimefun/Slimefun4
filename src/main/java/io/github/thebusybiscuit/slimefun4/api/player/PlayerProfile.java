@@ -36,6 +36,7 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
@@ -324,10 +325,18 @@ public class PlayerProfile {
         return Optional.empty();
     }
 
+    // returns the amount of researches with at least 1 enabled item
+    private int nonEmptyResearches() {
+        return (int) Slimefun.getRegistry().getResearches()
+                .stream()
+                .filter(research -> research.getAffectedItems().stream().anyMatch(item -> item.getState() == ItemState.ENABLED))
+                .count();
+    }
+
     public @Nonnull String getTitle() {
         List<String> titles = Slimefun.getRegistry().getResearchRanks();
 
-        float fraction = (float) researches.size() / Slimefun.getRegistry().getResearches().size();
+        float fraction = (float) researches.size() / nonEmptyResearches();
         int index = (int) (fraction * (titles.size() - 1));
 
         return titles.get(index);
@@ -336,7 +345,7 @@ public class PlayerProfile {
     public void sendStats(@Nonnull CommandSender sender) {
         Set<Research> unlockedResearches = getResearches();
         int levels = unlockedResearches.stream().mapToInt(Research::getCost).sum();
-        int allResearches = Slimefun.getRegistry().getResearches().size();
+        int allResearches = nonEmptyResearches();
 
         float progress = Math.round(((unlockedResearches.size() * 100.0F) / allResearches) * 100.0F) / 100.0F;
 
