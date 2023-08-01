@@ -51,6 +51,9 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.ANDESITE));
         recipes.add(new ItemStack(Material.GRAVEL));
 
+        recipes.add(new ItemStack(Material.BLACKSTONE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+
         recipes.add(new ItemStack(Material.DIORITE));
         recipes.add(new ItemStack(Material.GRAVEL));
 
