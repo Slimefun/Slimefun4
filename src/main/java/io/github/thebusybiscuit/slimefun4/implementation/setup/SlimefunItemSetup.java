@@ -1927,12 +1927,12 @@ public final class SlimefunItemSetup {
             
             @Override
             public int getMultiplier(int y) {
-                return y * 64 + 600;
+                return y * 64 + 2100;
             }
 
             @Override
             public int getEnergyConsumption() {
-                return 46;
+                return 43;
             }
             
         }.register(plugin);
