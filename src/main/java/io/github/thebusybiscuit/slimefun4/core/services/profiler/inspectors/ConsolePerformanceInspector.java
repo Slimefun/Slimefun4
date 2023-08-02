@@ -43,7 +43,7 @@ public class ConsolePerformanceInspector implements PerformanceInspector {
      * @param verbose
      *            Whether the summary will be verbose or not
      * @param orderType
-     *            The order type of the timings
+     *            The {@link SummaryOrderType} of the timings
      */
     @ParametersAreNonnullByDefault
     public ConsolePerformanceInspector(CommandSender console, boolean verbose, SummaryOrderType orderType) {

@@ -39,7 +39,7 @@ public class PlayerPerformanceInspector implements PerformanceInspector {
      * @param player
      *            The {@link Player}
      * @param orderType
-     *            The order type of the timings
+     *            The {@link SummaryOrderType} of the timings
      */
     public PlayerPerformanceInspector(@Nonnull Player player, @Nonnull SummaryOrderType orderType) {
         Validate.notNull(player, "Player cannot be null");
