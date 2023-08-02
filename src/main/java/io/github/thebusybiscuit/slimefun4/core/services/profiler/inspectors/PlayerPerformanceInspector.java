@@ -52,8 +52,7 @@ public class PlayerPerformanceInspector implements PerformanceInspector {
     /**
      * {@inheritDoc}
      */
-    @Nullable
-    private Player getPlayer() {
+    private @Nullable Player getPlayer() {
         return Bukkit.getPlayer(uuid);
     }
 
