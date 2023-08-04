@@ -134,8 +134,8 @@ messages:
       enabled:
         - '&cЭтот рецепт сейчас включён'
         - ''
-        - '&eLeft Click &7to temporarily disable the recipe'
-        - '&eRight Click &7to remove this recipe'
+        - ''
+        - ''
   talisman:
     anvil: '&a&oВаш талисман сохранил инструмент от поломки'
     miner: '&a&oВаш талисман удвоил Ваш дроп'
