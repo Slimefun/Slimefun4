@@ -23,14 +23,13 @@ public class DebugCommand extends SubCommand {
     }
 
     @Override
-    @Nonnull
-    protected String getDescription() {
+    protected @Nonnull String getDescription() {
         return "commands.debug.description";
     }
 
     @Override
     @ParametersAreNonnullByDefault
-    public void onExecute(@Nonnull CommandSender sender, @Nonnull String[] args) {
+    public void onExecute(CommandSender sender, String[] args) {
         if (!sender.hasPermission("slimefun.command.debug")) {
             Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
             return;

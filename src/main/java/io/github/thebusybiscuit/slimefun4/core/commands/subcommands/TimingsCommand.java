@@ -30,8 +30,7 @@ class TimingsCommand extends SubCommand {
     }
 
     @Override
-    @Nonnull
-    protected String getDescription() {
+    protected @Nonnull String getDescription() {
         return "commands.timings.description";
     }
 
@@ -87,8 +86,7 @@ class TimingsCommand extends SubCommand {
         return false;
     }
 
-    @Nonnull
-    private PerformanceInspector inspectorOf(@Nonnull CommandSender sender, boolean verbose) {
+    private @Nonnull PerformanceInspector inspectorOf(@Nonnull CommandSender sender, boolean verbose) {
         if (sender instanceof Player player) {
             return new PlayerPerformanceInspector(player);
         } else {

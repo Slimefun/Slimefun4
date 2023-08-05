@@ -28,8 +28,7 @@ class ChargeCommand extends SubCommand {
     }
 
     @Override
-    @Nonnull
-    protected String getDescription() {
+    protected @Nonnull String getDescription() {
         return "commands.charge.description";
     }
 

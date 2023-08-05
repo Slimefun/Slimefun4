@@ -27,8 +27,7 @@ class ResearchCommand extends SubCommand {
     }
 
     @Override
-    @Nonnull
-    protected String getDescription() {
+    protected @Nonnull String getDescription() {
         return "commands.research.description";
     }
 
@@ -105,8 +104,7 @@ class ResearchCommand extends SubCommand {
         Slimefun.getLocalization().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()));
     }
 
-    @Nonnull
-    private Optional<Research> getResearchFromString(@Nonnull String input) {
+    private @Nonnull Optional<Research> getResearchFromString(@Nonnull String input) {
         if (!input.contains(":")) {
             return Optional.empty();
         }

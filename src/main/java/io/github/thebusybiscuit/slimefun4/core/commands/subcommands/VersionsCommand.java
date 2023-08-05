@@ -92,8 +92,8 @@ class VersionsCommand extends SubCommand {
             // @formatter:off
             HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
                     "Backwards compatibility has a negative impact on performance!\n" +
-                            "We recommend you to disable this setting unless your server still " +
-                            "has legacy Slimefun items (from before summer 2019) in circulation."
+                    "We recommend you to disable this setting unless your server still " +
+                    "has legacy Slimefun items (from before summer 2019) in circulation."
             ));
             // @formatter:on
 
@@ -118,8 +118,8 @@ class VersionsCommand extends SubCommand {
         builder.append("Java " + version).color(ChatColor.RED)
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
                         "Your Java version is out of date!\n!" +
-                                "You should use Java " + RECOMMENDED_JAVA_VERSION + " or higher.\n" +
-                                JAVA_VERSION_NOTICE
+                        "You should use Java " + RECOMMENDED_JAVA_VERSION + " or higher.\n" +
+                        JAVA_VERSION_NOTICE
                 )))
                 .append("\n")
                 .event((HoverEvent) null);
