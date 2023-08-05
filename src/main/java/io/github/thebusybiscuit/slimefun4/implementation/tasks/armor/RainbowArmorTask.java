@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.RainbowArmorPiece;
 
@@ -30,15 +30,10 @@ public class RainbowArmorTask extends AbstractArmorTask {
     protected void onPlayerTick(Player p, PlayerProfile profile) {
         for (int i = 0; i < 4; i++) {
             ItemStack item = p.getInventory().getArmorContents()[i];
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-            if (item != null && item.hasItemMeta()) {
-                HashedArmorpiece armorPiece = profile.getArmor()[i];
-
-                armorPiece.getItem().ifPresent(sfArmorPiece -> {
-                    if (sfArmorPiece instanceof RainbowArmorPiece rainbowArmorPiece && rainbowArmorPiece.canUse(p, true)) {
-                        updateRainbowArmor(item, rainbowArmorPiece);
-                    }
-                });
+            if (sfItem instanceof RainbowArmorPiece rainbowArmorPiece && rainbowArmorPiece.canUse(p, true)) {
+                updateRainbowArmor(item, rainbowArmorPiece);
             }
         }
     }
