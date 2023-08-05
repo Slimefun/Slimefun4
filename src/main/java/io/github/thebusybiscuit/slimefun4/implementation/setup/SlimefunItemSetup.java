@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.EnchantedItem;
@@ -35,7 +37,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPede
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInterface;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FarmerAndroid;
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FisherAndroid;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FishermanAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ProgrammableAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.WoodcutterAndroid;
@@ -45,6 +47,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.FarmerShoes
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.HazmatArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.LongFallBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.RainbowArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.StomperBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.ArmorAutoCrafter;
@@ -375,7 +378,8 @@ public final class SlimefunItemSetup {
 
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.SLIME_BOOTS, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT)},
-        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)})
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)},
+            SoundEffect.SLIME_BOOTS_FALL_SOUND)
         .register(plugin);
 
         new SwordOfBeheading(itemGroups.weapons, SlimefunItems.SWORD_OF_BEHEADING, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -430,6 +434,37 @@ public final class SlimefunItemSetup {
             new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}, 
             new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}
         }, plugin);
+
+        DyeColor[] rainbowArmorColors = {
+            DyeColor.RED,
+            DyeColor.ORANGE,
+            DyeColor.YELLOW,
+            DyeColor.LIME,
+            DyeColor.LIGHT_BLUE,
+            DyeColor.PURPLE,
+            DyeColor.MAGENTA
+        };
+
+        new RainbowArmorPiece(itemGroups.magicalArmor, SlimefunItems.RAINBOW_HELMET, RecipeType.ARMOR_FORGE,
+                new ItemStack[] { SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER, null, null, null },
+                rainbowArmorColors)
+                .register(plugin);
+
+        new RainbowArmorPiece(itemGroups.magicalArmor, SlimefunItems.RAINBOW_CHESTPLATE, RecipeType.ARMOR_FORGE,
+                new ItemStack[] { SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER },
+                rainbowArmorColors)
+                .register(plugin);
+
+        new RainbowArmorPiece(itemGroups.magicalArmor, SlimefunItems.RAINBOW_LEGGINGS, RecipeType.ARMOR_FORGE,
+                new ItemStack[] { SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER },
+                rainbowArmorColors)
+                .register(plugin);
+
+        new RainbowArmorPiece(itemGroups.magicalArmor, SlimefunItems.RAINBOW_BOOTS, RecipeType.ARMOR_FORGE,
+                new ItemStack[] { null, null, null, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER, SlimefunItems.RAINBOW_LEATHER, null, SlimefunItems.RAINBOW_LEATHER },
+                rainbowArmorColors)
+                .register(plugin);
+
 
         registerArmorSet(itemGroups.armor, SlimefunItems.DAMASCUS_STEEL_INGOT, new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_HELMET, SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, SlimefunItems.DAMASCUS_STEEL_LEGGINGS, SlimefunItems.DAMASCUS_STEEL_BOOTS}, "DAMASCUS_STEEL", false, new PotionEffect[0][0], plugin);
 
@@ -971,7 +1006,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.PULVERIZED_ORE, null, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new UnplaceableBlock(itemGroups.misc, SlimefunItems.TINY_URANIUM, RecipeType.ORE_CRUSHER,
+        new RadioactiveItem(itemGroups.misc, Radioactivity.LOW, SlimefunItems.TINY_URANIUM, RecipeType.ORE_CRUSHER,
         new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER, null, null, null, null, null, null, null, null})
         .register(plugin);
 
@@ -1050,7 +1085,8 @@ public final class SlimefunItemSetup {
 
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.SLIME_BOOTS_STEEL, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL)},
-        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)})
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)},
+        SoundEffect.SLIME_BOOTS_FALL_SOUND)
         .register(plugin);
 
         new VampireBlade(itemGroups.weapons, SlimefunItems.BLADE_OF_VAMPIRES, RecipeType.MAGIC_WORKBENCH,
@@ -1269,6 +1305,10 @@ public final class SlimefunItemSetup {
 
         new Juice(itemGroups.food, SlimefunItems.GOLDEN_APPLE_JUICE, RecipeType.JUICER,
         new ItemStack[] {new ItemStack(Material.GOLDEN_APPLE), null, null, null, null, null, null, null, null})
+        .register(plugin);
+
+        new VanillaItem(itemGroups.food, new ItemStack(Material.ENCHANTED_GOLDEN_APPLE), "ENCHANTED_GOLDEN_APPLE", RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.APPLE), SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK})
         .register(plugin);
 
         new BrokenSpawner(itemGroups.magicalResources, SlimefunItems.BROKEN_SPAWNER, new RecipeType(new NamespacedKey(plugin, "pickaxe_of_containment"), SlimefunItems.PICKAXE_OF_CONTAINMENT),
@@ -1887,12 +1927,12 @@ public final class SlimefunItemSetup {
             
             @Override
             public int getMultiplier(int y) {
-                return y * 64 + 600;
+                return y * 64 + 2100;
             }
 
             @Override
             public int getEnergyConsumption() {
-                return 46;
+                return 43;
             }
             
         }.register(plugin);
@@ -1933,7 +1973,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, null, null, new ItemStack(Material.DIAMOND_AXE), SlimefunItems.PROGRAMMABLE_ANDROID, new ItemStack(Material.DIAMOND_AXE), null, SlimefunItems.ELECTRIC_MOTOR, null})
         .register(plugin);
 
-        new FisherAndroid(itemGroups.androids, 1, SlimefunItems.PROGRAMMABLE_ANDROID_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new FishermanAndroid(itemGroups.androids, 1, SlimefunItems.PROGRAMMABLE_ANDROID_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, null, null, new ItemStack(Material.FISHING_ROD), SlimefunItems.PROGRAMMABLE_ANDROID, new ItemStack(Material.FISHING_ROD), null, SlimefunItems.ELECTRIC_MOTOR, null})
         .register(plugin);
 
@@ -1945,7 +1985,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.PLASTIC_SHEET, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.PLASTIC_SHEET, SlimefunItems.COMBUSTION_REACTOR, SlimefunItems.PROGRAMMABLE_ANDROID, new ItemStack(Material.CHEST), SlimefunItems.PLASTIC_SHEET, SlimefunItems.POWER_CRYSTAL, SlimefunItems.PLASTIC_SHEET})
         .register(plugin);
 
-        new FisherAndroid(itemGroups.androids, 2, SlimefunItems.PROGRAMMABLE_ANDROID_2_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new FishermanAndroid(itemGroups.androids, 2, SlimefunItems.PROGRAMMABLE_ANDROID_2_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, null, null, new ItemStack(Material.FISHING_ROD), SlimefunItems.PROGRAMMABLE_ANDROID_2, new ItemStack(Material.FISHING_ROD), null, SlimefunItems.ELECTRIC_MOTOR, null})
         .register(plugin);
 
@@ -1961,7 +2001,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.PLASTIC_SHEET, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.PLASTIC_SHEET, SlimefunItems.NUCLEAR_REACTOR, SlimefunItems.PROGRAMMABLE_ANDROID_2, new ItemStack(Material.CHEST), SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BLISTERING_INGOT_3})
         .register(plugin);
 
-        new FisherAndroid(itemGroups.androids, 3, SlimefunItems.PROGRAMMABLE_ANDROID_3_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new FishermanAndroid(itemGroups.androids, 3, SlimefunItems.PROGRAMMABLE_ANDROID_3_FISHERMAN, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, null, null, new ItemStack(Material.FISHING_ROD), SlimefunItems.PROGRAMMABLE_ANDROID_3, new ItemStack(Material.FISHING_ROD), null, SlimefunItems.ELECTRIC_MOTOR, null})
         .register(plugin);
 
@@ -2606,7 +2646,8 @@ public final class SlimefunItemSetup {
 
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.BEE_BOOTS, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), null, new ItemStack(Material.HONEY_BLOCK)},
-        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 2)})
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 2)},
+        SoundEffect.BEE_BOOTS_FALL_SOUND)
         .register(plugin);
 
         new VillagerRune(itemGroups.magicalResources, SlimefunItems.VILLAGER_RUNE, RecipeType.ANCIENT_ALTAR,
@@ -2627,7 +2668,12 @@ public final class SlimefunItemSetup {
         new ElytraCap(itemGroups.magicalArmor, SlimefunItems.ELYTRA_CAP, RecipeType.ARMOR_FORGE,
         new ItemStack[] {new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.SLIME_BALL)})
         .register(plugin);
-        
+
+        new SlimefunItem(itemGroups.magicalResources, SlimefunItems.RAINBOW_LEATHER, RecipeType.ANCIENT_ALTAR,
+                new ItemStack[] { new ItemStack(Material.EMERALD), new ItemStack(Material.LEATHER), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.RABBIT_HIDE), SlimefunItems.RAINBOW_RUNE, new ItemStack(Material.RABBIT_HIDE), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.LEATHER), new ItemStack(Material.EMERALD) },
+                new SlimefunItemStack(SlimefunItems.RAINBOW_LEATHER, 4))
+                .register(plugin);
+
         new UnplaceableBlock(itemGroups.cargo, SlimefunItems.CRAFTING_MOTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.REDSTONE_ALLOY, SlimefunItems.CARGO_MOTOR, SlimefunItems.REDSTONE_ALLOY, new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.CRAFTING_TABLE)},
         new SlimefunItemStack(SlimefunItems.CRAFTING_MOTOR, 2))

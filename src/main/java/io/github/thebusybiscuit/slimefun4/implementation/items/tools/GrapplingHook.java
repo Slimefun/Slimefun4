@@ -12,8 +12,6 @@ import org.bukkit.entity.Bat;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import io.github.bakedlibs.dough.items.ItemUtils;
@@ -58,7 +56,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
             UUID uuid = p.getUniqueId();
             boolean isConsumed = consumeOnUse.getValue() && p.getGameMode() != GameMode.CREATIVE;
 
-            if (!e.getClickedBlock().isPresent() && !Slimefun.getGrapplingHookListener().isGrappling(uuid)) {
+            if (e.getClickedBlock().isEmpty() && !Slimefun.getGrapplingHookListener().isGrappling(uuid)) {
                 e.cancel();
 
                 if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
@@ -79,10 +77,11 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 arrow.setVelocity(direction);
 
                 Bat bat = (Bat) p.getWorld().spawnEntity(p.getLocation(), EntityType.BAT);
+                bat.setInvulnerable(true);
                 bat.setCanPickupItems(false);
                 bat.setAI(false);
                 bat.setSilent(true);
-                bat.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
+                bat.setInvisible(true);
                 bat.setLeashHolder(arrow);
 
                 boolean state = item.getType() != Material.SHEARS;

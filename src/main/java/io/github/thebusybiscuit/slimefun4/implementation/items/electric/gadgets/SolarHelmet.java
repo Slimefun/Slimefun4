@@ -15,7 +15,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SolarHelmetTask;
 
 /**
  * The {@link SolarHelmet} can be worn by {@link Player}.
@@ -24,8 +24,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
  * or holding.
  * 
  * @author TheBusyBiscuit
- * 
- * @see ArmorTask
+ *
+ * @see SolarHelmetTask
  * @see Rechargeable
  *
  */

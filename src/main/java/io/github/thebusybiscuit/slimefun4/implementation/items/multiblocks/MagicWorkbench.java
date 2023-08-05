@@ -6,7 +6,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -20,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -47,9 +47,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
             Inventory inv = dispenser.getInventory();
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
-            for (int i = 0; i < inputs.size(); i++) {
-                if (isCraftable(inv, inputs.get(i))) {
-                    ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+            for (ItemStack[] input : inputs) {
+                if (isCraftable(inv, input)) {
+                    ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
                         craft(inv, possibleDispener, p, b, output);
@@ -103,9 +103,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
                 p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
 
                 if (current < 3) {
-                    p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F);
+                    SoundEffect.MAGIC_WORKBENCH_START_ANIMATION_SOUND.playAt(b);
                 } else {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND.playAt(b);
                     handleCraftedItem(output, dispenser, dispInv);
                 }
             }, j * 20L);

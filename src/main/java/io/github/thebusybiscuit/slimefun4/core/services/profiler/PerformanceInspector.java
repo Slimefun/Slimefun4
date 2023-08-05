@@ -38,4 +38,10 @@ public interface PerformanceInspector {
      */
     boolean isVerbose();
 
+    /**
+     * The order type for the summary of timings.
+     *
+     * @return The order type for the summary of timings.
+     */
+    @Nonnull SummaryOrderType getOrderType();
 }

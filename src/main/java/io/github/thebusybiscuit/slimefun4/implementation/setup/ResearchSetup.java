@@ -288,6 +288,7 @@ public final class ResearchSetup {
         register("portable_teleporter", 278, "Teleportation from Anywhere", 42, SlimefunItems.PORTABLE_TELEPORTER);
         register("trident", 279, "Trident", 20, "TRIDENT");
         register("farmer_talisman", 280, "Talisman of the Farmer", 18, SlimefunItems.TALISMAN_FARMER);
+        register("rainbow_armor", 281, "I wanna see the rainbow high in the sky", 22, SlimefunItems.RAINBOW_HELMET, SlimefunItems.RAINBOW_CHESTPLATE, SlimefunItems.RAINBOW_LEGGINGS, SlimefunItems.RAINBOW_BOOTS);
     }
 
     @ParametersAreNonnullByDefault

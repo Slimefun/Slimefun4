@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.SummaryOrderType;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.ConsolePerformanceInspector;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.PlayerPerformanceInspector;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -22,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 class TimingsCommand extends SubCommand {
 
     private static final String FLAG_PREFIX = "--";
-    private final Set<String> flags = new HashSet<>(Arrays.asList("verbose"));
+    private final Set<String> flags = new HashSet<>(Arrays.asList("verbose", "avg", "low"));
 
     @ParametersAreNonnullByDefault
     TimingsCommand(Slimefun plugin, SlimefunCommand cmd) {
@@ -47,13 +48,23 @@ class TimingsCommand extends SubCommand {
         }
 
         boolean verbose = hasFlag(args, "verbose");
+
         if (verbose && sender instanceof Player) {
             Slimefun.getLocalization().sendMessage(sender, "commands.timings.verbose-player", true);
             return;
         }
 
+        SummaryOrderType orderType = SummaryOrderType.HIGHEST;
+
+        if (hasFlag(args, "avg")) {
+            orderType = SummaryOrderType.AVERAGE;
+        } else if (hasFlag(args, "low")) {
+            orderType = SummaryOrderType.LOWEST;
+        }
+
         Slimefun.getLocalization().sendMessage(sender, "commands.timings.please-wait", true);
-        PerformanceInspector inspector = inspectorOf(sender, verbose);
+
+        PerformanceInspector inspector = inspectorOf(sender, verbose, orderType);
         Slimefun.getProfiler().requestSummary(inspector);
     }
 
@@ -85,13 +96,13 @@ class TimingsCommand extends SubCommand {
 
         return false;
     }
-
-    private @Nonnull PerformanceInspector inspectorOf(@Nonnull CommandSender sender, boolean verbose) {
+    
+    @ParametersAreNonnullByDefault
+    private @Nonnull PerformanceInspector inspectorOf(CommandSender sender, boolean verbose, SummaryOrderType orderType) {
         if (sender instanceof Player player) {
-            return new PlayerPerformanceInspector(player);
+            return new PlayerPerformanceInspector(player, orderType);
         } else {
-            return new ConsolePerformanceInspector(sender, verbose);
+            return new ConsolePerformanceInspector(sender, verbose, orderType);
         }
     }
-
 }
