@@ -347,7 +347,7 @@ smithing_table:
 
 villagers:
   no-trading: '&4You cannot trade Slimefun items with Villagers!'
-  no-trading-new: '&4You cannot trade this Slimefun item with Villagers or Wandering Traders!'
+  no-trading-singular: '&4You cannot trade this Slimefun item with Villagers or Wandering Traders!'
 
 backpack:
   already-open: '&cSorry, this Backpack is open somewhere else!'
