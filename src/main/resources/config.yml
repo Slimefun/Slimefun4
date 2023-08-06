@@ -42,6 +42,11 @@ networks:
   cargo-ticker-delay: 0
   enable-visualizer: true
   delete-excess-items: false
+  reactor:
+    explode-on-meltdown: false
+    power: 4 # 4 = TNT
+    fire: true
+    break-blocks: true
 
 talismans:
   use-actionbar: true

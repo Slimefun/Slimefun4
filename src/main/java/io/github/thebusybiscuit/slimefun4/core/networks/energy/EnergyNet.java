@@ -255,8 +255,15 @@ public class EnergyNet extends Network implements HologramOwner {
                     BlockStorage.clearBlockInfo(loc);
 
                     Slimefun.runSync(() -> {
+                        io.github.bakedlibs.dough.config.Config cfg = Slimefun.getCfg();
+
+                        if (cfg.getBoolean("networks.reactor.explode-on-meltdown")) {
+                            loc.getWorld().createExplosion(loc, cfg.getFloat("networks.reactor.power"), cfg.getBoolean("networks.reactor.fire"), cfg.getBoolean("networks.reactor.break-blocks"));
+                        } else {
+                            loc.getWorld().createExplosion(loc, 0F, false);
+                        }
+
                         loc.getBlock().setType(Material.LAVA);
-                        loc.getWorld().createExplosion(loc, 0F, false);
                     });
                 } else {
                     supply = NumberUtils.flowSafeAddition(supply, energy);
