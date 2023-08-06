@@ -208,7 +208,7 @@ public class BlockListener implements Listener {
                 for (ItemStack drop : drops) {
                     // Prevent null or air from being dropped
                     if (drop != null && drop.getType() != Material.AIR) {
-                        if (e.getPlayer().getGameMode() == GameMode.CREATIVE && Slimefun.getCfg().getBoolean("options.drop-block-creative")) {
+                        if (e.getPlayer().getGameMode() != GameMode.CREATIVE || Slimefun.getCfg().getBoolean("options.drop-block-creative")) {
                             e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
                         }
                     }
