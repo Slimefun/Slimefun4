@@ -50,6 +50,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
+import com.google.common.base.Preconditions;
+
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 /**
@@ -890,9 +892,7 @@ public class SlimefunItem implements Placeable {
      *            The associated wiki page name.
      */
     public final void addWikiPage(@Nonnull String page) {
-        Validate.notNull(page, "Wiki page cannot be null.");
-        Validate.isTrue(getState() != ItemState.UNREGISTERED, "Wiki page can only be added after item has been registered.");
-        wikiURL = Optional.of(getAddon().getWikiURL().replace("%item%", page));
+        addCustomWikiPage(getAddon().getWikiURL().replace("%item%", page));
     }
 
     /**
@@ -902,8 +902,8 @@ public class SlimefunItem implements Placeable {
      *            The associated wiki page URL.
      */
     public final void addCustomWikiPage(@Nonnull String url) {
-        Validate.notNull(url, "Wiki URL cannot be null.");
-        Validate.isTrue(getState() != ItemState.UNREGISTERED, "Wiki page can only be added after item has been registered.");
+        Preconditions.checkArgument(url != null, "Wiki page cannot be null.");
+        Preconditions.checkState(getState() != ItemState.UNREGISTERED, "Wiki page can only be added after item has been registered.");
         wikiURL = Optional.of(url);
     }
 

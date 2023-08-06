@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -48,8 +48,9 @@ public class WikiUtils {
      *          The formatter to apply to the wiki page name.
      */
     public static void setupWiki(@Nonnull Plugin plugin, @Nonnull UnaryOperator<String> formatter) {
-        Validate.notNull(plugin, "The plugin cannot be null");
-        Validate.isTrue(plugin instanceof SlimefunAddon, "The plugin must be a SlimefunAddon");
+        Preconditions.checkArgument(plugin != null, "The plugin cannot be null");
+        Preconditions.checkArgument(formatter != null, "The formatter cannot be null");
+        Preconditions.checkArgument(plugin instanceof SlimefunAddon, "The plugin must be a SlimefunAddon");
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
             JsonElement element = JsonUtils.parseString(reader.lines().collect(Collectors.joining("")));
