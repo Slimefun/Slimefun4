@@ -896,6 +896,18 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
+     * This method assign the given wiki URL to this Item.
+     *
+     * @param url
+     *            The associated wiki page URL.
+     */
+    public final void addCustomWikiPage(@Nonnull String url) {
+        Validate.notNull(url, "Wiki URL cannot be null.");
+        Validate.isTrue(getState() != ItemState.UNREGISTERED, "Wiki page can only be added after item has been registered.");
+        wikiURL = Optional.of(url);
+    }
+
+    /**
      * This method returns the wiki page that has been assigned to this item.
      * It will return null, if no wiki page was found.
      * 
