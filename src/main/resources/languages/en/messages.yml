@@ -61,6 +61,7 @@ guide:
     open-itemgroup: 'Click to open'
     versions-notice: 'These are very important when reporting bugs!'
     wiki: 'View this Item on the official Slimefun Wiki'
+    wiki-third-party: 'View this Item on the %addon% Wiki (not Slimefun official)'
 
     recipes:
       machine: 'Recipes made in this Machine'

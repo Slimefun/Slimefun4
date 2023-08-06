@@ -380,13 +380,18 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     }
 
     @Override
-    public JavaPlugin getJavaPlugin() {
+    public @Nonnull JavaPlugin getJavaPlugin() {
         return this;
     }
 
     @Override
     public String getBugTrackerURL() {
         return "https://github.com/Slimefun/Slimefun4/issues";
+    }
+
+    @Override
+    public @Nonnull String getWikiURL() {
+        return "https://github.com/Slimefun/Slimefun4/wiki/%item%";
     }
 
     /**
