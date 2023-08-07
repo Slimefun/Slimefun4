@@ -74,7 +74,10 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
  */
 public class SlimefunItem implements Placeable {
 
-    private static final Set<String> WIKI_DOMAIN = Set.of(
+    /**
+     * This is the set of allowed wiki domains.
+     */
+    private static final Set<String> ALLOWED_WIKI_DOMAIN = Set.of(
         "github.com",
         "github.io"
     );
@@ -914,7 +917,7 @@ public class SlimefunItem implements Placeable {
         Preconditions.checkArgument(url != null, "Wiki page cannot be null.");
         try {
             URL wikiUrl = new URL(url);
-            for (String domain : WIKI_DOMAIN) {
+            for (String domain : ALLOWED_WIKI_DOMAIN) {
                 if (wikiUrl.getHost().endsWith(domain)) {
                     wikiURL = Optional.of(url);
                     return;
