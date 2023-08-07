@@ -1,7 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -73,11 +71,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
  *
  */
 public class SlimefunItem implements Placeable {
-
-    private static final Set<String> WIKI_DOMAIN = Set.of(
-        "github.com",
-        "github.io"
-    );
 
     /**
      * This is our item id.
@@ -912,18 +905,7 @@ public class SlimefunItem implements Placeable {
      */
     public final void addCustomWikiPage(@Nonnull String url) {
         Preconditions.checkArgument(url != null, "Wiki page cannot be null.");
-        try {
-            URL wikiUrl = new URL(url);
-            for (String domain : WIKI_DOMAIN) {
-                if (wikiUrl.getHost().endsWith(domain)) {
-                    wikiURL = Optional.of(url);
-                    return;
-                }
-            }
-            throw new IllegalArgumentException("The wiki domain is not allowed: " + url);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Invalid wiki URL: " + url, e);
-        }
+        wikiURL = Optional.of(url);
     }
 
     /**
