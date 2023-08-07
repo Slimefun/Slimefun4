@@ -523,7 +523,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
                 pl.closeInventory();
                 if (!(item.getAddon() instanceof Slimefun)) {
-                    Slimefun.getLocalization().sendMessage(pl, "messages.wiki-third-party");
+                    Slimefun.getLocalization().sendMessage(pl, "messages.wiki-third-party",
+                        msg -> msg.replace("%addon%", item.getAddon().getName()));
                 }
                 ChatUtils.sendURL(pl, wiki.get());
                 return false;
