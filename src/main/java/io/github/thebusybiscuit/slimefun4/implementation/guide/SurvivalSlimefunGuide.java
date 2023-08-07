@@ -522,6 +522,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(8, new CustomItemStack(Material.KNOWLEDGE_BOOK, ChatColor.WHITE + message, "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
                 pl.closeInventory();
+                if (!(item.getAddon() instanceof Slimefun)) {
+                    Slimefun.getLocalization().sendMessage(pl, "messages.wiki-third-party");
+                }
                 ChatUtils.sendURL(pl, wiki.get());
                 return false;
             });
