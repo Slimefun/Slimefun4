@@ -181,7 +181,7 @@ public final class NumberUtils {
         int seconds = ticksLeft;
 
         if (normalScale < 0) {
-            //Adjust for positive change
+            // Adjust for positive change
             seconds = (int) (ticksLeft * (normalScale / 2 + 1.0D));
         } else if (normalScale > 0) {
             // Adjust for negative change
