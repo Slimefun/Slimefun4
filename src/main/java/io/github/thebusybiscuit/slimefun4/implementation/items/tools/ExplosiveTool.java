@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import dev.lone.itemsadder.api.CustomBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -172,6 +173,9 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
                 b.setType(Material.AIR);
                 BlockStorage.clearBlockInfo(b);
             }
+        // Fixes #3836
+        } else if (CustomBlock.byAlreadyPlaced(b) != null) {
+            return;
         } else {
             b.breakNaturally(item);
         }
