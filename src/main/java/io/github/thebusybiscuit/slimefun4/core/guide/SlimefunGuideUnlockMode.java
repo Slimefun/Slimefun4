@@ -68,6 +68,7 @@ public enum SlimefunGuideUnlockMode {
      * @param s text to validate
      * @return {@link SlimefunGuideUnlockMode}
      */
+    @Nonnull
     public static SlimefunGuideUnlockMode check(String s) {
         if (s == null) {
             return SlimefunGuideUnlockMode.EXPERIENCE;
@@ -87,6 +88,7 @@ public enum SlimefunGuideUnlockMode {
         return unlockProvider;
     }
 
+    @Nonnull
     public String getTokenName() {
         return Slimefun.getLocalization().getMessage("guide.unlock-mode-" + toString().toLowerCase(Locale.ROOT));
     }
