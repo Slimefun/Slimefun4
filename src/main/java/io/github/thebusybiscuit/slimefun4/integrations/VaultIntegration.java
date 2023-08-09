@@ -6,14 +6,15 @@ import javax.annotation.Nonnull;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultIntegration {
-    private static Economy econ;
+    private static Economy economy;
 
     static void register(@Nonnull Plugin plugin) {
-        var rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp != null) {
-            econ = rsp.getProvider();
+        RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager().getRegistration(Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
         } else {
             throw new RuntimeException("Unable to hook into vault");
         }
@@ -21,19 +22,19 @@ public class VaultIntegration {
 
     public static double getPlayerBalance(OfflinePlayer p) {
         Objects.requireNonNull(p, "Player cannot be null!");
-        Objects.requireNonNull(econ, "Vault instance cannot be null!");
+        Objects.requireNonNull(economy, "Vault instance cannot be null!");
 
-        return econ.getBalance(p);
+        return economy.getBalance(p);
     }
 
     public static void withdrawPlayer(OfflinePlayer p, double withdraw) {
         Objects.requireNonNull(p, "Player cannot be null!");
-        Objects.requireNonNull(econ, "Vault instance cannot be null!");
+        Objects.requireNonNull(economy, "Vault instance cannot be null!");
 
-        econ.withdrawPlayer(p, withdraw);
+        economy.withdrawPlayer(p, withdraw);
     }
 
     public static boolean isAvailable() {
-        return econ != null && Slimefun.getRegistry().isResearchingEnabled();
+        return economy != null && Slimefun.getRegistry().isResearchingEnabled();
     }
 }

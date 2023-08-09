@@ -292,8 +292,8 @@ public class Research implements Keyed {
             return true;
         }
 
-        var creativeResearch = p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled();
-        var provider = unlockProvider.orElseGet(() -> Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider());
+        boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled();
+        SlimefunGuideUnlockProvider provider = unlockProvider.orElseGet(() -> Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider());
 
         return creativeResearch || provider.canUnlock(this, p);
     }

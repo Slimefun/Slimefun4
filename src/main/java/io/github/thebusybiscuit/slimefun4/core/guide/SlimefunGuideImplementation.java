@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
@@ -61,8 +62,8 @@ public interface SlimefunGuideImplementation {
 
     @ParametersAreNonnullByDefault
     default void unlockItem(Player p, SlimefunItem sfitem, Consumer<Player> callback) {
-        var research = sfitem.getResearch();
-        var unlockProvider = research.getUnlockProvider().orElse(Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider());
+        Research research = sfitem.getResearch();
+        SlimefunGuideUnlockProvider unlockProvider = research.getUnlockProvider().orElse(Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider());
 
         if (p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
