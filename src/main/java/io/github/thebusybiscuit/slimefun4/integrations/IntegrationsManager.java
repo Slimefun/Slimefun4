@@ -125,7 +125,7 @@ public class IntegrationsManager {
         // ItemsAdder Integration (custom blocks)
         load("ItemsAdder", integration -> isItemsAdderInstalled = true);
 
-        // Vault Integration (Economy research unlock)
+        // Vault Integration (Currency research unlock)
         load("Vault", VaultIntegration::register);
     }
 

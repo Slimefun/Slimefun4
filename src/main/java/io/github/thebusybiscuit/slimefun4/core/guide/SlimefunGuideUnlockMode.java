@@ -35,7 +35,7 @@ public enum SlimefunGuideUnlockMode {
     /**
      * Unlock research by withdrawing player's balance.
      */
-    ECONOMY(new SlimefunGuideUnlockProvider() {
+    CURRENCY(new SlimefunGuideUnlockProvider() {
         @Override
         public boolean canUnlock(@Nonnull Research research, @Nonnull Player p) {
             return VaultIntegration.getPlayerBalance(p) >= research.getCost();
