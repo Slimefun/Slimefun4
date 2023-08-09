@@ -33,7 +33,7 @@ public class VaultIntegration {
         econ.withdrawPlayer(p, withdraw);
     }
 
-    public static boolean isEnabled() {
+    public static boolean isAvailable() {
         return econ != null && Slimefun.getRegistry().isResearchingEnabled();
     }
 }

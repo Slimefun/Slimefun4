@@ -38,6 +38,10 @@ public enum SlimefunGuideUnlockMode {
     CURRENCY(new SlimefunGuideUnlockProvider() {
         @Override
         public boolean canUnlock(@Nonnull Research research, @Nonnull Player p) {
+            if (!VaultIntegration.isAvailable()) {
+                throw new IllegalStateException("Vault integration is unavailable!");
+            }
+
             return VaultIntegration.getPlayerBalance(p) >= research.getCost();
         }
 
