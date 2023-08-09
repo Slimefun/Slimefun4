@@ -10,6 +10,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.base.Preconditions;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideUnlockProvider;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
@@ -46,6 +49,7 @@ public class Research implements Keyed {
     private final String name;
     private boolean enabled = true;
     private int cost;
+    private Optional<SlimefunGuideUnlockProvider> unlockProvider = Optional.empty();
 
     private final List<SlimefunItem> items = new LinkedList<>();
 
@@ -74,6 +78,37 @@ public class Research implements Keyed {
         this.id = id;
         this.name = defaultName;
         this.cost = defaultCost;
+    }
+
+    /**
+     * The constructor for a {@link Research}.
+     *
+     * Create a new research, then bind this research to the Slimefun items you want by calling
+     * {@link #addItems(SlimefunItem...)}. Once you're finished, call {@link #register()}
+     * to register it.
+     *
+     * @param key
+     *            A unique identifier for this {@link Research}
+     * @param id
+     *            old way of identifying researches
+     * @param defaultName
+     *            The displayed name of this {@link Research}
+     * @param defaultCost
+     *            The Cost in your custom method to unlock this {@link Research}
+     * @param unlockProvider
+     *            The custom provider of unlock research {@link SlimefunGuideUnlockProvider}
+     *
+     */
+    public Research(@Nonnull NamespacedKey key, int id, @Nonnull String defaultName, int defaultCost, @Nonnull SlimefunGuideUnlockProvider unlockProvider) {
+        Validate.notNull(key, "A NamespacedKey must be provided");
+        Validate.notNull(defaultName, "A default name must be specified");
+        Preconditions.checkNotNull(unlockProvider, "A unlock provider must be provided");
+
+        this.key = key;
+        this.id = id;
+        this.name = defaultName;
+        this.cost = defaultCost;
+        this.unlockProvider = Optional.of(unlockProvider);
     }
 
     @Override
@@ -136,6 +171,15 @@ public class Research implements Keyed {
      */
     public int getCost() {
         return cost;
+    }
+
+    /**
+     * Gets the custom {@link SlimefunGuideUnlockProvider} of this {@link Research}
+     *
+     * @return custom unlock provider {@link SlimefunGuideUnlockProvider}
+     */
+    public Optional<SlimefunGuideUnlockProvider> getUnlockProvider() {
+        return unlockProvider;
     }
 
     /**
@@ -228,8 +272,7 @@ public class Research implements Keyed {
                     if (this.canUnlock(player)) {
                         guide.unlockItem(player, sfItem, pl -> guide.openItemGroup(profile, itemGroup, page));
                     } else {
-                        var tokenName = Slimefun.getRegistry().getSlimefunGuideUnlockMode().getTokenName();
-                        Slimefun.getLocalization().sendMessage(player, "messages.not-enough-token", true, s -> s.replace("%token_name%", tokenName));
+                        Slimefun.getLocalization().sendMessage(player, "messages.not-meet-requirement", true);
                     }
                 }
             }
@@ -250,9 +293,9 @@ public class Research implements Keyed {
         }
 
         var creativeResearch = p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled();
-        var unlockProvider = Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider();
+        var provider = unlockProvider.orElseGet(() -> Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider());
 
-        return creativeResearch || unlockProvider.canUnlock(this, p);
+        return creativeResearch || provider.canUnlock(this, p);
     }
 
     /**

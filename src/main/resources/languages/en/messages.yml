@@ -147,7 +147,7 @@ guide:
 
   unlock-mode:
     experience: "XP"
-    economy: "money"
+    currency: "money"
 
 
 actionbar:
@@ -155,7 +155,7 @@ actionbar:
 
 messages:
   not-researched: '&4You do not have enough knowledge to understand this. &cYou will need to unlock &f"%item%&f"'
-  not-enough-token: '&4You do not have enough %token_name% to unlock this'
+  not-meet-requirement: '&4You do not meet the requirement to unlock this'
   unlocked: '&bYou have unlocked &7"%research%"'
   only-players: '&4This command is only for Players'
   unknown-player: '&4Unknown Player: &c%player%'

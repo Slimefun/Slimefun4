@@ -62,12 +62,12 @@ public interface SlimefunGuideImplementation {
     @ParametersAreNonnullByDefault
     default void unlockItem(Player p, SlimefunItem sfitem, Consumer<Player> callback) {
         var research = sfitem.getResearch();
-        var unlockProvider = Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider();
+        var unlockProvider = research.getUnlockProvider().orElse(Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider());
 
         if (p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {
-            unlockProvider.processPayment(research, p);
+            unlockProvider.processUnlock(research, p);
 
             boolean skipLearningAnimation = Slimefun.getRegistry().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
             research.unlock(p, skipLearningAnimation, callback);

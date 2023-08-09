@@ -289,7 +289,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNoPermissionItem(), sfitem.getItemName(), message.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
         } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
-            menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNotResearchedItem(), ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level(s)"));
+            String unitName = research.getUnlockProvider().orElse(Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider()).getUnitName();
+            menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNotResearchedItem(), ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " " + unitName));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 research.unlockFromGuide(this, p, profile, sfitem, itemGroup, page);
                 return false;
