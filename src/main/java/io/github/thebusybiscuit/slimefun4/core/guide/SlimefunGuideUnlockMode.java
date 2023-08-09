@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
+import io.github.thebusybiscuit.slimefun4.api.guide.SlimefunGuideUnlockProvider;
 import javax.annotation.Nonnull;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.unlockprovider.CurrencyUnlockProvider;

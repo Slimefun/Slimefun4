@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideUnlockProvider;
+import io.github.thebusybiscuit.slimefun4.api.guide.SlimefunGuideUnlockProvider;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  *
  * @see SlimefunGuideUnlockProvider
  */
-public class ExperienceUnlockProvider implements SlimefunGuideUnlockProvider {
+public final class ExperienceUnlockProvider implements SlimefunGuideUnlockProvider {
     @Override
     public boolean canUnlock(@Nonnull Research research, @Nonnull Player p) {
         return p.getLevel() >= research.getCost();

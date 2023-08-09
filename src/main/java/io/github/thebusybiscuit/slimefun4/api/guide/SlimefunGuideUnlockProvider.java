@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.guide;
+package io.github.thebusybiscuit.slimefun4.api.guide;
 
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import javax.annotation.Nonnull;
