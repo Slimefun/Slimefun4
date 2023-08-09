@@ -146,9 +146,8 @@ guide:
       translator: '&9Translator'
 
   unlock-mode:
-    experience: "XP"
+    experience: "Level(s)"
     currency: "money"
-
 
 actionbar:
   radiation: '&6Radiation Exposure Level: &c%level%&7/&e100'
