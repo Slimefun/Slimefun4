@@ -264,8 +264,7 @@ public final class SlimefunRegistry {
         return guide;
     }
 
-    @Nonnull
-    public SlimefunGuideUnlockMode getSlimefunGuideUnlockMode() {
+    public @Nonnull SlimefunGuideUnlockMode getSlimefunGuideUnlockMode() {
         return guideUnlockMode;
     }
 

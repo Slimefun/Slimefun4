@@ -24,9 +24,8 @@ public final class ExperienceUnlockProvider implements SlimefunGuideUnlockProvid
         p.setLevel(p.getLevel() - research.getCost());
     }
 
-    @Nonnull
     @Override
-    public String getUnitName() {
+    public @Nonnull String getUnitName() {
         return Slimefun.getLocalization().getMessage("guide.unlock-mode.experience");
     }
 }

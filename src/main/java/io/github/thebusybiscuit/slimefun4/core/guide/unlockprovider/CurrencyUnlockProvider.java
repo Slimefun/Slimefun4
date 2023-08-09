@@ -29,9 +29,8 @@ public final class CurrencyUnlockProvider implements SlimefunGuideUnlockProvider
         VaultIntegration.withdrawPlayer(p, research.getCost());
     }
 
-    @Nonnull
     @Override
-    public String getUnitName() {
+    public @Nonnull String getUnitName() {
         return Slimefun.getLocalization().getMessage("guide.unlock-mode.currency");
     }
 }

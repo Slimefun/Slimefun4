@@ -70,7 +70,8 @@ public class Research implements Keyed {
      *            The Cost in XP levels to unlock this {@link Research}
      * 
      */
-    public Research(@Nonnull NamespacedKey key, int id, @Nonnull String defaultName, int defaultCost) {
+    @ParametersAreNonnullByDefault
+    public Research(NamespacedKey key, int id, String defaultName, int defaultCost) {
         Validate.notNull(key, "A NamespacedKey must be provided");
         Validate.notNull(defaultName, "A default name must be specified");
 
@@ -99,9 +100,10 @@ public class Research implements Keyed {
      *            The custom provider of unlock research {@link SlimefunGuideUnlockProvider}
      *
      */
-    public Research(@Nonnull NamespacedKey key, int id, @Nonnull String defaultName, int defaultCost, @Nonnull SlimefunGuideUnlockProvider unlockProvider) {
-        Validate.notNull(key, "A NamespacedKey must be provided");
-        Validate.notNull(defaultName, "A default name must be specified");
+    @ParametersAreNonnullByDefault
+    public Research(NamespacedKey key, int id, String defaultName, int defaultCost, SlimefunGuideUnlockProvider unlockProvider) {
+        Preconditions.checkNotNull(key, "A NamespacedKey must be provided");
+        Preconditions.checkNotNull(defaultName, "A default name must be specified");
         Preconditions.checkNotNull(unlockProvider, "A unlock provider must be provided");
 
         this.key = key;
