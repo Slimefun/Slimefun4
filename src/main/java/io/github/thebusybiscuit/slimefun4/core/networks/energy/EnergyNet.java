@@ -244,7 +244,7 @@ public class EnergyNet extends Network implements HologramOwner {
 
             try {
                 Config data = BlockStorage.getLocationInfo(loc);
-                int energy = provider.getGeneratedOutput(loc, data);
+                int energy = provider.getGeneratedOutput(loc, data) / Slimefun.getNetworkManager().getNetworksFromLocation(loc, EnergyNet.class).size();
 
                 if (provider.isChargeable()) {
                     energy = NumberUtils.flowSafeAddition(energy, provider.getCharge(loc, data));
