@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.unlockprovider.CurrencyUnlockProvider;
 import io.github.thebusybiscuit.slimefun4.core.guide.unlockprovider.ExperienceUnlockProvider;
+import javax.annotation.Nullable;
 
 /**
  * This enum holds the different unlock research modes a {@link SlimefunGuide} can have.
