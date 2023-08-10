@@ -27,7 +27,7 @@ public class VaultIntegration {
         return economy.getBalance(p);
     }
 
-    public static void withdrawPlayer(OfflinePlayer p, double withdraw) {
+    public static void withdrawPlayer(@Nonnull OfflinePlayer p, double withdraw) {
         Objects.requireNonNull(p, "Player cannot be null!");
         Objects.requireNonNull(economy, "Vault instance cannot be null!");
 
