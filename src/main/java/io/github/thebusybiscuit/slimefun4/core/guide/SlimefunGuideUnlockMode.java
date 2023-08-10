@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.unlockprovider.ExperienceUn
  * @see SlimefunGuideUnlockProvider
  */
 public enum SlimefunGuideUnlockMode {
+
     EXPERIENCE(new ExperienceUnlockProvider()),
 
     /**
@@ -58,8 +59,7 @@ public enum SlimefunGuideUnlockMode {
         return SlimefunGuideUnlockMode.EXPERIENCE;
     }
 
-    @Nonnull
-    public SlimefunGuideUnlockProvider getUnlockProvider() {
+    public @Nonnull SlimefunGuideUnlockProvider getUnlockProvider() {
         return unlockProvider;
     }
 }

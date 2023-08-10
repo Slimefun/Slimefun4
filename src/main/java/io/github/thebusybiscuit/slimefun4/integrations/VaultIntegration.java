@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultIntegration {
+
     private static Economy economy;
 
     static void register(@Nonnull Plugin plugin) {
@@ -20,7 +21,7 @@ public class VaultIntegration {
         }
     }
 
-    public static double getPlayerBalance(OfflinePlayer p) {
+    public static double getPlayerBalance(@Nonnull OfflinePlayer p) {
         Objects.requireNonNull(p, "Player cannot be null!");
         Objects.requireNonNull(economy, "Vault instance cannot be null!");
 

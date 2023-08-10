@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  * @see SlimefunGuideUnlockProvider
  */
 public final class ExperienceUnlockProvider implements SlimefunGuideUnlockProvider {
+
     @Override
     public boolean canUnlock(@Nonnull Research research, @Nonnull Player p) {
         return p.getLevel() >= research.getCost();

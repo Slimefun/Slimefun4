@@ -180,7 +180,7 @@ public class Research implements Keyed {
      *
      * @return custom unlock provider {@link SlimefunGuideUnlockProvider}
      */
-    public Optional<SlimefunGuideUnlockProvider> getUnlockProvider() {
+    public @Nonnull Optional<SlimefunGuideUnlockProvider> getUnlockProvider() {
         return unlockProvider;
     }
 

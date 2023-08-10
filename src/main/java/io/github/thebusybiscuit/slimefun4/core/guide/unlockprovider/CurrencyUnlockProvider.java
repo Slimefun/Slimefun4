@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.integrations.VaultIntegration;
  * @see SlimefunGuideUnlockProvider
  */
 public final class CurrencyUnlockProvider implements SlimefunGuideUnlockProvider {
+
     @Override
     public boolean canUnlock(@Nonnull Research research, @Nonnull Player p) {
         if (!VaultIntegration.isAvailable()) {

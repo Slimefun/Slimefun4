@@ -38,6 +38,5 @@ public interface SlimefunGuideUnlockProvider {
      *
      * @return unit name
      */
-    @Nonnull
-    String getUnitName();
+    @Nonnull String getUnitName();
 }
