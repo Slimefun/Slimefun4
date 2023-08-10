@@ -293,7 +293,13 @@ public class EnergyNet extends Network implements HologramOwner {
         return supply;
     }
 
-    private boolean isSaturated() {
+    /**
+     * If an {@link EnergyNet} is saturated there is no space to store additional energy
+     * meaning every buffer and capacitor is full.
+     *
+     * @return whether this {@link EnergyNet} is saturated
+     */
+    public boolean isSaturated() {
         return saturated;
     }
 
