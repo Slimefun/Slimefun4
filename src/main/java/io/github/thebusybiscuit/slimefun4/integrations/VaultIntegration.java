@@ -23,15 +23,15 @@ public class VaultIntegration {
     }
 
     public static double getPlayerBalance(@Nonnull OfflinePlayer p) {
-        Preconditions.checkNotNull(p, "Player cannot be null!");
-        Preconditions.checkNotNull(economy, "Vault instance cannot be null!");
+        Preconditions.checkArgument(p != null, "Player cannot be null!");
+        Preconditions.checkArgument(economy != null, "Vault instance cannot be null!");
 
         return economy.getBalance(p);
     }
 
     public static void withdrawPlayer(@Nonnull OfflinePlayer p, double withdraw) {
-        Preconditions.checkNotNull(p, "Player cannot be null!");
-        Preconditions.checkNotNull(economy, "Vault instance cannot be null!");
+        Preconditions.checkArgument(p != null, "Player cannot be null!");
+        Preconditions.checkArgument(economy != null, "Vault instance cannot be null!");
 
         economy.withdrawPlayer(p, withdraw);
     }
