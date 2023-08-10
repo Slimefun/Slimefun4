@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.integrations;
 
+import com.google.common.base.Preconditions;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.Objects;
 import javax.annotation.Nonnull;
@@ -22,15 +23,15 @@ public class VaultIntegration {
     }
 
     public static double getPlayerBalance(@Nonnull OfflinePlayer p) {
-        Objects.requireNonNull(p, "Player cannot be null!");
-        Objects.requireNonNull(economy, "Vault instance cannot be null!");
+        Preconditions.checkNotNull(p, "Player cannot be null!");
+        Preconditions.checkNotNull(economy, "Vault instance cannot be null!");
 
         return economy.getBalance(p);
     }
 
     public static void withdrawPlayer(@Nonnull OfflinePlayer p, double withdraw) {
-        Objects.requireNonNull(p, "Player cannot be null!");
-        Objects.requireNonNull(economy, "Vault instance cannot be null!");
+        Preconditions.checkNotNull(p, "Player cannot be null!");
+        Preconditions.checkNotNull(economy, "Vault instance cannot be null!");
 
         economy.withdrawPlayer(p, withdraw);
     }
