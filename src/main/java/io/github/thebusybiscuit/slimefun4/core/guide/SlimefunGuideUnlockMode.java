@@ -44,8 +44,7 @@ public enum SlimefunGuideUnlockMode {
      * @param s text to validate
      * @return {@link SlimefunGuideUnlockMode}
      */
-    @Nonnull
-    public static SlimefunGuideUnlockMode check(String s) {
+    public static @Nonnull SlimefunGuideUnlockMode check(@Nullable String s) {
         if (s == null) {
             return SlimefunGuideUnlockMode.EXPERIENCE;
         }
