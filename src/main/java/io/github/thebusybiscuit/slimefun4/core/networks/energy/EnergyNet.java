@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongConsumer;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,6 +51,8 @@ public class EnergyNet extends Network implements HologramOwner {
     private final Map<Location, EnergyNetProvider> generators = new HashMap<>();
     private final Map<Location, EnergyNetComponent> capacitors = new HashMap<>();
     private final Map<Location, EnergyNetComponent> consumers = new HashMap<>();
+
+    private boolean saturated = false;
 
     protected EnergyNet(@Nonnull Location l) {
         super(Slimefun.getNetworkManager(), l);
@@ -230,6 +233,8 @@ public class EnergyNet extends Network implements HologramOwner {
                 component.setCharge(loc, 0);
             }
         }
+
+        this.saturated = remainingEnergy > 0;
     }
 
     private int tickAllGenerators(@Nonnull LongConsumer timings) {
@@ -244,7 +249,7 @@ public class EnergyNet extends Network implements HologramOwner {
 
             try {
                 Config data = BlockStorage.getLocationInfo(loc);
-                int energy = provider.getGeneratedOutput(loc, data) / Slimefun.getNetworkManager().getNetworksFromLocation(loc, EnergyNet.class).size();
+                int energy = provider.getGeneratedOutput(loc, data) / Math.max(1, (int) Slimefun.getNetworkManager().getNetworksFromLocation(loc, EnergyNet.class).stream().filter(Predicate.not(EnergyNet::isSaturated)).count());
 
                 if (provider.isChargeable()) {
                     energy = NumberUtils.flowSafeAddition(energy, provider.getCharge(loc, data));
@@ -286,6 +291,10 @@ public class EnergyNet extends Network implements HologramOwner {
         }
 
         return supply;
+    }
+
+    private boolean isSaturated() {
+        return saturated;
     }
 
     private void updateHologram(@Nonnull Block b, double supply, double demand) {
