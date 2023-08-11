@@ -86,7 +86,7 @@ public class BlockListener implements Listener {
         
         // TODO: Protection manager is null in testing environment.
         if (!Slimefun.instance().isUnitTest()) {
-            Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.BREAK_BLOCK);
+            Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.PLACE_BLOCK);
         }
         if (sfItem != null && !(sfItem instanceof NotPlaceable)) {
             if (!sfItem.canUse(e.getPlayer(), true)) {
