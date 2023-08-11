@@ -63,6 +63,8 @@ public final class HashedArmorpiece {
             ((Damageable) meta).setDamage(0);
             if (meta instanceof LeatherArmorMeta leatherArmorMeta) {
                 color = Optional.of(leatherArmorMeta.getColor());
+            } else {
+                color = Optional.empty();
             }
             copy.setItemMeta(meta);
             this.hash = copy.hashCode();
