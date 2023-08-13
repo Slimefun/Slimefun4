@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.command.CommandSender;
@@ -59,6 +60,7 @@ class GiveCommand extends SubCommand {
         giveItem(sender, p, sfItem, args);
     }
 
+    @ParametersAreNonnullByDefault
     private void giveItem(CommandSender sender, Player p, SlimefunItem sfItem, String[] args) {
         if (sfItem instanceof MultiBlockMachine) {
             Slimefun.getLocalization().sendMessage(sender, "guide.cheat.no-multiblocks");
@@ -82,7 +84,7 @@ class GiveCommand extends SubCommand {
         Slimefun.getLocalization().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
     }
 
-    private int parseAmount(String[] args) {
+    private int parseAmount(@Nonnull String[] args) {
         int amount = 1;
 
         if (args.length == 4) {
