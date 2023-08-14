@@ -12,11 +12,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * The {@link SlimefunGuideUnlockProvider} used for process unlock research
- * in Slimefun Guide.
+ * The {@link SlimefunGuideUnlockProvider} used for process
+ * research unlock in Slimefun Guide.
  * <p>
  * You could trail the method to unlock your research,
- * not only use experience.
+ * and locked item.
  */
 public interface SlimefunGuideUnlockProvider {
 
@@ -33,7 +33,7 @@ public interface SlimefunGuideUnlockProvider {
 
     /**
      * This method used for processing unlock research
-     * For example, taken player's experience level or money.
+     * For example, take player's experience level or money.
      *
      * @param research {@link Research}
      * @param p {@link Player}
@@ -42,6 +42,7 @@ public interface SlimefunGuideUnlockProvider {
 
     /**
      * This returns the unit name of research unlock token
+     * For example, Level(s) or money
      *
      * @return unit name
      */
@@ -49,7 +50,7 @@ public interface SlimefunGuideUnlockProvider {
 
     /**
      * This returns guide item when research locked
-     * By default, it shows up in the guide as a barrier with a name & the experience cost in it.
+     * By default, it shows up in the guide as a barrier with a name & the cost in it.
      *
      * @return locked item {@link ItemStack}
      */

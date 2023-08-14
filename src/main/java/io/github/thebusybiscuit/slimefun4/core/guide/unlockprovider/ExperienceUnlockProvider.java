@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.guide.SlimefunGuideUnlockProvider;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
+ * This is default guide unlock provider research unlock used.
  * Unlock research by withdrawing player's experience level.
  *
  * @see SlimefunGuideUnlockProvider
