@@ -138,7 +138,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
             return false;
         } else if (!b.getWorld().getWorldBorder().isInside(b.getLocation())) {
             return false;
-        } else if (Slimefun.getIntegrations().isCustomBlock(b)) {
+        } else if (CustomBlock.byAlreadyPlaced(b) != null) {
             return false;
         } else {
             return Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.BREAK_BLOCK);
@@ -173,9 +173,6 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
                 b.setType(Material.AIR);
                 BlockStorage.clearBlockInfo(b);
             }
-        // Fixes #3836
-        } else if (CustomBlock.byAlreadyPlaced(b) != null) {
-            return;
         } else {
             b.breakNaturally(item);
         }
