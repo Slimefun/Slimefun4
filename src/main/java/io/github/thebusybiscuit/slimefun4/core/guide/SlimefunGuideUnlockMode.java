@@ -43,16 +43,16 @@ public enum SlimefunGuideUnlockMode {
      * Convert string to certain {@link SlimefunGuideUnlockMode}.
      * If string is invalid will fall back to default one (player level)
      *
-     * @param s text to validate
+     * @param modeName text to validate
      * @return {@link SlimefunGuideUnlockMode}
      */
-    public static @Nonnull SlimefunGuideUnlockMode check(@Nullable String s) {
-        if (s == null) {
+    public static @Nonnull SlimefunGuideUnlockMode check(@Nullable String modeName) {
+        if (modeName == null) {
             return SlimefunGuideUnlockMode.EXPERIENCE;
         }
 
         for (SlimefunGuideUnlockMode value : SlimefunGuideUnlockMode.values()) {
-            if (value.toString().equalsIgnoreCase(s)) {
+            if (value.toString().equalsIgnoreCase(modeName)) {
                 return value;
             }
         }

@@ -42,8 +42,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
      *
      * @return The {@link Player}
      */
-    @Nonnull
-    public Player getPlayer() {
+    public @Nonnull Player getPlayer() {
         return player;
     }
 
@@ -53,8 +52,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
      *
      * @return The {@link ItemStack}
      */
-    @Nonnull
-    public ItemStack getGuide() {
+    public @Nonnull ItemStack getGuide() {
         return guide;
     }
 
@@ -64,8 +62,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
      *
      * @return The {@link SlimefunGuideMode}
      */
-    @Nonnull
-    public SlimefunGuideMode getGuideLayout() {
+    public @Nonnull SlimefunGuideMode getGuideLayout() {
         return layout;
     }
 
@@ -90,14 +87,12 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
         this.cancelled = cancel;
     }
 
-    @Nonnull
-    public static HandlerList getHandlerList() {
+    public static @Nonnull HandlerList getHandlerList() {
         return handlers;
     }
 
-    @Nonnull
     @Override
-    public HandlerList getHandlers() {
+    public @Nonnull HandlerList getHandlers() {
         return getHandlerList();
     }
 
