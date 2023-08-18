@@ -85,6 +85,8 @@ public class RadiationTask extends AbstractArmorTask {
                 BaseComponent[] components = new ComponentBuilder().append(ChatColors.color(msg)).create();
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
             }
+        } else {
+            RadiationUtils.removeExposure(p, 1);
         }
     }
 
