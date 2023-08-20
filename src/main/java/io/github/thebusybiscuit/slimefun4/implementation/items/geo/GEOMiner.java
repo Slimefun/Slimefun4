@@ -7,7 +7,8 @@ import java.util.OptionalInt;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -77,7 +78,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     }
 
     @Override
-    public MachineProcessor<MiningOperation> getMachineProcessor() {
+    public @Nonnull MachineProcessor<MiningOperation> getMachineProcessor() {
         return processor;
     }
 
@@ -121,8 +122,8 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
      * 
      * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
      */
-    public final GEOMiner setCapacity(int capacity) {
-        Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
+    public final @Nonnull GEOMiner setCapacity(int capacity) {
+        Preconditions.checkArgument(capacity > 0, "The capacity must be greater than zero!");
 
         if (getState() == ItemState.UNREGISTERED) {
             this.energyCapacity = capacity;
@@ -140,8 +141,8 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
      * 
      * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
      */
-    public final GEOMiner setProcessingSpeed(int speed) {
-        Validate.isTrue(speed > 0, "The speed must be greater than zero!");
+    public final @Nonnull GEOMiner setProcessingSpeed(int speed) {
+        Preconditions.checkArgument(speed > 0, "The speed must be greater than zero!");
 
         this.processingSpeed = speed;
         return this;
@@ -155,10 +156,10 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
      * 
      * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
      */
-    public final GEOMiner setEnergyConsumption(int energyConsumption) {
-        Validate.isTrue(energyConsumption > 0, "The energy consumption must be greater than zero!");
-        Validate.isTrue(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
-        Validate.isTrue(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
+    public final @Nonnull GEOMiner setEnergyConsumption(int energyConsumption) {
+        Preconditions.checkArgument(energyConsumption > 0, "The energy consumption must be greater than zero!");
+        Preconditions.checkArgument(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
+        Preconditions.checkArgument(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
 
         this.energyConsumedPerTick = energyConsumption;
         return this;
@@ -188,19 +189,17 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         }
     }
 
-    @Nonnull
-    private BlockPlaceHandler onBlockPlace() {
+    private @Nonnull BlockPlaceHandler onBlockPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
-            public void onPlayerPlace(BlockPlaceEvent e) {
+            public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
                 updateHologram(e.getBlock(), "&7Idling...");
             }
         };
     }
 
-    @Nonnull
-    private BlockBreakHandler onBlockBreak() {
+    private @Nonnull BlockBreakHandler onBlockBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
@@ -217,21 +216,18 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         };
     }
 
-    @Nonnull
     @Override
-    public int[] getInputSlots() {
+    public @Nonnull int[] getInputSlots() {
         return new int[0];
     }
 
-    @Nonnull
     @Override
-    public int[] getOutputSlots() {
+    public @Nonnull int[] getOutputSlots() {
         return OUTPUT_SLOTS;
     }
 
-    @Nonnull
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new LinkedList<>();
 
         for (GEOResource resource : Slimefun.getRegistry().getGEOResources().values()) {
@@ -249,7 +245,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     }
 
     @Override
-    public EnergyNetComponentType getEnergyComponentType() {
+    public @Nonnull EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
 
@@ -274,7 +270,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
                 @Override
                 public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
+                    return cursor == null || cursor.getType() == Material.AIR;
                 }
             });
         }
@@ -328,7 +324,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
             if (resource.isObtainableFromGEOMiner()) {
                 OptionalInt optional = Slimefun.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
-                if (!optional.isPresent()) {
+                if (optional.isEmpty()) {
                     updateHologram(b, "&4GEO-Scan required!");
                     return;
                 }
@@ -339,7 +335,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
                         return;
                     }
 
-                    processor.startOperation(b, new MiningOperation(resource.getItem().clone(), PROCESSING_TIME));
+                    processor.startOperation(b, new MiningOperation(resource, b, PROCESSING_TIME));
                     Slimefun.getGPSNetwork().getResourceManager().setSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies - 1);
                     updateHologram(b, "&7Mining: &r" + resource.getName());
                     return;

@@ -57,4 +57,10 @@ public interface MachineOperation {
         return getRemainingTicks() <= 0;
     }
 
+    /**
+     * This method is called when a {@link MachineOperation} is interrupted before finishing.
+     * Implement to specify behaviour that should happen in this case.
+     */
+    default void cancel() {}
+
 }
