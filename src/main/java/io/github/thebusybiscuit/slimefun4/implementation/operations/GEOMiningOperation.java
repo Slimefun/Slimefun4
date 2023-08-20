@@ -37,7 +37,7 @@ public class GEOMiningOperation extends MiningOperation {
      * when the {@link GEOMiningOperation} gets cancelled
      */
     @Override
-    public void cancel() {
+    public void onCancel() {
         ResourceManager resourceManager = Slimefun.getGPSNetwork().getResourceManager();
         OptionalInt supplies = resourceManager.getSupplies(resource, block.getWorld(), block.getX() >> 4, block.getZ() >> 4);
         supplies.ifPresent(s -> resourceManager.setSupplies(resource, block.getWorld(), block.getX() >> 4, block.getZ() >> 4, s + 1));
