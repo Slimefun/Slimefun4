@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
  * @author iTwins
  *
  * @see GEOMiner
- *
  */
 public class GEOMiningOperation extends MiningOperation {
 
