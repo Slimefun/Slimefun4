@@ -88,7 +88,7 @@ public final class ChatUtils {
      * @param count
      *      The amount of things
      * @return
-     *      <code>string</code> if <code>count</code> is 1 else <code>string + "s"</code>
+     *      {@code string} if {@code count} is 1 else {@code string + "s"}
      */
     public static @Nonnull String checkPlurality(@Nonnull String string, int count) {
         if (count == 1) {
