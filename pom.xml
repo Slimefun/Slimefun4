@@ -355,7 +355,7 @@
         <dependency>
             <groupId>com.github.baked-libs.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>39856a32c4</version>
+            <version>d3b0997226</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
