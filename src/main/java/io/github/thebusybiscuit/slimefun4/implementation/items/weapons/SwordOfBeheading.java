@@ -95,8 +95,7 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
                         e.getDrops().add(skull);
                     }
                 }
-                default -> {
-                }
+                default -> {}
             }
         };
     }
