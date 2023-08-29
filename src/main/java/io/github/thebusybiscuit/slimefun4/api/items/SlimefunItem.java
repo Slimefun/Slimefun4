@@ -1202,5 +1202,4 @@ public class SlimefunItem implements Placeable {
     public @Nonnull Optional<SlimefunItem> getOptionalByItem(@Nullable ItemStack item) {
         return Optional.ofNullable(getByItem(item));
     }
-
 }
