@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   validate:
-
+    if: github.repository == 'Slimefun/Slimefun4'
     name: Check for merge conflicts
     runs-on: ubuntu-latest
 

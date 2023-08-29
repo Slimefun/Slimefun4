@@ -28,6 +28,7 @@ import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.papermc.lib.PaperLib;
 
@@ -140,8 +141,9 @@ class MiningTask implements Runnable {
             consumeFuel();
 
             if (fuelLevel <= 0) {
-                // This Miner has not enough fuel.
+                // This Miner has not got enough fuel to run.
                 stop(MinerStoppingReason.NO_FUEL);
+                return;
             }
         });
 
@@ -196,9 +198,11 @@ class MiningTask implements Runnable {
                         return;
                     }
 
-                    if (miner.canMine(b.getType()) && push(miner.getOutcome(b.getType()))) {
+                    if (miner.canMine(b) && push(miner.getOutcome(b.getType()))) {
+                        // Not changed since this is supposed to be a natural sound.
                         furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, b.getType());
-                        furnace.getWorld().playSound(furnace.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.2F, 1F);
+
+                        SoundEffect.MINING_TASK_SOUND.playAt(furnace);
 
                         b.setType(Material.AIR);
                         fuelLevel--;

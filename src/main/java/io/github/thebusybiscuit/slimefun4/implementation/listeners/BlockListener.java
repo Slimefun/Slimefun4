@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,6 +25,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockBreakEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
@@ -81,16 +85,27 @@ public class BlockListener implements Listener {
         ItemStack item = e.getItemInHand();
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
+        // TODO: Protection manager is null in testing environment.
+        if (!Slimefun.instance().isUnitTest()) {
+            Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.PLACE_BLOCK);
+        }
         if (sfItem != null && !(sfItem instanceof NotPlaceable)) {
             if (!sfItem.canUse(e.getPlayer(), true)) {
                 e.setCancelled(true);
             } else {
-                if (Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
-                    Slimefun.getBlockDataService().setBlockData(e.getBlock(), sfItem.getId());
-                }
+                SlimefunBlockPlaceEvent placeEvent = new SlimefunBlockPlaceEvent(e.getPlayer(), item, e.getBlock(), sfItem);
+                Bukkit.getPluginManager().callEvent(placeEvent);
 
-                BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getId(), true);
-                sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
+                if (placeEvent.isCancelled()) {
+                    e.setCancelled(true);
+                } else {
+                    if (Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
+                        Slimefun.getBlockDataService().setBlockData(e.getBlock(), sfItem.getId());
+                    }
+
+                    BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getId(), true);
+                    sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
+                }
             }
         }
     }
@@ -113,20 +128,39 @@ public class BlockListener implements Listener {
         }
 
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-        checkForSensitiveBlockAbove(e, item);
+        SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
-        int fortune = getBonusDropsWithFortune(item, e.getBlock());
-        List<ItemStack> drops = new ArrayList<>();
+        // If there is a Slimefun Block here, call our BreakEvent and, if cancelled, cancel this event and return
+        if (sfItem != null) {
+            SlimefunBlockBreakEvent breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
+            Bukkit.getPluginManager().callEvent(breakEvent);
 
-        if (!e.isCancelled() && !item.getType().isAir()) {
-            callToolHandler(e, item, fortune, drops);
+            if (breakEvent.isCancelled()) {
+                e.setCancelled(true);
+                return;
+            }
         }
 
         if (!e.isCancelled()) {
-            callBlockHandler(e, item, drops);
-        }
+            checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock(), item);
 
-        dropItems(e, drops);
+            int fortune = getBonusDropsWithFortune(item, e.getBlock());
+            List<ItemStack> drops = new ArrayList<>();
+
+            if (!item.getType().isAir()) {
+                callToolHandler(e, item, fortune, drops);
+            }
+
+            callBlockHandler(e, item, drops, sfItem);
+            dropItems(e, drops);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onExplosiveToolBlockBreak(ExplosiveToolBreakBlocksEvent e) {
+        for (Block block : e.getAdditionalBlocks()) {
+            checkForSensitiveBlockAbove(e.getPlayer(), block, e.getItemInHand());
+        }
     }
 
     @ParametersAreNonnullByDefault
@@ -143,9 +177,7 @@ public class BlockListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    private void callBlockHandler(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-        SlimefunItem sfItem = BlockStorage.check(e.getBlock());
-
+    private void callBlockHandler(BlockBreakEvent e, ItemStack item, List<ItemStack> drops, @Nullable SlimefunItem sfItem) {
         if (sfItem == null && Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
             Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(e.getBlock());
 
@@ -168,9 +200,12 @@ public class BlockListener implements Listener {
 
     @ParametersAreNonnullByDefault
     private void dropItems(BlockBreakEvent e, List<ItemStack> drops) {
-        if (!drops.isEmpty() && !e.isCancelled()) {
-            // Notify plugins like CoreProtect
-            Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.BREAK_BLOCK);
+        if (!drops.isEmpty()) {
+            // TODO: properly support loading inventories within unit tests
+            if (!Slimefun.instance().isUnitTest()) {
+                // Notify plugins like CoreProtect
+                Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.BREAK_BLOCK);
+            }
 
             // Fixes #2560
             if (e.isDropItems()) {
@@ -192,14 +227,16 @@ public class BlockListener implements Listener {
      * Sensitive {@link Block Blocks} are pressure plates or saplings, which should be broken
      * when the block beneath is broken as well.
      *
-     * @param p
+     * @param player
      *            The {@link Player} who broke this {@link Block}
-     * @param b
+     * @param block
      *            The {@link Block} that was broken
+     * @param item
+     *            The {@link ItemStack} that was used to break the {@link Block}
      */
     @ParametersAreNonnullByDefault
-    private void checkForSensitiveBlockAbove(BlockBreakEvent e, ItemStack item) {
-        Block blockAbove = e.getBlock().getRelative(BlockFace.UP);
+    private void checkForSensitiveBlockAbove(Player player, Block block, ItemStack item) {
+        Block blockAbove = block.getRelative(BlockFace.UP);
 
         if (SlimefunTag.SENSITIVE_MATERIALS.isTagged(blockAbove.getType())) {
             SlimefunItem sfItem = BlockStorage.check(blockAbove);
@@ -209,9 +246,8 @@ public class BlockListener implements Listener {
                  * We create a dummy here to pass onto the BlockBreakHandler.
                  * This will set the correct block context.
                  */
-                BlockBreakEvent dummyEvent = new BlockBreakEvent(blockAbove, e.getPlayer());
-                List<ItemStack> drops = new ArrayList<>();
-                drops.addAll(sfItem.getDrops(e.getPlayer()));
+                BlockBreakEvent dummyEvent = new BlockBreakEvent(blockAbove, player);
+                List<ItemStack> drops = new ArrayList<>(sfItem.getDrops(player));
 
                 sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
                 blockAbove.setType(Material.AIR);

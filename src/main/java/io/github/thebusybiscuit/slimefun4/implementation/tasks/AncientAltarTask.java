@@ -15,13 +15,14 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.AncientAltarCraftEvent;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
@@ -134,7 +135,7 @@ public class AncientAltarTask implements Runnable {
             Item entity = item.get();
             particleLocations.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
             items.add(pedestalItem.getOriginalItemStack(entity));
-            pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
+            SoundEffect.ANCIENT_ALTAR_ITEM_CHECK_SOUND.playAt(pedestal);
 
             dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
             dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC, pedestal.getLocation().add(0.5, 1.5, 0.5), 8, 0.3F, 0.2F, 0.3F);
@@ -154,7 +155,7 @@ public class AncientAltarTask implements Runnable {
 
         // This should re-enable altar blocks on craft failure.
         listener.getAltarsInUse().remove(altar.getLocation());
-        dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1F, 1F);
+        SoundEffect.ANCIENT_ALTAR_ITEM_DROP_SOUND.playAt(dropLocation, SoundCategory.BLOCKS);
         positionLock.clear();
         listener.getAltars().remove(altar);
     }
@@ -166,7 +167,7 @@ public class AncientAltarTask implements Runnable {
             Bukkit.getPluginManager().callEvent(event);
 
             if (!event.isCancelled()) {
-                dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
+                SoundEffect.ANCIENT_ALTAR_FINISH_SOUND.playAt(dropLocation, SoundCategory.BLOCKS);
                 dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
                 dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), event.getItem());
             }
@@ -179,7 +180,7 @@ public class AncientAltarTask implements Runnable {
             listener.getAltarsInUse().remove(altar.getLocation());
             listener.getAltars().remove(altar);
         } else {
-            dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 1F);
+            SoundEffect.ANCIENT_ALTAR_ITEM_DROP_SOUND.playAt(dropLocation, SoundCategory.BLOCKS);
         }
     }
 }

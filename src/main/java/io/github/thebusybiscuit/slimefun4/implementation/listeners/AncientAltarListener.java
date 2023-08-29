@@ -14,7 +14,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
@@ -25,6 +24,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -32,6 +32,7 @@ import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
@@ -157,7 +158,7 @@ public class AncientAltarListener implements Listener {
             Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
 
             entity.remove();
-            p.playSound(pedestal.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
+            SoundEffect.ANCIENT_ALTAR_ITEM_PICK_UP_SOUND.playFor(p);
 
             /*
              * Fixes #3476
@@ -217,9 +218,7 @@ public class AncientAltarListener implements Listener {
         for (Block pedestal : pedestals) {
             Optional<Item> stack = pedestalItem.getPlacedItem(pedestal);
 
-            if (stack.isPresent()) {
-                input.add(pedestalItem.getOriginalItemStack(stack.get()));
-            }
+            stack.ifPresent(item -> input.add(pedestalItem.getOriginalItemStack(item)));
         }
 
         Optional<ItemStack> result = getRecipeOutput(catalyst, input);
@@ -233,7 +232,7 @@ public class AncientAltarListener implements Listener {
                     ItemUtils.consumeItem(p.getInventory().getItemInMainHand(), false);
                 }
 
-                b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1, 1);
+                SoundEffect.ANCIENT_ALTAR_START_SOUND.playAt(b);
 
                 AncientAltarTask task = new AncientAltarTask(this, b, altarItem.getStepDelay(), result.get(), pedestals, consumed, p);
                 Slimefun.runSync(task, 10L);
@@ -359,4 +358,10 @@ public class AncientAltarListener implements Listener {
         return Optional.empty();
     }
 
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onItemDespawn(ItemDespawnEvent e) {
+        if (AncientPedestal.testItem(e.getEntity())) {
+            e.setCancelled(true);
+        }
+    }
 }

@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -28,10 +27,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * It also serves as a {@link NetherGoldPan}.
  * 
  * @author TheBusyBiscuit
- * 
+ * @author svr333
+ * @author JustAHuman
+ *
  * @see GoldPan
  * @see NetherGoldPan
- *
  */
 public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
@@ -40,9 +40,6 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     private final GoldPan goldPan = SlimefunItems.GOLD_PAN.getItem(GoldPan.class);
     private final GoldPan netherGoldPan = SlimefunItems.NETHER_GOLD_PAN.getItem(GoldPan.class);
 
-    private final ItemStack gravel = new ItemStack(Material.GRAVEL);
-    private final ItemStack soulSand = new ItemStack(Material.SOUL_SAND);
-
     @ParametersAreNonnullByDefault
     public ElectricGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -50,21 +47,30 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     }
 
     /**
-     * This returns whether the {@link ElectricGoldPan} will stop proccessing inputs
+     * @deprecated since RC-36
+     * Use {@link ElectricGoldPan#isOutputLimitOverridden()} instead.
+     */
+    @Deprecated(since = "RC-36")
+    public boolean isOutputLimitOverriden() {
+        return isOutputLimitOverridden();
+    }
+
+    /**
+     * This returns whether the {@link ElectricGoldPan} will stop processing inputs
      * if both output slots contain items or if that default behavior should be
-     * overriden and allow the {@link ElectricGoldPan} to continue processing inputs
+     * overridden and allow the {@link ElectricGoldPan} to continue processing inputs
      * even if both output slots are occupied. Note this option will allow players
      * to force specific outputs from the {@link ElectricGoldPan} but can be
      * necessary when a server has disabled cargo networks.
      * 
-     * @return If output limits are overriden
+     * @return If output limits are overridden
      */
-    public boolean isOutputLimitOverriden() {
+    public boolean isOutputLimitOverridden() {
         return overrideOutputLimit.getValue();
     }
 
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> recipes = new ArrayList<>();
 
         recipes.addAll(goldPan.getDisplayRecipes());
@@ -80,30 +86,26 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected MachineRecipe findNextRecipe(BlockMenu menu) {
-        if (!isOutputLimitOverriden() && !hasFreeSlot(menu)) {
+        if (!isOutputLimitOverridden() && !hasFreeSlot(menu)) {
             return null;
         }
 
         for (int slot : getInputSlots()) {
             ItemStack item = menu.getItemInSlot(slot);
+            MachineRecipe recipe = null;
+            ItemStack output = null;
 
-            if (SlimefunUtils.isItemSimilar(item, gravel, true, false)) {
-                ItemStack output = goldPan.getRandomOutput();
-                MachineRecipe recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { gravel }, new ItemStack[] { output });
+            if (goldPan.isValidInput(item)) {
+                output = goldPan.getRandomOutput();
+                recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
+            } else if (netherGoldPan.isValidInput(item)) {
+                output = netherGoldPan.getRandomOutput();
+                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
+            }
 
-                if (output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
-                    menu.consumeItem(slot);
-                    return recipe;
-                }
-            } else if (SlimefunUtils.isItemSimilar(item, soulSand, true, false)) {
-                ItemStack output = netherGoldPan.getRandomOutput();
-                MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { soulSand }, new ItemStack[] { output });
-
-                if (output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
-                    menu.consumeItem(slot);
-                    return recipe;
-                }
-
+            if (output != null && output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
+                menu.consumeItem(slot);
+                return recipe;
             }
         }
 
@@ -121,7 +123,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    public String getMachineIdentifier() {
+    public @Nonnull String getMachineIdentifier() {
         return "ELECTRIC_GOLD_PAN";
     }
 

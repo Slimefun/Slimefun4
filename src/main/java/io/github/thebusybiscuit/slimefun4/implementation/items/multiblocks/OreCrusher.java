@@ -50,6 +50,9 @@ public class OreCrusher extends MultiBlockMachine {
 
     @Override
     protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        recipes.add(new ItemStack(Material.BLACKSTONE, 8));
+        recipes.add(new ItemStack(Material.RED_SAND, 1));
+
         recipes.add(new ItemStack(Material.COBBLESTONE, 8));
         recipes.add(new ItemStack(Material.SAND, 1));
 

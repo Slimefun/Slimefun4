@@ -46,7 +46,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
     }
 
     @Override
-    public EntityInteractHandler getItemHandler() {
+    public @Nonnull EntityInteractHandler getItemHandler() {
         return (e, item, offhand) -> {
             Entity entity = e.getRightClicked();
 
@@ -81,6 +81,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
             ItemUtils.consumeItem(item, false);
         }
 
+        // This is supposed to be a vanilla sound. No need for a SoundEffect
         p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
     }
 

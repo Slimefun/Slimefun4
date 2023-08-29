@@ -1,12 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -64,13 +62,18 @@ class PerformanceSummary {
         summarizeTimings(totalTickedBlocks, "block", sender, items, entry -> {
             int count = profiler.getBlocksOfId(entry.getKey());
             String time = NumberUtils.getAsMillis(entry.getValue());
+            String message = entry.getKey() +  " - " + count + "x (%s)";
 
-            if (count > 1) {
-                String average = NumberUtils.getAsMillis(entry.getValue() / count);
+            if (count <= 1) {
+                return String.format(message, time);
+            }
 
-                return entry.getKey() + " - " + count + "x (" + time + " | avg: " + average + ')';
+            String average = NumberUtils.getAsMillis(entry.getValue() / count);
+
+            if (sender.getOrderType() == SummaryOrderType.AVERAGE) {
+                return String.format(message, average + " | total: " + time);
             } else {
-                return entry.getKey() + " - " + count + "x (" + time + ')';
+                return String.format(message, time + " | avg: " + average);
             }
         });
 
@@ -91,8 +94,8 @@ class PerformanceSummary {
 
     @ParametersAreNonnullByDefault
     private void summarizeTimings(int count, String name, PerformanceInspector inspector, Map<String, Long> map, Function<Map.Entry<String, Long>, String> formatter) {
-        Stream<Map.Entry<String, Long>> stream = map.entrySet().stream();
-        List<Entry<String, Long>> results = stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
+        Set<Entry<String, Long>> entrySet = map.entrySet();
+        List<Entry<String, Long>> results = inspector.getOrderType().sort(profiler, entrySet);
         String prefix = count + " " + name + (count != 1 ? 's' : "");
 
         if (inspector instanceof PlayerPerformanceInspector playerPerformanceInspector) {
@@ -181,22 +184,15 @@ class PerformanceSummary {
             rest--;
         }
 
-        builder.append(ChatColor.DARK_GRAY);
-
-        for (int i = 0; i < rest; i++) {
-            builder.append(':');
-        }
-
-        builder.append(" - ");
-
-        builder.append(rating.getColor() + ChatUtils.humanize(rating.name()));
-
-        builder.append(ChatColor.GRAY);
-        builder.append(" (");
-        builder.append(NumberUtils.roundDecimalNumber(percentage));
-        builder.append("%)");
+        builder.append(ChatColor.DARK_GRAY)
+            .append(":".repeat(Math.max(0, rest)))
+            .append(" - ")
+            .append(rating.getColor()).append(ChatUtils.humanize(rating.name()))
+            .append(ChatColor.GRAY)
+            .append(" (")
+            .append(NumberUtils.roundDecimalNumber(percentage))
+            .append("%)");
 
         return builder.toString();
     }
-
 }

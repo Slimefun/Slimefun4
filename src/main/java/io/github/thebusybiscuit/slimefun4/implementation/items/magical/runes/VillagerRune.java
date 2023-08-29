@@ -2,11 +2,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
@@ -36,7 +38,7 @@ public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
     }
 
     @Override
-    public EntityInteractHandler getItemHandler() {
+    public @Nonnull EntityInteractHandler getItemHandler() {
         return (e, item, offhand) -> {
             if (e.isCancelled() || !Slimefun.getProtectionManager().hasPermission(e.getPlayer(), e.getRightClicked().getLocation(), Interaction.INTERACT_ENTITY)) {
                 // They don't have permission to use it in this area
@@ -60,7 +62,7 @@ public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
 
                 double offset = ThreadLocalRandom.current().nextDouble(0.5);
 
-                villager.getWorld().playSound(villager.getLocation(), Sound.ENTITY_VILLAGER_CELEBRATE, 1, 1.4F);
+                SoundEffect.VILLAGER_RUNE_TRANSFORM_SOUND.playAt(villager.getLocation(), SoundCategory.NEUTRAL);
                 villager.getWorld().spawnParticle(Particle.CRIMSON_SPORE, villager.getLocation(), 10, 0, offset / 2, 0, 0);
                 villager.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, villager.getLocation(), 5, 0.04, 1, 0.04);
             }
