@@ -89,8 +89,13 @@ public final class ChatUtils {
      *      The amount of things
      * @return
      *      {@code string} if {@code count} is 1 else {@code string + "s"}
+     * @throws IllegalArgumentException
+     *      if count is less than 0
      */
     public static @Nonnull String checkPlurality(@Nonnull String string, int count) {
+        if (count < 0) {
+            throw new IllegalArgumentException("Argument count cannot be negative.");
+        }
         if (count == 1) {
             return string;
         }
