@@ -48,6 +48,12 @@ public enum EnergyNetComponentType {
     CONNECTOR,
 
     /**
+     * An Insulator can be placed between {@link EnergyNetComponent}s
+     * to stop them from connecting
+     */
+    INSULATOR,
+
+    /**
      * A fallback value to use when a {@link Block} cannot be classified as any of the
      * other options.
      */

@@ -108,6 +108,7 @@ public class EnergyNet extends Network implements HologramOwner {
                     CAPACITOR -> NetworkComponent.CONNECTOR;
                 case CONSUMER,
                     GENERATOR -> NetworkComponent.TERMINUS;
+                case INSULATOR -> NetworkComponent.INSULATOR;
                 default -> null;
             };
         }

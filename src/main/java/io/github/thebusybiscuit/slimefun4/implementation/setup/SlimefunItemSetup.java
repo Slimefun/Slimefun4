@@ -74,12 +74,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.WitherProo
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.AdvancedCargoOutputNode;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoConnectorNode;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoInputNode;
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoInsulator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoManager;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoOutputNode;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.TrashCan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyConnector;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyInsulator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
@@ -1560,6 +1562,10 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.ENERGY_CONNECTOR, 8))
         .register(plugin);
 
+        new EnergyInsulator(itemGroups.electricity, SlimefunItems.ENERGY_INSULATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.PLASTIC_SHEET, new ItemStack(Material.TERRACOTTA), SlimefunItems.PLASTIC_SHEET, new ItemStack(Material.TERRACOTTA), SlimefunItems.ENERGY_CONNECTOR, new ItemStack(Material.TERRACOTTA), SlimefunItems.PLASTIC_SHEET, new ItemStack(Material.TERRACOTTA), SlimefunItems.PLASTIC_SHEET})
+        .register(plugin);
+
         new SlimefunItem(itemGroups.misc, SlimefunItems.DUCT_TAPE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_DUST, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.PAPER), new ItemStack(Material.PAPER), new ItemStack(Material.PAPER)}, 
         new SlimefunItemStack(SlimefunItems.DUCT_TAPE, 2))
@@ -2555,6 +2561,10 @@ public final class SlimefunItemSetup {
         new CargoConnectorNode(itemGroups.cargo, SlimefunItems.CARGO_CONNECTOR_NODE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.BRONZE_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.BRONZE_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.CARGO_MOTOR, SlimefunItems.SILVER_INGOT, SlimefunItems.BRONZE_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.BRONZE_INGOT}, 
         new SlimefunItemStack(SlimefunItems.CARGO_CONNECTOR_NODE, 4))
+        .register(plugin);
+
+        new CargoInsulator(itemGroups.cargo, SlimefunItems.CARGO_INSULATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.CARGO_CONNECTOR_NODE, SlimefunItems.TIN_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.LEAD_INGOT})
         .register(plugin);
 
         new CargoInputNode(itemGroups.cargo, SlimefunItems.CARGO_INPUT_NODE, RecipeType.ENHANCED_CRAFTING_TABLE,
