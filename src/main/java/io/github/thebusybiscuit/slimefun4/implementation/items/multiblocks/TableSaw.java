@@ -61,12 +61,7 @@ public class TableSaw extends MultiBlockMachine {
                 displayedRecipes.add(new ItemStack(planks.get(), 8));
             }
         }
-
-        for (Material plank : Tag.PLANKS.getValues()) {
-            displayedRecipes.add(new ItemStack(plank));
-            displayedRecipes.add(new ItemStack(Material.STICK, 4));
-        }
-
+        
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
             // Bamboo blocks to Bamboo planks
             displayedRecipes.add(new ItemStack(Material.BAMBOO_BLOCK));
@@ -76,6 +71,12 @@ public class TableSaw extends MultiBlockMachine {
             displayedRecipes.add(new ItemStack(Material.STRIPPED_BAMBOO_BLOCK));
             displayedRecipes.add(new ItemStack(Material.BAMBOO_PLANKS, 4));
         }
+
+        for (Material plank : Tag.PLANKS.getValues()) {
+            displayedRecipes.add(new ItemStack(plank));
+            displayedRecipes.add(new ItemStack(Material.STICK, 4));
+        }
+
     }
 
     /**
