@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -24,13 +25,13 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
  */
 public class EnergyInsulator extends SlimefunItem implements EnergyNetComponent {
 
+    @ParametersAreNonnullByDefault
     public EnergyInsulator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    @Nonnull
     @Override
-    public EnergyNetComponentType getEnergyComponentType() {
+    public @Nonnull EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.INSULATOR;
     }
 

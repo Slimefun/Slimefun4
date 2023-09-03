@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -15,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
  */
 public class CargoInsulator extends SlimefunItem {
 
+    @ParametersAreNonnullByDefault
     public CargoInsulator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
