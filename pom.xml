@@ -502,7 +502,7 @@
         <dependency>
             <groupId>net.imprex</groupId>
             <artifactId>orebfuscator-api</artifactId>
-            <version>5.3.3</version>
+            <version>5.4.0</version>
             <scope>provided</scope>
 
             <exclusions>
