@@ -42,8 +42,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public abstract class SignalInsulator extends SlimefunItem {
 
-    private static final HashMap<Location, Boolean> enabledStates = new HashMap<>();
-
     @ParametersAreNonnullByDefault
     public SignalInsulator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -86,16 +84,14 @@ public abstract class SignalInsulator extends SlimefunItem {
 
     @Override
     public void preRegister() {
-        addItemHandler(onPlace());
-        addItemHandler(onRightClick());
-        addItemHandler(onBreak());
+        addItemHandler(onPlace(), onRightClick());
     }
 
     private @Nonnull BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
             @Override
             public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
-                enabledStates.put(e.getBlock().getLocation(), true);
+                setEnabled(e.getBlock().getLocation(), true);
             }
         };
     }
@@ -119,15 +115,6 @@ public abstract class SignalInsulator extends SlimefunItem {
 
             for (Network network : Slimefun.getNetworkManager().getNetworksFromLocation(location, EnergyNet.class)) {
                 network.markDirty(location);
-            }
-        };
-    }
-
-    private @Nonnull BlockBreakHandler onBreak() {
-        return new SimpleBlockBreakHandler() {
-            @Override
-            public void onBlockBreak(@Nonnull Block b) {
-                enabledStates.remove(b.getLocation());
             }
         };
     }
