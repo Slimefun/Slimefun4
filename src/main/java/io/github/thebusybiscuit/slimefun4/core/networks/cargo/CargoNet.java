@@ -21,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoInsulator;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -100,7 +101,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
             case "CARGO_NODE_INPUT",
                 "CARGO_NODE_OUTPUT",
                 "CARGO_NODE_OUTPUT_ADVANCED" -> NetworkComponent.TERMINUS;
-            case "CARGO_INSULATOR" -> NetworkComponent.INSULATOR;
+            case "CARGO_INSULATOR" -> CargoInsulator.isEnabled(l) ? NetworkComponent.INSULATOR : null;
             default -> null;
         };
     }

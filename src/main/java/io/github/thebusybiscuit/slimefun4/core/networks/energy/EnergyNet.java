@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyInsulator;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -108,7 +109,7 @@ public class EnergyNet extends Network implements HologramOwner {
                     CAPACITOR -> NetworkComponent.CONNECTOR;
                 case CONSUMER,
                     GENERATOR -> NetworkComponent.TERMINUS;
-                case INSULATOR -> NetworkComponent.INSULATOR;
+                case INSULATOR -> EnergyInsulator.isEnabled(l) ? NetworkComponent.INSULATOR : null;
                 default -> null;
             };
         }
