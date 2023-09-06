@@ -41,7 +41,6 @@ class TeleporterCommand extends SubCommand {
             return;
         }
 
-        @SuppressWarnings("deprecation")
         OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[1]);
         if (targetPlayer.getName() == null) {
             Slimefun.getLocalization().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
