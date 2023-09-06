@@ -58,8 +58,9 @@ public abstract class SimpleBlockBreakHandler extends BlockBreakHandler {
     public void onExplode(Block b, List<ItemStack> drops) {
         onBlockBreak(b);
         SlimefunItem sfItem = BlockStorage.check(b);
-        if (sfItem != null)
+        if (sfItem != null) {
             drops.addAll(sfItem.getDrops());
+        }
     }
 
 }
