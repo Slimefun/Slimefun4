@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import dev.lone.itemsadder.api.CustomBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -236,7 +237,7 @@ public class IntegrationsManager {
     public boolean isCustomBlock(@Nonnull Block block) {
         if (isItemsAdderInstalled) {
             try {
-                return ItemsAdder.isCustomBlock(block);
+                return CustomBlock.byAlreadyPlaced(block) != null;
             } catch (Exception | LinkageError x) {
                 logError("ItemsAdder", x);
             }
