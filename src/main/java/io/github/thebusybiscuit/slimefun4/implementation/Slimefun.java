@@ -106,6 +106,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.Craf
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.SmithingTableListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.BeeListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.CreatureBuildListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.EntityInteractionListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.IronGolemListener;
@@ -646,6 +647,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
         new PiglinListener(this);
         new SmithingTableListener(this);
+        new CreatureBuildListener(this);
 
         // Item-specific Listeners
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
