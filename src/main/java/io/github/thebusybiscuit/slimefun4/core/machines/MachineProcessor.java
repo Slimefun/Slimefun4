@@ -231,7 +231,7 @@ public class MachineProcessor<T extends MachineOperation> {
                 Event event = new AsyncMachineOperationFinishEvent(pos, this, operation);
                 Bukkit.getPluginManager().callEvent(event);
             } else {
-                operation.onCancel();
+                operation.onCancel(pos);
             }
 
             return true;

@@ -4,8 +4,7 @@ import java.util.OptionalInt;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.block.Block;
-
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.geo.ResourceManager;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
@@ -23,12 +22,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 public class GEOMiningOperation extends MiningOperation {
 
     private final GEOResource resource;
-    private final Block block;
 
-    public GEOMiningOperation(@Nonnull GEOResource resource, @Nonnull Block block, int totalTicks) {
+    public GEOMiningOperation(@Nonnull GEOResource resource, int totalTicks) {
         super(resource.getItem().clone(), totalTicks);
         this.resource = resource;
-        this.block = block;
     }
 
     /**
@@ -36,10 +33,10 @@ public class GEOMiningOperation extends MiningOperation {
      * when the {@link GEOMiningOperation} gets cancelled
      */
     @Override
-    public void onCancel() {
+    public void onCancel(@Nonnull BlockPosition position) {
         ResourceManager resourceManager = Slimefun.getGPSNetwork().getResourceManager();
-        OptionalInt supplies = resourceManager.getSupplies(resource, block.getWorld(), block.getX() >> 4, block.getZ() >> 4);
-        supplies.ifPresent(s -> resourceManager.setSupplies(resource, block.getWorld(), block.getX() >> 4, block.getZ() >> 4, s + 1));
+        OptionalInt supplies = resourceManager.getSupplies(resource, position.getWorld(), position.getChunkX(), position.getChunkZ());
+        supplies.ifPresent(s -> resourceManager.setSupplies(resource, position.getWorld(), position.getChunkX(), position.getChunkZ(), s + 1));
     }
 
 }

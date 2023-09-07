@@ -335,7 +335,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
                         return;
                     }
 
-                    processor.startOperation(b, new GEOMiningOperation(resource, b, PROCESSING_TIME));
+                    processor.startOperation(b, new GEOMiningOperation(resource, PROCESSING_TIME));
                     Slimefun.getGPSNetwork().getResourceManager().setSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies - 1);
                     updateHologram(b, "&7Mining: &r" + resource.getName());
                     return;

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.machines;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 
 /**
@@ -61,6 +62,6 @@ public interface MachineOperation {
      * This method is called when a {@link MachineOperation} is interrupted before finishing.
      * Implement to specify behaviour that should happen in this case.
      */
-    default void onCancel() {}
+    default void onCancel(BlockPosition position) {}
 
 }
