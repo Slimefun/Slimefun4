@@ -266,6 +266,7 @@ public class BlockListener implements Listener {
      * @return
      *      Whether the {@link BlockData} would be supported at the given {@link Block}
      */
+    @ParametersAreNonnullByDefault
     private boolean isSupported(BlockData blockData, Block block) {
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
             return blockData.isSupported(block);
