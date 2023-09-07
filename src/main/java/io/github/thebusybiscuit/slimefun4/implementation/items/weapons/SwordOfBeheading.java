@@ -5,6 +5,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Monster;
@@ -80,7 +82,8 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
                     }
                 }
                 case PIGLIN -> {
-                    if (random.nextInt(100) < chancePiglin.getValue()) {
+                    if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20) &&
+                        random.nextInt(100) < chancePiglin.getValue()) {
                         e.getDrops().add(new ItemStack(Material.PIGLIN_HEAD));
                     }
                 }
