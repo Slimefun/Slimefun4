@@ -3,8 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.ArcaneMagnet;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ArcaneMagnetTask;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +15,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.ArcaneMagnet;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.InfusedMagnetTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ArcaneMagnetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetBootsTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ParachuteTask;

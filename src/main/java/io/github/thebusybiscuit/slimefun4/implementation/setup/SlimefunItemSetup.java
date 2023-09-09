@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.ArcaneMagnet;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -146,6 +145,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfernalBonemeal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedHopper;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.ArcaneMagnet;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeFlask;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeTome;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeOfEnder;
