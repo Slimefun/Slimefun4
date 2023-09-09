@@ -235,12 +235,12 @@ public class BlockListener implements Listener {
      *
      * @param block
      *      The {@link Block} in question
-     * @param c
+     * @param count
      *      The amount of times this has been recursively called
      */
     @ParametersAreNonnullByDefault
-    private void checkForSensitiveBlocks(Block block, Integer c) {
-        if (c >= Bukkit.getServer().getMaxChainedNeighborUpdates()) {
+    private void checkForSensitiveBlocks(Block block, Integer count) {
+        if (count >= Bukkit.getServer().getMaxChainedNeighborUpdates()) {
             return;
         }
         for (BlockFace face : CARDINAL_BLOCKFACES) {
@@ -250,7 +250,7 @@ public class BlockListener implements Listener {
                 for (ItemStack drop : relative.getDrops()) {
                     block.getWorld().dropItemNaturally(relative.getLocation(), drop);
                 }
-                checkForSensitiveBlocks(relative, ++c);
+                checkForSensitiveBlocks(relative, ++count);
             }
         }
     }
