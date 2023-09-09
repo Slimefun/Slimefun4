@@ -22,6 +22,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  * @author TheBusyBiscuit
  * @author JustAHuman
+ *
+ * @see InfusedMagnet
  */
 public class ArcaneMagnet extends UnplaceableBlock {
     private final ItemSetting<Double> itemRadius = new DoubleRangeSetting(this, "items-pickup-radius", 0.1, 6.0, Double.MAX_VALUE);
