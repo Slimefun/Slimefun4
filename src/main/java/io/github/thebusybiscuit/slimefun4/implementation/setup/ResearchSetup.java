@@ -132,7 +132,7 @@ public final class ResearchSetup {
         register("ender_talismans", 112, "Ender Talismans", 28, new String[0]);
         register("nickel_and_cobalt", 115, "Even more Ores", 10, SlimefunItems.NICKEL_INGOT, SlimefunItems.COBALT_INGOT);
         register("magnet", 116, "Magnetic Metals", 16, SlimefunItems.MAGNET);
-        register("infused_magnet", 117, "Infused Magnets", 18, SlimefunItems.INFUSED_MAGNET);
+        register("infused_magnet", 117, "Infused Magnets", 18, SlimefunItems.INFUSED_MAGNET, SlimefunItems.ARCANE_MAGNET);
         register("cobalt_pickaxe", 118, "Speedy Pickaxe", 14, SlimefunItems.COBALT_PICKAXE);
         register("essence_of_afterlife", 119, "Necromancy", 19, SlimefunItems.NECROTIC_SKULL, SlimefunItems.ESSENCE_OF_AFTERLIFE);
         register("bound_backpack", 120, "Soulbound Storage", 22, SlimefunItems.BOUND_BACKPACK);

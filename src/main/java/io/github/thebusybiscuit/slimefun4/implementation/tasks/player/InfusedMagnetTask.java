@@ -13,12 +13,11 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
  * This {@link AbstractPlayerTask} is run when a {@link Player} carries an {@link InfusedMagnet}.
- * It manages the automatic pickup of nearby items.
+ * It manages the automatic pickup of nearby {@link Item items}.
  * 
  * @author TheBusyBiscuit
  * 
  * @see InfusedMagnet
- *
  */
 public class InfusedMagnetTask extends AbstractPlayerTask {
 
@@ -32,9 +31,9 @@ public class InfusedMagnetTask extends AbstractPlayerTask {
      * pickup radius.
      * 
      * @param p
-     *            The {@link Player} who items should be teleported to
+     *            The {@link Player} who {@link Item items} should be teleported to
      * @param radius
-     *            The radius in which items should be picked up
+     *            The radius in which {@link Item items} should be picked up
      */
     public InfusedMagnetTask(@Nonnull Player p, double radius) {
         super(p);

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.ArcaneMagnet;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -1162,6 +1163,10 @@ public final class SlimefunItemSetup {
 
         new InfusedMagnet(itemGroups.magicalGadgets, SlimefunItems.INFUSED_MAGNET, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ENDER_LUMP_2, SlimefunItems.MAGNET, SlimefunItems.ENDER_LUMP_2, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3})
+        .register(plugin);
+
+        new ArcaneMagnet(itemGroups.magicalGadgets, SlimefunItems.ARCANE_MAGNET, RecipeType.ANCIENT_ALTAR,
+        new ItemStack[] {SlimefunItems.MAGICAL_GLASS, null, SlimefunItems.MAGICAL_GLASS, SlimefunItems.GOLD_24K, SlimefunItems.INFUSED_MAGNET, SlimefunItems.MAGNESIUM_INGOT, SlimefunItems.GOLD_24K, SlimefunItems.SYNTHETIC_EMERALD, SlimefunItems.MAGNESIUM_INGOT})
         .register(plugin);
 
         new SlimefunItem(itemGroups.tools, SlimefunItems.COBALT_PICKAXE, RecipeType.ENHANCED_CRAFTING_TABLE,
