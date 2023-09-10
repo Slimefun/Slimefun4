@@ -1,8 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.handlers;
 
+import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.List;
 
+import java.util.Objects;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
@@ -39,7 +41,7 @@ public class RainbowTickHandler extends BlockTicker {
     private Material material;
 
     public RainbowTickHandler(@Nonnull List<Material> materials) {
-        Validate.noNullElements(materials, "A RainbowTicker cannot have a Material that is null!");
+        Preconditions.checkArgument(materials.stream().anyMatch(Objects::isNull), "A RainbowTicker cannot have a Material that is null!");
 
         if (materials.isEmpty()) {
             throw new IllegalArgumentException("A RainbowTicker must have at least one Material associated with it!");
