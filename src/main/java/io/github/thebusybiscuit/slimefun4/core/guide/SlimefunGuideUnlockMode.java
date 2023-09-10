@@ -12,12 +12,16 @@ import javax.annotation.Nullable;
  * Each constant corresponds to a research unlock mode and a unlock provider
  *
  * @author StarWishsama
+ *
  * @see SlimefunGuide
  * @see SlimefunGuideImplementation
  * @see SlimefunGuideUnlockProvider
  */
 public enum SlimefunGuideUnlockMode {
 
+    /**
+     * Unlock research by withdrawing player's experience level.
+     */
     EXPERIENCE(new ExperienceUnlockProvider()),
 
     /**
@@ -41,7 +45,7 @@ public enum SlimefunGuideUnlockMode {
 
     /**
      * Convert string to certain {@link SlimefunGuideUnlockMode}.
-     * If string is invalid will fall back to default one (player level)
+     * If string is invalid it will fall back to default one (player level)
      *
      * @param modeName text to validate
      * @return {@link SlimefunGuideUnlockMode}

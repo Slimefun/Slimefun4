@@ -17,6 +17,8 @@ import org.bukkit.inventory.ItemStack;
  * <p>
  * You could trail the method to unlock your research,
  * and locked item.
+ *
+ * @author StarWishsama
  */
 public interface SlimefunGuideUnlockProvider {
 
