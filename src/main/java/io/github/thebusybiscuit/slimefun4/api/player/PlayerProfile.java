@@ -493,24 +493,17 @@ public class PlayerProfile {
 
         for (HashedArmorpiece armorpiece : armor) {
             Optional<SlimefunArmorPiece> armorPiece = armorpiece.getItem();
-
-            if (!armorPiece.isPresent()) {
-                setId = null;
-            } else if (armorPiece.get() instanceof ProtectiveArmor protectedArmor) {
-                if (setId == null && protectedArmor.isFullSetRequired()) {
-                    setId = protectedArmor.getArmorSetId();
-                }
-
-                for (ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
+            if (armorPiece.isPresent() && armorPiece.get() instanceof ProtectiveArmor protectiveArmor) {
+                for (ProtectionType protectionType : protectiveArmor.getProtectionTypes()) {
                     if (protectionType == type) {
-                        if (setId == null) {
+                        if (!protectiveArmor.isFullSetRequired()) {
                             return true;
-                        } else if (setId.equals(protectedArmor.getArmorSetId())) {
+                        } else if (setId == null || setId.equals(protectiveArmor.getArmorSetId())) {
                             armorCount++;
+                            setId = protectiveArmor.getArmorSetId();
                         }
                     }
                 }
-
             }
         }
 

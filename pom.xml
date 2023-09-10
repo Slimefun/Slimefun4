@@ -389,7 +389,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.4.0</version>
+            <version>5.5.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -446,7 +446,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.222</version>
+            <version>2.1.223</version>
             <scope>provided</scope>
 
             <exclusions>
@@ -502,7 +502,7 @@
         <dependency>
             <groupId>net.imprex</groupId>
             <artifactId>orebfuscator-api</artifactId>
-            <version>5.3.3</version>
+            <version>5.4.0</version>
             <scope>provided</scope>
 
             <exclusions>
