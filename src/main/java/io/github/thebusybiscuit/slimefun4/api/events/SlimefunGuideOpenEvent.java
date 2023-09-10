@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import com.google.common.base.Preconditions;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
@@ -28,9 +29,9 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     public SlimefunGuideOpenEvent(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunGuideMode layout) {
-        Validate.notNull(p, "The Player cannot be null");
-        Validate.notNull(guide, "Guide cannot be null");
-        Validate.notNull(layout, "Layout cannot be null");
+        Preconditions.checkArgument(p != null, "The Player cannot be null");
+        Preconditions.checkArgument(guide != null, "Guide cannot be null");
+        Preconditions.checkArgument(layout != null, "Layout cannot be null");
         this.player = p;
         this.guide = guide;
         this.layout = layout;
@@ -73,7 +74,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
      *            The new {@link SlimefunGuideMode}
      */
     public void setGuideLayout(@Nonnull SlimefunGuideMode layout) {
-        Validate.notNull(layout, "You must specify a layout that is not-null!");
+        Preconditions.checkArgument(layout != null, "You must specify a layout that is not-null!");
         this.layout = layout;
     }
 
