@@ -57,6 +57,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
  * The {@link SurvivalSlimefunGuide} is the standard version of our {@link SlimefunGuide}.
  * It uses an {@link Inventory} to display {@link SlimefunGuide} contents.
  *
+ * @author TheBusyBiscuit
  * @author Svdermant
  * 
  * @see SlimefunGuide
