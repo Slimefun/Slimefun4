@@ -44,9 +44,9 @@ placeholderapi:
 
 guide:
   locked: 'LOCKED'
-  click-unlock: You Must Unlock This!
-  cost: 'Cost: '
-  level: ' Level(s)'
+  click-unlock: Click to unlock
+  cost: 'Cost:'
+  level: 'Level(s)'
   work-in-progress: 'This feature is not fully finished yet!'
 
   locked-itemgroup:
