@@ -141,15 +141,15 @@ public class BlockListener implements Listener {
             }
         }
 
+        List<ItemStack> drops = new ArrayList<>();
+
+        if (!item.getType().isAir()) {
+            int fortune = getBonusDropsWithFortune(item, e.getBlock());
+            callToolHandler(e, item, fortune, drops);
+        }
+
         if (!e.isCancelled()) {
             checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock(), item);
-
-            int fortune = getBonusDropsWithFortune(item, e.getBlock());
-            List<ItemStack> drops = new ArrayList<>();
-
-            if (!item.getType().isAir()) {
-                callToolHandler(e, item, fortune, drops);
-            }
 
             callBlockHandler(e, item, drops, sfItem);
             dropItems(e, drops);
