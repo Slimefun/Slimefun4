@@ -432,7 +432,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.2.15</version>
+            <version>7.2.16</version>
             <scope>provided</scope>
 
             <exclusions>
