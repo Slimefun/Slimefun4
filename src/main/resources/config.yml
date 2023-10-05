@@ -8,6 +8,7 @@ options:
   chat-prefix: '&a&lSlimefun 4&7> '
   armor-update-interval: 10
   enable-armor-effects: true
+  enable-radiation: true
   radiation-update-interval: 1
   radiation-grace-period: 15
   rainbow-armor-update-interval: 3
