@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -36,7 +37,6 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
@@ -325,35 +325,52 @@ public class PlayerProfile {
         return Optional.empty();
     }
 
-    // returns the amount of researches with at least 1 enabled item
-    private int nonEmptyResearches() {
-        return (int) Slimefun.getRegistry().getResearches()
-                .stream()
-                .filter(research -> research.getAffectedItems().stream().anyMatch(item -> item.getState() == ItemState.ENABLED))
-                .count();
+    private int countNonEmptyResearches(@Nonnull Collection<Research> researches) {
+        int count = 0;
+        for (Research research : researches) {
+            if (research.hasEnabledItems()) {
+                count++;
+            }
+        }
+        return count;
     }
 
+    /**
+     * This method gets the research title, as defined in {@code config.yml},
+     * of this {@link PlayerProfile} based on the fraction
+     * of unlocked {@link Research}es of this player.
+     *
+     * @return The research title of this {@link PlayerProfile}
+     */
     public @Nonnull String getTitle() {
         List<String> titles = Slimefun.getRegistry().getResearchRanks();
 
-        float fraction = (float) researches.size() / nonEmptyResearches();
+        int allResearches = countNonEmptyResearches(Slimefun.getRegistry().getResearches());
+        float fraction = (float) countNonEmptyResearches(researches) / allResearches;
         int index = (int) (fraction * (titles.size() - 1));
 
         return titles.get(index);
     }
 
+    /**
+     * This sends the statistics for the specified {@link CommandSender}
+     * to the {@link CommandSender}. This includes research title, research progress
+     * and total xp spent.
+     *
+     * @param sender The {@link CommandSender} for which to get the statistics and send them to.
+     */
     public void sendStats(@Nonnull CommandSender sender) {
-        Set<Research> unlockedResearches = getResearches();
-        int levels = unlockedResearches.stream().mapToInt(Research::getCost).sum();
-        int allResearches = nonEmptyResearches();
+        int unlockedResearches = countNonEmptyResearches(getResearches());
+        int levels = getResearches().stream().mapToInt(Research::getCost).sum();
+        int allResearches = countNonEmptyResearches(Slimefun.getRegistry().getResearches());
 
-        float progress = Math.round(((unlockedResearches.size() * 100.0F) / allResearches) * 100.0F) / 100.0F;
+        float progress = Math.round(((unlockedResearches * 100.0F) / allResearches) * 100.0F) / 100.0F;
 
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Statistics for Player: &b" + name));
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Title: " + ChatColor.AQUA + getTitle()));
-        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + unlockedResearches.size() + " / " + allResearches + ')'));
+        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + unlockedResearches + " / " + allResearches + ')'));
         sender.sendMessage(ChatColors.color("&7Total XP Levels spent: " + ChatColor.AQUA + levels));
     }
 
