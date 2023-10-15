@@ -58,7 +58,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
      *
      * @return The player responsible if applicable.
      */
-    public Optional<Player> getPlayer() {
+    public @Nonnull Optional<Player> getPlayer() {
         return Optional.ofNullable(player);
     }
 
