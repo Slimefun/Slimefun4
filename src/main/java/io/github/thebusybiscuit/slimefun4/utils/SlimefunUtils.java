@@ -610,6 +610,23 @@ public final class SlimefunUtils {
         }
     }
 
+    public static @Nullable Item spawnItem(Player player, Location loc, ItemStack item, ItemSpawnReason reason, boolean addRandomOffset) {
+        SlimefunItemSpawnEvent event = new SlimefunItemSpawnEvent(player, loc, item, reason);
+        Slimefun.instance().getServer().getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()) {
+            World world = event.getLocation().getWorld();
+
+            if (addRandomOffset) {
+                return world.dropItemNaturally(event.getLocation(), event.getItemStack());
+            } else {
+                return world.dropItem(event.getLocation(), event.getItemStack());
+            }
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Helper method to spawn an {@link ItemStack}.
      * This method automatically calls a {@link SlimefunItemSpawnEvent} to allow
