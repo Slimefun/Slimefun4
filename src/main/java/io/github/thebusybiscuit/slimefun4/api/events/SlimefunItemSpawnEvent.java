@@ -36,21 +36,17 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
     private final Player player;
 
     @ParametersAreNonnullByDefault
-    public SlimefunItemSpawnEvent(Location location, ItemStack itemStack, ItemSpawnReason itemSpawnReason) {
-        this.location = location;
-        this.itemStack = itemStack;
-        this.itemSpawnReason = itemSpawnReason;
-        this.cancelled = false;
-        this.player = null;
-    }
-
-    @ParametersAreNonnullByDefault
     public SlimefunItemSpawnEvent(@Nullable Player player, Location location, ItemStack itemStack, ItemSpawnReason itemSpawnReason) {
         this.location = location;
         this.itemStack = itemStack;
         this.itemSpawnReason = itemSpawnReason;
         this.cancelled = false;
         this.player = player;
+    }
+
+    @ParametersAreNonnullByDefault
+    public SlimefunItemSpawnEvent(Location location, ItemStack itemStack, ItemSpawnReason itemSpawnReason) {
+        this(null, location, itemStack, itemSpawnReason);
     }
 
     /**
