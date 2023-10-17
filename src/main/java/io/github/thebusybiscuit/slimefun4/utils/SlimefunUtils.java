@@ -590,7 +590,7 @@ public final class SlimefunUtils {
      * @param addRandomOffset
      *            Whether a random offset should be added (see {@link World#dropItemNaturally(Location, ItemStack)})
      * @param player
-     *            The player that caused this {@link org.bukkit.event.entity.ItemSpawnEvent}
+     *            The player that caused this {@link SlimefunItemSpawnEvent}
      *
      * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
      */
