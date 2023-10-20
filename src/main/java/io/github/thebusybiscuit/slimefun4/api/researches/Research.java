@@ -249,7 +249,9 @@ public class Research implements Keyed {
         }
 
         boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled();
-        return creativeResearch || p.getLevel() >= cost;
+        boolean economyResearch = Slimefun.getIntegrations().isVaultInstalled() && Slimefun.getIntegrations().getVaultIntegration().hasBalanceForResearch(p, cost);
+        boolean expResearch = !Slimefun.getRegistry().isVaultEconomyEnabled() && p.getLevel() >= cost;
+        return creativeResearch || economyResearch || expResearch;
     }
 
     /**

@@ -70,7 +70,11 @@ public interface SlimefunGuideImplementation {
         if (p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {
-            p.setLevel(p.getLevel() - research.getCost());
+            if (Slimefun.getIntegrations().isVaultInstalled() && Slimefun.getRegistry().isVaultEconomyEnabled()) {
+                Slimefun.getIntegrations().getVaultIntegration().withdrawForResearch(p, research.getCost());
+            } else {
+                p.setLevel(p.getLevel() - research.getCost());
+            }
 
             boolean skipLearningAnimation = Slimefun.getRegistry().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
             research.unlock(p, skipLearningAnimation, callback);

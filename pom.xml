@@ -513,6 +513,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- TODO: Remove this dependency -->
         <dependency>
             <groupId>commons-lang</groupId>
