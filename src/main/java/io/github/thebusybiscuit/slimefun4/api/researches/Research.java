@@ -244,14 +244,19 @@ public class Research implements Keyed {
      * @return Whether that {@link Player} can unlock this {@link Research}
      */
     public boolean canUnlock(@Nonnull Player p) {
-        if (!isEnabled()) {
-            return true;
-        }
+        return !isEnabled() || creativeResearchEnabled(p) || expResearchEnabled(p) || economyResearchEnabled(p);
+    }
 
-        boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled();
-        boolean economyResearch = Slimefun.getIntegrations().isVaultInstalled() && Slimefun.getIntegrations().getVaultIntegration().hasBalanceForResearch(p, cost);
-        boolean expResearch = !Slimefun.getRegistry().isVaultEconomyEnabled() && p.getLevel() >= cost;
-        return creativeResearch || economyResearch || expResearch;
+    private boolean creativeResearchEnabled(@Nonnull Player p) {
+        return p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled();
+    }
+
+    private boolean expResearchEnabled(@Nonnull Player p) {
+        return !Slimefun.getRegistry().isVaultEconomyEnabled() && p.getLevel() >= cost;
+    }
+
+    private boolean economyResearchEnabled(@Nonnull Player p) {
+        return Slimefun.getIntegrations().isVaultInstalled() && Slimefun.getIntegrations().getVaultIntegration().hasBalanceForResearch(p, cost);
     }
 
     /**
