@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.geo;
 
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.OptionalInt;
 
@@ -12,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -24,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -72,6 +76,21 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
         };
     }
 
+    private boolean isOnResourceCooldown(Block b) {
+        String resourceCooldownUntil = BlockStorage.getLocationInfo(b.getLocation(), "resource-cooldown-until");
+        if (resourceCooldownUntil == null) return false;
+        long cooldownUntilMillis = Long.parseLong(resourceCooldownUntil);
+        return cooldownUntilMillis > Instant.now().toEpochMilli();
+    }
+
+    private void setOnResourceCooldown(Block b) {
+        BlockStorage.addBlockInfo(b, "resource-cooldown-until", String.valueOf(Instant.now().plusSeconds(5).toEpochMilli()));
+    }
+
+    private void removeResourceCooldown(Block b) {
+        BlockStorage.addBlockInfo(b, "resource-cooldown-until", null);
+    }
+
     @Override
     public List<ItemStack> getDisplayRecipes() {
         return Arrays.asList(emptyBucket, SlimefunItems.OIL_BUCKET);
@@ -92,6 +111,20 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
         if (inv.fits(SlimefunItems.OIL_BUCKET, getOutputSlots())) {
             Block b = inv.getBlock();
 
+            if (this.isOnResourceCooldown(b)) {
+                /*
+                 * Oil Pumps can cause lag getting supplies each tick if there are none.
+                 * We add a cooldown to limit the amount of processing required.
+                 */ 
+                return null;
+            } else {
+                /*
+                 * Not on resource cooldown, so remove the data if it exists.
+                 */
+                this.removeResourceCooldown(b);
+            }
+            
+
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), emptyBucket, true, false)) {
                     OptionalInt supplies = Slimefun.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
@@ -104,12 +137,12 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
                         return recipe;
                     } else {
                         /*
-                         * Move the empty bucket to the output slot to prevent this
+                         * Set the oil pump on cooldown to prevent it
                          * from immediately starting all over again (to prevent lag)
+                         * We don't move the bucket into the output slots as it can cause the entire
+                         * system to be filled with buckets.
                          */
-                        ItemStack item = inv.getItemInSlot(slot).clone();
-                        inv.replaceExistingItem(slot, null);
-                        inv.pushItem(item, getOutputSlots());
+                        this.setOnResourceCooldown(b);
                         return null;
                     }
                 }
