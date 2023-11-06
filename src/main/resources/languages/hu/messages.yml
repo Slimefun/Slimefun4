@@ -124,6 +124,8 @@ guide:
       wiki: '&3Wiki szerkesztő'
       resourcepack: '&cForráscsomag művész'
       translator: '&9Fordító'
+actionbar:
+  radiation: '&6Sugárterhelési szint: &c%level%&7/&e100'
 messages:
   not-researched: '&4Nincs elég tudásod, hogy megértsd ezt.&cFel kel még oldanod ezt a tárgyat: &f"%item%&f"'
   not-enough-xp: '&4Nincs elég XP-d ennek a feloldásához'
