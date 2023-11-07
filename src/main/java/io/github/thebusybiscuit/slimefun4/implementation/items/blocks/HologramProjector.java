@@ -51,9 +51,9 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
     private static final String OFFSET_PARAMETER_X = "offset-x";
     private static final String OFFSET_PARAMETER_Z = "offset-z";
     private static final double MAX_HORIZONTAL_OFFSET = 32.0D; // Up to 2 chunks away in any direction horizontally
-    private static final double DEFAULT_OFFSET_X = 0D;
+    private static final double DEFAULT_OFFSET_X = 0.5D;
     private static final double DEFAULT_OFFSET_Y = 0.5D;
-    private static final double DEFAULT_OFFSET_Z = 0D;
+    private static final double DEFAULT_OFFSET_Z = 0.5D;
 
 
     @ParametersAreNonnullByDefault
