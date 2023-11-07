@@ -153,11 +153,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
             double offsetY = getYOffset(projector);
             double offsetZ = getZOffset(projector);
 
-            if (offsetX < -MAX_HORIZONTAL_OFFSET) {
-                offsetX = -MAX_HORIZONTAL_OFFSET;
-            } else if (offsetX > MAX_HORIZONTAL_OFFSET) {
-                offsetX = MAX_HORIZONTAL_OFFSET;
-            }
+            offsetX = Math.min(Math.max(offsetX, -MAX_HORIZONTAL_OFFSET), MAX_HORIZONTAL_OFFSET);
             
             ArmorStand hologram = getArmorStand(projector, true);
             Location l = new Location(projector.getWorld(), projector.getX() + offsetX, projector.getY() + offsetY, projector.getZ() + offsetZ);
@@ -189,11 +185,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
             double offsetY = getYOffset(projector);
             double offsetZ = NumberUtils.reparseDouble(getZOffset(projector) + (action.isRightClicked() ? -0.1F : 0.1F));
 
-            if (offsetZ < -MAX_HORIZONTAL_OFFSET) {
-                offsetZ = -MAX_HORIZONTAL_OFFSET;
-            } else if (offsetZ > MAX_HORIZONTAL_OFFSET) {
-                offsetZ = MAX_HORIZONTAL_OFFSET;
-            }
+            offsetZ = Math.min(Math.max(offsetZ, -MAX_HORIZONTAL_OFFSET), MAX_HORIZONTAL_OFFSET);
 
             ArmorStand hologram = getArmorStand(projector, true);
             Location l = new Location(projector.getWorld(), projector.getX() + offsetX, projector.getY() + offsetY, projector.getZ() + offsetZ);
