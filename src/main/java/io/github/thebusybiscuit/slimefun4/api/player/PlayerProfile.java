@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.api.player;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +12,13 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.storage.data.PlayerData;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,7 +30,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
@@ -68,16 +68,18 @@ public class PlayerProfile {
     private boolean dirty = false;
     private boolean markedForDeletion = false;
 
-    private final Set<Research> researches = new HashSet<>();
     private final List<Waypoint> waypoints = new ArrayList<>();
     private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
     private final GuideHistory guideHistory = new GuideHistory(this);
 
     private final HashedArmorpiece[] armor = { new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece() };
 
-    protected PlayerProfile(@Nonnull OfflinePlayer p) {
+    private final PlayerData data;
+
+    protected PlayerProfile(@Nonnull OfflinePlayer p, PlayerData data) {
         this.uuid = p.getUniqueId();
         this.name = p.getName();
+        this.data = data;
 
         configFile = new Config("data-storage/Slimefun/Players/" + uuid.toString() + ".yml");
         waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
@@ -86,12 +88,6 @@ public class PlayerProfile {
     }
 
     private void loadProfileData() {
-        for (Research research : Slimefun.getRegistry().getResearches()) {
-            if (configFile.contains("researches." + research.getID())) {
-                researches.add(research);
-            }
-        }
-
         for (String key : waypointsFile.getKeys()) {
             try {
                 if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
@@ -180,11 +176,9 @@ public class PlayerProfile {
         dirty = true;
 
         if (unlock) {
-            configFile.setValue("researches." + research.getID(), true);
-            researches.add(research);
+            data.getResearches().add(research.getKey());
         } else {
-            configFile.setValue("researches." + research.getID(), null);
-            researches.remove(research);
+            data.getResearches().remove(research.getKey());
         }
     }
 
@@ -202,7 +196,7 @@ public class PlayerProfile {
             return true;
         }
 
-        return !research.isEnabled() || researches.contains(research);
+        return !research.isEnabled() || data.getResearches().contains(research.getKey());
     }
 
     /**
@@ -228,7 +222,10 @@ public class PlayerProfile {
      * @return A {@code Hashset<Research>} of all Researches this {@link Player} has unlocked
      */
     public @Nonnull Set<Research> getResearches() {
-        return ImmutableSet.copyOf(researches);
+        return Slimefun.getRegistry().getResearches()
+            .stream()
+            .filter((research) -> data.getResearches().contains(research.getKey()))
+            .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
@@ -346,7 +343,7 @@ public class PlayerProfile {
         List<String> titles = Slimefun.getRegistry().getResearchRanks();
 
         int allResearches = countNonEmptyResearches(Slimefun.getRegistry().getResearches());
-        float fraction = (float) countNonEmptyResearches(researches) / allResearches;
+        float fraction = (float) countNonEmptyResearches(getResearches()) / allResearches;
         int index = (int) (fraction * (titles.size() - 1));
 
         return titles.get(index);
@@ -420,7 +417,9 @@ public class PlayerProfile {
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
-            AsyncProfileLoadEvent event = new AsyncProfileLoadEvent(new PlayerProfile(p));
+            PlayerData data = Slimefun.getPlayerStorage().loadPlayerData(p.getUniqueId());
+
+            AsyncProfileLoadEvent event = new AsyncProfileLoadEvent(new PlayerProfile(p, data));
             Bukkit.getPluginManager().callEvent(event);
 
             Slimefun.getRegistry().getPlayerProfiles().put(uuid, event.getProfile());
@@ -445,7 +444,9 @@ public class PlayerProfile {
         if (!Slimefun.getRegistry().getPlayerProfiles().containsKey(p.getUniqueId())) {
             // Should probably prevent multiple requests for the same profile in the future
             Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
-                PlayerProfile pp = new PlayerProfile(p);
+                PlayerData data = Slimefun.getPlayerStorage().loadPlayerData(p.getUniqueId());
+
+                PlayerProfile pp = new PlayerProfile(p, data);
                 Slimefun.getRegistry().getPlayerProfiles().put(p.getUniqueId(), pp);
             });
 
