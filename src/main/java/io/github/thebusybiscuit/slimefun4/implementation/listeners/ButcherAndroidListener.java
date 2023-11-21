@@ -90,7 +90,7 @@ public class ButcherAndroidListener implements Listener {
         }
 
         if (entityType == EntityType.VINDICATOR) {
-            drops.add(new Itemstack(Material.EMERALD, 1 + random.nextInt(2)));
+            drops.add(new ItemStack(Material.EMERALD, 1 + random.nextInt(2)));
         }
     }
 }
