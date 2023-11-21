@@ -1,4 +1,4 @@
-name: End to End Testings
+name: End to End Testing
 
 on:
   workflow_call:
