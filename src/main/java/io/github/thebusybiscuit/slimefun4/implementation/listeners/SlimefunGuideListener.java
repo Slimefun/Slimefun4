@@ -81,7 +81,7 @@ public class SlimefunGuideListener implements Listener {
     @ParametersAreNonnullByDefault
     private Result tryOpenGuide(Player p, PlayerRightClickEvent e, SlimefunGuideMode layout) {
         ItemStack item = e.getItem();
-        if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), true, false)) {
+        if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), false, false)) {
 
             if (!Slimefun.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
                 Slimefun.getLocalization().sendMessage(p, "messages.disabled-item", true);
