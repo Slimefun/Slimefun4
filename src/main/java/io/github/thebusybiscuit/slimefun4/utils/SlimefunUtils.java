@@ -2,15 +2,23 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -22,10 +30,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
-import io.github.bakedlibs.dough.skins.PlayerHead;
-import io.github.bakedlibs.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemSpawnEvent;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
@@ -44,6 +49,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureU
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
+
+import static org.bukkit.Bukkit.createPlayerProfile;
 
 /**
  * This utility class holds method that are directly linked to Slimefun.
@@ -222,13 +229,13 @@ public final class SlimefunUtils {
     private static PlayerProfile getProfile(@Nonnull String url) {
         Validate.notNull(url, "The provided url is null");
 
-        PlayerProfile profile = Bukkit.createPlayerProfile(RANDOM_UUID); // Create a new player profile
+        PlayerProfile profile = createPlayerProfile(RANDOM_UUID); // Create a new player profile
         PlayerTextures textures = profile.getTextures();
         URL urlObject;
         try {
             urlObject = new URL(url); // The URL to the skin
         } catch (MalformedURLException exception) {
-            throw new RuntimeException("Invalid URL", exception);
+            return null;
         }
         textures.setSkin(urlObject); // Set the skin of the player profile to the URL
         profile.setTextures(textures); // Set the textures back to the profile
@@ -259,6 +266,10 @@ public final class SlimefunUtils {
         }
 
         PlayerProfile profile = getProfile("https://textures.minecraft.net/texture/" + texture);
+        if (profile == null) {
+            return new ItemStack(Material.PLAYER_HEAD);
+        }
+
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
         meta.setOwnerProfile(profile); // Set the owning player of the head to the player profile
