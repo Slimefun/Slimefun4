@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This Class represents our {@link PluginUpdater} Service.
- * If enabled, it will automatically connect to https://thebusybiscuit.github.io/builds/
+ * If enabled, it will automatically connect to https://blob.build/
  * to check for updates and to download them automatically.
  *
  * @author TheBusyBiscuit
