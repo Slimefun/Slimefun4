@@ -219,7 +219,9 @@ public final class SlimefunUtils {
      * @param url The URL to the texture
      * @return A {@link PlayerProfile} with the given texture
      */
-    private static PlayerProfile getProfile(String url) {
+    private static PlayerProfile getProfile(@Nonnull String url) {
+        Validate.notNull(url, "The provided url is null");
+
         PlayerProfile profile = Bukkit.createPlayerProfile(RANDOM_UUID); // Create a new player profile
         PlayerTextures textures = profile.getTextures();
         URL urlObject;
