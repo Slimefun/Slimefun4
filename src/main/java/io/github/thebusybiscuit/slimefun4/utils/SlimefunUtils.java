@@ -1,28 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -47,6 +42,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 
 /**
  * This utility class holds method that are directly linked to Slimefun.
@@ -215,15 +212,38 @@ public final class SlimefunUtils {
         return SlimefunItem.getByItem(item) instanceof Radioactive;
     }
 
+    private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");
+
     /**
-     * This method returns an {@link ItemStack} for the given texture.
-     * The result will be a Player Head with this texture.
-     *
-     * @param texture
-     *            The texture for this head (base64 or hash)
-     *
-     * @return An {@link ItemStack} with this Head texture
+     * This method returns a {@link PlayerProfile} for the given texture url.
+     * @param url The URL to the texture
+     * @return A {@link PlayerProfile} with the given texture
      */
+    private static PlayerProfile getProfile(String url) {
+        PlayerProfile profile = Bukkit.createPlayerProfile(RANDOM_UUID); // Create a new player profile
+        PlayerTextures textures = profile.getTextures();
+        URL urlObject;
+        try {
+            urlObject = new URL(url); // The URL to the skin
+        } catch (MalformedURLException exception) {
+            throw new RuntimeException("Invalid URL", exception);
+        }
+        textures.setSkin(urlObject); // Set the skin of the player profile to the URL
+        profile.setTextures(textures); // Set the textures back to the profile
+        return profile;
+    }
+
+
+
+        /**
+         * This method returns an {@link ItemStack} for the given texture.
+         * The result will be a Player Head with this texture.
+         *
+         * @param texture
+         *            The texture for this head (base64 or hash)
+         *
+         * @return An {@link ItemStack} with this Head texture
+         */
     public static @Nonnull ItemStack getCustomHead(@Nonnull String texture) {
         Validate.notNull(texture, "The provided texture is null");
 
@@ -236,14 +256,13 @@ public final class SlimefunUtils {
             return new ItemStack(Material.PLAYER_HEAD);
         }
 
-        String base64 = texture;
+        PlayerProfile profile = getProfile("https://textures.minecraft.net/texture/" + texture);
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+        meta.setOwnerProfile(profile); // Set the owning player of the head to the player profile
+        head.setItemMeta(meta);
 
-        if (CommonPatterns.HEXADECIMAL.matcher(texture).matches()) {
-            base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
-        }
-
-        PlayerSkin skin = PlayerSkin.fromBase64(base64);
-        return PlayerHead.getItemStack(skin);
+        return head;
     }
 
     public static boolean containsSimilarItem(Inventory inventory, ItemStack item, boolean checkLore) {

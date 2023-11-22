@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -283,12 +284,10 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
-        if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
-            return new ItemStack(Material.PLAYER_HEAD);
-        }
+        Validate.notNull(id, "The id cannot be null");
+        Validate.notNull(texture, "The texture cannot be null");
 
-        PlayerSkin skin = PlayerSkin.fromBase64(getTexture(id, texture));
-        return PlayerHead.getItemStack(skin);
+        return SlimefunUtils.getCustomHead(texture);
     }
 
     private static @Nonnull String getTexture(@Nonnull String id, @Nonnull String texture) {
