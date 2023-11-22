@@ -48,7 +48,7 @@ public class EntityInteractionListener implements Listener {
 
         if (sfItem != null) {
             if (sfItem.canUse(e.getPlayer(), true)) {
-                sfItem.callItemHandler(EntityInteractHandler.class, handler -> handler.onInteract(e, itemStack, e.getHand() == EquipmentSlot.OFF_HAND));
+                sfItem.callItemHandler(EntityInteractHandler.class, handler -> handler.onInteract(e, itemStack, e.getHand() == EquipmentSlot.OFF_HAND), e.getPlayer());
             } else if (sfItem.getState() != ItemState.VANILLA_FALLBACK) {
                 /*
                  * If an Item is disabled, we don't want it to fallback to the vanilla behaviour

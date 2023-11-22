@@ -12,7 +12,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemCooldown;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
@@ -28,12 +30,21 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final int healingLevel;
+    private final ItemSetting<Integer> cooldownDuration = new ItemSetting<>(this, "cooldown", 0);
 
     @ParametersAreNonnullByDefault
     public Bandage(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         this.healingLevel = healingLevel;
+        addItemSetting(cooldownDuration);
+    }
+
+    @Override
+    public void postRegister() {
+        ItemCooldown cooldown = new ItemCooldown(cooldownDuration.getValue());
+        cooldown.assignHandler(ItemUseHandler.class);
+        addCooldown(cooldown);
     }
 
     @Override
