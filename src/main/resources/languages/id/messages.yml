@@ -68,16 +68,16 @@ guide:
         text:
           - '&bAnimasi Pembelajaran: &aYa'
           - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - ''
+          - ''
+          - ''
       disabled:
         text:
           - '&bAnimasi Pembelajaran: &4Tidak'
           - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - ''
+          - ''
+          - ''
   title:
     main: 'Panduan Slimefun'
     settings: 'Pengaturan & Informasi'
