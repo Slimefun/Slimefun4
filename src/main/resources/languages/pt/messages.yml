@@ -79,16 +79,16 @@ guide:
         text:
           - '&bAnimação de descoberta: &aSim'
           - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - ''
+          - ''
+          - ''
       disabled:
         text:
           - '&bAnimação de descoberta: &aNão'
           - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - ''
+          - ''
+          - ''
   title:
     main: 'Guia Slimefun'
     settings: 'Configurações e informação'
@@ -126,8 +126,8 @@ messages:
       disabled:
         - '&cEsta receita está desativada no momento'
         - ''
-        - '&eLeft Click &7to re-enable this recipe'
-        - '&eRight Click &7to remove this recipe'
+        - ''
+        - ''
   no-pvp: '&cNão podes fazer pvp aqui!'
   opening-guide: '&bA abrir o guia, isto pode demorar alguns segundos...'
   opening-backpack: '&bA abrir a mochila, isto pode demorar alguns segundos...'
