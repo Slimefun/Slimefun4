@@ -58,7 +58,7 @@ public class UpdaterService {
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.
             branch = SlimefunBranch.UNOFFICIAL;
-        } else if (version.startsWith("DEV - ")) {
+        } else if (version.startsWith("Dev - ")) {
             // If we are using a development build, we want to switch to our custom
             try {
                 autoUpdater = new BlobBuildUpdater(plugin, file, "Slimefun4", "Dev");
