@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.test;
 
 import static org.mockito.Mockito.when;
 
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -29,6 +30,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockSlimefunItem;
 
 public final class TestUtilities {
+
+    private static final Random random = new Random();
 
     private TestUtilities() {}
 
@@ -75,5 +78,15 @@ public final class TestUtilities {
 
         latch.await(2, TimeUnit.SECONDS);
         return ref.get();
+    }
+
+    @ParametersAreNonnullByDefault
+    public static @Nonnull int randomInt() {
+        return random.nextInt(Integer.MAX_VALUE);
+    }
+
+    @ParametersAreNonnullByDefault
+    public static @Nonnull int randomInt(int upperBound) {
+        return random.nextInt(upperBound);
     }
 }

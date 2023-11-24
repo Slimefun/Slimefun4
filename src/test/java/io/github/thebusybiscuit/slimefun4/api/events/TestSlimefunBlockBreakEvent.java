@@ -58,7 +58,7 @@ class TestSlimefunBlockBreakEvent {
         Player player = new PlayerMock(server, "SomePlayer");
 
         World world = server.addSimpleWorld("my_world");
-        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
+        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, TestUtilities.randomInt(), 100, TestUtilities.randomInt()));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
@@ -75,7 +75,7 @@ class TestSlimefunBlockBreakEvent {
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
-        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
+        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, TestUtilities.randomInt(), 100, TestUtilities.randomInt()));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
@@ -106,7 +106,7 @@ class TestSlimefunBlockBreakEvent {
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
-        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
+        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, TestUtilities.randomInt(), 100, TestUtilities.randomInt()));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
@@ -118,5 +118,25 @@ class TestSlimefunBlockBreakEvent {
             Assertions.assertTrue(blockBreakEvent.isCancelled());
             return true;
         });
+    }
+
+    @Test
+    @DisplayName("Test that breaking a Slimefun block gets queued for deletion")
+    void testBlockBreaksGetQueuedForDeletion() {
+        Player player = new PlayerMock(server, "SomePlayer");
+        ItemStack itemStack = new ItemStack(Material.IRON_PICKAXE);
+        player.getInventory().setItemInMainHand(itemStack);
+
+        World world = server.addSimpleWorld("my_world");
+        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, TestUtilities.randomInt(), 100, TestUtilities.randomInt()));
+
+        Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
+        BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
+
+        BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
+        server.getPluginManager().callEvent(blockBreakEvent);
+        server.getPluginManager().assertEventFired(SlimefunBlockBreakEvent.class, e -> true);
+
+        Assertions.assertTrue(Slimefun.getTickerTask().isDeletedSoon(block.getLocation()));
     }
 }
