@@ -150,6 +150,7 @@ messages:
   bee-suit-slow-fall: '&eA Bee Wings segít neked visszatérni a földre lassan és biztonságosan'
   deprecated-item: '&4Ez a tárgy elavult, és hamarosan eltávolítjuk a Slimefunból.'
   researching-is-disabled: '&cA kutatás le van tiltva ezen a szerveren. Alapértelmezés szerint minden fel van oldva!'
+  await-deletion: '&cNem tehetsz le egy Slimefun blockot ilyen gyorsan egy másik kiütése után. Próbáld újra később.'
   multi-tool:
     mode-change: '&b%device% mód átállítva: &9%mode%'
     not-shears: '&cA Multi Tool nem használható óllóként!'
