@@ -199,6 +199,15 @@ public class Research implements Keyed {
     }
 
     /**
+     * Set the custom {@link SlimefunGuideUnlockProvider} of this {@link Research}
+     *
+     * @param unlockProvider custom unlock provider {@link SlimefunGuideUnlockProvider}
+     */
+    public void setUnlockProvider(Optional<SlimefunGuideUnlockProvider> unlockProvider) {
+        this.unlockProvider = unlockProvider;
+    }
+
+    /**
      * Bind the specified {@link SlimefunItem SlimefunItems} to this {@link Research}.
      * 
      * @param items
@@ -274,7 +283,7 @@ public class Research implements Keyed {
                     if (this.canUnlock(player)) {
                         guide.unlockItem(player, sfItem, pl -> guide.openItemGroup(profile, itemGroup, page));
                     } else {
-                        Slimefun.getLocalization().sendMessage(player, "messages.not-meet-requirement", true);
+                        Slimefun.getLocalization().sendMessage(player, "messages.requirement-unfulfilled", true);
                     }
                 }
             }

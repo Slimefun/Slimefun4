@@ -31,6 +31,7 @@ researches:
   free-in-creative-mode: true
   enable-fireworks: true
   disable-learning-animation: false
+  # Currently we have those research mode: EXPERIENCE, CURRENCY
   unlock-research-mode: EXPERIENCE
 
 URID:
