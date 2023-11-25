@@ -237,7 +237,7 @@ public class ResourceManager {
         for (int i = page * 28; i < resources.size() && i < (page + 1) * 28; i++) {
             GEOResource resource = resources.get(i);
             OptionalInt optional = getSupplies(resource, block.getWorld(), x, z);
-            int supplies = optional.orElse(generate(resource, block.getWorld(), x, block.getY(), z));
+            int supplies = optional.orElseGet(() -> generate(resource, block.getWorld(), x, block.getY(), z));
             String suffix = Slimefun.getLocalization().getResourceString(p, ChatUtils.checkPlurality("tooltips.unit", supplies));
 
             ItemStack item = new CustomItemStack(resource.getItem(), "&f" + resource.getName(p), "&8\u21E8 &e" + supplies + ' ' + suffix);

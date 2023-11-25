@@ -176,6 +176,7 @@ messages:
   bee-suit-slow-fall: '&eYour Bee Wings will help you to get back to the ground safe and slow'
   deprecated-item: '&4This item has been deprecated and will be removed from Slimefun soon.'
   researching-is-disabled: '&cResearching has been disabled on this server. Everything is unlocked by default!'
+  await-deletion: '&cYou cannot place a Slimefun block so soon after breaking one. Try again shortly.'
 
   multi-tool:
     mode-change: '&b%device% mode changed to: &9%mode%'

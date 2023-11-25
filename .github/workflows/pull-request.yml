@@ -14,13 +14,15 @@ jobs:
   setup-preview-build:
     name: Preview build
     runs-on: ubuntu-latest
+    outputs:
+     short-commit-hash: ${{ steps.env-setup.outputs.SHORT_COMMIT_HASH }}
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up JDK 17
-      uses: actions/setup-java@v3.12.0
+      uses: actions/setup-java@v3.13.0
       with:
         distribution: 'adopt'
         java-version: '17'
@@ -35,10 +37,12 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     # Setup for the preview build
-    - run: |
+    - id: env-setup
+      run: |
         SHORT_COMMIT_HASH=$(git rev-parse --short=8 ${{ github.sha }})
         JAR_VERSION="Preview Build #${{ github.event.number }}-$SHORT_COMMIT_HASH"
         echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> "$GITHUB_ENV"
+        echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> "$GITHUB_OUTPUT"
         echo "JAR_VERSION=$JAR_VERSION" >> "$GITHUB_ENV"
         sed -i "s/<version>4.9-UNOFFICIAL<\/version>/<version>$JAR_VERSION<\/version>/g" pom.xml
 
@@ -50,3 +54,9 @@ jobs:
       with:
         name: slimefun-${{ github.event.number }}-${{ env.SHORT_COMMIT_HASH }}
         path: 'target/Slimefun v${{ env.JAR_VERSION }}.jar'
+
+  call-workflows:
+    needs: [setup-preview-build]
+    uses: ./.github/workflows/e2e-testing.yml
+    with:
+      artifact-name: slimefun-${{ github.event.number }}-${{ needs.setup-preview-build.outputs.short-commit-hash }}

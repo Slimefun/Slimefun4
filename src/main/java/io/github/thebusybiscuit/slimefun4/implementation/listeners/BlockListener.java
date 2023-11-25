@@ -90,20 +90,34 @@ public class BlockListener implements Listener {
             Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.PLACE_BLOCK);
         }
         if (sfItem != null && !(sfItem instanceof NotPlaceable)) {
-            if (!sfItem.canUse(e.getPlayer(), true)) {
+            Player player = e.getPlayer();
+
+            if (!sfItem.canUse(player, true)) {
                 e.setCancelled(true);
             } else {
-                SlimefunBlockPlaceEvent placeEvent = new SlimefunBlockPlaceEvent(e.getPlayer(), item, e.getBlock(), sfItem);
+                Block block = e.getBlockPlaced();
+
+                /*
+                 * Resolves an issue when placing a block in a location currently in the deletion queue
+                 * TODO This can be safely removed if/when the deletion no longer has a delay associated with it.
+                 */
+                if (Slimefun.getTickerTask().isDeletedSoon(block.getLocation())) {
+                    Slimefun.getLocalization().sendMessage(player, "messages.await-deletion");
+                    e.setCancelled(true);
+                    return;
+                }
+
+                SlimefunBlockPlaceEvent placeEvent = new SlimefunBlockPlaceEvent(player, item, block, sfItem);
                 Bukkit.getPluginManager().callEvent(placeEvent);
 
                 if (placeEvent.isCancelled()) {
                     e.setCancelled(true);
                 } else {
-                    if (Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
-                        Slimefun.getBlockDataService().setBlockData(e.getBlock(), sfItem.getId());
+                    if (Slimefun.getBlockDataService().isTileEntity(block.getType())) {
+                        Slimefun.getBlockDataService().setBlockData(block, sfItem.getId());
                     }
 
-                    BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getId(), true);
+                    BlockStorage.addBlockInfo(block, "id", sfItem.getId(), true);
                     sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
                 }
             }
@@ -141,15 +155,15 @@ public class BlockListener implements Listener {
             }
         }
 
+        List<ItemStack> drops = new ArrayList<>();
+
+        if (!item.getType().isAir()) {
+            int fortune = getBonusDropsWithFortune(item, e.getBlock());
+            callToolHandler(e, item, fortune, drops);
+        }
+
         if (!e.isCancelled()) {
             checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock(), item);
-
-            int fortune = getBonusDropsWithFortune(item, e.getBlock());
-            List<ItemStack> drops = new ArrayList<>();
-
-            if (!item.getType().isAir()) {
-                callToolHandler(e, item, fortune, drops);
-            }
 
             callBlockHandler(e, item, drops, sfItem);
             dropItems(e, drops);
