@@ -150,6 +150,7 @@ messages:
   bee-suit-slow-fall: '&e你的蜂翅将会让你安全缓降'
   deprecated-item: '&4该物品已被弃用，将在不久后从 Slimefun 中移除。'
   researching-is-disabled: '&c该服务器已禁用研究，所有物品都已解锁！'
+  await-deletion: '&c你不能在破坏一个 Slimefun 方块后立即放置一个 Slimefun 方块。请稍后再试。'
   multi-tool:
     mode-change: '&b%device% 的模式已切换为: &9%mode%'
     not-shears: '&c多功能工具 (Multi Tool) 不能作为剪刀使用!'
