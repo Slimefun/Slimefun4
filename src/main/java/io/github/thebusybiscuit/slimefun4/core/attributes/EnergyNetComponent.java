@@ -17,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks
@@ -76,7 +76,7 @@ public interface EnergyNetComponent extends ItemAttribute {
             return 0;
         }
 
-        return getCharge(l, BlockStorage.getLocationInfo(l));
+        return getCharge(l, LegacyBlockStorage.getLocationInfo(l));
     }
 
     /**
@@ -132,7 +132,7 @@ public interface EnergyNetComponent extends ItemAttribute {
 
                 // Do we even need to update the value?
                 if (charge != getCharge(l)) {
-                    BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
+                    LegacyBlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
 
                     // Update the capacitor texture
                     if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
@@ -159,7 +159,7 @@ public interface EnergyNetComponent extends ItemAttribute {
                 // Check if there is even space for new energy
                 if (currentCharge < capacity) {
                     int newCharge = Math.min(capacity, currentCharge + charge);
-                    BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
+                    LegacyBlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
 
                     // Update the capacitor texture
                     if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
@@ -186,7 +186,7 @@ public interface EnergyNetComponent extends ItemAttribute {
                 // Check if there is even energy stored
                 if (currentCharge > 0) {
                     int newCharge = Math.max(0, currentCharge - charge);
-                    BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
+                    LegacyBlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
 
                     // Update the capacitor texture
                     if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {

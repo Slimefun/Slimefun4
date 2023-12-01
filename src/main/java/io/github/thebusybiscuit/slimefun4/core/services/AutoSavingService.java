@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * This Service is responsible for automatically saving {@link Player} and {@link Block}
@@ -71,13 +71,13 @@ public class AutoSavingService {
     }
 
     /**
-     * This method saves the data of every {@link Block} marked dirty by {@link BlockStorage}.
+     * This method saves the data of every {@link Block} marked dirty by {@link LegacyBlockStorage}.
      */
     private void saveAllBlocks() {
-        Set<BlockStorage> worlds = new HashSet<>();
+        Set<LegacyBlockStorage> worlds = new HashSet<>();
 
         for (World world : Bukkit.getWorlds()) {
-            BlockStorage storage = BlockStorage.getStorage(world);
+            LegacyBlockStorage storage = LegacyBlockStorage.getStorage(world);
 
             if (storage != null) {
                 storage.computeChanges();
@@ -91,12 +91,12 @@ public class AutoSavingService {
         if (!worlds.isEmpty()) {
             Slimefun.logger().log(Level.INFO, "Auto-saving block data... (Next auto-save: {0}m)", interval);
 
-            for (BlockStorage storage : worlds) {
+            for (LegacyBlockStorage storage : worlds) {
                 storage.save();
             }
         }
 
-        BlockStorage.saveChunks();
+        LegacyBlockStorage.saveChunks();
     }
 
 }

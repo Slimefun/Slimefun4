@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -61,7 +61,7 @@ public class TrashCan extends SlimefunItem implements InventoryBlock {
 
             @Override
             public void tick(Block b, SlimefunItem item, Config data) {
-                BlockMenu menu = BlockStorage.getInventory(b);
+                BlockMenu menu = LegacyBlockStorage.getInventory(b);
 
                 for (int slot : getInputSlots()) {
                     menu.replaceExistingItem(slot, null);

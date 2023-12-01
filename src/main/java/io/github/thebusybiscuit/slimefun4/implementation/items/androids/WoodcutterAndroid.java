@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class WoodcutterAndroid extends ProgrammableAndroid {
@@ -57,7 +57,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
                 Block log = list.get(list.size() - 1);
                 log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 
-                OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
+                OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(LegacyBlockStorage.getLocationInfo(b.getLocation(), "owner")));
                 if (Slimefun.getProtectionManager().hasPermission(owner, log.getLocation(), Interaction.BREAK_BLOCK)) {
                     breakLog(log, b, menu, face);
                 }

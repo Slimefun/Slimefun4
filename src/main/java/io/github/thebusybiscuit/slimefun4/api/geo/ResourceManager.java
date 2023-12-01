@@ -33,7 +33,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link ResourceManager} is responsible for registering and managing a {@link GEOResource}.
@@ -110,7 +110,7 @@ public class ResourceManager {
         Validate.notNull(world, "World must not be null");
 
         String key = resource.getKey().toString().replace(':', '-');
-        String value = BlockStorage.getChunkInfo(world, x, z, key);
+        String value = LegacyBlockStorage.getChunkInfo(world, x, z, key);
 
         if (value != null) {
             return OptionalInt.of(Integer.parseInt(value));
@@ -138,7 +138,7 @@ public class ResourceManager {
         Validate.notNull(world, "World cannot be null");
 
         String key = resource.getKey().toString().replace(':', '-');
-        BlockStorage.setChunkInfo(world, x, z, key, String.valueOf(value));
+        LegacyBlockStorage.setChunkInfo(world, x, z, key, String.valueOf(value));
     }
 
     /**

@@ -22,7 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link CargoNet} is a type of {@link Network} which deals with {@link ItemStack} transportation.
@@ -88,7 +88,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
     @Override
     public NetworkComponent classifyLocation(@Nonnull Location l) {
-        String id = BlockStorage.checkID(l);
+        String id = LegacyBlockStorage.checkID(l);
 
         if (id == null) {
             return null;
@@ -114,7 +114,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         }
 
         if (to == NetworkComponent.TERMINUS) {
-            String id = BlockStorage.checkID(l);
+            String id = LegacyBlockStorage.checkID(l);
             switch (id) {
                 case "CARGO_NODE_INPUT" -> inputNodes.add(l);
                 case "CARGO_NODE_OUTPUT",
@@ -150,7 +150,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
             Map<Location, Integer> inputs = mapInputNodes();
             Map<Integer, List<Location>> outputs = mapOutputNodes();
 
-            if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
+            if (LegacyBlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
                 display();
             }
 
@@ -218,7 +218,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
      * @return The frequency of the given node
      */
     private static int getFrequency(@Nonnull Location node) {
-        String frequency = BlockStorage.getLocationInfo(node, "frequency");
+        String frequency = LegacyBlockStorage.getLocationInfo(node, "frequency");
 
         if (frequency == null) {
             return 0;

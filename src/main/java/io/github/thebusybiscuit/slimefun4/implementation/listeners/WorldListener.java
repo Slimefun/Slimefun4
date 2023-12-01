@@ -11,7 +11,7 @@ import org.bukkit.event.world.WorldUnloadEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 public class WorldListener implements Listener {
 
@@ -22,12 +22,12 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onWorldLoad(WorldLoadEvent e) {
         Slimefun.getWorldSettingsService().load(e.getWorld());
-        BlockStorage.getOrCreate(e.getWorld());
+        LegacyBlockStorage.getOrCreate(e.getWorld());
     }
 
     @EventHandler
     public void onWorldUnload(WorldUnloadEvent e) {
-        BlockStorage storage = BlockStorage.getStorage(e.getWorld());
+        LegacyBlockStorage storage = LegacyBlockStorage.getStorage(e.getWorld());
 
         if (storage != null) {
             storage.saveAndRemove();

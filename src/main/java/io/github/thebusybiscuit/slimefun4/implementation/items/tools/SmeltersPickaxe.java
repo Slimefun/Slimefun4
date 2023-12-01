@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link SmeltersPickaxe} automatically smelts any ore you mine.
@@ -39,7 +39,7 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<ToolUseHandler> implemen
         return (e, tool, fortune, drops) -> {
             Block b = e.getBlock();
 
-            if (SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(b.getType()) && !BlockStorage.hasBlockInfo(b)) {
+            if (SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(b.getType()) && !LegacyBlockStorage.hasBlockInfo(b)) {
                 Collection<ItemStack> blockDrops = b.getDrops(tool);
 
                 for (ItemStack drop : blockDrops) {

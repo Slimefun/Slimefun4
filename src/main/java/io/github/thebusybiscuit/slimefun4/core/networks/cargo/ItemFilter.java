@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
@@ -80,10 +80,10 @@ class ItemFilter implements Predicate<ItemStack> {
      */
     public void update(@Nonnull Block b) {
         // Store the returned Config instance to avoid heavy calls
-        Config blockData = BlockStorage.getLocationInfo(b.getLocation());
+        Config blockData = LegacyBlockStorage.getLocationInfo(b.getLocation());
         String id = blockData.getString("id");
         SlimefunItem item = SlimefunItem.getById(id);
-        BlockMenu menu = BlockStorage.getInventory(b.getLocation());
+        BlockMenu menu = LegacyBlockStorage.getInventory(b.getLocation());
 
         if (!(item instanceof CargoNode) || menu == null) {
             // Don't filter for a non-existing item (safety check)

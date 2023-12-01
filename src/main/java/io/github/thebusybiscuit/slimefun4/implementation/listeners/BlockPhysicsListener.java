@@ -22,7 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * This {@link Listener} is responsible for listening to any physics-based events, such
@@ -44,7 +44,7 @@ public class BlockPhysicsListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockFall(EntityChangeBlockEvent e) {
-        if (e.getEntity().getType() == EntityType.FALLING_BLOCK && BlockStorage.hasBlockInfo(e.getBlock())) {
+        if (e.getEntity().getType() == EntityType.FALLING_BLOCK && LegacyBlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
             FallingBlock block = (FallingBlock) e.getEntity();
 
@@ -56,11 +56,11 @@ public class BlockPhysicsListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPistonExtend(BlockPistonExtendEvent e) {
-        if (BlockStorage.hasBlockInfo(e.getBlock())) {
+        if (LegacyBlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
         } else {
             for (Block b : e.getBlocks()) {
-                if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
+                if (LegacyBlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && LegacyBlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
                     e.setCancelled(true);
                     break;
                 }
@@ -70,11 +70,11 @@ public class BlockPhysicsListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPistonRetract(BlockPistonRetractEvent e) {
-        if (BlockStorage.hasBlockInfo(e.getBlock())) {
+        if (LegacyBlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
         } else if (e.isSticky()) {
             for (Block b : e.getBlocks()) {
-                if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
+                if (LegacyBlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && LegacyBlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
                     e.setCancelled(true);
                     break;
                 }
@@ -90,7 +90,7 @@ public class BlockPhysicsListener implements Listener {
         // Check if this Material can be destroyed by fluids
         if (SlimefunTag.FLUID_SENSITIVE_MATERIALS.isTagged(type)) {
             // Check if this Block holds any data
-            if (BlockStorage.hasBlockInfo(block)) {
+            if (LegacyBlockStorage.hasBlockInfo(block)) {
                 e.setCancelled(true);
             } else {
                 Location loc = block.getLocation();
@@ -108,7 +108,7 @@ public class BlockPhysicsListener implements Listener {
         // Fix for placing water on player heads
         Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
 
-        if (BlockStorage.hasBlockInfo(l)) {
+        if (LegacyBlockStorage.hasBlockInfo(l)) {
             e.setCancelled(true);
         }
     }

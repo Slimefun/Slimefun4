@@ -41,7 +41,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenu
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -75,7 +75,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
             @Override
             public void onBlockBreak(Block b) {
-                BlockMenu inv = BlockStorage.getInventory(b);
+                BlockMenu inv = LegacyBlockStorage.getInventory(b);
 
                 if (inv != null) {
                     inv.dropItems(b.getLocation(), getInputSlots());
@@ -349,7 +349,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     }
 
     protected void tick(Block b) {
-        BlockMenu inv = BlockStorage.getInventory(b);
+        BlockMenu inv = LegacyBlockStorage.getInventory(b);
         CraftingOperation currentOperation = processor.getOperation(b);
 
         if (currentOperation != null) {

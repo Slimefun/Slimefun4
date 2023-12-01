@@ -42,7 +42,7 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -93,8 +93,8 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                if (BlockStorage.getLocationInfo(b.getLocation(), MODE) == null) {
-                    BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
+                if (LegacyBlockStorage.getLocationInfo(b.getLocation(), MODE) == null) {
+                    LegacyBlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
                 }
 
                 updateInventory(menu, b);
@@ -126,7 +126,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
             @Override
             public void onBlockBreak(@Nonnull Block b) {
-                BlockMenu inv = BlockStorage.getInventory(b);
+                BlockMenu inv = LegacyBlockStorage.getInventory(b);
 
                 if (inv != null) {
                     inv.dropItems(b.getLocation(), getFuelSlots());
@@ -147,7 +147,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
             case GENERATOR:
                 menu.replaceExistingItem(4, new CustomItemStack(SlimefunItems.NUCLEAR_REACTOR, "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7\u21E8 Click to change the Focus to &eProduction"));
                 menu.addMenuClickHandler(4, (p, slot, item, action) -> {
-                    BlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
+                    LegacyBlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
                     updateInventory(menu, b);
                     return false;
                 });
@@ -155,7 +155,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
             case PRODUCTION:
                 menu.replaceExistingItem(4, new CustomItemStack(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7\u21E8 Click to change the Focus to &ePower Generation"));
                 menu.addMenuClickHandler(4, (p, slot, item, action) -> {
-                    BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
+                    LegacyBlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
                     updateInventory(menu, b);
                     return false;
                 });
@@ -220,7 +220,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     protected ReactorMode getReactorMode(@Nonnull Location l) {
         ReactorMode mode = ReactorMode.GENERATOR;
 
-        if (BlockStorage.hasBlockInfo(l) && BlockStorage.getLocationInfo(l, MODE).equals(ReactorMode.PRODUCTION.toString())) {
+        if (LegacyBlockStorage.hasBlockInfo(l) && LegacyBlockStorage.getLocationInfo(l, MODE).equals(ReactorMode.PRODUCTION.toString())) {
             mode = ReactorMode.PRODUCTION;
         }
 
@@ -280,7 +280,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
     @Override
     public int getGeneratedOutput(Location l, Config data) {
-        BlockMenu inv = BlockStorage.getInventory(l);
+        BlockMenu inv = LegacyBlockStorage.getInventory(l);
         BlockMenu accessPort = getAccessPort(l);
         FuelOperation operation = processor.getOperation(l);
 
@@ -337,7 +337,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
                 ReactorExplodeEvent event = new ReactorExplodeEvent(l, Reactor.this);
                 Bukkit.getPluginManager().callEvent(event);
 
-                BlockStorage.getInventory(l).close();
+                LegacyBlockStorage.getInventory(l).close();
                 removeHologram(l.getBlock());
             });
 
@@ -480,8 +480,8 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     protected BlockMenu getAccessPort(@Nonnull Location l) {
         Location port = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
 
-        if (BlockStorage.check(port, SlimefunItems.REACTOR_ACCESS_PORT.getItemId())) {
-            return BlockStorage.getInventory(port);
+        if (LegacyBlockStorage.check(port, SlimefunItems.REACTOR_ACCESS_PORT.getItemId())) {
+            return LegacyBlockStorage.getInventory(port);
         } else {
             return null;
         }

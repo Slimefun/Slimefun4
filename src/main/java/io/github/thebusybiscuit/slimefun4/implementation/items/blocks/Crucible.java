@@ -32,7 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link Crucible} is a machine which turns blocks into liquids.
@@ -208,8 +208,8 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                 return;
             }
 
-            if (BlockStorage.hasBlockInfo(block)) {
-                BlockStorage.clearBlockInfo(block);
+            if (LegacyBlockStorage.hasBlockInfo(block)) {
+                LegacyBlockStorage.clearBlockInfo(block);
             }
         }
         runPostTask(block, water ? SoundEffect.CRUCIBLE_PLACE_WATER_SOUND : SoundEffect.CRUCIBLE_PLACE_LAVA_SOUND, 1);

@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
 import io.papermc.lib.PaperLib;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link OutputChest} can be used to capture the output items from a {@link MultiBlockMachine}.
@@ -76,7 +76,7 @@ public class OutputChest extends SlimefunItem {
 
             // Check if the target block is a Chest
             if (potentialOutput.getType() == Material.CHEST) {
-                SlimefunItem slimefunItem = BlockStorage.check(potentialOutput);
+                SlimefunItem slimefunItem = LegacyBlockStorage.check(potentialOutput);
 
                 // Fixes #3012 - Check if the OutputChest is not disabled here.
                 if (slimefunItem instanceof OutputChest && !slimefunItem.isDisabledIn(b.getWorld())) {

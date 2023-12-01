@@ -28,7 +28,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link EnergyNet} is an implementation of {@link Network} that deals with
@@ -243,7 +243,7 @@ public class EnergyNet extends Network implements HologramOwner {
             SlimefunItem item = (SlimefunItem) provider;
 
             try {
-                Config data = BlockStorage.getLocationInfo(loc);
+                Config data = LegacyBlockStorage.getLocationInfo(loc);
                 int energy = provider.getGeneratedOutput(loc, data);
 
                 if (provider.isChargeable()) {
@@ -252,7 +252,7 @@ public class EnergyNet extends Network implements HologramOwner {
 
                 if (provider.willExplode(loc, data)) {
                     explodedBlocks.add(loc);
-                    BlockStorage.clearBlockInfo(loc);
+                    LegacyBlockStorage.clearBlockInfo(loc);
 
                     Slimefun.runSync(() -> {
                         loc.getBlock().setType(Material.LAVA);
@@ -300,7 +300,7 @@ public class EnergyNet extends Network implements HologramOwner {
 
     @Nullable
     private static EnergyNetComponent getComponent(@Nonnull Location l) {
-        SlimefunItem item = BlockStorage.check(l);
+        SlimefunItem item = LegacyBlockStorage.check(l);
 
         if (item instanceof EnergyNetComponent component) {
             return component;

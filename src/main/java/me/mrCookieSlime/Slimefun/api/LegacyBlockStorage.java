@@ -46,7 +46,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 // This class really needs a VERY big overhaul
-public class BlockStorage {
+public class LegacyBlockStorage {
 
     private static final String PATH_BLOCKS = "data-storage/Slimefun/stored-blocks/";
     private static final String PATH_CHUNKS = "data-storage/Slimefun/stored-chunks/";
@@ -66,16 +66,16 @@ public class BlockStorage {
     private AtomicBoolean isMarkedForRemoval = new AtomicBoolean(false);
 
     @Nullable
-    public static BlockStorage getStorage(@Nonnull World world) {
+    public static LegacyBlockStorage getStorage(@Nonnull World world) {
         return Slimefun.getRegistry().getWorlds().get(world.getName());
     }
 
     @Nonnull
-    public static BlockStorage getOrCreate(@Nonnull World world) {
-        BlockStorage storage = Slimefun.getRegistry().getWorlds().get(world.getName());
+    public static LegacyBlockStorage getOrCreate(@Nonnull World world) {
+        LegacyBlockStorage storage = Slimefun.getRegistry().getWorlds().get(world.getName());
 
         if (storage == null) {
-            return new BlockStorage(world);
+            return new LegacyBlockStorage(world);
         } else {
             return storage;
         }
@@ -107,7 +107,7 @@ public class BlockStorage {
         return null;
     }
 
-    public BlockStorage(World w) {
+    public LegacyBlockStorage(World w) {
         this.world = w;
 
         if (world.getName().indexOf('.') != -1) {
@@ -383,7 +383,7 @@ public class BlockStorage {
 
     /**
      * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
-     * this worlds {@link BlockStorage}.
+     * this worlds {@link LegacyBlockStorage}.
      *
      * @return An {@link ImmutableMap} of the raw data.
      */
@@ -394,7 +394,7 @@ public class BlockStorage {
 
     /**
      * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
-     * this worlds {@link BlockStorage}. If there is no registered world then this will return null.
+     * this worlds {@link LegacyBlockStorage}. If there is no registered world then this will return null.
      *
      * @param world
      *            The world of which to fetch the data from.
@@ -404,7 +404,7 @@ public class BlockStorage {
     public static Map<Location, Config> getRawStorage(@Nonnull World world) {
         Validate.notNull(world, "World cannot be null!");
 
-        BlockStorage storage = getStorage(world);
+        LegacyBlockStorage storage = getStorage(world);
         if (storage != null) {
             return storage.getRawStorage();
         } else {
@@ -448,7 +448,7 @@ public class BlockStorage {
 
     @Nonnull
     public static Config getLocationInfo(Location l) {
-        BlockStorage storage = getStorage(l.getWorld());
+        LegacyBlockStorage storage = getStorage(l.getWorld());
 
         if (storage == null) {
             return emptyBlockData;
@@ -541,7 +541,7 @@ public class BlockStorage {
     }
 
     public static boolean hasBlockInfo(Location l) {
-        BlockStorage storage = getStorage(l.getWorld());
+        LegacyBlockStorage storage = getStorage(l.getWorld());
 
         if (storage != null) {
             Config cfg = storage.storage.get(l);
@@ -552,7 +552,7 @@ public class BlockStorage {
     }
 
     private static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
-        BlockStorage storage = getStorage(l.getWorld());
+        LegacyBlockStorage storage = getStorage(l.getWorld());
 
         if (storage == null) {
             Slimefun.logger().warning("Could not set Block info for non-registered World '" + l.getWorld().getName() + "'. Is some plugin trying to store data in a fake world?");
@@ -640,7 +640,7 @@ public class BlockStorage {
      *            Whether to completely destroy the block data
      */
     public static void deleteLocationInfoUnsafely(Location l, boolean destroy) {
-        BlockStorage storage = getStorage(l.getWorld());
+        LegacyBlockStorage storage = getStorage(l.getWorld());
 
         if (storage == null) {
             throw new IllegalStateException("World \"" + l.getWorld().getName() + "\" seems to have been deleted. Do not call unsafe methods directly!");
@@ -687,7 +687,7 @@ public class BlockStorage {
             return;
         }
 
-        BlockStorage storage = getStorage(from.getWorld());
+        LegacyBlockStorage storage = getStorage(from.getWorld());
         Config previousData = getLocationInfo(from);
         setBlockInfo(to, previousData, true);
 
@@ -704,7 +704,7 @@ public class BlockStorage {
         Slimefun.getTickerTask().disableTicker(from);
     }
 
-    private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
+    private static void refreshCache(LegacyBlockStorage storage, Location l, String key, String value, boolean updateTicker) {
         if (key == null) {
             /**
              * This Block is no longer valid...
@@ -845,7 +845,7 @@ public class BlockStorage {
     }
 
     public static boolean hasInventory(Block b) {
-        BlockStorage storage = getStorage(b.getWorld());
+        LegacyBlockStorage storage = getStorage(b.getWorld());
 
         if (storage == null) {
             return false;
@@ -855,7 +855,7 @@ public class BlockStorage {
     }
 
     public static BlockMenu getInventory(Location l) {
-        BlockStorage storage = getStorage(l.getWorld());
+        LegacyBlockStorage storage = getStorage(l.getWorld());
 
         if (storage == null) {
             return null;

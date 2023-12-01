@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFu
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * This {@link Listener} is responsible for enforcing the "fuel efficiency" and "fortune" policies
@@ -45,7 +45,7 @@ public class EnhancedFurnaceListener implements Listener {
             return;
         }
 
-        SlimefunItem furnace = BlockStorage.check(e.getBlock());
+        SlimefunItem furnace = LegacyBlockStorage.check(e.getBlock());
 
         // Fixes #2958
         if (furnace instanceof EnhancedFurnace enhancedFurnace
@@ -66,7 +66,7 @@ public class EnhancedFurnaceListener implements Listener {
             return;
         }
 
-        SlimefunItem sfItem = BlockStorage.check(e.getBlock());
+        SlimefunItem sfItem = LegacyBlockStorage.check(e.getBlock());
 
         if (sfItem instanceof EnhancedFurnace enhancedFurnace && !enhancedFurnace.isDisabledIn(e.getBlock().getWorld())) {
             BlockState state = PaperLib.getBlockState(e.getBlock(), false).getState();

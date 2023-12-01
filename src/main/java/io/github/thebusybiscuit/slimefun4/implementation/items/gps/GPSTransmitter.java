@@ -25,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
 
@@ -50,7 +50,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
-                BlockStorage.addBlockInfo(e.getBlock(), "owner", e.getPlayer().getUniqueId().toString());
+                LegacyBlockStorage.addBlockInfo(e.getBlock(), "owner", e.getPlayer().getUniqueId().toString());
             }
         };
     }
@@ -62,7 +62,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
             @Override
             public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
                 Location l = e.getBlock().getLocation();
-                UUID owner = UUID.fromString(BlockStorage.getLocationInfo(l, "owner"));
+                UUID owner = UUID.fromString(LegacyBlockStorage.getLocationInfo(l, "owner"));
                 Slimefun.getGPSNetwork().updateTransmitter(l, owner, false);
             }
         };
@@ -79,7 +79,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
             @Override
             public void tick(Block b, SlimefunItem item, Config data) {
                 int charge = getCharge(b.getLocation(), data);
-                UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
+                UUID owner = UUID.fromString(LegacyBlockStorage.getLocationInfo(b.getLocation(), "owner"));
 
                 if (charge >= getEnergyConsumption()) {
                     Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), owner, true);

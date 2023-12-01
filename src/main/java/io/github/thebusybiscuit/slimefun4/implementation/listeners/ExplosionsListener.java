@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link ExplosionsListener} is a {@link Listener} which listens to any explosion events.
@@ -63,7 +63,7 @@ public class ExplosionsListener implements Listener {
     private void removeResistantBlocks(@Nonnull Iterator<Block> blocks) {
         while (blocks.hasNext()) {
             Block block = blocks.next();
-            SlimefunItem item = BlockStorage.check(block);
+            SlimefunItem item = LegacyBlockStorage.check(block);
 
             if (item != null) {
                 blocks.remove();
@@ -93,7 +93,7 @@ public class ExplosionsListener implements Listener {
     @ParametersAreNonnullByDefault
     private void handleExplosion(BlockBreakHandler handler, Block block) {
         if (handler.isExplosionAllowed(block)) {
-            BlockStorage.clearBlockInfo(block);
+            LegacyBlockStorage.clearBlockInfo(block);
             block.setType(Material.AIR);
 
             List<ItemStack> drops = new ArrayList<>();

@@ -32,7 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * This {@link SlimefunItem} is a super class for items like the {@link ExplosivePickaxe} or {@link ExplosiveShovel}.
@@ -157,7 +157,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         Material material = b.getType();
 
         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, material);
-        SlimefunItem sfItem = BlockStorage.check(b);
+        SlimefunItem sfItem = LegacyBlockStorage.check(b);
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
             /*
@@ -177,7 +177,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
             if (!dummyEvent.isCancelled()) {
                 drops.addAll(sfItem.getDrops(p));
                 b.setType(Material.AIR);
-                BlockStorage.clearBlockInfo(b);
+                LegacyBlockStorage.clearBlockInfo(b);
             }
         } else {
             b.breakNaturally(item);

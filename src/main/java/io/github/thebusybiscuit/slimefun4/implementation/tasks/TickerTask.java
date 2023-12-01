@@ -29,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link TickerTask} is responsible for ticking every {@link BlockTicker},
@@ -97,12 +97,12 @@ public class TickerTask implements Runnable {
             Iterator<Map.Entry<Location, Boolean>> removals = deletionQueue.entrySet().iterator();
             while (removals.hasNext()) {
                 Map.Entry<Location, Boolean> entry = removals.next();
-                BlockStorage.deleteLocationInfoUnsafely(entry.getKey(), entry.getValue());
+                LegacyBlockStorage.deleteLocationInfoUnsafely(entry.getKey(), entry.getValue());
                 removals.remove();
             }
 
             // Fixes #2576 - Remove any deleted instances of BlockStorage
-            Slimefun.getRegistry().getWorlds().values().removeIf(BlockStorage::isMarkedForRemoval);
+            Slimefun.getRegistry().getWorlds().values().removeIf(LegacyBlockStorage::isMarkedForRemoval);
 
             // Run our ticker code
             if (!halted) {
@@ -115,7 +115,7 @@ public class TickerTask implements Runnable {
             Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
             while (moves.hasNext()) {
                 Map.Entry<Location, Location> entry = moves.next();
-                BlockStorage.moveLocationInfoUnsafely(entry.getKey(), entry.getValue());
+                LegacyBlockStorage.moveLocationInfoUnsafely(entry.getKey(), entry.getValue());
                 moves.remove();
             }
 
@@ -147,7 +147,7 @@ public class TickerTask implements Runnable {
     }
 
     private void tickLocation(@Nonnull Set<BlockTicker> tickers, @Nonnull Location l) {
-        Config data = BlockStorage.getLocationInfo(l);
+        Config data = LegacyBlockStorage.getLocationInfo(l);
         SlimefunItem item = SlimefunItem.getById(data.getString("id"));
 
         if (item != null && item.getBlockTicker() != null) {
@@ -205,7 +205,7 @@ public class TickerTask implements Runnable {
             Slimefun.logger().log(Level.SEVERE, " ");
             bugs.remove(position);
 
-            BlockStorage.deleteLocationInfoUnsafely(l, true);
+            LegacyBlockStorage.deleteLocationInfoUnsafely(l, true);
             Bukkit.getScheduler().scheduleSyncDelayedTask(Slimefun.instance(), () -> l.getBlock().setType(Material.AIR));
         } else {
             bugs.put(position, errors);

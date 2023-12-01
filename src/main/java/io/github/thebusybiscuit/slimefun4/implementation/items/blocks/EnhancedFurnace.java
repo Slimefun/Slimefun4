@@ -21,7 +21,7 @@ import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link EnhancedFurnace} is an upgraded version of a {@link Furnace}.
@@ -81,7 +81,7 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
             public void tick(Block b, SlimefunItem item, Config data) {
                 if (b.getType() != Material.FURNACE) {
                     // The Furnace has been destroyed, we can clear the block data
-                    BlockStorage.clearBlockInfo(b);
+                    LegacyBlockStorage.clearBlockInfo(b);
                 } else {
                     BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
                     BlockState state = result.getState();

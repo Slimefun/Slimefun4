@@ -129,7 +129,7 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 /**
@@ -429,7 +429,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         });
 
         // Save all registered Worlds
-        for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
+        for (Map.Entry<String, LegacyBlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
                 entry.getValue().saveAndRemove();
             } catch (Exception x) {

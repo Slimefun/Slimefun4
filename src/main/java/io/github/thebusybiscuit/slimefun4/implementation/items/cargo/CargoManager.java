@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBre
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 public class CargoManager extends SlimefunItem implements HologramOwner {
 
@@ -69,11 +69,11 @@ public class CargoManager extends SlimefunItem implements HologramOwner {
                     Player p = e.getPlayer();
                     Block b = block.get();
 
-                    if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
-                        BlockStorage.addBlockInfo(b, "visualizer", "disabled");
+                    if (LegacyBlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
+                        LegacyBlockStorage.addBlockInfo(b, "visualizer", "disabled");
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
                     } else {
-                        BlockStorage.addBlockInfo(b, "visualizer", null);
+                        LegacyBlockStorage.addBlockInfo(b, "visualizer", null);
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
                     }
                 }

@@ -37,7 +37,7 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -96,7 +96,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
             @Override
             public void onBlockBreak(Block b) {
-                BlockMenu inv = BlockStorage.getInventory(b);
+                BlockMenu inv = LegacyBlockStorage.getInventory(b);
 
                 if (inv != null) {
                     inv.dropItems(b.getLocation(), getInputSlots());
@@ -151,7 +151,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
     @Override
     public int getGeneratedOutput(Location l, Config data) {
-        BlockMenu inv = BlockStorage.getInventory(l);
+        BlockMenu inv = LegacyBlockStorage.getInventory(l);
         FuelOperation operation = processor.getOperation(l);
 
         if (operation != null) {

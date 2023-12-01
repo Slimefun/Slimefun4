@@ -29,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 
 /**
@@ -147,7 +147,7 @@ class CargoNetworkTask implements Runnable {
     private ItemStack distributeItem(ItemStack stack, Location inputNode, List<Location> outputNodes) {
         ItemStack item = stack;
 
-        Config cfg = BlockStorage.getLocationInfo(inputNode);
+        Config cfg = LegacyBlockStorage.getLocationInfo(inputNode);
         boolean roundrobin = Objects.equals(cfg.getString("round-robin"), "true");
         boolean smartFill = Objects.equals(cfg.getString("smart-fill"), "true");
 

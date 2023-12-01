@@ -27,7 +27,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInvento
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.papermc.lib.PaperLib;
 
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link IgnitionChamber} is used to re-ignite a {@link Smeltery}.
@@ -113,7 +113,7 @@ public class IgnitionChamber extends SlimefunItem {
         for (BlockFace face : ADJACENT_FACES) {
             Block block = b.getRelative(face);
 
-            if (block.getType() == Material.DROPPER && BlockStorage.check(block) instanceof IgnitionChamber) {
+            if (block.getType() == Material.DROPPER && LegacyBlockStorage.check(block) instanceof IgnitionChamber) {
                 BlockState state = PaperLib.getBlockState(b.getRelative(face), false).getState();
 
                 if (state instanceof Dropper dropper) {
