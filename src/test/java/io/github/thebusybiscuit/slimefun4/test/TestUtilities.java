@@ -81,12 +81,12 @@ public final class TestUtilities {
     }
 
     @ParametersAreNonnullByDefault
-    public static @Nonnull int randomInt() {
+    public static int randomInt() {
         return random.nextInt(Integer.MAX_VALUE);
     }
 
     @ParametersAreNonnullByDefault
-    public static @Nonnull int randomInt(int upperBound) {
+    public static int randomInt(int upperBound) {
         return random.nextInt(upperBound);
     }
 }

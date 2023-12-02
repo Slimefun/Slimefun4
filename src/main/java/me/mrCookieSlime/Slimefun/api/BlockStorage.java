@@ -586,4 +586,8 @@ public class BlockStorage {
         }
         return "{}";
     }
+
+    public boolean isMarkedForRemoval() {
+        return isMarkedForRemoval.get();
+    }
 }

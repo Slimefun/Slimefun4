@@ -138,7 +138,7 @@ public class LegacyBlockStorage {
         if (!Slimefun.instance().isUnitTest()) {
             loadInventories();
         }
-        Slimefun.getRegistry().getWorlds().put(world.getName(), this);
+        Slimefun.getRegistry().getLegacyWorlds().put(world.getName(), this);
     }
 
     private void loadBlocks(File directory) {

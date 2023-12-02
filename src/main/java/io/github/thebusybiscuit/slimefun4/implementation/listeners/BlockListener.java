@@ -112,10 +112,6 @@ public class BlockListener implements Listener {
                 if (placeEvent.isCancelled()) {
                     e.setCancelled(true);
                 } else {
-                    if (Slimefun.getBlockDataService().isTileEntity(block.getType())) {
-                        Slimefun.getBlockDataService().setBlockData(block, sfItem.getId());
-                    }
-
                     BlockStorage.addBlockInfo(block, "id", sfItem.getId(), true);
                     sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
                 }
@@ -191,8 +187,8 @@ public class BlockListener implements Listener {
 
     @ParametersAreNonnullByDefault
     private void callBlockHandler(BlockBreakEvent e, ItemStack item, List<ItemStack> drops, @Nullable SlimefunItem sfItem) {
-        if (sfItem == null && Slimefun.getBlockDataService().isTileEntity(e.getBlock().getType())) {
-            Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(e.getBlock());
+        if (sfItem == null) {
+            Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(e.getBlock(), "id");
 
             if (blockData.isPresent()) {
                 sfItem = SlimefunItem.getById(blockData.get());

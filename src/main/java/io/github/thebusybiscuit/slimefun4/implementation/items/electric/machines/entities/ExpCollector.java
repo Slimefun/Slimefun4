@@ -169,8 +169,7 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
     }
 
     private int getStoredExperience(Location location) {
-        Config cfg = BlockStorage.getLocationInfo(location);
-        String value = cfg.getString(DATA_KEY);
+        String value = BlockStorage.getLocationInfo(location, DATA_KEY);
 
         if (value != null) {
             return Integer.parseInt(value);
