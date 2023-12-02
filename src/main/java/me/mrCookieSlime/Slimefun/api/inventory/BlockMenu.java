@@ -35,8 +35,9 @@ public class BlockMenu extends DirtyChestMenu {
         CustomBlockData blockData = new CustomBlockData(b, plugin);
 
         for (int i = 0; i < 54; i++) {
-            if (blockData.has(new NamespacedKey(plugin, String.valueOf(i)))) {
-                byte[] encodedItem = blockData.get(new NamespacedKey(plugin, String.valueOf(i)), PersistentDataType.BYTE_ARRAY);
+            String slotId = "slot_" + String.valueOf(i);
+            if (blockData.has(new NamespacedKey(plugin, slotId))) {
+                byte[] encodedItem = blockData.get(new NamespacedKey(plugin, slotId), PersistentDataType.BYTE_ARRAY);
                 try {
                     final ItemStack itemStack = ItemStackSerializer.fromBytes(encodedItem);
                     addItem(i, itemStack);
@@ -63,6 +64,9 @@ public class BlockMenu extends DirtyChestMenu {
         // To force CS-CoreLib to build the Inventory
         this.getContents();
 
+        Slimefun.logger().log(Level.INFO, "Saving BlockMenu at {0}", l);
+
+        // TODO better storage method to support non string data
         Plugin plugin = Slimefun.getPlugin(Slimefun.class);
         CustomBlockData blockData = new CustomBlockData(b, plugin);
         blockData.set(new NamespacedKey(plugin, "preset"), PersistentDataType.STRING, preset.getID());
@@ -77,7 +81,7 @@ public class BlockMenu extends DirtyChestMenu {
                 return;
             }
             blockData.set(
-                new NamespacedKey(plugin, String.valueOf(slot)),
+                new NamespacedKey(plugin, "slot_" + String.valueOf(slot)),
                 PersistentDataType.BYTE_ARRAY,
                 encodedItem
             );

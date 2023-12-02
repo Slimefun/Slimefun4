@@ -26,6 +26,12 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Slime;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -44,14 +50,11 @@ import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.ChunkDataService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
-public class BlockStorage {
-    private static final String PATH_CHUNKS = "data-storage/Slimefun/stored-chunks/";
-    
+public class BlockStorage implements Listener {
     private final World world;
     private final Map<Location, BlockMenu> inventories = new ConcurrentHashMap<>(); // Inventory saving writes to the BlockDataService for that BlockMenu location
     
@@ -77,7 +80,7 @@ public class BlockStorage {
     public BlockStorage(World w) {
         this.world = w;
 
-         if (world.getName().indexOf('.') != -1) {
+        if (world.getName().indexOf('.') != -1) {
             throw new IllegalArgumentException("Slimefun cannot deal with World names that contain a dot: " + w.getName());
         }
 
@@ -86,55 +89,90 @@ public class BlockStorage {
             return;
         }
 
-        Slimefun.logger().log(Level.INFO, "Loading Blocks for World \"{0}\"", w.getName());
-        Slimefun.logger().log(Level.INFO, "This may take a long time...");
-        // TODO | We should load inventories directly from block data. If there are LegacyBlockStorage files, we should convert them to BlockStorage,
-        // TODO | and then move the LegacyBlockStorage files to a backup 
-        // TODO | folder incase something goes wrong. This way the user can at least restore them and downgrade until the bug is fixed
-        // TODO | We might even need to load all of the chunks in the world to be able to get all the blocks with Custom Data. Ideally this would be done ignoring the tickers if the chunk wasn't already loaded - though this should only be triggered on WorldLoad (ideally no chunks would be loaded). I imagine this is going to be horrible for performance...
-        loadBlocks();
-        // TODO these should be loaded from the same function that loads blocks. Chunks have a "CustomBlockData.getAllBlocksInChunk" function to load blocks from directly. Though it likely requires the chunk to be loaded. hmm.
-        loadChunks();
+        // For loaded chunks, handle loading the chunk data. This is done as the world might already have loaded chunks that
+        // would not trigger the Chunk load event in a way that this instance would have handled
+        for (Chunk c : w.getLoadedChunks()) {
+            loadChunk(c);
+        }
 
         loadUniversalInventories();
 
         Slimefun.getRegistry().getWorlds().put(world.getName(), this);
+
+        // Register the events for this class instance
+        Bukkit.getPluginManager().registerEvents(this, Slimefun.getPlugin(Slimefun.class));
     }
 
-    private void loadBlocks() {
+    @EventHandler
+    public void onChunkLoad(ChunkLoadEvent e) {
+        if (!e.getWorld().equals(world)) {
+            return; // Not our world
+        }
+        // We need to load BlockMenu and start Tickers for this chunk if they're not already started
+        Chunk c = e.getChunk();
+        loadChunk(c);
+    }
+
+    private void loadChunk(Chunk c) {
+        // Load data for the Chunk
+        
+        // Load data for blocks in the chunk
+        Set<Block> blocks = CustomBlockData.getBlocksWithCustomData(Slimefun.getPlugin(Slimefun.class), c);
+        loadBlocks(blocks);
+    }
+
+    private void loadBlocks(Set<Block> blocks) {
         long start = System.currentTimeMillis();
         long done = 0;
         long timestamp = System.currentTimeMillis();
         long totalBlocks = 0;
         int delay = Slimefun.getCfg().getInt("URID.info-delay");
+        long total = blocks.size();
+        if (total == 0) {
+            return;
+        }
 
-        Plugin plugin = Slimefun.getPlugin(Slimefun.class);
-        
         try {
-            // For each chunk in the world, get all blocks with custom data?
-            long total = 1; // TODO get actual total blocks
-            // TODO | this should get all chunks, not only loaded, and should also load any chunk data if needed
-            // TODO | Chunk data is stored in persistent chunk storage and as such is already performant enough without in-memory caching
-            for (Chunk chunk : world.getLoadedChunks()) {
-                Set<Block> blocks = CustomBlockData.getBlocksWithCustomData(plugin, chunk);
-                for (Block b : blocks) {
-                    loadBlock(b);
-                    totalBlocks++;
-                }
+            for (Block b : blocks) {
+                loadBlock(b);
+                totalBlocks++;
             }
-
             int progress = Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F);
             if (timestamp + delay < System.currentTimeMillis()) {
-                Slimefun.logger().log(Level.INFO, "Loading Blocks... {0}% done (\"{1}\")", new Object[] { progress, world.getName() });  
+                Slimefun.logger().log(Level.INFO, "Loading Blocks... {0}% done (in \"{1}\")", new Object[] { progress, world.getName() });  
             }
         } finally {
             long time = (System.currentTimeMillis() - start);
             Slimefun.logger().log(Level.INFO, "Loading Blocks... 100% (FINISHED - {0}ms)", time);
-            Slimefun.logger().log(Level.INFO, "Loaded a total of {0} Blocks for World \"{1}\"", new Object[] { totalBlocks, world.getName() });
+            Slimefun.logger().log(Level.INFO, "Loaded a total of {0} Blocks for Chunk", new Object[] { totalBlocks });
 
             if (totalBlocks > 0) {
                 Slimefun.logger().log(Level.INFO, "Avg: {0}ms/Block", NumberUtils.roundDecimalNumber((double) time / (double) totalBlocks));
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onChunkUnload(ChunkUnloadEvent e) {
+        if (!e.getWorld().equals(world)) {
+            return; // Not our world
+        }
+        Chunk c = e.getChunk();
+        saveChunk(c);
+    }
+
+    private void saveChunk(Chunk c) {
+        // Unload data for the Chunk
+        Set<Block> blocks = CustomBlockData.getBlocksWithCustomData(Slimefun.getPlugin(Slimefun.class), c);
+
+        if (blocks.size() == 0) {
+            return; // No blocks to unload
+        }
+
+        Slimefun.logger().log(Level.INFO, "Unloading {0} Blocks for Chunk in {1}", new Object[] { blocks.size(), world.getName() });
+
+        for (Block block : blocks) {
+            unloadBlock(block);
         }
     }
 
@@ -146,6 +184,11 @@ public class BlockStorage {
             return;
         }
 
+        String id = getLocationInfo(l, "id");
+        if (id == null) {
+            // Not a valid SF block, so can't load it - shouldn't happen
+            return; 
+        }
         BlockMenuPreset preset = BlockMenuPreset.getPreset(getLocationInfo(l, "preset"));
         if (preset == null) {
             preset = BlockMenuPreset.getPreset(checkID(l));
@@ -154,41 +197,49 @@ public class BlockStorage {
             inventories.put(l, new BlockMenu(preset, l));
         }
 
-        if (Slimefun.getRegistry().getTickerBlocks().contains(serializeLocation(l))) {
+        if (Slimefun.getRegistry().getTickerBlocks().contains(id)) {
             Slimefun.getTickerTask().enableTicker(l);
         }
     }
 
-    private void loadChunks() {
-        // TODO this should be done as part of loadBlocks (renamed func) since it needs the chunks to fetch the blocks with custom data in the chunk
-        File chunks = new File(PATH_CHUNKS + "chunks.sfc");
+    private void unloadBlock(Block b) {
+        Location l = b.getLocation();
 
-        if (chunks.exists()) {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(chunks);
+        if (l == null) {
+            // That location was malformed, we will skip this one
+            return;
+        }
+        String id = getLocationInfo(l, "id");
+        if (id == null) {
+            // Not a valid SF block, so can't unload it - shouldn't happen
+            return; 
+        }
 
-            for (String key : cfg.getKeys(false)) {
-                try {
-                    if (world.getName().equals(CommonPatterns.SEMICOLON.split(key)[0])) {
-                        BlockInfoConfig data = new BlockInfoConfig(parseJSON(cfg.getString(key)));
-                        Slimefun.getRegistry().getChunks().put(key, data);
-                    }
-                } catch (Exception x) {
-                    Slimefun.logger().log(Level.WARNING, x, () -> "Failed to load " + chunks.getName() + " in World " + world.getName() + '(' + key + ") for Slimefun " + Slimefun.getVersion());
-                }
-            }
+        if (Slimefun.getRegistry().getTickerBlocks().contains(id)) {
+            Slimefun.getTickerTask().disableTicker(l);
+        }
+
+        BlockMenu menu = inventories.get(l);
+        if (menu != null) {
+            menu.save(l);
+            inventories.remove(l);
         }
     }
 
     private void loadUniversalInventories() {
-        // TODO could probably do this via CustomBlockData somehow? What do this store and in which block? What is "universal"?
-
         if (universalInventoriesLoaded) {
             return;
         }
 
         universalInventoriesLoaded = true;
 
-        for (File file : new File("data-storage/Slimefun/universal-inventories").listFiles()) {
+        File[] files = new File("data-storage/Slimefun/universal-inventories").listFiles();
+
+        if (files == null) {
+            return; // No universal inventories
+        }
+
+        for (File file : files) {
             if (file.getName().endsWith(".sfi")) {
                 try {
                     io.github.bakedlibs.dough.config.Config cfg = new io.github.bakedlibs.dough.config.Config(file);
@@ -209,7 +260,8 @@ public class BlockStorage {
 
         BlockDataService blockDataService = Slimefun.getBlockDataService();
         Optional<String> blockData = blockDataService.getBlockData(b, "id");
-        return blockData.isPresent();
+        boolean hasBlockData = blockData.isPresent();
+        return hasBlockData;
     }
 
     public static Boolean hasBlockInfo(@Nonnull Location l) {
@@ -253,6 +305,7 @@ public class BlockStorage {
         BlockDataService blockData = Slimefun.getBlockDataService(); 
 
         blockData.setBlockData(b, key, value);
+
         Optional<String> id = blockData.getBlockData(b, "id");
         if (id.isPresent()) {
             BlockMenuPreset preset = BlockMenuPreset.getPreset(id.get());
@@ -494,7 +547,15 @@ public class BlockStorage {
         blockDataService.moveBlockData(fromBlock, toBlock);
     }
 
-    public void remove() {
+    public void saveAndRemove() {
+        for (Chunk c : world.getLoadedChunks()) {
+            // I'd love to call saveChunk to save inventories... but that would cause an IllegalPluginAccessException
+            // as the world is being unloaded and plugin is disabled. The CustomBlockData (to be replaced) lib, uses a
+            // Runnable to set the block as no longer dirty a tick after it was marked dirty. Ideally we'd like to ignore this
+            // on plugin shutdown since it wont matter in about 500ms anyway.
+            // saveChunk(c);
+        }
+
         isMarkedForRemoval.set(true);
     }
 

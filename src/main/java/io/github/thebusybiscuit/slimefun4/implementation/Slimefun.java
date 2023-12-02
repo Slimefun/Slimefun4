@@ -433,7 +433,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Save all registered Worlds
         for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
-                entry.getValue().remove();
+                entry.getValue().saveAndRemove();
             } catch (Exception x) {
                 getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
             }

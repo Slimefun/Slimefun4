@@ -132,7 +132,7 @@ public class LegacyBlockStorage {
             dir.mkdirs();
         }
 
-        loadChunks();
+        // loadChunks();
 
         // TODO: properly support loading inventories within unit tests
         if (!Slimefun.instance().isUnitTest()) {
@@ -220,24 +220,24 @@ public class LegacyBlockStorage {
         }
     }
 
-    private void loadChunks() {
-        File chunks = new File(PATH_CHUNKS + "chunks.sfc");
+    // private void loadChunks() {
+    //     File chunks = new File(PATH_CHUNKS + "chunks.sfc");
 
-        if (chunks.exists()) {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(chunks);
+    //     if (chunks.exists()) {
+    //         FileConfiguration cfg = YamlConfiguration.loadConfiguration(chunks);
 
-            for (String key : cfg.getKeys(false)) {
-                try {
-                    if (world.getName().equals(CommonPatterns.SEMICOLON.split(key)[0])) {
-                        BlockInfoConfig data = new BlockInfoConfig(parseJSON(cfg.getString(key)));
-                        Slimefun.getRegistry().getChunks().put(key, data);
-                    }
-                } catch (Exception x) {
-                    Slimefun.logger().log(Level.WARNING, x, () -> "Failed to load " + chunks.getName() + " in World " + world.getName() + '(' + key + ") for Slimefun " + Slimefun.getVersion());
-                }
-            }
-        }
-    }
+    //         for (String key : cfg.getKeys(false)) {
+    //             try {
+    //                 if (world.getName().equals(CommonPatterns.SEMICOLON.split(key)[0])) {
+    //                     BlockInfoConfig data = new BlockInfoConfig(parseJSON(cfg.getString(key)));
+    //                     Slimefun.getRegistry().getChunks().put(key, data);
+    //                 }
+    //             } catch (Exception x) {
+    //                 Slimefun.logger().log(Level.WARNING, x, () -> "Failed to load " + chunks.getName() + " in World " + world.getName() + '(' + key + ") for Slimefun " + Slimefun.getVersion());
+    //             }
+    //         }
+    //     }
+    // }
 
     private void loadInventories() {
         for (File file : new File("data-storage/Slimefun/stored-inventories").listFiles()) {
@@ -258,7 +258,7 @@ public class LegacyBlockStorage {
                     }
 
                     if (preset != null) {
-                        inventories.put(l, new BlockMenu(preset, l, cfg));
+                        inventories.put(l, new BlockMenu(preset, l));
                     }
                 } catch (Exception x) {
                     Slimefun.logger().log(Level.SEVERE, x, () -> "An Error occurred while loading this Block Inventory: " + file.getName());
@@ -357,7 +357,7 @@ public class LegacyBlockStorage {
 
     public void saveAndRemove() {
         save();
-        saveChunks();
+        // saveChunks();
         isMarkedForRemoval.set(true);
     }
 
@@ -365,23 +365,23 @@ public class LegacyBlockStorage {
         return isMarkedForRemoval.get();
     }
 
-    public static void saveChunks() {
-        if (chunkChanges > 0) {
-            File chunks = new File(PATH_CHUNKS + "chunks.sfc");
-            Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
+    // public static void saveChunks() {
+    //     if (chunkChanges > 0) {
+    //         File chunks = new File(PATH_CHUNKS + "chunks.sfc");
+    //         Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
 
-            for (Map.Entry<String, BlockInfoConfig> entry : Slimefun.getRegistry().getChunks().entrySet()) {
-                // Saving empty chunk data is pointless
-                if (!entry.getValue().getKeys().isEmpty()) {
-                    cfg.setValue(entry.getKey(), entry.getValue().toJSON());
-                }
-            }
+    //         for (Map.Entry<String, BlockInfoConfig> entry : Slimefun.getRegistry().getChunks().entrySet()) {
+    //             // Saving empty chunk data is pointless
+    //             if (!entry.getValue().getKeys().isEmpty()) {
+    //                 cfg.setValue(entry.getKey(), entry.getValue().toJSON());
+    //             }
+    //         }
 
-            cfg.save(chunks);
+    //         cfg.save(chunks);
 
-            chunkChanges = 0;
-        }
-    }
+    //         chunkChanges = 0;
+    //     }
+    // }
 
     /**
      * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
@@ -572,7 +572,7 @@ public class LegacyBlockStorage {
                 File file = new File(PATH_INVENTORIES + serializeLocation(l) + ".sfi");
 
                 if (file.exists()) {
-                    BlockMenu inventory = new BlockMenu(preset, l, new io.github.bakedlibs.dough.config.Config(file));
+                    BlockMenu inventory = new BlockMenu(preset, l);
                     storage.inventories.put(l, inventory);
                 } else {
                     storage.loadInventory(l, preset);
@@ -618,7 +618,7 @@ public class LegacyBlockStorage {
     }
 
     public static void clearAllBlockInfoAtChunk(World world, int chunkX, int chunkZ, boolean destroy) {
-        BlockStorage blockStorage = getStorage(world);
+        LegacyBlockStorage blockStorage = getStorage(world);
         if (blockStorage == null) {
             return;
         }
@@ -872,49 +872,49 @@ public class LegacyBlockStorage {
         }
     }
 
-    public static Config getChunkInfo(World world, int x, int z) {
-        try {
-            if (!isWorldLoaded(world)) {
-                return emptyBlockData;
-            }
+    // public static Config getChunkInfo(World world, int x, int z) {
+    //     try {
+    //         if (!isWorldLoaded(world)) {
+    //             return emptyBlockData;
+    //         }
 
-            String key = serializeChunk(world, x, z);
-            BlockInfoConfig cfg = Slimefun.getRegistry().getChunks().get(key);
+    //         String key = serializeChunk(world, x, z);
+    //         BlockInfoConfig cfg = Slimefun.getRegistry().getChunks().get(key);
 
-            if (cfg == null) {
-                cfg = new BlockInfoConfig();
-                Slimefun.getRegistry().getChunks().put(key, cfg);
-            }
+    //         if (cfg == null) {
+    //             cfg = new BlockInfoConfig();
+    //             Slimefun.getRegistry().getChunks().put(key, cfg);
+    //         }
 
-            return cfg;
-        } catch (Exception e) {
-            Slimefun.logger().log(Level.SEVERE, e, () -> "Failed to parse ChunkInfo for Slimefun " + Slimefun.getVersion());
-            return emptyBlockData;
-        }
-    }
+    //         return cfg;
+    //     } catch (Exception e) {
+    //         Slimefun.logger().log(Level.SEVERE, e, () -> "Failed to parse ChunkInfo for Slimefun " + Slimefun.getVersion());
+    //         return emptyBlockData;
+    //     }
+    // }
 
-    public static void setChunkInfo(World world, int x, int z, String key, String value) {
-        String serializedChunk = serializeChunk(world, x, z);
-        BlockInfoConfig cfg = Slimefun.getRegistry().getChunks().get(serializedChunk);
+    // public static void setChunkInfo(World world, int x, int z, String key, String value) {
+    //     String serializedChunk = serializeChunk(world, x, z);
+    //     BlockInfoConfig cfg = Slimefun.getRegistry().getChunks().get(serializedChunk);
 
-        if (cfg == null) {
-            cfg = new BlockInfoConfig();
-            Slimefun.getRegistry().getChunks().put(serializedChunk, cfg);
-        }
+    //     if (cfg == null) {
+    //         cfg = new BlockInfoConfig();
+    //         Slimefun.getRegistry().getChunks().put(serializedChunk, cfg);
+    //     }
 
-        cfg.setValue(key, value);
+    //     cfg.setValue(key, value);
 
-        chunkChanges++;
-    }
+    //     chunkChanges++;
+    // }
 
-    public static boolean hasChunkInfo(World world, int x, int z) {
-        String serializedChunk = serializeChunk(world, x, z);
-        return Slimefun.getRegistry().getChunks().containsKey(serializedChunk);
-    }
+    // public static boolean hasChunkInfo(World world, int x, int z) {
+    //     String serializedChunk = serializeChunk(world, x, z);
+    //     return Slimefun.getRegistry().getChunks().containsKey(serializedChunk);
+    // }
 
-    public static String getChunkInfo(World world, int x, int z, String key) {
-        return getChunkInfo(world, x, z).getString(key);
-    }
+    // public static String getChunkInfo(World world, int x, int z, String key) {
+    //     return getChunkInfo(world, x, z).getString(key);
+    // }
 
     public static String getBlockInfoAsJson(Block block) {
         return getBlockInfoAsJson(block.getLocation());

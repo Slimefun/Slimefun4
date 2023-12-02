@@ -29,7 +29,7 @@ public class WorldListener implements Listener {
         BlockStorage storage = BlockStorage.getStorage(e.getWorld());
 
         if (storage != null) {
-            storage.remove();
+            storage.saveAndRemove();
         } else {
             Slimefun.logger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", e.getWorld().getName());
         }

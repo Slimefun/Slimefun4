@@ -337,11 +337,6 @@ public final class SlimefunRegistry {
     }
 
     @Nonnull
-    public Map<String, BlockInfoConfig> getChunks() {
-        return chunks;
-    }
-
-    @Nonnull
     public KeyMap<GEOResource> getGEOResources() {
         return geoResources;
     }

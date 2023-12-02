@@ -54,6 +54,21 @@ public abstract class BlockTicker implements ItemHandler {
     public abstract void tick(Block b, SlimefunItem item);
 
     /**
+     * @deprecated
+     * This method is called every tick for every block. Config has been removed, and this function is deprecated.
+     * Please use {@link BlockTicker#tick(Block, SlimefunItem)} instead.
+     * @param b
+     *            The {@link Block} that was ticked
+     * @param item
+     *            The corresponding {@link SlimefunItem}
+     * @param cfg
+     *            The {@link Config}, which is now unused.
+     */
+    public void tick(Block b, SlimefunItem item, Config cfg) {
+        tick(b, item);
+    }
+
+    /**
      * This method is called every tick but not per-block and only once.
      */
     public void uniqueTick() {
