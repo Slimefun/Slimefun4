@@ -17,8 +17,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-
 /**
  * The {@link SolarGenerator} is a simple {@link EnergyNetProvider} which generates energy if
  * it has direct contact with sunlight.

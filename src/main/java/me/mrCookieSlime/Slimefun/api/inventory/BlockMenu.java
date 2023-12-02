@@ -1,8 +1,6 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;

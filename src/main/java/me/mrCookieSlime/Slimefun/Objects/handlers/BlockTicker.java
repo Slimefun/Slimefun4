@@ -9,8 +9,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-
 public abstract class BlockTicker implements ItemHandler {
 
     protected boolean unique = true;
@@ -52,21 +50,6 @@ public abstract class BlockTicker implements ItemHandler {
      *            The corresponding {@link SlimefunItem}
      */
     public abstract void tick(Block b, SlimefunItem item);
-
-    /**
-     * @deprecated
-     * This method is called every tick for every block. Config has been removed, and this function is deprecated.
-     * Please use {@link BlockTicker#tick(Block, SlimefunItem)} instead.
-     * @param b
-     *            The {@link Block} that was ticked
-     * @param item
-     *            The corresponding {@link SlimefunItem}
-     * @param cfg
-     *            The {@link Config}, which is now unused.
-     */
-    public void tick(Block b, SlimefunItem item, Config cfg) {
-        tick(b, item);
-    }
 
     /**
      * This method is called every tick but not per-block and only once.

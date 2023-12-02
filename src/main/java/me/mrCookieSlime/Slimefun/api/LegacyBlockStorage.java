@@ -87,9 +87,9 @@ public class LegacyBlockStorage {
         return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();
     }
 
-    private static String serializeChunk(World world, int x, int z) {
-        return world.getName() + ";Chunk;" + x + ';' + z;
-    }
+    // private static String serializeChunk(World world, int x, int z) {
+    //     return world.getName() + ";Chunk;" + x + ';' + z;
+    // }
 
     private static Location deserializeLocation(String l) {
         try {
