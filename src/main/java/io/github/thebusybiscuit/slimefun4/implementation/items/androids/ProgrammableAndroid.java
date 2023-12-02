@@ -680,11 +680,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             return;
         }
 
+        // Since we're using this a bunch, no point looking it up from the map multiple times in a row
         BlockStorage blockStorage = BlockStorage.getOrCreate(b.getWorld());
         Location l = b.getLocation();
 
         if ("false".equals(blockStorage.getLocationInfo(l, "paused"))) {
-            BlockMenu menu = BlockStorage.getInventory(b);
+            BlockMenu menu = blockStorage.getInventory(b);
 
             String fuelData = blockStorage.getLocationInfo(l, "fuel");
             float fuel = fuelData == null ? 0 : Float.parseFloat(fuelData);
@@ -702,7 +703,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     index = 0;
                 }
 
-                BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
+                blockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
                 Instruction instruction = Instruction.getInstruction(script[index]);
 
                 if (instruction == null) {
@@ -727,21 +728,21 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 case START:
                 case WAIT:
                     // We are "waiting" here, so we only move a step forward
-                    BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                    blockStorage.addBlockInfo(b, "index", String.valueOf(index));
                     break;
                 case REPEAT:
                     // "repeat" just means, we reset our index
-                    BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
+                    blockStorage.addBlockInfo(b, "index", String.valueOf(0));
                     break;
                 case CHOP_TREE:
                     // We only move to the next step if we finished chopping wood
                     if (chopTree(b, inv, face)) {
-                        BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                        blockStorage.addBlockInfo(b, "index", String.valueOf(index));
                     }
                     break;
                 default:
                     // We set the index here in advance to fix moving android issues
-                    BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                    blockStorage.addBlockInfo(b, "index", String.valueOf(index));
                     instruction.execute(this, b, inv, face);
                     break;
             }
