@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Knowledge
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -62,7 +63,7 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
-                LegacyBlockStorage.addBlockInfo(e.getBlock(), "owner", e.getPlayer().getUniqueId().toString());
+                BlockStorage.addBlockInfo(e.getBlock(), "owner", e.getPlayer().getUniqueId().toString());
             }
         };
     }
@@ -73,7 +74,7 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
 
             @Override
             public void onBlockBreak(Block b) {
-                BlockMenu inv = LegacyBlockStorage.getInventory(b);
+                BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
                     inv.dropItems(b.getLocation(), getOutputSlots());
@@ -113,7 +114,7 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
         addItemHandler(new BlockTicker() {
 
             @Override
-            public void tick(Block b, SlimefunItem sf, Config data) {
+            public void tick(Block b, SlimefunItem sf) {
                 ExpCollector.this.tick(b);
             }
 

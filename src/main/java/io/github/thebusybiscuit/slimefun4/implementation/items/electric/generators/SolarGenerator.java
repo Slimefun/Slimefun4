@@ -81,7 +81,7 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     }
 
     @Override
-    public int getGeneratedOutput(Location l, Config data) {
+    public int getGeneratedOutput(Location l) {
         World world = l.getWorld();
 
         if (world.getEnvironment() != Environment.NORMAL) {

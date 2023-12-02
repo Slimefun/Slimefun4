@@ -35,7 +35,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -63,7 +63,7 @@ public class BlockListener implements Listener {
 
         // Fixes #2636 - This will solve the "ghost blocks" issue
         if (e.getBlockReplacedState().getType().isAir()) {
-            SlimefunItem sfItem = LegacyBlockStorage.check(block);
+            SlimefunItem sfItem = BlockStorage.check(block);
 
             if (sfItem != null && !Slimefun.getTickerTask().isDeletedSoon(block.getLocation())) {
                 for (ItemStack item : sfItem.getDrops()) {
@@ -72,9 +72,9 @@ public class BlockListener implements Listener {
                     }
                 }
 
-                LegacyBlockStorage.clearBlockInfo(block);
+                BlockStorage.clearBlockInfo(block);
             }
-        } else if (LegacyBlockStorage.hasBlockInfo(e.getBlock())) {
+        } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
             // If there is no air (e.g. grass) then don't let the block be placed
             e.setCancelled(true);
         }
@@ -208,7 +208,7 @@ public class BlockListener implements Listener {
             }
 
             drops.addAll(sfItem.getDrops());
-            LegacyBlockStorage.clearBlockInfo(e.getBlock());
+            BlockStorage.clearBlockInfo(e.getBlock());
         }
     }
 
@@ -253,7 +253,7 @@ public class BlockListener implements Listener {
         Block blockAbove = block.getRelative(BlockFace.UP);
 
         if (SlimefunTag.SENSITIVE_MATERIALS.isTagged(blockAbove.getType())) {
-            SlimefunItem sfItem = LegacyBlockStorage.check(blockAbove);
+            SlimefunItem sfItem = BlockStorage.check(blockAbove);
 
             if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
                 /*
@@ -275,7 +275,7 @@ public class BlockListener implements Listener {
                 }
 
                 // Fixes #2944 - Don't forget to clear the Block Data
-                LegacyBlockStorage.clearBlockInfo(blockAbove);
+                BlockStorage.clearBlockInfo(blockAbove);
             }
         }
     }

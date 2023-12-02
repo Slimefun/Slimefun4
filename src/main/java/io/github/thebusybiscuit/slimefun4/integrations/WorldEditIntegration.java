@@ -12,6 +12,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.util.eventbus.Subscribe;
 import com.sk89q.worldedit.world.block.BlockStateHolder;
 
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -49,8 +50,8 @@ class WorldEditIntegration {
                     if (world != null) {
                         Location l = new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
 
-                        if (LegacyBlockStorage.hasBlockInfo(l)) {
-                            LegacyBlockStorage.clearBlockInfo(l);
+                        if (BlockStorage.hasBlockInfo(l)) {
+                            BlockStorage.clearBlockInfo(l);
                         }
                     }
                 }

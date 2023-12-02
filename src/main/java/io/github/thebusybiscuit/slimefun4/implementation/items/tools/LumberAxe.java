@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -55,7 +55,7 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
                 logs.remove(e.getBlock());
 
                 for (Block b : logs) {
-                    if (!LegacyBlockStorage.hasBlockInfo(b) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b, Interaction.BREAK_BLOCK)) {
+                    if (!BlockStorage.hasBlockInfo(b) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b, Interaction.BREAK_BLOCK)) {
                         breakLog(b);
                     }
                 }
@@ -75,7 +75,7 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
                     logs.remove(block);
 
                     for (Block b : logs) {
-                        if (!LegacyBlockStorage.hasBlockInfo(b) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b, Interaction.BREAK_BLOCK)) {
+                        if (!BlockStorage.hasBlockInfo(b) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b, Interaction.BREAK_BLOCK)) {
                             stripLog(b);
                         }
                     }

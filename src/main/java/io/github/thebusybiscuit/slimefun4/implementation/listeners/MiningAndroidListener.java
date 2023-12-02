@@ -9,7 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -30,7 +30,7 @@ public class MiningAndroidListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onAndroidMine(AndroidMineEvent e) {
-        SlimefunItem slimefunItem = LegacyBlockStorage.check(e.getBlock());
+        SlimefunItem slimefunItem = BlockStorage.check(e.getBlock());
 
         // Fixes #2839 - Can't believe we forgot a null check here
         if (slimefunItem != null) {

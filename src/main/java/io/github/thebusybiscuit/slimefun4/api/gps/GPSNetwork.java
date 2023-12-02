@@ -38,6 +38,7 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -111,7 +112,7 @@ public class GPSNetwork {
 
         int level = 0;
         for (Location l : locations) {
-            SlimefunItem item = LegacyBlockStorage.check(l);
+            SlimefunItem item = BlockStorage.check(l);
 
             if (item instanceof GPSTransmitter transmitter) {
                 level += transmitter.getMultiplier(Math.max(l.getBlockY(), 0));
@@ -172,7 +173,7 @@ public class GPSNetwork {
                 break;
             }
 
-            SlimefunItem sfi = LegacyBlockStorage.check(l);
+            SlimefunItem sfi = BlockStorage.check(l);
 
             if (sfi instanceof GPSTransmitter transmitter) {
                 int slot = inventory[index];

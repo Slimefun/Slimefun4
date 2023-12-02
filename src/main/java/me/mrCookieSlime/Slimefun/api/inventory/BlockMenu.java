@@ -5,45 +5,46 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
 
-import io.github.bakedlibs.dough.config.Config;
+import com.jeff_media.customblockdata.CustomBlockData;
+
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import me.mrCookieSlime.Slimefun.api.serializers.ItemStackSerializer;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 public class BlockMenu extends DirtyChestMenu {
 
     private Location location;
 
-    private static String serializeLocation(Location l) {
-        return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();
-    }
-
-    public BlockMenu(BlockMenuPreset preset, Location l) {
+    public BlockMenu(@Nonnull BlockMenuPreset preset, Location l) {
         super(preset);
         this.location = l;
-
-        preset.clone(this);
-        this.getContents();
-    }
-
-    public BlockMenu(BlockMenuPreset preset, Location l, Config cfg) {
-        super(preset);
-        this.location = l;
+        Block b = l.getBlock();
+        
+        Plugin plugin = Slimefun.getPlugin(Slimefun.class);
+        CustomBlockData blockData = new CustomBlockData(b, plugin);
 
         for (int i = 0; i < 54; i++) {
-            if (cfg.contains(String.valueOf(i))) {
-                addItem(i, cfg.getItem(String.valueOf(i)));
-            }
+            if (blockData.has(new NamespacedKey(plugin, String.valueOf(i)))) {
+                byte[] encodedItem = blockData.get(new NamespacedKey(plugin, String.valueOf(i)), PersistentDataType.BYTE_ARRAY);
+                try {
+                    final ItemStack itemStack = ItemStackSerializer.fromBytes(encodedItem);
+                    addItem(i, itemStack);
+                } catch (IOException | ClassNotFoundException e) {
+                    Slimefun.logger().log(Level.SEVERE, "Could not deserialize ItemStack from byte array: {0}", e.getStackTrace());
+                }
         }
-
+        }
         preset.clone(this);
-
-        if (preset.getSize() > -1 && !preset.getPresetSlots().contains(preset.getSize() - 1) && cfg.contains(String.valueOf(preset.getSize() - 1))) {
-            addItem(preset.getSize() - 1, cfg.getItem(String.valueOf(preset.getSize() - 1)));
-        }
 
         this.getContents();
     }
@@ -53,18 +54,33 @@ public class BlockMenu extends DirtyChestMenu {
             return;
         }
 
+        Block b = l.getBlock();
+        if (b == null) {
+            return;
+        }
+
         // To force CS-CoreLib to build the Inventory
         this.getContents();
 
-        File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
-        Config cfg = new Config(file);
-        cfg.setValue("preset", preset.getID());
+        Plugin plugin = Slimefun.getPlugin(Slimefun.class);
+        CustomBlockData blockData = new CustomBlockData(b, plugin);
+        blockData.set(new NamespacedKey(plugin, "preset"), PersistentDataType.STRING, preset.getID());
 
         for (int slot : preset.getInventorySlots()) {
-            cfg.setValue(String.valueOf(slot), getItemInSlot(slot));
+            byte[] encodedItem;
+            try {
+                encodedItem = ItemStackSerializer.toBytes(getItemInSlot(slot));
+            } catch (IOException e) {
+                Bukkit.getLogger().severe("Could not convert ItemStack to byte array:");
+                e.printStackTrace();
+                return;
+            }
+            blockData.set(
+                new NamespacedKey(plugin, String.valueOf(slot)),
+                PersistentDataType.BYTE_ARRAY,
+                encodedItem
+            );
         }
-
-        cfg.save();
 
         changes = 0;
     }
@@ -112,14 +128,13 @@ public class BlockMenu extends DirtyChestMenu {
     }
 
     public void delete(Location l) {
-        File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
-
-        if (file.exists()) {
-            try {
-                Files.delete(file.toPath());
-            } catch (IOException e) {
-                Slimefun.logger().log(Level.WARNING, e, () -> "Could not delete file \"" + file.getName() + '"');
-            }
+        Block b = l.getBlock();
+        if (b == null) {
+            return;
         }
+
+        Plugin plugin = Slimefun.getPlugin(Slimefun.class);
+        CustomBlockData blockData = new CustomBlockData(b, plugin);
+        blockData.clear();
     }
 }

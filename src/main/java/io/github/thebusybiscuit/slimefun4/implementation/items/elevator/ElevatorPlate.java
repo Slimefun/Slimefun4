@@ -32,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -73,8 +74,8 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
                 Block b = e.getBlock();
-                LegacyBlockStorage.addBlockInfo(b, DATA_KEY, ChatColor.WHITE + "Floor #0");
-                LegacyBlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
+                BlockStorage.addBlockInfo(b, DATA_KEY, ChatColor.WHITE + "Floor #0");
+                BlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
             }
         };
     }
@@ -84,7 +85,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         return e -> {
             Block b = e.getClickedBlock().get();
 
-            if (LegacyBlockStorage.getLocationInfo(b.getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString())) {
+            if (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString())) {
                 openEditor(e.getPlayer(), b);
             }
         };
@@ -96,7 +97,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
         for (int y = b.getWorld().getMinHeight(); y < b.getWorld().getMaxHeight(); y++) {
             if (y == b.getY()) {
-                String name = ChatColors.color(LegacyBlockStorage.getLocationInfo(b.getLocation(), DATA_KEY));
+                String name = ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), DATA_KEY));
                 floors.addFirst(new ElevatorFloor(name, index, b));
                 index++;
                 continue;
@@ -104,8 +105,8 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             Block block = b.getWorld().getBlockAt(b.getX(), y, b.getZ());
 
-            if (block.getType() == getItem().getType() && LegacyBlockStorage.check(block, getId())) {
-                String name = ChatColors.color(LegacyBlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
+            if (block.getType() == getItem().getType() && BlockStorage.check(block, getId())) {
+                String name = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
                 floors.addFirst(new ElevatorFloor(name, index, block));
                 index++;
             }
@@ -207,7 +208,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     public void openEditor(Player p, Block b) {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "machines.ELEVATOR.editor-title"));
 
-        menu.addItem(4, new CustomItemStack(Material.NAME_TAG, "&7Floor Name &e(Click to edit)", "", ChatColor.WHITE + ChatColors.color(LegacyBlockStorage.getLocationInfo(b.getLocation(), DATA_KEY))));
+        menu.addItem(4, new CustomItemStack(Material.NAME_TAG, "&7Floor Name &e(Click to edit)", "", ChatColor.WHITE + ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), DATA_KEY))));
         menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
             pl.closeInventory();
             pl.sendMessage("");
@@ -215,7 +216,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             pl.sendMessage("");
 
             ChatUtils.awaitInput(pl, message -> {
-                LegacyBlockStorage.addBlockInfo(b, DATA_KEY, message.replace(ChatColor.COLOR_CHAR, '&'));
+                BlockStorage.addBlockInfo(b, DATA_KEY, message.replace(ChatColor.COLOR_CHAR, '&'));
 
                 pl.sendMessage("");
                 Slimefun.getLocalization().sendMessage(p, "machines.ELEVATOR.named", msg -> msg.replace("%floor%", message));

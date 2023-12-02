@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBre
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.CoolantCell;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -121,7 +121,7 @@ public class ReactorAccessPort extends SlimefunItem {
 
             @Override
             public void onBlockBreak(@Nonnull Block b) {
-                BlockMenu inv = LegacyBlockStorage.getInventory(b);
+                BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
                     inv.dropItems(b.getLocation(), getFuelSlots());
@@ -167,10 +167,10 @@ public class ReactorAccessPort extends SlimefunItem {
     @Nullable
     private BlockMenu getReactor(@Nonnull Location l) {
         Location location = new Location(l.getWorld(), l.getX(), l.getY() - 3, l.getZ());
-        SlimefunItem item = LegacyBlockStorage.check(location.getBlock());
+        SlimefunItem item = BlockStorage.check(location.getBlock());
 
         if (item instanceof Reactor) {
-            return LegacyBlockStorage.getInventory(location);
+            return BlockStorage.getInventory(location);
         }
 
         return null;

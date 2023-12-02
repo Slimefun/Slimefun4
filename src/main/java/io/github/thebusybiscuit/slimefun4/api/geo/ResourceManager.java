@@ -33,6 +33,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -110,7 +111,7 @@ public class ResourceManager {
         Validate.notNull(world, "World must not be null");
 
         String key = resource.getKey().toString().replace(':', '-');
-        String value = LegacyBlockStorage.getChunkInfo(world, x, z, key);
+        String value = BlockStorage.getChunkInfo(world, x, z, key);
 
         if (value != null) {
             return OptionalInt.of(Integer.parseInt(value));
@@ -138,7 +139,7 @@ public class ResourceManager {
         Validate.notNull(world, "World cannot be null");
 
         String key = resource.getKey().toString().replace(':', '-');
-        LegacyBlockStorage.setChunkInfo(world, x, z, key, String.valueOf(value));
+        BlockStorage.setChunkInfo(world, x, z, key, String.valueOf(value));
     }
 
     /**

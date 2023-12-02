@@ -37,6 +37,7 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -96,7 +97,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
             @Override
             public void onBlockBreak(Block b) {
-                BlockMenu inv = LegacyBlockStorage.getInventory(b);
+                BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
                     inv.dropItems(b.getLocation(), getInputSlots());
@@ -150,8 +151,8 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
     }
 
     @Override
-    public int getGeneratedOutput(Location l, Config data) {
-        BlockMenu inv = LegacyBlockStorage.getInventory(l);
+    public int getGeneratedOutput(Location l) {
+        BlockMenu inv = BlockStorage.getInventory(l);
         FuelOperation operation = processor.getOperation(l);
 
         if (operation != null) {
@@ -159,7 +160,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
                 processor.updateProgressBar(inv, 22, operation);
 
                 if (isChargeable()) {
-                    int charge = getCharge(l, data);
+                    int charge = getCharge(l);
 
                     if (getCapacity() - charge >= getEnergyProduction()) {
                         operation.addProgress(1);

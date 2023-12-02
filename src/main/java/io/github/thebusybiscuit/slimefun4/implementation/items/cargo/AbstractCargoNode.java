@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ColoredMaterial;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -78,8 +78,8 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
                 Block b = e.getBlock();
 
                 // The owner and frequency are required by every node
-                LegacyBlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
-                LegacyBlockStorage.addBlockInfo(b, FREQUENCY, "0");
+                BlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
+                BlockStorage.addBlockInfo(b, FREQUENCY, "0");
 
                 onPlace(e);
             }
@@ -99,7 +99,7 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
                 newChannel = 15;
             }
 
-            LegacyBlockStorage.addBlockInfo(b, FREQUENCY, String.valueOf(newChannel));
+            BlockStorage.addBlockInfo(b, FREQUENCY, String.valueOf(newChannel));
             updateBlockMenu(menu, b);
             return false;
         });
@@ -120,7 +120,7 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
                 newChannel = 0;
             }
 
-            LegacyBlockStorage.addBlockInfo(b, FREQUENCY, String.valueOf(newChannel));
+            BlockStorage.addBlockInfo(b, FREQUENCY, String.valueOf(newChannel));
             updateBlockMenu(menu, b);
             return false;
         });
@@ -130,10 +130,10 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
     public int getSelectedChannel(@Nonnull Block b) {
         Validate.notNull(b, "Block must not be null");
 
-        if (!LegacyBlockStorage.hasBlockInfo(b)) {
+        if (!BlockStorage.hasBlockInfo(b)) {
             return 0;
         } else {
-            String frequency = LegacyBlockStorage.getLocationInfo(b.getLocation(), FREQUENCY);
+            String frequency = BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY);
 
             if (frequency == null) {
                 return 0;

@@ -44,6 +44,7 @@ import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
+import io.github.thebusybiscuit.slimefun4.core.services.ChunkDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
@@ -170,7 +171,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
-    private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
+    private final BlockDataService blockDataService = new BlockDataService(this);
+    private final ChunkDataService chunkDataService = new ChunkDataService(this);
     private final CustomTextureService textureService = new CustomTextureService(new Config(this, "item-models.yml"));
     private final GitHubService gitHubService = new GitHubService("Slimefun/Slimefun4");
     private final UpdaterService updaterService = new UpdaterService(this, getDescription().getVersion(), getFile());
@@ -429,7 +431,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         });
 
         // Save all registered Worlds
-        for (Map.Entry<String, LegacyBlockStorage> entry : getRegistry().getWorlds().entrySet()) {
+        for (Map.Entry<String, LegacyBlockStorage> entry : getRegistry().getLegacyWorlds().entrySet()) {
             try {
                 entry.getValue().saveAndRemove();
             } catch (Exception x) {
@@ -820,6 +822,11 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull BlockDataService getBlockDataService() {
         validateInstance();
         return instance.blockDataService;
+    }
+
+    public static @Nonnull ChunkDataService getChunkDataService() {
+        validateInstance();
+        return instance.chunkDataService;
     }
 
     /**

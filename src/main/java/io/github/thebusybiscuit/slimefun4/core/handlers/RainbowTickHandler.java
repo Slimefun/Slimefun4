@@ -90,7 +90,7 @@ public class RainbowTickHandler extends BlockTicker {
     }
 
     @Override
-    public void tick(Block b, SlimefunItem item, Config data) {
+    public void tick(Block b, SlimefunItem item) {
         if (b.getType().isAir()) {
             /*
               The block was broken, setting the Material now would result in a

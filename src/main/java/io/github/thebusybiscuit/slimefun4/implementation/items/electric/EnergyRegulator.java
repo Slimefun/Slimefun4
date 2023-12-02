@@ -75,7 +75,7 @@ public class EnergyRegulator extends SlimefunItem implements HologramOwner {
             }
 
             @Override
-            public void tick(Block b, SlimefunItem item, Config data) {
+            public void tick(Block b, SlimefunItem item) {
                 EnergyRegulator.this.tick(b);
             }
         });

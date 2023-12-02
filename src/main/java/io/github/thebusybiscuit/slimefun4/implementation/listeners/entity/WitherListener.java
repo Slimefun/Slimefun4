@@ -12,7 +12,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -33,7 +33,7 @@ public class WitherListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onWitherDestroy(EntityChangeBlockEvent e) {
         if (e.getEntity().getType() == EntityType.WITHER) {
-            SlimefunItem item = LegacyBlockStorage.check(e.getBlock());
+            SlimefunItem item = BlockStorage.check(e.getBlock());
 
             // Hardened Glass is excluded from here
             if (item instanceof WitherProof witherProofBlock && !item.getId().equals(SlimefunItems.HARDENED_GLASS.getItemId())) {

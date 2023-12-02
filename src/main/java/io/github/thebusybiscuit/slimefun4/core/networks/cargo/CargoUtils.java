@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -366,10 +366,10 @@ final class CargoUtils {
 
     @Nullable
     static DirtyChestMenu getChestMenu(@Nonnull Block block) {
-        if (LegacyBlockStorage.hasInventory(block)) {
-            return LegacyBlockStorage.getInventory(block);
+        if (BlockStorage.hasInventory(block)) {
+            return BlockStorage.getInventory(block);
         } else {
-            return LegacyBlockStorage.getUniversalInventory(block);
+            return BlockStorage.getUniversalInventory(block);
         }
     }
 

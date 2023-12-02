@@ -1,22 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import java.util.Optional;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -66,41 +70,19 @@ public interface EnergyNetComponent extends ItemAttribute {
      * This returns the currently stored charge at a given {@link Location}.
      * 
      * @param l
-     *            The target {@link Location}
+     * The target {@link Location}
      * 
      * @return The charge stored at that {@link Location}
      */
     default int getCharge(@Nonnull Location l) {
-        // Emergency fallback, this cannot hold a charge, so we'll just return zero
-        if (!isChargeable()) {
-            return 0;
-        }
-
-        return getCharge(l, LegacyBlockStorage.getLocationInfo(l));
-    }
-
-    /**
-     * This returns the currently stored charge at a given {@link Location}.
-     * This is a more performance saving option if you already have a {@link Config}
-     * object for this {@link Location}.
-     * 
-     * @param l
-     *            The target {@link Location}
-     * @param data
-     *            The data at this {@link Location}
-     * 
-     * @return The charge stored at that {@link Location}
-     */
-    default int getCharge(@Nonnull Location l, @Nonnull Config data) {
         Validate.notNull(l, "Location was null!");
-        Validate.notNull(data, "data was null!");
 
         // Emergency fallback, this cannot hold a charge, so we'll just return zero
         if (!isChargeable()) {
             return 0;
         }
 
-        String charge = data.getString("energy-charge");
+        String charge = BlockStorage.getLocationInfo(l, "energy-charge");
 
         if (charge != null) {
             return Integer.parseInt(charge);
@@ -132,7 +114,7 @@ public interface EnergyNetComponent extends ItemAttribute {
 
                 // Do we even need to update the value?
                 if (charge != getCharge(l)) {
-                    LegacyBlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
+                    BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
 
                     // Update the capacitor texture
                     if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
@@ -159,7 +141,7 @@ public interface EnergyNetComponent extends ItemAttribute {
                 // Check if there is even space for new energy
                 if (currentCharge < capacity) {
                     int newCharge = Math.min(capacity, currentCharge + charge);
-                    LegacyBlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
+                    BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
 
                     // Update the capacitor texture
                     if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
@@ -186,7 +168,7 @@ public interface EnergyNetComponent extends ItemAttribute {
                 // Check if there is even energy stored
                 if (currentCharge > 0) {
                     int newCharge = Math.max(0, currentCharge - charge);
-                    LegacyBlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
+                    BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
 
                     // Update the capacitor texture
                     if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {

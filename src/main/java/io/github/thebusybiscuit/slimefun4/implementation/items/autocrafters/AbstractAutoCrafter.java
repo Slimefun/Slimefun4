@@ -101,8 +101,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         addItemHandler(new BlockTicker() {
 
             @Override
-            public void tick(Block b, SlimefunItem item, Config data) {
-                AbstractAutoCrafter.this.tick(b, data);
+            public void tick(Block b, SlimefunItem item) {
+                AbstractAutoCrafter.this.tick(b);
             }
 
             @Override
@@ -156,13 +156,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * 
      * @param b
      *            The block for this {@link AbstractAutoCrafter}
-     * @param data
-     *            The data stored on this block
      */
-    protected void tick(@Nonnull Block b, @Nonnull Config data) {
+    protected void tick(@Nonnull Block b) {
         AbstractRecipe recipe = getSelectedRecipe(b);
 
-        if (recipe == null || !recipe.isEnabled() || getCharge(b.getLocation(), data) < getEnergyConsumption()) {
+        if (recipe == null || !recipe.isEnabled() || getCharge(b.getLocation()) < getEnergyConsumption()) {
             // No recipe / disabled recipe / no energy, abort...
             return;
         }

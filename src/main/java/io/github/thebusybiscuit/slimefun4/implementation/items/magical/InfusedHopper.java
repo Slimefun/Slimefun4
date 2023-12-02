@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -58,10 +59,10 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
         return new BlockTicker() {
 
             @Override
-            public void tick(Block b, SlimefunItem sfItem, Config data) {
+            public void tick(Block b, SlimefunItem sfItem) {
                 if (b.getType() != Material.HOPPER) {
                     // we're no longer a hopper, we were probably destroyed. skipping this tick.
-                    LegacyBlockStorage.clearBlockInfo(b);
+                    BlockStorage.clearBlockInfo(b);
                     return;
                 }
 

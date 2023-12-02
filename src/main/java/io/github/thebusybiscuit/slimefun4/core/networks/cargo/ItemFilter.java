@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
@@ -79,11 +80,9 @@ class ItemFilter implements Predicate<ItemStack> {
      *            The {@link Block}
      */
     public void update(@Nonnull Block b) {
-        // Store the returned Config instance to avoid heavy calls
-        Config blockData = LegacyBlockStorage.getLocationInfo(b.getLocation());
-        String id = blockData.getString("id");
+        String id = BlockStorage.getLocationInfo(b.getLocation(), "id");
         SlimefunItem item = SlimefunItem.getById(id);
-        BlockMenu menu = LegacyBlockStorage.getInventory(b.getLocation());
+        BlockMenu menu = BlockStorage.getInventory(b.getLocation());
 
         if (!(item instanceof CargoNode) || menu == null) {
             // Don't filter for a non-existing item (safety check)
@@ -111,8 +110,8 @@ class ItemFilter implements Predicate<ItemStack> {
                     }
 
                     this.items.clear();
-                    this.checkLore = Objects.equals(blockData.getString("filter-lore"), "true");
-                    this.rejectOnMatch = !Objects.equals(blockData.getString("filter-type"), "whitelist");
+                    this.checkLore = Objects.equals(BlockStorage.getLocationInfo(b.getLocation(), "filter-lore"), "true");
+                    this.rejectOnMatch = !Objects.equals(BlockStorage.getLocationInfo(b.getLocation(), "filter-type"), "whitelist");
 
                     for (int slot : slots) {
                         ItemStack stack = menu.getItemInSlot(slot);

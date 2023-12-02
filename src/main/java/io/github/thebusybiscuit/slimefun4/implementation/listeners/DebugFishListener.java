@@ -31,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -79,8 +79,8 @@ public class DebugFishListener implements Listener {
     @ParametersAreNonnullByDefault
     private void onLeftClick(Player p, Block b, PlayerInteractEvent e) {
         if (p.isSneaking()) {
-            if (LegacyBlockStorage.hasBlockInfo(b)) {
-                LegacyBlockStorage.clearBlockInfo(b);
+            if (BlockStorage.hasBlockInfo(b)) {
+                BlockStorage.clearBlockInfo(b);
             }
         } else {
             e.setCancelled(false);
@@ -98,7 +98,7 @@ public class DebugFishListener implements Listener {
                 PlayerHead.setSkin(block, HeadTexture.MISSING_TEXTURE.getAsSkin(), true);
                 SoundEffect.DEBUG_FISH_CLICK_SOUND.playFor(p);
             }, 2L);
-        } else if (LegacyBlockStorage.hasBlockInfo(b)) {
+        } else if (BlockStorage.hasBlockInfo(b)) {
             try {
                 sendInfo(p, b);
             } catch (Exception x) {
@@ -129,7 +129,7 @@ public class DebugFishListener implements Listener {
 
     @ParametersAreNonnullByDefault
     private void sendInfo(Player p, Block b) {
-        SlimefunItem item = LegacyBlockStorage.check(b);
+        SlimefunItem item = BlockStorage.check(b);
 
         p.sendMessage(" ");
         p.sendMessage(ChatColors.color("&d" + b.getType() + " &e@ X: " + b.getX() + " Y: " + b.getY() + " Z: " + b.getZ()));
@@ -147,7 +147,7 @@ public class DebugFishListener implements Listener {
             }
         }
 
-        if (LegacyBlockStorage.getStorage(b.getWorld()).hasInventory(b.getLocation())) {
+        if (BlockStorage.getStorage(b.getWorld()).hasInventory(b.getLocation())) {
             p.sendMessage(ChatColors.color("&dInventory: " + greenCheckmark));
         } else {
             p.sendMessage(ChatColors.color("&dInventory: " + redCross));
@@ -180,7 +180,7 @@ public class DebugFishListener implements Listener {
             }
         }
 
-        p.sendMessage(ChatColors.color("&6" + LegacyBlockStorage.getBlockInfoAsJson(b)));
+        p.sendMessage(ChatColors.color("&6" + BlockStorage.getBlockInfoAsJson(b)));
         p.sendMessage(" ");
     }
 }

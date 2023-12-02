@@ -100,7 +100,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
         addItemHandler(new BlockTicker() {
 
             @Override
-            public void tick(Block b, SlimefunItem sf, Config data) {
+            public void tick(Block b, SlimefunItem sf) {
                 ProduceCollector.this.tick(b);
             }
 

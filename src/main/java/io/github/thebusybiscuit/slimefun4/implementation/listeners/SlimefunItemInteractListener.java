@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -139,16 +139,16 @@ public class SlimefunItemInteractListener implements Listener {
             if (!p.isSneaking() || event.getItem().getType() == Material.AIR) {
                 event.getInteractEvent().setCancelled(true);
 
-                if (LegacyBlockStorage.hasUniversalInventory(item.getId())) {
-                    UniversalBlockMenu menu = LegacyBlockStorage.getUniversalInventory(item.getId());
+                if (BlockStorage.hasUniversalInventory(item.getId())) {
+                    UniversalBlockMenu menu = BlockStorage.getUniversalInventory(item.getId());
 
                     if (menu.canOpen(clickedBlock, p)) {
                         menu.open(p);
                     } else {
                         Slimefun.getLocalization().sendMessage(p, "inventory.no-access", true);
                     }
-                } else if (LegacyBlockStorage.getStorage(clickedBlock.getWorld()).hasInventory(clickedBlock.getLocation())) {
-                    BlockMenu menu = LegacyBlockStorage.getInventory(clickedBlock.getLocation());
+                } else if (BlockStorage.getStorage(clickedBlock.getWorld()).hasInventory(clickedBlock.getLocation())) {
+                    BlockMenu menu = BlockStorage.getInventory(clickedBlock.getLocation());
 
                     if (menu.canOpen(clickedBlock, p)) {
                         menu.open(p);

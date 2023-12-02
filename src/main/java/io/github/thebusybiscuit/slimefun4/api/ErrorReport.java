@@ -27,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -110,8 +111,8 @@ public class ErrorReport<T extends Throwable> {
 
             stream.println("Slimefun Data:");
             stream.println("  ID: " + item.getId());
-            stream.println("  Inventory: " + LegacyBlockStorage.getStorage(l.getWorld()).hasInventory(l));
-            stream.println("  Data: " + LegacyBlockStorage.getBlockInfoAsJson(l));
+            stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
+            stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
             stream.println();
         });
     }

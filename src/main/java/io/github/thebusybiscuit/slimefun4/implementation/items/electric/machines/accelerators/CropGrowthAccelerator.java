@@ -12,7 +12,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
@@ -38,7 +38,7 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
 
     @Override
     protected void tick(Block b) {
-        BlockMenu inv = LegacyBlockStorage.getInventory(b);
+        BlockMenu inv = BlockStorage.getInventory(b);
 
         if (getCharge(b.getLocation()) >= getEnergyConsumption()) {
             for (int x = -getRadius(); x <= getRadius(); x++) {

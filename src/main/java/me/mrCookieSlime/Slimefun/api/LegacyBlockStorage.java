@@ -45,6 +45,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
+// TODO delete this class entirely once it's not used anymore. For now we'll use it as reference - especially for conversion of this data format to the new one.
+
 // This class really needs a VERY big overhaul
 public class LegacyBlockStorage {
 
@@ -67,12 +69,12 @@ public class LegacyBlockStorage {
 
     @Nullable
     public static LegacyBlockStorage getStorage(@Nonnull World world) {
-        return Slimefun.getRegistry().getWorlds().get(world.getName());
+        return Slimefun.getRegistry().getLegacyWorlds().get(world.getName());
     }
 
     @Nonnull
     public static LegacyBlockStorage getOrCreate(@Nonnull World world) {
-        LegacyBlockStorage storage = Slimefun.getRegistry().getWorlds().get(world.getName());
+        LegacyBlockStorage storage = Slimefun.getRegistry().getLegacyWorlds().get(world.getName());
 
         if (storage == null) {
             return new LegacyBlockStorage(world);
@@ -114,7 +116,7 @@ public class LegacyBlockStorage {
             throw new IllegalArgumentException("Slimefun cannot deal with World names that contain a dot: " + w.getName());
         }
 
-        if (Slimefun.getRegistry().getWorlds().containsKey(w.getName())) {
+        if (Slimefun.getRegistry().getLegacyWorlds().containsKey(w.getName())) {
             // Cancel the loading process if the world was already loaded
             return;
         }
@@ -750,8 +752,8 @@ public class LegacyBlockStorage {
     @Nullable
     public static String checkID(@Nonnull Block b) {
         // Only access the BlockState when on the main thread
-        if (Bukkit.isPrimaryThread() && Slimefun.getBlockDataService().isTileEntity(b.getType())) {
-            Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(b);
+        if (Bukkit.isPrimaryThread()) {
+            Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(b, "id");
 
             if (blockData.isPresent()) {
                 return blockData.get();
@@ -776,7 +778,7 @@ public class LegacyBlockStorage {
     }
 
     public static boolean isWorldLoaded(@Nonnull World world) {
-        return Slimefun.getRegistry().getWorlds().containsKey(world.getName());
+        return Slimefun.getRegistry().getLegacyWorlds().containsKey(world.getName());
     }
 
     public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {

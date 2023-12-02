@@ -14,7 +14,7 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -52,7 +52,7 @@ public class MiddleClickListener implements Listener {
             }
 
             // find the actual slimefun item the user is looking at
-            SlimefunItem sfItem = LegacyBlockStorage.check(b);
+            SlimefunItem sfItem = BlockStorage.check(b);
 
             // vanilla block -> ignore
             if (sfItem == null) {

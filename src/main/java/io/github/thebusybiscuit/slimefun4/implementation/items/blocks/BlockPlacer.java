@@ -37,7 +37,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInvento
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -74,7 +74,7 @@ public class BlockPlacer extends SlimefunItem {
                 Player p = e.getPlayer();
                 Block b = e.getBlock();
 
-                LegacyBlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
+                BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
             }
         };
     }
@@ -128,7 +128,7 @@ public class BlockPlacer extends SlimefunItem {
      */
     @ParametersAreNonnullByDefault
     private boolean hasPermission(Dispenser dispenser, Block target) {
-        String owner = LegacyBlockStorage.getLocationInfo(dispenser.getLocation(), "owner");
+        String owner = BlockStorage.getLocationInfo(dispenser.getLocation(), "owner");
 
         if (owner == null) {
             /*
@@ -191,7 +191,7 @@ public class BlockPlacer extends SlimefunItem {
                 if (handler.isBlockPlacerAllowed()) {
                     schedulePlacement(block, dispenser.getInventory(), item, () -> {
                         block.setType(item.getType());
-                        LegacyBlockStorage.store(block, sfItem.getId());
+                        BlockStorage.store(block, sfItem.getId());
 
                         handler.onBlockPlacerPlace(e);
                     });
@@ -201,7 +201,7 @@ public class BlockPlacer extends SlimefunItem {
             if (!hasItemHandler) {
                 schedulePlacement(block, dispenser.getInventory(), item, () -> {
                     block.setType(item.getType());
-                    LegacyBlockStorage.store(block, sfItem.getId());
+                    BlockStorage.store(block, sfItem.getId());
                 });
             }
         }

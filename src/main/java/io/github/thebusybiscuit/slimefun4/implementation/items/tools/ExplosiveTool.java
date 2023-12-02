@@ -31,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -157,7 +157,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         Material material = b.getType();
 
         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, material);
-        SlimefunItem sfItem = LegacyBlockStorage.check(b);
+        SlimefunItem sfItem = BlockStorage.check(b);
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
             /*
@@ -177,7 +177,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
             if (!dummyEvent.isCancelled()) {
                 drops.addAll(sfItem.getDrops(p));
                 b.setType(Material.AIR);
-                LegacyBlockStorage.clearBlockInfo(b);
+                BlockStorage.clearBlockInfo(b);
             }
         } else {
             b.breakNaturally(item);

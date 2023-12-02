@@ -22,7 +22,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BrokenSpaw
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -65,7 +65,7 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
           If the spawner's BlockStorage has BlockInfo, then it's not a vanilla spawner
           and should not give a broken spawner but a repaired one instead.
          */
-        if (LegacyBlockStorage.hasBlockInfo(b)) {
+        if (BlockStorage.hasBlockInfo(b)) {
             spawner = (AbstractMonsterSpawner) SlimefunItems.REPAIRED_SPAWNER.getItem();
         } else {
             spawner = (AbstractMonsterSpawner) SlimefunItems.BROKEN_SPAWNER.getItem();

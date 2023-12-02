@@ -42,6 +42,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenu
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -206,7 +207,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
             @Override
             public void onBlockBreak(@Nonnull Block b) {
                 removeHologram(b);
-                BlockMenu inv = LegacyBlockStorage.getInventory(b);
+                BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
                     inv.dropItems(b.getLocation(), OUTPUT_SLOTS);
@@ -285,7 +286,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         addItemHandler(new BlockTicker() {
 
             @Override
-            public void tick(Block b, SlimefunItem sf, Config data) {
+            public void tick(Block b, SlimefunItem sf) {
                 GEOMiner.this.tick(b);
             }
 
@@ -297,7 +298,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     }
 
     protected void tick(@Nonnull Block b) {
-        BlockMenu inv = LegacyBlockStorage.getInventory(b);
+        BlockMenu inv = BlockStorage.getInventory(b);
         MiningOperation operation = processor.getOperation(b);
 
         if (operation != null) {
@@ -316,7 +317,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
                 processor.endOperation(b);
             }
-        } else if (!LegacyBlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4)) {
+        } else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4, "geo-scanned")) {
             updateHologram(b, "&4GEO-Scan required!");
         } else {
             start(b, inv);

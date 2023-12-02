@@ -36,6 +36,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenu
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -77,7 +78,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
             @Override
             public void onBlockBreak(Block b) {
-                BlockMenu inv = LegacyBlockStorage.getInventory(b);
+                BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
                     inv.dropItems(b.getLocation(), getInputSlots());
@@ -139,7 +140,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         Block fluid = b.getRelative(BlockFace.DOWN);
 
         if (fluid.isLiquid() && getCharge(b.getLocation()) >= ENERGY_CONSUMPTION) {
-            BlockMenu menu = LegacyBlockStorage.getInventory(b);
+            BlockMenu menu = BlockStorage.getInventory(b);
 
             for (int slot : getInputSlots()) {
                 ItemStack itemInSlot = menu.getItemInSlot(slot);
@@ -263,7 +264,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         return new BlockTicker() {
 
             @Override
-            public void tick(Block b, SlimefunItem sf, Config data) {
+            public void tick(Block b, SlimefunItem sf) {
                 FluidPump.this.tick(b);
             }
 

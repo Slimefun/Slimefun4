@@ -41,12 +41,10 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      * 
      * @param l
      *            The {@link Location} of this {@link EnergyNetProvider}
-     * @param data
-     *            The stored block data
      * 
      * @return The generated output energy of this {@link EnergyNetProvider}.
      */
-    int getGeneratedOutput(@Nonnull Location l, @Nonnull Config data);
+    int getGeneratedOutput(@Nonnull Location l);
 
     /**
      * This method returns whether the given {@link Location} is going to explode on the
@@ -54,12 +52,10 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      * 
      * @param l
      *            The {@link Location} of this {@link EnergyNetProvider}
-     * @param data
-     *            The stored block data
      * 
      * @return Whether or not this {@link Location} will explode.
      */
-    default boolean willExplode(@Nonnull Location l, @Nonnull Config data) {
+    default boolean willExplode(@Nonnull Location l) {
         return false;
     }
 

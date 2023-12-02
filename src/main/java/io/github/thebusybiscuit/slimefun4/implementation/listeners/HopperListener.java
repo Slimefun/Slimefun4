@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -33,7 +34,7 @@ public class HopperListener implements Listener {
     public void onHopperInsert(InventoryMoveItemEvent e) {
         Location loc = e.getDestination().getLocation();
 
-        if (loc != null && e.getSource().getType() == InventoryType.HOPPER && LegacyBlockStorage.check(loc) instanceof NotHopperable) {
+        if (loc != null && e.getSource().getType() == InventoryType.HOPPER && BlockStorage.check(loc) instanceof NotHopperable) {
             e.setCancelled(true);
         }
     }

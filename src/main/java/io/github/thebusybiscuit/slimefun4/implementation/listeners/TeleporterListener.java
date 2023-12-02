@@ -20,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.elevator.Elevator
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.AbstractTeleporterPlate;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Teleporter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.TeleporterPylon;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -52,7 +52,7 @@ public class TeleporterListener implements Listener {
         }
 
         Block b = e.getClickedBlock();
-        SlimefunItem item = LegacyBlockStorage.check(b);
+        SlimefunItem item = BlockStorage.check(b);
         Player p = e.getPlayer();
 
         // Fixes #2966 - Check if Players can use these
@@ -66,11 +66,11 @@ public class TeleporterListener implements Listener {
             elevator.openInterface(p, b);
         } else if (item instanceof AbstractTeleporterPlate teleporterPlate && teleporterPlate.hasAccess(p, b)) {
             // Pressure plate was a teleporter
-            SlimefunItem teleporter = LegacyBlockStorage.check(b.getRelative(BlockFace.DOWN));
+            SlimefunItem teleporter = BlockStorage.check(b.getRelative(BlockFace.DOWN));
 
             if (teleporter instanceof Teleporter && checkForPylons(b.getRelative(BlockFace.DOWN))) {
                 Block block = b.getRelative(BlockFace.DOWN);
-                UUID owner = UUID.fromString(LegacyBlockStorage.getLocationInfo(block.getLocation(), "owner"));
+                UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
                 Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(p, owner, block);
             }
         }
@@ -87,7 +87,7 @@ public class TeleporterListener implements Listener {
      */
     private boolean checkForPylons(@Nonnull Block teleporter) {
         for (BlockFace face : faces) {
-            if (!(LegacyBlockStorage.check(teleporter.getRelative(face)) instanceof TeleporterPylon)) {
+            if (!(BlockStorage.check(teleporter.getRelative(face)) instanceof TeleporterPylon)) {
                 return false;
             }
         }

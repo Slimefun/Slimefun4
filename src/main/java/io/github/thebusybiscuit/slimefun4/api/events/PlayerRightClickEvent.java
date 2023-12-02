@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.data.TriStateOptional;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
@@ -139,7 +139,7 @@ public class PlayerRightClickEvent extends PlayerEvent {
     public Optional<SlimefunItem> getSlimefunBlock() {
         if (!slimefunBlock.isComputed()) {
             if (clickedBlock.isPresent()) {
-                slimefunBlock.compute(LegacyBlockStorage.check(clickedBlock.get()));
+                slimefunBlock.compute(BlockStorage.check(clickedBlock.get()));
             } else {
                 slimefunBlock = TriStateOptional.empty();
             }
