@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
+
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
