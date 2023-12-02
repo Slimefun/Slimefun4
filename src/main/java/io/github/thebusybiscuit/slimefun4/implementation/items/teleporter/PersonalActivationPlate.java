@@ -14,7 +14,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link PersonalActivationPlate} is a teleporter activation plate
  * to which only the {@link Player} who placed it down has access.

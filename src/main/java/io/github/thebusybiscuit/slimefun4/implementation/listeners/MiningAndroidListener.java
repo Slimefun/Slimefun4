@@ -11,7 +11,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * This {@link Listener} makes sure that an {@link AndroidMineEvent} gets properly propagated
  * to the {@link BlockBreakHandler#onAndroidBreak(AndroidMineEvent)} method of a placed block.

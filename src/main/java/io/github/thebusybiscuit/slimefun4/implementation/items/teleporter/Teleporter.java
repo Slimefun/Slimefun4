@@ -16,7 +16,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The Teleporter is a {@link SlimefunItem} that can be placed down and allows a {@link Player}
  * to display to any of his waypoints he set via his {@link GPSNetwork}.

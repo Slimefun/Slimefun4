@@ -26,7 +26,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link LumberAxe} is a powerful tool which can chop entire trees.
  * Breaking a log will result in all attached logs being broken as well.

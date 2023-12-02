@@ -35,7 +35,6 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link ResourceManager} is responsible for registering and managing a {@link GEOResource}.
  * You have to use the {@link ResourceManager} if you want to generate or consume a {@link GEOResource} too.

@@ -29,7 +29,6 @@ import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * This class represents an {@link ErrorReport}.
  * Error reports are thrown when a {@link BlockTicker} is causing problems.

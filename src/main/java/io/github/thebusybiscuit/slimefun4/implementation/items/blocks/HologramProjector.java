@@ -32,7 +32,6 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link HologramProjector} is a very simple block which allows the {@link Player}
  * to create a floating text that is completely configurable.

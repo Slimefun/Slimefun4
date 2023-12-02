@@ -16,7 +16,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link MiddleClickListener} is responsible for listening to
  * the {@link InventoryCreativeEvent}.

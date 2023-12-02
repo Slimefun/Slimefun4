@@ -27,7 +27,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link InfusedHopper} is a special kind of {@link Hopper} which teleports any
  * nearby {@link Item} to itself.

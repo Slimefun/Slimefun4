@@ -23,7 +23,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link NetworkManager} is responsible for holding all instances of {@link Network}
  * and providing some utility methods that would have probably been static otherwise.

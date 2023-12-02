@@ -39,7 +39,6 @@ import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link BlockPlacer} is a machine which can place {@link Block Blocks}, as the name
  * would suggest.

@@ -44,7 +44,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * This {@link Listener} is responsible for providing the core mechanics of the {@link AncientAltar}
  * and the {@link AncientPedestal}, it also handles the crafting of items using the Altar.

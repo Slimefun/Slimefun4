@@ -23,7 +23,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link EnhancedFurnace} is an upgraded version of a {@link Furnace}.
  * It has a custom speed, efficiency and also a level of fortune.

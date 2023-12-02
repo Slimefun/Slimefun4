@@ -24,7 +24,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link PickaxeOfContainment} is a Pickaxe that allows you to break Spawners.
  * Upon breaking a Spawner, a {@link BrokenSpawner} will be dropped.

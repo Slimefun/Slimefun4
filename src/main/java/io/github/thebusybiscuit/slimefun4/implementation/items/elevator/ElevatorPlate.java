@@ -34,7 +34,6 @@ import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link ElevatorPlate} is a quick way of teleportation.
  * You can place multiple {@link ElevatorPlate ElevatorPlates} along the y axis

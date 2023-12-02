@@ -33,7 +33,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * This {@link Listener} is responsible for handling our debugging tool, the debug fish.
  * This is where the functionality of this item is implemented.

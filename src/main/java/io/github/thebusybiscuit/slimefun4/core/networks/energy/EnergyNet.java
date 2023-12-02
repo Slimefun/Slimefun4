@@ -30,7 +30,6 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * The {@link EnergyNet} is an implementation of {@link Network} that deals with
  * electrical energy being sent from and to nodes.

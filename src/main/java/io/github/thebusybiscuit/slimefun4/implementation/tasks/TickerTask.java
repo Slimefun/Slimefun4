@@ -32,7 +32,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
-
 /**
  * The {@link TickerTask} is responsible for ticking every {@link BlockTicker},
  * synchronous or not.

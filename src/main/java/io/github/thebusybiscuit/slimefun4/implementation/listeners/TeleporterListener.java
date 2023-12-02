@@ -22,7 +22,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Telepo
 import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.TeleporterPylon;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * This {@link Listener} is responsible for the {@link Teleporter} (and {@link ElevatorPlate}).
  * 

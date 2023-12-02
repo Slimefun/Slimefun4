@@ -22,7 +22,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks
  * the Item as an electric Block.
