@@ -18,6 +18,7 @@ import org.bukkit.plugin.Plugin;
 import com.jeff_media.customblockdata.CustomBlockData;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 import me.mrCookieSlime.Slimefun.api.serializers.ItemStackSerializer;
 
 // This class will be deprecated, relocated and rewritten in a future version.

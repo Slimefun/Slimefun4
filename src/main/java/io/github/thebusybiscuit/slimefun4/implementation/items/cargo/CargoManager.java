@@ -25,7 +25,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
 public class CargoManager extends SlimefunItem implements HologramOwner {
 
     @ParametersAreNonnullByDefault

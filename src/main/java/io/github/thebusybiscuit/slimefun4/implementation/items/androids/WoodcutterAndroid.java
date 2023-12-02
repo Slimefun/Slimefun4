@@ -25,7 +25,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class WoodcutterAndroid extends ProgrammableAndroid {

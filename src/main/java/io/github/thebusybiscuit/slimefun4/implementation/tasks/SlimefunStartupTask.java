@@ -14,8 +14,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-
-
 /**
  * This Task initializes all items, some listeners and various other stuff.
  * This has been moved to its own class to make timings log easier to read, so

@@ -13,7 +13,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class CargoInputNode extends AbstractFilterNode {

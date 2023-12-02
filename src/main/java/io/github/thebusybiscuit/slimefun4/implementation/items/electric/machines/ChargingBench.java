@@ -12,7 +12,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**

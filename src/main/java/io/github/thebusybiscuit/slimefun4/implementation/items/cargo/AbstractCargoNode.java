@@ -25,7 +25,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ColoredMaterial;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;

@@ -30,7 +30,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
 
 /**
  * The {@link TickerTask} is responsible for ticking every {@link BlockTicker},
@@ -103,7 +102,7 @@ public class TickerTask implements Runnable {
             }
 
             // Fixes #2576 - Remove any deleted instances of BlockStorage
-            Slimefun.getRegistry().getLegacyWorlds().values().removeIf(LegacyBlockStorage::isMarkedForRemoval);
+            Slimefun.getRegistry().getWorlds().values().removeIf(BlockStorage::isMarkedForRemoval);
 
             // Run our ticker code
             if (!halted) {

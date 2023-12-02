@@ -24,7 +24,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
  * 
  * @author creator3
  * 
- * @see LegacyBlockStorage
+ * @see BlockStorage
  *
  */
 public class BlockInfoConfig extends Config {
