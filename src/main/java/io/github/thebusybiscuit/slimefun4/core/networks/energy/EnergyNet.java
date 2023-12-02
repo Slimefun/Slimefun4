@@ -29,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * The {@link EnergyNet} is an implementation of {@link Network} that deals with

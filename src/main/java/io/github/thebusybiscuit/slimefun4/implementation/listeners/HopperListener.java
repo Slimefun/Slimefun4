@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * This {@link Listener} prevents item from being transferred to

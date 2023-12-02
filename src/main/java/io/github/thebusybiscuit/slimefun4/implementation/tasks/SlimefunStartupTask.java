@@ -12,8 +12,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * This Task initializes all items, some listeners and various other stuff.
@@ -53,7 +54,7 @@ public class SlimefunStartupTask implements Runnable {
 
         for (World world : Bukkit.getWorlds()) {
             try {
-                new LegacyBlockStorage(world);
+                new BlockStorage(world);
             } catch (Exception x) {
                 Slimefun.logger().log(Level.SEVERE, x, () -> "An Error occurred while trying to load World \"" + world.getName() + "\" for Slimefun v" + Slimefun.getVersion());
             }

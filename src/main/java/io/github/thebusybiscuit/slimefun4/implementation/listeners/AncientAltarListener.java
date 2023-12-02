@@ -43,7 +43,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * This {@link Listener} is responsible for providing the core mechanics of the {@link AncientAltar}

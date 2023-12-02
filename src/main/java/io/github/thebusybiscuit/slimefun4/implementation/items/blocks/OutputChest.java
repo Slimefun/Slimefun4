@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * The {@link OutputChest} can be used to capture the output items from a {@link MultiBlockMachine}.

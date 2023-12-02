@@ -7,7 +7,7 @@ import java.util.Set;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * An old remnant of CS-CoreLib.

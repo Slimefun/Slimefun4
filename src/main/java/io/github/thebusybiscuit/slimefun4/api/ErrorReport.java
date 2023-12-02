@@ -28,7 +28,7 @@ import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * This class represents an {@link ErrorReport}.

@@ -13,7 +13,7 @@ import com.sk89q.worldedit.util.eventbus.Subscribe;
 import com.sk89q.worldedit.world.block.BlockStateHolder;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * This handles all integrations with {@link WorldEdit}.

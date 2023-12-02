@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFu
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * This {@link Listener} is responsible for enforcing the "fuel efficiency" and "fortune" policies

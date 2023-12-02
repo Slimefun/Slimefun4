@@ -17,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * This {@link Listener} listens to the {@link BlockDispenseEvent} and calls the

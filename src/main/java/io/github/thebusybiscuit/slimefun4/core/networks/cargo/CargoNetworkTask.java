@@ -30,7 +30,7 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 
 /**

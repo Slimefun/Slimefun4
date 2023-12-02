@@ -31,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * The {@link HologramProjector} is a very simple block which allows the {@link Player}

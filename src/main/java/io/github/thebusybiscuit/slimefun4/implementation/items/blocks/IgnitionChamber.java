@@ -27,7 +27,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInvento
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * The {@link IgnitionChamber} is used to re-ignite a {@link Smeltery}.

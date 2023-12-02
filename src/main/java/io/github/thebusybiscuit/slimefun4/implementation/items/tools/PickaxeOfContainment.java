@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSp
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * The {@link PickaxeOfContainment} is a Pickaxe that allows you to break Spawners.

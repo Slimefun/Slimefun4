@@ -33,7 +33,7 @@ import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * The {@link ElevatorPlate} is a quick way of teleportation.

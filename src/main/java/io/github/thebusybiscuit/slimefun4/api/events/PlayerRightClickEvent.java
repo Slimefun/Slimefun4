@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.data.TriStateOptional;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * The {@link PlayerRightClickEvent} is our custom version of the {@link PlayerInteractEvent}.

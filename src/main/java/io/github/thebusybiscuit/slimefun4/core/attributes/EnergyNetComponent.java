@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.LegacyBlockStorage;
+
 
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks
