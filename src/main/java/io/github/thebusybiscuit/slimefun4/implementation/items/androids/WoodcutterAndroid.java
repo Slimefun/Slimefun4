@@ -162,6 +162,17 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
             }
         }
 
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
+            switch (logType) {
+                case CHERRY_LOG,
+                    STRIPPED_CHERRY_LOG -> {
+                    saplingType = Material.CHERRY_SAPLING;
+                    soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
+                }
+                default -> {}
+            }
+        }
+
         if (saplingType != null && soilRequirement != null) {
             if (soilRequirement.test(block.getRelative(BlockFace.DOWN).getType())) {
                 // Replant the block

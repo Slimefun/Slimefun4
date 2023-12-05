@@ -57,6 +57,10 @@ public class BookBinder extends AContainer {
 
                 // Just return if no enchantments exist. This shouldn't ever happen. :NotLikeThis:
                 if (enchantments.size() > 0) {
+                    if (hasIllegalEnchants(storedItemEnchantments) || hasIllegalEnchants(storedTargetEnchantments)) {
+                        return null;
+                    }
+
                     ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
 
                     EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();
@@ -67,6 +71,11 @@ public class BookBinder extends AContainer {
 
                     // Make sure we never return an enchanted book with no enchantments.
                     if (enchantMeta.getStoredEnchants().isEmpty()) {
+                        return null;
+                    }
+
+                    // If the output is the same as one of the inputs: don't consume items
+                    if (enchantMeta.getStoredEnchants().equals(storedItemEnchantments) || enchantMeta.getStoredEnchants().equals(storedTargetEnchantments)) {
                         return null;
                     }
 
@@ -95,6 +104,19 @@ public class BookBinder extends AContainer {
 
     private boolean isCompatible(@Nullable ItemStack item) {
         return item != null && item.getType() == Material.ENCHANTED_BOOK;
+    }
+
+    private boolean hasIllegalEnchants(@Nullable Map<Enchantment, Integer> enchantments) {
+        if (enchantments == null) {
+            return false;
+        }
+
+        for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+            if (bypassVanillaMaxLevel.getValue() && entry.getValue() > customMaxLevel.getValue() || !bypassVanillaMaxLevel.getValue() && entry.getValue() > entry.getKey().getMaxLevel()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

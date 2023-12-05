@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 35 (TBD)](#release-candidate-35-tbd)
+- [Release Candidate 36 (TBD)](#release-candidate-36-tbd)
+- [Release Candidate 35 (7 Jul 2023)](#release-candidate-35-7-jul-2023)
 - [Release Candidate 34 (20 Jun 2023)](#release-candidate-34-20-jun-2023)
 - [Release Candidate 33 (07 Jan 2023)](#release-candidate-33-07-jan-2023)
 - [Release Candidate 32 (26 Jun 2022)](#release-candidate-32-26-jun-2022)
@@ -35,15 +36,30 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 35 (TBD)
+## Release Candidate 36 (TBD)
+
+#### Additions
+
+#### Changes
+
+#### Fixes
+
+## Release Candidate 35 (7 Jul 2023)
 
 #### Additions
 * Added `sounds.yml` file to configure sound effects for Slimefun
+* Added preview builds to the repo, PRs will now have a build which testers can use
+* (API) Added SlimefunBlockBreakEvent and SlimefunBlockPlaceEvent events for plugins/addons to implement
+* (API) Added an efficient way to clear BlockStorage within a chunk - BlockStorage.clearAllBlockInfoAtChunk
+* (API) Added DistinctiveItem, a way to distinguish your item with more than just ID
+* (API) Added ExternallyInteractable, a way for addons to define "interactions" for blocks
 
 #### Changes
 * Moved all sound effects to the new sound system
 
 #### Fixes
+* Fixed recipe shift in multiblocks when items are disabled (#3286)
+* Fixed backpack dupe within cargo (#3379)
 
 ## Release Candidate 34 (20 Jun 2023)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#34

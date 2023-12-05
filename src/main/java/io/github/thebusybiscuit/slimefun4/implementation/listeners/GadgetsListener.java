@@ -15,10 +15,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.InfusedMagnetTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.InfusedMagnetTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetBootsTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetpackTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ParachuteTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**

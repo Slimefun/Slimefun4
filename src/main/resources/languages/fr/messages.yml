@@ -124,6 +124,8 @@ guide:
       wiki: '&3Éditeur du wiki'
       resourcepack: '&cArtiste du pack de ressource'
       translator: '&9Traducteur'
+actionbar:
+  radiation: '&6Niveau d''exposition aux radiations : &c%level%&7/&e100'
 messages:
   not-researched: '&4Vous n''avez pas suffisamment de connaissances pour comprendre ceci'
   not-enough-xp: '&4Vous n''avez pas suffisamment d''XP pour déverrouiller ceci'
@@ -147,6 +149,7 @@ messages:
   piglin-barter: '&4Vous ne pouvez pas troquer des objets Slimefun avec les piglins'
   bee-suit-slow-fall: '&eVos ailes d''abeille vous aideront à revenir au sol lentement et en toute sécurité'
   deprecated-item: '&4Cet élément est vieux et sera bientôt retiré de Slimefun.'
+  researching-is-disabled: '&cLes recherches ont été désactivées sur ce serveur. Tout est débloqué par défaut !'
   multi-tool:
     mode-change: 'Le mode de &b%device% a été changé : &9%mode%'
     not-shears: '&cLe MultiTool ne peut pas être utilisé comme cisaille !'
@@ -257,6 +260,9 @@ machines:
     pick-a-floor: '&3- Sélectionnez un étage -'
     current-floor: '&eVous êtes actuellement à cet étage :'
     click-to-teleport: '&eCliquez &7pour vous téléporter à cet étage :'
+    enter-name: '&7Veuillez entrer le nom de l''étage désiré dans votre Chat. &f(Les codes couleurs sont supportés !)'
+    named: '&2Étage nommé avec succès : &f%floor%'
+    editor-title: 'Configurer cet ascenseur'
   TELEPORTER:
     teleporting: '&3Téléportation...'
     teleported: '&3Téléportation terminée !'
@@ -272,6 +278,8 @@ machines:
     waypoints: 'Vue d''ensemble des waypoints'
   CARGO_NODES:
     must-be-placed: '&4Doit être positionné sur un coffre ou une machine !'
+    connected: '&2Connecté !'
+    not-connected: '&4Non connecté !'
   INDUSTRIAL_MINER:
     no-fuel: '&cVotre Mineur Industriel manque de carburant! Mettez votre carburant dans le coffre au-dessus.'
     piston-facing: '&cVotre mineur industriel a besoin que les pistons soient tournés vers le haut!'
@@ -301,6 +309,8 @@ cauldron:
   no-discoloring: '&4Vous ne pouvez pas décolorer  une armure Slimefun'
 gps:
   deathpoint: '&4Lieu de votre mort &7%date%'
+  status-online: 'EN LIGNE'
+  status-offline: 'HORS LIGNE'
   waypoint:
     new: '&eEntrez un nom pour votre nouveau waypoint dans le chat. &7(Les codes couleur sont acceptés !)'
     added: '&aLe waypoint a bien été ajouté'

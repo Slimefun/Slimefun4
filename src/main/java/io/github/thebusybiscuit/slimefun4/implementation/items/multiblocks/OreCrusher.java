@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,6 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -50,6 +52,9 @@ public class OreCrusher extends MultiBlockMachine {
 
     @Override
     protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        recipes.add(new ItemStack(Material.BLACKSTONE, 8));
+        recipes.add(new ItemStack(Material.RED_SAND, 1));
+
         recipes.add(new ItemStack(Material.COBBLESTONE, 8));
         recipes.add(new ItemStack(Material.SAND, 1));
 
@@ -187,13 +192,15 @@ public class OreCrusher extends MultiBlockMachine {
                     if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
                         ItemStack adding = RecipeType.getRecipeOutput(this, convert);
                         Inventory outputInv = findOutputInventory(adding, possibleDispenser, inv);
+                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, current, adding);
 
-                        if (SlimefunUtils.canPlayerUseItem(p, adding, true)) {
+                        Bukkit.getPluginManager().callEvent(event);
+                        if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, adding, true)) {
                             if (outputInv != null) {
                                 ItemStack removing = current.clone();
                                 removing.setAmount(convert.getAmount());
                                 inv.removeItem(removing);
-                                outputInv.addItem(adding);
+                                outputInv.addItem(event.getOutput());
                                 p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);
                             } else {
                                 Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
