@@ -367,9 +367,13 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Armor Update Task
         if (config.getBoolean("options.enable-armor-effects")) {
             new SlimefunArmorTask().schedule(this, config.getInt("options.armor-update-interval") * 20L);
-            new RadiationTask().schedule(this, config.getInt("options.radiation-update-interval") * 20L);
+            if (config.getBoolean("options.enable-radiation")) {
+                new RadiationTask().schedule(this, config.getInt("options.radiation-update-interval") * 20L);
+            }
             new RainbowArmorTask().schedule(this, config.getInt("options.rainbow-armor-update-interval") * 20L);
             new SolarHelmetTask().schedule(this, config.getInt("options.armor-update-interval"));
+        } else if (config.getBoolean("options.enable-radiation")) {
+            logger.log(Level.WARNING, "Cannot enable radiation while armor effects are disabled.");
         }
 
         // Starting our tasks
