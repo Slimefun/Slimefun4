@@ -88,5 +88,9 @@ public class ButcherAndroidListener implements Listener {
         if (entityType == EntityType.BLAZE) {
             drops.add(new ItemStack(Material.BLAZE_ROD, 1 + random.nextInt(1)));
         }
+
+        if (entityType == EntityType.VINDICATOR) {
+            drops.add(new ItemStack(Material.EMERALD, 1 + random.nextInt(2)));
+        }
     }
 }
