@@ -36,7 +36,9 @@ public class GPSMarkerTool extends SimpleSlimefunItem<ItemUseHandler> implements
 
             if (e.getClickedBlock().isPresent()) {
                 Block b = e.getClickedBlock().get().getRelative(e.getClickedFace());
-                Slimefun.getGPSNetwork().createWaypoint(e.getPlayer(), b.getLocation());
+                Location l = b.getLocation();
+                l.setYaw(e.getPlayer().getLocation().getYaw());
+                Slimefun.getGPSNetwork().createWaypoint(e.getPlayer(), l);
             }
         };
     }
