@@ -133,7 +133,7 @@ class GitHubTask implements Runnable {
         Optional<UUID> uuid = contributor.getUniqueId();
 
         if (!uuid.isPresent()) {
-            CompletableFuture<UUID> future = UUIDLookup.forUsername(Slimefun.instance(), contributor.getMinecraftName());
+            CompletableFuture<UUID> future = UUIDLookup.getUuidFromUsername(Slimefun.instance(), contributor.getMinecraftName());
 
             // Fixes #3241 - Do not wait for more than 30 seconds
             uuid = Optional.ofNullable(future.get(30, TimeUnit.SECONDS));
