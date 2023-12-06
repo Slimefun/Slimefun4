@@ -121,7 +121,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
      * 
      * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
      */
-    public final @Nonnull GEOMiner setCapacity(int capacity) {
+    public final GEOMiner setCapacity(int capacity) {
         Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
 
         if (getState() == ItemState.UNREGISTERED) {
@@ -193,7 +193,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         return new BlockPlaceHandler(false) {
 
             @Override
-            public void onPlayerPlace( BlockPlaceEvent e) {
+            public void onPlayerPlace(BlockPlaceEvent e) {
                 updateHologram(e.getBlock(), "&7Idling...");
             }
         };

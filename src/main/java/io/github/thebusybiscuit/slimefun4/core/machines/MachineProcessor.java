@@ -187,7 +187,7 @@ public class MachineProcessor<T extends MachineOperation> {
      *         {@link MachineOperation} to begin with.
      */
     public boolean endOperation(@Nonnull Location loc) {
-        Validate.notNull(b, "The Block should not be null");
+        Validate.notNull(loc, "The location should not be null");
 
         return endOperation(new BlockPosition(loc));
     }
