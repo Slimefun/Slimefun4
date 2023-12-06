@@ -7,8 +7,7 @@ import java.util.OptionalInt;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.google.common.base.Preconditions;
-
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -123,7 +122,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
      * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
      */
     public final @Nonnull GEOMiner setCapacity(int capacity) {
-        Preconditions.checkArgument(capacity > 0, "The capacity must be greater than zero!");
+        Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
 
         if (getState() == ItemState.UNREGISTERED) {
             this.energyCapacity = capacity;
@@ -141,8 +140,8 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
      * 
      * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
      */
-    public final @Nonnull GEOMiner setProcessingSpeed(int speed) {
-        Preconditions.checkArgument(speed > 0, "The speed must be greater than zero!");
+    public final GEOMiner setProcessingSpeed(int speed) {
+        Validate.isTrue(speed > 0, "The speed must be greater than zero!");
 
         this.processingSpeed = speed;
         return this;
@@ -156,10 +155,10 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
      * 
      * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
      */
-    public final @Nonnull GEOMiner setEnergyConsumption(int energyConsumption) {
-        Preconditions.checkArgument(energyConsumption > 0, "The energy consumption must be greater than zero!");
-        Preconditions.checkArgument(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
-        Preconditions.checkArgument(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
+    public final GEOMiner setEnergyConsumption(int energyConsumption) {
+        Validate.isTrue(energyConsumption > 0, "The energy consumption must be greater than zero!");
+        Validate.isTrue(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
+        Validate.isTrue(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
 
         this.energyConsumedPerTick = energyConsumption;
         return this;
@@ -189,17 +188,19 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         }
     }
 
-    private @Nonnull BlockPlaceHandler onBlockPlace() {
+    @Nonnull
+    private BlockPlaceHandler onBlockPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
-            public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
+            public void onPlayerPlace( BlockPlaceEvent e) {
                 updateHologram(e.getBlock(), "&7Idling...");
             }
         };
     }
 
-    private @Nonnull BlockBreakHandler onBlockBreak() {
+    @Nonnull
+    private BlockBreakHandler onBlockBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
@@ -216,18 +217,21 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         };
     }
 
+    @Nonnull
     @Override
-    public @Nonnull int[] getInputSlots() {
+    public int[] getInputSlots() {
         return new int[0];
     }
 
+    @Nonnull
     @Override
-    public @Nonnull int[] getOutputSlots() {
+    public int[] getOutputSlots() {
         return OUTPUT_SLOTS;
     }
 
+    @Nonnull
     @Override
-    public @Nonnull List<ItemStack> getDisplayRecipes() {
+    public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new LinkedList<>();
 
         for (GEOResource resource : Slimefun.getRegistry().getGEOResources().values()) {
@@ -245,7 +249,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     }
 
     @Override
-    public @Nonnull EnergyNetComponentType getEnergyComponentType() {
+    public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
 
@@ -324,7 +328,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
             if (resource.isObtainableFromGEOMiner()) {
                 OptionalInt optional = Slimefun.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
-                if (optional.isEmpty()) {
+                if (!optional.isPresent()) {
                     updateHologram(b, "&4GEO-Scan required!");
                     return;
                 }
