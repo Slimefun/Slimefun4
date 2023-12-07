@@ -350,7 +350,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.search.inventory").replace("%item%", ChatUtils.crop(ChatColor.WHITE, input)));
-        String searchTerm = input.toLowerCase(Locale.ROOT);
+        String searchTerm = ChatColor.strip(input.toLowerCase(Locale.ROOT));
 
         if (addToHistory) {
             profile.getGuideHistory().add(searchTerm);
