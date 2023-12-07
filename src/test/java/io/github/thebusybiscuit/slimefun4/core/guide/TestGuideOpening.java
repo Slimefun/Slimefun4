@@ -93,10 +93,10 @@ class TestGuideOpening {
     }
 
     @Test
-    @DisplayName("Test if the Slimefun Search works with normal and colored querys")
-    void testOpenSearch() throws InterruptedException {
-        String normalQuery = "iron";
-        String coloredQuery = ChatColor.DARK_PURPLE + "iron";
+    @DisplayName("Test if the Slimefun Search works with normal and colored terms")
+    void testOpenSearch_withColoredSearchTerm() throws InterruptedException {
+        String normalTerm = "iron";
+        String coloredTerm = ChatColor.DARK_PURPLE + "iron";
 
         SlimefunItem testItem = TestUtilities.mockSlimefunItem(plugin, "IRON_ITEM", new CustomItemStack(Material.IRON_INGOT, "iron item"));
         testItem.register(plugin);
@@ -105,21 +105,23 @@ class TestGuideOpening {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         SlimefunGuideImplementation guide = new SurvivalSlimefunGuide(false, false);
 
-        guide.openSearch(profile, normalQuery, false);
+        guide.openSearch(profile, normalTerm, false);
+        // Assert we can open with a non-coloured search term
         Assertions.assertTrue(player.getOpenInventory().getTopInventory().contains(testItem.getItem()), "Failed on normal query");
 
-        guide.openSearch(profile, coloredQuery, false);
+        guide.openSearch(profile, coloredTerm, false);
+        // Assert we can open with a coloured search term
         Assertions.assertTrue(player.getOpenInventory().getTopInventory().contains(testItem.getItem()), "Failed on colored query");
     }
 
     @Test
     @DisplayName("Test if the Slimefun Search can be opened from the History")
     void testOpenSearchHistory() throws InterruptedException {
-        String query = "electric";
+        String term = "electric";
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
-        PlayerProfile profile = prepare(guide, history -> history.add(query));
-        Mockito.verify(guide).openSearch(profile, query, false);
+        PlayerProfile profile = prepare(guide, history -> history.add(term));
+        Mockito.verify(guide).openSearch(profile, term, false);
     }
 
     @Test
