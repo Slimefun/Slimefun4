@@ -109,7 +109,7 @@ public class SlimefunItem implements Placeable {
 
     private Optional<String> wikiURL = Optional.empty();
 
-    private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
+    private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new OptionalMap<>(HashMap::new);
     private final Set<ItemSetting<?>> itemSettings = new HashSet<>();
 
     private boolean ticking = false;
@@ -477,12 +477,12 @@ public class SlimefunItem implements Placeable {
                 onEnable();
             } else {
                 // Clear item handlers if we are disabled so that calling them isn't possible later on
-                for (ItemHandler handler : this.itemhandlers.values()) {
+                for (ItemHandler handler : this.itemHandlers.values()) {
                     if (handler instanceof BlockTicker) {
                         Slimefun.getRegistry().getTickerBlocks().remove(getId());
                     }
                 }
-                this.itemhandlers.clear();
+                this.itemHandlers.clear();
             }
 
             // Lock the SlimefunItemStack from any accidental manipulations
@@ -540,7 +540,7 @@ public class SlimefunItem implements Placeable {
     }
 
     private void loadItemHandlers() {
-        for (ItemHandler handler : itemhandlers.values()) {
+        for (ItemHandler handler : itemHandlers.values()) {
             Optional<IncompatibleItemHandlerException> exception = handler.validate(this);
 
             // Check if the validation caused an exception.
@@ -802,7 +802,7 @@ public class SlimefunItem implements Placeable {
         }
 
         for (ItemHandler handler : handlers) {
-            itemhandlers.put(handler.getIdentifier(), handler);
+            itemHandlers.put(handler.getIdentifier(), handler);
 
             // Tickers are a special case (at the moment at least)
             if (handler instanceof BlockTicker ticker) {
@@ -914,7 +914,7 @@ public class SlimefunItem implements Placeable {
      * @return The Set of item handlers
      */
     public @Nonnull Collection<ItemHandler> getHandlers() {
-        return itemhandlers.values();
+        return itemHandlers.values();
     }
 
     /**
@@ -932,7 +932,7 @@ public class SlimefunItem implements Placeable {
      */
     @ParametersAreNonnullByDefault
     public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {
-        Optional<ItemHandler> handler = itemhandlers.get(c);
+        Optional<ItemHandler> handler = itemHandlers.get(c);
 
         if (handler.isPresent()) {
             try {
