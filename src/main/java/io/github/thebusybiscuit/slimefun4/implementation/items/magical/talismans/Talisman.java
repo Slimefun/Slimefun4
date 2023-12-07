@@ -28,7 +28,7 @@ import org.bukkit.potion.PotionEffect;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.thebusybiscuit.slimefun4.api.events.TalismanActivatedEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.TalismanActivateEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -205,13 +205,12 @@ public class Talisman extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman, ItemStack talismanItem, boolean sendMessage) {
-        TalismanActivatedEvent TalismanEvent = new TalismanActivatedEvent(p, talisman, talismanItem);
-        Bukkit.getPluginManager().callEvent(TalismanEvent);
-        if (!TalismanEvent.isCancelled()) {
+        TalismanActivateEvent talismanEvent = new TalismanActivateEvent(p, talisman, talismanItem);
+        Bukkit.getPluginManager().callEvent(talismanEvent);
+        if (!talismanEvent.isCancelled()) {
             consumeItem(inv, talisman, talismanItem);
             applyTalismanEffects(p, talisman);
             cancelEvent(e, talisman);
-
 
             if (sendMessage) {
                 talisman.sendMessage(p);
