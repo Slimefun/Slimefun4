@@ -188,11 +188,15 @@ public class Talisman extends SlimefunItem {
                 return false;
             }
         } else {
-            ItemStack enderTalisman = talisman.getEnderVariant();
+            SlimefunItemStack enderTalismanItem = talisman.getEnderVariant();
+            if (enderTalismanItem == null) {
+                return false;
+            }
 
-            if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) {
+            EnderTalisman enderTalisman = enderTalismanItem.getItem(EnderTalisman.class);
+            if (enderTalisman != null && SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalismanItem, true)) {
                 if (talisman.canUse(p, true)) {
-                    activateTalisman(e, p, p.getEnderChest(), talisman, enderTalisman, sendMessage);
+                    activateTalisman(e, p, p.getEnderChest(), enderTalisman, enderTalismanItem, sendMessage);
                     return true;
                 } else {
                     return false;
@@ -208,7 +212,10 @@ public class Talisman extends SlimefunItem {
         TalismanActivateEvent talismanEvent = new TalismanActivateEvent(p, talisman, talismanItem);
         Bukkit.getPluginManager().callEvent(talismanEvent);
         if (!talismanEvent.isCancelled()) {
-            consumeItem(inv, talisman, talismanItem);
+            if (!talismanEvent.preventsConsumption()) {
+                consumeItem(inv, talisman, talismanItem);
+            }
+
             applyTalismanEffects(p, talisman);
             cancelEvent(e, talisman);
 

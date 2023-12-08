@@ -21,6 +21,7 @@ public class TalismanActivateEvent extends PlayerEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private final Talisman talisman;
 	private final ItemStack talismanItemStack;
+	private boolean preventConsumption = false;
 	private boolean cancelled = false;
 
 	/**
@@ -52,6 +53,26 @@ public class TalismanActivateEvent extends PlayerEvent implements Cancellable {
 	 */
 	public @Nonnull ItemStack getTalismanItem() {
 		return this.talismanItemStack;
+	}
+
+	/**
+	 * Only applies if {@link Talisman#isConsumable()} is true.
+	 * Defaults to false.
+	 *
+	 * @return Whether the {@link ItemStack} should not be consumed.
+	 */
+	public boolean preventsConsumption() {
+		return this.preventConsumption;
+	}
+
+	/**
+	 * Only applies if {@link Talisman#isConsumable()} is true.
+	 *
+	 * @param preventConsumption
+	 * 		Whether the {@link ItemStack} should not be consumed.
+	 */
+	public void setPreventConsumption(boolean preventConsumption) {
+		this.preventConsumption = preventConsumption;
 	}
 
 	@Override
