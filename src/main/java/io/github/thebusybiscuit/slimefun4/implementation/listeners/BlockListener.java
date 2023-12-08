@@ -257,8 +257,9 @@ public class BlockListener implements Listener {
         if (count >= Bukkit.getServer().getMaxChainedNeighborUpdates()) {
             return;
         }
+        BlockData blockData = block.getBlockData();
+        block.setType(Material.AIR, false);
         for (BlockFace face : CARDINAL_BLOCKFACES) {
-            block.setType(Material.AIR, false);
             if (!isSupported(block.getRelative(face).getBlockData(), block.getRelative(face))) {
                 Block relative = block.getRelative(face);
                 for (ItemStack drop : relative.getDrops()) {
@@ -267,6 +268,7 @@ public class BlockListener implements Listener {
                 checkForSensitiveBlocks(relative, ++count);
             }
         }
+        block.setBlockData(blockData, false);
     }
 
     /**
