@@ -307,6 +307,7 @@ public class BlockListener implements Listener {
         }
 
         BlockState state = block.getState();
+        // We set the block to air to make use of BlockData#isSupported.
         block.setType(Material.AIR, false);
         for (BlockFace face : CARDINAL_BLOCKFACES) {
             if (!isSupported(block.getRelative(face).getBlockData(), block.getRelative(face))) {
@@ -319,6 +320,7 @@ public class BlockListener implements Listener {
                 checkForSensitiveBlocks(relative, ++count, isDropItems);
             }
         }
+        // Set the BlockData back: this makes it so containers and spawners drop correctly. This is a hacky fix.
         block.setBlockData(state.getBlockData(), false);
         state.update(true, false);
     }
