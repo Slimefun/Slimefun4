@@ -14,7 +14,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockBreakEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
@@ -171,8 +169,6 @@ public class BlockListener implements Listener {
 
             callBlockHandler(e, item, drops, sfItem);
 
-            checkForSensitiveBlocks(e.getBlock(), 0);
-
             dropItems(e, drops);
         }
     }
@@ -240,55 +236,6 @@ public class BlockListener implements Listener {
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * This method checks recursively for any sensitive blocks
-     * that are no longer supported due to this block breaking
-     *
-     * @param block
-     *      The {@link Block} in question
-     * @param count
-     *      The amount of times this has been recursively called
-     */
-    @ParametersAreNonnullByDefault
-    private void checkForSensitiveBlocks(Block block, Integer count) {
-        if (count >= Bukkit.getServer().getMaxChainedNeighborUpdates()) {
-            return;
-        }
-        BlockData blockData = block.getBlockData();
-        block.setType(Material.AIR, false);
-        for (BlockFace face : CARDINAL_BLOCKFACES) {
-            if (!isSupported(block.getRelative(face).getBlockData(), block.getRelative(face))) {
-                Block relative = block.getRelative(face);
-                for (ItemStack drop : relative.getDrops()) {
-                    block.getWorld().dropItemNaturally(relative.getLocation(), drop);
-                }
-                checkForSensitiveBlocks(relative, ++count);
-            }
-        }
-        block.setBlockData(blockData, false);
-    }
-
-    /**
-     * This method checks if the {@link BlockData} would be
-     * supported at the given {@link Block}.
-     *
-     * @param blockData
-     *      The {@link BlockData} to check
-     * @param block
-     *      The {@link Block} the {@link BlockData} would be at
-     * @return
-     *      Whether the {@link BlockData} would be supported at the given {@link Block}
-     */
-    @ParametersAreNonnullByDefault
-    private boolean isSupported(BlockData blockData, Block block) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
-            return blockData.isSupported(block);
-        } else {
-            // TODO: Make 1.16-1.18 version. BlockData::isSupported is 1.19+.
-            return true;
         }
     }
 
