@@ -10,7 +10,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -32,6 +31,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEve
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockBreakEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
@@ -168,12 +168,15 @@ public class BlockListener implements Listener {
         }
 
         if (!e.isCancelled()) {
+            // Checks for Slimefun sensitive blocks above, using Slimefun Tags
+            // TODO: merge this with the vanilla sensitive block check (when 1.18- is dropped)
             checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock(), item);
 
             callBlockHandler(e, item, drops, sfItem);
 
             dropItems(e, drops);
 
+            // Checks for vanilla sensitive blocks everywhere
             checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
         }
     }
