@@ -39,7 +39,7 @@ Here is a full summary of the differences between the two different versions of 
 | **Bug Reports** | :heavy_check_mark: | :x: |
 | **testing before release** | :x: | :heavy_check_mark: |
 | **change logs** | :x: | :memo: **[change log](https://github.com/Slimefun/Slimefun4/blob/master/CHANGELOG.md)** |
-| **Download link** | :floppy_disk: **[download latest](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :floppy_disk: **[download "stable"](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
+| **Download links** | :floppy_disk: **[download latest](https://blob.build/project/Slimefun4/Dev)** | :floppy_disk: **[download "stable"](https://blob.build/project/Slimefun4/RC)** |
 
 **:exclamation: We wholeheartedly recommend you to use _development builds_, they are the most recent version of Slimefun and also receive the most frequent updates! In fact, "stable" builds are so outdated that we won't accept bug reports from them at all.**
 <details>
