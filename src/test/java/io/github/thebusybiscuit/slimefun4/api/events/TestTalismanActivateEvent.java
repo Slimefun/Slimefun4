@@ -47,14 +47,14 @@ class TestTalismanActivateEvent {
         MockBukkit.unmock();
     }
 
-    void activateAnvilTalisman(boolean ender) {
+    void activateAnvilTalisman(boolean enderVariant, boolean inEnderChest) {
         player.getInventory().clear();
         player.getEnderChest().clear();
 
-        ItemStack talismanItem = ender ? enderTalisman.getItem() : talisman.getItem();
+        ItemStack talismanItem = enderVariant ? enderTalisman.getItem() : talisman.getItem();
         ItemStack breakableItem = new ItemStack(Material.IRON_PICKAXE);
 
-        if (ender) {
+        if (inEnderChest) {
             player.getEnderChest().addItem(talismanItem);
         } else {
             player.getInventory().addItem(talismanItem);
