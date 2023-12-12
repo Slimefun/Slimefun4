@@ -70,7 +70,7 @@ class TestTalismanActivateEvent {
     @DisplayName("Test that TalismanActivateEvent is fired when an anvil talisman activates")
     void testEventIsFired() {
         // Assert the talisman activates in the inventory
-        activateAnvilTalisman(false);
+        activateAnvilTalisman(false, false);
         server.getPluginManager().assertEventFired(TalismanActivateEvent.class, ignored -> true);
         server.getPluginManager().clearEvents();
 
