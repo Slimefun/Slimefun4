@@ -140,7 +140,7 @@ class TestTalismanActivateEvent {
         server.getPluginManager().clearEvents();
 
         // Assert the talisman activates in the ender chest
-        activateAnvilTalisman(true);
+        activateAnvilTalisman(true, true);
         server.getPluginManager().assertEventFired(TalismanActivateEvent.class, event -> {
             Assertions.assertTrue(event.isCancelled());
             return true;
