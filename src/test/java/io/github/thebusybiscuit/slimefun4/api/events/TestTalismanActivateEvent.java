@@ -101,7 +101,7 @@ class TestTalismanActivateEvent {
     @DisplayName("Test that the TalismanActivateEvent has the correct fields")
     void testEventFields() {
         // Assert the talisman activates in the inventory
-        activateAnvilTalisman(false);
+        activateAnvilTalisman(false, false);
         server.getPluginManager().assertEventFired(TalismanActivateEvent.class, event -> {
             Assertions.assertEquals(talisman, event.getTalisman());
             Assertions.assertEquals(talisman.getItem(), event.getTalismanItem());
