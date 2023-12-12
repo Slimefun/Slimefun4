@@ -132,7 +132,7 @@ class TestTalismanActivateEvent {
         }, plugin);
 
         // Assert the talisman activates in the inventory
-        activateAnvilTalisman(false);
+        activateAnvilTalisman(false, false);
         server.getPluginManager().assertEventFired(TalismanActivateEvent.class, event -> {
             Assertions.assertTrue(event.isCancelled());
             return true;
