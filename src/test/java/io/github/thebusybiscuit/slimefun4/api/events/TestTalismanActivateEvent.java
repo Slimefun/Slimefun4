@@ -78,13 +78,11 @@ class TestTalismanActivateEvent {
         activateAnvilTalisman(true, true);
         server.getPluginManager().assertEventFired(TalismanActivateEvent.class, ignored -> true);
         server.getPluginManager().clearEvents();
-        // Assert the normal talisman does not activate in the ender chest
-        activateAnvilTalisman(false, true);
 
-        // Try to activate the talisman in the inventory. If the catch is not hit, throw an error
+        // Assert the normal talisman does not activate in the ender chest
         boolean caught = false;
         try {
-            activateAnvilTalisman(false, false);
+            activateAnvilTalisman(false, true);
             server.getPluginManager().assertEventFired(TalismanActivateEvent.class, ignored -> true);
         } catch (AssertionError ignored) {
             caught = true;
