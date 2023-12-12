@@ -80,19 +80,32 @@ class TestTalismanActivateEvent {
         server.getPluginManager().clearEvents();
         // Assert the normal talisman does not activate in the ender chest
         activateAnvilTalisman(false, true);
+
+        // Try to activate the talisman in the inventory. If the catch is not hit, throw an error
+        boolean caught = false;
         try {
+            activateAnvilTalisman(false, false);
             server.getPluginManager().assertEventFired(TalismanActivateEvent.class, ignored -> true);
         } catch (AssertionError ignored) {
-            return; // This is expected; the event should not have fired
+            caught = true;
+        } finally {
+            if (!caught) {
+                throw new AssertionError("TalismanActivateEvent was fired when it should not have been");
+            }
         }
         server.getPluginManager().clearEvents();
 
         // Assert the ender talisman does not activate in the inventory
+        caught = false;
         try {
             activateAnvilTalisman(true, false);
             server.getPluginManager().assertEventFired(TalismanActivateEvent.class, ignored -> true);
         } catch (AssertionError ignored) {
-            return; // This is expected; the event should not have fired
+            caught = true;
+        } finally {
+            if (!caught) {
+                throw new AssertionError("TalismanActivateEvent was fired when it should not have been");
+            }
         }
         server.getPluginManager().clearEvents();
     }
