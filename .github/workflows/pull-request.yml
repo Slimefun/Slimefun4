@@ -50,7 +50,7 @@ jobs:
       run: mvn package
 
     - name: Upload the artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: slimefun-${{ github.event.number }}-${{ env.SHORT_COMMIT_HASH }}
         path: 'target/Slimefun v${{ env.JAR_VERSION }}.jar'
