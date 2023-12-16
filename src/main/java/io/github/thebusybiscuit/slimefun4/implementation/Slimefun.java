@@ -16,7 +16,8 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.storage.Storage;
-import io.github.thebusybiscuit.slimefun4.storage.legacy.LegacyStorage;
+import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -263,6 +264,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         registry.load(this, config);
         loadTags();
         soundService.reload(false);
+        // TODO: What do we do here? Use default and let tests override in some way?
+        playerStorage = new LegacyStorage();
     }
 
     /**

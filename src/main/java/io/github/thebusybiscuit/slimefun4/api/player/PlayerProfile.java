@@ -528,6 +528,10 @@ public class PlayerProfile {
         return armorCount == 4;
     }
 
+    public PlayerData getPlayerData() {
+        return this.data;
+    }
+
     @Override
     public int hashCode() {
         return uuid.hashCode();

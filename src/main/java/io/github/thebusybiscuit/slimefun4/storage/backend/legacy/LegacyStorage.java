@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.storage.legacy;
+package io.github.thebusybiscuit.slimefun4.storage.backend.legacy;
 
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
