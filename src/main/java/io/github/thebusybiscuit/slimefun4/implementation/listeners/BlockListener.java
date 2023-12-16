@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Container;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -174,7 +175,7 @@ public class BlockListener implements Listener {
 
             callBlockHandler(e, item, drops, sfItem);
 
-            dropItems(e, drops);
+            dropItems(e, item, drops);
 
             // Checks for vanilla sensitive blocks everywhere
             checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
@@ -224,7 +225,7 @@ public class BlockListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    private void dropItems(BlockBreakEvent e, List<ItemStack> drops) {
+    private void dropItems(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
         if (!drops.isEmpty()) {
             // TODO: properly support loading inventories within unit tests
             if (!Slimefun.instance().isUnitTest()) {
@@ -237,10 +238,16 @@ public class BlockListener implements Listener {
                 // Disable normal block drops
                 e.setDropItems(false);
 
+                // Fixes #4051
+                Block b = e.getBlock();
+                if (BlockStorage.check(b) == null) {
+                    b.breakNaturally(item);
+                }
+
                 for (ItemStack drop : drops) {
                     // Prevent null or air from being dropped
                     if (drop != null && drop.getType() != Material.AIR) {
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+                        b.getWorld().dropItemNaturally(b.getLocation(), drop);
                     }
                 }
             }
