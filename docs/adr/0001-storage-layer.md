@@ -81,7 +81,7 @@ The current plan looks like this:
   * We want to load player data using the new storage layer with the current
     data system.
   * We'll want to monitor for any possible issues and generally refine 
-    how this system should look
+    how this system and should look
 * Phase 2 - Implement new experimental binary backend for [`PlayerProfile`]().
   * Create a new backend for binary storage
   * Implement in an experimental capacity and allow users to opt-in

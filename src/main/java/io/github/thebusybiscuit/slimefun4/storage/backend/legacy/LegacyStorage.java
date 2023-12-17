@@ -7,22 +7,27 @@ import io.github.thebusybiscuit.slimefun4.storage.Storage;
 import io.github.thebusybiscuit.slimefun4.storage.data.PlayerData;
 import org.bukkit.NamespacedKey;
 
+import com.google.common.annotations.Beta;
+
 import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+@Beta
 public class LegacyStorage implements Storage {
 
     @Override
     public PlayerData loadPlayerData(@Nonnull UUID uuid) {
-        Config file = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
+        Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
+        // Not too sure why this is it's own file
+        Config waypointFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
 
         Set<NamespacedKey> researches = new HashSet<>();
 
         for (Research research : Slimefun.getRegistry().getResearches()) {
-            if (file.contains("researches." + research.getID())) {
+            if (playerFile.contains("researches." + research.getID())) {
                 researches.add(research.getKey());
             }
         }
