@@ -1,11 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
@@ -30,7 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Telepo
  */
 public class Waypoint {
 
-    private final PlayerProfile profile;
+    private final UUID uuid;
     private final String id;
     private final String name;
     private final Location location;
@@ -48,26 +50,40 @@ public class Waypoint {
      *            The name of this {@link Waypoint}
      */
     @ParametersAreNonnullByDefault
-    public Waypoint(PlayerProfile profile, String id, Location loc, String name) {
-        Validate.notNull(profile, "Profile must never be null!");
+    public Waypoint(UUID uuid, String id, Location loc, String name) {
+        Validate.notNull(uuid, "UUID must never be null!");
         Validate.notNull(id, "id must never be null!");
         Validate.notNull(loc, "Location must never be null!");
         Validate.notNull(name, "Name must never be null!");
 
-        this.profile = profile;
+        this.uuid = uuid;
         this.id = id;
         this.location = loc;
         this.name = name;
     }
 
     /**
-     * This returns the owner of the {@link Waypoint}.
+     * This returns the owner {@link UUID} of the {@link Waypoint}.
      * 
-     * @return The corresponding {@link PlayerProfile}
+     * @return The corresponding owner {@link UUID}
      */
     @Nonnull
+    public UUID getUuid() {
+        return this.uuid;
+    }
+
+    /**
+     * This returns the owner of the {@link Waypoint}.
+     *
+     * @return The corresponding {@link PlayerProfile}
+     *
+     * @deprecated Use {@link #getUuid()} instead
+     */
+    @Nonnull
+    @Deprecated
     public PlayerProfile getOwner() {
-        return profile;
+        // This is jank and should never actually return null
+        return PlayerProfile.find(Bukkit.getOfflinePlayer(uuid)).orElse(null);
     }
 
     /**
@@ -126,7 +142,7 @@ public class Waypoint {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(profile.getUUID(), id, name, location);
+        return Objects.hash(this.uuid, this.id, this.name, this.location);
     }
 
     /**
@@ -139,7 +155,9 @@ public class Waypoint {
         }
 
         Waypoint waypoint = (Waypoint) obj;
-        return profile.getUUID().equals(waypoint.getOwner().getUUID()) && id.equals(waypoint.getId()) && location.equals(waypoint.getLocation()) && name.equals(waypoint.getName());
+        return this.uuid.equals(waypoint.getUuid())
+            && id.equals(waypoint.getId())
+            && location.equals(waypoint.getLocation())
+            && name.equals(waypoint.getName());
     }
-
 }

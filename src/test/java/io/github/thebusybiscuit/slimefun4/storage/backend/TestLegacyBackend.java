@@ -70,7 +70,7 @@ class TestLegacyBackend {
         // Check if the data is correct
         Assertions.assertEquals(10, data.getResearches().size());
         for (int i = 0; i < 10; i++) {
-            Assertions.assertTrue(data.getResearches().contains(Slimefun.getRegistry().getResearches().get(i).getKey()));
+            Assertions.assertTrue(data.getResearches().contains(Slimefun.getRegistry().getResearches().get(i)));
         }
     }
 
@@ -99,7 +99,7 @@ class TestLegacyBackend {
         PlayerData assertion = storage.loadPlayerData(uuid);
         Assertions.assertEquals(10, assertion.getResearches().size());
         for (int i = 0; i < 10; i++) {
-            Assertions.assertTrue(assertion.getResearches().contains(Slimefun.getRegistry().getResearches().get(i).getKey()));
+            Assertions.assertTrue(assertion.getResearches().contains(Slimefun.getRegistry().getResearches().get(i)));
         }
     }
 

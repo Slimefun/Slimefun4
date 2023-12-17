@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.player;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,8 +10,6 @@ import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
@@ -22,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.storage.data.PlayerData;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -30,6 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
@@ -68,7 +65,6 @@ public class PlayerProfile {
     private boolean dirty = false;
     private boolean markedForDeletion = false;
 
-    private final List<Waypoint> waypoints = new ArrayList<>();
     private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
     private final GuideHistory guideHistory = new GuideHistory(this);
 
@@ -83,22 +79,6 @@ public class PlayerProfile {
 
         configFile = new Config("data-storage/Slimefun/Players/" + uuid.toString() + ".yml");
         waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
-
-        loadProfileData();
-    }
-
-    private void loadProfileData() {
-        for (String key : waypointsFile.getKeys()) {
-            try {
-                if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
-                    String waypointName = waypointsFile.getString(key + ".name");
-                    Location loc = waypointsFile.getLocation(key);
-                    waypoints.add(new Waypoint(this, key, loc, waypointName));
-                }
-            } catch (Exception x) {
-                Slimefun.logger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + name + '"');
-            }
-        }
     }
 
     /**
@@ -176,9 +156,9 @@ public class PlayerProfile {
         dirty = true;
 
         if (unlock) {
-            data.getResearches().add(research.getKey());
+            data.addResearch(research);
         } else {
-            data.getResearches().remove(research.getKey());
+            data.removeResearch(research);
         }
     }
 
@@ -196,7 +176,7 @@ public class PlayerProfile {
             return true;
         }
 
-        return !research.isEnabled() || data.getResearches().contains(research.getKey());
+        return !research.isEnabled() || data.getResearches().contains(research);
     }
 
     /**
@@ -222,10 +202,7 @@ public class PlayerProfile {
      * @return A {@code Hashset<Research>} of all Researches this {@link Player} has unlocked
      */
     public @Nonnull Set<Research> getResearches() {
-        return Slimefun.getRegistry().getResearches()
-            .stream()
-            .filter((research) -> data.getResearches().contains(research.getKey()))
-            .collect(Collectors.toUnmodifiableSet());
+        return ImmutableSet.copyOf(this.data.getResearches());
     }
 
     /**
@@ -235,7 +212,7 @@ public class PlayerProfile {
      * @return A {@link List} containing every {@link Waypoint}
      */
     public @Nonnull List<Waypoint> getWaypoints() {
-        return ImmutableList.copyOf(waypoints);
+        return ImmutableList.copyOf(this.data.getWaypoints());
     }
 
     /**
@@ -246,21 +223,7 @@ public class PlayerProfile {
      *            The {@link Waypoint} to add
      */
     public void addWaypoint(@Nonnull Waypoint waypoint) {
-        Validate.notNull(waypoint, "Cannot add a 'null' waypoint!");
-
-        for (Waypoint wp : waypoints) {
-            if (wp.getId().equals(waypoint.getId())) {
-                throw new IllegalArgumentException("A Waypoint with that id already exists for this Player");
-            }
-        }
-
-        if (waypoints.size() < 21) {
-            waypoints.add(waypoint);
-
-            waypointsFile.setValue(waypoint.getId(), waypoint.getLocation());
-            waypointsFile.setValue(waypoint.getId() + ".name", waypoint.getName());
-            markDirty();
-        }
+        this.data.addWaypoint(waypoint);
     }
 
     /**
@@ -271,12 +234,7 @@ public class PlayerProfile {
      *            The {@link Waypoint} to remove
      */
     public void removeWaypoint(@Nonnull Waypoint waypoint) {
-        Validate.notNull(waypoint, "Cannot remove a 'null' waypoint!");
-
-        if (waypoints.remove(waypoint)) {
-            waypointsFile.setValue(waypoint.getId(), null);
-            markDirty();
-        }
+        this.data.removeWaypoint(waypoint);
     }
 
     /**
