@@ -32,7 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.teleporter.Telepo
  */
 public class Waypoint {
 
-    private final UUID uuid;
+    private final UUID ownerId;
     private final String id;
     private final String name;
     private final Location location;
@@ -40,8 +40,8 @@ public class Waypoint {
     /**
      * This constructs a new {@link Waypoint} object.
      * 
-     * @param profile
-     *            The owning {@link PlayerProfile}
+     * @param ownerId
+     *            The owning {@link Player}'s {@link UUID}
      * @param id
      *            The unique id for this {@link Waypoint}
      * @param loc
@@ -50,13 +50,13 @@ public class Waypoint {
      *            The name of this {@link Waypoint}
      */
     @ParametersAreNonnullByDefault
-    public Waypoint(UUID uuid, String id, Location loc, String name) {
-        Validate.notNull(uuid, "UUID must never be null!");
+    public Waypoint(UUID ownerId, String id, Location loc, String name) {
+        Validate.notNull(ownerId, "owner ID must never be null!");
         Validate.notNull(id, "id must never be null!");
         Validate.notNull(loc, "Location must never be null!");
         Validate.notNull(name, "Name must never be null!");
 
-        this.uuid = uuid;
+        this.ownerId = ownerId;
         this.id = id;
         this.location = loc;
         this.name = name;
@@ -68,8 +68,8 @@ public class Waypoint {
      * @return The corresponding owner {@link UUID}
      */
     @Nonnull
-    public UUID getUuid() {
-        return this.uuid;
+    public UUID getOwnerId() {
+        return this.ownerId;
     }
 
     /**
@@ -83,7 +83,7 @@ public class Waypoint {
     @Deprecated
     public PlayerProfile getOwner() {
         // This is jank and should never actually return null
-        return PlayerProfile.find(Bukkit.getOfflinePlayer(uuid)).orElse(null);
+        return PlayerProfile.find(Bukkit.getOfflinePlayer(ownerId)).orElse(null);
     }
 
     /**
@@ -142,7 +142,7 @@ public class Waypoint {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.uuid, this.id, this.name, this.location);
+        return Objects.hash(this.ownerId, this.id, this.name, this.location);
     }
 
     /**
@@ -155,7 +155,7 @@ public class Waypoint {
         }
 
         Waypoint waypoint = (Waypoint) obj;
-        return this.uuid.equals(waypoint.getUuid())
+        return this.ownerId.equals(waypoint.getOwnerId())
             && id.equals(waypoint.getId())
             && location.equals(waypoint.getLocation())
             && name.equals(waypoint.getName());
