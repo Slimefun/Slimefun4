@@ -60,12 +60,10 @@ public class PlayerProfile {
     private final String name;
 
     private final Config configFile;
-    private final Config waypointsFile;
 
     private boolean dirty = false;
     private boolean markedForDeletion = false;
 
-    private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
     private final GuideHistory guideHistory = new GuideHistory(this);
 
     private final HashedArmorpiece[] armor = { new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece() };
@@ -78,7 +76,6 @@ public class PlayerProfile {
         this.data = data;
 
         configFile = new Config("data-storage/Slimefun/Players/" + uuid.toString() + ".yml");
-        waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
     }
 
     /**
@@ -133,12 +130,6 @@ public class PlayerProfile {
      * This method will save the Player's Researches and Backpacks to the hard drive
      */
     public void save() {
-        for (PlayerBackpack backpack : backpacks.values()) {
-            backpack.save();
-        }
-
-        waypointsFile.save();
-        configFile.save();
         dirty = false;
     }
 
@@ -256,8 +247,8 @@ public class PlayerProfile {
         IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !configFile.contains("backpacks." + i + ".size"));
         int id = stream.findFirst().getAsInt();
 
-        PlayerBackpack backpack = new PlayerBackpack(this, id, size);
-        backpacks.put(id, backpack);
+        PlayerBackpack backpack = PlayerBackpack.newBackpack(this.uuid, id, size);
+        this.data.addBackpack(backpack);
 
         return backpack;
     }
@@ -267,13 +258,9 @@ public class PlayerProfile {
             throw new IllegalArgumentException("Backpacks cannot have negative ids!");
         }
 
-        PlayerBackpack backpack = backpacks.get(id);
+        PlayerBackpack backpack = data.getBackpack(id);
 
         if (backpack != null) {
-            return Optional.of(backpack);
-        } else if (configFile.contains("backpacks." + id + ".size")) {
-            backpack = new PlayerBackpack(this, id);
-            backpacks.put(id, backpack);
             return Optional.of(backpack);
         }
 

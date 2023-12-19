@@ -3,9 +3,12 @@ package io.github.thebusybiscuit.slimefun4.storage.data;
 import com.google.common.annotations.Beta;
 
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -22,10 +25,13 @@ import org.apache.commons.lang.Validate;
 public class PlayerData {
 
     private final Set<Research> researches = new HashSet<>();
+    private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
     private final Set<Waypoint> waypoints = new HashSet<>();
 
-    public PlayerData(Set<Research> researches, Set<Waypoint> waypoints) {
+    public PlayerData(Set<Research> researches, Map<Integer, PlayerBackpack> backpacks, Set<Waypoint> waypoints) {
         this.researches.addAll(researches);
+        this.backpacks.putAll(backpacks);
+        this.waypoints.addAll(waypoints);
     }
 
     public Set<Research> getResearches() {
@@ -42,6 +48,26 @@ public class PlayerData {
         researches.remove(research);
     }
 
+    @Nonnull
+    public Map<Integer, PlayerBackpack> getBackpacks() {
+        return backpacks;
+    }
+
+    @Nonnull
+    public PlayerBackpack getBackpack(int id) {
+        return backpacks.get(id);
+    }
+
+    public void addBackpack(@Nonnull PlayerBackpack backpack) {
+        Validate.notNull(backpack, "Cannot add a 'null' backpack!");
+        backpacks.put(backpack.getId(), backpack);
+    }
+
+    public void removeBackpack(@Nonnull PlayerBackpack backpack) {
+        Validate.notNull(backpack, "Cannot remove a 'null' backpack!");
+        backpacks.remove(backpack.getId());
+    }
+
     public Set<Waypoint> getWaypoints() {
         return waypoints;
     }
@@ -55,9 +81,9 @@ public class PlayerData {
             }
         }
 
-        // TODO: Figure out why we limit this to 21, it's a weird number        
+        // Limited to 21 due to limited UI space and no pagination
         if (waypoints.size() >= 21) {
-            return; // Also, not sure why this doesn't throw but the one above does...
+            return; // not sure why this doesn't throw but the one above does...
         }
 
         waypoints.add(waypoint);
