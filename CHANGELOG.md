@@ -1,6 +1,7 @@
 # Table of contents
-- [Release Candidate 36 (TBD)](#release-candidate-36-tbd)
-- [Release Candidate 35 (7 Jul 2023)](#release-candidate-35-7-jul-2023)
+- [Release Candidate 37 (TBD)](#release-candidate-37-tbd)
+- [Release Candidate 36 (20 Dec 2023)](#release-candidate-36-20-dec-2023)
+- [Release Candidate 35 (07 Jul 2023)](#release-candidate-35-07-jul-2023)
 - [Release Candidate 34 (20 Jun 2023)](#release-candidate-34-20-jun-2023)
 - [Release Candidate 33 (07 Jan 2023)](#release-candidate-33-07-jan-2023)
 - [Release Candidate 32 (26 Jun 2022)](#release-candidate-32-26-jun-2022)
@@ -36,15 +37,55 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 36 (TBD)
+## Release Candidate 37 (TBD)
+
+## Release Candidate 36 (20 Dec 2023)
 
 #### Additions
+* Added e2e testing to PRs to better ensure compatibility
+* Added compatibility to 1.20+
+* Added rainbow armor
+* Added grace periods to radiation
+* Added cherry log to android woodcutter
+* Added blackstone recipes to Grindstone and Ore Crusher (#3912)
+* Added Enchanted Golden Apple recipe (suggestion #2147 from punished_Garett) (#3591)
+* Added new flags for timings (#3246)
+* Added yaw to GPS Waypoints
+* (API) Add MultiBlockCraftEvent (#3928)
+* (API) Add TalismanActivateEvent (#4045)
 
 #### Changes
+* Changed the radiation system
+* Removed backwards compatibility
+* (API) Improve performance for clearAllBlockInfoAtChunk
+* Change Energized GPS Transmitter values to follow the pattern of previous tiers (#3915)
+* Allowed the sword of beheading to drop piglin heads
+* Improvements to BlockStorage handling (#3911)
+* Moved builds to https://blob.build
 
 #### Fixes
+* Fix #3444
+* Fix #3507
+* Fix possible enchantment duplication
+* Fix Different Time of Pan Recipes
+* Fix some of the reported blocks not working (#3848)
+* Fix Soulbound Runes not working (#3932)
+* Fix #3836
+* Fix unable to craft soulbound backpack with woven backpack with id (#3939)
+* Fix getting radiated when not supposed to
+* Fix geo miner voiding resources
+* Fix sensitive blocks attached to sf blocks not dropping (1.19+)
+* Fix breaking sf block with not unlocked item duping contents (#3976)
+* Fix the case of SlimefunItem#itemhandlers
+* Fix taking damage on head collision while wearing elytra cap (#3760)
+* Fix heads showing as steve (#4027)
+* Fix grappling hook not working due to bat dying (#3926)
+* Fix freezer material
+* Fix auto update
+* Fix rate limiting issues (#4042)
+* Fix orebfuscator plugin with blocks when gold panning (#3921)
 
-## Release Candidate 35 (7 Jul 2023)
+## Release Candidate 35 (07 Jul 2023)
 
 #### Additions
 * Added `sounds.yml` file to configure sound effects for Slimefun
