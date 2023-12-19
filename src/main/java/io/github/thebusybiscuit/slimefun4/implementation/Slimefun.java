@@ -264,7 +264,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         registry.load(this, config);
         loadTags();
         soundService.reload(false);
-        // TODO: What do we do here? Use default and let tests override in some way?
+        // TODO: What do we do if tests want to use another storage backend (e.g. testing new feature on legacy + sql)?
+        // Do we have a way to override this?
         playerStorage = new LegacyStorage();
     }
 

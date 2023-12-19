@@ -78,6 +78,8 @@ This ADR will be updated when we get to supporting Addons properly.
 
 This will be a big change therefore we will be doing it as incrementally as
 possible.
+Changes will be tested while in the PR stage and merged into the Dev releases when possible.
+We may do an experimental release if required.
 
 The current plan looks like this:
 
