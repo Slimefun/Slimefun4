@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -26,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.utils.ArmorStandUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
@@ -152,22 +152,8 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         if (!createIfNoneExists) {
             return null;
         }
-
-        ArmorStand hologram = spawnArmorStand(l);
-        hologram.setCustomName(nametag);
-        return hologram;
-    }
-
-    private static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location l) {
-        ArmorStand armorStand = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
-        armorStand.setVisible(false);
-        armorStand.setSilent(true);
-        armorStand.setMarker(true);
-        armorStand.setGravity(false);
-        armorStand.setBasePlate(false);
-        armorStand.setCustomNameVisible(true);
-        armorStand.setRemoveWhenFarAway(false);
-        return armorStand;
+        
+        return ArmorStandUtils.spawnArmorStand(l, nametag);
     }
 
     private static void killArmorStand(@Nonnull Block b) {

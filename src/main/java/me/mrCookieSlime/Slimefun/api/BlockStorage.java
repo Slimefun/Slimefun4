@@ -621,8 +621,8 @@ public class BlockStorage {
             return;
         }
         Map<Location, Boolean> toClear = new HashMap<>();
-        Map<Location, Config> storage = blockStorage.getRawStorage();
-        for (Location location : storage.keySet()) {
+        // Unsafe: get raw storage for this world
+        for (Location location : blockStorage.storage.keySet()) {
             if (location.getBlockX() >> 4 == chunkX && location.getBlockZ() >> 4 == chunkZ) {
                 toClear.put(location, destroy);
             }
@@ -719,7 +719,12 @@ public class BlockStorage {
         if (updateTicker) {
             SlimefunItem item = SlimefunItem.getById(key);
 
-            if (item != null && item.isTicking() && value != null) {
+            if (item != null
+                && value != null
+                && l.getWorld() != null
+                && item.isTicking()
+                && !item.isDisabledIn(l.getWorld())
+            ) {
                 Slimefun.getTickerTask().enableTicker(l);
             }
         }

@@ -80,4 +80,26 @@ public final class ChatUtils {
         return builder.toString();
     }
 
+    /**
+     * This method adds an s to a string if the supplied integer is not 1.
+     *
+     * @param string
+     *      The string to potentially pluralize
+     * @param count
+     *      The amount of things
+     * @return
+     *      {@code string} if {@code count} is 1 else {@code string + "s"}
+     * @throws IllegalArgumentException
+     *      if count is less than 0
+     */
+    public static @Nonnull String checkPlurality(@Nonnull String string, int count) {
+        if (count < 0) {
+            throw new IllegalArgumentException("Argument count cannot be negative.");
+        }
+        if (count == 1) {
+            return string;
+        }
+        return string + "s";
+    }
+
 }

@@ -27,7 +27,6 @@
 		"minecraft:lily_pad",
 		"minecraft:dead_bush",
 		"minecraft:fern",
-		"minecraft:grass",
 		"minecraft:sea_pickle",
 		"minecraft:nether_wart",
 		"minecraft:seagrass",
@@ -35,6 +34,10 @@
 		"minecraft:kelp",
 		"minecraft:bell",
 		"minecraft:lantern",
+		{
+			"id" : "minecraft:grass",
+			"required" : false
+		},
 		{
 			"id" : "minecraft:soul_lantern",
 			"required" : false
@@ -57,6 +60,10 @@
 		},
 		{
 			"id" : "minecraft:weeping_vines",
+			"required" : false
+		},
+		{
+			"id" : "minecraft:short_grass",
 			"required" : false
 		}
 	]

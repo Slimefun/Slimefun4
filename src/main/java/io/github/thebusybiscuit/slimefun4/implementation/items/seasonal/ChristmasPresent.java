@@ -55,7 +55,7 @@ public class ChristmasPresent extends SimpleSlimefunItem<ItemUseHandler> impleme
 
                 Block b = block.getRelative(e.getClickedFace());
                 ItemStack gift = gifts[ThreadLocalRandom.current().nextInt(gifts.length)].clone();
-                SlimefunUtils.spawnItem(b.getLocation(), gift, ItemSpawnReason.CHRISTMAS_PRESENT_OPENED, true);
+                SlimefunUtils.spawnItem(b.getLocation(), gift, ItemSpawnReason.CHRISTMAS_PRESENT_OPENED, true, e.getPlayer());
             });
         };
     }

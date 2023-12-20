@@ -1,0 +1,77 @@
+name: End to End Testing
+
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: 'Slimefun artifact name'
+        required: true
+        type: string
+
+jobs:
+  e2e-testing:
+    name: End to End Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    strategy:
+      matrix:
+        include:
+          - mcVersion: '1.16.5'
+            javaVersion: '16'
+          - mcVersion: '1.17.1'
+            javaVersion: '17'
+          - mcVersion: '1.18.2'
+            javaVersion: '18'
+          - mcVersion: '1.19.4'
+            javaVersion: '19'
+          - mcVersion: 'latest'
+            javaVersion: '20'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4.0.0
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.javaVersion }}
+          java-package: jdk
+          architecture: x64
+
+      - name: Setup server
+        run: |
+          echo 'eula=true' > eula.txt
+          mkdir plugins
+
+      - name: Download ${{ matrix.mcVersion }} Paper
+        run: |
+          VERSION="${{ matrix.mcVersion }}"
+          if [ "$VERSION" == "latest" ]; then
+            VERSION=$(curl https://api.papermc.io/v2/projects/paper/ -s | jq -r '.versions[-1]')
+          fi
+
+          BUILD_JAR=$(curl -s "https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds" \
+            | jq '.builds[-1] | "\(.build) \(.downloads.application.name)"' -r)
+          BUILD=$(echo "$BUILD_JAR" | awk '{print $1}')
+          JAR_FILE=$(echo "$BUILD_JAR" | awk '{print $2}')
+
+          echo "Downloading... https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds/$BUILD/downloads/$JAR_FILE"
+          curl -o paper.jar \
+            "https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds/$BUILD/downloads/$JAR_FILE"
+
+      - name: Download Slimefun
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: plugins/
+
+      - name: Download e2e-tester
+        run: |
+          curl -o e2e-tester.jar https://preview-builds.walshy.dev/download/e2e-tester/main/latest
+          mv e2e-tester.jar plugins/e2e-tester.jar
+
+      - name: Run server
+        run: |
+          java -jar paper.jar --nogui

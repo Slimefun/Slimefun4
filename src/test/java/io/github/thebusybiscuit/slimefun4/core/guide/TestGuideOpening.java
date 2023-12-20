@@ -5,11 +5,14 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,13 +93,35 @@ class TestGuideOpening {
     }
 
     @Test
+    @DisplayName("Test if the Slimefun Search works with normal and colored terms")
+    void testOpenSearch_withColoredSearchTerm() throws InterruptedException {
+        String normalTerm = "iron";
+        String coloredTerm = ChatColor.DARK_PURPLE + "iron";
+
+        SlimefunItem testItem = TestUtilities.mockSlimefunItem(plugin, "IRON_ITEM", new CustomItemStack(Material.IRON_INGOT, "iron item"));
+        testItem.register(plugin);
+
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+        SlimefunGuideImplementation guide = new SurvivalSlimefunGuide(false, false);
+
+        guide.openSearch(profile, normalTerm, false);
+        // Assert we can open with a non-coloured search term
+        Assertions.assertTrue(player.getOpenInventory().getTopInventory().contains(testItem.getItem()), "Failed on normal query");
+
+        guide.openSearch(profile, coloredTerm, false);
+        // Assert we can open with a coloured search term
+        Assertions.assertTrue(player.getOpenInventory().getTopInventory().contains(testItem.getItem()), "Failed on colored query");
+    }
+
+    @Test
     @DisplayName("Test if the Slimefun Search can be opened from the History")
-    void testOpenSearch() throws InterruptedException {
-        String query = "electric";
+    void testOpenSearchHistory() throws InterruptedException {
+        String term = "electric";
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
-        PlayerProfile profile = prepare(guide, history -> history.add(query));
-        Mockito.verify(guide).openSearch(profile, query, false);
+        PlayerProfile profile = prepare(guide, history -> history.add(term));
+        Mockito.verify(guide).openSearch(profile, term, false);
     }
 
     @Test

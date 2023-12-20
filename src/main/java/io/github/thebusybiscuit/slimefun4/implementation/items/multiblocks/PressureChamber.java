@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -51,13 +53,19 @@ public class PressureChamber extends MultiBlockMachine {
                     if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
                         ItemStack output = RecipeType.getRecipeOutput(this, convert);
                         Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
+                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, current, output);
+
+                        Bukkit.getPluginManager().callEvent(event);
+                        if (event.isCancelled()) {
+                            return;
+                        }
 
                         if (outputInv != null) {
                             ItemStack removing = current.clone();
                             removing.setAmount(convert.getAmount());
                             inv.removeItem(removing);
 
-                            craft(p, b, output, inv, possibleDispenser);
+                            craft(p, b, event.getOutput(), inv, possibleDispenser);
                         } else {
                             Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }

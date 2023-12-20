@@ -100,7 +100,6 @@ class TestCargoNodeListener {
     @Test
     @DisplayName("Test non-Cargo node not being affected")
     void testNonCargoNode() {
-        Slimefun.getRegistry().setBackwardsCompatible(true);
         Player player = server.addPlayer();
         Location l = new Location(player.getWorld(), 190, 50, 400);
         Block b = l.getBlock();
@@ -111,7 +110,6 @@ class TestCargoNodeListener {
         BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), against, item, player, true, EquipmentSlot.HAND);
         listener.onCargoNodePlace(event);
         Assertions.assertFalse(event.isCancelled());
-        Slimefun.getRegistry().setBackwardsCompatible(false);
     }
 
 }

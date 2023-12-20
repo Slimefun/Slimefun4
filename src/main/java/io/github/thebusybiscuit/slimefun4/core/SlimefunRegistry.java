@@ -65,7 +65,6 @@ public final class SlimefunRegistry {
     private final Set<UUID> researchingPlayers = Collections.synchronizedSet(new HashSet<>());
 
     // TODO: Move this all into a proper "config cache" class
-    private boolean backwardsCompatibility;
     private boolean automaticallyLoadItems;
     private boolean enableResearches;
     private boolean freeCreativeResearches;
@@ -109,7 +108,6 @@ public final class SlimefunRegistry {
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
-        backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility");
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         disableLearningAnimation = cfg.getBoolean("researches.disable-learning-animation");
@@ -127,29 +125,6 @@ public final class SlimefunRegistry {
      */
     public boolean isAutoLoadingEnabled() {
         return automaticallyLoadItems;
-    }
-
-    /**
-     * This method returns whether backwards-compatibility is enabled.
-     * Backwards compatibility allows Slimefun to recognize items from older versions but comes
-     * at a huge performance cost.
-     * 
-     * @return Whether backwards compatibility is enabled
-     */
-    public boolean isBackwardsCompatible() {
-        return backwardsCompatibility;
-    }
-
-    /**
-     * This method sets the status of backwards compatibility.
-     * Backwards compatibility allows Slimefun to recognize items from older versions but comes
-     * at a huge performance cost.
-     * 
-     * @param compatible
-     *            Whether backwards compatibility should be enabled
-     */
-    public void setBackwardsCompatible(boolean compatible) {
-        backwardsCompatibility = compatible;
     }
 
     /**
