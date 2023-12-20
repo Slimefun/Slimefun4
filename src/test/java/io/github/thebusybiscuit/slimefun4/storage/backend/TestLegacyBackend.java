@@ -62,6 +62,7 @@ class TestLegacyBackend {
         FileUtils.deleteDirectory(new File("data-storage"));
     }
 
+    // Test simple loading and saving of player data
     @Test
     void testLoadingResearches() throws IOException {
         // Create a player file which we can load
@@ -273,6 +274,102 @@ class TestLegacyBackend {
         Assertions.assertEquals(4, waypoint.getLocation().getYaw());
         Assertions.assertEquals(5, waypoint.getLocation().getPitch());
         Assertions.assertEquals("world", waypoint.getLocation().getWorld().getName());
+    }
+
+    // Test realistic situations
+    @Test
+    void testResearchChanges() throws InterruptedException {
+        UUID uuid = UUID.randomUUID();
+        File playerFile = new File("data-storage/Slimefun/Players/" + uuid + ".yml");
+
+        OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+
+        // Unlock all researches
+        for (Research research : Slimefun.getRegistry().getResearches()) {
+            profile.setResearched(research, true);
+        }
+
+        // Save the player data
+        LegacyStorage storage = new LegacyStorage();
+        storage.savePlayerData(uuid, profile.getPlayerData());
+
+        // Assert the file exists and data is correct
+        Assertions.assertTrue(playerFile.exists());
+        PlayerData assertion = storage.loadPlayerData(uuid);
+        Assertions.assertEquals(10, assertion.getResearches().size());
+        for (int i = 0; i < 10; i++) {
+            Assertions.assertTrue(assertion.getResearches().contains(Slimefun.getRegistry().getResearches().get(i)));
+        }
+
+        // Now let's change the data and save it again
+        profile.setResearched(Slimefun.getRegistry().getResearches().get(3), false);
+
+        // Save the player data
+        storage.savePlayerData(uuid, profile.getPlayerData());
+
+        // Assert the file exists and data is correct
+        Assertions.assertTrue(playerFile.exists());
+        System.out.println("update assertion");
+        assertion = storage.loadPlayerData(uuid);
+        Assertions.assertEquals(9, assertion.getResearches().size());
+        for (int i = 0; i < 10; i++) {
+            if (i != 3) {
+                Assertions.assertTrue(assertion.getResearches().contains(Slimefun.getRegistry().getResearches().get(i)));
+            }
+        }
+    }
+
+    // Test realistic situations - when we fix the serialization issue
+    // @Test
+    // void testBackpackChanges() throws InterruptedException {}
+
+    @Test
+    void testWaypointChanges() throws InterruptedException {
+        // Create mock world
+        World world = server.createWorld(WorldCreator.name("world").environment(Environment.NORMAL));
+
+        // Create a player file which we can load
+        UUID uuid = UUID.randomUUID();
+        File playerFile = new File("data-storage/Slimefun/Players/" + uuid + ".yml");
+
+        OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+
+        profile.addWaypoint(new Waypoint(
+            player.getUniqueId(),
+            "test",
+            new Location(world, 1, 2, 3, 4, 5),
+            ChatColor.GREEN + "Test waypoint"
+        ));
+
+        Waypoint test2 = new Waypoint(
+            player.getUniqueId(),
+            "test2",
+            new Location(world, 10, 20, 30, 40, 50),
+            ChatColor.GREEN + "Test 2 waypoint"
+        );
+        profile.addWaypoint(test2);
+
+        // Save the player data
+        LegacyStorage storage = new LegacyStorage();
+        storage.savePlayerData(uuid, profile.getPlayerData());
+
+        // Assert the file exists and data is correct
+        Assertions.assertTrue(playerFile.exists());
+        PlayerData assertion = storage.loadPlayerData(uuid);
+        Assertions.assertEquals(2, assertion.getWaypoints().size());
+
+        // Remove one
+        profile.removeWaypoint(test2);
+
+        // Save the player data
+        storage.savePlayerData(uuid, profile.getPlayerData());
+
+        // Assert the file exists and data is correct
+        Assertions.assertTrue(playerFile.exists());
+        assertion = storage.loadPlayerData(uuid);
+        Assertions.assertEquals(1, assertion.getWaypoints().size());
     }
 
     // Utils

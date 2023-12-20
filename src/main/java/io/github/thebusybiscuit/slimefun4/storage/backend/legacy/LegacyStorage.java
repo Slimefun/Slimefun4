@@ -85,9 +85,15 @@ public class LegacyStorage implements Storage {
 
         // Save research
         playerFile.setValue("rearches", null);
-        for (Research research : data.getResearches()) {
-            // Legacy data uses IDs
-            playerFile.setValue("researches." + research.getID(), true);
+        for (Research research : Slimefun.getRegistry().getResearches()) {
+            // Save the research if it's researched
+            if (data.getResearches().contains(research)) {
+                playerFile.setValue("researches." + research.getID(), true);
+
+            // Remove the research if it's no longer researched
+            } else if (playerFile.contains("researches." + research.getID())) {
+                playerFile.setValue("researches." + research.getID(), null);
+            }
         }
 
         // Save backpacks
