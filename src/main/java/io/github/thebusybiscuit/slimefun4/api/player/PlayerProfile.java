@@ -214,6 +214,7 @@ public class PlayerProfile {
      */
     public void addWaypoint(@Nonnull Waypoint waypoint) {
         this.data.addWaypoint(waypoint);
+        markDirty();
     }
 
     /**
@@ -225,6 +226,7 @@ public class PlayerProfile {
      */
     public void removeWaypoint(@Nonnull Waypoint waypoint) {
         this.data.removeWaypoint(waypoint);
+        markDirty();
     }
 
     /**
@@ -249,6 +251,8 @@ public class PlayerProfile {
         PlayerBackpack backpack = PlayerBackpack.newBackpack(this.ownerId, id, size);
         this.data.addBackpack(backpack);
 
+        markDirty();
+
         return backpack;
     }
 
@@ -260,6 +264,7 @@ public class PlayerProfile {
         PlayerBackpack backpack = data.getBackpack(id);
 
         if (backpack != null) {
+            markDirty();
             return Optional.of(backpack);
         }
 

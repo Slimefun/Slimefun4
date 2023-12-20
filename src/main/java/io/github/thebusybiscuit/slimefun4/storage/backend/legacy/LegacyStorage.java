@@ -76,6 +76,7 @@ public class LegacyStorage implements Storage {
         return new PlayerData(researches, backpacks, waypoints);
     }
 
+    // The current design of saving all at once isn't great, this will be refined.
     @Override
     public void savePlayerData(@Nonnull UUID uuid, @Nonnull PlayerData data) {
         Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
@@ -83,6 +84,7 @@ public class LegacyStorage implements Storage {
         Config waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
 
         // Save research
+        playerFile.setValue("rearches", null);
         for (Research research : data.getResearches()) {
             // Legacy data uses IDs
             playerFile.setValue("researches." + research.getID(), true);
@@ -96,11 +98,16 @@ public class LegacyStorage implements Storage {
                 ItemStack item = backpack.getInventory().getItem(i);
                 if (item != null) {
                     playerFile.setValue("backpacks." + backpack.getId() + ".contents." + i, item);
+
+                // Remove the item if it's no longer in the inventory
+                } else if (playerFile.contains("backpacks." + backpack.getId() + ".contents." + i)) {
+                    playerFile.setValue("backpacks." + backpack.getId() + ".contents." + i, null);
                 }
             }
         }
 
         // Save waypoints
+        waypointsFile.clear();
         for (Waypoint waypoint : data.getWaypoints()) {
             // Legacy data uses IDs
             waypointsFile.setValue(waypoint.getId(), waypoint.getLocation());
