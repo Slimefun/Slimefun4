@@ -63,9 +63,9 @@ public class Waypoint {
     }
 
     /**
-     * This returns the owner {@link UUID} of the {@link Waypoint}.
+     * This returns the owner's {@link UUID} of the {@link Waypoint}.
      * 
-     * @return The corresponding owner {@link UUID}
+     * @return The corresponding owner's {@link UUID}
      */
     @Nonnull
     public UUID getOwnerId() {

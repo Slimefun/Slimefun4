@@ -60,6 +60,8 @@ public class PlayerBackpack {
      *            The {@link PlayerProfile} of this Backpack
      * @param id
      *            The id of this Backpack
+     *
+     * @deprecated Use {@link PlayerBackpack#load(UUID, int, int, HashMap)} instead
      */
     @Deprecated
     public PlayerBackpack(@Nonnull PlayerProfile profile, int id) {
@@ -79,6 +81,8 @@ public class PlayerBackpack {
      *            The id of this Backpack
      * @param size
      *            The size of this Backpack
+     *
+     * @deprecated Use {@link PlayerBackpack#newBackpack(UUID, int, int)} instead
      */
     @Deprecated
     public PlayerBackpack(@Nonnull PlayerProfile profile, int id, int size) {
@@ -111,6 +115,8 @@ public class PlayerBackpack {
      * This method returns the {@link PlayerProfile} this {@link PlayerBackpack} belongs to
      * 
      * @return The owning {@link PlayerProfile}
+     * 
+     * @deprecated Use {@link PlayerBackpack#getOwnerId()} instead
      */
     @Deprecated
     @Nonnull
@@ -206,6 +212,8 @@ public class PlayerBackpack {
 
     /**
      * This method will save the contents of this backpack to a {@link File}.
+     * 
+     * @deprecated Handled by {@link PlayerProfile#save()} now
      */
     @Deprecated
     public void save() {
@@ -218,7 +226,6 @@ public class PlayerBackpack {
      * This method marks the backpack dirty, it will then be queued for an autosave
      * using {@link PlayerBackpack#save()}
      */
-    @Deprecated
     public void markDirty() {
         if (profile != null) {
             profile.markDirty();
@@ -235,7 +242,6 @@ public class PlayerBackpack {
         }
     }
 
-    // NTS: The data loading is handled in the storage layer but we handle this specific class here
     @ParametersAreNonnullByDefault
     public static PlayerBackpack load(UUID ownerId, int id, int size, HashMap<Integer, ItemStack> contents) {
         PlayerBackpack backpack = new PlayerBackpack(ownerId, id, size);
