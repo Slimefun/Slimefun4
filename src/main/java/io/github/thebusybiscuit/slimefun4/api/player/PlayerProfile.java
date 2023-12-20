@@ -1,10 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.player;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
@@ -56,7 +54,7 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
  */
 public class PlayerProfile {
 
-    private final UUID uuid;
+    private final UUID ownerId;
     private final String name;
 
     private final Config configFile;
@@ -71,11 +69,11 @@ public class PlayerProfile {
     private final PlayerData data;
 
     protected PlayerProfile(@Nonnull OfflinePlayer p, PlayerData data) {
-        this.uuid = p.getUniqueId();
+        this.ownerId = p.getUniqueId();
         this.name = p.getName();
         this.data = data;
 
-        configFile = new Config("data-storage/Slimefun/Players/" + uuid.toString() + ".yml");
+        configFile = new Config("data-storage/Slimefun/Players/" + ownerId.toString() + ".yml");
     }
 
     /**
@@ -104,7 +102,7 @@ public class PlayerProfile {
      * @return The {@link UUID} of our {@link PlayerProfile}
      */
     public @Nonnull UUID getUUID() {
-        return uuid;
+        return ownerId;
     }
 
     /**
@@ -130,6 +128,7 @@ public class PlayerProfile {
      * This method will save the Player's Researches and Backpacks to the hard drive
      */
     public void save() {
+        Slimefun.getPlayerStorage().savePlayerData(this.ownerId, this.data);
         dirty = false;
     }
 
@@ -247,7 +246,7 @@ public class PlayerProfile {
         IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !configFile.contains("backpacks." + i + ".size"));
         int id = stream.findFirst().getAsInt();
 
-        PlayerBackpack backpack = PlayerBackpack.newBackpack(this.uuid, id, size);
+        PlayerBackpack backpack = PlayerBackpack.newBackpack(this.ownerId, id, size);
         this.data.addBackpack(backpack);
 
         return backpack;
@@ -479,17 +478,17 @@ public class PlayerProfile {
 
     @Override
     public int hashCode() {
-        return uuid.hashCode();
+        return ownerId.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof PlayerProfile profile && uuid.equals(profile.uuid);
+        return obj instanceof PlayerProfile profile && ownerId.equals(profile.ownerId);
     }
 
     @Override
     public String toString() {
-        return "PlayerProfile {" + uuid + "}";
+        return "PlayerProfile {" + ownerId + "}";
     }
 
 }

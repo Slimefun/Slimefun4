@@ -16,8 +16,6 @@ import com.google.common.annotations.Beta;
 
 import javax.annotation.Nonnull;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +28,7 @@ public class LegacyStorage implements Storage {
     @Override
     public PlayerData loadPlayerData(@Nonnull UUID uuid) {
         Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
-        // Not too sure why this is it's own file
+        // Not too sure why this is its own file
         Config waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
 
         // Load research
@@ -81,7 +79,7 @@ public class LegacyStorage implements Storage {
     @Override
     public void savePlayerData(@Nonnull UUID uuid, @Nonnull PlayerData data) {
         Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
-        // Not too sure why this is it's own file
+        // Not too sure why this is its own file
         Config waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
 
         // Save research

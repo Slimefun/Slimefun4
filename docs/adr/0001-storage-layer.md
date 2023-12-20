@@ -37,7 +37,7 @@ new storage backends (such as binary storage, SQL, etc.) for things like
 [PlayerProfile](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java), [BlockStorage](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java), etc.
 
 We also want to be generally more efficient in the way we save and load data.
-Today, we can to load way more than is required.
+Today, we load way more than is required.
 We can improve memory usage by only loading what we need, when we need it.
 
 We will do this incrementally and at first, in an experimental context.
@@ -66,7 +66,7 @@ e.g. SQL may not support [`BlockStorage`](https://github.com/Slimefun/Slimefun4/
 
 ## Addons
 
-The goal is that Addons will be able to use implement new storage backends
+The goal is that Addons will be able to use and implement new storage backends
 if they wish and also be extended so they can load/save things as they wish.
 
 The first few iterations will not focus on Addon support. We want to ensure
@@ -87,7 +87,7 @@ The current plan looks like this:
   * We want to load player data using the new storage layer with the current
     data system.
   * We'll want to monitor for any possible issues and generally refine 
-    how this system and should look
+    how this system should look
 * Phase 2 - Implement new experimental binary backend for [`PlayerProfile`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java).
   * Create a new backend for binary storage
   * Implement in an experimental capacity and allow users to opt-in
