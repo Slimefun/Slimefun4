@@ -205,10 +205,6 @@
                             <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.paperlib</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>kong.unirest</pattern>
-                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.unirest</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>org.apache.commons.lang</pattern>
                             <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.commons.lang</shadedPattern>
                         </relocation>
@@ -363,20 +359,6 @@
             <artifactId>paperlib</artifactId>
             <version>1.0.8</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.konghq</groupId>
-            <artifactId>unirest-java</artifactId>
-            <version>3.14.5</version>
-            <scope>compile</scope>
-
-            <exclusions>
-                <exclusion>
-                    <!-- No need to shade Gson, Spigot does that already -->
-                    <groupId>com.google.code.gson</groupId>
-                    <artifactId>gson</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- Testing dependencies -->
