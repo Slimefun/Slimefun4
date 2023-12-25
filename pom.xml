@@ -355,7 +355,7 @@
         <dependency>
             <groupId>com.github.baked-libs.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>4b28bd408e</version>
+            <version>da42c2f268</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -512,6 +512,12 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>1.5.25</version>
+            <scope>provided</scope>
         </dependency>
         <!-- TODO: Remove this dependency -->
         <dependency>
