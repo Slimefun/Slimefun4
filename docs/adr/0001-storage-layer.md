@@ -1,12 +1,13 @@
 # 1. Storage layer
 
 Date: 2023-11-15
+Last update: 2023-12-27
 
 **DO NOT rely on any APIs introduced until we finish the work completely!**
 
 ## Status
 
-Proposed
+Work in progress
 
 ## Context
 
@@ -52,7 +53,7 @@ as possible.
 
 ### Implementation details
 
-There is a new interface called [`Storage`]() which is what all storage
+There is a new interface called [`Storage`](TBD) which is what all storage
 backends will implement.
 This will have methods for loading and saving things like
 [`PlayerProfile`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java) and [`BlockStorage`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java).
@@ -81,6 +82,8 @@ possible.
 Changes will be tested while in the PR stage and merged into the Dev releases when possible.
 We may do an experimental release if required.
 
+Phases do not (and very likely will not) be done within a single PR. They will also not have any timeframe attached to them.
+
 The current plan looks like this:
 
 * Phase 1 - Implement legacy data backend for [`PlayerProfile`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java).
@@ -97,7 +100,7 @@ The current plan looks like this:
   * Mark it as stable and remove the warnings once we're sure things are
     working correctly
   * Create a migration path for users currently using "legacy".
-  * **MAYBE** enable by default for new servers?
+  * Enable by default for new servers
 * Phase 4 - Move [`BlockStorage`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java) to new storage layer.
   * The big one! We're gonna tackle adding this to BlockStorage.
     This will probably be a large change and we'll want to be as 
@@ -109,7 +112,7 @@ The current plan looks like this:
   * Mark it as stable and remove the warnings once we're sure things are
     working correctly
   * Ensure migration path works here too.
-  * **MAYBE** enable by default for new servers?
+  * Enable by default for new servers
 * Phase 6 - Finish up and move anything else we want over
   * Move over any other data stores we have to the new layer
   * We should probably still do experimental -> stable but it should have
@@ -118,3 +121,9 @@ The current plan looks like this:
 ## State of work
 
 * Phase 1: In progress
+  * https://github.com/Slimefun/Slimefun4/pull/4065
+* Phase 2: Not started
+* Phase 3: Not started
+* Phase 4: Not started
+* Phase 5: Not started
+* Phase 6: Not started
