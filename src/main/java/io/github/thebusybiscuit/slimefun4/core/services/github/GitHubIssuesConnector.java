@@ -25,7 +25,7 @@ class GitHubIssuesConnector extends GitHubConnector {
 
     @Override
     public void onSuccess(@Nonnull JsonElement response) {
-        if (response.isJsonObject()) {
+        if (response.isJsonArray()) {
             JsonArray array = response.getAsJsonArray();
 
             int issues = 0;
