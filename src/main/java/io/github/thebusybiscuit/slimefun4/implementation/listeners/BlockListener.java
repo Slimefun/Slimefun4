@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -240,7 +241,9 @@ public class BlockListener implements Listener {
                 for (ItemStack drop : drops) {
                     // Prevent null or air from being dropped
                     if (drop != null && drop.getType() != Material.AIR) {
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+                        if (e.getPlayer().getGameMode() != GameMode.CREATIVE || Slimefun.getCfg().getBoolean("options.drop-block-creative")) {
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+                        }
                     }
                 }
             }
