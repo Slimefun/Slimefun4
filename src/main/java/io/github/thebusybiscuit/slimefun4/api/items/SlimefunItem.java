@@ -1160,11 +1160,11 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * Retrieve a {@link Optional}<{@link SlimefunItem}> by its id.
+     * Retrieve a {@link Optional} {@link SlimefunItem} by its id.
      *
      * @param id
      *            The id of the {@link SlimefunItem}
-     * @return The {@link Optional}<{@link SlimefunItem}> associated with that id. Empty if non-existent
+     * @return The {@link Optional} {@link SlimefunItem} associated with that id. Empty if non-existent
      */
     public static @Nonnull Optional<SlimefunItem> getOptionalById(@Nonnull String id) {
         return Optional.ofNullable(getById(id));
@@ -1193,11 +1193,11 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * Retrieve a {@link Optional}<{@link SlimefunItem}> from an {@link ItemStack}.
+     * Retrieve a {@link Optional} {@link SlimefunItem} from an {@link ItemStack}.
      *
      * @param item
      *            The {@link ItemStack} to check
-     * @return The {@link Optional}<{@link SlimefunItem}> associated with this {@link ItemStack} if present, otherwise empty
+     * @return The {@link Optional} {@link SlimefunItem} associated with this {@link ItemStack} if present, otherwise empty
      */
     public @Nonnull Optional<SlimefunItem> getOptionalByItem(@Nullable ItemStack item) {
         return Optional.ofNullable(getByItem(item));

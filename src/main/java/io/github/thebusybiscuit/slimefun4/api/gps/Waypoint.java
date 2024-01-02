@@ -39,6 +39,26 @@ public class Waypoint {
 
     /**
      * This constructs a new {@link Waypoint} object.
+     *
+     * @param profile
+     *            The owning {@link PlayerProfile}
+     * @param id
+     *            The unique id for this {@link Waypoint}
+     * @param loc
+     *            The {@link Location} of the {@link Waypoint}
+     * @param name
+     *            The name of this {@link Waypoint}
+     *
+     * @deprecated Use {@link #Waypoint(UUID, String, Location, String)} instead
+     */
+    @Deprecated
+    @ParametersAreNonnullByDefault
+    public Waypoint(PlayerProfile profile, String id, Location loc, String name) {
+        this(profile.getUUID(), id, loc, name);
+    }
+
+    /**
+     * This constructs a new {@link Waypoint} object.
      * 
      * @param ownerId
      *            The owning {@link Player}'s {@link UUID}
@@ -77,7 +97,7 @@ public class Waypoint {
      *
      * @return The corresponding {@link PlayerProfile}
      *
-     * @deprecated Use {@link #getUuid()} instead
+     * @deprecated Use {@link #getOwnerId()} instead
      */
     @Nonnull
     @Deprecated
