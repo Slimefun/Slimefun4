@@ -15,6 +15,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.storage.Storage;
+import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -197,6 +200,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final Config items = new Config(this, "Items.yml");
     private final Config researches = new Config(this, "Researches.yml");
 
+    // Data storage
+    private Storage playerStorage;
+
     // Listeners that need to be accessed elsewhere
     private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
     private final BackpackListener backpackListener = new BackpackListener();
@@ -258,6 +264,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         registry.load(this, config);
         loadTags();
         soundService.reload(false);
+        // TODO: What do we do if tests want to use another storage backend (e.g. testing new feature on legacy + sql)?
+        // Do we have a way to override this?
+        playerStorage = new LegacyStorage();
     }
 
     /**
@@ -311,6 +320,10 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
 
         networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"), config.getBoolean("networks.delete-excess-items"));
+
+        // Data storage
+        playerStorage = new LegacyStorage();
+        logger.log(Level.INFO, "Using legacy storage for player data");
 
         // Setting up bStats
         new Thread(metricsService::start, "Slimefun Metrics").start();
@@ -1068,4 +1081,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         return instance.getServer().getScheduler().runTask(instance, runnable);
     }
 
+    public static @Nonnull Storage getPlayerStorage() {
+        return instance().playerStorage;
+    }
 }
