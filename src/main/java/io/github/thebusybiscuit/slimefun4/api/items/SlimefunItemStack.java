@@ -87,6 +87,10 @@ public class SlimefunItemStack extends ItemStack {
                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
             }
 
+            //add custom model
+            SlimefunItem itemItem = SlimefunItem.getById(id);
+            if (itemItem != null && itemItem.customModelData != 0) meta.setCustomModelData(itemItem.customModelData);
+
             consumer.accept(meta);
         });
     }
@@ -96,6 +100,10 @@ public class SlimefunItemStack extends ItemStack {
             if (name != null) {
                 im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
             }
+
+            //add custom model
+            SlimefunItem itemItem = SlimefunItem.getById(id);
+            if (itemItem != null && itemItem.customModelData != 0) im.setCustomModelData(itemItem.customModelData);
 
             if (lore.length > 0) {
                 List<String> lines = new ArrayList<>();
@@ -153,6 +161,10 @@ public class SlimefunItemStack extends ItemStack {
 
                 im.setLore(lines);
             }
+
+            //add custom model
+            SlimefunItem itemItem = SlimefunItem.getById(id);
+            if (itemItem != null && itemItem.customModelData != 0) im.setCustomModelData(itemItem.customModelData);
 
             if (im instanceof PotionMeta potionMeta) {
                 potionMeta.setColor(color);

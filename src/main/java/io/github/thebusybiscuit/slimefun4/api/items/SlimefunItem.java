@@ -20,6 +20,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
 
 import io.github.bakedlibs.dough.collections.OptionalMap;
@@ -70,6 +71,18 @@ public class SlimefunItem implements Placeable {
      * This is our item id.
      */
     private final String id;
+
+    /**
+     * This is a value assigned for custom textures in TexturePacks
+     * Will be assigned customModelDataCounter, after which counter is increased
+     */
+    protected int customModelData = 0;
+
+    /**
+     * This is a counter for the customModelData;
+     * save values from -16777216 to 16777216, outside Minecraft float conversion causes errors
+     */
+    private static int customModelDataCounter = 5300000; //Starting value initialized to 5300000 to avoid overlaps with other plugins/n
 
     /**
      * This is the original {@link ItemStack} that represents this item.
@@ -464,6 +477,20 @@ public class SlimefunItem implements Placeable {
                 hidden = Slimefun.getItemCfg().getBoolean(id + ".hide-in-guide");
                 enchantable = Slimefun.getItemCfg().getBoolean(id + ".allow-enchanting");
                 disenchantable = Slimefun.getItemCfg().getBoolean(id + ".allow-disenchanting");
+
+                //don't set custom model for heads, this makes them a missing texture unless resource pack is added
+                //also they're already textured
+                if (this.getItem().getType() != Material.PLAYER_HEAD){
+                    //Talisman Effect test probably re-registers Talisman after registration test
+                    // => Test if customModelData is already set
+                    ItemMeta meta = this.itemStackTemplate.getItemMeta();
+                    if (meta != null && !meta.hasCustomModelData()) {
+                        customModelData = customModelDataCounter++;
+                        meta.setCustomModelData(customModelData);
+                        this.itemStackTemplate.setItemMeta(meta);
+                    }
+                }
+
             } else if (this instanceof VanillaItem) {
                 // This item is a vanilla "mock" but was disabled.
                 state = ItemState.VANILLA_FALLBACK;
@@ -505,7 +532,7 @@ public class SlimefunItem implements Placeable {
     /**
      * This method is called when this {@link SlimefunItem} is currently being registered
      * and we are certain that it will be enabled.
-     * 
+     *
      * <strong>This method is for internal purposes, like {@link ItemGroup} registration only</strong>
      */
     private final void onEnable() {
@@ -1201,5 +1228,22 @@ public class SlimefunItem implements Placeable {
      */
     public @Nonnull Optional<SlimefunItem> getOptionalByItem(@Nullable ItemStack item) {
         return Optional.ofNullable(getByItem(item));
+    }
+
+    /**
+     * @return The current CustomModelDataCounter
+     */
+    public static int getCustomModelDataCounter(){
+        return customModelDataCounter;
+    }
+
+    /**
+     * Used to set CustomModelDataCounter
+     *
+     * @param value
+     *            The Value CustomModelDataCounter is set to
+     */
+    public static void setCustomModelDataCounter(int value){
+        customModelDataCounter = value;
     }
 }

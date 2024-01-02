@@ -167,7 +167,10 @@ public class CustomTextureService {
         Validate.notNull(id, "Cannot store null on an ItemMeta!");
 
         int data = getModelData(id);
-        im.setCustomModelData(data == 0 ? null : data);
+        //im.setCustomModelData(data == 0 ? null : data);
+        //keep custom model data for texturePacks
+        if (data != 0) im.setCustomModelData(data);
+
     }
 
 }
