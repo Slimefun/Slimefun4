@@ -303,7 +303,8 @@ public class BlockListener implements Listener {
      * @param count
      *      The amount of times this has been recursively called
      */
-    //disabled for now due to #4069
+    // Disabled for now due to #4069 - Servers crashing due to this check
+    // There is additionally a second bug with `getMaxChainedNeighborUpdates` not existing in 1.17
     @ParametersAreNonnullByDefault
     private void checkForSensitiveBlocks(Block block, Integer count, boolean isDropItems) {
         /*
