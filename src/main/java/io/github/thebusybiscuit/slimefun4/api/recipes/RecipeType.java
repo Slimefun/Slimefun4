@@ -32,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 
 // TODO: Remove this class and rewrite the recipe system
+@Deprecated
 public class RecipeType implements Keyed {
 
     public static final RecipeType MULTIBLOCK = new RecipeType(new NamespacedKey(Slimefun.instance(), "multiblock"), new CustomItemStack(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
@@ -50,7 +51,7 @@ public class RecipeType implements Keyed {
     public static final RecipeType ANCIENT_ALTAR = new RecipeType(new NamespacedKey(Slimefun.instance(), "ancient_altar"), SlimefunItems.ANCIENT_ALTAR, (recipe, output) -> {
         AltarRecipe altarRecipe = new AltarRecipe(Arrays.asList(recipe), output);
         AncientAltar altar = ((AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem());
-        altar.getRecipes().add(altarRecipe);
+        altar.getCraftedRecipes().add(altarRecipe);
     });
 
     public static final RecipeType MOB_DROP = new RecipeType(new NamespacedKey(Slimefun.instance(), "mob_drop"), new CustomItemStack(Material.IRON_SWORD, "&bMob Drop"), RecipeType::registerMobDrop, "", "&rKill the specified Mob to obtain this Item");
@@ -118,6 +119,19 @@ public class RecipeType implements Keyed {
         this.key = NamespacedKey.minecraft(recipe.getRecipeClass().getSimpleName().toLowerCase(Locale.ROOT).replace("recipe", ""));
     }
 
+    public RecipeCategory asRecipeCategory() {
+        return new RecipeCategory(item, key) {
+            @Override
+            public void onRegisterRecipe(Recipe recipe) {
+                if (consumer != null) {
+                    consumer.accept(
+                        recipe.getInputs().asDisplayGrid(),
+                        recipe.getOutputs().getOutputTemplate());
+                }
+            }
+        };
+    }
+
     public void register(ItemStack[] recipe, ItemStack result) {
         if (consumer != null) {
             consumer.accept(recipe, result);
@@ -180,7 +194,7 @@ public class RecipeType implements Keyed {
             return new ArrayList<>();
         }
 
-        List<ItemStack[]> recipes = machine.getRecipes();
+        List<ItemStack[]> recipes = machine.getCraftedRecipes();
         List<ItemStack> convertible = new ArrayList<>();
 
         for (int i = 0; i < recipes.size(); i++) {
@@ -197,7 +211,7 @@ public class RecipeType implements Keyed {
             return new ArrayList<>();
         }
 
-        List<ItemStack[]> recipes = machine.getRecipes();
+        List<ItemStack[]> recipes = machine.getCraftedRecipes();
         List<ItemStack[]> convertible = new ArrayList<>();
 
         for (int i = 0; i < recipes.size(); i++) {
@@ -222,12 +236,12 @@ public class RecipeType implements Keyed {
     }
 
     public static ItemStack getRecipeOutput(MultiBlockMachine machine, ItemStack input) {
-        List<ItemStack[]> recipes = machine.getRecipes();
+        List<ItemStack[]> recipes = machine.getCraftedRecipes();
         return recipes.get(((getRecipeInputs(machine).indexOf(input) * 2) + 1))[0].clone();
     }
 
     public static ItemStack getRecipeOutputList(MultiBlockMachine machine, ItemStack[] input) {
-        List<ItemStack[]> recipes = machine.getRecipes();
+        List<ItemStack[]> recipes = machine.getCraftedRecipes();
         return recipes.get((recipes.indexOf(input) + 1))[0];
     }
 }

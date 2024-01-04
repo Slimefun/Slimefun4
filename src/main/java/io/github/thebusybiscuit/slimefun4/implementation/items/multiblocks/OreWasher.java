@@ -86,7 +86,7 @@ public class OreWasher extends MultiBlockMachine {
 
     @Override
     public @Nonnull List<ItemStack> getDisplayRecipes() {
-        return recipes.stream().map(items -> items[0]).toList();
+        return craftedRecipes.stream().map(items -> items[0]).toList();
     }
 
     @Override

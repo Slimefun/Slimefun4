@@ -329,7 +329,7 @@ public class AncientAltarListener implements Listener {
     }
 
     private @Nonnull Optional<ItemStack> checkRecipe(@Nonnull ItemStack catalyst, @Nonnull List<ItemStackWrapper> items) {
-        for (AltarRecipe recipe : altarItem.getRecipes()) {
+        for (AltarRecipe recipe : altarItem.getCraftedRecipes()) {
             if (SlimefunUtils.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
                 Optional<ItemStack> optional = checkPedestals(items, recipe);
 

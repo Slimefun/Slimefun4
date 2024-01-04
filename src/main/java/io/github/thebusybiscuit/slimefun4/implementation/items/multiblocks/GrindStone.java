@@ -112,7 +112,7 @@ public class GrindStone extends MultiBlockMachine {
 
     @Override
     public @Nonnull List<ItemStack> getDisplayRecipes() {
-        return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
+        return craftedRecipes.stream().map(items -> items[0]).collect(Collectors.toList());
     }
 
     @Override

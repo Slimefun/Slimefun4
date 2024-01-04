@@ -65,13 +65,13 @@ public class Smeltery extends AbstractSmeltery {
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> items = new ArrayList<>();
 
-        for (int i = 0; i < recipes.size() - 1; i += 2) {
-            if (recipes.get(i) == null || Arrays.stream(recipes.get(i)).skip(1).anyMatch(Objects::nonNull)) {
+        for (int i = 0; i < craftedRecipes.size() - 1; i += 2) {
+            if (craftedRecipes.get(i) == null || Arrays.stream(craftedRecipes.get(i)).skip(1).anyMatch(Objects::nonNull)) {
                 continue;
             }
 
-            items.add(recipes.get(i)[0]);
-            items.add(recipes.get(i + 1)[0]);
+            items.add(craftedRecipes.get(i)[0]);
+            items.add(craftedRecipes.get(i + 1)[0]);
         }
 
         return items;

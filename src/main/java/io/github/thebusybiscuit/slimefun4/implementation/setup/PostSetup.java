@@ -133,7 +133,7 @@ public final class PostSetup {
         if (grinder != null) {
             ItemStack[] input = null;
 
-            for (ItemStack[] recipe : grinder.getRecipes()) {
+            for (ItemStack[] recipe : grinder.getCraftedRecipes()) {
                 if (input == null) {
                     input = recipe;
                 } else {
@@ -150,7 +150,7 @@ public final class PostSetup {
         if (crusher != null) {
             ItemStack[] input = null;
 
-            for (ItemStack[] recipe : crusher.getRecipes()) {
+            for (ItemStack[] recipe : crusher.getCraftedRecipes()) {
                 if (input == null) {
                     input = recipe;
                 } else {
@@ -180,7 +180,7 @@ public final class PostSetup {
             MakeshiftSmeltery makeshiftSmeltery = ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem());
             ItemStack[] input = null;
 
-            for (ItemStack[] output : smeltery.getRecipes()) {
+            for (ItemStack[] output : smeltery.getCraftedRecipes()) {
                 if (input == null) {
                     input = output;
                 } else {

@@ -37,9 +37,9 @@ public class MakeshiftSmeltery extends AbstractSmeltery {
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> items = new ArrayList<>();
 
-        for (int i = 0; i < recipes.size() - 1; i += 2) {
-            items.add(recipes.get(i)[0]);
-            items.add(recipes.get(i + 1)[0]);
+        for (int i = 0; i < craftedRecipes.size() - 1; i += 2) {
+            items.add(craftedRecipes.get(i)[0]);
+            items.add(craftedRecipes.get(i + 1)[0]);
         }
 
         return items;

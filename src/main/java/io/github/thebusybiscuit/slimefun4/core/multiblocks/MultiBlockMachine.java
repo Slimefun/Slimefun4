@@ -49,14 +49,14 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  */
 public abstract class MultiBlockMachine extends SlimefunItem implements NotPlaceable, RecipeDisplayItem {
 
-    protected final List<ItemStack[]> recipes;
+    protected final List<ItemStack[]> craftedRecipes;
     protected final List<ItemStack> displayRecipes;
     protected final MultiBlock multiblock;
 
     @ParametersAreNonnullByDefault
     protected MultiBlockMachine(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
         super(itemGroup, item, RecipeType.MULTIBLOCK, recipe);
-        this.recipes = new ArrayList<>();
+        this.craftedRecipes = new ArrayList<>();
         this.displayRecipes = new ArrayList<>();
         this.displayRecipes.addAll(Arrays.asList(machineRecipes));
         this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
@@ -73,8 +73,8 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         // Override this method to register some default recipes
     }
 
-    public @Nonnull List<ItemStack[]> getRecipes() {
-        return recipes;
+    public @Nonnull List<ItemStack[]> getCraftedRecipes() {
+        return craftedRecipes;
     }
 
     @Override
@@ -89,8 +89,8 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     public void addRecipe(ItemStack[] input, ItemStack output) {
         Validate.notNull(output, "Recipes must have an Output!");
 
-        recipes.add(input);
-        recipes.add(new ItemStack[] { output });
+        craftedRecipes.add(input);
+        craftedRecipes.add(new ItemStack[] { output });
     }
 
     @Override
@@ -121,8 +121,8 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
             SlimefunItem outputItem = SlimefunItem.getByItem(outputStack);
             // If the input/output is not a Slimefun item or it's not disabled then it's valid.
             if ((inputItem == null || !inputItem.isDisabled()) && (outputItem == null || !outputItem.isDisabled())) {
-                recipes.add(new ItemStack[] { inputStack });
-                recipes.add(new ItemStack[] { outputStack });
+                craftedRecipes.add(new ItemStack[] { inputStack });
+                craftedRecipes.add(new ItemStack[] { outputStack });
             }
         }
     }

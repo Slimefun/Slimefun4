@@ -40,7 +40,7 @@ public class AncientAltar extends SlimefunItem {
      */
     private static final int DEFAULT_STEP_DELAY = 8;
 
-    private final List<AltarRecipe> recipes = new ArrayList<>();
+    private final List<AltarRecipe> craftedRecipes = new ArrayList<>();
 
     private final ItemSetting<Integer> stepDelay = new IntRangeSetting(this, "step-delay", 0, DEFAULT_STEP_DELAY, Integer.MAX_VALUE);
 
@@ -63,8 +63,8 @@ public class AncientAltar extends SlimefunItem {
     }
 
     @Nonnull
-    public List<AltarRecipe> getRecipes() {
-        return recipes;
+    public List<AltarRecipe> getCraftedRecipes() {
+        return craftedRecipes;
     }
 
 }

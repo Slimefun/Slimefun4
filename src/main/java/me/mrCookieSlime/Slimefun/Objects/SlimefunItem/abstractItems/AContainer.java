@@ -91,7 +91,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     @ParametersAreNonnullByDefault
     protected AContainer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         this(itemGroup, item, recipeType, recipe);
-        this.recipeOutput = recipeOutput;
+        setRecipeOutput(recipeOutput);
     }
 
     @Override
