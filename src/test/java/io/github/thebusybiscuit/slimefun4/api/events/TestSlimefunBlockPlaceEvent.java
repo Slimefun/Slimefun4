@@ -16,6 +16,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -61,9 +62,10 @@ public class TestSlimefunBlockPlaceEvent {
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
-        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
-        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
-        BlockStorage.clearBlockInfo(block);
+        int x = TestUtilities.randomInt();
+        int z = TestUtilities.randomInt();
+        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
+        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
 
@@ -83,9 +85,10 @@ public class TestSlimefunBlockPlaceEvent {
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
-        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
-        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
-        BlockStorage.clearBlockInfo(block);
+        int x = TestUtilities.randomInt();
+        int z = TestUtilities.randomInt();
+        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
+        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
 
@@ -119,9 +122,10 @@ public class TestSlimefunBlockPlaceEvent {
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
-        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, 1, 1, 1));
-        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, 1, 0, 1));
-        BlockStorage.clearBlockInfo(block);
+        int x = TestUtilities.randomInt();
+        int z = TestUtilities.randomInt();
+        Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
+        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
 
@@ -135,5 +139,49 @@ public class TestSlimefunBlockPlaceEvent {
             Assertions.assertTrue(blockPlaceEvent.isCancelled());
             return true;
         });
+    }
+
+    @Test
+    @DisplayName("Test that you cannot place before a SlimefunBlock is fully cleared")
+    void testBlockPlacementBeforeFullDeletion() {
+        Player player = new PlayerMock(server, "SomePlayer");
+        ItemStack itemStack = slimefunItem.getItem();
+        player.getInventory().setItemInMainHand(itemStack);
+
+        // Place first block
+        World world = server.addSimpleWorld("my_world");
+        int x = TestUtilities.randomInt();
+        int z = TestUtilities.randomInt();
+        Block firstBlock = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
+        Block firstBlockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
+
+        Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
+
+        BlockPlaceEvent firstBlockPlaceEvent  = new BlockPlaceEvent(
+                firstBlock, firstBlock.getState(), firstBlockAgainst, itemStack, player, true, EquipmentSlot.HAND
+        );
+
+        server.getPluginManager().callEvent(firstBlockPlaceEvent);
+        server.getPluginManager().assertEventFired(SlimefunBlockPlaceEvent.class, e -> {
+            Assertions.assertFalse(e.isCancelled());
+            return true;
+        });
+
+        // Break block
+        server.getPluginManager().callEvent(new BlockBreakEvent(firstBlock, player));
+        server.getPluginManager().assertEventFired(SlimefunBlockBreakEvent.class, e -> true);
+        
+        // Assert that the block is not fully deleted
+        Assertions.assertTrue(Slimefun.getTickerTask().isDeletedSoon(firstBlock.getLocation()));
+
+        // Place second block in the same location
+        Block secondBlock = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
+        Block secondBlockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
+
+        BlockPlaceEvent secondBlockPlaceEvent  = new BlockPlaceEvent(
+                secondBlock, secondBlock.getState(), secondBlockAgainst, itemStack, player, true, EquipmentSlot.HAND
+        );
+        server.getPluginManager().callEvent(secondBlockPlaceEvent);
+        Assertions.assertTrue(secondBlockPlaceEvent.isCancelled());
     }
 }

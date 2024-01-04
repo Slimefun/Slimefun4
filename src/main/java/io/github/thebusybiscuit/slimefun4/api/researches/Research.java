@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
@@ -195,6 +196,22 @@ public class Research implements Keyed {
     @Nonnull
     public List<SlimefunItem> getAffectedItems() {
         return items;
+    }
+
+    /**
+     * This method checks whether there is at least one enabled {@link SlimefunItem}
+     * included in this {@link Research}.
+     *
+     * @return whether there is at least one enabled {@link SlimefunItem}
+     * included in this {@link Research}.
+     */
+    public boolean hasEnabledItems() {
+        for (SlimefunItem item : items) {
+            if (item.getState() == ItemState.ENABLED) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

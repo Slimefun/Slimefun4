@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.Inventory;
@@ -119,7 +118,7 @@ class TestBackpackListener {
         Assertions.assertEquals(ChatColor.GRAY + "ID: " + player.getUniqueId() + "#" + id, item.getItemMeta().getLore().get(2));
 
         PlayerBackpack backpack = awaitBackpack(item);
-        Assertions.assertEquals(player.getUniqueId(), backpack.getOwner().getUUID());
+        Assertions.assertEquals(player.getUniqueId(), backpack.getOwnerId());
         Assertions.assertEquals(id, backpack.getId());
     }
 
@@ -130,16 +129,6 @@ class TestBackpackListener {
         PlayerBackpack backpack = openMockBackpack(player, "TEST_OPEN_BACKPACK", 27);
         InventoryView view = player.getOpenInventory();
         Assertions.assertEquals(backpack.getInventory(), view.getTopInventory());
-    }
-
-    @Test
-    @DisplayName("Test backpacks being marked dirty on close")
-    void testCloseBackpack() throws InterruptedException {
-        Player player = server.addPlayer();
-        PlayerBackpack backpack = openMockBackpack(player, "TEST_CLOSE_BACKPACK", 27);
-        listener.onClose(new InventoryCloseEvent(player.getOpenInventory()));
-
-        Assertions.assertTrue(backpack.getOwner().isDirty());
     }
 
     @Test

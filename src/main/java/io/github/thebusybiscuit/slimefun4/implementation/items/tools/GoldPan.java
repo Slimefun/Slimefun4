@@ -154,7 +154,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
                     // Make sure that the randomly selected item is not air
                     if (output.getType() != Material.AIR) {
-                        SlimefunUtils.spawnItem(b.getLocation(), output.clone(), ItemSpawnReason.GOLD_PAN_USE, true);
+                        SlimefunUtils.spawnItem(b.getLocation(), output.clone(), ItemSpawnReason.GOLD_PAN_USE, true, e.getPlayer());
                     }
                 }
             }

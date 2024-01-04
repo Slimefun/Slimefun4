@@ -15,6 +15,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.storage.Storage;
+import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -82,6 +85,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHook
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.HopperListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.JoinListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MiddleClickListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MiningAndroidListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
@@ -196,6 +200,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final Config items = new Config(this, "Items.yml");
     private final Config researches = new Config(this, "Researches.yml");
 
+    // Data storage
+    private Storage playerStorage;
+
     // Listeners that need to be accessed elsewhere
     private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
     private final BackpackListener backpackListener = new BackpackListener();
@@ -257,6 +264,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         registry.load(this, config);
         loadTags();
         soundService.reload(false);
+        // TODO: What do we do if tests want to use another storage backend (e.g. testing new feature on legacy + sql)?
+        // Do we have a way to override this?
+        playerStorage = new LegacyStorage();
     }
 
     /**
@@ -310,6 +320,10 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
 
         networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"), config.getBoolean("networks.delete-excess-items"));
+
+        // Data storage
+        playerStorage = new LegacyStorage();
+        logger.log(Level.INFO, "Using legacy storage for player data");
 
         // Setting up bStats
         new Thread(metricsService::start, "Slimefun Metrics").start();
@@ -366,9 +380,13 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Armor Update Task
         if (config.getBoolean("options.enable-armor-effects")) {
             new SlimefunArmorTask().schedule(this, config.getInt("options.armor-update-interval") * 20L);
-            new RadiationTask().schedule(this, config.getInt("options.radiation-update-interval") * 20L);
+            if (config.getBoolean("options.enable-radiation")) {
+                new RadiationTask().schedule(this, config.getInt("options.radiation-update-interval") * 20L);
+            }
             new RainbowArmorTask().schedule(this, config.getInt("options.rainbow-armor-update-interval") * 20L);
             new SolarHelmetTask().schedule(this, config.getInt("options.armor-update-interval"));
+        } else if (config.getBoolean("options.enable-radiation")) {
+            logger.log(Level.WARNING, "Cannot enable radiation while armor effects are disabled.");
         }
 
         // Starting our tasks
@@ -646,6 +664,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
         new PiglinListener(this);
         new SmithingTableListener(this);
+        new JoinListener(this);
 
         // Item-specific Listeners
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
@@ -1062,4 +1081,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         return instance.getServer().getScheduler().runTask(instance, runnable);
     }
 
+    public static @Nonnull Storage getPlayerStorage() {
+        return instance().playerStorage;
+    }
 }
