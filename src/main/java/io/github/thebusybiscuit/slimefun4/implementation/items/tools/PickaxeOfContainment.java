@@ -50,7 +50,7 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
 
             if (b.getType() == Material.SPAWNER) {
                 ItemStack spawner = breakSpawner(b);
-                SlimefunUtils.spawnItem(b.getLocation(), spawner, ItemSpawnReason.BROKEN_SPAWNER_DROP, true);
+                SlimefunUtils.spawnItem(b.getLocation(), spawner, ItemSpawnReason.BROKEN_SPAWNER_DROP, true, e.getPlayer());
 
                 e.setExpToDrop(0);
                 e.setDropItems(false);

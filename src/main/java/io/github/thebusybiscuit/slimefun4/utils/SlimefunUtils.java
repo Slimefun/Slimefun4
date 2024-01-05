@@ -589,12 +589,14 @@ public final class SlimefunUtils {
      *            The {@link ItemSpawnReason} why the item is being dropped
      * @param addRandomOffset
      *            Whether a random offset should be added (see {@link World#dropItemNaturally(Location, ItemStack)})
+     * @param player
+     *            The player that caused this {@link SlimefunItemSpawnEvent}
      *
      * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
      */
     @ParametersAreNonnullByDefault
-    public static @Nullable Item spawnItem(Location loc, ItemStack item, ItemSpawnReason reason, boolean addRandomOffset) {
-        SlimefunItemSpawnEvent event = new SlimefunItemSpawnEvent(loc, item, reason);
+    public static @Nullable Item spawnItem(Location loc, ItemStack item, ItemSpawnReason reason, boolean addRandomOffset, @Nullable Player player) {
+        SlimefunItemSpawnEvent event = new SlimefunItemSpawnEvent(player, loc, item, reason);
         Slimefun.instance().getServer().getPluginManager().callEvent(event);
 
         if (!event.isCancelled()) {
@@ -608,6 +610,27 @@ public final class SlimefunUtils {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Helper method to spawn an {@link ItemStack}.
+     * This method automatically calls a {@link SlimefunItemSpawnEvent} to allow
+     * other plugins to catch the item being dropped.
+     *
+     * @param loc
+     *            The {@link Location} where to drop the item
+     * @param item
+     *            The {@link ItemStack} to drop
+     * @param reason
+     *            The {@link ItemSpawnReason} why the item is being dropped
+     * @param addRandomOffset
+     *            Whether a random offset should be added (see {@link World#dropItemNaturally(Location, ItemStack)})
+     *
+     * @return The dropped {@link Item} (or null if the {@link SlimefunItemSpawnEvent} was cancelled)
+     */
+    @ParametersAreNonnullByDefault
+    public static @Nullable Item spawnItem(Location loc, ItemStack item, ItemSpawnReason reason, boolean addRandomOffset) {
+        return spawnItem(loc, item, reason, addRandomOffset, null);
     }
 
     /**

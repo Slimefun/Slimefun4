@@ -33,7 +33,7 @@ class TestUpdaterService {
     @Test
     @DisplayName("Test if the development branch is recognized correctly")
     void testDevelopmentBuilds() {
-        UpdaterService service = new UpdaterService(plugin, "DEV - 131 (git 123456)", file);
+        UpdaterService service = new UpdaterService(plugin, "Dev - 131 (git 123456)", file);
         Assertions.assertEquals(SlimefunBranch.DEVELOPMENT, service.getBranch());
         Assertions.assertTrue(service.getBranch().isOfficial());
         // Cannot currently be tested... yay

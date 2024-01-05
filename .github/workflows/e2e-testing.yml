@@ -25,15 +25,15 @@ jobs:
             javaVersion: '18'
           - mcVersion: '1.19.4'
             javaVersion: '19'
-          - mcVersion: '1.20.1'
+          - mcVersion: 'latest'
             javaVersion: '20'
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v4.0.0
         with:
           distribution: temurin
           java-version: ${{ matrix.javaVersion }}
@@ -48,10 +48,16 @@ jobs:
       - name: Download ${{ matrix.mcVersion }} Paper
         run: |
           VERSION="${{ matrix.mcVersion }}"
+          if [ "$VERSION" == "latest" ]; then
+            VERSION=$(curl https://api.papermc.io/v2/projects/paper/ -s | jq -r '.versions[-1]')
+          fi
+
           BUILD_JAR=$(curl -s "https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds" \
             | jq '.builds[-1] | "\(.build) \(.downloads.application.name)"' -r)
           BUILD=$(echo "$BUILD_JAR" | awk '{print $1}')
           JAR_FILE=$(echo "$BUILD_JAR" | awk '{print $2}')
+
+          echo "Downloading... https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds/$BUILD/downloads/$JAR_FILE"
           curl -o paper.jar \
             "https://api.papermc.io/v2/projects/paper/versions/$VERSION/builds/$BUILD/downloads/$JAR_FILE"
 

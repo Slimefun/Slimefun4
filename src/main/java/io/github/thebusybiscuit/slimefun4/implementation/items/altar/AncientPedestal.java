@@ -167,7 +167,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
             ItemUtils.consumeItem(hand, false);
         }
 
-        Item entity = SlimefunUtils.spawnItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM);
+        Item entity = SlimefunUtils.spawnItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM, false, p);
 
         if (entity != null) {
             ArmorStand armorStand = getArmorStand(b, true);

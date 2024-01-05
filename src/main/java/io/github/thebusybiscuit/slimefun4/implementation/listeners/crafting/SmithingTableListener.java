@@ -2,14 +2,13 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.inventory.PrepareSmithingEvent;
+import org.bukkit.event.inventory.SmithItemEvent;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
@@ -18,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  * smithing table.
  * 
  * @author Sefiraat
+ * @author iTwins
  */
 public class SmithingTableListener implements SlimefunCraftingListener {
 
@@ -26,15 +26,29 @@ public class SmithingTableListener implements SlimefunCraftingListener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onSmith(InventoryClickEvent e) {
-        if (e.getInventory().getType() == InventoryType.SMITHING && e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player) {
-            ItemStack materialItem = e.getInventory().getContents()[1];
+    public void onSmith(SmithItemEvent e) {
+        SlimefunItem sfItem = SlimefunItem.getByItem(e.getInventory().getContents()[materialSlot()]);
+        if (sfItem != null && !sfItem.isUseableInWorkbench()) {
+            e.setResult(Result.DENY);
+            Slimefun.getLocalization().sendMessage(e.getWhoClicked(), "smithing_table.not-working", true);
+        }
+    }
 
-            // Checks if the item in the Material/Netherite slot is allowed to be used.
-            if (isUnallowed(materialItem)) {
-                e.setResult(Result.DENY);
-                Slimefun.getLocalization().sendMessage(e.getWhoClicked(), "smithing_table.not-working", true);
+    @EventHandler(ignoreCancelled = true)
+    public void onPrepareSmith(PrepareSmithingEvent e) {
+        if (e.getInventory().getResult() != null) {
+            SlimefunItem sfItem = SlimefunItem.getByItem(e.getInventory().getContents()[materialSlot()]);
+            if (sfItem != null && !sfItem.isUseableInWorkbench()) {
+                e.setResult(null);
             }
         }
     }
+
+    private int materialSlot() {
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
+            return 2;
+        }
+        return 1;
+    }
+
 }
