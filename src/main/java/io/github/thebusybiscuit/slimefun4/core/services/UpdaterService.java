@@ -5,10 +5,10 @@ import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
+import io.github.bakedlibs.dough.updater.BlobBuildUpdater;
 import org.bukkit.plugin.Plugin;
 
 import io.github.bakedlibs.dough.config.Config;
-import io.github.bakedlibs.dough.updater.GitHubBuildsUpdater;
 import io.github.bakedlibs.dough.updater.PluginUpdater;
 import io.github.bakedlibs.dough.versions.PrefixedVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This Class represents our {@link PluginUpdater} Service.
- * If enabled, it will automatically connect to https://thebusybiscuit.github.io/builds/
+ * If enabled, it will automatically connect to https://blob.build/
  * to check for updates and to download them automatically.
  *
  * @author TheBusyBiscuit
@@ -53,15 +53,15 @@ public class UpdaterService {
      */
     public UpdaterService(@Nonnull Slimefun plugin, @Nonnull String version, @Nonnull File file) {
         this.plugin = plugin;
-        GitHubBuildsUpdater autoUpdater = null;
+        BlobBuildUpdater autoUpdater = null;
 
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.
             branch = SlimefunBranch.UNOFFICIAL;
-        } else if (version.startsWith("DEV - ")) {
+        } else if (version.startsWith("Dev - ")) {
             // If we are using a development build, we want to switch to our custom
             try {
-                autoUpdater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/master");
+                autoUpdater = new BlobBuildUpdater(plugin, file, "Slimefun4", "Dev");
             } catch (Exception x) {
                 plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
             }
@@ -70,7 +70,7 @@ public class UpdaterService {
         } else if (version.startsWith("RC - ")) {
             // If we are using a "stable" build, we want to switch to our custom
             try {
-                autoUpdater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/stable", "RC - ");
+                autoUpdater = new BlobBuildUpdater(plugin, file, "Slimefun4", "RC");
             } catch (Exception x) {
                 plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
             }

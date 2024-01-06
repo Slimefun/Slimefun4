@@ -28,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
@@ -236,13 +237,13 @@ public class ResourceManager {
         for (int i = page * 28; i < resources.size() && i < (page + 1) * 28; i++) {
             GEOResource resource = resources.get(i);
             OptionalInt optional = getSupplies(resource, block.getWorld(), x, z);
-            int supplies = optional.isPresent() ? optional.getAsInt() : generate(resource, block.getWorld(), x, block.getY(), z);
-            String suffix = Slimefun.getLocalization().getResourceString(p, supplies == 1 ? "tooltips.unit" : "tooltips.units");
+            int supplies = optional.orElseGet(() -> generate(resource, block.getWorld(), x, block.getY(), z));
+            String suffix = Slimefun.getLocalization().getResourceString(p, ChatUtils.checkPlurality("tooltips.unit", supplies));
 
             ItemStack item = new CustomItemStack(resource.getItem(), "&f" + resource.getName(p), "&8\u21E8 &e" + supplies + ' ' + suffix);
 
             if (supplies > 1) {
-                item.setAmount(supplies > item.getMaxStackSize() ? item.getMaxStackSize() : supplies);
+                item.setAmount(Math.min(supplies, item.getMaxStackSize()));
             }
 
             menu.addItem(index, item, ChestMenuUtils.getEmptyClickHandler());

@@ -33,4 +33,14 @@ class TestChatUtils {
         Assertions.assertEquals(expected, ChatUtils.removeColorCodes(ChatColor.GREEN + "Hello " + ChatColor.RED + "world"));
     }
 
+    @Test
+    @DisplayName("Test ChatUtils.checkPlurality(...)")
+    void testPluralization() {
+        String input = "Banana";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ChatUtils.checkPlurality(input, -1));
+        Assertions.assertEquals("Bananas", ChatUtils.checkPlurality(input, 0));
+        Assertions.assertEquals("Banana", ChatUtils.checkPlurality(input, 1));
+        Assertions.assertEquals("Bananas", ChatUtils.checkPlurality(input, 2));
+    }
+
 }

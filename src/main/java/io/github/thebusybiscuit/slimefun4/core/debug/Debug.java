@@ -106,7 +106,7 @@ public final class Debug {
         while ((i = msg.indexOf('{', i)) != -1 && msg.charAt(i + 1) == '}') {
             // Substring up to the opening brace `{`, add the variable for this and add the rest of the message
             msg = msg.substring(0, i) + vars[idx] + msg.substring(i + 2);
-            idx++;
+            i += String.valueOf(vars[idx++]).length();
         }
 
         return msg;

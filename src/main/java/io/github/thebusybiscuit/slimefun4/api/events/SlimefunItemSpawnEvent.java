@@ -1,10 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import java.util.Optional;
+
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -29,13 +33,29 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
     private ItemStack itemStack;
     private boolean cancelled;
     private final ItemSpawnReason itemSpawnReason;
+    private final Player player;
 
     @ParametersAreNonnullByDefault
-    public SlimefunItemSpawnEvent(Location location, ItemStack itemStack, ItemSpawnReason itemSpawnReason) {
+    public SlimefunItemSpawnEvent(@Nullable Player player, Location location, ItemStack itemStack, ItemSpawnReason itemSpawnReason) {
         this.location = location;
         this.itemStack = itemStack;
         this.itemSpawnReason = itemSpawnReason;
         this.cancelled = false;
+        this.player = player;
+    }
+
+    @ParametersAreNonnullByDefault
+    public SlimefunItemSpawnEvent(Location location, ItemStack itemStack, ItemSpawnReason itemSpawnReason) {
+        this(null, location, itemStack, itemSpawnReason);
+    }
+
+    /**
+     * Optionally returns the {@link Player} responsible for this spawn reason.
+     *
+     * @return The player responsible if applicable.
+     */
+    public @Nonnull Optional<Player> getPlayer() {
+        return Optional.ofNullable(player);
     }
 
     /**

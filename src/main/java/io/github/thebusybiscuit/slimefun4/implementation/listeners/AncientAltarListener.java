@@ -24,6 +24,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -357,4 +358,10 @@ public class AncientAltarListener implements Listener {
         return Optional.empty();
     }
 
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onItemDespawn(ItemDespawnEvent e) {
+        if (AncientPedestal.testItem(e.getEntity())) {
+            e.setCancelled(true);
+        }
+    }
 }

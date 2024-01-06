@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -13,9 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -43,9 +44,11 @@ public class ArmorForge extends AbstractCraftingTable {
             for (ItemStack[] input : inputs) {
                 if (isCraftable(inv, input)) {
                     ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
+                    MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
 
-                    if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(p, output, inv, possibleDispenser);
+                    Bukkit.getPluginManager().callEvent(event);
+                    if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
+                        craft(p, event.getOutput(), inv, possibleDispenser);
                     }
 
                     return;

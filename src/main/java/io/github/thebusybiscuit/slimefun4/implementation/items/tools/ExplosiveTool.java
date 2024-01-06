@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import dev.lone.itemsadder.api.CustomBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -35,9 +36,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * This {@link SlimefunItem} is a super class for items like the {@link ExplosivePickaxe} or {@link ExplosiveShovel}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see ExplosivePickaxe
  * @see ExplosiveShovel
  *
@@ -83,6 +84,10 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
             if (!blockExplodeEvent.isCancelled()) {
                 for (Block block : blockExplodeEvent.blockList()) {
                     if (canBreak(p, block)) {
+                        if (Slimefun.getIntegrations().isCustomBlock(block)) {
+                            drops.addAll(CustomBlock.byAlreadyPlaced(block).getLoot());
+                            CustomBlock.remove(block.getLocation());
+                        }
                         blocksToDestroy.add(block);
                     }
                 }
@@ -90,6 +95,10 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         } else {
             for (Block block : blocks) {
                 if (canBreak(p, block)) {
+                    if (Slimefun.getIntegrations().isCustomBlock(block)) {
+                        drops.addAll(CustomBlock.byAlreadyPlaced(block).getLoot());
+                        CustomBlock.remove(block.getLocation());
+                    }
                     blocksToDestroy.add(block);
                 }
             }
@@ -136,8 +145,6 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         } else if (SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(b.getType())) {
             return false;
         } else if (!b.getWorld().getWorldBorder().isInside(b.getLocation())) {
-            return false;
-        } else if (Slimefun.getIntegrations().isCustomBlock(b)) {
             return false;
         } else {
             return Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.BREAK_BLOCK);

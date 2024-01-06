@@ -165,8 +165,6 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This returns the current {@link MachineOperation} at that given {@link BlockPosition}.
-     * We don't need to validate our input here as that is already
-     * covered in our public methods.
      * 
      * @param pos
      *            The {@link BlockPosition} at which our machine is located.
@@ -231,6 +229,8 @@ public class MachineProcessor<T extends MachineOperation> {
             if (operation.isFinished()) {
                 Event event = new AsyncMachineOperationFinishEvent(pos, this, operation);
                 Bukkit.getPluginManager().callEvent(event);
+            } else {
+                operation.onCancel(pos);
             }
 
             return true;

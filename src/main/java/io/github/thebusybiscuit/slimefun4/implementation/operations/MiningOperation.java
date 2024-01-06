@@ -5,17 +5,13 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
-import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 
 /**
- * This {@link MachineOperation} represents a {@link GEOMiner}
- * mining a {@link GEOResource}.
+ * This {@link MachineOperation} represents an operation
+ * with no inputs, only a result.
  * 
  * @author TheBusyBiscuit
- * 
- * @see GEOMiner
  *
  */
 public class MiningOperation implements MachineOperation {

@@ -129,12 +129,6 @@ public class ArmorTask implements Runnable {
 
     private void checkForSolarHelmet(@Nonnull Player p) {
         ItemStack helmet = p.getInventory().getHelmet();
-
-        if (Slimefun.getRegistry().isBackwardsCompatible() && !SlimefunUtils.isItemSimilar(helmet, SlimefunItems.SOLAR_HELMET, true, false)) {
-            // Performance saver for slow backwards-compatible versions of Slimefun
-            return;
-        }
-
         SlimefunItem item = SlimefunItem.getByItem(helmet);
 
         if (item instanceof SolarHelmet solarHelmet && item.canUse(p, true)) {

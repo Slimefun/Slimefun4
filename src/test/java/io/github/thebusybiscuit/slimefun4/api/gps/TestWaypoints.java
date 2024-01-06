@@ -1,5 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -19,16 +23,20 @@ class TestWaypoints {
 
     private static ServerMock server;
     private static Slimefun plugin;
+    private static File dataFolder;
 
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(Slimefun.class);
+        dataFolder = new File("data-storage/Slimefun/waypoints");
+        dataFolder.mkdirs();
     }
 
     @AfterAll
-    public static void unload() {
+    public static void unload() throws IOException {
         MockBukkit.unmock();
+        FileUtils.deleteDirectory(dataFolder);
     }
 
     @Test
@@ -38,9 +46,8 @@ class TestWaypoints {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
         Assertions.assertTrue(profile.getWaypoints().isEmpty());
-        Waypoint waypoint = new Waypoint(profile, "hello", player.getLocation(), "HELLO");
+        Waypoint waypoint = new Waypoint(player.getUniqueId(), "hello", player.getLocation(), "HELLO");
         profile.addWaypoint(waypoint);
-        Assertions.assertTrue(profile.isDirty());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> profile.addWaypoint(null));
 
@@ -55,7 +62,7 @@ class TestWaypoints {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        Waypoint waypoint = new Waypoint(profile, "hello", player.getLocation(), "HELLO");
+        Waypoint waypoint = new Waypoint(player.getUniqueId(), "hello", player.getLocation(), "HELLO");
         profile.addWaypoint(waypoint);
         Assertions.assertEquals(1, profile.getWaypoints().size());
 
@@ -76,7 +83,7 @@ class TestWaypoints {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        Waypoint waypoint = new Waypoint(profile, "test", player.getLocation(), "Testing");
+        Waypoint waypoint = new Waypoint(player.getUniqueId(), "test", player.getLocation(), "Testing");
         profile.addWaypoint(waypoint);
 
         Assertions.assertEquals(1, profile.getWaypoints().size());
@@ -91,7 +98,7 @@ class TestWaypoints {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
         for (int i = 0; i < 99; i++) {
-            Waypoint waypoint = new Waypoint(profile, String.valueOf(i), player.getLocation(), "Test");
+            Waypoint waypoint = new Waypoint(player.getUniqueId(), String.valueOf(i), player.getLocation(), "Test");
             profile.addWaypoint(waypoint);
         }
 
@@ -114,11 +121,10 @@ class TestWaypoints {
     @DisplayName("Test equal Waypoints being equal")
     void testWaypointComparison() throws InterruptedException {
         Player player = server.addPlayer();
-        PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        Waypoint waypoint = new Waypoint(profile, "waypoint", player.getLocation(), "Test");
-        Waypoint same = new Waypoint(profile, "waypoint", player.getLocation(), "Test");
-        Waypoint different = new Waypoint(profile, "waypoint_nope", player.getLocation(), "Test2");
+        Waypoint waypoint = new Waypoint(player.getUniqueId(), "waypoint", player.getLocation(), "Test");
+        Waypoint same = new Waypoint(player.getUniqueId(), "waypoint", player.getLocation(), "Test");
+        Waypoint different = new Waypoint(player.getUniqueId(), "waypoint_nope", player.getLocation(), "Test2");
 
         Assertions.assertEquals(waypoint, same);
         Assertions.assertEquals(waypoint.hashCode(), same.hashCode());
@@ -131,10 +137,9 @@ class TestWaypoints {
     @DisplayName("Test Deathpoints being recognized as Deathpoints")
     void testIsDeathpoint() throws InterruptedException {
         Player player = server.addPlayer();
-        PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        Waypoint waypoint = new Waypoint(profile, "waypoint", player.getLocation(), "Some Waypoint");
-        Waypoint deathpoint = new Waypoint(profile, "deathpoint", player.getLocation(), "player:death I died");
+        Waypoint waypoint = new Waypoint(player.getUniqueId(), "waypoint", player.getLocation(), "Some Waypoint");
+        Waypoint deathpoint = new Waypoint(player.getUniqueId(), "deathpoint", player.getLocation(), "player:death I died");
 
         Assertions.assertFalse(waypoint.isDeathpoint());
         Assertions.assertTrue(deathpoint.isDeathpoint());

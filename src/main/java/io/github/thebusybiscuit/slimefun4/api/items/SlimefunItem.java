@@ -39,16 +39,12 @@ import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.handlers.GlobalItemHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import com.google.common.base.Preconditions;
 
@@ -115,7 +111,7 @@ public class SlimefunItem implements Placeable {
 
     private Optional<String> wikiURL = Optional.empty();
 
-    private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
+    private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new OptionalMap<>(HashMap::new);
     private final Set<ItemSetting<?>> itemSettings = new HashSet<>();
 
     private boolean ticking = false;
@@ -481,6 +477,14 @@ public class SlimefunItem implements Placeable {
             // Now we can be certain this item should be enabled
             if (state == ItemState.ENABLED) {
                 onEnable();
+            } else {
+                // Clear item handlers if we are disabled so that calling them isn't possible later on
+                for (ItemHandler handler : this.itemHandlers.values()) {
+                    if (handler instanceof BlockTicker) {
+                        Slimefun.getRegistry().getTickerBlocks().remove(getId());
+                    }
+                }
+                this.itemHandlers.clear();
             }
 
             // Lock the SlimefunItemStack from any accidental manipulations
@@ -538,7 +542,7 @@ public class SlimefunItem implements Placeable {
     }
 
     private void loadItemHandlers() {
-        for (ItemHandler handler : itemhandlers.values()) {
+        for (ItemHandler handler : itemHandlers.values()) {
             Optional<IncompatibleItemHandlerException> exception = handler.validate(this);
 
             // Check if the validation caused an exception.
@@ -769,13 +773,7 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        // Backwards compatibility
-        if (Slimefun.getRegistry().isBackwardsCompatible()) {
-            boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
-            return SlimefunUtils.isItemSimilar(item, this.itemStackTemplate, !loreInsensitive);
-        } else {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -806,7 +804,7 @@ public class SlimefunItem implements Placeable {
         }
 
         for (ItemHandler handler : handlers) {
-            itemhandlers.put(handler.getIdentifier(), handler);
+            itemHandlers.put(handler.getIdentifier(), handler);
 
             // Tickers are a special case (at the moment at least)
             if (handler instanceof BlockTicker ticker) {
@@ -944,7 +942,7 @@ public class SlimefunItem implements Placeable {
      * @return The Set of item handlers
      */
     public @Nonnull Collection<ItemHandler> getHandlers() {
-        return itemhandlers.values();
+        return itemHandlers.values();
     }
 
     /**
@@ -962,7 +960,7 @@ public class SlimefunItem implements Placeable {
      */
     @ParametersAreNonnullByDefault
     public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {
-        Optional<ItemHandler> handler = itemhandlers.get(c);
+        Optional<ItemHandler> handler = itemHandlers.get(c);
 
         if (handler.isPresent()) {
             try {
@@ -1190,6 +1188,17 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
+     * Retrieve a {@link Optional} {@link SlimefunItem} by its id.
+     *
+     * @param id
+     *            The id of the {@link SlimefunItem}
+     * @return The {@link Optional} {@link SlimefunItem} associated with that id. Empty if non-existent
+     */
+    public static @Nonnull Optional<SlimefunItem> getOptionalById(@Nonnull String id) {
+        return Optional.ofNullable(getById(id));
+    }
+
+    /**
      * Retrieve a {@link SlimefunItem} from an {@link ItemStack}.
      *
      * @param item
@@ -1207,33 +1216,18 @@ public class SlimefunItem implements Placeable {
 
         Optional<String> itemID = Slimefun.getItemDataService().getItemData(item);
 
-        if (itemID.isPresent()) {
-            return getById(itemID.get());
-        }
+        return itemID.map(SlimefunItem::getById).orElse(null);
 
-        // Backwards compatibility
-        if (Slimefun.getRegistry().isBackwardsCompatible()) {
-            // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
-            ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
-
-            /*
-             * Quite expensive performance-wise.
-             * But necessary for supporting legacy items
-             */
-            for (SlimefunItem sfi : Slimefun.getRegistry().getAllSlimefunItems()) {
-                if (sfi.isItem(wrapper)) {
-                    /*
-                     * If we have to loop all items for the given item, then at least
-                     * set the id via PersistentDataAPI for future performance boosts
-                     */
-                    Slimefun.getItemDataService().setItemData(item, sfi.getId());
-
-                    return sfi;
-                }
-            }
-        }
-
-        return null;
     }
 
+    /**
+     * Retrieve a {@link Optional} {@link SlimefunItem} from an {@link ItemStack}.
+     *
+     * @param item
+     *            The {@link ItemStack} to check
+     * @return The {@link Optional} {@link SlimefunItem} associated with this {@link ItemStack} if present, otherwise empty
+     */
+    public @Nonnull Optional<SlimefunItem> getOptionalByItem(@Nullable ItemStack item) {
+        return Optional.ofNullable(getByItem(item));
+    }
 }

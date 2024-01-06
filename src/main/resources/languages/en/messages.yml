@@ -146,6 +146,9 @@ guide:
       resourcepack: '&cResourcepack Artist'
       translator: '&9Translator'
 
+actionbar:
+  radiation: '&6Radiation Exposure Level: &c%level%&7/&e100'
+
 messages:
   not-researched: '&4You do not have enough knowledge to understand this. &cYou will need to unlock &f"%item%&f"'
   not-enough-xp: '&4You do not have enough XP to unlock this'
@@ -170,6 +173,7 @@ messages:
   bee-suit-slow-fall: '&eYour Bee Wings will help you to get back to the ground safe and slow'
   deprecated-item: '&4This item has been deprecated and will be removed from Slimefun soon.'
   researching-is-disabled: '&cResearching has been disabled on this server. Everything is unlocked by default!'
+  await-deletion: '&cYou cannot place a Slimefun block so soon after breaking one. Try again shortly.'
   wiki-third-party: '&cThe following wiki link is provided by %addon%. Slimefun is not responsible for the content on the page.'
 
   multi-tool:
