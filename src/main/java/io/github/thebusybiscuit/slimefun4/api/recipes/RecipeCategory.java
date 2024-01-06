@@ -53,7 +53,6 @@ public class RecipeCategory implements Keyed {
                 }
             }
             if (dusts == 1 && nonEmpty == 1) {
-                System.out.println("DUST RECIPE" + recipe);
                 DUST_SMELTING.registerRecipe(recipe);
             } else {
                 INGOT_SMELTING.registerRecipe(recipe);

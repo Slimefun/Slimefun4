@@ -209,7 +209,6 @@ public final class SlimefunRecipeService {
         for (final Recipe recipe : recipes) {
             if (!recipe.isDisabled()) {
                 if (category.equals(RecipeCategory.DUST_SMELTING)) {
-                    System.out.println("DUSTDUSTUDUSTUDUSTU");
                 }
                 category.onRegisterRecipe(recipe);
                 categoryRecipes.add(recipe);

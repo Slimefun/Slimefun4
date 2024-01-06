@@ -53,9 +53,6 @@ abstract class AbstractSmeltery extends MultiBlockMachine implements RecipeCraft
 
             final ItemStack[] givenItems = dispenser.getInventory().getContents();
 
-            System.out.println(Arrays.toString(givenItems));
-            System.out.println(getRecipes());
-
             final var searchResult = searchRecipes(givenItems, (recipe, match) -> {
 
                 final ItemStack output = recipe.getOutput().generateOutput();

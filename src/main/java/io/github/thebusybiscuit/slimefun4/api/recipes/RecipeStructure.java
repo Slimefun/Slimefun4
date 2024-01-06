@@ -119,11 +119,7 @@ public abstract class RecipeStructure implements Keyed {
     public static final RecipeStructure SUBSET = new RecipeStructure("subset") {
         @Override
         public RecipeMatchResult match(ItemStack[] givenItems, List<RecipeComponent> components) {
-            System.out.println("########## givenItems: " + Arrays.toString(givenItems));
-            System.out.println("========== recipe: " + components);
-
             if (countNonEmpty(givenItems) < countNonEmpty(components)) {
-                System.out.println("------------- too little");
                 return RecipeMatchResult.NO_MATCH;
             }
 
@@ -150,22 +146,18 @@ public abstract class RecipeStructure implements Keyed {
      */
     protected static final RecipeMatchResult checkSubset(ItemStack[] givenItems, List<RecipeComponent> components) {
         final Map<Integer, Integer> consumption = new HashMap<>();
-        System.out.println("Checking " + givenItems + " against " + components);
         componentLoop: for (final RecipeComponent component : components) {
             if (component.isAir()) {
-                System.out.println(component + " is air, skipping");
                 continue;
             }
 
             for (int i = 0; i < givenItems.length; i++) {
                 if (!consumption.containsKey(i) && component.matches(givenItems[i])) {
-                    System.out.println(component + " matches " + givenItems + ", continuing");
                     consumption.put(i, component.getAmount());
                     continue componentLoop;
                 }
             }
 
-            System.out.println("uh oh, no match");
             return RecipeMatchResult.NO_MATCH;
         }
 
