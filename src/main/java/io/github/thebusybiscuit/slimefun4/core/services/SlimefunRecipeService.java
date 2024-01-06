@@ -90,7 +90,7 @@ public final class SlimefunRecipeService {
         }
 
         // Check LRU cache
-        final int givenItemsHash = hashIgnoreAmount(givenItems);
+        final int givenItemsHash = hashIgnoreAmount(givenItems, category);
         final Optional<Pair<Optional<Recipe>, RecipeMatchResult>> cachedMatchResult = getFromCache(givenItemsHash);
         if (cachedMatchResult.isPresent()) {
             final Optional<Recipe> recipe = cachedMatchResult.get().getFirstValue();
@@ -122,7 +122,7 @@ public final class SlimefunRecipeService {
                         }
 
                     case ALWAYS:
-                        cache(givenItems, result);
+                        cache(givenItems, category, result);
 
                     default:
                         break;
@@ -135,7 +135,7 @@ public final class SlimefunRecipeService {
         final Pair<Optional<Recipe>, RecipeMatchResult> result = new Pair<>(Optional.empty(),
                 RecipeMatchResult.NO_MATCH);
         if (cachingStrategy != CachingStrategy.NEVER) {
-            cache(givenItems, result);
+            cache(givenItems, category, result);
         }
         return result;
     }
@@ -208,6 +208,9 @@ public final class SlimefunRecipeService {
         final List<Recipe> categoryRecipes = this.recipesByCategory.getOrDefault(category, new ArrayList<>());
         for (final Recipe recipe : recipes) {
             if (!recipe.isDisabled()) {
+                if (category.equals(RecipeCategory.DUST_SMELTING)) {
+                    System.out.println("DUSTDUSTUDUSTUDUSTU");
+                }
                 category.onRegisterRecipe(recipe);
                 categoryRecipes.add(recipe);
 
@@ -304,8 +307,8 @@ public final class SlimefunRecipeService {
      * @return The hash of the given items
      */
     @ParametersAreNonnullByDefault
-    public int cache(ItemStack[] givenItems, Pair<Optional<Recipe>, RecipeMatchResult> matchResult) {
-        final int hash = hashIgnoreAmount(givenItems);
+    public int cache(ItemStack[] givenItems, RecipeCategory category, Pair<Optional<Recipe>, RecipeMatchResult> matchResult) {
+        final int hash = hashIgnoreAmount(givenItems, category);
         cache.put(hash, matchResult);
         return hash;
     }
@@ -332,7 +335,8 @@ public final class SlimefunRecipeService {
         return Optional.ofNullable(cache.get(hash));
     }
 
-    private int hashIgnoreAmount(@Nonnull ItemStack[] items) {
+    @ParametersAreNonnullByDefault
+    public int hashIgnoreAmount(ItemStack[] items, RecipeCategory category) {
         int hash = 1;
         for (final ItemStack item : items) {
             if (item != null) {
@@ -342,6 +346,7 @@ public final class SlimefunRecipeService {
                 hash *= 31;
             }
         }
+        hash = hash * 31 + category.hashCode();
         return hash;
     }
 

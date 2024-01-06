@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 
 /**
  * The {@link MakeshiftSmeltery} is a simpler version of the {@link Smeltery}.
@@ -34,6 +36,11 @@ public class MakeshiftSmeltery extends AbstractSmeltery {
     }
 
     @Override
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(RecipeCategory.DUST_SMELTING);
+    }
+
+    @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> items = new ArrayList<>();
 
@@ -46,8 +53,8 @@ public class MakeshiftSmeltery extends AbstractSmeltery {
     }
 
     @Override
-    protected void craft(Player p, Block b, Inventory inv, ItemStack[] recipe, ItemStack output, Inventory outputInv) {
-        super.craft(p, b, inv, recipe, output, outputInv);
+    protected void craft(Player p, Block b, Inventory inv, ItemStack[] givenInputs, ItemStack output, Inventory outputInv) {
+        super.craft(p, b, inv, givenInputs, output, outputInv);
 
         Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
         fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());

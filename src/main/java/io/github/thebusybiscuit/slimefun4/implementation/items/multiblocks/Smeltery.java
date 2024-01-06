@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.IgnitionChamber;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.AlloyIngot;
@@ -56,6 +58,11 @@ public class Smeltery extends AbstractSmeltery {
     }
 
     @Override
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(RecipeCategory.INGOT_SMELTING, RecipeCategory.DUST_SMELTING);
+    }
+
+    @Override
     protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
         recipes.add(SlimefunItems.IRON_DUST);
         recipes.add(new ItemStack(Material.IRON_INGOT));
@@ -78,8 +85,8 @@ public class Smeltery extends AbstractSmeltery {
     }
 
     @Override
-    protected void craft(Player p, Block b, Inventory inv, ItemStack[] recipe, ItemStack output, Inventory outputInv) {
-        super.craft(p, b, inv, recipe, output, outputInv);
+    protected void craft(Player p, Block b, Inventory inv, ItemStack[] givenItems, ItemStack output, Inventory outputInv) {
+        super.craft(p, b, inv, givenItems, output, outputInv);
 
         if (ThreadLocalRandom.current().nextInt(100) < fireBreakingChance.getValue()) {
             consumeFire(p, b.getRelative(BlockFace.DOWN), b);

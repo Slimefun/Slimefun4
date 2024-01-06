@@ -108,43 +108,26 @@ public abstract class RecipeStructure implements Keyed {
     public static final RecipeStructure SHAPELESS = new RecipeStructure("shapeless") {
         @Override
         public RecipeMatchResult match(ItemStack[] givenItems, List<RecipeComponent> components) {
-            if (Arrays.stream(givenItems)
-                    .filter(item -> item != null && !item.getType().isAir())
-                    .count() != components.size()) {
+            if (countNonEmpty(givenItems) != countNonEmpty(components)) {
                 return RecipeMatchResult.NO_MATCH;
             }
 
-            return SUBSET.match(givenItems, components);
+            return checkSubset(givenItems, components);
         }
     };
 
     public static final RecipeStructure SUBSET = new RecipeStructure("subset") {
         @Override
         public RecipeMatchResult match(ItemStack[] givenItems, List<RecipeComponent> components) {
-            if (givenItems.length < components.size()) {
+            System.out.println("########## givenItems: " + Arrays.toString(givenItems));
+            System.out.println("========== recipe: " + components);
+
+            if (countNonEmpty(givenItems) < countNonEmpty(components)) {
+                System.out.println("------------- too little");
                 return RecipeMatchResult.NO_MATCH;
             }
 
-            // This may give a false negative on certain recpies, such as 
-            // [b, a, c] against [(a|b|c), b, c] which could be solved by
-            // using a bipartite matching algorithm, however that would
-            // most likely be too slow, so it will be up to the recipe
-            // creator to not make bad recipes such as the example above.
-            final Map<Integer, Integer> consumption = new HashMap<>();
-            for (final RecipeComponent component : components) {
-                boolean matched = false;
-                for (int i = 0; i < givenItems.length; i++) {
-                    if (!consumption.containsKey(i) && component.matches(givenItems[i])) {
-                        consumption.put(i, component.getAmount());
-                        matched = true;
-                    }
-                }
-                if (!matched) {
-                    return RecipeMatchResult.NO_MATCH;
-                }
-            }
-
-            return RecipeMatchResult.match(consumption);
+            return checkSubset(givenItems, components);
         }
     };
 
@@ -154,6 +137,60 @@ public abstract class RecipeStructure implements Keyed {
             return RecipeMatchResult.NO_MATCH;
         }
     };
+
+    /**
+     * This may give a false negative on certain recpies, such as 
+     * [b, a, c] against [(a|b|c), b, c] which could be solved by
+     * using a bipartite matching algorithm, however that would
+     * most likely be too slow, so it will be up to the recipe
+     * creator to not make bad recipes such as the example above.
+     * @param givenItems The items to match
+     * @param components The recipe components
+     * @return If the two match
+     */
+    protected static final RecipeMatchResult checkSubset(ItemStack[] givenItems, List<RecipeComponent> components) {
+        final Map<Integer, Integer> consumption = new HashMap<>();
+        System.out.println("Checking " + givenItems + " against " + components);
+        componentLoop: for (final RecipeComponent component : components) {
+            if (component.isAir()) {
+                System.out.println(component + " is air, skipping");
+                continue;
+            }
+
+            for (int i = 0; i < givenItems.length; i++) {
+                if (!consumption.containsKey(i) && component.matches(givenItems[i])) {
+                    System.out.println(component + " matches " + givenItems + ", continuing");
+                    consumption.put(i, component.getAmount());
+                    continue componentLoop;
+                }
+            }
+
+            System.out.println("uh oh, no match");
+            return RecipeMatchResult.NO_MATCH;
+        }
+
+        return RecipeMatchResult.match(consumption);
+    }
+
+    private static int countNonEmpty(ItemStack[] givenItems) {
+        int nonEmpty = 0;
+        for (final ItemStack itemStack : givenItems) {
+            if (itemStack != null && !itemStack.getType().isAir()) {
+                nonEmpty++;
+            }
+        }
+        return nonEmpty;
+    }
+
+    private static int countNonEmpty(List<RecipeComponent> recipe) {
+        int nonEmpty = 0;
+        for (final RecipeComponent comp : recipe) {
+            if (!comp.isAir()) {
+                nonEmpty++;
+            }
+        }
+        return nonEmpty;
+    }
 
     private final NamespacedKey key;
 

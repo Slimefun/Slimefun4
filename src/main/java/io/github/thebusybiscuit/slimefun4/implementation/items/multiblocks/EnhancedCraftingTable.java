@@ -57,7 +57,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable implements Reci
             final var searchResult = searchRecipes(givenInputs, (recipe, match) -> {
 
                 final ItemStack output = recipe.getOutput().generateOutput();
-                MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenInputs, output);
+                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenInputs, output);
 
                 Bukkit.getPluginManager().callEvent(event);
                 if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
@@ -75,6 +75,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable implements Reci
 
                     } else {
                         Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                        return false;
                     }
                     return true;
                 }

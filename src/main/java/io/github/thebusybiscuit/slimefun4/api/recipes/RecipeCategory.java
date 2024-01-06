@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
@@ -25,11 +26,6 @@ public class RecipeCategory implements Keyed {
 
     public static final RecipeCategory MULTIBLOCK = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "multiblock"), new CustomItemStack(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
     public static final RecipeCategory ARMOR_FORGE = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "armor_forge"), new CustomItemStack(SlimefunItems.ARMOR_FORGE, "", "&a&oCraft it in an Armor Forge"));
-    /**
-     * @deprecated Smeltery recipes have moved to {@code DUST_SMELTING} and {@code INGOT_SMELTING}
-     */
-    @Deprecated
-    public static final RecipeCategory SMELTERY = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "smeltery"), new CustomItemStack(SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery"), RecipeStructure.SUBSET);
     public static final RecipeCategory GRIND_STONE = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "grind_stone"), new CustomItemStack(SlimefunItems.GRIND_STONE, "", "&a&oGrind it using the Grind Stone"), RecipeStructure.SUBSET);
     public static final RecipeCategory ORE_CRUSHER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ore_crusher"), new CustomItemStack(SlimefunItems.ORE_CRUSHER, "", "&a&oCrush it using the Ore Crusher"), RecipeStructure.SUBSET);
     public static final RecipeCategory GOLD_PAN = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "gold_pan"), new CustomItemStack(SlimefunItems.GOLD_PAN, "", "&a&oUse a Gold Pan on Gravel to obtain this Item"), RecipeStructure.SUBSET);
@@ -39,7 +35,32 @@ public class RecipeCategory implements Keyed {
     public static final RecipeCategory ORE_WASHER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ore_washer"), new CustomItemStack(SlimefunItems.ORE_WASHER, "", "&a&oWash it in an Ore Washer"), RecipeStructure.SUBSET);
     public static final RecipeCategory ENHANCED_CRAFTING_TABLE = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "enhanced_crafting_table"), new CustomItemStack(SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power..."));
     public static final RecipeCategory JUICER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "juicer"), new CustomItemStack(SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation"), RecipeStructure.SUBSET);
-
+/**
+     * @deprecated Smeltery recipes have moved to {@code DUST_SMELTING} and {@code INGOT_SMELTING}
+     */
+    @Deprecated
+    public static final RecipeCategory SMELTERY = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "smeltery"), new CustomItemStack(SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery"), RecipeStructure.SUBSET) {
+        @Override
+        public void onRegisterRecipe(Recipe recipe) {
+            int dusts = 0;
+            int nonEmpty = 0;
+            for (final RecipeComponent comp : recipe.getInputs().getComponents()) {
+                if (!comp.isAir()) {
+                    if (comp.getSlimefunItemIDs().size() > 0 && comp.getSlimefunItemIDs().get(0).endsWith("_DUST")) {
+                        dusts++;
+                    }
+                    nonEmpty++;
+                }
+            }
+            if (dusts == 1 && nonEmpty == 1) {
+                System.out.println("DUST RECIPE" + recipe);
+                DUST_SMELTING.registerRecipe(recipe);
+            } else {
+                INGOT_SMELTING.registerRecipe(recipe);
+            }
+        }
+    };
+    
     public static final RecipeCategory INGOT_SMELTING = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ingot_smelting"), new CustomItemStack(SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery"), RecipeStructure.SUBSET) {
         @Override
         public RecipeType asRecipeType() {
@@ -146,6 +167,11 @@ public class RecipeCategory implements Keyed {
     @Override
     public NamespacedKey getKey() {
         return key;
+    }
+
+    @Override
+    public String toString() {
+        return key.toString();
     }
 
     public String getTranslationKey() {

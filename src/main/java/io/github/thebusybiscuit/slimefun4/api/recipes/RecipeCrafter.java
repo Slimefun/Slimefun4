@@ -95,9 +95,12 @@ public interface RecipeCrafter {
     public default Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
             @Nonnull ItemStack[] givenItems,
             BiPredicate<Recipe, RecipeMatchResult> onRecipeFound) {
+        System.out.println(getCraftedCategories());
         for (final RecipeCategory category : getCraftedCategories()) {
             final Pair<Optional<Recipe>, RecipeMatchResult> result = Slimefun.searchRecipes(
                     category, givenItems, CachingStrategy.IF_MULTIPLE_CRAFTABLE, onRecipeFound);
+
+            System.out.println("Category: " + category + " MATCH" + result);
 
             if (result.getSecondValue().isMatch()) {
                 return result;

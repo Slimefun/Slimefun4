@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import java.util.List;
+import java.util.Arrays;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -14,11 +14,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -26,12 +25,13 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
 /**
- * An abstract super class for the {@link Smeltery} and {@link MakeshiftSmeltery}.
+ * An abstract super class for the {@link Smeltery} and
+ * {@link MakeshiftSmeltery}.
  * 
  * @author TheBusyBiscuit
  *
  */
-abstract class AbstractSmeltery extends MultiBlockMachine {
+abstract class AbstractSmeltery extends MultiBlockMachine implements RecipeCrafter {
 
     @ParametersAreNonnullByDefault
     protected AbstractSmeltery(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
@@ -40,60 +40,49 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
 
     @Override
     public void onInteract(Player p, Block b) {
-        Block possibleDispenser = b.getRelative(BlockFace.DOWN);
-        BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
+        final Block possibleDispenser = b.getRelative(BlockFace.DOWN);
+        final BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
 
-        if (state instanceof Dispenser dispenser) {
-            Inventory inv = dispenser.getInventory();
-            List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
+        if (state instanceof final Dispenser dispenser) {
+            final Inventory inv = dispenser.getInventory();
 
-            for (int i = 0; i < inputs.size(); i++) {
-                if (canCraft(inv, inputs, i)) {
-                    ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
-                    MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, inputs.get(i), output);
-
-                    Bukkit.getPluginManager().callEvent(event);
-                    if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
-
-                        if (outputInv != null) {
-                            craft(p, b, inv, inputs.get(i), event.getOutput(), outputInv);
-                        } else {
-                            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
-                        }
-                    }
-
-                    return;
-                }
+            if (inv.isEmpty()) {
+                Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+                return;
             }
 
-            Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
-        }
-    }
+            final ItemStack[] givenItems = dispenser.getInventory().getContents();
 
-    private boolean canCraft(Inventory inv, List<ItemStack[]> inputs, int i) {
-        for (ItemStack expectedInput : inputs.get(i)) {
-            if (expectedInput != null) {
-                for (int j = 0; j < inv.getContents().length; j++) {
-                    if (j == (inv.getContents().length - 1) && !SlimefunUtils.isItemSimilar(inv.getContents()[j], expectedInput, true)) {
+            System.out.println(Arrays.toString(givenItems));
+            System.out.println(getRecipes());
+
+            final var searchResult = searchRecipes(givenItems, (recipe, match) -> {
+
+                final ItemStack output = recipe.getOutput().generateOutput();
+                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenItems, output);
+                Bukkit.getPluginManager().callEvent(event);
+
+                if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
+                    final Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
+                    if (outputInv != null) {
+                        craft(p, b, inv, givenItems, output, outputInv);
+                    } else {
+                        Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         return false;
-                    } else if (SlimefunUtils.isItemSimilar(inv.getContents()[j], expectedInput, true)) {
-                        break;
                     }
+                    return true;
                 }
+
+                return false;
+            });
+
+            if (!searchResult.getSecondValue().isMatch()) {
+                Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
             }
         }
-
-        return true;
     }
 
-    protected void craft(Player p, Block b, Inventory inv, ItemStack[] recipe, ItemStack output, Inventory outputInv) {
-        for (ItemStack removing : recipe) {
-            if (removing != null) {
-                InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunUtils.isItemSimilar(stack, removing, true));
-            }
-        }
-
+    protected void craft(Player p, Block b, Inventory inv, ItemStack[] givenItems, ItemStack output, Inventory outputInv) {
         outputInv.addItem(output);
         SoundEffect.SMELTERY_CRAFT_SOUND.playAt(b);
         p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
