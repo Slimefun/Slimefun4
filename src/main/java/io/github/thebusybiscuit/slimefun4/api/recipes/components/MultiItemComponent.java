@@ -7,41 +7,42 @@ import org.bukkit.inventory.ItemStack;
 
 import com.google.common.base.Preconditions;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
 public class MultiItemComponent implements RecipeComponent {
 
-    private final List<ItemStack> choices = new ArrayList<>();
+    private final List<RecipeComponent> choices = new ArrayList<>();
     private final boolean disabled;
+    private final List<String> slimefunIDs = new ArrayList<>();
 
-    public MultiItemComponent(List<ItemStack> choices) {
+    public MultiItemComponent(List<RecipeComponent> choices) {
         Preconditions.checkArgument(!choices.isEmpty(), "The 'choices' list must be non-empty");
 
-        for (final ItemStack choice : choices) {
-            if (choice instanceof final SlimefunItemStack sfStack) {
-                final SlimefunItem sfItem = SlimefunItem.getById(sfStack.getItemId());
-                if (sfItem != null && sfItem.isDisabled()) {
-                    continue;
-                }
+        for (final RecipeComponent choice : choices) {
+            if (choice.isDisabled()) {
+                continue;
             }
 
             this.choices.add(choice);
         }
 
         this.disabled = this.choices.size() == 0;
+        
+        for (final RecipeComponent choice : choices) {
+            slimefunIDs.addAll(choice.getSlimefunItemIDs());
+        }
+    }
+
+    public List<RecipeComponent> getChoices() {
+        return choices;
     }
 
     @Override
     public boolean isAir() {
-        return disabled ? true : choices.get(0).getType().isAir();
+        return disabled ? true : choices.get(0).isAir();
     }
 
     @Override
     public boolean isDisabled() {
-        // TODO Auto-generated method stub
-        return false;
+        return disabled;
     }
 
     @Override
@@ -51,8 +52,8 @@ public class MultiItemComponent implements RecipeComponent {
 
     @Override
     public boolean matches(ItemStack givenItem) {
-        for (final ItemStack item : choices) {
-            if (SlimefunUtils.isItemSimilar(givenItem, item, true)) {
+        for (final RecipeComponent item : choices) {
+            if (item.matches(givenItem)) {
                 return true;
             }
         }
@@ -63,7 +64,35 @@ public class MultiItemComponent implements RecipeComponent {
     @Override
     public ItemStack getDisplayItem() {
         // TODO: Guide Display
-        return choices.get(0);
+        return choices.get(0).getDisplayItem();
+    }
+
+    @Override
+    public String toString() {
+        return choices.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return ((MultiItemComponent) obj).getChoices().equals(choices);
+    }
+
+    @Override
+    public int hashCode() {
+        return choices.hashCode();
+    }
+
+    @Override
+    public List<String> getSlimefunItemIDs() {
+        return slimefunIDs;
     }
     
 }

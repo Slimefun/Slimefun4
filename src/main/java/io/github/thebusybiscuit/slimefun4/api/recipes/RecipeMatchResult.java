@@ -11,8 +11,12 @@ public class RecipeMatchResult {
 
     public static final RecipeMatchResult NO_MATCH = new RecipeMatchResult(false, Collections.emptyMap());
 
+    public static RecipeMatchResult match(Map<Integer, Integer> consumption, String message) {
+        return new RecipeMatchResult(true, consumption, message);
+    }
+    
     public static RecipeMatchResult match(Map<Integer, Integer> consumption) {
-        return new RecipeMatchResult(true, consumption);
+        return match(consumption, "");
     }
 
     private final boolean isMatch;
@@ -43,6 +47,11 @@ public class RecipeMatchResult {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public String toString() {
+        return "Match: " + isMatch + " | Message: " + message + " | Consumption Map: " + consumption;
     }
 
 }

@@ -1,11 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes.components;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 
 public interface RecipeComponent {
 
@@ -36,15 +40,50 @@ public interface RecipeComponent {
             return null;
         }
         
+        @Override
+        public String toString() {
+            return "EMPTY";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj == null || obj == RecipeComponent.AIR;
+        }
+
+        @Override
+        public int hashCode() {
+            return 0;
+        }
+
+        @Override
+        public List<String> getSlimefunItemIDs() {
+            return Collections.emptyList();
+        }
+        
     };
 
     public static @Nonnull RecipeComponent of(@Nonnull String slimefunItemId) {
         final SlimefunItem item = SlimefunItem.getById(slimefunItemId);
-        return item == null ? AIR : of(item.getItem());
+
+        if (item == null) {
+            return AIR;
+        }
+
+        if (item instanceof final DistinctiveItem distinctive) {
+            return new DistinctiveComponent(item.getItem());
+        }
+
+        return new ItemComponent(item.getItem());
     }
 
     public static @Nonnull RecipeComponent of(@Nullable ItemStack item) {
-        return item == null || item.getType().isAir() ? AIR : new ItemComponent(item);
+        final SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+        if (sfItem != null && sfItem instanceof DistinctiveItem) {
+            return new DistinctiveComponent(item);
+        }
+
+        return item == null ? AIR : new ItemComponent(item);
     }
 
     /**
@@ -73,5 +112,6 @@ public interface RecipeComponent {
      */
     public @Nullable ItemStack getDisplayItem();
 
+    public List<String> getSlimefunItemIDs();
 
 }

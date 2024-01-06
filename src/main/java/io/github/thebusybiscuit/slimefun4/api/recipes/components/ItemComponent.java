@@ -1,21 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes.components;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 public class ItemComponent implements RecipeComponent {
 
     private final ItemStack component;
     private final boolean disabled;
+    private final @Nullable String slimefunID;
 
     public ItemComponent(ItemStack component) {
-        this.component = component;
+        this.component = component == null ? new ItemStack(Material.AIR) : component;
+        final SlimefunItem sfItem = SlimefunItem.getByItem(component);
 
-        if (component instanceof final SlimefunItemStack sfStack) {
-            final SlimefunItem sfItem = SlimefunItem.getById(sfStack.getItemId());
+        if (sfItem != null) {
+            slimefunID = sfItem.getId();
             if (sfItem != null && sfItem.isDisabled()) {
                 disabled = true;
             } else {
@@ -23,7 +30,12 @@ public class ItemComponent implements RecipeComponent {
             }
         } else {
             disabled = false;
+            slimefunID = null;
         }
+    }
+
+    public ItemStack getComponent() {
+        return component;
     }
 
     @Override
@@ -49,6 +61,34 @@ public class ItemComponent implements RecipeComponent {
     @Override
     public ItemStack getDisplayItem() {
         return component;
+    }
+
+    @Override
+    public String toString() {
+        return component.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return ((ItemComponent) obj).getComponent().equals(component);
+    }
+
+    @Override
+    public int hashCode() {
+        return component.hashCode();
+    }
+
+    @Override
+    public List<String> getSlimefunItemIDs() {
+        return slimefunID == null ? Collections.emptyList() : List.of(slimefunID);
     }
 
 }

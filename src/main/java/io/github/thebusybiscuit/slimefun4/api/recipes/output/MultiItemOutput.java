@@ -11,6 +11,7 @@ public class MultiItemOutput implements RecipeOutput {
 
     private final List<RecipeOutput> outputs = new ArrayList<>();
     private final boolean disabled;
+    private final List<String> slimefunIDs = new ArrayList<>();
 
     public MultiItemOutput(RecipeOutput... outputs) {
         Preconditions.checkArgument(outputs.length > 0, "The 'items' array must be non-empty");
@@ -24,6 +25,14 @@ public class MultiItemOutput implements RecipeOutput {
         }
 
         this.disabled = this.outputs.size() == 0;
+        
+        for (final RecipeOutput output : outputs) {
+            slimefunIDs.addAll(output.getSlimefunItemIDs());
+        }
+    }
+
+    public List<RecipeOutput> getOutputs() {
+        return outputs;
     }
 
     @Override
@@ -57,6 +66,34 @@ public class MultiItemOutput implements RecipeOutput {
     @Override
     public boolean isDisabled() {
         return disabled;
+    }
+
+    @Override
+    public String toString() {
+        return outputs.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return ((MultiItemOutput) obj).getOutputs().equals(outputs);
+    }
+
+    @Override
+    public int hashCode() {
+        return outputs.hashCode();
+    }
+    
+    @Override
+    public List<String> getSlimefunItemIDs() {
+        return slimefunIDs;
     }
 
 }

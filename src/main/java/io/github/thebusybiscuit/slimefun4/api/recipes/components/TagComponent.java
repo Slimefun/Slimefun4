@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes.components;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,6 +19,10 @@ public class TagComponent implements RecipeComponent {
         Preconditions.checkArgument(!tag.isEmpty(), "Tag must not be empty.");
 
         this.tag = tag;
+    }
+
+    public SlimefunTag getTag() {
+        return tag;
     }
 
     @Override
@@ -46,6 +53,34 @@ public class TagComponent implements RecipeComponent {
     public ItemStack getDisplayItem() {
         // TODO display item
         return new ItemStack(tag.stream().findFirst().get());
+    }
+
+    @Override
+    public String toString() {
+        return tag.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return ((TagComponent) obj).getTag().equals(this.getTag());
+    }
+
+    @Override
+    public int hashCode() {
+        return tag.hashCode();
+    }
+
+    @Override
+    public List<String> getSlimefunItemIDs() {
+        return Collections.emptyList();
     }
     
 }

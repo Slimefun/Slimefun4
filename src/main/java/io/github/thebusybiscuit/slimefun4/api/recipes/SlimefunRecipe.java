@@ -8,8 +8,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.output.RecipeOutput;
 
 public class SlimefunRecipe implements Recipe {
 
-    final RecipeInputs inputs;
-    final RecipeOutput outputs;
+    private RecipeInputs inputs;
+    private RecipeOutput outputs;
 
     @ParametersAreNonnullByDefault
     public SlimefunRecipe(RecipeInputs inputs, RecipeOutput outputs) {
@@ -17,14 +17,50 @@ public class SlimefunRecipe implements Recipe {
         this.outputs = outputs;
     }
 
+    @Override
+    public void setInputs(RecipeInputs inputs) {
+        this.inputs = inputs;
+    }
+
+    @Override
+    public void setOutputs(RecipeOutput outputs) {
+        this.outputs = outputs;
+    }
+
+    @Override
     @Nonnull
     public RecipeInputs getInputs() {
         return inputs;
     }
 
+    @Override
     @Nonnull
-    public RecipeOutput getOutputs() {
+    public RecipeOutput getOutput() {
         return outputs;
+    }
+
+    @Override
+    public String toString() {
+        return "{Input=" + inputs + ", Output=" + outputs + "}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final Recipe other = (SlimefunRecipe) obj;
+        return other.getInputs().equals(getInputs()) && other.getOutput().equals(getOutput());
+    }
+
+    @Override
+    public int hashCode() {
+        return getInputs().hashCode() * 31 + getOutput().hashCode();
     }
 
 }

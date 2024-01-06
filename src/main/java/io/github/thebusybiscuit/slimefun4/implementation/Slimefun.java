@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -36,6 +37,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import io.github.bakedlibs.dough.collections.Pair;
 import io.github.bakedlibs.dough.config.Config;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -47,6 +49,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeMatchResult;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
@@ -861,6 +864,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
      * @param category The category of the recipe to search in
      * @param givenItems Items from the crafting grid
      * @param cachingStrategy When to save the result to the LRU cache
+     * @param onRecipeFound   To be called when a matching recipe is found
      * @return
      */
     @ParametersAreNonnullByDefault
@@ -868,7 +872,30 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         RecipeCategory category,
         ItemStack[] givenItems,
         CachingStrategy cachingStrategy,
-        @Nullable BiConsumer<Recipe, RecipeMatchResult> onRecipeFound
+        BiConsumer<Recipe, RecipeMatchResult> onRecipeFound
+    ) {
+        return getSlimefunRecipeService().searchRecipes(category, givenItems, cachingStrategy, onRecipeFound);
+    }
+
+    /**
+     * Searches all recipes in a category for a recipe using the given items.
+     * 
+     * Shorthand for {@code Slimefun.getSlimefunRecipeService.searchRecipes()}
+     * 
+     * @param category The category of the recipe to search in
+     * @param givenItems Items from the crafting grid
+     * @param cachingStrategy When to save the result to the LRU cache
+     * @param onRecipeFound   To be called when a matching recipe is found. If it
+     *                        returns true, consumes the input items according to
+     *                        the recipe
+     * @return
+     */
+    @ParametersAreNonnullByDefault
+    public static Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
+        RecipeCategory category,
+        ItemStack[] givenItems,
+        CachingStrategy cachingStrategy,
+        BiPredicate<Recipe, RecipeMatchResult> onRecipeFound
     ) {
         return getSlimefunRecipeService().searchRecipes(category, givenItems, cachingStrategy, onRecipeFound);
     }

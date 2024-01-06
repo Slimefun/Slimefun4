@@ -88,6 +88,7 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
         int size = backpack.getSize();
         Optional<String> id = retrieveID(input, size);
 
+
         if (id.isPresent()) {
             for (int line = 0; line < output.getItemMeta().getLore().size(); line++) {
                 if (output.getItemMeta().getLore().get(line).equals(ChatColors.color("&7ID: <ID>"))) {

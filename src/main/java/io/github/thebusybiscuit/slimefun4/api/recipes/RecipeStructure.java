@@ -8,17 +8,20 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Keyed;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-public abstract class RecipeStructure {
+public abstract class RecipeStructure implements Keyed {
 
     /**
      * <b>Note:</b> This structure assumes the recipe inputs and the given
      * inputs have the same dimension
      */
-    public static final RecipeStructure IDENTICAL = new RecipeStructure() {
+    public static final RecipeStructure IDENTICAL = new RecipeStructure("identical") {
         @Override
         public RecipeMatchResult match(ItemStack[] givenItems, List<RecipeComponent> components) {
             if (givenItems.length != components.size()) {
@@ -45,7 +48,7 @@ public abstract class RecipeStructure {
     /**
      * <b>Note:</b> This structure assumes the recipe is 3x3
      */
-    public static final RecipeStructure SHAPED = new RecipeStructure() {
+    public static final RecipeStructure SHAPED = new RecipeStructure("shaped") {
         @Override
         public RecipeMatchResult match(ItemStack[] givenItems, List<RecipeComponent> components) {
             if (givenItems.length != components.size() || givenItems.length != 9) {
@@ -60,6 +63,7 @@ public abstract class RecipeStructure {
             for (int i = 0; i < numSlots; i++) {
                 if (!components.get(i).isAir()) {
                     recipeFirstNonnull = i;
+                    break;
                 }
             }
 
@@ -80,11 +84,12 @@ public abstract class RecipeStructure {
             final Map<Integer, Integer> consumption = new HashMap<>();
 
             // Check the remaining slots
-            for (int i = 0; i < numSlots - Math.max(recipeFirstNonnull, givenFirstNonnull); i++) {
+            for (int i = 0; i < numSlots - recipeFirstNonnull; i++) {
                 final int recipeIndex = recipeFirstNonnull + i;
                 final int givenIndex = givenFirstNonnull + i;
                 final RecipeComponent component = components.get(recipeIndex);
-                final ItemStack item = givenItems[givenIndex];
+                final ItemStack item = givenIndex < givenItems.length ? givenItems[givenIndex] : null;
+                
                 if (!component.matches(item)) {
                     return RecipeMatchResult.NO_MATCH;
                 } else if (!component.isAir()) {
@@ -100,7 +105,7 @@ public abstract class RecipeStructure {
         }
     };
 
-    public static final RecipeStructure SHAPELESS = new RecipeStructure() {
+    public static final RecipeStructure SHAPELESS = new RecipeStructure("shapeless") {
         @Override
         public RecipeMatchResult match(ItemStack[] givenItems, List<RecipeComponent> components) {
             if (Arrays.stream(givenItems)
@@ -113,7 +118,7 @@ public abstract class RecipeStructure {
         }
     };
 
-    public static final RecipeStructure SUBSET = new RecipeStructure() {
+    public static final RecipeStructure SUBSET = new RecipeStructure("subset") {
         @Override
         public RecipeMatchResult match(ItemStack[] givenItems, List<RecipeComponent> components) {
             if (givenItems.length < components.size()) {
@@ -143,7 +148,39 @@ public abstract class RecipeStructure {
         }
     };
 
+    public static final RecipeStructure NULL = new RecipeStructure("null") {
+        @Override
+        public RecipeMatchResult match(ItemStack[] givenItems, List<RecipeComponent> components) {
+            return RecipeMatchResult.NO_MATCH;
+        }
+    };
+
+    private final NamespacedKey key;
+
+    public RecipeStructure(NamespacedKey key) {
+        this.key = key;
+    }
+
+    RecipeStructure(String name) {
+        this(new NamespacedKey(Slimefun.instance(), name));
+    }
+
+    @Override
+    public NamespacedKey getKey() {
+        return key;
+    }
+
+    public String getTranslationKey() {
+        return key.getNamespace() + "." + key.getKey();
+    }
+
     @Nonnull
     @ParametersAreNonnullByDefault
     public abstract RecipeMatchResult match(ItemStack[] givenItems, List<RecipeComponent> components);
+
+    @Override
+    public String toString() {
+        return key.toString();
+    }
+
 }

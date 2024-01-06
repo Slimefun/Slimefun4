@@ -120,13 +120,13 @@ public class RecipeType implements Keyed {
     }
 
     public RecipeCategory asRecipeCategory() {
-        return new RecipeCategory(item, key) {
+        return new RecipeCategory(key, item) {
             @Override
             public void onRegisterRecipe(Recipe recipe) {
                 if (consumer != null) {
                     consumer.accept(
                         recipe.getInputs().asDisplayGrid(),
-                        recipe.getOutputs().getOutputTemplate());
+                        recipe.getOutput().getOutputTemplate());
                 }
             }
         };

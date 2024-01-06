@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes.output;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -21,11 +22,16 @@ public interface RecipeOutput {
         public boolean isDisabled() {
             return false;
         }
+
+        @Override
+        public List<String> getSlimefunItemIDs() {
+            return Collections.emptyList();
+        }
         
     };
 
     /**
-     * To be called when the Workstation/Machine needs to know the output of a
+     * To be called when the Workstation/Machine needs to get the output of a
      * recipe
      * 
      * @return The output of a recipe
@@ -79,5 +85,7 @@ public interface RecipeOutput {
      * @return
      */
     public boolean isDisabled();
+
+    public List<String> getSlimefunItemIDs();
 
 }

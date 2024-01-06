@@ -43,6 +43,9 @@ public interface RecipeInputs {
         }
 
         @Override
+        public void setStructure(RecipeStructure structure) {}
+
+        @Override
         public ItemStack[] asDisplayGrid() {
             return new ItemStack[9];
         }
@@ -78,6 +81,12 @@ public interface RecipeInputs {
      * @return Whether or not this input is empty
      */
     public boolean isEmpty();
+
+    /**
+     * Sets the structure of this recipe
+     * @param structure The new structure
+     */
+    public void setStructure(RecipeStructure structure);
 
     /**
      * @return The structure of this input

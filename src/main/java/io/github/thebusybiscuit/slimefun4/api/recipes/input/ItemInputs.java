@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes.input;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
@@ -12,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent
 public class ItemInputs implements RecipeInputs {
 
     private final List<RecipeComponent> components;
-    private final RecipeStructure structure;
+    private RecipeStructure structure;
     private final boolean disabled;
     private final boolean empty;
 
@@ -45,7 +44,7 @@ public class ItemInputs implements RecipeInputs {
     }
 
     public List<RecipeComponent> getComponents() {
-        return Collections.unmodifiableList(components);
+        return components;
     }
 
     @Override
@@ -56,6 +55,11 @@ public class ItemInputs implements RecipeInputs {
     @Override
     public boolean isEmpty() {
         return empty;
+    }
+
+    @Override
+    public void setStructure(RecipeStructure structure) {
+        this.structure = structure;
     }
 
     @Override
@@ -70,6 +74,30 @@ public class ItemInputs implements RecipeInputs {
             displayGrid[i] = components.get(i).getDisplayItem();
         }
         return displayGrid;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + structure + ", " + components.toString() + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final ItemInputs other = (ItemInputs) obj;
+        return other.getComponents().equals(components) && other.getStructure().equals(structure);
+    }
+
+    @Override
+    public int hashCode() {
+        return components.hashCode() * 31 + structure.hashCode();
     }
     
 }

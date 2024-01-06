@@ -10,7 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.output.ItemOutput;
 import io.github.thebusybiscuit.slimefun4.api.recipes.output.RecipeOutput;
 
 /**
- * A simple class that associates a set of input items to an
+ * A simple interface that associates a set of input items to an
  * output item(s). Contains methods to match its input items
  * to another set of items
  * 
@@ -32,15 +32,49 @@ public interface Recipe {
         return new SlimefunRecipe(RecipeInputs.of(structure, inputs), new ItemOutput(output));
     }
 
-    public @Nonnull RecipeInputs getInputs();
-    public @Nonnull RecipeOutput getOutputs();
+    /**
+     * Sets the inputs of this recipe
+     * @param inputs The new inputs
+     */
+    public void setInputs(RecipeInputs inputs);
 
+    /**
+     * Sets the output of this recipe
+     * @param output The new output
+     */
+    public void setOutputs(RecipeOutput output);
+
+    /**
+     * Sets the structure of this recipe
+     * @param structure The new structure
+     */
+    public default void setStructure(RecipeStructure structure) {
+        getInputs().setStructure(structure);
+    }
+
+    /**
+     * @return The inputs of this recipe
+     */
+    public @Nonnull RecipeInputs getInputs();
+    
+    /**
+     * @return The outputs of this recipe
+     */
+    public @Nonnull RecipeOutput getOutput();
+
+    /**
+     * @return The structure of this recipe
+     */
     public default @Nonnull RecipeStructure getStructure() {
         return getInputs().getStructure();
     }
 
+    /**
+     * If this recipe is disabled. Disabled recipes cannot be registered
+     * @return
+     */
     public default boolean isDisabled() {
-        return getInputs().isDisabled() || getOutputs().isDisabled();
+        return getInputs().isDisabled() || getOutput().isDisabled();
     }
 
     /**
