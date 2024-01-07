@@ -214,20 +214,20 @@ public final class PostSetup {
         }
 
         // We want to redirect Dust to Ingot Recipes
-        if (ingredients.size() == 1 && isDust(ingredients.get(0))) {
-            makeshiftSmeltery.addRecipe(new ItemStack[] { ingredients.get(0) }, output[0]);
+        // if (ingredients.size() == 1 && isDust(ingredients.get(0))) {
+        //     makeshiftSmeltery.addRecipe(new ItemStack[] { ingredients.get(0) }, output[0]);
 
-            registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[] { ingredients.get(0) }, new ItemStack[] { output[0] });
-            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[] { output[0] }, new ItemStack[] { ingredients.get(0) });
-        } else {
-            registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[] { output[0] });
-        }
+        //     registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[] { ingredients.get(0) }, new ItemStack[] { output[0] });
+        //     registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[] { output[0] }, new ItemStack[] { ingredients.get(0) });
+        // } else {
+        //     registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[] { output[0] });
+        // }
     }
 
-    private static boolean isDust(@Nonnull ItemStack item) {
-        SlimefunItem sfItem = SlimefunItem.getByItem(item);
-        return sfItem != null && sfItem.getId().endsWith("_DUST");
-    }
+    // private static boolean isDust(@Nonnull ItemStack item) {
+    //     SlimefunItem sfItem = SlimefunItem.getByItem(item);
+    //     return sfItem != null && sfItem.getId().endsWith("_DUST");
+    // }
 
     private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {

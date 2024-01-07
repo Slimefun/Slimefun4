@@ -207,25 +207,25 @@ public final class SlimefunRecipeService {
     public void registerRecipes(RecipeCategory category, List<Recipe> recipes) {
         final List<Recipe> categoryRecipes = this.recipesByCategory.getOrDefault(category, new ArrayList<>());
         for (final Recipe recipe : recipes) {
-            if (!recipe.isDisabled()) {
-                if (category.equals(RecipeCategory.DUST_SMELTING)) {
-                }
-                category.onRegisterRecipe(recipe);
-                categoryRecipes.add(recipe);
+            if (recipe.isDisabled()) {
+                continue;
+            }
 
-                for (final RecipeComponent comp : recipe.getInputs().getComponents()) {
-                    for (final String id : comp.getSlimefunItemIDs()) {
-                        final Map<RecipeCategory, Set<Recipe>> inputRecipesByCategory = recipesByInput.getOrDefault(id, new HashMap<>());
-                        addToRecipeSet(category, recipe, inputRecipesByCategory);
-                        recipesByInput.put(id, inputRecipesByCategory);
-                    }
-                }
+            category.onRegisterRecipe(recipe);
+            categoryRecipes.add(recipe);
 
-                for (final String id : recipe.getOutput().getSlimefunItemIDs()) {
-                    final Map<RecipeCategory, List<Recipe>> outputRecipesByCategory = recipesByOutput.getOrDefault(id, new HashMap<>());
-                    addToRecipeList(category, recipe, outputRecipesByCategory);
-                    recipesByOutput.put(id, outputRecipesByCategory);
+            for (final RecipeComponent comp : recipe.getInputs().getComponents()) {
+                for (final String id : comp.getSlimefunItemIDs()) {
+                    final Map<RecipeCategory, Set<Recipe>> inputRecipesByCategory = recipesByInput.getOrDefault(id, new HashMap<>());
+                    addToRecipeSet(category, recipe, inputRecipesByCategory);
+                    recipesByInput.put(id, inputRecipesByCategory);
                 }
+            }
+
+            for (final String id : recipe.getOutput().getSlimefunItemIDs()) {
+                final Map<RecipeCategory, List<Recipe>> outputRecipesByCategory = recipesByOutput.getOrDefault(id, new HashMap<>());
+                addToRecipeList(category, recipe, outputRecipesByCategory);
+                recipesByOutput.put(id, outputRecipesByCategory);
             }
         }
         this.recipesByCategory.put(category, categoryRecipes);

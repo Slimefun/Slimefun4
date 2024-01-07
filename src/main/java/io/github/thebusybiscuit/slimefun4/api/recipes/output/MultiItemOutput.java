@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 
 import com.google.common.base.Preconditions;
 
+import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
+
 public class MultiItemOutput implements RecipeOutput {
 
     private final List<RecipeOutput> outputs = new ArrayList<>();
@@ -41,8 +43,8 @@ public class MultiItemOutput implements RecipeOutput {
     }
 
     @Override
-    public ItemStack generateOutput(ItemStack[] givenItems) {
-        return outputs.get(0).generateOutput(givenItems);
+    public ItemStack generateOutput(ItemStack[] givenItems, Recipe recipe) {
+        return outputs.get(0).generateOutput(givenItems, recipe);
     }
 
     @Override
@@ -55,10 +57,10 @@ public class MultiItemOutput implements RecipeOutput {
     }
 
     @Override
-    public List<ItemStack> generateOutputs(ItemStack[] givenItems) {
+    public List<ItemStack> generateOutputs(ItemStack[] givenItems, Recipe recipe) {
         final List<ItemStack> outputs = new ArrayList<>();
         for (final RecipeOutput output : this.outputs) {
-            outputs.addAll(output.generateOutputs(givenItems));
+            outputs.addAll(output.generateOutputs(givenItems, recipe));
         }
         return outputs;
     }

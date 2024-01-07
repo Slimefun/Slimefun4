@@ -28,6 +28,8 @@ public interface Recipe {
      * @param output The output of the recipe
      * @return The constructed Recipe
      */
+    @Nonnull
+    @ParametersAreNonnullByDefault
     public static Recipe of(RecipeStructure structure, ItemStack[] inputs, ItemStack output) {
         return new SlimefunRecipe(RecipeInputs.of(structure, inputs), new ItemOutput(output));
     }

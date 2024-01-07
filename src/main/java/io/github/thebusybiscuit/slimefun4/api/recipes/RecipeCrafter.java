@@ -2,16 +2,21 @@ package io.github.thebusybiscuit.slimefun4.api.recipes;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.collections.Pair;
+import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.RecipeOutput;
 import io.github.thebusybiscuit.slimefun4.core.services.SlimefunRecipeService.CachingStrategy;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
@@ -105,6 +110,22 @@ public interface RecipeCrafter {
         }
 
         return new Pair<>(Optional.empty(), RecipeMatchResult.NO_MATCH);
+    }
+
+    /**
+     * Returns all recipes that only have 1 input item
+     * @return
+     */
+    public default Map<RecipeComponent, RecipeOutput> getSingleInputRecipes() {
+        final Map<RecipeComponent, RecipeOutput> singleInputRecipes = new HashMap<>();
+        for (final Recipe recipe : getRecipes()) {
+            final Stream<RecipeComponent> stream = recipe.getInputs().getComponents().stream().filter(comp -> !comp.isAir());
+            if (stream.count() == 1) {
+                singleInputRecipes.put(stream.findFirst().get(), recipe.getOutput());
+            }
+        }
+
+        return singleInputRecipes;
     }
 
 }

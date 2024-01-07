@@ -3,6 +3,10 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 import org.bukkit.inventory.ItemStack;
 
 // This class will be rewritten in the "Recipe Rewrite"
+/**
+ * @deprecated Please use {@link }
+ */
+@Deprecated
 public class MachineRecipe {
 
     private int ticks;

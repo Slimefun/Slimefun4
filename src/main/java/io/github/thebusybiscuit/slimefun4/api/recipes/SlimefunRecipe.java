@@ -63,4 +63,8 @@ public class SlimefunRecipe implements Recipe {
         return getInputs().hashCode() * 31 + getOutput().hashCode();
     }
 
+    public TimedRecipe asTimedRecipe(int ticks) {
+        return new TimedRecipe(ticks, inputs, outputs);
+    }
+
 }

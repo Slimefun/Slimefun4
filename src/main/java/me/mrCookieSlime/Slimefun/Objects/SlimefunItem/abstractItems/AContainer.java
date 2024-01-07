@@ -1,9 +1,12 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -11,12 +14,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.collections.Pair;
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -24,12 +29,23 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeMatchResult;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.recipes.TimedRecipe;
+import io.github.thebusybiscuit.slimefun4.api.recipes.input.RecipeInputs;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.ItemOutput;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.MultiItemOutput;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.RecipeOutput;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -46,7 +62,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 // TODO: Replace this with "AbstractContainer" and "AbstractElectricalMachine" classes.
-public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent, MachineProcessHolder<CraftingOperation> {
+public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent, MachineProcessHolder<CraftingOperation>, RecipeCrafter {
 
     private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
     private static final int[] BORDER_IN = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
@@ -67,6 +83,19 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         createPreset(this, getInventoryTitle(), this::constructMenu);
 
         addItemHandler(onBlockBreak());
+    }
+
+    @Override
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(new RecipeCategory(new NamespacedKey(Slimefun.instance(), getMachineIdentifier()), getItem(), RecipeStructure.SUBSET));
+    }
+
+    /**
+     * The default processing duration in seconds
+     * @return
+     */
+    public int getDefaultProcessingDuration() {
+        return 1;
     }
 
     @Nonnull
@@ -319,17 +348,31 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         return EnergyNetComponentType.CONSUMER;
     }
 
+    @Deprecated
     public void registerRecipe(MachineRecipe recipe) {
         recipe.setTicks(recipe.getTicks() / getSpeed());
         recipes.add(recipe);
+
+        getCraftedCategories().stream().findFirst().ifPresent(category -> {
+            final RecipeOutput[] outputs = Arrays.stream(recipe.getOutput()).map(item -> item == null ? ItemOutput.EMPTY : new ItemOutput(item)).toArray(RecipeOutput[]::new);
+            category.registerRecipe(new TimedRecipe(recipe.getTicks(), RecipeInputs.of(category.getDefaultStructure(), recipe.getInput()), (RecipeOutput) (
+                outputs.length == 1
+                    ? outputs[0]
+                    : new MultiItemOutput(outputs)
+            )));
+        });
     }
 
     public void registerRecipe(int seconds, ItemStack[] input, ItemStack[] output) {
-        registerRecipe(new MachineRecipe(seconds, input, output));
+        getCraftedCategories().stream().findFirst().ifPresent(category -> {
+            category.registerRecipe(new TimedRecipe(2 * seconds, RecipeInputs.of(category.getDefaultStructure(), input), RecipeOutput.of(output)));
+        });
     }
 
     public void registerRecipe(int seconds, ItemStack input, ItemStack output) {
-        registerRecipe(new MachineRecipe(seconds, new ItemStack[] { input }, new ItemStack[] { output }));
+        getCraftedCategories().stream().findFirst().ifPresent(category -> {
+            category.registerRecipe(new TimedRecipe(2 * seconds, RecipeInputs.of(category.getDefaultStructure(), input), output == null ? ItemOutput.EMPTY : new ItemOutput(output)));
+        });
     }
 
     @Override
@@ -369,8 +412,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 }
             }
         } else {
-            MachineRecipe next = findNextRecipe(inv);
-
+            final MachineRecipe next = findNextRecipe(inv);
+            
             if (next != null) {
                 currentOperation = new CraftingOperation(next);
                 processor.startOperation(b, currentOperation);
@@ -405,42 +448,21 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         }
     }
 
+    @Deprecated
     protected MachineRecipe findNextRecipe(BlockMenu inv) {
-        Map<Integer, ItemStack> inventory = new HashMap<>();
+        final ItemStack[] givenItems = Arrays.stream(getInputSlots()).mapToObj(slot -> {
+            final ItemStack item = inv.getItemInSlot(slot);
+            return item;
+        }).toArray(ItemStack[]::new);
+        
+        final Pair<Optional<Recipe>, RecipeMatchResult> searchResult = searchRecipes(givenItems, (recipe, match) -> true);
 
-        for (int slot : getInputSlots()) {
-            ItemStack item = inv.getItemInSlot(slot);
+        if (searchResult.getSecondValue().isMatch()) {
+            final Recipe recipe = searchResult.getFirstValue().get();
+            final int seconds = recipe instanceof final TimedRecipe timed ? timed.getTicks() / 2 : getDefaultProcessingDuration();
+            final MachineRecipe machineRecipe = new MachineRecipe(seconds / getSpeed(), givenItems, recipe.getOutput().generateOutputs().toArray(ItemStack[]::new));
 
-            if (item != null) {
-                inventory.put(slot, ItemStackWrapper.wrap(item));
-            }
-        }
-
-        Map<Integer, Integer> found = new HashMap<>();
-
-        for (MachineRecipe recipe : recipes) {
-            for (ItemStack input : recipe.getInput()) {
-                for (int slot : getInputSlots()) {
-                    if (SlimefunUtils.isItemSimilar(inventory.get(slot), input, true)) {
-                        found.put(slot, input.getAmount());
-                        break;
-                    }
-                }
-            }
-
-            if (found.size() == recipe.getInput().length) {
-                if (!InvUtils.fitAll(inv.toInventory(), recipe.getOutput(), getOutputSlots())) {
-                    return null;
-                }
-
-                for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
-                    inv.consumeItem(entry.getKey(), entry.getValue());
-                }
-
-                return recipe;
-            } else {
-                found.clear();
-            }
+            return machineRecipe;
         }
 
         return null;

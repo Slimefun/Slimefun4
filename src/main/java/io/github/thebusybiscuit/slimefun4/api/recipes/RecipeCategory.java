@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -16,6 +17,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.components.ItemComponent;
 import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -79,6 +81,15 @@ public class RecipeCategory implements Keyed {
         public String getTranslationKey() {
             return "slimefun.smeltery";
         }
+        @Override
+        public void onRegisterRecipe(Recipe recipe) { 
+            final Optional<RecipeComponent> dust = recipe.getInputs().getComponents().stream().filter(comp -> !comp.isAir()).findFirst();
+            if (dust.isPresent() && dust.get() instanceof final ItemComponent singleDust) {
+                INGOT_PULVERIZER.registerRecipe(
+                    Recipe.of(RecipeStructure.SUBSET, new ItemStack[] {recipe.getOutput().getOutputTemplate()}, singleDust.getComponent())
+                );
+            }
+        }
     };
     public static final RecipeCategory ANCIENT_ALTAR = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ancient_altar"), SlimefunItems.ANCIENT_ALTAR, RecipeStructure.IDENTICAL) {
         @Override
@@ -114,6 +125,13 @@ public class RecipeCategory implements Keyed {
     public static final RecipeCategory FOOD_COMPOSTER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "food_composter"), SlimefunItems.FOOD_COMPOSTER, RecipeStructure.SUBSET);
     public static final RecipeCategory FREEZER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "freezer"), SlimefunItems.FREEZER, RecipeStructure.SUBSET);
     public static final RecipeCategory REFINERY = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "refinery"), SlimefunItems.REFINERY, RecipeStructure.SUBSET);
+    public static final RecipeCategory INGOT_PULVERIZER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ingot_pulverizer"), SlimefunItems.ELECTRIC_INGOT_PULVERIZER, RecipeStructure.SUBSET) {
+        @Override
+        public void onRegisterRecipe(Recipe recipe) {
+            System.out.println("INGOT PULVERIZER" + recipe);
+        }
+    };
+
 
     public static final RecipeCategory GEO_MINER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "geo_miner"), SlimefunItems.GEO_MINER);
     public static final RecipeCategory NUCLEAR_REACTOR = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "nuclear_reactor"), SlimefunItems.NUCLEAR_REACTOR, RecipeStructure.SUBSET);

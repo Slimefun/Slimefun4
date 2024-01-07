@@ -1,13 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes.output;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 
 public interface RecipeOutput {
 
@@ -29,6 +33,16 @@ public interface RecipeOutput {
         }
         
     };
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public static RecipeOutput of(ItemStack... outputs) {
+        final RecipeOutput[] recipeOutputs = Arrays.stream(outputs)
+            .map(item -> item == null ? ItemOutput.EMPTY : new ItemOutput(item)).toArray(RecipeOutput[]::new);
+        return recipeOutputs.length == 1
+            ? recipeOutputs[0]
+            : new MultiItemOutput(recipeOutputs);
+    }
 
     /**
      * To be called when the Workstation/Machine needs to get the output of a
@@ -56,7 +70,7 @@ public interface RecipeOutput {
      * @param givenItems The input items
      * @return The output of the recipe
      */
-    public default @Nonnull ItemStack generateOutput(ItemStack[] givenItems) {
+    public default @Nonnull ItemStack generateOutput(ItemStack[] givenItems, Recipe recipe) {
         return generateOutput();
     }
 
@@ -69,7 +83,7 @@ public interface RecipeOutput {
      * @param givenItems The input items
      * @return The outputs of the recipe
      */
-    public default @Nonnull List<ItemStack> generateOutputs(ItemStack[] givenItems) {
+    public default @Nonnull List<ItemStack> generateOutputs(ItemStack[] givenItems, Recipe recipe) {
         return generateOutputs();
     }
 

@@ -23,7 +23,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.IgnitionChamber;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.AlloyIngot;
@@ -66,6 +68,12 @@ public class Smeltery extends AbstractSmeltery {
     protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
         recipes.add(SlimefunItems.IRON_DUST);
         recipes.add(new ItemStack(Material.IRON_INGOT));
+
+        RecipeCategory.DUST_SMELTING.registerRecipe(Recipe.of(
+            RecipeStructure.SUBSET,
+            new ItemStack[] { SlimefunItems.IRON_DUST },
+            new ItemStack(Material.IRON_INGOT))
+        );
     }
 
     @Override

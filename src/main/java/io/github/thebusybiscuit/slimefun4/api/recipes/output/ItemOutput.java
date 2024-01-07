@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api.recipes.output;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -22,23 +23,19 @@ public class ItemOutput implements RecipeOutput {
             disabled = true;
         } else {
             final SlimefunItem sfItem = SlimefunItem.getByItem(output);
-            if (sfItem != null) {
-                slimefunID = sfItem.getId();
-                if (sfItem != null && sfItem.isDisabled()) {
-                    disabled = true;
-                } else {
-                    disabled = false;
-                }
-            } else {
-                disabled = false;
-                slimefunID = null;
-            }
+            disabled = sfItem != null ? sfItem.isDisabled() : false;
+            slimefunID = sfItem != null ? sfItem.getId() : null;
         }
     }
 
     @Override
     public ItemStack generateOutput() {
         return output.clone();
+    }
+
+    @Override
+    public ItemStack getOutputTemplate() {
+        return output;
     }
 
     @Override
@@ -61,7 +58,7 @@ public class ItemOutput implements RecipeOutput {
             return false;
         }
 
-        return ((ItemOutput) obj).getOutputTemplate().equals(output);
+        return Objects.equals(((ItemOutput) obj).getOutputTemplate(), getOutputTemplate());
     }
 
     @Override
