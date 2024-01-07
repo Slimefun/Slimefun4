@@ -60,8 +60,11 @@ guide:
   tooltips:
     open-itemgroup: 'Click to open'
     versions-notice: 'These are very important when reporting bugs!'
-    wiki: 'View this Item on the official Slimefun Wiki'
-    wiki-third-party: 'View this Item on the %addon% Wiki (not Slimefun official)'
+    wiki:
+      button: 'View this item on the %addon% Wiki'
+      slimefun: 'Official Slimefun Wiki'
+      third-party: 'Third-Party Wiki'
+
 
     recipes:
       machine: 'Recipes made in this Machine'
