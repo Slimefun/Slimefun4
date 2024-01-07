@@ -404,7 +404,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     }
 
     @Override
-    public @Nonnull JavaPlugin getJavaPlugin() {
+    public JavaPlugin getJavaPlugin() {
         return this;
     }
 
