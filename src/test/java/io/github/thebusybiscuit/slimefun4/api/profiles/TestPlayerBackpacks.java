@@ -48,6 +48,21 @@ class TestPlayerBackpacks {
     }
 
     @Test
+    @DisplayName("Test creating a new backpack will increment the id")
+    void testCreateBackpackIncrementsId() throws InterruptedException {
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+
+        PlayerBackpack backpackOne = profile.createBackpack(18);
+        PlayerBackpack backpackTwo = profile.createBackpack(18);
+        PlayerBackpack backpackThree = profile.createBackpack(18);
+
+        Assertions.assertEquals(0, backpackOne.getId());
+        Assertions.assertEquals(1, backpackTwo.getId());
+        Assertions.assertEquals(2, backpackThree.getId());
+    }
+
+    @Test
     @DisplayName("Test upgrading the backpack size")
     void testChangeSize() throws InterruptedException {
         Player player = server.addPlayer();
