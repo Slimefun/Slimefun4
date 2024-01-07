@@ -91,7 +91,10 @@ public class PlayerProfile {
      * Only intended for internal usage.
      * 
      * @return The {@link Config} associated with this {@link PlayerProfile}
+     *
+     * @deprecated Look at {@link PlayerProfile#getPlayerData()} instead for reading data.
      */
+    @Deprecated
     public @Nonnull Config getConfig() {
         return configFile;
     }
@@ -245,10 +248,9 @@ public class PlayerProfile {
     }
 
     public @Nonnull PlayerBackpack createBackpack(int size) {
-        IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !configFile.contains("backpacks." + i + ".size"));
-        int id = stream.findFirst().getAsInt();
+        int nextId = this.data.getBackpacks().size(); // Size is not 0 indexed so next ID can just be the current size
 
-        PlayerBackpack backpack = PlayerBackpack.newBackpack(this.ownerId, id, size);
+        PlayerBackpack backpack = PlayerBackpack.newBackpack(this.ownerId, nextId, size);
         this.data.addBackpack(backpack);
 
         markDirty();
