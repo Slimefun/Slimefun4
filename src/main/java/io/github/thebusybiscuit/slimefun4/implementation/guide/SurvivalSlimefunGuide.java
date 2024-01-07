@@ -514,14 +514,13 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         Optional<String> wiki = item.getWikipage();
 
         if (wiki.isPresent()) {
-            String message = Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.third-party")
-                .replace("%addon%", item.getAddon().getName());
+            String message = Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.third-party");
             if (item.getAddon() instanceof Slimefun) {
                 message = Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.slimefun");
             }
             menu.addItem(8, new CustomItemStack(
                 Material.KNOWLEDGE_BOOK,
-                ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.button"),
+                ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.button").replace("%addon%", item.getAddon().getName()),
                 "",
                 ChatColor.WHITE + message,
                 "",
