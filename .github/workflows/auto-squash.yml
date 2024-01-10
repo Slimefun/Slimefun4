@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Auto squash
-      uses: pascalgn/automerge-action@v0.15.6
+      uses: pascalgn/automerge-action@v0.16.2
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         UPDATE_RETRIES: 0
@@ -42,7 +42,7 @@ jobs:
 
     steps:
     - name: Auto squash
-      uses: pascalgn/automerge-action@v0.15.6
+      uses: pascalgn/automerge-action@v0.16.2
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         UPDATE_RETRIES: 0
