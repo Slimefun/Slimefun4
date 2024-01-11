@@ -140,16 +140,18 @@ public class BiomeMap<T> implements Keyed {
         return "BiomeMap " + dataMap.toString();
     }
 
+    @Nonnull
     @ParametersAreNonnullByDefault
-    public static <T> @Nonnull BiomeMap<T> fromJson(NamespacedKey key, String json, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
+    public static <T> BiomeMap<T> fromJson(NamespacedKey key, String json, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
         // All parameters are validated by the Parser.
         BiomeMapParser<T> parser = new BiomeMapParser<>(key, valueConverter);
         parser.read(json);
         return parser.buildBiomeMap();
     }
 
+    @Nonnull
     @ParametersAreNonnullByDefault
-    public static <T> @Nonnull BiomeMap<T> fromJson(NamespacedKey key, String json, BiomeDataConverter<T> valueConverter, boolean isLenient) throws BiomeMapException {
+    public static <T> BiomeMap<T> fromJson(NamespacedKey key, String json, BiomeDataConverter<T> valueConverter, boolean isLenient) throws BiomeMapException {
         // All parameters are validated by the Parser.
         BiomeMapParser<T> parser = new BiomeMapParser<>(key, valueConverter);
         parser.setLenient(isLenient);
@@ -157,8 +159,9 @@ public class BiomeMap<T> implements Keyed {
         return parser.buildBiomeMap();
     }
 
+    @Nonnull
     @ParametersAreNonnullByDefault
-    public static <T> @Nonnull BiomeMap<T> fromResource(NamespacedKey key, JavaPlugin plugin, String path, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
+    public static <T> BiomeMap<T> fromResource(NamespacedKey key, JavaPlugin plugin, String path, BiomeDataConverter<T> valueConverter) throws BiomeMapException {
         Validate.notNull(key, "The key shall not be null.");
         Validate.notNull(plugin, "The plugin shall not be null.");
         Validate.notNull(path, "The path should not be null!");
