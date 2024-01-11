@@ -178,7 +178,7 @@ public class BlockListener implements Listener {
             dropItems(e, drops);
 
             // Checks for vanilla sensitive blocks everywhere
-            checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
+            // checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
         }
     }
 
@@ -306,8 +306,7 @@ public class BlockListener implements Listener {
     // Disabled for now due to #4069 - Servers crashing due to this check
     // There is additionally a second bug with `getMaxChainedNeighborUpdates` not existing in 1.17
     @ParametersAreNonnullByDefault
-    private void checkForSensitiveBlocks(Block block, Integer count, boolean isDropItems) {
-        /*
+    private void checkForSensitiveBlocks(Block block, int count, boolean isDropItems) {
         if (count >= Bukkit.getServer().getMaxChainedNeighborUpdates()) {
             return;
         }
@@ -329,7 +328,6 @@ public class BlockListener implements Listener {
         // Set the BlockData back: this makes it so containers and spawners drop correctly. This is a hacky fix.
         block.setBlockData(state.getBlockData(), false);
         state.update(true, false);
-        */
     }
 
     /**
