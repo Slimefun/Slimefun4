@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
@@ -38,9 +39,15 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
     private final List<MultiToolMode> modes = new ArrayList<>();
     private final float capacity;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public MultiTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, float capacity, String... items) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, capacity, items);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public MultiTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, float capacity, String... items) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         for (int i = 0; i < items.length; i++) {
             modes.add(new MultiToolMode(this, i, items[i]));

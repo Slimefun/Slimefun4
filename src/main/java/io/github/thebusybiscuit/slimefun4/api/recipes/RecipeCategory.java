@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.components.ItemComponent;
 import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.ItemOutput;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
@@ -65,6 +66,7 @@ public class RecipeCategory implements Keyed {
     
     public static final RecipeCategory INGOT_SMELTING = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ingot_smelting"), new CustomItemStack(SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery"), RecipeStructure.SUBSET) {
         @Override
+        @Deprecated
         public RecipeType asRecipeType() {
             return RecipeType.SMELTERY;
         }
@@ -75,6 +77,7 @@ public class RecipeCategory implements Keyed {
     };
     public static final RecipeCategory DUST_SMELTING = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "dust_smelting"), new CustomItemStack(SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery"), RecipeStructure.SUBSET) {
         @Override
+        @Deprecated
         public RecipeType asRecipeType() {
             return RecipeType.SMELTERY;
         }
@@ -84,10 +87,11 @@ public class RecipeCategory implements Keyed {
         }
         @Override
         public void onRegisterRecipe(Recipe recipe) { 
+            // Add the inverse of this recipe (if applicable) to the ingot pulverizer category
             final Optional<RecipeComponent> dust = recipe.getInputs().getComponents().stream().filter(comp -> !comp.isAir()).findFirst();
-            if (dust.isPresent() && dust.get() instanceof final ItemComponent singleDust) {
+            if (dust.isPresent() && dust.get() instanceof final ItemComponent singleDust && recipe.getOutput() instanceof final ItemOutput itemOutput) {
                 INGOT_PULVERIZER.registerRecipe(
-                    Recipe.of(RecipeStructure.SUBSET, new ItemStack[] {recipe.getOutput().getOutputTemplate()}, singleDust.getComponent())
+                    Recipe.of(RecipeStructure.SUBSET, new ItemStack[] { itemOutput.getOutputTemplate() }, singleDust.getComponent())
                 );
             }
         }

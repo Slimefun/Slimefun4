@@ -25,6 +25,7 @@ import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.ItemOutput;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -128,10 +129,10 @@ public class RecipeType implements Keyed {
         return new RecipeCategory(key, item) {
             @Override
             public void onRegisterRecipe(Recipe recipe) {
-                if (consumer != null) {
+                if (consumer != null && recipe.getOutput() instanceof final ItemOutput itemOutput) {
                     consumer.accept(
                         recipe.getInputs().asDisplayGrid(),
-                        recipe.getOutput().getOutputTemplate());
+                        itemOutput.getOutputTemplate());
                 }
             }
         };

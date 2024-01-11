@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -17,7 +18,7 @@ public class ItemOutput implements RecipeOutput {
     private final @Nullable String slimefunID;
 
     public ItemOutput(ItemStack output) {
-        this.output = output;
+        this.output = output == null ? new ItemStack(Material.AIR) : output;
         if (output == null || output.getType().isAir()) {
             slimefunID = null;
             disabled = true;
@@ -33,7 +34,6 @@ public class ItemOutput implements RecipeOutput {
         return output.clone();
     }
 
-    @Override
     public ItemStack getOutputTemplate() {
         return output;
     }

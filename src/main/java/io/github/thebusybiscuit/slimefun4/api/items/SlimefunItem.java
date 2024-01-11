@@ -40,6 +40,7 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.recipes.SlimefunRecipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.input.RecipeInputs;
@@ -111,7 +112,7 @@ public class SlimefunItem implements Placeable {
     private ItemStack[] recipe;
     protected ItemStack recipeOutput;
     private final boolean hasDefaultRecipe;
-
+    private final RecipeStructure defaultRecipeStructure;
     private RecipeCategory defaultRecipeCategory;
 
     protected boolean enchantable = true;
@@ -150,8 +151,6 @@ public class SlimefunItem implements Placeable {
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
      * 
-     * @deprecated Please use {@code SlimefunItem(ItemGroup, SlimefunItemStack, RecipeCategory, ItemStack[])} instead
-     * 
      * @param itemGroup
      *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
      * @param item
@@ -161,7 +160,6 @@ public class SlimefunItem implements Placeable {
      * @param recipe
      *            An Array representing the recipe of this {@link SlimefunItem}
      */
-    @Deprecated
     @ParametersAreNonnullByDefault
     public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
         this(itemGroup, item, recipeCategory, recipe, item);
@@ -204,10 +202,51 @@ public class SlimefunItem implements Placeable {
      *            The result of crafting this item
      */
     @ParametersAreNonnullByDefault
-    protected SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+    public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        this(itemGroup, item, recipeCategory, recipe, recipeOutput, recipeCategory.getDefaultStructure());
+    }
+
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
+     * 
+     * @param itemGroup
+     *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
+     * @param item
+     *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipeCategory
+     *            the {@link RecipeCategory} that determines how this {@link SlimefunItem} is crafted
+     * @param recipe
+     *            An Array representing the recipe of this {@link SlimefunItem}
+     * @param structure
+     *            The structure of the recipe
+     */
+    @ParametersAreNonnullByDefault
+    public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, RecipeStructure structure) {
+        this(itemGroup, item, recipeCategory, recipe, item, structure);
+    }
+
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
+     * 
+     * @param itemGroup
+     *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
+     * @param item
+     *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipeCategory
+     *            the {@link RecipeCategory} that determines how this {@link SlimefunItem} is crafted
+     * @param recipe
+     *            An Array representing the recipe of this {@link SlimefunItem}
+     * @param recipeOutput
+     *            The result of crafting this item
+     * @param recipeStructure
+     *            The structure of the recipe
+     */
+    @ParametersAreNonnullByDefault
+    public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, @Nullable ItemStack recipeOutput, RecipeStructure structure) {
         Validate.notNull(itemGroup, "'itemGroup' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
         Validate.notNull(recipeCategory, "'recipeCategory' is not allowed to be null!");
+        Validate.notNull(structure, "'structure' is not allowed to be null!");
 
         this.itemGroup = itemGroup;
         this.itemStackTemplate = item;
@@ -215,6 +254,7 @@ public class SlimefunItem implements Placeable {
         this.defaultRecipeCategory = recipeCategory;
         this.recipe = recipe;
         this.recipeOutput = recipeOutput;
+        this.defaultRecipeStructure = structure;
         this.hasDefaultRecipe = true;
     }
 
@@ -238,6 +278,7 @@ public class SlimefunItem implements Placeable {
         this.defaultRecipeCategory = recipeCategory;
         this.recipe = recipe;
         this.recipeOutput = item;
+        this.defaultRecipeStructure = defaultRecipeCategory.getDefaultStructure();
         this.hasDefaultRecipe = true;
     }
 
@@ -251,6 +292,7 @@ public class SlimefunItem implements Placeable {
         this.defaultRecipeCategory = RecipeCategory.NULL;
         this.recipe = new ItemStack[9];
         this.recipeOutput = item;
+        this.defaultRecipeStructure = defaultRecipeCategory.getDefaultStructure();
         this.hasDefaultRecipe = false;
     }
 
@@ -884,7 +926,7 @@ public class SlimefunItem implements Placeable {
         }
 
         if (hasDefaultRecipe) {
-            final Recipe defaultRecipe = Recipe.of(defaultRecipeCategory.getDefaultStructure(), recipe, getRecipeOutput());
+            final Recipe defaultRecipe = Recipe.of(defaultRecipeStructure, recipe, getRecipeOutput());
 
             defaultRecipeCategory.registerRecipe(defaultRecipe);
 

@@ -8,6 +8,8 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -23,9 +25,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
  */
 public class MonsterJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public MonsterJerky(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+    }
+
+    @ParametersAreNonnullByDefault
+    public MonsterJerky(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe) {
+        super(itemGroup, item, RecipeCategory.ENHANCED_CRAFTING_TABLE, recipe, RecipeStructure.SHAPELESS);
     }
 
     @Override

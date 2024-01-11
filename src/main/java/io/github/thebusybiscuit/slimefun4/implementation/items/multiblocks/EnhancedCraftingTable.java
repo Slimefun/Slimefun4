@@ -56,10 +56,11 @@ public class EnhancedCraftingTable extends AbstractCraftingTable implements Reci
 
             final var searchResult = searchRecipes(givenInputs, (recipe, match) -> {
 
-                final ItemStack output = recipe.getOutput().generateOutput();
-                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenInputs, output);
+                final ItemStack recipeOutput = recipe.getOutput().generateOutput();
+                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenInputs, recipeOutput);
 
                 Bukkit.getPluginManager().callEvent(event);
+                final ItemStack output = event.getOutput();
                 if (event.isCancelled() || !SlimefunUtils.canPlayerUseItem(p, output, true)) {
                     return false;
                 }

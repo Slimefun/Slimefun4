@@ -30,7 +30,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
@@ -55,7 +55,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
 
     @ParametersAreNonnullByDefault
     protected MultiBlockMachine(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
-        super(itemGroup, item, RecipeType.MULTIBLOCK, recipe);
+        super(itemGroup, item, RecipeCategory.MULTIBLOCK, recipe);
         this.craftedRecipes = new ArrayList<>();
         this.displayRecipes = new ArrayList<>();
         this.displayRecipes.addAll(Arrays.asList(machineRecipes));

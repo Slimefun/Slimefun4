@@ -10,6 +10,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 
@@ -31,14 +33,36 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
  */
 public abstract class SimpleSlimefunItem<T extends ItemHandler> extends SlimefunItem {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     protected SimpleSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     protected SimpleSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
+    }
+
+    @ParametersAreNonnullByDefault
+    protected SimpleSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
+    }
+
+    @ParametersAreNonnullByDefault
+    protected SimpleSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        super(itemGroup, item, recipeCategory, recipe, recipeOutput);
+    }
+
+    @ParametersAreNonnullByDefault
+    protected SimpleSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, RecipeStructure structure) {
+        super(itemGroup, item, recipeCategory, recipe, structure);
+    }
+
+    @ParametersAreNonnullByDefault
+    protected SimpleSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, @Nullable ItemStack recipeOutput, RecipeStructure structure) {
+        super(itemGroup, item, recipeCategory, recipe, recipeOutput);
     }
 
     @Override

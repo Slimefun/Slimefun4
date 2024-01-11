@@ -10,15 +10,22 @@ import org.bukkit.potion.PotionEffect;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 public class SlimefunArmorPiece extends SlimefunItem {
 
     private final PotionEffect[] effects;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public SlimefunArmorPiece(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable PotionEffect[] effects) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, effects);
+    }
+
+    @ParametersAreNonnullByDefault
+    public SlimefunArmorPiece(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, @Nullable PotionEffect[] effects) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         this.effects = effects == null ? new PotionEffect[0] : effects;
     }

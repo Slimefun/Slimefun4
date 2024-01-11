@@ -1,7 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import java.util.Arrays;
-
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
@@ -55,10 +53,11 @@ abstract class AbstractSmeltery extends MultiBlockMachine implements RecipeCraft
 
             final var searchResult = searchRecipes(givenItems, (recipe, match) -> {
 
-                final ItemStack output = recipe.getOutput().generateOutput();
-                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenItems, output);
-                Bukkit.getPluginManager().callEvent(event);
+                final ItemStack recipeOutput = recipe.getOutput().generateOutput();
+                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenItems, recipeOutput);
 
+                Bukkit.getPluginManager().callEvent(event);
+                final ItemStack output = event.getOutput();
                 if (event.isCancelled() || !SlimefunUtils.canPlayerUseItem(p, output, true)) {
                     return false;
                 }

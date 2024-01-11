@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
@@ -85,13 +84,6 @@ public interface RecipeOutput {
      */
     public default @Nonnull List<ItemStack> generateOutputs(ItemStack[] givenItems, Recipe recipe) {
         return generateOutputs();
-    }
-
-    /**
-     * @return The output template for this RecipeOutput, if it exists 
-     */
-    public default @Nullable ItemStack getOutputTemplate() {
-        return null;
     }
 
     /**

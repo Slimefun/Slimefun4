@@ -27,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -151,10 +150,11 @@ public class GrindStone extends MultiBlockMachine implements RecipeCrafter {
 
             final var searchResult = searchRecipes(givenItems, (recipe, match) -> {
 
-                final ItemStack output = recipe.getOutput().generateOutput();
-                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenItems, output);
-                Bukkit.getPluginManager().callEvent(event);
+                final ItemStack recipeOutput = recipe.getOutput().generateOutput();
+                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenItems, recipeOutput);
 
+                Bukkit.getPluginManager().callEvent(event);
+                final ItemStack output = event.getOutput();
                 if (event.isCancelled() || !SlimefunUtils.canPlayerUseItem(p, output, true)) {
                     return false;
                 }
