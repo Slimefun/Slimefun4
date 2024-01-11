@@ -3,10 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -21,8 +18,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.collections.Pair;
-import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -33,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeMatchResult;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeSearchResult;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.recipes.TimedRecipe;
@@ -49,8 +45,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -455,10 +449,10 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             return item;
         }).toArray(ItemStack[]::new);
         
-        final Pair<Optional<Recipe>, RecipeMatchResult> searchResult = searchRecipes(givenItems, (recipe, match) -> true);
+        final RecipeSearchResult searchResult = searchRecipes(givenItems, this::onRecipeFound);
 
-        if (searchResult.getSecondValue().isMatch()) {
-            final Recipe recipe = searchResult.getFirstValue().get();
+        if (searchResult.isMatch()) {
+            final Recipe recipe = searchResult.getRecipe();
             final int seconds = recipe instanceof final TimedRecipe timed ? timed.getTicks() / 2 : getDefaultProcessingDuration();
             final MachineRecipe machineRecipe = new MachineRecipe(seconds / getSpeed(), givenItems, recipe.getOutput().generateOutputs().toArray(ItemStack[]::new));
 
@@ -467,4 +461,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
         return null;
     }
+
+    protected boolean onRecipeFound(Recipe recipe, RecipeMatchResult matchResult) { return true; }
 }

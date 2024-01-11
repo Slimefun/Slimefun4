@@ -60,30 +60,30 @@ public class EnhancedCraftingTable extends AbstractCraftingTable implements Reci
                 final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenInputs, output);
 
                 Bukkit.getPluginManager().callEvent(event);
-                if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                    final Inventory fakeInv = createVirtualInventory(inv);
-                    final Inventory outputInv = findOutputInventory(output, possibleDispenser, inv, fakeInv);
-                    if (outputInv != null) {
-                        final SlimefunItem sfItem = SlimefunItem.getByItem(output);
-
-                        if (sfItem instanceof final SlimefunBackpack backpack) {
-                            upgradeBackpack(p, inv, backpack, output);
-                        }
-
-                        SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
-                        outputInv.addItem(output);
-
-                    } else {
-                        Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
-                        return false;
-                    }
-                    return true;
+                if (event.isCancelled() || !SlimefunUtils.canPlayerUseItem(p, output, true)) {
+                    return false;
                 }
 
-                return false;
+                final Inventory fakeInv = createVirtualInventory(inv);
+                final Inventory outputInv = findOutputInventory(output, possibleDispenser, inv, fakeInv);
+                if (outputInv == null) {
+                    Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                    return false;
+                }
+            
+                final SlimefunItem sfItem = SlimefunItem.getByItem(output);
+
+                if (sfItem instanceof final SlimefunBackpack backpack) {
+                    upgradeBackpack(p, inv, backpack, output);
+                }
+
+                SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
+                outputInv.addItem(output);
+
+                return true;
             });
 
-            if (!searchResult.getSecondValue().isMatch()) {
+            if (!searchResult.isMatch()) {
                 Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
             }
         }

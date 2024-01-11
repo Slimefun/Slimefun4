@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -15,11 +16,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -27,7 +29,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Slimefu
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
-public class MagicWorkbench extends AbstractCraftingTable {
+public class MagicWorkbench extends AbstractCraftingTable implements RecipeCrafter {
 
     @ParametersAreNonnullByDefault
     public MagicWorkbench(ItemGroup itemGroup, SlimefunItemStack item) {
@@ -35,67 +37,62 @@ public class MagicWorkbench extends AbstractCraftingTable {
     }
 
     @Override
-    public void onInteract(Player p, Block b) {
-        Block possibleDispener = locateDispenser(b);
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(RecipeCategory.MAGIC_WORKBENCH);
+    }
 
-        if (possibleDispener == null) {
+    @Override
+    public void onInteract(Player p, Block b) {
+        final Block possibleDispenser = locateDispenser(b);
+
+        if (possibleDispenser == null) {
             // How even...
             return;
         }
 
-        BlockState state = PaperLib.getBlockState(possibleDispener, false).getState();
+        final BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
 
-        if (state instanceof Dispenser dispenser) {
-            Inventory inv = dispenser.getInventory();
-            List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
-
-            for (ItemStack[] input : inputs) {
-                if (isCraftable(inv, input)) {
-                    ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
-                    MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
-
-                    Bukkit.getPluginManager().callEvent(event);
-                    if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(inv, possibleDispener, p, b, event.getOutput());
-                    }
-
-                    return;
-                }
-            }
-
+        if (state instanceof final Dispenser dispenser) {
+            final Inventory inv = dispenser.getInventory();
+            
             if (inv.isEmpty()) {
                 Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
-            } else {
+                return;
+            }
+
+            final ItemStack[] givenInputs = dispenser.getInventory().getContents();
+
+            final var searchResult = searchRecipes(givenInputs, (recipe, match) -> {
+
+                final ItemStack output = recipe.getOutput().generateOutput();
+                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenInputs, output);
+
+                Bukkit.getPluginManager().callEvent(event);
+                if (event.isCancelled() || !SlimefunUtils.canPlayerUseItem(p, output, true)) {
+                    return false;
+                }
+
+                final Inventory fakeInv = createVirtualInventory(inv);
+                final Inventory outputInv = findOutputInventory(output, possibleDispenser, inv, fakeInv);
+                if (outputInv == null) {
+                    Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                    return false;
+                }
+                
+                final SlimefunItem sfItem = SlimefunItem.getByItem(output);
+
+                if (sfItem instanceof final SlimefunBackpack backpack) {
+                    upgradeBackpack(p, inv, backpack, output);
+                }
+
+                startAnimation(p, b, inv, possibleDispenser, output);
+
+                return true;
+            });
+
+            if (!searchResult.isMatch()) {
                 Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
             }
-        }
-    }
-
-    @ParametersAreNonnullByDefault
-    private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {
-        Inventory fakeInv = createVirtualInventory(inv);
-        Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
-
-        if (outputInv != null) {
-            SlimefunItem sfItem = SlimefunItem.getByItem(output);
-
-            if (sfItem instanceof SlimefunBackpack backpack) {
-                upgradeBackpack(p, inv, backpack, output);
-            }
-
-            for (int j = 0; j < 9; j++) {
-                if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR) {
-                    if (inv.getContents()[j].getAmount() > 1) {
-                        inv.setItem(j, new CustomItemStack(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-                    } else {
-                        inv.setItem(j, null);
-                    }
-                }
-            }
-
-            startAnimation(p, b, inv, dispenser, output);
-        } else {
-            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 
@@ -131,21 +128,4 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
         return block;
     }
-
-    private boolean isCraftable(Inventory inv, ItemStack[] recipe) {
-        for (int j = 0; j < inv.getContents().length; j++) {
-            if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], true, true, false)) {
-                if (SlimefunItem.getByItem(recipe[j]) instanceof SlimefunBackpack) {
-                    if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], false, true, false)) {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
 }

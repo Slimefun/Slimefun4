@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -12,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeSearchResult;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -44,6 +47,11 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     public ElectricGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         addItemSetting(overrideOutputLimit);
+    }
+
+    @Override
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(RecipeCategory.GOLD_PAN, RecipeCategory.NETHER_GOLD_PAN);
     }
 
     /**
@@ -85,29 +93,32 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
+    @Deprecated
     protected MachineRecipe findNextRecipe(BlockMenu menu) {
         if (!isOutputLimitOverridden() && !hasFreeSlot(menu)) {
             return null;
         }
 
-        for (int slot : getInputSlots()) {
-            ItemStack item = menu.getItemInSlot(slot);
-            MachineRecipe recipe = null;
-            ItemStack output = null;
-
-            if (goldPan.isValidInput(item)) {
-                output = goldPan.getRandomOutput();
-                recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
-            } else if (netherGoldPan.isValidInput(item)) {
-                output = netherGoldPan.getRandomOutput();
-                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
+        for (final int slot : getInputSlots()) {
+            final ItemStack item = menu.getItemInSlot(slot);
+            if (item == null) {
+                continue;
             }
 
-            if (output != null && output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
-                menu.consumeItem(slot);
-                return recipe;
+            final ItemStack[] givenItem = new ItemStack[] { item };
+
+            final RecipeSearchResult searchResult = searchRecipes(givenItem);
+
+            if (searchResult.isMatch()) {
+                final int duration = searchResult.getSearchCategory().equals(RecipeCategory.GOLD_PAN) ? 3 : 4;
+                final ItemStack output = searchResult.getRecipe().getOutput().generateOutput();
+
+                if (output != null && output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
+                    menu.consumeItem(slot);
+                    return new MachineRecipe(duration / getSpeed(), givenItem, new ItemStack[] { output });
+                }
             }
-        }
+        } 
 
         return null;
     }

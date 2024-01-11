@@ -59,21 +59,22 @@ abstract class AbstractSmeltery extends MultiBlockMachine implements RecipeCraft
                 final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenItems, output);
                 Bukkit.getPluginManager().callEvent(event);
 
-                if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                    final Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
-                    if (outputInv != null) {
-                        craft(p, b, inv, givenItems, output, outputInv);
-                    } else {
-                        Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
-                        return false;
-                    }
-                    return true;
+                if (event.isCancelled() || !SlimefunUtils.canPlayerUseItem(p, output, true)) {
+                    return false;
                 }
 
-                return false;
+                final Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
+                if (outputInv == null) {
+                    Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                    return false;
+                }
+
+                craft(p, b, inv, givenItems, output, outputInv);
+                
+                return true;
             });
 
-            if (!searchResult.getSecondValue().isMatch()) {
+            if (!searchResult.isMatch()) {
                 Slimefun.getLocalization().sendMessage(p, "machines.unknown-material", true);
             }
         }

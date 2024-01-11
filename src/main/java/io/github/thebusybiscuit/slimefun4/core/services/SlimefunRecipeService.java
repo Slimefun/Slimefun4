@@ -18,11 +18,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.collections.Pair;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeMatchResult;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeSearchResult;
 import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
 
 /**
@@ -50,16 +50,16 @@ public final class SlimefunRecipeService {
         NEVER
     }
 
-    public final int CACHE_SIZE = 50;
+    public final int CACHE_SIZE = 100;
 
     private final Map<RecipeCategory, List<Recipe>> recipesByCategory = new HashMap<>();
-    private final Map<String, Map<RecipeCategory, List<Recipe>>> recipesByOutput = new HashMap<>();
+    private final Map<String, Map<RecipeCategory, Set<Recipe>>> recipesByOutput = new HashMap<>();
     private final Map<String, Map<RecipeCategory, Set<Recipe>>> recipesByInput = new HashMap<>();
     // private final Map<ItemStack, Map<RecipeCategory, List<Recipe>>> recipeByVanillaOutput = new HashMap<>();
     // private final Map<ItemStack, Map<RecipeCategory, Set<Recipe>>> recipeByVanillaInput = new HashMap<>();
-    private final Map<Integer, Pair<Optional<Recipe>, RecipeMatchResult>> cache = new LinkedHashMap<>(CACHE_SIZE, 0.75f,
+    private final Map<Integer, RecipeSearchResult> cache = new LinkedHashMap<>(CACHE_SIZE, 0.75f,
             true) {
-        protected boolean removeEldestEntry(Map.Entry<Integer, Pair<Optional<Recipe>, RecipeMatchResult>> eldest) {
+        protected boolean removeEldestEntry(Map.Entry<Integer, RecipeSearchResult> eldest) {
             return size() >= CACHE_SIZE;
         };
     };
@@ -78,7 +78,7 @@ public final class SlimefunRecipeService {
      * @return (The recipe if found, The match result) See {@link RecipeMatchResult}
      */
     @ParametersAreNonnullByDefault
-    public Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
+    public RecipeSearchResult searchRecipes(
             RecipeCategory category,
             ItemStack[] givenItems,
             CachingStrategy cachingStrategy,
@@ -86,23 +86,23 @@ public final class SlimefunRecipeService {
         // No recipes registered, no match
         final List<Recipe> categoryRecipes = recipesByCategory.get(category);
         if (categoryRecipes == null) {
-            return new Pair<>(Optional.empty(), RecipeMatchResult.NO_MATCH);
+            return RecipeSearchResult.NO_MATCH;
         }
 
         // Check LRU cache
         final int givenItemsHash = hashIgnoreAmount(givenItems, category);
-        final Optional<Pair<Optional<Recipe>, RecipeMatchResult>> cachedMatchResult = getFromCache(givenItemsHash);
+        final Optional<RecipeSearchResult> cachedMatchResult = getFromCache(givenItemsHash);
         if (cachedMatchResult.isPresent()) {
-            final Optional<Recipe> recipe = cachedMatchResult.get().getFirstValue();
-            final RecipeMatchResult match = cachedMatchResult.get().getSecondValue();
-            if (recipe.isPresent() && onRecipeFound != null) {
-                onRecipeFound.accept(recipe.get(), match);
+            final Recipe recipe = cachedMatchResult.get().getRecipe();
+            final RecipeMatchResult match = cachedMatchResult.get().getMatchResult();
+            if (match.isMatch() && onRecipeFound != null) {
+                onRecipeFound.accept(recipe, match);
             }
             
             return cachedMatchResult.get();
         }
 
-        // Linear search through the recipes
+        // Linearly search through the recipes
         for (final Recipe recipe : categoryRecipes) {
             final RecipeMatchResult match = recipe.match(givenItems);
 
@@ -110,7 +110,8 @@ public final class SlimefunRecipeService {
                 if (onRecipeFound != null) {
                     onRecipeFound.accept(recipe, match);
                 }
-                final Pair<Optional<Recipe>, RecipeMatchResult> result = new Pair<>(Optional.of(recipe), match);
+
+                final RecipeSearchResult result = new RecipeSearchResult(recipe, category, match);
 
                 switch (cachingStrategy) {
                     case IF_MULTIPLE_CRAFTABLE:
@@ -132,12 +133,10 @@ public final class SlimefunRecipeService {
             }
         }
 
-        final Pair<Optional<Recipe>, RecipeMatchResult> result = new Pair<>(Optional.empty(),
-                RecipeMatchResult.NO_MATCH);
         if (cachingStrategy != CachingStrategy.NEVER) {
-            cache(givenItems, category, result);
+            cache(givenItems, category, RecipeSearchResult.NO_MATCH);
         }
-        return result;
+        return RecipeSearchResult.NO_MATCH;
     }
 
     /**
@@ -153,7 +152,7 @@ public final class SlimefunRecipeService {
      * @return (The recipe if found, The match result) See {@link RecipeMatchResult}
      */
     @ParametersAreNonnullByDefault
-    public Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
+    public RecipeSearchResult searchRecipes(
             RecipeCategory category,
             ItemStack[] givenItems,
             CachingStrategy cachingStrategy,
@@ -178,7 +177,7 @@ public final class SlimefunRecipeService {
      * @return (The recipe if found, The match result) See {@link RecipeMatchResult}
      */
     @ParametersAreNonnullByDefault
-    public Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
+    public RecipeSearchResult searchRecipes(
             RecipeCategory category,
             ItemStack[] givenItems,
             CachingStrategy cachingStrategy) {
@@ -223,18 +222,12 @@ public final class SlimefunRecipeService {
             }
 
             for (final String id : recipe.getOutput().getSlimefunItemIDs()) {
-                final Map<RecipeCategory, List<Recipe>> outputRecipesByCategory = recipesByOutput.getOrDefault(id, new HashMap<>());
-                addToRecipeList(category, recipe, outputRecipesByCategory);
+                final Map<RecipeCategory, Set<Recipe>> outputRecipesByCategory = recipesByOutput.getOrDefault(id, new HashMap<>());
+                addToRecipeSet(category, recipe, outputRecipesByCategory);
                 recipesByOutput.put(id, outputRecipesByCategory);
             }
         }
         this.recipesByCategory.put(category, categoryRecipes);
-    }
-
-    private static void addToRecipeList(RecipeCategory category, Recipe recipe, Map<RecipeCategory, List<Recipe>> map) {
-        final List<Recipe> categoryRecipes = map.getOrDefault(category, new ArrayList<>());
-        categoryRecipes.add(recipe);
-        map.put(category, categoryRecipes);
     }
 
     private static void addToRecipeSet(RecipeCategory category, Recipe recipe, Map<RecipeCategory, Set<Recipe>> map) {
@@ -265,7 +258,7 @@ public final class SlimefunRecipeService {
      * @param slimefunID The id of the item
      */
     @Nonnull
-    public Map<RecipeCategory, List<Recipe>> getRecipesByOutput(String slimefunID) {
+    public Map<RecipeCategory, Set<Recipe>> getRecipesByOutput(String slimefunID) {
         return recipesByOutput.getOrDefault(slimefunID, Collections.emptyMap());
     }
 
@@ -275,8 +268,8 @@ public final class SlimefunRecipeService {
      * @param category The category
      */
     @Nonnull
-    public List<Recipe> getRecipesByOutput(String slimefunID, RecipeCategory category) {
-        return getRecipesByOutput(slimefunID).getOrDefault(category, Collections.emptyList());
+    public Set<Recipe> getRecipesByOutput(String slimefunID, RecipeCategory category) {
+        return getRecipesByOutput(slimefunID).getOrDefault(category, Collections.emptySet());
     }
 
     /**
@@ -306,7 +299,7 @@ public final class SlimefunRecipeService {
      * @return The hash of the given items
      */
     @ParametersAreNonnullByDefault
-    public int cache(ItemStack[] givenItems, RecipeCategory category, Pair<Optional<Recipe>, RecipeMatchResult> matchResult) {
+    public int cache(ItemStack[] givenItems, RecipeCategory category, RecipeSearchResult matchResult) {
         final int hash = hashIgnoreAmount(givenItems, category);
         cache.put(hash, matchResult);
         return hash;
@@ -318,7 +311,7 @@ public final class SlimefunRecipeService {
      * @return The cache
      */
     @Nonnull
-    public Map<Integer, Pair<Optional<Recipe>, RecipeMatchResult>> getCache() {
+    public Map<Integer, RecipeSearchResult> getCache() {
         return cache;
     }
 
@@ -330,7 +323,7 @@ public final class SlimefunRecipeService {
      * @return The Recipe, or empty if nonexisting
      */
     @Nonnull
-    public Optional<Pair<Optional<Recipe>, RecipeMatchResult>> getFromCache(int hash) {
+    public Optional<RecipeSearchResult> getFromCache(int hash) {
         return Optional.ofNullable(cache.get(hash));
     }
 
@@ -347,6 +340,13 @@ public final class SlimefunRecipeService {
         }
         hash = hash * 31 + category.hashCode();
         return hash;
+    }
+
+    /**
+     * Clears the cache
+     */
+    public void clearCache() {
+        cache.clear();
     }
 
 }

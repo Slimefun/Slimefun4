@@ -31,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 
-// TODO: Remove this class and rewrite the recipe system
+// TODO: Remove this class
 @Deprecated
 public class RecipeType implements Keyed {
 

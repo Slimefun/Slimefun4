@@ -35,6 +35,20 @@ public interface Recipe {
     }
 
     /**
+     * Construct a simpler recipe
+     * 
+     * @param structure The {@link RecipeStructure} of the recipe
+     * @param input The inputs of the recipe
+     * @param output The output of the recipe
+     * @return The constructed Recipe
+     */
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public static Recipe of(RecipeStructure structure, ItemStack input, ItemStack output) {
+        return new SlimefunRecipe(RecipeInputs.of(structure, input), new ItemOutput(output));
+    }
+
+    /**
      * Sets the inputs of this recipe
      * @param inputs The new inputs
      */

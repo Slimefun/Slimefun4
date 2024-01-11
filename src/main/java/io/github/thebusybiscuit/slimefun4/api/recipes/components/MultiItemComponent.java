@@ -1,8 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes.components;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.google.common.base.Preconditions;
@@ -13,8 +17,9 @@ public class MultiItemComponent implements RecipeComponent {
     private final boolean disabled;
     private final List<String> slimefunIDs = new ArrayList<>();
 
-    public MultiItemComponent(List<RecipeComponent> choices) {
-        Preconditions.checkArgument(!choices.isEmpty(), "The 'choices' list must be non-empty");
+    public MultiItemComponent(@Nonnull List<RecipeComponent> choices) {
+        Preconditions.checkNotNull(choices, "'choices' cannot be null!");
+        Preconditions.checkArgument(!choices.isEmpty(), "'choices' must be non-empty");
 
         for (final RecipeComponent choice : choices) {
             if (choice.isDisabled()) {
@@ -29,6 +34,21 @@ public class MultiItemComponent implements RecipeComponent {
         for (final RecipeComponent choice : choices) {
             slimefunIDs.addAll(choice.getSlimefunItemIDs());
         }
+    }
+
+    public MultiItemComponent(@Nonnull ItemStack... choices) {
+        this(Arrays.stream(choices).map(choice -> choice == null ? RecipeComponent.AIR : new ItemComponent(choice)).toList());
+    }
+
+    public MultiItemComponent(@Nonnull Material... materials) {
+        Preconditions.checkNotNull(materials, "'materials' cannot be null!");
+        Preconditions.checkArgument(materials.length > 0, "'materials' must be non-empty");
+
+        for (final Material material : materials) {
+            this.choices.add(new ItemComponent(material));
+        }
+
+        this.disabled = false;
     }
 
     public List<RecipeComponent> getChoices() {

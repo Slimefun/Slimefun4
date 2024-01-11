@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
 
@@ -25,11 +27,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
  */
 public class NetherGoldPan extends GoldPan {
 
-    private final Set<Material> inputMaterials = new HashSet<>(Arrays.asList(Material.SOUL_SAND, Material.SOUL_SOIL));
-
     @ParametersAreNonnullByDefault
     public NetherGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        super(itemGroup, item, recipeType, recipe, Set.of(Material.SOUL_SAND, Material.SOUL_SOIL));
+    }
+
+    @Override
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(RecipeCategory.NETHER_GOLD_PAN);
     }
 
     @Override

@@ -1,8 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +23,18 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.recipes.SlimefunRecipe;
+import io.github.thebusybiscuit.slimefun4.api.recipes.components.ItemComponent;
+import io.github.thebusybiscuit.slimefun4.api.recipes.components.MultiItemComponent;
+import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
+import io.github.thebusybiscuit.slimefun4.api.recipes.input.ItemInputs;
+import io.github.thebusybiscuit.slimefun4.api.recipes.input.RecipeInputs;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.RandomItemOutput;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
@@ -48,19 +58,39 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * @see AutomatedPanningMachine
  * @see ElectricGoldPan
  */
-public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
+public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem, RecipeCrafter {
+
+    protected final Set<Material> inputMaterials;
+    protected final Recipe productionRecipe;
 
     private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
-    private final Set<Material> inputMaterials = new HashSet<>(Arrays.asList(Material.GRAVEL));
     private final Set<GoldPanDrop> drops = new HashSet<>();
 
     @ParametersAreNonnullByDefault
     public GoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, item, recipeType, recipe, Set.of(Material.GRAVEL));
+    }
+
+    @ParametersAreNonnullByDefault
+    GoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, Set<Material> inputMaterials) {
         super(itemGroup, item, recipeType, recipe);
+
+        this.inputMaterials = inputMaterials;
+        final RecipeInputs inputs = new ItemInputs(
+            RecipeStructure.SUBSET, 
+            inputMaterials.size() > 1 
+                ? List.of(new MultiItemComponent(inputMaterials.stream().toArray(Material[]::new)))
+                : inputMaterials.stream().map(mat -> (RecipeComponent) new ItemComponent(mat)).toList());
+        this.productionRecipe = new SlimefunRecipe(inputs, new RandomItemOutput(randomizer));
 
         drops.addAll(getGoldPanDrops());
         addItemSetting(drops.toArray(new GoldPanDrop[0]));
         addItemHandler(onEntityInteract());
+    }
+
+    @Override
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(RecipeCategory.GOLD_PAN);
     }
 
     /**
@@ -78,7 +108,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      * @return The {@link Set} of {@link Material Materials} this {@link GoldPan} can be used on.
      */
     public @Nonnull Set<Material> getInputMaterials() {
-        return Collections.unmodifiableSet(inputMaterials);
+        return inputMaterials;
     }
 
     /**
@@ -101,6 +131,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     public void postRegister() {
         super.postRegister();
         updateRandomizer();
+        getCraftedCategories().forEach(category -> category.registerRecipe(productionRecipe));
     }
 
     /**
@@ -126,6 +157,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      * @return a random {@link ItemStack} obtained by this {@link GoldPan}
      */
     public @Nonnull ItemStack getRandomOutput() {
+        // No point in doing `productionRecipe.generateOutput()`, they are the same thing
         ItemStack item = randomizer.getRandom();
 
         // Fixes #2804

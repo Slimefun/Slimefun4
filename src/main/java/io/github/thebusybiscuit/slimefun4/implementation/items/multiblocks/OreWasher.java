@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,9 +20,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.collections.RandomizedSet;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
+import io.github.thebusybiscuit.slimefun4.api.recipes.SlimefunRecipe;
+import io.github.thebusybiscuit.slimefun4.api.recipes.components.MultiItemComponent;
+import io.github.thebusybiscuit.slimefun4.api.recipes.input.RecipeInputs;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.ItemOutput;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.MultiItemOutput;
+import io.github.thebusybiscuit.slimefun4.api.recipes.output.RandomItemOutput;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -36,10 +49,10 @@ import io.papermc.lib.PaperLib;
  * @author Sfiguz7
  *
  */
-public class OreWasher extends MultiBlockMachine {
+public class OreWasher extends MultiBlockMachine implements RecipeCrafter {
 
     // @formatter:off
-    private final ItemStack[] dusts = new ItemStack[] {
+    private static final ItemStack[] dusts = new ItemStack[] {
         SlimefunItems.IRON_DUST,
         SlimefunItems.GOLD_DUST,
         SlimefunItems.COPPER_DUST,
@@ -65,6 +78,12 @@ public class OreWasher extends MultiBlockMachine {
         // @formatter:on
 
         legacyMode = Slimefun.getCfg().getBoolean("options.legacy-ore-washer");
+
+    }
+
+    @Override
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(RecipeCategory.ORE_WASHER);
     }
 
     @Override
@@ -82,6 +101,16 @@ public class OreWasher extends MultiBlockMachine {
 
         recipes.add(new ItemStack(Material.SAND));
         recipes.add(SlimefunItems.SALT);
+
+
+        final RandomizedSet<ItemStack> dustOutput = new RandomizedSet<>();
+        for (final ItemStack dust : dusts) {
+            dustOutput.add(dust, 1);
+        }
+        RecipeCategory.ORE_WASHER.registerRecipe(new SlimefunRecipe(
+            RecipeInputs.of(RecipeStructure.SUBSET, SlimefunItems.SIFTED_ORE),
+            new MultiItemOutput(new RandomItemOutput(dustOutput), new ItemOutput(SlimefunItems.SIFTED_ORE))
+        ));
     }
 
     @Override

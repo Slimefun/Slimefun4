@@ -563,32 +563,32 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.GOLD_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
         .register(plugin);
 
-        new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_DUST, RecipeType.ORE_WASHER,
-        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
+        new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_DUST/*, RecipeType.ORE_WASHER,
+        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null} */)
         .register(plugin);
 
-        new SlimefunItem(itemGroups.resources, SlimefunItems.TIN_DUST, RecipeType.ORE_WASHER,
-        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
+        new SlimefunItem(itemGroups.resources, SlimefunItems.TIN_DUST/*, RecipeType.ORE_WASHER,
+        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null} */)
         .register(plugin);
 
-        new SlimefunItem(itemGroups.resources, SlimefunItems.SILVER_DUST, RecipeType.ORE_WASHER,
-        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
+        new SlimefunItem(itemGroups.resources, SlimefunItems.SILVER_DUST/*, RecipeType.ORE_WASHER,
+        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null} */)
         .register(plugin);
         
-        new SlimefunItem(itemGroups.resources, SlimefunItems.LEAD_DUST, RecipeType.ORE_WASHER,
-        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
+        new SlimefunItem(itemGroups.resources, SlimefunItems.LEAD_DUST/*, RecipeType.ORE_WASHER,
+        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null} */)
         .register(plugin);
 
-        new SlimefunItem(itemGroups.resources, SlimefunItems.ALUMINUM_DUST, RecipeType.ORE_WASHER,
-        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
+        new SlimefunItem(itemGroups.resources, SlimefunItems.ALUMINUM_DUST/*, RecipeType.ORE_WASHER,
+        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null} */)
         .register(plugin);
 
-        new SlimefunItem(itemGroups.resources, SlimefunItems.ZINC_DUST, RecipeType.ORE_WASHER,
-        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
+        new SlimefunItem(itemGroups.resources, SlimefunItems.ZINC_DUST/*, RecipeType.ORE_WASHER,
+        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null} */)
         .register(plugin);
 
-        new SlimefunItem(itemGroups.resources, SlimefunItems.MAGNESIUM_DUST, RecipeType.ORE_WASHER,
-        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
+        new SlimefunItem(itemGroups.resources, SlimefunItems.MAGNESIUM_DUST/*, RecipeType.ORE_WASHER,
+        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null} */)
         .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_INGOT, RecipeType.SMELTERY,
@@ -815,8 +815,8 @@ public final class SlimefunItemSetup {
         .setUseableInWorkbench(true)
         .register(plugin);
 
-        new SlimefunItem(itemGroups.misc, SlimefunItems.STONE_CHUNK, RecipeType.ORE_WASHER,
-        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
+        new SlimefunItem(itemGroups.misc, SlimefunItems.STONE_CHUNK/*, RecipeType.ORE_WASHER,
+        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null} */)
         .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.SILICON, RecipeType.SMELTERY,

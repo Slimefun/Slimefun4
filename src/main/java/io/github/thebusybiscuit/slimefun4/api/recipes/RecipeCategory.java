@@ -31,6 +31,7 @@ public class RecipeCategory implements Keyed {
     public static final RecipeCategory GRIND_STONE = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "grind_stone"), new CustomItemStack(SlimefunItems.GRIND_STONE, "", "&a&oGrind it using the Grind Stone"), RecipeStructure.SUBSET);
     public static final RecipeCategory ORE_CRUSHER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ore_crusher"), new CustomItemStack(SlimefunItems.ORE_CRUSHER, "", "&a&oCrush it using the Ore Crusher"), RecipeStructure.SUBSET);
     public static final RecipeCategory GOLD_PAN = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "gold_pan"), new CustomItemStack(SlimefunItems.GOLD_PAN, "", "&a&oUse a Gold Pan on Gravel to obtain this Item"), RecipeStructure.SUBSET);
+    public static final RecipeCategory NETHER_GOLD_PAN = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "nether_gold_pan"), new CustomItemStack(SlimefunItems.NETHER_GOLD_PAN, "", "&a&oUse a Nether Gold Pan on Soul Sand or Soul Soil to obtain this Item"), RecipeStructure.SUBSET);
     public static final RecipeCategory COMPRESSOR = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "compressor"), new CustomItemStack(SlimefunItems.COMPRESSOR, "", "&a&oCompress it using the Compressor"), RecipeStructure.SUBSET);
     public static final RecipeCategory PRESSURE_CHAMBER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "pressure_chamber"), new CustomItemStack(SlimefunItems.PRESSURE_CHAMBER, "", "&a&oCompress it using the Pressure Chamber"), RecipeStructure.SUBSET);
     public static final RecipeCategory MAGIC_WORKBENCH = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "magic_workbench"), new CustomItemStack(SlimefunItems.MAGIC_WORKBENCH, "", "&a&oCraft it in a Magic Workbench"));
@@ -125,12 +126,7 @@ public class RecipeCategory implements Keyed {
     public static final RecipeCategory FOOD_COMPOSTER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "food_composter"), SlimefunItems.FOOD_COMPOSTER, RecipeStructure.SUBSET);
     public static final RecipeCategory FREEZER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "freezer"), SlimefunItems.FREEZER, RecipeStructure.SUBSET);
     public static final RecipeCategory REFINERY = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "refinery"), SlimefunItems.REFINERY, RecipeStructure.SUBSET);
-    public static final RecipeCategory INGOT_PULVERIZER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ingot_pulverizer"), SlimefunItems.ELECTRIC_INGOT_PULVERIZER, RecipeStructure.SUBSET) {
-        @Override
-        public void onRegisterRecipe(Recipe recipe) {
-            System.out.println("INGOT PULVERIZER" + recipe);
-        }
-    };
+    public static final RecipeCategory INGOT_PULVERIZER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ingot_pulverizer"), SlimefunItems.ELECTRIC_INGOT_PULVERIZER, RecipeStructure.SUBSET);
 
 
     public static final RecipeCategory GEO_MINER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "geo_miner"), SlimefunItems.GEO_MINER);

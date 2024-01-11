@@ -174,13 +174,40 @@ searching utilities already. Otherwise, call `Slimefun.searchRecipes()`.
 This performs a linear seach as described in the 'Searching and Matching
 Recipes' section
 
-## Deprecation and removal of old recipe system
+## Migration
+
+### Deprecation and removal of old recipe system
 
 The old recipe system will be deprecated once the new recipe system is
 complete, and will be removed entirely at a later date.
 
+### `SlimefunItem`s
+
+If your `SlimefunItem` only has one recipe, and that recipe only produces
+one type of Slimefun item:
+
+- Replace all `RecipeType`s with their corresponding `RecipeCategory`
+  - `RecipeType.SMELTERY` should go to either `RecipeCategory.DUST_SMELTING` or
+    `RecipeCategory.INGOT_SMELTING`
+
+Otherwise:
+
+- (Optional) Switch the constructor to `SlimefunItem(ItemGroup, SlimefunItemStack)`
+- Add its other recipes via `RecipeCategory.registerRecipe()`
+
+### Workstations and Machines
+
+- (Optional) If your workstation/machine requires searching through recipes,
+  make it implement `RecipeCrafter`
+  - Searching recipes can be done through `RecipeCrafter.searchRecipes`
+  
+## Other Notes
+
+- There are no mirrored recipes. To achieve something similar, manually add
+  the normal and flipped versions
+
 ## Progress
 
-- New recipe system / API: WIP
-- Migration of crafting machines to new API: Not Started
+- New recipe system / API: Awaiting Review
+- Migration of crafting machines to new API: WIP
 - Guide recipe pagination / item cycling: Not Started

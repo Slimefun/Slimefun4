@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,10 @@ import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
@@ -28,11 +33,16 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
-public class Compressor extends MultiBlockMachine {
+public class Compressor extends MultiBlockMachine implements RecipeCrafter {
 
     @ParametersAreNonnullByDefault
     public Compressor(ItemGroup itemGroup, SlimefunItemStack item) {
         super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON) }, BlockFace.SELF);
+    }
+
+    @Override
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(RecipeCategory.COMPRESSOR);
     }
 
     @Override
@@ -48,6 +58,13 @@ public class Compressor extends MultiBlockMachine {
 
         recipes.add(new ItemStack(Material.CHARCOAL, 4));
         recipes.add(new ItemStack(Material.COAL));
+
+        RecipeCategory.COMPRESSOR.registerRecipes(List.of(
+            Recipe.of(RecipeStructure.SUBSET, new SlimefunItemStack(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE)),
+            Recipe.of(RecipeStructure.SUBSET, new ItemStack(Material.FLINT, 4), new ItemStack(Material.COBBLESTONE)),
+            Recipe.of(RecipeStructure.SUBSET, new ItemStack(Material.COAL_BLOCK, 4), new SlimefunItemStack(SlimefunItems.CARBON, 9)),
+            Recipe.of(RecipeStructure.SUBSET, new ItemStack(Material.CHARCOAL, 4), new ItemStack(Material.COAL))
+        ));
     }
 
     @Override

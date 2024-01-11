@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.recipes.components;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.Material;
@@ -17,7 +18,7 @@ public class ItemComponent implements RecipeComponent {
     private final boolean disabled;
     private final @Nullable String slimefunID;
 
-    public ItemComponent(ItemStack component) {
+    public ItemComponent(@Nullable ItemStack component) {
         if (component == null) {
             this.component = new ItemStack(Material.AIR);
             disabled = false;
@@ -28,6 +29,12 @@ public class ItemComponent implements RecipeComponent {
             slimefunID = sfItem != null ? sfItem.getId() : null;
             disabled = sfItem != null ? sfItem.isDisabled() : false;
         }
+    }
+
+    public ItemComponent(@Nonnull Material component) {
+        this.component = new ItemStack(component);
+        this.disabled = false;
+        this.slimefunID = null;
     }
 
     public ItemStack getComponent() {

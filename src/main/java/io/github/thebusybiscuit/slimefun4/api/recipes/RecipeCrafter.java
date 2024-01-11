@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
@@ -14,7 +13,6 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
 import io.github.thebusybiscuit.slimefun4.api.recipes.output.RecipeOutput;
 import io.github.thebusybiscuit.slimefun4.core.services.SlimefunRecipeService.CachingStrategy;
@@ -53,17 +51,17 @@ public interface RecipeCrafter {
      * @param givenItems The items to craft
      * @return (The recipe if found, The result of the match)
      */
-    public default Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(@Nonnull ItemStack[] givenItems) {
+    public default RecipeSearchResult searchRecipes(@Nonnull ItemStack[] givenItems) {
         for (final RecipeCategory category : getCraftedCategories()) {
-            final Pair<Optional<Recipe>, RecipeMatchResult> result = Slimefun.searchRecipes(
+            final RecipeSearchResult result = Slimefun.searchRecipes(
                     category, givenItems, CachingStrategy.IF_MULTIPLE_CRAFTABLE);
 
-            if (result.getSecondValue().isMatch()) {
+            if (result.isMatch()) {
                 return result;
             }
         }
 
-        return new Pair<>(Optional.empty(), RecipeMatchResult.NO_MATCH);
+        return RecipeSearchResult.NO_MATCH;
     }
 
     /**
@@ -73,19 +71,19 @@ public interface RecipeCrafter {
      * @param onRecipeFound To be called when a matching recipe is found
      * @return (The recipe if found, The result of the match)
      */
-    public default Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
+    public default RecipeSearchResult searchRecipes(
             @Nonnull ItemStack[] givenItems,
             BiConsumer<Recipe, RecipeMatchResult> onRecipeFound) {
         for (final RecipeCategory category : getCraftedCategories()) {
-            final Pair<Optional<Recipe>, RecipeMatchResult> result = Slimefun.searchRecipes(
+            final RecipeSearchResult result = Slimefun.searchRecipes(
                     category, givenItems, CachingStrategy.IF_MULTIPLE_CRAFTABLE, onRecipeFound);
 
-            if (result.getSecondValue().isMatch()) {
+            if (result.isMatch()) {
                 return result;
             }
         }
 
-        return new Pair<>(Optional.empty(), RecipeMatchResult.NO_MATCH);
+        return RecipeSearchResult.NO_MATCH;
     }
 
     /**
@@ -97,19 +95,19 @@ public interface RecipeCrafter {
      *                      the recipe
      * @return (The recipe if found, The result of the match)
      */
-    public default Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
+    public default RecipeSearchResult searchRecipes(
             @Nonnull ItemStack[] givenItems,
             BiPredicate<Recipe, RecipeMatchResult> onRecipeFound) {
         for (final RecipeCategory category : getCraftedCategories()) {
-            final Pair<Optional<Recipe>, RecipeMatchResult> result = Slimefun.searchRecipes(
+            final RecipeSearchResult result = Slimefun.searchRecipes(
                     category, givenItems, CachingStrategy.IF_MULTIPLE_CRAFTABLE, onRecipeFound);
 
-            if (result.getSecondValue().isMatch()) {
+            if (result.isMatch()) {
                 return result;
             }
         }
 
-        return new Pair<>(Optional.empty(), RecipeMatchResult.NO_MATCH);
+        return RecipeSearchResult.NO_MATCH;
     }
 
     /**

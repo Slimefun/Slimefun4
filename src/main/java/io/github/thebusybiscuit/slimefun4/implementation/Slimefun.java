@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
@@ -35,9 +34,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.scheduler.BukkitTask;
 
-import io.github.bakedlibs.dough.collections.Pair;
 import io.github.bakedlibs.dough.config.Config;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -49,7 +46,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeMatchResult;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeSearchResult;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
@@ -868,7 +865,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
      * @return
      */
     @ParametersAreNonnullByDefault
-    public static Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
+    public static RecipeSearchResult searchRecipes(
         RecipeCategory category,
         ItemStack[] givenItems,
         CachingStrategy cachingStrategy,
@@ -891,7 +888,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
      * @return
      */
     @ParametersAreNonnullByDefault
-    public static Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
+    public static RecipeSearchResult searchRecipes(
         RecipeCategory category,
         ItemStack[] givenItems,
         CachingStrategy cachingStrategy,
@@ -911,7 +908,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
      * @return
      */
     @ParametersAreNonnullByDefault
-    public static Pair<Optional<Recipe>, RecipeMatchResult> searchRecipes(
+    public static RecipeSearchResult searchRecipes(
         RecipeCategory category,
         ItemStack[] givenItems,
         CachingStrategy cachingStrategy
