@@ -119,7 +119,7 @@ public class ChestMenu {
      * @return The ChestMenu Instance
      */
     public ChestMenu addItem(int slot, ItemStack item) {
-        final int size = this.items.size();
+        int size = this.items.size();
         if (size > slot)
             this.items.set(slot, item);
         else {

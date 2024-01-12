@@ -100,18 +100,18 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
         }
 
         for (final int slot : getInputSlots()) {
-            final ItemStack item = menu.getItemInSlot(slot);
+            ItemStack item = menu.getItemInSlot(slot);
             if (item == null) {
                 continue;
             }
 
-            final ItemStack[] givenItem = new ItemStack[] { item };
+            ItemStack[] givenItem = new ItemStack[] { item };
 
-            final RecipeSearchResult searchResult = searchRecipes(givenItem);
+            RecipeSearchResult searchResult = searchRecipes(givenItem);
 
             if (searchResult.isMatch()) {
-                final int duration = searchResult.getSearchCategory().equals(RecipeCategory.GOLD_PAN) ? 3 : 4;
-                final ItemStack output = searchResult.getRecipe().getOutput().generateOutput();
+                int duration = searchResult.getSearchCategory().equals(RecipeCategory.GOLD_PAN) ? 3 : 4;
+                ItemStack output = searchResult.getRecipe().getOutput().generateOutput();
 
                 if (output != null && output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
                     menu.consumeItem(slot);

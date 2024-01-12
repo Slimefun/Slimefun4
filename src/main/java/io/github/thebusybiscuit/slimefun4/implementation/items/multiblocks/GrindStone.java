@@ -48,7 +48,7 @@ public class GrindStone extends MultiBlockMachine implements RecipeCrafter {
 
     @Override
     protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
-        final List<ItemStack> defaultRecipes = new ArrayList<>();
+        List<ItemStack> defaultRecipes = new ArrayList<>();
 
         defaultRecipes.add(new ItemStack(Material.BLAZE_ROD));
         defaultRecipes.add(new ItemStack(Material.BLAZE_POWDER, 4));
@@ -135,31 +135,31 @@ public class GrindStone extends MultiBlockMachine implements RecipeCrafter {
 
     @Override
     public void onInteract(Player p, Block b) {
-        final Block possibleDispenser = b.getRelative(BlockFace.DOWN);
-        final BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
+        Block possibleDispenser = b.getRelative(BlockFace.DOWN);
+        BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
 
         if (state instanceof final Dispenser dispenser) {
-            final Inventory inv = dispenser.getInventory();
+            Inventory inv = dispenser.getInventory();
 
             if (inv.isEmpty()) {
                 Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
                 return;
             }
 
-            final ItemStack[] givenItems = dispenser.getInventory().getContents();
+            ItemStack[] givenItems = dispenser.getInventory().getContents();
 
-            final var searchResult = searchRecipes(givenItems, (recipe, match) -> {
+            var searchResult = searchRecipes(givenItems, (recipe, match) -> {
 
-                final ItemStack recipeOutput = recipe.getOutput().generateOutput();
-                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenItems, recipeOutput);
+                ItemStack recipeOutput = recipe.getOutput().generateOutput();
+                MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenItems, recipeOutput);
 
                 Bukkit.getPluginManager().callEvent(event);
-                final ItemStack output = event.getOutput();
+                ItemStack output = event.getOutput();
                 if (event.isCancelled() || !SlimefunUtils.canPlayerUseItem(p, output, true)) {
                     return false;
                 }
 
-                final Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
+                Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
                 if (outputInv == null) {
                     Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                     return false;

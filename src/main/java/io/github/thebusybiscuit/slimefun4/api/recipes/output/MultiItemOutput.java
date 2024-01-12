@@ -49,7 +49,7 @@ public class MultiItemOutput implements RecipeOutput {
 
     @Override
     public List<ItemStack> generateOutputs() {
-        final List<ItemStack> outputs = new ArrayList<>();
+        List<ItemStack> outputs = new ArrayList<>();
         for (final RecipeOutput output : this.outputs) {
             outputs.addAll(output.generateOutputs());
         }
@@ -58,7 +58,7 @@ public class MultiItemOutput implements RecipeOutput {
 
     @Override
     public List<ItemStack> generateOutputs(ItemStack[] givenItems, Recipe recipe) {
-        final List<ItemStack> outputs = new ArrayList<>();
+        List<ItemStack> outputs = new ArrayList<>();
         for (final RecipeOutput output : this.outputs) {
             outputs.addAll(output.generateOutputs(givenItems, recipe));
         }

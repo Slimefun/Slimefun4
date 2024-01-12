@@ -42,44 +42,44 @@ public class MagicWorkbench extends AbstractCraftingTable implements RecipeCraft
 
     @Override
     public void onInteract(Player p, Block b) {
-        final Block possibleDispenser = locateDispenser(b);
+        Block possibleDispenser = locateDispenser(b);
 
         if (possibleDispenser == null) {
             // How even...
             return;
         }
 
-        final BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
+        BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
 
         if (state instanceof final Dispenser dispenser) {
-            final Inventory inv = dispenser.getInventory();
+            Inventory inv = dispenser.getInventory();
             
             if (inv.isEmpty()) {
                 Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
                 return;
             }
 
-            final ItemStack[] givenInputs = dispenser.getInventory().getContents();
+            ItemStack[] givenInputs = dispenser.getInventory().getContents();
 
-            final var searchResult = searchRecipes(givenInputs, (recipe, match) -> {
+            var searchResult = searchRecipes(givenInputs, (recipe, match) -> {
 
-                final ItemStack recipeOutput = recipe.getOutput().generateOutput();
-                final MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenInputs, recipeOutput);
+                ItemStack recipeOutput = recipe.getOutput().generateOutput();
+                MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, givenInputs, recipeOutput);
 
                 Bukkit.getPluginManager().callEvent(event);
-                final ItemStack output = event.getOutput();
+                ItemStack output = event.getOutput();
                 if (event.isCancelled() || !SlimefunUtils.canPlayerUseItem(p, output, true)) {
                     return false;
                 }
 
-                final Inventory fakeInv = createVirtualInventory(inv);
-                final Inventory outputInv = findOutputInventory(output, possibleDispenser, inv, fakeInv);
+                Inventory fakeInv = createVirtualInventory(inv);
+                Inventory outputInv = findOutputInventory(output, possibleDispenser, inv, fakeInv);
                 if (outputInv == null) {
                     Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                     return false;
                 }
                 
-                final SlimefunItem sfItem = SlimefunItem.getByItem(output);
+                SlimefunItem sfItem = SlimefunItem.getByItem(output);
 
                 if (sfItem instanceof final SlimefunBackpack backpack) {
                     upgradeBackpack(p, inv, backpack, output);

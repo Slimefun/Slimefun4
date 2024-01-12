@@ -30,10 +30,10 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onJoin(@Nonnull PlayerJoinEvent e) {
         PlayerProfile.get(e.getPlayer(), playerProfile -> {
-            final ItemStack[] armorContents = e.getPlayer().getInventory().getArmorContents();
-            final HashedArmorpiece[] hashedArmorpieces = playerProfile.getArmor();
+            ItemStack[] armorContents = e.getPlayer().getInventory().getArmorContents();
+            HashedArmorpiece[] hashedArmorpieces = playerProfile.getArmor();
             for (int i = 0; i < 4; i++) {
-                final ItemStack armorPiece = armorContents[i];
+                ItemStack armorPiece = armorContents[i];
                 if (armorPiece != null && armorPiece.getType() != Material.AIR && SlimefunItem.getByItem(armorPiece) instanceof SlimefunArmorPiece sfArmorPiece) {
                     hashedArmorpieces[i].update(armorPiece, sfArmorPiece);
                 }

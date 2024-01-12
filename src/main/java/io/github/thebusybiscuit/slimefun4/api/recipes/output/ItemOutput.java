@@ -23,7 +23,7 @@ public class ItemOutput implements RecipeOutput {
             slimefunID = null;
             disabled = true;
         } else {
-            final SlimefunItem sfItem = SlimefunItem.getByItem(output);
+            SlimefunItem sfItem = SlimefunItem.getByItem(output);
             disabled = sfItem != null ? sfItem.isDisabled() : false;
             slimefunID = sfItem != null ? sfItem.getId() : null;
         }

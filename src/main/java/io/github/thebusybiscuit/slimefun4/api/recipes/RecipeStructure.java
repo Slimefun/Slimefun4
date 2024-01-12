@@ -27,9 +27,9 @@ public abstract class RecipeStructure implements Keyed {
                 return RecipeMatchResult.NO_MATCH;
             }
 
-            final Map<Integer, Integer> consumption = new HashMap<>();
+            Map<Integer, Integer> consumption = new HashMap<>();
             for (int i = 0; i < givenItems.length; i++) {
-                final RecipeComponent component = components.get(i);
+                RecipeComponent component = components.get(i);
 
                 if (!component.matches(givenItems[i])) {
                     return RecipeMatchResult.NO_MATCH;
@@ -54,8 +54,8 @@ public abstract class RecipeStructure implements Keyed {
                 return RecipeMatchResult.NO_MATCH;
             }
 
-            final int height = 3;
-            final int numSlots = 9;
+            int height = 3;
+            int numSlots = 9;
 
             // Get the first non-empty slot of the recipe
             int recipeFirstNonnull = 0;
@@ -78,16 +78,16 @@ public abstract class RecipeStructure implements Keyed {
             // Same procedure as IDENTICAL, with the additional caveat that two
             // matching (non-empty) items cannot be on different rows (ignoring
             // the initial row difference)
-            final int rowOffset = (givenFirstNonnull - recipeFirstNonnull) / height;
+            int rowOffset = (givenFirstNonnull - recipeFirstNonnull) / height;
 
-            final Map<Integer, Integer> consumption = new HashMap<>();
+            Map<Integer, Integer> consumption = new HashMap<>();
 
             // Check the remaining slots
             for (int i = 0; i < numSlots - recipeFirstNonnull; i++) {
-                final int recipeIndex = recipeFirstNonnull + i;
-                final int givenIndex = givenFirstNonnull + i;
-                final RecipeComponent component = components.get(recipeIndex);
-                final ItemStack item = givenIndex < givenItems.length ? givenItems[givenIndex] : null;
+                int recipeIndex = recipeFirstNonnull + i;
+                int givenIndex = givenFirstNonnull + i;
+                RecipeComponent component = components.get(recipeIndex);
+                ItemStack item = givenIndex < givenItems.length ? givenItems[givenIndex] : null;
                 
                 if (!component.matches(item)) {
                     return RecipeMatchResult.NO_MATCH;
@@ -144,7 +144,7 @@ public abstract class RecipeStructure implements Keyed {
      * @return If the two match
      */
     protected static final RecipeMatchResult checkSubset(ItemStack[] givenItems, List<RecipeComponent> components) {
-        final Map<Integer, Integer> consumption = new HashMap<>();
+        Map<Integer, Integer> consumption = new HashMap<>();
         componentLoop: for (final RecipeComponent component : components) {
             if (component.isAir()) {
                 continue;

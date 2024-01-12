@@ -54,7 +54,7 @@ public class SlimefunRecipe implements Recipe {
             return false;
         }
 
-        final Recipe other = (SlimefunRecipe) obj;
+        Recipe other = (SlimefunRecipe) obj;
         return other.getInputs().equals(getInputs()) && other.getOutput().equals(getOutput());
     }
 

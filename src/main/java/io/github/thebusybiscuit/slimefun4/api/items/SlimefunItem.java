@@ -926,7 +926,7 @@ public class SlimefunItem implements Placeable {
         }
 
         if (hasDefaultRecipe) {
-            final Recipe defaultRecipe = Recipe.of(defaultRecipeStructure, recipe, getRecipeOutput());
+            Recipe defaultRecipe = Recipe.of(defaultRecipeStructure, recipe, getRecipeOutput());
 
             defaultRecipeCategory.registerRecipe(defaultRecipe);
 

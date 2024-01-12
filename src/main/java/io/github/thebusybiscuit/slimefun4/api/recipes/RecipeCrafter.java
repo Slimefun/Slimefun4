@@ -36,7 +36,7 @@ public interface RecipeCrafter {
      * @return All recipes in the categories that this crafter can craft
      */
     public default Collection<Recipe> getRecipes() {
-        final List<Recipe> recipes = new ArrayList<>();
+        List<Recipe> recipes = new ArrayList<>();
 
         for (final RecipeCategory category : getCraftedCategories()) {
             recipes.addAll(Slimefun.getSlimefunRecipeService().getRecipes(category));
@@ -52,8 +52,8 @@ public interface RecipeCrafter {
      * @return (The recipe if found, The result of the match)
      */
     public default RecipeSearchResult searchRecipes(@Nonnull ItemStack[] givenItems) {
-        for (final RecipeCategory category : getCraftedCategories()) {
-            final RecipeSearchResult result = Slimefun.searchRecipes(
+        for (RecipeCategory category : getCraftedCategories()) {
+            RecipeSearchResult result = Slimefun.searchRecipes(
                     category, givenItems, CachingStrategy.IF_MULTIPLE_CRAFTABLE);
 
             if (result.isMatch()) {
@@ -74,8 +74,8 @@ public interface RecipeCrafter {
     public default RecipeSearchResult searchRecipes(
             @Nonnull ItemStack[] givenItems,
             BiConsumer<Recipe, RecipeMatchResult> onRecipeFound) {
-        for (final RecipeCategory category : getCraftedCategories()) {
-            final RecipeSearchResult result = Slimefun.searchRecipes(
+        for (RecipeCategory category : getCraftedCategories()) {
+            RecipeSearchResult result = Slimefun.searchRecipes(
                     category, givenItems, CachingStrategy.IF_MULTIPLE_CRAFTABLE, onRecipeFound);
 
             if (result.isMatch()) {
@@ -98,8 +98,8 @@ public interface RecipeCrafter {
     public default RecipeSearchResult searchRecipes(
             @Nonnull ItemStack[] givenItems,
             BiPredicate<Recipe, RecipeMatchResult> onRecipeFound) {
-        for (final RecipeCategory category : getCraftedCategories()) {
-            final RecipeSearchResult result = Slimefun.searchRecipes(
+        for (RecipeCategory category : getCraftedCategories()) {
+            RecipeSearchResult result = Slimefun.searchRecipes(
                     category, givenItems, CachingStrategy.IF_MULTIPLE_CRAFTABLE, onRecipeFound);
 
             if (result.isMatch()) {
@@ -115,9 +115,9 @@ public interface RecipeCrafter {
      * @return
      */
     public default Map<RecipeComponent, RecipeOutput> getSingleInputRecipes() {
-        final Map<RecipeComponent, RecipeOutput> singleInputRecipes = new HashMap<>();
-        for (final Recipe recipe : getRecipes()) {
-            final Stream<RecipeComponent> stream = recipe.getInputs().getComponents().stream().filter(comp -> !comp.isAir());
+        Map<RecipeComponent, RecipeOutput> singleInputRecipes = new HashMap<>();
+        for (Recipe recipe : getRecipes()) {
+            Stream<RecipeComponent> stream = recipe.getInputs().getComponents().stream().filter(comp -> !comp.isAir());
             if (stream.count() == 1) {
                 singleInputRecipes.put(stream.findFirst().get(), recipe.getOutput());
             }

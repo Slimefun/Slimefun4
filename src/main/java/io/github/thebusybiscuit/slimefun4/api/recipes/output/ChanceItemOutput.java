@@ -39,7 +39,7 @@ public class ChanceItemOutput extends ItemOutput {
             return false;
         }
 
-        final ChanceItemOutput other = (ChanceItemOutput) obj;
+        ChanceItemOutput other = (ChanceItemOutput) obj;
         return Objects.equals(other.getOutputTemplate(), getOutputTemplate()) && chance == other.chance;
     }
 

@@ -103,7 +103,7 @@ public class OreWasher extends MultiBlockMachine implements RecipeCrafter {
         recipes.add(SlimefunItems.SALT);
 
 
-        final RandomizedSet<ItemStack> dustOutput = new RandomizedSet<>();
+        RandomizedSet<ItemStack> dustOutput = new RandomizedSet<>();
         for (final ItemStack dust : dusts) {
             dustOutput.add(dust, 1);
         }

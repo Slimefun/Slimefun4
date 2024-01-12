@@ -84,17 +84,17 @@ public final class SlimefunRecipeService {
             CachingStrategy cachingStrategy,
             @Nullable BiConsumer<Recipe, RecipeMatchResult> onRecipeFound) {
         // No recipes registered, no match
-        final List<Recipe> categoryRecipes = recipesByCategory.get(category);
+        List<Recipe> categoryRecipes = recipesByCategory.get(category);
         if (categoryRecipes == null) {
             return RecipeSearchResult.NO_MATCH;
         }
 
         // Check LRU cache
-        final int givenItemsHash = hashIgnoreAmount(givenItems, category);
-        final Optional<RecipeSearchResult> cachedMatchResult = getFromCache(givenItemsHash);
+        int givenItemsHash = hashIgnoreAmount(givenItems, category);
+        Optional<RecipeSearchResult> cachedMatchResult = getFromCache(givenItemsHash);
         if (cachedMatchResult.isPresent()) {
-            final Recipe recipe = cachedMatchResult.get().getRecipe();
-            final RecipeMatchResult match = cachedMatchResult.get().getMatchResult();
+            Recipe recipe = cachedMatchResult.get().getRecipe();
+            RecipeMatchResult match = cachedMatchResult.get().getMatchResult();
             if (match.isMatch() && onRecipeFound != null) {
                 onRecipeFound.accept(recipe, match);
             }
@@ -104,19 +104,19 @@ public final class SlimefunRecipeService {
 
         // Linearly search through the recipes
         for (final Recipe recipe : categoryRecipes) {
-            final RecipeMatchResult match = recipe.match(givenItems);
+            RecipeMatchResult match = recipe.match(givenItems);
 
             if (match.isMatch()) {
                 if (onRecipeFound != null) {
                     onRecipeFound.accept(recipe, match);
                 }
 
-                final RecipeSearchResult result = new RecipeSearchResult(recipe, category, match);
+                RecipeSearchResult result = new RecipeSearchResult(recipe, category, match);
 
                 switch (cachingStrategy) {
                     case IF_MULTIPLE_CRAFTABLE:
                         for (final Map.Entry<Integer, Integer> entry : match.getConsumption().entrySet()) {
-                            final ItemStack item = givenItems[entry.getKey()];
+                            ItemStack item = givenItems[entry.getKey()];
                             if (item.getAmount() < entry.getValue() * 2) {
                                 break;
                             }
@@ -160,7 +160,7 @@ public final class SlimefunRecipeService {
         return searchRecipes(category, givenItems, cachingStrategy, (recipe, match) -> {
             if (onRecipeFound != null && onRecipeFound.test(recipe, match)) {
                 for (final Map.Entry<Integer, Integer> entry : match.getConsumption().entrySet()) {
-                    final ItemStack item = givenItems[entry.getKey()];
+                    ItemStack item = givenItems[entry.getKey()];
                     ItemUtils.consumeItem(item, entry.getValue(), true);
                 }
             }
@@ -204,7 +204,7 @@ public final class SlimefunRecipeService {
      */
     @ParametersAreNonnullByDefault
     public void registerRecipes(RecipeCategory category, List<Recipe> recipes) {
-        final List<Recipe> categoryRecipes = this.recipesByCategory.getOrDefault(category, new ArrayList<>());
+        List<Recipe> categoryRecipes = this.recipesByCategory.getOrDefault(category, new ArrayList<>());
         for (final Recipe recipe : recipes) {
             if (recipe.isDisabled()) {
                 continue;
@@ -215,14 +215,14 @@ public final class SlimefunRecipeService {
 
             for (final RecipeComponent comp : recipe.getInputs().getComponents()) {
                 for (final String id : comp.getSlimefunItemIDs()) {
-                    final Map<RecipeCategory, Set<Recipe>> inputRecipesByCategory = recipesByInput.getOrDefault(id, new HashMap<>());
+                    Map<RecipeCategory, Set<Recipe>> inputRecipesByCategory = recipesByInput.getOrDefault(id, new HashMap<>());
                     addToRecipeSet(category, recipe, inputRecipesByCategory);
                     recipesByInput.put(id, inputRecipesByCategory);
                 }
             }
 
             for (final String id : recipe.getOutput().getSlimefunItemIDs()) {
-                final Map<RecipeCategory, Set<Recipe>> outputRecipesByCategory = recipesByOutput.getOrDefault(id, new HashMap<>());
+                Map<RecipeCategory, Set<Recipe>> outputRecipesByCategory = recipesByOutput.getOrDefault(id, new HashMap<>());
                 addToRecipeSet(category, recipe, outputRecipesByCategory);
                 recipesByOutput.put(id, outputRecipesByCategory);
             }
@@ -231,7 +231,7 @@ public final class SlimefunRecipeService {
     }
 
     private static void addToRecipeSet(RecipeCategory category, Recipe recipe, Map<RecipeCategory, Set<Recipe>> map) {
-        final Set<Recipe> categoryRecipes = map.getOrDefault(category, new HashSet<>());
+        Set<Recipe> categoryRecipes = map.getOrDefault(category, new HashSet<>());
         categoryRecipes.add(recipe);
         map.put(category, categoryRecipes);
     }
@@ -300,7 +300,7 @@ public final class SlimefunRecipeService {
      */
     @ParametersAreNonnullByDefault
     public int cache(ItemStack[] givenItems, RecipeCategory category, RecipeSearchResult matchResult) {
-        final int hash = hashIgnoreAmount(givenItems, category);
+        int hash = hashIgnoreAmount(givenItems, category);
         cache.put(hash, matchResult);
         return hash;
     }

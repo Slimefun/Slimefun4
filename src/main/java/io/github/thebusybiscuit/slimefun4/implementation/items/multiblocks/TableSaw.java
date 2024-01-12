@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,13 +20,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeSearchResult;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
@@ -40,7 +47,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChes
  * @see MultiBlockMachine
  *
  */
-public class TableSaw extends MultiBlockMachine {
+public class TableSaw extends MultiBlockMachine implements RecipeCrafter {
 
     private final List<ItemStack> displayedRecipes = new ArrayList<>();
 
@@ -66,6 +73,28 @@ public class TableSaw extends MultiBlockMachine {
         for (Material plank : Tag.PLANKS.getValues()) {
             displayedRecipes.add(new ItemStack(plank));
             displayedRecipes.add(new ItemStack(Material.STICK, 4));
+        }
+    }
+
+    @Override
+    public Collection<RecipeCategory> getCraftedCategories() {
+        return List.of(RecipeCategory.TABLE_SAW);
+    }
+
+    @Override
+    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        for (final Material log : Tag.LOGS.getValues()) {
+            Optional<Material> planks = getPlanks(log);
+            if (planks.isPresent()) {
+                RecipeCategory.TABLE_SAW.registerRecipe(Recipe.of(RecipeStructure.SUBSET, new ItemStack(log), new ItemStack(planks.get(), 8)));
+            }
+        }
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
+            RecipeCategory.TABLE_SAW.registerRecipe(Recipe.of(RecipeStructure.SUBSET, new ItemStack(Material.BAMBOO_BLOCK), new ItemStack(Material.BAMBOO_PLANKS, 4)));
+            RecipeCategory.TABLE_SAW.registerRecipe(Recipe.of(RecipeStructure.SUBSET, new ItemStack(Material.STRIPPED_BAMBOO_BLOCK), new ItemStack(Material.BAMBOO_PLANKS, 4)));
+        }
+        for (final Material plank : Tag.PLANKS.getValues()) {
+            RecipeCategory.TABLE_SAW.registerRecipe(Recipe.of(RecipeStructure.SUBSET, new ItemStack(plank), new ItemStack(Material.STICK, 4)));
         }
     }
 
@@ -102,26 +131,31 @@ public class TableSaw extends MultiBlockMachine {
     @Override
     public void onInteract(@Nonnull Player p, @Nonnull Block b) {
         ItemStack item = p.getInventory().getItemInMainHand();
-        ItemStack output = getOutputFromMaterial(item.getType());
+        if (item == null) {
+            return;
+        }
 
-        if (output == null) {
+        ItemStack[] givenItem = new ItemStack[] { item };
+        RecipeSearchResult searchResult = searchRecipes(givenItem, (recipe, matchResult) -> {
+
+            ItemStack recipeOutput = recipe.getOutput().generateOutput();
+            MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, item, recipeOutput);
+
+            Bukkit.getPluginManager().callEvent(event);
+            ItemStack output = event.getOutput();
+            if (event.isCancelled() || !SlimefunUtils.canPlayerUseItem(p, output, true)) {
+                return false;
+            }
+            
+            outputItems(b, output);
+            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
+            
+            return p.getGameMode() != GameMode.CREATIVE;
+        });
+
+        if (!searchResult.isMatch()) {
             Slimefun.getLocalization().sendMessage(p, "machines.wrong-item", true);
-            return;
         }
-
-        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, item, output);
-
-        Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) {
-            return;
-        }
-
-        if (p.getGameMode() != GameMode.CREATIVE) {
-            ItemUtils.consumeItem(item, true);
-        }
-
-        outputItems(b, event.getOutput());
-        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
     }
 
     private @Nullable ItemStack getOutputFromMaterial(@Nonnull Material item) {

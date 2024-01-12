@@ -63,7 +63,7 @@ public interface RecipeComponent {
     };
 
     public static @Nonnull RecipeComponent of(@Nonnull String slimefunItemId) {
-        final SlimefunItem item = SlimefunItem.getById(slimefunItemId);
+        SlimefunItem item = SlimefunItem.getById(slimefunItemId);
 
         if (item == null) {
             return AIR;
@@ -77,7 +77,7 @@ public interface RecipeComponent {
     }
 
     public static @Nonnull RecipeComponent of(@Nullable ItemStack item) {
-        final SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
         if (sfItem != null && sfItem instanceof DistinctiveItem) {
             return new DistinctiveComponent(item);

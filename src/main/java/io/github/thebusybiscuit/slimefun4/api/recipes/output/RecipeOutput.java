@@ -36,7 +36,7 @@ public interface RecipeOutput {
     @Nonnull
     @ParametersAreNonnullByDefault
     public static RecipeOutput of(ItemStack... outputs) {
-        final RecipeOutput[] recipeOutputs = Arrays.stream(outputs)
+        RecipeOutput[] recipeOutputs = Arrays.stream(outputs)
             .map(item -> item == null ? ItemOutput.EMPTY : new ItemOutput(item)).toArray(RecipeOutput[]::new);
         return recipeOutputs.length == 1
             ? recipeOutputs[0]

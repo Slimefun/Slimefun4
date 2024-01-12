@@ -76,7 +76,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         super(itemGroup, item, recipeType, recipe);
 
         this.inputMaterials = inputMaterials;
-        final RecipeInputs inputs = new ItemInputs(
+        RecipeInputs inputs = new ItemInputs(
             RecipeStructure.SUBSET, 
             inputMaterials.size() > 1 
                 ? List.of(new MultiItemComponent(inputMaterials.stream().toArray(Material[]::new)))

@@ -39,6 +39,7 @@ public class RecipeCategory implements Keyed {
     public static final RecipeCategory ORE_WASHER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ore_washer"), new CustomItemStack(SlimefunItems.ORE_WASHER, "", "&a&oWash it in an Ore Washer"), RecipeStructure.SUBSET);
     public static final RecipeCategory ENHANCED_CRAFTING_TABLE = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "enhanced_crafting_table"), new CustomItemStack(SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power..."));
     public static final RecipeCategory JUICER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "juicer"), new CustomItemStack(SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation"), RecipeStructure.SUBSET);
+    public static final RecipeCategory TABLE_SAW = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "table-saw"), new CustomItemStack(Material.STONECUTTER, "&bTable Saw", "", "&a&oCut it in a Table Saw"), RecipeStructure.SUBSET);
 /**
      * @deprecated Smeltery recipes have moved to {@code DUST_SMELTING} and {@code INGOT_SMELTING}
      */
@@ -88,7 +89,7 @@ public class RecipeCategory implements Keyed {
         @Override
         public void onRegisterRecipe(Recipe recipe) { 
             // Add the inverse of this recipe (if applicable) to the ingot pulverizer category
-            final Optional<RecipeComponent> dust = recipe.getInputs().getComponents().stream().filter(comp -> !comp.isAir()).findFirst();
+            Optional<RecipeComponent> dust = recipe.getInputs().getComponents().stream().filter(comp -> !comp.isAir()).findFirst();
             if (dust.isPresent() && dust.get() instanceof final ItemComponent singleDust && recipe.getOutput() instanceof final ItemOutput itemOutput) {
                 INGOT_PULVERIZER.registerRecipe(
                     Recipe.of(RecipeStructure.SUBSET, new ItemStack[] { itemOutput.getOutputTemplate() }, singleDust.getComponent())

@@ -24,7 +24,7 @@ public class ItemComponent implements RecipeComponent {
             disabled = false;
             slimefunID = null;
         } else {
-            final SlimefunItem sfItem = SlimefunItem.getByItem(component);
+            SlimefunItem sfItem = SlimefunItem.getByItem(component);
             this.component = component;
             slimefunID = sfItem != null ? sfItem.getId() : null;
             disabled = sfItem != null ? sfItem.isDisabled() : false;

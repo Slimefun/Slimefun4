@@ -348,7 +348,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         recipes.add(recipe);
 
         getCraftedCategories().stream().findFirst().ifPresent(category -> {
-            final RecipeOutput[] outputs = Arrays.stream(recipe.getOutput()).map(item -> item == null ? ItemOutput.EMPTY : new ItemOutput(item)).toArray(RecipeOutput[]::new);
+            RecipeOutput[] outputs = Arrays.stream(recipe.getOutput()).map(item -> item == null ? ItemOutput.EMPTY : new ItemOutput(item)).toArray(RecipeOutput[]::new);
             category.registerRecipe(new TimedRecipe(recipe.getTicks(), RecipeInputs.of(category.getDefaultStructure(), recipe.getInput()), (RecipeOutput) (
                 outputs.length == 1
                     ? outputs[0]
@@ -406,7 +406,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 }
             }
         } else {
-            final MachineRecipe next = findNextRecipe(inv);
+            MachineRecipe next = findNextRecipe(inv);
             
             if (next != null) {
                 currentOperation = new CraftingOperation(next);
@@ -444,17 +444,17 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
     @Deprecated
     protected MachineRecipe findNextRecipe(BlockMenu inv) {
-        final ItemStack[] givenItems = Arrays.stream(getInputSlots()).mapToObj(slot -> {
-            final ItemStack item = inv.getItemInSlot(slot);
+        ItemStack[] givenItems = Arrays.stream(getInputSlots()).mapToObj(slot -> {
+            ItemStack item = inv.getItemInSlot(slot);
             return item;
         }).toArray(ItemStack[]::new);
         
-        final RecipeSearchResult searchResult = searchRecipes(givenItems, this::onRecipeFound);
+        RecipeSearchResult searchResult = searchRecipes(givenItems, this::onRecipeFound);
 
         if (searchResult.isMatch()) {
-            final Recipe recipe = searchResult.getRecipe();
-            final int seconds = recipe instanceof final TimedRecipe timed ? timed.getTicks() / 2 : getDefaultProcessingDuration();
-            final MachineRecipe machineRecipe = new MachineRecipe(seconds / getSpeed(), givenItems, recipe.getOutput().generateOutputs().toArray(ItemStack[]::new));
+            Recipe recipe = searchResult.getRecipe();
+            int seconds = recipe instanceof final TimedRecipe timed ? timed.getTicks() / 2 : getDefaultProcessingDuration();
+            MachineRecipe machineRecipe = new MachineRecipe(seconds / getSpeed(), givenItems, recipe.getOutput().generateOutputs().toArray(ItemStack[]::new));
 
             return machineRecipe;
         }
