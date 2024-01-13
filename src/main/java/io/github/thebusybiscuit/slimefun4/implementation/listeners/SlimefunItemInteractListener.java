@@ -59,7 +59,7 @@ public class SlimefunItemInteractListener implements Listener {
 
             // Fixes #4087 - Prevents players from interacting with a block that is about to be deleted
             // We especially don't want to open inventories as that can cause duplication
-            if (Slimefun.getTickerTask().isDeletedSoon(e.getClickedBlock().getLocation())) {
+            if (e.getClickedBlock() != null && Slimefun.getTickerTask().isDeletedSoon(e.getClickedBlock().getLocation())) {
                 e.setCancelled(true);
                 return;
             }
