@@ -18,6 +18,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -220,6 +221,14 @@ public class BlockListener implements Listener {
             }
 
             drops.addAll(sfItem.getDrops());
+            // Partial fix for #4087 - We don't want the inventory to be usable post break, close it for anyone still inside
+            // The main fix is in SlimefunItemInteractListener preventing opening to begin with
+            // Close the inventory for all viewers of this block
+            // TODO(future): Remove this check when MockBukkit supports viewers
+            if (!Slimefun.instance().isUnitTest()) {
+                BlockStorage.getInventory(e.getBlock()).toInventory().getViewers().forEach(HumanEntity::closeInventory);
+            }
+            // Remove the block data
             BlockStorage.clearBlockInfo(e.getBlock());
         }
     }
