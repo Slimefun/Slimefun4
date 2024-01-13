@@ -10,17 +10,26 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 
+import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.block.BlockMock;
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -28,6 +37,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockSlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public final class TestUtilities {
 
@@ -88,5 +98,27 @@ public final class TestUtilities {
     @ParametersAreNonnullByDefault
     public static @Nonnull int randomInt(int upperBound) {
         return random.nextInt(upperBound);
+    }
+
+    public static World createWorld(ServerMock server) {
+        World world = server.addSimpleWorld("world_" + randomInt());
+        Slimefun.getRegistry().getWorlds().put(world.getName(), new BlockStorage(world));
+        return world;
+    }
+    
+    public static Block placeSlimefunBlock(ServerMock server, ItemStack item, World world, Player player) {
+        int x = TestUtilities.randomInt();
+        int z = TestUtilities.randomInt();
+        Block block = new BlockMock(item.getType(), new Location(world, x, 0, z));
+        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
+
+         BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
+            block, block.getState(), blockAgainst, item, player, true, EquipmentSlot.HAND
+        );
+
+        server.getPluginManager().callEvent(blockPlaceEvent);
+        server.getPluginManager().assertEventFired(SlimefunBlockPlaceEvent.class, e -> true);
+
+        return block;
     }
 }
