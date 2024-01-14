@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockBreakEvent;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,23 +16,34 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockBreakEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyConnector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricFurnace;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.WindStaff;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.PlayerMock;
 
 class TestSlimefunItemInteractListener {
 
     private static ServerMock server;
     private static Slimefun plugin;
-    private static SlimefunItem slimefunItem;
+    // Block with inventory
+    private static SlimefunItem electricFurnace;
+    // Interactable block
+    private static SlimefunItem energyConnector;
+    // Interactable item
+    private static SlimefunItem windStaff;
 
     @BeforeAll
     public static void load() {
@@ -47,13 +57,19 @@ class TestSlimefunItemInteractListener {
         // Enable tickers so the electric furnace can be registered
         Slimefun.getCfg().setValue("URID.enable-tickers", true);
 
-        slimefunItem = new ElectricFurnace(
-            TestUtilities.getItemGroup(plugin, "test"), SlimefunItems.ELECTRIC_FURNACE, RecipeType.NULL, new ItemStack[]{}
-        )
+        ItemGroup testGroup = TestUtilities.getItemGroup(plugin, "test");
+
+        electricFurnace = new ElectricFurnace(testGroup, SlimefunItems.ELECTRIC_FURNACE, RecipeType.NULL, new ItemStack[]{})
             .setCapacity(100)
             .setEnergyConsumption(10)
             .setProcessingSpeed(1);
-        slimefunItem.register(plugin);
+        electricFurnace.register(plugin);
+
+        energyConnector = new EnergyConnector(testGroup, SlimefunItems.ENERGY_CONNECTOR, RecipeType.NULL, new ItemStack[9], null);
+        energyConnector.register(plugin);
+
+        windStaff = new WindStaff(testGroup, SlimefunItems.STAFF_WIND, RecipeType.NULL, new ItemStack[9]);
+        windStaff.register(plugin);
     }
 
     @AfterAll
@@ -71,7 +87,7 @@ class TestSlimefunItemInteractListener {
     void testCannotOpenInvOfBrokenBlock() {
         // Place down an electric furnace
         Player player = server.addPlayer();
-        ItemStack itemStack = slimefunItem.getItem();
+        ItemStack itemStack = electricFurnace.getItem();
         player.getInventory().setItemInMainHand(itemStack);
 
         // Create a world and place the block
@@ -98,7 +114,7 @@ class TestSlimefunItemInteractListener {
 
         // Assert we do have an inventory which would be opened
         // TODO: Create an event for open inventory so this isn't guess work
-        Assertions.assertTrue(BlockMenuPreset.isInventory(slimefunItem.getId()));
+        Assertions.assertTrue(BlockMenuPreset.isInventory(electricFurnace.getId()));
         Assertions.assertTrue(BlockStorage.getStorage(block.getWorld()).hasInventory(block.getLocation()));
         // TODO(future): Check viewers - MockBukkit does not implement this today
 
@@ -106,7 +122,7 @@ class TestSlimefunItemInteractListener {
         BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
         server.getPluginManager().callEvent(blockBreakEvent);
         server.getPluginManager().assertEventFired(SlimefunBlockBreakEvent.class, e -> {
-            Assertions.assertEquals(slimefunItem.getId(), e.getSlimefunItem().getId());
+            Assertions.assertEquals(electricFurnace.getId(), e.getSlimefunItem().getId());
             return true;
         });
 
@@ -133,5 +149,69 @@ class TestSlimefunItemInteractListener {
             AssertionError.class,
             () -> server.getPluginManager().assertEventFired(PlayerRightClickEvent.class, e -> true)
         );
+    }
+
+    @Test
+    void testRightClickItem() {
+        Player player = server.addPlayer();
+        ItemStack itemStack = windStaff.getItem();
+        player.getInventory().setItemInMainHand(itemStack);
+
+        // Assert player is at full food level (wind staff reduces food level on usage)
+        Assertions.assertEquals(20, player.getFoodLevel()); 
+
+        // Right click the air
+        PlayerInteractEvent playerInteractEvent = new PlayerInteractEvent(
+            player, Action.RIGHT_CLICK_AIR, itemStack, null, BlockFace.UP, EquipmentSlot.HAND
+        );
+
+        server.getPluginManager().callEvent(playerInteractEvent);
+        server.getPluginManager().assertEventFired(PlayerInteractEvent.class, e -> {
+            // Assert our interaction was not cancelled
+            Assertions.assertNotSame(e.useItemInHand(), Result.DENY);
+            return true;
+        });
+
+        // Assert our right click event fired and the item usage was not denied
+        server.getPluginManager().assertEventFired(PlayerRightClickEvent.class, e -> {
+            Assertions.assertNotSame(e.useItem(), Result.DENY);
+            return true;
+        });
+
+        // Assert our food level is now 18
+        Assertions.assertEquals(18, player.getFoodLevel());
+    }
+
+    @Test
+    void testRightClickInteractableBlock() {
+        // Place down an energy connector
+        PlayerMock player = server.addPlayer();
+        ItemStack itemStack = energyConnector.getItem();
+        player.getInventory().setItemInMainHand(itemStack);
+
+        // Create a world and place the block
+        World world = TestUtilities.createWorld(server);
+        Block block = TestUtilities.placeSlimefunBlock(server, itemStack, world, player);
+
+        // Right click on the block
+        PlayerInteractEvent playerInteractEvent = new PlayerInteractEvent(
+            player, Action.RIGHT_CLICK_BLOCK, itemStack, block, BlockFace.UP, EquipmentSlot.HAND
+        );
+
+        server.getPluginManager().callEvent(playerInteractEvent);
+        server.getPluginManager().assertEventFired(PlayerInteractEvent.class, e -> {
+            // Allow interaction of the block
+            Assertions.assertSame(e.useInteractedBlock(), Result.ALLOW);
+            return true;
+        });
+
+        // Assert our right click event fired and the block usage was not denied
+        server.getPluginManager().assertEventFired(PlayerRightClickEvent.class, e -> {
+            Assertions.assertNotSame(e.useBlock(), Result.DENY);
+            return true;
+        });
+
+        // Assert the message our energy connector sends
+        Assertions.assertEquals(ChatColors.color("&7Connected: " + "&4\u2718"), player.nextMessage());
     }
 }

@@ -42,6 +42,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
  * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent}
@@ -224,9 +225,10 @@ public class BlockListener implements Listener {
             // Partial fix for #4087 - We don't want the inventory to be usable post break, close it for anyone still inside
             // The main fix is in SlimefunItemInteractListener preventing opening to begin with
             // Close the inventory for all viewers of this block
+            BlockMenu inventory = BlockStorage.getInventory(e.getBlock());
             // TODO(future): Remove this check when MockBukkit supports viewers
-            if (!Slimefun.instance().isUnitTest()) {
-                BlockStorage.getInventory(e.getBlock()).toInventory().getViewers().forEach(HumanEntity::closeInventory);
+            if (inventory != null && !Slimefun.instance().isUnitTest()) {
+                inventory.toInventory().getViewers().forEach(HumanEntity::closeInventory);
             }
             // Remove the block data
             BlockStorage.clearBlockInfo(e.getBlock());
