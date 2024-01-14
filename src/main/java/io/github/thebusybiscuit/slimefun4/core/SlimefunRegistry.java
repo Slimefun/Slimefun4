@@ -34,6 +34,7 @@ import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideUnlockMode;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
@@ -72,6 +73,7 @@ public final class SlimefunRegistry {
     private boolean disableLearningAnimation;
     private boolean logDuplicateBlockEntries;
     private boolean talismanActionBarMessages;
+    private SlimefunGuideUnlockMode guideUnlockMode;
 
     private final Set<String> tickers = new HashSet<>();
     private final Set<SlimefunItem> radioactive = new HashSet<>();
@@ -111,6 +113,8 @@ public final class SlimefunRegistry {
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         disableLearningAnimation = cfg.getBoolean("researches.disable-learning-animation");
+        guideUnlockMode = SlimefunGuideUnlockMode.check(cfg.getString("researches.unlock-research-mode"));
+
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
         talismanActionBarMessages = cfg.getBoolean("talismans.use-actionbar");
     }
@@ -258,6 +262,10 @@ public final class SlimefunRegistry {
         }
 
         return guide;
+    }
+
+    public @Nonnull SlimefunGuideUnlockMode getSlimefunGuideUnlockMode() {
+        return guideUnlockMode;
     }
 
     /**

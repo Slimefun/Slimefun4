@@ -28,11 +28,11 @@ import dev.lone.itemsadder.api.ItemsAdder;
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
  * that are not necessarily a dependency or a {@link SlimefunAddon}.
- * 
+ *
  * Integration with these plugins happens inside Slimefun itself.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see Slimefun
  *
  */
@@ -63,7 +63,7 @@ public class IntegrationsManager {
 
     /**
      * This initializes the {@link IntegrationsManager}
-     * 
+     *
      * @param plugin
      *            Our instance of {@link Slimefun}
      */
@@ -73,7 +73,7 @@ public class IntegrationsManager {
 
     /**
      * This method returns whether the {@link IntegrationsManager} was enabled yet.
-     * 
+     *
      * @return Whether this {@link IntegrationsManager} has been enabled already.
      */
     public boolean isEnabled() {
@@ -130,6 +130,9 @@ public class IntegrationsManager {
 
         // ItemsAdder Integration (custom blocks)
         load("ItemsAdder", integration -> isItemsAdderInstalled = true);
+
+        // Vault Integration (research unlocking)
+        load("Vault", VaultIntegration::register);
     }
 
     /**
@@ -155,7 +158,7 @@ public class IntegrationsManager {
      * we integrate into.
      * Calling this method will probably log the error and provide the version of this {@link Plugin}
      * for error analysis.
-     * 
+     *
      * @param name
      *            The name of the {@link Plugin}
      * @param throwable
@@ -177,7 +180,7 @@ public class IntegrationsManager {
     /**
      * This method loads an integration with a {@link Plugin} of the specified name.
      * If that {@link Plugin} is installed and enabled, the provided callback will be run.
-     * 
+     *
      * @param pluginName
      *            The name of this {@link Plugin}
      * @param consumer
@@ -203,7 +206,7 @@ public class IntegrationsManager {
     /**
      * This returns out instance of the {@link ProtectionManager}.
      * This bridge is used to hook into any third-party protection {@link Plugin}.
-     * 
+     *
      * @return Our instanceof of the {@link ProtectionManager}
      */
     public @Nonnull ProtectionManager getProtectionManager() {
@@ -213,10 +216,10 @@ public class IntegrationsManager {
     /**
      * This checks if one of our third party integrations faked an {@link Event}.
      * Faked {@link Event Events} should be ignored in our logic.
-     * 
+     *
      * @param event
      *            The {@link Event} to test
-     * 
+     *
      * @return Whether this is a fake event
      */
     public boolean isEventFaked(@Nonnull Event event) {
@@ -227,10 +230,10 @@ public class IntegrationsManager {
     /**
      * This checks if one of our third party integrations has placed a custom
      * {@link Block} at this {@link Location}.
-     * 
+     *
      * @param block
      *            The {@link Block} to check
-     * 
+     *
      * @return Whether a different custom {@link Block} exists at that {@link Location}
      */
     @SuppressWarnings("deprecation")
@@ -249,10 +252,10 @@ public class IntegrationsManager {
     /**
      * This checks if one of our third party integrations defines a given
      * {@link ItemStack} as custom.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to check
-     * 
+     *
      * @return Whether this {@link ItemStack} is a custom item
      */
     @SuppressWarnings("deprecation")
@@ -273,7 +276,7 @@ public class IntegrationsManager {
      * Some plugins apply enchantments for a short amount of time and remove it later.
      * We don't want these items to be exploited using an {@link AutoDisenchanter} for example,
      * so we want to be able to strip those temporary enchantments in advance.
-     * 
+     *
      * @param item
      *            The {@link ItemStack}
      */

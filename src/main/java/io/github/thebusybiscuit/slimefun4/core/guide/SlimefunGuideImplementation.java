@@ -1,14 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
-import java.util.function.Consumer;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
+import io.github.thebusybiscuit.slimefun4.api.guide.SlimefunGuideUnlockProvider;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -16,6 +8,12 @@ import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+import java.util.function.Consumer;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * This interface is used for the different implementations that add behaviour
@@ -66,11 +64,12 @@ public interface SlimefunGuideImplementation {
     @ParametersAreNonnullByDefault
     default void unlockItem(Player p, SlimefunItem sfitem, Consumer<Player> callback) {
         Research research = sfitem.getResearch();
+        SlimefunGuideUnlockProvider unlockProvider = research.getUnlockProvider().orElse(Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider());
 
         if (p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {
-            p.setLevel(p.getLevel() - research.getCost());
+            unlockProvider.processUnlock(research, p);
 
             boolean skipLearningAnimation = Slimefun.getRegistry().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
             research.unlock(p, skipLearningAnimation, callback);

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
+import io.github.thebusybiscuit.slimefun4.api.guide.SlimefunGuideUnlockProvider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -289,7 +290,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNoPermissionItem(), sfitem.getItemName(), message.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
         } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
-            menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNotResearchedItem(), ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level(s)"));
+            SlimefunGuideUnlockProvider provider = research.getUnlockProvider().orElse(Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider());
+            menu.addItem(index, provider.getLockedItem(research, sfitem, p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 research.unlockFromGuide(this, p, profile, sfitem, itemGroup, page);
                 return false;

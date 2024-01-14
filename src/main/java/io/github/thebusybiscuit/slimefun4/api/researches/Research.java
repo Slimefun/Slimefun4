@@ -10,6 +10,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.base.Preconditions;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.api.guide.SlimefunGuideUnlockProvider;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
@@ -47,6 +50,7 @@ public class Research implements Keyed {
     private final String name;
     private boolean enabled = true;
     private int cost;
+    private Optional<SlimefunGuideUnlockProvider> unlockProvider = Optional.empty();
 
     private final List<SlimefunItem> items = new LinkedList<>();
 
@@ -67,7 +71,8 @@ public class Research implements Keyed {
      *            The Cost in XP levels to unlock this {@link Research}
      * 
      */
-    public Research(@Nonnull NamespacedKey key, int id, @Nonnull String defaultName, int defaultCost) {
+    @ParametersAreNonnullByDefault
+    public Research(NamespacedKey key, int id, String defaultName, int defaultCost) {
         Validate.notNull(key, "A NamespacedKey must be provided");
         Validate.notNull(defaultName, "A default name must be specified");
 
@@ -75,6 +80,38 @@ public class Research implements Keyed {
         this.id = id;
         this.name = defaultName;
         this.cost = defaultCost;
+    }
+
+    /**
+     * The constructor for a {@link Research}.
+     *
+     * Create a new research, then bind this research to the Slimefun items you want by calling
+     * {@link #addItems(SlimefunItem...)}. Once you're finished, call {@link #register()}
+     * to register it.
+     *
+     * @param key
+     *            A unique identifier for this {@link Research}
+     * @param id
+     *            old way of identifying researches
+     * @param defaultName
+     *            The displayed name of this {@link Research}
+     * @param defaultCost
+     *            The Cost in your custom method to unlock this {@link Research}
+     * @param unlockProvider
+     *            The custom provider of unlock research {@link SlimefunGuideUnlockProvider}
+     *
+     */
+    @ParametersAreNonnullByDefault
+    public Research(NamespacedKey key, int id, String defaultName, int defaultCost, SlimefunGuideUnlockProvider unlockProvider) {
+        Preconditions.checkNotNull(key, "A NamespacedKey must be provided");
+        Preconditions.checkNotNull(defaultName, "A default name must be specified");
+        Preconditions.checkNotNull(unlockProvider, "A unlock provider must be provided");
+
+        this.key = key;
+        this.id = id;
+        this.name = defaultName;
+        this.cost = defaultCost;
+        this.unlockProvider = Optional.of(unlockProvider);
     }
 
     @Override
@@ -140,6 +177,15 @@ public class Research implements Keyed {
     }
 
     /**
+     * Gets the custom {@link SlimefunGuideUnlockProvider} of this {@link Research}
+     *
+     * @return custom unlock provider {@link SlimefunGuideUnlockProvider}
+     */
+    public @Nonnull Optional<SlimefunGuideUnlockProvider> getUnlockProvider() {
+        return unlockProvider;
+    }
+
+    /**
      * Sets the cost in XP levels to unlock this {@link Research}.
      * 
      * @param cost
@@ -151,6 +197,15 @@ public class Research implements Keyed {
         }
 
         this.cost = cost;
+    }
+
+    /**
+     * Set the custom {@link SlimefunGuideUnlockProvider} of this {@link Research}
+     *
+     * @param unlockProvider custom unlock provider {@link SlimefunGuideUnlockProvider}
+     */
+    public void setUnlockProvider(Optional<SlimefunGuideUnlockProvider> unlockProvider) {
+        this.unlockProvider = unlockProvider;
     }
 
     /**
@@ -245,7 +300,7 @@ public class Research implements Keyed {
                     if (this.canUnlock(player)) {
                         guide.unlockItem(player, sfItem, pl -> guide.openItemGroup(profile, itemGroup, page));
                     } else {
-                        Slimefun.getLocalization().sendMessage(player, "messages.not-enough-xp", true);
+                        Slimefun.getLocalization().sendMessage(player, "messages.requirement-unfulfilled", true);
                     }
                 }
             }
@@ -266,7 +321,9 @@ public class Research implements Keyed {
         }
 
         boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled();
-        return creativeResearch || p.getLevel() >= cost;
+        SlimefunGuideUnlockProvider provider = unlockProvider.orElseGet(() -> Slimefun.getRegistry().getSlimefunGuideUnlockMode().getUnlockProvider());
+
+        return creativeResearch || provider.canUnlock(this, p);
     }
 
     /**
