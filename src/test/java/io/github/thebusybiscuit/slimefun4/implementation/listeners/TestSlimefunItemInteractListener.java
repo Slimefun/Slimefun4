@@ -153,7 +153,6 @@ class TestSlimefunItemInteractListener {
 
     @Test
     void testRightClickItem() {
-        // Place down an electric furnace
         Player player = server.addPlayer();
         ItemStack itemStack = windStaff.getItem();
         player.getInventory().setItemInMainHand(itemStack);
@@ -185,7 +184,7 @@ class TestSlimefunItemInteractListener {
 
     @Test
     void testRightClickInteractableBlock() {
-        // Place down an electric furnace
+        // Place down an energy connector
         PlayerMock player = server.addPlayer();
         ItemStack itemStack = energyConnector.getItem();
         player.getInventory().setItemInMainHand(itemStack);
