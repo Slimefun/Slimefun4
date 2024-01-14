@@ -10,6 +10,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
@@ -26,9 +27,15 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  */
 public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemUseHandler> {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public MagicEyeOfEnder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public MagicEyeOfEnder(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
     }
 
     @Override

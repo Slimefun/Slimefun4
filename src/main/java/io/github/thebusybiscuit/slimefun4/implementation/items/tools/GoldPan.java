@@ -66,14 +66,20 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
     private final Set<GoldPanDrop> drops = new HashSet<>();
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public GoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        this(itemGroup, item, recipeType, recipe, Set.of(Material.GRAVEL));
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, Set.of(Material.GRAVEL));
+    }
+    
+    @ParametersAreNonnullByDefault
+    public GoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        this(itemGroup, item, recipeCategory, recipe, Set.of(Material.GRAVEL));
     }
 
     @ParametersAreNonnullByDefault
-    GoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, Set<Material> inputMaterials) {
-        super(itemGroup, item, recipeType, recipe);
+    GoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, Set<Material> inputMaterials) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         this.inputMaterials = inputMaterials;
         RecipeInputs inputs = new ItemInputs(

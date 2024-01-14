@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetBootsTask;
@@ -28,7 +29,7 @@ public class JetBoots extends SlimefunItem implements Rechargeable {
 
     @ParametersAreNonnullByDefault
     public JetBoots(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, double speed, float capacity) {
-        super(itemGroup, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+        super(itemGroup, item, RecipeCategory.ENHANCED_CRAFTING_TABLE, recipe);
 
         this.speed = speed;
         this.capacity = capacity;

@@ -19,6 +19,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
@@ -43,9 +44,15 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
     private final NamespacedKey defaultUsageKey;
     private int maxUseCount = -1;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     protected LimitedUseItem(ItemGroup group, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(group, item, recipeType, recipe);
+        this(group, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    protected LimitedUseItem(ItemGroup group, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(group, item, recipeCategory, recipe);
 
         this.defaultUsageKey = new NamespacedKey(Slimefun.instance(), "uses_left");
         addItemHandler(getItemHandler());

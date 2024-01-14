@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -48,9 +49,15 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
     private final ItemSetting<Integer> chancePiglin = new IntRangeSetting(this, "chance.PIGLIN", 0, 40, 100);
     private final ItemSetting<Integer> chancePlayer = new IntRangeSetting(this, "chance.PLAYER", 0, 70, 100);
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public SwordOfBeheading(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public SwordOfBeheading(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         addItemSetting(chanceZombie, chanceSkeleton, chanceWitherSkeleton, chanceCreeper, chancePiglin, chancePlayer);
     }

@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -57,9 +58,15 @@ public class MinerAndroid extends ProgrammableAndroid {
     private final ItemSetting<Boolean> firesEvent = new ItemSetting<>(this, "trigger-event-for-generators", false);
     private final ItemSetting<Boolean> applyOptimizations = new ItemSetting<>(this, "reduced-block-updates", true);
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public MinerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, tier, item, recipeType, recipe);
+        this(itemGroup, tier, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public MinerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeCategory, recipe);
 
         addItemSetting(firesEvent, applyOptimizations);
     }

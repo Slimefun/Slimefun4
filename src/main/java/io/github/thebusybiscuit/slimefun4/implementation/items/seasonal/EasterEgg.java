@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -34,9 +35,15 @@ public class EasterEgg extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final ItemStack[] gifts;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public EasterEgg(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, ItemStack... gifts) {
-        super(itemGroup, item, recipeType, recipe, recipeOutput);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, recipeOutput);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public EasterEgg(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, ItemStack recipeOutput, ItemStack... gifts) {
+        super(itemGroup, item, recipeCategory, recipe, recipeOutput);
 
         this.gifts = gifts;
     }

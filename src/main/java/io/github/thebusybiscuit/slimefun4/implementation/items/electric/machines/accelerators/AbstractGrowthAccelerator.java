@@ -11,6 +11,7 @@ import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
@@ -29,9 +30,15 @@ public abstract class AbstractGrowthAccelerator extends SlimefunItem implements 
 
     private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     protected AbstractGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    protected AbstractGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         addItemHandler(onBreak());
         createPreset(this, this::constructMenu);

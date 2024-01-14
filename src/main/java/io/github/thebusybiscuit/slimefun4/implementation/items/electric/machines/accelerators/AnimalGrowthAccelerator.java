@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Ageable;
@@ -9,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -25,8 +28,15 @@ public class AnimalGrowthAccelerator extends AbstractGrowthAccelerator {
     // We wanna strip the Slimefun Item id here
     private static final ItemStack organicFood = ItemStackWrapper.wrap(SlimefunItems.ORGANIC_FOOD);
 
+    @Deprecated
+    @ParametersAreNonnullByDefault
     public AnimalGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public AnimalGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
     }
 
     @Override

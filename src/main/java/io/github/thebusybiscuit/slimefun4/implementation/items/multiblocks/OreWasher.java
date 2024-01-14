@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,12 +23,10 @@ import io.github.bakedlibs.dough.collections.RandomizedSet;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCrafter;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeStructure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.SlimefunRecipe;
-import io.github.thebusybiscuit.slimefun4.api.recipes.components.MultiItemComponent;
 import io.github.thebusybiscuit.slimefun4.api.recipes.input.RecipeInputs;
 import io.github.thebusybiscuit.slimefun4.api.recipes.output.ItemOutput;
 import io.github.thebusybiscuit.slimefun4.api.recipes.output.MultiItemOutput;

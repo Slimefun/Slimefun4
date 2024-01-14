@@ -17,6 +17,7 @@ import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
@@ -48,8 +49,14 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
 
     private static final String OFFSET_PARAMETER = "offset";
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public HologramProjector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, recipeOutput);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public HologramProjector(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         addItemHandler(onPlace(), onRightClick(), onBreak());

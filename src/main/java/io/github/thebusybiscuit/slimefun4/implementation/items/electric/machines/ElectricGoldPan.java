@@ -43,9 +43,15 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     private final GoldPan goldPan = SlimefunItems.GOLD_PAN.getItem(GoldPan.class);
     private final GoldPan netherGoldPan = SlimefunItems.NETHER_GOLD_PAN.getItem(GoldPan.class);
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public ElectricGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public ElectricGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
         addItemSetting(overrideOutputLimit);
     }
 

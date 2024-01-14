@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SolarHelmetTask;
@@ -33,8 +34,14 @@ public class SolarHelmet extends SlimefunItem {
 
     private final ItemSetting<Double> charge;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public SolarHelmet(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double defaultChargingLevel) {
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, defaultChargingLevel);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public SolarHelmet(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe, double defaultChargingLevel) {
         super(itemGroup, item, recipeType, recipe);
 
         if (defaultChargingLevel <= 0) {

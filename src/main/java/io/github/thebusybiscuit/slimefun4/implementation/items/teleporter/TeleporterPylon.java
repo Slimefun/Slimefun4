@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
@@ -23,9 +24,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlo
  */
 public class TeleporterPylon extends RainbowBlock {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public TeleporterPylon(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(itemGroup, item, recipeType, recipe, recipeOutput, new RainbowTickHandler(Material.CYAN_STAINED_GLASS, Material.PURPLE_STAINED_GLASS));
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, recipeOutput);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public TeleporterPylon(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeCategory, recipe, recipeOutput, new RainbowTickHandler(Material.CYAN_STAINED_GLASS, Material.PURPLE_STAINED_GLASS));
     }
 
 }

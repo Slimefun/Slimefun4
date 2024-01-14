@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 
 /**
@@ -24,7 +24,7 @@ public abstract class SlimefunBow extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     protected SlimefunBow(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe) {
-        super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe);
+        super(itemGroup, item, RecipeCategory.MAGIC_WORKBENCH, recipe);
     }
 
     @Override

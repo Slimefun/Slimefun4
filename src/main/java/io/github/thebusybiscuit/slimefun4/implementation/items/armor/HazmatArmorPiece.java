@@ -8,6 +8,7 @@ import org.bukkit.potion.PotionEffect;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
@@ -28,8 +29,14 @@ public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveAr
     private final NamespacedKey namespacedKey;
     private final ProtectionType[] types;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public HazmatArmorPiece(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, effects);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public HazmatArmorPiece(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe, PotionEffect[] effects) {
         super(itemGroup, item, recipeType, recipe, effects);
 
         types = new ProtectionType[] { ProtectionType.BEES, ProtectionType.RADIATION };

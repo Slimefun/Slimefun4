@@ -27,9 +27,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
  */
 public class NetherGoldPan extends GoldPan {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public NetherGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, Set.of(Material.SOUL_SAND, Material.SOUL_SOIL));
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public NetherGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe, Set.of(Material.SOUL_SAND, Material.SOUL_SOIL));
     }
 
     @Override

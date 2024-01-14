@@ -16,6 +16,7 @@ import org.bukkit.potion.PotionType;
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 
@@ -55,9 +56,15 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         fermentations.put(PotionType.NIGHT_VISION, PotionType.INVISIBILITY);
     }
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public AutoBrewer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+
+    @ParametersAreNonnullByDefault
+    public AutoBrewer(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
     }
 
     @Override

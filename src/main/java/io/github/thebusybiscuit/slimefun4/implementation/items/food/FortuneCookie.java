@@ -12,6 +12,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
@@ -28,9 +29,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
  */
 public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public FortuneCookie(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public FortuneCookie(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
     }
 
     @Override

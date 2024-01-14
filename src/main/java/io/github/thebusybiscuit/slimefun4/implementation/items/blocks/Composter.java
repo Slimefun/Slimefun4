@@ -21,6 +21,7 @@ import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
@@ -33,9 +34,15 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
 
     private final List<ItemStack> recipes;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public Composter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public Composter(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         recipes = getMachineRecipes();
     }

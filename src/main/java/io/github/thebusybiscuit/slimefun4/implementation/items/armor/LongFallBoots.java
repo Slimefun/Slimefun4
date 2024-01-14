@@ -8,6 +8,7 @@ import org.bukkit.potion.PotionEffect;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 
@@ -24,17 +25,16 @@ public class LongFallBoots extends SlimefunArmorPiece {
 
     private final SoundEffect soundEffect;
 
-    /**
-     * @deprecated In RC-35, marked for removal in RC-36
-     */
     @Deprecated
     @ParametersAreNonnullByDefault
-    public LongFallBoots(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
-        this(itemGroup, item, recipeType, recipe, effects, SoundEffect.SLIME_BOOTS_FALL_SOUND);
-    }
-
-    @ParametersAreNonnullByDefault
     public LongFallBoots(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects, SoundEffect soundEffect) {
+        super(itemGroup, item, recipeType, recipe, effects);
+
+        this.soundEffect = soundEffect;
+    }
+    
+    @ParametersAreNonnullByDefault
+    public LongFallBoots(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe, PotionEffect[] effects, SoundEffect soundEffect) {
         super(itemGroup, item, recipeType, recipe, effects);
 
         this.soundEffect = soundEffect;

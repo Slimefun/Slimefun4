@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
@@ -38,8 +39,14 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
     private static final String FILTER_TYPE = "filter-type";
     private static final String FILTER_LORE = "filter-lore";
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     protected AbstractFilterNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, recipeOutput);
+    }
+
+    @ParametersAreNonnullByDefault
+    protected AbstractFilterNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         addItemHandler(onBreak());

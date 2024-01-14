@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
@@ -25,9 +26,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundList
  */
 public class SoulboundItem extends SlimefunItem implements Soulbound, NotPlaceable {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public SoulboundItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
-        super(itemGroup, item, type, recipe);
+        this(itemGroup, item, type.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public SoulboundItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
     }
 
 }

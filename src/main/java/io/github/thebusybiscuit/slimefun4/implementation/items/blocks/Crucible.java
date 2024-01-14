@@ -23,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
@@ -48,8 +49,14 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     private final ItemSetting<Boolean> allowWaterInNether = new ItemSetting<>(this, "allow-water-in-nether", false);
     private final List<ItemStack> recipes;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public Crucible(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public Crucible(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
         recipes = getMachineRecipes();

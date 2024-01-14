@@ -16,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
@@ -24,9 +25,15 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
     private final Set<PotionEffectType> curedEffects = new HashSet<>();
     private final int healAmount;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     protected MedicalSupply(ItemGroup itemGroup, int healAmount, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, healAmount, item, recipeType.asRecipeCategory(), recipe);
+    }
+
+    @ParametersAreNonnullByDefault
+    protected MedicalSupply(ItemGroup itemGroup, int healAmount, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         this.healAmount = healAmount;
 

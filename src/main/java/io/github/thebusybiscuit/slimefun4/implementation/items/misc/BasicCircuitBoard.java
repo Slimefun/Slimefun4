@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
@@ -29,9 +30,15 @@ public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implem
     private final ItemSetting<Boolean> dropSetting = new ItemSetting<>(this, "drop-from-golems", true);
     private final ItemSetting<Integer> chance = new IntRangeSetting(this, "golem-drop-chance", 0, 75, 100);
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public BasicCircuitBoard(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public BasicCircuitBoard(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         addItemSetting(dropSetting);
         addItemSetting(chance);

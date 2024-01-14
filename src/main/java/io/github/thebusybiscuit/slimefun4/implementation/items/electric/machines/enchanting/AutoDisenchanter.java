@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
@@ -46,10 +47,17 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class AutoDisenchanter extends AbstractEnchantmentMachine {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public AutoDisenchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public AutoDisenchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
+
 
     @Override
     public ItemStack getProgressBar() {

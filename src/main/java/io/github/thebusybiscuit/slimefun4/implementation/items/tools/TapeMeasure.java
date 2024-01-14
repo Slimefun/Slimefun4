@@ -20,6 +20,7 @@ import com.google.gson.JsonObject;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
@@ -39,9 +40,15 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
     private final NamespacedKey key = new NamespacedKey(Slimefun.instance(), "anchor");
     private final DecimalFormat format = new DecimalFormat("##.###");
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public TapeMeasure(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public TapeMeasure(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
     }
 
     @Override

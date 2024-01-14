@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
@@ -32,9 +33,15 @@ public class VampireBlade extends SimpleSlimefunItem<WeaponUseHandler> {
 
     private final ItemSetting<Integer> chance = new IntRangeSetting(this, "chance", 0, 45, 100);
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public VampireBlade(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public VampireBlade(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         addItemSetting(chance);
     }

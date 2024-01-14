@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 /**
@@ -40,9 +41,29 @@ public class VanillaItem extends SlimefunItem {
      * @param recipe
      *            the recipe to obtain this {@link VanillaItem}
      */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public VanillaItem(ItemGroup itemGroup, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, id, recipeType, recipe);
+        this(itemGroup, item, id, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    /**
+     * Instantiates a new {@link VanillaItem} with the given arguments.
+     *
+     * @param itemGroup
+     *            the {@link ItemGroup} to bind this {@link VanillaItem} to
+     * @param item
+     *            the item corresponding to this {@link VanillaItem}
+     * @param id
+     *            the id of this {@link VanillaItem}
+     * @param recipeCategory
+     *            the type of the recipe to obtain this {@link VanillaItem}
+     * @param recipe
+     *            the recipe to obtain this {@link VanillaItem}
+     */
+    @ParametersAreNonnullByDefault
+    public VanillaItem(ItemGroup itemGroup, ItemStack item, String id, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, id, recipeCategory, recipe);
 
         useableInWorkbench = true;
     }

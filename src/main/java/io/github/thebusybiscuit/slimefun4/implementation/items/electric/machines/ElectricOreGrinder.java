@@ -23,9 +23,15 @@ public class ElectricOreGrinder extends AContainer implements RecipeDisplayItem,
 
     private boolean isLegacy = false;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public ElectricOreGrinder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+
+    @ParametersAreNonnullByDefault
+    public ElectricOreGrinder(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
     }
 
     @Override

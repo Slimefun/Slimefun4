@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
@@ -39,9 +40,15 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     private final int nightEnergy;
     private final int capacity;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int capacity) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, dayEnergy, nightEnergy, item, recipeType.asRecipeCategory(), recipe, capacity);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, int capacity) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         this.dayEnergy = dayEnergy;
         this.nightEnergy = nightEnergy;
@@ -50,9 +57,15 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
         addItemSetting(useNightEnergyInOtherDimensions);
     }
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(itemGroup, dayEnergy, nightEnergy, item, recipeType, recipe, 0);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public SolarGenerator(ItemGroup itemGroup, int dayEnergy, int nightEnergy, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        this(itemGroup, dayEnergy, nightEnergy, item, recipeCategory, recipe, 0);
     }
 
     /**

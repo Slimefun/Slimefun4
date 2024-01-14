@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -34,8 +35,14 @@ public class BookBinder extends AContainer {
     private final ItemSetting<Boolean> hasCustomMaxLevel = new ItemSetting<>(this, "has-custom-max-level", false);
     private final ItemSetting<Integer> customMaxLevel = new IntRangeSetting(this, "custom-max-level", 0, 15, Integer.MAX_VALUE);
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public BookBinder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public BookBinder(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
         addItemSetting(bypassVanillaMaxLevel, hasCustomMaxLevel, customMaxLevel);

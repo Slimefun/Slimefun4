@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
@@ -25,8 +26,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListene
  */
 public class Cooler extends SlimefunBackpack {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public Cooler(int size, ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(size, itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public Cooler(int size, ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe) {
         super(size, itemGroup, item, recipeType, recipe);
     }
 

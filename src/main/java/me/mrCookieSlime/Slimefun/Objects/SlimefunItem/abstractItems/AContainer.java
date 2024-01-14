@@ -69,9 +69,15 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private int energyCapacity = -1;
     private int processingSpeed = -1;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     protected AContainer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    protected AContainer(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         processor.setProgressBar(getProgressBar());
         createPreset(this, getInventoryTitle(), this::constructMenu);

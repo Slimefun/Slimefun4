@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
@@ -50,9 +51,29 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      * @param recipe
      *            The recipe of how to craft this {@link SlimefunItem}
      */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(itemGroup, radioactivity, item, recipeType, recipe, null);
+    }
+    
+    /**
+     * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
+     * 
+     * @param itemGroup
+     *            The {@link ItemGroup} of this {@link SlimefunItem}
+     * @param radioactivity
+     *            the level of {@link Radioactivity}
+     * @param item
+     *            the {@link SlimefunItemStack} this {@link SlimefunItem} represents
+     * @param recipeCategory
+     *            The {@link RecipeType} for this item
+     * @param recipe
+     *            The recipe of how to craft this {@link SlimefunItem}
+     */
+    @ParametersAreNonnullByDefault
+    public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        this(itemGroup, radioactivity, item, recipeCategory, recipe, null);
     }
 
     /**
@@ -71,9 +92,31 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      * @param recipeOutput
      *            The recipe output
      */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        super(itemGroup, item, recipeType, recipe, recipeOutput);
+        this(itemGroup, radioactivity, item, recipeType.asRecipeCategory(), recipe, recipeOutput);
+    }
+    
+    /**
+     * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
+     * 
+     * @param itemGroup
+     *            The {@link ItemGroup} of this {@link SlimefunItem}
+     * @param radioactivity
+     *            the level of {@link Radioactivity}
+     * @param item
+     *            the {@link SlimefunItemStack} this {@link SlimefunItem} represents
+     * @param recipeCategory
+     *            The {@link RecipeType} for this item
+     * @param recipe
+     *            The recipe of how to craft this {@link SlimefunItem}
+     * @param recipeOutput
+     *            The recipe output
+     */
+    @ParametersAreNonnullByDefault
+    public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        super(itemGroup, item, recipeCategory, recipe, recipeOutput);
 
         this.radioactivity = radioactivity;
         addItemHandler(onRightClick());

@@ -22,6 +22,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
@@ -60,9 +61,15 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
      */
     private final Set<UUID> users = new HashSet<>();
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public ElevatorPlate(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        super(itemGroup, item, recipeType, recipe, recipeOutput);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, recipeOutput);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public ElevatorPlate(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeCategory, recipe, recipeOutput);
 
         addItemHandler(onPlace());
     }

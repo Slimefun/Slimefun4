@@ -25,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
@@ -45,9 +46,15 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
     private static final double RANGE = 1.5;
     private final Map<Material, List<Enchantment>> applicableEnchantments = new EnumMap<>(Material.class);
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public EnchantmentRune(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+
+    @ParametersAreNonnullByDefault
+    public EnchantmentRune(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         for (Material mat : Material.values()) {
             List<Enchantment> enchantments = new ArrayList<>();

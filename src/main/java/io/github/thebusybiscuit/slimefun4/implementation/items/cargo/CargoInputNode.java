@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
@@ -23,8 +24,14 @@ public class CargoInputNode extends AbstractFilterNode {
     private static final String ROUND_ROBIN_MODE = "round-robin";
     private static final String SMART_FILL_MODE = "smart-fill";
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public CargoInputNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, recipeOutput);
+    }
+
+    @ParametersAreNonnullByDefault
+    public CargoInputNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 

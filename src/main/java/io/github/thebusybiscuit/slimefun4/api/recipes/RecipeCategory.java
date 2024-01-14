@@ -133,9 +133,11 @@ public class RecipeCategory implements Keyed {
     public static final RecipeCategory REFINERY = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "refinery"), SlimefunItems.REFINERY, RecipeStructure.SUBSET);
     public static final RecipeCategory INGOT_PULVERIZER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ingot_pulverizer"), SlimefunItems.ELECTRIC_INGOT_PULVERIZER, RecipeStructure.SUBSET);
 
-
+    public static final RecipeCategory OIL_PUMP = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "oil_pump"), SlimefunItems.OIL_PUMP);
     public static final RecipeCategory GEO_MINER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "geo_miner"), SlimefunItems.GEO_MINER);
     public static final RecipeCategory NUCLEAR_REACTOR = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "nuclear_reactor"), SlimefunItems.NUCLEAR_REACTOR, RecipeStructure.SUBSET);
+
+    public static final RecipeCategory PICKAXE_OF_CONTAINMENT = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "pickaxe_of_containment"), SlimefunItems.PICKAXE_OF_CONTAINMENT, RecipeStructure.SUBSET);
 
     public static final RecipeCategory NULL = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "null"), new ItemStack(Material.AIR));
 

@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -38,14 +39,26 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     private final List<PotionEffect> effects;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public Juice(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(itemGroup, item, recipeType, recipe, null);
     }
+    
+    @ParametersAreNonnullByDefault
+    public Juice(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        this(itemGroup, item, recipeCategory, recipe, null);
+    }
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public Juice(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
-        super(itemGroup, item, recipeType, recipe, recipeOutput);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, recipeOutput);
+    }
+
+    @ParametersAreNonnullByDefault
+    public Juice(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+        super(itemGroup, item, recipeCategory, recipe, recipeOutput);
 
         ItemMeta meta = item.getItemMeta();
 

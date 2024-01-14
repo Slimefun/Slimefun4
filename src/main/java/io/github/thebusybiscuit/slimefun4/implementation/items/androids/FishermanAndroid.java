@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.collections.RandomizedSet;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 
@@ -22,9 +23,15 @@ public class FishermanAndroid extends ProgrammableAndroid {
 
     private final RandomizedSet<ItemStack> fishingLoot = new RandomizedSet<>();
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public FishermanAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, tier, item, recipeType, recipe);
+        this(itemGroup, tier, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public FishermanAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeCategory, recipe);
 
         // Fish
         for (Material fish : Tag.ITEMS_FISHES.getValues()) {

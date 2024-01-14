@@ -14,6 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -29,9 +30,16 @@ public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final int healingLevel;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public Bandage(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
-        super(itemGroup, item, recipeType, recipe, recipeOutput);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, recipeOutput, healingLevel);
+    }
+
+    
+    @ParametersAreNonnullByDefault
+    public Bandage(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
+        super(itemGroup, item, recipeCategory, recipe, recipeOutput);
 
         this.healingLevel = healingLevel;
     }

@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -39,8 +41,9 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
     private final int efficiency;
     private final int fortuneLevel;
 
+    @ParametersAreNonnullByDefault
     public EnhancedFurnace(ItemGroup itemGroup, int speed, int efficiency, int fortune, SlimefunItemStack item, ItemStack[] recipe) {
-        super(itemGroup, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+        super(itemGroup, item, RecipeCategory.ENHANCED_CRAFTING_TABLE, recipe);
 
         this.speed = speed - 1;
         this.efficiency = efficiency - 1;

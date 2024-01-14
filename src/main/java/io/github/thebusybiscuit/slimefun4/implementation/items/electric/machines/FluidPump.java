@@ -21,6 +21,7 @@ import io.github.bakedlibs.dough.blocks.Vein;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
@@ -63,9 +64,15 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));
     private final ItemStack emptyBottle = ItemStackWrapper.wrap(new ItemStack(Material.GLASS_BOTTLE));
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public FluidPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public FluidPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         addItemHandler(onBreak());
         createPreset(this, this::constructMenu);

@@ -16,15 +16,22 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidFarmEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class FarmerAndroid extends ProgrammableAndroid {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public FarmerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, tier, item, recipeType, recipe);
+        this(itemGroup, tier, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public FarmerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, tier, item, recipeCategory, recipe);
     }
 
     @Override

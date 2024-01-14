@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,8 +18,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
 public class ElectricIngotFactory extends AContainer implements RecipeDisplayItem {
 
+    @Deprecated
+    @ParametersAreNonnullByDefault
     public ElectricIngotFactory(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public ElectricIngotFactory(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
     }
 
     @Override

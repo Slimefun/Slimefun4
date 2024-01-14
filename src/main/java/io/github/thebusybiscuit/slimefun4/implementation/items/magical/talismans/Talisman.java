@@ -32,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.TalismanActivateEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -55,6 +56,7 @@ public class Talisman extends SlimefunItem {
     public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, PotionEffect... effects) {
         this(item, recipe, consumable, cancelEvent, messageSuffix, 100, effects);
     }
+    
 
     @ParametersAreNonnullByDefault
     public Talisman(SlimefunItemStack item, ItemStack[] recipe, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
@@ -68,7 +70,7 @@ public class Talisman extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     protected Talisman(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
-        super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItemStack(item, consumable ? 4 : 1));
+        super(itemGroup, item, RecipeCategory.MAGIC_WORKBENCH, recipe, new CustomItemStack(item, consumable ? 4 : 1));
 
         this.consumable = consumable;
         this.cancel = cancelEvent;

@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 
 /**
@@ -23,7 +23,7 @@ public class AlloyIngot extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     public AlloyIngot(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe) {
-        super(itemGroup, item, RecipeType.SMELTERY, recipe);
+        super(itemGroup, item, RecipeCategory.INGOT_SMELTING, recipe);
     }
 
 }

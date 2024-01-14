@@ -23,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
@@ -67,14 +68,21 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     private int energyCapacity = -1;
     private int processingSpeed = -1;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public GEOMiner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public GEOMiner(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe);
 
         processor.setProgressBar(new ItemStack(Material.DIAMOND_PICKAXE));
         createPreset(this, getItemName(), this::constructMenu);
         addItemHandler(onBlockPlace(), onBlockBreak());
     }
+
 
     @Override
     public @Nonnull MachineProcessor<GEOMiningOperation> getMachineProcessor() {

@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.ArmorForge;
 
@@ -23,9 +24,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Armor
  */
 public class ArmorAutoCrafter extends SlimefunAutoCrafter {
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     public ArmorAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, RecipeType.ARMOR_FORGE);
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe);
+    }
+    
+    @ParametersAreNonnullByDefault
+    public ArmorAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe) {
+        super(itemGroup, item, recipeCategory, recipe, RecipeCategory.ARMOR_FORGE);
     }
 
 }

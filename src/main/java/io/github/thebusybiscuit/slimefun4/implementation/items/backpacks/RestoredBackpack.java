@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
@@ -33,7 +34,7 @@ public class RestoredBackpack extends SlimefunBackpack {
      */
     @ParametersAreNonnullByDefault
     public RestoredBackpack(@Nonnull ItemGroup itemGroup) {
-        super(54, itemGroup, SlimefunItems.RESTORED_BACKPACK, RecipeType.NULL, new ItemStack[9]);
+        super(54, itemGroup, SlimefunItems.RESTORED_BACKPACK, RecipeCategory.NULL, new ItemStack[9]);
 
         this.hidden = true;
     }

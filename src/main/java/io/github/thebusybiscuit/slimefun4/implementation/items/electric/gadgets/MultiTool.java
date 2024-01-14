@@ -45,6 +45,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
         this(itemGroup, item, recipeType.asRecipeCategory(), recipe, capacity, items);
     }
     
+    
     @ParametersAreNonnullByDefault
     public MultiTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, float capacity, String... items) {
         super(itemGroup, item, recipeCategory, recipe);

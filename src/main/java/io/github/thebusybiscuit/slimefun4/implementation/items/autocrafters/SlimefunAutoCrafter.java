@@ -19,6 +19,7 @@ import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -44,14 +45,21 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
     /**
      * The targeted {@link RecipeType} that is being crafted here.
      */
-    private final RecipeType targetRecipeType;
+    private final RecipeCategory targetRecipeCategory;
 
+    @Deprecated
     @ParametersAreNonnullByDefault
     protected SlimefunAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, RecipeType targetRecipeType) {
-        super(itemGroup, item, recipeType, recipe);
-
-        this.targetRecipeType = targetRecipeType;
+        this(itemGroup, item, recipeType.asRecipeCategory(), recipe, targetRecipeType.asRecipeCategory());
     }
+    
+    @ParametersAreNonnullByDefault
+    protected SlimefunAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeCategory recipeCategory, ItemStack[] recipe, RecipeCategory targetRecipeCategory) {
+        super(itemGroup, item, recipeCategory, recipe);
+
+        this.targetRecipeCategory = targetRecipeCategory;
+    }
+
 
     @Override
     @Nullable
@@ -68,7 +76,7 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
 
             if (item != null) {
                 boolean enabled = !container.has(recipeEnabledKey, PersistentDataType.BYTE);
-                AbstractRecipe recipe = AbstractRecipe.of(item, targetRecipeType);
+                AbstractRecipe recipe = AbstractRecipe.of(item, targetRecipeCategory.asRecipeType());
                 recipe.setEnabled(enabled);
                 return recipe;
             }
@@ -82,10 +90,10 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
         ItemStack itemInHand = p.getInventory().getItemInMainHand();
         SlimefunItem item = SlimefunItem.getByItem(itemInHand);
 
-        if (item != null && item.getRecipeType().equals(targetRecipeType)) {
+        if (item != null && item.getRecipeType().equals(targetRecipeCategory)) {
             // Fixes #1161
             if (item.canUse(p, true)) {
-                AbstractRecipe recipe = AbstractRecipe.of(item, targetRecipeType);
+                AbstractRecipe recipe = AbstractRecipe.of(item, targetRecipeCategory.asRecipeType());
 
                 if (recipe != null) {
                     ChestMenu menu = new ChestMenu(getItemName());
