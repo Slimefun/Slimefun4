@@ -24,7 +24,7 @@ So if you have an idea on how to approach a known issue, feel free to make a [Pu
 You can also comment on the existing Issue, proposing your idea or communicating that you wanna work on this.
 
 ## :wrench: 3. Pull Requests: Additions/Changes
-Slimefun is an Open-Source project and anyone is allowed to make changes or add content to this plugin!
+Slimefun is an Open-Source project and anyone is allowed to make changes or add content to this plugin.
 
 Please visit our [Discord Server](https://discord.gg/slimefun) and share your ideas first, we hate to reject changes because the community disagrees.<br>
 So communicating your intended changes before-hand will ensure that you don't put too much work into something that might get rejected.
@@ -51,7 +51,7 @@ For more info on how or what to translate, check out our article on [How to tran
 ## :scroll: 5. Pull Requests: Wiki contributions
 Slimefun is a very large project and might be quite intimidating for new players.
 That's why good documentation is always nice and helpful.
-If you have played with Slimefun for a while and gotten yourself familiar with how things work, please consider contributing your experiences and knowledge to others via the wiki!
+If you have played with Slimefun for a while and gotten yourself familiar with how things work, please consider contributing your experiences and knowledge to others via the wiki.
 It would help out a lot :heart:
 
 You can find a tutorial on how to contribute to our wiki right here:<br>
@@ -96,7 +96,7 @@ If you have any further questions, then please join our [Discord Support Server]
 **Note that we will not accept any bug reports from custom-compiled versions of Slimefun**.
 
 ## :black_nib: Code Style guidelines
-The general gist when it comes to code style: **Try to be consistent!**.<br>
+The general gist when it comes to code style: **Try to be consistent**.<br>
 Try to stay inline with the code that surrounds you, having an entire package or even a single file that's filled with plenty of different and inconsistent code styles is just hard to read or maintain. That's why we wanna make sure everyone follows these principles.
 
 *Note that these are just guidelines, we may request changes on your pull request if we think there are changes necessary. 
@@ -104,40 +104,39 @@ But we won't reject your Pull Request completely due to a few styling inconsiste
 But do try to follow our code style as best as you can.*
 
 #### 1. Imports
-* Don't use wildcard (`*`) imports!
-* Don't import unused classes!
-* Don't use static imports!
+* Don't use wildcard (`*`) imports.
+* Don't import unused classes.
+* Don't use static imports.
 * Always use imports, even in javadocs, don't write out the full location of a class.
 #### 2. Annotations
-* Methods and parameters should be annotated with `@Nullable` (`javax.annotation.Nullable`) or `@Nonnull`(`javax.annotation.Nonnull`)!
-* Methods that override a method must be annotated with `@Override`!
-* Interfaces with only one method should be annotated using `@FunctionalInterface`!
-* If you deprecate a method, add an `@deprecated` section to the javadocs explaining why you did it.
+* Methods and parameters should be annotated with `@Nullable` (`javax.annotation.Nullable`) or `@Nonnull`(`javax.annotation.Nonnull`).
+* Methods that override a method must be annotated with `@Override`.
+* Interfaces with only one method should be annotated using `@FunctionalInterface`.
+* If you deprecate a method, add an `@Deprecated` anotation.
 #### 3. Documentation
 * Every class and every public method should have a Javadocs section assigned to it.
 * New packages should have a `package-info.java` file with documentation about the package.
-* Classes should have an `@author` tag.
 * If there are any other relevant classes related to yours, add them using the `@see` tag.
+* If you deprecate a method, add an `@deprecated` section to the javadocs explaining why you did it.
 #### 4. Unit Tests
 * Try to write Unit Tests where possible.
 * Unit Test classes and methods should have no access modifier, not `public`, `protected` nor `private`.
-* Each Test should have a plain text `@DisplayName` annotation!
 #### 5. General best-practices
-* Do not use `Collection#forEach(x -> ...)`, use a proper `for (...)` loop!
-* Do not create new `Random` objects, use `ThreadLocalRandom.current()` instead!
-* Always declare Maps or Collections using their base type! (e.g. `List<String> list = new ArrayList<>();`)
-* When doing String operations like `String#toUppercase()`, always specify `Locale.ROOT` as an argument!
-* When reading or writing files, always specify the encoding using `StandardCharsets.UTF_8`!
-* Do not declare multiple fields/variables on the same line! (e.g. Don't do this: `int x, y, z;`)
-* Use a Logger, try to avoid `System.out.println(...)` and `Throwable#printStacktrace()`, use `Logger#log` instead!
+* Try to not use `Collection#forEach(x -> ...)`, use a proper `for (...)` loop.
+* Do not create new `Random` objects, use `ThreadLocalRandom.current()` instead.
+* Always declare Maps or Collections using their base type. (e.g. `List<String> list = new ArrayList<>();`)
+* When doing String operations like `String#toUppercase()`, always specify `Locale.ROOT` as an argument.
+* When reading or writing files, always specify the encoding using `StandardCharsets.UTF_8`.
+* Do not declare multiple fields/variables on the same line. (e.g. Don't do this: `int x, y, z;`)
+* Use a Logger, try to avoid `System.out.println(...)` and `Throwable#printStacktrace()`, use `Logger#log` instead.
 * Do not use Exceptions to validate data, empty catch blocks are a very bad practice, use other means like a regular expression to validate data.
 * If a parameter is annotated with `@Nonnull`, you should enforce this behaviour by doing `Validate.notNull(variable, "...");` and give a meaningful message about what went wrong
 * Any `switch/case` should always have a `default:` case at the end.
 * If you are working with a resource that must be closed, use a `try/with-resource`, this will automatically close the resource at the end. (e.g. `try (InputStream stream = ...) {`)
 * Array designators should be placed behind the type, not the variable name. (e.g. `int[] myArray`)
-* Enums must be compared using `==`, not with `.equals()`!
-* Avoid direct string concatenation, use a `StringBuilder` instead!
-* If you need both the key and the value from a Map, use `Map#entrySet()`!
+* Enums must be compared using `==`, not with `.equals()`.
+* Avoid direct string concatenation, use a `StringBuilder` instead.
+* If you need both the key and the value from a Map, use `Map#entrySet()`.
 #### 6. Naming conventions
 * Classes should be in *PascalCase* (e.g. `MyAwesomeClass`)
 * Enum constants should be in *SCREAMING_SNAKE_CASE* (e.g. `MY_ENUM_CONSTANT`)
@@ -146,9 +145,9 @@ But do try to follow our code style as best as you can.*
 * All methods should be in *camelCase* (e.g. `myMethod`)
 * Packages must be all lowercase, consecutive words should generally be avoided. (e.g. `io.github.thebusybiscuit.slimefun4.core.something`)
 #### 7. Style preferences
-* Use **Spaces**, not Tabs!
-* One class per file! Please don't put multiple classes into one file, this also applies to enums, make a seperate file for new classes or enums.
-* Try to keep ternary operators to a minimum, only in return statements. (e.g. avoid doing this: `int y = x == null ? 1: 2`)
+* Use **Tabs**, not Spaces.
+* One class per file. Please don't put multiple classes into one file, this also applies to enums, make a seperate file for new classes or enums.
+* Never use a ternary within another ternary. (e.g. avoid doing this: `true ? "abc" : true ? "def" : "123"`)
 * Try to keep so-called "guard blocks" to a minimum. One guard block is fine but having multiple guard blocks before getting to the actual code... Well, you might wanna refactor your code there. Example:
 ```java
 // guard block
@@ -158,26 +157,8 @@ if (something) {
 
 // Actual code...
 ```
-* if/else statements should always include a bracket, please avoid one-line statements. (e.g. Avoid doing: `if (x == 0) return;`)
-* We do not enforce any particular width or column limit, just try to prevent your lines from becoming too long. But please avoid line-wrapping.
-* Annotations that target the return type of the method should be inline. Annotations which target the method itself should be written in the line above:
-```java
-@Override // <- Describes the method itself. `@Nullable` describes only the return type.
-public @Nullable String getString() {
-  // [...]
-}
-```
-* Comments should never go on the same line as code! Always above or below.
-* When you deviate from this style, add formatter comments and explain why. Example:
-```java
-// @formatter:off - This array represents a 3x3 grid and should be shown as such.
-String[] arrays = {
-    "1", "2", "3",
-    "4", "5", "6",
-    "7", "8", "9"
-};
-// @formatter:on
-```
+* if/else statements should always include a bracket, please avoid one-line statements unless it's an empty return, break or continue. e.g. doing `if (x == 0) return;` is fine but don't do `if (x == 0) return newFunction(abc, def);`
+* Keep lines to 120 characters long.
 * Make sure that empty lines are truly empty, they should not contain any whitespace characters.
 * Empty blocks like constructors should not occupy more than one line. (e.g. `private MyClass() {}`)
 * Modifiers for classes and fields must follow this order:<br>
