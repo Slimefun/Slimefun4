@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
-import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
@@ -25,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  * 
  * @author SchnTgaiSpock
  */
+@FunctionalInterface
 public interface RecipeCrafter {
 
     /**
@@ -111,15 +111,27 @@ public interface RecipeCrafter {
     }
 
     /**
-     * Returns all recipes that only have 1 input item
-     * @return
+     * @return All recipes that only have 1 input item
      */
     public default Map<RecipeComponent, RecipeOutput> getSingleInputRecipes() {
         Map<RecipeComponent, RecipeOutput> singleInputRecipes = new HashMap<>();
-        for (Recipe recipe : getRecipes()) {
-            Stream<RecipeComponent> stream = recipe.getInputs().getComponents().stream().filter(comp -> !comp.isAir());
-            if (stream.count() == 1) {
-                singleInputRecipes.put(stream.findFirst().get(), recipe.getOutput());
+        
+        recipeLoop: for (Recipe recipe : getRecipes()) {
+            int nonEmptyComponents = 0;
+            RecipeComponent nonEmptyComponent = RecipeComponent.AIR;
+
+            for (RecipeComponent component : recipe.getInputs().getComponents()) {
+                if (!component.isAir()) {
+                    nonEmptyComponents++;
+                    if (nonEmptyComponents > 1) {
+                        continue recipeLoop;
+                    }
+                    nonEmptyComponent = component;
+                }
+            }
+
+            if (nonEmptyComponents > 0) {
+                singleInputRecipes.put(nonEmptyComponent, recipe.getOutput());
             }
         }
 
