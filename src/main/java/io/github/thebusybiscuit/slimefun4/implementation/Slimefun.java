@@ -52,6 +52,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
+import io.github.thebusybiscuit.slimefun4.core.services.SlimefunRecipeService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
@@ -180,6 +181,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final PermissionsService permissionsService = new PermissionsService(this);
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
+    private final SlimefunRecipeService slimefunRecipeService = new SlimefunRecipeService();
     private final HologramsService hologramsService = new HologramsService(this);
     private final SoundService soundService = new SoundService(this);
 
@@ -821,6 +823,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull BlockDataService getBlockDataService() {
         validateInstance();
         return instance.blockDataService;
+    }
+
+    public static @Nonnull SlimefunRecipeService getSlimefunRecipeService() {
+        validateInstance();
+        return instance.slimefunRecipeService;
     }
 
     /**
