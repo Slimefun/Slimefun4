@@ -42,7 +42,7 @@ To do this, you will need to build the plugin with `mvn clean package` and then 
   * Wind staff
   * One of the talismans
   * One of the backpacks
-* Blocks, verify you can place and break a few of these, and make sure those with energy work too
+* Blocks, verify you can place, break and ensure they all work
   * Ancient altar
   * Ore washer
   * Coal generator
