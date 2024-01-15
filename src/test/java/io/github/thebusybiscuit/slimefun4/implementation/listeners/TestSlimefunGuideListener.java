@@ -45,7 +45,7 @@ class TestSlimefunGuideListener {
         PlayerMock player = new PlayerMock(server, "CanIHazGuide");
 
         if (hasPlayedBefore) {
-            player.setLastPlayed(System.currentTimeMillis());
+            server.getPlayerList().setLastSeen(player.getUniqueId(), System.currentTimeMillis());
         }
 
         PlayerJoinEvent event = new PlayerJoinEvent(player, "CanIHazGuide has joined and wants sum guide");
