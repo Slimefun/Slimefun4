@@ -7,12 +7,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.storage.Storage;
 import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
@@ -24,7 +27,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,6 +42,10 @@ import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeMatchResult;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeSearchResult;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
@@ -53,6 +60,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.SlimefunRecipeService;
+import io.github.thebusybiscuit.slimefun4.core.services.SlimefunRecipeService.CachingStrategy;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
@@ -795,7 +803,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     /**
      * This method returns out {@link MinecraftRecipeService} for Slimefun.
-     * This service is responsible for finding/identifying {@link Recipe Recipes}
+     * This service is responsible for finding/identifying {@link org.bukkit.inventory.Recipe Recipes}
      * from vanilla Minecraft.
      * 
      * @return Slimefun's {@link MinecraftRecipeService} instance
@@ -828,6 +836,69 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull SlimefunRecipeService getSlimefunRecipeService() {
         validateInstance();
         return instance.slimefunRecipeService;
+    }
+
+    /**
+     * Searches all recipes in a category for a recipe using the given items.
+     * 
+     * Shorthand for {@code Slimefun.getSlimefunRecipeService.searchRecipes()}
+     * 
+     * @param category The category of the recipe to search in
+     * @param givenItems Items from the crafting grid
+     * @param cachingStrategy When to save the result to the LRU cache
+     * @param onRecipeFound   To be called when a matching recipe is found
+     * @return
+     */
+    @ParametersAreNonnullByDefault
+    public static RecipeSearchResult searchRecipes(
+        RecipeCategory category,
+        ItemStack[] givenItems,
+        CachingStrategy cachingStrategy,
+        BiConsumer<Recipe, RecipeMatchResult> onRecipeFound
+    ) {
+        return getSlimefunRecipeService().searchRecipes(category, givenItems, cachingStrategy, onRecipeFound);
+    }
+
+    /**
+     * Searches all recipes in a category for a recipe using the given items.
+     * 
+     * Shorthand for {@code Slimefun.getSlimefunRecipeService.searchRecipes()}
+     * 
+     * @param category The category of the recipe to search in
+     * @param givenItems Items from the crafting grid
+     * @param cachingStrategy When to save the result to the LRU cache
+     * @param onRecipeFound   To be called when a matching recipe is found. If it
+     *                        returns true, consumes the input items according to
+     *                        the recipe
+     * @return
+     */
+    @ParametersAreNonnullByDefault
+    public static RecipeSearchResult searchRecipes(
+        RecipeCategory category,
+        ItemStack[] givenItems,
+        CachingStrategy cachingStrategy,
+        BiPredicate<Recipe, RecipeMatchResult> onRecipeFound
+    ) {
+        return getSlimefunRecipeService().searchRecipes(category, givenItems, cachingStrategy, onRecipeFound);
+    }
+
+    /**
+     * Searches all recipes in a category for a recipe using the given items.
+     * 
+     * Shorthand for {@code Slimefun.getSlimefunRecipeService.searchRecipes()}
+     * 
+     * @param category The category of the recipe to search in
+     * @param givenItems Items from the crafting grid
+     * @param cachingStrategy When to save the result to the LRU cache
+     * @return
+     */
+    @ParametersAreNonnullByDefault
+    public static RecipeSearchResult searchRecipes(
+        RecipeCategory category,
+        ItemStack[] givenItems,
+        CachingStrategy cachingStrategy
+    ) {
+        return getSlimefunRecipeService().searchRecipes(category, givenItems, cachingStrategy);
     }
 
     /**
