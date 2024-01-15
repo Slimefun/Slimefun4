@@ -23,7 +23,7 @@ Once updated, **make sure to run a build** to check for compilation failures wit
 
 The next step is making sure our tests are still working correctly as is. This can be done by running `mvn test` and verifying that all tests pass correctly without any failures or errors.
 
-If there are any failures you will need to investigate these, it's best to run them one at a time so you don't have the potential for cross-test comtamination. If you find any issues with the tests, please fix them and make sure to add a comment to the PR explaining why the test was changed.
+If there are any failures you will need to investigate these, it's best to run them one at a time so you don't have the potential for cross-test contamination. If you find any issues with the tests, please fix them and make sure to add a comment to the PR explaining why the test was changed.
 
 If you need any help fixing tests feel free to join the [Discord](https://discord.gg/slimefun).
 
@@ -42,12 +42,12 @@ To do this, you will need to build the plugin with `mvn clean package` and then 
   * Wind staff
   * One of the talismans
   * One of the backpacks
-* Blocks, verify you can place and break a few of these, those with energy make sure that works too
-  * Ancient alter
+* Blocks, verify you can place and break a few of these, make sure those with energy work too
+  * Ancient altar
   * Ore washer
   * Coal generator
 
-Important to verify heads are still working (part of energy network and the coal generator). If head skins are not loading, consider this a bit not a potentional glitch.
+It is important to verify heads are still working (part of energy network and the coal generator). If head skins are not loading it may not be due to a glitch: rate-limiting is also a thing. Consider asking in the [Discord](https://discord.gg/slimefun) if you are not sure what the cause may be.
 
 Also make sure to verify that there's no errors in console, any errors here should be investigated and fixed.
 
@@ -66,6 +66,6 @@ While the PR is open, make sure to verify the E2E tests are passing and you shou
 
 **This is only needed in a major version**
 
-In the `e2e-testing.yml` file you will need to update the matrix stratergy, please add the latest version of the old major (e.g. if 1.21 came out, add 1.20.x where x is the latest released version). If MC is requiring a new Java version make sure that is updated too in the `latest` version.
+In the `e2e-testing.yml` file you will need to update the matrix strategy, please add the latest version of the old major (e.g. if 1.21 came out, add 1.20.x where x is the latest released version). If MC is requiring a new Java version make sure that is updated too in the `latest` version.
 
 Once updated, push and re-verify that the E2E tests are still passing.
