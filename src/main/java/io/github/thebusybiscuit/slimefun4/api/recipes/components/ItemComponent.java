@@ -19,13 +19,12 @@ public class ItemComponent implements RecipeComponent {
     private final @Nullable String slimefunID;
 
     public ItemComponent(@Nullable ItemStack component) {
-        if (component == null) {
-            this.component = new ItemStack(Material.AIR);
-            disabled = false;
+        this.component = component == null ? new ItemStack(Material.AIR) : component;
+        if (this.component.getType().isAir()) {
             slimefunID = null;
+            disabled = false;
         } else {
             SlimefunItem sfItem = SlimefunItem.getByItem(component);
-            this.component = component;
             slimefunID = sfItem != null ? sfItem.getId() : null;
             disabled = sfItem != null ? sfItem.isDisabled() : false;
         }

@@ -19,13 +19,13 @@ public class ItemOutput implements RecipeOutput {
 
     public ItemOutput(ItemStack output) {
         this.output = output == null ? new ItemStack(Material.AIR) : output;
-        if (output == null || output.getType().isAir()) {
+        if (this.output.getType().isAir()) {
             slimefunID = null;
-            disabled = true;
+            disabled = false;
         } else {
             SlimefunItem sfItem = SlimefunItem.getByItem(output);
-            disabled = sfItem != null ? sfItem.isDisabled() : false;
             slimefunID = sfItem != null ? sfItem.getId() : null;
+            disabled = sfItem != null ? sfItem.isDisabled() : false;
         }
     }
 
