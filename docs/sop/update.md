@@ -47,7 +47,7 @@ To do this, you will need to build the plugin with `mvn clean package` and then 
   * Ore washer
   * Coal generator
 
-It is important to verify heads are still working (part of energy network and the coal generator). If head skins are not loading it may not be due to a glitch: rate-limiting is also a thing. Consider asking in the [Discord](https://discord.gg/slimefun) if you are not sure what the cause may be.
+It is important to verify heads are still working (part of energy network and the coal generator). If head skins are not loading, consider it as a bug: try figuring out what the issue is, and ask in the [Discord](https://discord.gg/slimefun) if you are not sure what the cause may be.
 
 Also make sure to verify that there's no errors in console, any errors here should be investigated and fixed.
 
