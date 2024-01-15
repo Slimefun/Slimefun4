@@ -3,14 +3,15 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,6 +19,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.collections.Pair;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.Recipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
@@ -231,7 +233,7 @@ public final class SlimefunRecipeService {
     }
 
     private static void addToRecipeSet(RecipeCategory category, Recipe recipe, Map<RecipeCategory, Set<Recipe>> map) {
-        Set<Recipe> categoryRecipes = map.getOrDefault(category, new HashSet<>());
+        Set<Recipe> categoryRecipes = map.getOrDefault(category, new LinkedHashSet<>());
         categoryRecipes.add(recipe);
         map.put(category, categoryRecipes);
     }
@@ -258,8 +260,24 @@ public final class SlimefunRecipeService {
      * @param slimefunID The id of the item
      */
     @Nonnull
-    public Map<RecipeCategory, Set<Recipe>> getRecipesByOutput(String slimefunID) {
+    public Map<RecipeCategory, Set<Recipe>> getRecipesByOutput(@Nonnull String slimefunID) {
         return recipesByOutput.getOrDefault(slimefunID, Collections.emptyMap());
+    }
+
+    /**
+     * Gets a stream of all recipes that craft the specified Slimefun item
+     * @param slimefunID The id of the item
+     */
+    @Nonnull
+    public Stream<Pair<RecipeCategory, Recipe>> getRecipeStreamByOutput(@Nonnull String slimefunID) {
+        return recipesByOutput
+            .get(slimefunID)
+            .entrySet()
+            .stream()
+            .flatMap(entry -> entry
+                .getValue()
+                .stream()
+                .map(elem -> new Pair<>(entry.getKey(), elem)));
     }
 
     /**
@@ -268,8 +286,17 @@ public final class SlimefunRecipeService {
      * @param category The category
      */
     @Nonnull
+    @ParametersAreNonnullByDefault
     public Set<Recipe> getRecipesByOutput(String slimefunID, RecipeCategory category) {
         return getRecipesByOutput(slimefunID).getOrDefault(category, Collections.emptySet());
+    }
+
+    public int getNumberOfRecipes(@Nonnull String slimefunID) {
+        return getRecipesByOutput(slimefunID).entrySet().stream().map(entry -> entry.getValue().size()).reduce(0, (a, b) -> a+b);
+    }
+
+    public int getNumberOfRecipesUsedIn(@Nonnull String slimefunID) {
+        return getRecipesByInput(slimefunID).entrySet().stream().map(entry -> entry.getValue().size()).reduce(0, (a, b) -> a+b);
     }
 
     /**
@@ -277,8 +304,24 @@ public final class SlimefunRecipeService {
      * @param slimefunID The id of the Slimefun item
      */
     @Nonnull
-    public Map<RecipeCategory, Set<Recipe>> getRecipesByInput(String slimefunID) {
+    public Map<RecipeCategory, Set<Recipe>> getRecipesByInput(@Nonnull String slimefunID) {
         return recipesByInput.getOrDefault(slimefunID, Collections.emptyMap());
+    }
+
+    /**
+     * Gets a stream of the recipes that the item is used in
+     * @param slimefunID The id of the Slimefun item
+     */
+    @Nonnull
+    public Stream<Pair<RecipeCategory, Recipe>> getRecipeStreamByInput(@Nonnull String slimefunID) {
+        return recipesByInput
+            .get(slimefunID)
+            .entrySet()
+            .stream()
+            .flatMap(entry -> entry
+                .getValue()
+                .stream()
+                .map(elem -> new Pair<>(entry.getKey(), elem)));
     }
 
     /**
@@ -287,6 +330,7 @@ public final class SlimefunRecipeService {
      * @param category The category
      */
     @Nonnull
+    @ParametersAreNonnullByDefault
     public Set<Recipe> getRecipesByInput(String slimefunID, RecipeCategory category) {
         return getRecipesByInput(slimefunID).getOrDefault(category, Collections.emptySet());
     }

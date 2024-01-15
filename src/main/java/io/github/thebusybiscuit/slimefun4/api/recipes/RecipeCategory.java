@@ -14,9 +14,11 @@ import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.api.recipes.components.ItemComponent;
 import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
 import io.github.thebusybiscuit.slimefun4.api.recipes.output.ItemOutput;
@@ -154,6 +156,13 @@ public class RecipeCategory implements Keyed {
     public RecipeCategory(NamespacedKey key, ItemStack displayItem) {
         this(key, displayItem, RecipeStructure.SHAPED);
     }
+    
+    public RecipeCategory(MinecraftRecipe<?> recipe) {
+        this.displayItem = new ItemStack(recipe.getMachine());
+        this.defaultStructure = RecipeStructure.NULL; // This is for the guide display only, nothing is crafted with this
+        this.key = NamespacedKey.minecraft(recipe.getRecipeClass().getSimpleName().toLowerCase(Locale.ROOT).replace("recipe", ""));
+    }
+
     public void registerRecipes(@Nonnull List<Recipe> recipes) {
         Slimefun.getSlimefunRecipeService().registerRecipes(this, recipes);
     }
@@ -182,6 +191,10 @@ public class RecipeCategory implements Keyed {
 
     public ItemStack getDisplayItem() {
         return displayItem;
+    }
+
+    public ItemStack getLocalizedItem(Player p) {
+        return Slimefun.getLocalization().getRecipeCategoryItem(p, this);
     }
 
     @Override

@@ -70,7 +70,8 @@ public class ItemInputs implements RecipeInputs {
     @Override
     public ItemStack[] asDisplayGrid() {
         ItemStack[] displayGrid = new ItemStack[9];
-        for (int i = 0; i < 9; i++) {
+        int numItems = Math.min(9, components.size());
+        for (int i = 0; i < numItems; i++) {
             displayGrid[i] = components.get(i).getDisplayItem();
         }
         return displayGrid;
@@ -78,7 +79,7 @@ public class ItemInputs implements RecipeInputs {
 
     @Override
     public String toString() {
-        return "(" + structure + ", " + components.toString() + ")";
+        return getClass().getSimpleName() + "(" + structure + ", " + components.toString() + ")";
     }
 
     @Override

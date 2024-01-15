@@ -30,6 +30,11 @@ public interface RecipeOutput {
         public List<String> getSlimefunItemIDs() {
             return Collections.emptyList();
         }
+
+        @Override
+        public ItemStack asDisplayItem() {
+            return new ItemStack(Material.AIR);
+        }
         
     };
 
@@ -84,6 +89,19 @@ public interface RecipeOutput {
      */
     public default @Nonnull List<ItemStack> generateOutputs(ItemStack[] givenItems, Recipe recipe) {
         return generateOutputs();
+    }
+
+    /**
+     * @return The item to be displayed in the guide
+     */
+    public @Nonnull ItemStack asDisplayItem();
+
+    /**
+     * @return The item to be displayed in the guide.
+     * @param slimefunID The ID of the slimefun item currently being viewed in the guide.
+     */
+    public default @Nonnull ItemStack asDisplayItem(String slimefunID) {
+        return asDisplayItem();
     }
 
     /**

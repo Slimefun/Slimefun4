@@ -45,7 +45,7 @@ public class ItemOutput implements RecipeOutput {
 
     @Override
     public String toString() {
-        return output.toString();
+        return getClass().getSimpleName() + "(" + output.toString() + ")";
     }
 
     @Override
@@ -69,6 +69,16 @@ public class ItemOutput implements RecipeOutput {
     @Override
     public List<String> getSlimefunItemIDs() {
         return slimefunID == null ? Collections.emptyList() : List.of(slimefunID);
+    }
+
+    @Override
+    public ItemStack asDisplayItem() {
+        return output.clone();
+    }
+
+    @Override
+    public ItemStack asDisplayItem(String slimefunID) {
+        return slimefunID.equals(this.slimefunID) ? asDisplayItem() : new ItemStack(Material.AIR);
     }
 
 }

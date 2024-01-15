@@ -41,7 +41,7 @@ public class SlimefunRecipe implements Recipe {
 
     @Override
     public String toString() {
-        return "{Input=" + inputs + ", Output=" + outputs + "}";
+        return getClass().getSimpleName() + "(input(s) = " + inputs + ", output(s) = " + outputs + ")";
     }
 
     @Override

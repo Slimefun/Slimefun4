@@ -13,6 +13,11 @@ public class TimedRecipe extends SlimefunRecipe {
         this.ticks = ticks;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(input(s) = " + getInputs() + ", output(s) = " + getOutput() + ", ticks = " + ticks + ")";
+    }
+
     public int getTicks() {
         return ticks;
     }

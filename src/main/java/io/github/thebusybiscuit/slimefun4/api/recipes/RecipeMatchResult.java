@@ -61,7 +61,7 @@ public class RecipeMatchResult {
 
     @Override
     public String toString() {
-        return "Match: " + isMatch + " | Message: " + message + " | Consumption Map: " + consumption;
+        return "RecipeMatchResult(match = " + isMatch + ", consumption map = " + consumption + ", message = " + message + ")";
     }
 
 }

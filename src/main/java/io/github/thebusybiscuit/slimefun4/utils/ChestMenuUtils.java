@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -92,28 +93,38 @@ public final class ChestMenuUtils {
     }
 
     public static @Nonnull ItemStack getPreviousButton(@Nonnull Player p, int page, int pages) {
+        return getPreviousButton("guide.pages.previous", p, page, pages);
+    } 
+
+    @ParametersAreNonnullByDefault
+    public static @Nonnull ItemStack getPreviousButton(String translationKey, Player p, int page, int pages) {
         if (pages == 1 || page == 1) {
             return new CustomItemStack(PREV_BUTTON_INACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + Slimefun.getLocalization().getMessage(p, "guide.pages.previous"));
+                meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + Slimefun.getLocalization().getMessage(p, translationKey));
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         } else {
             return new CustomItemStack(PREV_BUTTON_ACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + Slimefun.getLocalization().getMessage(p, "guide.pages.previous"));
+                meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + Slimefun.getLocalization().getMessage(p, translationKey));
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         }
     }
 
     public static @Nonnull ItemStack getNextButton(@Nonnull Player p, int page, int pages) {
+        return getNextButton("guide.pages.next", p, page, pages);
+    }
+
+    @ParametersAreNonnullByDefault
+    public static @Nonnull ItemStack getNextButton(String translationKey, Player p, int page, int pages) {
         if (pages == 1 || page == pages) {
             return new CustomItemStack(NEXT_BUTTON_INACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.DARK_GRAY + Slimefun.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
+                meta.setDisplayName(ChatColor.DARK_GRAY + Slimefun.getLocalization().getMessage(p, translationKey) + " \u21E8");
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         } else {
             return new CustomItemStack(NEXT_BUTTON_ACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
+                meta.setDisplayName(ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, translationKey) + " \u21E8");
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         }

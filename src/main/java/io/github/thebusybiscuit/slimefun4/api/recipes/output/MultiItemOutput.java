@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.recipes.output;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.google.common.base.Preconditions;
@@ -96,6 +97,24 @@ public class MultiItemOutput implements RecipeOutput {
     @Override
     public List<String> getSlimefunItemIDs() {
         return slimefunIDs;
+    }
+
+    @Override
+    public ItemStack asDisplayItem() {
+        // TODO make custom display item
+        return new ItemStack(Material.AIR);
+    }
+
+    @Override
+    public ItemStack asDisplayItem(String slimefunID) {
+        for (RecipeOutput item : outputs) {
+            ItemStack displayItem = item.asDisplayItem(slimefunID);
+            if (!displayItem.getType().isAir()) {
+                return displayItem;
+            }
+        }
+
+        return asDisplayItem();
     }
 
 }

@@ -57,7 +57,7 @@ public class TagComponent implements RecipeComponent {
 
     @Override
     public String toString() {
-        return tag.toString();
+        return getClass().getSimpleName() + "(" + tag.toString() + ")";
     }
 
     @Override

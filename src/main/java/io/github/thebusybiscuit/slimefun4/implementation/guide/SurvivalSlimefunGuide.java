@@ -24,6 +24,7 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
 import io.github.bakedlibs.dough.chat.ChatInput;
+import io.github.bakedlibs.dough.collections.Pair;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
@@ -33,7 +34,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
@@ -429,7 +430,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         Recipe recipe = recipes[index];
 
         ItemStack[] recipeItems = new ItemStack[9];
-        RecipeType recipeType = RecipeType.NULL;
+        RecipeCategory recipeCategory = RecipeCategory.NULL;
         ItemStack result = null;
 
         Optional<MinecraftRecipe<? super Recipe>> optional = MinecraftRecipe.of(recipe);
@@ -438,7 +439,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         if (optional.isPresent()) {
             showRecipeChoices(recipe, recipeItems, task);
 
-            recipeType = new RecipeType(optional.get());
+            recipeCategory = new RecipeCategory(optional.get());
             result = recipe.getResult();
         } else {
             recipeItems = new ItemStack[] { null, null, null, null, new CustomItemStack(Material.BARRIER, "&4We are somehow unable to show you this Recipe :/"), null, null, null, null };
@@ -450,7 +451,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             profile.getGuideHistory().add(item, index);
         }
 
-        displayItem(menu, profile, p, item, result, recipeType, recipeItems, task);
+        displayItem(menu, profile, p, item, result, recipeCategory, recipeItems, task);
 
         if (recipes.length > 1) {
             for (int i = 27; i < 36; i++) {
@@ -504,6 +505,19 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     @Override
     @ParametersAreNonnullByDefault
     public void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
+        displayItem(profile, item, addToHistory, 0);
+    }
+    
+    /**
+     * Displays a slimefun item with its {@code page}th recipe (1-indexed)
+     * 
+     * @param profile The player's profile
+     * @param item The item to display
+     * @param addToHistory Whether or not to add to guide history
+     * @param page The page to display (1-indexed)
+     */
+    @ParametersAreNonnullByDefault
+    public void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory, int page) {
         Player p = profile.getPlayer();
 
         if (p == null) {
@@ -521,6 +535,29 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 return false;
             });
         }
+        
+        int numRecipes = Math.max(1, Slimefun.getSlimefunRecipeService().getNumberOfRecipes(item.getId()));
+        int currentRecipeNumber = Math.max(Math.min(numRecipes, page), 1);
+        
+        menu.addItem(30, ChestMenuUtils.getPreviousButton("guide.pages.previous-recipe", p, currentRecipeNumber, numRecipes), (player, slot, clickedItem, action) -> {
+            int prev = currentRecipeNumber - 1;
+
+            if (prev != currentRecipeNumber && prev > 0) {
+                openMainMenu(profile, prev);
+            }
+
+            return false;
+        });
+
+        menu.addItem(32, ChestMenuUtils.getNextButton("guide.pages.next-recipe", p, currentRecipeNumber, numRecipes), (player, slot, clickedItem, action) -> {
+            int next = currentRecipeNumber + 1;
+
+            if (next != currentRecipeNumber && next <= numRecipes) {
+                displayItem(profile, item, addToHistory, next);
+            }
+
+            return false;
+        });
 
         AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
 
@@ -528,11 +565,18 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             profile.getGuideHistory().add(item);
         }
 
-        ItemStack result = item.getRecipeOutput();
-        RecipeType recipeType = item.getRecipeType();
-        ItemStack[] recipe = item.getRecipe();
+        Pair<RecipeCategory, io.github.thebusybiscuit.slimefun4.api.recipes.Recipe> recipePair = Slimefun
+            .getSlimefunRecipeService()
+            .getRecipeStreamByOutput(item.getId())
+            .skip(currentRecipeNumber)
+            .findFirst()
+            .orElse(new Pair<>(RecipeCategory.NULL, io.github.thebusybiscuit.slimefun4.api.recipes.Recipe.EMPTY));
 
-        displayItem(menu, profile, p, item, result, recipeType, recipe, task);
+        ItemStack recipeOutput = recipePair.getSecondValue().getOutput().asDisplayItem(item.getId());
+        RecipeCategory recipeCategory = recipePair.getFirstValue();
+        ItemStack[] displayRecipe = recipePair.getSecondValue().getInputs().asDisplayGrid();
+
+        displayItem(menu, profile, p, item, recipeOutput, recipeCategory, displayRecipe, task);
 
         if (item instanceof RecipeDisplayItem recipeDisplayItem) {
             displayRecipes(p, profile, menu, recipeDisplayItem, 0);
@@ -545,7 +589,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
     }
 
-    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeType recipeType, ItemStack[] recipe, AsyncRecipeChoiceTask task) {
+    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeCategory recipeCategory, ItemStack[] recipe, AsyncRecipeChoiceTask task) {
         addBackButton(menu, 0, p, profile);
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
@@ -575,7 +619,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             }
         }
 
-        menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(10, recipeCategory.getLocalizedItem(p), ChestMenuUtils.getEmptyClickHandler());
         menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
     }
 

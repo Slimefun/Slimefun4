@@ -51,7 +51,7 @@ public class RecipeSearchResult {
 
     @Override
     public String toString() {
-        return "{Match Result: " + matchResult + ", Category: " + searchCategory + ", Recipe: " + recipe;
+        return "RecipeSearchResult{match = " + matchResult + ", category = " + searchCategory + ", recipe = " + recipe + ")";
     }
     
 }

@@ -3,10 +3,12 @@ package io.github.thebusybiscuit.slimefun4.api.recipes.output;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.collections.RandomizedSet;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 public class RandomItemOutput implements RecipeOutput {
 
@@ -39,7 +41,7 @@ public class RandomItemOutput implements RecipeOutput {
 
     @Override
     public String toString() {
-        return outputSet.toString();
+        return getClass().getSimpleName() + "(" + outputSet.toString() + ")";
     }
 
     @Override
@@ -63,6 +65,23 @@ public class RandomItemOutput implements RecipeOutput {
     @Override
     public List<String> getSlimefunItemIDs() {
         return slimefunIDs;
+    }
+
+    @Override
+    public ItemStack asDisplayItem() {
+        // TODO make custom display item
+        return new ItemStack(Material.AIR);
+    }
+
+    @Override
+    public ItemStack asDisplayItem(String slimefunID) {
+        for (ItemStack item : outputSet) {
+            if (Slimefun.getItemDataService().getItemData(item).map(id -> id.equals(slimefunID)).orElse(false)) {
+                return item.clone();
+            }
+        }
+
+        return asDisplayItem();
     }
     
 }

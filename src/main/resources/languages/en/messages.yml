@@ -75,6 +75,8 @@ guide:
   pages:
     previous: 'Previous page'
     next: 'Next page'
+    previous-recipe: 'Previous recipe'
+    next-recipe: 'Next recipe'
 
   back:
     title: 'Back'

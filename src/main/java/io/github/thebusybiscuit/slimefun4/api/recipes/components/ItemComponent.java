@@ -68,7 +68,7 @@ public class ItemComponent implements RecipeComponent {
 
     @Override
     public String toString() {
-        return component.toString();
+        return getClass().getSimpleName() + "(" + component.toString() + ")";
     }
 
     @Override

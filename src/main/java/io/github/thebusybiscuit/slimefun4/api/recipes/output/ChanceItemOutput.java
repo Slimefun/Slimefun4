@@ -30,6 +30,11 @@ public class ChanceItemOutput extends ItemOutput {
     }
 
     @Override
+    public String toString() {
+        return (chance * 100) + "% " + super.toString();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
