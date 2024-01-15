@@ -243,8 +243,8 @@ class TestSlimefunRecipeService {
     }
 
     @Test
-    @DisplayName("Test the different CacheStrategy enums")
-    void testCacheStrategies() {
+    @DisplayName("Test the different CachingStrategy enums")
+    void testCachingStrategies() {
         SlimefunRecipeService service = new SlimefunRecipeService();
         
         ItemStack[] input = new ItemStack[] {
@@ -318,7 +318,6 @@ class TestSlimefunRecipeService {
         service.searchRecipes(testCategory1, noCraft, CachingStrategy.ALWAYS);
         Assertions.assertFalse(service.getFromCache(noHash).map(result -> result.isMatch()).orElse(true));
         service.clearCache();
-
 
     }
 }
