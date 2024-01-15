@@ -177,8 +177,7 @@ public class RecipeCategory implements Keyed {
      * @param recipe The recipe being registered using
      *               {@code Slimefun.registerRecipes()}
      */
-    public void onRegisterRecipe(Recipe recipe) {
-    }
+    public void onRegisterRecipe(Recipe recipe) {}
 
     /**
      * For backwards compat (namely SlimefunItem.getRecipeType()).
