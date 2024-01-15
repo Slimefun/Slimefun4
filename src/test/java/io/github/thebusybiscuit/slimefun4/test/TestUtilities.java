@@ -110,7 +110,7 @@ public final class TestUtilities {
         int x = TestUtilities.randomInt();
         int z = TestUtilities.randomInt();
         Block block = new BlockMock(item.getType(), new Location(world, x, 0, z));
-        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
+        Block blockAgainst = new BlockMock(Material.GRASS_BLOCK, new Location(world, x, 1, z));
 
          BlockPlaceEvent blockPlaceEvent  = new BlockPlaceEvent(
             block, block.getState(), blockAgainst, item, player, true, EquipmentSlot.HAND

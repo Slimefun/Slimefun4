@@ -26,7 +26,7 @@
         <maven.compiler.target>16</maven.compiler.target>
 
         <!-- Spigot properties -->
-        <spigot.version>1.20</spigot.version>
+        <spigot.version>1.20.4</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -334,13 +334,7 @@
     </build>
 
     <dependencies>
-        <!-- Hard dependencies -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>${spigot.version}-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
+
 
         <!-- Development dependencies -->
         <dependency>
@@ -355,7 +349,7 @@
         <dependency>
             <groupId>com.github.baked-libs.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>c4231a4d1a</version>
+            <version>a2364de77c</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -398,10 +392,11 @@
             <version>2.0.9</version>
             <scope>test</scope>
         </dependency>
+        <!-- This needs to be before Spigot because MockBukkit will fail otherwise. -->
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.18</artifactId>
-            <version>2.0.0</version>
+            <artifactId>MockBukkit-v1.20</artifactId>
+            <version>3.65.0</version>
             <scope>test</scope>
 
             <exclusions>
@@ -513,18 +508,31 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>1.5.25</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- TODO: Remove this dependency -->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>6.0.52</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

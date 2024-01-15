@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.UUID;
 
-import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
@@ -30,7 +30,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
 import io.github.thebusybiscuit.slimefun4.storage.data.PlayerData;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import net.md_5.bungee.api.ChatColor;
+import io.github.thebusybiscuit.slimefun4.utils.FileUtils;
 
 class TestLegacyBackend {
 
