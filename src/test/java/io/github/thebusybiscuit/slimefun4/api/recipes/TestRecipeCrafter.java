@@ -61,7 +61,7 @@ class TestRecipeCrafter {
         testCategory2.registerRecipe(testRecipe4);
 
         RecipeCrafter crafter = () -> List.of(testCategory1, testCategory2);
-        
+
         Collection<Recipe> craftableRecipes = crafter.getRecipes();
 
         Assertions.assertTrue(craftableRecipes.contains(testRecipe1));
