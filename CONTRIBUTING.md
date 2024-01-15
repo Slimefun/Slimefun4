@@ -107,7 +107,7 @@ But do try to follow our code style as best as you can.*
 * Don't use wildcard (`*`) imports.
 * Don't import unused classes.
 * Don't use static imports.
-* Always use imports, even in javadocs, don't write out the full location of a class.
+* Always use imports, even in javadocs, don't use fully qualified names unless absolutely necessary. (e.g. `java.Vector`)
 #### 2. Annotations
 * Methods and parameters should be annotated with `@Nullable` (`javax.annotation.Nullable`) or `@Nonnull`(`javax.annotation.Nonnull`).
 * Methods that override a method must be annotated with `@Override`.
@@ -127,15 +127,15 @@ But do try to follow our code style as best as you can.*
 * Always declare Maps or Collections using their base type. (e.g. `List<String> list = new ArrayList<>();`)
 * When doing String operations like `String#toUppercase()`, always specify `Locale.ROOT` as an argument.
 * When reading or writing files, always specify the encoding using `StandardCharsets.UTF_8`.
-* Do not declare multiple fields/variables on the same line. (e.g. Don't do this: `int x, y, z;`)
-* Use a Logger, try to avoid `System.out.println(...)` and `Throwable#printStacktrace()`, use `Logger#log` instead.
+* Do not declare multiple fields/variables on the same line (e.g. Don't do this: `int x, y, z;`).
+* Use a `Logger`, try to avoid `System.out.println(...)` and `Throwable#printStacktrace()`, use `Logger#log` instead.
 * Do not use Exceptions to validate data, empty catch blocks are a very bad practice, use other means like a regular expression to validate data.
 * If a parameter is annotated with `@Nonnull`, you should enforce this behaviour by doing `Validate.notNull(variable, "...");` and give a meaningful message about what went wrong
 * Any `switch/case` should always have a `default:` case at the end.
-* If you are working with a resource that must be closed, use a `try/with-resource`, this will automatically close the resource at the end. (e.g. `try (InputStream stream = ...) {`)
+* If you are working with a resource that must be closed, use a try-with-resources, this will automatically close the resource at the end (e.g. `try (InputStream stream = ...) {`). 
 * Array designators should be placed behind the type, not the variable name. (e.g. `int[] myArray`)
 * Enums must be compared using `==`, not with `.equals()`.
-* Avoid direct string concatenation, use a `StringBuilder` instead.
+* Avoid direct string concatenation for more than 3 strings, use a `StringBuilder` instead.
 * If you need both the key and the value from a Map, use `Map#entrySet()`.
 #### 6. Naming conventions
 * Classes should be in *PascalCase* (e.g. `MyAwesomeClass`)
@@ -145,8 +145,8 @@ But do try to follow our code style as best as you can.*
 * All methods should be in *camelCase* (e.g. `myMethod`)
 * Packages must be all lowercase, consecutive words should generally be avoided. (e.g. `io.github.thebusybiscuit.slimefun4.core.something`)
 #### 7. Style preferences
-* Use **Tabs**, not Spaces.
-* One class per file. Please don't put multiple classes into one file, this also applies to enums, make a seperate file for new classes or enums.
+* Use **tabs**, not spaces.
+* One class per file. Please don't put multiple classes into one file. This also applies to enums: make a separate file for new classes or enums.
 * Never use a ternary within another ternary. (e.g. avoid doing this: `true ? "abc" : true ? "def" : "123"`)
 * Try to keep so-called "guard blocks" to a minimum. One guard block is fine but having multiple guard blocks before getting to the actual code... Well, you might wanna refactor your code there. Example:
 ```java
@@ -160,7 +160,7 @@ if (something) {
 * if/else statements should always include a bracket, please avoid one-line statements unless it's an empty return, break or continue. e.g. doing `if (x == 0) return;` is fine but don't do `if (x == 0) return newFunction(abc, def);`
 * Keep lines to 120 characters long.
 * Make sure that empty lines are truly empty, they should not contain any whitespace characters.
-* Empty blocks like constructors should not occupy more than one line. (e.g. `private MyClass() {}`)
+* Empty blocks like constructors should not occupy more than one line (e.g. `private MyClass() {}`).
 * Modifiers for classes and fields must follow this order:<br>
 `[public/protected/private] [abstract] [static] [final]`
 * We recommend using horizontal whitespaces like this:
