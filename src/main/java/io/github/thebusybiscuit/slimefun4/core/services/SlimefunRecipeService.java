@@ -66,8 +66,7 @@ public final class SlimefunRecipeService {
         };
     };
 
-    public SlimefunRecipeService() {
-    }
+    public SlimefunRecipeService() {}
 
     /**
      * Linearly searches all recipes in a category for a recipe using the given
@@ -117,11 +116,19 @@ public final class SlimefunRecipeService {
 
                 switch (cachingStrategy) {
                     case IF_MULTIPLE_CRAFTABLE:
-                        for (final Map.Entry<Integer, Integer> entry : match.getConsumption().entrySet()) {
-                            ItemStack item = givenItems[entry.getKey()];
-                            if (item.getAmount() < entry.getValue() * 2) {
+                        boolean isMultipleCraftable = true;
+                        for (final Map.Entry<Integer, Integer> consumptionEntry : match.getConsumption().entrySet()) {
+                            ItemStack item = givenItems[consumptionEntry.getKey()];
+                            if (item.getAmount() < consumptionEntry.getValue() * 2) {
+                                isMultipleCraftable = false;
                                 break;
                             }
+                        }
+
+                        if (!isMultipleCraftable) {
+                            break;
+                        } else {
+                            cache(givenItems, category, result);
                         }
 
                     case ALWAYS:
@@ -292,11 +299,21 @@ public final class SlimefunRecipeService {
     }
 
     public int getNumberOfRecipes(@Nonnull String slimefunID) {
-        return getRecipesByOutput(slimefunID).entrySet().stream().map(entry -> entry.getValue().size()).reduce(0, (a, b) -> a+b);
+        Map<RecipeCategory, Set<Recipe>> recipesByOutput = getRecipesByOutput(slimefunID);
+        int count = 0;
+        for (Map.Entry<RecipeCategory, Set<Recipe>> category : recipesByOutput.entrySet()) {
+            count += category.getValue().size();
+        }
+        return count;
     }
 
     public int getNumberOfRecipesUsedIn(@Nonnull String slimefunID) {
-        return getRecipesByInput(slimefunID).entrySet().stream().map(entry -> entry.getValue().size()).reduce(0, (a, b) -> a+b);
+        Map<RecipeCategory, Set<Recipe>> recipesByInput = getRecipesByInput(slimefunID);
+        int count = 0;
+        for (Map.Entry<RecipeCategory, Set<Recipe>> category : recipesByInput.entrySet()) {
+            count += category.getValue().size();
+        }
+        return count;
     }
 
     /**
