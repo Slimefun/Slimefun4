@@ -49,26 +49,22 @@ public class ArmorStandUtils {
      * @return The spawned {@link ArmorStand}
      */
     public static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location location) {
-        // This causes an error on 1.19 and below
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
-            return location.getWorld().spawn(location, ArmorStand.class, armorStand -> {
-                armorStand.setVisible(false);
-                armorStand.setSilent(true);
-                armorStand.setMarker(true);
-                armorStand.setGravity(false);
-                armorStand.setBasePlate(false);
-                armorStand.setRemoveWhenFarAway(false);
-            });
+        // 1.19 and below don't have the consumer method so flicker exists on these versions.
+        if (Slimefun.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_20)) {
+            ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
+            setupArmorStand(armorStand);
+            return armorStand;
         }
 
-        // Remove this when we drop support for 1.19
-        ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
+        return location.getWorld().spawn(location, ArmorStand.class, armorStand -> setupArmorStand(armorStand));
+    }
+
+    private static void setupArmorStand(ArmorStand armorStand) {
         armorStand.setVisible(false);
         armorStand.setSilent(true);
         armorStand.setMarker(true);
         armorStand.setGravity(false);
         armorStand.setBasePlate(false);
         armorStand.setRemoveWhenFarAway(false);
-        return armorStand;
     }
 }
