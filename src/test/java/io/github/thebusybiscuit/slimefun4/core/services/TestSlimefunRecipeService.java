@@ -263,7 +263,6 @@ class TestSlimefunRecipeService {
             null, new ItemStack(Material.OAK_LOG, 32), null,
             null, null, null
         };
-        multipleCraft[4].setAmount(32);
         ItemStack[] noCraft = new ItemStack[9];
 
         int singleHash = service.hashIgnoreAmount(singleCraft, testCategory1);
