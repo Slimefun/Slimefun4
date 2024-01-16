@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 
@@ -47,6 +49,19 @@ public class ArmorStandUtils {
      * @return The spawned {@link ArmorStand}
      */
     public static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location location) {
+        // This causes an error on 1.19 and below
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
+            return location.getWorld().spawn(location, ArmorStand.class, armorStand -> {
+                armorStand.setVisible(false);
+                armorStand.setSilent(true);
+                armorStand.setMarker(true);
+                armorStand.setGravity(false);
+                armorStand.setBasePlate(false);
+                armorStand.setRemoveWhenFarAway(false);
+            });
+        }
+
+        // Remove this when we drop support for 1.19
         ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
         armorStand.setVisible(false);
         armorStand.setSilent(true);
