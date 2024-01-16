@@ -61,8 +61,8 @@ public class ItemComponent implements RecipeComponent {
     }
 
     @Override
-    public ItemStack getDisplayItem() {
-        return component;
+    public List<ItemStack> getDisplayItems() {
+        return List.of(component.clone());
     }
 
     @Override

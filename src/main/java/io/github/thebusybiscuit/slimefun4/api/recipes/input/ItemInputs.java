@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api.recipes.input;
 
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeMatchResult;
@@ -72,7 +73,8 @@ public class ItemInputs implements RecipeInputs {
         ItemStack[] displayGrid = new ItemStack[9];
         int numItems = Math.min(9, components.size());
         for (int i = 0; i < numItems; i++) {
-            displayGrid[i] = components.get(i).getDisplayItem();
+            List<ItemStack> displayItems = components.get(i).getDisplayItems();
+            displayGrid[i] = displayItems.size() > 0 ? displayItems.get(0) : new ItemStack(Material.AIR);
         }
         return displayGrid;
     }

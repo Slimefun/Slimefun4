@@ -111,7 +111,7 @@ public class RecipeCategory implements Keyed {
     public static final RecipeCategory MOB_DROP = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "mob_drop"), new CustomItemStack(Material.IRON_SWORD, "&bMob Drop", "", "&rKill the specified Mob to obtain this Item")) {
         @Override
         public void onRegisterRecipe(Recipe recipe) {
-            String mob = ChatColor.stripColor(recipe.getInputs().getComponents().get(4).getDisplayItem().getItemMeta().getDisplayName()).toUpperCase(Locale.ROOT)
+            String mob = ChatColor.stripColor(recipe.getInputs().getComponents().get(4).getDisplayItems().get(0).getItemMeta().getDisplayName()).toUpperCase(Locale.ROOT)
                     .replace(' ', '_');
             EntityType entity = EntityType.valueOf(mob);
             Set<ItemStack> dropping = Slimefun.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());

@@ -82,9 +82,12 @@ public class MultiItemComponent implements RecipeComponent {
     }
 
     @Override
-    public ItemStack getDisplayItem() {
-        // TODO: Guide Display
-        return choices.get(0).getDisplayItem();
+    public List<ItemStack> getDisplayItems() {
+        List<ItemStack> displayItems = new ArrayList<>();
+        for (RecipeComponent choice : choices) {
+            displayItems.addAll(choice.getDisplayItems());
+        }
+        return displayItems;
     }
 
     @Override

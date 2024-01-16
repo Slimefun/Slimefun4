@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -36,8 +37,8 @@ public interface RecipeComponent {
         }
 
         @Override
-        public ItemStack getDisplayItem() {
-            return null;
+        public List<ItemStack> getDisplayItems() {
+            return List.of(new ItemStack(Material.AIR));
         }
         
         @Override
@@ -110,7 +111,7 @@ public interface RecipeComponent {
     /**
      * @return An {@link ItemStack} for display purposes (e.g. in the guide)
      */
-    public @Nullable ItemStack getDisplayItem();
+    public @Nonnull List<ItemStack> getDisplayItems();
 
     public List<String> getSlimefunItemIDs();
 

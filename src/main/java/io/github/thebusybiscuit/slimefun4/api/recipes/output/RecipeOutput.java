@@ -32,7 +32,12 @@ public interface RecipeOutput {
         }
 
         @Override
-        public ItemStack asDisplayItem() {
+        public List<ItemStack> getDisplayItems() {
+            return List.of(new ItemStack(Material.AIR));
+        }
+
+        @Override
+        public ItemStack getDisplayItem(String slimefunID) {
             return new ItemStack(Material.AIR);
         }
         
@@ -94,15 +99,13 @@ public interface RecipeOutput {
     /**
      * @return The item to be displayed in the guide
      */
-    public @Nonnull ItemStack asDisplayItem();
+    public @Nonnull List<ItemStack> getDisplayItems();
 
     /**
      * @return The item to be displayed in the guide.
      * @param slimefunID The ID of the slimefun item currently being viewed in the guide.
      */
-    public default @Nonnull ItemStack asDisplayItem(String slimefunID) {
-        return asDisplayItem();
-    }
+    public @Nonnull ItemStack getDisplayItem(String slimefunID);
 
     /**
      * If the output(s) are disabled and so cannot be crafted

@@ -7,8 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.collections.RandomizedSet;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 public class RandomItemOutput implements RecipeOutput {
 
@@ -68,20 +68,20 @@ public class RandomItemOutput implements RecipeOutput {
     }
 
     @Override
-    public ItemStack asDisplayItem() {
-        // TODO make custom display item
-        return new ItemStack(Material.AIR);
+    public List<ItemStack> getDisplayItems() {
+        return outputSet.stream().toList();
     }
 
     @Override
-    public ItemStack asDisplayItem(String slimefunID) {
+    public ItemStack getDisplayItem(String slimefunID) {
         for (ItemStack item : outputSet) {
-            if (Slimefun.getItemDataService().getItemData(item).map(id -> id.equals(slimefunID)).orElse(false)) {
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+            if (sfItem != null && sfItem.getId().equals(slimefunID)) {
                 return item.clone();
             }
         }
 
-        return asDisplayItem();
+        return new ItemStack(Material.AIR);
     }
     
 }

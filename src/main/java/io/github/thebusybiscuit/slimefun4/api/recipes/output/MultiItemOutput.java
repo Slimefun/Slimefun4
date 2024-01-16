@@ -100,21 +100,24 @@ public class MultiItemOutput implements RecipeOutput {
     }
 
     @Override
-    public ItemStack asDisplayItem() {
-        // TODO make custom display item
-        return new ItemStack(Material.AIR);
+    public List<ItemStack> getDisplayItems() {
+        List<ItemStack> displayItems = new ArrayList<>();
+        for (RecipeOutput output : outputs) {
+            displayItems.addAll(output.getDisplayItems());
+        }
+        return displayItems;
     }
 
     @Override
-    public ItemStack asDisplayItem(String slimefunID) {
+    public ItemStack getDisplayItem(String slimefunID) {
         for (RecipeOutput item : outputs) {
-            ItemStack displayItem = item.asDisplayItem(slimefunID);
+            ItemStack displayItem = item.getDisplayItem(slimefunID);
             if (!displayItem.getType().isAir()) {
                 return displayItem;
             }
         }
 
-        return asDisplayItem();
+        return new ItemStack(Material.AIR);
     }
 
 }

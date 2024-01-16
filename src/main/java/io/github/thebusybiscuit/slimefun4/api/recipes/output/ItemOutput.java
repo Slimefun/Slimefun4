@@ -72,13 +72,13 @@ public class ItemOutput implements RecipeOutput {
     }
 
     @Override
-    public ItemStack asDisplayItem() {
-        return output.clone();
+    public List<ItemStack> getDisplayItems() {
+        return List.of(output.clone());
     }
 
     @Override
-    public ItemStack asDisplayItem(String slimefunID) {
-        return slimefunID.equals(this.slimefunID) ? asDisplayItem() : new ItemStack(Material.AIR);
+    public ItemStack getDisplayItem(String slimefunID) {
+        return slimefunID.equals(this.slimefunID) ? output.clone() : new ItemStack(Material.AIR);
     }
 
 }

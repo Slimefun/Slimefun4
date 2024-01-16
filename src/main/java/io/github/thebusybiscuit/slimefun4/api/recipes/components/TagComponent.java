@@ -50,9 +50,8 @@ public class TagComponent implements RecipeComponent {
     }
 
     @Override
-    public ItemStack getDisplayItem() {
-        // TODO display item
-        return new ItemStack(tag.stream().findFirst().get());
+    public List<ItemStack> getDisplayItems() {
+        return tag.stream().map(mat -> new ItemStack(mat)).toList();
     }
 
     @Override
