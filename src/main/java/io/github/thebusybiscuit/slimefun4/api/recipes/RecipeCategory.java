@@ -43,7 +43,7 @@ public class RecipeCategory implements Keyed {
     public static final RecipeCategory JUICER = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "juicer"), new CustomItemStack(SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation"), RecipeStructure.SUBSET);
     public static final RecipeCategory TABLE_SAW = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "table-saw"), new CustomItemStack(Material.STONECUTTER, "&bTable Saw", "", "&a&oCut it in a Table Saw"), RecipeStructure.SUBSET);
 /**
-     * @deprecated Smeltery recipes have moved to {@code DUST_SMELTING} and {@code INGOT_SMELTING}
+     * @deprecated Smeltery recipes have moved to {@code DUST_SMELTING} and {@code ALLOY_SMELTING}
      */
     @Deprecated
     public static final RecipeCategory SMELTERY = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "smeltery"), new CustomItemStack(SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery"), RecipeStructure.SUBSET) {
@@ -62,12 +62,12 @@ public class RecipeCategory implements Keyed {
             if (dusts == 1 && nonEmpty == 1) {
                 DUST_SMELTING.registerRecipe(recipe);
             } else {
-                INGOT_SMELTING.registerRecipe(recipe);
+                ALLOY_SMELTING.registerRecipe(recipe);
             }
         }
     };
     
-    public static final RecipeCategory INGOT_SMELTING = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "ingot_smelting"), new CustomItemStack(SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery"), RecipeStructure.SUBSET) {
+    public static final RecipeCategory ALLOY_SMELTING = new RecipeCategory(new NamespacedKey(Slimefun.instance(), "alloy_smelting"), new CustomItemStack(SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery"), RecipeStructure.SUBSET) {
         @Override
         @Deprecated
         public RecipeType asRecipeType() {
