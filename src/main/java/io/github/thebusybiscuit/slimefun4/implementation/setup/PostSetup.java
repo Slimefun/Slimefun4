@@ -25,7 +25,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemRegistryFinalizedEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.SlimefunRegistryFinalizedEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
