@@ -27,7 +27,6 @@ class TestSlimefunRegistryFinalizedEvent {
     public static void unload() {
         MockBukkit.unmock();
     }
-
     @Test
     @DisplayName("Test that SlimefunRegistryFinalizedEvent is fired")
     void testEventIsFired() {
