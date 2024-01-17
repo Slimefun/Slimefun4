@@ -349,7 +349,7 @@
         <dependency>
             <groupId>com.github.baked-libs.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>fcdbd45aa0</version>
+            <version>1108163a49</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
