@@ -226,9 +226,10 @@ public class BlockListener implements Listener {
             // The main fix is in SlimefunItemInteractListener preventing opening to begin with
             // Close the inventory for all viewers of this block
             BlockMenu inventory = BlockStorage.getInventory(e.getBlock());
-            // TODO(future): Remove this check when MockBukkit supports viewers
-            if (inventory != null && !Slimefun.instance().isUnitTest()) {
-                inventory.toInventory().getViewers().forEach(HumanEntity::closeInventory);
+            if (inventory != null) {
+                for (HumanEntity human : new ArrayList<>(inventory.toInventory().getViewers())) {
+                    human.closeInventory();
+                }
             }
             // Remove the block data
             BlockStorage.clearBlockInfo(e.getBlock());
