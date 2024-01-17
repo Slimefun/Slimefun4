@@ -37,7 +37,7 @@ class TestSlimefunRegistryFinalizedEvent {
         assertDoesNotThrow(() -> PostSetup.loadItems());
         
         //Make sure post setup sent the event
-        server.getPluginManager().assertEventFired(SlimefunRegistryFinalizedEvent.class, ignored -> true);
+        server.getPluginManager().assertEventFired(SlimefunItemRegistryFinalizedEvent.class, ignored -> true);
  
         server.getPluginManager().clearEvents();
     }

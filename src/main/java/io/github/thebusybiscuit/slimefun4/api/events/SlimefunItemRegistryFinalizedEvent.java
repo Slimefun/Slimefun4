@@ -11,15 +11,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This {@link Event} is fired after {@link Slimefun} finishes loading the
- * {@link SlimefunItem} registry before auto loading
+ * {@link SlimefunItem} registry. 
  *
  * @author ProfElements
  */
-public class SlimefunRegistryFinalizedEvent extends Event {
+public class SlimefunItemRegistryFinalizedEvent extends Event {
     
     private static final HandlerList handlers = new HandlerList();
 
-    public SlimefunRegistryFinalizedEvent() {}
+    public SlimefunItemRegistryFinalizedEvent() {}
 
     @Nonnull
     public static HandlerList getHandlerList() {

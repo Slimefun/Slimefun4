@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemRegistryFinalizedEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunRegistryFinalizedEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -78,6 +79,8 @@ public final class PostSetup {
             }
         }
 
+        Bukkit.getPluginManager().callEvent(new SlimefunItemRegistryFinalizedEvent());
+        
         loadOreGrinderRecipes();
         loadSmelteryRecipes();
 
@@ -110,7 +113,7 @@ public final class PostSetup {
 
         Slimefun.getItemCfg().save();
         Slimefun.getResearchCfg().save();
-        Bukkit.getPluginManager().callEvent(new SlimefunRegistryFinalizedEvent());
+
         Slimefun.getRegistry().setAutoLoadingMode(true);
     }
 
