@@ -116,7 +116,9 @@ class TestSlimefunItemInteractListener {
         // TODO: Create an event for open inventory so this isn't guess work
         Assertions.assertTrue(BlockMenuPreset.isInventory(electricFurnace.getId()));
         Assertions.assertTrue(BlockStorage.getStorage(block.getWorld()).hasInventory(block.getLocation()));
-        // TODO(future): Check viewers - MockBukkit does not implement this today
+
+        // Assert player has the inventory open
+        Assertions.assertEquals(1, BlockStorage.getInventory(block).toInventory().getViewers().size());
 
         // Break the block
         BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
@@ -128,6 +130,9 @@ class TestSlimefunItemInteractListener {
 
         // Assert the block is queued for removal
         Assertions.assertTrue(Slimefun.getTickerTask().isDeletedSoon(block.getLocation()));
+
+        // Assert that the inventory was closed
+        Assertions.assertEquals(0, BlockStorage.getInventory(block).toInventory().getViewers().size());
 
         // Clear event queue since we'll be running duplicate events
         server.getPluginManager().clearEvents();
