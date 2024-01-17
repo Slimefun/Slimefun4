@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,13 +28,11 @@ class TestSlimefunRegistryFinalizedEvent {
         MockBukkit.unmock();
     }
 
-
     @Test
     @DisplayName("Test that SlimefunRegistryFinalizedEvent is fired")
     void testEventIsFired() {
-        
         //Make sure post setup does not throw
-        assertDoesNotThrow(() -> PostSetup.loadItems());
+        Assertions.assertDoesNotThrow(() -> PostSetup.loadItems());
         
         //Make sure post setup sent the event
         server.getPluginManager().assertEventFired(SlimefunItemRegistryFinalizedEvent.class, ignored -> true);
