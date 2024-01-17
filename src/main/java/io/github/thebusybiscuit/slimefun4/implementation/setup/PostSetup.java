@@ -112,7 +112,6 @@ public final class PostSetup {
 
         Slimefun.getItemCfg().save();
         Slimefun.getResearchCfg().save();
-
         Slimefun.getRegistry().setAutoLoadingMode(true);
     }
 
