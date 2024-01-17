@@ -11,7 +11,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This {@link Event} is fired after {@link Slimefun} finishes loading the
- * {@link SlimefunItem} registry. 
+ * {@link SlimefunItem} registry. We recommend listening to this event if you
+ * want to register recipes using items from other addons.
  *
  * @author ProfElements
  */
@@ -31,5 +32,4 @@ public class SlimefunItemRegistryFinalizedEvent extends Event {
     public HandlerList getHandlers() {
         return getHandlerList(); 
     }
-
 }
