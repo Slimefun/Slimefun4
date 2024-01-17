@@ -55,9 +55,9 @@ class TestTalismanActivateEvent {
         ItemStack breakableItem = new ItemStack(Material.IRON_PICKAXE);
 
         if (inEnderChest) {
-            player.getEnderChest().addItem(talismanItem);
+            player.getEnderChest().setItem(9, talismanItem);
         } else {
-            player.getInventory().addItem(talismanItem);
+            player.getInventory().setItem(9, talismanItem);
         }
 
         player.getInventory().setItemInMainHand(breakableItem);

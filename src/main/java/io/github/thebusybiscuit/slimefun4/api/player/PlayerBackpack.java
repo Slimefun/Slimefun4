@@ -2,10 +2,13 @@ package io.github.thebusybiscuit.slimefun4.api.player;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
@@ -34,12 +37,21 @@ public class PlayerBackpack {
 
     private static final String CONFIG_PREFIX = "backpacks.";
 
-    private final PlayerProfile profile;
+    private final UUID ownerId;
     private final int id;
-    private final Config cfg;
 
+    @Deprecated
+    private PlayerProfile profile;
+    @Deprecated
+    private Config cfg;
     private Inventory inventory;
     private int size;
+
+    private PlayerBackpack(@Nonnull UUID ownerId, int id, int size) {
+        this.ownerId = ownerId;
+        this.id = id;
+        this.size = size;
+    }
 
     /**
      * This constructor loads an existing Backpack
@@ -48,7 +60,10 @@ public class PlayerBackpack {
      *            The {@link PlayerProfile} of this Backpack
      * @param id
      *            The id of this Backpack
+     *
+     * @deprecated Use {@link PlayerBackpack#load(UUID, int, int, HashMap)} instead
      */
+    @Deprecated
     public PlayerBackpack(@Nonnull PlayerProfile profile, int id) {
         this(profile, id, profile.getConfig().getInt(CONFIG_PREFIX + id + ".size"));
 
@@ -66,12 +81,16 @@ public class PlayerBackpack {
      *            The id of this Backpack
      * @param size
      *            The size of this Backpack
+     *
+     * @deprecated Use {@link PlayerBackpack#newBackpack(UUID, int, int)} instead
      */
+    @Deprecated
     public PlayerBackpack(@Nonnull PlayerProfile profile, int id, int size) {
         if (size < 9 || size > 54 || size % 9 != 0) {
             throw new IllegalArgumentException("Invalid size! Size must be one of: [9, 18, 27, 36, 45, 54]");
         }
 
+        this.ownerId = profile.getUUID();
         this.profile = profile;
         this.id = id;
         this.cfg = profile.getConfig();
@@ -96,10 +115,17 @@ public class PlayerBackpack {
      * This method returns the {@link PlayerProfile} this {@link PlayerBackpack} belongs to
      * 
      * @return The owning {@link PlayerProfile}
+     * 
+     * @deprecated Use {@link PlayerBackpack#getOwnerId()} instead
      */
+    @Deprecated
     @Nonnull
     public PlayerProfile getOwner() {
-        return profile;
+        return profile != null ? profile : PlayerProfile.find(Bukkit.getOfflinePlayer(ownerId)).orElse(null);
+    }
+
+    public UUID getOwnerId() {
+        return this.ownerId;
     }
 
     /**
@@ -172,7 +198,6 @@ public class PlayerBackpack {
         }
 
         this.size = size;
-        cfg.setValue(CONFIG_PREFIX + id + ".size", size);
 
         Inventory inv = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
 
@@ -187,7 +212,10 @@ public class PlayerBackpack {
 
     /**
      * This method will save the contents of this backpack to a {@link File}.
+     * 
+     * @deprecated Handled by {@link PlayerProfile#save()} now
      */
+    @Deprecated
     public void save() {
         for (int i = 0; i < size; i++) {
             cfg.setValue(CONFIG_PREFIX + id + ".contents." + i, inventory.getItem(i));
@@ -199,7 +227,40 @@ public class PlayerBackpack {
      * using {@link PlayerBackpack#save()}
      */
     public void markDirty() {
-        profile.markDirty();
+        if (profile != null) {
+            profile.markDirty();
+        }
     }
 
+    private void setContents(int size, HashMap<Integer, ItemStack> contents) {
+        if (this.inventory == null) {
+            this.inventory = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
+        }
+
+        for (int i = 0; i < size; i++) {
+            this.inventory.setItem(i, contents.get(i));
+        }
+    }
+
+    @ParametersAreNonnullByDefault
+    public static PlayerBackpack load(UUID ownerId, int id, int size, HashMap<Integer, ItemStack> contents) {
+        PlayerBackpack backpack = new PlayerBackpack(ownerId, id, size);
+
+        backpack.setContents(size, contents);
+
+        return backpack;
+    }
+
+    @ParametersAreNonnullByDefault
+    public static PlayerBackpack newBackpack(UUID ownerId, int id, int size) {
+        if (size < 9 || size > 54 || size % 9 != 0) {
+            throw new IllegalArgumentException("Invalid size! Size must be one of: [9, 18, 27, 36, 45, 54]");
+        }
+
+        PlayerBackpack backpack = new PlayerBackpack(ownerId, id, size);
+
+        backpack.setContents(size, new HashMap<>());
+
+        return backpack;
+    }
 }

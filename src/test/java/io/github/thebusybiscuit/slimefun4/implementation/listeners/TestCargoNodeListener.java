@@ -84,7 +84,7 @@ class TestCargoNodeListener {
 
         Location l = new Location(player.getWorld(), 300, 25, 1200);
         Block b = l.getBlock();
-        b.setType(Material.GRASS);
+        b.setType(Material.GRASS_BLOCK);
 
         ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "cargo_test");
         SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE_2", new CustomItemStack(Material.PLAYER_HEAD, "&4Cargo node!"));
