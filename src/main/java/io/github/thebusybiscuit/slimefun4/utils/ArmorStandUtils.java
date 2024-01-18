@@ -2,8 +2,7 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.papermc.lib.PaperLib;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 
@@ -49,8 +48,12 @@ public class ArmorStandUtils {
      * @return The spawned {@link ArmorStand}
      */
     public static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location location) {
-        // 1.19 and below don't have the consumer method so flicker exists on these versions.
-        if (Slimefun.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_20)) {
+        // The consumer method was moved from World to RegionAccessor in 1.20.2
+        // Due to this, we need to use a rubbish workaround to support 1.20.1 and below
+        // This causes flicker on these versions which sucks but not sure a better way around this right now.
+        if (PaperLib.getMinecraftVersion() <= 20
+            && PaperLib.getMinecraftPatchVersion() < 2
+        ) {
             ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
             setupArmorStand(armorStand);
             return armorStand;
