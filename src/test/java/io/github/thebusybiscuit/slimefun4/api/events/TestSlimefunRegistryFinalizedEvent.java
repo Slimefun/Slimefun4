@@ -31,13 +31,12 @@ class TestSlimefunRegistryFinalizedEvent {
     @Test
     @DisplayName("Test that SlimefunRegistryFinalizedEvent is fired")
     void testEventIsFired() {
-        //Make sure post setup does not throw
+        // Make sure post setup does not throw
         Assertions.assertDoesNotThrow(() -> PostSetup.loadItems());
         
-        //Make sure post setup sent the event
+        // Make sure post setup sent the event
         server.getPluginManager().assertEventFired(SlimefunItemRegistryFinalizedEvent.class, ignored -> true);
  
         server.getPluginManager().clearEvents();
     }
-
 } 
