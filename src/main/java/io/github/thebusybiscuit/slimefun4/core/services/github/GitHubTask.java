@@ -27,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  * @author TheBusyBiscuit
  * 
  * @see GitHubService
- * @see Contributor
  *
  */
 class GitHubTask implements Runnable {
@@ -48,106 +47,10 @@ class GitHubTask implements Runnable {
         }
 
         connectAndCache();
-        grabTextures();
     }
 
     private void connectAndCache() {
         gitHubService.getConnectors().forEach(GitHubConnector::download);
-    }
-
-    /**
-     * This method will pull the skin textures for every {@link Contributor} and store
-     * the {@link UUID} and received skin inside a local cache {@link File}.
-     */
-    private void grabTextures() {
-        /**
-         * Store all queried usernames to prevent 429 responses for pinging
-         * the same URL twice in one run.
-         */
-        Map<String, String> skins = new HashMap<>();
-        int requests = 0;
-
-        for (Contributor contributor : gitHubService.getContributors().values()) {
-            int newRequests = requestTexture(contributor, skins);
-            requests += newRequests;
-
-            if (newRequests < 0 || requests >= MAX_REQUESTS_PER_MINUTE) {
-                break;
-            }
-        }
-
-        if (requests >= MAX_REQUESTS_PER_MINUTE && Slimefun.instance() != null && Slimefun.instance().isEnabled()) {
-            // Slow down API requests and wait a minute after more than x requests were made
-            Bukkit.getScheduler().runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 2 * 60 * 20L);
-        }
-
-        for (GitHubConnector connector : gitHubService.getConnectors()) {
-            if (connector instanceof ContributionsConnector contributionsConnector && !contributionsConnector.hasFinished()) {
-                return;
-            }
-        }
-
-        /**
-         * We only wanna save this if all Connectors finished already.
-         * This will run multiple times but thats okay, this way we get as much
-         * data as possible stored.
-         */
-        gitHubService.saveCache();
-    }
-
-    private int requestTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) {
-        if (!contributor.hasTexture()) {
-            try {
-                if (skins.containsKey(contributor.getMinecraftName())) {
-                    contributor.setTexture(skins.get(contributor.getMinecraftName()));
-                } else {
-                    contributor.setTexture(pullTexture(contributor, skins));
-                    return contributor.getUniqueId().isPresent() ? 1 : 2;
-                }
-            } catch (IllegalArgumentException x) {
-                // There cannot be a texture found because it is not a valid MC username
-                contributor.setTexture(null);
-            } catch (InterruptedException x) {
-                Slimefun.logger().log(Level.WARNING, "The contributors thread was interrupted!");
-                Thread.currentThread().interrupt();
-            } catch (Exception x) {
-                // Too many requests
-                Slimefun.logger().log(Level.WARNING, "Attempted to refresh skin cache, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
-                Slimefun.logger().log(Level.WARNING, "This usually means mojang.com is temporarily down or started to rate-limit this connection, nothing to worry about!");
-
-                String msg = x.getMessage();
-
-                // Retry after 5 minutes if it was just rate-limiting
-                if (msg != null && msg.contains("429")) {
-                    Bukkit.getScheduler().runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 5 * 60 * 20L);
-                }
-
-                return -1;
-            }
-        }
-
-        return 0;
-    }
-
-    private @Nullable String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws InterruptedException, ExecutionException, TimeoutException {
-        Optional<UUID> uuid = contributor.getUniqueId();
-
-        if (!uuid.isPresent()) {
-            CompletableFuture<UUID> future = UUIDLookup.getUuidFromUsername(Slimefun.instance(), contributor.getMinecraftName());
-
-            // Fixes #3241 - Do not wait for more than 30 seconds
-            uuid = Optional.ofNullable(future.get(30, TimeUnit.SECONDS));
-            uuid.ifPresent(contributor::setUniqueId);
-        }
-
-        if (uuid.isPresent()) {
-            CompletableFuture<PlayerSkin> future = PlayerSkin.fromPlayerUUID(Slimefun.instance(), uuid.get());
-            Optional<String> skin = Optional.of(future.get().getProfile().getBase64Texture());
-            skins.put(contributor.getMinecraftName(), skin.orElse(""));
-            return skin.orElse(null);
-        } else {
-            return null;
-        }
     }
 
 }

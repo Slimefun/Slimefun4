@@ -32,10 +32,6 @@ public class GitHubService {
 
     private final String repository;
     private final Set<GitHubConnector> connectors;
-    private final ConcurrentMap<String, Contributor> contributors;
-
-    private final Config uuidCache = new Config("plugins/Slimefun/cache/github/uuids.yml");
-    private final Config texturesCache = new Config("plugins/Slimefun/cache/github/skins.yml");
 
     private boolean logging = false;
 
@@ -56,7 +52,6 @@ public class GitHubService {
         this.repository = repository;
 
         connectors = new HashSet<>();
-        contributors = new ConcurrentHashMap<>();
     }
 
     /**
@@ -75,73 +70,8 @@ public class GitHubService {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, task, 30 * 20L, period);
     }
 
-    /**
-     * This method adds a few default {@link Contributor Contributors}.
-     * Think of them like honorable mentions that aren't listed through
-     * the usual methods.
-     */
-    private void addDefaultContributors() {
-        // Artists
-        addContributor("Fuffles_", "&dArtist");
-        addContributor("IMS_Art", "https://github.com/IAmSorryArt", "&dArtist", 0);
-
-        // Addon Jam winners
-        addContributor("nahkd123", "&aWinner of the 2020 Addon Jam");
-
-        // Translators
-        try {
-            TranslatorsReader translators = new TranslatorsReader(this);
-            translators.load();
-        } catch (Exception x) {
-            Slimefun.logger().log(Level.SEVERE, "Failed to read 'translators.json'", x);
-        }
-    }
-
-    private void addContributor(@Nonnull String name, @Nonnull String role) {
-        Contributor contributor = new Contributor(name);
-        contributor.setContributions(role, 0);
-        contributor.setUniqueId(uuidCache.getUUID(name));
-        contributors.put(name, contributor);
-    }
-
-    public @Nonnull Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
-        Validate.notNull(minecraftName, "Minecraft username must not be null.");
-        Validate.notNull(profileURL, "GitHub profile url must not be null.");
-        Validate.notNull(role, "Role should not be null.");
-        Validate.isTrue(commits >= 0, "Commit count cannot be negative.");
-
-        String username = profileURL.substring(profileURL.lastIndexOf('/') + 1);
-
-        Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(minecraftName, profileURL));
-        contributor.setContributions(role, commits);
-        contributor.setUniqueId(uuidCache.getUUID(minecraftName));
-        return contributor;
-    }
-
-    public @Nonnull Contributor addContributor(@Nonnull String username, @Nonnull String role, int commits) {
-        Validate.notNull(username, "Username must not be null.");
-        Validate.notNull(role, "Role should not be null.");
-        Validate.isTrue(commits >= 0, "Commit count cannot be negative.");
-
-        Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(username));
-        contributor.setContributions(role, commits);
-        return contributor;
-    }
-
     private void loadConnectors(boolean logging) {
         this.logging = logging;
-        addDefaultContributors();
-
-        // TheBusyBiscuit/Slimefun4 (multiple times because there may me multiple pages)
-        connectors.add(new ContributionsConnector(this, "code", 1, repository, ContributorRole.DEVELOPER));
-        connectors.add(new ContributionsConnector(this, "code2", 2, repository, ContributorRole.DEVELOPER));
-        connectors.add(new ContributionsConnector(this, "code3", 3, repository, ContributorRole.DEVELOPER));
-
-        // TheBusyBiscuit/Slimefun4-Wiki
-        connectors.add(new ContributionsConnector(this, "wiki", 1, "Slimefun/Wiki", ContributorRole.WIKI_EDITOR));
-
-        // TheBusyBiscuit/Slimefun4-Resourcepack
-        connectors.add(new ContributionsConnector(this, "resourcepack", 1, "Slimefun/Resourcepack", ContributorRole.RESOURCEPACK_ARTIST));
 
         // Issues and Pull Requests
         connectors.add(new GitHubIssuesConnector(this, repository, (issues, pullRequests) -> {
@@ -165,14 +95,6 @@ public class GitHubService {
         return logging;
     }
 
-    /**
-     * This returns the {@link Contributor Contributors} to this project.
-     * 
-     * @return A {@link ConcurrentMap} containing all {@link Contributor Contributors}
-     */
-    public @Nonnull ConcurrentMap<String, Contributor> getContributors() {
-        return contributors;
-    }
 
     /**
      * This returns the amount of forks of our repository
@@ -228,37 +150,5 @@ public class GitHubService {
         return lastUpdate;
     }
 
-    /**
-     * This will store the {@link UUID} and texture of all {@link Contributor Contributors}
-     * in memory in a {@link File} to save requests the next time we iterate over them.
-     */
-    protected void saveCache() {
-        for (Contributor contributor : contributors.values()) {
-            Optional<UUID> uuid = contributor.getUniqueId();
-            uuid.ifPresent(value -> uuidCache.setValue(contributor.getName(), value));
 
-            if (contributor.hasTexture()) {
-                String texture = contributor.getTexture(this);
-
-                if (!texture.equals(HeadTexture.UNKNOWN.getTexture())) {
-                    texturesCache.setValue(contributor.getName(), texture);
-                }
-            }
-        }
-
-        uuidCache.save();
-        texturesCache.save();
-    }
-
-    /**
-     * This returns the cached skin texture for a given username.
-     * 
-     * @param username
-     *            The minecraft username
-     * 
-     * @return The cached skin texture for that user (or null)
-     */
-    protected @Nullable String getCachedTexture(@Nonnull String username) {
-        return texturesCache.getString(username);
-    }
 }
