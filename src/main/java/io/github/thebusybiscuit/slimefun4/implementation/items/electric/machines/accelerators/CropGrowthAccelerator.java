@@ -41,12 +41,20 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
         BlockMenu inv = BlockStorage.getInventory(b);
 
         if (getCharge(b.getLocation()) >= getEnergyConsumption()) {
+            int cropsGrown = 0;
+
             for (int x = -getRadius(); x <= getRadius(); x++) {
                 for (int z = -getRadius(); z <= getRadius(); z++) {
                     Block block = b.getRelative(x, 0, z);
 
-                    if (SlimefunTag.CROP_GROWTH_ACCELERATOR_BLOCKS.isTagged(block.getType()) && grow(b, inv, block)) {
-                        return;
+                    if (SlimefunTag.CROP_GROWTH_ACCELERATOR_BLOCKS.isTagged(block.getType())) {
+                        if (grow(b, inv, block)) {
+                            cropsGrown++;
+
+                            if (cropsGrown >= getSpeed()) {
+                                return;
+                            }
+                        }
                     }
                 }
             }
