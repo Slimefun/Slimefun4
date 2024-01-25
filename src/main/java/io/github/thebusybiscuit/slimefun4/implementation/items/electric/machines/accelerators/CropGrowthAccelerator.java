@@ -47,13 +47,11 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
                 for (int z = -getRadius(); z <= getRadius(); z++) {
                     Block block = b.getRelative(x, 0, z);
 
-                    if (SlimefunTag.CROP_GROWTH_ACCELERATOR_BLOCKS.isTagged(block.getType())) {
-                        if (grow(b, inv, block)) {
-                            cropsGrown++;
+                    if (SlimefunTag.CROP_GROWTH_ACCELERATOR_BLOCKS.isTagged(block.getType()) && grow(b, inv, block)) {
+                        cropsGrown++;
 
-                            if (cropsGrown >= getSpeed()) {
-                                return;
-                            }
+                        if (cropsGrown >= getSpeed()) {
+                            return;
                         }
                     }
                 }
