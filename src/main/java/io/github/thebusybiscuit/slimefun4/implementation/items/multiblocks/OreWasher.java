@@ -99,7 +99,7 @@ public class OreWasher extends MultiBlockMachine {
 
             for (ItemStack input : inv.getContents()) {
                 if (input != null) {
-                    if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE, true)) {
+                    if (SlimefunUtils.compareItem(input, SlimefunItems.SIFTED_ORE)) {
                         ItemStack output = getRandomDust();
                         Inventory outputInv;
 
@@ -131,7 +131,7 @@ public class OreWasher extends MultiBlockMachine {
                         }
 
                         return;
-                    } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND, 2), false)) {
+                    } else if (SlimefunUtils.compareItem(input, new ItemStack(Material.SAND))) {
                         ItemStack output = SlimefunItems.SALT;
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
@@ -143,7 +143,7 @@ public class OreWasher extends MultiBlockMachine {
                         removeItem(p, b, inv, outputInv, input, event.getOutput(), 2);
 
                         return;
-                    } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
+                    } else if (SlimefunUtils.compareItem(input, SlimefunItems.PULVERIZED_ORE)) {
                         ItemStack output = SlimefunItems.PURE_ORE_CLUSTER;
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
                         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);

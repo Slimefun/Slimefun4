@@ -136,7 +136,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
             for (AnimalProduce produce : animalProduces) {
                 ItemStack item = inv.getItemInSlot(slot);
 
-                if (!SlimefunUtils.isItemSimilar(item, produce.getInput()[0], true) || !InvUtils.fits(inv.toInventory(), produce.getOutput()[0], getOutputSlots())) {
+                if (!SlimefunUtils.compareItem(item, produce.getInput()[0]) || !InvUtils.fits(inv.toInventory(), produce.getOutput()[0], getOutputSlots())) {
                     continue;
                 }
 

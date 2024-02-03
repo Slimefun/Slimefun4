@@ -93,7 +93,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
             Block b = inv.getBlock();
 
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), emptyBucket, true, false)) {
+                if (SlimefunUtils.compareItem(inv.getItemInSlot(slot), emptyBucket)) {
                     OptionalInt supplies = Slimefun.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (supplies.isPresent() && supplies.getAsInt() > 0) {

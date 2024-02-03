@@ -41,7 +41,7 @@ class TestItemStackWrapper {
         Assertions.assertEquals(item.getType(), wrapper.getType());
         Assertions.assertEquals(item.hasItemMeta(), wrapper.hasItemMeta());
         Assertions.assertEquals(item.getItemMeta(), wrapper.getItemMeta());
-        Assertions.assertTrue(SlimefunUtils.isItemSimilar(wrapper, item, true));
+        Assertions.assertTrue(SlimefunUtils.compareItem(wrapper, item));
     }
 
     @Test
@@ -53,7 +53,7 @@ class TestItemStackWrapper {
         Assertions.assertEquals(item.getType(), wrapper.getType());
         Assertions.assertEquals(item.hasItemMeta(), wrapper.hasItemMeta());
         // Assertions.assertEquals(item.getItemMeta(), wrapper.getItemMeta());
-        Assertions.assertTrue(SlimefunUtils.isItemSimilar(wrapper, item, true));
+        Assertions.assertTrue(SlimefunUtils.compareItem(wrapper, item));
     }
 
     @Test
@@ -135,7 +135,7 @@ class TestItemStackWrapper {
             Assertions.assertNull(actual);
         } else {
             Assertions.assertTrue(actual instanceof ItemStackWrapper);
-            Assertions.assertTrue(SlimefunUtils.isItemSimilar(actual, expected, true));
+            Assertions.assertTrue(SlimefunUtils.compareItem(actual, expected));
         }
     }
 }

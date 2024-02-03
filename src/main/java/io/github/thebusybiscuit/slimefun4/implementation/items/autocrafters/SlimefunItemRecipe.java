@@ -45,7 +45,7 @@ class SlimefunItemRecipe extends AbstractRecipe {
             ItemStack ingredient = item.getRecipe()[i];
 
             if (ingredient != null && !ingredient.getType().isAir()) {
-                predicates.add(stack -> SlimefunUtils.isItemSimilar(stack, ingredient, true));
+                predicates.add(stack -> SlimefunUtils.compareItem(stack, ingredient));
             }
         }
 

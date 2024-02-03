@@ -101,7 +101,7 @@ class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
     @Nonnull
     @Override
     public Optional<SlimefunGuideMode> getSelectedOption(@Nonnull Player p, @Nonnull ItemStack guide) {
-        if (SlimefunUtils.isItemSimilar(guide, SlimefunGuide.getItem(SlimefunGuideMode.CHEAT_MODE), true, false)) {
+        if (SlimefunUtils.compareItem(guide, SlimefunGuide.getItem(SlimefunGuideMode.CHEAT_MODE))) {
             return Optional.of(SlimefunGuideMode.CHEAT_MODE);
         } else {
             return Optional.of(SlimefunGuideMode.SURVIVAL_MODE);

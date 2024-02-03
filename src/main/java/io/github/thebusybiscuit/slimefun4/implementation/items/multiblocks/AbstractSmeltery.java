@@ -75,9 +75,9 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
         for (ItemStack expectedInput : inputs.get(i)) {
             if (expectedInput != null) {
                 for (int j = 0; j < inv.getContents().length; j++) {
-                    if (j == (inv.getContents().length - 1) && !SlimefunUtils.isItemSimilar(inv.getContents()[j], expectedInput, true)) {
+                    if (j == (inv.getContents().length - 1) && !SlimefunUtils.compareItem(inv.getContents()[j], expectedInput)) {
                         return false;
-                    } else if (SlimefunUtils.isItemSimilar(inv.getContents()[j], expectedInput, true)) {
+                    } else if (SlimefunUtils.compareItem(inv.getContents()[j], expectedInput)) {
                         break;
                     }
                 }
@@ -90,7 +90,7 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
     protected void craft(Player p, Block b, Inventory inv, ItemStack[] recipe, ItemStack output, Inventory outputInv) {
         for (ItemStack removing : recipe) {
             if (removing != null) {
-                InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunUtils.isItemSimilar(stack, removing, true));
+                InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunUtils.compareItem(stack, removing));
             }
         }
 

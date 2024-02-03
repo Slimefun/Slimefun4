@@ -316,7 +316,7 @@ public class AncientAltarListener implements Listener {
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(catalyst);
         List<ItemStackWrapper> items = ItemStackWrapper.wrapList(inputs);
 
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER, false, false)) {
+        if (SlimefunUtils.compareItem(wrapper, SlimefunItems.BROKEN_SPAWNER)) {
             if (!checkRecipe(SlimefunItems.BROKEN_SPAWNER, items).isPresent()) {
                 return Optional.empty();
             }
@@ -330,7 +330,7 @@ public class AncientAltarListener implements Listener {
 
     private @Nonnull Optional<ItemStack> checkRecipe(@Nonnull ItemStack catalyst, @Nonnull List<ItemStackWrapper> items) {
         for (AltarRecipe recipe : altarItem.getRecipes()) {
-            if (SlimefunUtils.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
+            if (SlimefunUtils.compareItem(catalyst, recipe.getCatalyst())) {
                 Optional<ItemStack> optional = checkPedestals(items, recipe);
 
                 if (optional.isPresent()) {
@@ -344,9 +344,9 @@ public class AncientAltarListener implements Listener {
 
     private @Nonnull Optional<ItemStack> checkPedestals(@Nonnull List<ItemStackWrapper> items, @Nonnull AltarRecipe recipe) {
         for (int i = 0; i < 8; i++) {
-            if (SlimefunUtils.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
+            if (SlimefunUtils.compareItem(items.get(i), recipe.getInput().get(0))) {
                 for (int j = 1; j < 8; j++) {
-                    if (!SlimefunUtils.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
+                    if (!SlimefunUtils.compareItem(items.get((i + j) % items.size()), recipe.getInput().get(j))) {
                         break;
                     } else if (j == 7) {
                         return Optional.of(recipe.getOutput());

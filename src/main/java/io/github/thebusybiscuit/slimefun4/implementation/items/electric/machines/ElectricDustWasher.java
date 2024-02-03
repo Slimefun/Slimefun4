@@ -48,7 +48,7 @@ public class ElectricDustWasher extends AContainer {
         for (int slot : getInputSlots()) {
             ItemStack input = menu.getItemInSlot(slot);
             MachineRecipe recipe = null;
-            if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE, true, false)) {
+            if (SlimefunUtils.compareItem(input, SlimefunItems.SIFTED_ORE)) {
                 if (!legacyMode && !hasFreeSlot(menu)) {
                     return null;
                 }
@@ -59,9 +59,10 @@ public class ElectricDustWasher extends AContainer {
                     menu.consumeItem(slot);
                     return recipe;
                 }
-            } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
+
+            } else if (SlimefunUtils.compareItem(input, SlimefunItems.PULVERIZED_ORE)) {
                 recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.PULVERIZED_ORE }, new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
-            } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND), true)) {
+            } else if (SlimefunUtils.compareItem(input, new ItemStack(Material.SAND))) {
                 recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { new ItemStack(Material.SAND) }, new ItemStack[] { SlimefunItems.SALT });
             }
 

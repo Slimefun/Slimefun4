@@ -286,6 +286,7 @@ public final class SlimefunUtils {
      *
      * @return True if the given {@link ItemStack}s are similar under the given constraints
      */
+    @Deprecated(since = "RC - 37")
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore) {
         return isItemSimilar(item, sfitem, checkLore, true, true);
     }
@@ -308,6 +309,7 @@ public final class SlimefunUtils {
      *
      * @return True if the given {@link ItemStack}s are similar under the given constraints
      */
+    @Deprecated(since = "RC - 37")
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount) {
         return isItemSimilar(item, sfitem, checkLore, checkAmount, true);
     }
@@ -331,6 +333,7 @@ public final class SlimefunUtils {
      *
      * @return True if the given {@link ItemStack}s are similar under the given constraints
      */
+    @Deprecated(since = "RC - 37")
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount, boolean checkDistinction) {
         if (item == null) {
             return sfitem == null;
@@ -422,6 +425,35 @@ public final class SlimefunUtils {
         } else {
             return !sfitem.hasItemMeta();
         }
+    }
+
+    public static boolean compareItem(@Nullable ItemStack itemOne, @Nullable ItemStack itemTwo) {
+        if (itemOne == null && itemTwo == null) {
+            return true;
+        } else if (itemOne == null || itemTwo == null) {
+            return false;
+        }
+
+        ItemMeta itemMetaOne = itemOne.getItemMeta();
+        ItemMeta itemMetaTwo = itemTwo.getItemMeta();
+        if (itemMetaOne == null && itemMetaTwo == null) {
+            return true;
+        } else if (itemMetaOne == null || itemMetaTwo == null) {
+            return false;
+        }
+
+        Optional<String> itemDataOne = Slimefun.getItemDataService().getItemData(itemMetaOne);
+        Optional<String> itemDataTwo = Slimefun.getItemDataService().getItemData(itemMetaTwo);
+        if (itemDataOne.isPresent() && itemDataOne.equals(itemDataTwo)) {
+            Optional<DistinctiveItem> distinctiveItemOne = getDistinctiveItem(itemDataOne.get());
+            Optional<DistinctiveItem> distinctiveItemTwo = getDistinctiveItem(itemDataTwo.get());
+            if (distinctiveItemOne.isPresent() && distinctiveItemTwo.isPresent()) {
+                return distinctiveItemOne.get().canStack(itemMetaOne, itemMetaTwo);
+            }
+            return true;
+        }
+
+        return itemOne.equals(itemTwo);
     }
 
     private static @Nonnull Optional<DistinctiveItem> getDistinctiveItem(@Nonnull String id) {

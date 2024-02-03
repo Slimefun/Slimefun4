@@ -24,6 +24,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -131,6 +132,9 @@ public class BlockListener implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void blockdrop(BlockDropItemEvent )
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
@@ -331,6 +335,7 @@ public class BlockListener implements Listener {
                 Block relative = block.getRelative(face);
                 if (!isDropItems) {
                     for (ItemStack drop : relative.getDrops()) {
+
                         block.getWorld().dropItemNaturally(relative.getLocation(), drop);
                     }
                 }

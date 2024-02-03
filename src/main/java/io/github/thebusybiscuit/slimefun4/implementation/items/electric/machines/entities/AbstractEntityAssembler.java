@@ -233,7 +233,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
         int found = 0;
 
         for (int slot : slots) {
-            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true, false)) {
+            if (SlimefunUtils.compareItem(menu.getItemInSlot(slot), item)) {
                 found += menu.getItemInSlot(slot).getAmount();
 
                 if (found >= item.getAmount()) {
@@ -250,7 +250,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
         int headCount = getHead().getAmount();
 
         for (int slot : bodySlots) {
-            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), getBody(), true, false)) {
+            if (SlimefunUtils.compareItem(inv.getItemInSlot(slot), getBody())) {
                 int amount = inv.getItemInSlot(slot).getAmount();
 
                 if (amount >= bodyCount) {
@@ -264,7 +264,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
         }
 
         for (int slot : headSlots) {
-            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), getHead(), true, false)) {
+            if (SlimefunUtils.compareItem(inv.getItemInSlot(slot), getHead())) {
                 int amount = inv.getItemInSlot(slot).getAmount();
 
                 if (amount >= headCount) {

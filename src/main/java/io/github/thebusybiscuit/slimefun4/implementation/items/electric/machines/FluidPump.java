@@ -144,7 +144,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
             for (int slot : getInputSlots()) {
                 ItemStack itemInSlot = menu.getItemInSlot(slot);
 
-                if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBucket, true, false)) {
+                if (SlimefunUtils.compareItem(itemInSlot, emptyBucket)) {
                     ItemStack bucket = getFilledBucket(fluid);
 
                     if (!menu.fits(bucket, getOutputSlots())) {
@@ -161,7 +161,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                     }
 
                     return;
-                } else if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBottle, true, false)) {
+                } else if (SlimefunUtils.compareItem(itemInSlot, emptyBottle)) {
                     ItemStack bottle = getFilledBottle(fluid);
 
                     if (!menu.fits(bottle, getOutputSlots())) {

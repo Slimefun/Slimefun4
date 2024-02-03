@@ -41,7 +41,7 @@ class TestBackpackCommand {
 
     private boolean hasBackpack(Player player, int id) {
         for (ItemStack item : player.getInventory()) {
-            if (SlimefunUtils.isItemSimilar(item, SlimefunItems.RESTORED_BACKPACK, false)) {
+            if (SlimefunUtils.compareItem(item, SlimefunItems.RESTORED_BACKPACK)) {
                 List<String> lore = item.getItemMeta().getLore();
 
                 if (lore.get(2).equals(ChatColor.GRAY + "ID: " + player.getUniqueId() + "#" + id)) {

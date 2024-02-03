@@ -63,7 +63,7 @@ class TestResourceRegistration {
         GEOResource resource = optional.get();
         Assertions.assertEquals(name, resource.getName());
         Assertions.assertEquals(miner, resource.isObtainableFromGEOMiner());
-        Assertions.assertTrue(SlimefunUtils.isItemSimilar(resource.getItem(), item, true));
+        Assertions.assertTrue(SlimefunUtils.compareItem(resource.getItem(), item));
         Assertions.assertEquals(deviation, resource.getMaxDeviation());
         return resource;
     }

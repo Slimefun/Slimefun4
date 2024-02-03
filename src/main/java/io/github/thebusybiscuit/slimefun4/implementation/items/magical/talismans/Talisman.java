@@ -233,7 +233,7 @@ public class Talisman extends SlimefunItem {
             for (int i = 0; i < contents.length; i++) {
                 ItemStack item = contents[i];
 
-                if (SlimefunUtils.isItemSimilar(item, talismanItem, true, false)) {
+                if (SlimefunUtils.compareItem(item, talismanItem)) {
                     ItemUtils.consumeItem(item, false);
                     return;
                 }

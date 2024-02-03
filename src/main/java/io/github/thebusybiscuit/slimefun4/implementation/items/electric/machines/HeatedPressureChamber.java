@@ -58,7 +58,7 @@ public class HeatedPressureChamber extends AContainer {
                 List<Integer> slots = new ArrayList<>();
 
                 for (int slot : getInputSlots()) {
-                    if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true)) {
+                    if (SlimefunUtils.compareItem(menu.getItemInSlot(slot), item)) {
                         slots.add(slot);
                     }
                 }

@@ -146,7 +146,7 @@ final class CargoUtils {
             ItemStack is = menu.getItemInSlot(slot);
             ItemStackWrapper wrapperItemInSlot = ItemStackWrapper.wrap(is);
 
-            if (SlimefunUtils.isItemSimilar(wrapperItemInSlot, wrapperTemplate, true) && matchesFilter(network, node, wrapperItemInSlot)) {
+            if (SlimefunUtils.compareItem(wrapperItemInSlot, wrapperTemplate) && matchesFilter(network, node, wrapperItemInSlot)) {
                 if (is.getAmount() > template.getAmount()) {
                     is.setAmount(is.getAmount() - template.getAmount());
                     menu.replaceExistingItem(slot, is);
@@ -178,7 +178,7 @@ final class CargoUtils {
             }
 
             ItemStackWrapper wrapperInSlot = ItemStackWrapper.wrap(itemInSlot);
-            if (SlimefunUtils.isItemSimilar(wrapperInSlot, wrapper, true, false) && matchesFilter(network, node, wrapperInSlot)) {
+            if (SlimefunUtils.compareItem(wrapperInSlot, wrapper) && matchesFilter(network, node, wrapperInSlot)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {
                     itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
                     return template;
@@ -289,7 +289,7 @@ final class CargoUtils {
                 continue;
             }
 
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
+            if (SlimefunUtils.compareItem(itemInSlot, wrapper)) {
                 if (currentAmount < maxStackSize) {
                     int amount = currentAmount + stack.getAmount();
 
@@ -342,7 +342,7 @@ final class CargoUtils {
                     continue;
                 }
 
-                if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
+                if (SlimefunUtils.compareItem(itemInSlot, wrapper)) {
                     if (currentAmount < maxStackSize) {
                         int amount = currentAmount + stack.getAmount();
 

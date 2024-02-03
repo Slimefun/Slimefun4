@@ -47,10 +47,10 @@ public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemUseHandler> {
 
     private boolean hasArmor(@Nonnull PlayerInventory inv) {
         // @formatter:off
-        return SlimefunUtils.isItemSimilar(inv.getHelmet(), SlimefunItems.ENDER_HELMET, true)
-            && SlimefunUtils.isItemSimilar(inv.getChestplate(), SlimefunItems.ENDER_CHESTPLATE, true)
-            && SlimefunUtils.isItemSimilar(inv.getLeggings(), SlimefunItems.ENDER_LEGGINGS, true)
-            && SlimefunUtils.isItemSimilar(inv.getBoots(), SlimefunItems.ENDER_BOOTS, true);
+        return SlimefunUtils.compareItem(inv.getHelmet(), SlimefunItems.ENDER_HELMET)
+            && SlimefunUtils.compareItem(inv.getChestplate(), SlimefunItems.ENDER_CHESTPLATE)
+            && SlimefunUtils.compareItem(inv.getLeggings(), SlimefunItems.ENDER_LEGGINGS)
+            && SlimefunUtils.compareItem(inv.getBoots(), SlimefunItems.ENDER_BOOTS);
         // @formatter:on
     }
 }

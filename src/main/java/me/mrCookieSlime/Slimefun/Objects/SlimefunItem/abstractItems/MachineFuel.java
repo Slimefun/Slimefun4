@@ -52,7 +52,7 @@ public class MachineFuel implements Predicate<ItemStack> {
 
     @Override
     public boolean test(ItemStack item) {
-        return SlimefunUtils.isItemSimilar(item, wrapper, true);
+        return SlimefunUtils.compareItem(item, wrapper);
     }
 
 }
