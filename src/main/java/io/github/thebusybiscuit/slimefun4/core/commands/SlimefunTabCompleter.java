@@ -16,6 +16,7 @@ import org.bukkit.command.TabCompleter;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 class SlimefunTabCompleter implements TabCompleter {
@@ -33,6 +34,13 @@ class SlimefunTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             return createReturnList(command.getSubCommandNames(), args[0]);
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("debug")) {
+                return createReturnList(TestCase.VALUES_LIST, args[1]);
+            } else {
+                // Returning null will make it fallback to the default arguments (all online players)
+                return null;
+            }
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
                 return createReturnList(getSlimefunItems(), args[2]);
