@@ -434,6 +434,17 @@ public final class SlimefunUtils {
             return false;
         }
 
+        boolean itemOneHasMeta = itemOne.hasItemMeta();
+        boolean itemTwoHasMeta = itemTwo.hasItemMeta();
+
+        if ((!itemOneHasMeta && itemTwoHasMeta) || (itemOneHasMeta && !itemTwoHasMeta)) {
+            return false;
+        }
+
+        if (!itemOneHasMeta && !itemTwoHasMeta) {
+            return itemOne.getType() == itemTwo.getType();
+        }
+
         ItemMeta itemMetaOne = itemOne.getItemMeta();
         ItemMeta itemMetaTwo = itemTwo.getItemMeta();
         if (itemMetaOne == null && itemMetaTwo == null) {

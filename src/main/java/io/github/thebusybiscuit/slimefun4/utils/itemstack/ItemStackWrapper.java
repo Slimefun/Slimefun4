@@ -70,11 +70,6 @@ public final class ItemStackWrapper extends ItemStack {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
-    }
-
-    @Override
     public int hashCode() {
         throw new UnsupportedOperationException(ERROR_MESSAGE);
     }

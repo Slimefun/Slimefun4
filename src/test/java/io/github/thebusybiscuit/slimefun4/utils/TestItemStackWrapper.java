@@ -68,7 +68,6 @@ class TestItemStackWrapper {
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.addUnsafeEnchantment(null, 1));
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.hashCode());
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.clone());
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.equals(wrapper));
     }
 
     @Test
