@@ -246,7 +246,7 @@ public class PlayerProfile {
      * Call this method if this Profile has unsaved changes.
      */
     public final void markDirty() {
-        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Marking {} ({}) profile as diry", name, ownerId);
+        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Marking {} ({}) profile as dirty", name, ownerId);
         dirty = true;
     }
 
