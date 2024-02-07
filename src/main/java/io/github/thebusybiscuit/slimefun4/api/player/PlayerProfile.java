@@ -8,7 +8,6 @@ import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,6 +34,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
@@ -237,6 +238,7 @@ public class PlayerProfile {
      * The profile can then be removed from RAM.
      */
     public final void markForDeletion() {
+        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Marking {} ({}) profile for deletion", name, ownerId);
         markedForDeletion = true;
     }
 
@@ -244,6 +246,7 @@ public class PlayerProfile {
      * Call this method if this Profile has unsaved changes.
      */
     public final void markDirty() {
+        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Marking {} ({}) profile as dirty", name, ownerId);
         dirty = true;
     }
 
