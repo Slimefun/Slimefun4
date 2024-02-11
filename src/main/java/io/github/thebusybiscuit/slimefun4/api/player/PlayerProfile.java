@@ -8,7 +8,6 @@ import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,6 +34,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
@@ -91,7 +92,10 @@ public class PlayerProfile {
      * Only intended for internal usage.
      * 
      * @return The {@link Config} associated with this {@link PlayerProfile}
+     *
+     * @deprecated Look at {@link PlayerProfile#getPlayerData()} instead for reading data.
      */
+    @Deprecated
     public @Nonnull Config getConfig() {
         return configFile;
     }
@@ -234,6 +238,7 @@ public class PlayerProfile {
      * The profile can then be removed from RAM.
      */
     public final void markForDeletion() {
+        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Marking {} ({}) profile for deletion", name, ownerId);
         markedForDeletion = true;
     }
 
@@ -241,14 +246,14 @@ public class PlayerProfile {
      * Call this method if this Profile has unsaved changes.
      */
     public final void markDirty() {
+        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Marking {} ({}) profile as dirty", name, ownerId);
         dirty = true;
     }
 
     public @Nonnull PlayerBackpack createBackpack(int size) {
-        IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !configFile.contains("backpacks." + i + ".size"));
-        int id = stream.findFirst().getAsInt();
+        int nextId = this.data.getBackpacks().size(); // Size is not 0 indexed so next ID can just be the current size
 
-        PlayerBackpack backpack = PlayerBackpack.newBackpack(this.ownerId, id, size);
+        PlayerBackpack backpack = PlayerBackpack.newBackpack(this.ownerId, nextId, size);
         this.data.addBackpack(backpack);
 
         markDirty();

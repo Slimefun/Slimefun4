@@ -18,6 +18,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -41,6 +42,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
  * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent}
@@ -178,7 +180,7 @@ public class BlockListener implements Listener {
             dropItems(e, drops);
 
             // Checks for vanilla sensitive blocks everywhere
-            checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
+            // checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
         }
     }
 
@@ -220,6 +222,16 @@ public class BlockListener implements Listener {
             }
 
             drops.addAll(sfItem.getDrops());
+            // Partial fix for #4087 - We don't want the inventory to be usable post break, close it for anyone still inside
+            // The main fix is in SlimefunItemInteractListener preventing opening to begin with
+            // Close the inventory for all viewers of this block
+            BlockMenu inventory = BlockStorage.getInventory(e.getBlock());
+            if (inventory != null) {
+                for (HumanEntity human : new ArrayList<>(inventory.toInventory().getViewers())) {
+                    human.closeInventory();
+                }
+            }
+            // Remove the block data
             BlockStorage.clearBlockInfo(e.getBlock());
         }
     }
@@ -306,8 +318,7 @@ public class BlockListener implements Listener {
     // Disabled for now due to #4069 - Servers crashing due to this check
     // There is additionally a second bug with `getMaxChainedNeighborUpdates` not existing in 1.17
     @ParametersAreNonnullByDefault
-    private void checkForSensitiveBlocks(Block block, Integer count, boolean isDropItems) {
-        /*
+    private void checkForSensitiveBlocks(Block block, int count, boolean isDropItems) {
         if (count >= Bukkit.getServer().getMaxChainedNeighborUpdates()) {
             return;
         }
@@ -329,7 +340,6 @@ public class BlockListener implements Listener {
         // Set the BlockData back: this makes it so containers and spawners drop correctly. This is a hacky fix.
         block.setBlockData(state.getBlockData(), false);
         state.update(true, false);
-        */
     }
 
     /**

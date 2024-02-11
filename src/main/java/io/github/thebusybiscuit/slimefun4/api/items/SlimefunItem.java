@@ -1199,7 +1199,7 @@ public class SlimefunItem implements Placeable {
      *            The {@link ItemStack} to check
      * @return The {@link Optional} {@link SlimefunItem} associated with this {@link ItemStack} if present, otherwise empty
      */
-    public @Nonnull Optional<SlimefunItem> getOptionalByItem(@Nullable ItemStack item) {
+    public static @Nonnull Optional<SlimefunItem> getOptionalByItem(@Nullable ItemStack item) {
         return Optional.ofNullable(getByItem(item));
     }
 }
