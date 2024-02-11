@@ -73,4 +73,18 @@ final class StartupWarnings {
         logger.log(Level.WARNING, BORDER);
     }
 
+    static void experimentalStorage(Logger logger, String backend) {
+        logger.log(Level.WARNING, BORDER);
+        logger.log(Level.WARNING, PREFIX + "You have enabled an experimental storage backend!");
+        logger.log(Level.WARNING, PREFIX);
+        logger.log(Level.WARNING, PREFIX + "\"{0}\" storage is still in development.", backend);
+        logger.log(Level.WARNING, PREFIX + "It might not work as expected and it might");
+        logger.log(Level.WARNING, PREFIX + "break your Slimefun data. Use at your own risk!");
+        logger.log(Level.WARNING, PREFIX);
+        logger.log(Level.WARNING, PREFIX + "You can revert at any time but be aware you will");
+        logger.log(Level.WARNING, PREFIX + "lose progress that happened during the time you switched.");
+        logger.log(Level.WARNING, PREFIX);
+        logger.log(Level.WARNING, PREFIX + "If you encounter any issues, please report them to us!");
+        logger.log(Level.WARNING, BORDER);
+    }
 }

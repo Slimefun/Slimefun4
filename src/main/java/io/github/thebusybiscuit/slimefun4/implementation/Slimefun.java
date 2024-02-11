@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import io.github.thebusybiscuit.slimefun4.storage.Storage;
+import io.github.thebusybiscuit.slimefun4.storage.backend.binary.BinaryStorage;
 import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
 
 import org.apache.commons.lang.Validate;
@@ -306,8 +307,21 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"), config.getBoolean("networks.delete-excess-items"));
 
         // Data storage
-        playerStorage = new LegacyStorage();
-        logger.log(Level.INFO, "Using legacy storage for player data");
+        String storageBackend = config.getString("storage.player-data");
+
+        if (storageBackend.equals("legacy")) {
+            playerStorage = new LegacyStorage();
+            logger.info("Using legacy storage for player data");
+        } else if (storageBackend.equals("binary")) {
+            playerStorage = new BinaryStorage();
+            StartupWarnings.experimentalStorage(logger, storageBackend);
+
+            // TODO(future): Run migration if needed
+        } else {
+            playerStorage = new LegacyStorage();
+            logger.warning("Unknown storage backend for player data: " + storageBackend);
+            logger.warning("Defaulting to legacy storage instead");
+        }
 
         // Setting up bStats
         new Thread(metricsService::start, "Slimefun Metrics").start();
