@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableSet;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.Threads;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
@@ -394,6 +395,7 @@ public class PlayerProfile {
         loading.put(uuid, true);
         Slimefun.getThreadService().newThread(Slimefun.instance(), "PlayerProfile#get(" + uuid + ")", () -> {
             PlayerData data = Slimefun.getPlayerStorage().loadPlayerData(p.getUniqueId());
+            loading.remove(uuid);
 
             AsyncProfileLoadEvent event = new AsyncProfileLoadEvent(new PlayerProfile(p, data));
             Bukkit.getPluginManager().callEvent(event);
