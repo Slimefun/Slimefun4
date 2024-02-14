@@ -3,10 +3,12 @@ package io.github.thebusybiscuit.slimefun4.api.player;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
@@ -28,6 +30,7 @@ import com.google.common.collect.ImmutableSet;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.Threads;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
@@ -54,6 +57,8 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
  *
  */
 public class PlayerProfile {
+
+    private static final Map<UUID, Boolean> loading = new ConcurrentHashMap<>();
 
     private final UUID ownerId;
     private final String name;
@@ -361,17 +366,37 @@ public class PlayerProfile {
      */
     public static boolean get(@Nonnull OfflinePlayer p, @Nonnull Consumer<PlayerProfile> callback) {
         Validate.notNull(p, "Cannot get a PlayerProfile for: null!");
-
         UUID uuid = p.getUniqueId();
+
+        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Getting PlayerProfile for {}", uuid);
+
         PlayerProfile profile = Slimefun.getRegistry().getPlayerProfiles().get(uuid);
 
         if (profile != null) {
+            Debug.log(TestCase.PLAYER_PROFILE_DATA, "PlayerProfile for {} was already loaded", uuid);
             callback.accept(profile);
             return true;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
+        // If we're already loading, we don't want to spin up a whole new thread and load the profile again/more
+        // This can very easily cause CPU, memory and thread exhaustion if the profile is large
+        // See #4011, #4116
+        if (loading.containsKey(uuid)) {
+            Debug.log(TestCase.PLAYER_PROFILE_DATA, "Attempted to get PlayerProfile ({}) while loading", uuid);
+            Debug.log(TestCase.PLAYER_PROFILE_DATA, "Caller: {}", Threads.getCaller());
+
+            // We can't easily consume the callback so we will throw it away in this case
+            // This will mean that if a user has attempted to do an action like open a block while
+            // their profile is still loading. Instead of it opening after a second or whatever when the
+            // profile is loaded, they will have to explicitly re-click the block/item/etc.
+            // This isn't the best but I think it's totally reasonable.
+            return false;
+        }
+
+        loading.put(uuid, true);
+        Threads.newThread(Slimefun.instance(), "PlayerProfile#get(" + uuid + ")", () -> {
             PlayerData data = Slimefun.getPlayerStorage().loadPlayerData(p.getUniqueId());
+            loading.remove(uuid);
 
             AsyncProfileLoadEvent event = new AsyncProfileLoadEvent(new PlayerProfile(p, data));
             Bukkit.getPluginManager().callEvent(event);
@@ -394,14 +419,28 @@ public class PlayerProfile {
      */
     public static boolean request(@Nonnull OfflinePlayer p) {
         Validate.notNull(p, "Cannot request a Profile for null");
+        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Requesting PlayerProfile for {}", p.getName());
 
-        if (!Slimefun.getRegistry().getPlayerProfiles().containsKey(p.getUniqueId())) {
+        UUID uuid = p.getUniqueId();
+
+        // If we're already loading, we don't want to spin up a whole new thread and load the profile again/more
+        // This can very easily cause CPU, memory and thread exhaustion if the profile is large
+        // See #4011, #4116
+        if (loading.containsKey(uuid)) {
+            Debug.log(TestCase.PLAYER_PROFILE_DATA, "Attempted to request PlayerProfile ({}) while loading", uuid);
+            Debug.log(TestCase.PLAYER_PROFILE_DATA, "Caller: {}", Threads.getCaller());
+            return false;
+        }
+
+        if (!Slimefun.getRegistry().getPlayerProfiles().containsKey(uuid)) {
+            loading.put(uuid, true);
             // Should probably prevent multiple requests for the same profile in the future
-            Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
-                PlayerData data = Slimefun.getPlayerStorage().loadPlayerData(p.getUniqueId());
+            Threads.newThread(Slimefun.instance(), "PlayerProfile#request(" + uuid + ")", () -> {
+                PlayerData data = Slimefun.getPlayerStorage().loadPlayerData(uuid);
+                loading.remove(uuid);
 
                 PlayerProfile pp = new PlayerProfile(p, data);
-                Slimefun.getRegistry().getPlayerProfiles().put(p.getUniqueId(), pp);
+                Slimefun.getRegistry().getPlayerProfiles().put(uuid, pp);
             });
 
             return false;
