@@ -84,7 +84,7 @@ class VersionsCommand extends SubCommand {
                     .append(")").color(ChatColor.GRAY);
             }
 
-            builder.append("\n");
+            builder.append("\n").event((HoverEvent) null);
             // @formatter:on
 
             if (Slimefun.getMetricsService().getVersion() != null) {
@@ -99,10 +99,14 @@ class VersionsCommand extends SubCommand {
             addJavaVersion(builder);
 
             if (Slimefun.getUpdater().getBranch() == SlimefunBranch.STABLE) {
-                builder.append("\nYou are using a RC (stable) version,")
+                builder.append("\nYou are using a RC (stable) version, " +
+                        "\nDO NOT report any bugs to Discord/GitHub.\n")
                     .color(ChatColor.RED)
-                    .append("\nDO NOT report any bugs to Discord/GitHub")
-                    .color(ChatColor.DARK_RED);
+                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
+                        "We do not provide support for stable versions, use with caution!\n" +
+                            "Please do not report any bugs with this version.\n" +
+                            "Upgrade to Dev version first for support."
+                    )));
             }
 
             builder.append("\n").event((HoverEvent) null);
