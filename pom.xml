@@ -9,7 +9,7 @@
 
     <!-- Our default version will be UNOFFICIAL, this will prevent auto updates -->
     <!-- from overriding our local test file -->
-    <version>RC - 38</version>
+    <version>4.9-UNOFFICIAL</version>
     <inceptionYear>2013</inceptionYear>
     <packaging>jar</packaging>
 
