@@ -24,6 +24,9 @@ options:
   backup-data: true
   drop-block-creative: true
 
+storage:
+  player-data: legacy
+
 guide:
   show-vanilla-recipes: true
   receive-on-first-join: true
