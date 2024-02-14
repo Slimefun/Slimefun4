@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -96,6 +97,13 @@ class VersionsCommand extends SubCommand {
             }
 
             addJavaVersion(builder);
+
+            if (Slimefun.getUpdater().getBranch() == SlimefunBranch.STABLE) {
+                builder.append("\nYou are using a RC (stable) version,")
+                    .color(ChatColor.RED)
+                    .append("\nDO NOT report any bugs to Discord/GitHub")
+                    .color(ChatColor.DARK_RED);
+            }
 
             builder.append("\n").event((HoverEvent) null);
             addPluginVersions(builder);
