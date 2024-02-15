@@ -99,11 +99,12 @@ class VersionsCommand extends SubCommand {
             addJavaVersion(builder);
 
             if (Slimefun.getUpdater().getBranch() == SlimefunBranch.STABLE) {
-                builder.append("\nYou are using a RC (stable) version, " +
+                builder.append("\nYou are using a stable version," +
+                        "\nWe do not provide support to stable versions." +
                         "\nDO NOT report any bugs to Discord/GitHub.\n")
                     .color(ChatColor.RED)
                     .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                        "We do not provide support for stable versions, use with caution!\n" +
+                        "We do not provide support for stable versions.\n" +
                             "Please do not report any bugs with this version.\n" +
                             "Upgrade to Dev version first for support."
                     )));
