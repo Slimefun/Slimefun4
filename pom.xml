@@ -345,11 +345,10 @@
         </dependency>
 
         <!-- Shaded packages -->
-        <!-- TODO: Revert changes back to maven when dough 1.3 released -->
         <dependency>
             <groupId>com.github.baked-libs.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>1108163a49</version>
+            <version>0130f8d9ce</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
