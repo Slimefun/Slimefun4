@@ -27,6 +27,8 @@ public class LegacyStorage implements Storage {
 
     @Override
     public PlayerData loadPlayerData(@Nonnull UUID uuid) {
+        long start = System.nanoTime();
+
         Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
         // Not too sure why this is its own file
         Config waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
@@ -73,12 +75,17 @@ public class LegacyStorage implements Storage {
             }
         }
 
+        long end = System.nanoTime();
+        Slimefun.getAnalyticsService().recordPlayerProfileDataTime("legacy", true, end - start);
+
         return new PlayerData(researches, backpacks, waypoints);
     }
 
     // The current design of saving all at once isn't great, this will be refined.
     @Override
     public void savePlayerData(@Nonnull UUID uuid, @Nonnull PlayerData data) {
+        long start = System.nanoTime();
+
         Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
         // Not too sure why this is its own file
         Config waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
@@ -133,5 +140,8 @@ public class LegacyStorage implements Storage {
         // Save files
         playerFile.save();
         waypointsFile.save();
+
+        long end = System.nanoTime();
+        Slimefun.getAnalyticsService().recordPlayerProfileDataTime("legacy", false, end - start);
     }
 }

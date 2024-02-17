@@ -30,7 +30,6 @@ import com.google.common.collect.ImmutableSet;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.Threads;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
@@ -383,7 +382,6 @@ public class PlayerProfile {
         // See #4011, #4116
         if (loading.containsKey(uuid)) {
             Debug.log(TestCase.PLAYER_PROFILE_DATA, "Attempted to get PlayerProfile ({}) while loading", uuid);
-            Debug.log(TestCase.PLAYER_PROFILE_DATA, "Caller: {}", Threads.getCaller());
 
             // We can't easily consume the callback so we will throw it away in this case
             // This will mean that if a user has attempted to do an action like open a block while
@@ -394,7 +392,7 @@ public class PlayerProfile {
         }
 
         loading.put(uuid, true);
-        Threads.newThread(Slimefun.instance(), "PlayerProfile#get(" + uuid + ")", () -> {
+        Slimefun.getThreadService().newThread(Slimefun.instance(), "PlayerProfile#get(" + uuid + ")", () -> {
             PlayerData data = Slimefun.getPlayerStorage().loadPlayerData(p.getUniqueId());
             loading.remove(uuid);
 
@@ -428,14 +426,13 @@ public class PlayerProfile {
         // See #4011, #4116
         if (loading.containsKey(uuid)) {
             Debug.log(TestCase.PLAYER_PROFILE_DATA, "Attempted to request PlayerProfile ({}) while loading", uuid);
-            Debug.log(TestCase.PLAYER_PROFILE_DATA, "Caller: {}", Threads.getCaller());
             return false;
         }
 
         if (!Slimefun.getRegistry().getPlayerProfiles().containsKey(uuid)) {
             loading.put(uuid, true);
             // Should probably prevent multiple requests for the same profile in the future
-            Threads.newThread(Slimefun.instance(), "PlayerProfile#request(" + uuid + ")", () -> {
+            Slimefun.getThreadService().newThread(Slimefun.instance(), "PlayerProfile#request(" + uuid + ")", () -> {
                 PlayerData data = Slimefun.getPlayerStorage().loadPlayerData(uuid);
                 loading.remove(uuid);
 

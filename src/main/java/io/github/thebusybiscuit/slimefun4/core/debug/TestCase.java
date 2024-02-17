@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.core.services.AnalyticsService;
+
 /**
  * Test cases in Slimefun. These are very useful for debugging why behavior is happening.
  * Server owners can enable these with {@code /sf debug <test-case>}
@@ -25,7 +27,12 @@ public enum TestCase {
      * Debug information regarding player profile loading, saving and handling.
      * This is an area we're currently changing quite a bit and this will help ensure we're doing it safely
      */
-    PLAYER_PROFILE_DATA;
+    PLAYER_PROFILE_DATA,
+
+    /**
+     * Debug information regarding our {@link AnalyticsService}.
+     */
+    ANALYTICS;
 
     public static final List<String> VALUES_LIST = Arrays.stream(values()).map(TestCase::toString).toList();
 

@@ -50,6 +50,7 @@ talismans:
 
 metrics:
   auto-update: true
+  analytics: true
 
 research-ranks:
 - Chicken
