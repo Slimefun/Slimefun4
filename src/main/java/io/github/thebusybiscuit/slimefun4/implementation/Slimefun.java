@@ -42,6 +42,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
+import io.github.thebusybiscuit.slimefun4.core.services.AnalyticsService;
 import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
@@ -52,6 +53,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
+import io.github.thebusybiscuit.slimefun4.core.services.ThreadService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
@@ -182,6 +184,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
     private final HologramsService hologramsService = new HologramsService(this);
     private final SoundService soundService = new SoundService(this);
+    private final ThreadService threadService = new ThreadService(this);
+    private final AnalyticsService analyticsService = new AnalyticsService(this);
 
     // Some other things we need
     private final IntegrationsManager integrations = new IntegrationsManager(this);
@@ -309,8 +313,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         playerStorage = new LegacyStorage();
         logger.log(Level.INFO, "Using legacy storage for player data");
 
-        // Setting up bStats
+        // Setting up bStats and analytics
         new Thread(metricsService::start, "Slimefun Metrics").start();
+        analyticsService.start();
 
         // Starting the Auto-Updater
         if (config.getBoolean("options.auto-update")) {
@@ -902,6 +907,17 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     }
 
     /**
+     * This method returns the {@link AnalyticsService} of Slimefun.
+     * It is used to handle sending analytic information.
+     *
+     * @return The {@link AnalyticsService} for Slimefun
+     */
+    public static @Nonnull AnalyticsService getAnalyticsService() {
+        validateInstance();
+        return instance.analyticsService;
+    }
+
+    /**
      * This method returns the {@link GitHubService} of Slimefun.
      * It is used to retrieve data from GitHub repositories.
      *
@@ -1067,5 +1083,15 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     public static @Nonnull Storage getPlayerStorage() {
         return instance().playerStorage;
+    }
+
+    /**
+     * This method returns the {@link ThreadService} of Slimefun.
+     * <b>Do not use this if you're an addon. Please make your own {@link ThreadService}.</b>
+     *
+     * @return The {@link ThreadService} for Slimefun
+     */
+    public static @Nonnull ThreadService getThreadService() {
+        return instance().threadService;
     }
 }
