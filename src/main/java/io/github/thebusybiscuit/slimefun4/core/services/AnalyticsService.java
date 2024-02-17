@@ -59,8 +59,8 @@ public class AnalyticsService {
         }
     }
 
-    // We'll send some timing data every minute,
-    // Today, we collect; the tick interval, the avg timing per tick and avg timing per machine
+    // We'll send some timing data every minute.
+    // To date, we collect the tick interval, the avg timing per tick and avg timing per machine
     @Nonnull
     private Runnable sendTimingsAnalytics() {
         return () -> {
