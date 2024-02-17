@@ -31,7 +31,7 @@ jobs:
           api: '🔧 API'
           compatibility: '🤝 Compatibility'
 
-      - uses: thollander/actions-comment-pull-request@v2.4.3
+      - uses: thollander/actions-comment-pull-request@v2.5.0
         name: Leave a comment about the applied label
         if: ${{ steps.labeller.outputs.applied != 0 }}
         with:
@@ -40,7 +40,7 @@ jobs:
             Your Pull Request was automatically labelled as: "${{ steps.labeller.outputs.applied }}"
             Thank you for contributing to this project! ❤️
 
-      - uses: thollander/actions-comment-pull-request@v2.4.3
+      - uses: thollander/actions-comment-pull-request@v2.5.0
         name: Leave a comment about our branch naming convention
         if: ${{ steps.labeller.outputs.applied == 0 }}
         with:
