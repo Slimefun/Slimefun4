@@ -30,7 +30,6 @@ import com.google.common.collect.ImmutableSet;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.Threads;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
