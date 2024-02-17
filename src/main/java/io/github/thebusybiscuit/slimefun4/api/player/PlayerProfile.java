@@ -400,8 +400,8 @@ public class PlayerProfile {
 
             Slimefun.getRegistry().getPlayerProfiles().put(uuid, event.getProfile());
 
-            // Make sure we call this after we actually put the PlayerProfile into the map.
-            // Otherwise we end up with a race condition where the profile is not in the map just _yet_
+            // Make sure we call this after we put the PlayerProfile into the registry.
+            // Otherwise, we end up with a race condition where the profile is not in the map just _yet_
             // but the loading flag is gone and we can end up loading it a second time (and thus can dupe items)
             // Fixes https://github.com/Slimefun/Slimefun4/issues/4130
             loading.remove(uuid);
@@ -444,8 +444,8 @@ public class PlayerProfile {
                 PlayerProfile pp = new PlayerProfile(p, data);
                 Slimefun.getRegistry().getPlayerProfiles().put(uuid, pp);
 
-                // Make sure we call this after we actually put the PlayerProfile into the map.
-                // Otherwise we end up with a race condition where the profile is not in the map just _yet_
+                // Make sure we call this after we put the PlayerProfile into the registry.
+                // Otherwise, we end up with a race condition where the profile is not in the map just _yet_
                 // but the loading flag is gone and we can end up loading it a second time (and thus can dupe items)
                 // Fixes https://github.com/Slimefun/Slimefun4/issues/4130
                 loading.remove(uuid);
