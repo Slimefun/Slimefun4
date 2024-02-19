@@ -394,7 +394,6 @@ public class PlayerProfile {
         loading.put(uuid, true);
         Slimefun.getThreadService().newThread(Slimefun.instance(), "PlayerProfile#get(" + uuid + ")", () -> {
             PlayerData data = Slimefun.getPlayerStorage().loadPlayerData(p.getUniqueId());
-            loading.remove(uuid);
 
             AsyncProfileLoadEvent event = new AsyncProfileLoadEvent(new PlayerProfile(p, data));
             Bukkit.getPluginManager().callEvent(event);

@@ -427,9 +427,15 @@ public final class SlimefunUtils {
         }
     }
 
+    /**
+     * returns true if equal or false if not
+     */
     public static boolean compareItem(@Nullable ItemStack itemOne, @Nullable ItemStack itemTwo) {
+        // If they are both null, they are equal
         if (itemOne == null && itemTwo == null) {
             return true;
+
+        // If one is null and the other is not, they are not equal
         } else if (itemOne == null || itemTwo == null) {
             return false;
         }
@@ -437,34 +443,58 @@ public final class SlimefunUtils {
         boolean itemOneHasMeta = itemOne.hasItemMeta();
         boolean itemTwoHasMeta = itemTwo.hasItemMeta();
 
+        // If one has meta and the other does not, they are not equal
         if ((!itemOneHasMeta && itemTwoHasMeta) || (itemOneHasMeta && !itemTwoHasMeta)) {
             return false;
         }
 
+        // If neither have meta, compare the types and return
         if (!itemOneHasMeta && !itemTwoHasMeta) {
             return itemOne.getType() == itemTwo.getType();
         }
 
         ItemMeta itemMetaOne = itemOne.getItemMeta();
         ItemMeta itemMetaTwo = itemTwo.getItemMeta();
+        // If both metas are null, compare the types and return
         if (itemMetaOne == null && itemMetaTwo == null) {
-            return true;
+            return itemOne.getType() == itemTwo.getType();
+
+        // If one meta is null and the other is not, they are not equal
         } else if (itemMetaOne == null || itemMetaTwo == null) {
             return false;
         }
 
         Optional<String> itemDataOne = Slimefun.getItemDataService().getItemData(itemMetaOne);
         Optional<String> itemDataTwo = Slimefun.getItemDataService().getItemData(itemMetaTwo);
+        // If one item has a Slimefun ID and the other does not, they are not equal
+        if ((itemDataOne.isPresent() && !itemDataTwo.isPresent()) || (!itemDataOne.isPresent() && itemDataTwo.isPresent())) {
+            return false;
+        }
+
+        // If the IDs are not equal, the items are not equal
+        if (itemDataOne.isPresent() && itemDataTwo.isPresent() && !itemDataOne.equals(itemDataTwo)) {
+            return false;
+        }
+
+        // If both items have a Slimefun ID and are equal
         if (itemDataOne.isPresent() && itemDataOne.equals(itemDataTwo)) {
             Optional<DistinctiveItem> distinctiveItemOne = getDistinctiveItem(itemDataOne.get());
             Optional<DistinctiveItem> distinctiveItemTwo = getDistinctiveItem(itemDataTwo.get());
+
+            // If both items are distinctive, compare them
             if (distinctiveItemOne.isPresent() && distinctiveItemTwo.isPresent()) {
                 return distinctiveItemOne.get().canStack(itemMetaOne, itemMetaTwo);
             }
+
+            // Otherwise return true since the IDs are equal
             return true;
         }
 
-        return itemOne.equals(itemTwo);
+        // -- Vanilla items --
+        // This should only be vanilla items now
+        // Compare types and metas
+        return itemOne.getType() == itemTwo.getType()
+            && itemMetaOne.equals(itemMetaTwo);
     }
 
     private static @Nonnull Optional<DistinctiveItem> getDistinctiveItem(@Nonnull String id) {
