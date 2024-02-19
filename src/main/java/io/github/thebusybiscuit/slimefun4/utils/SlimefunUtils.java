@@ -408,6 +408,11 @@ public final class SlimefunUtils {
                         return optionalDistinctive.get().canStack(possibleSfItemMeta, itemMeta);
                     }
                     return true;
+                } else if (id != null && possibleItemId != null) {
+                    /*
+                     * We have two IDs that DO NOT match, we can skip ItemMeta check.
+                     */
+                    return false;
                 } else {
                     Debug.log(TestCase.CARGO_INPUT_TESTING, "  Item IDs don't match, checking meta {} == {} (lore: {})", itemMeta, possibleSfItemMeta, checkLore);
                     return equalsItemMeta(itemMeta, possibleSfItemMeta, checkLore);
@@ -459,6 +464,10 @@ public final class SlimefunUtils {
     }
 
     private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta sfitemMeta, boolean checkLore) {
+
+        if(!Slimefun.getItemDataService().getItemData(itemMeta).equals(Slimefun.getItemDataService().getItemData(sfitemMeta)))
+            return false;
+
         if (itemMeta.hasDisplayName() != sfitemMeta.hasDisplayName()) {
             return false;
         } else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
