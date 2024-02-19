@@ -440,6 +440,11 @@ public final class SlimefunUtils {
             return false;
         }
 
+        // If types aren't equal items aren't equal
+        if (itemOne.getType() != itemTwo.getType()) {
+            return false;
+        }
+
         boolean itemOneHasMeta = itemOne.hasItemMeta();
         boolean itemTwoHasMeta = itemTwo.hasItemMeta();
 
