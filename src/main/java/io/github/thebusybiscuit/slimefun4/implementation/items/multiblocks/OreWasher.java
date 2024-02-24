@@ -131,7 +131,7 @@ public class OreWasher extends MultiBlockMachine {
                         }
 
                         return;
-                    } else if (SlimefunUtils.compareItem(input, new ItemStack(Material.SAND))) {
+                    } else if (SlimefunUtils.compareItem(input, new ItemStack(Material.SAND, 2))) {
                         ItemStack output = SlimefunItems.SALT;
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 

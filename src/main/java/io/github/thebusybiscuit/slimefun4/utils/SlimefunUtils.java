@@ -449,7 +449,7 @@ public final class SlimefunUtils {
         boolean itemTwoHasMeta = itemTwo.hasItemMeta();
 
         // If one has meta and the other does not, they are not equal
-        if ((!itemOneHasMeta && itemTwoHasMeta) || (itemOneHasMeta && !itemTwoHasMeta)) {
+        if (itemOneHasMeta != itemTwoHasMeta) {
             return false;
         }
 
@@ -472,7 +472,7 @@ public final class SlimefunUtils {
         Optional<String> itemDataOne = Slimefun.getItemDataService().getItemData(itemMetaOne);
         Optional<String> itemDataTwo = Slimefun.getItemDataService().getItemData(itemMetaTwo);
         // If one item has a Slimefun ID and the other does not, they are not equal
-        if ((itemDataOne.isPresent() && !itemDataTwo.isPresent()) || (!itemDataOne.isPresent() && itemDataTwo.isPresent())) {
+        if (itemDataOne.isPresent() != itemDataTwo.isPresent()) {
             return false;
         }
 
