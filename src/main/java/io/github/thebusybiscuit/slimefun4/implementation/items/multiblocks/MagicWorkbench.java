@@ -134,7 +134,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
     private boolean isCraftable(Inventory inv, ItemStack[] recipe) {
         for (int j = 0; j < inv.getContents().length; j++) {
-            if (!SlimefunUtils.compareItem(inv.getContents()[j], recipe[j])) {
+            if (!SlimefunUtils.compareItem(inv.getContents()[j], recipe[j])
+                    && inv.getContents()[j].getAmount() < recipe[j].getAmount()
+            ) {
                 return false;
             }
         }
