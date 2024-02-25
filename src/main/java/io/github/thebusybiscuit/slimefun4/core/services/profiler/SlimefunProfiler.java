@@ -22,6 +22,8 @@ import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.google.common.util.concurrent.AtomicDouble;
+
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -87,6 +89,8 @@ public class SlimefunProfiler {
 
     private final AtomicLong totalMsTicked = new AtomicLong();
     private final AtomicInteger ticksPassed = new AtomicInteger();
+    private final AtomicLong totalNsTicked = new AtomicLong();
+    private final AtomicDouble averageTimingsPerMachine = new AtomicDouble();
 
     /**
      * This method terminates the {@link SlimefunProfiler}.
@@ -222,11 +226,14 @@ public class SlimefunProfiler {
 
         totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();
 
+        averageTimingsPerMachine.getAndSet(timings.values().stream().mapToLong(Long::longValue).average().orElse(0));
+
         /*
          * We log how many milliseconds have been ticked, and how many ticks have passed
          * This is so when bStats requests the average timings, they're super quick to figure out
          */
         totalMsTicked.addAndGet(TimeUnit.NANOSECONDS.toMillis(totalElapsedTime));
+        totalNsTicked.addAndGet(totalElapsedTime);
         ticksPassed.incrementAndGet();
 
         if (!requests.isEmpty()) {
@@ -415,5 +422,27 @@ public class SlimefunProfiler {
         ticksPassed.set(0);
 
         return l;
+    }
+
+    /**
+     * Get and reset the average nanosecond timing for this {@link SlimefunProfiler}.
+     *
+     * @return The average nanosecond timing for this {@link SlimefunProfiler}.
+     */
+    public double getAndResetAverageNanosecondTimings() {
+        long l = totalNsTicked.get() / ticksPassed.get();
+        totalNsTicked.set(0);
+        ticksPassed.set(0);
+
+        return l;
+    }
+
+    /**
+     * Get and reset the average millisecond timing for each machine.
+     *
+     * @return The average millisecond timing for each machine.
+     */
+    public double getAverageTimingsPerMachine() {
+        return averageTimingsPerMachine.getAndSet(0);
     }
 }

@@ -331,7 +331,7 @@ public class GPSNetwork {
                         }
                     }
 
-                    profile.addWaypoint(new Waypoint(profile, id, event.getLocation(), event.getName()));
+                    profile.addWaypoint(new Waypoint(p.getUniqueId(), id, event.getLocation(), event.getName()));
 
                     SoundEffect.GPS_NETWORK_ADD_WAYPOINT.playFor(p);
                     Slimefun.getLocalization().sendMessage(p, "gps.waypoint.added", true);

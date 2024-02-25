@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Approve via actions
-      uses: hmarr/auto-approve-action@v3.2.1
+      uses: hmarr/auto-approve-action@v4.0.0
       if: github.actor == 'TheBusyBot' || github.actor == 'renovate[bot]'
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"

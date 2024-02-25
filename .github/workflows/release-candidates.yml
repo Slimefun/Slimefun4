@@ -48,7 +48,7 @@ jobs:
         body: |
           ## 💾  Download link
           This release candidate of Slimefun4 can be downloaded here:
-          https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/Slimefun4-${{ github.event.inputs.number }}.jar
+          https://blob.build/project/Slimefun4/RC
 
           ### ❓ How to install Slimefun
           Simply drag & drop the Slimefun4 jar file into the `/plugins/` directory of your server.

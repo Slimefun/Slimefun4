@@ -11,12 +11,14 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -40,6 +42,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
  * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent}
@@ -177,7 +180,7 @@ public class BlockListener implements Listener {
             dropItems(e, drops);
 
             // Checks for vanilla sensitive blocks everywhere
-            checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
+            // checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
         }
     }
 
@@ -219,6 +222,16 @@ public class BlockListener implements Listener {
             }
 
             drops.addAll(sfItem.getDrops());
+            // Partial fix for #4087 - We don't want the inventory to be usable post break, close it for anyone still inside
+            // The main fix is in SlimefunItemInteractListener preventing opening to begin with
+            // Close the inventory for all viewers of this block
+            BlockMenu inventory = BlockStorage.getInventory(e.getBlock());
+            if (inventory != null) {
+                for (HumanEntity human : new ArrayList<>(inventory.toInventory().getViewers())) {
+                    human.closeInventory();
+                }
+            }
+            // Remove the block data
             BlockStorage.clearBlockInfo(e.getBlock());
         }
     }
@@ -240,7 +253,9 @@ public class BlockListener implements Listener {
                 for (ItemStack drop : drops) {
                     // Prevent null or air from being dropped
                     if (drop != null && drop.getType() != Material.AIR) {
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+                        if (e.getPlayer().getGameMode() != GameMode.CREATIVE || Slimefun.getCfg().getBoolean("options.drop-block-creative")) {
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+                        }
                     }
                 }
             }
@@ -300,8 +315,10 @@ public class BlockListener implements Listener {
      * @param count
      *      The amount of times this has been recursively called
      */
+    // Disabled for now due to #4069 - Servers crashing due to this check
+    // There is additionally a second bug with `getMaxChainedNeighborUpdates` not existing in 1.17
     @ParametersAreNonnullByDefault
-    private void checkForSensitiveBlocks(Block block, Integer count, boolean isDropItems) {
+    private void checkForSensitiveBlocks(Block block, int count, boolean isDropItems) {
         if (count >= Bukkit.getServer().getMaxChainedNeighborUpdates()) {
             return;
         }
