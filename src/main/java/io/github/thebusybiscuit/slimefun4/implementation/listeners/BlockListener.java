@@ -148,11 +148,11 @@ public class BlockListener implements Listener {
 
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         Block b = e.getBlock();
-        SlimefunItem sfItem = BlockStorage.check(b);
+        SlimefunItem sfBlock = BlockStorage.check(b);
 
         // If there is a Slimefun Block here, call our BreakEvent and, if cancelled, cancel this event and return
-        if (sfItem != null) {
-            SlimefunBlockBreakEvent breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
+        if (sfBlock != null) {
+            SlimefunBlockBreakEvent breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfBlock);
             Bukkit.getPluginManager().callEvent(breakEvent);
 
             if (breakEvent.isCancelled()) {
@@ -173,9 +173,9 @@ public class BlockListener implements Listener {
             // TODO: merge this with the vanilla sensitive block check (when 1.18- is dropped)
             checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock(), item);
 
-            callBlockHandler(e, item, drops, sfItem);
+            callBlockHandler(e, item, drops, sfBlock);
 
-            dropItems(e, item, b, sfItem==null, drops);
+            dropItems(e, item, b, sfBlock, drops);
 
             // Checks for vanilla sensitive blocks everywhere
             checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
@@ -225,7 +225,7 @@ public class BlockListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    private void dropItems(BlockBreakEvent e, ItemStack item, Block b, boolean isBlockstorageNull, List<ItemStack> drops) {
+    private void dropItems(BlockBreakEvent e, ItemStack item, Block b, @Nullable SlimefunItem sfBlock, List<ItemStack> drops) {
         if (!drops.isEmpty()) {
             // TODO: properly support loading inventories within unit tests
             if (!Slimefun.instance().isUnitTest()) {
@@ -239,7 +239,7 @@ public class BlockListener implements Listener {
                 e.setDropItems(false);
 
                 // Fixes #4051
-                if (isBlockstorageNull) {
+                if (sfBlock == null) {
                     b.breakNaturally(item);
                 }
 
