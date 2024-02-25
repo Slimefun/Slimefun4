@@ -1,0 +1,36 @@
+name: Publish build
+
+on:
+  push:
+    branches:
+      - master
+      - stable
+
+jobs:
+  publish:
+    name: Upload build
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[ci skip]') == false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3.13.0
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+          java-package: jdk
+          architecture: x64
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Upload to Blob Builds
+        uses: WalshyDev/blob-builds/gh-action@f3da5ce7b7e2b70eb963e0c0014677b3d78c10fa
+        with:
+          project: Slimefun4
+          releaseChannel: ${{ github.ref == 'refs/heads/master' && 'Dev' || 'RC' }}
+          apiToken: ${{ secrets.BLOB_BUILDS_API_TOKEN }}
+          file: './target/Slimefun v4.9-UNOFFICIAL.jar'
+          releaseNotes: ${{ github.event.head_commit.message }}

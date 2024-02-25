@@ -22,6 +22,7 @@ options:
   burn-players-when-radioactive: true
   drop-excess-sf-give-items: false
   backup-data: true
+  drop-block-creative: true
 
 guide:
   show-vanilla-recipes: true
@@ -49,6 +50,7 @@ talismans:
 
 metrics:
   auto-update: true
+  analytics: true
 
 research-ranks:
 - Chicken

@@ -65,7 +65,7 @@ public class TestSlimefunBlockPlaceEvent {
         int x = TestUtilities.randomInt();
         int z = TestUtilities.randomInt();
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
-        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
+        Block blockAgainst = new BlockMock(Material.GRASS_BLOCK, new Location(world, x, 1, z));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
 
@@ -88,7 +88,7 @@ public class TestSlimefunBlockPlaceEvent {
         int x = TestUtilities.randomInt();
         int z = TestUtilities.randomInt();
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
-        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
+        Block blockAgainst = new BlockMock(Material.GRASS_BLOCK, new Location(world, x, 1, z));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
 
@@ -125,7 +125,7 @@ public class TestSlimefunBlockPlaceEvent {
         int x = TestUtilities.randomInt();
         int z = TestUtilities.randomInt();
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
-        Block blockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
+        Block blockAgainst = new BlockMock(Material.GRASS_BLOCK, new Location(world, x, 1, z));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
 
@@ -153,7 +153,7 @@ public class TestSlimefunBlockPlaceEvent {
         int x = TestUtilities.randomInt();
         int z = TestUtilities.randomInt();
         Block firstBlock = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
-        Block firstBlockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
+        Block firstBlockAgainst = new BlockMock(Material.GRASS_BLOCK, new Location(world, x, 1, z));
 
         Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
 
@@ -176,7 +176,7 @@ public class TestSlimefunBlockPlaceEvent {
 
         // Place second block in the same location
         Block secondBlock = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, x, 0, z));
-        Block secondBlockAgainst = new BlockMock(Material.GRASS, new Location(world, x, 1, z));
+        Block secondBlockAgainst = new BlockMock(Material.GRASS_BLOCK, new Location(world, x, 1, z));
 
         BlockPlaceEvent secondBlockPlaceEvent  = new BlockPlaceEvent(
                 secondBlock, secondBlock.getState(), secondBlockAgainst, itemStack, player, true, EquipmentSlot.HAND

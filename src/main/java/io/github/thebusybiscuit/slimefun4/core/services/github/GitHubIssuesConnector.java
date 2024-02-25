@@ -7,11 +7,11 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import kong.unirest.JsonNode;
-import kong.unirest.json.JSONArray;
-import kong.unirest.json.JSONObject;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 class GitHubIssuesConnector extends GitHubConnector {
 
@@ -24,15 +24,15 @@ class GitHubIssuesConnector extends GitHubConnector {
     }
 
     @Override
-    public void onSuccess(@Nonnull JsonNode response) {
-        if (response.isArray()) {
-            JSONArray array = response.getArray();
+    public void onSuccess(@Nonnull JsonElement response) {
+        if (response.isJsonArray()) {
+            JsonArray array = response.getAsJsonArray();
 
             int issues = 0;
             int pullRequests = 0;
 
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
+            for (JsonElement element : array) {
+                JsonObject obj = element.getAsJsonObject();
 
                 if (obj.has("pull_request")) {
                     pullRequests++;

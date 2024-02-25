@@ -13,7 +13,9 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+
+import io.github.thebusybiscuit.slimefun4.storage.Storage;
+import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -26,7 +28,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.scheduler.BukkitTask;
 
 import io.github.bakedlibs.dough.config.Config;
@@ -41,6 +42,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
+import io.github.thebusybiscuit.slimefun4.core.services.AnalyticsService;
 import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
@@ -51,6 +53,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
+import io.github.thebusybiscuit.slimefun4.core.services.ThreadService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
@@ -117,17 +120,16 @@ import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesS
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RainbowArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SolarHelmetTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
-
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
@@ -138,7 +140,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  *
  * @author TheBusyBiscuit
  */
-public final class Slimefun extends JavaPlugin implements SlimefunAddon {
+public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     /**
      * This is the Java version we recommend server owners to use.
@@ -182,6 +184,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
     private final HologramsService hologramsService = new HologramsService(this);
     private final SoundService soundService = new SoundService(this);
+    private final ThreadService threadService = new ThreadService(this);
+    private final AnalyticsService analyticsService = new AnalyticsService(this);
 
     // Some other things we need
     private final IntegrationsManager integrations = new IntegrationsManager(this);
@@ -197,36 +201,26 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final Config items = new Config(this, "Items.yml");
     private final Config researches = new Config(this, "Researches.yml");
 
+    // Data storage
+    private Storage playerStorage;
+
     // Listeners that need to be accessed elsewhere
     private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
     private final BackpackListener backpackListener = new BackpackListener();
     private final SlimefunBowListener bowListener = new SlimefunBowListener();
 
     /**
-     * Our default constructor for {@link Slimefun}.
+     * This constructor is invoked by Bukkit and within unit tests.
+     * Therefore we need to figure out if we're within unit tests or not.
      */
     public Slimefun() {
         super();
-    }
 
-    /**
-     * This constructor is invoked in Unit Test environments only.
-     * 
-     * @param loader
-     *            Our {@link JavaPluginLoader}
-     * @param description
-     *            A {@link PluginDescriptionFile}
-     * @param dataFolder
-     *            The data folder
-     * @param file
-     *            A {@link File} for this {@link Plugin}
-     */
-    @ParametersAreNonnullByDefault
-    public Slimefun(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
-        super(loader, description, dataFolder, file);
-
-        // This is only invoked during a Unit Test
-        minecraftVersion = MinecraftVersion.UNIT_TEST;
+        // Check that we got loaded by MockBukkit rather than Bukkit's loader
+        // TODO: This is very much a hack and we can hopefully move to a more native way in the future
+        if (getClassLoader().getClass().getPackageName().startsWith("be.seeseemelk.mockbukkit")) {
+            minecraftVersion = MinecraftVersion.UNIT_TEST;
+        }
     }
 
     /**
@@ -258,6 +252,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         registry.load(this, config);
         loadTags();
         soundService.reload(false);
+        // TODO: What do we do if tests want to use another storage backend (e.g. testing new feature on legacy + sql)?
+        // Do we have a way to override this?
+        playerStorage = new LegacyStorage();
     }
 
     /**
@@ -312,8 +309,13 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"), config.getBoolean("networks.delete-excess-items"));
 
-        // Setting up bStats
+        // Data storage
+        playerStorage = new LegacyStorage();
+        logger.log(Level.INFO, "Using legacy storage for player data");
+
+        // Setting up bStats and analytics
         new Thread(metricsService::start, "Slimefun Metrics").start();
+        analyticsService.start();
 
         // Starting the Auto-Updater
         if (config.getBoolean("options.auto-update")) {
@@ -905,6 +907,17 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
     }
 
     /**
+     * This method returns the {@link AnalyticsService} of Slimefun.
+     * It is used to handle sending analytic information.
+     *
+     * @return The {@link AnalyticsService} for Slimefun
+     */
+    public static @Nonnull AnalyticsService getAnalyticsService() {
+        validateInstance();
+        return instance.analyticsService;
+    }
+
+    /**
      * This method returns the {@link GitHubService} of Slimefun.
      * It is used to retrieve data from GitHub repositories.
      *
@@ -1068,4 +1081,17 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon {
         return instance.getServer().getScheduler().runTask(instance, runnable);
     }
 
+    public static @Nonnull Storage getPlayerStorage() {
+        return instance().playerStorage;
+    }
+
+    /**
+     * This method returns the {@link ThreadService} of Slimefun.
+     * <b>Do not use this if you're an addon. Please make your own {@link ThreadService}.</b>
+     *
+     * @return The {@link ThreadService} for Slimefun
+     */
+    public static @Nonnull ThreadService getThreadService() {
+        return instance().threadService;
+    }
 }
