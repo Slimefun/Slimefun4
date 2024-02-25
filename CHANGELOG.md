@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 37 (TBD)](#release-candidate-37-tbd)
+- [Release Candidate 38 (TBD)](#release-candidate-38-tbd)
+- [Release Candidate 37 (25 Feb 2024)](#release-candidate-37-25-feb-2024)
 - [Release Candidate 36 (20 Dec 2023)](#release-candidate-36-20-dec-2023)
 - [Release Candidate 35 (07 Jul 2023)](#release-candidate-35-07-jul-2023)
 - [Release Candidate 34 (20 Jun 2023)](#release-candidate-34-20-jun-2023)
