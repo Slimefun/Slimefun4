@@ -148,7 +148,8 @@ public class BlockListener implements Listener {
         }
 
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-        SlimefunItem sfItem = BlockStorage.check(e.getBlock());
+        Block b = e.getBlock();
+        SlimefunItem sfItem = BlockStorage.check(b);
 
         // If there is a Slimefun Block here, call our BreakEvent and, if cancelled, cancel this event and return
         if (sfItem != null) {
@@ -175,7 +176,7 @@ public class BlockListener implements Listener {
 
             callBlockHandler(e, item, drops, sfItem);
 
-            dropItems(e, item, drops);
+            dropItems(e, item, b, sfItem==null, drops);
 
             // Checks for vanilla sensitive blocks everywhere
             checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
@@ -225,7 +226,7 @@ public class BlockListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    private void dropItems(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
+    private void dropItems(BlockBreakEvent e, ItemStack item, Block b, boolean isBlockstorageNull, List<ItemStack> drops) {
         if (!drops.isEmpty()) {
             // TODO: properly support loading inventories within unit tests
             if (!Slimefun.instance().isUnitTest()) {
@@ -239,8 +240,7 @@ public class BlockListener implements Listener {
                 e.setDropItems(false);
 
                 // Fixes #4051
-                Block b = e.getBlock();
-                if (BlockStorage.check(b) == null) {
+                if (isBlockstorageNull) {
                     b.breakNaturally(item);
                 }
 
