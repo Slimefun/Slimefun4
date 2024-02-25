@@ -147,8 +147,8 @@ public class BlockListener implements Listener {
         }
 
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-        Block b = e.getBlock();
-        SlimefunItem sfBlock = BlockStorage.check(b);
+        Block block = e.getBlock();
+        SlimefunItem sfBlock = BlockStorage.check(block);
 
         // If there is a Slimefun Block here, call our BreakEvent and, if cancelled, cancel this event and return
         if (sfBlock != null) {
@@ -175,7 +175,7 @@ public class BlockListener implements Listener {
 
             callBlockHandler(e, item, drops, sfBlock);
 
-            dropItems(e, item, b, sfBlock, drops);
+            dropItems(e, item, block, sfBlock, drops);
 
             // Checks for vanilla sensitive blocks everywhere
             checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
@@ -225,12 +225,12 @@ public class BlockListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    private void dropItems(BlockBreakEvent e, ItemStack item, Block b, @Nullable SlimefunItem sfBlock, List<ItemStack> drops) {
+    private void dropItems(BlockBreakEvent e, ItemStack item, Block block, @Nullable SlimefunItem sfBlock, List<ItemStack> drops) {
         if (!drops.isEmpty()) {
             // TODO: properly support loading inventories within unit tests
             if (!Slimefun.instance().isUnitTest()) {
                 // Notify plugins like CoreProtect
-                Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.BREAK_BLOCK);
+                Slimefun.getProtectionManager().logAction(e.getPlayer(), block, Interaction.BREAK_BLOCK);
             }
 
             // Fixes #2560
@@ -240,14 +240,14 @@ public class BlockListener implements Listener {
 
                 // Fixes #4051
                 if (sfBlock == null) {
-                    b.breakNaturally(item);
+                    block.breakNaturally(item);
                 }
 
                 // The list only contains other drops, not those from the block itself, so we still need to handle those
                 for (ItemStack drop : drops) {
                     // Prevent null or air from being dropped
                     if (drop != null && drop.getType() != Material.AIR) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), drop);
+                        block.getWorld().dropItemNaturally(block.getLocation(), drop);
                     }
                 }
             }
