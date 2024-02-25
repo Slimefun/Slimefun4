@@ -39,7 +39,7 @@
 
 ## Release Candidate 38 (TBD)
 
-## Release Candidate 37 (24 Feb 2024)
+## Release Candidate 37 (25 Feb 2024)
 
 #### Additions
 * (API) Introduce SlimefunItemRegistryFinalizedEvent (#4099)
