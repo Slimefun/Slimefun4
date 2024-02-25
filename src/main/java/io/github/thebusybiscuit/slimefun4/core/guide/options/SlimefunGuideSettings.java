@@ -94,7 +94,7 @@ public final class SlimefunGuideSettings {
 
         List<String> contributorsLore = new ArrayList<>();
         contributorsLore.add("");
-        contributorsLore.addAll(locale.getMessages(p, "guide.credits.description", msg -> msg.replace("%contributors%", String.valueOf(github.getContributors().size()))));
+        contributorsLore.addAll(locale.getMessages(p, "guide.credits.description"));
         contributorsLore.add("");
         contributorsLore.add("&7\u21E8 &e" + locale.getMessage(p, "guide.credits.open"));
 
@@ -106,7 +106,8 @@ public final class SlimefunGuideSettings {
         // @formatter:on
 
         menu.addMenuClickHandler(2, (pl, slot, action, item) -> {
-            ContributorsMenu.open(pl, 0);
+            pl.closeInventory();
+            ChatUtils.sendURL(pl, "https://github.com/Slimefun/Slimefun4/graphs/contributors");
             return false;
         });
 
