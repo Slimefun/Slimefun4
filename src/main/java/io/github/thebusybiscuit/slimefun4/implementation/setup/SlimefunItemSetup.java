@@ -233,43 +233,46 @@ public final class SlimefunItemSetup {
 
     private SlimefunItemSetup() {}
 
-    private static SlimefunItem simpleSetup(String itemGroups, String sfItem, String recipeType, List<String> recipe, DefaultItemGroups defItemGroups) {
-        //DefaultItemGroups defItemGroups = new DefaultItemGroups();
+    private static ItemStack[] listToRecipe(List<String> list) {
+        ItemStack[] array = new ItemStack[9];
+
+        for(int i = 0; i < 9; i++) {
+            if (list.get(i) == null || Objects.equals(list.get(i), "null")) {
+                array[i] = null;
+                continue;
+            }
+
+            String[] type = list.get(i).split("\\.");
+            //Bukkit.getLogger().info(list.get(i));
+            switch (type[0]) {
+                case "Material":
+                    array[i] = new ItemStack(Material.getMaterial(type[1]));
+                    break;
+                case "SlimefunItems":
+                    array[i] = (SlimefunItemStack) reflectionGet(SlimefunItems.class, type[1], null);
+                    break;
+            }
+        }
+
+        return array;
+    }
+
+    private static SlimefunItem itemSetup(String itemGroups, String sfItem, String recipeType, List<String> recipe, DefaultItemGroups defItemGroups) {
 
         try {
             var itemGEnum = (ItemGroup) reflectionGet(DefaultItemGroups.class, itemGroups, defItemGroups);
             var sfItemEnum = (SlimefunItemStack) reflectionGet(SlimefunItems.class, sfItem, null);
             var recipeTypeEnum = (RecipeType) reflectionGet(RecipeType.class, recipeType,null);
 
-            Bukkit.getLogger().info(itemGEnum.toString() + " " + sfItemEnum.toString() + " " + recipeTypeEnum);
+            //Bukkit.getLogger().info(itemGEnum + " " + sfItemEnum + " " + recipeTypeEnum);
 
-            ArrayList<ItemStack> recipeArray = new ArrayList<>();
-
-            for(String g: recipe) {
-                if (g == null) {
-                    recipeArray.add(null);
-                    continue;
-                }
-
-                String[] type = g.split("\\.");
-                Bukkit.getLogger().info(g);
-                switch (type[0]) {
-                    case "Material":
-                        recipeArray.add(new ItemStack(Material.getMaterial(type[1])));
-                        break;
-                    case "SlimefunItems":
-                        recipeArray.add((SlimefunItemStack) reflectionGet(SlimefunItems.class, type[1], null));
-                        break;
-                }
-            }
-
-            ItemStack[] array = new ItemStack[9];
-            recipeArray.toArray(array);
+            ItemStack[] array = listToRecipe(recipe);
             return new SlimefunItem(itemGEnum, sfItemEnum, recipeTypeEnum, array);
 
         } catch (Exception e) { e.printStackTrace(); }
         return null;
     }
+
 
     public static Object reflectionGet(Class<?> clazz, String attributeName, Object b) {
         try {
@@ -291,6 +294,7 @@ public final class SlimefunItemSetup {
         DefaultItemGroups itemGroups = new DefaultItemGroups();
 
         // @formatter:off (We will need to refactor this one day)
+
         ArrayList<String> l = new ArrayList<>();
 
         l.add(null);
@@ -303,10 +307,12 @@ public final class SlimefunItemSetup {
         l.add("Material.OAK_LOG");
         l.add(null);
 
-        simpleSetup("weapons", "GRANDMAS_WALKING_STICK", "ENHANCED_CRAFTING_TABLE", l, itemGroups).register(plugin);
+        itemSetup("weapons", "GRANDMAS_WALKING_STICK", "ENHANCED_CRAFTING_TABLE", l, itemGroups).register(plugin);
+
         plugin.getLogger().info(" === ORIGINAL === ");
         plugin.getLogger().info(itemGroups.weapons.toString() + " " + SlimefunItems.GRANDMAS_WALKING_STICK.toString() + " " + RecipeType.ENHANCED_CRAFTING_TABLE.toString());
         /*
+        //plugin.getLogger().info(SlimefunItem.getById("&fSalt").toString());
         new SlimefunItem(itemGroups.weapons, SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null})
         .register(plugin);
