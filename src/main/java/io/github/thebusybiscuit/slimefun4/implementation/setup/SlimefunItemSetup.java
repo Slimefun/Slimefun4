@@ -233,6 +233,15 @@ public final class SlimefunItemSetup {
 
     private SlimefunItemSetup() {}
 
+    /** Transforms a List of 9 string to its respective ItemStack, using also SlimefunItemStack:
+     * for example:
+     *
+     * "Material.STONE" -> new ItemStack(Material.Stone)
+     * "SlimefunItems.SALT" -> SlimefunItems.SALT
+     *
+     * @param list
+     * @return
+     */
     private static ItemStack[] listToRecipe(List<String> list) {
         ItemStack[] array = new ItemStack[9];
 
