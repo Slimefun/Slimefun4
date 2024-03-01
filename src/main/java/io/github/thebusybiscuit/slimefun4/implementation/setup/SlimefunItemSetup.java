@@ -1,11 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
+import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -229,6 +233,55 @@ public final class SlimefunItemSetup {
 
     private SlimefunItemSetup() {}
 
+    private static SlimefunItem simpleSetup(String itemGroups, String sfItem, String recipeType, List<String> recipe, DefaultItemGroups defItemGroups) {
+        //DefaultItemGroups defItemGroups = new DefaultItemGroups();
+
+        try {
+            var itemGEnum = (ItemGroup) reflectionGet(DefaultItemGroups.class, itemGroups, defItemGroups);
+            var sfItemEnum = (SlimefunItemStack) reflectionGet(SlimefunItems.class, sfItem, null);
+            var recipeTypeEnum = (RecipeType) reflectionGet(RecipeType.class, recipeType,null);
+
+            Bukkit.getLogger().info(itemGEnum.toString() + " " + sfItemEnum.toString() + " " + recipeTypeEnum);
+
+            ArrayList<ItemStack> recipeArray = new ArrayList<>();
+
+            for(String g: recipe) {
+                if (g == null) {
+                    recipeArray.add(null);
+                    continue;
+                }
+
+                String[] type = g.split("\\.");
+                Bukkit.getLogger().info(g);
+                switch (type[0]) {
+                    case "Material":
+                        recipeArray.add(new ItemStack(Material.getMaterial(type[1])));
+                        break;
+                    case "SlimefunItems":
+                        recipeArray.add((SlimefunItemStack) reflectionGet(SlimefunItems.class, type[1], null));
+                        break;
+                }
+            }
+
+            ItemStack[] array = new ItemStack[9];
+            recipeArray.toArray(array);
+            return new SlimefunItem(itemGEnum, sfItemEnum, recipeTypeEnum, array);
+
+        } catch (Exception e) { e.printStackTrace(); }
+        return null;
+    }
+
+    public static Object reflectionGet(Class<?> clazz, String attributeName, Object b) {
+        try {
+            Field field = clazz.getDeclaredField(attributeName);
+            field.setAccessible(true);
+            return field.get(b); // Use null for static fields
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace(); // Handle exception as needed
+            return null; // Default value or handle error accordingly
+        }
+    }
+
     public static void setup(@Nonnull Slimefun plugin) {
         if (registeredItems) {
             throw new UnsupportedOperationException("Slimefun Items can only be registered once!");
@@ -238,9 +291,26 @@ public final class SlimefunItemSetup {
         DefaultItemGroups itemGroups = new DefaultItemGroups();
 
         // @formatter:off (We will need to refactor this one day)
+        ArrayList<String> l = new ArrayList<>();
+
+        l.add(null);
+        l.add("Material.OAK_LOG");
+        l.add(null);
+        l.add(null);
+        l.add("Material.OAK_LOG");
+        l.add(null);
+        l.add(null);
+        l.add("Material.OAK_LOG");
+        l.add(null);
+
+        simpleSetup("weapons", "GRANDMAS_WALKING_STICK", "ENHANCED_CRAFTING_TABLE", l, itemGroups).register(plugin);
+        plugin.getLogger().info(" === ORIGINAL === ");
+        plugin.getLogger().info(itemGroups.weapons.toString() + " " + SlimefunItems.GRANDMAS_WALKING_STICK.toString() + " " + RecipeType.ENHANCED_CRAFTING_TABLE.toString());
+        /*
         new SlimefunItem(itemGroups.weapons, SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null})
         .register(plugin);
+         */
         
         new SlimefunItem(itemGroups.weapons, SlimefunItems.GRANDPAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.LEATHER), new ItemStack(Material.OAK_LOG), new ItemStack(Material.LEATHER), null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null})
