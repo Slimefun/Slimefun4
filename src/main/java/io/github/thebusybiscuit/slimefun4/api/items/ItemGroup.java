@@ -216,11 +216,7 @@ public class ItemGroup implements Keyed {
      */
     public @Nonnull ItemStack getItem(@Nonnull Player p) {
         return new CustomItemStack(item, meta -> {
-            String name = Slimefun.getLocalization().getItemGroupName(p, getKey());
-
-            if (name == null) {
-                name = meta.getDisplayName();
-            }
+            String name = getDisplayName(p);
 
             if (this instanceof SeasonalItemGroup) {
                 meta.setDisplayName(ChatColor.GOLD + name);
