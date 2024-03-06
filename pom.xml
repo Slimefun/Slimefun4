@@ -14,8 +14,8 @@
     <packaging>jar</packaging>
 
     <!-- Project Info -->
-    <description>Slimefun is a Spigot/Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
-    <url>https://github.com/Slimefun/Slimefun4</url>
+    <description>Thornya Fun is a Spigot/Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
+    <url>https://github.com/Thornya-Club/ThornyaFun</url>
 
     <properties>
         <!-- UTF-8 is our standard encoding for source files -->

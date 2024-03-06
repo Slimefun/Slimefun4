@@ -5,7 +5,7 @@ options:
   # You can download the latest stable build here: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/
 
   auto-update: true
-  chat-prefix: '&a&lSlimefun 4&7> '
+  chat-prefix: '&a&lThornyaFun 4&7> '
   armor-update-interval: 10
   enable-armor-effects: true
   enable-radiation: true
@@ -16,7 +16,7 @@ options:
   legacy-ore-washer: false
   legacy-dust-washer: false
   legacy-ore-grinder: true
-  language: en
+  language: pt-BR
   enable-translations: true
   log-duplicate-block-entries: true
   burn-players-when-radioactive: true

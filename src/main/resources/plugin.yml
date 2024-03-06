@@ -3,13 +3,13 @@ name: Slimefun
 version: ${project.version}
 
 # Project metadata
-author: The Slimefun 4 Community
-website: https://github.com/Slimefun
-description: Slimefun basically turns your entire Server into a FTB modpack without installing a single mod
+author: Thornya Space
+website: https://github.com/Thornya-Club/ThornyaFun
+description: Thornya Fun basically turns your entire Server into a FTB modpack without installing a single mod
 
 # Technical settings
 main: io.github.thebusybiscuit.slimefun4.implementation.Slimefun
-api-version: '1.16'
+api-version: '1.20'
 
 # (Soft) dependencies of Slimefun, we hook into these plugins.
 softdepend:
