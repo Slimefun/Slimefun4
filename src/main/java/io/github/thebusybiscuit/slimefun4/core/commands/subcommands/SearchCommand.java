@@ -22,21 +22,25 @@ class SearchCommand extends SubCommand {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender instanceof Player player) {
-            if (sender.hasPermission("slimefun.command.search")) {
-                if (args.length > 1) {
-                    String query = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                    PlayerProfile.get(player, profile -> SlimefunGuide.openSearch(profile, query, SlimefunGuideMode.SURVIVAL_MODE, true));
-                } else {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf search <SearchTerm>"));
-                }
-            } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
-            }
-        } else {
+        if (!(sender instanceof Player player)) {
             Slimefun.getLocalization().sendMessage(sender, "messages.only-players", true);
+            return;
         }
+
+        if (!sender.hasPermission("slimefun.command.search")) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            return;
+        }
+
+        if (args.length <= 1) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf search <SearchTerm>"));
+            return;
+        }
+
+        String query = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+        PlayerProfile.get(player, profile -> SlimefunGuide.openSearch(profile, query, SlimefunGuideMode.SURVIVAL_MODE, true));
     }
 
 }
