@@ -1076,7 +1076,7 @@ public class SlimefunItem implements Placeable {
     public boolean canUse(@Nonnull Player p, boolean sendMessage) {
         Validate.notNull(p, "The Player cannot be null!");
 
-        if (getState() == ItemState.VANILLA_FALLBACK) {
+        if (getState() == ItemState.VANILLA_FALLBACK && this.getItem().getType() != Material.COPPER_INGOT) {
             // Vanilla items (which fell back) can always be used.
             return true;
         } else if (isDisabled()) {
