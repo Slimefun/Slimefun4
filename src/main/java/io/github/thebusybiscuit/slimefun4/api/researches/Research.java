@@ -242,11 +242,12 @@ public class Research implements Keyed {
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (!event.isCancelled()) {
-                    if (this.canUnlock(player)) {
-                        guide.unlockItem(player, sfItem, pl -> guide.openItemGroup(profile, itemGroup, page));
-                    } else {
-                        Slimefun.getLocalization().sendMessage(player, "messages.not-enough-xp", true);
-                    }
+                    player.sendMessage("§cUse a bancada de conhecimento para desbloquear este item!");
+//                    if (this.canUnlock(player)) {
+//                        guide.unlockItem(player, sfItem, pl -> guide.openItemGroup(profile, itemGroup, page));
+//                    } else {
+//                        Slimefun.getLocalization().sendMessage(player, "messages.not-enough-xp", true);
+//                    }
                 }
             }
         }
