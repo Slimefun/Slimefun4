@@ -588,9 +588,9 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_INGOT, RecipeType.SMELTERY,
-        new ItemStack[] {SlimefunItems.COPPER_DUST, null, null, null, null, null, null, null, null})
-        .register(plugin);
+        new VanillaItem(itemGroups.resources, new ItemStack(Material.COPPER_INGOT), "COPPER_INGOT", RecipeType.SMELTERY,
+                new ItemStack[] {SlimefunItems.COPPER_DUST, null, null, null, null, null, null, null, null})
+                .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.TIN_INGOT, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.TIN_DUST, null, null, null, null, null, null, null, null})
