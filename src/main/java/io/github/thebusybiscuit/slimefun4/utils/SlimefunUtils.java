@@ -340,6 +340,8 @@ public final class SlimefunUtils {
             return false;
         } else if (checkAmount && item.getAmount() < sfitem.getAmount()) {
             return false;
+        } else if (item.getType() == Material.COPPER_INGOT && sfitem.getType() == Material.COPPER_INGOT) {
+            return true;
         } else if (sfitem instanceof SlimefunItemStack stackOne && item instanceof SlimefunItemStack stackTwo) {
             if (stackOne.getItemId().equals(stackTwo.getItemId())) {
                 /*
