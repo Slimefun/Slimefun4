@@ -6,7 +6,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.logging.Level;
@@ -14,13 +19,11 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
-import kong.unirest.json.JSONException;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * The {@link GitHubConnector} is used to connect to the GitHub API service.
@@ -34,6 +37,7 @@ abstract class GitHubConnector {
 
     private static final String API_URL = "https://api.github.com/";
     private static final String USER_AGENT = "Slimefun4 (https://github.com/Slimefun)";
+    private static final HttpClient client = HttpClient.newHttpClient();
 
     protected final GitHubService github;
     private final String url;
@@ -83,7 +87,7 @@ abstract class GitHubConnector {
      * @param response
      *            The response
      */
-    public abstract void onSuccess(@Nonnull JsonNode response);
+    public abstract void onSuccess(@Nonnull JsonElement response);
 
     /**
      * This method is called when the connection has failed.
@@ -105,38 +109,44 @@ abstract class GitHubConnector {
         }
 
         try {
-            // @formatter:off
-            HttpResponse<JsonNode> response = Unirest.get(url)
-                    .queryString(getParameters())
-                    .header("User-Agent", USER_AGENT)
-                    .asJson();
-            // @formatter:on
+            String params = getParameters().entrySet().stream()
+                .map(p -> p.getKey() + "=" + p.getValue())
+                .reduce((p1, p2) -> p1 + "&" + p2)
+                .map(s -> "?" + s)
+                .orElse("");
+            URI uri = new URI(url + params);
 
-            if (response.isSuccess()) {
-                onSuccess(response.getBody());
-                writeCacheFile(response.getBody());
+            HttpResponse<String> response = client.send(
+                HttpRequest.newBuilder(uri).header("User-Agent", USER_AGENT).build(),
+                HttpResponse.BodyHandlers.ofString()
+            );
+            JsonElement element = JsonParser.parseString(response.body());
+
+            if (response.statusCode() >= 200 && response.statusCode() < 300) {
+                onSuccess(element);
+                writeCacheFile(element);
             } else {
                 if (github.isLoggingEnabled()) {
-                    Slimefun.logger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] { url, response.getStatus(), response.getBody() });
+                    Slimefun.logger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] { url, response.statusCode(), element });
                 }
 
                 // It has the cached file, let's just read that then
                 if (file.exists()) {
-                    JsonNode cache = readCacheFile();
+                    JsonElement cache = readCacheFile();
 
                     if (cache != null) {
                         onSuccess(cache);
                     }
                 }
             }
-        } catch (UnirestException e) {
+        } catch (IOException | InterruptedException | JsonParseException | URISyntaxException e) {
             if (github.isLoggingEnabled()) {
                 Slimefun.logger().log(Level.WARNING, "Could not connect to GitHub in time.", e);
             }
 
             // It has the cached file, let's just read that then
             if (file.exists()) {
-                JsonNode cache = readCacheFile();
+                JsonElement cache = readCacheFile();
 
                 if (cache != null) {
                     onSuccess(cache);
@@ -150,16 +160,16 @@ abstract class GitHubConnector {
     }
 
     @Nullable
-    private JsonNode readCacheFile() {
+    private JsonElement readCacheFile() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-            return new JsonNode(reader.readLine());
-        } catch (IOException | JSONException e) {
+            return JsonParser.parseString(reader.readLine());
+        } catch (IOException | JsonParseException e) {
             Slimefun.logger().log(Level.WARNING, "Failed to read Github cache file: {0} - {1}: {2}", new Object[] { file.getName(), e.getClass().getSimpleName(), e.getMessage() });
             return null;
         }
     }
 
-    private void writeCacheFile(@Nonnull JsonNode node) {
+    private void writeCacheFile(@Nonnull JsonElement node) {
         try (FileOutputStream output = new FileOutputStream(file)) {
             output.write(node.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {

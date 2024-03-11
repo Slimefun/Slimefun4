@@ -134,6 +134,14 @@ For more info see [bStats' Privacy Policy](https://bstats.org/privacy-policy)
 Our [bStats Module](https://github.com/Slimefun/MetricsModule) is downloaded automatically when installing this Plugin, this module will automatically update on server starts independently from the main plugin. This way we can automatically roll out updates to the bStats module, in cases of severe performance issues for example where live data and insight into what is impacting performance can be crucial.
 These updates can of course be disabled under `/plugins/Slimefun/config.yml`. To disable metrics collection as a whole, see the paragraph above.
 
+---
+
+Slimefun also uses its own analytics system to collect anonymous information about the performance of this plugin.<br>
+This is solely for statistical purposes, as we are interested in how it's performing for all servers.<br>
+All available data is anonymous and aggregated, at no point can we see individual server information.<br>
+
+You can also disable this behaviour under `/plugins/Slimefun/config.yml`.<br>
+
 </details>
 
 <details>
