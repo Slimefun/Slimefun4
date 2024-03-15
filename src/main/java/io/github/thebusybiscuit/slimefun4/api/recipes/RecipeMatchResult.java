@@ -7,6 +7,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.base.Preconditions;
 
+import io.github.thebusybiscuit.slimefun4.api.recipes.components.RecipeComponent;
+
 /**
  * Stores detailed information about the result of matching a recipe against
  * some given inputs
@@ -16,21 +18,21 @@ public class RecipeMatchResult {
     public static final RecipeMatchResult NO_MATCH = new RecipeMatchResult(false, Collections.emptyMap());
 
     @ParametersAreNonnullByDefault
-    public static RecipeMatchResult match(Map<Integer, Integer> consumption, String message) {
+    public static RecipeMatchResult match(Map<Integer, RecipeComponent> consumption, String message) {
         return new RecipeMatchResult(true, consumption, message);
     }
     
     @ParametersAreNonnullByDefault
-    public static RecipeMatchResult match(Map<Integer, Integer> consumption) {
+    public static RecipeMatchResult match(Map<Integer, RecipeComponent> consumption) {
         return match(consumption, "");
     }
 
     private final boolean isMatch;
-    private Map<Integer, Integer> consumption;
+    private Map<Integer, RecipeComponent> consumption;
     private final String message;
 
     @ParametersAreNonnullByDefault
-    public RecipeMatchResult(boolean isMatch, Map<Integer, Integer> consumption, String message) {
+    public RecipeMatchResult(boolean isMatch, Map<Integer, RecipeComponent> consumption, String message) {
         Preconditions.checkNotNull(consumption, "The 'consumption' map cannot be null!");
 
         this.isMatch = isMatch;
@@ -39,7 +41,7 @@ public class RecipeMatchResult {
     }
 
     @ParametersAreNonnullByDefault
-    public RecipeMatchResult(boolean isMatch, Map<Integer, Integer> consumption) {
+    public RecipeMatchResult(boolean isMatch, Map<Integer, RecipeComponent> consumption) {
         this(isMatch, consumption, "");
     }
 
@@ -51,7 +53,7 @@ public class RecipeMatchResult {
         return isMatch;
     }
 
-    public Map<Integer, Integer> getConsumption() {
+    public Map<Integer, RecipeComponent> getConsumption() {
         return consumption;
     }
 

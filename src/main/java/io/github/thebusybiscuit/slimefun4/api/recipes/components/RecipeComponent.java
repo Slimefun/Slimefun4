@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 
@@ -70,7 +71,7 @@ public interface RecipeComponent {
             return AIR;
         }
 
-        if (item instanceof final DistinctiveItem distinctive) {
+        if (item instanceof DistinctiveItem) {
             return new DistinctiveComponent(item.getItem());
         }
 
@@ -107,6 +108,14 @@ public interface RecipeComponent {
      * @return If the given item can be used as this component in a recipe
      */
     public boolean matches(@Nullable ItemStack givenItem);
+
+    /**
+     * Consumes the item when crafting
+     * @param item The item to consume
+     */
+    public default void consume(@Nonnull ItemStack item) {
+        ItemUtils.consumeItem(item, getAmount(), true);
+    }
 
     /**
      * @return An {@link ItemStack} for display purposes (e.g. in the guide)

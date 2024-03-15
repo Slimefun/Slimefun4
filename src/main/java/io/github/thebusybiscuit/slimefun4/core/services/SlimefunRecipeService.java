@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
@@ -117,9 +118,9 @@ public final class SlimefunRecipeService {
                 switch (cachingStrategy) {
                     case IF_MULTIPLE_CRAFTABLE:
                         boolean isMultipleCraftable = true;
-                        for (final Map.Entry<Integer, Integer> consumptionEntry : match.getConsumption().entrySet()) {
+                        for (final Map.Entry<Integer, RecipeComponent> consumptionEntry : match.getConsumption().entrySet()) {
                             ItemStack item = givenItems[consumptionEntry.getKey()];
-                            if (item.getAmount() < consumptionEntry.getValue() * 2) {
+                            if (item.getAmount() < consumptionEntry.getValue().getAmount() * 2) {
                                 isMultipleCraftable = false;
                                 break;
                             }
@@ -158,7 +159,7 @@ public final class SlimefunRecipeService {
      * @param onRecipeFound   To be called when a matching recipe is found. If it
      *                        returns true, consumes the input items according to
      *                        the recipe
-     * @return (The recipe if found, The match result) See {@link RecipeMatchResult}
+     * @return The search result. See {@link RecipeSearchResult}
      */
     @ParametersAreNonnullByDefault
     public RecipeSearchResult searchRecipes(
@@ -168,9 +169,9 @@ public final class SlimefunRecipeService {
             BiPredicate<Recipe, RecipeMatchResult> onRecipeFound) {
         return searchRecipes(category, givenItems, cachingStrategy, (recipe, match) -> {
             if (onRecipeFound != null && onRecipeFound.test(recipe, match)) {
-                for (final Map.Entry<Integer, Integer> entry : match.getConsumption().entrySet()) {
+                for (final Map.Entry<Integer, RecipeComponent> entry : match.getConsumption().entrySet()) {
                     ItemStack item = givenItems[entry.getKey()];
-                    ItemUtils.consumeItem(item, entry.getValue(), true);
+                    entry.getValue().consume(item);
                 }
             }
         });
@@ -183,7 +184,7 @@ public final class SlimefunRecipeService {
      * @param category        The category of the recipe to search in
      * @param givenItems      Items from the crafting grid
      * @param cachingStrategy When to save the result to the LRU cache
-     * @return (The recipe if found, The match result) See {@link RecipeMatchResult}
+     * @return The search result. See {@link RecipeSearchResult}
      */
     @ParametersAreNonnullByDefault
     public RecipeSearchResult searchRecipes(

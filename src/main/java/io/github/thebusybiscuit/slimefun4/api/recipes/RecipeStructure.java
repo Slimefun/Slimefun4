@@ -27,7 +27,7 @@ public abstract class RecipeStructure implements Keyed {
                 return RecipeMatchResult.NO_MATCH;
             }
 
-            Map<Integer, Integer> consumption = new HashMap<>();
+            Map<Integer, RecipeComponent> consumption = new HashMap<>();
             for (int i = 0; i < givenItems.length; i++) {
                 RecipeComponent component = components.get(i);
 
@@ -36,7 +36,7 @@ public abstract class RecipeStructure implements Keyed {
                 }
 
                 if (!component.isAir()) {
-                    consumption.put(i, component.getAmount());
+                    consumption.put(i, component);
                 }
             }
 
@@ -80,7 +80,7 @@ public abstract class RecipeStructure implements Keyed {
             // the initial row difference)
             int rowOffset = (givenFirstNonnull - recipeFirstNonnull) / height;
 
-            Map<Integer, Integer> consumption = new HashMap<>();
+            Map<Integer, RecipeComponent> consumption = new HashMap<>();
 
             // Check the remaining slots
             for (int i = 0; i < numSlots - recipeFirstNonnull; i++) {
@@ -96,7 +96,7 @@ public abstract class RecipeStructure implements Keyed {
                     if (recipeIndex / height + rowOffset != givenIndex / height) {
                         return RecipeMatchResult.NO_MATCH;
                     }
-                    consumption.put(givenIndex, component.getAmount());
+                    consumption.put(givenIndex, component);
                 }
             }
 
@@ -144,7 +144,7 @@ public abstract class RecipeStructure implements Keyed {
      * @return If the two match
      */
     protected static final RecipeMatchResult checkSubset(ItemStack[] givenItems, List<RecipeComponent> components) {
-        Map<Integer, Integer> consumption = new HashMap<>();
+        Map<Integer, RecipeComponent> consumption = new HashMap<>();
         componentLoop: for (final RecipeComponent component : components) {
             if (component.isAir()) {
                 continue;
@@ -152,7 +152,7 @@ public abstract class RecipeStructure implements Keyed {
 
             for (int i = 0; i < givenItems.length; i++) {
                 if (!consumption.containsKey(i) && component.matches(givenItems[i])) {
-                    consumption.put(i, component.getAmount());
+                    consumption.put(i, component);
                     continue componentLoop;
                 }
             }
