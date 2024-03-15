@@ -65,11 +65,25 @@ class VersionsCommand extends SubCommand {
                 .append(serverSoftware)
                 .color(ChatColor.GREEN)
                 .append(" " + Bukkit.getVersion() + '\n')
-                .color(ChatColor.DARK_GREEN)
+                .color(ChatColor.DARK_GREEN);
+
+            builder
                 .append("Slimefun ")
                 .color(ChatColor.GREEN)
-                .append(Slimefun.getVersion() + '\n')
+                .append(Slimefun.getVersion())
                 .color(ChatColor.DARK_GREEN);
+            if (!Slimefun.getUpdater().isLatestVersion()) {
+                builder
+                    .append(" (").color(ChatColor.GRAY)
+                    .append("Update available").color(ChatColor.RED).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
+                        "Your Slimefun version is out of date!\n" +
+                        "Please update to get the latest bug fixes and performance improvements.\n" +
+                        "Please do not report any bugs without updating first."
+                    )))
+                    .append(")").color(ChatColor.GRAY);
+            }
+
+            builder.append("\n");
             // @formatter:on
 
             if (Slimefun.getMetricsService().getVersion() != null) {

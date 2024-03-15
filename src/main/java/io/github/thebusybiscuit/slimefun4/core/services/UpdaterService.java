@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -108,6 +109,29 @@ public class UpdaterService {
         }
 
         return -1;
+    }
+
+    public int getLatestVersion() {
+        if (updater != null && updater.getLatestVersion().isDone()) {
+            PrefixedVersion version;
+            try {
+                version = updater.getLatestVersion().get();
+                return version.getVersionNumber();
+            } catch (InterruptedException | ExecutionException e) {
+                return -1;
+            }
+        }
+
+        return -1;
+    }
+
+    public boolean isLatestVersion() {
+        if (getBuildNumber() == -1 || getLatestVersion() == -1) {
+            // We don't know if we're latest so just report we are
+            return true;
+        }
+        
+        return getBuildNumber() == getLatestVersion();
     }
 
     /**

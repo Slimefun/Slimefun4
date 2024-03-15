@@ -17,6 +17,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -52,8 +53,6 @@ class TestLegacyBackend {
         // within the class isn't being fired (where ItemStack and other classes are registered)
         ConfigurationSerialization.registerClass(ItemStack.class);
         ConfigurationSerialization.registerClass(ItemMeta.class);
-
-        setupResearches();
     }
 
     @AfterAll
@@ -62,9 +61,16 @@ class TestLegacyBackend {
         FileUtils.deleteDirectory(new File("data-storage"));
     }
 
+    @AfterEach
+    public void cleanup() {
+        Slimefun.getRegistry().getResearches().clear();
+    }
+
     // Test simple loading and saving of player data
     @Test
     void testLoadingResearches() throws IOException {
+        setupResearches();
+
         // Create a player file which we can load
         UUID uuid = UUID.randomUUID();
         File playerFile = new File("data-storage/Slimefun/Players/" + uuid + ".yml");
@@ -184,6 +190,8 @@ class TestLegacyBackend {
 
     @Test
     void testSavingResearches() throws InterruptedException {
+        setupResearches();
+
         // Create a player file which we can load
         UUID uuid = UUID.randomUUID();
         File playerFile = new File("data-storage/Slimefun/Players/" + uuid + ".yml");
@@ -279,6 +287,8 @@ class TestLegacyBackend {
     // Test realistic situations
     @Test
     void testResearchChanges() throws InterruptedException {
+        setupResearches();
+
         UUID uuid = UUID.randomUUID();
         File playerFile = new File("data-storage/Slimefun/Players/" + uuid + ".yml");
 
@@ -372,6 +382,41 @@ class TestLegacyBackend {
         Assertions.assertEquals(1, assertion.getWaypoints().size());
     }
 
+    @Test
+    void testDuplicateResearchesDontGetUnResearched() throws InterruptedException {
+        // Create a player file which we can load
+        UUID uuid = UUID.randomUUID();
+        File playerFile = new File("data-storage/Slimefun/Players/" + uuid + ".yml");
+
+        OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+
+        // Setup initial research
+        NamespacedKey initialKey = new NamespacedKey(plugin, "test_1");
+        Research initialResearch = new Research(initialKey, 1, "Test 1", 100);
+        initialResearch.register();
+
+        // Setup duplicate research
+        // Keep the ID as 1 but change name and key
+        NamespacedKey duplicateKey = new NamespacedKey(plugin, "test_2");
+        Research duplicateResearch = new Research(duplicateKey, 1, "Test 2", 100);
+        duplicateResearch.register();
+
+        profile.setResearched(initialResearch, true);
+
+        // Save the player data
+        LegacyStorage storage = new LegacyStorage();
+        storage.savePlayerData(uuid, profile.getPlayerData());
+
+        // Assert the file exists and data is correct
+        Assertions.assertTrue(playerFile.exists());
+        PlayerData assertion = storage.loadPlayerData(uuid);
+        // Will have both the initial and duplicate research
+        Assertions.assertEquals(2, assertion.getResearches().size());
+        Assertions.assertTrue(assertion.getResearches().contains(initialResearch));
+        Assertions.assertTrue(assertion.getResearches().contains(duplicateResearch));
+    }
+    
     // Utils
     private static void setupResearches() {
         for (int i = 0; i < 10; i++) {

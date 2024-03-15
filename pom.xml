@@ -115,7 +115,7 @@
                 <!-- Compiler plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.12.0</version>
+                <version>3.12.1</version>
 
                 <configuration>
                     <excludes>
@@ -146,7 +146,7 @@
                 <!-- Plugin for Unit Tests -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.2.5</version>
 
                 <configuration>
                     <junitArtifactName>org.junit.jupiter:junit-jupiter</junitArtifactName>
@@ -203,10 +203,6 @@
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.paperlib</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>kong.unirest</pattern>
-                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.unirest</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.apache.commons.lang</pattern>
@@ -345,11 +341,10 @@
         </dependency>
 
         <!-- Shaded packages -->
-        <!-- TODO: Revert changes back to maven when dough 1.3 released -->
         <dependency>
             <groupId>com.github.baked-libs.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>fcdbd45aa0</version>
+            <version>e99d02a8ff</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -358,32 +353,18 @@
             <version>1.0.8</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.konghq</groupId>
-            <artifactId>unirest-java</artifactId>
-            <version>3.14.5</version>
-            <scope>compile</scope>
-
-            <exclusions>
-                <exclusion>
-                    <!-- No need to shade Gson, Spigot does that already -->
-                    <groupId>com.google.code.gson</groupId>
-                    <artifactId>gson</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
         <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.10.1</version>
+            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.9.0</version>
+            <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -406,14 +387,27 @@
                     <groupId>org.jetbrains</groupId>
                     <artifactId>annotations</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>io.papermc.paper</groupId>
+                    <artifactId>paper-api</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <!-- Override MockBukkit's Paper to a pinned slightly older version -->
+        <!-- This is because MockBukkit currently fails after this PR: -->
+        <!-- https://github.com/PaperMC/Paper/pull/9629 -->
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.20.4-R0.1-20240205.114523-90</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Third party plugin integrations / soft dependencies -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-core</artifactId>
-            <version>7.2.18</version>
+            <version>7.2.19</version>
             <scope>provided</scope>
 
             <exclusions>
@@ -427,7 +421,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.2.18</version>
+            <version>7.2.19</version>
             <scope>provided</scope>
 
             <exclusions>
@@ -441,7 +435,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.226</version>
+            <version>2.1.230</version>
             <scope>provided</scope>
 
             <exclusions>

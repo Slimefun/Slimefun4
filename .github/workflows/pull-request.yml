@@ -30,7 +30,7 @@ jobs:
         architecture: x64
 
     - name: Cache Maven packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -50,7 +50,7 @@ jobs:
       run: mvn package
 
     - name: Upload the artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: slimefun-${{ github.event.number }}-${{ env.SHORT_COMMIT_HASH }}
         path: 'target/Slimefun v${{ env.JAR_VERSION }}.jar'

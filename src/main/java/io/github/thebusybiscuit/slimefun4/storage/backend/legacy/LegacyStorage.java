@@ -27,6 +27,8 @@ public class LegacyStorage implements Storage {
 
     @Override
     public PlayerData loadPlayerData(@Nonnull UUID uuid) {
+        long start = System.nanoTime();
+
         Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
         // Not too sure why this is its own file
         Config waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
@@ -73,12 +75,17 @@ public class LegacyStorage implements Storage {
             }
         }
 
+        long end = System.nanoTime();
+        Slimefun.getAnalyticsService().recordPlayerProfileDataTime("legacy", true, end - start);
+
         return new PlayerData(researches, backpacks, waypoints);
     }
 
     // The current design of saving all at once isn't great, this will be refined.
     @Override
     public void savePlayerData(@Nonnull UUID uuid, @Nonnull PlayerData data) {
+        long start = System.nanoTime();
+
         Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
         // Not too sure why this is its own file
         Config waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
@@ -91,7 +98,17 @@ public class LegacyStorage implements Storage {
                 playerFile.setValue("researches." + research.getID(), true);
 
             // Remove the research if it's no longer researched
-            } else if (playerFile.contains("researches." + research.getID())) {
+            // ----
+            // We have a duplicate ID (173) used for both Coal Gen and Bio Reactor
+            // If you researched the Goal Gen we would remove it on save if you didn't also have the Bio Reactor
+            // Due to the fact we would set it as researched (true in the branch above) on Coal Gen
+            // but then go into this branch and remove it if you didn't have Bio Reactor
+            // Sooooo we're gonna hack this for now while we move away from the Legacy Storage
+            // Let's make sure the user doesn't have _any_ research with this ID and _then_ remove it
+            } else if (
+                playerFile.contains("researches." + research.getID())
+                && !data.getResearches().stream().anyMatch((r) -> r.getID() == research.getID())
+            ) {
                 playerFile.setValue("researches." + research.getID(), null);
             }
         }
@@ -123,5 +140,8 @@ public class LegacyStorage implements Storage {
         // Save files
         playerFile.save();
         waypointsFile.save();
+
+        long end = System.nanoTime();
+        Slimefun.getAnalyticsService().recordPlayerProfileDataTime("legacy", false, end - start);
     }
 }
