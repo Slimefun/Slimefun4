@@ -161,11 +161,15 @@ public final class TeleportationManager {
             return 100;
         }
 
-        int speed = 50_000 + complexity * complexity;
-        int unsafeTime = Math.min(4 * distanceSquared(source, destination) / speed, 40);
+        long speed = 50_000L + (long)complexity * complexity;
+        int distance = 4 * distanceSquared(source, destination), time = 1;
 
-        // Fixes #3573 - Using Math.max is a safer way to ensure values > 0 than relying on addition.
-        return Math.max(1, unsafeTime);
+        // If speed is greater than distance, ultimate time cost must be 1 tick.
+        // Otherwise, speed WON'T overflow the range of int.
+        if (speed <= distance)
+            time = Math.min(distance / (int)speed, 40);
+
+        return time;
     }
 
     @ParametersAreNonnullByDefault
