@@ -162,7 +162,8 @@ public final class TeleportationManager {
         }
 
         long speed = 50_000L + (long)complexity * complexity;
-        int distance = 4 * distanceSquared(source, destination), time = 1;
+        int distance = 4 * distanceSquared(source, destination)
+        int time = 1;
 
         // If speed is greater than distance, ultimate time cost must be 1 tick.
         // Otherwise, speed WON'T overflow the range of int.
