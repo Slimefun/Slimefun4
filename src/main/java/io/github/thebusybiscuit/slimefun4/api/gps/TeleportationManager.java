@@ -167,10 +167,10 @@ public final class TeleportationManager {
 
         // If speed is greater than distance, ultimate time cost must be 1 tick.
         // Otherwise, speed WON'T overflow the range of int.
-        if (speed <= distance)
-            time = Math.min(distance / (int)speed, 40);
-
-        return time;
+        if (speed <= distance) {
+            return Math.min(distance / (int) speed, 40);
+        }
+        return 1;
     }
 
     @ParametersAreNonnullByDefault
