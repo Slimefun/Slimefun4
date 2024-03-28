@@ -31,7 +31,7 @@ class TestSoulboundListener {
     public static void load() {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(Slimefun.class);
-        new SoulboundListener(plugin);
+        new SoulboundListener().register(plugin);
     }
 
     @AfterAll

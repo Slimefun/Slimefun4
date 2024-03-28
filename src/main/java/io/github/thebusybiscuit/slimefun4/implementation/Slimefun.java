@@ -209,6 +209,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final BackpackListener backpackListener = new BackpackListener();
     private final SlimefunBowListener bowListener = new SlimefunBowListener();
 
+    private final SoulboundListener soulboundListener = new SoulboundListener();
+
     /**
      * This constructor is invoked by Bukkit and within unit tests.
      * Therefore we need to figure out if we're within unit tests or not.
@@ -412,6 +414,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         if (instance() == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
             return;
         }
+
+        soulboundListener.saveAll();
 
         // Cancel all tasks from this plugin immediately
         Bukkit.getScheduler().cancelTasks(this);
@@ -645,7 +649,6 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         new NetworkListener(this, networkManager);
         new HopperListener(this);
         new TalismanListener(this);
-        new SoulboundListener(this);
         new AutoCrafterListener(this);
         new SlimefunItemHitListener(this);
         new MiddleClickListener(this);
@@ -663,6 +666,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
         bowListener.register(this);
         backpackListener.register(this);
+        soulboundListener.register(this);
 
         // Handle Slimefun Guide being given on Join
         new SlimefunGuideListener(this, config.getBoolean("guide.receive-on-first-join"));
