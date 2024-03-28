@@ -28,6 +28,7 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeCategory;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -307,11 +308,16 @@ public abstract class SlimefunLocalization implements Keyed {
         return getStringOrNull(getLanguage(p), LanguageFile.RESOURCES, key);
     }
 
+    @Deprecated
     public @Nonnull ItemStack getRecipeTypeItem(@Nonnull Player p, @Nonnull RecipeType recipeType) {
-        Validate.notNull(p, "Player cannot be null!");
-        Validate.notNull(recipeType, "Recipe type cannot be null!");
+        return getRecipeCategoryItem(p, recipeType.asRecipeCategory());
+    }
 
-        ItemStack item = recipeType.toItem();
+    public @Nonnull ItemStack getRecipeCategoryItem(@Nonnull Player p, @Nonnull RecipeCategory recipeCategory) {
+        Validate.notNull(p, "Player cannot be null!");
+        Validate.notNull(recipeCategory, "Recipe type cannot be null!");
+
+        ItemStack item = recipeCategory.getDisplayItem();
 
         if (item == null) {
             // Fixes #3088
@@ -319,7 +325,7 @@ public abstract class SlimefunLocalization implements Keyed {
         }
 
         Language language = getLanguage(p);
-        NamespacedKey key = recipeType.getKey();
+        NamespacedKey key = recipeCategory.getKey();
 
         return new CustomItemStack(item, meta -> {
             String displayName = getStringOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
