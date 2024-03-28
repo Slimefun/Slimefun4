@@ -84,13 +84,13 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
      */
     @ParametersAreNonnullByDefault
     private void removeGlassBottle(Player p, ItemStack item) {
-        if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
+        if (SlimefunUtils.compareItem(item, p.getInventory().getItemInMainHand())) {
             if (p.getInventory().getItemInMainHand().getAmount() == 1) {
                 p.getEquipment().getItemInMainHand().setAmount(0);
             } else {
                 p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1));
             }
-        } else if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
+        } else if (SlimefunUtils.compareItem(item, p.getInventory().getItemInOffHand())) {
             if (p.getInventory().getItemInOffHand().getAmount() == 1) {
                 p.getEquipment().getItemInOffHand().setAmount(0);
             } else {

@@ -209,7 +209,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         }
 
         Material material = itemStack.getType();
-        return isValidInputMaterial(material) && SlimefunUtils.isItemSimilar(itemStack, new ItemStack(material), true, false);
+        return isValidInputMaterial(material) && SlimefunUtils.compareItem(itemStack, new ItemStack(material));
     }
 
     /**

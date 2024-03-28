@@ -128,7 +128,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
         for (int i = 0; i < recipes.size(); i += 2) {
             ItemStack convert = recipes.get(i);
 
-            if (convert != null && SlimefunUtils.isItemSimilar(input, convert, true)) {
+            if (convert != null && SlimefunUtils.compareItem(input, convert)) {
                 ItemStack removing = input.clone();
                 removing.setAmount(convert.getAmount());
                 p.getInventory().removeItem(removing);

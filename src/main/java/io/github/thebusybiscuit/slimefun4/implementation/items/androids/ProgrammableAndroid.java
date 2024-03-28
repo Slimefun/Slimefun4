@@ -806,7 +806,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             menu.replaceExistingItem(43, newFuel);
             dispenser.setItem(slot, null);
             return true;
-        } else if (SlimefunUtils.isItemSimilar(newFuel, currentFuel, true, false)) {
+        } else if (SlimefunUtils.compareItem(newFuel, currentFuel)) {
             int rest = newFuel.getType().getMaxStackSize() - currentFuel.getAmount();
 
             if (rest > 0) {

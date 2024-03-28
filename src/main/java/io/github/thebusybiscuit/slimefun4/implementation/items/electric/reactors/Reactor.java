@@ -421,7 +421,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
             if (accessPort != null) {
                 for (int slot : getCoolantSlots()) {
-                    if (SlimefunUtils.isItemSimilar(accessPort.getItemInSlot(slot), coolant, true, false)) {
+                    if (SlimefunUtils.compareItem(accessPort.getItemInSlot(slot), coolant)) {
                         ItemStack remainingItem = menu.pushItem(accessPort.getItemInSlot(slot), getCoolantSlots());
                         accessPort.replaceExistingItem(slot, remainingItem);
                     }
@@ -429,7 +429,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
             }
 
             for (int slot : getCoolantSlots()) {
-                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), coolant, true, false)) {
+                if (SlimefunUtils.compareItem(menu.getItemInSlot(slot), coolant)) {
                     menu.consumeItem(slot);
                     updateHologram(reactor.getBlock(), "&b\u2744 &7100%");
                     return true;

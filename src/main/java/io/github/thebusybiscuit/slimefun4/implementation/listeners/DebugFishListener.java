@@ -61,7 +61,7 @@ public class DebugFishListener implements Listener {
 
         Player p = e.getPlayer();
 
-        if (SlimefunUtils.isItemSimilar(e.getItem(), SlimefunItems.DEBUG_FISH, true, false)) {
+        if (SlimefunUtils.compareItem(e.getItem(), SlimefunItems.DEBUG_FISH)) {
             e.setCancelled(true);
 
             if (p.hasPermission("slimefun.debugging")) {

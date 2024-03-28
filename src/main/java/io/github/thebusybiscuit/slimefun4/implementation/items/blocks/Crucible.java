@@ -141,7 +141,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         for (int i = 0; i < recipes.size(); i += 2) {
             ItemStack catalyst = recipes.get(i);
 
-            if (SlimefunUtils.isItemSimilar(input, catalyst, true)) {
+            if (SlimefunUtils.compareItem(input, catalyst)) {
                 ItemStack removing = input.clone();
                 removing.setAmount(catalyst.getAmount());
                 p.getInventory().removeItem(removing);
