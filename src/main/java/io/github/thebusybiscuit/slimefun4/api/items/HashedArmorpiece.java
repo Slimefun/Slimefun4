@@ -5,11 +5,13 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
@@ -31,6 +33,7 @@ public final class HashedArmorpiece {
 
     private int hash;
     private Optional<SlimefunArmorPiece> item;
+    private Optional<Color> color;
 
     /**
      * This initializes a new {@link HashedArmorpiece} with no {@link SlimefunArmorPiece}
@@ -39,6 +42,7 @@ public final class HashedArmorpiece {
     public HashedArmorpiece() {
         this.hash = 0;
         this.item = Optional.empty();
+        this.color = Optional.empty();
     }
 
     /**
@@ -57,6 +61,11 @@ public final class HashedArmorpiece {
             ItemStack copy = stack.clone();
             ItemMeta meta = copy.getItemMeta();
             ((Damageable) meta).setDamage(0);
+            if (meta instanceof LeatherArmorMeta leatherArmorMeta) {
+                color = Optional.of(leatherArmorMeta.getColor());
+            } else {
+                color = Optional.empty();
+            }
             copy.setItemMeta(meta);
             this.hash = copy.hashCode();
         }
@@ -77,12 +86,29 @@ public final class HashedArmorpiece {
      * @return Whether the {@link HashedArmorpiece} and the given {@link ItemStack} mismatch
      */
     public boolean hasDiverged(@Nullable ItemStack stack) {
+        return hasDiverged(stack, false);
+    }
+
+    /**
+     * This method checks whether the given {@link ItemStack} is no longer similar to the
+     * one represented by this {@link HashedArmorpiece}.
+     *
+     * @param stack
+     *            The {@link ItemStack} to compare
+     * @param ignoreColor
+     *            Whether to ignore the color of the {@link ItemStack}
+     * @return Whether the {@link HashedArmorpiece} and the given {@link ItemStack} mismatch
+     */
+    public boolean hasDiverged(@Nullable ItemStack stack, boolean ignoreColor) {
         if (stack == null || stack.getType() == Material.AIR) {
             return hash != 0;
         } else {
             ItemStack copy = stack.clone();
             ItemMeta meta = copy.getItemMeta();
             ((Damageable) meta).setDamage(0);
+            if (ignoreColor && color.isPresent() && meta instanceof LeatherArmorMeta leatherArmorMeta) {
+                leatherArmorMeta.setColor(color.get());
+            }
             copy.setItemMeta(meta);
             return copy.hashCode() != hash;
         }
