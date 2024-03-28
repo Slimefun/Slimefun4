@@ -23,6 +23,7 @@ import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
@@ -30,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChes
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
  * you to turn Logs into Wooden Planks.
- * 
+ * <p>
  * It also replaced the old "Saw Mill" from earlier versions.
  * 
  * @author dniym
@@ -62,11 +63,22 @@ public class TableSaw extends MultiBlockMachine {
                 displayedRecipes.add(new ItemStack(planks.get(), 8));
             }
         }
+        
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
+            // Bamboo blocks to Bamboo planks
+            displayedRecipes.add(new ItemStack(Material.BAMBOO_BLOCK));
+            displayedRecipes.add(new ItemStack(Material.BAMBOO_PLANKS, 4));
+
+            // Stripped Bamboo Blocks to Bamboo planks
+            displayedRecipes.add(new ItemStack(Material.STRIPPED_BAMBOO_BLOCK));
+            displayedRecipes.add(new ItemStack(Material.BAMBOO_PLANKS, 4));
+        }
 
         for (Material plank : Tag.PLANKS.getValues()) {
             displayedRecipes.add(new ItemStack(plank));
             displayedRecipes.add(new ItemStack(Material.STICK, 4));
         }
+
     }
 
     /**
@@ -95,7 +107,7 @@ public class TableSaw extends MultiBlockMachine {
     }
 
     @Override
-    public List<ItemStack> getDisplayRecipes() {
+    public @Nonnull List<ItemStack> getDisplayRecipes() {
         return displayedRecipes;
     }
 
@@ -128,13 +140,11 @@ public class TableSaw extends MultiBlockMachine {
         if (Tag.LOGS.isTagged(item)) {
             Optional<Material> planks = getPlanks(item);
 
-            if (planks.isPresent()) {
-                return new ItemStack(planks.get(), 8);
-            } else {
-                return null;
-            }
+            return planks.map(material -> new ItemStack(material, 8)).orElse(null);
         } else if (Tag.PLANKS.isTagged(item)) {
             return new ItemStack(Material.STICK, 4);
+        } else if (Tag.BAMBOO_BLOCKS.isTagged(item)) {
+            return new ItemStack(Material.BAMBOO_PLANKS, 4);
         } else {
             return null;
         }
