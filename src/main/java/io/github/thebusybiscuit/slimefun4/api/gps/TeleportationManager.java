@@ -157,15 +157,26 @@ public final class TeleportationManager {
         Validate.notNull(source, "Source cannot be null");
         Validate.notNull(source, "Destination cannot be null");
 
+        int sqrtMaxValue = (int) Math.sqrt(Integer.MAX_VALUE);
+
         if (complexity < 100) {
             return 100;
+
+        // If complexity could cause an overflow, cap it.
+        } else if (complexity > sqrtMaxValue - 50_000) {
+            return sqrtMaxValue - 50_000;
         }
 
         int speed = 50_000 + complexity * complexity;
-        int unsafeTime = Math.min(4 * distanceSquared(source, destination) / speed, 40);
+        int distance = 4 * distanceSquared(source, destination);
 
-        // Fixes #3573 - Using Math.max is a safer way to ensure values > 0 than relying on addition.
-        return Math.max(1, unsafeTime);
+        // If speed is greater than distance, ultimate time cost must be 1 tick.
+        // Otherwise, speed WON'T overflow the range of int.
+        if (speed <= distance) {
+            return Math.min(distance / (int) speed, 40);
+        }
+
+        return 1;
     }
 
     @ParametersAreNonnullByDefault
