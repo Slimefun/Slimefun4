@@ -108,7 +108,8 @@
         <defaultGoal>clean package</defaultGoal>
 
         <!-- The name of the final jar -->
-        <finalName>${project.name} v${project.version}</finalName>
+        <!--<finalName>${project.name} v${project.version}</finalName>-->
+        <finalName>ThornyaFun</finalName>
 
         <plugins>
             <plugin>
@@ -306,6 +307,7 @@
                     <include>plugin.yml</include>
                     <include>config.yml</include>
                     <include>item-models.yml</include>
+                    <include>blocks.yml</include>
 
                     <include>wiki.json</include>
                     <include>languages/translators.json</include>

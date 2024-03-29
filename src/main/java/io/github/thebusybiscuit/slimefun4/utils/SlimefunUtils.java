@@ -64,6 +64,15 @@ public final class SlimefunUtils {
 
     private SlimefunUtils() {}
 
+
+    public static void removeItemOnHand(Player p){
+        if (p.getInventory().getItemInMainHand().getAmount() > 1) {
+            p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount() - 1);
+        } else {
+            p.getInventory().setItemInMainHand(null);
+        }
+    }
+
     /**
      * This method quickly returns whether an {@link Item} was marked as "no_pickup" by
      * a Slimefun device.

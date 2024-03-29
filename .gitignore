@@ -8,7 +8,7 @@
 /data-storage/
 
 dependency-reduced-pom.xml
-
+UploadServer.bat
 .classpath
 .factorypath
 .project

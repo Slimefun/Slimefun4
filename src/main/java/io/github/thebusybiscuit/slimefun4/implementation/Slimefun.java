@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.implementation.setup.*;
 import io.github.thebusybiscuit.slimefun4.storage.Storage;
 import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
 
@@ -117,9 +118,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.MobDro
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.PiglinListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
@@ -174,6 +172,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
     private final CustomTextureService textureService = new CustomTextureService(new Config(this, "item-models.yml"));
+    private final CustomBlockService customBlockService = new CustomBlockService(this);
     private final GitHubService gitHubService = new GitHubService("Slimefun/Slimefun4");
     private final UpdaterService updaterService = new UpdaterService(this, getDescription().getVersion(), getFile());
     private final MetricsService metricsService = new MetricsService(this);
@@ -347,6 +346,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
         runSync(new SlimefunStartupTask(this, () -> {
             textureService.register(registry.getAllSlimefunItems(), true);
+            customBlockService.register(registry.getAllSlimefunItems(), true);
             permissionsService.register(registry.getAllSlimefunItems(), true);
             soundService.reload(true);
 
@@ -358,7 +358,6 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             }
 
         }), 0);
-
         // Setting up our commands
         try {
             command.register();
@@ -693,6 +692,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private void loadItems() {
         try {
             SlimefunItemSetup.setup(this);
+            ThornyaItemSetup.setup(this);
         } catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing SlimefunItems for Slimefun " + getVersion());
         }
@@ -861,6 +861,12 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static SoundService getSoundService() {
         validateInstance();
         return instance.soundService;
+    }
+
+    @Nonnull
+    public static CustomBlockService getCustomBlockService() {
+        validateInstance();
+        return instance.customBlockService;
     }
 
     /**
