@@ -160,16 +160,13 @@ public final class TeleportationManager {
         if (complexity < 100) {
             return 100;
         }
-
-        long speed = 50_000L + (long)complexity * complexity;
-        int distance = 4 * distanceSquared(source, destination);
-
-        // If speed is greater than distance, ultimate time cost must be 1 tick.
-        // Otherwise, speed WON'T overflow the range of int.
-        if (speed <= distance) {
-            return Math.min(distance / (int) speed, 40);
+        else if (complexity >= 12246) { // 50_000 + c^2 >= 150_000_000 => c >= 12246
+            return 1;
         }
-        return 1;
+
+        int speed = 50_000 + complexity * complexity;
+        int distance = 4 * distanceSquared(source, destination);
+        return Math.min(distance / speed, 40);
     }
 
     @ParametersAreNonnullByDefault
