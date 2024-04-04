@@ -1,8 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -20,28 +18,37 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
- * This Service is responsible for automatically saving {@link Player} and {@link Block}
+ * This Service is responsible for saving {@link Player} and {@link Block}
  * data.
  * 
  * @author TheBusyBiscuit
- *
+ * @author JustAHuman
  */
-public class AutoSavingService {
+public class SavingService {
 
     private int interval;
+    private long lastPlayerSave;
+    private long lastBlockSave;
+    private boolean startedAutoSave;
     private boolean savingPlayers;
     private boolean savingBlocks;
 
     /**
-     * This method starts the {@link AutoSavingService} with the given interval.
+     * This method starts a {@link SavingService} task with the given interval.
      * 
      * @param plugin
      *            The current instance of Slimefun
      * @param interval
      *            The interval in which to run this task
      */
-    public void start(@Nonnull Slimefun plugin, int interval) {
+    public void startAutoSave(@Nonnull Slimefun plugin, int interval) {
+        if (this.startedAutoSave) {
+            // TODO: handle this
+            return;
+        }
+
         this.interval = interval;
+        this.startedAutoSave = true;
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> saveAllPlayers(true), 2000L, interval * 60L * 20L);
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> saveAllBlocks(true), 2000L, interval * 60L * 20L);
@@ -89,12 +96,15 @@ public class AutoSavingService {
         }
 
         if (players > 0) {
+            long endTime = System.currentTimeMillis();
             if (auto) {
-                Slimefun.logger().log(Level.INFO, "Auto-saved all player data for {0} player(s)!", players);
+                this.lastPlayerSave = endTime;
+                Slimefun.logger().log(Level.INFO, "Auto-saved all player data for {0} player(s)! (Next auto-save: {1}m)", new Object[] { players, this.interval });
             } else {
-                Slimefun.logger().log(Level.INFO, "Saved all player data for {0} player(s)!", players);
+                long nextAutoSave = (this.interval * 60L) - ((endTime - this.lastPlayerSave) / 1000L);
+                Slimefun.logger().log(Level.INFO, "Saved all player data for {0} player(s)! (Next auto-save: {1}m {2}s)", new Object[] { players, nextAutoSave / 60, nextAutoSave % 60 });
             }
-            Slimefun.logger().log(Level.INFO, "Took {0}ms!", System.currentTimeMillis() - startTime);
+            Slimefun.logger().log(Level.INFO, "Took {0}ms!", endTime - startTime);
         }
 
         this.savingPlayers = false;
@@ -111,35 +121,28 @@ public class AutoSavingService {
 
         this.savingBlocks = true;
         long startTime = System.currentTimeMillis();
-        Set<BlockStorage> worlds = new HashSet<>();
+        int savedChanges = 0;
 
         for (World world : Bukkit.getWorlds()) {
             BlockStorage storage = BlockStorage.getStorage(world);
-
-            if (storage != null) {
-                storage.computeChanges();
-
-                if (storage.getChanges() > 0) {
-                    worlds.add(storage);
-                }
+            if (storage == null) {
+                continue;
             }
+
+            savedChanges += storage.saveChanges();
         }
-
-        if (!worlds.isEmpty()) {
-            if (auto) {
-                Slimefun.logger().log(Level.INFO, "Auto-saving block data... (Next auto-save: {0}m)", interval);
-            } else {
-                Slimefun.logger().log(Level.INFO, "Saving block data...");
-            }
-
-            for (BlockStorage storage : worlds) {
-                storage.save();
-            }
-        }
-
         BlockStorage.saveChunks();
-        Slimefun.logger().log(Level.INFO, "Saved all block data, took {0}ms!", System.currentTimeMillis() - startTime);
 
+        long endTime = System.currentTimeMillis();
+        if (auto) {
+            Slimefun.logger().log(Level.INFO, "Auto-saved all block data from {0} changes! (Next auto-save: {1}m)", new Object[] { savedChanges, this.interval });
+        } else {
+            long nextAutoSave = (this.interval * 60L) - ((endTime - this.lastBlockSave) / 1000L);
+            Slimefun.logger().log(Level.INFO, "Saved all block data from {0} changes! (Next auto-save: {1}m {2}s)", new Object[] { savedChanges, nextAutoSave / 60, nextAutoSave % 60 });
+        }
+        Slimefun.logger().log(Level.INFO, "Took {0}ms!", new Object[] { endTime - startTime });
+
+        this.lastBlockSave = endTime;
         this.savingBlocks = false;
         return true;
     }

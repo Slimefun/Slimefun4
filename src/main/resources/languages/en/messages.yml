@@ -44,8 +44,8 @@ commands:
       true: 'Successfully saved player-data!'
       false: 'Player-data is already saving!'
     blocks:
-      true: 'Successfully saved blockstorage!'
-      false: 'Blockstorage is already saving!'
+      true: 'Successfully saved block-data!'
+      false: 'Block-data is already saving!'
 
 placeholderapi:
   profile-loading: 'Loading...'
