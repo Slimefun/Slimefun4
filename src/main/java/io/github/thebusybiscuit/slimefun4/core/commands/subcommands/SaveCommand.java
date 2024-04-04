@@ -10,12 +10,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class SaveCommand extends SubCommand {
-    private final SavingService service;
-
     @ParametersAreNonnullByDefault
     SaveCommand(Slimefun plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "save", false);
-        this.service = Slimefun.getSavingService();
     }
 
     @Override
@@ -25,9 +22,9 @@ public class SaveCommand extends SubCommand {
             return;
         }
 
-        boolean savedPlayers = this.service.saveAllPlayers(false);
+        boolean savedPlayers = Slimefun.getSavingService().saveAllPlayers(false);
         Slimefun.getLocalization().sendMessage(sender, "commands.save.players." + savedPlayers, true);
-        boolean savedBlocks = this.service.saveAllBlocks(false);
+        boolean savedBlocks = Slimefun.getSavingService().saveAllBlocks(false);
         Slimefun.getLocalization().sendMessage(sender, "commands.save.blocks." + savedBlocks, true);
     }
 }
