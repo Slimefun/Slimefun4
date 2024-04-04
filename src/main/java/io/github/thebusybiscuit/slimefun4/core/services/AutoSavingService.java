@@ -29,6 +29,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class AutoSavingService {
 
     private int interval;
+    private boolean savingPlayers;
+    private boolean savingBlocks;
 
     /**
      * This method starts the {@link AutoSavingService} with the given interval.
@@ -41,19 +43,25 @@ public class AutoSavingService {
     public void start(@Nonnull Slimefun plugin, int interval) {
         this.interval = interval;
 
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::saveAllPlayers, 2000L, interval * 60L * 20L);
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::saveAllBlocks, 2000L, interval * 60L * 20L);
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> saveAllPlayers(true), 2000L, interval * 60L * 20L);
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> saveAllBlocks(true), 2000L, interval * 60L * 20L);
     }
 
     /**
      * This method saves every {@link PlayerProfile} in memory and removes profiles
      * that were marked for deletion.
      */
-    private void saveAllPlayers() {
+    public boolean saveAllPlayers(boolean auto) {
+        if (this.savingPlayers) {
+            return false;
+        }
+
+        this.savingPlayers = true;
+        long startTime = System.currentTimeMillis();
         Iterator<PlayerProfile> iterator = PlayerProfile.iterator();
         int players = 0;
 
-        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Saving all players data");
+        Debug.log(TestCase.PLAYER_PROFILE_DATA, "Saving all player data");
 
         while (iterator.hasNext()) {
             PlayerProfile profile = iterator.next();
@@ -81,14 +89,28 @@ public class AutoSavingService {
         }
 
         if (players > 0) {
-            Slimefun.logger().log(Level.INFO, "Auto-saved all player data for {0} player(s)!", players);
+            if (auto) {
+                Slimefun.logger().log(Level.INFO, "Auto-saved all player data for {0} player(s)!", players);
+            } else {
+                Slimefun.logger().log(Level.INFO, "Saved all player data for {0} player(s)!", players);
+            }
+            Slimefun.logger().log(Level.INFO, "Took {0}ms!", System.currentTimeMillis() - startTime);
         }
+
+        this.savingPlayers = false;
+        return true;
     }
 
     /**
      * This method saves the data of every {@link Block} marked dirty by {@link BlockStorage}.
      */
-    private void saveAllBlocks() {
+    public boolean saveAllBlocks(boolean auto) {
+        if (this.savingBlocks) {
+            return false;
+        }
+
+        this.savingBlocks = true;
+        long startTime = System.currentTimeMillis();
         Set<BlockStorage> worlds = new HashSet<>();
 
         for (World world : Bukkit.getWorlds()) {
@@ -104,7 +126,11 @@ public class AutoSavingService {
         }
 
         if (!worlds.isEmpty()) {
-            Slimefun.logger().log(Level.INFO, "Auto-saving block data... (Next auto-save: {0}m)", interval);
+            if (auto) {
+                Slimefun.logger().log(Level.INFO, "Auto-saving block data... (Next auto-save: {0}m)", interval);
+            } else {
+                Slimefun.logger().log(Level.INFO, "Saving block data...");
+            }
 
             for (BlockStorage storage : worlds) {
                 storage.save();
@@ -112,6 +138,10 @@ public class AutoSavingService {
         }
 
         BlockStorage.saveChunks();
+        Slimefun.logger().log(Level.INFO, "Saved all block data, took {0}ms!", System.currentTimeMillis() - startTime);
+
+        this.savingBlocks = false;
+        return true;
     }
 
 }
