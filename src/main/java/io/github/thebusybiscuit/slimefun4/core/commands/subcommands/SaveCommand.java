@@ -15,9 +15,9 @@ public class SaveCommand extends SubCommand {
     private final AutoSavingService service;
 
     @ParametersAreNonnullByDefault
-    SaveCommand(Slimefun plugin, SlimefunCommand cmd, AutoSavingService service) {
+    SaveCommand(Slimefun plugin, SlimefunCommand cmd) {
         super(plugin, cmd, "save", false);
-        this.service = service;
+        this.service = Slimefun.getAutoSavingService();
     }
 
     @Override

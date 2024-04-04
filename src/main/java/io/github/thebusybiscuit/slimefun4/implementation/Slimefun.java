@@ -828,6 +828,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         return instance.blockDataService;
     }
 
+    public static @Nonnull AutoSavingService getAutoSavingService() {
+        validateInstance();
+        return instance.autoSavingService;
+    }
+
     /**
      * This method returns out world settings service.
      * That service is responsible for managing item settings per
