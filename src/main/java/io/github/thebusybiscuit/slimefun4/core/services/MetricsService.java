@@ -4,11 +4,22 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandler;
+import java.net.http.HttpResponse.BodySubscriber;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.Flow.Subscription;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -16,14 +27,12 @@ import javax.annotation.Nullable;
 
 import org.bukkit.plugin.Plugin;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
-import kong.unirest.GetRequest;
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -66,21 +75,11 @@ public class MetricsService {
     private final Slimefun plugin;
     private final File parentFolder;
     private final File metricsModuleFile;
+    private final HttpClient client = HttpClient.newHttpClient();
 
     private URLClassLoader moduleClassLoader;
     private String metricVersion = null;
     private boolean hasDownloadedUpdate = false;
-
-    static {
-        // @formatter:off (We want this to stay this nicely aligned :D )
-        Unirest.config()
-            .concurrency(2, 1)
-            .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
-            .setDefaultHeader("Accept", "application/vnd.github.v3+json")
-            .enableCookieManagement(false)
-            .cookieSpec("ignoreCookies");
-        // @formatter:on
-    }
 
     /**
      * This constructs a new instance of our {@link MetricsService}.
@@ -199,20 +198,16 @@ public class MetricsService {
      */
     private int getLatestVersion() {
         try {
-            HttpResponse<JsonNode> response = Unirest.get(RELEASES_URL).asJson();
+            HttpResponse<String> response = client.send(buildBaseRequest(URI.create(RELEASES_URL)), HttpResponse.BodyHandlers.ofString());
 
-            if (!response.isSuccess()) {
+            if (response.statusCode() < 200 || response.statusCode() >= 300) {
                 return -1;
             }
 
-            JsonNode node = response.getBody();
+            JsonElement element = JsonParser.parseString(response.body());
 
-            if (node == null) {
-                return -1;
-            }
-
-            return node.getObject().getInt("tag_name");
-        } catch (UnirestException e) {
+            return element.getAsJsonObject().get("tag_name").getAsInt();
+        } catch (IOException | InterruptedException | JsonParseException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to fetch latest builds for Metrics: {0}", e.getMessage());
             return -1;
         }
@@ -235,19 +230,13 @@ public class MetricsService {
                 Files.delete(file.toPath());
             }
 
-            AtomicInteger lastPercentPosted = new AtomicInteger();
-            GetRequest request = Unirest.get(DOWNLOAD_URL + "/" + version + "/" + JAR_NAME + ".jar");
+            HttpResponse<Path> response = client.send(
+                buildBaseRequest(URI.create(DOWNLOAD_URL + "/" + version + "/" + JAR_NAME + ".jar")),
+                downloadMonitor(HttpResponse.BodyHandlers.ofFile(file.toPath()))
+            );
 
-            HttpResponse<File> response = request.downloadMonitor((b, fileName, bytesWritten, totalBytes) -> {
-                int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
 
-                if (percent != 0 && percent != lastPercentPosted.get()) {
-                    plugin.getLogger().info("# Downloading... " + percent + "% " + "(" + bytesWritten + "/" + totalBytes + " bytes)");
-                    lastPercentPosted.set(percent);
-                }
-            }).asFile(file.getPath());
-
-            if (response.isSuccess()) {
+            if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { JAR_NAME, version });
 
                 // Replace the metric file with the new one
@@ -258,7 +247,7 @@ public class MetricsService {
                 hasDownloadedUpdate = true;
                 return true;
             }
-        } catch (UnirestException e) {
+        } catch (InterruptedException | JsonParseException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down? Response: {0}", e.getMessage());
         } catch (IOException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the new one. Please do this manually! Error: {0}", e.getMessage());
@@ -286,5 +275,59 @@ public class MetricsService {
      */
     public boolean hasAutoUpdates() {
         return Slimefun.instance().getConfig().getBoolean("metrics.auto-update");
+    }
+
+    private HttpRequest buildBaseRequest(@Nonnull URI uri) {
+        return HttpRequest.newBuilder()
+                .uri(uri)
+                .timeout(Duration.ofSeconds(5))
+                .header("User-Agent", "MetricsModule Auto-Updater")
+                .header("Accept", "application/vnd.github.v3+json")
+                .build();
+    }
+
+    private <T> BodyHandler<T> downloadMonitor(BodyHandler<T> h) {
+        return info -> new BodySubscriber<T>() {
+
+            private BodySubscriber<T> delegateSubscriber = h.apply(info);
+            private int lastPercentPosted = 0;
+            private long bytesWritten = 0;
+
+            @Override
+            public void onSubscribe(Subscription subscription) {
+                delegateSubscriber.onSubscribe(subscription);
+            }
+
+            @Override
+            public void onNext(List<ByteBuffer> item) {
+                bytesWritten += item.stream().mapToLong(ByteBuffer::capacity).sum();
+                long totalBytes = info.headers().firstValue("Content-Length").map(Long::parseLong).orElse(-1L);
+
+                int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
+
+                if (percent != 0 && percent != lastPercentPosted) {
+                    plugin.getLogger().info("# Downloading... " + percent + "% " + "(" + bytesWritten + "/" + totalBytes + " bytes)");
+                    lastPercentPosted = percent;
+                }
+
+                delegateSubscriber.onNext(item);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                delegateSubscriber.onError(throwable);
+
+            }
+
+            @Override
+            public void onComplete() {
+                delegateSubscriber.onComplete();
+            }
+
+            @Override
+            public CompletionStage<T> getBody() {
+                return delegateSubscriber.getBody();
+            }
+        };
     }
 }

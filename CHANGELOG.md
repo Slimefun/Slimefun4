@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 37 (TBD)](#release-candidate-37-tbd)
+- [Release Candidate 38 (TBD)](#release-candidate-38-tbd)
+- [Release Candidate 37 (25 Feb 2024)](#release-candidate-37-25-feb-2024)
 - [Release Candidate 36 (20 Dec 2023)](#release-candidate-36-20-dec-2023)
 - [Release Candidate 35 (07 Jul 2023)](#release-candidate-35-07-jul-2023)
 - [Release Candidate 34 (20 Jun 2023)](#release-candidate-34-20-jun-2023)
@@ -37,7 +38,33 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 37 (TBD)
+## Release Candidate 38 (TBD)
+
+## Release Candidate 37 (25 Feb 2024)
+
+#### Additions
+* (API) Introduce SlimefunItemRegistryFinalizedEvent (#4099)
+* Add update warning to /sf versions (#4096)
+* Add new analytics service (#4067)
+
+#### Changes
+* Allow blocks to be dropped while in creative mode (#3934)
+* Storage rewrite - Phase 1 (#4065)
+* Temporarily disable senstive blocks check (#4077)
+* Update MockBukkit to 1.20.4 along with existing tests (#4086) 
+* Move PlayerProfile saving off the main thread (#4119)
+
+#### Fixes
+* Fix contributor head being pullable (#4072)
+* Fix backpack IDs not incrementing (#4081)
+* Fix inventory being used when Slimefun block is broken (#4088)
+* Fix items not being able to be placed on ancient altar (#4094) 
+* Update dough to fix item stacking issue (#4100)
+* Fix slimefun block turning into a vanilla block if there are viewers (#4101)
+* Fixes #4123 - Coal Generator will no longer be locked after researching (#4124)
+* Fixes exhaustion when loading large profiles (#4127)
+* Fixes guide search when using colored chat (#4125)
+* Fix dupe glitch with backpacks (#4134)
 
 ## Release Candidate 36 (20 Dec 2023)
 

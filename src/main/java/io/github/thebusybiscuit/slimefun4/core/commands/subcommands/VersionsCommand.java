@@ -89,7 +89,7 @@ class VersionsCommand extends SubCommand {
                 .append(")").color(ChatColor.GRAY);
         }
 
-        builder.append("\n");
+        builder.append("\n").event((HoverEvent) null;
         // @formatter:on
 
         if (Slimefun.getMetricsService().getVersion() != null) {
