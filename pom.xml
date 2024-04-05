@@ -239,7 +239,7 @@
 
                 <configuration>
                     <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
-                    <destDir>docs</destDir>
+                    <destDir>javadocs</destDir>
 
                     <doctitle>Slimefun4 - Javadocs</doctitle>
                     <windowtitle>Slimefun4 - Javadocs</windowtitle>
