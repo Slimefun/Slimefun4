@@ -239,7 +239,7 @@
 
                 <configuration>
                     <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
-                    <destDir>docs</destDir>
+                    <destDir>javadocs</destDir>
 
                     <doctitle>Slimefun4 - Javadocs</doctitle>
                     <windowtitle>Slimefun4 - Javadocs</windowtitle>
@@ -344,7 +344,7 @@
         <dependency>
             <groupId>com.github.baked-libs.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>e99d02a8ff</version>
+            <version>baf2d79f62</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
