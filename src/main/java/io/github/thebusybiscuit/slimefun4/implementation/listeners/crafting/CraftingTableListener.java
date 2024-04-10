@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,9 +14,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.inventory.meta.BookMeta;
-
-import java.awt.print.Book;
 
 /**
  * This {@link Listener} prevents any {@link SlimefunItem} from being used in a
