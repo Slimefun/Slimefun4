@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -12,6 +15,9 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.inventory.meta.BookMeta;
+
+import java.awt.print.Book;
 
 /**
  * This {@link Listener} prevents any {@link SlimefunItem} from being used in a
@@ -49,6 +55,12 @@ public class CraftingTableListener implements SlimefunCraftingListener {
                     e.getInventory().setResult(null);
                     break;
                 }
+            }
+
+            if (e.getInventory().getResult() == null) return;
+            ItemStack result = e.getInventory().getResult();
+            if (result.getType() == Material.WRITTEN_BOOK) {
+                SlimefunUtils.setSoulbound(result, false);
             }
         }
     }
