@@ -70,9 +70,10 @@ public class WitherBuildPattern {
     public static @Nonnull Collection<Block> getMatchingBlocks(Location location, boolean inverted) {
         Preconditions.checkNotNull(location, "Location cannot be null");
         Preconditions.checkNotNull(location.getWorld(), "Location#getWorld cannot be null");
-        Collection<Block> baseEastWest = TShapedBlockPattern.getTShapeEastWest(location, inverted);
+        Location soulSandBase = inverted ? location.clone().add(0, 1, 0) : location;
+        Collection<Block> baseEastWest = TShapedBlockPattern.getTShapeEastWest(soulSandBase, inverted);
         if (TShapedBlockPattern.allBlocksMatchMaterial(Material.SOUL_SAND, baseEastWest)) {
-            Collection<Block> blocks = new ArrayList<>(getWitherHeadsEastWest(location));
+            Collection<Block> blocks = new ArrayList<>(getWitherHeadsEastWest(location, inverted));
             if (!TShapedBlockPattern.allBlocksMatchMaterial(Material.WITHER_SKELETON_SKULL, blocks)) {
                 return Collections.emptyList();
             }
@@ -82,7 +83,7 @@ public class WitherBuildPattern {
 
         Collection<Block> baseNorthSouth = TShapedBlockPattern.getTShapeNorthSouth(location, inverted);
         if (TShapedBlockPattern.allBlocksMatchMaterial(Material.SOUL_SAND, baseNorthSouth)) {
-            Collection<Block> blocks = new ArrayList<>(getWitherHeadsNorthSouth(location));
+            Collection<Block> blocks = new ArrayList<>(getWitherHeadsNorthSouth(location, inverted));
             if (!TShapedBlockPattern.allBlocksMatchMaterial(Material.WITHER_SKELETON_SKULL, blocks)) {
                 return Collections.emptyList();
             }
@@ -96,13 +97,14 @@ public class WitherBuildPattern {
      * Get the blocks which should contain wither heads if the structure is facing east-west
      *
      * @param location The base of the wither structure
+     * @param inverted Whether the structure should be inverted
      * @return Returns the line of blocks facing east-west
      */
-    private static @Nonnull Collection<Block> getWitherHeadsEastWest(Location location) {
+    private static @Nonnull Collection<Block> getWitherHeadsEastWest(Location location, boolean inverted) {
         Preconditions.checkNotNull(location, "Location cannot be null");
         Preconditions.checkNotNull(location.getWorld(), "Location#getWorld cannot be null");
         Block base = location.getBlock();
-        Block center = base.getRelative(BlockFace.UP, 2);
+        Block center = inverted ? base : base.getRelative(BlockFace.UP, 2);
         return TShapedBlockPattern.getLineEastWest(center);
     }
 
@@ -110,13 +112,14 @@ public class WitherBuildPattern {
      * Get the blocks which should contain wither heads if the structure is facing north-south
      *
      * @param location The base of the wither structure
+     * @param inverted Whether the structure should be inverted
      * @return Returns the line of blocks facing north-south
      */
-    private static @Nonnull Collection<Block> getWitherHeadsNorthSouth(Location location) {
+    private static @Nonnull Collection<Block> getWitherHeadsNorthSouth(Location location, boolean inverted) {
         Preconditions.checkNotNull(location, "Location cannot be null");
         Preconditions.checkNotNull(location.getWorld(), "Location#getWorld cannot be null");
         Block base = location.getBlock();
-        Block center = base.getRelative(BlockFace.UP, 2);
+        Block center = inverted ? base : base.getRelative(BlockFace.UP, 2);
         return TShapedBlockPattern.getLineNorthSouth(center);
     }
 

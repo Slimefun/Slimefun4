@@ -184,14 +184,35 @@ class TestCreatureBuildListener {
         Assertions.assertTrue(spawnEvent.isCancelled());
     }
 
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    void testBuildWither(boolean inverted) {
+    @Test
+    void testBuildWither() {
         CreatureSpawnEvent spawnEvent = mockCreatureBuildEvent(CreatureSpawnEvent.SpawnReason.BUILD_WITHER);
         Block base = spawnEvent.getLocation().getBlock();
-        Collection<Block> soulSand = TShapedBlockPattern.getTShapeEastWest(base.getLocation(), inverted);
+        Collection<Block> soulSand = TShapedBlockPattern.getTShapeEastWest(base.getLocation(), false);
         soulSand.forEach(block -> block.setType(Material.SOUL_SAND));
         Collection<Block> witherSkulls = TShapedBlockPattern.getLineEastWest(base.getRelative(BlockFace.UP, 2));
+        witherSkulls.forEach(block -> block.setType(Material.WITHER_SKELETON_SKULL));
+        Collection<Block> wither = new ArrayList<>(soulSand);
+        wither.addAll(witherSkulls);
+
+        // Valid wither was built
+        listener.onCreatureSpawn(spawnEvent);
+        Assertions.assertFalse(spawnEvent.isCancelled());
+
+        mockBlockStorageEntry(wither);
+        listener.onCreatureSpawn(spawnEvent);
+        Assertions.assertTrue(spawnEvent.isCancelled());
+    }
+
+    @Test
+    void testBuildWitherInverted() {
+        CreatureSpawnEvent spawnEvent = mockCreatureBuildEvent(CreatureSpawnEvent.SpawnReason.BUILD_WITHER);
+        Block base = spawnEvent.getLocation().getBlock();
+        // Because inverted, the skulls will be on the bottom layer
+        Location soulSandBase = base.getLocation().clone().add(0, 1, 0);
+        Collection<Block> soulSand = TShapedBlockPattern.getTShapeEastWest(soulSandBase, true);
+        soulSand.forEach(block -> block.setType(Material.SOUL_SAND));
+        Collection<Block> witherSkulls = TShapedBlockPattern.getLineEastWest(base);
         witherSkulls.forEach(block -> block.setType(Material.WITHER_SKELETON_SKULL));
         Collection<Block> wither = new ArrayList<>(soulSand);
         wither.addAll(witherSkulls);
