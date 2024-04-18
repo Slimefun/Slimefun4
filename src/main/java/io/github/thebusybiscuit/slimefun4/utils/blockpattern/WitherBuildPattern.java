@@ -44,9 +44,33 @@ public class WitherBuildPattern {
      * @return Returns non-null {@link Collection} of {@link Block}s which are eligible for creating a wither
      */
     public static @Nonnull Collection<Block> getMatchingBlocks(Location location) {
+        // Try testing the normal case
+        Collection<Block> blocks = getMatchingBlocks(location, false);
+        if (!blocks.isEmpty()) {
+            return blocks;
+        }
+        // Test the inverted case
+        return getMatchingBlocks(location, true);
+    }
+
+    /**
+     * Get the blocks which match the build pattern for a wither.
+     * <br>
+     * This method will always check in the east-west direction before the north-south direction.
+     * The reasoning behind east-west first is to match vanilla when withers are spawned and
+     * both directions contain a valid T-shape, the east-west direction is always preferred.
+     * <br>
+     * <strong>This method should not be used to test if a Wither can be spawned at this location as it does not
+     * check whether the other blocks within the pattern are air blocks.</strong>
+     *
+     * @param location The {@link Location} of the lowest block at the center, aka the base block of the build pattern
+     * @param inverted Whether the pattern is inverted
+     * @return Returns non-null {@link Collection} of {@link Block}s which are eligible for creating a wither
+     */
+    public static @Nonnull Collection<Block> getMatchingBlocks(Location location, boolean inverted) {
         Preconditions.checkNotNull(location, "Location cannot be null");
         Preconditions.checkNotNull(location.getWorld(), "Location#getWorld cannot be null");
-        Collection<Block> baseEastWest = TShapedBlockPattern.getTShapeEastWest(location);
+        Collection<Block> baseEastWest = TShapedBlockPattern.getTShapeEastWest(location, inverted);
         if (TShapedBlockPattern.allBlocksMatchMaterial(Material.SOUL_SAND, baseEastWest)) {
             Collection<Block> blocks = new ArrayList<>(getWitherHeadsEastWest(location));
             if (!TShapedBlockPattern.allBlocksMatchMaterial(Material.WITHER_SKELETON_SKULL, blocks)) {
@@ -56,7 +80,7 @@ public class WitherBuildPattern {
             return blocks;
         }
 
-        Collection<Block> baseNorthSouth = TShapedBlockPattern.getTShapeNorthSouth(location);
+        Collection<Block> baseNorthSouth = TShapedBlockPattern.getTShapeNorthSouth(location, inverted);
         if (TShapedBlockPattern.allBlocksMatchMaterial(Material.SOUL_SAND, baseNorthSouth)) {
             Collection<Block> blocks = new ArrayList<>(getWitherHeadsNorthSouth(location));
             if (!TShapedBlockPattern.allBlocksMatchMaterial(Material.WITHER_SKELETON_SKULL, blocks)) {

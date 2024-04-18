@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.utils.blockpattern;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -43,13 +43,23 @@ public class TShapedBlockPattern {
         Preconditions.checkNotNull(material, "Material cannot be null");
         Preconditions.checkNotNull(location, "Location cannot be null");
         Preconditions.checkNotNull(location.getWorld(), "Location#getWorld cannot be null");
-        Collection<Block> eastWest = getTShapeEastWest(location);
+        // Try non-inverted positions
+        Collection<Block> eastWest = getTShapeEastWest(location, false);
         if (allBlocksMatchMaterial(material, eastWest)) {
             return eastWest;
         }
-        Collection<Block> northSouth = getTShapeNorthSouth(location);
+        Collection<Block> northSouth = getTShapeNorthSouth(location, false);
         if (allBlocksMatchMaterial(material, northSouth)) {
             return northSouth;
+        }
+        // Try inverted positions
+        Collection<Block> eastWestInverted = getTShapeEastWest(location, false);
+        if (allBlocksMatchMaterial(material, eastWest)) {
+            return eastWestInverted;
+        }
+        Collection<Block> northSouthInverted = getTShapeNorthSouth(location, false);
+        if (allBlocksMatchMaterial(material, northSouth)) {
+            return northSouthInverted;
         }
         return Collections.emptyList();
     }
@@ -76,13 +86,14 @@ public class TShapedBlockPattern {
      * Get the blocks which make up at T-shape facing east-west
      *
      * @param location The {@link Location} of the lowest block at the center, aka the base block of the T-shape
+     * @param inverted Whether the T shape is inverted
      * @return Returns a {@link Collection} of {@link Block}s which match the T-shape
      */
-    public static @Nonnull Collection<Block> getTShapeEastWest(Location location) {
+    public static @Nonnull Collection<Block> getTShapeEastWest(Location location, boolean inverted) {
         Preconditions.checkNotNull(location, "Location cannot be null");
         Preconditions.checkNotNull(location.getWorld(), "Location#getWorld cannot be null");
         Block base = location.getBlock();
-        Block center = base.getRelative(BlockFace.UP);
+        Block center = inverted ? base : base.getRelative(BlockFace.UP);
         Collection<Block> blocks = new ArrayList<>(getLineEastWest(center));
         blocks.add(base);
         return blocks;
@@ -92,13 +103,14 @@ public class TShapedBlockPattern {
      * Get the blocks which make up at T-shape facing north-south
      *
      * @param location The {@link Location} of the lowest block at the center, aka the base block of the T-shape
+     * @param inverted Whether the T shape is inverted
      * @return Returns a {@link Collection} of {@link Block}s which match the T-shape
      */
-    public static @Nonnull Collection<Block> getTShapeNorthSouth(Location location) {
+    public static @Nonnull Collection<Block> getTShapeNorthSouth(Location location, boolean inverted) {
         Preconditions.checkNotNull(location, "Location cannot be null");
         Preconditions.checkNotNull(location.getWorld(), "Location#getWorld cannot be null");
         Block base = location.getBlock();
-        Block center = base.getRelative(BlockFace.UP);
+        Block center = inverted ? base : base.getRelative(BlockFace.UP);
         Collection<Block> blocks = new ArrayList<>(getLineNorthSouth(center));
         blocks.add(base);
         return blocks;
@@ -114,7 +126,7 @@ public class TShapedBlockPattern {
         Preconditions.checkNotNull(center, "center cannot be null");
         Block north = center.getRelative(BlockFace.NORTH);
         Block south = center.getRelative(BlockFace.SOUTH);
-        return Arrays.asList(center, north, south);
+        return List.of(center, north, south);
     }
 
     /**
@@ -127,7 +139,7 @@ public class TShapedBlockPattern {
         Preconditions.checkNotNull(center, "center cannot be null");
         Block east = center.getRelative(BlockFace.EAST);
         Block west = center.getRelative(BlockFace.WEST);
-        return Arrays.asList(center, east, west);
+        return List.of(center, east, west);
     }
 
 }
