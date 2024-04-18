@@ -17,6 +17,7 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -186,10 +187,16 @@ class TestCreatureBuildListener {
 
     @Test
     void testBuildWither() {
+        for (Material material : Tag.WITHER_SUMMON_BASE_BLOCKS.getValues()) {
+            testBuildWither(material);
+        }
+    }
+
+    private void testBuildWither(Material baseMaterial) {
         CreatureSpawnEvent spawnEvent = mockCreatureBuildEvent(CreatureSpawnEvent.SpawnReason.BUILD_WITHER);
         Block base = spawnEvent.getLocation().getBlock();
         Collection<Block> soulSand = TShapedBlockPattern.getTShapeEastWest(base.getLocation(), false);
-        soulSand.forEach(block -> block.setType(Material.SOUL_SAND));
+        soulSand.forEach(block -> block.setType(baseMaterial));
         Collection<Block> witherSkulls = TShapedBlockPattern.getLineEastWest(base.getRelative(BlockFace.UP, 2));
         witherSkulls.forEach(block -> block.setType(Material.WITHER_SKELETON_SKULL));
         Collection<Block> wither = new ArrayList<>(soulSand);
@@ -206,15 +213,22 @@ class TestCreatureBuildListener {
 
     @Test
     void testBuildWitherInverted() {
+        for (Material material : Tag.WITHER_SUMMON_BASE_BLOCKS.getValues()) {
+            testBuildWitherInverted(material);
+        }
+    }
+
+
+    private void testBuildWitherInverted(Material baseMaterial) {
         CreatureSpawnEvent spawnEvent = mockCreatureBuildEvent(CreatureSpawnEvent.SpawnReason.BUILD_WITHER);
         Block base = spawnEvent.getLocation().getBlock();
         // Because inverted, the skulls will be on the bottom layer
-        Location soulSandBase = base.getLocation().clone().add(0, 1, 0);
-        Collection<Block> soulSand = TShapedBlockPattern.getTShapeEastWest(soulSandBase, true);
-        soulSand.forEach(block -> block.setType(Material.SOUL_SAND));
+        Location baseLocation = base.getLocation().clone().add(0, 1, 0);
+        Collection<Block> baseBlocks = TShapedBlockPattern.getTShapeEastWest(baseLocation, true);
+        baseBlocks.forEach(block -> block.setType(baseMaterial));
         Collection<Block> witherSkulls = TShapedBlockPattern.getLineEastWest(base);
         witherSkulls.forEach(block -> block.setType(Material.WITHER_SKELETON_SKULL));
-        Collection<Block> wither = new ArrayList<>(soulSand);
+        Collection<Block> wither = new ArrayList<>(baseBlocks);
         wither.addAll(witherSkulls);
 
         // Valid wither was built

@@ -1,9 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.utils.blockpattern;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -12,6 +15,7 @@ import com.google.common.base.Preconditions;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -65,10 +69,10 @@ public class TShapedBlockPattern {
     }
 
     /**
-     * Check whether all the {@link Block}s in a {@link Collection} are of a specified {@link Material}
+     * Check whether all the {@link Block}s in a {@link Collection} are of a specified {@link Material}.
      *
      * @param material The material to check
-     * @param blocks   THe blocks to check
+     * @param blocks   The blocks to check
      * @return True if all blocks are of the specified material, false otherwise
      */
     public static boolean allBlocksMatchMaterial(Material material, Collection<Block> blocks) {
@@ -76,6 +80,27 @@ public class TShapedBlockPattern {
         Preconditions.checkNotNull(blocks, "blocks cannot be null");
         for (Block block : blocks) {
             if (block.getType() != material) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check whether all the {@link Block}s in a {@link Collection} are of a specified {@link Material}
+     * which is {@link Tag tagged}
+     * This method assumes that all elements in materials are interchangeable and can be
+     * mixed and matched
+     *
+     * @param tag    The material tag
+     * @param blocks The blocks to check
+     * @return True if all blocks are any of the specified materials, false otherwise
+     */
+    public static boolean allBlocksMatchTag(Tag<Material> tag, Collection<Block> blocks) {
+        Preconditions.checkNotNull(tag, "Tag cannot be null");
+        Preconditions.checkNotNull(blocks, "blocks cannot be null");
+        for (Block block : blocks) {
+            if (!tag.isTagged(block.getType())) {
                 return false;
             }
         }

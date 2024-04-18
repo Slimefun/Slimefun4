@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.utils.blockpattern;
 import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -70,9 +71,9 @@ public class WitherBuildPattern {
     public static @Nonnull Collection<Block> getMatchingBlocks(Location location, boolean inverted) {
         Preconditions.checkNotNull(location, "Location cannot be null");
         Preconditions.checkNotNull(location.getWorld(), "Location#getWorld cannot be null");
-        Location soulSandBase = inverted ? location.clone().add(0, 1, 0) : location;
-        Collection<Block> baseEastWest = TShapedBlockPattern.getTShapeEastWest(soulSandBase, inverted);
-        if (TShapedBlockPattern.allBlocksMatchMaterial(Material.SOUL_SAND, baseEastWest)) {
+        Location baseLocation = inverted ? location.clone().add(0, 1, 0) : location;
+        Collection<Block> baseEastWest = TShapedBlockPattern.getTShapeEastWest(baseLocation, inverted);
+        if (TShapedBlockPattern.allBlocksMatchTag(Tag.WITHER_SUMMON_BASE_BLOCKS, baseEastWest)) {
             Collection<Block> blocks = new ArrayList<>(getWitherHeadsEastWest(location, inverted));
             if (!TShapedBlockPattern.allBlocksMatchMaterial(Material.WITHER_SKELETON_SKULL, blocks)) {
                 return Collections.emptyList();
