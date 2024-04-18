@@ -22,6 +22,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.block.BlockMock;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class TestTShapedBlockPattern {
 
@@ -74,7 +76,7 @@ class TestTShapedBlockPattern {
     }
 
     @Test
-    @DisplayName("Test that getTShapeNorthSouth returns the correct blocks")
+    @DisplayName("Test that getTShapeNorthSouth(false) returns the correct blocks")
     @Order(2)
     void testGetTShapeNorthSouth() {
         WorldMock world = new WorldMock();
@@ -83,11 +85,24 @@ class TestTShapedBlockPattern {
         Collection<Block> line = TShapedBlockPattern.getLineNorthSouth(centerUpperLayer);
         Collection<Block> tShape = new ArrayList<>(line);
         tShape.add(center);
-        Assertions.assertEquals(tShape, TShapedBlockPattern.getTShapeNorthSouth(center.getLocation()));
+        Assertions.assertEquals(tShape, TShapedBlockPattern.getTShapeNorthSouth(center.getLocation(), false));
     }
 
     @Test
-    @DisplayName("Test that getTShapeEastWest returns the correct blocks")
+    @DisplayName("Test that getTShapeNorthSouth(true) returns the correct blocks")
+    @Order(2)
+    void testGetTShapeNorthSouthInverted() {
+        WorldMock world = new WorldMock();
+        Block center = world.getBlockAt(0, 1, 0);
+        Block centerUpperLayer = center.getRelative(BlockFace.DOWN);
+        Collection<Block> line = TShapedBlockPattern.getLineNorthSouth(centerUpperLayer);
+        Collection<Block> tShape = new ArrayList<>(line);
+        tShape.add(center);
+        Assertions.assertEquals(tShape, TShapedBlockPattern.getTShapeNorthSouth(center.getLocation(), true));
+    }
+
+    @Test
+    @DisplayName("Test that getTShapeEastWest(false) returns the correct blocks")
     @Order(2)
     void testGetTShapeEastWest() {
         WorldMock world = new WorldMock();
@@ -96,41 +111,57 @@ class TestTShapedBlockPattern {
         Collection<Block> line = TShapedBlockPattern.getLineEastWest(centerUpperLayer);
         Collection<Block> tShape = new ArrayList<>(line);
         tShape.add(center);
-        Assertions.assertEquals(tShape, TShapedBlockPattern.getTShapeEastWest(center.getLocation()));
+        Assertions.assertEquals(tShape, TShapedBlockPattern.getTShapeEastWest(center.getLocation(), false));
     }
 
+
     @Test
+    @DisplayName("Test that getTShapeEastWest(true) returns the correct blocks")
+    @Order(2)
+    void testGetTShapeEastWestInverted() {
+        WorldMock world = new WorldMock();
+        Block center = world.getBlockAt(0, 1, 0);
+        Block centerUpperLayer = center.getRelative(BlockFace.DOWN);
+        Collection<Block> line = TShapedBlockPattern.getLineEastWest(centerUpperLayer);
+        Collection<Block> tShape = new ArrayList<>(line);
+        tShape.add(center);
+        Assertions.assertEquals(tShape, TShapedBlockPattern.getTShapeEastWest(center.getLocation(), true));
+    }
+
+    @ParameterizedTest
     @DisplayName("Test that getMatchingBlocks finds blocks with the correct material which are in a T-shape")
+    @ValueSource(booleans = {true, false})
     @Order(3)
-    void testGetMatchingBlocks() {
+    void testGetMatchingBlocks(boolean inverted) {
         WorldMock world = new WorldMock();
         Location base = new Location(world, 0, 0, 0);
         Material targetMaterial = Material.IRON_BLOCK;
 
         Assertions.assertTrue(TShapedBlockPattern.getMatchingBlocks(targetMaterial, base).isEmpty());
         // test blocks on the east-west direction
-        Collection<Block> tShapeEastWest = TShapedBlockPattern.getTShapeEastWest(base);
+        Collection<Block> tShapeEastWest = TShapedBlockPattern.getTShapeEastWest(base, inverted);
         tShapeEastWest.forEach(block -> block.setType(targetMaterial));
 
         Assertions.assertFalse(TShapedBlockPattern.getMatchingBlocks(targetMaterial, base).isEmpty());
         tShapeEastWest.forEach(block -> block.setType(Material.AIR));
 
         // test blocks on the north-south direction
-        Collection<Block> tShapeNorthSouth = TShapedBlockPattern.getTShapeNorthSouth(base);
+        Collection<Block> tShapeNorthSouth = TShapedBlockPattern.getTShapeNorthSouth(base, inverted);
         tShapeNorthSouth.forEach(block -> block.setType(targetMaterial));
         Assertions.assertFalse(TShapedBlockPattern.getMatchingBlocks(targetMaterial, base).isEmpty());
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Test that getMatchingBlocks prefers T-shapes on the east-west direction")
+    @ValueSource(booleans = {true, false})
     @Order(3)
-    void testGetMatchingBlocks_PrefersEastWest() {
+    void testGetMatchingBlocks_PrefersEastWest(boolean inverted) {
         WorldMock world = new WorldMock();
         Location base = new Location(world, 0, 0, 0);
-        Collection<Block> tShapeEastWest = TShapedBlockPattern.getTShapeEastWest(base);
+        Collection<Block> tShapeEastWest = TShapedBlockPattern.getTShapeEastWest(base, inverted);
         Material targetMaterial = Material.IRON_BLOCK;
         tShapeEastWest.forEach(block -> block.setType(targetMaterial));
-        Collection<Block> tShapeNorthSouth = TShapedBlockPattern.getTShapeNorthSouth(base);
+        Collection<Block> tShapeNorthSouth = TShapedBlockPattern.getTShapeNorthSouth(base, inverted);
         tShapeNorthSouth.forEach(block -> block.setType(targetMaterial));
         Collection<Block> matchingBlocks = TShapedBlockPattern.getMatchingBlocks(targetMaterial, base);
         Assertions.assertEquals(tShapeEastWest, matchingBlocks);

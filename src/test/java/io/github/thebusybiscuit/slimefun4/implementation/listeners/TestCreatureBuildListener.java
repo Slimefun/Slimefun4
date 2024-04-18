@@ -39,6 +39,8 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.WorldMock;
 import be.seeseemelk.mockbukkit.entity.LivingEntityMock;
 import be.seeseemelk.mockbukkit.entity.SimpleMobMock;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class TestCreatureBuildListener {
 
@@ -130,9 +132,27 @@ class TestCreatureBuildListener {
     @Test
     void testBuildIronGolem() {
         CreatureSpawnEvent spawnEvent = mockCreatureBuildEvent(CreatureSpawnEvent.SpawnReason.BUILD_IRONGOLEM);
-        Collection<Block> ironGolem = new ArrayList<>(TShapedBlockPattern.getTShapeEastWest(spawnEvent.getLocation()));
+        Collection<Block> ironGolem = new ArrayList<>(TShapedBlockPattern.getTShapeEastWest(spawnEvent.getLocation(), false));
         ironGolem.forEach(block -> block.setType(Material.IRON_BLOCK));
         Block carvedPumpkin = spawnEvent.getLocation().getBlock().getRelative(BlockFace.UP, 2);
+        carvedPumpkin.setType(Material.CARVED_PUMPKIN);
+        ironGolem.add(carvedPumpkin);
+
+        listener.onCreatureSpawn(spawnEvent);
+        // Valid iron golem was built
+        Assertions.assertFalse(spawnEvent.isCancelled());
+
+        mockBlockStorageEntry(ironGolem);
+        listener.onCreatureSpawn(spawnEvent);
+        Assertions.assertTrue(spawnEvent.isCancelled());
+    }
+
+    @Test
+    void testBuildIronGolemInverted() {
+        CreatureSpawnEvent spawnEvent = mockCreatureBuildEvent(CreatureSpawnEvent.SpawnReason.BUILD_IRONGOLEM);
+        Collection<Block> ironGolem = new ArrayList<>(TShapedBlockPattern.getTShapeEastWest(spawnEvent.getLocation(), true));
+        ironGolem.forEach(block -> block.setType(Material.IRON_BLOCK));
+        Block carvedPumpkin = spawnEvent.getLocation().getBlock().getRelative(BlockFace.UP, 1);
         carvedPumpkin.setType(Material.CARVED_PUMPKIN);
         ironGolem.add(carvedPumpkin);
 
@@ -164,11 +184,12 @@ class TestCreatureBuildListener {
         Assertions.assertTrue(spawnEvent.isCancelled());
     }
 
-    @Test
-    void testBuildWither() {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void testBuildWither(boolean inverted) {
         CreatureSpawnEvent spawnEvent = mockCreatureBuildEvent(CreatureSpawnEvent.SpawnReason.BUILD_WITHER);
         Block base = spawnEvent.getLocation().getBlock();
-        Collection<Block> soulSand = TShapedBlockPattern.getTShapeEastWest(base.getLocation());
+        Collection<Block> soulSand = TShapedBlockPattern.getTShapeEastWest(base.getLocation(), inverted);
         soulSand.forEach(block -> block.setType(Material.SOUL_SAND));
         Collection<Block> witherSkulls = TShapedBlockPattern.getLineEastWest(base.getRelative(BlockFace.UP, 2));
         witherSkulls.forEach(block -> block.setType(Material.WITHER_SKELETON_SKULL));

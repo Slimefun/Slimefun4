@@ -53,12 +53,12 @@ public class TShapedBlockPattern {
             return northSouth;
         }
         // Try inverted positions
-        Collection<Block> eastWestInverted = getTShapeEastWest(location, false);
-        if (allBlocksMatchMaterial(material, eastWest)) {
+        Collection<Block> eastWestInverted = getTShapeEastWest(location, true);
+        if (allBlocksMatchMaterial(material, eastWestInverted)) {
             return eastWestInverted;
         }
-        Collection<Block> northSouthInverted = getTShapeNorthSouth(location, false);
-        if (allBlocksMatchMaterial(material, northSouth)) {
+        Collection<Block> northSouthInverted = getTShapeNorthSouth(location, true);
+        if (allBlocksMatchMaterial(material, northSouthInverted)) {
             return northSouthInverted;
         }
         return Collections.emptyList();
