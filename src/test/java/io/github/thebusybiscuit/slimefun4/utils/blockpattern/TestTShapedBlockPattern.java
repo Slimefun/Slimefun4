@@ -93,9 +93,8 @@ class TestTShapedBlockPattern {
     @Order(2)
     void testGetTShapeNorthSouthInverted() {
         WorldMock world = new WorldMock();
-        Block center = world.getBlockAt(0, 1, 0);
-        Block centerUpperLayer = center.getRelative(BlockFace.DOWN);
-        Collection<Block> line = TShapedBlockPattern.getLineNorthSouth(centerUpperLayer);
+        Block center = world.getBlockAt(0, 0, 0);
+        Collection<Block> line = TShapedBlockPattern.getLineNorthSouth(center);
         Collection<Block> tShape = new ArrayList<>(line);
         tShape.add(center);
         Assertions.assertEquals(tShape, TShapedBlockPattern.getTShapeNorthSouth(center.getLocation(), true));
@@ -120,9 +119,8 @@ class TestTShapedBlockPattern {
     @Order(2)
     void testGetTShapeEastWestInverted() {
         WorldMock world = new WorldMock();
-        Block center = world.getBlockAt(0, 1, 0);
-        Block centerUpperLayer = center.getRelative(BlockFace.DOWN);
-        Collection<Block> line = TShapedBlockPattern.getLineEastWest(centerUpperLayer);
+        Block center = world.getBlockAt(0, 0, 0);
+        Collection<Block> line = TShapedBlockPattern.getLineEastWest(center);
         Collection<Block> tShape = new ArrayList<>(line);
         tShape.add(center);
         Assertions.assertEquals(tShape, TShapedBlockPattern.getTShapeEastWest(center.getLocation(), true));
