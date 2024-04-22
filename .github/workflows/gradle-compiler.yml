@@ -34,6 +34,13 @@ jobs:
         java-version: '17'
         java-package: jdk
         architecture: x64
+        cache: gradle
+
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v3
+
+    - name: Validate Gradle Wrapper
+      uses: gradle/actions/wrapper-validation@v3
 
     - name: Cache Maven packages
       uses: actions/cache@v4
@@ -42,5 +49,5 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
-    - name: Build with Maven
-      run: mvn package --file pom.xml
+    - name: Clean Build
+      run: ./gradlew clean build
