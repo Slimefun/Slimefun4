@@ -45,7 +45,7 @@ jobs:
         echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> "$GITHUB_ENV"
         echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> "$GITHUB_OUTPUT"
         echo "JAR_VERSION=$JAR_VERSION" >> "$GITHUB_ENV"
-        sed -i "s/<version>4.9-UNOFFICIAL<\/version>/<version>$JAR_VERSION<\/version>/g" pom.xml
+        sed -i "s/version = 4.9-UNOFFICIAL/version = $JAR_VERSION/g" build.gradle.kts
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
