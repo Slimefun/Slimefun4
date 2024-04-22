@@ -118,7 +118,7 @@ tasks {
         include("biome-maps/*.json")
         include("languages/**/*.yml")
         filesMatching("plugin.yml") {
-            expand("project.version" to project.version)
+            expand("version" to project.version)
         }
     }
     test {
