@@ -20,7 +20,7 @@ permissions:
 jobs:
   build:
 
-    name: Maven build
+    name: Gradle build
     runs-on: ubuntu-latest
 
     steps:

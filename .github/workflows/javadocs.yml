@@ -40,5 +40,8 @@ jobs:
     - name: Validate Gradle Wrapper
       uses: gradle/actions/wrapper-validation@v3
 
+    - name: Grant Wrapper Permission
+      run: chmod x gradlew
+
     - name: Build With Gradle
       run: ./gradlew javadoc
