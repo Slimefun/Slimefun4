@@ -42,5 +42,5 @@ jobs:
           project: Slimefun4
           releaseChannel: ${{ github.ref == 'refs/heads/master' && 'Dev' || 'RC' }}
           apiToken: ${{ secrets.BLOB_BUILDS_API_TOKEN }}
-          file: './target/Slimefun v4.9-UNOFFICIAL.jar'
+          file: './build/libs/Slimefun v4.9-UNOFFICIAL.jar'
           releaseNotes: ${{ github.event.head_commit.message }}
