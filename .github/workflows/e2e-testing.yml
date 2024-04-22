@@ -18,7 +18,7 @@ jobs:
       matrix:
         include:
           - mcVersion: '1.16.5'
-            javaVersion: '16'
+            javaVersion: '17'
           - mcVersion: '1.17.1'
             javaVersion: '17'
           - mcVersion: '1.18.2'
@@ -74,4 +74,4 @@ jobs:
 
       - name: Run server
         run: |
-          java -jar paper.jar --nogui
+          java -DPaper.IgnoreJavaVersion=true -jar paper.jar --nogui
