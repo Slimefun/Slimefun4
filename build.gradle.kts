@@ -4,6 +4,7 @@ plugins {
     jacoco
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.sonarqube") version "5.0.0.4638"
+    id("xyz.jpenilla.run-paper") version "2.2.3"
 }
 
 // Needed for SonarScanner to work properly. 5.x requires java 17
@@ -122,6 +123,17 @@ tasks {
     }
     test {
         useJUnitPlatform()
+    }
+    runServer {
+        // Configure the Minecraft version for our task.
+        // This is the only required configuration besides applying the plugin.
+        // Your plugin's jar (or shadowJar if present) will be used automatically.
+        minecraftVersion(minecraftVersion)
+
+        downloadPlugins {
+            // WorldEdit 7.2.19
+            url("https://mediafilez.forgecdn.net/files/5077/477/worldedit-bukkit-7.2.19.jar")
+        }
     }
 }
 
