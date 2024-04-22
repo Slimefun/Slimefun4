@@ -45,7 +45,6 @@ jobs:
         echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> "$GITHUB_ENV"
         echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> "$GITHUB_OUTPUT"
         echo "JAR_VERSION=$JAR_VERSION" >> "$GITHUB_ENV"
-        sed -i "s/version = 4.9-UNOFFICIAL/version = $JAR_VERSION/g" build.gradle.kts
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
@@ -56,8 +55,8 @@ jobs:
     - name: Grant Wrapper Permission
       run: chmod +x gradlew
 
-    - name: Build With Gradle
-      run: ./gradlew build
+    - name: Build Custom Version With Gradle
+      run: ./gradlew -P"project.version"=${{ env.JAR_VERSION}} build
 
     - name: Upload the artifact
       uses: actions/upload-artifact@v4

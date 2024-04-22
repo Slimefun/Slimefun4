@@ -56,7 +56,7 @@ dependencies {
 }
 
 group = "com.github.slimefun"
-version = "4.9-UNOFFICIAL"
+version = property("project.version").toString()
 description = "Slimefun"
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
