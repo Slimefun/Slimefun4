@@ -63,9 +63,9 @@ group = "com.github.slimefun"
 version = property("project.version").toString()
 description = "Slimefun"
 
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
 
 java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
     withSourcesJar()
 }
 
@@ -89,11 +89,9 @@ tasks {
             // doclet = "org.gradle.external.javadoc.StandardJavadocDocletOptions"
             // FIXME offline links, groups, and additional options.
         }
-
     }
     assemble {
         dependsOn(shadowJar)
-
     }
     jar {
         archiveClassifier.set("original")
@@ -162,7 +160,6 @@ publishing {
                         distribution = "repo"
                     }
                 }
-
             }
         }
     }
