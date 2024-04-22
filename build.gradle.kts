@@ -1,3 +1,5 @@
+import org.gradle.jvm.tasks.Jar
+
 plugins {
     `java-library`
     `maven-publish`
@@ -45,6 +47,8 @@ dependencies {
     compileOnly("com.github.LoneDev6:itemsadder-api:3.6.1")
     compileOnly("net.imprex:orebfuscator-api:5.4.0")
 
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     testImplementation("org.mockito:mockito-core:5.10.0")
     testImplementation("org.slf4j:slf4j-simple:2.0.9")
@@ -134,6 +138,9 @@ tasks {
             // WorldEdit 7.2.19
             url("https://mediafilez.forgecdn.net/files/5077/477/worldedit-bukkit-7.2.19.jar")
         }
+    }
+    named<Jar>("sourcesJar") {
+        archiveVersion.set("v${project.version}")
     }
 }
 
