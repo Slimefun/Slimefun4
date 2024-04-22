@@ -22,6 +22,13 @@ jobs:
           java-version: '17'
           java-package: jdk
           architecture: x64
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
 
       - name: Build with Gradle
         run: ./gradlew build
