@@ -37,7 +37,7 @@ jobs:
         cache: gradle
 
     - name: Setup Gradle
-      uses: gradle/gradle-build-action@v3
+      uses: gradle/actions/setup-gradle@v3
 
     - name: Validate Gradle Wrapper
       uses: gradle/actions/wrapper-validation@v3
@@ -53,4 +53,4 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Clean Build
-      run: ./gradlew clean build
+      run: ./gradlew build
