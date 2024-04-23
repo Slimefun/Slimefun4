@@ -11,6 +11,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import io.github.bakedlibs.dough.inventory.InvUtils;
@@ -48,10 +50,9 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         potionRecipes.put(Material.TURTLE_HELMET, PotionType.TURTLE_MASTER);
         potionRecipes.put(Material.PHANTOM_MEMBRANE, PotionType.SLOW_FALLING);
 
-        fermentations.put(PotionType.SPEED, PotionType.SLOWNESS);
-        fermentations.put(PotionType.JUMP, PotionType.SLOWNESS);
-        fermentations.put(PotionType.INSTANT_HEAL, PotionType.INSTANT_DAMAGE);
-        fermentations.put(PotionType.POISON, PotionType.INSTANT_DAMAGE);
+        fermentations.put(PotionType.LEAPING, PotionType.SLOWNESS);
+        fermentations.put(PotionType.HEALING, PotionType.HARMING);
+        fermentations.put(PotionType.POISON, PotionType.HARMING);
         fermentations.put(PotionType.NIGHT_VISION, PotionType.INVISIBILITY);
     }
 
@@ -104,15 +105,15 @@ public class AutoBrewer extends AContainer implements NotHopperable {
 
     @ParametersAreNonnullByDefault
     private @Nullable ItemStack brew(Material input, Material potionType, PotionMeta potion) {
-        PotionData data = potion.getBasePotionData();
+        PotionType data = potion.getBasePotionType();
 
         PotionType type = data.getType();
         if (type == PotionType.WATER) {
             if (input == Material.FERMENTED_SPIDER_EYE) {
-                potion.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
+                potion.setBasePotionType(PotionType.WEAKNESS);
                 return new ItemStack(potionType);
             } else if (input == Material.NETHER_WART) {
-                potion.setBasePotionData(new PotionData(PotionType.AWKWARD, false, false));
+                potion.setBasePotionType(PotionType.AWKWARD);
                 return new ItemStack(potionType);
             } else if (potionType == Material.POTION && input == Material.GUNPOWDER) {
                 return new ItemStack(Material.SPLASH_POTION);
@@ -123,10 +124,10 @@ public class AutoBrewer extends AContainer implements NotHopperable {
             PotionType fermented = fermentations.get(type);
 
             if (fermented != null) {
-                potion.setBasePotionData(new PotionData(fermented, data.isExtended(), data.isUpgraded()));
+                potion.setBasePotionType(fermented);
                 return new ItemStack(potionType);
             }
-        } else if (input == Material.REDSTONE && type.isExtendable() && !data.isUpgraded()) {
+        } else if (input == Material.REDSTONE && type.isExtendable() && !data) {
             // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
             potion.setBasePotionData(new PotionData(type, true, false));
             return new ItemStack(potionType);

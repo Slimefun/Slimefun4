@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -378,7 +377,7 @@ public final class SlimefunItemSetup {
 
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.SLIME_BOOTS, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT)},
-        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)},
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP_BOOST, 300, 5)},
             SoundEffect.SLIME_BOOTS_FALL_SOUND)
         .register(plugin);
 
@@ -839,7 +838,7 @@ public final class SlimefunItemSetup {
 
         ItemStack weaknessPotion = new ItemStack(Material.POTION);
         PotionMeta meta = (PotionMeta) weaknessPotion.getItemMeta();
-        meta.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
+        meta.setBasePotionType(PotionType.WEAKNESS);
         weaknessPotion.setItemMeta(meta);
 
         new MagicalZombiePills(itemGroups.magicalGadgets, SlimefunItems.MAGICAL_ZOMBIE_PILLS, RecipeType.MAGIC_WORKBENCH,
@@ -907,7 +906,7 @@ public final class SlimefunItemSetup {
 
         new Talisman(SlimefunItems.TALISMAN_WARRIOR,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.COMMON_TALISMAN, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-        true, true, "warrior", new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 3600, 2))
+        true, true, "warrior", new PotionEffect(PotionEffectType.STRENGTH, 3600, 2))
         .register(plugin);
 
         new Talisman(SlimefunItems.TALISMAN_KNIGHT,
@@ -917,7 +916,7 @@ public final class SlimefunItemSetup {
 
         new Talisman(SlimefunItems.TALISMAN_CAVEMAN,
         new ItemStack[] { SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.GOLDEN_PICKAXE), SlimefunItems.TALISMAN_MINER, SlimefunItems.EARTH_RUNE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-        false, false, "caveman", 50, new PotionEffect(PotionEffectType.FAST_DIGGING, 800, 2))
+        false, false, "caveman", 50, new PotionEffect(PotionEffectType.HASTE, 800, 2))
         .register(plugin);
 
         new Talisman(SlimefunItems.TALISMAN_WISE,
@@ -1085,7 +1084,7 @@ public final class SlimefunItemSetup {
 
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.SLIME_BOOTS_STEEL, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL)},
-        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)},
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP_BOOST, 300, 5)},
         SoundEffect.SLIME_BOOTS_FALL_SOUND)
         .register(plugin);
 
@@ -2646,7 +2645,7 @@ public final class SlimefunItemSetup {
 
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.BEE_BOOTS, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), null, new ItemStack(Material.HONEY_BLOCK)},
-        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 2)},
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP_BOOST, 300, 2)},
         SoundEffect.BEE_BOOTS_FALL_SOUND)
         .register(plugin);
 
