@@ -149,7 +149,7 @@ public class MinerAndroid extends ProgrammableAndroid {
 
                 // "poof" a "new" block was generated
                 SoundEffect.MINER_ANDROID_BLOCK_GENERATION_SOUND.playAt(block);
-                block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
+                block.getWorld().spawnParticle(Particle.SMOKE, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
             } else {
                 block.setType(Material.AIR);
             }

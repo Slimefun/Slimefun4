@@ -58,7 +58,7 @@ class NetworkVisualizer implements Runnable {
      *            The {@link Location} of our node
      */
     private void spawnParticles(@Nonnull Location l) {
-        l.getWorld().spawnParticle(Particle.REDSTONE, l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5, 1, 0, 0, 0, 1, particleOptions);
+        l.getWorld().spawnParticle(Particle.DUST, l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5, 1, 0, 0, 0, 1, particleOptions);
     }
 
 }

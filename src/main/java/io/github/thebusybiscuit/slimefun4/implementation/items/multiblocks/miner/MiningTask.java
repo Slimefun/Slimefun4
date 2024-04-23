@@ -341,7 +341,7 @@ class MiningTask implements Runnable {
         try {
             // Smoke Particles around the Chest for dramatic effect
             Location particleLoc = chest.getLocation().clone().add(0, -1, 0);
-            block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, particleLoc, 20, 0.7, 0.7, 0.7, 0);
+            block.getWorld().spawnParticle(Particle.SMOKE, particleLoc, 20, 0.7, 0.7, 0.7, 0);
 
             if (block.getType() == Material.MOVING_PISTON) {
                 // Yeah it isn't really cool when this happens

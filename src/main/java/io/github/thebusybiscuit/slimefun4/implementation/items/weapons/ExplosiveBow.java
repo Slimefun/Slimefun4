@@ -49,7 +49,7 @@ public class ExplosiveBow extends SlimefunBow {
     @Override
     public BowShootHandler onShoot() {
         return (e, target) -> {
-            target.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, target.getLocation(), 1);
+            target.getWorld().spawnParticle(Particle.EXPLOSION, target.getLocation(), 1);
             SoundEffect.EXPLOSIVE_BOW_HIT_SOUND.playAt(target.getLocation(), SoundCategory.PLAYERS);
             int radius = range.getValue();
 

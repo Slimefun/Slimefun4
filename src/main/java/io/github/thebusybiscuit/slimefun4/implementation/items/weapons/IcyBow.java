@@ -48,8 +48,8 @@ public class IcyBow extends SlimefunBow {
             }
             n.getWorld().playEffect(n.getLocation(), Effect.STEP_SOUND, Material.ICE);
             n.getWorld().playEffect(n.getEyeLocation(), Effect.STEP_SOUND, Material.ICE);
-            n.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 2, 10));
-            n.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * 2, -10));
+            n.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 20 * 2, 10));
+            n.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 20 * 2, -10));
         };
     }
 

@@ -110,9 +110,9 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
         return (e, item, offhand) -> {
             // Fixes #2217 - Prevent them from being used to shear entities
             switch (e.getRightClicked().getType()) {
-                case MUSHROOM_COW:
+                case MOOSHROOM:
                 case SHEEP:
-                case SNOWMAN:
+                case SNOW_GOLEM:
                     Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
                     e.setCancelled(true);
                     break;

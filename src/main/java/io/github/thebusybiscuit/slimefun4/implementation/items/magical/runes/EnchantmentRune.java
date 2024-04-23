@@ -140,7 +140,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                     // Being sure entities are still valid and not picked up or whatsoever.
                     if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
 
-                        l.getWorld().spawnParticle(Particle.CRIT_MAGIC, l, 1);
+                        l.getWorld().spawnParticle(Particle.ENCHANTED_HIT, l, 1);
                         SoundEffect.ENCHANTMENT_RUNE_ADD_ENCHANT_SOUND.playAt(l, SoundCategory.PLAYERS);
 
                         item.remove();

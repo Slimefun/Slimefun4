@@ -192,8 +192,8 @@ public final class SlimefunItems {
         GRANDPAS_WALKING_STICK.addUnsafeEnchantment(Enchantment.KNOCKBACK, 5);
 
         BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 2);
-        BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.DURABILITY, 4);
-        BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
+        BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.UNBREAKING, 4);
+        BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.SHARPNESS, 2);
     }
 
     /* Bows */
@@ -212,8 +212,8 @@ public final class SlimefunItems {
     public static final SlimefunItemStack CLIMBING_PICK = new SlimefunItemStack("CLIMBING_PICK", Material.IRON_PICKAXE, "&bClimbing Pick", "", "&fAllows you to climb certain surfaces", "&fby right-clicking.", "&fEnchant this pick with Efficiency to", "&fclimb even faster!");
 
     static {
-        COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.DIG_SPEED, 6);
+        COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.UNBREAKING, 10);
+        COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.EFFICIENCY, 6);
     }
 
     /* Armor */
@@ -304,7 +304,7 @@ public final class SlimefunItems {
     static {
         Map<Enchantment, Integer> cactusEnchs = new HashMap<>();
         cactusEnchs.put(Enchantment.THORNS, 3);
-        cactusEnchs.put(Enchantment.DURABILITY, 6);
+        cactusEnchs.put(Enchantment.UNBREAKING, 6);
 
         CACTUS_HELMET.addUnsafeEnchantments(cactusEnchs);
         CACTUS_CHESTPLATE.addUnsafeEnchantments(cactusEnchs);
@@ -312,8 +312,8 @@ public final class SlimefunItems {
         CACTUS_BOOTS.addUnsafeEnchantments(cactusEnchs);
 
         Map<Enchantment, Integer> damascusEnchs = new HashMap<>();
-        damascusEnchs.put(Enchantment.DURABILITY, 5);
-        damascusEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
+        damascusEnchs.put(Enchantment.UNBREAKING, 5);
+        damascusEnchs.put(Enchantment.PROTECTION, 5);
 
         DAMASCUS_STEEL_HELMET.addUnsafeEnchantments(damascusEnchs);
         DAMASCUS_STEEL_CHESTPLATE.addUnsafeEnchantments(damascusEnchs);
@@ -321,8 +321,8 @@ public final class SlimefunItems {
         DAMASCUS_STEEL_BOOTS.addUnsafeEnchantments(damascusEnchs);
 
         Map<Enchantment, Integer> reinforcedEnchs = new HashMap<>();
-        reinforcedEnchs.put(Enchantment.DURABILITY, 9);
-        reinforcedEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 9);
+        reinforcedEnchs.put(Enchantment.UNBREAKING, 9);
+        reinforcedEnchs.put(Enchantment.PROTECTION, 9);
 
         REINFORCED_ALLOY_HELMET.addUnsafeEnchantments(reinforcedEnchs);
         REINFORCED_ALLOY_CHESTPLATE.addUnsafeEnchantments(reinforcedEnchs);
@@ -330,22 +330,22 @@ public final class SlimefunItems {
         REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforcedEnchs);
 
         Map<Enchantment, Integer> gildedEnchs = new HashMap<>();
-        gildedEnchs.put(Enchantment.DURABILITY, 6);
-        gildedEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);
+        gildedEnchs.put(Enchantment.UNBREAKING, 6);
+        gildedEnchs.put(Enchantment.PROTECTION, 8);
 
         GILDED_IRON_HELMET.addUnsafeEnchantments(gildedEnchs);
         GILDED_IRON_CHESTPLATE.addUnsafeEnchantments(gildedEnchs);
         GILDED_IRON_LEGGINGS.addUnsafeEnchantments(gildedEnchs);
         GILDED_IRON_BOOTS.addUnsafeEnchantments(gildedEnchs);
 
-        GOLDEN_HELMET_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        GOLDEN_CHESTPLATE_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        GOLDEN_LEGGINGS_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        GOLDEN_BOOTS_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
+        GOLDEN_HELMET_12K.addUnsafeEnchantment(Enchantment.UNBREAKING, 10);
+        GOLDEN_CHESTPLATE_12K.addUnsafeEnchantment(Enchantment.UNBREAKING, 10);
+        GOLDEN_LEGGINGS_12K.addUnsafeEnchantment(Enchantment.UNBREAKING, 10);
+        GOLDEN_BOOTS_12K.addUnsafeEnchantment(Enchantment.UNBREAKING, 10);
 
         Map<Enchantment, Integer> slimeEnchs = new HashMap<>();
-        slimeEnchs.put(Enchantment.DURABILITY, 4);
-        slimeEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        slimeEnchs.put(Enchantment.UNBREAKING, 4);
+        slimeEnchs.put(Enchantment.PROTECTION, 2);
 
         SLIME_HELMET_STEEL.addUnsafeEnchantments(slimeEnchs);
         SLIME_CHESTPLATE_STEEL.addUnsafeEnchantments(slimeEnchs);
@@ -353,8 +353,8 @@ public final class SlimefunItems {
         SLIME_BOOTS_STEEL.addUnsafeEnchantments(slimeEnchs);
 
         Map<Enchantment, Integer> beeEnchs = new HashMap<>();
-        beeEnchs.put(Enchantment.DURABILITY, 4);
-        beeEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        beeEnchs.put(Enchantment.UNBREAKING, 4);
+        beeEnchs.put(Enchantment.PROTECTION, 2);
 
         BEE_HELMET.addUnsafeEnchantments(beeEnchs);
         BEE_WINGS.addUnsafeEnchantments(beeEnchs);
@@ -567,10 +567,10 @@ public final class SlimefunItems {
     public static final SlimefunItemStack STAFF_STORM = new SlimefunItemStack("STAFF_ELEMENTAL_STORM", Material.STICK, "&6Elemental Staff &7- &8&oStorm", "", "&7Element: &8&oStorm", "", "&eRight Click&7 to summon a lightning", LoreBuilder.usesLeft(StormStaff.MAX_USES));
 
     static {
-        STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK, 1);
+        STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK_OF_THE_SEA, 1);
         STAFF_FIRE.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 5);
-        STAFF_WATER.addUnsafeEnchantment(Enchantment.WATER_WORKER, 1);
-        STAFF_STORM.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+        STAFF_WATER.addUnsafeEnchantment(Enchantment.AQUA_AFFINITY, 1);
+        STAFF_STORM.addUnsafeEnchantment(Enchantment.UNBREAKING, 1);
     }
 
     /* Multiblocks */

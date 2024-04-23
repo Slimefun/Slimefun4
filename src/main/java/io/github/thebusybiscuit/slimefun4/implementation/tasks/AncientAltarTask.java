@@ -117,12 +117,12 @@ public class AncientAltarTask implements Runnable {
     }
 
     private void idle() {
-        dropLocation.getWorld().spawnParticle(Particle.SPELL_WITCH, dropLocation, 16, 1.2F, 0F, 1.2F);
-        dropLocation.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, dropLocation, 8, 0.2F, 0F, 0.2F);
+        dropLocation.getWorld().spawnParticle(Particle.WITCH, dropLocation, 16, 1.2F, 0F, 1.2F);
+        dropLocation.getWorld().spawnParticle(Particle.FIREWORK, dropLocation, 8, 0.2F, 0F, 0.2F);
 
         for (Location loc : particleLocations) {
-            dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, loc, 16, 0.3F, 0.2F, 0.3F);
-            dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC, loc, 8, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(Particle.ENCHANT, loc, 16, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(Particle.ENCHANTED_HIT, loc, 8, 0.3F, 0.2F, 0.3F);
         }
     }
 
@@ -137,8 +137,8 @@ public class AncientAltarTask implements Runnable {
             items.add(pedestalItem.getOriginalItemStack(entity));
             SoundEffect.ANCIENT_ALTAR_ITEM_CHECK_SOUND.playAt(pedestal);
 
-            dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
-            dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC, pedestal.getLocation().add(0.5, 1.5, 0.5), 8, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(Particle.ENCHANT, pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(Particle.ENCHANTED_HIT, pedestal.getLocation().add(0.5, 1.5, 0.5), 8, 0.3F, 0.2F, 0.3F);
 
             positionLock.remove(entity);
             entity.remove();

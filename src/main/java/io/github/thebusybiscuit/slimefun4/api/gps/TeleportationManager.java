@@ -220,7 +220,7 @@ public final class TeleportationManager {
             if (success) {
                 // Apply Resistance Effect, if enabled
                 if (resistance) {
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 600, 20));
                     Slimefun.getLocalization().sendMessage(p, "machines.TELEPORTER.invulnerability");
                 }
 

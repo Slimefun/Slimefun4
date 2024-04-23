@@ -39,7 +39,7 @@ public final class FireworkUtils {
     }
 
     public static @Nonnull Firework createFirework(@Nonnull Location l, @Nonnull Color color) {
-        Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
+        Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK_ROCKET);
         FireworkMeta meta = fw.getFireworkMeta();
 
         meta.setDisplayName(ChatColor.GREEN + "Slimefun Research");

@@ -180,7 +180,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 if (craft(inv, recipe)) {
                     // We are done crafting!
                     Location loc = b.getLocation().add(0.5, 0.8, 0.5);
-                    b.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, loc, 6);
+                    b.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, loc, 6);
                     removeCharge(b.getLocation(), getEnergyConsumption());
                 }
             }

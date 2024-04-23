@@ -54,7 +54,7 @@ public class AnimalGrowthAccelerator extends AbstractGrowthAccelerator {
                         ageable.setAge(0);
                     }
 
-                    n.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, ((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
+                    n.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, ((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
                     return;
                 }
             }

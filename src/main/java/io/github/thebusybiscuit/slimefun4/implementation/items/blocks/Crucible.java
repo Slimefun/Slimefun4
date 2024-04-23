@@ -165,7 +165,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         // Fixes #2877 - If water in the nether is disabled, abort and play an effect.
         if (isWater && block.getWorld().getEnvironment() == Environment.NETHER && !allowWaterInNether.getValue()) {
             // We will still consume the items but won't generate water in the Nether.
-            block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getLocation().add(0.5, 0.5, 0.5), 4);
+            block.getWorld().spawnParticle(Particle.SMOKE, block.getLocation().add(0.5, 0.5, 0.5), 4);
             SoundEffect.CRUCIBLE_GENERATE_LIQUID_SOUND.playAt(block);
             return;
         }

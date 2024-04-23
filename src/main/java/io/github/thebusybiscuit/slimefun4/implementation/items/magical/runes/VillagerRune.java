@@ -64,7 +64,7 @@ public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
 
                 SoundEffect.VILLAGER_RUNE_TRANSFORM_SOUND.playAt(villager.getLocation(), SoundCategory.NEUTRAL);
                 villager.getWorld().spawnParticle(Particle.CRIMSON_SPORE, villager.getLocation(), 10, 0, offset / 2, 0, 0);
-                villager.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, villager.getLocation(), 5, 0.04, 1, 0.04);
+                villager.getWorld().spawnParticle(Particle.ENCHANT, villager.getLocation(), 5, 0.04, 1, 0.04);
             }
         };
     }

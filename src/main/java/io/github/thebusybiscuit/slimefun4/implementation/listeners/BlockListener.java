@@ -374,7 +374,7 @@ public class BlockListener implements Listener {
              * directly and re use it.
              */
             ItemMeta meta = item.getItemMeta();
-            int fortuneLevel = meta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS);
+            int fortuneLevel = meta.getEnchantLevel(Enchantment.FORTUNE);
 
             if (fortuneLevel > 0 && !meta.hasEnchant(Enchantment.SILK_TOUCH)) {
                 Random random = ThreadLocalRandom.current();

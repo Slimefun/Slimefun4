@@ -10,9 +10,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import io.github.bakedlibs.dough.inventory.InvUtils;
@@ -36,14 +33,16 @@ public class AutoBrewer extends AContainer implements NotHopperable {
 
     private static final Map<Material, PotionType> potionRecipes = new EnumMap<>(Material.class);
     private static final Map<PotionType, PotionType> fermentations = new EnumMap<>(PotionType.class);
+    private static final Map<PotionType, PotionType> extendedPotions = new EnumMap<>(PotionType.class);
+    private static final Map<PotionType, PotionType> upgradedPotions = new EnumMap<>(PotionType.class);
 
     static {
-        potionRecipes.put(Material.SUGAR, PotionType.SPEED);
-        potionRecipes.put(Material.RABBIT_FOOT, PotionType.JUMP);
+        potionRecipes.put(Material.SUGAR, PotionType.SWIFTNESS);
+        potionRecipes.put(Material.RABBIT_FOOT, PotionType.LEAPING);
         potionRecipes.put(Material.BLAZE_POWDER, PotionType.STRENGTH);
-        potionRecipes.put(Material.GLISTERING_MELON_SLICE, PotionType.INSTANT_HEAL);
+        potionRecipes.put(Material.GLISTERING_MELON_SLICE, PotionType.HEALING);
         potionRecipes.put(Material.SPIDER_EYE, PotionType.POISON);
-        potionRecipes.put(Material.GHAST_TEAR, PotionType.REGEN);
+        potionRecipes.put(Material.GHAST_TEAR, PotionType.REGENERATION);
         potionRecipes.put(Material.MAGMA_CREAM, PotionType.FIRE_RESISTANCE);
         potionRecipes.put(Material.PUFFERFISH, PotionType.WATER_BREATHING);
         potionRecipes.put(Material.GOLDEN_CARROT, PotionType.NIGHT_VISION);
@@ -54,6 +53,28 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         fermentations.put(PotionType.HEALING, PotionType.HARMING);
         fermentations.put(PotionType.POISON, PotionType.HARMING);
         fermentations.put(PotionType.NIGHT_VISION, PotionType.INVISIBILITY);
+
+        extendedPotions.put(PotionType.NIGHT_VISION, PotionType.LONG_NIGHT_VISION);
+        extendedPotions.put(PotionType.INVISIBILITY, PotionType.LONG_INVISIBILITY);
+        extendedPotions.put(PotionType.LEAPING, PotionType.LONG_LEAPING);
+        extendedPotions.put(PotionType.FIRE_RESISTANCE, PotionType.LONG_FIRE_RESISTANCE);
+        extendedPotions.put(PotionType.SWIFTNESS, PotionType.LONG_SWIFTNESS);
+        extendedPotions.put(PotionType.SLOWNESS, PotionType.LONG_SLOWNESS);
+        extendedPotions.put(PotionType.WATER_BREATHING, PotionType.LONG_WATER_BREATHING);
+        extendedPotions.put(PotionType.POISON, PotionType.LONG_POISON);
+        extendedPotions.put(PotionType.REGENERATION, PotionType.LONG_REGENERATION);
+        extendedPotions.put(PotionType.STRENGTH, PotionType.LONG_STRENGTH);
+        extendedPotions.put(PotionType.WEAKNESS, PotionType.LONG_WEAKNESS);
+        extendedPotions.put(PotionType.TURTLE_MASTER, PotionType.LONG_TURTLE_MASTER);
+        extendedPotions.put(PotionType.SLOW_FALLING, PotionType.LONG_SLOW_FALLING);
+
+        upgradedPotions.put(PotionType.LEAPING, PotionType.STRONG_LEAPING);
+        upgradedPotions.put(PotionType.SWIFTNESS, PotionType.STRONG_SWIFTNESS);
+        upgradedPotions.put(PotionType.SLOWNESS, PotionType.STRONG_SLOWNESS);
+        upgradedPotions.put(PotionType.POISON, PotionType.STRONG_POISON);
+        upgradedPotions.put(PotionType.REGENERATION, PotionType.STRONG_REGENERATION);
+        upgradedPotions.put(PotionType.STRENGTH, PotionType.STRONG_STRENGTH);
+        upgradedPotions.put(PotionType.TURTLE_MASTER, PotionType.STRONG_TURTLE_MASTER);
     }
 
     @ParametersAreNonnullByDefault
@@ -105,9 +126,7 @@ public class AutoBrewer extends AContainer implements NotHopperable {
 
     @ParametersAreNonnullByDefault
     private @Nullable ItemStack brew(Material input, Material potionType, PotionMeta potion) {
-        PotionType data = potion.getBasePotionType();
-
-        PotionType type = data.getType();
+        PotionType type = potion.getBasePotionType();
         if (type == PotionType.WATER) {
             if (input == Material.FERMENTED_SPIDER_EYE) {
                 potion.setBasePotionType(PotionType.WEAKNESS);
@@ -127,19 +146,19 @@ public class AutoBrewer extends AContainer implements NotHopperable {
                 potion.setBasePotionType(fermented);
                 return new ItemStack(potionType);
             }
-        } else if (input == Material.REDSTONE && type.isExtendable() && !data) {
+        } else if (input == Material.REDSTONE && extendedPotions.containsKey(type)) {
             // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
-            potion.setBasePotionData(new PotionData(type, true, false));
+            potion.setBasePotionType(extendedPotions.get(type));
             return new ItemStack(potionType);
-        } else if (input == Material.GLOWSTONE_DUST && type.isUpgradeable() && !data.isExtended()) {
+        } else if (input == Material.GLOWSTONE_DUST && upgradedPotions.containsKey(type)) {
             // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
-            potion.setBasePotionData(new PotionData(type, false, true));
+            potion.setBasePotionType(upgradedPotions.get(type));
             return new ItemStack(potionType);
         } else if (type == PotionType.AWKWARD) {
             PotionType potionRecipe = potionRecipes.get(input);
 
             if (potionRecipe != null) {
-                potion.setBasePotionData(new PotionData(potionRecipe, false, false));
+                potion.setBasePotionType(potionRecipe);
                 return new ItemStack(potionType);
             }
         }

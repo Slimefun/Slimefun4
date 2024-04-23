@@ -32,10 +32,10 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
 
         curedEffects.add(PotionEffectType.POISON);
         curedEffects.add(PotionEffectType.WITHER);
-        curedEffects.add(PotionEffectType.SLOW);
-        curedEffects.add(PotionEffectType.SLOW_DIGGING);
+        curedEffects.add(PotionEffectType.SLOWNESS);
+        curedEffects.add(PotionEffectType.MINING_FATIGUE);
         curedEffects.add(PotionEffectType.WEAKNESS);
-        curedEffects.add(PotionEffectType.CONFUSION);
+        curedEffects.add(PotionEffectType.NAUSEA);
         curedEffects.add(PotionEffectType.BLINDNESS);
         curedEffects.add(PotionEffectType.BAD_OMEN);
     }

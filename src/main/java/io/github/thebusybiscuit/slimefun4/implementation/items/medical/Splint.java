@@ -40,7 +40,7 @@ public class Splint extends SimpleSlimefunItem<ItemUseHandler> {
             }
 
             SoundEffect.SPLINT_CONSUME_SOUND.playFor(p);
-            p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.INSTANT_HEALTH, 1, 0));
 
             e.cancel();
         };

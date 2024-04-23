@@ -301,7 +301,7 @@ public class TalismanListener implements Listener {
         }
 
         // Wizard Talisman
-        if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.trigger(e, SlimefunItems.TALISMAN_WIZARD)) {
+        if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && Enchantment.FORTUNE.canEnchantItem(e.getItem()) && Talisman.trigger(e, SlimefunItems.TALISMAN_WIZARD)) {
             // Randomly lower some enchantments
             for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
                 if (entry.getValue() > 1 && random.nextInt(100) < 40) {
@@ -310,7 +310,7 @@ public class TalismanListener implements Listener {
             }
 
             // Give an extra Fortune boost (Lvl 3 - 5)
-            enchantments.put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
+            enchantments.put(Enchantment.FORTUNE, random.nextInt(3) + 3);
         }
     }
 
@@ -351,7 +351,7 @@ public class TalismanListener implements Listener {
             Collection<Item> drops = e.getItems();
 
             if (Talisman.trigger(e, talismanItemStack, false)) {
-                int dropAmount = getAmountWithFortune(type, meta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
+                int dropAmount = getAmountWithFortune(type, meta.getEnchantLevel(Enchantment.FORTUNE));
 
                 // Keep track of whether we actually doubled the drops or not
                 boolean doubledDrops = false;
