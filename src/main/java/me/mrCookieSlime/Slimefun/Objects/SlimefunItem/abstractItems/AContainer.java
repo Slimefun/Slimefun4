@@ -1,13 +1,13 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.bakedlibs.dough.collections.Pair;
+import io.github.thebusybiscuit.slimefun4.utils.ItemUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -416,9 +416,11 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             }
         }
 
-        Map<Integer, Integer> found = new HashMap<>();
+        Map<MachineRecipe, Map<Integer, Integer>> matched = new HashMap<>();
 
         for (MachineRecipe recipe : recipes) {
+            Map<Integer, Integer> found = new HashMap<>();
+
             for (ItemStack input : recipe.getInput()) {
                 for (int slot : getInputSlots()) {
                     if (SlimefunUtils.isItemSimilar(inventory.get(slot), input, true)) {
@@ -426,23 +428,26 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                         break;
                     }
                 }
-            }
-
-            if (found.size() == recipe.getInput().length) {
-                if (!InvUtils.fitAll(inv.toInventory(), recipe.getOutput(), getOutputSlots())) {
-                    return null;
+                if (found.size() == recipe.getInput().length) {
+                    matched.put(recipe, found);
                 }
-
-                for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
-                    inv.consumeItem(entry.getKey(), entry.getValue());
-                }
-
-                return recipe;
-            } else {
-                found.clear();
             }
         }
+        if (matched.isEmpty()) return null;
+        Map.Entry<MachineRecipe, Map<Integer, Integer>> recipe = matched.entrySet().stream().max((x, y) -> {
+            int sizex = ItemUtils.getAllItemTypeAmount(x.getKey().getInput()) * 1000 + ItemUtils.getAllItemAmount(x.getKey().getInput());
+            int sizey = ItemUtils.getAllItemTypeAmount(y.getKey().getInput()) * 1000 + ItemUtils.getAllItemAmount(y.getKey().getInput());
+            return Integer.compare(sizex, sizey);
+        }).get();
 
-        return null;
+        if (!InvUtils.fitAll(inv.toInventory(), recipe.getKey().getOutput(), getOutputSlots())) {
+            return null;
+        }
+
+        for (Map.Entry<Integer, Integer> entry : recipe.getValue().entrySet()) {
+            inv.consumeItem(entry.getKey(), entry.getValue());
+        }
+
+        return recipe.getKey();
     }
 }
