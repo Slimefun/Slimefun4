@@ -8,7 +8,19 @@ import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This is a simple utility class for {@link ItemStack}
+ *
+ * @author JWJUN233233
+ */
 public class ItemUtils {
+    /**
+     *
+     * @param itemStacks original item array
+     * @return how many items are there in total
+     *
+     * @author JWJUN233233
+     */
     public static int getAllItemAmount(@Nonnull ItemStack... itemStacks) {
         int amount = 0;
         for (ItemStack itemStack : itemStacks) {
@@ -19,6 +31,13 @@ public class ItemUtils {
         return amount;
     }
 
+    /**
+     *
+     * @param itemStacks original item array
+     * @return how many kinds of item are there in total
+     *
+     * @author JWJUN233233
+     */
     public static int getAllItemTypeAmount(@Nonnull ItemStack... itemStacks) {
         Set<SlimefunItem> sfitems = new HashSet<>();
         Set<Material> materials = new HashSet<>();
