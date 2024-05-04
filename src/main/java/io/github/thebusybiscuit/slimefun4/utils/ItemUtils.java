@@ -43,12 +43,19 @@ public class ItemUtils {
         Set<Material> materials = new HashSet<>();
 
         for (ItemStack itemStack : itemStacks) {
-            if (itemStack == null || itemStack.getType().isAir()) continue;
-            SlimefunItem sfitem = SlimefunItem.getByItem(itemStack);
-            if (sfitem != null) sfitems.add(sfitem);
-            else materials.add(itemStack.getType());
+        
+            if (itemStack == null || itemStack.getType().isAir()) {
+            	continue;
+          	}
+          	
+            SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
+            if (sfItem != null) {
+            	sfItems.add(sfitem);
+          	} else  {
+          		materials.add(itemStack.getType());
+        		}
         }
 
-        return sfitems.size() + materials.size();
+        return sfItems.size() + materials.size();
     }
 }
