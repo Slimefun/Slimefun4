@@ -15,19 +15,17 @@ import java.util.Set;
  */
 public class ItemUtils {
     /**
-     *
      * @param itemStacks original item array
      * @return how many items are there in total
-     *
      * @author JWJUN233233
      */
     public static int getAllItemAmount(@Nonnull ItemStack... itemStacks) {
         int amount = 0;
         for (ItemStack itemStack : itemStacks) {
             if (itemStack == null || itemStack.getType().isAir()) {
-            	continue;
-          	}
-          	
+                continue;
+            }
+
             amount += itemStack.getAmount();
         }
 
@@ -35,28 +33,27 @@ public class ItemUtils {
     }
 
     /**
-     *
      * @param itemStacks original item array
      * @return how many kinds of item are there in total
-     *
      * @author JWJUN233233
      */
     public static int getAllItemTypeAmount(@Nonnull ItemStack... itemStacks) {
-        Set<SlimefunItem> sfitems = new HashSet<>();
+        Set<SlimefunItem> sfItems = new HashSet<>();
         Set<Material> materials = new HashSet<>();
 
         for (ItemStack itemStack : itemStacks) {
-        
+
             if (itemStack == null || itemStack.getType().isAir()) {
-            	continue;
-          	}
-          	
+                continue;
+            }
+
             SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
             if (sfItem != null) {
-            	sfItems.add(sfitem);
-          	} else  {
-          		materials.add(itemStack.getType());
-        		}
+                sfItems.add(sfItem);
+            } else {
+                materials.add(itemStack.getType());
+            }
+
         }
 
         return sfItems.size() + materials.size();
