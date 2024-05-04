@@ -60,8 +60,9 @@ class McMMOIntegration implements Listener {
         ItemStack repaired = e.getRepairedObject();
         ItemStack material = e.getRepairMaterial();
 
-        if (isSalvageable(repaired) && isSalvageable(material))
+        if (isSalvageable(repaired) && isSalvageable(material)) {
             return;
+        }
 
         e.setCancelled(true);
         Slimefun.getLocalization().sendMessage(e.getPlayer(), "anvil.mcmmo-repair");
