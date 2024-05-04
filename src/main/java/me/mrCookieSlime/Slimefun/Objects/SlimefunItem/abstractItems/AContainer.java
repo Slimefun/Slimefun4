@@ -437,7 +437,11 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 }
             }
         }
-        if (matched.isEmpty()) return null;
+
+        if (matched.isEmpty()) {
+        	return null;
+      	}
+        
         Map.Entry<MachineRecipe, Map<Integer, Integer>> recipe = matched.entrySet().stream().max((x, y) -> {
             int sizex = ItemUtils.getAllItemTypeAmount(x.getKey().getInput()) * 1000 + ItemUtils.getAllItemAmount(x.getKey().getInput());
             int sizey = ItemUtils.getAllItemTypeAmount(y.getKey().getInput()) * 1000 + ItemUtils.getAllItemAmount(y.getKey().getInput());
