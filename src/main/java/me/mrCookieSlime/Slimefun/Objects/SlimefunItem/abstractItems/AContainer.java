@@ -431,6 +431,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                         break;
                     }
                 }
+
                 if (found.size() == recipe.getInput().length) {
                     matched.put(recipe, found);
                 }
