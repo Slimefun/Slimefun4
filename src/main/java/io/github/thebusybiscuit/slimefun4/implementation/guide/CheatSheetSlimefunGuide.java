@@ -36,7 +36,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
     public CheatSheetSlimefunGuide() {
         super(false, true);
 
-        item = new SlimefunGuideItem(this, "&cSlimefun Guide &4(Cheat Sheet)");
+        item = new SlimefunGuideItem(this, "&bCatálogo de Items &c{Staff}");
     }
 
     /**
