@@ -24,7 +24,10 @@ public class ItemUtils {
     public static int getAllItemAmount(@Nonnull ItemStack... itemStacks) {
         int amount = 0;
         for (ItemStack itemStack : itemStacks) {
-            if (itemStack == null || itemStack.getType().isAir()) continue;
+            if (itemStack == null || itemStack.getType().isAir()) {
+            	continue;
+          	}
+          	
             amount += itemStack.getAmount();
         }
 
