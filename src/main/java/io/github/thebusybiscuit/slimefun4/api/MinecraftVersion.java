@@ -161,6 +161,27 @@ public enum MinecraftVersion {
      * 
      * @return Whether this {@link MinecraftVersion} matches the specified version id
      */
+    public boolean isMinecraftVersion(int minecraftVersion) {
+        return this.isMinecraftVersion(minecraftVersion, -1);
+    }
+
+    /**
+     * This tests if the given minecraft version matches with this
+     * {@link MinecraftVersion}.
+     * <p>
+     * You can obtain the version number by doing {@link PaperLib#getMinecraftVersion()}.
+     * It is equivalent to the "major" version<br />
+     * You can obtain the patch version by doing {@link PaperLib#getMinecraftPatchVersion()}.
+     * It is equivalent to the "minor" version
+     * <p>
+     * Example: {@literal "1.13"} returns {@literal 13}<br />
+     * Exampe: {@literal "1.13.2"} returns {@literal 13_2}
+     *
+     * @param minecraftVersion
+     *            The {@link Integer} version to match
+     *
+     * @return Whether this {@link MinecraftVersion} matches the specified version id
+     */
     public boolean isMinecraftVersion(int minecraftVersion, int patchVersion) {
         return !isVirtual()
             && this.majorVersion == minecraftVersion
@@ -170,12 +191,12 @@ public enum MinecraftVersion {
     /**
      * This method checks whether this {@link MinecraftVersion} is newer or equal to
      * the given {@link MinecraftVersion},
-     * 
+     *
      * An unknown version will default to {@literal false}.
-     * 
+     *
      * @param version
      *            The {@link MinecraftVersion} to compare
-     * 
+     *
      * @return Whether this {@link MinecraftVersion} is newer or equal to the given {@link MinecraftVersion}
      */
     public boolean isAtLeast(@Nonnull MinecraftVersion version) {
