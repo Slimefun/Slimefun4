@@ -11,6 +11,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEntityType;
 
 /**
  * The {@link MultiTool} is an electric device which can mimic
@@ -132,15 +134,13 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
     private EntityInteractHandler getEntityInteractionHandler() {
         return (e, item, offhand) -> {
             // Fixes #2217 - Prevent them from being used to shear entities
-            switch (e.getRightClicked().getType()) {
-                case MUSHROOM_COW:
-                case SHEEP:
-                case SNOWMAN:
-                    Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
-                    e.setCancelled(true);
-                    break;
-                default:
-                    break;
+            EntityType type = e.getRightClicked().getType();
+            if (type == VersionedEntityType.MOOSHROOM
+                || type == VersionedEntityType.SNOW_GOLEM
+                || type == EntityType.SHEEP
+            ) {
+                Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
+                e.setCancelled(true);
             }
         };
     }
