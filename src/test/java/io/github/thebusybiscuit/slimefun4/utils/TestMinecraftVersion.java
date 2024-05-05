@@ -11,11 +11,13 @@ class TestMinecraftVersion {
     @Test
     @DisplayName("Test if Minecraft versions match themselves")
     void testMatches() {
-        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(16));
-        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_17.isMinecraftVersion(17));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(16, -1));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_17.isMinecraftVersion(17, -1));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20_5.isMinecraftVersion(20, 5));
 
-        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_17.isMinecraftVersion(16));
-        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(0));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_17.isMinecraftVersion(16, -1));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(0, -1));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20_5.isMinecraftVersion(20, 4));
     }
 
     @Test
@@ -24,6 +26,8 @@ class TestMinecraftVersion {
         Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_18.isAtLeast(MinecraftVersion.MINECRAFT_1_16));
         Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_17.isAtLeast(MinecraftVersion.MINECRAFT_1_16));
         Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_17.isAtLeast(MinecraftVersion.MINECRAFT_1_17));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isAtLeast(MinecraftVersion.MINECRAFT_1_20));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20_5.isAtLeast(MinecraftVersion.MINECRAFT_1_20));
 
         Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_17.isAtLeast(MinecraftVersion.MINECRAFT_1_18));
     }
