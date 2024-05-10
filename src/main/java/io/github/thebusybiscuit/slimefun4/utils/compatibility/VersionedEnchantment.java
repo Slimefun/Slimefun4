@@ -54,6 +54,7 @@ public class VersionedEnchantment {
             ? Enchantment.AQUA_AFFINITY
             : getKey("WATER_WORKER");
 
+        // LOOT_BONUS_BLOCKS is renamed to FORTUNE in 1.20.5
         FORTUNE = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)
             ? Enchantment.FORTUNE
             : getKey("LOOT_BONUS_BLOCKS");
