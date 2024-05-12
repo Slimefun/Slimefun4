@@ -99,6 +99,21 @@ guide:
       lore: 'Click to add your own translation'
 
   options:
+    fireworks:
+      enabled:
+        text:
+        - '&bFireworks: &aYes'
+        - ''
+        - '&7You can now toggle whether you'
+        - '&7will see fireworks upon researching an item.'
+        click: '&eClick to disable your fireworks'
+      disabled:
+        text:
+        - '&bFireworks: &4No'
+        - ''
+        - '&7You can now toggle whether you'
+        - '&7will see fireworks upon researching an item.'
+        click: '&eClick to enable your fireworks'
     learning-animation:
       enabled:
         text:
