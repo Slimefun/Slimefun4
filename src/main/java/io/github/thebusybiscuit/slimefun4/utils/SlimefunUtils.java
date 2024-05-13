@@ -1,22 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -26,6 +19,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
@@ -422,6 +416,48 @@ public final class SlimefunUtils {
         } else {
             return !sfitem.hasItemMeta();
         }
+    }
+
+    public static boolean areSameEnchants(ItemStack first, ItemStack second) {
+
+        if (!first.hasItemMeta() && !second.hasItemMeta()) {
+            return true;
+        }
+
+        if (!first.hasItemMeta() || !second.hasItemMeta() ) {
+            return false;
+        }
+
+        ItemMeta firstM = first.getItemMeta();
+        ItemMeta secondM = second.getItemMeta();
+
+        if (!(firstM instanceof EnchantmentStorageMeta || secondM instanceof EnchantmentStorageMeta)) {
+            return true;
+        }
+
+        EnchantmentStorageMeta stEnch = (EnchantmentStorageMeta) firstM;
+        EnchantmentStorageMeta ndEnch = (EnchantmentStorageMeta) secondM;
+
+        Map<Enchantment, Integer> enchantsFirst = stEnch.getStoredEnchants();
+        Map<Enchantment, Integer> enchantsSecond = ndEnch.getStoredEnchants();
+
+        return enchantsFirst.equals(enchantsSecond);
+        /*
+
+        if (enchantsFirst.size() != enchantsSecond.size()) {
+            return false;
+        }
+
+        for (var enchantment : enchantsFirst.entrySet()) {
+            // Check if the levels of the enchantments are equal
+            if (!Objects.equals(enchantment.getValue(), enchantsSecond.get(enchantment.getKey()))) {
+                return false;
+            }
+        }
+
+        Bukkit.getLogger().info("enchants complete");
+
+        return true;*/
     }
 
     private static @Nonnull Optional<DistinctiveItem> getDistinctiveItem(@Nonnull String id) {

@@ -1,14 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -21,12 +25,14 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * The {@link ItemFilter} is a performance-optimization for our {@link CargoNet}.
  * It is a snapshot of a cargo node's configuration.
  * 
  * @author TheBusyBiscuit
+ * @author Vaan1310
  * 
  * @see CargoNet
  * @see CargoNetworkTask
@@ -53,6 +59,8 @@ class ItemFilter implements Predicate<ItemStack> {
      * Whether we should also compare the lore.
      */
     private boolean checkLore;
+
+    private boolean checkEnchants;
 
     /**
      * If an {@link ItemFilter} is marked as dirty / outdated, then it will be updated
@@ -112,6 +120,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
                     this.items.clear();
                     this.checkLore = Objects.equals(blockData.getString("filter-lore"), "true");
+                    this.checkEnchants = Objects.equals(blockData.getString("filter-enchant"), "true");
                     this.rejectOnMatch = !Objects.equals(blockData.getString("filter-type"), "whitelist");
 
                     for (int slot : slots) {
@@ -140,6 +149,7 @@ class ItemFilter implements Predicate<ItemStack> {
     private void clear(boolean rejectOnMatch) {
         this.items.clear();
         this.checkLore = false;
+        this.checkEnchants = false;
         this.rejectOnMatch = rejectOnMatch;
     }
 
@@ -188,31 +198,114 @@ class ItemFilter implements Predicate<ItemStack> {
         if (potentialMatches == 0) {
             // If there is no match, we can safely assume the default value
             return rejectOnMatch;
-        } else {
-            /*
-             * If there is more than one potential match, create a wrapper to save
-             * performance on the ItemMeta otherwise just use the item directly.
-             */
-            ItemStack subject = potentialMatches == 1 ? item : ItemStackWrapper.wrap(item);
+        }
+        /*
+         * If there is more than one potential match, create a wrapper to save
+         * performance on the ItemMeta otherwise just use the item directly.
+         */
+        ItemStack subject = potentialMatches == 1 ? item : ItemStackWrapper.wrap(item);
 
-            /*
-             * If there is only one match, we won't need to create a Wrapper
-             * and thus only perform .getItemMeta() once
-             */
-            for (ItemStackWrapper stack : items) {
-                if (SlimefunUtils.isItemSimilar(subject, stack, checkLore, false)) {
-                    /*
-                     * The filter has found a match, we can return the opposite
-                     * of our default value. If we exclude items, this is where we
-                     * would return false. Otherwise, we return true.
-                     */
-                    return !rejectOnMatch;
-                }
+        /*
+         * If there is only one match, we won't need to create a Wrapper
+         * and thus only perform .getItemMeta() once
+         */
+        for (ItemStackWrapper stack : items) {
+            boolean isSimilar = isSimilar(subject, stack, checkLore);
+
+            if (!isSimilar) {
+                continue;
             }
 
-            // If no particular item was matched, we fallback to our default value.
-            return rejectOnMatch;
+            if (!checkEnchants) {
+                /*
+                 * The filter has found a match, we can return the opposite
+                 * of our default value. If we exclude items, this is where we
+                 * would return false. Otherwise, we return true.
+                 */
+                return !rejectOnMatch;
+            }
+
+            boolean areSameEnchant = SlimefunUtils.areSameEnchants(subject, stack);
+
+            if (checkEnchants && areSameEnchant) {
+                return !rejectOnMatch;
+            }
+
         }
+
+        // If no particular item was matched, we fallback to our default value.
+        return rejectOnMatch;
+
     }
 
+    /** Internal method to check if the items are the same, {@link SlimefunUtils#isItemSimilar}
+     *  won't work as expected in this context so this method exists until a better fix is implemented
+     *
+     * @param first First {@link ItemStack} to check
+     * @param second Second {@link ItemStack} to check
+     * @param checkLore If {@literal true} lore will be checked too
+     */
+
+    private boolean isSimilar(ItemStack first, ItemStack second, boolean checkLore) {
+        if (first.getType() != second.getType()) {
+            return false;
+        }
+
+        //region Check Slimefun
+        SlimefunItem firstSFitem = SlimefunItem.getByItem(first);
+        SlimefunItem secondSFitem = SlimefunItem.getByItem(second);
+
+        if (firstSFitem == null ^ secondSFitem == null) {
+            return false;
+        }
+
+        if (firstSFitem != null) {
+            //if slimefun item compare ids
+            return firstSFitem.getId().equals(secondSFitem.getId());
+        }
+        //endregion
+
+        //if we don't need to check the lore we are done with the checks
+        if (!checkLore) {
+            return true;
+        }
+
+        //if both are null then same lore (no lore either of them)
+        if (!first.hasItemMeta() && !second.hasItemMeta()) {
+            return true;
+        }
+
+        ItemMeta firstMeta = first.hasItemMeta() ? first.getItemMeta() : Bukkit.getItemFactory().getItemMeta(first.getType());
+        ItemMeta secondMeta = second.hasItemMeta() ? second.getItemMeta() : Bukkit.getItemFactory().getItemMeta(second.getType());
+
+        return loreEquals(firstMeta.getLore(), secondMeta.getLore());
+    }
+
+    /** Checks if the 2 lore passed are the same
+     *
+     * @param loreA First list to check
+     * @param loreB Second list to check
+     * @return {@literal true} if the contents of the 2 lists are the same, {@literal false} otherwise
+     */
+    private boolean loreEquals(List<String> loreA, List<String> loreB) {
+        //SlimefunUtils doesn't support null values
+        if (loreA == null && loreB == null) {
+            return true;
+        }
+
+        if (loreA == null || loreB == null) {
+            return false;
+        }
+
+        if (loreA.size() != loreB.size())
+            return false;
+
+        for (int i = 0; i < loreA.size(); i++) {
+            if (!loreA.get(i).equals(loreB.get(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
