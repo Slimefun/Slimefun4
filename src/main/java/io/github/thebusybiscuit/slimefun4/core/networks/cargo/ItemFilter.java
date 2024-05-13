@@ -1,18 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
