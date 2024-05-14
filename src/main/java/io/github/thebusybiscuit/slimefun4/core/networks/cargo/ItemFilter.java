@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -35,7 +34,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @see CargoNetworkTask
  *
  */
-class ItemFilter implements Predicate<ItemStack> {
+public class ItemFilter implements Predicate<ItemStack> {
 
     /**
      * Our {@link List} of items to check against, might be empty.
@@ -207,7 +206,7 @@ class ItemFilter implements Predicate<ItemStack> {
          * and thus only perform .getItemMeta() once
          */
         for (ItemStackWrapper stack : items) {
-            boolean isSimilar = isSimilar(subject, stack, checkLore);
+            boolean isSimilar = SlimefunUtils.isItemSimilar(subject,stack,checkLore);
 
             if (!isSimilar) {
                 continue;
@@ -233,76 +232,5 @@ class ItemFilter implements Predicate<ItemStack> {
         // If no particular item was matched, we fallback to our default value.
         return rejectOnMatch;
 
-    }
-
-    /** Internal method to check if the items are the same, {@link SlimefunUtils#isItemSimilar}
-     *  won't work as expected in this context so this method exists until a better fix is implemented
-     *
-     * @param first First {@link ItemStack} to check
-     * @param second Second {@link ItemStack} to check
-     * @param checkLore If {@literal true} lore will be checked too
-     */
-
-    private boolean isSimilar(ItemStack first, ItemStack second, boolean checkLore) {
-        if (first.getType() != second.getType()) {
-            return false;
-        }
-
-        //region Check Slimefun
-        SlimefunItem firstSFitem = SlimefunItem.getByItem(first);
-        SlimefunItem secondSFitem = SlimefunItem.getByItem(second);
-
-        if (firstSFitem == null ^ secondSFitem == null) {
-            return false;
-        }
-
-        if (firstSFitem != null) {
-            //if slimefun item compare ids
-            return firstSFitem.getId().equals(secondSFitem.getId());
-        }
-        //endregion
-
-        //if we don't need to check the lore we are done with the checks
-        if (!checkLore) {
-            return true;
-        }
-
-        //if both are null then same lore (no lore either of them)
-        if (!first.hasItemMeta() && !second.hasItemMeta()) {
-            return true;
-        }
-
-        ItemMeta firstMeta = first.hasItemMeta() ? first.getItemMeta() : Bukkit.getItemFactory().getItemMeta(first.getType());
-        ItemMeta secondMeta = second.hasItemMeta() ? second.getItemMeta() : Bukkit.getItemFactory().getItemMeta(second.getType());
-
-        return loreEquals(firstMeta.getLore(), secondMeta.getLore());
-    }
-
-    /** Checks if the 2 lore passed are the same
-     *
-     * @param loreA First list to check
-     * @param loreB Second list to check
-     * @return {@literal true} if the contents of the 2 lists are the same, {@literal false} otherwise
-     */
-    private boolean loreEquals(List<String> loreA, List<String> loreB) {
-        //SlimefunUtils doesn't support null values
-        if (loreA == null && loreB == null) {
-            return true;
-        }
-
-        if (loreA == null || loreB == null) {
-            return false;
-        }
-
-        if (loreA.size() != loreB.size())
-            return false;
-
-        for (int i = 0; i < loreA.size(); i++) {
-            if (!loreA.get(i).equals(loreB.get(i))) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -383,7 +384,7 @@ public final class SlimefunUtils {
 
                 ItemMetaSnapshot meta = ((SlimefunItemStack) sfitem).getItemMetaSnapshot();
                 return equalsItemMeta(itemMeta, meta, checkLore);
-            } else if (sfitem instanceof ItemStackWrapper && sfitem.hasItemMeta()) {
+            } else if (sfitem instanceof ItemStackWrapper) {
                 Debug.log(TestCase.CARGO_INPUT_TESTING, "  is wrapper");
                 /*
                  * Cargo optimization (PR #3258)
@@ -393,7 +394,7 @@ public final class SlimefunUtils {
                  */
                 Debug.log(TestCase.CARGO_INPUT_TESTING, "  sfitem is ItemStackWrapper - possible SF Item: {}", sfitem);
 
-                ItemMeta possibleSfItemMeta = sfitem.getItemMeta();
+                ItemMeta possibleSfItemMeta = sfitem.hasItemMeta() ? sfitem.getItemMeta() : Bukkit.getItemFactory().getItemMeta(sfitem.getType());
                 String id = Slimefun.getItemDataService().getItemData(itemMeta).orElse(null);
                 String possibleItemId = Slimefun.getItemDataService().getItemData(possibleSfItemMeta).orElse(null);
                 // Prioritize SlimefunItem id comparison over ItemMeta comparison
@@ -440,9 +441,21 @@ public final class SlimefunUtils {
         ItemMeta firstM = first.getItemMeta();
         ItemMeta secondM = second.getItemMeta();
 
-        if (!(firstM instanceof EnchantmentStorageMeta || secondM instanceof EnchantmentStorageMeta)) {
+        boolean frstEnchant = firstM instanceof EnchantmentStorageMeta;
+        boolean sndEnchant = secondM instanceof EnchantmentStorageMeta;
+
+        if (frstEnchant != sndEnchant) {
+            return false;
+        }
+
+        if (!frstEnchant) {
             return true;
         }
+
+        /*
+        if (!(firstM instanceof EnchantmentStorageMeta || secondM instanceof EnchantmentStorageMeta)) {
+            return true;
+        }*/
 
         EnchantmentStorageMeta stEnch = (EnchantmentStorageMeta) firstM;
         EnchantmentStorageMeta ndEnch = (EnchantmentStorageMeta) secondM;
@@ -451,22 +464,6 @@ public final class SlimefunUtils {
         Map<Enchantment, Integer> enchantsSecond = ndEnch.getStoredEnchants();
 
         return enchantsFirst.equals(enchantsSecond);
-        /*
-
-        if (enchantsFirst.size() != enchantsSecond.size()) {
-            return false;
-        }
-
-        for (var enchantment : enchantsFirst.entrySet()) {
-            // Check if the levels of the enchantments are equal
-            if (!Objects.equals(enchantment.getValue(), enchantsSecond.get(enchantment.getKey()))) {
-                return false;
-            }
-        }
-
-        Bukkit.getLogger().info("enchants complete");
-
-        return true;*/
     }
 
     private static @Nonnull Optional<DistinctiveItem> getDistinctiveItem(@Nonnull String id) {
@@ -504,6 +501,7 @@ public final class SlimefunUtils {
     }
 
     private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta sfitemMeta, boolean checkLore) {
+        Bukkit.getLogger().info("Inside itemMeta");
         if (itemMeta.hasDisplayName() != sfitemMeta.hasDisplayName()) {
             return false;
         } else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
