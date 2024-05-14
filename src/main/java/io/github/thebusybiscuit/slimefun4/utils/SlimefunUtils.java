@@ -394,9 +394,9 @@ public final class SlimefunUtils {
                  */
                 Debug.log(TestCase.CARGO_INPUT_TESTING, "  sfitem is ItemStackWrapper - possible SF Item: {}", sfitem);
 
-                ItemMeta possibleSfItemMeta = sfitem.hasItemMeta() ? sfitem.getItemMeta() : Bukkit.getItemFactory().getItemMeta(sfitem.getType());
+                ItemMeta possibleSfItemMeta = sfitem.hasItemMeta() ? sfitem.getItemMeta() : null;
                 String id = Slimefun.getItemDataService().getItemData(itemMeta).orElse(null);
-                String possibleItemId = Slimefun.getItemDataService().getItemData(possibleSfItemMeta).orElse(null);
+                String possibleItemId = possibleSfItemMeta != null ? Slimefun.getItemDataService().getItemData(possibleSfItemMeta).orElse(null) : null;
                 // Prioritize SlimefunItem id comparison over ItemMeta comparison
                 if (id != null && id.equals(possibleItemId)) {
                     Debug.log(TestCase.CARGO_INPUT_TESTING, "  Item IDs matched!");
@@ -500,8 +500,15 @@ public final class SlimefunUtils {
         }
     }
 
-    private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta sfitemMeta, boolean checkLore) {
-        Bukkit.getLogger().info("Inside itemMeta");
+    private static boolean equalsItemMeta(ItemMeta itemMeta, ItemMeta sfitemMeta, boolean checkLore) {
+        if ((itemMeta == null) != (sfitemMeta == null)) {
+            return false;
+        }
+
+        if (itemMeta == null) {
+            return true;
+        }
+
         if (itemMeta.hasDisplayName() != sfitemMeta.hasDisplayName()) {
             return false;
         } else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
