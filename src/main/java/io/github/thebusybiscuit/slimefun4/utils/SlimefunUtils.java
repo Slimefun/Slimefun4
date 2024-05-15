@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.utils;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -335,6 +336,7 @@ public final class SlimefunUtils {
      *
      * @return True if the given {@link ItemStack}s are similar under the given constraints
      */
+    private static HashMap<Material, ItemMeta> defaultItemMetas = new HashMap<>();
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount, boolean checkDistinction) {
         if (item == null) {
             return sfitem == null;
@@ -393,9 +395,22 @@ public final class SlimefunUtils {
                  * so let's try to do an ID comparison before meta comparison
                  */
                 Debug.log(TestCase.CARGO_INPUT_TESTING, "  sfitem is ItemStackWrapper - possible SF Item: {}", sfitem);
+                ItemMeta possibleSfItemMeta;
+                String id = null;
+                if (sfitem.hasItemMeta()) {
+                    possibleSfItemMeta = sfitem.getItemMeta();
+                    id = Slimefun.getItemDataService().getItemData(itemMeta).orElse(null);
+                } else {
+                    Material type = sfitem.getType();
+                    possibleSfItemMeta = defaultItemMetas.get(type);
 
-                ItemMeta possibleSfItemMeta = sfitem.hasItemMeta() ? sfitem.getItemMeta() : Bukkit.getItemFactory().getItemMeta(sfitem.getType());
-                String id = Slimefun.getItemDataService().getItemData(itemMeta).orElse(null);
+                    if (possibleSfItemMeta == null) {
+                        possibleSfItemMeta = Bukkit.getItemFactory().getItemMeta(sfitem.getType());
+                        defaultItemMetas.put(type, possibleSfItemMeta);
+                    }
+                }
+
+
                 String possibleItemId = Slimefun.getItemDataService().getItemData(possibleSfItemMeta).orElse(null);
                 // Prioritize SlimefunItem id comparison over ItemMeta comparison
                 if (id != null && id.equals(possibleItemId)) {
@@ -501,7 +516,7 @@ public final class SlimefunUtils {
     }
 
     private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta sfitemMeta, boolean checkLore) {
-        Bukkit.getLogger().info("Inside itemMeta");
+
         if (itemMeta.hasDisplayName() != sfitemMeta.hasDisplayName()) {
             return false;
         } else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
