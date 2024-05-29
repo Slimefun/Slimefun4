@@ -252,23 +252,19 @@ public class HologramsService {
         Validate.notNull(loc, "Location must not be null");
         Validate.notNull(consumer, "Callbacks must not be null");
 
-        Runnable runnable = () -> {
-            try {
-                Hologram hologram = getHologram(loc, true);
+        if (!Bukkit.isPrimaryThread()) {
+            throw new UnsupportedOperationException("You cannot update a hologram asynchronously");
+        }
 
-                if (hologram != null) {
-                    consumer.accept(hologram);
-                }
-            } catch (Exception | LinkageError x) {
-                Slimefun.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
-                Slimefun.logger().log(Level.SEVERE, "Something went wrong while trying to update this hologram", x);
+        try {
+            Hologram hologram = getHologram(loc, true);
+
+            if (hologram != null) {
+                consumer.accept(hologram);
             }
-        };
-
-        if (Bukkit.isPrimaryThread()) {
-            runnable.run();
-        } else {
-            Slimefun.runSync(runnable);
+        } catch (Exception | LinkageError x) {
+            Slimefun.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
+            Slimefun.logger().log(Level.SEVERE, "Something went wrong while trying to update this hologram", x);
         }
     }
 
