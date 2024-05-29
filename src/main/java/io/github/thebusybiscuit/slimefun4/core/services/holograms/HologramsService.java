@@ -245,26 +245,20 @@ public class HologramsService {
      * 
      * @param loc
      *            The {@link Location}
-     * @param consumer
-     *            The callback to run
      */
-    private void updateHologram(@Nonnull Location loc, @Nonnull Consumer<Hologram> consumer) {
+    @Nullable
+    private Hologram updateHologram(@Nonnull Location loc) {
         Validate.notNull(loc, "Location must not be null");
-        Validate.notNull(consumer, "Callbacks must not be null");
 
         if (!Bukkit.isPrimaryThread()) {
             throw new UnsupportedOperationException("You cannot update a hologram asynchronously");
         }
 
         try {
-            Hologram hologram = getHologram(loc, true);
-
-            if (hologram != null) {
-                consumer.accept(hologram);
-            }
+            return getHologram(loc, true);
         } catch (Exception | LinkageError x) {
             Slimefun.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
-            Slimefun.logger().log(Level.SEVERE, "Something went wrong while trying to update this hologram", x);
+            throw new RuntimeException("Something went wrong while trying to update this hologram", x);
         }
     }
 
@@ -314,7 +308,10 @@ public class HologramsService {
     public void setHologramLabel(@Nonnull Location loc, @Nullable String label) {
         Validate.notNull(loc, "Location must not be null");
 
-        updateHologram(loc, hologram -> hologram.setLabel(label));
+        Hologram hologram = updateHologram(loc);
+        if (hologram != null) {
+            hologram.setLabel(label);
+        }
     }
 
 }
