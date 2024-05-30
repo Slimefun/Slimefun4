@@ -115,6 +115,14 @@ public class HologramsService {
     }
 
     /**
+     * @see HologramsService#getHologram(Location, boolean)
+     */
+    @Nonnull
+    private Hologram getHologramOrCreate(@Nonnull Location loc) {
+        return getHologram(loc, true);
+    }
+
+    /**
      * This returns the {@link Hologram} associated with the given {@link Location}.
      * If createIfNoneExists is set to true a new {@link ArmorStand} will be spawned
      * if no existing one could be found.
@@ -238,31 +246,6 @@ public class HologramsService {
     }
 
     /**
-     * This updates the {@link Hologram}.
-     * You can use it to set the nametag or other properties.
-     * <p>
-     * <strong>This method must be executed on the main {@link Server} {@link Thread}.</strong>
-     * 
-     * @param loc
-     *            The {@link Location}
-     */
-    @Nullable
-    private Hologram updateHologram(@Nonnull Location loc) {
-        Validate.notNull(loc, "Location must not be null");
-
-        if (!Bukkit.isPrimaryThread()) {
-            throw new UnsupportedOperationException("You cannot update a hologram asynchronously");
-        }
-
-        try {
-            return getHologram(loc, true);
-        } catch (Exception | LinkageError x) {
-            Slimefun.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
-            throw new RuntimeException("Something went wrong while trying to update this hologram", x);
-        }
-    }
-
-    /**
      * This removes the {@link Hologram} at that given {@link Location}.
      * <p>
      * <strong>This method must be executed on the main {@link Server} {@link Thread}.</strong>
@@ -308,10 +291,8 @@ public class HologramsService {
     public void setHologramLabel(@Nonnull Location loc, @Nullable String label) {
         Validate.notNull(loc, "Location must not be null");
 
-        Hologram hologram = updateHologram(loc);
-        if (hologram != null) {
-            hologram.setLabel(label);
-        }
+        Hologram hologram = getHologramOrCreate(loc);
+        hologram.setLabel(label);
     }
 
 }
