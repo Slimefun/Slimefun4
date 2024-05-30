@@ -119,14 +119,14 @@ public class BlockPhysicsListener implements Listener {
     @EventHandler
     public void onBlockUpdate(BlockPhysicsEvent event) {
         if (!Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
-            // Method BlockData::isSupported is 1.19+
+            // Method BlockData#isSupported is 1.19+
             return;
         }
 
         Block block = event.getBlock();
 
-        // Listen for collapsing sensitive blocks
-        if (!block.getBlockData().isSupported(event.getBlock())) {
+        // Listen for collapsing sensitive slimefun blocks
+        if (BlockStorage.hasBlockInfo(block) && !block.getBlockData().isSupported(event.getBlock())) {
             SlimefunItem sfItem = BlockStorage.check(block);
 
             if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
