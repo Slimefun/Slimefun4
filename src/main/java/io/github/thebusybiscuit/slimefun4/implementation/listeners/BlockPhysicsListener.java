@@ -113,7 +113,7 @@ public class BlockPhysicsListener implements Listener {
     }
 
     @EventHandler
-    public void onPhysics(BlockPhysicsEvent event) {
+    public void onBlockUpdate(BlockPhysicsEvent event) {
         if (!Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
             // Method BlockData::isSupported is 1.19+
             return;
