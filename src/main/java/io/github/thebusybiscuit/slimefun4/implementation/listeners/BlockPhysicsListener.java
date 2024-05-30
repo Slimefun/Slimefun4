@@ -126,7 +126,7 @@ public class BlockPhysicsListener implements Listener {
         Block block = event.getBlock();
 
         // Listen for collapsing sensitive slimefun blocks
-        if (BlockStorage.hasBlockInfo(block) && !block.getBlockData().isSupported(event.getBlock())) {
+        if (BlockStorage.hasBlockInfo(block) && !Slimefun.getTickerTask().isDeletedSoon(block.getLocation()) && !block.getBlockData().isSupported(event.getBlock())) {
             SlimefunItem sfItem = BlockStorage.check(block);
 
             if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
