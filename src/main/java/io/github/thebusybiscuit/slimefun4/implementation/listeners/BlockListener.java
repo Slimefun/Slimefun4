@@ -15,8 +15,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -29,17 +27,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockBreakEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -171,23 +166,9 @@ public class BlockListener implements Listener {
         }
 
         if (!e.isCancelled()) {
-            // Checks for Slimefun sensitive blocks above, using Slimefun Tags
-            // TODO: merge this with the vanilla sensitive block check (when 1.18- is dropped)
-            checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock(), item);
-
             callBlockHandler(e, item, drops, sfItem);
 
             dropItems(e, drops);
-
-            // Checks for vanilla sensitive blocks everywhere
-            // checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
-        }
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onExplosiveToolBlockBreak(ExplosiveToolBreakBlocksEvent e) {
-        for (Block block : e.getAdditionalBlocks()) {
-            checkForSensitiveBlockAbove(e.getPlayer(), block, e.getItemInHand());
         }
     }
 
@@ -250,6 +231,9 @@ public class BlockListener implements Listener {
                 // Disable normal block drops
                 e.setDropItems(false);
 
+                // Fix #3182 - Drop the sensitive blocks that require supporting block but don't drop the supporting block
+                e.getBlock().setType(Material.AIR, true);
+
                 for (ItemStack drop : drops) {
                     // Prevent null or air from being dropped
                     if (drop != null && drop.getType() != Material.AIR) {
@@ -259,107 +243,6 @@ public class BlockListener implements Listener {
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * This method checks for a sensitive {@link Block}.
-     * Sensitive {@link Block Blocks} are pressure plates or saplings, which should be broken
-     * when the block beneath is broken as well.
-     *
-     * @param player
-     *            The {@link Player} who broke this {@link Block}
-     * @param block
-     *            The {@link Block} that was broken
-     * @param item
-     *            The {@link ItemStack} that was used to break the {@link Block}
-     */
-    @ParametersAreNonnullByDefault
-    private void checkForSensitiveBlockAbove(Player player, Block block, ItemStack item) {
-        Block blockAbove = block.getRelative(BlockFace.UP);
-
-        if (SlimefunTag.SENSITIVE_MATERIALS.isTagged(blockAbove.getType())) {
-            SlimefunItem sfItem = BlockStorage.check(blockAbove);
-
-            if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-                /*
-                 * We create a dummy here to pass onto the BlockBreakHandler.
-                 * This will set the correct block context.
-                 */
-                BlockBreakEvent dummyEvent = new BlockBreakEvent(blockAbove, player);
-                List<ItemStack> drops = new ArrayList<>(sfItem.getDrops(player));
-
-                sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
-                blockAbove.setType(Material.AIR);
-
-                if (!dummyEvent.isCancelled() && dummyEvent.isDropItems()) {
-                    for (ItemStack drop : drops) {
-                        if (drop != null && !drop.getType().isAir()) {
-                            blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), drop);
-                        }
-                    }
-                }
-
-                // Fixes #2944 - Don't forget to clear the Block Data
-                BlockStorage.clearBlockInfo(blockAbove);
-            }
-        }
-    }
-
-    /**
-     * This method checks recursively for any sensitive blocks
-     * that are no longer supported due to this block breaking
-     *
-     * @param block
-     *      The {@link Block} in question
-     * @param count
-     *      The amount of times this has been recursively called
-     */
-    // Disabled for now due to #4069 - Servers crashing due to this check
-    // There is additionally a second bug with `getMaxChainedNeighborUpdates` not existing in 1.17
-    @ParametersAreNonnullByDefault
-    private void checkForSensitiveBlocks(Block block, int count, boolean isDropItems) {
-        if (count >= Bukkit.getServer().getMaxChainedNeighborUpdates()) {
-            return;
-        }
-
-        BlockState state = block.getState();
-        // We set the block to air to make use of BlockData#isSupported.
-        block.setType(Material.AIR, false);
-        for (BlockFace face : CARDINAL_BLOCKFACES) {
-            if (!isSupported(block.getRelative(face).getBlockData(), block.getRelative(face))) {
-                Block relative = block.getRelative(face);
-                if (!isDropItems) {
-                    for (ItemStack drop : relative.getDrops()) {
-                        block.getWorld().dropItemNaturally(relative.getLocation(), drop);
-                    }
-                }
-                checkForSensitiveBlocks(relative, ++count, isDropItems);
-            }
-        }
-        // Set the BlockData back: this makes it so containers and spawners drop correctly. This is a hacky fix.
-        block.setBlockData(state.getBlockData(), false);
-        state.update(true, false);
-    }
-
-    /**
-     * This method checks if the {@link BlockData} would be
-     * supported at the given {@link Block}.
-     *
-     * @param blockData
-     *      The {@link BlockData} to check
-     * @param block
-     *      The {@link Block} the {@link BlockData} would be at
-     * @return
-     *      Whether the {@link BlockData} would be supported at the given {@link Block}
-     */
-    @ParametersAreNonnullByDefault
-    private boolean isSupported(BlockData blockData, Block block) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
-            return blockData.isSupported(block);
-        } else {
-            // TODO: Make 1.16-1.18 version. BlockData::isSupported is 1.19+.
-            return true;
         }
     }
 
