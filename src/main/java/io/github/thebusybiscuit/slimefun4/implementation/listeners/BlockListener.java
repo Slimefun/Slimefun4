@@ -196,6 +196,11 @@ public class BlockListener implements Listener {
         }
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
+            // Fixes #4037
+            if (Slimefun.getTickerTask().isDeletedSoon(e.getBlock().getLocation()) || !BlockStorage.hasBlockInfo(e.getBlock())) {
+                return;
+            }
+
             sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(e, item, drops));
 
             if (e.isCancelled()) {
@@ -231,7 +236,7 @@ public class BlockListener implements Listener {
                 // Disable normal block drops
                 e.setDropItems(false);
 
-                // Fix #3182 - Drop the sensitive blocks that require supporting block but don't drop the supporting block
+                // Fixes #3182 - Drop the sensitive blocks that require supporting block but don't drop the supporting block
                 e.getBlock().setType(Material.AIR, true);
 
                 for (ItemStack drop : drops) {
