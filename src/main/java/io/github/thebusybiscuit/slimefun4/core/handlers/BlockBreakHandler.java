@@ -68,7 +68,7 @@ public abstract class BlockBreakHandler implements ItemHandler {
     /**
      * Called when sensitive block was collapsed by breaking the supporting block
      *
-     * @param block Our {@link Block}
+     * @param block Collapsed {@link Block}
      */
     @ParametersAreNonnullByDefault
     public void onCollapse(Block block) {
