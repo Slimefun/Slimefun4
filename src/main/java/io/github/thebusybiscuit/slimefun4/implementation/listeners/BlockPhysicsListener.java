@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -127,14 +128,16 @@ public class BlockPhysicsListener implements Listener {
 
         // Listen for collapsing sensitive slimefun blocks
         if (BlockStorage.hasBlockInfo(block) && !Slimefun.getTickerTask().isDeletedSoon(block.getLocation()) && !block.getBlockData().isSupported(block)) {
-            SlimefunItem sfItem = BlockStorage.check(block);
+            SlimefunItem sfBlockItem = BlockStorage.check(block);
 
-            if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
+            if (sfBlockItem != null && !sfBlockItem.useVanillaBlockBreaking()) {
+                sfBlockItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onCollapse(block));
+
                 // Drop items from surrounding sensitive blocks but don't drop from supporting block
                 event.setCancelled(true);
                 block.setType(Material.AIR, true);
 
-                for (ItemStack drop : sfItem.getDrops()) {
+                for (ItemStack drop : sfBlockItem.getDrops()) {
                     if (drop != null && !drop.getType().isAir()) {
                         block.getWorld().dropItemNaturally(block.getLocation(), drop);
                     }
