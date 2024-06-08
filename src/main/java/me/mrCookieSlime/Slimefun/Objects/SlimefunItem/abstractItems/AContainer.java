@@ -1,22 +1,5 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -33,9 +16,9 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -44,6 +27,21 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // TODO: Replace this with "AbstractContainer" and "AbstractElectricalMachine" classes.
 public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent, MachineProcessHolder<CraftingOperation> {
@@ -416,33 +414,54 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             }
         }
 
-        Map<Integer, Integer> found = new HashMap<>();
+        Map<MachineRecipe, Map<Integer, Integer>> matched = new HashMap<>();
 
         for (MachineRecipe recipe : recipes) {
+            //Map<slot, amount>
+            Map<Integer, Integer> found = new HashMap<>();
+
             for (ItemStack input : recipe.getInput()) {
                 for (int slot : getInputSlots()) {
+                  if (found.containsKey(slot)) {
+                    	continue;
+                  	}
+                    
                     if (SlimefunUtils.isItemSimilar(inventory.get(slot), input, true)) {
                         found.put(slot, input.getAmount());
                         break;
                     }
                 }
-            }
 
-            if (found.size() == recipe.getInput().length) {
-                if (!InvUtils.fitAll(inv.toInventory(), recipe.getOutput(), getOutputSlots())) {
-                    return null;
+                if (found.size() == recipe.getInput().length) {
+                    matched.put(recipe, found);
                 }
-
-                for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
-                    inv.consumeItem(entry.getKey(), entry.getValue());
-                }
-
-                return recipe;
-            } else {
-                found.clear();
             }
         }
 
-        return null;
+        if (matched.isEmpty()) {
+        	return null;
+      	}
+
+        Map.Entry<MachineRecipe, Map<Integer, Integer>> recipe = null;
+        int max_Size = 0;
+
+        for (Map.Entry<MachineRecipe, Map<Integer, Integer>> item : matched.entrySet()) {
+            int size = ItemUtils.getAllItemTypeAmount(item.getKey().getInput()) * 1000 + ItemUtils.getAllItemAmount(item.getKey().getInput());
+            if (size > max_Size) {
+                recipe = item;
+                max_Size = size;
+            }
+        }
+        //matched is not null, so recipe won't be null
+
+        if (!InvUtils.fitAll(inv.toInventory(), recipe.getKey().getOutput(), getOutputSlots())) {
+            return null;
+        }
+
+        for (Map.Entry<Integer, Integer> entry : recipe.getValue().entrySet()) {
+            inv.consumeItem(entry.getKey(), entry.getValue());
+        }
+
+        return recipe.getKey();
     }
 }
