@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -16,11 +17,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Unplaceabl
 
 /**
  * The {@link InfusedMagnet} is a {@link SlimefunItem} that allows a {@link Player} to
- * automatically pick up items in a certain radius while holding shift and having an
+ * automatically pick up {@link Item items} in a certain radius while holding shift and having an
  * {@link InfusedMagnet} in their {@link Inventory}.
  * 
  * @author TheBusyBiscuit
- *
  */
 public class InfusedMagnet extends UnplaceableBlock {
 
@@ -34,7 +34,7 @@ public class InfusedMagnet extends UnplaceableBlock {
     }
 
     /**
-     * This returns the radius in which items are picked up
+     * This returns the radius in which {@link Item items} are picked up
      * 
      * @return The radius of the {@link InfusedMagnet}
      */
