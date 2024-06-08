@@ -39,6 +39,14 @@ commands:
     running: '&7Running debug mode with test: &6%test%'
     disabled: '&7Disabled debug mode.'
 
+  save:
+    players:
+      true: 'Successfully saved player-data!'
+      false: 'Player-data is already saving!'
+    blocks:
+      true: 'Successfully saved block-data!'
+      false: 'Block-data is already saving!'
+
 placeholderapi:
   profile-loading: 'Loading...'
 
