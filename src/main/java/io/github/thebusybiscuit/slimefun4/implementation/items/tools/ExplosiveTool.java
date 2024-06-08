@@ -160,6 +160,11 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         SlimefunItem sfItem = BlockStorage.check(b);
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
+            // Fixes #4037
+            if (Slimefun.getTickerTask().isDeletedSoon(b.getLocation())) {
+                return;
+            }
+
             /*
              * Fixes #2989
              * We create a dummy here to pass onto the BlockBreakHandler.
