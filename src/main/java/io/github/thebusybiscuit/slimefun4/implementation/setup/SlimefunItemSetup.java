@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricJuicer;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -2319,6 +2320,13 @@ public final class SlimefunItemSetup {
         new ElevatorPlate(itemGroups.gps, SlimefunItems.ELEVATOR_PLATE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, new ItemStack(Material.STONE_PRESSURE_PLATE), null, new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PISTON), SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ALUMINUM_BRONZE_INGOT},
         new SlimefunItemStack(SlimefunItems.ELEVATOR_PLATE, 2))
+        .register(plugin);
+
+        new ElectricJuicer(itemGroups.electricity, SlimefunItems.ELECTRIC_JUICER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[]{ null, new ItemStack(Material.GLASS), null, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.NETHER_BRICK_FENCE), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.NETHER_BRICKS), SlimefunItems.SMALL_CAPACITOR, new ItemStack(Material.NETHER_BRICKS)})
+        .setCapacity(128)
+        .setEnergyConsumption(5)
+        .setProcessingSpeed(1)
         .register(plugin);
 
         new FoodFabricator(itemGroups.electricity, SlimefunItems.FOOD_FABRICATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
