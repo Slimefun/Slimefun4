@@ -65,7 +65,7 @@ public class Compressor extends MultiBlockMachine {
 
             for (ItemStack item : inv.getContents()) {
                 for (ItemStack recipeInput : RecipeType.getRecipeInputs(this)) {
-                    if (recipeInput != null && SlimefunUtils.isItemSimilar(item, recipeInput, true)) {
+                    if (recipeInput != null && SlimefunUtils.compareItem(item, recipeInput)) {
                         ItemStack output = RecipeType.getRecipeOutput(this, recipeInput);
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
                         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, item, output);

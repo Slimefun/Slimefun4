@@ -205,7 +205,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
         }
 
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
-        return item.getType() == Material.LAVA_BUCKET || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.FUEL_BUCKET, true) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.OIL_BUCKET, true);
+        return item.getType() == Material.LAVA_BUCKET || SlimefunUtils.compareItem(wrapper, SlimefunItems.FUEL_BUCKET) || SlimefunUtils.compareItem(wrapper, SlimefunItems.OIL_BUCKET);
     }
 
     private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {

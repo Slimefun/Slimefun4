@@ -116,7 +116,8 @@ public final class SlimefunGuide {
         } else if (item instanceof SlimefunGuideItem) {
             return true;
         } else {
-            return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.SURVIVAL_MODE), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.CHEAT_MODE), true);
+            return SlimefunUtils.compareItem(item, getItem(SlimefunGuideMode.SURVIVAL_MODE))
+                    || SlimefunUtils.compareItem(item, getItem(SlimefunGuideMode.CHEAT_MODE));
         }
     }
 

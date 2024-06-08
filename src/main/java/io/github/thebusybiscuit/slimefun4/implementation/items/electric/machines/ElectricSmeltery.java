@@ -76,7 +76,7 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
 
                 for (int slot : getInputSlots()) {
                     ItemStack stack = menu.getItemInSlot(slot);
-                    if (stack != null && SlimefunUtils.isItemSimilar(stack, item, true, false)) {
+                    if (stack != null && SlimefunUtils.compareItem(stack, item)) {
                         if (stack.getAmount() >= stack.getMaxStackSize()) {
                             fullSlots++;
                         }
