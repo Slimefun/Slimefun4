@@ -83,16 +83,16 @@ guide:
         text:
           - '&bKarunungang Animasyon: &aYes'
           - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - ''
+          - ''
+          - ''
       disabled:
         text:
-          - '&bLearning Animation: &4No'
           - ''
-          - '&7You can now toggle whether you'
+          - ''
+          - ''
           - '&7makikita ang impormasyon na pinagtatakahan mo sa chat'
-          - '&7upon researching an item.'
+          - ''
         click: '&eI-click para paganahin ang iyong karunungang animasyon'
   title:
     main: 'Gabay para sa Slimefun'
