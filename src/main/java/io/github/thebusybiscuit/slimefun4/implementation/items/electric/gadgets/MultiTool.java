@@ -80,7 +80,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
             ItemMeta meta = item.getItemMeta();
             e.cancel();
 
-            int index = PersistentDataAPI.getInt(meta, key);
+            int index = PersistentDataAPI.getInt(meta, key, 0);
             SlimefunItem sfItem = modes.get(index).getItem();
 
             if (!p.isSneaking()) {
