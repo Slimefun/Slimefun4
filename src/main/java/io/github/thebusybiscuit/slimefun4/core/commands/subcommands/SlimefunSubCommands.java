@@ -32,6 +32,7 @@ public final class SlimefunSubCommands {
         commands.add(new CheatCommand(plugin, cmd));
         commands.add(new GuideCommand(plugin, cmd));
         commands.add(new GiveCommand(plugin, cmd));
+        commands.add(new SilentGiveCommand(plugin, cmd));
         commands.add(new ResearchCommand(plugin, cmd));
         commands.add(new StatsCommand(plugin, cmd));
         commands.add(new TimingsCommand(plugin, cmd));

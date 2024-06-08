@@ -6,14 +6,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * The give command cheat items for player.
+ * The give command cheat items for player, but does not send a message to the receiver.
  *
- * @author TheBusyBiscuit
  * @author ybw0014
  */
-class GiveCommand extends AbstractGiveCommand {
+class SilentGiveCommand extends AbstractGiveCommand {
     @ParametersAreNonnullByDefault
-    GiveCommand(Slimefun plugin, SlimefunCommand cmd) {
-        super(plugin, cmd, "give", false);
+    SilentGiveCommand(Slimefun plugin, SlimefunCommand cmd) {
+        super(plugin, cmd, "silent_give", true);
     }
 }

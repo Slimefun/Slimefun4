@@ -2,6 +2,7 @@ commands:
   help: Displays this help screen
   cheat: Allows you to cheat Items
   give: Give somebody some Slimefun Items
+  silent_give: Give somebody some Slimefun Items without notification messages
   guide: Gives yourself a Slimefun Guide
   teleporter: See other Player's Waypoints
   versions: Lists all installed Addons
