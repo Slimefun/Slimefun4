@@ -191,7 +191,7 @@
                 <!-- Dependency shading -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.6.0</version>
 
                 <configuration>
                     <!-- Relocate these to avoid clashes and conflicts -->
