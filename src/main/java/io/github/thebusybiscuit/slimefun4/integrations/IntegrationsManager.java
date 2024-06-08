@@ -60,6 +60,9 @@ public class IntegrationsManager {
     private boolean isClearLagInstalled = false;
     private boolean isItemsAdderInstalled = false;
     private boolean isOrebfuscatorInstalled = false;
+    private boolean isVaultInstalled = false;
+
+    VaultIntegration vaultIntegration;
 
     /**
      * This initializes the {@link IntegrationsManager}
@@ -130,6 +133,12 @@ public class IntegrationsManager {
 
         // ItemsAdder Integration (custom blocks)
         load("ItemsAdder", integration -> isItemsAdderInstalled = true);
+
+        // Vault integration (research with server currency)
+        load("Vault", integration -> {
+            vaultIntegration = new VaultIntegration();
+            isVaultInstalled = true;
+        });
     }
 
     /**
@@ -208,6 +217,10 @@ public class IntegrationsManager {
      */
     public @Nonnull ProtectionManager getProtectionManager() {
         return protectionManager;
+    }
+
+    public @Nonnull VaultIntegration getVaultIntegration() {
+        return vaultIntegration;
     }
 
     /**
@@ -309,5 +322,9 @@ public class IntegrationsManager {
 
     public boolean isOrebfuscatorInstalled() {
         return isOrebfuscatorInstalled;
+    }
+
+    public boolean isVaultInstalled() {
+        return isVaultInstalled;
     }
 }

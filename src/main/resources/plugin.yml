@@ -19,6 +19,7 @@ softdepend:
 - mcMMO
 - ItemsAdder
 - Orebfuscator
+- Vault
 
 # Our commands
 commands:
