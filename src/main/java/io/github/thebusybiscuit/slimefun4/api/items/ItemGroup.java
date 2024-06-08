@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
@@ -37,6 +38,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
  * 
  */
 public class ItemGroup implements Keyed {
+    private static final NamespacedKey ITEM_GROUP_KEY = new NamespacedKey(Slimefun.instance(), "item_group");
 
     private SlimefunAddon addon;
 
@@ -214,11 +216,7 @@ public class ItemGroup implements Keyed {
      */
     public @Nonnull ItemStack getItem(@Nonnull Player p) {
         return new CustomItemStack(item, meta -> {
-            String name = Slimefun.getLocalization().getItemGroupName(p, getKey());
-
-            if (name == null) {
-                name = item.getItemMeta().getDisplayName();
-            }
+            String name = getDisplayName(p);
 
             if (this instanceof SeasonalItemGroup) {
                 meta.setDisplayName(ChatColor.GOLD + name);
@@ -227,6 +225,8 @@ public class ItemGroup implements Keyed {
             }
 
             meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
+
+            PersistentDataAPI.setString(meta, ITEM_GROUP_KEY, getKey().toString());
         });
     }
 
