@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 
 /**
  * This interface, when attached to a {@link SlimefunItem}, provides an easy method for damaging
@@ -51,7 +52,7 @@ public interface DamageableItem extends ItemAttribute {
      */
     default void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
         if (isDamageable() && item != null && !item.getType().isAir() && item.getAmount() > 0) {
-            int unbreakingLevel = item.getEnchantmentLevel(Enchantment.DURABILITY);
+            int unbreakingLevel = item.getEnchantmentLevel(VersionedEnchantment.UNBREAKING);
 
             if (evaluateUnbreakingEnchantment(unbreakingLevel)) {
                 return;

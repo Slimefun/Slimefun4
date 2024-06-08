@@ -14,7 +14,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
@@ -28,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 
 /**
  * The {@link AncientAltarTask} is responsible for the animation that happens when a ritual
@@ -117,12 +117,12 @@ public class AncientAltarTask implements Runnable {
     }
 
     private void idle() {
-        dropLocation.getWorld().spawnParticle(Particle.SPELL_WITCH, dropLocation, 16, 1.2F, 0F, 1.2F);
-        dropLocation.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, dropLocation, 8, 0.2F, 0F, 0.2F);
+        dropLocation.getWorld().spawnParticle(VersionedParticle.WITCH, dropLocation, 16, 1.2F, 0F, 1.2F);
+        dropLocation.getWorld().spawnParticle(VersionedParticle.FIREWORK, dropLocation, 8, 0.2F, 0F, 0.2F);
 
         for (Location loc : particleLocations) {
-            dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, loc, 16, 0.3F, 0.2F, 0.3F);
-            dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC, loc, 8, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(VersionedParticle.ENCHANT, loc, 16, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(VersionedParticle.ENCHANTED_HIT, loc, 8, 0.3F, 0.2F, 0.3F);
         }
     }
 
@@ -137,8 +137,8 @@ public class AncientAltarTask implements Runnable {
             items.add(pedestalItem.getOriginalItemStack(entity));
             SoundEffect.ANCIENT_ALTAR_ITEM_CHECK_SOUND.playAt(pedestal);
 
-            dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
-            dropLocation.getWorld().spawnParticle(Particle.CRIT_MAGIC, pedestal.getLocation().add(0.5, 1.5, 0.5), 8, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(VersionedParticle.ENCHANT, pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
+            dropLocation.getWorld().spawnParticle(VersionedParticle.ENCHANTED_HIT, pedestal.getLocation().add(0.5, 1.5, 0.5), 8, 0.3F, 0.2F, 0.3F);
 
             positionLock.remove(entity);
             entity.remove();

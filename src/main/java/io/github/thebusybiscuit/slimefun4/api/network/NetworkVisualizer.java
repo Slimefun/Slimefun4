@@ -5,8 +5,9 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
+
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 
 /**
  * This class represents the visualizer task of a given {@link Network}.
@@ -58,7 +59,7 @@ class NetworkVisualizer implements Runnable {
      *            The {@link Location} of our node
      */
     private void spawnParticles(@Nonnull Location l) {
-        l.getWorld().spawnParticle(Particle.REDSTONE, l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5, 1, 0, 0, 0, 1, particleOptions);
+        l.getWorld().spawnParticle(VersionedParticle.DUST, l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5, 1, 0, 0, 0, 1, particleOptions);
     }
 
 }
