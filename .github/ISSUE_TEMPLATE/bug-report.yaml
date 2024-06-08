@@ -20,6 +20,8 @@ body:
     options:
     - label: I am using the official english version of Slimefun and did not modify the jar.
       required: true
+    - label: I downloaded the official version from the new build site [Blob Builds](https://blob.build/).
+      required: true
     - label: I am using an up to date "DEV" (not "RC") version of Slimefun.
       required: true
     - label: I am aware that issues related to Slimefun addons need to be reported on their bug trackers and not here.
