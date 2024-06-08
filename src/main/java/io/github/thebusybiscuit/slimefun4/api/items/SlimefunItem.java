@@ -160,6 +160,21 @@ public class SlimefunItem implements Placeable {
         this.recipeOutput = recipeOutput;
     }
 
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
+     *
+     * @param itemGroup
+     *                  The {@link ItemGroup} this {@link SlimefunItem} belongs
+     *                  to
+     * @param item
+     *                  The {@link SlimefunItemStack} that describes the visual
+     *                  features of our {@link SlimefunItem}
+     */
+    @ParametersAreNonnullByDefault
+    public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item) {
+        this(itemGroup, item, RecipeType.NULL, new ItemStack[] {});
+    }
+
     // Previously deprecated constructor, now only for internal purposes
     @ParametersAreNonnullByDefault
     protected SlimefunItem(ItemGroup itemGroup, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
