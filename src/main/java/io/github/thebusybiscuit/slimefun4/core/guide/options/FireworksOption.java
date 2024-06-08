@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Material;
@@ -31,7 +32,13 @@ class FireworksOption implements SlimefunGuideOption<Boolean> {
 
         if (registry.isResearchingEnabled() && registry.isResearchFireworkEnabled()) {
             boolean enabled = getSelectedOption(p, guide).orElse(true);
-            ItemStack item = new CustomItemStack(Material.FIREWORK_ROCKET, "&bFireworks: &" + (enabled ? "aYes" : "4No"), "", "&7You can now toggle whether you", "&7will be presented with a big firework", "&7upon researching an item.", "", "&7\u21E8 &eClick to " + (enabled ? "disable" : "enable") + " your fireworks");
+
+            String optionState = enabled ? "enabled" : "disabled";
+            List<String> lore = Slimefun.getLocalization().getMessages(p, "guide.options.fireworks." + optionState + ".text");
+            lore.add("");
+            lore.add("&7\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.options.fireworks." + optionState + ".click"));
+
+            ItemStack item = new CustomItemStack(Material.FIREWORK_ROCKET, lore);
             return Optional.of(item);
         } else {
             return Optional.empty();
