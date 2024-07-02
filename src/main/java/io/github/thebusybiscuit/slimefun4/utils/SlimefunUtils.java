@@ -409,8 +409,9 @@ public final class SlimefunUtils {
                         return optionalDistinctive.get().canStack(sfItemMeta, itemMeta);
                     }
                     return true;
+                } else {
+                    return false;
                 }
-                return false;
             } else if (sfitem.hasItemMeta()) {
                 ItemMeta sfItemMeta = sfitem.getItemMeta();
                 Debug.log(TestCase.CARGO_INPUT_TESTING, "  Comparing meta (vanilla items?) - {} == {} (lore: {})", itemMeta, sfItemMeta, checkLore);
