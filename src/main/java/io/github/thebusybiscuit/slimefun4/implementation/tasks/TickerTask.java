@@ -106,7 +106,8 @@ public class TickerTask implements Runnable {
 
             // Run our ticker code
             if (!halted) {
-                for (Map.Entry<ChunkPosition, Set<Location>> entry : tickingLocations.entrySet()) {
+                Set<Map.Entry<ChunkPosition, Set<Location>>> loc = new HashSet<>(tickingLocations.entrySet());
+                for (Map.Entry<ChunkPosition, Set<Location>> entry : loc) {
                     tickChunk(entry.getKey(), tickers, entry.getValue());
                 }
             }
@@ -343,7 +344,7 @@ public class TickerTask implements Runnable {
         Validate.notNull(l, "Location cannot be null!");
 
         ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
-        Set<Location> newValue = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        Set<Location> newValue = new HashSet<>();
         Set<Location> oldValue = tickingLocations.putIfAbsent(chunk, newValue);
 
         /**
