@@ -343,7 +343,7 @@ public class TickerTask implements Runnable {
         Validate.notNull(l, "Location cannot be null!");
 
         ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
-        Set<Location> newValue = new HashSet<>();
+        Set<Location> newValue = Collections.newSetFromMap(new ConcurrentHashMap<>());
         Set<Location> oldValue = tickingLocations.putIfAbsent(chunk, newValue);
 
         /**
