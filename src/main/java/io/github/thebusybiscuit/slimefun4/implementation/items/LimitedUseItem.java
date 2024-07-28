@@ -160,6 +160,6 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
         NamespacedKey key = getStorageKey();
         int usesLeft1 = PersistentDataAPI.getInt(itemMetaOne, key);
         int usesLeft2 = PersistentDataAPI.getInt(itemMetaTwo, key);
-        return usesLeft1 != -1 && usesLeft1 == usesLeft2;
+        return usesLeft1 == usesLeft2;
     }
 }
