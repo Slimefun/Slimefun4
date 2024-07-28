@@ -152,6 +152,9 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
 
     @Override
     public boolean canStack(ItemMeta itemMetaOne, ItemMeta itemMetaTwo) {
+        if (Slimefun.getItemDataService().getItemData(itemMetaOne) != Slimefun.getItemDataService().getItemData(itemMetaTwo)) {
+            return false;
+        }
         NamespacedKey key = getStorageKey();
         PersistentDataContainer pdc1 = itemMetaOne.getPersistentDataContainer();
         int usesLeft1 = pdc1.getOrDefault(key, PersistentDataType.INTEGER, getMaxUseCount());
