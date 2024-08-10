@@ -17,6 +17,7 @@ import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
@@ -72,28 +73,33 @@ public class ErrorReport<T extends Throwable> {
         Slimefun.runSync(() -> print(printer));
     }
 
+    @ParametersAreNonnullByDefault
+    public ErrorReport(T throwable, Location l, SlimefunItem item) {
+        this(throwable, new BlockPosition(l), item);
+    }
+
     /**
      * This constructs a new {@link ErrorReport} for the given {@link Location} and
      * {@link SlimefunItem}.
      *
      * @param throwable
      *            The {@link Throwable} which caused this {@link ErrorReport}.
-     * @param l
+     * @param position
      *            The {@link Location} at which the error was thrown.
      * @param item
      *            The {@link SlimefunItem} responsible.
      */
     @ParametersAreNonnullByDefault
-    public ErrorReport(T throwable, Location l, SlimefunItem item) {
+    public ErrorReport(T throwable, BlockPosition position, SlimefunItem item) {
         this(throwable, item.getAddon(), stream -> {
             stream.println("Block Info:");
-            stream.println("  World: " + l.getWorld().getName());
-            stream.println("  X: " + l.getBlockX());
-            stream.println("  Y: " + l.getBlockY());
-            stream.println("  Z: " + l.getBlockZ());
-            stream.println("  Material: " + l.getBlock().getType());
-            stream.println("  Block Data: " + l.getBlock().getBlockData().getClass().getName());
-            stream.println("  State: " + l.getBlock().getState().getClass().getName());
+            stream.println("  World: " + position.getWorld().getName());
+            stream.println("  X: " + position.getX());
+            stream.println("  Y: " + position.getY());
+            stream.println("  Z: " + position.getZ());
+            stream.println("  Material: " + position.getBlock().getType());
+            stream.println("  Block Data: " + position.getBlock().getBlockData().getClass().getName());
+            stream.println("  State: " + position.getBlock().getState().getClass().getName());
             stream.println();
 
             if (item.getBlockTicker() != null) {
@@ -110,8 +116,8 @@ public class ErrorReport<T extends Throwable> {
 
             stream.println("Slimefun Data:");
             stream.println("  ID: " + item.getId());
-            stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
-            stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
+            stream.println("  Inventory: " + BlockStorage.getStorage(position.getWorld()).hasInventory(position));
+            stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(position));
             stream.println();
         });
     }

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -45,11 +46,11 @@ public class TickerTask implements Runnable {
     /**
      * This Map holds all currently actively ticking locations.
      */
-    private final Map<ChunkPosition, Set<Location>> tickingLocations = new ConcurrentHashMap<>();
+    private final Map<ChunkPosition, Set<BlockPosition>> tickingPositions = new ConcurrentHashMap<>();
 
     // These are "Queues" of blocks that need to be removed or moved
-    private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
-    private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
+    private final Map<BlockPosition, BlockPosition> movingQueue = new ConcurrentHashMap<>();
+    private final Map<BlockPosition, Boolean> deletionQueue = new ConcurrentHashMap<>();
 
     /**
      * This Map tracks how many bugs have occurred in a given Location .
@@ -94,9 +95,9 @@ public class TickerTask implements Runnable {
             Set<BlockTicker> tickers = new HashSet<>();
 
             // Remove any deleted blocks
-            Iterator<Map.Entry<Location, Boolean>> removals = deletionQueue.entrySet().iterator();
+            Iterator<Map.Entry<BlockPosition, Boolean>> removals = deletionQueue.entrySet().iterator();
             while (removals.hasNext()) {
-                Map.Entry<Location, Boolean> entry = removals.next();
+                Map.Entry<BlockPosition, Boolean> entry = removals.next();
                 BlockStorage.deleteLocationInfoUnsafely(entry.getKey(), entry.getValue());
                 removals.remove();
             }
@@ -106,15 +107,15 @@ public class TickerTask implements Runnable {
 
             // Run our ticker code
             if (!halted) {
-                for (Map.Entry<ChunkPosition, Set<Location>> entry : tickingLocations.entrySet()) {
+                for (Map.Entry<ChunkPosition, Set<BlockPosition>> entry : tickingPositions.entrySet()) {
                     tickChunk(entry.getKey(), tickers, entry.getValue());
                 }
             }
 
             // Move any moved block data
-            Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
+            Iterator<Map.Entry<BlockPosition, BlockPosition>> moves = movingQueue.entrySet().iterator();
             while (moves.hasNext()) {
-                Map.Entry<Location, Location> entry = moves.next();
+                Map.Entry<BlockPosition, BlockPosition> entry = moves.next();
                 BlockStorage.moveLocationInfoUnsafely(entry.getKey(), entry.getValue());
                 moves.remove();
             }
@@ -133,12 +134,12 @@ public class TickerTask implements Runnable {
     }
 
     @ParametersAreNonnullByDefault
-    private void tickChunk(ChunkPosition chunk, Set<BlockTicker> tickers, Set<Location> locations) {
+    private void tickChunk(ChunkPosition chunk, Set<BlockTicker> tickers, Set<BlockPosition> positions) {
         try {
             // Only continue if the Chunk is actually loaded
             if (chunk.isLoaded()) {
-                for (Location l : locations) {
-                    tickLocation(tickers, l);
+                for (BlockPosition position : positions) {
+                    tickPosition(tickers, position);
                 }
             }
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException x) {
@@ -146,8 +147,8 @@ public class TickerTask implements Runnable {
         }
     }
 
-    private void tickLocation(@Nonnull Set<BlockTicker> tickers, @Nonnull Location l) {
-        Config data = BlockStorage.getLocationInfo(l);
+    private void tickPosition(@Nonnull Set<BlockTicker> tickers, @Nonnull BlockPosition position) {
+        Config data = BlockStorage.getBlockInfo(position);
         SlimefunItem item = SlimefunItem.getById(data.getString("id"));
 
         if (item != null && item.getBlockTicker() != null) {
@@ -161,52 +162,51 @@ public class TickerTask implements Runnable {
                      * are always ran with a 50ms delay (1 game tick)
                      */
                     Slimefun.runSync(() -> {
-                        Block b = l.getBlock();
-                        tickBlock(l, b, item, data, System.nanoTime());
+                        Block b = position.getBlock();
+                        tickBlock(position, b, item, data, System.nanoTime());
                     });
                 } else {
                     long timestamp = Slimefun.getProfiler().newEntry();
                     item.getBlockTicker().update();
-                    Block b = l.getBlock();
-                    tickBlock(l, b, item, data, timestamp);
+                    Block b = position.getBlock();
+                    tickBlock(position, b, item, data, timestamp);
                 }
 
                 tickers.add(item.getBlockTicker());
             } catch (Exception x) {
-                reportErrors(l, item, x);
+                reportErrors(position, item, x);
             }
         }
     }
 
     @ParametersAreNonnullByDefault
-    private void tickBlock(Location l, Block b, SlimefunItem item, Config data, long timestamp) {
+    private void tickBlock(BlockPosition position, Block block, SlimefunItem item, Config data, long timestamp) {
         try {
-            item.getBlockTicker().tick(b, item, data);
+            item.getBlockTicker().tick(block, item, data);
         } catch (Exception | LinkageError x) {
-            reportErrors(l, item, x);
+            reportErrors(position, item, x);
         } finally {
-            Slimefun.getProfiler().closeEntry(l, item, timestamp);
+            Slimefun.getProfiler().closeEntry(position, item, timestamp);
         }
     }
 
     @ParametersAreNonnullByDefault
-    private void reportErrors(Location l, SlimefunItem item, Throwable x) {
-        BlockPosition position = new BlockPosition(l);
+    private void reportErrors(BlockPosition position, SlimefunItem item, Throwable x) {
         int errors = bugs.getOrDefault(position, 0) + 1;
 
         if (errors == 1) {
             // Generate a new Error-Report
-            new ErrorReport<>(x, l, item);
+            new ErrorReport<>(x, position, item);
             bugs.put(position, errors);
         } else if (errors == 4) {
-            Slimefun.logger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getId() });
+            Slimefun.logger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { position.getX(), position.getY(), position.getZ(), item.getId() });
             Slimefun.logger().log(Level.SEVERE, "has thrown 4 error messages in the last 4 Ticks, the Block has been terminated.");
             Slimefun.logger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
             Slimefun.logger().log(Level.SEVERE, " ");
             bugs.remove(position);
 
-            BlockStorage.deleteLocationInfoUnsafely(l, true);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(Slimefun.instance(), () -> l.getBlock().setType(Material.AIR));
+            BlockStorage.deleteLocationInfoUnsafely(position, true);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Slimefun.instance(), () -> position.getBlock().setType(Material.AIR));
         } else {
             bugs.put(position, errors);
         }
@@ -225,6 +225,14 @@ public class TickerTask implements Runnable {
         Validate.notNull(from, "Source Location cannot be null!");
         Validate.notNull(to, "Target Location cannot be null!");
 
+        movingQueue.put(new BlockPosition(from), new BlockPosition(to));
+    }
+
+    @ParametersAreNonnullByDefault
+    public void queueMove(BlockPosition from, BlockPosition to) {
+        Validate.notNull(from, "Source BlockPosition cannot be null!");
+        Validate.notNull(to, "Target BlockPosition cannot be null!");
+
         movingQueue.put(from, to);
     }
 
@@ -232,18 +240,31 @@ public class TickerTask implements Runnable {
     public void queueDelete(Location l, boolean destroy) {
         Validate.notNull(l, "Location must not be null!");
 
-        deletionQueue.put(l, destroy);
+        deletionQueue.put(new BlockPosition(l), destroy);
+    }
+
+    @ParametersAreNonnullByDefault
+    public void queueDelete(BlockPosition position, boolean destroy) {
+        Validate.notNull(position, "BlockPosition must not be null!");
+
+        deletionQueue.put(position, destroy);
     }
 
 
     @ParametersAreNonnullByDefault
     public void queueDelete(Collection<Location> locations, boolean destroy) {
         Validate.notNull(locations, "Locations must not be null");
+        queueDeletions(locations.stream().map(BlockPosition::new).collect(Collectors.toSet()), destroy);
+    }
 
-        Map<Location, Boolean> toDelete = new HashMap<>(locations.size(), 1.0F);
-        for (Location location : locations) {
-            Validate.notNull(location, "Locations must not contain null locations");
-            toDelete.put(location, destroy);
+    @ParametersAreNonnullByDefault
+    public void queueDeletions(Collection<BlockPosition> positions, boolean destroy) {
+        Validate.notNull(positions, "Positions must not be null");
+
+        Map<BlockPosition, Boolean> toDelete = new HashMap<>(positions.size(), 1.0F);
+        for (BlockPosition position : positions) {
+            Validate.notNull(position, "Positions must not contain null positions");
+            toDelete.put(position, destroy);
         }
         deletionQueue.putAll(toDelete);
     }
@@ -251,11 +272,17 @@ public class TickerTask implements Runnable {
     @ParametersAreNonnullByDefault
     public void queueDelete(Map<Location, Boolean> locations) {
         Validate.notNull(locations, "Locations must not be null");
-        for (Map.Entry<Location, Boolean> entry : locations.entrySet()) {
-            Validate.notNull(entry.getKey(), "Location in locations cannot be null");
-            Validate.notNull(entry.getValue(), "Boolean toDestroy in locations cannot be null");
+
+    }
+
+    @ParametersAreNonnullByDefault
+    public void queueDeletions(Map<BlockPosition, Boolean> positions) {
+        Validate.notNull(positions, "Positions must not be null");
+        for (Map.Entry<BlockPosition, Boolean> entry : positions.entrySet()) {
+            Validate.notNull(entry.getKey(), "BlockPosition in positions cannot be null");
+            Validate.notNull(entry.getValue(), "Boolean toDestroy in positions cannot be null");
         }
-        deletionQueue.putAll(locations);
+        deletionQueue.putAll(positions);
     }
 
     /**
@@ -273,8 +300,13 @@ public class TickerTask implements Runnable {
      */
     public boolean isOccupiedSoon(@Nonnull Location l) {
         Validate.notNull(l, "Null is not a valid Location!");
+        return isOccupiedSoon(new BlockPosition(l));
+    }
 
-        return movingQueue.containsValue(l);
+    public boolean isOccupiedSoon(@Nonnull BlockPosition position) {
+        Validate.notNull(position, "Null is not a valid BlockPosition!");
+
+        return movingQueue.containsValue(position);
     }
 
     /**
@@ -287,8 +319,13 @@ public class TickerTask implements Runnable {
      */
     public boolean isDeletedSoon(@Nonnull Location l) {
         Validate.notNull(l, "Null is not a valid Location!");
+        return isDeletedSoon(new BlockPosition(l));
+    }
 
-        return deletionQueue.containsKey(l);
+    public boolean isDeletedSoon(@Nonnull BlockPosition position) {
+        Validate.notNull(position, "Null is not a valid BlockPosition!");
+
+        return deletionQueue.containsKey(position);
     }
 
     /**
@@ -311,7 +348,17 @@ public class TickerTask implements Runnable {
      */
     @Nonnull
     public Map<ChunkPosition, Set<Location>> getLocations() {
-        return Collections.unmodifiableMap(tickingLocations);
+        Map<ChunkPosition, Set<Location>> locations = new HashMap<>();
+        for (var entry : tickingPositions.entrySet()) {
+            locations.put(entry.getKey(), entry.getValue().stream()
+                    .map(BlockPosition::toLocation).collect(Collectors.toUnmodifiableSet()));
+        }
+        return Collections.unmodifiableMap(locations);
+    }
+
+    @Nonnull
+    public Map<ChunkPosition, Set<BlockPosition>> getPositions() {
+        return Collections.unmodifiableMap(tickingPositions);
     }
 
     /**
@@ -329,8 +376,15 @@ public class TickerTask implements Runnable {
     public Set<Location> getLocations(@Nonnull Chunk chunk) {
         Validate.notNull(chunk, "The Chunk cannot be null!");
 
-        Set<Location> locations = tickingLocations.getOrDefault(new ChunkPosition(chunk), new HashSet<>());
-        return Collections.unmodifiableSet(locations);
+        return tickingPositions.getOrDefault(new ChunkPosition(chunk), new HashSet<>())
+                .stream().map(BlockPosition::toLocation).collect(Collectors.toUnmodifiableSet());
+    }
+
+    public Set<BlockPosition> getPositions(@Nonnull Chunk chunk) {
+        Validate.notNull(chunk, "The Chunk cannot be null!");
+
+        Set<BlockPosition> positions = tickingPositions.getOrDefault(new ChunkPosition(chunk), new HashSet<>());
+        return Collections.unmodifiableSet(positions);
     }
 
     /**
@@ -341,19 +395,24 @@ public class TickerTask implements Runnable {
      */
     public void enableTicker(@Nonnull Location l) {
         Validate.notNull(l, "Location cannot be null!");
+        enableTicker(new BlockPosition(l));
+    }
 
-        ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
-        Set<Location> newValue = new HashSet<>();
-        Set<Location> oldValue = tickingLocations.putIfAbsent(chunk, newValue);
+    public void enableTicker(@Nonnull BlockPosition position) {
+        Validate.notNull(position, "BlockPosition cannot be null!");
+
+        ChunkPosition chunk = new ChunkPosition(position.getWorld(), position.getChunkX(), position.getChunkZ());
+        Set<BlockPosition> newValue = new HashSet<>();
+        Set<BlockPosition> oldValue = tickingPositions.putIfAbsent(chunk, newValue);
 
         /**
          * This is faster than doing computeIfAbsent(...)
          * on a ConcurrentHashMap because it won't block the Thread for too long
          */
         if (oldValue != null) {
-            oldValue.add(l);
+            oldValue.add(position);
         } else {
-            newValue.add(l);
+            newValue.add(position);
         }
     }
 
@@ -366,15 +425,20 @@ public class TickerTask implements Runnable {
      */
     public void disableTicker(@Nonnull Location l) {
         Validate.notNull(l, "Location cannot be null!");
+        disableTicker(new BlockPosition(l));
+    }
 
-        ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
-        Set<Location> locations = tickingLocations.get(chunk);
+    public void disableTicker(@Nonnull BlockPosition position) {
+        Validate.notNull(position, "BlockPosition cannot be null!");
 
-        if (locations != null) {
-            locations.remove(l);
+        ChunkPosition chunk = new ChunkPosition(position.getWorld(), position.getChunkX(), position.getChunkZ());
+        Set<BlockPosition> positions = tickingPositions.get(chunk);
 
-            if (locations.isEmpty()) {
-                tickingLocations.remove(chunk);
+        if (positions != null) {
+            positions.remove(position);
+
+            if (positions.isEmpty()) {
+                tickingPositions.remove(chunk);
             }
         }
     }

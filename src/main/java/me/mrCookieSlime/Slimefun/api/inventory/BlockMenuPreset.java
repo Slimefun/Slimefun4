@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -234,7 +235,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
         }
 
         if (menu instanceof BlockMenu blockMenu) {
-            newInstance(blockMenu, blockMenu.getLocation());
+            newInstance(blockMenu, blockMenu.getPosition());
         }
 
         for (int slot = 0; slot < 54; slot++) {
@@ -249,12 +250,16 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     public void newInstance(@Nonnull BlockMenu menu, @Nonnull Location l) {
         Validate.notNull(l, "Cannot create a new BlockMenu without a Location");
+        newInstance(menu, new BlockPosition(l));
+    }
 
+    public void newInstance(@Nonnull BlockMenu menu, @Nonnull BlockPosition position) {
+        Validate.notNull(position, "Cannot create a new BlockMenu without a position");
         Slimefun.runSync(() -> {
             locked = true;
 
             try {
-                newInstance(menu, l.getBlock());
+                newInstance(menu, position.getBlock());
             } catch (Exception | LinkageError x) {
                 getSlimefunItem().error("An Error occurred while trying to create a BlockMenu", x);
             }

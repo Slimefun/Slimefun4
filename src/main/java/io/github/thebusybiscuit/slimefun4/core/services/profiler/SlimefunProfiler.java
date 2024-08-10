@@ -15,6 +15,7 @@ import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -155,6 +156,11 @@ public class SlimefunProfiler {
      */
     public long closeEntry(@Nonnull Location l, @Nonnull SlimefunItem item, long timestamp) {
         Validate.notNull(l, "Location must not be null!");
+        return closeEntry(new BlockPosition(l), item, timestamp);
+    }
+
+    public long closeEntry(@Nonnull BlockPosition position, @Nonnull SlimefunItem item, long timestamp) {
+        Validate.notNull(position, "BlockPosition must not be null!");
         Validate.notNull(item, "You need to specify a SlimefunItem!");
 
         if (timestamp == 0) {
@@ -164,7 +170,7 @@ public class SlimefunProfiler {
         long elapsedTime = System.nanoTime() - timestamp;
 
         executor.execute(() -> {
-            ProfiledBlock block = new ProfiledBlock(l, item);
+            ProfiledBlock block = new ProfiledBlock(position, item);
 
             // Merge (if we have multiple samples for whatever reason)
             timings.merge(block, elapsedTime, Long::sum);

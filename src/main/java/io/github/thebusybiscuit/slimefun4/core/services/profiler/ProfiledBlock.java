@@ -47,8 +47,12 @@ final class ProfiledBlock {
      *            The {@link SlimefunItem} found at that {@link Location}
      */
     ProfiledBlock(@Nonnull Location l, @Nonnull SlimefunItem item) {
-        this.world = l.getWorld();
-        this.position = getLocationAsLong((int) l.getX(), (int) l.getY(), (int) l.getZ());
+        this(new BlockPosition(l), item);
+    }
+
+    ProfiledBlock(@Nonnull BlockPosition position, @Nonnull SlimefunItem item) {
+        this.world = position.getWorld();
+        this.position = getLocationAsLong(position.getX(), position.getY(), position.getZ());
         this.item = item;
     }
 

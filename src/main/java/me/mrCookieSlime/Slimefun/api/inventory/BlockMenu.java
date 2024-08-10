@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -15,23 +16,31 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 // This class will be deprecated, relocated and rewritten in a future version.
 public class BlockMenu extends DirtyChestMenu {
 
-    private Location location;
+    private BlockPosition position;
 
-    private static String serializeLocation(Location l) {
-        return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();
+    private static String serializePosition(BlockPosition position) {
+        return position.getWorld().getName() + ';' + position.getX() + ';' + position.getY() + ';' + position.getZ();
     }
 
     public BlockMenu(BlockMenuPreset preset, Location l) {
+        this(preset, new BlockPosition(l));
+    }
+
+    public BlockMenu(BlockMenuPreset preset, Location l, Config cfg) {
+        this(preset, new BlockPosition(l), cfg);
+    }
+
+    public BlockMenu(BlockMenuPreset preset, BlockPosition position) {
         super(preset);
-        this.location = l;
+        this.position = position;
 
         preset.clone(this);
         this.getContents();
     }
 
-    public BlockMenu(BlockMenuPreset preset, Location l, Config cfg) {
+    public BlockMenu(BlockMenuPreset preset, BlockPosition position, Config cfg) {
         super(preset);
-        this.location = l;
+        this.position = position;
 
         for (int i = 0; i < 54; i++) {
             if (cfg.contains(String.valueOf(i))) {
@@ -49,6 +58,10 @@ public class BlockMenu extends DirtyChestMenu {
     }
 
     public void save(Location l) {
+        save(new BlockPosition(l));
+    }
+
+    public void save(BlockPosition position) {
         if (!isDirty()) {
             return;
         }
@@ -56,7 +69,7 @@ public class BlockMenu extends DirtyChestMenu {
         // To force CS-CoreLib to build the Inventory
         this.getContents();
 
-        File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
+        File file = new File("data-storage/Slimefun/stored-inventories/" + serializePosition(position) + ".sfi");
         Config cfg = new Config(file);
         cfg.setValue("preset", preset.getID());
 
@@ -70,10 +83,14 @@ public class BlockMenu extends DirtyChestMenu {
     }
 
     public void move(Location l) {
-        this.delete(this.location);
-        this.location = l;
-        this.preset.newInstance(this, l);
-        this.save(l);
+        move(new BlockPosition(l));
+    }
+
+    public void move(BlockPosition position) {
+        this.delete(this.position);
+        this.position = position;
+        this.preset.newInstance(this, position);
+        this.save(position);
     }
 
     /**
@@ -84,11 +101,15 @@ public class BlockMenu extends DirtyChestMenu {
     }
 
     public Block getBlock() {
-        return location.getBlock();
+        return position.getBlock();
     }
 
     public Location getLocation() {
-        return location;
+        return position.toLocation();
+    }
+
+    public BlockPosition getPosition() {
+        return position;
     }
 
     /**
@@ -112,7 +133,11 @@ public class BlockMenu extends DirtyChestMenu {
     }
 
     public void delete(Location l) {
-        File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
+        delete(new BlockPosition(l));
+    }
+
+    public void delete(BlockPosition position) {
+        File file = new File("data-storage/Slimefun/stored-inventories/" + serializePosition(position) + ".sfi");
 
         if (file.exists()) {
             try {
