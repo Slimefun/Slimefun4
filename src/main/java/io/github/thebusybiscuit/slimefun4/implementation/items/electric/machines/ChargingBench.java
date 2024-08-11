@@ -44,6 +44,10 @@ public class ChargingBench extends AContainer {
         for (int slot : getInputSlots()) {
             ItemStack item = inv.getItemInSlot(slot);
 
+            if (item == null || item.getAmount() != 1) {
+                continue;
+            }
+
             if (charge(b, inv, slot, item)) {
                 return;
             }
