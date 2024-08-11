@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -44,7 +46,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class TickerTask implements Runnable {
 
     /**
-     * This Map holds all currently actively ticking locations.
+     * This Map holds all currently actively ticking blocks.
      */
     private final Map<ChunkPosition, Set<BlockPosition>> tickingPositions = new ConcurrentHashMap<>();
 
@@ -53,8 +55,8 @@ public class TickerTask implements Runnable {
     private final Map<BlockPosition, Boolean> deletionQueue = new ConcurrentHashMap<>();
 
     /**
-     * This Map tracks how many bugs have occurred in a given Location .
-     * If too many bugs happen, we delete that Location.
+     * This Map tracks how many bugs have occurred at a given Block .
+     * If too many bugs happen, we delete that Block.
      */
     private final Map<BlockPosition, Integer> bugs = new ConcurrentHashMap<>();
 
@@ -272,7 +274,13 @@ public class TickerTask implements Runnable {
     @ParametersAreNonnullByDefault
     public void queueDelete(Map<Location, Boolean> locations) {
         Validate.notNull(locations, "Locations must not be null");
-
+        Map<BlockPosition, Boolean> positions = new HashMap<>();
+        for (Map.Entry<Location, Boolean> entry : locations.entrySet()) {
+            Validate.notNull(entry.getKey(), "Location in locations cannot be null");
+            Validate.notNull(entry.getValue(), "Boolean toDestroy in locations cannot be null");
+            positions.put(new BlockPosition(entry.getKey()), entry.getValue());
+        }
+        deletionQueue.putAll(positions);
     }
 
     @ParametersAreNonnullByDefault
@@ -305,7 +313,6 @@ public class TickerTask implements Runnable {
 
     public boolean isOccupiedSoon(@Nonnull BlockPosition position) {
         Validate.notNull(position, "Null is not a valid BlockPosition!");
-
         return movingQueue.containsValue(position);
     }
 
@@ -348,12 +355,7 @@ public class TickerTask implements Runnable {
      */
     @Nonnull
     public Map<ChunkPosition, Set<Location>> getLocations() {
-        Map<ChunkPosition, Set<Location>> locations = new HashMap<>();
-        for (var entry : tickingPositions.entrySet()) {
-            locations.put(entry.getKey(), entry.getValue().stream()
-                    .map(BlockPosition::toLocation).collect(Collectors.toUnmodifiableSet()));
-        }
-        return Collections.unmodifiableMap(locations);
+        return ImmutableMap.of();
     }
 
     @Nonnull
@@ -376,8 +378,7 @@ public class TickerTask implements Runnable {
     public Set<Location> getLocations(@Nonnull Chunk chunk) {
         Validate.notNull(chunk, "The Chunk cannot be null!");
 
-        return tickingPositions.getOrDefault(new ChunkPosition(chunk), new HashSet<>())
-                .stream().map(BlockPosition::toLocation).collect(Collectors.toUnmodifiableSet());
+        return ImmutableSet.of();
     }
 
     public Set<BlockPosition> getPositions(@Nonnull Chunk chunk) {
