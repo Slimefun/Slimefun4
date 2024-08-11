@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -40,6 +41,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
 /**
@@ -217,7 +219,11 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
             case BUBBLE_COLUMN:
                 ItemStack waterBottle = new ItemStack(Material.POTION);
                 PotionMeta meta = (PotionMeta) waterBottle.getItemMeta();
-                meta.setBasePotionType(PotionType.WATER);
+                if (Slimefun.getMinecraftVersion().isBefore(20, 2)) {
+                    meta.setBasePotionData(new PotionData(PotionType.WATER));
+                } else {
+                    meta.setBasePotionType(PotionType.WATER);
+                }
                 waterBottle.setItemMeta(meta);
                 return waterBottle;
             default:
@@ -238,10 +244,10 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     /**
      * This method checks if the given {@link Block} is a liquid source {@link Block}.
-     * 
+     *
      * @param block
      *            The {@link Block} in question
-     * 
+     *
      * @return Whether that {@link Block} is a liquid and a source {@link Block}.
      */
     private boolean isSource(@Nonnull Block block) {

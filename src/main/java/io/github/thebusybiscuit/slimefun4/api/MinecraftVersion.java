@@ -10,10 +10,10 @@ import io.papermc.lib.PaperLib;
 
 /**
  * This enum holds all versions of Minecraft that we currently support.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Walshy
- * 
+ *
  * @see Slimefun
  *
  */
@@ -76,7 +76,7 @@ public enum MinecraftVersion {
      * This constructs a new {@link MinecraftVersion} with the given name.
      * This constructor forces the {@link MinecraftVersion} to be real.
      * It must be a real version of Minecraft.
-     * 
+     *
      * @param majorVersion
      *            The major version of minecraft as an {@link Integer}
      * @param name
@@ -93,7 +93,7 @@ public enum MinecraftVersion {
      * This constructs a new {@link MinecraftVersion} with the given name.
      * This constructor forces the {@link MinecraftVersion} to be real.
      * It must be a real version of Minecraft.
-     * 
+     *
      * @param majorVersion
      *            The major (minor in semver, major in MC land) version of minecraft as an {@link Integer}
      * @param minor
@@ -112,7 +112,7 @@ public enum MinecraftVersion {
      * This constructs a new {@link MinecraftVersion} with the given name.
      * A virtual {@link MinecraftVersion} (unknown or unit test) is not an actual
      * version of Minecraft but rather a state of the {@link Server} software.
-     * 
+     *
      * @param name
      *            The display name of this {@link MinecraftVersion}
      * @param virtual
@@ -127,7 +127,7 @@ public enum MinecraftVersion {
 
     /**
      * This returns the name of this {@link MinecraftVersion} in a readable format.
-     * 
+     *
      * @return The name of this {@link MinecraftVersion}
      */
     public @Nonnull String getName() {
@@ -140,7 +140,7 @@ public enum MinecraftVersion {
      * a state of the {@link Server} software used.
      * Virtual {@link MinecraftVersion MinecraftVersions} include "UNKNOWN" and
      * "UNIT TEST".
-     * 
+     *
      * @return Whether this {@link MinecraftVersion} is virtual or not
      */
     public boolean isVirtual() {
@@ -155,10 +155,10 @@ public enum MinecraftVersion {
      * It is equivalent to the "major" version
      * <p>
      * Example: {@literal "1.13"} returns {@literal 13}
-     * 
+     *
      * @param minecraftVersion
      *            The {@link Integer} version to match
-     * 
+     *
      * @return Whether this {@link MinecraftVersion} matches the specified version id
      */
     public boolean isMinecraftVersion(int minecraftVersion) {
@@ -213,7 +213,7 @@ public enum MinecraftVersion {
          * this will essentially always return true and result in a tautology.
          * This is most definitely an oversight from us and should be fixed, therefore
          * we will trigger an exception.
-         * 
+         *
          * In order to not disrupt server operations, this exception is only thrown during
          * unit tests since the oversight itself will be harmless.
          */
@@ -226,12 +226,12 @@ public enum MinecraftVersion {
 
     /**
      * This checks whether this {@link MinecraftVersion} is older than the specified {@link MinecraftVersion}.
-     * 
+     *
      * An unknown version will default to {@literal true}.
-     * 
+     *
      * @param version
      *            The {@link MinecraftVersion} to compare
-     * 
+     *
      * @return Whether this {@link MinecraftVersion} is older than the given one
      */
     public boolean isBefore(@Nonnull MinecraftVersion version) {
@@ -242,6 +242,16 @@ public enum MinecraftVersion {
         }
 
         return version.ordinal() > this.ordinal();
+    }
+
+    /**
+     * Checks whether this {@link MinecraftVersion} is older than the specified minecraft and patch versions
+     * @param minecraftVersion The minecraft version
+     * @param patchVersion The patch version
+     * @return True if this version is before, False if this version is virtual or otherwise.
+     */
+    public boolean isBefore(int minecraftVersion, int patchVersion) {
+        return !isVirtual() && (this.majorVersion < minecraftVersion && this.minorVersion < patchVersion);
     }
 
 }
