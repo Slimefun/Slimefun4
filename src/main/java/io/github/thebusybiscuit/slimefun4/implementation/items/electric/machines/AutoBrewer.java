@@ -7,9 +7,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
 import io.github.bakedlibs.dough.inventory.InvUtils;
@@ -103,6 +105,9 @@ public class AutoBrewer extends AContainer implements NotHopperable {
 
     @ParametersAreNonnullByDefault
     private @Nullable ItemStack brew(Material input, Material potionType, PotionMeta potion) {
+        if (Slimefun.getMinecraftVersion().isBefore(20,2)) {
+            return brewPreBasePotionType(input, potionType, potion);
+        }
         PotionType type = potion.getBasePotionType();
         if (type == PotionType.WATER) {
             if (input == Material.FERMENTED_SPIDER_EYE) {
@@ -143,12 +148,55 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         return null;
     }
 
+    @ParametersAreNonnullByDefault
+    @SuppressWarnings("deprecration")
+    private ItemStack brewPreBasePotionType(Material input, Material potionType, PotionMeta potion) {
+        PotionData data = potion.getBasePotionData();
+        PotionType type = data.getType();
+        if (type == PotionType.WATER) {
+            if (input == Material.FERMENTED_SPIDER_EYE) {
+                potion.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
+                return new ItemStack(potionType);
+            } else if (input == Material.NETHER_WART) {
+                potion.setBasePotionData(new PotionData(PotionType.AWKWARD, false, false));
+                return new ItemStack(potionType);
+            } else if (potionType == Material.POTION && input == Material.GUNPOWDER) {
+                return new ItemStack(Material.SPLASH_POTION);
+            } else if (potionType == Material.SPLASH_POTION && input == Material.DRAGON_BREATH) {
+                return new ItemStack(Material.LINGERING_POTION);
+            }
+        } else if (input == Material.FERMENTED_SPIDER_EYE) {
+            PotionType fermented = fermentations.get(type);
+
+            if (fermented != null) {
+                potion.setBasePotionData(new PotionData(fermented, data.isExtended(), data.isUpgraded()));
+                return new ItemStack(potionType);
+            }
+        } else if (input == Material.REDSTONE && type.isExtendable() && !data.isUpgraded()) {
+            // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
+            potion.setBasePotionData(new PotionData(type, true, false));
+            return new ItemStack(potionType);
+        } else if (input == Material.GLOWSTONE_DUST && type.isUpgradeable() && !data.isExtended()) {
+            // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
+            potion.setBasePotionData(new PotionData(type, false, true));
+            return new ItemStack(potionType);
+        } else if (type == PotionType.AWKWARD) {
+            PotionType potionRecipe = potionRecipes.get(input);
+
+            if (potionRecipe != null) {
+                potion.setBasePotionData(new PotionData(potionRecipe, false, false));
+                return new ItemStack(potionType);
+            }
+        }
+        return null;
+    }
+
     /**
      * Checks whether a given {@link Material} is a valid Potion material.
-     * 
+     *
      * @param mat
      *            The {@link Material} to check
-     * 
+     *
      * @return Whether this {@link Material} is a valid potion
      */
     private boolean isPotion(@Nonnull Material mat) {
