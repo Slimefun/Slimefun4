@@ -34,7 +34,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 /**
  * This test checks if biome maps work across multiple versions of Minecraft.
  * A similar test can be written for Material Tags :?
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -45,6 +45,9 @@ class TestBiomeMapCompatibility {
     @BeforeAll
     public static void load() {
         MockBukkit.mock();
+        // Needed for JsonUtils.parseString which relies on a valid Slimefun plugin instance to determine the current
+        // MinecraftVersion
+        MockBukkit.load(Slimefun.class);
 
         for (MinecraftVersion version : MinecraftVersion.values()) {
             if (!version.isVirtual()) {
@@ -91,7 +94,7 @@ class TestBiomeMapCompatibility {
 
     /**
      * We manually specify here which biome map works on which minecraft versions.
-     * 
+     *
      * @return A {@link Stream} of {@link Arguments} for our unit test.
      */
     private static @Nonnull Stream<Arguments> biomeMaps() {
@@ -105,37 +108,37 @@ class TestBiomeMapCompatibility {
             MinecraftVersion.MINECRAFT_1_19,
             MinecraftVersion.MINECRAFT_1_20
         });
-        
+
         testCases.put("oil_v1.16", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_16,
             MinecraftVersion.MINECRAFT_1_17
         });
-        
+
         testCases.put("oil_v1.18", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_18,
             MinecraftVersion.MINECRAFT_1_19,
             MinecraftVersion.MINECRAFT_1_20
         });
-        
+
         testCases.put("salt_v1.16", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_16,
             MinecraftVersion.MINECRAFT_1_17
         });
-        
+
         testCases.put("salt_v1.18", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_18,
             MinecraftVersion.MINECRAFT_1_19,
             MinecraftVersion.MINECRAFT_1_20
         });
-        
+
         testCases.put("uranium_v1.16", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_16
         });
-        
+
         testCases.put("uranium_v1.17", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_17
         });
-        
+
         testCases.put("uranium_v1.18", new MinecraftVersion[] {
             MinecraftVersion.MINECRAFT_1_18,
             MinecraftVersion.MINECRAFT_1_19,
