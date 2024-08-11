@@ -47,7 +47,7 @@ public enum MinecraftVersion {
      * This constant represents Minecraft (Java Edition) Version 1.20
      * ("The Trails &amp; Tales Update")
      */
-    MINECRAFT_1_20(20, "1.20.x"),
+    MINECRAFT_1_20(20, 0, 4,"1.20.x"),
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.20.5
@@ -71,6 +71,7 @@ public enum MinecraftVersion {
     private final boolean virtual;
     private final int majorVersion;
     private final int minorVersion;
+    private final int maxMinorVersion;
 
     /**
      * This constructs a new {@link MinecraftVersion} with the given name.
@@ -86,6 +87,7 @@ public enum MinecraftVersion {
         this.name = name;
         this.majorVersion = majorVersion;
         this.minorVersion = -1;
+        this.maxMinorVersion = -1;
         this.virtual = false;
     }
 
@@ -105,6 +107,29 @@ public enum MinecraftVersion {
         this.name = name;
         this.majorVersion = majorVersion;
         this.minorVersion = minor;
+        this.maxMinorVersion = -1;
+        this.virtual = false;
+    }
+
+    /**
+     * This constructs a new {@link MinecraftVersion} with the given name.
+     * This constructor forces the {@link MinecraftVersion} to be real.
+     * It must be a real version of Minecraft.
+     *
+     * @param majorVersion
+     *            The major (minor in semver, major in MC land) version of minecraft as an {@link Integer}
+     * @param minor
+     *           The minor (patch in semver, minor in MC land) version of minecraft as an {@link Integer}
+     * @param maxMinorVersion
+     *           The maximum minor (patch) version of minecraft this version represents
+     * @param name
+     *            The display name of this {@link MinecraftVersion}
+     */
+    MinecraftVersion(int majorVersion, int minor, int maxMinorVersion, @Nonnull String name) {
+        this.name = name;
+        this.majorVersion = majorVersion;
+        this.minorVersion = minor;
+        this.maxMinorVersion = maxMinorVersion;
         this.virtual = false;
     }
 
@@ -122,6 +147,7 @@ public enum MinecraftVersion {
         this.name = name;
         this.majorVersion = 0;
         this.minorVersion = -1;
+        this.maxMinorVersion = -1;
         this.virtual = virtual;
     }
 
@@ -185,7 +211,8 @@ public enum MinecraftVersion {
     public boolean isMinecraftVersion(int minecraftVersion, int patchVersion) {
         return !isVirtual()
             && this.majorVersion == minecraftVersion
-            && (this.minorVersion == -1 || this.minorVersion >= patchVersion);
+            && (this.minorVersion == -1 || this.minorVersion <= patchVersion)
+                && (this.maxMinorVersion == -1 || patchVersion <= this.maxMinorVersion);
     }
 
     /**
