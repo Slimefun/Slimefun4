@@ -248,6 +248,11 @@ public abstract class BlockMenuPreset extends ChestMenu {
         menu.addMenuCloseHandler(getMenuCloseHandler());
     }
 
+    /**
+     * @deprecated
+     * @see BlockMenuPreset#newInstance(BlockMenu, BlockPosition)
+     */
+    @Deprecated
     public void newInstance(@Nonnull BlockMenu menu, @Nonnull Location l) {
         Validate.notNull(l, "Cannot create a new BlockMenu without a Location");
         newInstance(menu, new BlockPosition(l));

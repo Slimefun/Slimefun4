@@ -41,7 +41,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  *            The type of {@link Throwable} which has spawned this {@link ErrorReport}
  *
  * @author TheBusyBiscuit
- *
  */
 public class ErrorReport<T extends Throwable> {
 
@@ -73,6 +72,11 @@ public class ErrorReport<T extends Throwable> {
         Slimefun.runSync(() -> print(printer));
     }
 
+    /**
+     * @deprecated
+     * @see ErrorReport#ErrorReport(Throwable, BlockPosition, SlimefunItem)
+     */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, Location l, SlimefunItem item) {
         this(throwable, new BlockPosition(l), item);
@@ -116,7 +120,7 @@ public class ErrorReport<T extends Throwable> {
 
             stream.println("Slimefun Data:");
             stream.println("  ID: " + item.getId());
-            stream.println("  Inventory: " + BlockStorage.getStorage(position.getWorld()).hasInventory(position));
+            stream.println("  Inventory: " + BlockStorage.hasInventory(position.getBlock()));
             stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(position));
             stream.println();
         });

@@ -22,10 +22,20 @@ public class BlockMenu extends DirtyChestMenu {
         return position.getWorld().getName() + ';' + position.getX() + ';' + position.getY() + ';' + position.getZ();
     }
 
+    /**
+     * @deprecated
+     * @see BlockMenu#BlockMenu(BlockMenuPreset, BlockPosition)
+     */
+    @Deprecated
     public BlockMenu(BlockMenuPreset preset, Location l) {
         this(preset, new BlockPosition(l));
     }
 
+    /**
+     * @deprecated
+     * @see BlockMenu#BlockMenu(BlockMenuPreset, BlockPosition, Config)
+     */
+    @Deprecated
     public BlockMenu(BlockMenuPreset preset, Location l, Config cfg) {
         this(preset, new BlockPosition(l), cfg);
     }
@@ -57,6 +67,11 @@ public class BlockMenu extends DirtyChestMenu {
         this.getContents();
     }
 
+    /**
+     * @deprecated
+     * @see BlockMenu#save(BlockPosition)
+     */
+    @Deprecated
     public void save(Location l) {
         save(new BlockPosition(l));
     }
@@ -82,6 +97,11 @@ public class BlockMenu extends DirtyChestMenu {
         changes = 0;
     }
 
+    /**
+     * @deprecated
+     * @see BlockMenu#move(BlockPosition)
+     */
+    @Deprecated
     public void move(Location l) {
         move(new BlockPosition(l));
     }
@@ -104,6 +124,11 @@ public class BlockMenu extends DirtyChestMenu {
         return position.getBlock();
     }
 
+    /**
+     * @deprecated
+     * @see BlockMenu#getPosition()
+     */
+    @Deprecated
     public Location getLocation() {
         return position.toLocation();
     }
@@ -132,6 +157,11 @@ public class BlockMenu extends DirtyChestMenu {
         }
     }
 
+    /**
+     * @deprecated
+     * @see BlockMenu#delete(BlockPosition)
+     */
+    @Deprecated
     public void delete(Location l) {
         delete(new BlockPosition(l));
     }

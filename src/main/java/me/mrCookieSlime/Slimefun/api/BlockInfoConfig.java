@@ -7,7 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Location;
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.gson.GsonBuilder;
@@ -17,7 +17,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 /**
  * This class is used to speed up parsing of a {@link JsonObject} that is stored at
- * a given {@link Location}.
+ * a given {@link BlockPosition}.
  * 
  * This simply utilises a {@link HashMap} to cache the data and then provides the same getters
  * as a normal {@link Config}.

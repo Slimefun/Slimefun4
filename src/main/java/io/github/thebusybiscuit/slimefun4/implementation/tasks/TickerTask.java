@@ -222,6 +222,11 @@ public class TickerTask implements Runnable {
         halted = true;
     }
 
+    /**
+     * @deprecated
+     * @see TickerTask#queueMove(BlockPosition, BlockPosition)
+     */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public void queueMove(Location from, Location to) {
         Validate.notNull(from, "Source Location cannot be null!");
@@ -238,6 +243,11 @@ public class TickerTask implements Runnable {
         movingQueue.put(from, to);
     }
 
+    /**
+     * @deprecated
+     * @see TickerTask#queueDelete(BlockPosition, boolean)
+     */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public void queueDelete(Location l, boolean destroy) {
         Validate.notNull(l, "Location must not be null!");
@@ -252,7 +262,11 @@ public class TickerTask implements Runnable {
         deletionQueue.put(position, destroy);
     }
 
-
+    /**
+     * @deprecated
+     * @see TickerTask#queueDeletions(Collection, boolean)
+     */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public void queueDelete(Collection<Location> locations, boolean destroy) {
         Validate.notNull(locations, "Locations must not be null");
@@ -271,6 +285,11 @@ public class TickerTask implements Runnable {
         deletionQueue.putAll(toDelete);
     }
 
+    /**
+     * @deprecated
+     * @see TickerTask#queueDeletions(Map)
+     */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public void queueDelete(Map<Location, Boolean> locations) {
         Validate.notNull(locations, "Locations must not be null");
@@ -294,41 +313,51 @@ public class TickerTask implements Runnable {
     }
 
     /**
-     * This method checks if the given {@link Location} has been reserved
-     * by this {@link TickerTask}.
-     * A reserved {@link Location} does not currently hold any data but will
-     * be occupied upon the next tick.
-     * Checking this ensures that our {@link Location} does not get treated like a normal
-     * {@link Location} as it is theoretically "moving".
-     * 
-     * @param l
-     *            The {@link Location} to check
-     * 
-     * @return Whether this {@link Location} has been reserved and will be filled upon the next tick
+     * @deprecated
+     * @see TickerTask#isOccupiedSoon(BlockPosition)
      */
+    @Deprecated
     public boolean isOccupiedSoon(@Nonnull Location l) {
         Validate.notNull(l, "Null is not a valid Location!");
         return isOccupiedSoon(new BlockPosition(l));
     }
 
+    /**
+     * This method checks if the given {@link BlockPosition} has been reserved
+     * by this {@link TickerTask}.
+     * A reserved {@link BlockPosition} does not currently hold any data but will
+     * be occupied upon the next tick.
+     * Checking this ensures that our {@link BlockPosition} does not get treated like a normal
+     * {@link BlockPosition} as it is theoretically "moving".
+     *
+     * @param position
+     *            The {@link BlockPosition} to check
+     *
+     * @return Whether this {@link BlockPosition} has been reserved and will be filled upon the next tick
+     */
     public boolean isOccupiedSoon(@Nonnull BlockPosition position) {
         Validate.notNull(position, "Null is not a valid BlockPosition!");
         return movingQueue.containsValue(position);
     }
 
     /**
-     * This method checks if a given {@link Location} will be deleted on the next tick.
-     * 
-     * @param l
-     *            The {@link Location} to check
-     * 
-     * @return Whether this {@link Location} will be deleted on the next tick
+     * @deprecated
+     * @see TickerTask#isDeletedSoon(BlockPosition)
      */
+    @Deprecated
     public boolean isDeletedSoon(@Nonnull Location l) {
         Validate.notNull(l, "Null is not a valid Location!");
         return isDeletedSoon(new BlockPosition(l));
     }
 
+    /**
+     * This method checks if a given {@link BlockPosition} will be deleted on the next tick.
+     *
+     * @param position
+     *            The {@link BlockPosition} to check
+     *
+     * @return Whether this {@link BlockPosition} will be deleted on the next tick
+     */
     public boolean isDeletedSoon(@Nonnull BlockPosition position) {
         Validate.notNull(position, "Null is not a valid BlockPosition!");
 
@@ -345,43 +374,51 @@ public class TickerTask implements Runnable {
     }
 
     /**
-     * This method returns a <strong>read-only</strong> {@link Map}
-     * representation of every {@link ChunkPosition} and its corresponding
-     * {@link Set} of ticking {@link Location Locations}.
-     * 
-     * This does include any {@link Location} from an unloaded {@link Chunk} too!
-     * 
-     * @return A {@link Map} representation of all ticking {@link Location Locations}
+     * @deprecated
+     * @see TickerTask#getPositions()
      */
-    @Nonnull
-    public Map<ChunkPosition, Set<Location>> getLocations() {
+    @Deprecated
+    public @Nonnull Map<ChunkPosition, Set<Location>> getLocations() {
         return ImmutableMap.of();
     }
 
-    @Nonnull
-    public Map<ChunkPosition, Set<BlockPosition>> getPositions() {
+    /**
+     * This method returns a <strong>read-only</strong> {@link Map}
+     * representation of every {@link ChunkPosition} and its corresponding
+     * {@link Set} of ticking {@link Location Locations}.
+     *
+     * This does include any {@link Location} from an unloaded {@link Chunk} too!
+     *
+     * @return A {@link Map} representation of all ticking {@link Location Locations}
+     */
+    public @Nonnull Map<ChunkPosition, Set<BlockPosition>> getPositions() {
         return Collections.unmodifiableMap(tickingPositions);
     }
 
+
     /**
-     * This method returns a <strong>read-only</strong> {@link Set}
-     * of all ticking {@link Location Locations} in a given {@link Chunk}.
-     * The {@link Chunk} does not have to be loaded.
-     * If no {@link Location} is present, the returned {@link Set} will be empty.
-     * 
-     * @param chunk
-     *            The {@link Chunk}
-     * 
-     * @return A {@link Set} of all ticking {@link Location Locations}
+     * @deprecated
+     * @see TickerTask#getPositions(Chunk)
      */
-    @Nonnull
-    public Set<Location> getLocations(@Nonnull Chunk chunk) {
+    @Deprecated
+    public @Nonnull Set<Location> getLocations(@Nonnull Chunk chunk) {
         Validate.notNull(chunk, "The Chunk cannot be null!");
 
         return ImmutableSet.of();
     }
 
-    public Set<BlockPosition> getPositions(@Nonnull Chunk chunk) {
+    /**
+     * This method returns a <strong>read-only</strong> {@link Set}
+     * of all ticking {@link BlockPosition BlockPositions} in a given {@link Chunk}.
+     * The {@link Chunk} does not have to be loaded.
+     * If no {@link BlockPosition} is present, the returned {@link Set} will be empty.
+     *
+     * @param chunk
+     *            The {@link Chunk}
+     *
+     * @return A {@link Set} of all ticking {@link BlockPosition BlockPositions}
+     */
+    public @Nonnull Set<BlockPosition> getPositions(@Nonnull Chunk chunk) {
         Validate.notNull(chunk, "The Chunk cannot be null!");
 
         Set<BlockPosition> positions = tickingPositions.getOrDefault(new ChunkPosition(chunk), new HashSet<>());
@@ -389,16 +426,21 @@ public class TickerTask implements Runnable {
     }
 
     /**
-     * This enables the ticker at the given {@link Location} and adds it to our "queue".
-     * 
-     * @param l
-     *            The {@link Location} to activate
+     * @deprecated
+     * @see TickerTask#enableTicker(BlockPosition)
      */
+    @Deprecated
     public void enableTicker(@Nonnull Location l) {
         Validate.notNull(l, "Location cannot be null!");
         enableTicker(new BlockPosition(l));
     }
 
+    /**
+     * This enables the ticker at the given {@link BlockPosition} and adds it to our "queue".
+     *
+     * @param position
+     *            The {@link BlockPosition} to activate
+     */
     public void enableTicker(@Nonnull BlockPosition position) {
         Validate.notNull(position, "BlockPosition cannot be null!");
 
@@ -418,17 +460,22 @@ public class TickerTask implements Runnable {
     }
 
     /**
-     * This method disables the ticker at the given {@link Location} and removes it from our internal
-     * "queue".
-     * 
-     * @param l
-     *            The {@link Location} to remove
+     * @deprecated
+     * @see TickerTask#disableTicker(BlockPosition)
      */
+    @Deprecated
     public void disableTicker(@Nonnull Location l) {
         Validate.notNull(l, "Location cannot be null!");
         disableTicker(new BlockPosition(l));
     }
 
+    /**
+     * This method disables the ticker at the given {@link BlockPosition} and removes it from our internal
+     * "queue".
+     *
+     * @param position
+     *            The {@link BlockPosition} to remove
+     */
     public void disableTicker(@Nonnull BlockPosition position) {
         Validate.notNull(position, "BlockPosition cannot be null!");
 

@@ -64,7 +64,7 @@ public class BlockStorage {
     private static boolean universalInventoriesLoaded = false;
 
     private int changes = 0;
-    private AtomicBoolean isMarkedForRemoval = new AtomicBoolean(false);
+    private final AtomicBoolean isMarkedForRemoval = new AtomicBoolean(false);
 
     @Nullable
     public static BlockStorage getStorage(@Nonnull World world) {
@@ -383,41 +383,42 @@ public class BlockStorage {
     }
 
     /**
-     * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
+     * @deprecated
+     * @see BlockStorage#toMap()
+     */
+    @Deprecated
+    public @Nonnull Map<Location, Config> getRawStorage() {
+        return ImmutableMap.of();
+    }
+
+    /**
+     * This will return an {@link ImmutableMap copy} of the underlying {@link BlockStorage#storage map} of
      * this worlds {@link BlockStorage}.
      *
      * @return An {@link ImmutableMap} of the raw data.
      */
-    @Nonnull
-    public Map<Location, Config> getRawStorage() {
-        return ImmutableMap.of();
-    }
-
-    public Map<BlockPosition, Config> toMap() {
+    public @Nonnull Map<BlockPosition, Config> toMap() {
         return ImmutableMap.copyOf(this.storage);
     }
 
     /**
-     * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
+     * @deprecated
+     * @see BlockStorage#toMap(World)
+     */
+    @Deprecated
+    public static @Nonnull Map<Location, Config> getRawStorage(@Nonnull World world) {
+        return ImmutableMap.of();
+    }
+
+    /**
+     * This will return an {@link ImmutableMap copy} of the underlying {@link BlockStorage#storage map} of
      * this worlds {@link BlockStorage}. If there is no registered world then this will return null.
      *
      * @param world
      *            The world of which to fetch the data from.
      * @return An {@link ImmutableMap} of the raw data or null if the world isn't registered.
      */
-    @Nullable
-    public static Map<Location, Config> getRawStorage(@Nonnull World world) {
-        Validate.notNull(world, "World cannot be null!");
-
-        BlockStorage storage = getStorage(world);
-        if (storage != null) {
-            return storage.getRawStorage();
-        } else {
-            return null;
-        }
-    }
-
-    public static Map<BlockPosition, Config> toMap(@Nonnull World world) {
+    public static @Nullable Map<BlockPosition, Config> toMap(@Nonnull World world) {
         Validate.notNull(world, "World cannot be null!");
 
         BlockStorage storage = getStorage(world);
@@ -450,8 +451,7 @@ public class BlockStorage {
      * 
      * @return the SlimefunItem's ItemStack corresponding to the block if it has one, otherwise null
      */
-    @Nullable
-    public static ItemStack retrieve(@Nonnull Block block) {
+    public static @Nullable ItemStack retrieve(@Nonnull Block block) {
         SlimefunItem item = check(block);
 
         if (item == null) {
@@ -462,18 +462,20 @@ public class BlockStorage {
         }
     }
 
-    @Nonnull
-    public static Config getBlockInfo(Block block) {
+    public static @Nonnull Config getBlockInfo(Block block) {
         return getBlockInfo(new BlockPosition(block));
     }
 
-    @Nonnull
-    public static Config getLocationInfo(Location l) {
+    /**
+     * @deprecated
+     * @see BlockStorage#getBlockInfo(BlockPosition)
+     */
+    @Deprecated
+    public static @Nonnull Config getLocationInfo(Location l) {
         return getBlockInfo(new BlockPosition(l));
     }
 
-    @Nonnull
-    public static Config getBlockInfo(BlockPosition position) {
+    public static @Nonnull Config getBlockInfo(BlockPosition position) {
         BlockStorage storage = getStorage(position.getWorld());
 
         if (storage == null) {
@@ -484,8 +486,7 @@ public class BlockStorage {
         return cfg == null ? emptyBlockData : cfg;
     }
 
-    @Nonnull
-    private static Map<String, String> parseJSON(String json) {
+    private static @Nonnull Map<String, String> parseJSON(String json) {
         Map<String, String> map = new HashMap<>();
 
         if (json != null && json.length() > 2) {
@@ -539,26 +540,45 @@ public class BlockStorage {
         return getBlockInfo(new BlockPosition(block), key);
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#getBlockInfo(Block, String)
+     */
+    @Deprecated
     public static String getLocationInfo(Location l, String key) {
-        return getLocationInfo(l).getString(key);
+        return getBlockInfo(new BlockPosition(l)).getString(key);
     }
 
     public static String getBlockInfo(BlockPosition position, String key) {
         return getBlockInfo(position).getString(key);
     }
 
-    public static void addBlockInfo(Location l, String key, String value) {
-        addBlockInfo(l, key, value, false);
-    }
-
     public static void addBlockInfo(Block block, String key, String value) {
         addBlockInfo(block.getLocation(), key, value);
+    }
+
+    /**
+     * @deprecated
+     * @see BlockStorage#addBlockInfo(BlockPosition, String, String)
+     */
+    @Deprecated
+    public static void addBlockInfo(Location l, String key, String value) {
+        addBlockInfo(new BlockPosition(l), key, value, false);
+    }
+
+    public static void addBlockInfo(BlockPosition position, String key, String value) {
+        addBlockInfo(position, key, value, false);
     }
 
     public static void addBlockInfo(Block block, String key, String value, boolean updateTicker) {
         addBlockInfo(block.getLocation(), key, value, updateTicker);
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#addBlockInfo(BlockPosition, String, String, boolean)
+     */
+    @Deprecated
     public static void addBlockInfo(Location l, String key, String value, boolean updateTicker) {
         addBlockInfo(new BlockPosition(l), key, value, updateTicker);
     }
@@ -578,6 +598,11 @@ public class BlockStorage {
         return hasBlockInfo(block.getLocation());
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#hasBlockInfo(BlockPosition)
+     */
+    @Deprecated
     public static boolean hasBlockInfo(Location l) {
         return hasBlockInfo(new BlockPosition(l));
     }
@@ -624,9 +649,14 @@ public class BlockStorage {
     }
 
     public static void setBlockInfo(Block b, String json, boolean updateTicker) {
-        setBlockInfo(b.getLocation(), json, updateTicker);
+        setBlockInfo(new BlockPosition(b), json, updateTicker);
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#setBlockInfo(BlockPosition, String json, boolean updateTicker)
+     */
+    @Deprecated
     public static void setBlockInfo(Location l, String json, boolean updateTicker) {
         setBlockInfo(new BlockPosition(l), json, updateTicker);
     }
@@ -645,6 +675,11 @@ public class BlockStorage {
         clearBlockInfo(new BlockPosition(block));
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#clearBlockInfo(BlockPosition)
+     */
+    @Deprecated
     public static void clearBlockInfo(Location l) {
         clearBlockInfo(new BlockPosition(l));
     }
@@ -657,6 +692,11 @@ public class BlockStorage {
         clearBlockInfo(new BlockPosition(b), destroy);
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#clearBlockInfo(BlockPosition, boolean)
+     */
+    @Deprecated
     public static void clearBlockInfo(Location l, boolean destroy) {
         clearBlockInfo(new BlockPosition(l), destroy);
     }
@@ -685,18 +725,23 @@ public class BlockStorage {
     }
 
     /**
-     * <strong>Do not call this method!</strong>.
-     * This method is used for internal purposes only.
-     * 
-     * @param l
-     *            The {@link Location}
-     * @param destroy
-     *            Whether to completely destroy the block data
+     * @deprecated
+     * @see BlockStorage#deleteLocationInfoUnsafely(BlockPosition, boolean)
      */
+    @Deprecated
     public static void deleteLocationInfoUnsafely(Location l, boolean destroy) {
         deleteLocationInfoUnsafely(new BlockPosition(l), destroy);
     }
 
+    /**
+     * <strong>Do not call this method!</strong>.
+     * This method is used for internal purposes only.
+     *
+     * @param position
+     *            The {@link BlockPosition}
+     * @param destroy
+     *            Whether to completely destroy the block data
+     */
     public static void deleteLocationInfoUnsafely(BlockPosition position, boolean destroy) {
         BlockStorage storage = getStorage(position.getWorld());
 
@@ -725,6 +770,11 @@ public class BlockStorage {
         }
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#moveBlockInfo(BlockPosition, BlockPosition)
+     */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public static void moveBlockInfo(Location from, Location to) {
         moveBlockInfo(new BlockPosition(from), new BlockPosition(to));
@@ -736,19 +786,24 @@ public class BlockStorage {
     }
 
     /**
-     * <strong>Do not call this method!</strong>.
-     * This method is used for internal purposes only.
-     * 
-     * @param from
-     *            The origin {@link Location}
-     * @param to
-     *            The destination {@link Location}
+     * @deprecated
+     * @see BlockStorage#moveLocationInfoUnsafely(BlockPosition, BlockPosition)
      */
+    @Deprecated
     @ParametersAreNonnullByDefault
     public static void moveLocationInfoUnsafely(Location from, Location to) {
         moveLocationInfoUnsafely(new BlockPosition(from), new BlockPosition(to));
     }
 
+    /**
+     * <strong>Do not call this method!</strong>.
+     * This method is used for internal purposes only.
+     *
+     * @param from
+     *            The origin {@link BlockPosition}
+     * @param to
+     *            The destination {@link BlockPosition}
+     */
     @ParametersAreNonnullByDefault
     public static void moveLocationInfoUnsafely(BlockPosition from, BlockPosition to) {
         if (!hasBlockInfo(from)) {
@@ -798,30 +853,26 @@ public class BlockStorage {
         }
     }
 
-    @Nullable
-    public static SlimefunItem check(@Nonnull Block b) {
+    public static @Nullable SlimefunItem check(@Nonnull Block b) {
         String id = checkID(b);
         return id == null ? null : SlimefunItem.getById(id);
     }
 
-    @Nullable
-    public static SlimefunItem check(@Nonnull Location l) {
+    /**
+     * @deprecated
+     * @see BlockStorage#check(BlockPosition)
+     */
+    @Deprecated
+    public static @Nullable SlimefunItem check(@Nonnull Location l) {
         return check(new BlockPosition(l));
     }
 
-    @Nullable
-    public static SlimefunItem check(@Nonnull BlockPosition position) {
+    public static @Nullable SlimefunItem check(@Nonnull BlockPosition position) {
         String id = checkID(position);
         return id == null ? null : SlimefunItem.getById(id);
     }
 
-    public static boolean check(Block block, String slimefunItem) {
-        String id = checkID(block);
-        return id != null && id.equals(slimefunItem);
-    }
-
-    @Nullable
-    public static String checkID(@Nonnull Block b) {
+    public static @Nullable String checkID(@Nonnull Block b) {
         // Only access the BlockState when on the main thread
         if (Bukkit.isPrimaryThread() && Slimefun.getBlockDataService().isTileEntity(b.getType())) {
             Optional<String> blockData = Slimefun.getBlockDataService().getBlockData(b);
@@ -834,16 +885,29 @@ public class BlockStorage {
         return checkID(new BlockPosition(b));
     }
 
-    @Nullable
-    public static String checkID(@Nonnull Location l) {
+    /**
+     * @deprecated
+     * @see BlockStorage#checkID(BlockPosition)
+     */
+    @Deprecated
+    public static @Nullable String checkID(@Nonnull Location l) {
         return checkID(new BlockPosition(l));
     }
 
-    @Nullable
-    public static String checkID(@Nonnull BlockPosition position) {
+    public static @Nullable String checkID(@Nonnull BlockPosition position) {
         return getBlockInfo(position, "id");
     }
 
+    public static boolean check(Block block, String slimefunItem) {
+        String id = checkID(block);
+        return id != null && id.equals(slimefunItem);
+    }
+
+    /**
+     * @deprecated
+     * @see BlockStorage#check(BlockPosition, String)
+     */
+    @Deprecated
     public static boolean check(@Nonnull Location l, @Nullable String slimefunItem) {
         return check(new BlockPosition(l), slimefunItem);
     }
@@ -861,6 +925,11 @@ public class BlockStorage {
         return Slimefun.getRegistry().getWorlds().containsKey(world.getName());
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#loadInventory(BlockPosition, BlockMenuPreset)
+     */
+    @Deprecated
     public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
         return loadInventory(new BlockPosition(l), preset);
     }
@@ -876,12 +945,10 @@ public class BlockStorage {
     }
 
     /**
-     * Reload a BlockMenu based on the preset. This method is solely for if you wish to reload
-     * based on data from the preset.
-     *
-     * @param l
-     *            The location of the Block.
+     * @deprecated
+     * @see BlockStorage#reloadInventory(BlockPosition)
      */
+    @Deprecated
     public void reloadInventory(Location l) {
         reloadInventory(new BlockPosition(l));
     }
@@ -901,6 +968,11 @@ public class BlockStorage {
         }
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#clearInventory(BlockPosition)
+     */
+    @Deprecated
     public void clearInventory(Location l) {
         clearInventory(new BlockPosition(l));
     }
@@ -920,6 +992,21 @@ public class BlockStorage {
         }
     }
 
+    public static boolean hasInventory(Block b) {
+        BlockStorage storage = getStorage(b.getWorld());
+
+        if (storage == null) {
+            return false;
+        } else {
+            return storage.hasInventory(new BlockPosition(b));
+        }
+    }
+
+    /**
+     * @deprecated
+     * @see BlockStorage#hasInventory(BlockPosition)
+     */
+    @Deprecated
     public boolean hasInventory(Location l) {
         return hasInventory(new BlockPosition(l));
     }
@@ -932,10 +1019,33 @@ public class BlockStorage {
         return Slimefun.getRegistry().getUniversalInventories().containsKey(id);
     }
 
+    public boolean hasUniversalInventory(Block block) {
+        return hasUniversalInventory(new BlockPosition(block));
+    }
+
+    /**
+     * @deprecated
+     * @see BlockStorage#hasUniversalInventory(BlockPosition)
+     */
+    @Deprecated
+    public boolean hasUniversalInventory(Location l) {
+        return hasUniversalInventory(new BlockPosition(l));
+    }
+
+    public boolean hasUniversalInventory(BlockPosition position) {
+        String id = checkID(position);
+        return id != null && hasUniversalInventory(id);
+    }
+
     public static UniversalBlockMenu getUniversalInventory(Block block) {
         return getUniversalInventory(new BlockPosition(block));
     }
 
+    /**
+     * @deprecated
+     * @see BlockStorage#getUniversalInventory(BlockPosition)
+     */
+    @Deprecated
     public static UniversalBlockMenu getUniversalInventory(Location l) {
         return getUniversalInventory(new BlockPosition(l));
     }
@@ -950,19 +1060,14 @@ public class BlockStorage {
     }
 
     public static BlockMenu getInventory(Block b) {
-        return getInventory(b.getLocation());
+        return getInventory(new BlockPosition(b));
     }
 
-    public static boolean hasInventory(Block b) {
-        BlockStorage storage = getStorage(b.getWorld());
-
-        if (storage == null) {
-            return false;
-        } else {
-            return storage.hasInventory(b.getLocation());
-        }
-    }
-
+    /**
+     * @deprecated
+     * @see BlockStorage#getInventory(BlockPosition)
+     */
+    @Deprecated
     public static BlockMenu getInventory(Location l) {
         return getInventory(new BlockPosition(l));
     }
@@ -1029,24 +1134,17 @@ public class BlockStorage {
         return getBlockInfoAsJson(new BlockPosition(block));
     }
 
-    public static String getBlockInfoAsJson(BlockPosition position) {
-        return serializeBlockInfo(getBlockInfo(position));
-    }
-
+    /**
+     * @deprecated
+     * @see BlockStorage#getBlockInfoAsJson(BlockPosition)
+     */
+    @Deprecated
     public static String getBlockInfoAsJson(Location l) {
         return serializeBlockInfo(getLocationInfo(l));
     }
 
-    public boolean hasUniversalInventory(Block block) {
-        return hasUniversalInventory(new BlockPosition(block));
+    public static String getBlockInfoAsJson(BlockPosition position) {
+        return serializeBlockInfo(getBlockInfo(position));
     }
 
-    public boolean hasUniversalInventory(BlockPosition position) {
-        String id = checkID(position);
-        return id != null && hasUniversalInventory(id);
-    }
-
-    public boolean hasUniversalInventory(Location l) {
-        return hasUniversalInventory(new BlockPosition(l));
-    }
 }

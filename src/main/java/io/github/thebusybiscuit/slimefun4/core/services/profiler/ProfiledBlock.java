@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
  * It is a modification of {@link BlockPosition} to be as memory-efficient as possible.
  * 
  * @author TheBusyBiscuit
- *
  */
 final class ProfiledBlock {
 
@@ -28,31 +27,36 @@ final class ProfiledBlock {
     private final World world;
 
     /**
-     * A {@link Long} representation of our {@link Location} (x, y, z).
+     * A {@link Long} representation of our {@link BlockPosition} (x, y, z).
      */
     private final long position;
 
     /**
-     * The {@link SlimefunItem} whihc is located at this {@link Location}.
+     * The {@link SlimefunItem} whihc is located at this {@link BlockPosition}.
      */
     private final SlimefunItem item;
 
     /**
-     * This creates a new {@link ProfiledBlock} for the given {@link Location} and
-     * the {@link SlimefunItem} found at this {@link Location}.
-     * 
-     * @param l
-     *            The {@link Location}
-     * @param item
-     *            The {@link SlimefunItem} found at that {@link Location}
+     * @deprecated
+     * @see ProfiledBlock#ProfiledBlock(BlockPosition, SlimefunItem)
      */
+    @Deprecated
     ProfiledBlock(@Nonnull Location l, @Nonnull SlimefunItem item) {
         this(new BlockPosition(l), item);
     }
 
+    /**
+     * This creates a new {@link ProfiledBlock} for the given {@link BlockPosition} and
+     * the {@link SlimefunItem} found at this {@link BlockPosition}.
+     *
+     * @param position
+     *            The {@link BlockPosition}
+     * @param item
+     *            The {@link SlimefunItem} found at that {@link BlockPosition}
+     */
     ProfiledBlock(@Nonnull BlockPosition position, @Nonnull SlimefunItem item) {
         this.world = position.getWorld();
-        this.position = getLocationAsLong(position.getX(), position.getY(), position.getZ());
+        this.position = getPositionAsLong(position.getX(), position.getY(), position.getZ());
         this.item = item;
     }
 
@@ -65,7 +69,7 @@ final class ProfiledBlock {
      */
     ProfiledBlock(@Nonnull Block b) {
         this.world = b.getWorld();
-        this.position = getLocationAsLong(b.getX(), b.getY(), b.getZ());
+        this.position = getPositionAsLong(b.getX(), b.getY(), b.getZ());
         this.item = null;
     }
 
@@ -81,7 +85,7 @@ final class ProfiledBlock {
      * 
      * @return A {@link Long} representation of this {@link Location}
      */
-    private static long getLocationAsLong(int x, int y, int z) {
+    private static long getPositionAsLong(int x, int y, int z) {
         return ((long) (x & 0x3FFFFFF) << 38) | ((long) (z & 0x3FFFFFF) << 12) | (long) (y & 0xFFF);
     }
 

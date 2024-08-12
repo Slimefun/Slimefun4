@@ -41,7 +41,6 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
  * @author TheBusyBiscuit
  * 
  * @see TickerTask
- *
  */
 public class SlimefunProfiler {
 
@@ -142,23 +141,28 @@ public class SlimefunProfiler {
     }
 
     /**
-     * This method closes a previously started entry.
-     * Make sure to call {@link #newEntry()} to get the timestamp in advance.
-     * 
-     * @param l
-     *            The {@link Location} of our {@link Block}
-     * @param item
-     *            The {@link SlimefunItem} at this {@link Location}
-     * @param timestamp
-     *            The timestamp marking the start of this entry, you can retrieve it using {@link #newEntry()}
-     *
-     * @return The total timings of this entry
+     * @deprecated
+     * @see SlimefunProfiler#closeEntry(BlockPosition, SlimefunItem, long)
      */
+    @Deprecated
     public long closeEntry(@Nonnull Location l, @Nonnull SlimefunItem item, long timestamp) {
         Validate.notNull(l, "Location must not be null!");
         return closeEntry(new BlockPosition(l), item, timestamp);
     }
 
+    /**
+     * This method closes a previously started entry.
+     * Make sure to call {@link #newEntry()} to get the timestamp in advance.
+     *
+     * @param position
+     *            The {@link BlockPosition} of our {@link Block}
+     * @param item
+     *            The {@link SlimefunItem} at this {@link BlockPosition}
+     * @param timestamp
+     *            The timestamp marking the start of this entry, you can retrieve it using {@link #newEntry()}
+     *
+     * @return The total timings of this entry
+     */
     public long closeEntry(@Nonnull BlockPosition position, @Nonnull SlimefunItem item, long timestamp) {
         Validate.notNull(position, "BlockPosition must not be null!");
         Validate.notNull(item, "You need to specify a SlimefunItem!");
