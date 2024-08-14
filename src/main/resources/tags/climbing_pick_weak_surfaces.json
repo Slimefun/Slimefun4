@@ -5,7 +5,7 @@
 		"minecraft:gravel",
 		"minecraft:clay",
 		{
-			"id" : "minecraft:skulk",
+			"id" : "minecraft:sculk",
 			"required" : false
 		}
 	]
