@@ -35,7 +35,6 @@ public class RadiationDamageEvent extends Event implements Cancellable {
      * 
      * @return The {@link Player} who took radiation damage
      */
-    
     public @Nonnull Player getPlayer() {
         return player;
     }
