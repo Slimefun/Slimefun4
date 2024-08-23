@@ -16,7 +16,7 @@ public class RadiationDamageEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private final Player player;
-    private int exposure;
+    private final int exposure;
     private boolean cancelled;
 
     /**
