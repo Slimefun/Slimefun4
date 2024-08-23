@@ -11,7 +11,6 @@ import org.bukkit.event.HandlerList;
  * The {@link RadiationDamageEvent} is called when a player takes radiation damage.
  * 
  * @author HoosierTransfer
- *
  */
 public class RadiationDamageEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
