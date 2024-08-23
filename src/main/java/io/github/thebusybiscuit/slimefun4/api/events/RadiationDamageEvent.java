@@ -59,8 +59,7 @@ public class RadiationDamageEvent extends Event implements Cancellable {
         this.cancelled = cancelled;
     }
 
-    @Nonnull
-    public static HandlerList getHandlerList() {
+    public static @Nonnull HandlerList getHandlerList() {
         return handlers;
     }
 
