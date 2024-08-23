@@ -27,6 +27,7 @@ public class RadiationDamageEvent extends Event implements Cancellable {
      */
     public RadiationDamageEvent(@Nonnull Player player, int exposure) {
         this.player = player;
+        this.exposure = exposure;
     }
 
     /**
