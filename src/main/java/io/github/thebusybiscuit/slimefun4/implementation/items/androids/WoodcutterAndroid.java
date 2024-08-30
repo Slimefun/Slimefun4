@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.AndroidWoodcutEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -55,10 +56,22 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
 
             if (!list.isEmpty()) {
                 Block log = list.get(list.size() - 1);
+                // We only want to break non-Slimefun blocks
+                if (BlockStorage.hasBlockInfo(log)) {
+                    return false;
+                }
+
                 log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 
                 OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
                 if (Slimefun.getProtectionManager().hasPermission(owner, log.getLocation(), Interaction.BREAK_BLOCK)) {
+                    AndroidWoodcutEvent event = new AndroidWoodcutEvent(log, new AndroidInstance(this, b));
+                    Bukkit.getPluginManager().callEvent(event);
+
+                    if (event.isCancelled()) {
+                        return false;
+                    }
+
                     breakLog(log, b, menu, face);
                 }
 
