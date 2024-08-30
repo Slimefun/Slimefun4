@@ -6,12 +6,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Axis;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Orientable;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.blocks.Vein;
@@ -56,7 +58,11 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
 
                 for (Block b : logs) {
                     if (!BlockStorage.hasBlockInfo(b) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b, Interaction.BREAK_BLOCK)) {
-                        breakLog(b);
+                        BlockBreakEvent event = new BlockBreakEvent(b, e.getPlayer());
+                        Bukkit.getPluginManager().callEvent(event);
+                        if (!event.isCancelled()) {
+                            breakLog(b, event.isDropItems());
+                        }
                     }
                 }
             }
@@ -99,11 +105,13 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
         b.setBlockData(orientable);
     }
 
-    private void breakLog(@Nonnull Block b) {
+    private void breakLog(@Nonnull Block b, boolean dropItems) {
         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 
-        for (ItemStack drop : b.getDrops(getItem())) {
-            b.getWorld().dropItemNaturally(b.getLocation(), drop);
+        if (dropItems) {
+            for (ItemStack drop : b.getDrops(getItem())) {
+                b.getWorld().dropItemNaturally(b.getLocation(), drop);
+            }
         }
 
         b.setType(Material.AIR);
