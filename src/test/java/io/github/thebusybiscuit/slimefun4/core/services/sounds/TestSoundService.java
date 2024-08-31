@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.core.services.sounds;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 public class TestSoundService {
 
@@ -19,16 +21,12 @@ public class TestSoundService {
         MockBukkit.unmock();
     }
 
-    @Test
     @DisplayName("Testing each SoundConfiguration")
-    void testSounds() {
+    @ParameterizedTest
+    @EnumSource(SoundEffect.class)
+    void testSounds(SoundEffect effect) {
         SoundService service = Slimefun.getSoundService();
-        SoundEffect[] effects = SoundEffect.values();
-
-        for (SoundEffect i : effects) {
-            SoundConfiguration element = service.getConfiguration(i);
-            Assertions.assertNotNull(element, "The sound effect must not be null!");
-        }
-
+        SoundConfiguration element = service.getConfiguration(effect);
+        Assertions.assertNotNull(element, "The sound effect must not be null!");
     }
 }
