@@ -75,23 +75,37 @@ public class MinerAndroid extends ProgrammableAndroid {
     protected void dig(Block b, BlockMenu menu, Block block) {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
-        if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
-            OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
-
-            if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
-                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
-                Bukkit.getPluginManager().callEvent(event);
-
-                if (event.isCancelled()) {
-                    return;
-                }
-
-                // We only want to break non-Slimefun blocks
-                if (!BlockStorage.hasBlockInfo(block)) {
-                    breakBlock(menu, drops, block);
-                }
-            }
+        if (!canBreakBlock(block, b)) {
+            return;
         }
+
+        AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            return;
+        }
+
+        // We only want to break non-Slimefun blocks
+        if (!BlockStorage.hasBlockInfo(block)) {
+            breakBlock(menu, drops, block);
+        }
+    }
+
+    @ParametersAreNonnullByDefault
+    protected boolean canBreakBlock(Block block, Block b) {
+        Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
+        if (SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) || drops.isEmpty()) {
+            return false;
+        }
+
+        String ownerName = BlockStorage.getLocationInfo(b.getLocation(), "owner");
+        OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(ownerName));
+        if (!Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -99,26 +113,21 @@ public class MinerAndroid extends ProgrammableAndroid {
     protected void moveAndDig(Block b, BlockMenu menu, BlockFace face, Block block) {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
-        if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
-            OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
+        if (!canBreakBlock(block, b)) {
+            move(b, face, block);
+            return;
+        }
 
-            if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
-                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
-                Bukkit.getPluginManager().callEvent(event);
+        AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
+        Bukkit.getPluginManager().callEvent(event);
 
-                if (event.isCancelled()) {
-                    return;
-                }
+        if (event.isCancelled()) {
+            return;
+        }
 
-                // We only want to break non-Slimefun blocks
-                if (!BlockStorage.hasBlockInfo(block)) {
-                    breakBlock(menu, drops, block);
-                    move(b, face, block);
-                }
-            } else {
-                move(b, face, block);
-            }
-        } else {
+        // We only want to break non-Slimefun blocks
+        if (!BlockStorage.hasBlockInfo(block)) {
+            breakBlock(menu, drops, block);
             move(b, face, block);
         }
     }
