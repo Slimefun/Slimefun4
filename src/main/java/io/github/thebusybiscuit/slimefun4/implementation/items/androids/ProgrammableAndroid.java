@@ -25,7 +25,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -55,8 +54,6 @@ import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -847,18 +844,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         preset.drawBackground(ChestMenuUtils.getOutputSlotTexture(), OUTPUT_BORDER);
 
         for (int i : getOutputSlots()) {
-            preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
-
-                @Override
-                public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return false;
-                }
-
-                @Override
-                public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
-                }
-            });
+            preset.addMenuClickHandler(i, ChestMenuUtils.getDefaultOutputHandler());
         }
 
         preset.addItem(34, getFuelSource().getItem(), ChestMenuUtils.getEmptyClickHandler());

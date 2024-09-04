@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -43,6 +45,19 @@ public final class ChestMenuUtils {
     private static final ItemStack PREV_BUTTON_INACTIVE = new SlimefunItemStack("_UI_PREVIOUS_INACTIVE", Material.BLACK_STAINED_GLASS_PANE, "&8\u21E6 Previous Page");
     private static final ItemStack NEXT_BUTTON_INACTIVE = new SlimefunItemStack("_UI_NEXT_INACTIVE", Material.BLACK_STAINED_GLASS_PANE, "&8Next Page \u21E8");
 
+    private static final ChestMenu.AdvancedMenuClickHandler OUTPUT_HANDLER = new ChestMenu.AdvancedMenuClickHandler() {
+
+        @Override
+        public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
+            return false;
+        }
+
+        @Override
+        public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
+            return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
+        }
+    };
+
     private static final MenuClickHandler CLICK_HANDLER = (p, s, i, a) -> false;
 
     public static @Nonnull ItemStack getBackground() {
@@ -67,6 +82,10 @@ public final class ChestMenuUtils {
 
     public static @Nonnull MenuClickHandler getEmptyClickHandler() {
         return CLICK_HANDLER;
+    }
+
+    public static @Nonnull ChestMenu.AdvancedMenuClickHandler getDefaultOutputHandler() {
+        return OUTPUT_HANDLER;
     }
 
     public static @Nonnull ItemStack getBackButton(@Nonnull Player p, String... lore) {
