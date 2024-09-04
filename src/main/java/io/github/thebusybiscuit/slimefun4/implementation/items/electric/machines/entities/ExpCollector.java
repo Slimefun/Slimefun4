@@ -124,7 +124,7 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
 
     protected void tick(Block block) {
         Location location = block.getLocation();
-        Iterator<Entity> iterator = block.getWorld().getNearbyEntities(location, 4.0, 4.0, 4.0, n -> n instanceof ExperienceOrb && n.isValid()).iterator();
+        Iterator<Entity> iterator = block.getWorld().getNearbyEntities(location, range, range, range, n -> n instanceof ExperienceOrb && n.isValid()).iterator();
         int experiencePoints = 0;
 
         while (iterator.hasNext() && experiencePoints == 0) {
@@ -182,8 +182,9 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
         return energyConsumedPerTick;
     }
 
-    public void setEnergyConsumption(int energyConsumedPerTick) {
+    public ExpCollector setEnergyConsumption(int energyConsumedPerTick) {
         this.energyConsumedPerTick = energyConsumedPerTick;
+        return this;
     }
 
     @Override
@@ -191,7 +192,8 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
         return energyCapacity;
     }
 
-    public void setCapacity(int energyCapacity) {
+    public ExpCollector setCapacity(int energyCapacity) {
         this.energyCapacity = energyCapacity;
+        return this;
     }
 }
