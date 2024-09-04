@@ -11,6 +11,7 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -134,12 +135,12 @@ public class MinerAndroid extends ProgrammableAndroid {
 
     @ParametersAreNonnullByDefault
     private void breakBlock(BlockMenu menu, Collection<ItemStack> drops, Block block) {
-
-        if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
+        World world = block.getWorld();
+        if (!world.getWorldBorder().isInside(block.getLocation())) {
             return;
         }
 
-        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+        world.playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 
         // Push our drops to the inventory
         for (ItemStack drop : drops) {
@@ -147,24 +148,25 @@ public class MinerAndroid extends ProgrammableAndroid {
         }
 
         // Check if Block Generator optimizations should be applied.
-        if (applyOptimizations.getValue()) {
-            InfiniteBlockGenerator generator = InfiniteBlockGenerator.findAt(block);
-
-            // If we found a generator, continue.
-            if (generator != null) {
-                if (firesEvent.getValue()) {
-                    generator.callEvent(block);
-                }
-
-                // "poof" a "new" block was generated
-                SoundEffect.MINER_ANDROID_BLOCK_GENERATION_SOUND.playAt(block);
-                block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
-            } else {
-                block.setType(Material.AIR);
-            }
-        } else {
+        if (!applyOptimizations.getValue()) {
             block.setType(Material.AIR);
+            return;
         }
+
+        // If we didn't find a generator ignore the block.
+        InfiniteBlockGenerator generator = InfiniteBlockGenerator.findAt(block);
+        if (generator == null) {
+            block.setType(Material.AIR);
+            return;
+        }
+
+        if (firesEvent.getValue()) {
+            generator.callEvent(block);
+        }
+
+        // "poof" a "new" block was generated
+        SoundEffect.MINER_ANDROID_BLOCK_GENERATION_SOUND.playAt(block);
+        world.spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
     }
 
 }
