@@ -44,35 +44,38 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
 
     private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
 
-    private static final int ENERGY_CONSUMPTION = 10;
     private static final String DATA_KEY = "stored-exp";
 
+    private final double range;
+    private int energyConsumedPerTick = -1;
+    private int energyCapacity = -1;
+
     @ParametersAreNonnullByDefault
-    public ExpCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public ExpCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double range) {
         super(itemGroup, item, recipeType, recipe);
 
         createPreset(this, this::constructMenu);
 
+        this.range = range;
         addItemHandler(onPlace(), onBreak());
     }
 
-    @Nonnull
-    private BlockPlaceHandler onPlace() {
+
+    private @Nonnull BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
-            public void onPlayerPlace(BlockPlaceEvent e) {
+            public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
                 BlockStorage.addBlockInfo(e.getBlock(), "owner", e.getPlayer().getUniqueId().toString());
             }
         };
     }
 
-    @Nonnull
-    private ItemHandler onBreak() {
+    private @Nonnull ItemHandler onBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onBlockBreak(Block b) {
+            public void onBlockBreak(@Nonnull Block b) {
                 BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
@@ -95,11 +98,6 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
     @Override
     public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
-    }
-
-    @Override
-    public int getCapacity() {
-        return 1024;
     }
 
     protected void constructMenu(BlockMenuPreset preset) {
@@ -132,13 +130,13 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
         while (iterator.hasNext() && experiencePoints == 0) {
             ExperienceOrb orb = (ExperienceOrb) iterator.next();
 
-            if (getCharge(location) < ENERGY_CONSUMPTION) {
+            if (getCharge(location) < getEnergyConsumption()) {
                 return;
             }
 
             experiencePoints = getStoredExperience(location) + orb.getExperience();
 
-            removeCharge(location, ENERGY_CONSUMPTION);
+            removeCharge(location, getEnergyConsumption());
             orb.remove();
             produceFlasks(location, experiencePoints);
         }
@@ -178,5 +176,22 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
             BlockStorage.addBlockInfo(location, DATA_KEY, "0");
             return 0;
         }
+    }
+
+    public int getEnergyConsumption() {
+        return energyConsumedPerTick;
+    }
+
+    public void setEnergyConsumption(int energyConsumedPerTick) {
+        this.energyConsumedPerTick = energyConsumedPerTick;
+    }
+
+    @Override
+    public int getCapacity() {
+        return energyCapacity;
+    }
+
+    public void setCapacity(int energyCapacity) {
+        this.energyCapacity = energyCapacity;
     }
 }
