@@ -62,7 +62,6 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
 
         processor.setProgressBar(getProgressBar());
 
-        //createPreset(this, getInventoryTitle(), this::constructMenu);
         new BlockMenuPreset(this.getId(), getInventoryTitle()) {
 
             @Override
@@ -89,7 +88,7 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
                         if (SlimefunUtils.isItemSimilar(recipes.get(i).getInput()[0], item, true, false)) {
                             found = (i + 1) % recipes.size();
                             menu.replaceExistingItem(slot, recipes.get(found).getInput()[0]);
-                            break;
+                            return false;
                         }
                     }
 

@@ -17,10 +17,6 @@ public class CrystalGrower extends AItemGenerator {
     @Override
     protected void registerDefaultRecipes() {
         addRecipe(20, new ItemStack(Material.AMETHYST_SHARD), new ItemStack(Material.AMETHYST_SHARD));
-        //add these for testing
-        addRecipe(20, new ItemStack(Material.GLASS), new ItemStack(Material.GLASS));
-        addRecipe(20, new ItemStack(Material.GUNPOWDER), new ItemStack(Material.GUNPOWDER));
-        addRecipe(20, new ItemStack(Material.DIRT), new ItemStack(Material.DIRT));
     }
 
     @Override
