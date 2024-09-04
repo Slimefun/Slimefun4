@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.item_generators.CrystalGrower;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -1631,6 +1632,13 @@ public final class SlimefunItemSetup {
         .setCapacity(128)
         .setEnergyConsumption(5)
         .setProcessingSpeed(4)
+        .register(plugin);
+
+        new CrystalGrower(itemGroups.electricity, SlimefunItems.CRYSTAL_GROWER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null})
+        .setCapacity(100)
+        .setEnergyConsumption(10)
+        .setProcessingSpeed(1)
         .register(plugin);
 
         new ElectricGoldPan(itemGroups.electricity, SlimefunItems.ELECTRIC_GOLD_PAN, RecipeType.ENHANCED_CRAFTING_TABLE,

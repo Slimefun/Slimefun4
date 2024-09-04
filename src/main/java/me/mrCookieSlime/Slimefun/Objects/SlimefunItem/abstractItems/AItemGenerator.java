@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
@@ -13,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -25,6 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -38,11 +41,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 abstract public class AItemGenerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent, MachineProcessHolder<CraftingOperation> {
 
-    private static final int[] BORDER = { 3, 12, 21 };
+    private static final int PROGRESS_SLOT = 12;
+    private static final int[] BORDER = { 3, 21 };
     private static final int[] BORDER_IN = { 0, 1, 2, 9, 11, 18, 19, 20 };
     private static final int[] BORDER_OUT = { 4, 5, 6, 7, 8, 22, 23, 24, 25, 26 };
 
@@ -58,7 +61,62 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
         super(itemGroup, item, recipeType, recipe);
 
         processor.setProgressBar(getProgressBar());
-        createPreset(this, getInventoryTitle(), this::constructMenu);
+
+        //createPreset(this, getInventoryTitle(), this::constructMenu);
+        new BlockMenuPreset(this.getId(), getInventoryTitle()) {
+
+            @Override
+            public void init() {
+                constructMenu(this);
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                if (flow == ItemTransportFlow.INSERT) {
+                    return getInputSlots();
+                } else {
+                    return getOutputSlots();
+                }
+            }
+
+            @Override
+            public void newInstance(BlockMenu menu, Block block) {
+                ItemStack baseItem = new ItemStack(Material.BARRIER);
+
+                menu.addItem(getInputSlots()[0], baseItem,  (p, slot, item, action) -> {
+                    int found;
+                    for (int i = 0; i < recipes.size(); i++) {
+                        if (SlimefunUtils.isItemSimilar(recipes.get(i).getInput()[0], item, true, false)) {
+                            found = (i + 1) % recipes.size();
+                            menu.replaceExistingItem(slot, recipes.get(found).getInput()[0]);
+                            break;
+                        }
+                    }
+
+                    ItemStack defaultItem;
+                    try {
+                        defaultItem = recipes.get(0).getInput()[0];
+                    } catch (Exception e) {
+                        defaultItem =  new ItemStack(Material.BARRIER);
+                    }
+                    menu.replaceExistingItem(slot, defaultItem);
+                    return false;
+                });
+            }
+
+            @Override
+            public boolean canOpen(Block b, Player p) {
+                if (p.hasPermission("slimefun.inventory.bypass")) {
+                    return true;
+                }
+
+                return AItemGenerator.this.canUse(p, false) && (
+                        // Protection manager doesn't exist in unit tests
+                        Slimefun.instance().isUnitTest()
+                                || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK)
+                );
+            }
+        };
 
         addItemHandler(onBlockBreak());
     }
@@ -71,7 +129,6 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
                 BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
-                    inv.dropItems(b.getLocation(), getInputSlots());
                     inv.dropItems(b.getLocation(), getOutputSlots());
                 }
 
@@ -105,23 +162,8 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
             preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        ItemStack baseItem = Objects.requireNonNullElse(recipes.get(0).getInput()[0], new ItemStack(Material.BARRIER));
-        preset.addItem(getInputSlots()[0], baseItem,  (p, slot, item, action) -> {
-            int found;
-            for (int i = 0; i < recipes.size(); i++) {
-                if (SlimefunUtils.isItemSimilar(recipes.get(i).getInput()[0], item, true, false)) {
-                    found = (i + 1) % recipes.size();
-                    preset.addItem(slot, recipes.get(found).getInput()[0]);
-                    break;
-                }
-            }
 
-            ItemStack defaultItem = Objects.requireNonNullElse(recipes.get(0).getInput()[0], new ItemStack(Material.BARRIER));
-            preset.addItem(slot, defaultItem);
-            return false;
-        });
-
-        preset.addItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(PROGRESS_SLOT, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 
         for (int i : getOutputSlots()) {
             preset.addMenuClickHandler(i, new ChestMenu.AdvancedMenuClickHandler() {
@@ -327,6 +369,11 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
         return EnergyNetComponentType.CONSUMER;
     }
 
+    @ParametersAreNonnullByDefault
+    public void addRecipe(int seconds, ItemStack input, ItemStack output) {
+        registerRecipe(seconds, new ItemStack[] { input }, new ItemStack[] { output });
+    }
+
     public void registerRecipe(MachineRecipe recipe) {
         Validate.isTrue(recipe.getInput().length == 1, "AItemGenerator must have only 1 input");
         Validate.isTrue(recipe.getOutput().length == 1, "AItemGenerator must have only 1 output");
@@ -367,10 +414,10 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
             if (takeCharge(b.getLocation())) {
 
                 if (!currentOperation.isFinished()) {
-                    processor.updateProgressBar(inv, 22, currentOperation);
+                    processor.updateProgressBar(inv, PROGRESS_SLOT, currentOperation);
                     currentOperation.addProgress(1);
                 } else {
-                    inv.replaceExistingItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
+                    inv.replaceExistingItem(PROGRESS_SLOT, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
 
                     for (ItemStack output : currentOperation.getResults()) {
                         inv.pushItem(output.clone(), getOutputSlots());
@@ -387,7 +434,7 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
                 processor.startOperation(b, currentOperation);
 
                 // Fixes #3534 - Update indicator immediately
-                processor.updateProgressBar(inv, 22, currentOperation);
+                processor.updateProgressBar(inv, PROGRESS_SLOT, currentOperation);
             }
         }
     }
