@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBre
 import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -38,9 +37,8 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 abstract public class AItemGenerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent, MachineProcessHolder<CraftingOperation> {
 
@@ -106,6 +104,20 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
         for (int i : BORDER_OUT) {
             preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
+
+        ItemStack baseItem = Objects.requireNonNullElse(recipes.get(0).getInput()[0], new ItemStack(Material.BARRIER));
+        preset.addItem(getInputSlots()[0], baseItem,  (p, slot, item, action) -> {
+            int found;
+            for (int i = 0; i < recipes.size(); i++) {
+                if (SlimefunUtils.isItemSimilar(recipes.get(i).getInput()[0], item, true, false)) {
+                    found = (i + 1) % recipes.size();
+                    preset.addItem(slot, recipes.get(found).getInput()[0]);
+                    break;
+                }
+            }
+
+            return false;
+        });
 
         preset.addItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 
@@ -403,39 +415,17 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
     }
 
     protected MachineRecipe findNextRecipe(BlockMenu inv) {
-        Map<Integer, ItemStack> inventory = new HashMap<>();
-
-        for (int slot : getInputSlots()) {
-            ItemStack item = inv.getItemInSlot(slot);
-
-            if (item != null) {
-                inventory.put(slot, ItemStackWrapper.wrap(item));
-            }
-        }
-
-        Map<Integer, Integer> found = new HashMap<>();
+        int slot = getInputSlots()[0];
+        ItemStack item = inv.getItemInSlot(slot);
 
         for (MachineRecipe recipe : recipes) {
-            for (ItemStack input : recipe.getInput()) {
-                for (int slot : getInputSlots()) {
-                    if (SlimefunUtils.isItemSimilar(inventory.get(slot), input, true)) {
-                        found.put(slot, input.getAmount());
-                        break;
-                    }
-                }
-            }
-
-            if (found.size() != recipe.getInput().length) {
-                found.clear();
+            ItemStack input = recipe.getInput()[0];
+            if (!SlimefunUtils.isItemSimilar(item, input, true)) {
                 continue;
             }
 
             if (!InvUtils.fitAll(inv.toInventory(), recipe.getOutput(), getOutputSlots())) {
                 return null;
-            }
-
-            for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
-                inv.consumeItem(entry.getKey(), entry.getValue());
             }
 
             return recipe;
