@@ -116,6 +116,8 @@ abstract public class AItemGenerator extends SlimefunItem implements InventoryBl
                 }
             }
 
+            ItemStack defaultItem = Objects.requireNonNullElse(recipes.get(0).getInput()[0], new ItemStack(Material.BARRIER));
+            preset.addItem(slot, defaultItem);
             return false;
         });
 
