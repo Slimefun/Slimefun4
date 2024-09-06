@@ -70,18 +70,18 @@ public class BlockListener implements Listener {
         Block block = e.getBlock();
 
         // Fixes #2636 - This will solve the "ghost blocks" issue
-        if (e.getBlockReplacedState().getType().isAir()) {
+        if (e.getBlockReplacedState().getType().isAir() && BlockStorage.hasBlockInfo(block) && !Slimefun.getTickerTask().isDeletedSoon(block.getLocation())) {
             SlimefunItem sfItem = BlockStorage.check(block);
 
-            if (sfItem != null && !Slimefun.getTickerTask().isDeletedSoon(block.getLocation())) {
+            if (sfItem != null) {
                 for (ItemStack item : sfItem.getDrops()) {
                     if (item != null && !item.getType().isAir()) {
                         block.getWorld().dropItemNaturally(block.getLocation(), item);
                     }
                 }
-
-                BlockStorage.clearBlockInfo(block);
             }
+
+            BlockStorage.clearBlockInfo(block);
         } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
             // If there is no air (e.g. grass) then don't let the block be placed
             e.setCancelled(true);
