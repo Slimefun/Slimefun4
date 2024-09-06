@@ -49,7 +49,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * 
  * @see TeleportationManager
  * @see ResourceManager
- *
  */
 public class GPSNetwork {
 
