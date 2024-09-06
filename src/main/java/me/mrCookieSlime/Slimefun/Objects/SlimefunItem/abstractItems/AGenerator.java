@@ -268,7 +268,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
         if (getCapacity() < 0) {
             warn("The capacity has not been configured correctly. The Item was disabled.");
-            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setCapacity(...)' before registering!");
         }
 
         if (getEnergyProduction() <= 0) {
