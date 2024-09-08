@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -122,51 +123,54 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     protected void tick(@Nonnull Block b) {
         Block fluid = b.getRelative(BlockFace.DOWN);
+        Location blockLocation = b.getLocation();
 
-        if (fluid.isLiquid() && getCharge(b.getLocation()) >= ENERGY_CONSUMPTION) {
-            BlockMenu menu = BlockStorage.getInventory(b);
+        if (!fluid.isLiquid() || getCharge(blockLocation) < ENERGY_CONSUMPTION) {
+            return;
+        }
 
-            for (int slot : getInputSlots()) {
-                ItemStack itemInSlot = menu.getItemInSlot(slot);
+        BlockMenu menu = BlockStorage.getInventory(b);
 
-                if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBucket, true, false)) {
-                    ItemStack bucket = getFilledBucket(fluid);
+        for (int slot : getInputSlots()) {
+            ItemStack itemInSlot = menu.getItemInSlot(slot);
 
-                    if (!menu.fits(bucket, getOutputSlots())) {
-                        return;
-                    }
+            if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBucket, true, false)) {
+                ItemStack bucket = getFilledBucket(fluid);
 
-                    Block nextFluid = findNextFluid(fluid);
-
-                    if (nextFluid != null) {
-                        removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
-                        menu.consumeItem(slot);
-                        menu.pushItem(bucket, getOutputSlots());
-                        nextFluid.setType(Material.AIR);
-                    }
-
-                    return;
-                } else if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBottle, true, false)) {
-                    ItemStack bottle = getFilledBottle(fluid);
-
-                    if (!menu.fits(bottle, getOutputSlots())) {
-                        return;
-                    }
-
-                    Block nextFluid = findNextFluid(fluid);
-
-                    if (nextFluid != null) {
-                        removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
-                        menu.consumeItem(slot);
-                        menu.pushItem(bottle, getOutputSlots());
-
-                        if (ThreadLocalRandom.current().nextInt(100) < 30) {
-                            nextFluid.setType(Material.AIR);
-                        }
-                    }
-
+                if (!menu.fits(bucket, getOutputSlots())) {
                     return;
                 }
+
+                Block nextFluid = findNextFluid(fluid);
+
+                if (nextFluid != null) {
+                    removeCharge(blockLocation, ENERGY_CONSUMPTION);
+                    menu.consumeItem(slot);
+                    menu.pushItem(bucket, getOutputSlots());
+                    nextFluid.setType(Material.AIR);
+                }
+
+                return;
+            } else if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBottle, true, false)) {
+                ItemStack bottle = getFilledBottle(fluid);
+
+                if (!menu.fits(bottle, getOutputSlots())) {
+                    return;
+                }
+
+                Block nextFluid = findNextFluid(fluid);
+
+                if (nextFluid != null) {
+                    removeCharge(blockLocation, ENERGY_CONSUMPTION);
+                    menu.consumeItem(slot);
+                    menu.pushItem(bottle, getOutputSlots());
+
+                    if (ThreadLocalRandom.current().nextInt(100) < 30) {
+                        nextFluid.setType(Material.AIR);
+                    }
+                }
+
+                return;
             }
         }
     }
