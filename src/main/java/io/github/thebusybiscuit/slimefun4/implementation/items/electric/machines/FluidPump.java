@@ -142,13 +142,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                 }
 
                 Block nextFluid = findNextFluid(fluid);
-
-                if (nextFluid != null) {
-                    removeCharge(blockLocation, ENERGY_CONSUMPTION);
-                    menu.consumeItem(slot);
-                    menu.pushItem(bucket, getOutputSlots());
-                    nextFluid.setType(Material.AIR);
-                }
+                removeFluid(menu, blockLocation, slot, bucket, nextFluid, null);
 
                 return;
             } else if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBottle, true, false)) {
@@ -159,19 +153,32 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                 }
 
                 Block nextFluid = findNextFluid(fluid);
-
-                if (nextFluid != null) {
-                    removeCharge(blockLocation, ENERGY_CONSUMPTION);
-                    menu.consumeItem(slot);
-                    menu.pushItem(bottle, getOutputSlots());
-
-                    if (ThreadLocalRandom.current().nextInt(100) < 30) {
-                        nextFluid.setType(Material.AIR);
-                    }
-                }
+                removeFluid(menu, blockLocation, slot, bottle, nextFluid, 30);
 
                 return;
             }
+        }
+    }
+
+    /**
+     * @param menu Menu from which take the iem and push the new element
+     * @param blockLocation Location of the FluidPump
+     * @param slot Slot to consume the item from
+     * @param stack Item to push into the menu
+     * @param nextFluid Fluid to potentially remove
+     * @param chance Chance of the removal of the fluid, if null it is 100%
+     */
+    private void removeFluid(BlockMenu menu, Location blockLocation, int slot, ItemStack stack, Block nextFluid, Integer chance) {
+        if (nextFluid == null) {
+            return;
+        }
+
+        removeCharge(blockLocation, ENERGY_CONSUMPTION);
+        menu.consumeItem(slot);
+        menu.pushItem(stack, getOutputSlots());
+
+        if (chance == null || ThreadLocalRandom.current().nextInt(100) < chance) {
+            nextFluid.setType(Material.AIR);
         }
     }
 
