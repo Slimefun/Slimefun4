@@ -73,7 +73,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onBlockBreak(Block b) {
+            public void onBlockBreak(@Nonnull Block b) {
                 BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
@@ -112,7 +112,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     @Override
-    public EnergyNetComponentType getEnergyComponentType() {
+    public @Nonnull EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
 
@@ -255,7 +255,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     @Override
-    public BlockTicker getItemHandler() {
+    public @Nonnull BlockTicker getItemHandler() {
         return new BlockTicker() {
 
             @Override
