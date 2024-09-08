@@ -24,6 +24,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 
 /**
  * The {@link GitHubConnector} is used to connect to the GitHub API service.
@@ -120,7 +121,7 @@ abstract class GitHubConnector {
                 HttpRequest.newBuilder(uri).header("User-Agent", USER_AGENT).build(),
                 HttpResponse.BodyHandlers.ofString()
             );
-            JsonElement element = JsonParser.parseString(response.body());
+            JsonElement element = JsonUtils.parseString(response.body());
 
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 onSuccess(element);
