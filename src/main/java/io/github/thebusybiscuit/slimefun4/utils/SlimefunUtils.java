@@ -21,8 +21,10 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -488,6 +490,23 @@ public final class SlimefunUtils {
         if (itemMeta instanceof PotionMeta && sfitemMeta instanceof PotionMeta) {
             return ((PotionMeta) itemMeta).getBasePotionData().equals(((PotionMeta) sfitemMeta).getBasePotionData());
         }
+
+        // Fixes #4020: Book and Head Player Comparison
+
+        if (itemMeta instanceof BookMeta itemBookMeta && sfitemMeta instanceof BookMeta sfItemBookMeta) {
+            if(itemBookMeta.getAuthor() != sfItemBookMeta.getAuthor())
+                return false;
+            if(itemBookMeta.getTitle() != sfItemBookMeta.getTitle())
+                return false;
+            if(itemBookMeta.getPageCount() != sfItemBookMeta.getPageCount())
+                return false;
+        }
+
+        if (itemMeta instanceof SkullMeta itemHeadMeta && sfitemMeta instanceof SkullMeta sfItemHeadMeta) {
+            if(itemHeadMeta.getOwningPlayer() != sfItemHeadMeta.getOwningPlayer())
+                return false;
+        }
+
 
         return true;
     }
