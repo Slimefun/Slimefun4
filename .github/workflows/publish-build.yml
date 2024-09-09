@@ -22,9 +22,19 @@ jobs:
           java-version: '17'
           java-package: jdk
           architecture: x64
+          cache: gradle
 
-      - name: Build with Maven
-        run: mvn clean package
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      - name: Grant Wrapper Permission
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
 
       - name: Upload to Blob Builds
         uses: WalshyDev/blob-builds/gh-action@f3da5ce7b7e2b70eb963e0c0014677b3d78c10fa
@@ -32,5 +42,5 @@ jobs:
           project: Slimefun4
           releaseChannel: ${{ github.ref == 'refs/heads/master' && 'Dev' || 'RC' }}
           apiToken: ${{ secrets.BLOB_BUILDS_API_TOKEN }}
-          file: './target/Slimefun v4.9-UNOFFICIAL.jar'
+          file: 'build/libs/Slimefun-v4.9-UNOFFICIAL.jar'
           releaseNotes: ${{ github.event.head_commit.message }}
