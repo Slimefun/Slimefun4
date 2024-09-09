@@ -235,7 +235,6 @@ public class MetricsService {
                 downloadMonitor(HttpResponse.BodyHandlers.ofFile(file.toPath()))
             );
 
-
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { JAR_NAME, version });
 
@@ -246,6 +245,8 @@ public class MetricsService {
                 metricVersion = String.valueOf(version);
                 hasDownloadedUpdate = true;
                 return true;
+            } else {
+                plugin.getLogger().log(Level.WARNING, "Failed to download the latest jar file from GitHub. Response code: {0}", response.statusCode());
             }
         } catch (InterruptedException | JsonParseException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down? Response: {0}", e.getMessage());
