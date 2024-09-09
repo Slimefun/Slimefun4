@@ -345,8 +345,6 @@
     </dependencyManagement>
 
     <dependencies>
-
-
         <!-- Development dependencies -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -357,9 +355,9 @@
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.baked-libs.dough</groupId>
+            <groupId>com.github.EpicPlayerA10.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>baf2d79f62</version>
+            <version>66870dd295</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -389,9 +387,9 @@
         </dependency>
         <!-- This needs to be before Spigot because MockBukkit will fail otherwise. -->
         <dependency>
-            <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.20</artifactId>
-            <version>3.93.2</version>
+            <groupId>com.github.MockBukkit</groupId>
+            <artifactId>MockBukkit</artifactId>
+            <version>c7cc678834</version>
             <scope>test</scope>
 
             <exclusions>
