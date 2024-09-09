@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -72,7 +73,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onBlockBreak(Block b) {
+            public void onBlockBreak(@Nonnull Block b) {
                 BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
@@ -111,7 +112,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     @Override
-    public EnergyNetComponentType getEnergyComponentType() {
+    public @Nonnull EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
 
@@ -122,52 +123,62 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     protected void tick(@Nonnull Block b) {
         Block fluid = b.getRelative(BlockFace.DOWN);
+        Location blockLocation = b.getLocation();
 
-        if (fluid.isLiquid() && getCharge(b.getLocation()) >= ENERGY_CONSUMPTION) {
-            BlockMenu menu = BlockStorage.getInventory(b);
+        if (!fluid.isLiquid() || getCharge(blockLocation) < ENERGY_CONSUMPTION) {
+            return;
+        }
 
-            for (int slot : getInputSlots()) {
-                ItemStack itemInSlot = menu.getItemInSlot(slot);
+        BlockMenu menu = BlockStorage.getInventory(b);
 
-                if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBucket, true, false)) {
-                    ItemStack bucket = getFilledBucket(fluid);
+        for (int slot : getInputSlots()) {
+            ItemStack itemInSlot = menu.getItemInSlot(slot);
 
-                    if (!menu.fits(bucket, getOutputSlots())) {
-                        return;
-                    }
+            if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBucket, true, false)) {
+                ItemStack bucket = getFilledBucket(fluid);
 
-                    Block nextFluid = findNextFluid(fluid);
-
-                    if (nextFluid != null) {
-                        removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
-                        menu.consumeItem(slot);
-                        menu.pushItem(bucket, getOutputSlots());
-                        nextFluid.setType(Material.AIR);
-                    }
-
-                    return;
-                } else if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBottle, true, false)) {
-                    ItemStack bottle = getFilledBottle(fluid);
-
-                    if (!menu.fits(bottle, getOutputSlots())) {
-                        return;
-                    }
-
-                    Block nextFluid = findNextFluid(fluid);
-
-                    if (nextFluid != null) {
-                        removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
-                        menu.consumeItem(slot);
-                        menu.pushItem(bottle, getOutputSlots());
-
-                        if (ThreadLocalRandom.current().nextInt(100) < 30) {
-                            nextFluid.setType(Material.AIR);
-                        }
-                    }
-
+                if (!menu.fits(bucket, getOutputSlots())) {
                     return;
                 }
+
+                Block nextFluid = findNextFluid(fluid);
+                removeFluid(menu, blockLocation, slot, bucket, nextFluid, null);
+
+                return;
+            } else if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBottle, true, false)) {
+                ItemStack bottle = getFilledBottle(fluid);
+
+                if (!menu.fits(bottle, getOutputSlots())) {
+                    return;
+                }
+
+                Block nextFluid = findNextFluid(fluid);
+                removeFluid(menu, blockLocation, slot, bottle, nextFluid, 30);
+
+                return;
             }
+        }
+    }
+
+    /**
+     * @param menu Menu from which take the iem and push the new element
+     * @param blockLocation Location of the FluidPump
+     * @param slot Slot to consume the item from
+     * @param stack Item to push into the menu
+     * @param nextFluid Fluid to potentially remove
+     * @param chance Chance of the removal of the fluid, if null it is 100%
+     */
+    private void removeFluid(BlockMenu menu, Location blockLocation, int slot, ItemStack stack, Block nextFluid, Integer chance) {
+        if (nextFluid == null) {
+            return;
+        }
+
+        removeCharge(blockLocation, ENERGY_CONSUMPTION);
+        menu.consumeItem(slot);
+        menu.pushItem(stack, getOutputSlots());
+
+        if (chance == null || ThreadLocalRandom.current().nextInt(100) < chance) {
+            nextFluid.setType(Material.AIR);
         }
     }
 
@@ -244,7 +255,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     @Override
-    public BlockTicker getItemHandler() {
+    public @Nonnull BlockTicker getItemHandler() {
         return new BlockTicker() {
 
             @Override
