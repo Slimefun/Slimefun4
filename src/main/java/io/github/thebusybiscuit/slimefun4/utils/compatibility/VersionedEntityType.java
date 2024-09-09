@@ -12,6 +12,7 @@ public class VersionedEntityType {
 
     public static final EntityType MOOSHROOM;
     public static final EntityType SNOW_GOLEM;
+    public static final EntityType FIREWORK;
 
     static {
         // MUSHROOM_COW is renamed to MOOSHROOM in 1.20.5
@@ -19,6 +20,8 @@ public class VersionedEntityType {
 
         // SNOWMAN is renamed to SNOW_GOLEM in 1.20.5
         SNOW_GOLEM = getKey("snow_golem");
+
+        FIREWORK = getKey("firework_rocket");
     }
 
     @Nullable

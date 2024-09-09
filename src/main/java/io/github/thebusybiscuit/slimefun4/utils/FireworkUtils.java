@@ -15,8 +15,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEntityType;
 
 /**
  * This is a simple utility class for spawning random and colorful {@link Firework} rockets.
@@ -35,15 +34,7 @@ public final class FireworkUtils {
     };
     // @formatter:on
     
-    private static final EntityType firework;
-
-    static {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
-            firework = EntityType.FIREWORK_ROCKET;
-        } else {
-            firework = EntityType.valueOf("FIREWORK");
-        }
-    }
+    private static final EntityType firework = VersionedEntityType.FIREWORK;
 
     private FireworkUtils() {}
 

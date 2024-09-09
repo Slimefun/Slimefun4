@@ -357,7 +357,7 @@
         <dependency>
             <groupId>com.github.EpicPlayerA10.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>66870dd295</version>
+            <version>ea6c98929d</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
