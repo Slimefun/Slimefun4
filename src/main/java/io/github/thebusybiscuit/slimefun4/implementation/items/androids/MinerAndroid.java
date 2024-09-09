@@ -11,6 +11,7 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -75,23 +76,37 @@ public class MinerAndroid extends ProgrammableAndroid {
     protected void dig(Block b, BlockMenu menu, Block block) {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
-        if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
-            OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
-
-            if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
-                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
-                Bukkit.getPluginManager().callEvent(event);
-
-                if (event.isCancelled()) {
-                    return;
-                }
-
-                // We only want to break non-Slimefun blocks
-                if (!BlockStorage.hasBlockInfo(block)) {
-                    breakBlock(menu, drops, block);
-                }
-            }
+        if (!canBreakBlock(block, b)) {
+            return;
         }
+
+        AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            return;
+        }
+
+        // We only want to break non-Slimefun blocks
+        if (!BlockStorage.hasBlockInfo(block)) {
+            breakBlock(menu, drops, block);
+        }
+    }
+
+    @ParametersAreNonnullByDefault
+    protected boolean canBreakBlock(Block block, Block b) {
+        Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
+        if (SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) || drops.isEmpty()) {
+            return false;
+        }
+
+        String ownerName = BlockStorage.getLocationInfo(b.getLocation(), "owner");
+        OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(ownerName));
+        if (!Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -99,38 +114,33 @@ public class MinerAndroid extends ProgrammableAndroid {
     protected void moveAndDig(Block b, BlockMenu menu, BlockFace face, Block block) {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
-        if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
-            OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
+        if (!canBreakBlock(block, b)) {
+            move(b, face, block);
+            return;
+        }
 
-            if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
-                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
-                Bukkit.getPluginManager().callEvent(event);
+        AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
+        Bukkit.getPluginManager().callEvent(event);
 
-                if (event.isCancelled()) {
-                    return;
-                }
+        if (event.isCancelled()) {
+            return;
+        }
 
-                // We only want to break non-Slimefun blocks
-                if (!BlockStorage.hasBlockInfo(block)) {
-                    breakBlock(menu, drops, block);
-                    move(b, face, block);
-                }
-            } else {
-                move(b, face, block);
-            }
-        } else {
+        // We only want to break non-Slimefun blocks
+        if (!BlockStorage.hasBlockInfo(block)) {
+            breakBlock(menu, drops, block);
             move(b, face, block);
         }
     }
 
     @ParametersAreNonnullByDefault
     private void breakBlock(BlockMenu menu, Collection<ItemStack> drops, Block block) {
-
-        if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {
+        World world = block.getWorld();
+        if (!world.getWorldBorder().isInside(block.getLocation())) {
             return;
         }
 
-        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+        world.playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
 
         // Push our drops to the inventory
         for (ItemStack drop : drops) {
@@ -138,24 +148,25 @@ public class MinerAndroid extends ProgrammableAndroid {
         }
 
         // Check if Block Generator optimizations should be applied.
-        if (applyOptimizations.getValue()) {
-            InfiniteBlockGenerator generator = InfiniteBlockGenerator.findAt(block);
-
-            // If we found a generator, continue.
-            if (generator != null) {
-                if (firesEvent.getValue()) {
-                    generator.callEvent(block);
-                }
-
-                // "poof" a "new" block was generated
-                SoundEffect.MINER_ANDROID_BLOCK_GENERATION_SOUND.playAt(block);
-                block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
-            } else {
-                block.setType(Material.AIR);
-            }
-        } else {
+        if (!applyOptimizations.getValue()) {
             block.setType(Material.AIR);
+            return;
         }
+
+        // If we didn't find a generator ignore the block.
+        InfiniteBlockGenerator generator = InfiniteBlockGenerator.findAt(block);
+        if (generator == null) {
+            block.setType(Material.AIR);
+            return;
+        }
+
+        if (firesEvent.getValue()) {
+            generator.callEvent(block);
+        }
+
+        // "poof" a "new" block was generated
+        SoundEffect.MINER_ANDROID_BLOCK_GENERATION_SOUND.playAt(block);
+        world.spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
     }
 
 }
