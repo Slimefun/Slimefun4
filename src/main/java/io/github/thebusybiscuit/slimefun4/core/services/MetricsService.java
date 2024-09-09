@@ -29,10 +29,10 @@ import org.bukkit.plugin.Plugin;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -204,7 +204,7 @@ public class MetricsService {
                 return -1;
             }
 
-            JsonElement element = JsonParser.parseString(response.body());
+            JsonElement element = JsonUtils.parseString(response.body());
 
             return element.getAsJsonObject().get("tag_name").getAsInt();
         } catch (IOException | InterruptedException | JsonParseException e) {
