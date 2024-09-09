@@ -33,8 +33,7 @@ public abstract class SimpleBlockBreakHandler extends BlockBreakHandler {
     }
 
     /**
-     * This method is called when a {@link Block} of this type is broken by a {@link Player},
-     * by a {@link MinerAndroid} or through an explosion.
+     * This method is called when a {@link Block} is broken
      * 
      * @param b
      *            The broken {@link Block}
@@ -56,4 +55,8 @@ public abstract class SimpleBlockBreakHandler extends BlockBreakHandler {
         onBlockBreak(b);
     }
 
+    @Override
+    public void onCollapse(Block block) {
+        onBlockBreak(block);
+    }
 }

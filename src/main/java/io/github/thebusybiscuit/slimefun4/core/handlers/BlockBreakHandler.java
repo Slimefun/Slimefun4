@@ -66,6 +66,16 @@ public abstract class BlockBreakHandler implements ItemHandler {
     }
 
     /**
+     * Called when sensitive block was collapsed by breaking the supporting block
+     *
+     * @param block Collapsed {@link Block}
+     */
+    @ParametersAreNonnullByDefault
+    public void onCollapse(Block block) {
+        // This can be overridden, if necessary
+    }
+
+    /**
      * This returns whether an explosion is able to break the given {@link Block}.
      * 
      * @param b
