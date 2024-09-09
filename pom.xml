@@ -355,9 +355,9 @@
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.EpicPlayerA10.dough</groupId>
+            <groupId>com.github.baked-libs.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>ea6c98929d</version>
+            <version>f8ff25187d</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
