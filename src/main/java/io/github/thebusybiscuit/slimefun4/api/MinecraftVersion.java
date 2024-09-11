@@ -284,11 +284,8 @@ public enum MinecraftVersion {
         }
 
         // major version mismatch
-        if (this.majorVersion < minecraftVersion) {
-            return true;
-        }
-        if (this.majorVersion > minecraftVersion) {
-            return false;
+        if (this.majorVersion != minecraftVersion) {
+            return this.majorVersion < minecraftVersion;
         }
 
         return this.minorVersion == -1 ? patchVersion > 0 : this.minorVersion < patchVersion;
