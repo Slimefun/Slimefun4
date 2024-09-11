@@ -278,10 +278,12 @@ public enum MinecraftVersion {
      * @return True if this version is before, False if this version is virtual or otherwise.
      */
     public boolean isBefore(int minecraftVersion, int patchVersion) {
+        // unit tests or whatever
         if (isVirtual()) {
             return false;
         }
 
+        // major version mismatch
         if (this.majorVersion < minecraftVersion) {
             return true;
         }
@@ -289,11 +291,7 @@ public enum MinecraftVersion {
             return false;
         }
 
-        if (this.minorVersion == -1) {
-            return patchVersion > 0;
-        } else {
-            return this.minorVersion < patchVersion;
-        }
+        return this.minorVersion == -1 ? patchVersion > 0 : this.minorVersion < patchVersion;
     }
 
 }
