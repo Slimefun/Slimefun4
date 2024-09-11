@@ -72,6 +72,7 @@ class TestMinecraftVersion {
         Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_18.isBefore(16, 5));
         Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_18.isBefore(17, 1));
         Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_18.isBefore(18, 0));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_18.isBefore(18, 1));
 
         Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 0));
         Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 2));
