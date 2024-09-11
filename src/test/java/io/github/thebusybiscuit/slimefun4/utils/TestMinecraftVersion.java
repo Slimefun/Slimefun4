@@ -67,6 +67,24 @@ class TestMinecraftVersion {
     }
 
     @Test
+    @DisplayName("Test if Minecraft versions #isBefore behaves correctly for minor versions")
+    void testIsBeforeMinor() {
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_18.isBefore(16, 5));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_18.isBefore(17, 1));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_18.isBefore(18, 0));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_18.isBefore(18, 1));
+
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 0));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 2));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 4));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 5));
+
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20_5.isBefore(20, 4));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20_5.isBefore(20, 5));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20_5.isBefore(20, 6));
+    }
+
+    @Test
     @DisplayName("Test correct behaviour for MinecraftVersion.UNKNOWN.isBefore(...)")
     void testIsBeforeUnknown() {
         // Unknown should always fall back to true
