@@ -39,7 +39,7 @@ class TestColorCodes extends AbstractLocaleRegexChecker {
     void testSpelling(LanguagePreset lang, LanguageFile file) throws IOException, InvalidConfigurationException {
         FileConfiguration config = readLanguageFile(lang, file);
         if (config == null) {
-                return;
+            return;
         }
         assertNoRegexMatchesForAllEntries(lang, file, config);
     }
