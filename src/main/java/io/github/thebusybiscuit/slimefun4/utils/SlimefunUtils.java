@@ -495,14 +495,14 @@ public final class SlimefunUtils {
             return potionMeta.getBasePotionData().equals(sfPotionMeta.getBasePotionData());
         } else if (current.isBefore(20, 5)) {
             //  getBasePotionType without null check for 1.20.3 and 1.20.4
-            return potionMeta.getBasePotionType().equals(sfPotionMeta.getBasePotionType());
+            return potionMeta.getBasePotionType() == sfPotionMeta.getBasePotionType();
         }
         // check if potionMetha has a basePotionType (acting a null check for getBasePotionType
         // on 1.20.5+
         if (potionMeta.hasBasePotionType() != sfPotionMeta.hasBasePotionType()) {
             return false;
         }
-        return potionMeta.getBasePotionType().equals(sfPotionMeta.getBasePotionType());
+        return potionMeta.getBasePotionType() == sfPotionMeta.getBasePotionType();
     }
 
     /**
