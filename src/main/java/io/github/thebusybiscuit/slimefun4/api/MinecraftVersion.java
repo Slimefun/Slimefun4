@@ -47,7 +47,7 @@ public enum MinecraftVersion {
      * This constant represents Minecraft (Java Edition) Version 1.20
      * ("The Trails &amp; Tales Update")
      */
-    MINECRAFT_1_20(20, 0, 4,"1.20.x"),
+    MINECRAFT_1_20(20, 0, 4, "1.20.x"),
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.20.5
