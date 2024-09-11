@@ -201,7 +201,7 @@ public enum MinecraftVersion {
      * It is equivalent to the "minor" version
      * <p>
      * Example: {@literal "1.13"} returns {@literal 13}<br />
-     * Exampe: {@literal "1.13.2"} returns {@literal 13_2}
+     * Example: {@literal "1.13.2"} returns {@literal 13_2}
      *
      * @param minecraftVersion
      *            The {@link Integer} version to match
@@ -278,7 +278,22 @@ public enum MinecraftVersion {
      * @return True if this version is before, False if this version is virtual or otherwise.
      */
     public boolean isBefore(int minecraftVersion, int patchVersion) {
-        return !isVirtual() && (this.majorVersion < minecraftVersion && this.minorVersion < patchVersion);
+        if (isVirtual()) {
+            return false;
+        }
+
+        if (this.majorVersion < minecraftVersion) {
+            return true;
+        }
+        if (this.majorVersion > minecraftVersion) {
+            return false;
+        }
+
+        if (this.minorVersion == -1) {
+            return patchVersion > 0;
+        } else {
+            return this.minorVersion < patchVersion;
+        }
     }
 
 }
