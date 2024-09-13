@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPotionEffectType;
 
 public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefunItem<T> {
 
@@ -32,10 +33,10 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
 
         curedEffects.add(PotionEffectType.POISON);
         curedEffects.add(PotionEffectType.WITHER);
-        curedEffects.add(PotionEffectType.SLOW);
-        curedEffects.add(PotionEffectType.SLOW_DIGGING);
+        curedEffects.add(VersionedPotionEffectType.SLOWNESS);
+        curedEffects.add(VersionedPotionEffectType.MINING_FATIGUE);
         curedEffects.add(PotionEffectType.WEAKNESS);
-        curedEffects.add(PotionEffectType.CONFUSION);
+        curedEffects.add(VersionedPotionEffectType.NAUSEA);
         curedEffects.add(PotionEffectType.BLINDNESS);
         curedEffects.add(PotionEffectType.BAD_OMEN);
     }

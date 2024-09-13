@@ -20,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockDamageable;
-
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
@@ -82,8 +82,8 @@ class TestDamageableItem {
     @DisplayName("Test if DamageableItem cares about unbreaking levels")
     void testDamageableItemCaresUnbreaking() {
         MockDamageable noUnbreakingItem = getDummyItem("NU", true, null, null);
-        MockDamageable iiiUnbreakingItem = getDummyItem("IIIU", true, Enchantment.DURABILITY, 3);
-        MockDamageable xUnbreakingItem = getDummyItem("XU", true, Enchantment.DURABILITY, 10);
+        MockDamageable iiiUnbreakingItem = getDummyItem("IIIU", true, VersionedEnchantment.UNBREAKING, 3);
+        MockDamageable xUnbreakingItem = getDummyItem("XU", true, VersionedEnchantment.UNBREAKING, 10);
         ItemStack noUnbreakingItemIS = noUnbreakingItem.getItem().clone();
         ItemStack iiiUnbreakingItemIS = iiiUnbreakingItem.getItem().clone();
         ItemStack xUnbreakingItemIS = xUnbreakingItem.getItem().clone();
