@@ -9,6 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import dev.lone.itemsadder.api.CustomBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
+import org.bukkit.ExplosionResult;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -78,7 +79,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         List<Block> blocksToDestroy = new ArrayList<>();
 
         if (callExplosionEvent.getValue()) {
-            BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
+            BlockExplodeEvent blockExplodeEvent = createNewBlockExplodeEvent(b, blocks, 0);
             Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
 
             if (!blockExplodeEvent.isCancelled()) {
@@ -186,4 +187,12 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         damageItem(p, item);
     }
 
+    private BlockExplodeEvent createNewBlockExplodeEvent(
+        Block block,
+        List<Block> blocks,
+        float yield
+    ) {
+        // TODO: Support older vers
+        return new BlockExplodeEvent(block, block.getState(), blocks, yield, ExplosionResult.DESTROY);
+    }
 }
