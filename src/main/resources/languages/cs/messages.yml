@@ -188,7 +188,7 @@ messages:
     whirlwind: '&a&oTvůj talisman odrazil projektil'
     wizard: '&a&oTvůj talisman ti dal větší úroveň štěstí, ale možná snížil úroveň jiných očarování'
     caveman: '&a&oTvůj talisman ti dal spěch'
-    wise: '& a&aTvůj talisman zdvojnásobil zisk tvých zkušeností'
+    wise: '&a&oTvůj talisman zdvojnásobil zisk tvých zkušeností'
   soulbound-rune:
     fail: '&cSvou duši můžeš spoutat jen s jedním předmětem.'
     success: '&aÚspěšně jsi spoutal tento předmět se svou duši. Pokud zemřeš, předmět ti zůstane.'
