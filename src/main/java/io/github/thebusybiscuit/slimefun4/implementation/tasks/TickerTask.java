@@ -44,6 +44,7 @@ public class TickerTask implements Runnable {
 
     /**
      * This Map holds all currently actively ticking locations.
+     * The value of this map (Set entries) MUST be thread-safe and mutable.
      */
     private final Map<ChunkPosition, Set<Location>> tickingLocations = new ConcurrentHashMap<>();
 
@@ -329,7 +330,7 @@ public class TickerTask implements Runnable {
     public Set<Location> getLocations(@Nonnull Chunk chunk) {
         Validate.notNull(chunk, "The Chunk cannot be null!");
 
-        Set<Location> locations = tickingLocations.getOrDefault(new ChunkPosition(chunk), new HashSet<>());
+        Set<Location> locations = tickingLocations.getOrDefault(new ChunkPosition(chunk), Collections.emptySet());
         return Collections.unmodifiableSet(locations);
     }
 
@@ -343,7 +344,14 @@ public class TickerTask implements Runnable {
         Validate.notNull(l, "Location cannot be null!");
 
         ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
-        Set<Location> newValue = new HashSet<>();
+
+        /*
+          Note that all the values in #tickingLocations must be thread-safe.
+          Thus, the choice is between the CHM KeySet or a synchronized set.
+          The CHM KeySet was chosen since it at least permits multiple concurrent
+          reads without blocking.
+        */
+        Set<Location> newValue = ConcurrentHashMap.newKeySet();
         Set<Location> oldValue = tickingLocations.putIfAbsent(chunk, newValue);
 
         /**
