@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
@@ -25,15 +26,28 @@ public interface HologramOwner extends ItemAttribute {
     /**
      * This will update the hologram text for the given {@link Block}.
      * 
-     * @param b
+     * @param hologramOwnerBlock
      *            The {@link Block} to which the hologram belongs
      * 
      * @param text
      *            The nametag for the hologram
      */
-    default void updateHologram(@Nonnull Block b, @Nonnull String text) {
-        Location loc = b.getLocation().add(getHologramOffset(b));
-        Slimefun.getHologramsService().setHologramLabel(loc, ChatColors.color(text));
+    default void updateHologram(@Nonnull Block hologramOwnerBlock, @Nonnull String text) {
+        Runnable runnable = () -> {
+            // Fix not disappearing holograms (#3176)
+            if (Slimefun.getTickerTask().isDeletedSoon(hologramOwnerBlock.getLocation())) {
+                return;
+            }
+
+            Location loc = hologramOwnerBlock.getLocation().add(getHologramOffset(hologramOwnerBlock));
+            Slimefun.getHologramsService().setHologramLabel(loc, ChatColors.color(text));
+        };
+
+        if (Bukkit.isPrimaryThread()) {
+            runnable.run();
+        } else {
+            Slimefun.runSync(runnable);
+        }
     }
 
     /**
