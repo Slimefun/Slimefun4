@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongConsumer;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,6 +51,8 @@ public class EnergyNet extends Network implements HologramOwner {
     private final Map<Location, EnergyNetProvider> generators = new HashMap<>();
     private final Map<Location, EnergyNetComponent> capacitors = new HashMap<>();
     private final Map<Location, EnergyNetComponent> consumers = new HashMap<>();
+
+    private boolean saturated = false;
 
     protected EnergyNet(@Nonnull Location l) {
         super(Slimefun.getNetworkManager(), l);
@@ -230,6 +233,8 @@ public class EnergyNet extends Network implements HologramOwner {
                 component.setCharge(loc, 0);
             }
         }
+
+        this.saturated = remainingEnergy > 0;
     }
 
     private int tickAllGenerators(@Nonnull LongConsumer timings) {
@@ -242,9 +247,16 @@ public class EnergyNet extends Network implements HologramOwner {
             EnergyNetProvider provider = entry.getValue();
             SlimefunItem item = (SlimefunItem) provider;
 
+            int networksToDistributeOver = 0;
+            for (EnergyNet energyNet : Slimefun.getNetworkManager().getNetworksFromLocation(loc, EnergyNet.class)) {
+                if (!energyNet.isSaturated()) {
+                    networksToDistributeOver++;
+                }
+            }
+
             try {
                 Config data = BlockStorage.getLocationInfo(loc);
-                int energy = provider.getGeneratedOutput(loc, data);
+                int energy = provider.getGeneratedOutput(loc, data) / Math.max(1, networksToDistributeOver);
 
                 if (provider.isChargeable()) {
                     energy = NumberUtils.flowSafeAddition(energy, provider.getCharge(loc, data));
@@ -286,6 +298,16 @@ public class EnergyNet extends Network implements HologramOwner {
         }
 
         return supply;
+    }
+
+    /**
+     * If an {@link EnergyNet} is saturated there is no space to store additional energy
+     * meaning every buffer and capacitor is full.
+     *
+     * @return whether this {@link EnergyNet} is saturated
+     */
+    public boolean isSaturated() {
+        return saturated;
     }
 
     private void updateHologram(@Nonnull Block b, double supply, double demand) {
