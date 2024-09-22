@@ -109,7 +109,7 @@ android:
     editor: 'ویرایش برنامه'
     uploaded:
       - '&bدرحال آپلود...'
-      - '&aSuccessfully uploaded your script!'
+      - ''
 languages:
   default: 'پیشفرض سرور'
   en: 'انگلیسی'
