@@ -1,17 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Axis;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Orientable;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.blocks.Vein;
@@ -37,6 +41,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class LumberAxe extends SlimefunItem implements NotPlaceable {
 
+    private static final Set<BlockBreakEvent> IGNORE_EVENTS = new HashSet<>();
     private static final int MAX_BROKEN = 100;
     private static final int MAX_STRIPPED = 20;
 
@@ -50,13 +55,22 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
     @Nonnull
     private ToolUseHandler onBlockBreak() {
         return (e, tool, fortune, drops) -> {
+            if (IGNORE_EVENTS.contains(e)) {
+                return;
+            }
+
             if (!e.getPlayer().isSneaking() && Tag.LOGS.isTagged(e.getBlock().getType())) {
                 List<Block> logs = Vein.find(e.getBlock(), MAX_BROKEN, b -> Tag.LOGS.isTagged(b.getType()));
                 logs.remove(e.getBlock());
 
                 for (Block b : logs) {
                     if (!BlockStorage.hasBlockInfo(b) && Slimefun.getProtectionManager().hasPermission(e.getPlayer(), b, Interaction.BREAK_BLOCK)) {
-                        breakLog(b);
+                        BlockBreakEvent event = new BlockBreakEvent(b, e.getPlayer());
+                        IGNORE_EVENTS.add(event);
+                        Bukkit.getPluginManager().callEvent(event);
+                        if (!event.isCancelled()) {
+                            breakLog(b, event.isDropItems());
+                        }
                     }
                 }
             }
@@ -99,11 +113,13 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
         b.setBlockData(orientable);
     }
 
-    private void breakLog(@Nonnull Block b) {
+    private void breakLog(@Nonnull Block b, boolean dropItems) {
         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 
-        for (ItemStack drop : b.getDrops(getItem())) {
-            b.getWorld().dropItemNaturally(b.getLocation(), drop);
+        if (dropItems) {
+            for (ItemStack drop : b.getDrops(getItem())) {
+                b.getWorld().dropItemNaturally(b.getLocation(), drop);
+            }
         }
 
         b.setType(Material.AIR);
