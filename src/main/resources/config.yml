@@ -33,6 +33,8 @@ researches:
   free-in-creative-mode: true
   enable-fireworks: true
   disable-learning-animation: false
+  enable-vault-economy: false
+  economy-price-multiplier: 1000.0
 
 URID:
   info-delay: 3000

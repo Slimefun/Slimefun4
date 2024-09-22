@@ -70,6 +70,8 @@ public final class SlimefunRegistry {
     private boolean freeCreativeResearches;
     private boolean researchFireworks;
     private boolean disableLearningAnimation;
+    private boolean enableVaultEconomy;
+    private double economyPriceMultiplier;
     private boolean logDuplicateBlockEntries;
     private boolean talismanActionBarMessages;
 
@@ -111,6 +113,8 @@ public final class SlimefunRegistry {
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         disableLearningAnimation = cfg.getBoolean("researches.disable-learning-animation");
+        enableVaultEconomy = cfg.getBoolean("researches.enable-vault-economy");
+        economyPriceMultiplier = cfg.getDouble("researches.economy-price-multiplier");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
         talismanActionBarMessages = cfg.getBoolean("talismans.use-actionbar");
     }
@@ -222,6 +226,24 @@ public final class SlimefunRegistry {
      */
     public boolean isLearningAnimationDisabled() {
         return disableLearningAnimation;
+    }
+
+    /**
+     * Returns whether Vault Economy is enabled for researching
+     *
+     * @return Whether Vault Economy is enabled for researching
+     */
+    public boolean isVaultEconomyEnabled() {
+        return enableVaultEconomy;
+    }
+
+    /**
+     * Returns the multiplier for prices if Vault Economy is enabled
+     *
+     * @return the multiplier to apply to the cost in levels of each research
+     */
+    public double getEconomyPriceMultiplier() {
+        return economyPriceMultiplier;
     }
 
     /**
