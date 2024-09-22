@@ -332,6 +332,7 @@ public class BlockListener implements Listener {
                 Block relative = block.getRelative(face);
                 if (!isDropItems) {
                     for (ItemStack drop : relative.getDrops()) {
+
                         block.getWorld().dropItemNaturally(relative.getLocation(), drop);
                     }
                 }

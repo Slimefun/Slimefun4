@@ -104,7 +104,7 @@ abstract class AbstractItemNetwork extends Network {
             boolean add = true;
 
             for (ItemStackAndInteger item : items) {
-                if (SlimefunUtils.isItemSimilar(stack, item.getItemStackWrapper(), true, false)) {
+                if (SlimefunUtils.compareItem(stack, item.getItemStackWrapper())) {
                     add = false;
                     item.add(stack.getAmount());
                 }

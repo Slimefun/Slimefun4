@@ -40,7 +40,7 @@ public class AnimalGrowthAccelerator extends AbstractGrowthAccelerator {
 
         for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), RADIUS, RADIUS, RADIUS, this::isReadyToGrow)) {
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFood, false, false)) {
+                if (SlimefunUtils.compareItem(inv.getItemInSlot(slot), organicFood)) {
                     if (getCharge(b.getLocation()) < ENERGY_CONSUMPTION) {
                         return;
                     }

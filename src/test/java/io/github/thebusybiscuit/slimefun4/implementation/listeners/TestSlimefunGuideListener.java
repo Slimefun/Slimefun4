@@ -56,7 +56,7 @@ class TestSlimefunGuideListener {
     }
 
     private boolean hasSlimefunGuide(Player player, ItemStack guide) {
-        return SlimefunUtils.isItemSimilar(player.getInventory().getItem(0), guide, true);
+        return SlimefunUtils.compareItem(player.getInventory().getItem(0), guide);
     }
 
     /**
