@@ -60,7 +60,7 @@ class TestSlimefunBlockBreakEvent {
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, TestUtilities.randomInt(), 100, TestUtilities.randomInt()));
 
-        Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
+        Slimefun.getRegistry().getWorlds().put(world.getUID(), new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
         server.getPluginManager().callEvent(new BlockBreakEvent(block, player));
@@ -77,7 +77,7 @@ class TestSlimefunBlockBreakEvent {
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, TestUtilities.randomInt(), 100, TestUtilities.randomInt()));
 
-        Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
+        Slimefun.getRegistry().getWorlds().put(world.getUID(), new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
         server.getPluginManager().callEvent(new BlockBreakEvent(block, player));
@@ -108,7 +108,7 @@ class TestSlimefunBlockBreakEvent {
         World world = server.addSimpleWorld("my_world");
         Block block = new BlockMock(Material.GREEN_TERRACOTTA, new Location(world, TestUtilities.randomInt(), 100, TestUtilities.randomInt()));
 
-        Slimefun.getRegistry().getWorlds().put("my_world", new BlockStorage(world));
+        Slimefun.getRegistry().getWorlds().put(world.getUID(), new BlockStorage(world));
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
         BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
