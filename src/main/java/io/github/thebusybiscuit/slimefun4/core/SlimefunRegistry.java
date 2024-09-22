@@ -70,6 +70,7 @@ public final class SlimefunRegistry {
     private boolean freeCreativeResearches;
     private boolean researchFireworks;
     private boolean disableLearningAnimation;
+    private boolean useVanillaExpCostFormula;
     private boolean logDuplicateBlockEntries;
     private boolean talismanActionBarMessages;
 
@@ -111,6 +112,7 @@ public final class SlimefunRegistry {
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         disableLearningAnimation = cfg.getBoolean("researches.disable-learning-animation");
+        useVanillaExpCostFormula = cfg.getBoolean("researches.use-vanilla-exp-cost-formula");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
         talismanActionBarMessages = cfg.getBoolean("talismans.use-actionbar");
     }
@@ -222,6 +224,15 @@ public final class SlimefunRegistry {
      */
     public boolean isLearningAnimationDisabled() {
         return disableLearningAnimation;
+    }
+
+    /**
+     * Returns whether should the game use vanilla formula for exp cost or not
+     *
+     * @return whether should the game use vanilla formula for exp cost or not
+     */
+    public boolean isUsingVanillaExpFormula() {
+        return useVanillaExpCostFormula;
     }
 
     /**
