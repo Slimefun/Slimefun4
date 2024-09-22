@@ -515,9 +515,24 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         Optional<String> wiki = item.getWikipage();
 
         if (wiki.isPresent()) {
-            menu.addItem(8, new CustomItemStack(Material.KNOWLEDGE_BOOK, ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
+            String message = Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.third-party");
+            if (item.getAddon() instanceof Slimefun) {
+                message = Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.slimefun");
+            }
+            menu.addItem(8, new CustomItemStack(
+                Material.KNOWLEDGE_BOOK,
+                ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.button").replace("%addon%", item.getAddon().getName()),
+                "",
+                ChatColor.WHITE + message,
+                "",
+                ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")
+            ));
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
                 pl.closeInventory();
+                if (!(item.getAddon() instanceof Slimefun)) {
+                    Slimefun.getLocalization().sendMessage(pl, "messages.wiki-third-party",
+                        msg -> msg.replace("%addon%", item.getAddon().getName()));
+                }
                 ChatUtils.sendURL(pl, wiki.get());
                 return false;
             });
