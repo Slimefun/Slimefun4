@@ -513,8 +513,16 @@ public class BlockStorage {
         return getLocationInfo(l).getString(key);
     }
 
+    public static String getLocationInfo(BlockPosition l, String key) {
+        return getLocationInfo(l.toLocation()).getString(key);
+    }
+
     public static void addBlockInfo(Location l, String key, String value) {
         addBlockInfo(l, key, value, false);
+    }
+
+    public static void addBlockInfo(BlockPosition l, String key, String value) {
+        addBlockInfo(l.toLocation(), key, value, false);
     }
 
     public static void addBlockInfo(Block block, String key, String value) {
@@ -523,6 +531,10 @@ public class BlockStorage {
 
     public static void addBlockInfo(Block block, String key, String value, boolean updateTicker) {
         addBlockInfo(block.getLocation(), key, value, updateTicker);
+    }
+
+    public static void addBlockInfo(BlockPosition l, String key, String value, boolean updateTicker) {
+        addBlockInfo(l.toLocation(), key, value, updateTicker);
     }
 
     public static void addBlockInfo(Location l, String key, String value, boolean updateTicker) {
