@@ -35,6 +35,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
