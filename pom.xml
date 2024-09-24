@@ -394,10 +394,10 @@
         </dependency>
         <!-- This needs to be before Spigot because MockBukkit will fail otherwise. -->
         <dependency>
-            <groupId>com.github.seeseemelk</groupId>
+            <groupId>com.github.MockBukkit</groupId>
             <artifactId>MockBukkit</artifactId>
             <!-- <version>3.123.0</version> -->
-            <version>dev-3fec4e7b</version>
+            <version>673ed0b231</version>
             <scope>test</scope>
 
             <exclusions>
