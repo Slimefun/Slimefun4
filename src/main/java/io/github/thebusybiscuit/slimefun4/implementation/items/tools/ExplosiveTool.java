@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import dev.lone.itemsadder.api.CustomBlock;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.ExplosionResult;
@@ -197,18 +196,17 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
     ) {
         String[] version = Bukkit.getBukkitVersion().split("-");
 
-        return switch (version[1]) {
-            case "21" -> new BlockExplodeEvent(block, block.getState(), blocks, yield, ExplosionResult.DESTROY);
-            default -> {
-                try {
-                    Constructor<?> constructor = BlockExplodeEvent.class.getConstructor(Block.class, List.class, float.class);
-                    yield (BlockExplodeEvent) constructor.newInstance(block, blocks, yield);
-                } catch (Exception e) {
-                    Slimefun.logger().log(Level.SEVERE, "Support not found");
-                }
-
-                yield null;
+        if (Integer.parseInt(version[1]) >= 21) {
+            return new BlockExplodeEvent(block, block.getState(), blocks, yield, ExplosionResult.DESTROY);
+        } else {
+            try {
+                Constructor<?> constructor = BlockExplodeEvent.class.getConstructor(Block.class, List.class, float.class);
+                return (BlockExplodeEvent) constructor.newInstance(block, blocks, yield);
+            } catch (Exception e) {
+                Slimefun.logger().log(Level.SEVERE, "Support not found");
             }
-        };
+
+            return null;
+        }
     }
 }
