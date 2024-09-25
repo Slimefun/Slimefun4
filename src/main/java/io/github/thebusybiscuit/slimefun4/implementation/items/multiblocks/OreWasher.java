@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -58,9 +59,9 @@ public class OreWasher extends MultiBlockMachine {
     public OreWasher(ItemGroup itemGroup, SlimefunItemStack item) {
         // @formatter:off
         super(itemGroup, item, new ItemStack[] {
-            null, new ItemStack(Material.DISPENSER), null,
-            null, new ItemStack(Material.OAK_FENCE), null,
-            null, new ItemStack(Material.CAULDRON), null
+            null, StackResolver.of(Material.DISPENSER), null,
+            null, StackResolver.of(Material.OAK_FENCE), null,
+            null, StackResolver.of(Material.CAULDRON), null
         }, BlockFace.SELF);
         // @formatter:on
 
@@ -80,7 +81,7 @@ public class OreWasher extends MultiBlockMachine {
         recipes.add(SlimefunItems.SIFTED_ORE);
         recipes.add(SlimefunItems.GOLD_DUST);
 
-        recipes.add(new ItemStack(Material.SAND));
+        recipes.add(StackResolver.of(Material.SAND));
         recipes.add(SlimefunItems.SALT);
     }
 
@@ -131,7 +132,7 @@ public class OreWasher extends MultiBlockMachine {
                         }
 
                         return;
-                    } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND, 2), false)) {
+                    } else if (SlimefunUtils.isItemSimilar(input, StackResolver.of(Material.SAND, 2), false)) {
                         ItemStack output = SlimefunItems.SALT;
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 

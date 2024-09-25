@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,7 +30,7 @@ public class ArmorForge extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
     public ArmorForge(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, StackResolver.of(Material.ANVIL), null, null, new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
     }
 
     @Override

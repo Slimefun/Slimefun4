@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
@@ -315,7 +316,7 @@ public abstract class SlimefunLocalization implements Keyed {
 
         if (item == null) {
             // Fixes #3088
-            return new ItemStack(Material.AIR);
+            return StackResolver.of(Material.AIR);
         }
 
         Language language = getLanguage(p);

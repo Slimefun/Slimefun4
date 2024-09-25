@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -30,7 +31,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
     public EnhancedCraftingTable(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, StackResolver.of(Material.CRAFTING_TABLE), null, null, StackResolver.of(Material.DISPENSER), null }, BlockFace.SELF);
     }
 
     @Override

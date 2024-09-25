@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.FurnaceRecipe;
@@ -39,7 +40,7 @@ public class ElectricFurnace extends AContainer implements NotHopperable {
 
                 if (choice instanceof MaterialChoice materialChoice) {
                     for (Material input : materialChoice.getChoices()) {
-                        registerRecipe(4, new ItemStack[] { new ItemStack(input) }, new ItemStack[] { recipe.getResult() });
+                        registerRecipe(4, new ItemStack[] { StackResolver.of(input) }, new ItemStack[] { recipe.getResult() });
                     }
                 }
             }
@@ -53,7 +54,7 @@ public class ElectricFurnace extends AContainer implements NotHopperable {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.FLINT_AND_STEEL);
+        return StackResolver.of(Material.FLINT_AND_STEEL);
     }
 
 }

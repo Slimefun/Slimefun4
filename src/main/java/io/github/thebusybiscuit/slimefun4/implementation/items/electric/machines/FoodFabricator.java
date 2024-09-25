@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,17 +20,17 @@ public class FoodFabricator extends AContainer {
 
     @Override
     protected void registerDefaultRecipes() {
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.WHEAT) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.WHEAT_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.CARROT) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARROT_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.POTATO) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.POTATO_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.WHEAT_SEEDS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEEDS_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.BEETROOT) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.BEETROOT_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.MELON_SLICE) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.MELON_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.APPLE) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.APPLE_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.DRIED_KELP) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.KELP_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.COCOA_BEANS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.COCOA_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.SWEET_BERRIES) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, OrganicFood.OUTPUT) });
-        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(Material.SEAGRASS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEAGRASS_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.WHEAT) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.WHEAT_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.CARROT) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARROT_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.POTATO) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.POTATO_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.WHEAT_SEEDS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEEDS_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.BEETROOT) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.BEETROOT_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.MELON_SLICE) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.MELON_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.APPLE) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.APPLE_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.DRIED_KELP) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.KELP_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.COCOA_BEANS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.COCOA_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.SWEET_BERRIES) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, OrganicFood.OUTPUT) });
+        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(Material.SEAGRASS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEAGRASS_ORGANIC_FOOD, OrganicFood.OUTPUT) });
     }
 
     @Override
@@ -39,7 +40,7 @@ public class FoodFabricator extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.GOLDEN_HOE);
+        return StackResolver.of(Material.GOLDEN_HOE);
     }
 
 }

@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -161,7 +162,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
                 ItemStack fuel = operation.getIngredient();
 
                 if (isBucket(fuel)) {
-                    inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
+                    inv.pushItem(StackResolver.of(Material.BUCKET), getOutputSlots());
                 }
 
                 inv.replaceExistingItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));

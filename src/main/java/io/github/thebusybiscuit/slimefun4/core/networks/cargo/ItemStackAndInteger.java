@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
@@ -42,7 +43,7 @@ class ItemStackAndInteger {
 
     private void initializeItem() {
         if (this.item instanceof ItemStackWrapper) {
-            ItemStack copy = new ItemStack(item.getType(), item.getAmount());
+            ItemStack copy = StackResolver.of(item.getType(), item.getAmount());
             if (this.item.hasItemMeta()) {
                 copy.setItemMeta(this.item.getItemMeta());
             }

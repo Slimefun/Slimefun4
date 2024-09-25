@@ -7,6 +7,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
@@ -40,61 +41,61 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHoppe
     @Override
     protected void registerDefaultRecipes() {
         recipeList = new ArrayList<>();
-        recipeList.add(new ItemStack(Material.ROTTEN_FLESH));
-        recipeList.add(new ItemStack(Material.LEATHER));
+        recipeList.add(StackResolver.of(Material.ROTTEN_FLESH));
+        recipeList.add(StackResolver.of(Material.LEATHER));
 
-        recipeList.add(new ItemStack(Material.WET_SPONGE));
-        recipeList.add(new ItemStack(Material.SPONGE));
+        recipeList.add(StackResolver.of(Material.WET_SPONGE));
+        recipeList.add(StackResolver.of(Material.SPONGE));
 
-        recipeList.add(new ItemStack(Material.KELP));
-        recipeList.add(new ItemStack(Material.DRIED_KELP));
+        recipeList.add(StackResolver.of(Material.KELP));
+        recipeList.add(StackResolver.of(Material.DRIED_KELP));
 
-        recipeList.add(new ItemStack(Material.POTION));
-        recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
+        recipeList.add(StackResolver.of(Material.POTION));
+        recipeList.add(StackResolver.of(Material.GLASS_BOTTLE));
 
-        recipeList.add(new ItemStack(Material.SPLASH_POTION));
-        recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
+        recipeList.add(StackResolver.of(Material.SPLASH_POTION));
+        recipeList.add(StackResolver.of(Material.GLASS_BOTTLE));
 
-        recipeList.add(new ItemStack(Material.LINGERING_POTION));
-        recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
+        recipeList.add(StackResolver.of(Material.LINGERING_POTION));
+        recipeList.add(StackResolver.of(Material.GLASS_BOTTLE));
 
-        recipeList.add(new ItemStack(Material.WATER_BUCKET));
-        recipeList.add(new ItemStack(Material.BUCKET));
+        recipeList.add(StackResolver.of(Material.WATER_BUCKET));
+        recipeList.add(StackResolver.of(Material.BUCKET));
 
-        recipeList.add(new ItemStack(Material.COOKED_BEEF));
+        recipeList.add(StackResolver.of(Material.COOKED_BEEF));
         recipeList.add(SlimefunItems.BEEF_JERKY);
 
-        recipeList.add(new ItemStack(Material.COOKED_PORKCHOP));
+        recipeList.add(StackResolver.of(Material.COOKED_PORKCHOP));
         recipeList.add(SlimefunItems.PORK_JERKY);
 
-        recipeList.add(new ItemStack(Material.COOKED_CHICKEN));
+        recipeList.add(StackResolver.of(Material.COOKED_CHICKEN));
         recipeList.add(SlimefunItems.CHICKEN_JERKY);
 
-        recipeList.add(new ItemStack(Material.COOKED_MUTTON));
+        recipeList.add(StackResolver.of(Material.COOKED_MUTTON));
         recipeList.add(SlimefunItems.MUTTON_JERKY);
 
-        recipeList.add(new ItemStack(Material.COOKED_RABBIT));
+        recipeList.add(StackResolver.of(Material.COOKED_RABBIT));
         recipeList.add(SlimefunItems.RABBIT_JERKY);
 
-        recipeList.add(new ItemStack(Material.COOKED_COD));
+        recipeList.add(StackResolver.of(Material.COOKED_COD));
         recipeList.add(SlimefunItems.FISH_JERKY);
 
-        recipeList.add(new ItemStack(Material.COOKED_SALMON));
+        recipeList.add(StackResolver.of(Material.COOKED_SALMON));
         recipeList.add(SlimefunItems.FISH_JERKY);
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
-            recipeList.add(new ItemStack(Material.MUD));
-            recipeList.add(new ItemStack(Material.CLAY));
+            recipeList.add(StackResolver.of(Material.MUD));
+            recipeList.add(StackResolver.of(Material.CLAY));
         }
 
         for (Material sapling : Tag.SAPLINGS.getValues()) {
-            recipeList.add(new ItemStack(sapling));
-            recipeList.add(new ItemStack(Material.STICK, 2));
+            recipeList.add(StackResolver.of(sapling));
+            recipeList.add(StackResolver.of(Material.STICK, 2));
         }
 
         for (Material leaves : Tag.LEAVES.getValues()) {
-            recipeList.add(new ItemStack(leaves));
-            recipeList.add(new ItemStack(Material.STICK));
+            recipeList.add(StackResolver.of(leaves));
+            recipeList.add(StackResolver.of(Material.STICK));
         }
 
         // Now convert them to machine recipes
@@ -105,7 +106,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHoppe
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.FLINT_AND_STEEL);
+        return StackResolver.of(Material.FLINT_AND_STEEL);
     }
 
     @Override

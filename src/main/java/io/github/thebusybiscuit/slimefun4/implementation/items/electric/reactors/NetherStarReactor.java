@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactor
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -37,7 +38,7 @@ public abstract class NetherStarReactor extends Reactor {
 
     @Override
     protected void registerDefaultFuelTypes() {
-        registerFuel(new MachineFuel(1800, new ItemStack(Material.NETHER_STAR)));
+        registerFuel(new MachineFuel(1800, StackResolver.of(Material.NETHER_STAR)));
     }
 
     @Override
@@ -58,12 +59,12 @@ public abstract class NetherStarReactor extends Reactor {
 
     @Override
     public ItemStack getFuelIcon() {
-        return new ItemStack(Material.NETHER_STAR);
+        return StackResolver.of(Material.NETHER_STAR);
     }
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.NETHER_STAR);
+        return StackResolver.of(Material.NETHER_STAR);
     }
 
 }

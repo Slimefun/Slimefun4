@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -112,36 +113,36 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         if (type == PotionType.WATER) {
             if (input == Material.FERMENTED_SPIDER_EYE) {
                 potion.setBasePotionType(PotionType.WEAKNESS);
-                return new ItemStack(potionType);
+                return StackResolver.of(potionType);
             } else if (input == Material.NETHER_WART) {
                 potion.setBasePotionType(PotionType.AWKWARD);
-                return new ItemStack(potionType);
+                return StackResolver.of(potionType);
             } else if (potionType == Material.POTION && input == Material.GUNPOWDER) {
-                return new ItemStack(Material.SPLASH_POTION);
+                return StackResolver.of(Material.SPLASH_POTION);
             } else if (potionType == Material.SPLASH_POTION && input == Material.DRAGON_BREATH) {
-                return new ItemStack(Material.LINGERING_POTION);
+                return StackResolver.of(Material.LINGERING_POTION);
             }
         } else if (input == Material.FERMENTED_SPIDER_EYE) {
             PotionType fermented = fermentations.get(type);
 
             if (fermented != null) {
                 potion.setBasePotionType(fermented);
-                return new ItemStack(potionType);
+                return StackResolver.of(potionType);
             }
         } else if (input == Material.REDSTONE && type.isExtendable() && !type.isUpgradeable()) {
             // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
             potion.setBasePotionType(type);
-            return new ItemStack(potionType);
+            return StackResolver.of(potionType);
         } else if (input == Material.GLOWSTONE_DUST && type.isUpgradeable() && !type.isExtendable()) {
             // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
             potion.setBasePotionType(type);
-            return new ItemStack(potionType);
+            return StackResolver.of(potionType);
         } else if (type == PotionType.AWKWARD) {
             PotionType potionRecipe = potionRecipes.get(input);
 
             if (potionRecipe != null) {
                 potion.setBasePotionType(potionRecipe);
-                return new ItemStack(potionType);
+                return StackResolver.of(potionType);
             }
         }
 
@@ -156,36 +157,36 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         if (type == PotionType.WATER) {
             if (input == Material.FERMENTED_SPIDER_EYE) {
                 potion.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
-                return new ItemStack(potionType);
+                return StackResolver.of(potionType);
             } else if (input == Material.NETHER_WART) {
                 potion.setBasePotionData(new PotionData(PotionType.AWKWARD, false, false));
-                return new ItemStack(potionType);
+                return StackResolver.of(potionType);
             } else if (potionType == Material.POTION && input == Material.GUNPOWDER) {
-                return new ItemStack(Material.SPLASH_POTION);
+                return StackResolver.of(Material.SPLASH_POTION);
             } else if (potionType == Material.SPLASH_POTION && input == Material.DRAGON_BREATH) {
-                return new ItemStack(Material.LINGERING_POTION);
+                return StackResolver.of(Material.LINGERING_POTION);
             }
         } else if (input == Material.FERMENTED_SPIDER_EYE) {
             PotionType fermented = fermentations.get(type);
 
             if (fermented != null) {
                 potion.setBasePotionData(new PotionData(fermented, data.isExtended(), data.isUpgraded()));
-                return new ItemStack(potionType);
+                return StackResolver.of(potionType);
             }
         } else if (input == Material.REDSTONE && type.isExtendable() && !data.isUpgraded()) {
             // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
             potion.setBasePotionData(new PotionData(type, true, false));
-            return new ItemStack(potionType);
+            return StackResolver.of(potionType);
         } else if (input == Material.GLOWSTONE_DUST && type.isUpgradeable() && !data.isExtended()) {
             // Fixes #3390 - Potions can only be either extended or upgraded. Not both.
             potion.setBasePotionData(new PotionData(type, false, true));
-            return new ItemStack(potionType);
+            return StackResolver.of(potionType);
         } else if (type == PotionType.AWKWARD) {
             PotionType potionRecipe = potionRecipes.get(input);
 
             if (potionRecipe != null) {
                 potion.setBasePotionData(new PotionData(potionRecipe, false, false));
-                return new ItemStack(potionType);
+                return StackResolver.of(potionType);
             }
         }
         return null;
@@ -205,7 +206,7 @@ public class AutoBrewer extends AContainer implements NotHopperable {
 
     @Override
     public @Nonnull ItemStack getProgressBar() {
-        return new ItemStack(Material.FISHING_ROD);
+        return StackResolver.of(Material.FISHING_ROD);
     }
 
     @Override

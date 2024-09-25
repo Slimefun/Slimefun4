@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
@@ -21,27 +22,27 @@ public class ElectrifiedCrucible extends AContainer {
 
     @Override
     protected void registerDefaultRecipes() {
-        registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.COBBLESTONE, 16) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-        registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.NETHERRACK, 16) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-        registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.STONE, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-        registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.TERRACOTTA, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-        registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.OBSIDIAN) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+        registerRecipe(10, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.COBBLESTONE, 16) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
+        registerRecipe(8, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.NETHERRACK, 16) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
+        registerRecipe(8, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.STONE, 12) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
+        registerRecipe(8, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.TERRACOTTA, 12) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
+        registerRecipe(10, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.OBSIDIAN) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
 
         for (Material terracotta : SlimefunTag.TERRACOTTA.getValues()) {
-            registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(terracotta, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+            registerRecipe(8, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(terracotta, 12) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
         }
 
         for (Material leaves : Tag.LEAVES.getValues()) {
-            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(leaves, 16) }, new ItemStack[] { new ItemStack(Material.WATER_BUCKET) });
+            registerRecipe(10, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(leaves, 16) }, new ItemStack[] { StackResolver.of(Material.WATER_BUCKET) });
         }
 
-        registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.BLACKSTONE, 8) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-        registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.BASALT, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+        registerRecipe(10, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.BLACKSTONE, 8) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
+        registerRecipe(10, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.BASALT, 12) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.COBBLED_DEEPSLATE, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.DEEPSLATE, 10) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.TUFF, 8) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+            registerRecipe(10, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.COBBLED_DEEPSLATE, 12) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
+            registerRecipe(10, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.DEEPSLATE, 10) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
+            registerRecipe(10, new ItemStack[] { StackResolver.of(Material.BUCKET), StackResolver.of(Material.TUFF, 8) }, new ItemStack[] { StackResolver.of(Material.LAVA_BUCKET) });
         }
     }
 
@@ -52,7 +53,7 @@ public class ElectrifiedCrucible extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.FLINT_AND_STEEL);
+        return StackResolver.of(Material.FLINT_AND_STEEL);
     }
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -60,7 +61,7 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
                 b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 
                 if (tool.containsEnchantment(Enchantment.SILK_TOUCH)) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
+                    b.getWorld().dropItemNaturally(b.getLocation(), StackResolver.of(b.getType()));
                 } else {
                     for (ItemStack drop : b.getDrops(tool)) {
                         b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : new CustomItemStack(drop, fortune));

@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,7 +41,7 @@ public class ElectricDustWasher extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.GOLDEN_SHOVEL);
+        return StackResolver.of(Material.GOLDEN_SHOVEL);
     }
 
     @Override
@@ -61,8 +62,8 @@ public class ElectricDustWasher extends AContainer {
                 }
             } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
                 recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.PULVERIZED_ORE }, new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
-            } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND), true)) {
-                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { new ItemStack(Material.SAND) }, new ItemStack[] { SlimefunItems.SALT });
+            } else if (SlimefunUtils.isItemSimilar(input, StackResolver.of(Material.SAND), true)) {
+                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { StackResolver.of(Material.SAND) }, new ItemStack[] { SlimefunItems.SALT });
             }
 
             if (recipe != null && menu.fits(recipe.getOutput()[0], getOutputSlots())) {

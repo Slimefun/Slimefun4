@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -53,7 +54,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.DIAMOND_CHESTPLATE);
+        return StackResolver.of(Material.DIAMOND_CHESTPLATE);
     }
 
     @Override
@@ -106,7 +107,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             ItemStack disenchantedItem = item.clone();
             disenchantedItem.setAmount(1);
 
-            ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
+            ItemStack enchantedBook = StackResolver.of(Material.ENCHANTED_BOOK);
             transferEnchantments(disenchantedItem, enchantedBook, enchantments);
 
             MachineRecipe recipe = new MachineRecipe(90 * enchantments.size() / this.getSpeed(), new ItemStack[] { book, item }, new ItemStack[] { disenchantedItem, enchantedBook });

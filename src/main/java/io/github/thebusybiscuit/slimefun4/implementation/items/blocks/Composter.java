@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -49,23 +50,23 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
         List<ItemStack> items = new LinkedList<>();
 
         for (Material leave : Tag.LEAVES.getValues()) {
-            items.add(new ItemStack(leave, 8));
-            items.add(new ItemStack(Material.DIRT));
+            items.add(StackResolver.of(leave, 8));
+            items.add(StackResolver.of(Material.DIRT));
         }
 
         for (Material sapling : Tag.SAPLINGS.getValues()) {
-            items.add(new ItemStack(sapling, 8));
-            items.add(new ItemStack(Material.DIRT));
+            items.add(StackResolver.of(sapling, 8));
+            items.add(StackResolver.of(Material.DIRT));
         }
 
-        items.add(new ItemStack(Material.STONE, 4));
-        items.add(new ItemStack(Material.NETHERRACK));
+        items.add(StackResolver.of(Material.STONE, 4));
+        items.add(StackResolver.of(Material.NETHERRACK));
 
-        items.add(new ItemStack(Material.SAND, 2));
-        items.add(new ItemStack(Material.SOUL_SAND));
+        items.add(StackResolver.of(Material.SAND, 2));
+        items.add(StackResolver.of(Material.SOUL_SAND));
 
-        items.add(new ItemStack(Material.WHEAT, 4));
-        items.add(new ItemStack(Material.NETHER_WART));
+        items.add(StackResolver.of(Material.WHEAT, 4));
+        items.add(StackResolver.of(Material.NETHER_WART));
 
         return items;
     }

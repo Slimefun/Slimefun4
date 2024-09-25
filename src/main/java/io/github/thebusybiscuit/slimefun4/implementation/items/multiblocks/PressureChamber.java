@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -32,7 +33,7 @@ public class PressureChamber extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public PressureChamber(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON) }, BlockFace.UP);
+        super(itemGroup, item, new ItemStack[] { StackResolver.of(Material.SMOOTH_STONE_SLAB), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing down)"), StackResolver.of(Material.SMOOTH_STONE_SLAB), StackResolver.of(Material.PISTON), StackResolver.of(Material.GLASS), StackResolver.of(Material.PISTON), StackResolver.of(Material.PISTON), StackResolver.of(Material.CAULDRON), StackResolver.of(Material.PISTON) }, BlockFace.UP);
     }
 
     @Override

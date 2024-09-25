@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -81,7 +82,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.DIAMOND_SHOVEL);
+        return StackResolver.of(Material.DIAMOND_SHOVEL);
     }
 
     @Override

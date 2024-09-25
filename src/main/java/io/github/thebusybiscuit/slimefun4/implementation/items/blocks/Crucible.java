@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World.Environment;
@@ -65,46 +66,46 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     private List<ItemStack> getMachineRecipes() {
         List<ItemStack> items = new LinkedList<>();
 
-        items.add(new ItemStack(Material.COBBLESTONE, 16));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(StackResolver.of(Material.COBBLESTONE, 16));
+        items.add(StackResolver.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.NETHERRACK, 16));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(StackResolver.of(Material.NETHERRACK, 16));
+        items.add(StackResolver.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.STONE, 12));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(StackResolver.of(Material.STONE, 12));
+        items.add(StackResolver.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.OBSIDIAN, 1));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(StackResolver.of(Material.OBSIDIAN, 1));
+        items.add(StackResolver.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.TERRACOTTA, 12));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(StackResolver.of(Material.TERRACOTTA, 12));
+        items.add(StackResolver.of(Material.LAVA_BUCKET));
 
         for (Material leave : Tag.LEAVES.getValues()) {
-            items.add(new ItemStack(leave, 16));
-            items.add(new ItemStack(Material.WATER_BUCKET));
+            items.add(StackResolver.of(leave, 16));
+            items.add(StackResolver.of(Material.WATER_BUCKET));
         }
 
         for (Material sapling : SlimefunTag.TERRACOTTA.getValues()) {
-            items.add(new ItemStack(sapling, 12));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+            items.add(StackResolver.of(sapling, 12));
+            items.add(StackResolver.of(Material.LAVA_BUCKET));
         }
 
-        items.add(new ItemStack(Material.BLACKSTONE, 8));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(StackResolver.of(Material.BLACKSTONE, 8));
+        items.add(StackResolver.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.BASALT, 12));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(StackResolver.of(Material.BASALT, 12));
+        items.add(StackResolver.of(Material.LAVA_BUCKET));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            items.add(new ItemStack(Material.COBBLED_DEEPSLATE, 12));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+            items.add(StackResolver.of(Material.COBBLED_DEEPSLATE, 12));
+            items.add(StackResolver.of(Material.LAVA_BUCKET));
 
-            items.add(new ItemStack(Material.DEEPSLATE, 10));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+            items.add(StackResolver.of(Material.DEEPSLATE, 10));
+            items.add(StackResolver.of(Material.LAVA_BUCKET));
 
-            items.add(new ItemStack(Material.TUFF, 8));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+            items.add(StackResolver.of(Material.TUFF, 8));
+            items.add(StackResolver.of(Material.LAVA_BUCKET));
         }
 
         return items;

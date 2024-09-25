@@ -14,6 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -268,7 +269,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         List<ItemStack> display = new ArrayList<>();
 
         for (Material mat : surfaces.keySet()) {
-            display.add(new ItemStack(mat));
+            display.add(StackResolver.of(mat));
         }
 
         return display;

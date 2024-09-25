@@ -6,6 +6,7 @@ import java.util.OptionalInt;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -32,7 +33,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     private final GEOResource oil;
 
-    private final ItemStack emptyBucket = new ItemStack(Material.BUCKET);
+    private final ItemStack emptyBucket = StackResolver.of(Material.BUCKET);
 
     @ParametersAreNonnullByDefault
     public OilPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -84,7 +85,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.DIAMOND_SHOVEL);
+        return StackResolver.of(Material.DIAMOND_SHOVEL);
     }
 
     @Override

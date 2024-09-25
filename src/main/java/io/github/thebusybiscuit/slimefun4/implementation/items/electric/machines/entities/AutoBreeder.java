@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -65,7 +66,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
 
     protected void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItemStack(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+            preset.addItem(i, new CustomItemStack(StackResolver.of(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
         }
     }
 

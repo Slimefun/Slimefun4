@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -61,7 +62,7 @@ public class BookBinder extends AContainer {
                         return null;
                     }
 
-                    ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+                    ItemStack book = StackResolver.of(Material.ENCHANTED_BOOK);
 
                     EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();
 
@@ -121,7 +122,7 @@ public class BookBinder extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.IRON_CHESTPLATE);
+        return StackResolver.of(Material.IRON_CHESTPLATE);
     }
 
     @Override

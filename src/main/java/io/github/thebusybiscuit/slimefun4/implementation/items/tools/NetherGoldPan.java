@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -47,12 +48,12 @@ public class NetherGoldPan extends GoldPan {
     protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
-        settings.add(new GoldPanDrop(this, "chance.QUARTZ", 50, new ItemStack(Material.QUARTZ)));
-        settings.add(new GoldPanDrop(this, "chance.GOLD_NUGGET", 25, new ItemStack(Material.GOLD_NUGGET)));
-        settings.add(new GoldPanDrop(this, "chance.NETHER_WART", 10, new ItemStack(Material.NETHER_WART)));
-        settings.add(new GoldPanDrop(this, "chance.BLAZE_POWDER", 8, new ItemStack(Material.BLAZE_POWDER)));
-        settings.add(new GoldPanDrop(this, "chance.GLOWSTONE_DUST", 5, new ItemStack(Material.GLOWSTONE_DUST)));
-        settings.add(new GoldPanDrop(this, "chance.GHAST_TEAR", 2, new ItemStack(Material.GHAST_TEAR)));
+        settings.add(new GoldPanDrop(this, "chance.QUARTZ", 50, StackResolver.of(Material.QUARTZ)));
+        settings.add(new GoldPanDrop(this, "chance.GOLD_NUGGET", 25, StackResolver.of(Material.GOLD_NUGGET)));
+        settings.add(new GoldPanDrop(this, "chance.NETHER_WART", 10, StackResolver.of(Material.NETHER_WART)));
+        settings.add(new GoldPanDrop(this, "chance.BLAZE_POWDER", 8, StackResolver.of(Material.BLAZE_POWDER)));
+        settings.add(new GoldPanDrop(this, "chance.GLOWSTONE_DUST", 5, StackResolver.of(Material.GLOWSTONE_DUST)));
+        settings.add(new GoldPanDrop(this, "chance.GHAST_TEAR", 2, StackResolver.of(Material.GHAST_TEAR)));
 
         return settings;
     }

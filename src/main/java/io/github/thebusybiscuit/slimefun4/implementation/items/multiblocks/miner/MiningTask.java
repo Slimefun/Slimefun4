@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -322,7 +323,7 @@ class MiningTask implements Runnable {
                     ItemUtils.consumeItem(item, false);
 
                     if (miner instanceof AdvancedIndustrialMiner) {
-                        inv.addItem(new ItemStack(Material.BUCKET));
+                        inv.addItem(StackResolver.of(Material.BUCKET));
                     }
 
                     return fuelType.getTicks();

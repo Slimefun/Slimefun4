@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -31,7 +32,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
     public MagicWorkbench(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, BlockFace.UP);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, null, null, StackResolver.of(Material.BOOKSHELF), StackResolver.of(Material.CRAFTING_TABLE), StackResolver.of(Material.DISPENSER) }, BlockFace.UP);
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,17 +21,17 @@ class OreDictionary16 implements OreDictionary {
     @ParametersAreNonnullByDefault
     public @Nonnull ItemStack getDrops(Material material, Random random) {
         return switch (material) {
-            case COAL_ORE -> new ItemStack(Material.COAL);
-            case DIAMOND_ORE -> new ItemStack(Material.DIAMOND);
-            case EMERALD_ORE -> new ItemStack(Material.EMERALD);
-            case REDSTONE_ORE -> new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
-            case LAPIS_ORE -> new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
-            case NETHER_QUARTZ_ORE -> new ItemStack(Material.QUARTZ);
-            case IRON_ORE -> new ItemStack(Material.IRON_ORE);
-            case GOLD_ORE -> new ItemStack(Material.GOLD_ORE);
-            case NETHER_GOLD_ORE -> new ItemStack(Material.GOLD_NUGGET, 2 + random.nextInt(4));
-            case ANCIENT_DEBRIS -> new ItemStack(Material.ANCIENT_DEBRIS);
-            default -> new ItemStack(material);
+            case COAL_ORE -> StackResolver.of(Material.COAL);
+            case DIAMOND_ORE -> StackResolver.of(Material.DIAMOND);
+            case EMERALD_ORE -> StackResolver.of(Material.EMERALD);
+            case REDSTONE_ORE -> StackResolver.of(Material.REDSTONE, 4 + random.nextInt(2));
+            case LAPIS_ORE -> StackResolver.of(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+            case NETHER_QUARTZ_ORE -> StackResolver.of(Material.QUARTZ);
+            case IRON_ORE -> StackResolver.of(Material.IRON_ORE);
+            case GOLD_ORE -> StackResolver.of(Material.GOLD_ORE);
+            case NETHER_GOLD_ORE -> StackResolver.of(Material.GOLD_NUGGET, 2 + random.nextInt(4));
+            case ANCIENT_DEBRIS -> StackResolver.of(Material.ANCIENT_DEBRIS);
+            default -> StackResolver.of(material);
         };
     }
 

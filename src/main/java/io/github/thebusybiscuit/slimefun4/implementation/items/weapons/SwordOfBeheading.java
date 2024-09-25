@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Monster;
@@ -63,33 +64,33 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
             switch (e.getEntityType()) {
                 case ZOMBIE -> {
                     if (random.nextInt(100) < chanceZombie.getValue()) {
-                        e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
+                        e.getDrops().add(StackResolver.of(Material.ZOMBIE_HEAD));
                     }
                 }
                 case SKELETON -> {
                     if (random.nextInt(100) < chanceSkeleton.getValue()) {
-                        e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
+                        e.getDrops().add(StackResolver.of(Material.SKELETON_SKULL));
                     }
                 }
                 case CREEPER -> {
                     if (random.nextInt(100) < chanceCreeper.getValue()) {
-                        e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
+                        e.getDrops().add(StackResolver.of(Material.CREEPER_HEAD));
                     }
                 }
                 case WITHER_SKELETON -> {
                     if (random.nextInt(100) < chanceWitherSkeleton.getValue()) {
-                        e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+                        e.getDrops().add(StackResolver.of(Material.WITHER_SKELETON_SKULL));
                     }
                 }
                 case PIGLIN -> {
                     if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20) &&
                         random.nextInt(100) < chancePiglin.getValue()) {
-                        e.getDrops().add(new ItemStack(Material.PIGLIN_HEAD));
+                        e.getDrops().add(StackResolver.of(Material.PIGLIN_HEAD));
                     }
                 }
                 case PLAYER -> {
                     if (random.nextInt(100) < chancePlayer.getValue()) {
-                        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+                        ItemStack skull = StackResolver.of(Material.PLAYER_HEAD);
 
                         ItemMeta meta = skull.getItemMeta();
                         ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());

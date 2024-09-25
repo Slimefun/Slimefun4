@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -89,10 +90,10 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
-        settings.add(new GoldPanDrop(this, "chance.FLINT", 40, new ItemStack(Material.FLINT)));
-        settings.add(new GoldPanDrop(this, "chance.CLAY", 20, new ItemStack(Material.CLAY_BALL)));
+        settings.add(new GoldPanDrop(this, "chance.FLINT", 40, StackResolver.of(Material.FLINT)));
+        settings.add(new GoldPanDrop(this, "chance.CLAY", 20, StackResolver.of(Material.CLAY_BALL)));
         settings.add(new GoldPanDrop(this, "chance.SIFTED_ORE", 35, SlimefunItems.SIFTED_ORE));
-        settings.add(new GoldPanDrop(this, "chance.IRON_NUGGET", 5, new ItemStack(Material.IRON_NUGGET)));
+        settings.add(new GoldPanDrop(this, "chance.IRON_NUGGET", 5, StackResolver.of(Material.IRON_NUGGET)));
 
         return settings;
     }
@@ -129,7 +130,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         ItemStack item = randomizer.getRandom();
 
         // Fixes #2804
-        return item != null ? item : new ItemStack(Material.AIR);
+        return item != null ? item : StackResolver.of(Material.AIR);
     }
 
     @Override
@@ -187,7 +188,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             }
 
             for (Material material : getInputMaterials()) {
-                recipes.add(new ItemStack(material));
+                recipes.add(StackResolver.of(material));
                 recipes.add(drop.getOutput());
             }
         }
@@ -209,7 +210,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         }
 
         Material material = itemStack.getType();
-        return isValidInputMaterial(material) && SlimefunUtils.isItemSimilar(itemStack, new ItemStack(material), true, false);
+        return isValidInputMaterial(material) && SlimefunUtils.isItemSimilar(itemStack, StackResolver.of(material), true, false);
     }
 
     /**

@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -50,7 +51,7 @@ public class Smeltery extends AbstractSmeltery {
 
     @ParametersAreNonnullByDefault
     public Smeltery(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
+        super(itemGroup, item, new ItemStack[] { null, StackResolver.of(Material.NETHER_BRICK_FENCE), null, StackResolver.of(Material.NETHER_BRICKS), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), StackResolver.of(Material.NETHER_BRICKS), null, StackResolver.of(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
 
         addItemSetting(fireBreakingChance);
     }
@@ -58,7 +59,7 @@ public class Smeltery extends AbstractSmeltery {
     @Override
     protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
         recipes.add(SlimefunItems.IRON_DUST);
-        recipes.add(new ItemStack(Material.IRON_INGOT));
+        recipes.add(StackResolver.of(Material.IRON_INGOT));
     }
 
     @Override

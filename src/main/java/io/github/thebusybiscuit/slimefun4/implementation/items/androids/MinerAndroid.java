@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -52,7 +53,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class MinerAndroid extends ProgrammableAndroid {
 
     // Determines the drops a miner android will get
-    private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
+    private final ItemStack effectivePickaxe = StackResolver.of(Material.DIAMOND_PICKAXE);
 
     private final ItemSetting<Boolean> firesEvent = new ItemSetting<>(this, "trigger-event-for-generators", false);
     private final ItemSetting<Boolean> applyOptimizations = new ItemSetting<>(this, "reduced-block-updates", true);

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -92,13 +93,13 @@ public class PlayerRightClickEvent extends PlayerEvent {
     /**
      * This method returns the {@link ItemStack} that was held in the hand of the {@link Player}.
      * It will never return null, should there be no {@link ItemStack} then it will return
-     * {@code new ItemStack(Material.AIR)}.
+     * {@code StackResolver.of(Material.AIR)}.
      * 
      * @return The {@link ItemStack} that the {@link Player} right clicked with
      */
     @Nonnull
     public ItemStack getItem() {
-        return itemStack.orElse(new ItemStack(Material.AIR));
+        return itemStack.orElse(StackResolver.of(Material.AIR));
     }
 
     /**

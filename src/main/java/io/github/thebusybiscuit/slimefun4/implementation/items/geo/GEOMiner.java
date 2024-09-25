@@ -7,6 +7,7 @@ import java.util.OptionalInt;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -67,7 +68,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     public GEOMiner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
-        processor.setProgressBar(new ItemStack(Material.DIAMOND_PICKAXE));
+        processor.setProgressBar(StackResolver.of(Material.DIAMOND_PICKAXE));
         createPreset(this, getItemName(), this::constructMenu);
         addItemHandler(onBlockPlace(), onBlockBreak());
     }

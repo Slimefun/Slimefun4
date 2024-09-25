@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -49,8 +50,8 @@ public class TableSaw extends MultiBlockMachine {
         // @formatter:off
         super(group, item, new ItemStack[] {
             null, null, null,
-            new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB),
-            null, new ItemStack(Material.IRON_BLOCK), null
+            StackResolver.of(Material.SMOOTH_STONE_SLAB), StackResolver.of(Material.STONECUTTER), StackResolver.of(Material.SMOOTH_STONE_SLAB),
+            null, StackResolver.of(Material.IRON_BLOCK), null
         }, BlockFace.SELF);
         // @formatter:on
 
@@ -58,14 +59,14 @@ public class TableSaw extends MultiBlockMachine {
             Optional<Material> planks = getPlanks(log);
 
             if (planks.isPresent()) {
-                displayedRecipes.add(new ItemStack(log));
-                displayedRecipes.add(new ItemStack(planks.get(), 8));
+                displayedRecipes.add(StackResolver.of(log));
+                displayedRecipes.add(StackResolver.of(planks.get(), 8));
             }
         }
 
         for (Material plank : Tag.PLANKS.getValues()) {
-            displayedRecipes.add(new ItemStack(plank));
-            displayedRecipes.add(new ItemStack(Material.STICK, 4));
+            displayedRecipes.add(StackResolver.of(plank));
+            displayedRecipes.add(StackResolver.of(Material.STICK, 4));
         }
     }
 
@@ -129,12 +130,12 @@ public class TableSaw extends MultiBlockMachine {
             Optional<Material> planks = getPlanks(item);
 
             if (planks.isPresent()) {
-                return new ItemStack(planks.get(), 8);
+                return StackResolver.of(planks.get(), 8);
             } else {
                 return null;
             }
         } else if (Tag.PLANKS.isTagged(item)) {
-            return new ItemStack(Material.STICK, 4);
+            return StackResolver.of(Material.STICK, 4);
         } else {
             return null;
         }

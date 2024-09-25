@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -35,7 +36,7 @@ public class ElectricIngotPulverizer extends AContainer implements RecipeDisplay
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.IRON_PICKAXE);
+        return StackResolver.of(Material.IRON_PICKAXE);
     }
 
     @Override
@@ -54,10 +55,10 @@ public class ElectricIngotPulverizer extends AContainer implements RecipeDisplay
     protected void registerDefaultRecipes() {
         // this is an extra recipe on top of PostSetup.loadSmelteryRecipes() for converting
         // Vanilla Gold Ingot to Slimefun gold dust and Vanilla Copper Ingot into Slimefun copper dust
-        registerRecipe(3, new ItemStack(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST);
+        registerRecipe(3, StackResolver.of(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST);
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            registerRecipe(3, new ItemStack(Material.COPPER_INGOT), SlimefunItems.COPPER_DUST);
+            registerRecipe(3, StackResolver.of(Material.COPPER_INGOT), SlimefunItems.COPPER_DUST);
         }
     }
 

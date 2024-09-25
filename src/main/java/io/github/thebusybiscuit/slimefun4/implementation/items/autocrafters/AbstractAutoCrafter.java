@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -474,10 +475,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         return switch (type) {
             case WATER_BUCKET,
                 LAVA_BUCKET,
-                MILK_BUCKET -> new ItemStack(Material.BUCKET);
+                MILK_BUCKET -> StackResolver.of(Material.BUCKET);
             case DRAGON_BREATH,
                 POTION,
-                HONEY_BOTTLE -> new ItemStack(Material.GLASS_BOTTLE);
+                HONEY_BOTTLE -> StackResolver.of(Material.GLASS_BOTTLE);
             default -> null;
         };
     }

@@ -12,6 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.SoundCategory;
@@ -59,7 +60,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                     continue;
                 }
 
-                if (enchantment.canEnchantItem(new ItemStack(mat))) {
+                if (enchantment.canEnchantItem(StackResolver.of(mat))) {
                     enchantments.add(enchantment);
                 }
             }

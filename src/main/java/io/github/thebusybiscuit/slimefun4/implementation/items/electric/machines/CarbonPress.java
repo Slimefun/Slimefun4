@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,9 +24,9 @@ public class CarbonPress extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected void registerDefaultRecipes() {
-        registerRecipe(15, new ItemStack[] { new ItemStack(Material.CHARCOAL, 4) }, new ItemStack[] { new ItemStack(Material.COAL) });
-        registerRecipe(20, new ItemStack[] { new ItemStack(Material.COAL, 8) }, new ItemStack[] { SlimefunItems.CARBON });
-        registerRecipe(180, new ItemStack[] { new ItemStack(Material.COAL_BLOCK, 8) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARBON, 9) });
+        registerRecipe(15, new ItemStack[] { StackResolver.of(Material.CHARCOAL, 4) }, new ItemStack[] { StackResolver.of(Material.COAL) });
+        registerRecipe(20, new ItemStack[] { StackResolver.of(Material.COAL, 8) }, new ItemStack[] { SlimefunItems.CARBON });
+        registerRecipe(180, new ItemStack[] { StackResolver.of(Material.COAL_BLOCK, 8) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARBON, 9) });
         registerRecipe(30, new ItemStack[] { new CustomItemStack(SlimefunItems.CARBON, 4) }, new ItemStack[] { SlimefunItems.COMPRESSED_CARBON });
         registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND }, new ItemStack[] { SlimefunItems.RAW_CARBONADO });
         registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK }, new ItemStack[] { SlimefunItems.SYNTHETIC_DIAMOND });
@@ -39,7 +40,7 @@ public class CarbonPress extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.DIAMOND_PICKAXE);
+        return StackResolver.of(Material.DIAMOND_PICKAXE);
     }
 
 }

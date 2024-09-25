@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.SoundCategory;
@@ -45,7 +46,7 @@ public class IronGolemAssembler extends AbstractEntityAssembler<IronGolem> {
 
     @Override
     public ItemStack getHead() {
-        return new ItemStack(Material.CARVED_PUMPKIN);
+        return StackResolver.of(Material.CARVED_PUMPKIN);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class IronGolemAssembler extends AbstractEntityAssembler<IronGolem> {
 
     @Override
     public ItemStack getBody() {
-        return new ItemStack(Material.IRON_BLOCK, 4);
+        return StackResolver.of(Material.IRON_BLOCK, 4);
     }
 
     @Override

@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -113,7 +114,7 @@ public class RecipeType implements Keyed {
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {
-        this.item = new ItemStack(recipe.getMachine());
+        this.item = StackResolver.of(recipe.getMachine());
         this.machine = "";
         this.key = NamespacedKey.minecraft(recipe.getRecipeClass().getSimpleName().toLowerCase(Locale.ROOT).replace("recipe", ""));
     }

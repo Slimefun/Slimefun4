@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -49,7 +50,7 @@ public class BlockPhysicsListener implements Listener {
             FallingBlock block = (FallingBlock) e.getEntity();
 
             if (block.getDropItem()) {
-                block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getBlockData().getMaterial(), 1));
+                block.getWorld().dropItemNaturally(block.getLocation(), StackResolver.of(block.getBlockData().getMaterial(), 1));
             }
         }
     }

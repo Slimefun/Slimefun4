@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Keyed;
 import org.bukkit.inventory.ItemStack;
@@ -82,7 +83,7 @@ class VanillaRecipe extends AbstractRecipe {
         ItemStack[] items = new ItemStack[9];
 
         if (choices.length == 1 && choices[0] instanceof MaterialChoice materialChoice) {
-            items[4] = new ItemStack(materialChoice.getChoices().get(0));
+            items[4] = StackResolver.of(materialChoice.getChoices().get(0));
 
             if (materialChoice.getChoices().size() > 1) {
                 task.add(slots[4], materialChoice);
@@ -90,7 +91,7 @@ class VanillaRecipe extends AbstractRecipe {
         } else {
             for (int i = 0; i < choices.length; i++) {
                 if (choices[i] instanceof MaterialChoice materialChoice) {
-                    items[i] = new ItemStack(materialChoice.getChoices().get(0));
+                    items[i] = StackResolver.of(materialChoice.getChoices().get(0));
 
                     if (materialChoice.getChoices().size() > 1) {
                         task.add(slots[i], materialChoice);

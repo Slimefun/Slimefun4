@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +31,7 @@ public class ChargingBench extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.GOLDEN_PICKAXE);
+        return StackResolver.of(Material.GOLDEN_PICKAXE);
     }
 
     @Override

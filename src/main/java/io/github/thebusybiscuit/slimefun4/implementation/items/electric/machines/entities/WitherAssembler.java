@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Wither;
@@ -43,7 +44,7 @@ public class WitherAssembler extends AbstractEntityAssembler<Wither> {
 
     @Override
     public ItemStack getHead() {
-        return new ItemStack(Material.WITHER_SKELETON_SKULL, 3);
+        return StackResolver.of(Material.WITHER_SKELETON_SKULL, 3);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class WitherAssembler extends AbstractEntityAssembler<Wither> {
 
     @Override
     public ItemStack getBody() {
-        return new ItemStack(Material.SOUL_SAND, 4);
+        return StackResolver.of(Material.SOUL_SAND, 4);
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -595,27 +596,27 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     private void registerDefaultFuelTypes() {
         switch (getFuelSource()) {
             case SOLID -> {
-                registerFuelType(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
-                registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
-                registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
+                registerFuelType(new MachineFuel(80, StackResolver.of(Material.COAL_BLOCK)));
+                registerFuelType(new MachineFuel(45, StackResolver.of(Material.BLAZE_ROD)));
+                registerFuelType(new MachineFuel(70, StackResolver.of(Material.DRIED_KELP_BLOCK)));
 
                 // Coal, Charcoal & Bamboo
-                registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
-                registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
-                registerFuelType(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
+                registerFuelType(new MachineFuel(8, StackResolver.of(Material.COAL)));
+                registerFuelType(new MachineFuel(8, StackResolver.of(Material.CHARCOAL)));
+                registerFuelType(new MachineFuel(1, StackResolver.of(Material.BAMBOO)));
 
                 // Logs
                 for (Material mat : Tag.LOGS.getValues()) {
-                    registerFuelType(new MachineFuel(2, new ItemStack(mat)));
+                    registerFuelType(new MachineFuel(2, StackResolver.of(mat)));
                 }
 
                 // Wooden Planks
                 for (Material mat : Tag.PLANKS.getValues()) {
-                    registerFuelType(new MachineFuel(1, new ItemStack(mat)));
+                    registerFuelType(new MachineFuel(1, StackResolver.of(mat)));
                 }
             }
             case LIQUID -> {
-                registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
+                registerFuelType(new MachineFuel(100, StackResolver.of(Material.LAVA_BUCKET)));
                 registerFuelType(new MachineFuel(200, SlimefunItems.OIL_BUCKET));
                 registerFuelType(new MachineFuel(500, SlimefunItems.FUEL_BUCKET));
             }
@@ -828,7 +829,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     menu.consumeItem(43);
 
                     if (getFuelSource() == AndroidFuelSource.LIQUID) {
-                        menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
+                        menu.pushItem(StackResolver.of(Material.BUCKET), getOutputSlots());
                     }
 
                     int fuelLevel = fuel.getTicks();

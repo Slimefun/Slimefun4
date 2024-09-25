@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -190,7 +191,7 @@ public class TalismanListener implements Listener {
         if (entity instanceof ChestedHorse chestedHorse) {
             if (chestedHorse.isCarryingChest()) {
                 // The chest is not included in getStorageContents()
-                items.remove(new ItemStack(Material.CHEST));
+                items.remove(StackResolver.of(Material.CHEST));
 
                 for (ItemStack item : chestedHorse.getInventory().getStorageContents()) {
                     items.remove(item);

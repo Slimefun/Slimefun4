@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -34,7 +35,7 @@ public class AutoAnvil extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.IRON_PICKAXE);
+        return StackResolver.of(Material.IRON_PICKAXE);
     }
 
     @Override

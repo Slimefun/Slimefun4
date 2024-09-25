@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,6 +29,6 @@ public class OrganicFood extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     public OrganicFood(ItemGroup itemGroup, SlimefunItemStack item, Material ingredient) {
-        super(itemGroup, item, RecipeType.FOOD_FABRICATOR, new ItemStack[] { SlimefunItems.TIN_CAN, new ItemStack(ingredient), null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT));
+        super(itemGroup, item, RecipeType.FOOD_FABRICATOR, new ItemStack[] { SlimefunItems.TIN_CAN, StackResolver.of(ingredient), null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT));
     }
 }

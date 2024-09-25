@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -47,7 +48,7 @@ class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
 
         if (current.isPresent()) {
             SlimefunGuideMode selectedMode = current.get();
-            ItemStack item = new ItemStack(Material.AIR);
+            ItemStack item = StackResolver.of(Material.AIR);
 
             if (selectedMode == SlimefunGuideMode.SURVIVAL_MODE) {
                 item.setType(Material.CHEST);

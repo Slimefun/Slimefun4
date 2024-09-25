@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -51,7 +52,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.GOLDEN_CHESTPLATE);
+        return StackResolver.of(Material.GOLDEN_CHESTPLATE);
     }
 
     @Override
@@ -138,7 +139,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
             enchantedItem.setAmount(1);
             enchantedItem.addUnsafeEnchantments(enchantments);
 
-            MachineRecipe recipe = new MachineRecipe(75 * enchantments.size() / getSpeed(), new ItemStack[] { target, enchantedBook }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
+            MachineRecipe recipe = new MachineRecipe(75 * enchantments.size() / getSpeed(), new ItemStack[] { target, enchantedBook }, new ItemStack[] { enchantedItem, StackResolver.of(Material.BOOK) });
 
             if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                 return null;

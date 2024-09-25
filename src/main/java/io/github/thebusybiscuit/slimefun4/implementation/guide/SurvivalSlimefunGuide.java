@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -484,7 +485,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         RecipeChoice[] choices = Slimefun.getMinecraftRecipeService().getRecipeShape(recipe);
 
         if (choices.length == 1 && choices[0] instanceof MaterialChoice materialChoice) {
-            recipeItems[4] = new ItemStack(materialChoice.getChoices().get(0));
+            recipeItems[4] = StackResolver.of(materialChoice.getChoices().get(0));
 
             if (materialChoice.getChoices().size() > 1) {
                 task.add(recipeSlots[4], materialChoice);
@@ -492,7 +493,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         } else {
             for (int i = 0; i < choices.length; i++) {
                 if (choices[i] instanceof MaterialChoice materialChoice) {
-                    recipeItems[i] = new ItemStack(materialChoice.getChoices().get(0));
+                    recipeItems[i] = StackResolver.of(materialChoice.getChoices().get(0));
 
                     if (materialChoice.getChoices().size() > 1) {
                         task.add(recipeSlots[i], materialChoice);

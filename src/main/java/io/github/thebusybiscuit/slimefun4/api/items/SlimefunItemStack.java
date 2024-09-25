@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -78,7 +79,7 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Consumer<ItemMeta> consumer) {
-        this(id, new ItemStack(type), consumer);
+        this(id, StackResolver.of(type), consumer);
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
@@ -109,7 +110,7 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, String... lore) {
-        this(id, new ItemStack(type), name, lore);
+        this(id, StackResolver.of(type), name, lore);
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Color color, @Nullable String name, String... lore) {
@@ -284,7 +285,7 @@ public class SlimefunItemStack extends ItemStack {
 
     private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
         if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
-            return new ItemStack(Material.PLAYER_HEAD);
+            return StackResolver.of(Material.PLAYER_HEAD);
         }
 
         PlayerSkin skin = PlayerSkin.fromBase64(getTexture(id, texture));

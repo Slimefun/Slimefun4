@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
@@ -87,7 +88,7 @@ public class EnhancedFurnaceListener implements Listener {
                     ItemStack item = result.get();
                     int previous = inventory.getResult() != null ? inventory.getResult().getAmount() : 0;
                     amount = Math.min(item.getMaxStackSize() - previous, amount);
-                    e.setResult(new ItemStack(item.getType(), amount));
+                    e.setResult(StackResolver.of(item.getType(), amount));
                 }
             }
         }

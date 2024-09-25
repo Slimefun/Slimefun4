@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -233,7 +234,7 @@ public final class SlimefunUtils {
 
         if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             // com.mojang.authlib.GameProfile does not exist in a Test Environment
-            return new ItemStack(Material.PLAYER_HEAD);
+            return StackResolver.of(Material.PLAYER_HEAD);
         }
 
         String base64 = texture;

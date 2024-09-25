@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -78,7 +79,7 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
             return spawner.getItemForEntityType(entityType);
         }
 
-        return new ItemStack(Material.SPAWNER);
+        return StackResolver.of(Material.SPAWNER);
     }
 
 }

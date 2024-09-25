@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -33,65 +34,65 @@ public class GrindStone extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public GrindStone(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, StackResolver.of(Material.OAK_FENCE), null, null, new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
     }
 
     @Override
     protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
-        recipes.add(new ItemStack(Material.BLAZE_ROD));
-        recipes.add(new ItemStack(Material.BLAZE_POWDER, 4));
+        recipes.add(StackResolver.of(Material.BLAZE_ROD));
+        recipes.add(StackResolver.of(Material.BLAZE_POWDER, 4));
 
-        recipes.add(new ItemStack(Material.BONE));
-        recipes.add(new ItemStack(Material.BONE_MEAL, 4));
+        recipes.add(StackResolver.of(Material.BONE));
+        recipes.add(StackResolver.of(Material.BONE_MEAL, 4));
 
-        recipes.add(new ItemStack(Material.BONE_BLOCK));
-        recipes.add(new ItemStack(Material.BONE_MEAL, 9));
+        recipes.add(StackResolver.of(Material.BONE_BLOCK));
+        recipes.add(StackResolver.of(Material.BONE_MEAL, 9));
 
-        recipes.add(new ItemStack(Material.COBBLESTONE));
-        recipes.add(new ItemStack(Material.GRAVEL));
+        recipes.add(StackResolver.of(Material.COBBLESTONE));
+        recipes.add(StackResolver.of(Material.GRAVEL));
 
-        recipes.add(new ItemStack(Material.ANDESITE));
-        recipes.add(new ItemStack(Material.GRAVEL));
+        recipes.add(StackResolver.of(Material.ANDESITE));
+        recipes.add(StackResolver.of(Material.GRAVEL));
 
-        recipes.add(new ItemStack(Material.BLACKSTONE));
-        recipes.add(new ItemStack(Material.GRAVEL));
+        recipes.add(StackResolver.of(Material.BLACKSTONE));
+        recipes.add(StackResolver.of(Material.GRAVEL));
 
-        recipes.add(new ItemStack(Material.DIORITE));
-        recipes.add(new ItemStack(Material.GRAVEL));
+        recipes.add(StackResolver.of(Material.DIORITE));
+        recipes.add(StackResolver.of(Material.GRAVEL));
 
-        recipes.add(new ItemStack(Material.GRANITE));
-        recipes.add(new ItemStack(Material.GRAVEL));
+        recipes.add(StackResolver.of(Material.GRANITE));
+        recipes.add(StackResolver.of(Material.GRAVEL));
 
-        recipes.add(new ItemStack(Material.DIRT));
+        recipes.add(StackResolver.of(Material.DIRT));
         recipes.add(SlimefunItems.STONE_CHUNK);
 
-        recipes.add(new ItemStack(Material.SANDSTONE));
-        recipes.add(new ItemStack(Material.SAND, 4));
+        recipes.add(StackResolver.of(Material.SANDSTONE));
+        recipes.add(StackResolver.of(Material.SAND, 4));
 
-        recipes.add(new ItemStack(Material.RED_SANDSTONE));
-        recipes.add(new ItemStack(Material.RED_SAND, 4));
+        recipes.add(StackResolver.of(Material.RED_SANDSTONE));
+        recipes.add(StackResolver.of(Material.RED_SAND, 4));
 
-        recipes.add(new ItemStack(Material.PRISMARINE_BRICKS));
-        recipes.add(new ItemStack(Material.PRISMARINE, 2));
+        recipes.add(StackResolver.of(Material.PRISMARINE_BRICKS));
+        recipes.add(StackResolver.of(Material.PRISMARINE, 2));
 
-        recipes.add(new ItemStack(Material.PRISMARINE));
-        recipes.add(new ItemStack(Material.PRISMARINE_SHARD, 4));
+        recipes.add(StackResolver.of(Material.PRISMARINE));
+        recipes.add(StackResolver.of(Material.PRISMARINE_SHARD, 4));
 
-        recipes.add(new ItemStack(Material.NETHER_WART_BLOCK));
-        recipes.add(new ItemStack(Material.NETHER_WART, 9));
+        recipes.add(StackResolver.of(Material.NETHER_WART_BLOCK));
+        recipes.add(StackResolver.of(Material.NETHER_WART, 9));
 
-        recipes.add(new ItemStack(Material.QUARTZ_BLOCK));
-        recipes.add(new ItemStack(Material.QUARTZ, 4));
+        recipes.add(StackResolver.of(Material.QUARTZ_BLOCK));
+        recipes.add(StackResolver.of(Material.QUARTZ, 4));
 
-        recipes.add(new ItemStack(Material.BASALT, 2));
-        recipes.add(new ItemStack(Material.BLACKSTONE));
+        recipes.add(StackResolver.of(Material.BASALT, 2));
+        recipes.add(StackResolver.of(Material.BLACKSTONE));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            recipes.add(new ItemStack(Material.AMETHYST_BLOCK));
-            recipes.add(new ItemStack(Material.AMETHYST_SHARD, 4));
+            recipes.add(StackResolver.of(Material.AMETHYST_BLOCK));
+            recipes.add(StackResolver.of(Material.AMETHYST_SHARD, 4));
 
-            recipes.add(new ItemStack(Material.COBBLED_DEEPSLATE));
-            recipes.add(new ItemStack(Material.GRAVEL));
+            recipes.add(StackResolver.of(Material.COBBLED_DEEPSLATE));
+            recipes.add(StackResolver.of(Material.GRAVEL));
         }
 
         recipes.add(SlimefunItems.MAGIC_LUMP_2);
@@ -106,7 +107,7 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(SlimefunItems.ENDER_LUMP_3);
         recipes.add(new SlimefunItemStack(SlimefunItems.ENDER_LUMP_2, 4));
 
-        recipes.add(new ItemStack(Material.DIAMOND));
+        recipes.add(StackResolver.of(Material.DIAMOND));
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
     }
 

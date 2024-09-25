@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -118,7 +119,7 @@ public class AsyncRecipeChoiceTask implements Runnable {
 
         try {
             for (Map.Entry<Integer, LoopIterator<Material>> entry : iterators.entrySet()) {
-                inventory.setItem(entry.getKey(), new ItemStack(entry.getValue().next()));
+                inventory.setItem(entry.getKey(), StackResolver.of(entry.getValue().next()));
             }
         } finally {
             lock.readLock().unlock();

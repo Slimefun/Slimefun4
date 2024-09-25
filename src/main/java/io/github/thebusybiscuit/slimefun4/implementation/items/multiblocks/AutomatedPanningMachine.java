@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -48,7 +49,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public AutomatedPanningMachine(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, StackResolver.of(Material.OAK_TRAPDOOR), null, null, StackResolver.of(Material.CAULDRON), null }, BlockFace.SELF);
     }
 
     @Override

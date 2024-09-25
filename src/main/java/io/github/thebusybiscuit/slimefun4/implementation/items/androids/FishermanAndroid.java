@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -28,23 +29,23 @@ public class FishermanAndroid extends ProgrammableAndroid {
 
         // Fish
         for (Material fish : Tag.ITEMS_FISHES.getValues()) {
-            fishingLoot.add(new ItemStack(fish), 25);
+            fishingLoot.add(StackResolver.of(fish), 25);
         }
 
         // Junk
-        fishingLoot.add(new ItemStack(Material.BONE), 10);
-        fishingLoot.add(new ItemStack(Material.STRING), 10);
-        fishingLoot.add(new ItemStack(Material.INK_SAC), 8);
-        fishingLoot.add(new ItemStack(Material.KELP), 6);
-        fishingLoot.add(new ItemStack(Material.STICK), 5);
-        fishingLoot.add(new ItemStack(Material.ROTTEN_FLESH), 3);
-        fishingLoot.add(new ItemStack(Material.LEATHER), 2);
-        fishingLoot.add(new ItemStack(Material.BAMBOO), 3);
+        fishingLoot.add(StackResolver.of(Material.BONE), 10);
+        fishingLoot.add(StackResolver.of(Material.STRING), 10);
+        fishingLoot.add(StackResolver.of(Material.INK_SAC), 8);
+        fishingLoot.add(StackResolver.of(Material.KELP), 6);
+        fishingLoot.add(StackResolver.of(Material.STICK), 5);
+        fishingLoot.add(StackResolver.of(Material.ROTTEN_FLESH), 3);
+        fishingLoot.add(StackResolver.of(Material.LEATHER), 2);
+        fishingLoot.add(StackResolver.of(Material.BAMBOO), 3);
 
         // "loot"
-        fishingLoot.add(new ItemStack(Material.SADDLE), 1);
-        fishingLoot.add(new ItemStack(Material.NAME_TAG), 1);
-        fishingLoot.add(new ItemStack(Material.NAUTILUS_SHELL), 1);
+        fishingLoot.add(StackResolver.of(Material.SADDLE), 1);
+        fishingLoot.add(StackResolver.of(Material.NAME_TAG), 1);
+        fishingLoot.add(StackResolver.of(Material.NAUTILUS_SHELL), 1);
     }
 
     @Override

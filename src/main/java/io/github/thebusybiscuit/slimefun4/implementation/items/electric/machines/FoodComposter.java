@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,7 +41,7 @@ public class FoodComposter extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.GOLDEN_HOE);
+        return StackResolver.of(Material.GOLDEN_HOE);
     }
 
 }

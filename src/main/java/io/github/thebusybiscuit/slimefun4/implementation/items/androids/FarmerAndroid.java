@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -69,13 +70,13 @@ public class FarmerAndroid extends ProgrammableAndroid {
         Random random = ThreadLocalRandom.current();
 
         return switch (crop) {
-            case WHEAT -> new ItemStack(Material.WHEAT, random.nextInt(2) + 1);
-            case POTATOES -> new ItemStack(Material.POTATO, random.nextInt(3) + 1);
-            case CARROTS -> new ItemStack(Material.CARROT, random.nextInt(3) + 1);
-            case BEETROOTS -> new ItemStack(Material.BEETROOT, random.nextInt(3) + 1);
-            case COCOA -> new ItemStack(Material.COCOA_BEANS, random.nextInt(3) + 1);
-            case NETHER_WART -> new ItemStack(Material.NETHER_WART, random.nextInt(3) + 1);
-            case SWEET_BERRY_BUSH -> new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
+            case WHEAT -> StackResolver.of(Material.WHEAT, random.nextInt(2) + 1);
+            case POTATOES -> StackResolver.of(Material.POTATO, random.nextInt(3) + 1);
+            case CARROTS -> StackResolver.of(Material.CARROT, random.nextInt(3) + 1);
+            case BEETROOTS -> StackResolver.of(Material.BEETROOT, random.nextInt(3) + 1);
+            case COCOA -> StackResolver.of(Material.COCOA_BEANS, random.nextInt(3) + 1);
+            case NETHER_WART -> StackResolver.of(Material.NETHER_WART, random.nextInt(3) + 1);
+            case SWEET_BERRY_BUSH -> StackResolver.of(Material.SWEET_BERRIES, random.nextInt(3) + 1);
             default -> null;
         };
     }
