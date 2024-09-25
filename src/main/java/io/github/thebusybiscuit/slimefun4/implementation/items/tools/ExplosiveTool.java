@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import dev.lone.itemsadder.api.CustomBlock;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.ExplosionResult;
@@ -194,9 +195,9 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         List<Block> blocks,
         float yield
     ) {
-        String[] version = Bukkit.getBukkitVersion().split("-");
 
-        if (Integer.parseInt(version[1]) >= 21) {
+        var version = Slimefun.getMinecraftVersion();
+        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
             return new BlockExplodeEvent(block, block.getState(), blocks, yield, ExplosionResult.DESTROY);
         } else {
             try {
