@@ -40,7 +40,7 @@ public class FoodComposter extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.GOLDEN_HOE);
+        return ItemStack.of(Material.GOLDEN_HOE);
     }
 
 }

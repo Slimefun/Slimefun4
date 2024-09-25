@@ -31,7 +31,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
     public MagicWorkbench(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, BlockFace.UP);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, null, null, ItemStack.of(Material.BOOKSHELF), ItemStack.of(Material.CRAFTING_TABLE), ItemStack.of(Material.DISPENSER) }, BlockFace.UP);
     }
 
     @Override

@@ -47,12 +47,12 @@ public class NetherGoldPan extends GoldPan {
     protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
-        settings.add(new GoldPanDrop(this, "chance.QUARTZ", 50, new ItemStack(Material.QUARTZ)));
-        settings.add(new GoldPanDrop(this, "chance.GOLD_NUGGET", 25, new ItemStack(Material.GOLD_NUGGET)));
-        settings.add(new GoldPanDrop(this, "chance.NETHER_WART", 10, new ItemStack(Material.NETHER_WART)));
-        settings.add(new GoldPanDrop(this, "chance.BLAZE_POWDER", 8, new ItemStack(Material.BLAZE_POWDER)));
-        settings.add(new GoldPanDrop(this, "chance.GLOWSTONE_DUST", 5, new ItemStack(Material.GLOWSTONE_DUST)));
-        settings.add(new GoldPanDrop(this, "chance.GHAST_TEAR", 2, new ItemStack(Material.GHAST_TEAR)));
+        settings.add(new GoldPanDrop(this, "chance.QUARTZ", 50, ItemStack.of(Material.QUARTZ)));
+        settings.add(new GoldPanDrop(this, "chance.GOLD_NUGGET", 25, ItemStack.of(Material.GOLD_NUGGET)));
+        settings.add(new GoldPanDrop(this, "chance.NETHER_WART", 10, ItemStack.of(Material.NETHER_WART)));
+        settings.add(new GoldPanDrop(this, "chance.BLAZE_POWDER", 8, ItemStack.of(Material.BLAZE_POWDER)));
+        settings.add(new GoldPanDrop(this, "chance.GLOWSTONE_DUST", 5, ItemStack.of(Material.GLOWSTONE_DUST)));
+        settings.add(new GoldPanDrop(this, "chance.GHAST_TEAR", 2, ItemStack.of(Material.GHAST_TEAR)));
 
         return settings;
     }

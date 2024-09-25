@@ -71,7 +71,7 @@ class TestSmithingTableListener {
 
         SmithingInventory inv = Mockito.mock(SmithingInventory.class);
         // MinecraftVersion#isAtLeast always returns true during unit test, so we use the 1.20 layout here.
-        Mockito.when(inv.getContents()).thenReturn(new ItemStack[] { new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE), tool, material, null });
+        Mockito.when(inv.getContents()).thenReturn(new ItemStack[] { ItemStack.of(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE), tool, material, null });
 
         InventoryView view = player.openInventory(inv);
         SmithItemEvent event = new SmithItemEvent(view, SlotType.RESULT, 3, ClickType.LEFT, InventoryAction.PICKUP_ONE);
@@ -84,7 +84,7 @@ class TestSmithingTableListener {
         Player player = server.addPlayer();
 
         SmithingInventory inv = Mockito.mock(SmithingInventory.class);
-        MutableObject<ItemStack> result = new MutableObject<>(new ItemStack(Material.NETHERITE_PICKAXE));
+        MutableObject<ItemStack> result = new MutableObject<>(ItemStack.of(Material.NETHERITE_PICKAXE));
 
         Mockito.doAnswer(invocation -> {
             ItemStack argument = invocation.getArgument(0);
@@ -94,7 +94,7 @@ class TestSmithingTableListener {
 
         Mockito.when(inv.getResult()).thenAnswer(invocation -> result.getValue());
         // MinecraftVersion#isAtLeast always returns true during unit test, so we use the 1.20 layout here.
-        Mockito.when(inv.getContents()).thenReturn(new ItemStack[] { new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE), tool, material, null });
+        Mockito.when(inv.getContents()).thenReturn(new ItemStack[] { ItemStack.of(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE), tool, material, null });
 
         InventoryView view = player.openInventory(inv);
         PrepareSmithingEvent event = new PrepareSmithingEvent(view, result.getValue());
@@ -106,28 +106,28 @@ class TestSmithingTableListener {
     @Test
     @DisplayName("Test that vanilla is unchanged (ItemStack tool x ItemStack material)")
     void testSmithingTableWithItemStacks() {
-        SmithItemEvent event = mockSmithingEvent(new ItemStack(Material.DIAMOND_SWORD), new ItemStack(Material.NETHERITE_INGOT));
+        SmithItemEvent event = mockSmithingEvent(ItemStack.of(Material.DIAMOND_SWORD), ItemStack.of(Material.NETHERITE_INGOT));
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 
     @Test
     @DisplayName("Test that SlimefunItem material doesn't work (ItemStack tool x SlimefunItem material)")
     void testSmithingTableWithItemStackAndSlimefunItem() {
-        SmithItemEvent event = mockSmithingEvent(new ItemStack(Material.DIAMOND_SWORD), slimefunIngot.getItem());
+        SmithItemEvent event = mockSmithingEvent(ItemStack.of(Material.DIAMOND_SWORD), slimefunIngot.getItem());
         Assertions.assertEquals(Result.DENY, event.getResult());
     }
 
     @Test
     @DisplayName("Test that VanillaItem material works (ItemStack tool x VanillaItem material)")
     void testSmithingTableWithItemStackAndVanillaItem() {
-        SmithItemEvent event = mockSmithingEvent(new ItemStack(Material.DIAMOND_SWORD), vanillaIngot.getItem());
+        SmithItemEvent event = mockSmithingEvent(ItemStack.of(Material.DIAMOND_SWORD), vanillaIngot.getItem());
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 
     @Test
     @DisplayName("Test that SlimefunItems can upgrade with vanilla (SlimefunItem tool x ItemStack material)")
     void testSmithingTableWithSlimefunItemAndItemStack() {
-        SmithItemEvent event = mockSmithingEvent(slimefunTool.getItem(), new ItemStack(Material.NETHERITE_INGOT));
+        SmithItemEvent event = mockSmithingEvent(slimefunTool.getItem(), ItemStack.of(Material.NETHERITE_INGOT));
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 
@@ -148,7 +148,7 @@ class TestSmithingTableListener {
     @Test
     @DisplayName("Test that VanillaItems can upgrade with vanilla (VanillaItem tool x ItemStack material)")
     void testSmithingTableWithVanillaItemAndItemStack() {
-        SmithItemEvent event = mockSmithingEvent(vanillaTool.getItem(), new ItemStack(Material.NETHERITE_INGOT));
+        SmithItemEvent event = mockSmithingEvent(vanillaTool.getItem(), ItemStack.of(Material.NETHERITE_INGOT));
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 
@@ -170,35 +170,35 @@ class TestSmithingTableListener {
     @DisplayName("Test that ItemStacks can be upgraded with SlimefunItem can-be-used-in-workbenches: true")
     void testCanBeUsedInWorkbenchTrue() {
         Assertions.assertTrue(usableSlimefunIngot.isUseableInWorkbench());
-        SmithItemEvent event = mockSmithingEvent(new ItemStack(Material.DIAMOND_SWORD), usableSlimefunIngot.getItem());
+        SmithItemEvent event = mockSmithingEvent(ItemStack.of(Material.DIAMOND_SWORD), usableSlimefunIngot.getItem());
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 
     @Test
     @DisplayName("Test that vanilla is unchanged (ItemStack tool x ItemStack material)")
     void testPrepareSmithingTableWithItemStacks() {
-        PrepareSmithingEvent event = mockPrepareSmithingEvent(new ItemStack(Material.DIAMOND_SWORD), new ItemStack(Material.NETHERITE_INGOT));
+        PrepareSmithingEvent event = mockPrepareSmithingEvent(ItemStack.of(Material.DIAMOND_SWORD), ItemStack.of(Material.NETHERITE_INGOT));
         Assertions.assertNotNull(event.getResult());
     }
 
     @Test
     @DisplayName("Test that SlimefunItem material doesn't work (ItemStack tool x SlimefunItem material)")
     void testPrepareSmithingTableWithItemStackAndSlimefunItem() {
-        PrepareSmithingEvent event = mockPrepareSmithingEvent(new ItemStack(Material.DIAMOND_SWORD), slimefunIngot.getItem());
+        PrepareSmithingEvent event = mockPrepareSmithingEvent(ItemStack.of(Material.DIAMOND_SWORD), slimefunIngot.getItem());
         Assertions.assertNull(event.getResult());
     }
 
     @Test
     @DisplayName("Test that VanillaItem material works (ItemStack tool x VanillaItem material)")
     void testPrepareSmithingTableWithItemStackAndVanillaItem() {
-        PrepareSmithingEvent event = mockPrepareSmithingEvent(new ItemStack(Material.DIAMOND_SWORD), vanillaIngot.getItem());
+        PrepareSmithingEvent event = mockPrepareSmithingEvent(ItemStack.of(Material.DIAMOND_SWORD), vanillaIngot.getItem());
         Assertions.assertNotNull(event.getResult());
     }
 
     @Test
     @DisplayName("Test that SlimefunItems can upgrade with vanilla (SlimefunItem tool x ItemStack material)")
     void testPrepareSmithingTableWithSlimefunItemAndItemStack() {
-        PrepareSmithingEvent event = mockPrepareSmithingEvent(slimefunTool.getItem(), new ItemStack(Material.NETHERITE_INGOT));
+        PrepareSmithingEvent event = mockPrepareSmithingEvent(slimefunTool.getItem(), ItemStack.of(Material.NETHERITE_INGOT));
         Assertions.assertNotNull(event.getResult());
     }
 
@@ -219,7 +219,7 @@ class TestSmithingTableListener {
     @Test
     @DisplayName("Test that VanillaItems can upgrade with vanilla (VanillaItem tool x ItemStack material)")
     void testPrepareSmithingTableWithVanillaItemAndItemStack() {
-        PrepareSmithingEvent event = mockPrepareSmithingEvent(vanillaTool.getItem(), new ItemStack(Material.NETHERITE_INGOT));
+        PrepareSmithingEvent event = mockPrepareSmithingEvent(vanillaTool.getItem(), ItemStack.of(Material.NETHERITE_INGOT));
         Assertions.assertNotNull(event.getResult());
     }
 
@@ -240,7 +240,7 @@ class TestSmithingTableListener {
     @Test
     @DisplayName("Test that ItemStacks can be upgraded with SlimefunItem can-be-used-in-workbenches: true")
     void testPrepareCanBeUsedInWorkbenchTrue() {
-        PrepareSmithingEvent event = mockPrepareSmithingEvent(new ItemStack(Material.DIAMOND_SWORD), usableSlimefunIngot.getItem());
+        PrepareSmithingEvent event = mockPrepareSmithingEvent(ItemStack.of(Material.DIAMOND_SWORD), usableSlimefunIngot.getItem());
         Assertions.assertNotNull(event.getResult());
     }
 

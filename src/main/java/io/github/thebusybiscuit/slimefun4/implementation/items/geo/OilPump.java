@@ -32,7 +32,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     private final GEOResource oil;
 
-    private final ItemStack emptyBucket = new ItemStack(Material.BUCKET);
+    private final ItemStack emptyBucket = ItemStack.of(Material.BUCKET);
 
     @ParametersAreNonnullByDefault
     public OilPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -84,7 +84,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.DIAMOND_SHOVEL);
+        return ItemStack.of(Material.DIAMOND_SHOVEL);
     }
 
     @Override

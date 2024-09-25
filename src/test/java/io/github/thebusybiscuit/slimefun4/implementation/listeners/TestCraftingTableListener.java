@@ -50,7 +50,7 @@ class TestCraftingTableListener {
     }
 
     private CraftItemEvent mockCraftingEvent(ItemStack item) {
-        Recipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "test_recipe"), new ItemStack(Material.EMERALD));
+        Recipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "test_recipe"), ItemStack.of(Material.EMERALD));
         Player player = server.addPlayer();
 
         CraftingInventory inv = Mockito.mock(CraftingInventory.class);
@@ -67,7 +67,7 @@ class TestCraftingTableListener {
         Player player = server.addPlayer();
 
         CraftingInventory inv = Mockito.mock(CraftingInventory.class);
-        MutableObject result = new MutableObject(new ItemStack(Material.EMERALD));
+        MutableObject result = new MutableObject(ItemStack.of(Material.EMERALD));
 
         Mockito.doAnswer(invocation -> {
             ItemStack argument = invocation.getArgument(0);
@@ -87,7 +87,7 @@ class TestCraftingTableListener {
 
     @Test
     void testCraftEventWithoutSlimefunItems() {
-        CraftItemEvent event = mockCraftingEvent(new ItemStack(Material.DIAMOND));
+        CraftItemEvent event = mockCraftingEvent(ItemStack.of(Material.DIAMOND));
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 
@@ -125,7 +125,7 @@ class TestCraftingTableListener {
 
     @Test
     void testPreCraftEventWithoutSlimefunItems() {
-        PrepareItemCraftEvent event = mockPreCraftingEvent(new ItemStack(Material.DIAMOND));
+        PrepareItemCraftEvent event = mockPreCraftingEvent(ItemStack.of(Material.DIAMOND));
         Assertions.assertNotNull(event.getInventory().getResult());
     }
 

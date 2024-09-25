@@ -105,7 +105,7 @@ class TestCargoNodeListener {
         Block b = l.getBlock();
         Block against = b.getRelative(BlockFace.DOWN);
 
-        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+        ItemStack item = ItemStack.of(Material.PLAYER_HEAD);
 
         BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), against, item, player, true, EquipmentSlot.HAND);
         listener.onCargoNodePlace(event);

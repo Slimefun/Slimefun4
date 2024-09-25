@@ -40,16 +40,16 @@ class TestRechargeableItems {
         Rechargeable rechargeable = mock("INVALID_CHARGING_TEST", 1);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.getItemCharge(null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.getItemCharge(new ItemStack(Material.AIR)));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.getItemCharge(ItemStack.of(Material.AIR)));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.setItemCharge(null, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.setItemCharge(new ItemStack(Material.AIR), 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.setItemCharge(ItemStack.of(Material.AIR), 1));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.addItemCharge(null, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.addItemCharge(new ItemStack(Material.AIR), 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.addItemCharge(ItemStack.of(Material.AIR), 1));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.removeItemCharge(null, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.removeItemCharge(new ItemStack(Material.AIR), 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.removeItemCharge(ItemStack.of(Material.AIR), 1));
     }
 
     @Test

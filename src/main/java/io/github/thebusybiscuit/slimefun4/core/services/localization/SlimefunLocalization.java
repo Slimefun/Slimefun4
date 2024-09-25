@@ -315,7 +315,7 @@ public abstract class SlimefunLocalization implements Keyed {
 
         if (item == null) {
             // Fixes #3088
-            return new ItemStack(Material.AIR);
+            return ItemStack.of(Material.AIR);
         }
 
         Language language = getLanguage(p);

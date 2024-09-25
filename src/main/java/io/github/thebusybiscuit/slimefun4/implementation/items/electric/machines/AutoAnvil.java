@@ -34,7 +34,7 @@ public class AutoAnvil extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.IRON_PICKAXE);
+        return ItemStack.of(Material.IRON_PICKAXE);
     }
 
     @Override

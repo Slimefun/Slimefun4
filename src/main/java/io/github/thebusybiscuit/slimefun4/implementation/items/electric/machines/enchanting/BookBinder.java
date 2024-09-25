@@ -61,7 +61,7 @@ public class BookBinder extends AContainer {
                         return null;
                     }
 
-                    ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+                    ItemStack book = ItemStack.of(Material.ENCHANTED_BOOK);
 
                     EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();
 
@@ -121,7 +121,7 @@ public class BookBinder extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.IRON_CHESTPLATE);
+        return ItemStack.of(Material.IRON_CHESTPLATE);
     }
 
     @Override

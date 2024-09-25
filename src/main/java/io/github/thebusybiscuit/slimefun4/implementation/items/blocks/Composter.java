@@ -49,23 +49,23 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
         List<ItemStack> items = new LinkedList<>();
 
         for (Material leave : Tag.LEAVES.getValues()) {
-            items.add(new ItemStack(leave, 8));
-            items.add(new ItemStack(Material.DIRT));
+            items.add(ItemStack.of(leave, 8));
+            items.add(ItemStack.of(Material.DIRT));
         }
 
         for (Material sapling : Tag.SAPLINGS.getValues()) {
-            items.add(new ItemStack(sapling, 8));
-            items.add(new ItemStack(Material.DIRT));
+            items.add(ItemStack.of(sapling, 8));
+            items.add(ItemStack.of(Material.DIRT));
         }
 
-        items.add(new ItemStack(Material.STONE, 4));
-        items.add(new ItemStack(Material.NETHERRACK));
+        items.add(ItemStack.of(Material.STONE, 4));
+        items.add(ItemStack.of(Material.NETHERRACK));
 
-        items.add(new ItemStack(Material.SAND, 2));
-        items.add(new ItemStack(Material.SOUL_SAND));
+        items.add(ItemStack.of(Material.SAND, 2));
+        items.add(ItemStack.of(Material.SOUL_SAND));
 
-        items.add(new ItemStack(Material.WHEAT, 4));
-        items.add(new ItemStack(Material.NETHER_WART));
+        items.add(ItemStack.of(Material.WHEAT, 4));
+        items.add(ItemStack.of(Material.NETHER_WART));
 
         return items;
     }

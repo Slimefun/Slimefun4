@@ -190,7 +190,7 @@ public class TalismanListener implements Listener {
         if (entity instanceof ChestedHorse chestedHorse) {
             if (chestedHorse.isCarryingChest()) {
                 // The chest is not included in getStorageContents()
-                items.remove(new ItemStack(Material.CHEST));
+                items.remove(ItemStack.of(Material.CHEST));
 
                 for (ItemStack item : chestedHorse.getInventory().getStorageContents()) {
                     items.remove(item);

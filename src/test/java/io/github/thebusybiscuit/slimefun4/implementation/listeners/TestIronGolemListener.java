@@ -66,7 +66,7 @@ class TestIronGolemListener {
     @DisplayName("Test Iron Golem Healing not being disturbed")
     void testWithIron() {
         // This should heal the Iron Golem
-        ItemStack item = new ItemStack(Material.IRON_INGOT);
+        ItemStack item = ItemStack.of(Material.IRON_INGOT);
 
         PlayerInteractEntityEvent event = callIronGolemEvent(EquipmentSlot.HAND, item);
         Assertions.assertFalse(event.isCancelled());

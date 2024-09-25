@@ -52,7 +52,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class MinerAndroid extends ProgrammableAndroid {
 
     // Determines the drops a miner android will get
-    private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
+    private final ItemStack effectivePickaxe = ItemStack.of(Material.DIAMOND_PICKAXE);
 
     private final ItemSetting<Boolean> firesEvent = new ItemSetting<>(this, "trigger-event-for-generators", false);
     private final ItemSetting<Boolean> applyOptimizations = new ItemSetting<>(this, "reduced-block-updates", true);

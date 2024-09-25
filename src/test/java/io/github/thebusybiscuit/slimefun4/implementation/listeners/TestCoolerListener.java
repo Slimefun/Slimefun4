@@ -61,7 +61,7 @@ class TestCoolerListener {
     @Test
     @DisplayName("Test if Coolers only allow juices")
     void testOnlyJuiceAllowance() {
-        Assertions.assertFalse(cooler.isItemAllowed(new ItemStack(Material.DIAMOND), null));
+        Assertions.assertFalse(cooler.isItemAllowed(ItemStack.of(Material.DIAMOND), null));
         Assertions.assertFalse(cooler.isItemAllowed(cooler.getItem(), cooler));
         Assertions.assertTrue(cooler.isItemAllowed(juice.getItem(), juice));
     }

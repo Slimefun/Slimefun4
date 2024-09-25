@@ -49,7 +49,7 @@ public class BlockPhysicsListener implements Listener {
             FallingBlock block = (FallingBlock) e.getEntity();
 
             if (block.getDropItem()) {
-                block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getBlockData().getMaterial(), 1));
+                block.getWorld().dropItemNaturally(block.getLocation(), ItemStack.of(block.getBlockData().getMaterial(), 1));
             }
         }
     }

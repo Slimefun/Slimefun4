@@ -53,7 +53,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.DIAMOND_CHESTPLATE);
+        return ItemStack.of(Material.DIAMOND_CHESTPLATE);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             ItemStack disenchantedItem = item.clone();
             disenchantedItem.setAmount(1);
 
-            ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
+            ItemStack enchantedBook = ItemStack.of(Material.ENCHANTED_BOOK);
             transferEnchantments(disenchantedItem, enchantedBook, enchantments);
 
             MachineRecipe recipe = new MachineRecipe(90 * enchantments.size() / this.getSpeed(), new ItemStack[] { book, item }, new ItemStack[] { disenchantedItem, enchantedBook });

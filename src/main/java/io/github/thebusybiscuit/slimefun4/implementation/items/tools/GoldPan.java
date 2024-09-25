@@ -89,10 +89,10 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     protected @Nonnull Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
-        settings.add(new GoldPanDrop(this, "chance.FLINT", 40, new ItemStack(Material.FLINT)));
-        settings.add(new GoldPanDrop(this, "chance.CLAY", 20, new ItemStack(Material.CLAY_BALL)));
+        settings.add(new GoldPanDrop(this, "chance.FLINT", 40, ItemStack.of(Material.FLINT)));
+        settings.add(new GoldPanDrop(this, "chance.CLAY", 20, ItemStack.of(Material.CLAY_BALL)));
         settings.add(new GoldPanDrop(this, "chance.SIFTED_ORE", 35, SlimefunItems.SIFTED_ORE));
-        settings.add(new GoldPanDrop(this, "chance.IRON_NUGGET", 5, new ItemStack(Material.IRON_NUGGET)));
+        settings.add(new GoldPanDrop(this, "chance.IRON_NUGGET", 5, ItemStack.of(Material.IRON_NUGGET)));
 
         return settings;
     }
@@ -129,7 +129,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         ItemStack item = randomizer.getRandom();
 
         // Fixes #2804
-        return item != null ? item : new ItemStack(Material.AIR);
+        return item != null ? item : ItemStack.of(Material.AIR);
     }
 
     @Override
@@ -187,7 +187,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             }
 
             for (Material material : getInputMaterials()) {
-                recipes.add(new ItemStack(material));
+                recipes.add(ItemStack.of(material));
                 recipes.add(drop.getOutput());
             }
         }
@@ -209,7 +209,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         }
 
         Material material = itemStack.getType();
-        return isValidInputMaterial(material) && SlimefunUtils.isItemSimilar(itemStack, new ItemStack(material), true, false);
+        return isValidInputMaterial(material) && SlimefunUtils.isItemSimilar(itemStack, ItemStack.of(material), true, false);
     }
 
     /**

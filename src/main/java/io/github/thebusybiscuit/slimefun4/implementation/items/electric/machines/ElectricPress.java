@@ -32,58 +32,58 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected void registerDefaultRecipes() {
-        addRecipe(4, new SlimefunItemStack(SlimefunItems.STONE_CHUNK, 3), new ItemStack(Material.COBBLESTONE));
-        addRecipe(4, new ItemStack(Material.FLINT, 6), new ItemStack(Material.COBBLESTONE));
-        addRecipe(5, new ItemStack(Material.GLASS), new ItemStack(Material.GLASS_PANE, 3));
-        addRecipe(4, new ItemStack(Material.SNOWBALL, 4), new ItemStack(Material.SNOW_BLOCK));
-        addRecipe(4, new ItemStack(Material.MAGMA_CREAM, 4), new ItemStack(Material.MAGMA_BLOCK));
-        addRecipe(4, new ItemStack(Material.SLIME_BALL, 9), new ItemStack(Material.SLIME_BLOCK));
+        addRecipe(4, new SlimefunItemStack(SlimefunItems.STONE_CHUNK, 3), ItemStack.of(Material.COBBLESTONE));
+        addRecipe(4, ItemStack.of(Material.FLINT, 6), ItemStack.of(Material.COBBLESTONE));
+        addRecipe(5, ItemStack.of(Material.GLASS), ItemStack.of(Material.GLASS_PANE, 3));
+        addRecipe(4, ItemStack.of(Material.SNOWBALL, 4), ItemStack.of(Material.SNOW_BLOCK));
+        addRecipe(4, ItemStack.of(Material.MAGMA_CREAM, 4), ItemStack.of(Material.MAGMA_BLOCK));
+        addRecipe(4, ItemStack.of(Material.SLIME_BALL, 9), ItemStack.of(Material.SLIME_BLOCK));
 
-        addRecipe(3, new ItemStack(Material.DRIED_KELP, 9), new ItemStack(Material.DRIED_KELP_BLOCK));
-        addRecipe(3, new ItemStack(Material.BONE_MEAL, 9), new ItemStack(Material.BONE_BLOCK));
-        addRecipe(3, new ItemStack(Material.CLAY_BALL, 4), new ItemStack(Material.CLAY));
-        addRecipe(3, new ItemStack(Material.BRICK, 4), new ItemStack(Material.BRICKS));
+        addRecipe(3, ItemStack.of(Material.DRIED_KELP, 9), ItemStack.of(Material.DRIED_KELP_BLOCK));
+        addRecipe(3, ItemStack.of(Material.BONE_MEAL, 9), ItemStack.of(Material.BONE_BLOCK));
+        addRecipe(3, ItemStack.of(Material.CLAY_BALL, 4), ItemStack.of(Material.CLAY));
+        addRecipe(3, ItemStack.of(Material.BRICK, 4), ItemStack.of(Material.BRICKS));
 
         addRecipe(6, SlimefunItems.COPPER_INGOT, new CustomItemStack(SlimefunItems.COPPER_WIRE, 3));
         addRecipe(16, new SlimefunItemStack(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE);
         addRecipe(18, new SlimefunItemStack(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE);
 
-        addRecipe(8, new ItemStack(Material.NETHER_WART), new CustomItemStack(SlimefunItems.MAGIC_LUMP_1, 2));
+        addRecipe(8, ItemStack.of(Material.NETHER_WART), new CustomItemStack(SlimefunItems.MAGIC_LUMP_1, 2));
         addRecipe(10, new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_1, 4), SlimefunItems.MAGIC_LUMP_2);
         addRecipe(12, new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_2, 4), SlimefunItems.MAGIC_LUMP_3);
 
-        addRecipe(10, new ItemStack(Material.ENDER_EYE), new CustomItemStack(SlimefunItems.ENDER_LUMP_1, 2));
+        addRecipe(10, ItemStack.of(Material.ENDER_EYE), new CustomItemStack(SlimefunItems.ENDER_LUMP_1, 2));
         addRecipe(12, new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 4), SlimefunItems.ENDER_LUMP_2);
         addRecipe(14, new SlimefunItemStack(SlimefunItems.ENDER_LUMP_2, 4), SlimefunItems.ENDER_LUMP_3);
 
         addRecipe(18, new SlimefunItemStack(SlimefunItems.TINY_URANIUM, 9), SlimefunItems.SMALL_URANIUM);
         addRecipe(24, new SlimefunItemStack(SlimefunItems.SMALL_URANIUM, 4), SlimefunItems.URANIUM);
 
-        addRecipe(4, new ItemStack(Material.QUARTZ, 4), new ItemStack(Material.QUARTZ_BLOCK));
-        addRecipe(4, new ItemStack(Material.IRON_NUGGET, 9), new ItemStack(Material.IRON_INGOT));
-        addRecipe(4, new ItemStack(Material.GOLD_NUGGET, 9), new ItemStack(Material.GOLD_INGOT));
-        addRecipe(4, new ItemStack(Material.COAL, 9), new ItemStack(Material.COAL_BLOCK));
-        addRecipe(4, new ItemStack(Material.SAND, 4), new ItemStack(Material.SANDSTONE));
-        addRecipe(4, new ItemStack(Material.RED_SAND, 4), new ItemStack(Material.RED_SANDSTONE));
+        addRecipe(4, ItemStack.of(Material.QUARTZ, 4), ItemStack.of(Material.QUARTZ_BLOCK));
+        addRecipe(4, ItemStack.of(Material.IRON_NUGGET, 9), ItemStack.of(Material.IRON_INGOT));
+        addRecipe(4, ItemStack.of(Material.GOLD_NUGGET, 9), ItemStack.of(Material.GOLD_INGOT));
+        addRecipe(4, ItemStack.of(Material.COAL, 9), ItemStack.of(Material.COAL_BLOCK));
+        addRecipe(4, ItemStack.of(Material.SAND, 4), ItemStack.of(Material.SANDSTONE));
+        addRecipe(4, ItemStack.of(Material.RED_SAND, 4), ItemStack.of(Material.RED_SANDSTONE));
 
-        addRecipe(5, new ItemStack(Material.IRON_INGOT, 9), new ItemStack(Material.IRON_BLOCK));
-        addRecipe(5, new ItemStack(Material.GOLD_INGOT, 9), new ItemStack(Material.GOLD_BLOCK));
+        addRecipe(5, ItemStack.of(Material.IRON_INGOT, 9), ItemStack.of(Material.IRON_BLOCK));
+        addRecipe(5, ItemStack.of(Material.GOLD_INGOT, 9), ItemStack.of(Material.GOLD_BLOCK));
 
-        addRecipe(6, new ItemStack(Material.REDSTONE, 9), new ItemStack(Material.REDSTONE_BLOCK));
-        addRecipe(6, new ItemStack(Material.LAPIS_LAZULI, 9), new ItemStack(Material.LAPIS_BLOCK));
+        addRecipe(6, ItemStack.of(Material.REDSTONE, 9), ItemStack.of(Material.REDSTONE_BLOCK));
+        addRecipe(6, ItemStack.of(Material.LAPIS_LAZULI, 9), ItemStack.of(Material.LAPIS_BLOCK));
 
-        addRecipe(8, new ItemStack(Material.EMERALD, 9), new ItemStack(Material.EMERALD_BLOCK));
-        addRecipe(8, new ItemStack(Material.DIAMOND, 9), new ItemStack(Material.DIAMOND_BLOCK));
+        addRecipe(8, ItemStack.of(Material.EMERALD, 9), ItemStack.of(Material.EMERALD_BLOCK));
+        addRecipe(8, ItemStack.of(Material.DIAMOND, 9), ItemStack.of(Material.DIAMOND_BLOCK));
 
-        addRecipe(16, new ItemStack(Material.NETHERITE_INGOT, 9), new ItemStack(Material.NETHERITE_BLOCK));
+        addRecipe(16, ItemStack.of(Material.NETHERITE_INGOT, 9), ItemStack.of(Material.NETHERITE_BLOCK));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            addRecipe(4, new ItemStack(Material.AMETHYST_SHARD, 4), new ItemStack(Material.AMETHYST_BLOCK));
+            addRecipe(4, ItemStack.of(Material.AMETHYST_SHARD, 4), ItemStack.of(Material.AMETHYST_BLOCK));
 
-            addRecipe(5, new ItemStack(Material.COPPER_INGOT, 9), new ItemStack(Material.COPPER_BLOCK));
-            addRecipe(5, new ItemStack(Material.RAW_IRON, 9), new ItemStack(Material.RAW_IRON_BLOCK));
-            addRecipe(5, new ItemStack(Material.RAW_GOLD, 9), new ItemStack(Material.RAW_GOLD_BLOCK));
-            addRecipe(5, new ItemStack(Material.RAW_COPPER, 9), new ItemStack(Material.RAW_COPPER_BLOCK));
+            addRecipe(5, ItemStack.of(Material.COPPER_INGOT, 9), ItemStack.of(Material.COPPER_BLOCK));
+            addRecipe(5, ItemStack.of(Material.RAW_IRON, 9), ItemStack.of(Material.RAW_IRON_BLOCK));
+            addRecipe(5, ItemStack.of(Material.RAW_GOLD, 9), ItemStack.of(Material.RAW_GOLD_BLOCK));
+            addRecipe(5, ItemStack.of(Material.RAW_COPPER, 9), ItemStack.of(Material.RAW_COPPER_BLOCK));
         }
     }
 
@@ -94,7 +94,7 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.IRON_HOE);
+        return ItemStack.of(Material.IRON_HOE);
 
     }
 

@@ -32,22 +32,22 @@ public class Compressor extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public Compressor(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON) }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, ItemStack.of(Material.NETHER_BRICK_FENCE), null, ItemStack.of(Material.PISTON), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), ItemStack.of(Material.PISTON) }, BlockFace.SELF);
     }
 
     @Override
     protected void registerDefaultRecipes(List<ItemStack> recipes) {
         recipes.add(new SlimefunItemStack(SlimefunItems.STONE_CHUNK, 4));
-        recipes.add(new ItemStack(Material.COBBLESTONE));
+        recipes.add(ItemStack.of(Material.COBBLESTONE));
 
-        recipes.add(new ItemStack(Material.FLINT, 8));
-        recipes.add(new ItemStack(Material.COBBLESTONE));
+        recipes.add(ItemStack.of(Material.FLINT, 8));
+        recipes.add(ItemStack.of(Material.COBBLESTONE));
 
-        recipes.add(new ItemStack(Material.COAL_BLOCK, 8));
+        recipes.add(ItemStack.of(Material.COAL_BLOCK, 8));
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 9));
 
-        recipes.add(new ItemStack(Material.CHARCOAL, 4));
-        recipes.add(new ItemStack(Material.COAL));
+        recipes.add(ItemStack.of(Material.CHARCOAL, 4));
+        recipes.add(ItemStack.of(Material.COAL));
     }
 
     @Override

@@ -63,7 +63,7 @@ class TestArmorTask {
         armor.register(plugin);
 
         player.getInventory().setHelmet(helmet.clone());
-        player.getInventory().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
+        player.getInventory().setChestplate(ItemStack.of(Material.DIAMOND_CHESTPLATE));
         new ArmorTask(false).run();
 
         // Check if all Potion Effects were applied
@@ -85,7 +85,7 @@ class TestArmorTask {
         new RadioactiveItem(itemGroup, Radioactivity.VERY_DEADLY, item, RecipeType.NULL, new ItemStack[9]).register(plugin);
 
         player.getInventory().setItemInMainHand(item.clone());
-        player.getInventory().setItemInOffHand(new ItemStack(Material.EMERALD_ORE));
+        player.getInventory().setItemInOffHand(ItemStack.of(Material.EMERALD_ORE));
 
         if (hazmat) {
             SlimefunItemStack chestplate = new SlimefunItemStack("MOCK_HAZMAT_SUIT_" + String.valueOf(radioactiveFire).toUpperCase(Locale.ROOT), Material.LEATHER_CHESTPLATE, "&4Hazmat Prototype");

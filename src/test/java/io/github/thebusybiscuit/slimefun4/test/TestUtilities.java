@@ -70,7 +70,7 @@ public final class TestUtilities {
     @ParametersAreNonnullByDefault
     public static @Nonnull VanillaItem mockVanillaItem(Plugin plugin, Material type, boolean enabled) {
         ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItemStack(Material.EMERALD, "&4Test ItemGroup"));
-        VanillaItem item = new VanillaItem(itemGroup, new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
+        VanillaItem item = new VanillaItem(itemGroup, ItemStack.of(type), type.name(), RecipeType.NULL, new ItemStack[9]);
         Slimefun.getItemCfg().setValue(type.name() + ".enabled", enabled);
         return item;
     }

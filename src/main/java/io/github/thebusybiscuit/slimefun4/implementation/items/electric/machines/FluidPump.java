@@ -57,8 +57,8 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private final int[] inputBorder = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
-    private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));
-    private final ItemStack emptyBottle = ItemStackWrapper.wrap(new ItemStack(Material.GLASS_BOTTLE));
+    private final ItemStack emptyBucket = ItemStackWrapper.wrap(ItemStack.of(Material.BUCKET));
+    private final ItemStack emptyBottle = ItemStackWrapper.wrap(ItemStack.of(Material.GLASS_BOTTLE));
 
     @ParametersAreNonnullByDefault
     public FluidPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -202,7 +202,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         switch (fluid.getType()) {
             case WATER:
             case BUBBLE_COLUMN:
-                ItemStack waterBottle = new ItemStack(Material.POTION);
+                ItemStack waterBottle = ItemStack.of(Material.POTION);
                 PotionMeta meta = (PotionMeta) waterBottle.getItemMeta();
                 if (Slimefun.getMinecraftVersion().isBefore(20, 2)) {
                     meta.setBasePotionData(new PotionData(PotionType.WATER));
@@ -212,18 +212,18 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                 waterBottle.setItemMeta(meta);
                 return waterBottle;
             default:
-                return new ItemStack(Material.GLASS_BOTTLE);
+                return ItemStack.of(Material.GLASS_BOTTLE);
         }
     }
 
     private @Nonnull ItemStack getFilledBucket(@Nonnull Block fluid) {
         return switch (fluid.getType()) {
-            case LAVA -> new ItemStack(Material.LAVA_BUCKET);
+            case LAVA -> ItemStack.of(Material.LAVA_BUCKET);
             case WATER,
-                BUBBLE_COLUMN -> new ItemStack(Material.WATER_BUCKET);
+                BUBBLE_COLUMN -> ItemStack.of(Material.WATER_BUCKET);
             default ->
                 // Fallback for any new liquids
-                new ItemStack(Material.BUCKET);
+                ItemStack.of(Material.BUCKET);
         };
     }
 

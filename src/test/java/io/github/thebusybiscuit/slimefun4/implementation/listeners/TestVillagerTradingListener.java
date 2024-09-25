@@ -62,7 +62,7 @@ class TestVillagerTradingListener {
 
     @Test
     void testTradingWithoutSlimefunItems() {
-        InventoryClickEvent event = mockClickEvent(new ItemStack(Material.EMERALD));
+        InventoryClickEvent event = mockClickEvent(ItemStack.of(Material.EMERALD));
         Assertions.assertEquals(Result.ALLOW, event.getResult());
     }
 

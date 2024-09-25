@@ -43,7 +43,7 @@ public class WitherAssembler extends AbstractEntityAssembler<Wither> {
 
     @Override
     public ItemStack getHead() {
-        return new ItemStack(Material.WITHER_SKELETON_SKULL, 3);
+        return ItemStack.of(Material.WITHER_SKELETON_SKULL, 3);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class WitherAssembler extends AbstractEntityAssembler<Wither> {
 
     @Override
     public ItemStack getBody() {
-        return new ItemStack(Material.SOUL_SAND, 4);
+        return ItemStack.of(Material.SOUL_SAND, 4);
     }
 
     @Override

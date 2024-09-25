@@ -118,7 +118,7 @@ public class AsyncRecipeChoiceTask implements Runnable {
 
         try {
             for (Map.Entry<Integer, LoopIterator<Material>> entry : iterators.entrySet()) {
-                inventory.setItem(entry.getKey(), new ItemStack(entry.getValue().next()));
+                inventory.setItem(entry.getKey(), ItemStack.of(entry.getValue().next()));
             }
         } finally {
             lock.readLock().unlock();

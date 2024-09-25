@@ -74,7 +74,7 @@ class TestPiglinListener {
 
     @Test
     void testPiglinPickup() {
-        EntityPickupItemEvent event = createPickupEvent(new ItemStack(Material.GOLD_INGOT));
+        EntityPickupItemEvent event = createPickupEvent(ItemStack.of(Material.GOLD_INGOT));
         listener.onPickup(event);
         Assertions.assertFalse(event.isCancelled());
     }
@@ -92,7 +92,7 @@ class TestPiglinListener {
     @ParameterizedTest
     @EnumSource(value = EquipmentSlot.class, names = { "HAND", "OFF_HAND" })
     void testPiglinInteract(EquipmentSlot hand) {
-        PlayerInteractEntityEvent event = createInteractEvent(hand, new ItemStack(Material.GOLD_INGOT));
+        PlayerInteractEntityEvent event = createInteractEvent(hand, ItemStack.of(Material.GOLD_INGOT));
         listener.onInteract(event);
         Assertions.assertFalse(event.isCancelled());
     }

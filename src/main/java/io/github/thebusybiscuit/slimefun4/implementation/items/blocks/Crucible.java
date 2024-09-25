@@ -65,46 +65,46 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     private List<ItemStack> getMachineRecipes() {
         List<ItemStack> items = new LinkedList<>();
 
-        items.add(new ItemStack(Material.COBBLESTONE, 16));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(ItemStack.of(Material.COBBLESTONE, 16));
+        items.add(ItemStack.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.NETHERRACK, 16));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(ItemStack.of(Material.NETHERRACK, 16));
+        items.add(ItemStack.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.STONE, 12));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(ItemStack.of(Material.STONE, 12));
+        items.add(ItemStack.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.OBSIDIAN, 1));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(ItemStack.of(Material.OBSIDIAN, 1));
+        items.add(ItemStack.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.TERRACOTTA, 12));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(ItemStack.of(Material.TERRACOTTA, 12));
+        items.add(ItemStack.of(Material.LAVA_BUCKET));
 
         for (Material leave : Tag.LEAVES.getValues()) {
-            items.add(new ItemStack(leave, 16));
-            items.add(new ItemStack(Material.WATER_BUCKET));
+            items.add(ItemStack.of(leave, 16));
+            items.add(ItemStack.of(Material.WATER_BUCKET));
         }
 
         for (Material sapling : SlimefunTag.TERRACOTTA.getValues()) {
-            items.add(new ItemStack(sapling, 12));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+            items.add(ItemStack.of(sapling, 12));
+            items.add(ItemStack.of(Material.LAVA_BUCKET));
         }
 
-        items.add(new ItemStack(Material.BLACKSTONE, 8));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(ItemStack.of(Material.BLACKSTONE, 8));
+        items.add(ItemStack.of(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.BASALT, 12));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
+        items.add(ItemStack.of(Material.BASALT, 12));
+        items.add(ItemStack.of(Material.LAVA_BUCKET));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            items.add(new ItemStack(Material.COBBLED_DEEPSLATE, 12));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+            items.add(ItemStack.of(Material.COBBLED_DEEPSLATE, 12));
+            items.add(ItemStack.of(Material.LAVA_BUCKET));
 
-            items.add(new ItemStack(Material.DEEPSLATE, 10));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+            items.add(ItemStack.of(Material.DEEPSLATE, 10));
+            items.add(ItemStack.of(Material.LAVA_BUCKET));
 
-            items.add(new ItemStack(Material.TUFF, 8));
-            items.add(new ItemStack(Material.LAVA_BUCKET));
+            items.add(ItemStack.of(Material.TUFF, 8));
+            items.add(ItemStack.of(Material.LAVA_BUCKET));
         }
 
         return items;

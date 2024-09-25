@@ -48,7 +48,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public AutomatedPanningMachine(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, ItemStack.of(Material.OAK_TRAPDOOR), null, null, ItemStack.of(Material.CAULDRON), null }, BlockFace.SELF);
     }
 
     @Override

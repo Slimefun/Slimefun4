@@ -30,7 +30,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
     public EnhancedCraftingTable(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, ItemStack.of(Material.CRAFTING_TABLE), null, null, ItemStack.of(Material.DISPENSER), null }, BlockFace.SELF);
     }
 
     @Override

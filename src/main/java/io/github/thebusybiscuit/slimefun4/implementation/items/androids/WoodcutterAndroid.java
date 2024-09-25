@@ -71,7 +71,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
 
     @ParametersAreNonnullByDefault
     private void breakLog(Block log, Block android, BlockMenu menu, BlockFace face) {
-        ItemStack drop = new ItemStack(log.getType());
+        ItemStack drop = ItemStack.of(log.getType());
 
         // We try to push the log into the android's inventory, but nothing happens if it does not fit
         menu.pushItem(drop, getOutputSlots());
@@ -179,7 +179,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
                 block.setType(saplingType);
             } else {
                 // Simply drop the sapling if the soil does not fit
-                block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(saplingType));
+                block.getWorld().dropItemNaturally(block.getLocation(), ItemStack.of(saplingType));
                 block.setType(Material.AIR);
             }
         }

@@ -161,7 +161,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
                 ItemStack fuel = operation.getIngredient();
 
                 if (isBucket(fuel)) {
-                    inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
+                    inv.pushItem(ItemStack.of(Material.BUCKET), getOutputSlots());
                 }
 
                 inv.replaceExistingItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));

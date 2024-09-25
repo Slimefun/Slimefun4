@@ -55,7 +55,7 @@ class TestMultiblockListener {
         Block b = world.getBlockAt(3456, 90, -100);
         b.setType(Material.STONE);
 
-        PlayerInteractEvent event = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, new ItemStack(Material.AIR), b, BlockFace.NORTH);
+        PlayerInteractEvent event = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, ItemStack.of(Material.AIR), b, BlockFace.NORTH);
         listener.onRightClick(event);
 
         // No Multiblock, so nothing should happen
@@ -76,7 +76,7 @@ class TestMultiblockListener {
         Block bottom = world.getBlockAt(1234, 90, -60);
         bottom.setType(multiblock.getStructure()[7]);
 
-        PlayerInteractEvent event = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, new ItemStack(Material.AIR), self, BlockFace.NORTH);
+        PlayerInteractEvent event = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, ItemStack.of(Material.AIR), self, BlockFace.NORTH);
         listener.onRightClick(event);
 
         Assertions.assertEquals(Result.DENY, event.useInteractedBlock());

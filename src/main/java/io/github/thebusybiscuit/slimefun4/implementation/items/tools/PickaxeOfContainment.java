@@ -78,7 +78,7 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
             return spawner.getItemForEntityType(entityType);
         }
 
-        return new ItemStack(Material.SPAWNER);
+        return ItemStack.of(Material.SPAWNER);
     }
 
 }

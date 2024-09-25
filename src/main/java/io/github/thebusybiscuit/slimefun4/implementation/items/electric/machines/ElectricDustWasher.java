@@ -40,7 +40,7 @@ public class ElectricDustWasher extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.GOLDEN_SHOVEL);
+        return ItemStack.of(Material.GOLDEN_SHOVEL);
     }
 
     @Override
@@ -61,8 +61,8 @@ public class ElectricDustWasher extends AContainer {
                 }
             } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
                 recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.PULVERIZED_ORE }, new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
-            } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND), true)) {
-                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { new ItemStack(Material.SAND) }, new ItemStack[] { SlimefunItems.SALT });
+            } else if (SlimefunUtils.isItemSimilar(input, ItemStack.of(Material.SAND), true)) {
+                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { ItemStack.of(Material.SAND) }, new ItemStack[] { SlimefunItems.SALT });
             }
 
             if (recipe != null && menu.fits(recipe.getOutput()[0], getOutputSlots())) {

@@ -82,15 +82,15 @@ public class ButcherAndroidListener implements Listener {
         Random random = ThreadLocalRandom.current();
 
         if (entityType == EntityType.WITHER_SKELETON && random.nextInt(250) < 2) {
-            drops.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+            drops.add(ItemStack.of(Material.WITHER_SKELETON_SKULL));
         }
 
         if (entityType == EntityType.BLAZE) {
-            drops.add(new ItemStack(Material.BLAZE_ROD, 1 + random.nextInt(1)));
+            drops.add(ItemStack.of(Material.BLAZE_ROD, 1 + random.nextInt(1)));
         }
 
         if (entityType == EntityType.VINDICATOR) {
-            drops.add(new ItemStack(Material.EMERALD, 1 + random.nextInt(2)));
+            drops.add(ItemStack.of(Material.EMERALD, 1 + random.nextInt(2)));
         }
     }
 }

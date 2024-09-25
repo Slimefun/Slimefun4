@@ -474,10 +474,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         return switch (type) {
             case WATER_BUCKET,
                 LAVA_BUCKET,
-                MILK_BUCKET -> new ItemStack(Material.BUCKET);
+                MILK_BUCKET -> ItemStack.of(Material.BUCKET);
             case DRAGON_BREATH,
                 POTION,
-                HONEY_BOTTLE -> new ItemStack(Material.GLASS_BOTTLE);
+                HONEY_BOTTLE -> ItemStack.of(Material.GLASS_BOTTLE);
             default -> null;
         };
     }

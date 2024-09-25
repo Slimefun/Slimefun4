@@ -63,14 +63,14 @@ class TestCauldronListener {
     @Test
     @DisplayName("Test Cauldron working as normal with unrelated items")
     void testCauldronWithNormalItem() {
-        PlayerInteractEvent event = mockCauldronEvent(new ItemStack(Material.GOLD_BLOCK));
+        PlayerInteractEvent event = mockCauldronEvent(ItemStack.of(Material.GOLD_BLOCK));
         Assertions.assertEquals(Result.DEFAULT, event.useItemInHand());
     }
 
     @Test
     @DisplayName("Test Cauldron working as normal with normal leather armor")
     void testCauldronWithNormalLeatherArmor() {
-        PlayerInteractEvent event = mockCauldronEvent(new ItemStack(Material.LEATHER_BOOTS));
+        PlayerInteractEvent event = mockCauldronEvent(ItemStack.of(Material.LEATHER_BOOTS));
         Assertions.assertEquals(Result.DEFAULT, event.useItemInHand());
     }
 

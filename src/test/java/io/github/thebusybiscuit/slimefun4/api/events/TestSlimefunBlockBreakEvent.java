@@ -38,7 +38,7 @@ class TestSlimefunBlockBreakEvent {
 
         new BlockListener(plugin);
 
-        slimefunItem = TestUtilities.mockSlimefunItem(plugin, "FOOD_COMPOSTER", new ItemStack(Material.GREEN_TERRACOTTA));
+        slimefunItem = TestUtilities.mockSlimefunItem(plugin, "FOOD_COMPOSTER", ItemStack.of(Material.GREEN_TERRACOTTA));
         slimefunItem.register(plugin);
     }
 
@@ -71,7 +71,7 @@ class TestSlimefunBlockBreakEvent {
     @DisplayName("Test the getters are set to the right values")
     void testGetters() {
         Player player = new PlayerMock(server, "SomePlayer");
-        ItemStack itemStack = new ItemStack(Material.IRON_PICKAXE);
+        ItemStack itemStack = ItemStack.of(Material.IRON_PICKAXE);
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
@@ -102,7 +102,7 @@ class TestSlimefunBlockBreakEvent {
         }, plugin);
 
         Player player = new PlayerMock(server, "SomePlayer");
-        ItemStack itemStack = new ItemStack(Material.IRON_PICKAXE);
+        ItemStack itemStack = ItemStack.of(Material.IRON_PICKAXE);
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");
@@ -124,7 +124,7 @@ class TestSlimefunBlockBreakEvent {
     @DisplayName("Test that breaking a Slimefun block gets queued for deletion")
     void testBlockBreaksGetQueuedForDeletion() {
         Player player = new PlayerMock(server, "SomePlayer");
-        ItemStack itemStack = new ItemStack(Material.IRON_PICKAXE);
+        ItemStack itemStack = ItemStack.of(Material.IRON_PICKAXE);
         player.getInventory().setItemInMainHand(itemStack);
 
         World world = server.addSimpleWorld("my_world");

@@ -30,7 +30,7 @@ public class ChargingBench extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.GOLDEN_PICKAXE);
+        return ItemStack.of(Material.GOLDEN_PICKAXE);
     }
 
     @Override

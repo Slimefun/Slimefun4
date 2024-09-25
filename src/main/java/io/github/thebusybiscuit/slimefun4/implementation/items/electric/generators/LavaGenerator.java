@@ -21,12 +21,12 @@ public class LavaGenerator extends AGenerator {
 
     @Override
     protected void registerDefaultFuelTypes() {
-        registerFuel(new MachineFuel(40, new ItemStack(Material.LAVA_BUCKET)));
+        registerFuel(new MachineFuel(40, ItemStack.of(Material.LAVA_BUCKET)));
     }
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.FLINT_AND_STEEL);
+        return ItemStack.of(Material.FLINT_AND_STEEL);
     }
 
 }
