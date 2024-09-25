@@ -49,8 +49,8 @@ public class TableSaw extends MultiBlockMachine {
         // @formatter:off
         super(group, item, new ItemStack[] {
             null, null, null,
-            ItemStack.of(Material.SMOOTH_STONE_SLAB), ItemStack.of(Material.STONECUTTER), ItemStack.of(Material.SMOOTH_STONE_SLAB),
-            null, ItemStack.of(Material.IRON_BLOCK), null
+            new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB),
+            null, new ItemStack(Material.IRON_BLOCK), null
         }, BlockFace.SELF);
         // @formatter:on
 
@@ -58,14 +58,14 @@ public class TableSaw extends MultiBlockMachine {
             Optional<Material> planks = getPlanks(log);
 
             if (planks.isPresent()) {
-                displayedRecipes.add(ItemStack.of(log));
-                displayedRecipes.add(ItemStack.of(planks.get(), 8));
+                displayedRecipes.add(new ItemStack(log));
+                displayedRecipes.add(new ItemStack(planks.get(), 8));
             }
         }
 
         for (Material plank : Tag.PLANKS.getValues()) {
-            displayedRecipes.add(ItemStack.of(plank));
-            displayedRecipes.add(ItemStack.of(Material.STICK, 4));
+            displayedRecipes.add(new ItemStack(plank));
+            displayedRecipes.add(new ItemStack(Material.STICK, 4));
         }
     }
 
@@ -129,12 +129,12 @@ public class TableSaw extends MultiBlockMachine {
             Optional<Material> planks = getPlanks(item);
 
             if (planks.isPresent()) {
-                return ItemStack.of(planks.get(), 8);
+                return new ItemStack(planks.get(), 8);
             } else {
                 return null;
             }
         } else if (Tag.PLANKS.isTagged(item)) {
-            return ItemStack.of(Material.STICK, 4);
+            return new ItemStack(Material.STICK, 4);
         } else {
             return null;
         }

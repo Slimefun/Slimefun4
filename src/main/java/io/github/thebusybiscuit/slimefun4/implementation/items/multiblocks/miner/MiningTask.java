@@ -322,7 +322,7 @@ class MiningTask implements Runnable {
                     ItemUtils.consumeItem(item, false);
 
                     if (miner instanceof AdvancedIndustrialMiner) {
-                        inv.addItem(ItemStack.of(Material.BUCKET));
+                        inv.addItem(new ItemStack(Material.BUCKET));
                     }
 
                     return fuelType.getTicks();

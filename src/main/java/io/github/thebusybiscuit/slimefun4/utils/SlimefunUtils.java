@@ -233,7 +233,7 @@ public final class SlimefunUtils {
 
         if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             // com.mojang.authlib.GameProfile does not exist in a Test Environment
-            return ItemStack.of(Material.PLAYER_HEAD);
+            return new ItemStack(Material.PLAYER_HEAD);
         }
 
         String base64 = texture;

@@ -53,7 +53,7 @@ class TestAutoCrafter {
         InventoryMock inv = new ChestInventoryMock(null, 9);
 
         // Test first choice
-        inv.addItem(ItemStack.of(Material.IRON_NUGGET));
+        inv.addItem(new ItemStack(Material.IRON_NUGGET));
         Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
         Assertions.assertFalse(inv.contains(Material.IRON_NUGGET, 1));
         Assertions.assertTrue(inv.containsAtLeast(result, 1));
@@ -61,7 +61,7 @@ class TestAutoCrafter {
         inv.clear();
 
         // Test other choice
-        inv.addItem(ItemStack.of(Material.GOLD_NUGGET));
+        inv.addItem(new ItemStack(Material.GOLD_NUGGET));
         Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
         Assertions.assertFalse(inv.contains(Material.GOLD_NUGGET, 1));
         Assertions.assertTrue(inv.containsAtLeast(result, 1));
@@ -81,7 +81,7 @@ class TestAutoCrafter {
 
         // Test enabled Recipe
         abstractRecipe.setEnabled(true);
-        inv.addItem(ItemStack.of(Material.GOLD_NUGGET));
+        inv.addItem(new ItemStack(Material.GOLD_NUGGET));
         Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
         Assertions.assertFalse(inv.contains(Material.GOLD_NUGGET, 1));
         Assertions.assertTrue(inv.containsAtLeast(result, 1));
@@ -90,7 +90,7 @@ class TestAutoCrafter {
 
         // Test disabled Recipe
         abstractRecipe.setEnabled(false);
-        inv.addItem(ItemStack.of(Material.GOLD_NUGGET));
+        inv.addItem(new ItemStack(Material.GOLD_NUGGET));
         Assertions.assertFalse(crafter.craft(inv, abstractRecipe));
         Assertions.assertTrue(inv.contains(Material.GOLD_NUGGET, 1));
         Assertions.assertFalse(inv.containsAtLeast(result, 1));
@@ -109,7 +109,7 @@ class TestAutoCrafter {
         AbstractAutoCrafter crafter = getVanillaAutoCrafter();
         InventoryMock inv = new ChestInventoryMock(null, 9);
 
-        inv.addItem(ItemStack.of(Material.HONEY_BOTTLE, 2));
+        inv.addItem(new ItemStack(Material.HONEY_BOTTLE, 2));
         Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
 
         Assertions.assertFalse(inv.contains(Material.HONEY_BOTTLE, 2));
@@ -132,7 +132,7 @@ class TestAutoCrafter {
         InventoryMock inv = new ChestInventoryMock(null, 9);
 
         // Test non-compatible Item
-        inv.addItem(ItemStack.of(Material.BAMBOO));
+        inv.addItem(new ItemStack(Material.BAMBOO));
         Assertions.assertFalse(crafter.craft(inv, abstractRecipe));
         Assertions.assertTrue(inv.contains(Material.BAMBOO, 1));
         Assertions.assertFalse(inv.containsAtLeast(result, 1));
@@ -183,11 +183,11 @@ class TestAutoCrafter {
         InventoryMock inv = new ChestInventoryMock(null, 9);
 
         for (int i = 0; i < 9; i++) {
-            inv.setItem(i, ItemStack.of(Material.OAK_SAPLING));
+            inv.setItem(i, new ItemStack(Material.OAK_SAPLING));
         }
 
         // Test valid item but inventory is full.
-        inv.addItem(ItemStack.of(Material.IRON_NUGGET));
+        inv.addItem(new ItemStack(Material.IRON_NUGGET));
         Assertions.assertFalse(crafter.craft(inv, abstractRecipe));
         Assertions.assertTrue(inv.contains(Material.OAK_SAPLING, 9));
         Assertions.assertFalse(inv.containsAtLeast(result, 1));

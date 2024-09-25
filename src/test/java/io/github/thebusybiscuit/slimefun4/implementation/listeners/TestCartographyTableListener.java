@@ -46,7 +46,7 @@ class TestCartographyTableListener {
 
     private InventoryClickEvent mockCartographyTableEvent(ItemStack item) {
         Player player = server.addPlayer();
-        Inventory inv = TestUtilities.mockInventory(InventoryType.CARTOGRAPHY, ItemStack.of(Material.FILLED_MAP), item, ItemStack.of(Material.FILLED_MAP));
+        Inventory inv = TestUtilities.mockInventory(InventoryType.CARTOGRAPHY, new ItemStack(Material.FILLED_MAP), item, new ItemStack(Material.FILLED_MAP));
         InventoryView view = player.openInventory(inv);
         InventoryClickEvent event = new InventoryClickEvent(view, SlotType.CONTAINER, 2, ClickType.LEFT, InventoryAction.PICKUP_ONE);
 

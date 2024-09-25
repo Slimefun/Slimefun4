@@ -52,7 +52,7 @@ class TestTalismanActivateEvent {
         player.getEnderChest().clear();
 
         ItemStack talismanItem = enderVariant ? enderTalisman.getItem() : talisman.getItem();
-        ItemStack breakableItem = ItemStack.of(Material.IRON_PICKAXE);
+        ItemStack breakableItem = new ItemStack(Material.IRON_PICKAXE);
 
         if (inEnderChest) {
             player.getEnderChest().setItem(9, talismanItem);

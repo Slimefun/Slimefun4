@@ -45,18 +45,18 @@ public class OreCrusher extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public OreCrusher(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, ItemStack.of(Material.NETHER_BRICK_FENCE), null, ItemStack.of(Material.IRON_BARS), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), ItemStack.of(Material.IRON_BARS) }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS) }, BlockFace.SELF);
 
         addItemSetting(doubleOres);
     }
 
     @Override
     protected void registerDefaultRecipes(List<ItemStack> recipes) {
-        recipes.add(ItemStack.of(Material.BLACKSTONE, 8));
-        recipes.add(ItemStack.of(Material.RED_SAND, 1));
+        recipes.add(new ItemStack(Material.BLACKSTONE, 8));
+        recipes.add(new ItemStack(Material.RED_SAND, 1));
 
-        recipes.add(ItemStack.of(Material.COBBLESTONE, 8));
-        recipes.add(ItemStack.of(Material.SAND, 1));
+        recipes.add(new ItemStack(Material.COBBLESTONE, 8));
+        recipes.add(new ItemStack(Material.SAND, 1));
 
         recipes.add(SlimefunItems.GOLD_4K);
         recipes.add(SlimefunItems.GOLD_DUST);
@@ -91,21 +91,21 @@ public class OreCrusher extends MultiBlockMachine {
         recipes.add(SlimefunItems.GOLD_24K);
         recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 6));
 
-        recipes.add(ItemStack.of(Material.GRAVEL));
-        recipes.add(ItemStack.of(Material.SAND));
+        recipes.add(new ItemStack(Material.GRAVEL));
+        recipes.add(new ItemStack(Material.SAND));
 
-        recipes.add(ItemStack.of(Material.MAGMA_BLOCK));
+        recipes.add(new ItemStack(Material.MAGMA_BLOCK));
         recipes.add(SlimefunItems.SULFATE);
 
         recipes.add(SlimefunItems.CARBON);
-        recipes.add(ItemStack.of(Material.COAL, 8));
+        recipes.add(new ItemStack(Material.COAL, 8));
 
         recipes.add(SlimefunItems.COMPRESSED_CARBON);
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            recipes.add(ItemStack.of(Material.COBBLED_DEEPSLATE, 8));
-            recipes.add(ItemStack.of(Material.SAND, 1));
+            recipes.add(new ItemStack(Material.COBBLED_DEEPSLATE, 8));
+            recipes.add(new ItemStack(Material.SAND, 1));
         }
     }
 
@@ -119,31 +119,31 @@ public class OreCrusher extends MultiBlockMachine {
 
         // @formatter:off
         displayRecipes.addAll(Arrays.asList(
-            ItemStack.of(Material.COAL_ORE), doubleOres.getCoal(),
-            ItemStack.of(Material.LAPIS_ORE), doubleOres.getLapisLazuli(),
-            ItemStack.of(Material.REDSTONE_ORE), doubleOres.getRedstone(),
-            ItemStack.of(Material.DIAMOND_ORE), doubleOres.getDiamond(),
-            ItemStack.of(Material.EMERALD_ORE), doubleOres.getEmerald(),
-            ItemStack.of(Material.NETHER_QUARTZ_ORE), doubleOres.getNetherQuartz()
+            new ItemStack(Material.COAL_ORE), doubleOres.getCoal(),
+            new ItemStack(Material.LAPIS_ORE), doubleOres.getLapisLazuli(),
+            new ItemStack(Material.REDSTONE_ORE), doubleOres.getRedstone(),
+            new ItemStack(Material.DIAMOND_ORE), doubleOres.getDiamond(),
+            new ItemStack(Material.EMERALD_ORE), doubleOres.getEmerald(),
+            new ItemStack(Material.NETHER_QUARTZ_ORE), doubleOres.getNetherQuartz()
         ));
         // @formatter:on
 
         // Gold ore variants (1.16+)
-        displayRecipes.add(ItemStack.of(Material.NETHER_GOLD_ORE));
+        displayRecipes.add(new ItemStack(Material.NETHER_GOLD_ORE));
         displayRecipes.add(doubleOres.getGoldNuggets());
 
-        displayRecipes.add(ItemStack.of(Material.GILDED_BLACKSTONE));
+        displayRecipes.add(new ItemStack(Material.GILDED_BLACKSTONE));
         displayRecipes.add(doubleOres.getGoldNuggets());
 
         // Raw metal ores (1.17+)
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            displayRecipes.add(ItemStack.of(Material.RAW_IRON));
+            displayRecipes.add(new ItemStack(Material.RAW_IRON));
             displayRecipes.add(SlimefunItems.IRON_DUST);
 
-            displayRecipes.add(ItemStack.of(Material.RAW_COPPER));
+            displayRecipes.add(new ItemStack(Material.RAW_COPPER));
             displayRecipes.add(SlimefunItems.COPPER_DUST);
 
-            displayRecipes.add(ItemStack.of(Material.RAW_GOLD));
+            displayRecipes.add(new ItemStack(Material.RAW_GOLD));
             displayRecipes.add(SlimefunItems.GOLD_DUST);
         }
 
@@ -151,25 +151,25 @@ public class OreCrusher extends MultiBlockMachine {
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             // @formatter:off
             displayRecipes.addAll(Arrays.asList(
-                ItemStack.of(Material.DEEPSLATE_COAL_ORE), doubleOres.getCoal(),
-                ItemStack.of(Material.DEEPSLATE_LAPIS_ORE), doubleOres.getLapisLazuli(),
-                ItemStack.of(Material.DEEPSLATE_REDSTONE_ORE), doubleOres.getRedstone(),
-                ItemStack.of(Material.DEEPSLATE_DIAMOND_ORE), doubleOres.getDiamond(),
-                ItemStack.of(Material.DEEPSLATE_EMERALD_ORE), doubleOres.getEmerald()
+                new ItemStack(Material.DEEPSLATE_COAL_ORE), doubleOres.getCoal(),
+                new ItemStack(Material.DEEPSLATE_LAPIS_ORE), doubleOres.getLapisLazuli(),
+                new ItemStack(Material.DEEPSLATE_REDSTONE_ORE), doubleOres.getRedstone(),
+                new ItemStack(Material.DEEPSLATE_DIAMOND_ORE), doubleOres.getDiamond(),
+                new ItemStack(Material.DEEPSLATE_EMERALD_ORE), doubleOres.getEmerald()
             ));
             // @formatter:on
 
             // More deepslate ores and copper ore
-            displayRecipes.add(ItemStack.of(Material.DEEPSLATE_IRON_ORE));
+            displayRecipes.add(new ItemStack(Material.DEEPSLATE_IRON_ORE));
             displayRecipes.add(new SlimefunItemStack(SlimefunItems.IRON_DUST, isOreDoublingEnabled() ? 2 : 1));
 
-            displayRecipes.add(ItemStack.of(Material.DEEPSLATE_GOLD_ORE));
+            displayRecipes.add(new ItemStack(Material.DEEPSLATE_GOLD_ORE));
             displayRecipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, isOreDoublingEnabled() ? 2 : 1));
 
-            displayRecipes.add(ItemStack.of(Material.DEEPSLATE_COPPER_ORE));
+            displayRecipes.add(new ItemStack(Material.DEEPSLATE_COPPER_ORE));
             displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
 
-            displayRecipes.add(ItemStack.of(Material.COPPER_ORE));
+            displayRecipes.add(new ItemStack(Material.COPPER_ORE));
             displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1));
         }
     }
@@ -218,13 +218,13 @@ public class OreCrusher extends MultiBlockMachine {
 
     private class DoubleOreSetting extends ItemSetting<Boolean> {
 
-        private final ItemStack coal = ItemStack.of(Material.COAL, 1);
-        private final ItemStack lapis = ItemStack.of(Material.LAPIS_LAZULI, 7);
-        private final ItemStack redstone = ItemStack.of(Material.REDSTONE, 4);
-        private final ItemStack diamond = ItemStack.of(Material.DIAMOND, 1);
-        private final ItemStack emerald = ItemStack.of(Material.EMERALD, 1);
-        private final ItemStack quartz = ItemStack.of(Material.QUARTZ, 1);
-        private final ItemStack goldNuggets = ItemStack.of(Material.GOLD_NUGGET, 4);
+        private final ItemStack coal = new ItemStack(Material.COAL, 1);
+        private final ItemStack lapis = new ItemStack(Material.LAPIS_LAZULI, 7);
+        private final ItemStack redstone = new ItemStack(Material.REDSTONE, 4);
+        private final ItemStack diamond = new ItemStack(Material.DIAMOND, 1);
+        private final ItemStack emerald = new ItemStack(Material.EMERALD, 1);
+        private final ItemStack quartz = new ItemStack(Material.QUARTZ, 1);
+        private final ItemStack goldNuggets = new ItemStack(Material.GOLD_NUGGET, 4);
 
         DoubleOreSetting(@Nonnull OreCrusher oreCrusher) {
             super(oreCrusher, "double-ores", true);

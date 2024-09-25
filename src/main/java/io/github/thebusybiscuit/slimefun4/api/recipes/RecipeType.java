@@ -113,7 +113,7 @@ public class RecipeType implements Keyed {
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {
-        this.item = ItemStack.of(recipe.getMachine());
+        this.item = new ItemStack(recipe.getMachine());
         this.machine = "";
         this.key = NamespacedKey.minecraft(recipe.getRecipeClass().getSimpleName().toLowerCase(Locale.ROOT).replace("recipe", ""));
     }

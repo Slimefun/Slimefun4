@@ -66,7 +66,7 @@ class TestNetworkListener {
         manager.registerNetwork(network);
 
         BlockState state = Mockito.mock(BlockState.class);
-        listener.onBlockPlace(new BlockPlaceEvent(l.getBlock(), state, l2.getBlock(), ItemStack.of(Material.AIR), server.addPlayer(), true, EquipmentSlot.HAND));
+        listener.onBlockPlace(new BlockPlaceEvent(l.getBlock(), state, l2.getBlock(), new ItemStack(Material.AIR), server.addPlayer(), true, EquipmentSlot.HAND));
         Mockito.verify(network).markDirty(l);
     }
 

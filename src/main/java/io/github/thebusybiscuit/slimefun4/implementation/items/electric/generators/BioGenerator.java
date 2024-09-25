@@ -25,83 +25,83 @@ public class BioGenerator extends AGenerator {
 
     @Override
     protected void registerDefaultFuelTypes() {
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.ROTTEN_FLESH)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.SPIDER_EYE)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.BONE)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.STRING)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.APPLE)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.MELON_SLICE)));
-        registerFuel(new MachineFuel(27, ItemStack.of(Material.MELON)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.PUMPKIN)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.PUMPKIN_SEEDS)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.MELON_SEEDS)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.WHEAT)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.WHEAT_SEEDS)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.CARROT)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.POTATO)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.SUGAR_CANE)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.NETHER_WART)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.RED_MUSHROOM)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.BROWN_MUSHROOM)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.VINE)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.CACTUS)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.LILY_PAD)));
-        registerFuel(new MachineFuel(8, ItemStack.of(Material.CHORUS_FRUIT)));
-        registerFuel(new MachineFuel(1, ItemStack.of(Material.KELP)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.DRIED_KELP)));
-        registerFuel(new MachineFuel(20, ItemStack.of(Material.DRIED_KELP_BLOCK)));
-        registerFuel(new MachineFuel(1, ItemStack.of(Material.SEAGRASS)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.SEA_PICKLE)));
-        registerFuel(new MachineFuel(1, ItemStack.of(Material.BAMBOO)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.SWEET_BERRIES)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.COCOA_BEANS)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.BEETROOT)));
-        registerFuel(new MachineFuel(3, ItemStack.of(Material.BEETROOT_SEEDS)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.ROTTEN_FLESH)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.SPIDER_EYE)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.BONE)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.STRING)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.APPLE)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.MELON_SLICE)));
+        registerFuel(new MachineFuel(27, new ItemStack(Material.MELON)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.PUMPKIN)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.PUMPKIN_SEEDS)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.MELON_SEEDS)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.WHEAT)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.WHEAT_SEEDS)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.CARROT)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.POTATO)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.SUGAR_CANE)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.NETHER_WART)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.RED_MUSHROOM)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.BROWN_MUSHROOM)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.VINE)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.CACTUS)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.LILY_PAD)));
+        registerFuel(new MachineFuel(8, new ItemStack(Material.CHORUS_FRUIT)));
+        registerFuel(new MachineFuel(1, new ItemStack(Material.KELP)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.DRIED_KELP)));
+        registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));
+        registerFuel(new MachineFuel(1, new ItemStack(Material.SEAGRASS)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
+        registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.COCOA_BEANS)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT)));
+        registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT_SEEDS)));
 
         // Small Flowers (formally just dandelions and poppies).
         for (Material m : Tag.SMALL_FLOWERS.getValues()) {
-            registerFuel(new MachineFuel(1, ItemStack.of(m)));
+            registerFuel(new MachineFuel(1, new ItemStack(m)));
         }
 
-        registerFuel(new MachineFuel(4, ItemStack.of(Material.HONEYCOMB)));
-        registerFuel(new MachineFuel(40, ItemStack.of(Material.HONEYCOMB_BLOCK)));
+        registerFuel(new MachineFuel(4, new ItemStack(Material.HONEYCOMB)));
+        registerFuel(new MachineFuel(40, new ItemStack(Material.HONEYCOMB_BLOCK)));
 
-        registerFuel(new MachineFuel(4, ItemStack.of(Material.SHROOMLIGHT)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.CRIMSON_FUNGUS)));
-        registerFuel(new MachineFuel(2, ItemStack.of(Material.WARPED_FUNGUS)));
+        registerFuel(new MachineFuel(4, new ItemStack(Material.SHROOMLIGHT)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.CRIMSON_FUNGUS)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.WARPED_FUNGUS)));
         registerFuel(new MachineFuel(16, SlimefunItems.STRANGE_NETHER_GOO));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            registerFuel(new MachineFuel(2, ItemStack.of(Material.GLOW_BERRIES)));
-            registerFuel(new MachineFuel(3, ItemStack.of(Material.SMALL_DRIPLEAF)));
-            registerFuel(new MachineFuel(3, ItemStack.of(Material.BIG_DRIPLEAF)));
-            registerFuel(new MachineFuel(2, ItemStack.of(Material.GLOW_LICHEN)));
-            registerFuel(new MachineFuel(20, ItemStack.of(Material.SPORE_BLOSSOM)));
+            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_BERRIES)));
+            registerFuel(new MachineFuel(3, new ItemStack(Material.SMALL_DRIPLEAF)));
+            registerFuel(new MachineFuel(3, new ItemStack(Material.BIG_DRIPLEAF)));
+            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_LICHEN)));
+            registerFuel(new MachineFuel(20, new ItemStack(Material.SPORE_BLOSSOM)));
         }
 
         // Leaves
         for (Material m : Tag.LEAVES.getValues()) {
-            registerFuel(new MachineFuel(1, ItemStack.of(m)));
+            registerFuel(new MachineFuel(1, new ItemStack(m)));
         }
 
         // Saplings
         for (Material m : Tag.SAPLINGS.getValues()) {
-            registerFuel(new MachineFuel(1, ItemStack.of(m)));
+            registerFuel(new MachineFuel(1, new ItemStack(m)));
         }
 
         // Corals
         for (Material m : Tag.CORALS.getValues()) {
-            registerFuel(new MachineFuel(2, ItemStack.of(m)));
+            registerFuel(new MachineFuel(2, new ItemStack(m)));
         }
 
         for (Material m : Tag.CORAL_BLOCKS.getValues()) {
-            registerFuel(new MachineFuel(2, ItemStack.of(m)));
+            registerFuel(new MachineFuel(2, new ItemStack(m)));
         }
     }
 
     @Override
     public ItemStack getProgressBar() {
-        return ItemStack.of(Material.GOLDEN_HOE);
+        return new ItemStack(Material.GOLDEN_HOE);
     }
 
 }

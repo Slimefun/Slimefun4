@@ -45,7 +45,7 @@ public class IronGolemAssembler extends AbstractEntityAssembler<IronGolem> {
 
     @Override
     public ItemStack getHead() {
-        return ItemStack.of(Material.CARVED_PUMPKIN);
+        return new ItemStack(Material.CARVED_PUMPKIN);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class IronGolemAssembler extends AbstractEntityAssembler<IronGolem> {
 
     @Override
     public ItemStack getBody() {
-        return ItemStack.of(Material.IRON_BLOCK, 4);
+        return new ItemStack(Material.IRON_BLOCK, 4);
     }
 
     @Override

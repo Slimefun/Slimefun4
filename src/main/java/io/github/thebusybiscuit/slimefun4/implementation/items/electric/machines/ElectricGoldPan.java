@@ -81,7 +81,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return ItemStack.of(Material.DIAMOND_SHOVEL);
+        return new ItemStack(Material.DIAMOND_SHOVEL);
     }
 
     @Override

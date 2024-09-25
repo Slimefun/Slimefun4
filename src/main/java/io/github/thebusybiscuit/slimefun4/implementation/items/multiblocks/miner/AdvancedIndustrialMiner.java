@@ -30,7 +30,7 @@ public class AdvancedIndustrialMiner extends IndustrialMiner {
 
     @Override
     protected void registerDefaultFuelTypes() {
-        fuelTypes.add(new MachineFuel(48, ItemStack.of(Material.LAVA_BUCKET)));
+        fuelTypes.add(new MachineFuel(48, new ItemStack(Material.LAVA_BUCKET)));
         fuelTypes.add(new MachineFuel(64, SlimefunItems.OIL_BUCKET));
         fuelTypes.add(new MachineFuel(128, SlimefunItems.FUEL_BUCKET));
     }

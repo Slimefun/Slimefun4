@@ -42,7 +42,7 @@ class TestItemDataService {
     @DisplayName("Test setting item data for an ItemStack")
     void testSetDataItem() {
         CustomItemDataService service = new CustomItemDataService(plugin, "test");
-        ItemStack item = ItemStack.of(Material.EMERALD);
+        ItemStack item = new ItemStack(Material.EMERALD);
 
         service.setItemData(item, "Hello World");
         Optional<String> data = service.getItemData(item);
@@ -55,7 +55,7 @@ class TestItemDataService {
     @DisplayName("Test setting item data for an ItemMeta")
     void testSetDataItemMeta() {
         CustomItemDataService service = new CustomItemDataService(plugin, "test");
-        ItemStack item = ItemStack.of(Material.EMERALD);
+        ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta meta = item.getItemMeta();
         service.setItemData(meta, "Hello World");
 

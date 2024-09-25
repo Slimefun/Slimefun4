@@ -63,7 +63,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     @Override
     protected void registerDefaultRecipes() {
         // Milk from adult cows and goats
-        addProduce(new AnimalProduce(ItemStack.of(Material.BUCKET), ItemStack.of(Material.MILK_BUCKET), n -> {
+        addProduce(new AnimalProduce(new ItemStack(Material.BUCKET), new ItemStack(Material.MILK_BUCKET), n -> {
             MinecraftVersion version = Slimefun.getMinecraftVersion();
 
             if (n instanceof Cow || (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && n instanceof Goat)) {
@@ -74,7 +74,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
         }));
 
         // Mushroom Stew from Mooshrooms
-        addProduce(new AnimalProduce(ItemStack.of(Material.BOWL), ItemStack.of(Material.MUSHROOM_STEW), n -> {
+        addProduce(new AnimalProduce(new ItemStack(Material.BOWL), new ItemStack(Material.MUSHROOM_STEW), n -> {
             if (n instanceof MushroomCow mushroomCow) {
                 return mushroomCow.isAdult();
             } else {
@@ -117,15 +117,15 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
         List<ItemStack> displayRecipes = new ArrayList<>();
 
         displayRecipes.add(new CustomItemStack(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
-        displayRecipes.add(ItemStack.of(Material.MILK_BUCKET));
+        displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             displayRecipes.add(new CustomItemStack(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
-            displayRecipes.add(ItemStack.of(Material.MILK_BUCKET));
+            displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
         }
 
         displayRecipes.add(new CustomItemStack(Material.BOWL, null, "&fRequires &bMooshroom &fnearby"));
-        displayRecipes.add(ItemStack.of(Material.MUSHROOM_STEW));
+        displayRecipes.add(new ItemStack(Material.MUSHROOM_STEW));
 
         return displayRecipes;
     }
@@ -172,7 +172,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
 
     @Override
     public @Nonnull ItemStack getProgressBar() {
-        return ItemStack.of(Material.SHEARS);
+        return new ItemStack(Material.SHEARS);
     }
 
 }

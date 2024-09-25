@@ -61,7 +61,7 @@ class TestSlimefunItem {
     void testRecipe() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RECIPE_TEST", new CustomItemStack(Material.DIAMOND, "&dAnother one bites the test"));
 
-        ItemStack[] recipe = { null, ItemStack.of(Material.DIAMOND), null, null, ItemStack.of(Material.DIAMOND), null, null, ItemStack.of(Material.DIAMOND), null };
+        ItemStack[] recipe = { null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null };
         item.setRecipe(recipe);
         item.register(plugin);
 
@@ -80,7 +80,7 @@ class TestSlimefunItem {
 
         Assertions.assertEquals(item.getItem(), item.getRecipeOutput());
 
-        ItemStack output = ItemStack.of(Material.EMERALD, 64);
+        ItemStack output = new ItemStack(Material.EMERALD, 64);
         item.setRecipeOutput(output);
         Assertions.assertEquals(output, item.getRecipeOutput());
 
@@ -116,7 +116,7 @@ class TestSlimefunItem {
         Assertions.assertTrue(sfItem.isItem(sfItem.getItem()));
 
         Assertions.assertFalse(sfItem.isItem(null));
-        Assertions.assertFalse(sfItem.isItem(ItemStack.of(Material.BEACON)));
+        Assertions.assertFalse(sfItem.isItem(new ItemStack(Material.BEACON)));
         Assertions.assertFalse(sfItem.isItem(new CustomItemStack(Material.REDSTONE, "&cTest")));
         Assertions.assertFalse(sfItem.isItem(item));
         Assertions.assertFalse(sfItem.isItem(new CustomItemStack(Material.BEACON, "&cItem Test")));

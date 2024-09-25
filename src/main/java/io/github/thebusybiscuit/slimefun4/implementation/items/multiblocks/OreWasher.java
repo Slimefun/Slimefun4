@@ -58,9 +58,9 @@ public class OreWasher extends MultiBlockMachine {
     public OreWasher(ItemGroup itemGroup, SlimefunItemStack item) {
         // @formatter:off
         super(itemGroup, item, new ItemStack[] {
-            null, ItemStack.of(Material.DISPENSER), null,
-            null, ItemStack.of(Material.OAK_FENCE), null,
-            null, ItemStack.of(Material.CAULDRON), null
+            null, new ItemStack(Material.DISPENSER), null,
+            null, new ItemStack(Material.OAK_FENCE), null,
+            null, new ItemStack(Material.CAULDRON), null
         }, BlockFace.SELF);
         // @formatter:on
 
@@ -80,7 +80,7 @@ public class OreWasher extends MultiBlockMachine {
         recipes.add(SlimefunItems.SIFTED_ORE);
         recipes.add(SlimefunItems.GOLD_DUST);
 
-        recipes.add(ItemStack.of(Material.SAND));
+        recipes.add(new ItemStack(Material.SAND));
         recipes.add(SlimefunItems.SALT);
     }
 
@@ -131,7 +131,7 @@ public class OreWasher extends MultiBlockMachine {
                         }
 
                         return;
-                    } else if (SlimefunUtils.isItemSimilar(input, ItemStack.of(Material.SAND, 2), false)) {
+                    } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND, 2), false)) {
                         ItemStack output = SlimefunItems.SALT;
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 

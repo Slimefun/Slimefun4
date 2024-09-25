@@ -47,7 +47,7 @@ class TestItemStackWrapper {
     @Test
     @DisplayName("Test if an ItemStackWrappers can be compared properly (No ItemMeta)")
     void testEqualityWithoutItemMeta() {
-        ItemStack item = ItemStack.of(Material.DIAMOND_AXE);
+        ItemStack item = new ItemStack(Material.DIAMOND_AXE);
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
 
         Assertions.assertEquals(item.getType(), wrapper.getType());
@@ -90,7 +90,7 @@ class TestItemStackWrapper {
     @Test
     @DisplayName("Test wrapping an ItemStack Array")
     void testWrapArray() {
-        ItemStack[] items = { ItemStack.of(Material.DIAMOND), null, ItemStack.of(Material.EMERALD), new CustomItemStack(Material.REDSTONE, "&4Firey thing", "with lore :o") };
+        ItemStack[] items = { new ItemStack(Material.DIAMOND), null, new ItemStack(Material.EMERALD), new CustomItemStack(Material.REDSTONE, "&4Firey thing", "with lore :o") };
         ItemStackWrapper[] wrappers = ItemStackWrapper.wrapArray(items);
 
         Assertions.assertEquals(items.length, wrappers.length);
@@ -111,7 +111,7 @@ class TestItemStackWrapper {
     @Test
     @DisplayName("Test wrapping an ItemStack List")
     void testWrapList() {
-        List<ItemStack> items = Arrays.asList(ItemStack.of(Material.DIAMOND), null, ItemStack.of(Material.EMERALD), new CustomItemStack(Material.REDSTONE, "&4Firey thing", "with lore :o"));
+        List<ItemStack> items = Arrays.asList(new ItemStack(Material.DIAMOND), null, new ItemStack(Material.EMERALD), new CustomItemStack(Material.REDSTONE, "&4Firey thing", "with lore :o"));
         List<? extends ItemStack> wrappers = ItemStackWrapper.wrapList(items);
 
         Assertions.assertEquals(items.size(), wrappers.size());

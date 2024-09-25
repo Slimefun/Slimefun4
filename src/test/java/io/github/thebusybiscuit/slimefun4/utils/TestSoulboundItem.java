@@ -39,7 +39,7 @@ class TestSoulboundItem {
     void testNullAndAir() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> SlimefunUtils.setSoulbound(null, true));
 
-        ItemStack item = ItemStack.of(Material.AIR);
+        ItemStack item = new ItemStack(Material.AIR);
         Assertions.assertThrows(IllegalArgumentException.class, () -> SlimefunUtils.setSoulbound(item, true));
 
         Assertions.assertFalse(SlimefunUtils.isSoulbound(null));

@@ -92,13 +92,13 @@ public class PlayerRightClickEvent extends PlayerEvent {
     /**
      * This method returns the {@link ItemStack} that was held in the hand of the {@link Player}.
      * It will never return null, should there be no {@link ItemStack} then it will return
-     * {@code ItemStack.of(Material.AIR)}.
+     * {@code new ItemStack(Material.AIR)}.
      * 
      * @return The {@link ItemStack} that the {@link Player} right clicked with
      */
     @Nonnull
     public ItemStack getItem() {
-        return itemStack.orElse(ItemStack.of(Material.AIR));
+        return itemStack.orElse(new ItemStack(Material.AIR));
     }
 
     /**

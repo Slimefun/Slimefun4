@@ -61,7 +61,7 @@ class TestBrewingStandListener {
 
     @Test
     void testBrewingWithoutSlimefunItems() {
-        InventoryClickEvent event = mockBrewingEvent(ItemStack.of(Material.BLAZE_POWDER));
+        InventoryClickEvent event = mockBrewingEvent(new ItemStack(Material.BLAZE_POWDER));
         Assertions.assertEquals(Result.ALLOW, event.getResult());
     }
 

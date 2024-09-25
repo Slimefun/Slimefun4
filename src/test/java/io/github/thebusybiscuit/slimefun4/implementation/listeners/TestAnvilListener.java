@@ -46,7 +46,7 @@ class TestAnvilListener {
 
     private InventoryClickEvent mockAnvilEvent(ItemStack item) {
         Player player = server.addPlayer();
-        Inventory inv = TestUtilities.mockInventory(InventoryType.ANVIL, item, null, ItemStack.of(Material.IRON_CHESTPLATE));
+        Inventory inv = TestUtilities.mockInventory(InventoryType.ANVIL, item, null, new ItemStack(Material.IRON_CHESTPLATE));
         InventoryView view = player.openInventory(inv);
         InventoryClickEvent event = new InventoryClickEvent(view, SlotType.CONTAINER, 2, ClickType.LEFT, InventoryAction.PICKUP_ONE);
 
@@ -56,7 +56,7 @@ class TestAnvilListener {
 
     @Test
     void testAnvilWithoutSlimefunItems() {
-        InventoryClickEvent event = mockAnvilEvent(ItemStack.of(Material.IRON_SWORD));
+        InventoryClickEvent event = mockAnvilEvent(new ItemStack(Material.IRON_SWORD));
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 

@@ -60,7 +60,7 @@ class TestGrindstoneListener {
 
     @Test
     void testGrindStoneWithoutSlimefunItems() {
-        InventoryClickEvent event = mockGrindStoneEvent(ItemStack.of(Material.ENCHANTED_BOOK));
+        InventoryClickEvent event = mockGrindStoneEvent(new ItemStack(Material.ENCHANTED_BOOK));
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 

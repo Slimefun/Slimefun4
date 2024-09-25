@@ -46,7 +46,7 @@ class TestRecipeService {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         NamespacedKey key = new NamespacedKey(plugin, "furnace_recipe_test");
-        ItemStack result = ItemStack.of(Material.EMERALD_BLOCK);
+        ItemStack result = new ItemStack(Material.EMERALD_BLOCK);
         FurnaceRecipe recipe = new FurnaceRecipe(key, result, new MaterialChoice(Material.DIAMOND), 1, 2);
         server.addRecipe(recipe);
 
@@ -67,7 +67,7 @@ class TestRecipeService {
         service.refresh();
 
         Assertions.assertEquals(0, service.getRecipesFor(null).length);
-        Assertions.assertEquals(0, service.getRecipesFor(ItemStack.of(Material.BEDROCK)).length);
+        Assertions.assertEquals(0, service.getRecipesFor(new ItemStack(Material.BEDROCK)).length);
     }
 
     @Test
@@ -76,29 +76,29 @@ class TestRecipeService {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         NamespacedKey key = new NamespacedKey(plugin, "furnace_recipe_test2");
-        ItemStack result = ItemStack.of(Material.GOLD_BLOCK);
+        ItemStack result = new ItemStack(Material.GOLD_BLOCK);
         MaterialChoice materials = new MaterialChoice(Material.DIRT, Material.COBBLESTONE);
         FurnaceRecipe recipe = new FurnaceRecipe(key, result, materials, 1, 2);
         server.addRecipe(recipe);
 
         // The Snapshot has not been taken, so it should fallback to an empty Optional
-        Assertions.assertFalse(service.getFurnaceOutput(ItemStack.of(Material.DIRT)).isPresent());
+        Assertions.assertFalse(service.getFurnaceOutput(new ItemStack(Material.DIRT)).isPresent());
 
         service.refresh();
 
         Assertions.assertFalse(service.getFurnaceOutput(null).isPresent());
-        Assertions.assertFalse(service.getFurnaceOutput(ItemStack.of(Material.BEDROCK)).isPresent());
+        Assertions.assertFalse(service.getFurnaceOutput(new ItemStack(Material.BEDROCK)).isPresent());
 
-        Optional<ItemStack> optional = service.getFurnaceOutput(ItemStack.of(Material.DIRT));
+        Optional<ItemStack> optional = service.getFurnaceOutput(new ItemStack(Material.DIRT));
         Assertions.assertTrue(optional.isPresent());
         Assertions.assertEquals(result, optional.get());
 
-        Optional<ItemStack> optional2 = service.getFurnaceOutput(ItemStack.of(Material.COBBLESTONE));
+        Optional<ItemStack> optional2 = service.getFurnaceOutput(new ItemStack(Material.COBBLESTONE));
         Assertions.assertTrue(optional2.isPresent());
         Assertions.assertEquals(result, optional2.get());
 
         // Cobblestone should be smeltable
-        Assertions.assertTrue(service.isSmeltable(ItemStack.of(Material.COBBLESTONE)));
+        Assertions.assertTrue(service.isSmeltable(new ItemStack(Material.COBBLESTONE)));
     }
 
     @Test
@@ -107,7 +107,7 @@ class TestRecipeService {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         NamespacedKey key = new NamespacedKey(plugin, "shaped_recipe_9");
-        ShapedRecipe recipe = new ShapedRecipe(key, ItemStack.of(Material.ENCHANTED_GOLDEN_APPLE));
+        ShapedRecipe recipe = new ShapedRecipe(key, new ItemStack(Material.ENCHANTED_GOLDEN_APPLE));
         MaterialChoice choice = new MaterialChoice(Material.TNT, Material.TNT_MINECART);
 
         recipe.shape("t t", " t ", "t t");
@@ -125,7 +125,7 @@ class TestRecipeService {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         NamespacedKey key = new NamespacedKey(plugin, "shaped_recipe_4");
-        ShapedRecipe recipe = new ShapedRecipe(key, ItemStack.of(Material.ENCHANTED_GOLDEN_APPLE));
+        ShapedRecipe recipe = new ShapedRecipe(key, new ItemStack(Material.ENCHANTED_GOLDEN_APPLE));
         MaterialChoice choice = new MaterialChoice(Material.TNT, Material.TNT_MINECART);
 
         recipe.shape("tt", "tt");
@@ -145,7 +145,7 @@ class TestRecipeService {
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.getRecipeShape(null));
 
         NamespacedKey key = new NamespacedKey(plugin, "shapeless_test");
-        ShapelessRecipe recipe = new ShapelessRecipe(key, ItemStack.of(Material.TNT_MINECART));
+        ShapelessRecipe recipe = new ShapelessRecipe(key, new ItemStack(Material.TNT_MINECART));
         MaterialChoice choice = new MaterialChoice(Material.TNT);
         recipe.addIngredient(choice);
 

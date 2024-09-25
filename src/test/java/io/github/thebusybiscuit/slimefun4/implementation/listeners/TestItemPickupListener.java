@@ -48,7 +48,7 @@ class TestItemPickupListener {
     @ValueSource(booleans = { true, false })
     void testNoPickupFlagForEntities(boolean flag) {
         Player player = server.addPlayer();
-        Item item = new ItemEntityMock(server, UUID.randomUUID(), ItemStack.of(Material.COMPASS));
+        Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.COMPASS));
 
         if (flag) {
             SlimefunUtils.markAsNoPickup(item, "Unit Test");
@@ -64,7 +64,7 @@ class TestItemPickupListener {
     @ValueSource(booleans = { true, false })
     void testNoPickupFlagForInventories(boolean flag) {
         Inventory inventory = new HopperInventoryMock(null);
-        Item item = new ItemEntityMock(server, UUID.randomUUID(), ItemStack.of(Material.COMPASS));
+        Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.COMPASS));
 
         if (flag) {
             SlimefunUtils.markAsNoPickup(item, "Unit Test");

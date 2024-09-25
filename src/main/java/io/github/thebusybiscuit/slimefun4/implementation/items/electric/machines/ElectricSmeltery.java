@@ -129,7 +129,7 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
 
     @Override
     public ItemStack getProgressBar() {
-        return ItemStack.of(Material.FLINT_AND_STEEL);
+        return new ItemStack(Material.FLINT_AND_STEEL);
     }
 
     @Override

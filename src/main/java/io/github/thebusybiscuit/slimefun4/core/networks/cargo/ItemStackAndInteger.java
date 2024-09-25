@@ -42,7 +42,7 @@ class ItemStackAndInteger {
 
     private void initializeItem() {
         if (this.item instanceof ItemStackWrapper) {
-            ItemStack copy = ItemStack.of(item.getType(), item.getAmount());
+            ItemStack copy = new ItemStack(item.getType(), item.getAmount());
             if (this.item.hasItemMeta()) {
                 copy.setItemMeta(this.item.getItemMeta());
             }

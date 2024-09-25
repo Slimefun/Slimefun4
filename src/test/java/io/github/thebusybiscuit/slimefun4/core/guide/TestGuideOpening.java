@@ -85,7 +85,7 @@ class TestGuideOpening {
     @Test
     @DisplayName("Test if an ItemStack can be viewed from the History")
     void testOpenItemStack() throws InterruptedException {
-        ItemStack item = ItemStack.of(Material.REDSTONE_BLOCK);
+        ItemStack item = new ItemStack(Material.REDSTONE_BLOCK);
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
         PlayerProfile profile = prepare(guide, history -> history.add(item, 1));

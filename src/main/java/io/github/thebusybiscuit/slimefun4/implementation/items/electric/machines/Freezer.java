@@ -39,19 +39,19 @@ public class Freezer extends AContainer implements RecipeDisplayItem {
     protected void registerDefaultRecipes() {
         // This if statement makes the transformation follow Minecraft logic
         if (useVanillaRatios.getValue()) {
-            registerRecipe(4, new ItemStack[] { ItemStack.of(Material.ICE, 9) }, new ItemStack[] { ItemStack.of(Material.PACKED_ICE) });
-            registerRecipe(6, new ItemStack[] { ItemStack.of(Material.PACKED_ICE, 9) }, new ItemStack[] { ItemStack.of(Material.BLUE_ICE) });
+            registerRecipe(4, new ItemStack[] { new ItemStack(Material.ICE, 9) }, new ItemStack[] { new ItemStack(Material.PACKED_ICE) });
+            registerRecipe(6, new ItemStack[] { new ItemStack(Material.PACKED_ICE, 9) }, new ItemStack[] { new ItemStack(Material.BLUE_ICE) });
         } else {
-            registerRecipe(4, new ItemStack[] { ItemStack.of(Material.ICE) }, new ItemStack[] { ItemStack.of(Material.PACKED_ICE) });
-            registerRecipe(6, new ItemStack[] { ItemStack.of(Material.PACKED_ICE) }, new ItemStack[] { ItemStack.of(Material.BLUE_ICE) });
+            registerRecipe(4, new ItemStack[] { new ItemStack(Material.ICE) }, new ItemStack[] { new ItemStack(Material.PACKED_ICE) });
+            registerRecipe(6, new ItemStack[] { new ItemStack(Material.PACKED_ICE) }, new ItemStack[] { new ItemStack(Material.BLUE_ICE) });
         }
 
-        registerRecipe(2, new ItemStack[] { ItemStack.of(Material.WATER_BUCKET) }, new ItemStack[] { ItemStack.of(Material.BUCKET), ItemStack.of(Material.ICE) });
-        registerRecipe(8, new ItemStack[] { ItemStack.of(Material.LAVA_BUCKET) }, new ItemStack[] { ItemStack.of(Material.BUCKET), ItemStack.of(Material.OBSIDIAN) });
-        registerRecipe(8, new ItemStack[] { ItemStack.of(Material.BLUE_ICE) }, new ItemStack[] { SlimefunItems.REACTOR_COOLANT_CELL });
-        registerRecipe(6, new ItemStack[] { ItemStack.of(Material.SNOW_BLOCK, 2) }, new ItemStack[] { ItemStack.of(Material.ICE) });
-        registerRecipe(6, new ItemStack[] { ItemStack.of(Material.MAGMA_CREAM) }, new ItemStack[] { ItemStack.of(Material.SLIME_BALL) });
-        registerRecipe(6, new ItemStack[] { ItemStack.of(Material.MAGMA_BLOCK, 2) }, new ItemStack[] { ItemStack.of(Material.SLIME_BLOCK) });
+        registerRecipe(2, new ItemStack[] { new ItemStack(Material.WATER_BUCKET) }, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.ICE) });
+        registerRecipe(8, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) }, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.OBSIDIAN) });
+        registerRecipe(8, new ItemStack[] { new ItemStack(Material.BLUE_ICE) }, new ItemStack[] { SlimefunItems.REACTOR_COOLANT_CELL });
+        registerRecipe(6, new ItemStack[] { new ItemStack(Material.SNOW_BLOCK, 2) }, new ItemStack[] { new ItemStack(Material.ICE) });
+        registerRecipe(6, new ItemStack[] { new ItemStack(Material.MAGMA_CREAM) }, new ItemStack[] { new ItemStack(Material.SLIME_BALL) });
+        registerRecipe(6, new ItemStack[] { new ItemStack(Material.MAGMA_BLOCK, 2) }, new ItemStack[] { new ItemStack(Material.SLIME_BLOCK) });
     }
 
     @Override
@@ -68,7 +68,7 @@ public class Freezer extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return ItemStack.of(Material.GOLDEN_PICKAXE);
+        return new ItemStack(Material.GOLDEN_PICKAXE);
     }
 
     @Override

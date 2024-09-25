@@ -27,7 +27,7 @@ public class ElectricOreGrinder extends AContainer implements RecipeDisplayItem,
 
     @Override
     public ItemStack getProgressBar() {
-        return ItemStack.of(Material.IRON_PICKAXE);
+        return new ItemStack(Material.IRON_PICKAXE);
     }
 
 }

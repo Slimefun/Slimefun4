@@ -82,7 +82,7 @@ class VanillaRecipe extends AbstractRecipe {
         ItemStack[] items = new ItemStack[9];
 
         if (choices.length == 1 && choices[0] instanceof MaterialChoice materialChoice) {
-            items[4] = ItemStack.of(materialChoice.getChoices().get(0));
+            items[4] = new ItemStack(materialChoice.getChoices().get(0));
 
             if (materialChoice.getChoices().size() > 1) {
                 task.add(slots[4], materialChoice);
@@ -90,7 +90,7 @@ class VanillaRecipe extends AbstractRecipe {
         } else {
             for (int i = 0; i < choices.length; i++) {
                 if (choices[i] instanceof MaterialChoice materialChoice) {
-                    items[i] = ItemStack.of(materialChoice.getChoices().get(0));
+                    items[i] = new ItemStack(materialChoice.getChoices().get(0));
 
                     if (materialChoice.getChoices().size() > 1) {
                         task.add(slots[i], materialChoice);

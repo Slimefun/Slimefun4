@@ -83,7 +83,7 @@ class TestItemGroups {
     @Test
     @DisplayName("Test hidden Item Groups")
     void testHidden() {
-        ItemGroup group = new ItemGroup(new NamespacedKey(plugin, "hiddenItemGroup"), ItemStack.of(Material.BEACON));
+        ItemGroup group = new ItemGroup(new NamespacedKey(plugin, "hiddenItemGroup"), new ItemStack(Material.BEACON));
         Player player = server.addPlayer();
 
         // Empty Item Groups are also hidden
@@ -124,7 +124,7 @@ class TestItemGroups {
         Assertions.assertFalse(group.contains(null));
 
         // Unregistered Item
-        Assertions.assertFalse(group.contains(TestUtilities.mockSlimefunItem(plugin, "NULL", ItemStack.of(Material.BEDROCK))));
+        Assertions.assertFalse(group.contains(TestUtilities.mockSlimefunItem(plugin, "NULL", new ItemStack(Material.BEDROCK))));
     }
 
     @Test

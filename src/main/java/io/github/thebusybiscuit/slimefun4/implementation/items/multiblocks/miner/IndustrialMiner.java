@@ -63,8 +63,8 @@ public class IndustrialMiner extends MultiBlockMachine {
         // @formatter:off
         super(itemGroup, item, new ItemStack[] {
             null, null, null,
-            new CustomItemStack(Material.PISTON, "Piston (facing up)"), ItemStack.of(Material.CHEST), new CustomItemStack(Material.PISTON, "Piston (facing up)"),
-            ItemStack.of(baseMaterial), ItemStack.of(Material.BLAST_FURNACE), ItemStack.of(baseMaterial)
+            new CustomItemStack(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItemStack(Material.PISTON, "Piston (facing up)"),
+            new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial)
         }, BlockFace.UP);
         // @formatter:on
 
@@ -107,16 +107,16 @@ public class IndustrialMiner extends MultiBlockMachine {
      */
     protected void registerDefaultFuelTypes() {
         // Coal & Charcoal
-        fuelTypes.add(new MachineFuel(4, ItemStack.of(Material.COAL)));
-        fuelTypes.add(new MachineFuel(4, ItemStack.of(Material.CHARCOAL)));
+        fuelTypes.add(new MachineFuel(4, new ItemStack(Material.COAL)));
+        fuelTypes.add(new MachineFuel(4, new ItemStack(Material.CHARCOAL)));
 
-        fuelTypes.add(new MachineFuel(40, ItemStack.of(Material.COAL_BLOCK)));
-        fuelTypes.add(new MachineFuel(10, ItemStack.of(Material.DRIED_KELP_BLOCK)));
-        fuelTypes.add(new MachineFuel(4, ItemStack.of(Material.BLAZE_ROD)));
+        fuelTypes.add(new MachineFuel(40, new ItemStack(Material.COAL_BLOCK)));
+        fuelTypes.add(new MachineFuel(10, new ItemStack(Material.DRIED_KELP_BLOCK)));
+        fuelTypes.add(new MachineFuel(4, new ItemStack(Material.BLAZE_ROD)));
 
         // Logs
         for (Material mat : Tag.LOGS.getValues()) {
-            fuelTypes.add(new MachineFuel(1, ItemStack.of(mat)));
+            fuelTypes.add(new MachineFuel(1, new ItemStack(mat)));
         }
     }
 
@@ -130,7 +130,7 @@ public class IndustrialMiner extends MultiBlockMachine {
      */
     public @Nonnull ItemStack getOutcome(@Nonnull Material material) {
         if (hasSilkTouch()) {
-            return ItemStack.of(material);
+            return new ItemStack(material);
         } else {
             Random random = ThreadLocalRandom.current();
             return oreDictionary.getDrops(material, random);

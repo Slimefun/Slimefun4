@@ -78,7 +78,7 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Consumer<ItemMeta> consumer) {
-        this(id, ItemStack.of(type), consumer);
+        this(id, new ItemStack(type), consumer);
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
@@ -109,7 +109,7 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, String... lore) {
-        this(id, ItemStack.of(type), name, lore);
+        this(id, new ItemStack(type), name, lore);
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Color color, @Nullable String name, String... lore) {
@@ -284,7 +284,7 @@ public class SlimefunItemStack extends ItemStack {
 
     private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
         if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
-            return ItemStack.of(Material.PLAYER_HEAD);
+            return new ItemStack(Material.PLAYER_HEAD);
         }
 
         PlayerSkin skin = PlayerSkin.fromBase64(getTexture(id, texture));

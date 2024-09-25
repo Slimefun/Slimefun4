@@ -88,7 +88,7 @@ public class HeatedPressureChamber extends AContainer {
         registerRecipe(45, new ItemStack[] { SlimefunItems.OIL_BUCKET }, new ItemStack[] { new CustomItemStack(SlimefunItems.PLASTIC_SHEET, 8) });
         registerRecipe(30, new ItemStack[] { SlimefunItems.GOLD_24K, SlimefunItems.URANIUM }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT });
         registerRecipe(30, new ItemStack[] { SlimefunItems.BLISTERING_INGOT, SlimefunItems.CARBONADO }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_2 });
-        registerRecipe(60, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_2, ItemStack.of(Material.NETHER_STAR) }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_3 });
+        registerRecipe(60, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_2, new ItemStack(Material.NETHER_STAR) }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_3 });
         registerRecipe(90, new ItemStack[] { SlimefunItems.PLUTONIUM, SlimefunItems.URANIUM }, new ItemStack[] { SlimefunItems.BOOSTED_URANIUM });
         registerRecipe(60, new ItemStack[] { SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM }, new ItemStack[] { new CustomItemStack(SlimefunItems.ENRICHED_NETHER_ICE, 4) });
         registerRecipe(45, new ItemStack[] { SlimefunItems.ENRICHED_NETHER_ICE }, new ItemStack[] { new CustomItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8) });
@@ -97,7 +97,7 @@ public class HeatedPressureChamber extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return ItemStack.of(Material.FLINT_AND_STEEL);
+        return new ItemStack(Material.FLINT_AND_STEEL);
     }
 
     @Override

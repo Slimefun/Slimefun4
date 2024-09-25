@@ -32,7 +32,7 @@ public class PressureChamber extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public PressureChamber(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { ItemStack.of(Material.SMOOTH_STONE_SLAB), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing down)"), ItemStack.of(Material.SMOOTH_STONE_SLAB), ItemStack.of(Material.PISTON), ItemStack.of(Material.GLASS), ItemStack.of(Material.PISTON), ItemStack.of(Material.PISTON), ItemStack.of(Material.CAULDRON), ItemStack.of(Material.PISTON) }, BlockFace.UP);
+        super(itemGroup, item, new ItemStack[] { new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON) }, BlockFace.UP);
     }
 
     @Override

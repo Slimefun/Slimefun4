@@ -40,7 +40,7 @@ public class TestSlimefunBlockPlaceEvent {
 
         new BlockListener(plugin);
 
-        slimefunItem = TestUtilities.mockSlimefunItem(plugin, "FOOD_COMPOSTER", ItemStack.of(Material.GREEN_TERRACOTTA));
+        slimefunItem = TestUtilities.mockSlimefunItem(plugin, "FOOD_COMPOSTER", new ItemStack(Material.GREEN_TERRACOTTA));
         slimefunItem.register(plugin);
     }
 

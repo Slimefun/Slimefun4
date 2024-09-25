@@ -102,14 +102,14 @@ class TestGuideHistory {
         GuideHistory history = profile.getGuideHistory();
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> history.add((ItemStack) null, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> history.add(ItemStack.of(Material.DIAMOND), -20));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> history.add(new ItemStack(Material.DIAMOND), -20));
 
         Assertions.assertEquals(0, history.size());
-        history.add(ItemStack.of(Material.REDSTONE), 1);
+        history.add(new ItemStack(Material.REDSTONE), 1);
         Assertions.assertEquals(1, history.size());
 
         // This should not add a new entry but rather only update the page
-        history.add(ItemStack.of(Material.REDSTONE), 2);
+        history.add(new ItemStack(Material.REDSTONE), 2);
         Assertions.assertEquals(1, history.size());
     }
 

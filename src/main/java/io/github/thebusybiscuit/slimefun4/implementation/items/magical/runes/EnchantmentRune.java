@@ -59,7 +59,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                     continue;
                 }
 
-                if (enchantment.canEnchantItem(ItemStack.of(mat))) {
+                if (enchantment.canEnchantItem(new ItemStack(mat))) {
                     enchantments.add(enchantment);
                 }
             }

@@ -40,7 +40,7 @@ class TestCustomTextureService {
         Assertions.assertFalse(service.isActive());
         Assertions.assertNull(service.getVersion());
 
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "TEXTURE_TEST", ItemStack.of(Material.LANTERN));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
         service.register(Arrays.asList(null, item, null), false);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.register(null, false));
@@ -57,7 +57,7 @@ class TestCustomTextureService {
     void testSetTexture() {
         Config config = new Config("plugins/temporary");
         CustomTextureService service = new CustomTextureService(config);
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "TEXTURE_TEST", ItemStack.of(Material.LANTERN));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
         String version = "Unit Test v1.0";
 
         config.setValue(item.getId(), 300);
@@ -69,7 +69,7 @@ class TestCustomTextureService {
         Assertions.assertEquals(version, service.getVersion());
         Assertions.assertEquals(300, service.getModelData(item.getId()));
 
-        ItemStack stack = ItemStack.of(Material.DIAMOND);
+        ItemStack stack = new ItemStack(Material.DIAMOND);
         service.setTexture(stack, item.getId());
 
         Assertions.assertTrue(stack.getItemMeta().hasCustomModelData());

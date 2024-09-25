@@ -100,7 +100,7 @@ class TestBackpackListener {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(null, null, 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, null, 1, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, ItemStack.of(Material.REDSTONE), 1, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new ItemStack(Material.REDSTONE), 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItemStack(Material.REDSTONE, "Hi", "lore"), 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItemStack(Material.REDSTONE, "Hi", "lore", "no id"), 1, 1));
     }
@@ -137,7 +137,7 @@ class TestBackpackListener {
         Player player = server.addPlayer();
         openMockBackpack(player, "DROP_NORMAL_ITEM_BACKPACK_TEST", 27);
 
-        Item item = new ItemEntityMock(server, UUID.randomUUID(), ItemStack.of(Material.SUGAR_CANE));
+        Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.SUGAR_CANE));
         PlayerDropItemEvent event = new PlayerDropItemEvent(player, item);
         listener.onItemDrop(event);
 
@@ -159,14 +159,14 @@ class TestBackpackListener {
     @DisplayName("Test backpacks allowing normal materials")
     @EnumSource(value = Material.class, names = { "AIR", "DIAMOND", "STONE" })
     void areItemsAllowed(Material type) throws InterruptedException {
-        Assertions.assertTrue(isAllowed("BACKPACK_ALLOWANCE_" + type.name(), ItemStack.of(type)));
+        Assertions.assertTrue(isAllowed("BACKPACK_ALLOWANCE_" + type.name(), new ItemStack(type)));
     }
 
     @ParameterizedTest
     @DisplayName("Test backpacks rejecting certain materials")
     @EnumSource(value = Material.class, names = { "SHULKER_BOX", "RED_SHULKER_BOX", "BLUE_SHULKER_BOX", "BLACK_SHULKER_BOX" })
     void areShulkerBoxesAllowed(Material type) throws InterruptedException {
-        Assertions.assertFalse(isAllowed("BACKPACK_ALLOWANCE_" + type.name(), ItemStack.of(type)));
+        Assertions.assertFalse(isAllowed("BACKPACK_ALLOWANCE_" + type.name(), new ItemStack(type)));
     }
 
     @ParameterizedTest
@@ -177,7 +177,7 @@ class TestBackpackListener {
         openMockBackpack(player, "BACKPACK_HOTBAR_" + type.name(), 9);
 
         int slot = 7;
-        player.getInventory().setItem(slot, ItemStack.of(type));
+        player.getInventory().setItem(slot, new ItemStack(type));
         InventoryClickEvent event = new InventoryClickEvent(player.getOpenInventory(), SlotType.CONTAINER, slot, ClickType.NUMBER_KEY, InventoryAction.PICKUP_ONE, slot);
         listener.onClick(event);
 
