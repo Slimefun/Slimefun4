@@ -32,8 +32,6 @@ import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * The {@link IgnitionChamber} is used to re-ignite a {@link Smeltery}.
  * 
@@ -94,7 +92,6 @@ public class IgnitionChamber extends SlimefunItem {
         }
 
         ItemStack item = inv.getItem(inv.first(Material.FLINT_AND_STEEL));
-        ItemMeta meta = item.getItemMeta();
 
         // Only damage the Flint and Steel if it isn't unbreakable.
         damageFlintAndSteel(item, smelteryBlock);
