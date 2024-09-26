@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -113,10 +114,7 @@ public class IgnitionChamber extends SlimefunItem {
         Enchantment unbreaking = VersionedEnchantment.UNBREAKING;
         int lvl = flintAndSteel.getEnchantmentLevel(unbreaking);
 
-        //Calculation from https://minecraft.fandom.com/wiki/Unbreaking
-        double breakingChance = 1.0 / (lvl + 1.0);
-
-        if (ThreadLocalRandom.current().nextDouble() < breakingChance) {
+        if (UnbreakingAlgorithm.TOOLS.evaluate(lvl)) {
             damageable.setDamage(damageable.getDamage() + 1);
         }
 
