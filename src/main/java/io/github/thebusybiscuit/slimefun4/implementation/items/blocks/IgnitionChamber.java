@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,6 +12,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Dropper;
 import org.bukkit.block.data.type.Dispenser;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +30,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smelt
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The {@link IgnitionChamber} is used to re-ignite a {@link Smeltery}.
@@ -92,22 +96,37 @@ public class IgnitionChamber extends SlimefunItem {
         ItemMeta meta = item.getItemMeta();
 
         // Only damage the Flint and Steel if it isn't unbreakable.
-        if (!meta.isUnbreakable()) {
-            Damageable damageable = (Damageable) meta;
-            // Update the damage value
-            damageable.setDamage(damageable.getDamage() + 1);
-
-            if (damageable.getDamage() >= item.getType().getMaxDurability()) {
-                // The Flint and Steel broke
-                item.setAmount(0);
-                SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
-            } else {
-                item.setItemMeta(meta);
-            }
-        }
+        damageFlintAndSteel(item, smelteryBlock);
 
         SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
         return true;
+    }
+
+    private static void damageFlintAndSteel(ItemStack flintAndSteel, Block smelteryBlock) {
+        ItemMeta meta = flintAndSteel.getItemMeta();
+        Damageable damageable = (Damageable) meta;
+
+        if (meta.isUnbreakable()) {
+            return;
+        }
+
+        Enchantment unbreaking = VersionedEnchantment.UNBREAKING;
+        int lvl = flintAndSteel.getEnchantmentLevel(unbreaking);
+
+        //Calculation from https://minecraft.fandom.com/wiki/Unbreaking
+        double breakingChance = 1.0 / (lvl + 1.0);
+
+        if (ThreadLocalRandom.current().nextDouble() < breakingChance) {
+            damageable.setDamage(damageable.getDamage() + 1);
+        }
+
+        if (damageable.getDamage() >= flintAndSteel.getType().getMaxDurability()) {
+            // The Flint and Steel broke
+            flintAndSteel.setAmount(0);
+            SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
+        } else {
+            flintAndSteel.setItemMeta(meta);
+        }
     }
 
     private static @Nullable Inventory findIgnitionChamber(@Nonnull Block b) {
