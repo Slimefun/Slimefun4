@@ -82,31 +82,32 @@ public class IgnitionChamber extends SlimefunItem {
         }
 
         // Check if the chamber contains a Flint and Steel
-        if (inv.contains(Material.FLINT_AND_STEEL)) {
-            ItemStack item = inv.getItem(inv.first(Material.FLINT_AND_STEEL));
-            ItemMeta meta = item.getItemMeta();
-
-            // Only damage the Flint and Steel if it isn't unbreakable.
-            if (!meta.isUnbreakable()) {
-                // Update the damage value
-                ((Damageable) meta).setDamage(((Damageable) meta).getDamage() + 1);
-
-                if (((Damageable) meta).getDamage() >= item.getType().getMaxDurability()) {
-                    // The Flint and Steel broke
-                    item.setAmount(0);
-                    SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
-                } else {
-                    item.setItemMeta(meta);
-                }
-            }
-
-            SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
-            return true;
-        } else {
+        if (!inv.contains(Material.FLINT_AND_STEEL)) {
             // Notify the Player there is a chamber but without any Flint and Steel
             Slimefun.getLocalization().sendMessage(p, "machines.ignition-chamber-no-flint", true);
             return false;
         }
+
+        ItemStack item = inv.getItem(inv.first(Material.FLINT_AND_STEEL));
+        ItemMeta meta = item.getItemMeta();
+
+        // Only damage the Flint and Steel if it isn't unbreakable.
+        if (!meta.isUnbreakable()) {
+            Damageable damageable = (Damageable) meta;
+            // Update the damage value
+            damageable.setDamage(damageable.getDamage() + 1);
+
+            if (damageable.getDamage() >= item.getType().getMaxDurability()) {
+                // The Flint and Steel broke
+                item.setAmount(0);
+                SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
+            } else {
+                item.setItemMeta(meta);
+            }
+        }
+
+        SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
+        return true;
     }
 
     private static @Nullable Inventory findIgnitionChamber(@Nonnull Block b) {
