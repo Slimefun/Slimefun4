@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.utils.multiversion.StackResolver;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.StackResolver;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Keyed;
 import org.bukkit.inventory.ItemStack;

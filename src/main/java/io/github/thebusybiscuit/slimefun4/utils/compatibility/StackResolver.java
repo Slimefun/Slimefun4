@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.utils.multiversion;
+package io.github.thebusybiscuit.slimefun4.utils.compatibility;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
