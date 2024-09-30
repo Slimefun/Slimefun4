@@ -60,9 +60,13 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                     continue;
                 }
 
-                if (enchantment.canEnchantItem(StackResolver.of(mat))) {
-                    enchantments.add(enchantment);
-                }
+                // Fixes creating item stacks of improper items like WATER, now such actions throw exceptions
+                try {
+                    if (enchantment.canEnchantItem(StackResolver.of(mat))) {
+                        enchantments.add(enchantment);
+                    }
+                } catch (Exception ignored) {}
+
             }
 
             applicableEnchantments.put(mat, enchantments);
