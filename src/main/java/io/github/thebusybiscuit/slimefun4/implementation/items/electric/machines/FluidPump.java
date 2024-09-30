@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
