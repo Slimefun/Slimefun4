@@ -145,8 +145,8 @@ class TestBackpackListener {
 
     private boolean isAllowed(String id, ItemStack item) throws InterruptedException {
         Player player = server.addPlayer();
-        InventoryView playerInv = InventoryViewWrapper.wrap(player.getOpenInventory());
         Inventory inv = openMockBackpack(player, id, 9).getInventory();
+        InventoryView playerInv = InventoryViewWrapper.wrap(player.getOpenInventory());
 
         int slot = 7;
         inv.setItem(slot, item);
