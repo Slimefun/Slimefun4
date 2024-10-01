@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.StackResolver;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -27,7 +28,7 @@ public class ElectricOreGrinder extends AContainer implements RecipeDisplayItem,
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.IRON_PICKAXE);
+        return StackResolver.of(Material.IRON_PICKAXE);
     }
 
 }

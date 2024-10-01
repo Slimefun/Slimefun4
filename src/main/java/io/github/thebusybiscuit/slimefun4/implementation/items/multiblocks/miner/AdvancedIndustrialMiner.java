@@ -2,8 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.mine
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.StackResolver;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -30,7 +30,7 @@ public class AdvancedIndustrialMiner extends IndustrialMiner {
 
     @Override
     protected void registerDefaultFuelTypes() {
-        fuelTypes.add(new MachineFuel(48, new ItemStack(Material.LAVA_BUCKET)));
+        fuelTypes.add(new MachineFuel(48, StackResolver.of(Material.LAVA_BUCKET)));
         fuelTypes.add(new MachineFuel(64, SlimefunItems.OIL_BUCKET));
         fuelTypes.add(new MachineFuel(128, SlimefunItems.FUEL_BUCKET));
     }
