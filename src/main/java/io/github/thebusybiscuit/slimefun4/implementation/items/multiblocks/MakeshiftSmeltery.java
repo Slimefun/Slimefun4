@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,16 +14,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
 /**
  * The {@link MakeshiftSmeltery} is a simpler version of the {@link Smeltery}.
  * Its functionality is very limited and it cannot be used to smelt alloys.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see Smeltery
  *
  */
@@ -30,7 +30,7 @@ public class MakeshiftSmeltery extends AbstractSmeltery {
 
     @ParametersAreNonnullByDefault
     public MakeshiftSmeltery(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.OAK_FENCE), null, new ItemStack(Material.BRICKS), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
+        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.OAK_FENCE), null, new ItemStack(Material.BRICKS), ItemStackUtil.withNameString(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
     }
 
     @Override

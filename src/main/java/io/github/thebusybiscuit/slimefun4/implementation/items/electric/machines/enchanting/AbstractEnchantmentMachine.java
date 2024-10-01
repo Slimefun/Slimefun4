@@ -6,13 +6,12 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -67,7 +66,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
         String notice = ChatColors.color(Slimefun.getLocalization().getMessage("messages.above-limit-level"));
         notice = notice.replace("%level%", String.valueOf(levelLimit.getValue()));
-        ItemStack progressBar = new CustomItemStack(Material.BARRIER, " ", notice);
+        ItemStack progressBar = ItemStackUtil.withNameLoreString(Material.BARRIER, " ", notice);
         menu.replaceExistingItem(22, progressBar);
     }
 

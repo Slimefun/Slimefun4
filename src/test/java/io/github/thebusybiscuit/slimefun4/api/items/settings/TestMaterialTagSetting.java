@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.junit.jupiter.api.AfterAll;
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
@@ -40,7 +40,7 @@ class TestMaterialTagSetting {
     @Test
     @DisplayName("Test Constructor")
     void testConstructorValidation() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_0", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_0", ItemStackUtil.withNameString(Material.DIAMOND, "&cTest"));
         MaterialTagSetting setting = new MaterialTagSetting(item, "test", tag);
         Assertions.assertEquals(tag, setting.getDefaultTag());
     }
@@ -48,7 +48,7 @@ class TestMaterialTagSetting {
     @Test
     @DisplayName("Test illegal values")
     void testIllegalValues() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST", ItemStackUtil.withNameString(Material.DIAMOND, "&cTest"));
         MaterialTagSetting setting = new MaterialTagSetting(item, "test", tag);
 
         item.addItemSetting(setting);
@@ -62,7 +62,7 @@ class TestMaterialTagSetting {
     @Test
     @DisplayName("Test allowed value")
     void testAllowedValue() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_2", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_2", ItemStackUtil.withNameString(Material.DIAMOND, "&cTest"));
         MaterialTagSetting setting = new MaterialTagSetting(item, "test", tag);
 
         item.addItemSetting(setting);

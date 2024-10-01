@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
@@ -37,7 +37,7 @@ class TestMultiblockListener {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(Slimefun.class);
         listener = new MultiBlockListener(plugin);
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_LISTENER_TEST", new CustomItemStack(Material.DIAMOND, "&9Some multiblock item"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_LISTENER_TEST", ItemStackUtil.withNameString(Material.DIAMOND, "&9Some multiblock item"));
         multiblock = new MultiBlock(item, new Material[] { null, Material.EMERALD_BLOCK, null, null, Material.DIAMOND_BLOCK, null, null, Material.LAPIS_BLOCK, null }, BlockFace.SELF);
         Slimefun.getRegistry().getMultiBlocks().add(multiblock);
     }

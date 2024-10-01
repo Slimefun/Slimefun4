@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -10,6 +11,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,7 +24,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.WaypointCreateEvent;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.geo.ResourceManager;
@@ -44,9 +45,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * The {@link GPSNetwork} is a manager class for all {@link GPSTransmitter Transmitters} and waypoints.
  * There can only be one instance of this class per {@link Server}.
  * It is also responsible for teleportation and resource management.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see TeleportationManager
  * @see ResourceManager
  *
@@ -64,7 +65,7 @@ public class GPSNetwork {
     /**
      * This constructs a new {@link GPSNetwork}.
      * Note that this network is per {@link Server} and not per {@link Player}.
-     * 
+     *
      * @param plugin
      *            Our {@link Slimefun} instance
      */
@@ -74,7 +75,7 @@ public class GPSNetwork {
 
     /**
      * This method updates the status of a {@link GPSTransmitter}.
-     * 
+     *
      * @param l
      *            The {@link Location} of the {@link GPSTransmitter}
      * @param uuid
@@ -96,10 +97,10 @@ public class GPSNetwork {
      * This method calculates the GPS complexity for the given {@link UUID}.
      * The complexity is determined by the Y level of each {@link GPSTransmitter}
      * multiplied by the multiplier of that transmitter.
-     * 
+     *
      * @param uuid
      *            The {@link UUID} who to calculate it for
-     * 
+     *
      * @return The network complexity for that {@link UUID}
      */
     public int getNetworkComplexity(@Nonnull UUID uuid) {
@@ -124,10 +125,10 @@ public class GPSNetwork {
     /**
      * This method returns the amount of {@link GPSTransmitter Transmitters} for the
      * given {@link UUID}.
-     * 
+     *
      * @param uuid
      *            The {@link UUID} who these transmitters belong to
-     * 
+     *
      * @return The amount of transmitters
      */
     public int countTransmitters(@Nonnull UUID uuid) {
@@ -138,7 +139,7 @@ public class GPSNetwork {
     /**
      * This method opens the {@link GPSTransmitter} control panel to the given
      * {@link Player}.
-     * 
+     *
      * @param p
      *            The {@link Player}
      */
@@ -149,18 +150,16 @@ public class GPSNetwork {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(2, new CustomItemStack(SlimefunItems.GPS_TRANSMITTER, im -> {
-            im.setDisplayName(ChatColor.GRAY + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters"));
-            im.setLore(null);
-        }));
+        String displayName = ChatColor.GRAY + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters");
+        menu.addItem(2, ItemStackUtil.withNameLoreString(SlimefunItems.GPS_TRANSMITTER, displayName, Collections.emptyList()));
 
         menu.addMenuClickHandler(2, ChestMenuUtils.getEmptyClickHandler());
 
         int complexity = getNetworkComplexity(p.getUniqueId());
-        menu.addItem(4, new CustomItemStack(SlimefunItems.GPS_CONTROL_PANEL, "&7Network Info", "", "&8\u21E8 &7Status: " + getStatusText(p, complexity), "&8\u21E8 &7Complexity: &f" + complexity));
+        menu.addItem(4, ItemStackUtil.withNameLoreString(SlimefunItems.GPS_CONTROL_PANEL, "&7Network Info", "", "&8\u21E8 &7Status: " + getStatusText(p, complexity), "&8\u21E8 &7Complexity: &f" + complexity));
         menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 
-        menu.addItem(6, new CustomItemStack(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(), "&7" + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.waypoints"), "", ChatColor.GRAY + "\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
+        menu.addItem(6, ItemStackUtil.withNameLoreString(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(), "&7" + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.waypoints"), "", ChatColor.GRAY + "\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
         menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
             openWaypointControlPanel(pl);
             return false;
@@ -177,7 +176,7 @@ public class GPSNetwork {
             if (sfi instanceof GPSTransmitter transmitter) {
                 int slot = inventory[index];
 
-                menu.addItem(slot, new CustomItemStack(SlimefunItems.GPS_TRANSMITTER, "&bGPS Transmitter", "&8\u21E8 &7World: &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "", "&8\u21E8 &7Signal Strength: &f" + transmitter.getMultiplier(l.getBlockY()), "&8\u21E8 &7Ping: &f" + NumberUtils.roundDecimalNumber(1000D / l.getY()) + "ms"));
+                menu.addItem(slot, ItemStackUtil.withNameLoreString(SlimefunItems.GPS_TRANSMITTER, "&bGPS Transmitter", "&8\u21E8 &7World: &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "", "&8\u21E8 &7Signal Strength: &f" + transmitter.getMultiplier(l.getBlockY()), "&8\u21E8 &7Ping: &f" + NumberUtils.roundDecimalNumber(1000D / l.getY()) + "ms"));
                 menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
 
                 index++;
@@ -192,14 +191,14 @@ public class GPSNetwork {
      * The icon is dependent on the {@link Environment} of the waypoint's {@link World}.
      * However if the name of this waypoint indicates that this is actually a deathmarker
      * then a different texture will be used.
-     * 
+     *
      * Otherwise it will return a globe, a nether or end sphere according to the {@link Environment}.
-     * 
+     *
      * @param name
      *            The name of a waypoint
      * @param environment
      *            The {@link Environment} of the waypoint's {@link World}
-     * 
+     *
      * @return An icon for this waypoint
      */
     @ParametersAreNonnullByDefault
@@ -232,17 +231,17 @@ public class GPSNetwork {
                 menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
 
-            menu.addItem(2, new CustomItemStack(SlimefunItems.GPS_TRANSMITTER, "&7" + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters"), "", ChatColor.GRAY + "\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
+            menu.addItem(2, ItemStackUtil.withNameLoreString(SlimefunItems.GPS_TRANSMITTER, "&7" + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.transmitters"), "", ChatColor.GRAY + "\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
             menu.addMenuClickHandler(2, (pl, slot, item, action) -> {
                 openTransmitterControlPanel(pl);
                 return false;
             });
 
             int complexity = getNetworkComplexity(p.getUniqueId());
-            menu.addItem(4, new CustomItemStack(SlimefunItems.GPS_CONTROL_PANEL, "&7Network Info", "", "&8\u21E8 &7Status: " + (complexity > 0 ? "&2&lONLINE" : "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &f" + complexity));
+            menu.addItem(4, ItemStackUtil.withNameLoreString(SlimefunItems.GPS_CONTROL_PANEL, "&7Network Info", "", "&8\u21E8 &7Status: " + (complexity > 0 ? "&2&lONLINE" : "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &f" + complexity));
             menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 
-            menu.addItem(6, new CustomItemStack(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(), "&7" + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.waypoints")));
+            menu.addItem(6, ItemStackUtil.withNameString(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(), "&7" + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.waypoints")));
             menu.addMenuClickHandler(6, ChestMenuUtils.getEmptyClickHandler());
 
             int index = 0;
@@ -254,7 +253,7 @@ public class GPSNetwork {
                 int slot = inventory[index];
 
                 Location l = waypoint.getLocation();
-                menu.addItem(slot, new CustomItemStack(waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), "&8\u21E8 &7World: &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "", "&8\u21E8 &cClick to delete"));
+                menu.addItem(slot, ItemStackUtil.withNameLoreString(waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), "&8\u21E8 &7World: &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "", "&8\u21E8 &cClick to delete"));
                 menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                     profile.removeWaypoint(waypoint);
                     SoundEffect.GPS_NETWORK_OPEN_PANEL_SOUND.playFor(p);
@@ -273,7 +272,7 @@ public class GPSNetwork {
     /**
      * This method will prompt the given {@link Player} to enter a name for a waypoint.
      * After entering the name, it will be added to his waypoint list.
-     * 
+     *
      * @param p
      *            The {@link Player} who should get a new waypoint
      * @param l
@@ -298,7 +297,7 @@ public class GPSNetwork {
 
     /**
      * This method adds a new waypoint with the given name and {@link Location} for that {@link Player}.
-     * 
+     *
      * @param p
      *            The {@link Player} to get the new waypoint
      * @param name
@@ -343,10 +342,10 @@ public class GPSNetwork {
     /**
      * This method returns a {@link Set} of {@link Location Locations} for all {@link GPSTransmitter Transmitters}
      * owned by the given {@link UUID}.
-     * 
+     *
      * @param uuid
      *            The {@link UUID} owning those transmitters
-     * 
+     *
      * @return A {@link Set} with all {@link Location Locations} of transmitters for this {@link UUID}
      */
     @Nonnull
@@ -357,7 +356,7 @@ public class GPSNetwork {
     /**
      * This returns the {@link TeleportationManager} for this {@link GPSNetwork}.
      * It is responsible for all actions that relate to the {@link Teleporter}.
-     * 
+     *
      * @return The {@link TeleportationManager} for this {@link GPSNetwork}
      */
     @Nonnull
@@ -368,7 +367,7 @@ public class GPSNetwork {
     /**
      * This returns the {@link ResourceManager} for this {@link GPSNetwork}.
      * Use this to access {@link GEOResource GEOResources}.
-     * 
+     *
      * @return The {@link ResourceManager} for this {@link GPSNetwork}
      */
     @Nonnull

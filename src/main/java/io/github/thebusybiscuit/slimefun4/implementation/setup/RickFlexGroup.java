@@ -5,11 +5,11 @@ import java.time.Month;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
@@ -17,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 /**
  * A super ordinary class.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -25,7 +25,7 @@ class RickFlexGroup extends FlexItemGroup {
 
     // Never instantiate more than once.
     RickFlexGroup(@Nonnull NamespacedKey key) {
-        super(key, new CustomItemStack(Material.NETHER_STAR, "&6&lSuper secret items"), 1);
+        super(key, ItemStackUtil.withNameString(Material.NETHER_STAR, "&6&lSuper secret items"), 1);
     }
 
     // Gonna override this method

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.profiles;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -88,7 +88,7 @@ class TestGuideHistory {
 
         Assertions.assertEquals(0, history.size());
 
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "HISTORIC_ITEM", new CustomItemStack(Material.DIORITE, "&4I am really running out of ideas for item names"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "HISTORIC_ITEM", ItemStackUtil.withNameString(Material.DIORITE, "&4I am really running out of ideas for item names"));
         history.add(item);
 
         Assertions.assertEquals(1, history.size());
@@ -120,7 +120,7 @@ class TestGuideHistory {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
 
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "itemgroup_guide_history"), new CustomItemStack(Material.BEDROCK, "&4Can't touch this"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "itemgroup_guide_history"), ItemStackUtil.withNameString(Material.BEDROCK, "&4Can't touch this"));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> history.add((ItemGroup) null, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> history.add(itemGroup, -20));

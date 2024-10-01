@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -44,7 +44,7 @@ class TestSoulboundListener {
     @DisplayName("Test if the soulbound item is dropped or not")
     void testItemDrop(boolean soulbound) {
         PlayerMock player = server.addPlayer();
-        ItemStack item = new CustomItemStack(Material.DIAMOND_SWORD, "&4Cool Sword");
+        ItemStack item = ItemStackUtil.withNameString(Material.DIAMOND_SWORD, "&4Cool Sword");
         SlimefunUtils.setSoulbound(item, soulbound);
         player.getInventory().setItem(6, item);
         player.setHealth(0);
@@ -83,7 +83,7 @@ class TestSoulboundListener {
     @DisplayName("Test if soulbound item is returned to player")
     void testItemRecover(boolean soulbound) {
         PlayerMock player = server.addPlayer();
-        ItemStack item = new CustomItemStack(Material.DIAMOND_SWORD, "&4Cool Sword");
+        ItemStack item = ItemStackUtil.withNameString(Material.DIAMOND_SWORD, "&4Cool Sword");
         SlimefunUtils.setSoulbound(item, soulbound);
         player.getInventory().setItem(6, item);
         player.setHealth(0);

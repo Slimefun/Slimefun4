@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,7 +14,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -35,11 +35,11 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 /**
  * The {@link HologramProjector} is a very simple block which allows the {@link Player}
  * to create a floating text that is completely configurable.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Kry-Vosa
  * @author SoSeDiK
- * 
+ *
  * @see HologramOwner
  * @see HologramsService
  *
@@ -97,7 +97,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
     private void openEditor(@Nonnull Player p, @Nonnull Block projector) {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "machines.HOLOGRAM_PROJECTOR.inventory-title"));
 
-        menu.addItem(0, new CustomItemStack(Material.NAME_TAG, "&7Text &e(Click to edit)", "", "&f" + ChatColors.color(BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
+        menu.addItem(0, ItemStackUtil.withNameLoreString(Material.NAME_TAG, "&7Text &e(Click to edit)", "", "&f" + ChatColors.color(BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             pl.closeInventory();
             Slimefun.getLocalization().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
@@ -119,7 +119,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
             return false;
         });
 
-        menu.addItem(1, new CustomItemStack(Material.CLOCK, "&7Offset: &e" + NumberUtils.roundDecimalNumber(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER)) + 1.0D), "", "&fLeft Click: &7+0.1", "&fRight Click: &7-0.1"));
+        menu.addItem(1, ItemStackUtil.withNameLoreString(Material.CLOCK, "&7Offset: &e" + NumberUtils.roundDecimalNumber(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER)) + 1.0D), "", "&fLeft Click: &7+0.1", "&fRight Click: &7-0.1"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
             double offset = NumberUtils.reparseDouble(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER)) + (action.isRightClicked() ? -0.1F : 0.1F));
             ArmorStand hologram = getArmorStand(projector, true);
@@ -152,7 +152,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
         if (!createIfNoneExists) {
             return null;
         }
-        
+
         return ArmorStandUtils.spawnArmorStand(l, nametag);
     }
 

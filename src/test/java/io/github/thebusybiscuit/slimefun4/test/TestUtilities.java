@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -28,7 +29,6 @@ import org.mockito.Mockito;
 
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.block.BlockMock;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -57,19 +57,19 @@ public final class TestUtilities {
 
     @ParametersAreNonnullByDefault
     public static @Nonnull ItemGroup getItemGroup(Plugin plugin, String name) {
-        return new ItemGroup(new NamespacedKey(plugin, name), new CustomItemStack(Material.NETHER_STAR, "&4Test ItemGroup"));
+        return new ItemGroup(new NamespacedKey(plugin, name), ItemStackUtil.withNameString(Material.NETHER_STAR, "&4Test ItemGroup"));
     }
 
     @ParametersAreNonnullByDefault
     public static @Nonnull SlimefunItem mockSlimefunItem(Plugin plugin, String id, ItemStack item) {
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItemStack(Material.EMERALD, "&4Test ItemGroup"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test"), ItemStackUtil.withNameString(Material.EMERALD, "&4Test ItemGroup"));
 
         return new MockSlimefunItem(itemGroup, item, id);
     }
 
     @ParametersAreNonnullByDefault
     public static @Nonnull VanillaItem mockVanillaItem(Plugin plugin, Material type, boolean enabled) {
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test"), new CustomItemStack(Material.EMERALD, "&4Test ItemGroup"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test"), ItemStackUtil.withNameString(Material.EMERALD, "&4Test ItemGroup"));
         VanillaItem item = new VanillaItem(itemGroup, new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
         Slimefun.getItemCfg().setValue(type.name() + ".enabled", enabled);
         return item;
@@ -105,7 +105,7 @@ public final class TestUtilities {
         Slimefun.getRegistry().getWorlds().put(world.getName(), new BlockStorage(world));
         return world;
     }
-    
+
     public static Block placeSlimefunBlock(ServerMock server, ItemStack item, World world, Player player) {
         int x = TestUtilities.randomInt();
         int z = TestUtilities.randomInt();

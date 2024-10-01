@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.UUID;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -19,7 +20,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mockito;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.PiglinListener;
@@ -81,7 +81,7 @@ class TestPiglinListener {
 
     @Test
     void testPiglinPickupWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PIGLIN_PICKUP_MOCK", new CustomItemStack(Material.GOLD_INGOT, "&6Piglin Bait"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PIGLIN_PICKUP_MOCK", ItemStackUtil.withNameString(Material.GOLD_INGOT, "&6Piglin Bait"));
         item.register(plugin);
 
         EntityPickupItemEvent event = createPickupEvent(item.getItem());
@@ -100,7 +100,7 @@ class TestPiglinListener {
     @ParameterizedTest
     @EnumSource(value = EquipmentSlot.class, names = { "HAND", "OFF_HAND" })
     void testPiglinInteractWithSlimefunItem(EquipmentSlot hand) {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PIGLIN_GIVE_" + hand.name(), new CustomItemStack(Material.GOLD_INGOT, "&6Piglin Bait"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PIGLIN_GIVE_" + hand.name(), ItemStackUtil.withNameString(Material.GOLD_INGOT, "&6Piglin Bait"));
         item.register(plugin);
 
         PlayerInteractEntityEvent event = createInteractEvent(hand, item.getItem());

@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -16,7 +17,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -83,9 +83,9 @@ class TestItemPickupListener {
         ItemStack stack;
 
         if (flag) {
-            stack = new CustomItemStack(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
+            stack = ItemStackUtil.withNameString(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
         } else {
-            stack = new CustomItemStack(Material.DIAMOND, "&5Just a normal named diamond");
+            stack = ItemStackUtil.withNameString(Material.DIAMOND, "&5Just a normal named diamond");
         }
 
         AtomicBoolean removed = new AtomicBoolean(false);
@@ -111,9 +111,9 @@ class TestItemPickupListener {
         ItemStack stack;
 
         if (flag) {
-            stack = new CustomItemStack(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
+            stack = ItemStackUtil.withNameString(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
         } else {
-            stack = new CustomItemStack(Material.DIAMOND, "&5Just a normal named diamond");
+            stack = ItemStackUtil.withNameString(Material.DIAMOND, "&5Just a normal named diamond");
         }
 
         AtomicBoolean removed = new AtomicBoolean(false);

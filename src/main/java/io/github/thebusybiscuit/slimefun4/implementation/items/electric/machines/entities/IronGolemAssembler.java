@@ -2,13 +2,13 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -20,9 +20,9 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 /**
  * The {@link IronGolemAssembler} is an electrical machine that can automatically spawn
  * a {@link IronGolem} if the required ingredients have been provided.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see WitherAssembler
  *
  */
@@ -65,9 +65,9 @@ public class IronGolemAssembler extends AbstractEntityAssembler<IronGolem> {
 
     @Override
     protected void constructMenu(BlockMenuPreset preset) {
-        preset.addItem(1, new CustomItemStack(getHead(), "&7Pumpkin Slot", "", "&fThis Slot accepts Pumpkins"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(7, new CustomItemStack(getBody(), "&7Iron Block Slot", "", "&fThis Slot accepts Iron Blocks"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(13, new CustomItemStack(Material.CLOCK, "&7Cooldown: &b30 Seconds", "", "&fThis Machine takes up to half a Minute to operate", "&fso give it some Time!"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(1, ItemStackUtil.withNameLoreString(getHead(), "&7Pumpkin Slot", "", "&fThis Slot accepts Pumpkins"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(7, ItemStackUtil.withNameLoreString(getBody(), "&7Iron Block Slot", "", "&fThis Slot accepts Iron Blocks"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(13, ItemStackUtil.withNameLoreString(Material.CLOCK, "&7Cooldown: &b30 Seconds", "", "&fThis Machine takes up to half a Minute to operate", "&fso give it some Time!"), ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Override

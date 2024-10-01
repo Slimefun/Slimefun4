@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -14,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.mocks.InventoryViewWrapper;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -84,7 +84,7 @@ class TestBackpackListener {
         PlayerBackpack backpack = profile.createBackpack(size);
         listener.setBackpackId(player, item, 2, backpack.getId());
 
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), new CustomItemStack(Material.CHEST, "&4Test Backpacks"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), ItemStackUtil.withNameString(Material.CHEST, "&4Test Backpacks"));
         SlimefunBackpack slimefunBackpack = new SlimefunBackpack(size, itemGroup, item, RecipeType.NULL, new ItemStack[9]);
         slimefunBackpack.register(plugin);
 
@@ -100,15 +100,15 @@ class TestBackpackListener {
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(null, null, 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, null, 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new ItemStack(Material.REDSTONE), 1, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItemStack(Material.REDSTONE, "Hi", "lore"), 1, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItemStack(Material.REDSTONE, "Hi", "lore", "no id"), 1, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, ItemStackUtil.withNameLoreString(Material.REDSTONE, "Hi", "lore"), 1, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, ItemStackUtil.withNameLoreString(Material.REDSTONE, "Hi", "lore", "no id"), 1, 1));
     }
 
     @Test
     @DisplayName("Test if backpack id is properly applied to the lore")
     void testSetId() throws InterruptedException {
         Player player = server.addPlayer();
-        ItemStack item = new CustomItemStack(Material.CHEST, "&cA mocked Backpack", "", "&7Size: &e" + BACKPACK_SIZE, "&7ID: <ID>", "", "&7&eRight Click&7 to open");
+        ItemStack item = ItemStackUtil.withNameLoreString(Material.CHEST, "&cA mocked Backpack", "", "&7Size: &e" + BACKPACK_SIZE, "&7ID: <ID>", "", "&7&eRight Click&7 to open");
 
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         int id = profile.createBackpack(BACKPACK_SIZE).getId();

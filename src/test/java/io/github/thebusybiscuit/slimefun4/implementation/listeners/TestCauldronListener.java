@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -77,7 +77,7 @@ class TestCauldronListener {
     @Test
     @DisplayName("Test Cauldron working as normal with non-leather slimefun items")
     void testCauldronWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK", new CustomItemStack(Material.GOLDEN_APPLE, "&6Mock"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK", ItemStackUtil.withNameString(Material.GOLDEN_APPLE, "&6Mock"));
         item.register(plugin);
 
         PlayerInteractEvent event = mockCauldronEvent(item.getItem());
@@ -87,7 +87,7 @@ class TestCauldronListener {
     @Test
     @DisplayName("Test Cauldron being cancelled with slimefun leather armor")
     void testCauldronWithSlimefunLeatherArmor() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK_LEATHER", new CustomItemStack(Material.LEATHER_BOOTS, "&6Mock Leather Armor"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK_LEATHER", ItemStackUtil.withNameString(Material.LEATHER_BOOTS, "&6Mock Leather Armor"));
         item.register(plugin);
 
         PlayerInteractEvent event = mockCauldronEvent(item.getItem());

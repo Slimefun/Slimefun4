@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,7 +26,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -43,9 +43,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  * The {@link VanillaAutoCrafter} is an implementation of the {@link AbstractAutoCrafter}.
  * It can craft items that are crafted using a normal crafting table.
  * Only {@link ShapedRecipe} and {@link ShapelessRecipe} are therefore supported.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see AbstractAutoCrafter
  * @see EnhancedAutoCrafter
  * @see VanillaRecipe
@@ -154,7 +154,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
         AbstractRecipe recipe = AbstractRecipe.of(recipes.get(index));
 
-        menu.replaceExistingItem(49, new CustomItemStack(Material.CRAFTING_TABLE, ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "messages.auto-crafting.select")));
+        menu.replaceExistingItem(49, ItemStackUtil.withNameString(Material.CRAFTING_TABLE, ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "messages.auto-crafting.select")));
         menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
             setSelectedRecipe(b, recipe);
             pl.closeInventory();

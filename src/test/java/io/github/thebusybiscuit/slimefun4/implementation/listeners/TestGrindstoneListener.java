@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -18,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
@@ -66,7 +66,7 @@ class TestGrindstoneListener {
 
     @Test
     void testGrindStoneWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ENCHANTED_MOCK_BOOK", new CustomItemStack(Material.ENCHANTED_BOOK, "&6Mock"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ENCHANTED_MOCK_BOOK", ItemStackUtil.withNameString(Material.ENCHANTED_BOOK, "&6Mock"));
         item.register(plugin);
 
         InventoryClickEvent event = mockGrindStoneEvent(item.getItem());

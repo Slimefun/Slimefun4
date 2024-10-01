@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -17,7 +18,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -68,7 +68,7 @@ class TestVillagerTradingListener {
 
     @Test
     void testTradingWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_FAKE_EMERALD", new CustomItemStack(Material.EMERALD, "&aFake Emerald"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_FAKE_EMERALD", ItemStackUtil.withNameString(Material.EMERALD, "&aFake Emerald"));
         item.register(plugin);
 
         InventoryClickEvent event = mockClickEvent(item.getItem());
