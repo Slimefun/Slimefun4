@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -49,7 +49,7 @@ class TestSoulboundItem {
     @Test
     @DisplayName("Test whether an Item can be marked as soulbound")
     void testSetSoulbound() {
-        ItemStack item = new CustomItemStack(Material.DIAMOND, "&cI wanna be soulbound!");
+        ItemStack item = ItemStackUtil.withNameString(Material.DIAMOND, "&cI wanna be soulbound!");
 
         Assertions.assertFalse(SlimefunUtils.isSoulbound(item));
 
@@ -65,7 +65,7 @@ class TestSoulboundItem {
     @Test
     @DisplayName("Make sure that marking an item as soulbound twice has no effect")
     void testDoubleCalls() {
-        ItemStack item = new CustomItemStack(Material.DIAMOND, "&cI wanna be soulbound!");
+        ItemStack item = ItemStackUtil.withNameString(Material.DIAMOND, "&cI wanna be soulbound!");
 
         SlimefunUtils.setSoulbound(item, true);
         SlimefunUtils.setSoulbound(item, true);
@@ -83,7 +83,7 @@ class TestSoulboundItem {
     @Test
     @DisplayName("Test that soulbound Slimefun Items are soulbound")
     void testSoulboundSlimefunItem() {
-        SlimefunItem item = new SoulboundMock(new ItemGroup(new NamespacedKey(plugin, "soulbound_itemgroup"), new CustomItemStack(Material.REDSTONE, "&4Walshrus forever")));
+        SlimefunItem item = new SoulboundMock(new ItemGroup(new NamespacedKey(plugin, "soulbound_itemgroup"), ItemStackUtil.withNameString(Material.REDSTONE, "&4Walshrus forever")));
         item.register(plugin);
 
         Assertions.assertTrue(SlimefunUtils.isSoulbound(item.getItem()));

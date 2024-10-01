@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
@@ -18,7 +19,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -67,7 +67,7 @@ class TestBrewingStandListener {
 
     @Test
     void testBrewingWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_POWDER", new CustomItemStack(Material.BLAZE_POWDER, "&6Magic Mock Powder"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_POWDER", ItemStackUtil.withNameString(Material.BLAZE_POWDER, "&6Magic Mock Powder"));
         item.register(plugin);
 
         InventoryClickEvent event = mockBrewingEvent(item.getItem());

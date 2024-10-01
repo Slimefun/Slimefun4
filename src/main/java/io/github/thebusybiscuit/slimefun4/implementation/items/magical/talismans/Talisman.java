@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,7 +27,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.TalismanActivateEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -40,7 +40,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 public class Talisman extends SlimefunItem {
 
-    protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), new CustomItemStack(SlimefunItems.COMMON_TALISMAN, "&7Talismans - &aTier I"), 2);
+    protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), ItemStackUtil.withNameString(SlimefunItems.COMMON_TALISMAN,"&7Talismans - &aTier I"), 2);
     private static final String WIKI_PAGE = "Talismans";
 
     private final SlimefunItemStack enderTalisman;
@@ -68,7 +68,7 @@ public class Talisman extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     protected Talisman(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
-        super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItemStack(item, consumable ? 4 : 1));
+        super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe, item.asQuantity(consumable ? 4 : 1));
 
         this.consumable = consumable;
         this.cancel = cancelEvent;
@@ -95,7 +95,7 @@ public class Talisman extends SlimefunItem {
 
     /**
      * This returns whether the {@link Talisman} will be consumed upon use.
-     * 
+     *
      * @return Whether this {@link Talisman} is consumed on use.
      */
     public boolean isConsumable() {
@@ -105,7 +105,7 @@ public class Talisman extends SlimefunItem {
     /**
      * This returns the chance of this {@link Talisman} activating.
      * The chance will be between 1 and 100.
-     * 
+     *
      * @return The chance of this {@link Talisman} activating.
      */
     public int getChance() {
@@ -259,7 +259,7 @@ public class Talisman extends SlimefunItem {
      * This returns whether the {@link Talisman} is silent.
      * A silent {@link Talisman} will not send a message to a {@link Player}
      * when activated.
-     * 
+     *
      * @return Whether this {@link Talisman} is silent
      */
     public boolean isSilent() {
@@ -275,7 +275,7 @@ public class Talisman extends SlimefunItem {
      * This method sends the given {@link Player} the message of this {@link Talisman}.
      * Dependent on the selected config setting, the message will be sent via the actionbar
      * or in the chat window.
-     * 
+     *
      * @param p
      *            The {@link Player} who shall receive the message
      */

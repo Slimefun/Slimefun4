@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,7 +19,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -65,7 +65,7 @@ class TestGuideOpening {
     @Test
     @DisplayName("Test if an ItemGroup can be opened from the History")
     void testOpenItemGroup() throws InterruptedException {
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "history_itemgroup"), new CustomItemStack(Material.BLUE_TERRACOTTA, "&9Testy test"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "history_itemgroup"), ItemStackUtil.withNameString(Material.BLUE_TERRACOTTA, "&9Testy test"));
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
         PlayerProfile profile = prepare(guide, history -> history.add(itemGroup, 1));
@@ -75,7 +75,7 @@ class TestGuideOpening {
     @Test
     @DisplayName("Test if a SlimefunItem can be viewed from the History")
     void testOpenSlimefunItem() throws InterruptedException {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "OPEN_SLIMEFUN_ITEM", new CustomItemStack(Material.PRISMARINE_SHARD, "&5Some Shard I guess"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "OPEN_SLIMEFUN_ITEM", ItemStackUtil.withNameString(Material.PRISMARINE_SHARD, "&5Some Shard I guess"));
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
         PlayerProfile profile = prepare(guide, history -> history.add(item));
@@ -98,7 +98,7 @@ class TestGuideOpening {
         String normalTerm = "iron";
         String coloredTerm = ChatColor.DARK_PURPLE + "iron";
 
-        SlimefunItem testItem = TestUtilities.mockSlimefunItem(plugin, "IRON_ITEM", new CustomItemStack(Material.IRON_INGOT, "iron item"));
+        SlimefunItem testItem = TestUtilities.mockSlimefunItem(plugin, "IRON_ITEM", ItemStackUtil.withNameString(Material.IRON_INGOT, "iron item"));
         testItem.register(plugin);
 
         Player player = server.addPlayer();

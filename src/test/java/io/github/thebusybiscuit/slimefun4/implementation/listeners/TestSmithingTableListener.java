@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -46,9 +46,9 @@ class TestSmithingTableListener {
         Slimefun plugin = MockBukkit.load(Slimefun.class);
         listener = new SmithingTableListener(plugin);
 
-        slimefunTool = TestUtilities.mockSlimefunItem(plugin, "MOCK_DIAMOND_SWORD", new CustomItemStack(Material.DIAMOND_SWORD, "&6Mock"));
-        slimefunIngot = TestUtilities.mockSlimefunItem(plugin, "MOCK_NETHERITE_INGOT", new CustomItemStack(Material.NETHERITE_INGOT, "&6Mock"));
-        usableSlimefunIngot = TestUtilities.mockSlimefunItem(plugin, "MOCK_NETHERITE_INGOT_USABLE", new CustomItemStack(Material.NETHERITE_INGOT, "&6Mock"));
+        slimefunTool = TestUtilities.mockSlimefunItem(plugin, "MOCK_DIAMOND_SWORD", ItemStackUtil.withNameString(Material.DIAMOND_SWORD, "&6Mock"));
+        slimefunIngot = TestUtilities.mockSlimefunItem(plugin, "MOCK_NETHERITE_INGOT", ItemStackUtil.withNameString(Material.NETHERITE_INGOT, "&6Mock"));
+        usableSlimefunIngot = TestUtilities.mockSlimefunItem(plugin, "MOCK_NETHERITE_INGOT_USABLE", ItemStackUtil.withNameString(Material.NETHERITE_INGOT, "&6Mock"));
         usableSlimefunIngot.setUseableInWorkbench(true);
 
         vanillaTool = TestUtilities.mockVanillaItem(plugin, Material.DIAMOND_SWORD, true);

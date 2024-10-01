@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.IronGolem;
@@ -14,7 +15,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -78,7 +78,7 @@ class TestIronGolemListener {
     @Test
     @DisplayName("Test Iron Golem Healing with Slimefun Items being cancelled")
     void testWithSlimefunIron() {
-        SlimefunItem slimefunItem = TestUtilities.mockSlimefunItem(plugin, "SLIMEFUN_IRON", new CustomItemStack(Material.IRON_INGOT, "&cSlimefun Iron"));
+        SlimefunItem slimefunItem = TestUtilities.mockSlimefunItem(plugin, "SLIMEFUN_IRON", ItemStackUtil.withNameString(Material.IRON_INGOT, "&cSlimefun Iron"));
         slimefunItem.register(plugin);
 
         // The Event should be cancelled, we do not wanna use Slimefun Items for this

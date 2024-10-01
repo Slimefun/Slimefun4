@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -30,7 +30,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.misc.AlloyIngot;
  * The {@link Smeltery} is an upgraded version of the {@link MakeshiftSmeltery}
  * with the additional capabilities to create {@link AlloyIngot}s and utilise an
  * {@link IgnitionChamber}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author AtomicScience
  * @author Sfiguz7
@@ -38,7 +38,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.misc.AlloyIngot;
  * @author emanueljg
  * @author SoSeDiK
  * @author Redemption198
- * 
+ *
  * @see AbstractSmeltery
  * @see MakeshiftSmeltery
  * @see IgnitionChamber
@@ -50,7 +50,7 @@ public class Smeltery extends AbstractSmeltery {
 
     @ParametersAreNonnullByDefault
     public Smeltery(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItemStack(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
+        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), ItemStackUtil.withNameString(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
 
         addItemSetting(fireBreakingChance);
     }

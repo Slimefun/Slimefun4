@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -17,7 +18,6 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
@@ -89,21 +89,17 @@ public final class ChestMenuUtils {
     }
 
     public static @Nonnull ItemStack getBackButton(@Nonnull Player p, String... lore) {
-        return new CustomItemStack(BACK_BUTTON, "&7\u21E6 " + Slimefun.getLocalization().getMessage(p, "guide.back.title"), lore);
+        return ItemStackUtil.withNameLoreString(BACK_BUTTON, "&7\u21E6 " + Slimefun.getLocalization().getMessage(p, "guide.back.title"),lore);
     }
 
     public static @Nonnull ItemStack getMenuButton(@Nonnull Player p) {
-        return new CustomItemStack(MENU_BUTTON, ChatColor.YELLOW + Slimefun.getLocalization().getMessage(p, "guide.title.settings"), "", "&7\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup"));
+        return ItemStackUtil.withNameLoreString(MENU_BUTTON, ChatColor.YELLOW + Slimefun.getLocalization().getMessage(p, "guide.title.settings"), "", "&7\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup"));
     }
 
     public static @Nonnull ItemStack getSearchButton(@Nonnull Player p) {
-        return new CustomItemStack(SEARCH_BUTTON, meta -> {
-            meta.setDisplayName(ChatColors.color(Slimefun.getLocalization().getMessage(p, "guide.search.name")));
-
-            List<String> lore = Arrays.asList("", ChatColor.GRAY + "\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.search.tooltip"));
-            lore.replaceAll(ChatColors::color);
-            meta.setLore(lore);
-        });
+        String displayName =Slimefun.getLocalization().getMessage(p, "guide.search.name");
+        List<String> lore = Arrays.asList("", ChatColor.GRAY + "\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.search.tooltip"));
+        return ItemStackUtil.withNameLoreString(SEARCH_BUTTON, displayName, lore);
     }
 
     public static @Nonnull ItemStack getWikiButton() {
@@ -111,31 +107,34 @@ public final class ChestMenuUtils {
     }
 
     public static @Nonnull ItemStack getPreviousButton(@Nonnull Player p, int page, int pages) {
+        ItemStack itemStack;
+        String displayName;
+        List<String> lore = Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")");
         if (pages == 1 || page == 1) {
-            return new CustomItemStack(PREV_BUTTON_INACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + Slimefun.getLocalization().getMessage(p, "guide.pages.previous"));
-                meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
-            });
+            itemStack = PREV_BUTTON_INACTIVE;
+            displayName = ChatColor.DARK_GRAY + "\u21E6 " + Slimefun.getLocalization()
+                    .getMessage(p, "guide.pages.previous");
+
         } else {
-            return new CustomItemStack(PREV_BUTTON_ACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + Slimefun.getLocalization().getMessage(p, "guide.pages.previous"));
-                meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
-            });
+            itemStack = PREV_BUTTON_ACTIVE;
+            displayName = ChatColor.WHITE + "\u21E6 " + Slimefun.getLocalization()
+                    .getMessage(p, "guide.pages.previous");
         }
+        return ItemStackUtil.withNameLoreString(itemStack, displayName, lore);
     }
 
     public static @Nonnull ItemStack getNextButton(@Nonnull Player p, int page, int pages) {
+        ItemStack itemStack;
+        String displayName;
+        List<String> lore = Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")");
         if (pages == 1 || page == pages) {
-            return new CustomItemStack(NEXT_BUTTON_INACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.DARK_GRAY + Slimefun.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
-                meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
-            });
+            itemStack = NEXT_BUTTON_INACTIVE;
+            displayName = ChatColor.DARK_GRAY + Slimefun.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8";
         } else {
-            return new CustomItemStack(NEXT_BUTTON_ACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
-                meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
-            });
+            itemStack = NEXT_BUTTON_ACTIVE;
+            displayName = ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8";
         }
+        return ItemStackUtil.withNameLoreString(itemStack, displayName, lore);
     }
 
     public static void drawBackground(@Nonnull ChestMenu menu, int... slots) {

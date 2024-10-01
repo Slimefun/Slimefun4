@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.items.settings;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -7,7 +8,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
@@ -32,7 +32,7 @@ class TestEnumSetting {
     @Test
     @DisplayName("Test Enum Getters")
     void testEnumGetters() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_0", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_0", ItemStackUtil.withNameString(Material.DIAMOND, "&cTest"));
         EnumSetting<Material> setting = new EnumSetting<>(item, "test", Material.class, Material.DIAMOND);
         Assertions.assertArrayEquals(Material.values(), setting.getAllowedValues());
     }
@@ -40,7 +40,7 @@ class TestEnumSetting {
     @Test
     @DisplayName("Test illegal values")
     void testIllegalValues() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ENUM_SETTING_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ENUM_SETTING_TEST", ItemStackUtil.withNameString(Material.DIAMOND, "&cTest"));
         EnumSetting<Material> setting = new EnumSetting<>(item, "test", Material.class, Material.DIAMOND);
 
         item.addItemSetting(setting);
@@ -53,7 +53,7 @@ class TestEnumSetting {
     @Test
     @DisplayName("Test allowed value")
     void testAllowedValue() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_2", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_2", ItemStackUtil.withNameString(Material.DIAMOND, "&cTest"));
         EnumSetting<Material> setting = new EnumSetting<>(item, "test", Material.class, Material.DIAMOND);
 
         item.addItemSetting(setting);

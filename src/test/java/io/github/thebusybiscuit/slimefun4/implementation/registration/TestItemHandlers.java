@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.registration;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.Material;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
@@ -39,7 +39,7 @@ class TestItemHandlers {
     @Test
     @DisplayName("Test validation for Item Handlers")
     void testIllegalItemHandlers() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST", ItemStackUtil.withNameString(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemHandler());
@@ -50,7 +50,7 @@ class TestItemHandlers {
     @Test
     @DisplayName("Test calling an ItemHandler")
     void testItemHandler() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST_2", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST_2", ItemStackUtil.withNameString(Material.DIAMOND, "&cTest"));
 
         MockItemHandler handler = new MockItemHandler();
         item.addItemHandler(handler);
@@ -72,12 +72,12 @@ class TestItemHandlers {
     @DisplayName("Test validation for BowShootHandler")
     void testBowShootHandler() {
         BowShootHandler handler = (e, n) -> {};
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "NOT_A_BOW", new CustomItemStack(Material.KELP, "&bNot a bow!"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "NOT_A_BOW", ItemStackUtil.withNameString(Material.KELP, "&bNot a bow!"));
 
         Optional<IncompatibleItemHandlerException> exception = handler.validate(item);
         Assertions.assertTrue(exception.isPresent());
 
-        SlimefunItem bow = TestUtilities.mockSlimefunItem(plugin, "A_BOW", new CustomItemStack(Material.BOW, "&bA bow!"));
+        SlimefunItem bow = TestUtilities.mockSlimefunItem(plugin, "A_BOW", ItemStackUtil.withNameString(Material.BOW, "&bA bow!"));
         Optional<IncompatibleItemHandlerException> exception2 = handler.validate(bow);
         Assertions.assertFalse(exception2.isPresent());
     }

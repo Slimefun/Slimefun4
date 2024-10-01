@@ -13,7 +13,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
@@ -33,7 +32,7 @@ public class DirtyChestMenu extends ChestMenu {
 
     /**
      * This method checks whether this {@link DirtyChestMenu} is currently viewed by a {@link Player}.
-     * 
+     *
      * @return Whether anyone is currently viewing this {@link Inventory}
      */
     public boolean hasViewer() {
@@ -136,7 +135,7 @@ public class DirtyChestMenu extends ChestMenu {
         }
 
         if (amount > 0) {
-            return new CustomItemStack(item, amount);
+            return item.asQuantity(amount);
         } else {
             return null;
         }

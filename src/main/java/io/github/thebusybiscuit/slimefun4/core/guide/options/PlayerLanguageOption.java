@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerLanguageChangeEvent;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
@@ -49,7 +49,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
             lore.add("");
             lore.add("&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.change"));
 
-            ItemStack item = new CustomItemStack(language.getItem(), "&7" + Slimefun.getLocalization().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, lore.toArray(new String[0]));
+            ItemStack item = ItemStackUtil.withNameLoreString(language.getItem(), "&7" + Slimefun.getLocalization().getMessage(p, "guide.languages.selected-language") + " &a" + languageName,lore.toArray(new String[0]));
             return Optional.of(item);
         } else {
             return Optional.empty();
@@ -88,7 +88,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
                     return false;
                 });
             } else if (i == 7) {
-                menu.addItem(7, new CustomItemStack(SlimefunUtils.getCustomHead(HeadTexture.ADD_NEW_LANGUAGE.getTexture()), Slimefun.getLocalization().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.translations.lore")), (pl, slot, item, action) -> {
+                menu.addItem(7, ItemStackUtil.withNameLoreString(SlimefunUtils.getCustomHead(HeadTexture.ADD_NEW_LANGUAGE.getTexture()), Slimefun.getLocalization().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.translations.lore")), (pl, slot, item, action) -> {
                     ChatUtils.sendURL(pl, "https://github.com/Slimefun/Slimefun4/wiki/Translating-Slimefun");
                     pl.closeInventory();
                     return false;
@@ -101,7 +101,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
         String defaultLanguageString = Slimefun.getLocalization().getMessage(p, "languages.default");
 
-        menu.addItem(9, new CustomItemStack(defaultLanguage.getItem(), ChatColor.GRAY + defaultLanguageString + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select-default")), (pl, i, item, action) -> {
+        menu.addItem(9, ItemStackUtil.withNameLoreString(defaultLanguage.getItem(), ChatColor.GRAY + defaultLanguageString + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select-default")), (pl, i, item, action) -> {
             Slimefun.instance().getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, Slimefun.getLocalization().getLanguage(pl), defaultLanguage));
             setSelectedOption(pl, guide, null);
 
@@ -114,7 +114,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         int slot = 10;
 
         for (Language language : Slimefun.getLocalization().getLanguages()) {
-            menu.addItem(slot, new CustomItemStack(language.getItem(), ChatColor.GREEN + language.getName(p), "&b" + language.getTranslationProgress() + '%', "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select")), (pl, i, item, action) -> {
+            menu.addItem(slot, ItemStackUtil.withNameLoreString(language.getItem(), ChatColor.GREEN + language.getName(p), "&b" + language.getTranslationProgress() + '%', "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select")), (pl, i, item, action) -> {
                 Slimefun.instance().getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, Slimefun.getLocalization().getLanguage(pl), language));
                 setSelectedOption(pl, guide, language.getId());
 

@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackEditor;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
@@ -25,7 +26,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.config.Config;
-import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -68,7 +68,7 @@ public abstract class SlimefunLocalization implements Keyed {
      * This returns the chat prefix for our messages.
      * Every message (unless explicitly omitted) will have this
      * prefix prepended.
-     * 
+     *
      * @return The chat prefix
      */
     public @Nonnull String getChatPrefix() {
@@ -321,25 +321,21 @@ public abstract class SlimefunLocalization implements Keyed {
         Language language = getLanguage(p);
         NamespacedKey key = recipeType.getKey();
 
-        return new CustomItemStack(item, meta -> {
-            String displayName = getStringOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
+        String displayName = getStringOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
+        List<String> lore = getStringListOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".lore");
 
+        ItemStackEditor editor = new ItemStackEditor();
+
+        if (displayName != null) {
             // Set the display name if possible, else keep the default item name.
-            if (displayName != null) {
-                meta.setDisplayName(ChatColor.AQUA + displayName);
-            }
-
-            List<String> lore = getStringListOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".lore");
-
-            // Set the lore if possible, else keep the default lore.
-            if (lore != null) {
-                lore.replaceAll(line -> ChatColor.GRAY + line);
-                meta.setLore(lore);
-            }
-
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        });
+            editor.withNameString(ChatColor.AQUA + displayName);
+        }
+        // Set the lore if possible, else keep the default lore.
+        if (lore != null) {
+            lore.replaceAll(line -> ChatColor.GRAY + line);
+            editor.withLoreString(lore);
+        }
+        return editor.withAdditionalFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS).editCopy(item);
     }
 
     public void sendMessage(@Nonnull CommandSender recipient, @Nonnull String key, boolean addPrefix) {
