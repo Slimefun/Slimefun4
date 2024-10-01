@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
 
     <!-- Project Info -->
-    <description>Slimefun is a Spigot/Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
+    <description>Slimefun is a Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
     <url>https://github.com/Slimefun/Slimefun4</url>
 
     <properties>
@@ -29,8 +29,8 @@
         <maven.compiler.testTarget>21</maven.compiler.testTarget>
 
         <!-- Spigot properties -->
-        <spigot.version>1.20.6</spigot.version>
-        <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
+        <paper.version>1.21.1</paper.version>
+        <paper.javadocs>https://hub.spigotmc.org/javadocs/spigot/</paper.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
         <sonar.projectKey>Slimefun_Slimefun4</sonar.projectKey>
@@ -238,7 +238,7 @@
                 <!-- Javadocs -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.10.0</version>
 
                 <configuration>
                     <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
@@ -251,7 +251,7 @@
 
                     <links>
                         <!-- We can reference the Spigot API in our Javadocs -->
-                        <link>${spigot.javadocs}</link>
+                        <link>${paper.javadocs}</link>
                     </links>
 
                     <!-- We can group packages together in our Javadocs -->
@@ -367,6 +367,14 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- Paper -->
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>${paper.version}-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -389,7 +397,7 @@
         <dependency>
             <groupId>com.github.MockBukkit</groupId>
             <artifactId>MockBukkit</artifactId>
-            <version>c7cc678834</version>
+            <version>v3.130.2</version>
             <scope>test</scope>
 
             <exclusions>
@@ -400,13 +408,6 @@
                     <artifactId>annotations</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <!-- Override Spigot with Paper tests as a CommandMap ctor which MockBukkit uses only exists on Paper but not in Spigot -->
-        <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.20.6-R0.1-SNAPSHOT</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Third party plugin integrations / soft dependencies -->
@@ -514,12 +515,6 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>${spigot.version}-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.mojang</groupId>

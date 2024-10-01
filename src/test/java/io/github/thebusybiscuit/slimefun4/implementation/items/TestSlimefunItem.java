@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
@@ -110,7 +108,7 @@ class TestSlimefunItem {
     void testIsItem() {
         ItemStack item = new CustomItemStack(Material.BEACON, "&cItem Test");
         String id = "IS_ITEM_TEST";
-        SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, id, item);
+        SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, id, new CustomItemStack(Material.BEACON, "&cItem Test"));
         sfItem.register(plugin);
 
         Assertions.assertTrue(sfItem.isItem(sfItem.getItem()));
