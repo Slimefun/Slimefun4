@@ -238,7 +238,7 @@
                 <!-- Javadocs -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.10.0</version>
 
                 <configuration>
                     <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
@@ -251,7 +251,7 @@
 
                     <links>
                         <!-- We can reference the Spigot API in our Javadocs -->
-                        <link>${spigot.javadocs}</link>
+                        <link>${paper.javadocs}</link>
                     </links>
 
                     <!-- We can group packages together in our Javadocs -->
@@ -371,7 +371,8 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.1-R0.1-SNAPSHOT</version>
+            <version>${paper.version}-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Testing dependencies -->
@@ -394,10 +395,9 @@
         </dependency>
         <!-- This needs to be before Spigot because MockBukkit will fail otherwise. -->
         <dependency>
-            <groupId>com.github.seeseemelk</groupId>
+            <groupId>com.github.MockBukkit</groupId>
             <artifactId>MockBukkit</artifactId>
-            <!-- <version>3.123.0</version> -->
-            <version>dev-3fec4e7b</version>
+            <version>v3.130.2</version>
             <scope>test</scope>
 
             <exclusions>
