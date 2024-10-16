@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -68,6 +69,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHan
 public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int MAX_ITEM_GROUPS = 36;
+    private static final Pattern SLIMEFUN_WIKI_PATTERN = Pattern.compile("^" + Pattern.quote(Slimefun.instance().getWikiUrlTemplate()).replace("%item%", "(.+)") + "$");
 
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final ItemStack item;
@@ -516,9 +518,10 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         if (wiki.isPresent()) {
             String message = Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.third-party");
-            if (item.getAddon() instanceof Slimefun) {
+            if (SLIMEFUN_WIKI_PATTERN.matcher(wiki.get()).matches()) {
                 message = Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.slimefun");
             }
+
             menu.addItem(8, new CustomItemStack(
                 Material.KNOWLEDGE_BOOK,
                 ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.button").replace("%addon%", item.getAddon().getName()),

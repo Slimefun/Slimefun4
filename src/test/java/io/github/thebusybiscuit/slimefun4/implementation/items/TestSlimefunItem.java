@@ -54,6 +54,9 @@ class TestSlimefunItem {
         Optional<String> wiki = item.getWikipage();
         Assertions.assertTrue(wiki.isPresent());
         Assertions.assertEquals("https://github.com/Slimefun/Slimefun4/wiki/Test", wiki.get());
+
+        // wiki page shouldn't be changed if it already exists
+        Assertions.assertThrows(IllegalStateException.class, () -> item.addWikiPage("Test2"));
     }
 
     @Test
