@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -15,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
@@ -26,6 +28,9 @@ import com.google.gson.JsonObject;
  * @author ybw0014
  */
 public class WikiUtils {
+
+    private static final Pattern SLIMEFUN_WIKI_PATTERN = buildPattern(Slimefun.instance().getWikiUrlTemplate());
+
     private WikiUtils() {}
 
     /**
@@ -73,5 +78,33 @@ public class WikiUtils {
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, MessageFormat.format("Failed to load wiki.json from {0}", plugin.getName()), e);
         }
+    }
+
+    /**
+     * Checks if the given URL is a Slimefun official wiki URL.
+     *
+     * @param url
+     *          The URL to check
+     *
+     * @return
+     *          Whether the URL is a Slimefun official wiki URL
+     */
+    public static boolean isSlimefunOfficialWiki(@Nonnull String url) {
+        Preconditions.checkArgument(url != null, "The URL cannot be null");
+
+        return SLIMEFUN_WIKI_PATTERN.matcher(url).matches();
+    }
+
+    @Nonnull
+    private static Pattern buildPattern(@Nonnull String template) {
+        Preconditions.checkArgument(template != null, "The template cannot be null");
+
+        String regexTemplate = template.replace(".", "\\.")
+            .replace("/", "\\/")
+            .replace("%item%", ".+");
+
+        String regex = "^" + regexTemplate + "$";
+
+        return Pattern.compile(regex);
     }
 }
