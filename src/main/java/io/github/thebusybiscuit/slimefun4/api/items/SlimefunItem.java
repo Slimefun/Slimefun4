@@ -907,7 +907,7 @@ public class SlimefunItem implements Placeable {
     public final void addWikiPage(@Nonnull String page) {
         Preconditions.checkArgument(page != null, "Wiki page cannot be null.");
         Preconditions.checkState(getState() != ItemState.UNREGISTERED, "Wiki page can only be added after item has been registered.");
-        addCustomWikiPage(getAddon().getWikiURL().replace("%item%", page));
+        addCustomWikiPage(getAddon().getWikiUrlTemplate().replace("%item%", page));
     }
 
     /**
@@ -918,6 +918,7 @@ public class SlimefunItem implements Placeable {
      */
     public final void addCustomWikiPage(@Nonnull String url) {
         Preconditions.checkArgument(url != null, "Wiki page cannot be null.");
+        Preconditions.checkState(wikiURL.isEmpty(), "Wiki page cannot be modified after it has been set.");
         wikiURL = Optional.of(url);
     }
 

@@ -98,12 +98,12 @@ public interface SlimefunAddon {
     }
 
     /**
-     * This method returns the wiki URL for all the items this {@link SlimefunAddon}.
-     * The "%item%" placeholder will be replaced with the SlimefunItem's ID.
+     * This method returns the wiki URL template for all the items this {@link SlimefunAddon}.
+     * The "%item%" placeholder will be replaced with the SlimefunItem's ID by default.
      *
-     * @return The wiki URL for this {@link SlimefunAddon}.
+     * @return The wiki URL template for this {@link SlimefunAddon}.
      */
-    default @Nonnull String getWikiURL() {
+    default @Nonnull String getWikiUrlTemplate() {
         return "";
     }
 

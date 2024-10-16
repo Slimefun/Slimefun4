@@ -403,7 +403,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     }
 
     @Override
-    public @Nonnull String getWikiURL() {
+    public @Nonnull String getWikiUrlTemplate() {
         return "https://github.com/Slimefun/Slimefun4/wiki/%item%";
     }
 
