@@ -21,9 +21,9 @@ import javax.annotation.Nullable;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 
 /**
  * The {@link GitHubConnector} is used to connect to the GitHub API service.
@@ -120,7 +120,7 @@ abstract class GitHubConnector {
                 HttpRequest.newBuilder(uri).header("User-Agent", USER_AGENT).build(),
                 HttpResponse.BodyHandlers.ofString()
             );
-            JsonElement element = JsonParser.parseString(response.body());
+            JsonElement element = JsonUtils.parseString(response.body());
 
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 onSuccess(element);
@@ -162,7 +162,7 @@ abstract class GitHubConnector {
     @Nullable
     private JsonElement readCacheFile() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-            return JsonParser.parseString(reader.readLine());
+            return JsonUtils.parseString(reader.readLine());
         } catch (IOException | JsonParseException e) {
             Slimefun.logger().log(Level.WARNING, "Failed to read Github cache file: {0} - {1}: {2}", new Object[] { file.getName(), e.getClass().getSimpleName(), e.getMessage() });
             return null;

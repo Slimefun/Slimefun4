@@ -14,7 +14,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.SoundCategory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -30,6 +29,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 
 /**
  * This {@link SlimefunItem} allows you to enchant any enchantable {@link ItemStack} with a random
@@ -50,6 +50,8 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
         super(itemGroup, item, recipeType, recipe);
 
         for (Material mat : Material.values()) {
+            if (Slimefun.instance().isUnitTest() && mat.isLegacy()) continue;
+
             List<Enchantment> enchantments = new ArrayList<>();
 
             for (Enchantment enchantment : Enchantment.values()) {
@@ -140,7 +142,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                     // Being sure entities are still valid and not picked up or whatsoever.
                     if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
 
-                        l.getWorld().spawnParticle(Particle.CRIT_MAGIC, l, 1);
+                        l.getWorld().spawnParticle(VersionedParticle.ENCHANTED_HIT, l, 1);
                         SoundEffect.ENCHANTMENT_RUNE_ADD_ENCHANT_SOUND.playAt(l, SoundCategory.PLAYERS);
 
                         item.remove();

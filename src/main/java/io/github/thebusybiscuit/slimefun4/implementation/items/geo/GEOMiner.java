@@ -11,9 +11,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -38,8 +36,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.operations.GEOMiningOpe
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -265,18 +261,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         preset.addItem(4, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 
         for (int i : OUTPUT_SLOTS) {
-            preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
-
-                @Override
-                public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return false;
-                }
-
-                @Override
-                public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
-                }
-            });
+            preset.addMenuClickHandler(i, ChestMenuUtils.getDefaultOutputHandler());
         }
     }
 

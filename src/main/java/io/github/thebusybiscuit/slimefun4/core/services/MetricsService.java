@@ -29,10 +29,10 @@ import org.bukkit.plugin.Plugin;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -204,7 +204,7 @@ public class MetricsService {
                 return -1;
             }
 
-            JsonElement element = JsonParser.parseString(response.body());
+            JsonElement element = JsonUtils.parseString(response.body());
 
             return element.getAsJsonObject().get("tag_name").getAsInt();
         } catch (IOException | InterruptedException | JsonParseException e) {
@@ -235,7 +235,6 @@ public class MetricsService {
                 downloadMonitor(HttpResponse.BodyHandlers.ofFile(file.toPath()))
             );
 
-
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { JAR_NAME, version });
 
@@ -246,6 +245,8 @@ public class MetricsService {
                 metricVersion = String.valueOf(version);
                 hasDownloadedUpdate = true;
                 return true;
+            } else {
+                plugin.getLogger().log(Level.WARNING, "Failed to download the latest jar file from GitHub. Response code: {0}", response.statusCode());
             }
         } catch (InterruptedException | JsonParseException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down? Response: {0}", e.getMessage());

@@ -24,9 +24,12 @@
         <!-- Target Java 16 -->
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
+        <!-- Run tests using java 21 -->
+        <maven.compiler.testSource>21</maven.compiler.testSource>
+        <maven.compiler.testTarget>21</maven.compiler.testTarget>
 
         <!-- Spigot properties -->
-        <spigot.version>1.20.4</spigot.version>
+        <spigot.version>1.20.6</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -115,7 +118,7 @@
                 <!-- Compiler plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.12.1</version>
+                <version>3.13.0</version>
 
                 <configuration>
                     <excludes>
@@ -130,7 +133,7 @@
                 <!-- Attach sources -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.3.1</version>
 
                 <executions>
                     <execution>
@@ -146,7 +149,7 @@
                 <!-- Plugin for Unit Tests -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
+                <version>3.3.1</version>
 
                 <configuration>
                     <junitArtifactName>org.junit.jupiter:junit-jupiter</junitArtifactName>
@@ -235,11 +238,11 @@
                 <!-- Javadocs -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.6.3</version>
+                <version>3.7.0</version>
 
                 <configuration>
                     <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
-                    <destDir>docs</destDir>
+                    <destDir>javadocs</destDir>
 
                     <doctitle>Slimefun4 - Javadocs</doctitle>
                     <windowtitle>Slimefun4 - Javadocs</windowtitle>
@@ -329,9 +332,19 @@
         </resources>
     </build>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.10.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
-
-
         <!-- Development dependencies -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -344,7 +357,7 @@
         <dependency>
             <groupId>com.github.baked-libs.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>e99d02a8ff</version>
+            <version>f8ff25187d</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -358,7 +371,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -375,9 +387,9 @@
         </dependency>
         <!-- This needs to be before Spigot because MockBukkit will fail otherwise. -->
         <dependency>
-            <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.20</artifactId>
-            <version>3.65.0</version>
+            <groupId>com.github.MockBukkit</groupId>
+            <artifactId>MockBukkit</artifactId>
+            <version>c7cc678834</version>
             <scope>test</scope>
 
             <exclusions>
@@ -387,19 +399,13 @@
                     <groupId>org.jetbrains</groupId>
                     <artifactId>annotations</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>io.papermc.paper</groupId>
-                    <artifactId>paper-api</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
-        <!-- Override MockBukkit's Paper to a pinned slightly older version -->
-        <!-- This is because MockBukkit currently fails after this PR: -->
-        <!-- https://github.com/PaperMC/Paper/pull/9629 -->
+        <!-- Override Spigot with Paper tests as a CommandMap ctor which MockBukkit uses only exists on Paper but not in Spigot -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.20.4-R0.1-20240205.114523-90</version>
+            <version>1.20.6-R0.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 

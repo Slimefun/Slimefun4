@@ -38,9 +38,9 @@ class TestGuideCommand {
     void testCommand(boolean op) {
         Player player = server.addPlayer();
         player.setOp(op);
+        boolean hasPermission = player.hasPermission("slimefun.command.guide");
         server.execute("slimefun", player, "guide").assertSucceeded();
-
         ItemStack guide = SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE);
-        Assertions.assertEquals(op, SlimefunUtils.containsSimilarItem(player.getInventory(), guide, true));
+        Assertions.assertEquals(hasPermission, SlimefunUtils.containsSimilarItem(player.getInventory(), guide, true));
     }
 }

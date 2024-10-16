@@ -39,6 +39,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -70,18 +71,18 @@ public class BlockListener implements Listener {
         Block block = e.getBlock();
 
         // Fixes #2636 - This will solve the "ghost blocks" issue
-        if (e.getBlockReplacedState().getType().isAir()) {
+        if (e.getBlockReplacedState().getType().isAir() && BlockStorage.hasBlockInfo(block) && !Slimefun.getTickerTask().isDeletedSoon(block.getLocation())) {
             SlimefunItem sfItem = BlockStorage.check(block);
 
-            if (sfItem != null && !Slimefun.getTickerTask().isDeletedSoon(block.getLocation())) {
+            if (sfItem != null) {
                 for (ItemStack item : sfItem.getDrops()) {
                     if (item != null && !item.getType().isAir()) {
                         block.getWorld().dropItemNaturally(block.getLocation(), item);
                     }
                 }
-
-                BlockStorage.clearBlockInfo(block);
             }
+
+            BlockStorage.clearBlockInfo(block);
         } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
             // If there is no air (e.g. grass) then don't let the block be placed
             e.setCancelled(true);
@@ -374,7 +375,7 @@ public class BlockListener implements Listener {
              * directly and re use it.
              */
             ItemMeta meta = item.getItemMeta();
-            int fortuneLevel = meta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS);
+            int fortuneLevel = meta.getEnchantLevel(VersionedEnchantment.FORTUNE);
 
             if (fortuneLevel > 0 && !meta.hasEnchant(Enchantment.SILK_TOUCH)) {
                 Random random = ThreadLocalRandom.current();
