@@ -97,4 +97,14 @@ public interface SlimefunAddon {
         return description.getDepend().contains(dependency) || description.getSoftDepend().contains(dependency);
     }
 
+    /**
+     * This method returns the wiki URL template for all the items this {@link SlimefunAddon}.
+     * The "%item%" placeholder will be replaced with the SlimefunItem's ID by default.
+     *
+     * @return The wiki URL template for this {@link SlimefunAddon}.
+     */
+    default @Nonnull String getWikiUrlTemplate() {
+        return "";
+    }
+
 }

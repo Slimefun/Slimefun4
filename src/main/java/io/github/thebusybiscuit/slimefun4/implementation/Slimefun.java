@@ -402,6 +402,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         return "https://github.com/Slimefun/Slimefun4/issues";
     }
 
+    @Override
+    public @Nonnull String getWikiUrlTemplate() {
+        return "https://github.com/Slimefun/Slimefun4/wiki/%item%";
+    }
+
     /**
      * This method gets called when the {@link Plugin} gets disabled.
      * Most often it is called when the {@link Server} is shutting down or reloading.

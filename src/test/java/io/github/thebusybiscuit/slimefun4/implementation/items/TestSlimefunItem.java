@@ -47,13 +47,16 @@ class TestSlimefunItem {
         Assertions.assertFalse(item.getWikipage().isPresent());
 
         // null should not be a valid argument
-        Assertions.assertThrows(IllegalArgumentException.class, () -> item.addOfficialWikipage(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> item.addWikiPage(null));
 
-        item.addOfficialWikipage("Test");
+        item.addWikiPage("Test");
 
         Optional<String> wiki = item.getWikipage();
         Assertions.assertTrue(wiki.isPresent());
         Assertions.assertEquals("https://github.com/Slimefun/Slimefun4/wiki/Test", wiki.get());
+
+        // wiki page shouldn't be changed if it already exists
+        Assertions.assertThrows(IllegalStateException.class, () -> item.addWikiPage("Test2"));
     }
 
     @Test
