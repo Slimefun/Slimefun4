@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import lombok.experimental.Delegate;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -41,7 +42,10 @@ import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
  * @author Walshy
  *
  */
-public class SlimefunItemStack extends ItemStack {
+public class SlimefunItemStack {
+
+    @Delegate
+    private ItemStack delegate;
 
     private String id;
     private ItemMetaSnapshot itemMetaSnapshot;
@@ -50,7 +54,7 @@ public class SlimefunItemStack extends ItemStack {
     private String texture = null;
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item) {
-        super(item);
+        delegate = new ItemStack(item);
 
         Validate.notNull(id, "The Item id must never be null!");
         Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
@@ -61,7 +65,7 @@ public class SlimefunItemStack extends ItemStack {
 
         this.id = id;
 
-        ItemMeta meta = getItemMeta();
+        ItemMeta meta = delegate.getItemMeta();
 
         Slimefun.getItemDataService().setItemData(meta, id);
         Slimefun.getItemTextureService().setTexture(meta, id);
@@ -72,7 +76,7 @@ public class SlimefunItemStack extends ItemStack {
     public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item, @Nonnull Consumer<ItemMeta> consumer) {
         this(id, item);
 
-        ItemMeta im = getItemMeta();
+        ItemMeta im = delegate.getItemMeta();
         consumer.accept(im);
         setItemMeta(im);
     }
@@ -166,7 +170,7 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     public SlimefunItemStack(@Nonnull SlimefunItemStack item, int amount) {
-        this(item.getItemId(), item);
+        this(item.getItemId(), item.getDelegate());
         setAmount(amount);
     }
 
@@ -239,24 +243,21 @@ public class SlimefunItemStack extends ItemStack {
         return itemMetaSnapshot;
     }
 
-    @Override
     public boolean setItemMeta(ItemMeta meta) {
         validate();
         itemMetaSnapshot = new ItemMetaSnapshot(meta);
 
-        return super.setItemMeta(meta);
+        return delegate.setItemMeta(meta);
     }
 
-    @Override
     public void setType(Material type) {
         validate();
-        super.setType(type);
+        delegate.setType(type);
     }
 
-    @Override
     public void setAmount(int amount) {
         validate();
-        super.setAmount(amount);
+        delegate.setAmount(amount);
     }
 
     private void validate() {
@@ -306,13 +307,13 @@ public class SlimefunItemStack extends ItemStack {
     }
 
     @Override
-    public ItemStack clone() {
-        return new SlimefunItemStack(id, super.clone());
+    public SlimefunItemStack clone() {
+        return new SlimefunItemStack(id, delegate.clone());
     }
 
     @Override
     public String toString() {
-        return "SlimefunItemStack (" + id + (getAmount() > 1 ? (" x " + getAmount()) : "") + ')';
+        return "SlimefunItemStack (" + id + (delegate.getAmount() > 1 ? (" x " + delegate.getAmount()) : "") + ')';
     }
 
     /**
@@ -331,5 +332,9 @@ public class SlimefunItemStack extends ItemStack {
     public final int hashCode() {
         // We don't want people to override this, it should use the super method
         return super.hashCode();
+    }
+
+    public ItemStack getDelegate() {
+        return delegate;
     }
 }

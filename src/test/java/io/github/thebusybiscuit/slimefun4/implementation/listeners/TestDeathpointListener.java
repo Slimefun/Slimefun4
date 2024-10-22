@@ -47,7 +47,7 @@ class TestDeathpointListener {
     void testTransmitter() throws InterruptedException {
         Player player = server.addPlayer();
         TestUtilities.awaitProfile(player);
-        player.getInventory().setItem(8, SlimefunItems.GPS_EMERGENCY_TRANSMITTER.clone());
+        player.getInventory().setItem(8, SlimefunItems.GPS_EMERGENCY_TRANSMITTER.getDelegate());
 
         player.setHealth(0);
         server.getPluginManager().assertEventFired(WaypointCreateEvent.class, event -> event.getPlayer() == player && event.isDeathpoint());

@@ -39,7 +39,7 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemUseHandler> {
             if (p.getLevel() >= 1 && (e.getClickedBlock().isEmpty() || !(e.getClickedBlock().get().getType().isInteractable()))) {
                 p.setLevel(p.getLevel() - 1);
 
-                ItemStack item = SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.clone();
+                ItemStack item = SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.getDelegate();
 
                 if (!p.getInventory().addItem(item).isEmpty()) {
                     // The Item could not be added, let's drop it to the ground (fixes #2728)

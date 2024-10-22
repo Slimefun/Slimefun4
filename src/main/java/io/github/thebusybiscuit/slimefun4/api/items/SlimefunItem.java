@@ -153,7 +153,7 @@ public class SlimefunItem implements Placeable {
         Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
 
         this.itemGroup = itemGroup;
-        this.itemStackTemplate = item;
+        this.itemStackTemplate = item.getDelegate();
         this.id = item.getItemId();
         this.recipeType = recipeType;
         this.recipe = recipe;
