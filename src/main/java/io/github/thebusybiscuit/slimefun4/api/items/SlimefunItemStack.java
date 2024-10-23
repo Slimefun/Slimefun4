@@ -307,7 +307,7 @@ public class SlimefunItemStack {
     }
 
     @Override
-    public SlimefunItemStack clone() {
+    public @Nonnull SlimefunItemStack clone() {
         return new SlimefunItemStack(id, delegate.clone());
     }
 
@@ -334,7 +334,10 @@ public class SlimefunItemStack {
         return super.hashCode();
     }
 
-    public ItemStack getDelegate() {
+    /**
+     * @return underlying ItemStack used
+     */
+    public @Nonnull ItemStack getDelegate() {
         return delegate;
     }
 }

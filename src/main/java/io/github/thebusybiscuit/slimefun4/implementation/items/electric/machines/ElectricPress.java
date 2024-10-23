@@ -93,8 +93,8 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
     }
 
     @ParametersAreNonnullByDefault
-    private void addRecipe(int seconds, SlimefunItemStack sfi1, SlimefunItemStack sfi2) {
-        registerRecipe(seconds, sfi1.getDelegate(), sfi2.getDelegate());
+    private void addRecipe(int seconds, SlimefunItemStack sfItem1, SlimefunItemStack sfItem2) {
+        registerRecipe(seconds, sfItem1.getDelegate(), sfItem2.getDelegate());
     }
 
     @Override
