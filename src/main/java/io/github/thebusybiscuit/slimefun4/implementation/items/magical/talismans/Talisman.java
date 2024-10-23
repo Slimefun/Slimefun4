@@ -68,7 +68,7 @@ public class Talisman extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     protected Talisman(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
-        super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItemStack(item, consumable ? 4 : 1));
+        super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItemStack(item.getDelegate(), consumable ? 4 : 1));
 
         this.consumable = consumable;
         this.cancel = cancelEvent;
@@ -194,9 +194,9 @@ public class Talisman extends SlimefunItem {
             }
 
             EnderTalisman enderTalisman = enderTalismanItem.getItem(EnderTalisman.class);
-            if (enderTalisman != null && SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalismanItem, true)) {
+            if (enderTalisman != null && SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalismanItem.getDelegate(), true)) {
                 if (talisman.canUse(p, true)) {
-                    activateTalisman(e, p, p.getEnderChest(), enderTalisman, enderTalismanItem, sendMessage);
+                    activateTalisman(e, p, p.getEnderChest(), enderTalisman, enderTalismanItem.getDelegate(), sendMessage);
                     return true;
                 } else {
                     return false;

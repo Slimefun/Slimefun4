@@ -1185,6 +1185,19 @@ public class SlimefunItem implements Placeable {
         return Optional.ofNullable(getById(id));
     }
 
+    public static @Nullable SlimefunItem getByItem(@Nullable SlimefunItemStack slimefunItemStack) {
+        if (slimefunItemStack == null) {
+            return null;
+        }
+
+        var delegate = slimefunItemStack.getDelegate();
+        if (delegate.getType() == Material.AIR) {
+            return null;
+        }
+
+        return getById(slimefunItemStack.getItemId());
+    }
+
     /**
      * Retrieve a {@link SlimefunItem} from an {@link ItemStack}.
      *
