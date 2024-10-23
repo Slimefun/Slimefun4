@@ -397,7 +397,7 @@
         <dependency>
             <groupId>com.github.MockBukkit</groupId>
             <artifactId>MockBukkit</artifactId>
-            <version>v3.130.2</version>
+            <version>v3.133.2</version>
             <scope>test</scope>
 
             <exclusions>
@@ -408,6 +408,13 @@
                     <artifactId>annotations</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Third party plugin integrations / soft dependencies -->

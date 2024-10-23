@@ -153,7 +153,7 @@ public class SlimefunItem implements Placeable {
         Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
 
         this.itemGroup = itemGroup;
-        this.itemStackTemplate = item;
+        this.itemStackTemplate = item.getDelegate();
         this.id = item.getItemId();
         this.recipeType = recipeType;
         this.recipe = recipe;
@@ -1183,6 +1183,19 @@ public class SlimefunItem implements Placeable {
      */
     public static @Nonnull Optional<SlimefunItem> getOptionalById(@Nonnull String id) {
         return Optional.ofNullable(getById(id));
+    }
+
+    public static @Nullable SlimefunItem getByItem(@Nullable SlimefunItemStack slimefunItemStack) {
+        if (slimefunItemStack == null) {
+            return null;
+        }
+
+        var delegate = slimefunItemStack.getDelegate();
+        if (delegate.getType() == Material.AIR) {
+            return null;
+        }
+
+        return getById(slimefunItemStack.getItemId());
     }
 
     /**

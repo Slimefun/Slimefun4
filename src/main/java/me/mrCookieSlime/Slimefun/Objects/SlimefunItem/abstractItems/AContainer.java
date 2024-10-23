@@ -317,6 +317,10 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         registerRecipe(new MachineRecipe(seconds, new ItemStack[] { input }, new ItemStack[] { output }));
     }
 
+    public void registerRecipe(int seconds, SlimefunItemStack input, SlimefunItemStack output) {
+        registerRecipe(seconds, input.getDelegate(), output.getDelegate());
+    }
+
     @Override
     public void preRegister() {
         addItemHandler(new BlockTicker() {

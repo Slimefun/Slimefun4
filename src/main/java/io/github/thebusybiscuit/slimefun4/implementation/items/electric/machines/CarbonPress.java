@@ -24,12 +24,12 @@ public class CarbonPress extends AContainer implements RecipeDisplayItem {
     @Override
     protected void registerDefaultRecipes() {
         registerRecipe(15, new ItemStack[] { new ItemStack(Material.CHARCOAL, 4) }, new ItemStack[] { new ItemStack(Material.COAL) });
-        registerRecipe(20, new ItemStack[] { new ItemStack(Material.COAL, 8) }, new ItemStack[] { SlimefunItems.CARBON });
-        registerRecipe(180, new ItemStack[] { new ItemStack(Material.COAL_BLOCK, 8) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARBON, 9) });
-        registerRecipe(30, new ItemStack[] { new CustomItemStack(SlimefunItems.CARBON, 4) }, new ItemStack[] { SlimefunItems.COMPRESSED_CARBON });
-        registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND }, new ItemStack[] { SlimefunItems.RAW_CARBONADO });
-        registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK }, new ItemStack[] { SlimefunItems.SYNTHETIC_DIAMOND });
-        registerRecipe(90, new ItemStack[] { SlimefunItems.RAW_CARBONADO }, new ItemStack[] { SlimefunItems.CARBONADO });
+        registerRecipe(20, new ItemStack[] { new ItemStack(Material.COAL, 8) }, new ItemStack[] { SlimefunItems.CARBON.getDelegate() });
+        registerRecipe(180, new ItemStack[] { new ItemStack(Material.COAL_BLOCK, 8) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARBON, 9).getDelegate() });
+        registerRecipe(30, new ItemStack[] { new CustomItemStack(SlimefunItems.CARBON.getDelegate(), 4) }, new ItemStack[] { SlimefunItems.COMPRESSED_CARBON.getDelegate() });
+        registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK.getDelegate(), SlimefunItems.SYNTHETIC_DIAMOND.getDelegate() }, new ItemStack[] { SlimefunItems.RAW_CARBONADO.getDelegate() });
+        registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK.getDelegate() }, new ItemStack[] { SlimefunItems.SYNTHETIC_DIAMOND.getDelegate() });
+        registerRecipe(90, new ItemStack[] { SlimefunItems.RAW_CARBONADO.getDelegate() }, new ItemStack[] { SlimefunItems.CARBONADO.getDelegate() });
     }
 
     @Override
