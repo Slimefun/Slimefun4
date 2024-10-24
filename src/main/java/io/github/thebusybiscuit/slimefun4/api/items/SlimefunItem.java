@@ -233,7 +233,7 @@ public class SlimefunItem implements Placeable {
      *
      * @return The {@link ItemStack} that is given to the {@link Player}
      * */
-    public @Nonnull ItemStack getGiveItemResult(Player player) {
+    public @Nonnull ItemStack getGiveItemResult(@Nonnull Player player) {
         return getItem();
     }
 
@@ -248,7 +248,7 @@ public class SlimefunItem implements Placeable {
      *
      * @return The {@link ItemStack} that is picked when middle-clicking this {@link SlimefunItem}
      */
-    public @Nonnull ItemStack getPickBlockResult(Player player, Block block) {
+    public @Nonnull ItemStack getPickBlockResult(@Nonnull Player player, @Nonnull Block block) {
         return getItem();
     }
 
