@@ -17,6 +17,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -39,6 +40,7 @@ import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.GiveCommand;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.handlers.GlobalItemHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -220,6 +222,34 @@ public class SlimefunItem implements Placeable {
      */
     public @Nonnull ItemStack getItem() {
         return itemStackTemplate;
+    }
+
+    /**
+     * This returns the {@link ItemStack} result when a {@link Player}
+     * is given this item via the {@link GiveCommand}.
+     *
+     * @param player
+     *            The {@link Player} who will receive the item
+     *
+     * @return The {@link ItemStack} that is given to the {@link Player}
+     * */
+    public @Nonnull ItemStack getGiveItemResult(Player player) {
+        return getItem();
+    }
+
+    /**
+     * This returns the {@link ItemStack} result when a {@link Player}
+     * in creative mode middle-clicks this {@link SlimefunItem}'s {@link Block}.
+     *
+     * @param player
+     *            The {@link Player} who middle-clicked this {@link SlimefunItem}
+     * @param block
+     *            The {@link Block} middle-clicked
+     *
+     * @return The {@link ItemStack} that is picked when middle-clicking this {@link SlimefunItem}
+     */
+    public @Nonnull ItemStack getPickBlockResult(Player player, Block block) {
+        return getItem();
     }
 
     /**

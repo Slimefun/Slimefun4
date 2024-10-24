@@ -6,6 +6,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
@@ -41,8 +42,7 @@ public class MiddleClickListener implements Listener {
          * ClickType is not MIDDLE but CREATIVE (because this ClickType covers
          * multiple cases, we have to filter out more later on)
          */
-        if (e.getClick() == ClickType.CREATIVE && e.getSlotType() == SlotType.QUICKBAR) {
-            HumanEntity player = e.getWhoClicked();
+        if (e.getClick() == ClickType.CREATIVE && e.getSlotType() == SlotType.QUICKBAR && e.getWhoClicked() instanceof Player player) {
             // get the block the player is looking at for later
             Block b = player.getTargetBlockExact(5);
 
@@ -74,7 +74,7 @@ public class MiddleClickListener implements Listener {
             }
 
             // Give the item, doing it like this will not alter any other cases.
-            e.setCursor(sfItem.getItem().clone());
+            e.setCursor(sfItem.getPickBlockResult(player, b).clone());
         }
     }
 
