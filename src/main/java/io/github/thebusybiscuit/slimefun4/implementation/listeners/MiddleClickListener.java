@@ -42,7 +42,10 @@ public class MiddleClickListener implements Listener {
          * ClickType is not MIDDLE but CREATIVE (because this ClickType covers
          * multiple cases, we have to filter out more later on)
          */
-        if (e.getClick() == ClickType.CREATIVE && e.getSlotType() == SlotType.QUICKBAR && e.getWhoClicked() instanceof Player player) {
+        if (e.getClick() == ClickType.CREATIVE
+        	&& e.getSlotType() == SlotType.QUICKBAR
+        	&& e.getWhoClicked() instanceof Player player
+        ) {
             // get the block the player is looking at for later
             Block b = player.getTargetBlockExact(5);
 
