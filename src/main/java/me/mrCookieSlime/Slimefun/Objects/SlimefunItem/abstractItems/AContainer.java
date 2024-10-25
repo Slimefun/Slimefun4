@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -319,6 +320,18 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
     public void registerRecipe(int seconds, SlimefunItemStack input, SlimefunItemStack output) {
         registerRecipe(seconds, input.getDelegate(), output.getDelegate());
+    }
+
+    public void registerRecipe(int seconds, SlimefunItemStack[] input, SlimefunItemStack[] output) {
+        var inputAsItemStack = Arrays.stream(input)
+                .map(SlimefunItemStack::getDelegate)
+                .toArray(ItemStack[]::new);
+
+        var outputAsItemStack = Arrays.stream(output)
+                .map(SlimefunItemStack::getDelegate)
+                .toArray(ItemStack[]::new);
+
+        registerRecipe(seconds, inputAsItemStack, outputAsItemStack);
     }
 
     @Override

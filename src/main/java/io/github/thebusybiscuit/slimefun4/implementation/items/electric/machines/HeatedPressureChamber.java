@@ -85,14 +85,14 @@ public class HeatedPressureChamber extends AContainer {
 
     @Override
     protected void registerDefaultRecipes() {
-        registerRecipe(45, new ItemStack[] { SlimefunItems.OIL_BUCKET }, new ItemStack[] { new CustomItemStack(SlimefunItems.PLASTIC_SHEET, 8) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.GOLD_24K, SlimefunItems.URANIUM }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.BLISTERING_INGOT, SlimefunItems.CARBONADO }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_2 });
-        registerRecipe(60, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_2, new ItemStack(Material.NETHER_STAR) }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_3 });
-        registerRecipe(90, new ItemStack[] { SlimefunItems.PLUTONIUM, SlimefunItems.URANIUM }, new ItemStack[] { SlimefunItems.BOOSTED_URANIUM });
-        registerRecipe(60, new ItemStack[] { SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM }, new ItemStack[] { new CustomItemStack(SlimefunItems.ENRICHED_NETHER_ICE, 4) });
-        registerRecipe(45, new ItemStack[] { SlimefunItems.ENRICHED_NETHER_ICE }, new ItemStack[] { new CustomItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8) });
-        registerRecipe(8, new ItemStack[] { SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT }, new ItemStack[] { SlimefunItems.MAGNESIUM_SALT });
+        registerRecipe(45, new ItemStack[] { SlimefunItems.OIL_BUCKET.getDelegate() }, new ItemStack[] { new CustomItemStack(SlimefunItems.PLASTIC_SHEET.getDelegate(), 8) });
+        registerRecipe(30, new SlimefunItemStack[] { SlimefunItems.GOLD_24K, SlimefunItems.URANIUM }, new SlimefunItemStack[] { SlimefunItems.BLISTERING_INGOT });
+        registerRecipe(30, new SlimefunItemStack[] { SlimefunItems.BLISTERING_INGOT, SlimefunItems.CARBONADO }, new SlimefunItemStack[] { SlimefunItems.BLISTERING_INGOT_2 });
+        registerRecipe(60, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_2.getDelegate(), new ItemStack(Material.NETHER_STAR) }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_3.getDelegate() });
+        registerRecipe(90, new SlimefunItemStack[] { SlimefunItems.PLUTONIUM, SlimefunItems.URANIUM }, new SlimefunItemStack[] { SlimefunItems.BOOSTED_URANIUM });
+        registerRecipe(60, new ItemStack[] { SlimefunItems.NETHER_ICE.getDelegate(), SlimefunItems.PLUTONIUM.getDelegate() }, new ItemStack[] { new CustomItemStack(SlimefunItems.ENRICHED_NETHER_ICE.getDelegate(), 4) });
+        registerRecipe(45, new ItemStack[] { SlimefunItems.ENRICHED_NETHER_ICE.getDelegate() }, new ItemStack[] { new CustomItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL.getDelegate(), 8) });
+        registerRecipe(8, new SlimefunItemStack[] { SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT }, new SlimefunItemStack[] { SlimefunItems.MAGNESIUM_SALT });
     }
 
     @Override
