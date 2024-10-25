@@ -355,9 +355,9 @@
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.baked-libs.dough</groupId>
+            <groupId>com.github.Slimefun.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>f8ff25187d</version>
+            <version>9f61fdde69</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

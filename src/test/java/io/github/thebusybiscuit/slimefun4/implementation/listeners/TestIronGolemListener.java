@@ -78,7 +78,7 @@ class TestIronGolemListener {
     @Test
     @DisplayName("Test Iron Golem Healing with Slimefun Items being cancelled")
     void testWithSlimefunIron() {
-        SlimefunItem slimefunItem = TestUtilities.mockSlimefunItem(plugin, "SLIMEFUN_IRON", new CustomItemStack(Material.IRON_INGOT, "&cSlimefun Iron"));
+        SlimefunItem slimefunItem = TestUtilities.mockSlimefunItem(plugin, "SLIMEFUN_IRON", CustomItemStack.create(Material.IRON_INGOT, "&cSlimefun Iron"));
         slimefunItem.register(plugin);
 
         // The Event should be cancelled, we do not wanna use Slimefun Items for this

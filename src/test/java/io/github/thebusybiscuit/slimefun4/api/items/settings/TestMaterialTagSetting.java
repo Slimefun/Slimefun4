@@ -40,7 +40,7 @@ class TestMaterialTagSetting {
     @Test
     @DisplayName("Test Constructor")
     void testConstructorValidation() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_0", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_0", CustomItemStack.create(Material.DIAMOND, "&cTest"));
         MaterialTagSetting setting = new MaterialTagSetting(item, "test", tag);
         Assertions.assertEquals(tag, setting.getDefaultTag());
     }
@@ -48,7 +48,7 @@ class TestMaterialTagSetting {
     @Test
     @DisplayName("Test illegal values")
     void testIllegalValues() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST", CustomItemStack.create(Material.DIAMOND, "&cTest"));
         MaterialTagSetting setting = new MaterialTagSetting(item, "test", tag);
 
         item.addItemSetting(setting);
@@ -62,7 +62,7 @@ class TestMaterialTagSetting {
     @Test
     @DisplayName("Test allowed value")
     void testAllowedValue() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_2", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MATERIAL_SETTING_TEST_2", CustomItemStack.create(Material.DIAMOND, "&cTest"));
         MaterialTagSetting setting = new MaterialTagSetting(item, "test", tag);
 
         item.addItemSetting(setting);

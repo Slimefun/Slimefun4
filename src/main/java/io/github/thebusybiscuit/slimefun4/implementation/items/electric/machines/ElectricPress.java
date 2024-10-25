@@ -19,7 +19,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 /**
  * The {@link ElectricPress} is a pretty simple electrical machine.
  * It allows you to compact items into their block variant, e.g. 9 diamonds into a diamond block.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -44,15 +44,15 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
         addRecipe(3, new ItemStack(Material.CLAY_BALL, 4), new ItemStack(Material.CLAY));
         addRecipe(3, new ItemStack(Material.BRICK, 4), new ItemStack(Material.BRICKS));
 
-        addRecipe(6, SlimefunItems.COPPER_INGOT, new CustomItemStack(SlimefunItems.COPPER_WIRE, 3));
+        addRecipe(6, SlimefunItems.COPPER_INGOT, CustomItemStack.create(SlimefunItems.COPPER_WIRE, 3));
         addRecipe(16, new SlimefunItemStack(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE);
         addRecipe(18, new SlimefunItemStack(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE);
 
-        addRecipe(8, new ItemStack(Material.NETHER_WART), new CustomItemStack(SlimefunItems.MAGIC_LUMP_1, 2));
+        addRecipe(8, new ItemStack(Material.NETHER_WART), CustomItemStack.create(SlimefunItems.MAGIC_LUMP_1, 2));
         addRecipe(10, new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_1, 4), SlimefunItems.MAGIC_LUMP_2);
         addRecipe(12, new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_2, 4), SlimefunItems.MAGIC_LUMP_3);
 
-        addRecipe(10, new ItemStack(Material.ENDER_EYE), new CustomItemStack(SlimefunItems.ENDER_LUMP_1, 2));
+        addRecipe(10, new ItemStack(Material.ENDER_EYE), CustomItemStack.create(SlimefunItems.ENDER_LUMP_1, 2));
         addRecipe(12, new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 4), SlimefunItems.ENDER_LUMP_2);
         addRecipe(14, new SlimefunItemStack(SlimefunItems.ENDER_LUMP_2, 4), SlimefunItems.ENDER_LUMP_3);
 

@@ -68,7 +68,7 @@ public abstract class SlimefunLocalization implements Keyed {
      * This returns the chat prefix for our messages.
      * Every message (unless explicitly omitted) will have this
      * prefix prepended.
-     * 
+     *
      * @return The chat prefix
      */
     public @Nonnull String getChatPrefix() {
@@ -321,7 +321,7 @@ public abstract class SlimefunLocalization implements Keyed {
         Language language = getLanguage(p);
         NamespacedKey key = recipeType.getKey();
 
-        return new CustomItemStack(item, meta -> {
+        return CustomItemStack.create(item, meta -> {
             String displayName = getStringOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
 
             // Set the display name if possible, else keep the default item name.

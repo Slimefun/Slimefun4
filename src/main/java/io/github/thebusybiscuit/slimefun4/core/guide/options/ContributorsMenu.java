@@ -24,7 +24,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 /**
  * This menu shows a list of every {@link Contributor} to this project.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -40,7 +40,7 @@ final class ContributorsMenu {
 
         ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 53);
 
-        menu.addItem(1, new CustomItemStack(ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.settings"))));
+        menu.addItem(1, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.settings")));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
             SlimefunGuideSettings.openSettings(pl, p.getInventory().getItemInMainHand());
             return false;

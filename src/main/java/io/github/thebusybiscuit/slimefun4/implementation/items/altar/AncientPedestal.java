@@ -40,11 +40,11 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * The {@link AncientPedestal} is a part of the {@link AncientAltar}.
  * You can place any {@link ItemStack} onto the {@link AncientPedestal} to provide it to
  * the altar as a crafting ingredient.
- * 
+ *
  * @author Redemption198
  * @author TheBusyBiscuit
  * @author JustAHuman
- * 
+ *
  * @see AncientAltar
  * @see AncientAltarListener
  * @see AncientAltarTask
@@ -68,7 +68,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
             public void onBlockBreak(@Nonnull Block b) {
                 Optional<Item> entity = getPlacedItem(b);
                 ArmorStand armorStand = getArmorStand(b, false);
-                
+
                 if (entity.isPresent()) {
                     Item stack = entity.get();
 
@@ -78,7 +78,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
                         stack.remove();
                     }
                 }
-                
+
                 if (armorStand != null && armorStand.isValid()) {
                     armorStand.remove();
                 }
@@ -102,21 +102,21 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
 
         return Optional.empty();
     }
-    
+
     public @Nullable ArmorStand getArmorStand(@Nonnull Block pedestal, boolean createIfNoneExists) {
         Optional<Item> entity = getPlacedItem(pedestal);
-        
+
         if (entity.isPresent() && entity.get().getVehicle() instanceof ArmorStand armorStand) {
             return armorStand;
         }
-    
+
         Location l = pedestal.getLocation().add(0.5, 1.2, 0.5);
         for (Entity n : l.getWorld().getNearbyEntities(l, 0.5, 0.5, 0.5, this::testArmorStand)) {
             if (n instanceof ArmorStand armorStand) {
                 return armorStand;
             }
         }
-        
+
         return createIfNoneExists ? ArmorStandUtils.spawnArmorStand(l) : null;
     }
 
@@ -129,7 +129,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
             return false;
         }
     }
-    
+
     private boolean testArmorStand(@Nullable Entity n) {
         if (n instanceof ArmorStand && n.isValid()) {
             String customName = n.getCustomName();
@@ -157,7 +157,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
     public void placeItem(@Nonnull Player p, @Nonnull Block b) {
         ItemStack hand = p.getInventory().getItemInMainHand();
         String displayName = ITEM_PREFIX + System.nanoTime();
-        ItemStack displayItem = new CustomItemStack(hand, displayName);
+        ItemStack displayItem = CustomItemStack.create(hand, displayName);
         displayItem.setAmount(1);
 
         // Get the display name of the original Item in the Player's hand

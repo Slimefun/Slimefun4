@@ -67,7 +67,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
         String notice = ChatColors.color(Slimefun.getLocalization().getMessage("messages.above-limit-level"));
         notice = notice.replace("%level%", String.valueOf(levelLimit.getValue()));
-        ItemStack progressBar = new CustomItemStack(Material.BARRIER, " ", notice);
+        ItemStack progressBar = CustomItemStack.create(Material.BARRIER, " ", notice);
         menu.replaceExistingItem(22, progressBar);
     }
 
