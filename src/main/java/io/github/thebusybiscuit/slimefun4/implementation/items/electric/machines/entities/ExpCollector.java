@@ -50,13 +50,16 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
     private int energyConsumedPerTick = -1;
     private int energyCapacity = -1;
 
+    public ExpCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(itemGroup, item, recipeType, recipe, 4.0);
+    }
+
     @ParametersAreNonnullByDefault
     public ExpCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double range) {
         super(itemGroup, item, recipeType, recipe);
+        this.range = range;
 
         createPreset(this, this::constructMenu);
-
-        this.range = range;
         addItemHandler(onPlace(), onBreak());
     }
 
