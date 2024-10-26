@@ -50,7 +50,7 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
     private int energyConsumedPerTick = -1;
     private int energyCapacity = -1;
 
-    @Deprecated
+    @Deprecated(since = "RC-38", forRemoval = true)
     @ParametersAreNonnullByDefault
     public ExpCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(itemGroup, item, recipeType, recipe, 4.0);
