@@ -111,7 +111,7 @@ public class IgnitionChamber extends SlimefunItem {
         Enchantment unbreaking = VersionedEnchantment.UNBREAKING;
         int lvl = flintAndSteel.getEnchantmentLevel(unbreaking);
 
-        if (UnbreakingAlgorithm.TOOLS.evaluate(lvl)) {
+        if (!UnbreakingAlgorithm.TOOLS.evaluate(lvl)) {
             damageable.setDamage(damageable.getDamage() + 1);
         }
 
