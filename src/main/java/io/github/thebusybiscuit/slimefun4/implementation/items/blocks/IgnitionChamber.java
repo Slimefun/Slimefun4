@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedDurability;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -93,7 +94,6 @@ public class IgnitionChamber extends SlimefunItem {
 
         ItemStack item = inv.getItem(inv.first(Material.FLINT_AND_STEEL));
 
-        // Only damage the Flint and Steel if it isn't unbreakable.
         damageFlintAndSteel(item, smelteryBlock);
 
         SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
@@ -104,6 +104,7 @@ public class IgnitionChamber extends SlimefunItem {
         ItemMeta meta = flintAndSteel.getItemMeta();
         Damageable damageable = (Damageable) meta;
 
+        // Only damage the Flint and Steel if it isn't unbreakable.
         if (meta.isUnbreakable()) {
             return;
         }
@@ -115,7 +116,7 @@ public class IgnitionChamber extends SlimefunItem {
             damageable.setDamage(damageable.getDamage() + 1);
         }
 
-        if (damageable.getDamage() >= flintAndSteel.getType().getMaxDurability()) {
+        if (damageable.getDamage() > VersionedDurability.getDurability(flintAndSteel)) {
             // The Flint and Steel broke
             flintAndSteel.setAmount(0);
             SoundEffect.LIMITED_USE_ITEM_BREAK_SOUND.playAt(smelteryBlock);
