@@ -118,8 +118,9 @@ public class IgnitionChamber extends SlimefunItem {
         if (damageable.getDamage() >= flintAndSteel.getType().getMaxDurability()) {
             // The Flint and Steel broke
             flintAndSteel.setAmount(0);
-            SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
+            SoundEffect.LIMITED_USE_ITEM_BREAK_SOUND.playAt(smelteryBlock);
         } else {
+            SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
             flintAndSteel.setItemMeta(meta);
         }
     }
