@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.core.services.holograms;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -11,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,6 +19,7 @@ import org.bukkit.Server;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.TextDisplay;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
@@ -31,54 +32,26 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 /**
  * This service is responsible for handling holograms.
  * 
- * @author TheBusyBiscuit
+ * @author TheBusyBiscuit, JustAHuman
  *
+ * @see Hologram
  * @see HologramOwner
  */
 public class HologramsService {
-
-    /**
-     * The radius in which we scan for holograms
-     */
-    private static final double RADIUS = 0.45;
-
-    /**
-     * The frequency at which to purge.
-     * Every 45 seconds.
-     */
+    private static final double SCAN_RADIUS = 0.45;
     private static final long PURGE_RATE = 45L * 20L;
+    private static final Vector DEFAULT_OFFSET = new Vector(0.5, 0.75, 0.5);
 
-    /**
-     * Our {@link Plugin} instance
-     */
     private final Plugin plugin;
 
-    /**
-     * The default hologram offset
-     */
-    private final Vector defaultOffset = new Vector(0.5, 0.75, 0.5);
-
-    /**
-     * The {@link NamespacedKey} used to store data on a hologram
-     */
     private final NamespacedKey persistentDataKey;
+    private final Map<BlockPosition, Hologram<? extends Entity>> cache = new HashMap<>();
+    protected boolean started = false;
 
-    /**
-     * Our cache to save {@link Entity} lookups
-     */
-    private final Map<BlockPosition, Hologram> cache = new HashMap<>();
-
-    /**
-     * This constructs a new {@link HologramsService}.
-     * 
-     * @param plugin
-     *            Our {@link Plugin} instance
-     */
     public HologramsService(@Nonnull Plugin plugin) {
-        this.plugin = plugin;
-
         // Null-Validation is performed in the NamespacedKey constructor
-        persistentDataKey = new NamespacedKey(plugin, "hologram_id");
+        this.plugin = plugin;
+        this.persistentDataKey = new NamespacedKey(plugin, "hologram_id");
     }
 
     /**
@@ -86,6 +59,11 @@ public class HologramsService {
      * purge-task.
      */
     public void start() {
+        if (started) {
+            // TODO: Log a warning/what do reviewers think?
+            return;
+        }
+
         plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this::purge, PURGE_RATE, PURGE_RATE);
     }
 
@@ -96,67 +74,48 @@ public class HologramsService {
      */
     @Nonnull
     public Vector getDefaultOffset() {
-        return defaultOffset;
+        return DEFAULT_OFFSET.clone();
     }
 
     /**
      * This purges any expired {@link Hologram}.
      */
     private void purge() {
-        Iterator<Hologram> iterator = cache.values().iterator();
-
-        while (iterator.hasNext()) {
-            Hologram hologram = iterator.next();
-
-            if (hologram.hasExpired()) {
-                iterator.remove();
-            }
-        }
+        cache.values().removeIf(Hologram::hasExpired);
     }
 
     /**
      * This returns the {@link Hologram} associated with the given {@link Location}.
-     * If createIfNoneExists is set to true a new {@link ArmorStand} will be spawned
+     * If createIfNoneExists is set to true a new {@link Hologram} will be spawned
      * if no existing one could be found.
      * 
      * @param loc
      *            The {@link Location}
      * @param createIfNoneExists
-     *            Whether to create a new {@link ArmorStand} if none was found
+     *            Whether to create a new {@link Hologram} if none was found
      * 
      * @return The existing (or newly created) hologram
      */
     @Nullable
-    private Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
+    private Hologram<?> getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
         Validate.notNull(loc, "Location cannot be null");
 
         BlockPosition position = new BlockPosition(loc);
-        Hologram hologram = cache.get(position);
+        Hologram<?> hologram = cache.get(position);
 
-        // Check if the ArmorStand was cached and still exists
+        // Check if the Hologram was cached and still exists
         if (hologram != null && !hologram.hasDespawned()) {
             return hologram;
         }
 
         // Scan all nearby entities which could be possible holograms
-        Collection<Entity> holograms = loc.getWorld().getNearbyEntities(loc, RADIUS, RADIUS, RADIUS, this::isHologram);
-
-        for (Entity n : holograms) {
-            if (n instanceof ArmorStand) {
-                PersistentDataContainer container = n.getPersistentDataContainer();
-
-                /*
-                 * Any hologram we created will have a persistent data key for identification.
-                 * Make sure that the value matches our BlockPosition.
-                 */
-                if (hasHologramData(container, position)) {
-                    if (hologram != null) {
-                        // Fixes #2927 - Remove any duplicates we find
-                        n.remove();
-                    } else {
-                        hologram = getAsHologram(position, n, container);
-                    }
-                }
+        Collection<Entity> holograms = loc.getWorld().getNearbyEntities(loc, SCAN_RADIUS, SCAN_RADIUS, SCAN_RADIUS, entity -> isHologram(entity, position));
+        for (Entity entity : holograms) {
+            if (hologram == null) {
+                hologram = getAsHologram(position, entity);
+            } else {
+                // Fixes #2927 - Remove any duplicates we find
+                entity.remove();
             }
         }
 
@@ -172,31 +131,30 @@ public class HologramsService {
     }
 
     @ParametersAreNonnullByDefault
-    private boolean hasHologramData(PersistentDataContainer container, BlockPosition position) {
-        if (container.has(persistentDataKey, PersistentDataType.LONG)) {
-            long value = container.get(persistentDataKey, PersistentDataType.LONG);
-            return value == position.getPosition();
-        } else {
-            return false;
-        }
+    private boolean hasHologramData(Entity entity, BlockPosition position) {
+        return PersistentDataAPI.getLong(entity, persistentDataKey) == position.getPosition();
     }
 
     /**
-     * This checks if a given {@link Entity} is an {@link ArmorStand}
+     * This checks if a given {@link Entity} is an {@link TextDisplay} or {@link ArmorStand}
      * and whether it has the correct attributes to be considered a {@link Hologram}.
      * 
-     * @param n
+     * @param entity
      *            The {@link Entity} to check
      * 
      * @return Whether this could be a hologram
      */
-    private boolean isHologram(@Nonnull Entity n) {
-        if (n instanceof ArmorStand armorStand) {
+    private boolean isHologram(@Nonnull Entity entity, BlockPosition position) {
+        if (entity instanceof ArmorStand armorStand) {
             // The absolute minimum requirements to count as a hologram
-            return !armorStand.isVisible() && armorStand.isSilent() && !armorStand.hasGravity();
-        } else {
-            return false;
+            return !armorStand.isVisible()
+                    && armorStand.isSilent()
+                    && !armorStand.hasGravity()
+                    && hasHologramData(armorStand, position);
+        } else if (entity instanceof TextDisplay textDisplay) {
+            return hasHologramData(textDisplay, position);
         }
+        return false;
     }
 
     /**
