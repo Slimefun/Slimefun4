@@ -10,40 +10,26 @@ import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.TextDisplay;
 
 /**
- * This represents an {@link ArmorStand} that can expire and be renamed.
+ * A {@link TextDisplay} or {@link ArmorStand} (if pre1.19.4) used
+ * for displaying text "holograms".
  * 
- * @author TheBusyBiscuit
- *
+ * @author TheBusyBiscuit, JustAHuman
  */
-class Hologram {
-
-    /**
-     * This is the minimum duration after which the {@link Hologram} will expire.
-     */
+public class Hologram {
     private static final long EXPIRES_AFTER = TimeUnit.MINUTES.toMillis(10);
 
-    /**
-     * The {@link UUID} of the {@link ArmorStand}.
-     */
     private final UUID uniqueId;
-
-    /**
-     * The timestamp of when the {@link ArmorStand} was last accessed.
-     */
     private long lastAccess;
-
-    /**
-     * The label of this {@link Hologram}.
-     */
-    private String label;
+    private String text;
 
     /**
      * This creates a new {@link Hologram} for the given {@link UUID}.
      * 
      * @param uniqueId
-     *            The {@link UUID} of the corresponding {@link ArmorStand}
+     *            The {@link UUID} of the corresponding {@link TextDisplay} or {@link ArmorStand}
      */
     Hologram(@Nonnull UUID uniqueId) {
         this.uniqueId = uniqueId;
@@ -51,20 +37,19 @@ class Hologram {
     }
 
     /**
-     * This returns the corresponding {@link ArmorStand}
+     * This returns the corresponding {@link TextDisplay} or {@link ArmorStand}
      * and also updates the "lastAccess" timestamp.
      * <p>
-     * If the {@link ArmorStand} was removed, it will return null.
+     * If the entity was removed, it will return null.
      * 
-     * @return The {@link ArmorStand} or null.
+     * @return The {@link Entity} or null.
      */
     @Nullable
-    ArmorStand getArmorStand() {
-        Entity n = Bukkit.getEntity(uniqueId);
-
-        if (n instanceof ArmorStand armorStand && n.isValid()) {
+    public Entity getEntity() {
+        Entity entity = Bukkit.getEntity(uniqueId);
+        if ((entity instanceof TextDisplay || entity instanceof ArmorStand) && entity.isValid()) {
             this.lastAccess = System.currentTimeMillis();
-            return armorStand;
+            return entity;
         } else {
             this.lastAccess = 0;
             return null;
@@ -72,63 +57,57 @@ class Hologram {
     }
 
     /**
-     * This checks if the associated {@link ArmorStand} has despawned.
-     * 
-     * @return Whether the {@link ArmorStand} despawned
+     * @return Whether the associated {@link Entity} despawned.
      */
-    boolean hasDespawned() {
-        return getArmorStand() == null;
+    public boolean hasDespawned() {
+        return getEntity() == null;
     }
 
     /**
      * This returns whether this {@link Hologram} has expired.
-     * The armorstand will expire if the last access has been more than 10
-     * minutes ago.
+     * The {@link Hologram} has expired if the last access was
+     * more than 10 minutes ago.
      * 
      * @return Whether this {@link Hologram} has expired
      */
-    boolean hasExpired() {
+    public boolean hasExpired() {
         return System.currentTimeMillis() - lastAccess > EXPIRES_AFTER;
     }
 
     /**
      * This method sets the label of this {@link Hologram}.
      * 
-     * @param label
+     * @param text
      *            The label to set
      */
-    void setLabel(@Nullable String label) {
-        if (Objects.equals(this.label, label)) {
+    void setText(@Nullable String text) {
+        if (Objects.equals(this.text, text)) {
             /*
              * Label is already set, no need to cause an entity
              * update. But we can update the lastAccess flag.
              */
             this.lastAccess = System.currentTimeMillis();
-        } else {
-            this.label = label;
-            ArmorStand entity = getArmorStand();
+            return;
+        }
 
-            if (entity != null) {
-                if (label != null) {
-                    entity.setCustomNameVisible(true);
-                    entity.setCustomName(label);
-                } else {
-                    entity.setCustomNameVisible(false);
-                    entity.setCustomName(null);
-                }
-            }
+        this.text = text;
+        Entity entity = getEntity();
+        if (entity instanceof ArmorStand armorStand) {
+            armorStand.setCustomNameVisible(text != null);
+            armorStand.setCustomName(text);
+        } else if (entity instanceof TextDisplay textDisplay) {
+            textDisplay.setText(text);
         }
     }
 
     /**
-     * This will remove the {@link ArmorStand} and expire this {@link Hologram}.
+     * This will remove the {@link Entity} and expire this {@link Hologram}.
      */
     void remove() {
-        ArmorStand armorstand = getArmorStand();
-
-        if (armorstand != null) {
+        Entity entity = getEntity();
+        if (entity != null) {
             lastAccess = 0;
-            armorstand.remove();
+            entity.remove();
         }
     }
 

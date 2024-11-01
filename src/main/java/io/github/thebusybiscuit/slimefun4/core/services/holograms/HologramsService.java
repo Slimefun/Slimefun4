@@ -318,7 +318,7 @@ public class HologramsService {
     public void setHologramLabel(@Nonnull Location loc, @Nullable String label) {
         Validate.notNull(loc, "Location must not be null");
 
-        updateHologram(loc, hologram -> hologram.setLabel(label));
+        updateHologram(loc, hologram -> hologram.setText(label));
     }
 
 }
