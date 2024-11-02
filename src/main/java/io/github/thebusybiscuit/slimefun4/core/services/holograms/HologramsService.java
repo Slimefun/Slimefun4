@@ -19,7 +19,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.TextDisplay;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
@@ -42,7 +42,7 @@ public class HologramsService {
 
     private final Plugin plugin;
     private final NamespacedKey key;
-    private final Map<BlockPosition, Hologram<? extends Entity>> cache = new HashMap<>();
+    private final Map<BlockPosition, Hologram> cache = new HashMap<>();
     protected boolean started = false;
 
     public HologramsService(@Nonnull Plugin plugin) {
@@ -98,12 +98,12 @@ public class HologramsService {
      * @return The existing (or newly created) hologram
      */
     @Nullable
-    private Hologram<?> getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
+    private Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
         Validate.notNull(loc, "Location cannot be null");
         Validate.notNull(loc.getWorld(), "The Location's World cannot be null");
 
         BlockPosition position = new BlockPosition(loc);
-        Hologram<?> hologram = cache.get(position);
+        Hologram hologram = cache.get(position);
 
         // Check if the Hologram was cached and still exists
         if (hologram != null && !hologram.hasDespawned()) {
@@ -137,8 +137,8 @@ public class HologramsService {
     }
 
     /**
-     * This checks if a given {@link Entity} is an {@link TextDisplay} or {@link ArmorStand}
-     * and whether it has the correct attributes to be considered a {@link Hologram}.
+     * This checks if a given {@link Entity} is an is the right type of entity
+     * with the right properties to be a {@link Hologram}.
      * 
      * @param entity
      *            The {@link Entity} to check
@@ -152,8 +152,8 @@ public class HologramsService {
                     && armorStand.isSilent()
                     && !armorStand.hasGravity()
                     && hasHologramData(armorStand, position);
-        } else if (entity instanceof TextDisplay textDisplay) {
-            return hasHologramData(textDisplay, position);
+        } else if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19_4) && entity.getType() == EntityType.TEXT_DISPLAY) {
+            return hasHologramData(entity, position);
         }
         return false;
     }
@@ -169,8 +169,11 @@ public class HologramsService {
      * @return The {@link Hologram}
      */
     @ParametersAreNonnullByDefault
-    private @Nullable Hologram<?> getAsHologram(Entity entity, BlockPosition position) {
-        Hologram<?> hologram = TextDisplayHologram.of(entity, position);
+    private @Nullable Hologram getAsHologram(Entity entity, BlockPosition position) {
+        Hologram hologram = null;
+        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19_4)) {
+            hologram = TextDisplayHologram.of(entity, position);
+        }
         if (hologram == null) {
             hologram = ArmorStandHologram.of(entity, position);
         }
@@ -188,7 +191,7 @@ public class HologramsService {
      * @param consumer
      *            The callback to run
      */
-    private void updateHologram(@Nonnull Location loc, @Nonnull Consumer<Hologram<?>> consumer) {
+    private void updateHologram(@Nonnull Location loc, @Nonnull Consumer<Hologram> consumer) {
         Validate.notNull(loc, "Location must not be null");
         Validate.notNull(consumer, "Callbacks must not be null");
         if (!Bukkit.isPrimaryThread()) {
@@ -197,7 +200,7 @@ public class HologramsService {
         }
 
         try {
-            Hologram<?> hologram = getHologram(loc, true);
+            Hologram hologram = getHologram(loc, true);
             if (hologram != null) {
                 consumer.accept(hologram);
             }
@@ -253,7 +256,7 @@ public class HologramsService {
         }
 
         try {
-            Hologram<?> hologram = getHologram(location, false);
+            Hologram hologram = getHologram(location, false);
             if (hologram == null) {
                 return false;
             }

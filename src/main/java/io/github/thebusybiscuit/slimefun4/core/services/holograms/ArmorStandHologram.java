@@ -10,7 +10,7 @@ import org.bukkit.entity.Entity;
 
 import java.util.Objects;
 
-public class ArmorStandHologram extends Hologram<ArmorStand> {
+public class ArmorStandHologram extends Hologram {
     private ArmorStandHologram(ArmorStand entity) {
         super(entity.getUniqueId());
     }
@@ -22,7 +22,7 @@ public class ArmorStandHologram extends Hologram<ArmorStand> {
             return;
         }
 
-        ArmorStand entity = getEntity();
+        Entity entity = getEntity();
         if (entity != null) {
             entity.setCustomName(text);
             entity.setCustomNameVisible(text != null);

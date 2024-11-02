@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class TextDisplayHologram extends Hologram<TextDisplay> {
+public class TextDisplayHologram extends Hologram {
     private TextDisplayHologram(@Nonnull TextDisplay textDisplay) {
         super(textDisplay.getUniqueId());
     }
@@ -23,8 +23,8 @@ public class TextDisplayHologram extends Hologram<TextDisplay> {
             return;
         }
 
-        TextDisplay textDisplay = getEntity();
-        if (textDisplay != null) {
+        Entity entity = getEntity();
+        if (entity instanceof TextDisplay textDisplay) {
             textDisplay.setText(text);
         }
     }

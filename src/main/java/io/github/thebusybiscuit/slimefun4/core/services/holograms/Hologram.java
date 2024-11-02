@@ -16,7 +16,7 @@ import org.bukkit.entity.Entity;
  * 
  * @author TheBusyBiscuit, JustAHuman
  */
-abstract class Hologram<E extends Entity> {
+abstract class Hologram {
     private static final long EXPIRES_AFTER = TimeUnit.MINUTES.toMillis(10);
 
     protected final UUID uniqueId;
@@ -35,7 +35,7 @@ abstract class Hologram<E extends Entity> {
     }
 
     public abstract void setText(@Nullable String text);
-    public abstract Class<E> getEntityType();
+    public abstract Class<? extends Entity> getEntityType();
 
     /**
      * @return Whether the associated {@link Entity} has despawned.
@@ -64,7 +64,7 @@ abstract class Hologram<E extends Entity> {
      * @return The {@link Entity} or null.
      */
     @Nullable
-    public E getEntity() {
+    public Entity getEntity() {
         Entity entity = Bukkit.getEntity(uniqueId);
         if (getEntityType().isInstance(entity) && entity.isValid()) {
             this.lastAccess = System.currentTimeMillis();
@@ -76,7 +76,7 @@ abstract class Hologram<E extends Entity> {
     }
 
     public void teleport(Location location) {
-        E getEntity = getEntity();
+        Entity getEntity = getEntity();
         if (getEntity != null) {
             getEntity.teleport(location);
         }
