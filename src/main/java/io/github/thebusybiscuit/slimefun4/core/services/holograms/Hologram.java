@@ -16,7 +16,7 @@ import org.bukkit.entity.Entity;
  * 
  * @author TheBusyBiscuit, JustAHuman
  */
-public abstract class Hologram<E extends Entity> {
+abstract class Hologram<E extends Entity> {
     private static final long EXPIRES_AFTER = TimeUnit.MINUTES.toMillis(10);
 
     protected final UUID uniqueId;
@@ -92,5 +92,4 @@ public abstract class Hologram<E extends Entity> {
             entity.remove();
         }
     }
-
 }

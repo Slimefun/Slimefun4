@@ -208,13 +208,41 @@ public class HologramsService {
     }
 
     /**
+     * This will update the text of the {@link Hologram}.
+     * 
+     * @param location
+     *            The {@link Location} of this {@link Hologram}
+     * @param text
+     *            The text to set, can be null
+     */
+    public void setHologramLabel(@Nonnull Location location, @Nullable String text) {
+        Validate.notNull(location, "Location must not be null");
+
+        updateHologram(location, hologram -> hologram.setText(text));
+    }
+
+    /**
+     * This will teleport the {@link Hologram} to the given {@link Location}.
+     *
+     * @param location
+     *           The {@link Location} of this {@link Hologram}
+     * @param to
+     *           The {@link Location} to teleport the {@link Hologram} to
+     */
+    public void teleportHologram(@Nonnull Location location, @Nonnull Location to) {
+        Validate.notNull(location, "Location must not be null");
+
+        updateHologram(location, hologram -> hologram.teleport(to));
+    }
+
+    /**
      * This removes the {@link Hologram} at that given {@link Location}.
      * <p>
      * <strong>This method must be executed on the main {@link Server} {@link Thread}.</strong>
-     * 
+     *
      * @param location
      *            The {@link Location}
-     * 
+     *
      * @return Whether the {@link Hologram} could be removed, false if the {@link Hologram} does not
      *         exist or was already removed
      */
@@ -239,25 +267,4 @@ public class HologramsService {
             return false;
         }
     }
-
-    /**
-     * This will update the text of the {@link Hologram}.
-     * 
-     * @param location
-     *            The {@link Location} of this {@link Hologram}
-     * @param text
-     *            The text to set, can be null
-     */
-    public void setHologramLabel(@Nonnull Location location, @Nullable String text) {
-        Validate.notNull(location, "Location must not be null");
-
-        updateHologram(location, hologram -> hologram.setText(text));
-    }
-
-    public void teleportHologram(@Nonnull Location location, @Nonnull Location to) {
-        Validate.notNull(location, "Location must not be null");
-
-        updateHologram(location, hologram -> hologram.teleport(to));
-    }
-
 }

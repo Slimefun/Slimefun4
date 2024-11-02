@@ -11,7 +11,6 @@ import org.bukkit.entity.Entity;
 import java.util.Objects;
 
 public class ArmorStandHologram extends Hologram<ArmorStand> {
-
     private ArmorStandHologram(ArmorStand entity) {
         super(entity.getUniqueId());
     }
@@ -35,7 +34,7 @@ public class ArmorStandHologram extends Hologram<ArmorStand> {
         return ArmorStand.class;
     }
 
-    public static Hologram<?> of(Entity entity, BlockPosition position) {
+    static ArmorStandHologram of(Entity entity, BlockPosition position) {
         if (!(entity instanceof ArmorStand armorStand)) {
             return null;
         }
@@ -47,9 +46,8 @@ public class ArmorStandHologram extends Hologram<ArmorStand> {
         return new ArmorStandHologram(armorStand);
     }
 
-    public static Hologram<?> create(Location location, BlockPosition position) {
+    static ArmorStandHologram create(Location location, BlockPosition position) {
         ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
         return of(armorStand, position);
     }
-
 }
