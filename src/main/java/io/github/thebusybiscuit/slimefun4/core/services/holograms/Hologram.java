@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
 /**
@@ -71,6 +72,13 @@ public abstract class Hologram<E extends Entity> {
         } else {
             this.lastAccess = 0;
             return null;
+        }
+    }
+
+    public void teleport(Location location) {
+        E getEntity = getEntity();
+        if (getEntity != null) {
+            getEntity.teleport(location);
         }
     }
 

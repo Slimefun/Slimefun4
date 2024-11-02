@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,10 +19,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TextDisplay;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
@@ -43,15 +41,14 @@ public class HologramsService {
     private static final Vector DEFAULT_OFFSET = new Vector(0.5, 0.75, 0.5);
 
     private final Plugin plugin;
-
-    private final NamespacedKey persistentDataKey;
+    private final NamespacedKey key;
     private final Map<BlockPosition, Hologram<? extends Entity>> cache = new HashMap<>();
     protected boolean started = false;
 
     public HologramsService(@Nonnull Plugin plugin) {
         // Null-Validation is performed in the NamespacedKey constructor
         this.plugin = plugin;
-        this.persistentDataKey = new NamespacedKey(plugin, "hologram_id");
+        this.key = new NamespacedKey(plugin, "hologram_id");
     }
 
     /**
@@ -68,13 +65,17 @@ public class HologramsService {
     }
 
     /**
-     * This returns the default {@link Hologram} offset.
-     * 
-     * @return The default offset
+     * @return The default {@link Hologram} offset
      */
-    @Nonnull
-    public Vector getDefaultOffset() {
+    public @Nonnull Vector getDefaultOffset() {
         return DEFAULT_OFFSET.clone();
+    }
+
+    /**
+     * @return The {@link NamespacedKey} marking an entity as a hologram & storing its position
+     */
+    public @Nonnull NamespacedKey getKey() {
+        return key;
     }
 
     /**
@@ -99,6 +100,7 @@ public class HologramsService {
     @Nullable
     private Hologram<?> getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
         Validate.notNull(loc, "Location cannot be null");
+        Validate.notNull(loc.getWorld(), "The Location's World cannot be null");
 
         BlockPosition position = new BlockPosition(loc);
         Hologram<?> hologram = cache.get(position);
@@ -112,7 +114,7 @@ public class HologramsService {
         Collection<Entity> holograms = loc.getWorld().getNearbyEntities(loc, SCAN_RADIUS, SCAN_RADIUS, SCAN_RADIUS, entity -> isHologram(entity, position));
         for (Entity entity : holograms) {
             if (hologram == null) {
-                hologram = getAsHologram(position, entity);
+                hologram = getAsHologram(entity, position);
             } else {
                 // Fixes #2927 - Remove any duplicates we find
                 entity.remove();
@@ -120,11 +122,10 @@ public class HologramsService {
         }
 
         if (hologram == null && createIfNoneExists) {
-            // Spawn a new ArmorStand
-            ArmorStand armorstand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-            PersistentDataContainer container = armorstand.getPersistentDataContainer();
-
-            return getAsHologram(position, armorstand, container);
+            if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19_4)) {
+                return TextDisplayHologram.create(loc, position);
+            }
+            return ArmorStandHologram.create(loc, position);
         } else {
             return hologram;
         }
@@ -132,7 +133,7 @@ public class HologramsService {
 
     @ParametersAreNonnullByDefault
     private boolean hasHologramData(Entity entity, BlockPosition position) {
-        return PersistentDataAPI.getLong(entity, persistentDataKey) == position.getPosition();
+        return PersistentDataAPI.getLong(entity, key) == position.getPosition();
     }
 
     /**
@@ -158,41 +159,22 @@ public class HologramsService {
     }
 
     /**
-     * This will cast the {@link Entity} to an {@link ArmorStand} and it will apply
-     * all necessary attributes to the {@link ArmorStand}, then return a {@link Hologram}.
-     * 
+     * This will cast and find the matching {@link Hologram} for the given {@link Entity}.
+     *
+     * @param entity
+     *      *            The {@link Entity}
      * @param position
      *            The {@link BlockPosition} of this hologram
-     * @param entity
-     *            The {@link Entity}
-     * @param container
-     *            The {@link PersistentDataContainer} of the given {@link Entity}
      * 
      * @return The {@link Hologram}
      */
-    @Nullable
-    private Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
-        if (entity instanceof ArmorStand armorStand) {
-            armorStand.setVisible(false);
-            armorStand.setInvulnerable(true);
-            armorStand.setSilent(true);
-            armorStand.setMarker(true);
-            armorStand.setAI(false);
-            armorStand.setGravity(false);
-            armorStand.setRemoveWhenFarAway(false);
-
-            // Set a persistent tag to re-identify the correct hologram later
-            container.set(persistentDataKey, PersistentDataType.LONG, position.getPosition());
-
-            // Store in cache for faster access
-            Hologram hologram = new Hologram(armorStand.getUniqueId());
-            cache.put(position, hologram);
-
-            return hologram;
-        } else {
-            // This should never be reached
-            return null;
+    @ParametersAreNonnullByDefault
+    private @Nullable Hologram<?> getAsHologram(Entity entity, BlockPosition position) {
+        Hologram<?> hologram = TextDisplayHologram.of(entity, position);
+        if (hologram == null) {
+            hologram = ArmorStandHologram.of(entity, position);
         }
+        return hologram;
     }
 
     /**
@@ -206,27 +188,22 @@ public class HologramsService {
      * @param consumer
      *            The callback to run
      */
-    private void updateHologram(@Nonnull Location loc, @Nonnull Consumer<Hologram> consumer) {
+    private void updateHologram(@Nonnull Location loc, @Nonnull Consumer<Hologram<?>> consumer) {
         Validate.notNull(loc, "Location must not be null");
         Validate.notNull(consumer, "Callbacks must not be null");
+        if (!Bukkit.isPrimaryThread()) {
+            Slimefun.runSync(() -> updateHologram(loc, consumer));
+            return;
+        }
 
-        Runnable runnable = () -> {
-            try {
-                Hologram hologram = getHologram(loc, true);
-
-                if (hologram != null) {
-                    consumer.accept(hologram);
-                }
-            } catch (Exception | LinkageError x) {
-                Slimefun.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
-                Slimefun.logger().log(Level.SEVERE, "Something went wrong while trying to update this hologram", x);
+        try {
+            Hologram<?> hologram = getHologram(loc, true);
+            if (hologram != null) {
+                consumer.accept(hologram);
             }
-        };
-
-        if (Bukkit.isPrimaryThread()) {
-            runnable.run();
-        } else {
-            Slimefun.runSync(runnable);
+        } catch (Exception | LinkageError x) {
+            Slimefun.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
+            Slimefun.logger().log(Level.SEVERE, "Something went wrong while trying to update this hologram", x);
         }
     }
 
@@ -235,48 +212,52 @@ public class HologramsService {
      * <p>
      * <strong>This method must be executed on the main {@link Server} {@link Thread}.</strong>
      * 
-     * @param loc
+     * @param location
      *            The {@link Location}
      * 
      * @return Whether the {@link Hologram} could be removed, false if the {@link Hologram} does not
      *         exist or was already removed
      */
-    public boolean removeHologram(@Nonnull Location loc) {
-        Validate.notNull(loc, "Location cannot be null");
+    public boolean removeHologram(@Nonnull Location location) {
+        Validate.notNull(location, "Location cannot be null");
+        if (!Bukkit.isPrimaryThread()) {
+            throw new UnsupportedOperationException("You cannot remove a hologram asynchronously.");
+        }
 
-        if (Bukkit.isPrimaryThread()) {
-            try {
-                Hologram hologram = getHologram(loc, false);
-
-                if (hologram != null) {
-                    cache.remove(new BlockPosition(loc));
-                    hologram.remove();
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (Exception | LinkageError x) {
-                Slimefun.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
-                Slimefun.logger().log(Level.SEVERE, "Something went wrong while trying to remove this hologram", x);
+        try {
+            Hologram<?> hologram = getHologram(location, false);
+            if (hologram == null) {
                 return false;
             }
-        } else {
-            throw new UnsupportedOperationException("You cannot remove a hologram asynchronously.");
+
+            cache.remove(new BlockPosition(location));
+            hologram.remove();
+            return true;
+        } catch (Exception | LinkageError x) {
+            Slimefun.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(location));
+            Slimefun.logger().log(Level.SEVERE, "Something went wrong while trying to remove this hologram", x);
+            return false;
         }
     }
 
     /**
-     * This will update the label of the {@link Hologram}.
+     * This will update the text of the {@link Hologram}.
      * 
-     * @param loc
+     * @param location
      *            The {@link Location} of this {@link Hologram}
-     * @param label
-     *            The label to set, can be null
+     * @param text
+     *            The text to set, can be null
      */
-    public void setHologramLabel(@Nonnull Location loc, @Nullable String label) {
-        Validate.notNull(loc, "Location must not be null");
+    public void setHologramLabel(@Nonnull Location location, @Nullable String text) {
+        Validate.notNull(location, "Location must not be null");
 
-        updateHologram(loc, hologram -> hologram.setText(label));
+        updateHologram(location, hologram -> hologram.setText(text));
+    }
+
+    public void teleportHologram(@Nonnull Location location, @Nonnull Location to) {
+        Validate.notNull(location, "Location must not be null");
+
+        updateHologram(location, hologram -> hologram.teleport(to));
     }
 
 }

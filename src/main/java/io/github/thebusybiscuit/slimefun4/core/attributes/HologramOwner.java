@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -14,37 +15,45 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramPr
 /**
  * This {@link ItemAttribute} manages holograms.
  * 
- * @author TheBusyBiscuit
+ * @author TheBusyBiscuit, JustAHuman
  * 
  * @see HologramProjector
  * @see HologramsService
- *
  */
 public interface HologramOwner extends ItemAttribute {
 
     /**
      * This will update the hologram text for the given {@link Block}.
      * 
-     * @param b
+     * @param block
      *            The {@link Block} to which the hologram belongs
      * 
      * @param text
-     *            The nametag for the hologram
+     *            The text for the hologram
      */
-    default void updateHologram(@Nonnull Block b, @Nonnull String text) {
-        Location loc = b.getLocation().add(getHologramOffset(b));
-        Slimefun.getHologramsService().setHologramLabel(loc, ChatColors.color(text));
+    default void updateHologram(@Nonnull Block block, @Nullable String text) {
+        Location location = block.getLocation().add(getHologramOffset(block));
+        if (text != null) {
+            text = ChatColors.color(text);
+        }
+        Slimefun.getHologramsService().setHologramLabel(location, text);
+    }
+
+    default void setOffset(@Nonnull Block block, Vector offset) {
+        Location hologramLocation = block.getLocation().add(getHologramOffset(block));
+        Location newHologramLocation = block.getLocation().add(offset);
+        Slimefun.getHologramsService().teleportHologram(hologramLocation, newHologramLocation);
     }
 
     /**
      * This will remove the hologram for the given {@link Block}.
      * 
-     * @param b
+     * @param block
      *            The {@link Block} to which the hologram blocks
      */
-    default void removeHologram(@Nonnull Block b) {
-        Location loc = b.getLocation().add(getHologramOffset(b));
-        Slimefun.getHologramsService().removeHologram(loc);
+    default void removeHologram(@Nonnull Block block) {
+        Location location = block.getLocation().add(getHologramOffset(block));
+        Slimefun.getHologramsService().removeHologram(location);
     }
 
     /**

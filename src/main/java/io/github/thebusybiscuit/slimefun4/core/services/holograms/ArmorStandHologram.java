@@ -1,12 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.services.holograms;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.ArmorStandUtils;
+import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 
 import java.util.Objects;
 
 public class ArmorStandHologram extends Hologram<ArmorStand> {
 
-    public ArmorStandHologram(ArmorStand entity) {
+    private ArmorStandHologram(ArmorStand entity) {
         super(entity.getUniqueId());
     }
 
@@ -27,6 +33,23 @@ public class ArmorStandHologram extends Hologram<ArmorStand> {
     @Override
     public Class<ArmorStand> getEntityType() {
         return ArmorStand.class;
+    }
+
+    public static Hologram<?> of(Entity entity, BlockPosition position) {
+        if (!(entity instanceof ArmorStand armorStand)) {
+            return null;
+        }
+
+        armorStand.setAI(false);
+        armorStand.setInvulnerable(true);
+        ArmorStandUtils.setupArmorStand(armorStand);
+        PersistentDataAPI.setLong(entity, Slimefun.getHologramsService().getKey(), position.getPosition());
+        return new ArmorStandHologram(armorStand);
+    }
+
+    public static Hologram<?> create(Location location, BlockPosition position) {
+        ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
+        return of(armorStand, position);
     }
 
 }
