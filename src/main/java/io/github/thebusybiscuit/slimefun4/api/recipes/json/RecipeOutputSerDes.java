@@ -35,9 +35,6 @@ public final class RecipeOutputSerDes implements JsonDeserializer<AbstractRecipe
                 .toList()
         );
 
-        System.out.println("871983723798173981273912739172983791273218");
-        System.out.println(output);
-
         if (obj.has("class")) {
             String cl = obj.getAsJsonPrimitive("class").getAsString();
             CustomRecipeDeserializer<AbstractRecipeOutput> deserializer = Slimefun.getRecipeService().getRecipeOutputDeserializer(NamespacedKey.fromString(cl));

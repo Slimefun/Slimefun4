@@ -118,8 +118,6 @@ public class RecipeService {
         return recipesById.get(id);
     }
     public void addRecipe(Recipe recipe) {
-        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-        System.out.println(recipe);
         if (recipe.getId().isPresent()) {
             String id = recipe.getId().get();
             if (recipesById.containsKey(id)) {
