@@ -12,7 +12,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
-
+import io.github.thebusybiscuit.slimefun4.implementation.setup.RecipeSetup;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -47,6 +47,10 @@ public class SlimefunStartupTask implements Runnable {
 
         // Load all items
         PostSetup.loadItems();
+
+        // Load all recipes
+        Slimefun.logger().info("Loading recipes...");
+        RecipeSetup.setup();
 
         // Load all worlds
         Slimefun.getWorldSettingsService().load(Bukkit.getWorlds());
