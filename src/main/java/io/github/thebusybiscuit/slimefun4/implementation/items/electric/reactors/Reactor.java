@@ -145,7 +145,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
         switch (mode) {
             case GENERATOR:
-                menu.replaceExistingItem(4, new CustomItemStack(SlimefunItems.NUCLEAR_REACTOR.getDelegate(), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7\u21E8 Click to change the Focus to &eProduction"));
+                menu.replaceExistingItem(4, new CustomItemStack(SlimefunItems.NUCLEAR_REACTOR.item(), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7\u21E8 Click to change the Focus to &eProduction"));
                 menu.addMenuClickHandler(4, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
                     updateInventory(menu, b);
@@ -153,7 +153,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
                 });
                 break;
             case PRODUCTION:
-                menu.replaceExistingItem(4, new CustomItemStack(SlimefunItems.PLUTONIUM.getDelegate(), "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7\u21E8 Click to change the Focus to &ePower Generation"));
+                menu.replaceExistingItem(4, new CustomItemStack(SlimefunItems.PLUTONIUM.item(), "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7\u21E8 Click to change the Focus to &ePower Generation"));
                 menu.addMenuClickHandler(4, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
                     updateInventory(menu, b);

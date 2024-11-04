@@ -170,7 +170,7 @@ public class SlimefunItemStack {
     }
 
     public SlimefunItemStack(@Nonnull SlimefunItemStack item, int amount) {
-        this(item.getItemId(), item.getDelegate());
+        this(item.getItemId(), item.item());
         setAmount(amount);
     }
 
@@ -337,7 +337,7 @@ public class SlimefunItemStack {
     /**
      * @return underlying ItemStack used
      */
-    public @Nonnull ItemStack getDelegate() {
+    public @Nonnull ItemStack item() {
         return delegate;
     }
 }

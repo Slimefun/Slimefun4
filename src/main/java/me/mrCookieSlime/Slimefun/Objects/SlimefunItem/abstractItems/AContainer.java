@@ -319,16 +319,16 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     }
 
     public void registerRecipe(int seconds, SlimefunItemStack input, SlimefunItemStack output) {
-        registerRecipe(seconds, input.getDelegate(), output.getDelegate());
+        registerRecipe(seconds, input.item(), output.item());
     }
 
     public void registerRecipe(int seconds, SlimefunItemStack[] input, SlimefunItemStack[] output) {
         var inputAsItemStack = Arrays.stream(input)
-                .map(SlimefunItemStack::getDelegate)
+                .map(SlimefunItemStack::item)
                 .toArray(ItemStack[]::new);
 
         var outputAsItemStack = Arrays.stream(output)
-                .map(SlimefunItemStack::getDelegate)
+                .map(SlimefunItemStack::item)
                 .toArray(ItemStack[]::new);
 
         registerRecipe(seconds, inputAsItemStack, outputAsItemStack);

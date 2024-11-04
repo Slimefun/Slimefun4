@@ -40,7 +40,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 public class Talisman extends SlimefunItem {
 
-    protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), new CustomItemStack(SlimefunItems.COMMON_TALISMAN.getDelegate(), "&7Talismans - &aTier I"), 2);
+    protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), new CustomItemStack(SlimefunItems.COMMON_TALISMAN.item(), "&7Talismans - &aTier I"), 2);
     private static final String WIKI_PAGE = "Talismans";
 
     private final SlimefunItemStack enderTalisman;
@@ -68,7 +68,7 @@ public class Talisman extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     protected Talisman(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
-        super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItemStack(item.getDelegate(), consumable ? 4 : 1));
+        super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItemStack(item.item(), consumable ? 4 : 1));
 
         this.consumable = consumable;
         this.cancel = cancelEvent;
@@ -194,9 +194,9 @@ public class Talisman extends SlimefunItem {
             }
 
             EnderTalisman enderTalisman = enderTalismanItem.getItem(EnderTalisman.class);
-            if (enderTalisman != null && SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalismanItem.getDelegate(), true)) {
+            if (enderTalisman != null && SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalismanItem.item(), true)) {
                 if (talisman.canUse(p, true)) {
-                    activateTalisman(e, p, p.getEnderChest(), enderTalisman, enderTalismanItem.getDelegate(), sendMessage);
+                    activateTalisman(e, p, p.getEnderChest(), enderTalisman, enderTalismanItem.item(), sendMessage);
                     return true;
                 } else {
                     return false;

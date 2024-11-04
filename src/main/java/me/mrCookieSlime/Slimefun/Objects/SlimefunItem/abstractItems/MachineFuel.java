@@ -34,11 +34,11 @@ public class MachineFuel implements Predicate<ItemStack> {
     }
 
     public MachineFuel(int seconds, SlimefunItemStack fuel) {
-        this(seconds, fuel.getDelegate(), null);
+        this(seconds, fuel.item(), null);
     }
 
     public MachineFuel(int seconds, SlimefunItemStack fuel, SlimefunItemStack output) {
-        this(seconds, fuel.getDelegate(), output.getDelegate());
+        this(seconds, fuel.item(), output.item());
     }
 
     public ItemStack getInput() {

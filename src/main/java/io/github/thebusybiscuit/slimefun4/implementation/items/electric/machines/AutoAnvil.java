@@ -49,7 +49,7 @@ public class AutoAnvil extends AContainer {
             ItemStack item = menu.getItemInSlot(slot);
 
             if (item != null && item.getType().getMaxDurability() > 0 && ((Damageable) item.getItemMeta()).getDamage() > 0) {
-                if (SlimefunUtils.isItemSimilar(ductTape, SlimefunItems.DUCT_TAPE.getDelegate(), true, false)) {
+                if (SlimefunUtils.isItemSimilar(ductTape, SlimefunItems.DUCT_TAPE.item(), true, false)) {
                     ItemStack repairedItem = repair(item);
 
                     if (!menu.fits(repairedItem, getOutputSlots())) {

@@ -35,7 +35,7 @@ final class GrapplingHookEntity {
     public void drop(@Nonnull Location l) {
         // If a grappling hook was consumed, drop one grappling hook on the floor
         if (dropItem && wasConsumed) {
-            Item item = l.getWorld().dropItem(l, SlimefunItems.GRAPPLING_HOOK.getDelegate());
+            Item item = l.getWorld().dropItem(l, SlimefunItems.GRAPPLING_HOOK.item());
             item.setPickupDelay(16);
         }
     }

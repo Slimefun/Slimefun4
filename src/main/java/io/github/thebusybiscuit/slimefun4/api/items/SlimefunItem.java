@@ -153,7 +153,7 @@ public class SlimefunItem implements Placeable {
         Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
 
         this.itemGroup = itemGroup;
-        this.itemStackTemplate = item.getDelegate();
+        this.itemStackTemplate = item.item();
         this.id = item.getItemId();
         this.recipeType = recipeType;
         this.recipe = recipe;
@@ -1190,7 +1190,7 @@ public class SlimefunItem implements Placeable {
             return null;
         }
 
-        var delegate = slimefunItemStack.getDelegate();
+        var delegate = slimefunItemStack.item();
         if (delegate.getType() == Material.AIR) {
             return null;
         }
