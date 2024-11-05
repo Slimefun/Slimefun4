@@ -442,9 +442,6 @@ class TestRecipes {
     @Test
     @DisplayName("Test RecipeInputSlimefunItem Matching")
     void testRecipeInputSlimefunItemMatching() {
-        final ItemGroup itemGroup = new ItemGroup(new NamespacedKey(sf, "test_group"), new CustomItemStack(Material.DIAMOND_AXE, "Test Group"));
-        final MockSlimefunItem testItem = new MockSlimefunItem(itemGroup, new ItemStack(Material.IRON_INGOT), "TEST_ITEM");
-        testItem.register(sf);
         var item = new RecipeInputSlimefunItem("TEST_ITEM", 2);
         Assertions.assertFalse(item.matchItem(new ItemStack(Material.IRON_INGOT)).itemsMatch());
         ItemStack sfItem = testItem.getItem().clone();
