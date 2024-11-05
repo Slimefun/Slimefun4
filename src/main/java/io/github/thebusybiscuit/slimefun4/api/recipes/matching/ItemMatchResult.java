@@ -11,11 +11,13 @@ public class ItemMatchResult {
     private final boolean itemsMatch;
     private final AbstractRecipeInputItem recipeItem;
     private final @Nullable ItemStack matchedItem;
+    private final int consumeAmount;
 
-    public ItemMatchResult(boolean itemsMatch, AbstractRecipeInputItem recipeItem, ItemStack matchedItem) {
+    public ItemMatchResult(boolean itemsMatch, AbstractRecipeInputItem recipeItem, ItemStack matchedItem, int consumeAmount) {
         this.itemsMatch = itemsMatch;
         this.recipeItem = recipeItem;
         this.matchedItem = matchedItem;
+        this.consumeAmount = consumeAmount;
     }
     
     /**
@@ -31,5 +33,11 @@ public class ItemMatchResult {
      */
     @Nullable
     public ItemStack getMatchedItem() { return matchedItem; }
+    /**
+     * @return How much of the item to consume when crafting
+     */
+    public int getConsumeAmount() {
+        return consumeAmount;
+    }
     
 }

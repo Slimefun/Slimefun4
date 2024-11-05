@@ -19,7 +19,7 @@ public abstract class RecipeInputItem extends AbstractRecipeInputItem {
     
         @Override
         protected ItemMatchResult matchItem(ItemStack item, AbstractRecipeInputItem root) {
-            return new ItemMatchResult(item == null || item.getType().isAir(), this, item);
+            return new ItemMatchResult(item == null || item.getType().isAir(), this, item, 0);
         }
     
         @Override
@@ -62,11 +62,6 @@ public abstract class RecipeInputItem extends AbstractRecipeInputItem {
 
     private int amount;
     private int durabilityCost = 0;
-
-    public RecipeInputItem(int amount, int durabilityCost, double consumeChance) {
-        this.amount = amount;
-        this.durabilityCost = durabilityCost;
-    }
 
     public RecipeInputItem(int amount, int durabilityCost) {
         this.amount = amount;

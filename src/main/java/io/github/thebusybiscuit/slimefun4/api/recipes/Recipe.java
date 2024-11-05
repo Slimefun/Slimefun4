@@ -16,6 +16,7 @@ import com.google.gson.JsonSerializationContext;
 
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.InputMatchResult;
+import io.github.thebusybiscuit.slimefun4.api.recipes.matching.MatchProcedure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.RecipeMatchResult;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
@@ -59,17 +60,21 @@ public class Recipe {
         );
     }
 
-    public static Recipe fromItemStacks(ItemStack[] inputs, ItemStack output, int width, RecipeType type) {
+    public static Recipe fromItemStacks(ItemStack[] inputs, ItemStack output, RecipeType type, MatchProcedure match) {
         return new Recipe(
             Optional.empty(),
             "other_recipes",
-            RecipeInput.fromItemStacks(inputs, type.getDefaultMatchProcedure()),
+            RecipeInput.fromItemStacks(inputs, match),
             new RecipeOutput(List.of(new RecipeOutputItemStack(output))),
             List.of(type),
             Optional.empty(),
             Optional.empty(),
             List.of()
         );
+    }
+
+    public static Recipe fromItemStacks(ItemStack[] inputs, ItemStack output, RecipeType type) {
+        return fromItemStacks(inputs, output, type, type.getDefaultMatchProcedure());
     }
 
 
@@ -126,6 +131,11 @@ public class Recipe {
 
     public RecipeMatchResult match(List<ItemStack> givenItems) {
         InputMatchResult result = getInput().match(givenItems);
+        return new RecipeMatchResult(this, result);
+    }
+
+    public RecipeMatchResult matchAs(MatchProcedure match, List<ItemStack> givenItems) {
+        InputMatchResult result = getInput().matchAs(match, givenItems);
         return new RecipeMatchResult(this, result);
     }
 

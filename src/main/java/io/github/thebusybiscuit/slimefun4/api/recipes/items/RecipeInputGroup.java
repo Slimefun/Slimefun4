@@ -35,7 +35,7 @@ public class RecipeInputGroup extends AbstractRecipeInputItem {
                 return result;
             }
         }
-        return new ItemMatchResult(false, root, item);
+        return new ItemMatchResult(false, root, item, 0);
     }
 
     @Override

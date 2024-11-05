@@ -25,11 +25,6 @@ public abstract class MatchProcedure {
         public InputMatchResult match(AbstractRecipeInput recipeInput, List<ItemStack> givenItems) {
             return InputMatchResult.noMatch(recipeInput);
         }
-
-        @Override
-        public String toString() {
-            return "DUMMY";
-        }
     };
 
     /**
@@ -39,11 +34,6 @@ public abstract class MatchProcedure {
         @Override
         public InputMatchResult match(AbstractRecipeInput recipeInput, List<ItemStack> givenItems) {
             return new InputMatchResult(recipeInput, Collections.emptyList(), true);
-        }
-
-        @Override
-        public String toString() {
-            return "EMPTY";
         }
     };
 
@@ -58,7 +48,7 @@ public abstract class MatchProcedure {
                 return InputMatchResult.noMatch(recipeInput);
             }
             BoundingBox recipeBox = oRecipeBox.get();
-            BoundingBox givenBox = RecipeUtils.calculateBoundingBox(List.of(givenItems), width, height);
+            BoundingBox givenBox = RecipeUtils.calculateBoundingBox(givenItems, width, height, i -> i == null || i.getType().isAir());
 
             if (!recipeBox.isSameShape(givenBox)) {
                 return InputMatchResult.noMatch(recipeInput);
@@ -80,11 +70,6 @@ public abstract class MatchProcedure {
             }
             return new InputMatchResult(recipeInput, results, true);
         }
-
-        @Override
-        public String toString() {
-            return "SHAPED";
-        }
     };
 
     public static final MatchProcedure SHAPED_FLIPPABLE = new MatchProcedure("slimefun:shaped_flippable") {
@@ -97,11 +82,6 @@ public abstract class MatchProcedure {
             // Flip given items
             List<ItemStack> flipped = RecipeUtils.flipY(givenItems, recipeInput.getWidth(), recipeInput.getHeight());
             return SHAPED.match(recipeInput, flipped);
-        }
-
-        @Override
-        public String toString() {
-            return "SHAPED_FLIPPABLE";
         }
     };
 
@@ -118,11 +98,6 @@ public abstract class MatchProcedure {
             }
             return result;
         }
-
-        @Override
-        public String toString() {
-            return "SHAPED_ROTATABLE_3X3";
-        }
     };
 
     public static final MatchProcedure SUBSET = new MatchProcedure("slimefun:subset") {
@@ -136,6 +111,9 @@ public abstract class MatchProcedure {
             }
             Map<Integer, ItemMatchResult> matchedItems = new HashMap<>();
             outer: for (AbstractRecipeInputItem recipeItem : recipeInput.getItems()) {
+                if (recipeItem.isEmpty()) {
+                    continue;
+                }
                 for (int i = 0; i < givenItems.size(); i++) {
                     if (matchedItems.containsKey(i)) {
                         continue;
@@ -152,28 +130,18 @@ public abstract class MatchProcedure {
 
             return new InputMatchResult(recipeInput, List.copyOf(matchedItems.values()), true);
         }
-
-        @Override
-        public String toString() {
-            return "SUBSET";
-        }
     };
 
     public static final MatchProcedure SHAPELESS = new MatchProcedure("slimefun:shapeless") {
         @Override
         public InputMatchResult match(AbstractRecipeInput recipeInput, List<ItemStack> givenItems) {
             if (
-                recipeInput.getItems().stream().filter(i -> !i.isEmpty()).count() >
+                recipeInput.getItems().stream().filter(i -> !i.isEmpty()).count() !=
                 givenItems.stream().filter(i -> i != null && !i.getType().isAir()).count()
-            ) {
+                ) {
                 return InputMatchResult.noMatch(recipeInput);
             }
             return SUBSET.match(recipeInput, givenItems);
-        }
-
-        @Override
-        public String toString() {
-            return "SHAPELESS";
         }
     };
 
@@ -194,6 +162,11 @@ public abstract class MatchProcedure {
 
     public boolean recipeShouldSaveBoundingBox() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return key.toString();
     }
     
 }

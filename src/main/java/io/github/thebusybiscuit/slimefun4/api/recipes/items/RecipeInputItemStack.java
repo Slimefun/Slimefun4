@@ -25,6 +25,11 @@ public class RecipeInputItemStack extends RecipeInputItem {
     }
 
     @ParametersAreNonnullByDefault
+    public RecipeInputItemStack(ItemStack template) {
+        this(template, 0);
+    }
+
+    @ParametersAreNonnullByDefault
     public RecipeInputItemStack(Material template, int amount, int durabilityCost) {
         super(amount, durabilityCost);
         this.template = new ItemStack(template);
@@ -36,8 +41,8 @@ public class RecipeInputItemStack extends RecipeInputItem {
     }
 
     @ParametersAreNonnullByDefault
-    public RecipeInputItemStack(ItemStack template) {
-        this(template, 0);
+    public RecipeInputItemStack(Material template) {
+        this(template, 1);
     }
 
     @Nonnull
@@ -46,10 +51,14 @@ public class RecipeInputItemStack extends RecipeInputItem {
 
     @Override
     public ItemMatchResult matchItem(ItemStack item, AbstractRecipeInputItem root) {
+        if (item == null || item.getType().isAir()) {
+            return new ItemMatchResult(isEmpty(), root, item, getAmount());
+        } else if (item.getAmount() < getAmount()) {
+            return new ItemMatchResult(false, root, item, getAmount());
+        }
         return new ItemMatchResult(
             SlimefunUtils.isItemSimilar(item, template, false),
-            root,
-            item
+            root, item, getAmount()
         );
     }
 

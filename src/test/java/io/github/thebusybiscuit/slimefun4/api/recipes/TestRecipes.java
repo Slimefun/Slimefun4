@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
@@ -16,6 +17,8 @@ import com.google.common.base.Predicate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.AbstractRecipeInputItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.AbstractRecipeOutputItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeInputGroup;
@@ -26,12 +29,15 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeInputTag;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputGroup;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputTag;
 import io.github.thebusybiscuit.slimefun4.api.recipes.json.RecipeSerDes;
+import io.github.thebusybiscuit.slimefun4.api.recipes.matching.MatchProcedure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.json.RecipeInputSerDes;
 import io.github.thebusybiscuit.slimefun4.api.recipes.json.RecipeInputItemSerDes;
 import io.github.thebusybiscuit.slimefun4.api.recipes.json.RecipeOutputSerDes;
 import io.github.thebusybiscuit.slimefun4.api.recipes.json.RecipeOutputItemSerDes;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.test.mocks.MockSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import be.seeseemelk.mockbukkit.MockBukkit;
 
@@ -118,12 +124,15 @@ class TestRecipes {
 }
             """;
 
+    private static Slimefun sf;
     private static Gson gson;
+    private static ItemGroup itemGroup;
+    private static MockSlimefunItem testItem;
 
     @BeforeAll
     public static void load() {
         MockBukkit.mock();
-        MockBukkit.load(Slimefun.class);
+        sf = MockBukkit.load(Slimefun.class);
         gson = new GsonBuilder()
                 .registerTypeAdapter(Recipe.class, new RecipeSerDes())
                 .registerTypeAdapter(AbstractRecipeInput.class, new RecipeInputSerDes())
@@ -131,6 +140,10 @@ class TestRecipes {
                 .registerTypeAdapter(AbstractRecipeInputItem.class, new RecipeInputItemSerDes())
                 .registerTypeAdapter(AbstractRecipeOutputItem.class, new RecipeOutputItemSerDes())
                 .create();
+                
+        itemGroup = new ItemGroup(new NamespacedKey(sf, "test_group"), new CustomItemStack(Material.DIAMOND_AXE, "Test Group"));
+        testItem = new MockSlimefunItem(itemGroup, new ItemStack(Material.IRON_INGOT), "TEST_ITEM");
+        testItem.register(sf);
     }
 
     @AfterAll
@@ -223,7 +236,6 @@ class TestRecipes {
     @DisplayName("Test Recipe Input Deserialization")
     void testInputDeserialization() {
         Recipe recipe = gson.fromJson(recipe1, Recipe.class);
-        System.out.println(recipe);
 
         Assertions.assertEquals(5, recipe.getInput().getWidth());
         Assertions.assertEquals(3, recipe.getInput().getHeight());
@@ -244,7 +256,6 @@ class TestRecipes {
     @DisplayName("Test Recipe Output Deserialization")
     void testOutputDeserialization() {
         Recipe recipe = gson.fromJson(recipe2, Recipe.class);
-        System.out.println(recipe);
 
         Assertions.assertEquals(1, recipe.getInput().getWidth());
         Assertions.assertEquals(1, recipe.getInput().getHeight());
@@ -288,6 +299,190 @@ class TestRecipes {
             "\"#slimefun:torches|3\"",
             gson.toJson(i5, AbstractRecipeInputItem.class)
         );
+    }
+
+    @Test
+    @DisplayName("Test Recipe Output Item Serialization")
+    void testRecipeOutputItemSerialization() {
+        var i1 = new RecipeOutputItemStack(new ItemStack(Material.ACACIA_BOAT));
+        var i2 = new RecipeOutputItemStack(new ItemStack(Material.STICK, 3));
+        var i4 = new RecipeOutputSlimefunItem("IRON_DUST", 64);
+        var i5 = new RecipeOutputTag(SlimefunTag.TORCHES, 3);
+        Assertions.assertEquals(
+            "\"minecraft:acacia_boat\"",
+            gson.toJson(i1, AbstractRecipeOutputItem.class)
+        );
+        Assertions.assertEquals(
+            "\"minecraft:stick|3\"",
+            gson.toJson(i2, AbstractRecipeOutputItem.class)
+        );
+        Assertions.assertEquals(
+            "\"slimefun:iron_dust|64\"",
+            gson.toJson(i4, AbstractRecipeOutputItem.class)
+        );
+        Assertions.assertEquals(
+            "\"#slimefun:torches|3\"",
+            gson.toJson(i5, AbstractRecipeOutputItem.class)
+        );
+    }
+
+    @Test
+    @DisplayName("Test Shaped and Shaped-Flippable Recipe Matching")
+    void testShapedRecipeMatching() {
+        var recipe = Recipe.fromItemStacks(new ItemStack[] {
+            null, null, null,
+            new ItemStack(Material.SUGAR, 10), new ItemStack(Material.APPLE, 2), null,
+            null, new ItemStack(Material.STICK, 3), null,
+        }, new ItemStack(Material.STICK), RecipeType.NULL);
+        ItemStack sticks = new ItemStack(Material.STICK, 64);
+        ItemStack apples = new ItemStack(Material.APPLE, 64);
+        ItemStack sugar = new ItemStack(Material.SUGAR, 64);
+        var falseResult = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(new ItemStack[] {
+            sugar, apples, null, 
+            null, new ItemStack(Material.ACACIA_BOAT), null,
+            null, null, null,
+        }));
+        Assertions.assertFalse(falseResult.itemsMatch());
+        falseResult = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(new ItemStack[] {
+            sugar, apples, null, 
+            null, new ItemStack(Material.STICK, 1), null,
+            null, null, null,
+        }));
+        Assertions.assertFalse(falseResult.itemsMatch());
+        var result = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(new ItemStack[] {
+            sugar, apples, null, 
+            null, sticks, null,
+            null, null, null,
+        }));
+        Assertions.assertTrue(result.itemsMatch());
+        Assertions.assertEquals(3, result.getInputMatchResult().consumeItems(3));
+        Assertions.assertEquals(55, sticks.getAmount());
+        Assertions.assertEquals(58, apples.getAmount());
+        Assertions.assertEquals(34, sugar.getAmount());
+        Assertions.assertEquals(3, result.getInputMatchResult().consumeItems(4));
+        Assertions.assertEquals(46, sticks.getAmount());
+        Assertions.assertEquals(52, apples.getAmount());
+        Assertions.assertEquals(4, sugar.getAmount());
+        Assertions.assertEquals(0, result.getInputMatchResult().consumeItems(4));
+        Assertions.assertEquals(46, sticks.getAmount());
+        Assertions.assertEquals(52, apples.getAmount());
+        Assertions.assertEquals(4, sugar.getAmount());
+        
+        sticks = new ItemStack(Material.STICK, 64);
+        apples = new ItemStack(Material.APPLE, 64);
+        sugar = new ItemStack(Material.SUGAR, 64);
+        falseResult = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(new ItemStack[] {
+            null, null, null,
+            null, apples, sugar, 
+            null, sticks, null,
+        }));
+        Assertions.assertFalse(falseResult.itemsMatch());
+        result = recipe.matchAs(MatchProcedure.SHAPED_FLIPPABLE, Arrays.asList(new ItemStack[] {
+            null, null, null,
+            null, apples, sugar, 
+            null, sticks, null,
+        }));
+        Assertions.assertTrue(result.itemsMatch());
+        Assertions.assertEquals(3, result.getInputMatchResult().consumeItems(3));
+        Assertions.assertEquals(55, sticks.getAmount());
+        Assertions.assertEquals(58, apples.getAmount());
+        Assertions.assertEquals(34, sugar.getAmount());
+        Assertions.assertEquals(3, result.getInputMatchResult().consumeItems(4));
+        Assertions.assertEquals(46, sticks.getAmount());
+        Assertions.assertEquals(52, apples.getAmount());
+        Assertions.assertEquals(4, sugar.getAmount());
+        Assertions.assertEquals(0, result.getInputMatchResult().consumeItems(4));
+        Assertions.assertEquals(46, sticks.getAmount());
+        Assertions.assertEquals(52, apples.getAmount());
+        Assertions.assertEquals(4, sugar.getAmount());
+    }
+
+    @Test
+    @DisplayName("Test Shapeless and Subset Recipe Matching")
+    void testShapelessRecipeMatching() {
+        var recipe = Recipe.fromItemStacks(new ItemStack[] {
+            null, null, new ItemStack(Material.BLAZE_POWDER, 4),
+            new ItemStack(Material.GUNPOWDER, 3), new ItemStack(Material.COAL, 7), null,
+            null, null, null,
+        }, new ItemStack(Material.STICK), RecipeType.NULL);
+        ItemStack blazePowder = new ItemStack(Material.BLAZE_POWDER, 64);
+        ItemStack gunpowder = new ItemStack(Material.GUNPOWDER, 64);
+        ItemStack coal = new ItemStack(Material.COAL, 64);
+        ItemStack sticks = new ItemStack(Material.STICK, 64);
+        
+        // If subset is false, then shapeless will also be false
+        var falseResult = recipe.matchAs(MatchProcedure.SUBSET, Arrays.asList(new ItemStack[] {
+            null, coal, null, null, null, gunpowder
+        }));
+        Assertions.assertFalse(falseResult.itemsMatch());
+        falseResult = recipe.matchAs(MatchProcedure.SHAPELESS, Arrays.asList(new ItemStack[] {
+            null, coal, null, null, null, gunpowder, blazePowder, sticks
+        }));
+        Assertions.assertFalse(falseResult.itemsMatch());
+        var result = recipe.matchAs(MatchProcedure.SHAPELESS, Arrays.asList(new ItemStack[] {
+            null, coal, null, null, null, gunpowder, blazePowder
+        }));
+        Assertions.assertTrue(result.itemsMatch());
+        result = recipe.matchAs(MatchProcedure.SUBSET, Arrays.asList(new ItemStack[] {
+            null, coal, null, null, null, gunpowder, blazePowder, sticks,
+        }));
+        Assertions.assertTrue(result.itemsMatch());
+        Assertions.assertEquals(9, result.getInputMatchResult().consumeItems(9));
+        Assertions.assertEquals(28, blazePowder.getAmount());
+        Assertions.assertEquals(37, gunpowder.getAmount());
+        Assertions.assertEquals(1, coal.getAmount());
+        Assertions.assertEquals(64, sticks.getAmount());
+        Assertions.assertEquals(0, result.getInputMatchResult().consumeItems(9));
+        Assertions.assertEquals(28, blazePowder.getAmount());
+        Assertions.assertEquals(37, gunpowder.getAmount());
+        Assertions.assertEquals(1, coal.getAmount());
+        Assertions.assertEquals(64, sticks.getAmount());
+    }
+
+    @Test
+    @DisplayName("Test RecipeInputSlimefunItem Matching")
+    void testRecipeInputSlimefunItemMatching() {
+        final ItemGroup itemGroup = new ItemGroup(new NamespacedKey(sf, "test_group"), new CustomItemStack(Material.DIAMOND_AXE, "Test Group"));
+        final MockSlimefunItem testItem = new MockSlimefunItem(itemGroup, new ItemStack(Material.IRON_INGOT), "TEST_ITEM");
+        testItem.register(sf);
+        var item = new RecipeInputSlimefunItem("TEST_ITEM", 2);
+        Assertions.assertFalse(item.matchItem(new ItemStack(Material.IRON_INGOT)).itemsMatch());
+        ItemStack sfItem = testItem.getItem().clone();
+        sfItem.setAmount(1);
+        Assertions.assertFalse(item.matchItem(sfItem).itemsMatch());
+        sfItem.setAmount(2);
+        Assertions.assertTrue(item.matchItem(sfItem).itemsMatch());
+    }
+
+    @Test
+    @DisplayName("Test RecipeInputTag Matching")
+    void testRecipeInputTagMatching() {
+        var item = new RecipeInputTag(Tag.LOGS, 2);
+        Assertions.assertFalse(item.matchItem(new ItemStack(Material.IRON_INGOT)).itemsMatch());
+        Assertions.assertFalse(item.matchItem(new ItemStack(Material.OAK_LOG)).itemsMatch());
+        Assertions.assertFalse(item.matchItem(new ItemStack(Material.SPRUCE_LOG)).itemsMatch());
+        Assertions.assertTrue(item.matchItem(new ItemStack(Material.DARK_OAK_LOG, 2)).itemsMatch());
+        Assertions.assertTrue(item.matchItem(new ItemStack(Material.BIRCH_LOG, 2)).itemsMatch());
+    }
+
+    @Test
+    @DisplayName("Test RecipeInputGroup Matching")
+    void testRecipeInputGroupMatching() {
+        var item = new RecipeInputGroup(List.of(
+            new RecipeInputSlimefunItem("TEST_ITEM", 2),
+            new RecipeInputItemStack(Material.ACACIA_BOAT),
+            new RecipeInputTag(Tag.ANVIL)
+        ));
+        ItemStack sfItem = testItem.getItem().clone();
+        sfItem.setAmount(1);
+        Assertions.assertFalse(item.matchItem(new ItemStack(Material.IRON_INGOT)).itemsMatch());
+        Assertions.assertFalse(item.matchItem(new ItemStack(Material.SPRUCE_LOG)).itemsMatch());
+        Assertions.assertFalse(item.matchItem(sfItem).itemsMatch());
+        sfItem.setAmount(2);
+        Assertions.assertTrue(item.matchItem(sfItem).itemsMatch());
+        Assertions.assertTrue(item.matchItem(new ItemStack(Material.DAMAGED_ANVIL)).itemsMatch());
+        Assertions.assertTrue(item.matchItem(new ItemStack(Material.ACACIA_BOAT)).itemsMatch());
+        Assertions.assertTrue(item.matchItem(new ItemStack(Material.ANVIL)).itemsMatch());
     }
 
 }

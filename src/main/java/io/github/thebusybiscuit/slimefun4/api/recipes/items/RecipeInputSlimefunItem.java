@@ -24,15 +24,23 @@ public class RecipeInputSlimefunItem extends RecipeInputItem {
         this(slimefunId, amount, 0);
     }
 
+    public RecipeInputSlimefunItem(String slimefunId) {
+        this(slimefunId, 1);
+    }
+
     public String getSlimefunId() { return slimefunId; }
     public void setSlimefunId(String slimefunId) { this.slimefunId = slimefunId; }
 
     @Override
     public ItemMatchResult matchItem(ItemStack item, AbstractRecipeInputItem root) {
+        if (item == null || item.getType().isAir()) {
+            return new ItemMatchResult(isEmpty(), root, item, getAmount());
+        } else if (item.getAmount() < getAmount()) {
+            return new ItemMatchResult(false, root, item, getAmount());
+        }
         return new ItemMatchResult(
             SlimefunUtils.isItemSimilar(item, SlimefunItem.getById(slimefunId).getItem(), false),
-            root,
-            item
+            root, item, getAmount()
         );
     }
 

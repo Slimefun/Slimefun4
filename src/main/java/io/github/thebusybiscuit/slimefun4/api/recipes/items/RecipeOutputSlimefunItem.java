@@ -16,11 +16,6 @@ public class RecipeOutputSlimefunItem extends RecipeOutputItem {
 
     private String slimefunId;
 
-    public RecipeOutputSlimefunItem(String slimefunId, int amount, double consumeChance) {
-        super(amount, consumeChance);
-        this.slimefunId = slimefunId;
-    }
-
     public RecipeOutputSlimefunItem(String slimefunId, int amount) {
         super(amount);
         this.slimefunId = slimefunId;

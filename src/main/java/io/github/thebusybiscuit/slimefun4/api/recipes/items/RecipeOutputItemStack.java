@@ -15,19 +15,9 @@ public class RecipeOutputItemStack extends RecipeOutputItem {
 
     private ItemStack template;
 
-    public RecipeOutputItemStack(ItemStack template, double consumeChance) {
-        super(template.getAmount(), consumeChance);
-        this.template = template;
-    }
-
     public RecipeOutputItemStack(ItemStack template) {
         super(template.getAmount());
         this.template = template;
-    }
-
-    public RecipeOutputItemStack(Material template, int amount, double consumeChance) {
-        super(amount, consumeChance);
-        this.template = new ItemStack(template, amount);
     }
 
     public RecipeOutputItemStack(Material template, int amount) {

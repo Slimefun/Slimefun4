@@ -30,22 +30,27 @@ public class RecipeInputTag extends RecipeInputItem {
         this(tag, 1);
     }
 
+
     public Tag<Material> getTag() { return tag; }
     public void setTag(Tag<Material> tag) { this.tag = tag; }
 
     @Override
     public ItemMatchResult matchItem(ItemStack item, AbstractRecipeInputItem root) {
+        if (item == null || item.getType().isAir()) {
+            return new ItemMatchResult(isEmpty(), root, item, getAmount());
+        } else if (item.getAmount() < getAmount()) {
+            return new ItemMatchResult(false, root, item, getAmount());
+        }
         for (Material mat : tag.getValues()) {
             ItemStack template = new ItemStack(mat);
             if (SlimefunUtils.isItemSimilar(item, template, true)) {
                 return new ItemMatchResult(
                     SlimefunUtils.isItemSimilar(item, template, false),
-                    root,
-                    item
+                    root, item, getAmount()
                 );
             }
         }
-        return new ItemMatchResult(false, root, item);
+        return new ItemMatchResult(false, root, item, getAmount());
     }
 
     @Override

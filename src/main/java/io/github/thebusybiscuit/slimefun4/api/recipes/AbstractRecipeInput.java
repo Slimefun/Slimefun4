@@ -42,6 +42,10 @@ public abstract class AbstractRecipeInput {
         return getMatchProcedure().match(this, givenItems);
     }
 
+    public InputMatchResult matchAs(MatchProcedure match, List<ItemStack> givenItems) {
+        return match.match(this, givenItems);
+    }
+
     @Override
     public abstract String toString();
 
