@@ -276,7 +276,7 @@ class TestRecipes {
     void testRecipeInputItemSerialization() {
         var i1 = new RecipeInputItemStack(new ItemStack(Material.ACACIA_BOAT));
         var i2 = new RecipeInputItemStack(new ItemStack(Material.STICK, 3));
-        var i3 = new RecipeInputItemStack(new ItemStack(Material.IRON_SWORD), 2);
+        var i3 = new RecipeInputItemStack(new ItemStack(Material.IRON_SWORD), 1, 2);
         var i4 = new RecipeInputSlimefunItem("IRON_DUST", 64);
         var i5 = new RecipeInputTag(SlimefunTag.TORCHES, 3);
         Assertions.assertEquals(
@@ -427,6 +427,7 @@ class TestRecipes {
             null, coal, null, null, null, gunpowder, blazePowder, sticks
         ));
         Assertions.assertTrue(result.itemsMatch());
+        Assertions.assertEquals(recipe, result.getRecipe());
         Assertions.assertEquals(9, result.getInputMatchResult().consumeItems(9));
         Assertions.assertEquals(28, blazePowder.getAmount());
         Assertions.assertEquals(37, gunpowder.getAmount());

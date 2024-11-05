@@ -35,6 +35,12 @@ public class RecipeInputTag extends RecipeInputItem {
     public void setTag(Tag<Material> tag) { this.tag = tag; }
 
     @Override
+    public ItemStack getItemDisplay() {
+        // TODO: guide display overhaul
+        return new ItemStack(tag.getValues().stream().findFirst().get(), getAmount());
+    }
+
+    @Override
     public ItemMatchResult matchItem(ItemStack item, AbstractRecipeInputItem root) {
         if (item == null || item.getType().isAir()) {
             return new ItemMatchResult(isEmpty(), root, item, getAmount());

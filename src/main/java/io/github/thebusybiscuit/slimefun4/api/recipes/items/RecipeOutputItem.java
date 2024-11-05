@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.RecipeMatchResult;
 import io.github.thebusybiscuit.slimefun4.utils.RecipeUtils;
 
@@ -53,12 +54,8 @@ public abstract class RecipeOutputItem extends AbstractRecipeOutputItem {
 
     private int amount;
 
-    public RecipeOutputItem(int amount, double outputChance) {
-        this.amount = amount;
-    }
-
     public RecipeOutputItem(int amount) {
-        this(amount, 1.0);
+        this.amount = amount;
     }
 
     public int getAmount() { return amount; }
@@ -108,6 +105,26 @@ public abstract class RecipeOutputItem extends AbstractRecipeOutputItem {
             return new RecipeOutputSlimefunItem(id.toUpperCase(), amount);
         }
         return RecipeOutputItem.EMPTY;
+    }
+
+    public static AbstractRecipeOutputItem fromItemStack(ItemStack item, int amount) {
+        if (item == null || item.getType().isAir()) {
+            return RecipeOutputItem.EMPTY;
+        }
+
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+        if (sfItem != null) {
+            return new RecipeOutputSlimefunItem(sfItem.getId(), amount);
+        } else {
+            return new RecipeOutputItemStack(item, amount);
+        }
+    }
+    public static AbstractRecipeOutputItem fromItemStack(ItemStack item) {
+        if (item == null || item.getType().isAir()) {
+            return RecipeOutputItem.EMPTY;
+        }
+        return fromItemStack(item, item.getAmount());
     }
 
     @Override

@@ -46,6 +46,10 @@ public abstract class AbstractRecipeInput {
         return match.match(this, givenItems);
     }
 
+    public ItemStack[] getInputDisplay() {
+        return getItems().stream().map(i -> i.getItemDisplay()).toArray(ItemStack[]::new);
+    };
+
     @Override
     public abstract String toString();
 

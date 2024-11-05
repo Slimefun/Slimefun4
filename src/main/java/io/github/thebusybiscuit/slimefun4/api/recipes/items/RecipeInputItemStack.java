@@ -19,14 +19,19 @@ public class RecipeInputItemStack extends RecipeInputItem {
     private @Nonnull ItemStack template;
 
     @ParametersAreNonnullByDefault
-    public RecipeInputItemStack(ItemStack template, int durabilityCost) {
-        super(template.getAmount(), durabilityCost);
+    public RecipeInputItemStack(ItemStack template, int amount, int durabilityCost) {
+        super(amount, durabilityCost);
         this.template = template;
     }
 
     @ParametersAreNonnullByDefault
+    public RecipeInputItemStack(ItemStack template, int amount) {
+        this(template, amount, 0);
+    }
+
+    @ParametersAreNonnullByDefault
     public RecipeInputItemStack(ItemStack template) {
-        this(template, 0);
+        this(template, template.getAmount());
     }
 
     @ParametersAreNonnullByDefault
@@ -50,6 +55,17 @@ public class RecipeInputItemStack extends RecipeInputItem {
     public void setTemplate(@Nonnull ItemStack template) { this.template = template; }
 
     @Override
+    public ItemStack getItemDisplay() {
+        // TODO: guide display overhaul
+        if (getAmount() != template.getAmount()) {
+            ItemStack display = template.clone();
+            display.setAmount(getAmount());
+            return display;
+        }
+        return template;
+    }
+
+    @Override
     public ItemMatchResult matchItem(ItemStack item, AbstractRecipeInputItem root) {
         if (item == null || item.getType().isAir()) {
             return new ItemMatchResult(isEmpty(), root, item, getAmount());
@@ -69,7 +85,7 @@ public class RecipeInputItemStack extends RecipeInputItem {
 
     @Override
     public RecipeInputItemStack clone() {
-        return new RecipeInputItemStack(template.clone(), getDurabilityCost());
+        return new RecipeInputItemStack(template.clone(), getAmount(), getDurabilityCost());
     }
 
     @Override

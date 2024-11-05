@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,12 +15,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.AbstractRecipeOutputItem;
-import io.github.thebusybiscuit.slimefun4.api.recipes.items.AbstractRecipeOutputItem.SpaceRequirement;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputItem;
-import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.recipes.items.AbstractRecipeOutputItem.SpaceRequirement;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.RecipeMatchResult;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
@@ -66,22 +64,7 @@ public class RecipeOutput extends AbstractRecipeOutput {
     }
 
     public static RecipeOutput fromItemStacks(ItemStack[] items) {
-        List<AbstractRecipeOutputItem> outputItems = new ArrayList<>();
-        for (ItemStack item : items) {
-            if (item == null || item.getType().isAir()) {
-                outputItems.add(RecipeOutputItem.EMPTY);
-                continue;
-            }
-
-            SlimefunItem sfItem = SlimefunItem.getByItem(item);
-
-            if (sfItem != null) {
-                outputItems.add(new RecipeOutputSlimefunItem(sfItem.getId(), item.getAmount()));
-            } else {
-                outputItems.add(new RecipeOutputItemStack(item));
-            }
-        }
-        return new RecipeOutput(outputItems);
+        return new RecipeOutput(Arrays.stream(items).map(item -> RecipeOutputItem.fromItemStack(item)).toList());
     }
 
     public List<AbstractRecipeOutputItem> getItems() {

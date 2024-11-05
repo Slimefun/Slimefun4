@@ -141,6 +141,20 @@ public class Recipe {
         return new RecipeMatchResult(this, result);
     }
 
+    /**
+     * The guide display will need to be overhauled,
+     * as it only displays individual items, and not
+     * individual recipes; Furthermore, the input
+     * cycling animation only works for vanilla recipes.
+     * 
+     * In the meantime, DO NOT rely on this method or
+     * any similar ones in the recipe components
+     */
+    @Deprecated
+    public ItemStack[] getInputDisplay() {
+        return input.getInputDisplay();
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Recipe { ");

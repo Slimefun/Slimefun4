@@ -17,13 +17,9 @@ public class RecipeOutputTag extends RecipeOutputItem {
 
     private Tag<Material> tag;
 
-    public RecipeOutputTag(Tag<Material> tag, int amount, double chance) {
-        super(amount, chance);
-        this.tag = tag;
-    }
-
     public RecipeOutputTag(Tag<Material> tag, int amount) {
-        this(tag, amount, 1);
+        super(amount);
+        this.tag = tag;
     }
 
     public RecipeOutputTag(Tag<Material> tag) {

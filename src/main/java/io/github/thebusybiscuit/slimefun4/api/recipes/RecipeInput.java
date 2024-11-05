@@ -16,11 +16,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.AbstractRecipeInputItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeInputItem;
-import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeInputItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeInputSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.MatchProcedure;
 import io.github.thebusybiscuit.slimefun4.utils.RecipeUtils;
 import io.github.thebusybiscuit.slimefun4.utils.RecipeUtils.BoundingBox;
@@ -111,22 +108,7 @@ public class RecipeInput extends AbstractRecipeInput {
     }
 
     public static RecipeInput fromItemStacks(ItemStack[] items, MatchProcedure match) {
-        List<AbstractRecipeInputItem> inputItems = new ArrayList<>();
-        for (ItemStack item : items) {
-            if (item == null || item.getType().isAir()) {
-                inputItems.add(RecipeInputItem.EMPTY);
-                continue;
-            }
-
-            SlimefunItem sfItem = SlimefunItem.getByItem(item);
-            
-            if (sfItem != null) {
-                inputItems.add(new RecipeInputSlimefunItem(sfItem.getId(), item.getAmount()));
-            } else {
-                inputItems.add(new RecipeInputItemStack(item));
-            }
-        }
-        return new RecipeInput(inputItems, match, 3, 3);
+        return new RecipeInput(Arrays.stream(items).map(item -> RecipeInputItem.fromItemStack(item)).toList(), match, 3, 3);
     }
 
     protected void saveBoundingBox() {

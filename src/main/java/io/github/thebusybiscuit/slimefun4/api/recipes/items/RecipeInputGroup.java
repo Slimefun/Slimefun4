@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.recipes.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.JsonArray;
@@ -36,6 +37,15 @@ public class RecipeInputGroup extends AbstractRecipeInputItem {
             }
         }
         return new ItemMatchResult(false, root, item, 0);
+    }
+
+    @Override
+    public ItemStack getItemDisplay() {
+        // TODO guide display overhaul
+        if (items.size() == 0) {
+            return new ItemStack(Material.AIR);
+        }
+        return items.get(0).getItemDisplay();
     }
 
     @Override

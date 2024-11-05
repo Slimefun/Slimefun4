@@ -21,6 +21,10 @@ public class RecipeOutputSlimefunItem extends RecipeOutputItem {
         this.slimefunId = slimefunId;
     }
 
+    public RecipeOutputSlimefunItem(String slimefunId) {
+        this(slimefunId, 1);
+    }
+
     public RecipeOutputSlimefunItem(SlimefunItemStack sfItemStack) {
         this(sfItemStack.getItemId(), sfItemStack.getAmount());
     }

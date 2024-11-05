@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes.items;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.JsonElement;
@@ -30,6 +31,22 @@ public class RecipeInputSlimefunItem extends RecipeInputItem {
 
     public String getSlimefunId() { return slimefunId; }
     public void setSlimefunId(String slimefunId) { this.slimefunId = slimefunId; }
+
+    @Override
+    public ItemStack getItemDisplay() {
+        // TODO: guide display overhaul
+        SlimefunItem sfItem = SlimefunItem.getById(slimefunId);
+        if (sfItem == null) {
+            return new ItemStack(Material.AIR);
+        }
+        ItemStack display = sfItem.getItem();
+        if (getAmount() != display.getAmount()) {
+            display = sfItem.getItem().clone();
+            display.setAmount(getAmount());
+            return display;
+        }
+        return sfItem.getItem();
+    }
 
     @Override
     public ItemMatchResult matchItem(ItemStack item, AbstractRecipeInputItem root) {

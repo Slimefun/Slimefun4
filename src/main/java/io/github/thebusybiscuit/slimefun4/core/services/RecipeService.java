@@ -53,6 +53,8 @@ import io.github.thebusybiscuit.slimefun4.utils.RecipeUtils;
 
 public class RecipeService {
 
+    public static final String SAVED_RECIPE_DIR = "plugins/Slimefun/recipes/";
+
     private GsonBuilder gsonBuilder;
     private Gson gson;
 
@@ -69,7 +71,7 @@ public class RecipeService {
     private final Map<RecipeType, List<Recipe>> recipesByType = new HashMap<>();
     private final Map<String, Recipe> recipesById = new HashMap<>();
     private final Map<String, List<Recipe>> recipesByFilename = new HashMap<>();
-
+    
     private int maxCacheEntries = 1000;
     private final Map<Integer, Recipe> recipeCache = new LinkedHashMap<>() {
         protected boolean removeEldestEntry(Map.Entry<Integer, Recipe> eldest) {

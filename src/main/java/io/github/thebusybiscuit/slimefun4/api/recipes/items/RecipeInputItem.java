@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.api.recipes.items;
 
 import java.util.Optional;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
@@ -10,6 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.ItemMatchResult;
 import io.github.thebusybiscuit.slimefun4.utils.RecipeUtils;
 
@@ -30,6 +33,11 @@ public abstract class RecipeInputItem extends AbstractRecipeInputItem {
         @Override
         public AbstractRecipeInputItem clone() {
             return this;
+        }
+
+        @Override
+        public ItemStack getItemDisplay() {
+            return new ItemStack(Material.AIR);
         }
     
         @Override
@@ -120,6 +128,29 @@ public abstract class RecipeInputItem extends AbstractRecipeInputItem {
             return new RecipeInputSlimefunItem(id.toUpperCase(), amount);
         }
         return RecipeInputItem.EMPTY;
+    }
+
+    public static AbstractRecipeInputItem fromItemStack(@Nullable ItemStack item, int amount, int durabilityCost) {
+        if (item == null || item.getType().isAir()) {
+            return RecipeInputItem.EMPTY;
+        }
+
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        
+        if (sfItem != null) {
+            return new RecipeInputSlimefunItem(sfItem.getId(), amount, durabilityCost);
+        } else {
+            return new RecipeInputItemStack(item, amount, durabilityCost);
+        }
+    }
+    public static AbstractRecipeInputItem fromItemStack(@Nullable ItemStack item, int amount) {
+        return fromItemStack(item, amount, 0);
+    }
+    public static AbstractRecipeInputItem fromItemStack(@Nullable ItemStack item) {
+        if (item == null || item.getType().isAir()) {
+            return RecipeInputItem.EMPTY;
+        }
+        return fromItemStack(item, item.getAmount());
     }
 
     @Override

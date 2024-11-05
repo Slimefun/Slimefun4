@@ -20,6 +20,8 @@ public abstract class AbstractRecipeInputItem implements Cloneable {
     }
 
     public abstract boolean isEmpty();
+    
+    public abstract ItemStack getItemDisplay();
 
     @Override
     public abstract AbstractRecipeInputItem clone();
