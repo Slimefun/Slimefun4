@@ -14,9 +14,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.AbstractRecipeOutputItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.AbstractRecipeOutputItem.SpaceRequirement;
+import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputItem;
+import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.RecipeMatchResult;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 public class RecipeOutput extends AbstractRecipeOutput {
 
@@ -58,6 +63,25 @@ public class RecipeOutput extends AbstractRecipeOutput {
 
     public RecipeOutput(List<AbstractRecipeOutputItem> items) {
         this.items = items;
+    }
+
+    public static RecipeOutput fromItemStacks(ItemStack[] items) {
+        List<AbstractRecipeOutputItem> outputItems = new ArrayList<>();
+        for (ItemStack item : items) {
+            if (item == null || item.getType().isAir()) {
+                outputItems.add(RecipeOutputItem.EMPTY);
+                continue;
+            }
+
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+            if (sfItem != null) {
+                outputItems.add(new RecipeOutputSlimefunItem(sfItem.getId(), item.getAmount()));
+            } else {
+                outputItems.add(new RecipeOutputItemStack(item));
+            }
+        }
+        return new RecipeOutput(outputItems);
     }
 
     public List<AbstractRecipeOutputItem> getItems() {
@@ -102,19 +126,23 @@ public class RecipeOutput extends AbstractRecipeOutput {
                 // Search for matching item
                 int amount = outputStack.getAmount();
                 int stackSize = outputStack.getType().getMaxStackSize(); // TODO item components
-                for (int i = 0; i < filledSlots.size(); i++) {
+                for (int i : filledSlots) {
                     if (amount <= 0) break;
                     ItemStack filledItem = inventory.getItem(i);
-                    int filledAmount = filledItem.getAmount();
-                    if (filledAmount >= stackSize) {
+                    if (!SlimefunUtils.isItemSimilar(filledItem, outputStack, true, false)) {
                         continue;
-                    } else if (filledAmount + amount > stackSize) {
-                        int diff = stackSize - filledAmount;
+                    }
+                    int filledAmount = filledItem.getAmount();
+                    int currentAdd = addToStacks.getOrDefault(i, 0);
+                    if (filledAmount + currentAdd >= stackSize) {
+                        continue;
+                    } else if (filledAmount + currentAdd + amount > stackSize) {
+                        int diff = stackSize - filledAmount - currentAdd;
                         amount -= diff;
-                        addToStacks.put(i, diff);
-                    } else if (filledAmount + amount == stackSize) {
+                        addToStacks.put(i, diff + currentAdd);
+                    } else {
+                        addToStacks.put(i, amount + currentAdd);
                         amount = 0;
-                        addToStacks.put(i, amount);
                     }
                 }
                 if (amount > 0) {

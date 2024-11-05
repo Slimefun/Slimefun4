@@ -165,6 +165,10 @@ public class RecipeService {
         return new RecipeSearchResult();
     }
 
+    public RecipeSearchResult searchRecipes(RecipeType type, List<ItemStack> givenItems, MatchProcedure matchAs) {
+        return searchRecipes(type, recipe -> recipe.matchAs(matchAs, givenItems), recipe -> RecipeUtils.hashItemsIgnoreAmount(givenItems));
+    }
+
     public RecipeSearchResult searchRecipes(RecipeType type, List<ItemStack> givenItems) {
         return searchRecipes(type, recipe -> recipe.match(givenItems), recipe -> RecipeUtils.hashItemsIgnoreAmount(givenItems));
     }

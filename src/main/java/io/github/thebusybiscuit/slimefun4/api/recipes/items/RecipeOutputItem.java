@@ -16,13 +16,18 @@ import io.github.thebusybiscuit.slimefun4.utils.RecipeUtils;
 public abstract class RecipeOutputItem extends AbstractRecipeOutputItem {
     
     /**
-     * Should not be used in recipes unless as a default.
+     * Should not be used in recipes.
      * If you need an empty recipe output, use RecipeOutput.EMPTY instead
      */
     public static final AbstractRecipeOutputItem EMPTY = new AbstractRecipeOutputItem() {
         @Override
         public boolean matchItem(ItemStack item) {
             return item == null || item.getType().isAir();
+        }
+
+        @Override
+        public SpaceRequirement getSpaceRequirement() {
+            return SpaceRequirement.MATCHING_ITEM;
         }
 
         @Override
@@ -58,6 +63,11 @@ public abstract class RecipeOutputItem extends AbstractRecipeOutputItem {
 
     public int getAmount() { return amount; }
     public void setAmount(int amount) { this.amount = amount; }
+
+    @Override
+    public SpaceRequirement getSpaceRequirement() {
+        return SpaceRequirement.MATCHING_ITEM;
+    }
 
     /**
      * Converts a string into a RecipeSingleItem

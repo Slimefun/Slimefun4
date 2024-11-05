@@ -14,7 +14,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
-import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.InputMatchResult;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.MatchProcedure;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.RecipeMatchResult;
@@ -47,12 +46,12 @@ public class Recipe {
         }
     }
 
-    public static Recipe fromItemStacks(String id, ItemStack[] inputs, ItemStack output, RecipeType type) {
+    public static Recipe fromItemStacks(String id, ItemStack[] inputs, ItemStack[] outputs, RecipeType type, MatchProcedure match) {
         return new Recipe(
             Optional.of(id),
             id.toLowerCase(),
-            RecipeInput.fromItemStacks(inputs, type.getDefaultMatchProcedure()),
-            new RecipeOutput(List.of(new RecipeOutputItemStack(output))),
+            RecipeInput.fromItemStacks(inputs, match),
+            RecipeOutput.fromItemStacks(outputs),
             List.of(type),
             Optional.empty(),
             Optional.empty(),
@@ -60,12 +59,16 @@ public class Recipe {
         );
     }
 
-    public static Recipe fromItemStacks(ItemStack[] inputs, ItemStack output, RecipeType type, MatchProcedure match) {
+    public static Recipe fromItemStacks(String id, ItemStack[] inputs, ItemStack[] outputs, RecipeType type) {
+        return fromItemStacks(id, inputs, outputs, type, type.getDefaultMatchProcedure());
+    }
+
+    public static Recipe fromItemStacks(ItemStack[] inputs, ItemStack[] outputs, RecipeType type, MatchProcedure match) {
         return new Recipe(
             Optional.empty(),
             "other_recipes",
             RecipeInput.fromItemStacks(inputs, match),
-            new RecipeOutput(List.of(new RecipeOutputItemStack(output))),
+            RecipeOutput.fromItemStacks(outputs),
             List.of(type),
             Optional.empty(),
             Optional.empty(),
@@ -73,10 +76,9 @@ public class Recipe {
         );
     }
 
-    public static Recipe fromItemStacks(ItemStack[] inputs, ItemStack output, RecipeType type) {
-        return fromItemStacks(inputs, output, type, type.getDefaultMatchProcedure());
+    public static Recipe fromItemStacks(ItemStack[] inputs, ItemStack[] outputs, RecipeType type) {
+        return fromItemStacks(inputs, outputs, type, type.getDefaultMatchProcedure());
     }
-
 
     public Optional<String> getId() {
         return id;

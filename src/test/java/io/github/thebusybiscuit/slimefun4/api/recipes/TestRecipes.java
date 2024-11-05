@@ -333,27 +333,27 @@ class TestRecipes {
             null, null, null,
             new ItemStack(Material.SUGAR, 10), new ItemStack(Material.APPLE, 2), null,
             null, new ItemStack(Material.STICK, 3), null,
-        }, new ItemStack(Material.STICK), RecipeType.NULL);
+        }, new ItemStack[] { new ItemStack(Material.STICK) }, RecipeType.NULL);
         ItemStack sticks = new ItemStack(Material.STICK, 64);
         ItemStack apples = new ItemStack(Material.APPLE, 64);
         ItemStack sugar = new ItemStack(Material.SUGAR, 64);
-        var falseResult = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(new ItemStack[] {
+        var falseResult = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(
             sugar, apples, null, 
             null, new ItemStack(Material.ACACIA_BOAT), null,
-            null, null, null,
-        }));
+            null, null, null
+        ));
         Assertions.assertFalse(falseResult.itemsMatch());
-        falseResult = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(new ItemStack[] {
+        falseResult = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(
             sugar, apples, null, 
             null, new ItemStack(Material.STICK, 1), null,
-            null, null, null,
-        }));
+            null, null, null
+        ));
         Assertions.assertFalse(falseResult.itemsMatch());
-        var result = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(new ItemStack[] {
+        var result = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(
             sugar, apples, null, 
             null, sticks, null,
-            null, null, null,
-        }));
+            null, null, null
+        ));
         Assertions.assertTrue(result.itemsMatch());
         Assertions.assertEquals(3, result.getInputMatchResult().consumeItems(3));
         Assertions.assertEquals(55, sticks.getAmount());
@@ -371,17 +371,17 @@ class TestRecipes {
         sticks = new ItemStack(Material.STICK, 64);
         apples = new ItemStack(Material.APPLE, 64);
         sugar = new ItemStack(Material.SUGAR, 64);
-        falseResult = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(new ItemStack[] {
+        falseResult = recipe.matchAs(MatchProcedure.SHAPED, Arrays.asList(
             null, null, null,
             null, apples, sugar, 
-            null, sticks, null,
-        }));
+            null, sticks, null
+        ));
         Assertions.assertFalse(falseResult.itemsMatch());
-        result = recipe.matchAs(MatchProcedure.SHAPED_FLIPPABLE, Arrays.asList(new ItemStack[] {
+        result = recipe.matchAs(MatchProcedure.SHAPED_FLIPPABLE, Arrays.asList(
             null, null, null,
             null, apples, sugar, 
-            null, sticks, null,
-        }));
+            null, sticks, null
+        ));
         Assertions.assertTrue(result.itemsMatch());
         Assertions.assertEquals(3, result.getInputMatchResult().consumeItems(3));
         Assertions.assertEquals(55, sticks.getAmount());
@@ -404,28 +404,28 @@ class TestRecipes {
             null, null, new ItemStack(Material.BLAZE_POWDER, 4),
             new ItemStack(Material.GUNPOWDER, 3), new ItemStack(Material.COAL, 7), null,
             null, null, null,
-        }, new ItemStack(Material.STICK), RecipeType.NULL);
+        }, new ItemStack[] { new ItemStack(Material.STICK) }, RecipeType.NULL);
         ItemStack blazePowder = new ItemStack(Material.BLAZE_POWDER, 64);
         ItemStack gunpowder = new ItemStack(Material.GUNPOWDER, 64);
         ItemStack coal = new ItemStack(Material.COAL, 64);
         ItemStack sticks = new ItemStack(Material.STICK, 64);
         
         // If subset is false, then shapeless will also be false
-        var falseResult = recipe.matchAs(MatchProcedure.SUBSET, Arrays.asList(new ItemStack[] {
+        var falseResult = recipe.matchAs(MatchProcedure.SUBSET, Arrays.asList(
             null, coal, null, null, null, gunpowder
-        }));
+        ));
         Assertions.assertFalse(falseResult.itemsMatch());
-        falseResult = recipe.matchAs(MatchProcedure.SHAPELESS, Arrays.asList(new ItemStack[] {
+        falseResult = recipe.matchAs(MatchProcedure.SHAPELESS, Arrays.asList(
             null, coal, null, null, null, gunpowder, blazePowder, sticks
-        }));
+        ));
         Assertions.assertFalse(falseResult.itemsMatch());
-        var result = recipe.matchAs(MatchProcedure.SHAPELESS, Arrays.asList(new ItemStack[] {
+        var result = recipe.matchAs(MatchProcedure.SHAPELESS, Arrays.asList(
             null, coal, null, null, null, gunpowder, blazePowder
-        }));
+        ));
         Assertions.assertTrue(result.itemsMatch());
-        result = recipe.matchAs(MatchProcedure.SUBSET, Arrays.asList(new ItemStack[] {
-            null, coal, null, null, null, gunpowder, blazePowder, sticks,
-        }));
+        result = recipe.matchAs(MatchProcedure.SUBSET, Arrays.asList(
+            null, coal, null, null, null, gunpowder, blazePowder, sticks
+        ));
         Assertions.assertTrue(result.itemsMatch());
         Assertions.assertEquals(9, result.getInputMatchResult().consumeItems(9));
         Assertions.assertEquals(28, blazePowder.getAmount());
