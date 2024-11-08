@@ -12,8 +12,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.ItemMatchResult;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.RecipeUtils;
 
 public abstract class RecipeInputItem extends AbstractRecipeInputItem {
@@ -135,10 +136,15 @@ public abstract class RecipeInputItem extends AbstractRecipeInputItem {
             return RecipeInputItem.EMPTY;
         }
 
-        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        if (item instanceof SlimefunItemStack sfItem) {
+            return new RecipeInputSlimefunItem(sfItem.getItemId(), amount, durabilityCost);
+        }
+
+        // The item might not have been registered yet and we only need the id, so no need for `getByItem()`
+        Optional<String> itemID = Slimefun.getItemDataService().getItemData(item);
         
-        if (sfItem != null) {
-            return new RecipeInputSlimefunItem(sfItem.getId(), amount, durabilityCost);
+        if (itemID.isPresent()) {
+            return new RecipeInputSlimefunItem(itemID.get(), amount, durabilityCost);
         } else {
             return new RecipeInputItemStack(item, amount, durabilityCost);
         }

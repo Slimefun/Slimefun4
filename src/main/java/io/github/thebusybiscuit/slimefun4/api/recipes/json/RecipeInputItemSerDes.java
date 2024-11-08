@@ -42,6 +42,11 @@ public final class RecipeInputItemSerDes implements JsonDeserializer<AbstractRec
             AbstractRecipeInputItem aItem = RecipeInputItem.fromString(
                     obj.getAsJsonPrimitive("id").getAsString());
             if (aItem instanceof RecipeInputItem item) {
+                int amount = 1;
+                if (obj.has("amount")) {
+                    amount = obj.getAsJsonPrimitive("amount").getAsInt();
+                }
+                item.setAmount(amount);
                 item.setAmount(obj.getAsJsonPrimitive("amount").getAsInt());
                 if (obj.has("durability")) {
                     item.setDurabilityCost(obj.getAsJsonPrimitive("durability").getAsInt());

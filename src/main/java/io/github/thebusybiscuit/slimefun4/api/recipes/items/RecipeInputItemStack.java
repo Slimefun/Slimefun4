@@ -68,13 +68,13 @@ public class RecipeInputItemStack extends RecipeInputItem {
     @Override
     public ItemMatchResult matchItem(ItemStack item, AbstractRecipeInputItem root) {
         if (item == null || item.getType().isAir()) {
-            return new ItemMatchResult(isEmpty(), root, item, getAmount());
+            return new ItemMatchResult(isEmpty(), root, item, getAmount(), getDurabilityCost());
         } else if (item.getAmount() < getAmount()) {
-            return new ItemMatchResult(false, root, item, getAmount());
+            return new ItemMatchResult(false, root, item, getAmount(), getDurabilityCost());
         }
         return new ItemMatchResult(
             SlimefunUtils.isItemSimilar(item, template, false),
-            root, item, getAmount()
+            root, item, getAmount(), getDurabilityCost()
         );
     }
 

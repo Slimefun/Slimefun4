@@ -3,8 +3,9 @@ package io.github.thebusybiscuit.slimefun4.api.recipes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import javax.annotation.Nonnull;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -22,21 +23,27 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputItemStac
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.items.RecipeOutputTag;
 import io.github.thebusybiscuit.slimefun4.api.recipes.matching.MatchProcedure;
-import io.github.thebusybiscuit.slimefun4.core.services.RecipeService;
 
 public class RecipeBuilder {
+
+    @FunctionalInterface
+    static interface InputGenerator {
+        AbstractRecipeInput create(List<AbstractRecipeInputItem> inputs, MatchProcedure match, int width, int height);
+    }
 
     private final List<AbstractRecipeInputItem> inputItems = new ArrayList<>();
     private final List<AbstractRecipeOutputItem> outputItems = new ArrayList<>();
     private final List<RecipeType> types = new ArrayList<>();
     private final List<String> permissionNodes = new ArrayList<>();
-    private MatchProcedure match = MatchProcedure.DUMMY;
-    private BiFunction<List<AbstractRecipeInputItem>, MatchProcedure, AbstractRecipeInput> inputGenerator = RecipeInput::new;
+    private MatchProcedure match = null;
+    private int width = 3;
+    private int height = 3;
+    private InputGenerator inputGenerator = RecipeInput::new;
     private Function<List<AbstractRecipeOutputItem>, AbstractRecipeOutput> outputGenerator = RecipeOutput::new;
     private Optional<Integer> energy = Optional.empty();
     private Optional<Integer> craftingTime = Optional.empty();
     private Optional<String> id = Optional.empty();
-    private String filename = RecipeService.SAVED_RECIPE_DIR + "other_recipes.json";
+    private String filename = null;
     
     public RecipeBuilder() {}
 
@@ -44,7 +51,7 @@ public class RecipeBuilder {
         return new Recipe(
             id,
             filename,
-            inputGenerator.apply(inputItems, match),
+            inputGenerator.create(inputItems, match, width, height),
             outputGenerator.apply(outputItems),
             types,
             energy,
@@ -53,7 +60,7 @@ public class RecipeBuilder {
         );
     }
 
-    public RecipeBuilder i(AbstractRecipeInputItem i) {
+    public RecipeBuilder i(@Nonnull AbstractRecipeInputItem i) {
         inputItems.add(i);
         return this;
     }
@@ -62,16 +69,23 @@ public class RecipeBuilder {
     public RecipeBuilder i(ItemStack item, int amount, int durabilityCost) { return i(RecipeInputItem.fromItemStack(item, amount, durabilityCost)); }
     public RecipeBuilder i(ItemStack item, int amount) { return i(RecipeInputItem.fromItemStack(item, amount)); }
     public RecipeBuilder i(ItemStack item) { return i(RecipeInputItem.fromItemStack(item)); }
-    public RecipeBuilder i(Material mat, int amount, int durabilityCost) { return i(new RecipeInputItemStack(mat, amount, durabilityCost)); }
-    public RecipeBuilder i(Material mat, int amount) { return i(new RecipeInputItemStack(mat, amount)); }
-    public RecipeBuilder i(Material mat) { return i(new RecipeInputItemStack(mat)); }
-    public RecipeBuilder i(String id, int amount, int durabilityCost) { return i(new RecipeInputSlimefunItem(id, amount, durabilityCost)); }
-    public RecipeBuilder i(String id, int amount) { return i(new RecipeInputSlimefunItem(id, amount)); }
-    public RecipeBuilder i(String id) { return i(new RecipeInputSlimefunItem(id)); }
-    public RecipeBuilder i(Tag<Material> id, int amount, int durabilityCost) { return i(new RecipeInputTag(id, amount, durabilityCost)); }
-    public RecipeBuilder i(Tag<Material> id, int amount) { return i(new RecipeInputTag(id, amount)); }
-    public RecipeBuilder i(Tag<Material> id) { return i(new RecipeInputTag(id)); }
-    public RecipeBuilder i(List<AbstractRecipeInputItem> group) { return i(new RecipeInputGroup(group)); }
+    public RecipeBuilder i(@Nonnull Material mat, int amount, int durabilityCost) { return i(new RecipeInputItemStack(mat, amount, durabilityCost)); }
+    public RecipeBuilder i(@Nonnull Material mat, int amount) { return i(new RecipeInputItemStack(mat, amount)); }
+    public RecipeBuilder i(@Nonnull Material mat) { return i(new RecipeInputItemStack(mat)); }
+    public RecipeBuilder i(@Nonnull String id, int amount, int durabilityCost) { return i(new RecipeInputSlimefunItem(id, amount, durabilityCost)); }
+    public RecipeBuilder i(@Nonnull String id, int amount) { return i(new RecipeInputSlimefunItem(id, amount)); }
+    public RecipeBuilder i(@Nonnull String id) { return i(new RecipeInputSlimefunItem(id)); }
+    public RecipeBuilder i(@Nonnull Tag<Material> id, int amount, int durabilityCost) { return i(new RecipeInputTag(id, amount, durabilityCost)); }
+    public RecipeBuilder i(@Nonnull Tag<Material> id, int amount) { return i(new RecipeInputTag(id, amount)); }
+    public RecipeBuilder i(@Nonnull Tag<Material> id) { return i(new RecipeInputTag(id)); }
+    public RecipeBuilder i(@Nonnull List<AbstractRecipeInputItem> group) { return i(new RecipeInputGroup(group)); }
+
+    public RecipeBuilder i(@Nonnull ItemStack[] items) {
+        for (ItemStack item : items) {
+            i(item);
+        }
+        return this;
+    }
 
     public RecipeBuilder i() {
         return i(RecipeInputItem.EMPTY);
@@ -85,40 +99,54 @@ public class RecipeBuilder {
     }
 
 
-    public RecipeBuilder inputGenerator(BiFunction<List<AbstractRecipeInputItem>, MatchProcedure, AbstractRecipeInput> generator) {
+    public RecipeBuilder inputGenerator(@Nonnull InputGenerator generator) {
         this.inputGenerator = generator;
         return this;
     }
 
-    public RecipeBuilder o(AbstractRecipeOutputItem o) {
+    public RecipeBuilder o(@Nonnull AbstractRecipeOutputItem o) {
         outputItems.add(o);
         return this;
     }
 
     public RecipeBuilder o(ItemStack item, int amount) { return o(RecipeOutputItem.fromItemStack(item, amount)); }
     public RecipeBuilder o(ItemStack item) { return o(RecipeOutputItem.fromItemStack(item)); }
-    public RecipeBuilder o(Material item, int amount) { return o(new RecipeOutputItemStack(item, amount)); }
-    public RecipeBuilder o(Material item) { return o(new RecipeOutputItemStack(item)); }
-    public RecipeBuilder o(String id, int amount) { return o(new RecipeOutputSlimefunItem(id, amount)); }
-    public RecipeBuilder o(String id) { return o(new RecipeOutputSlimefunItem(id)); }
-    public RecipeBuilder o(Tag<Material> id, int amount) { return o(new RecipeOutputTag(id, amount)); }
-    public RecipeBuilder o(Tag<Material> id) { return o(new RecipeOutputTag(id)); }
+    public RecipeBuilder o(@Nonnull Material item, int amount) { return o(new RecipeOutputItemStack(item, amount)); }
+    public RecipeBuilder o(@Nonnull Material item) { return o(new RecipeOutputItemStack(item)); }
+    public RecipeBuilder o(@Nonnull String id, int amount) { return o(new RecipeOutputSlimefunItem(id, amount)); }
+    public RecipeBuilder o(@Nonnull String id) { return o(new RecipeOutputSlimefunItem(id)); }
+    public RecipeBuilder o(@Nonnull Tag<Material> id, int amount) { return o(new RecipeOutputTag(id, amount)); }
+    public RecipeBuilder o(@Nonnull Tag<Material> id) { return o(new RecipeOutputTag(id)); }
     
     public RecipeBuilder o() {
         return o(RecipeOutputItem.EMPTY);
     }
 
-    public RecipeBuilder outputGenerator(Function<List<AbstractRecipeOutputItem>, AbstractRecipeOutput> generator) {
+    public RecipeBuilder outputGenerator(@Nonnull Function<List<AbstractRecipeOutputItem>, AbstractRecipeOutput> generator) {
         this.outputGenerator = generator;
         return this;
     }
 
-    public RecipeBuilder t(RecipeType t) {
+    public RecipeBuilder type(@Nonnull RecipeType t) {
         types.add(t);
+        if (match == null) {
+            match = t.getDefaultMatchProcedure();
+        }
         return this;
     }
 
-    public RecipeBuilder permission(String p) {
+    public RecipeBuilder match(@Nonnull MatchProcedure match) {
+        this.match = match;
+        return this;
+    }
+
+    public RecipeBuilder dim(int width, int height) {
+        this.width = width;
+        this.height = height;
+        return this;
+    }
+
+    public RecipeBuilder permission(@Nonnull String p) {
         permissionNodes.add(p);
         return this;
     }
@@ -133,13 +161,16 @@ public class RecipeBuilder {
         return this;
     }
 
-    public RecipeBuilder id(String id) {
+    public RecipeBuilder id(@Nonnull String id) {
         this.id = Optional.of(id);
+        if (filename == null){
+            filename = id;
+        }
         return this;
     }
 
-    public RecipeBuilder filename(String filename) {
-        this.filename = RecipeService.SAVED_RECIPE_DIR + filename;
+    public RecipeBuilder filename(@Nonnull String filename) {
+        this.filename = filename;
         return this;
     }
 

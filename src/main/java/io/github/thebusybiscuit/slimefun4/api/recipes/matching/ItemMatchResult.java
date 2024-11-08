@@ -12,12 +12,18 @@ public class ItemMatchResult {
     private final AbstractRecipeInputItem recipeItem;
     private final @Nullable ItemStack matchedItem;
     private final int consumeAmount;
+    private final int durabilityConsumeAmount;
 
-    public ItemMatchResult(boolean itemsMatch, AbstractRecipeInputItem recipeItem, ItemStack matchedItem, int consumeAmount) {
+    public ItemMatchResult(boolean itemsMatch, AbstractRecipeInputItem recipeItem, ItemStack matchedItem, int consumeAmount, int durabilityConsumeAmount) {
         this.itemsMatch = itemsMatch;
         this.recipeItem = recipeItem;
         this.matchedItem = matchedItem;
         this.consumeAmount = consumeAmount;
+        this.durabilityConsumeAmount = durabilityConsumeAmount;
+    }
+
+    public ItemMatchResult(boolean itemsMatch, AbstractRecipeInputItem recipeItem, ItemStack matchedItem, int consumeAmount) {
+        this(itemsMatch, recipeItem, matchedItem, consumeAmount, 0);
     }
     
     /**
@@ -38,6 +44,9 @@ public class ItemMatchResult {
      */
     public int getConsumeAmount() {
         return consumeAmount;
+    }
+    public int getDurabilityConsumeAmount() {
+        return durabilityConsumeAmount;
     }
     
 }

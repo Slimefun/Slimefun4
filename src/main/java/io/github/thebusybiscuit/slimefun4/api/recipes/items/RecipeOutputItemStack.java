@@ -76,7 +76,7 @@ public class RecipeOutputItemStack extends RecipeOutputItem {
         }
 
         JsonObject item = new JsonObject();
-        item.addProperty("id", template.getType().toString());
+        item.addProperty("id", template.getType().getKey().toString());
         if (getAmount() != 1) {
             item.addProperty("amount", getAmount());
         }

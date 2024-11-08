@@ -167,7 +167,7 @@ public class RecipeOutput extends AbstractRecipeOutput {
         JsonObject output = new JsonObject();
         JsonArray arr = new JsonArray();
         for (AbstractRecipeOutputItem item : items) {
-            arr.add(context.serialize(item, AbstractRecipeOutputItem.class));
+            arr.add(item.serialize(context));
         }
         output.add("items", arr);
         return output;

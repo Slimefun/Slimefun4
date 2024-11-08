@@ -229,7 +229,7 @@ public class RecipeInput extends AbstractRecipeInput {
         for (Map.Entry<AbstractRecipeInputItem, Integer> entry : keys.entrySet()) {
             key.add(
                 String.valueOf(RecipeUtils.getKeyCharByNumber(entry.getValue())),
-                context.serialize(entry.getKey(), AbstractRecipeInputItem.class)
+                entry.getKey().serialize(context)
             );
         }
         input.add("items", jsonTemplate);

@@ -1,7 +1,7 @@
 # 2. Recipe rewrite
 
 Date: 2024-11-03
-Last update: 2024-11-03
+Last update: 2024-11-08
 
 **DO NOT rely on any APIs introduced until we finish the work completely!**
 
@@ -32,9 +32,9 @@ Slimefun, focusing on
   Slimefun recipes
 - Performance: Should not blow up any servers
 
-The new system should also be completely backwards compatible with the old.
+The new recipe system should also be completely backwards compatible.
 
-## API Changes
+## API Additions
 
 ### 5 main recipe classes
 
@@ -61,7 +61,7 @@ An `RecipeOutputItem`s controls how an output is generated when the recipe is
 crafted. It can be a single item (see `RecipeOutputItemStack`, `RecipeOutputSlimefunItem`),
 or a group of items each with a certain weight of being output (see `RecipeOutputGroup`).
 
-#### Examples
+#### Examples (pseudocode)
 
 Here are the inputs and outputs of the recipe for a vanilla torch
 
@@ -104,9 +104,9 @@ This is the public interface for the recipe system, there are methods here to ad
 load, save, and search recipes. It also stores a map of `MatchProcedures` and
 `RecipeType` by key for conversions from a string
 
-## JSON Serialization
+### JSON Serialization
 
-All recipes should be able to be serialized to and deserialized
+All recipes are able to be serialized to and deserialized
 from JSON. The schemas are shown below.
 
 Here, `key` is the string representation of a namespaced key
@@ -124,7 +124,8 @@ Here, `key` is the string representation of a namespaced key
 }
 ```
 
-The recipe deserializer also needs a `__filename` field, which is inserted when the file is read, so it doesn't (and shouldn't) be in the schema
+The recipe deserializer technically needs a `__filename` field, but it is
+inserted when the file is read, so it isn't (and shouldn't) be in the schema
 
 `RecipeInput`
 
@@ -174,7 +175,7 @@ The recipe deserializer also needs a `__filename` field, which is inserted when 
 }
 ```
 
-*In addition to those schemata, items can be in short form:
+*In addition to those schemas, items can be in short form:
 
 - Single items: `<namespace>:<id>|<amount>`
 - Tags: `#<namespace>:<id>|<amount>`
@@ -183,22 +184,76 @@ The recipe deserializer also needs a `__filename` field, which is inserted when 
 
 The 5 main recipe classes are all polymorphic, and subclasses can be used in their
 stead, and should not affect the recipe system (as long as the right methods are
-override, see javadocs)
+overriden, see javadocs)
 
 ### Custom serialization/deserialization
 
 The default deserializers recognize subclasses with custom deserializers by
-the presence of a `class` field in the json, which is the key of a
+the presence of a `class` field in the json, which should be the key of a
 custom deserializer registered with Slimefun's `RecipeService`.
 For custom serializers, override the `serialize` method on the subclass,
 and ensure they also add the `class` field
+
+## Recipe Lifecycle
+
+### Stage 1a
+
+When Slimefun is enabled, all recipes in the resources folder will be
+moved to `plugins/Slimefun/recipes/` (unless a file with its name already exists).
+
+Addons should do the same. (We recommend saving to
+`plugins/Slimefun/recipes/<your-addon-name>/` but it's not required).
+
+To prevent unnecessary file operations, Slimefun/addons first send a list of
+filenames of recipes present in the resources folder to the recipe service,
+which then filters out all the files that already exist. Then each recipe can
+be read and copied over.
+
+### Stage 1b
+
+Also on enable, recipes defined in code should be registered. These two steps
+can be done in no particular order.
+
+### Stage 2
+
+On the first server tick, all recipes in the `plugins/Slimefun/recipes` folder
+are read and added to the `RecipeService`, removing all recipes with the
+same filename. This is why recipes should ideally be *defined* in JSON,
+to prevent unnecessary work.
+
+When loading JSON recipes, we also need to be able to tell the difference between
+a server owner changing a recipe, and a developer changing a recipe. To do this,
+we use a system called Recipe Overrides; it allows for updates to recipes from
+developers while also preserving custom recipes by server owners
+
+- Slimefun/addons should tell the recipe service it will apply a recipe
+  override on enable, **before** any JSON recipes are copied from the resources
+  folder
+- The recipe service checks all recipe overrides that have already run
+  (in the file `plugins/Slimefun/recipe-overrides`) and if it never received
+  that override before, it deletes the old files and all recipes inside them.
+  Then all recipes are loaded as before.
+
+### Stage 3
+
+While the server is running, recipes can be modified in code, saved to disk, or
+re-loaded from disk. New recipes can also be added, however not to any existing
+file (unless forced, which is not recommended)
+
+### Stage 4
+
+On server shutdown (or `/sf recipe save`), **all** recipes are saved to disk.
+This means any changes made while the server is running will be overwritten.
+Server owners should run `/sf recipe reload <file-name?>` to load new recipes
+dynamically from disk.
 
 ## Phases
 
 Each phase should be a separate PR
 
 - Phase 1 - Add the new API
-- Phase 2 - Migrate Slimefun toward the new API
+- Phase 2 - Migrate Slimefun items/multiblocks/machines toward the new API
+- Phase 3 - Update the Slimefun Guide to use the new API
 
 The entire process should be seamless for the end users, and
 backwards compatible with addons that haven't yet migrated

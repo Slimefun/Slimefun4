@@ -66,7 +66,7 @@ public class Recipe {
     public static Recipe fromItemStacks(ItemStack[] inputs, ItemStack[] outputs, RecipeType type, MatchProcedure match) {
         return new Recipe(
             Optional.empty(),
-            "other_recipes",
+            "other_recipes.json",
             RecipeInput.fromItemStacks(inputs, match),
             RecipeOutput.fromItemStacks(outputs),
             List.of(type),
@@ -193,11 +193,14 @@ public class Recipe {
     public JsonElement serialize(JsonSerializationContext context) {
         JsonObject recipe = new JsonObject();
 
+        if (id.isPresent()) {
+            recipe.addProperty("id", id.get());
+        }
         if (!input.isEmpty()) {
-            recipe.add("input", context.serialize(input, AbstractRecipeInput.class));
+            recipe.add("input", input.serialize(context));
         }
         if (!output.isEmpty()) {
-            recipe.add("output", context.serialize(output, AbstractRecipeOutput.class));
+            recipe.add("output", output.serialize(context));
         }
         if (types.size() == 1) {
             recipe.addProperty("type", types.stream().findFirst().get().toString());
