@@ -204,11 +204,6 @@ moved to `plugins/Slimefun/recipes/` (unless a file with its name already exists
 Addons should do the same. (We recommend saving to
 `plugins/Slimefun/recipes/<your-addon-name>/` but it's not required).
 
-To prevent unnecessary file operations, Slimefun/addons first send a list of
-filenames of recipes present in the resources folder to the recipe service,
-which then filters out all the files that already exist. Then each recipe can
-be read and copied over.
-
 ### Stage 1b
 
 Also on enable, recipes defined in code should be registered. These two steps
