@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes;
 
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -44,6 +45,23 @@ public class Recipe {
         for (String perm : permissionNodes) {
             this.permissionNodes.add(perm);
         }
+    }
+
+    public static Recipe fromItemStacks(String subdirectory, String id, ItemStack[] inputs, ItemStack[] outputs, RecipeType type, MatchProcedure match) {
+        return new Recipe(
+            Optional.of(id),
+            Path.of(subdirectory, id.toLowerCase()).toString(),
+            RecipeInput.fromItemStacks(inputs, match),
+            RecipeOutput.fromItemStacks(outputs),
+            List.of(type),
+            Optional.empty(),
+            Optional.empty(),
+            List.of()
+        );
+    }
+
+    public static Recipe fromItemStacks(String subdirectory, String id, ItemStack[] inputs, ItemStack[] outputs, RecipeType type) {
+        return fromItemStacks(subdirectory, id, inputs, outputs, type, type.getDefaultMatchProcedure());
     }
 
     public static Recipe fromItemStacks(String id, ItemStack[] inputs, ItemStack[] outputs, RecipeType type, MatchProcedure match) {

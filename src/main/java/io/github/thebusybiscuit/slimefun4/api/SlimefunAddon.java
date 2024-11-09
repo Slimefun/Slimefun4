@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -157,14 +158,20 @@ public interface SlimefunAddon {
      * @param subdirectory The subdirectory to copy files to
      */
     default void copyResourceRecipes(String subdirectory) {
-        Set<String> existingRecipes = Slimefun.getRecipeService().getAllRecipeFilenames();
+        Set<String> existingRecipes = Slimefun.getRecipeService().getAllRecipeFilenames(subdirectory);
         Set<String> resourceNames = getResourceRecipeFilenames();
         resourceNames.removeIf(existingRecipes::contains);
         for (String name : resourceNames) {
             try (InputStream source = getClass().getResourceAsStream("/recipes/" + name + ".json")) {
-                Files.copy(source, Path.of(RecipeService.SAVED_RECIPE_DIR, subdirectory, name + ".json"));
+                Path dest = Path.of(RecipeService.SAVED_RECIPE_DIR, subdirectory, name + ".json");
+                File parent = dest.getParent().toFile();
+                if (!parent.exists()) {
+                    parent.mkdirs();
+                }
+                Files.copy(source, dest);
             } catch (Exception e) {
                 getLogger().warning("Couldn't copy recipes in resource file '" + name + "': " + e.getLocalizedMessage());
+                throw new RuntimeException(e);
             }
         }
     }

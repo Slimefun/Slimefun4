@@ -382,12 +382,14 @@ public class RecipeService {
     }
 
     /**
-     * Gets the list of all recipe files in the /plugins/Slimefun/recipes/
-     * directory, with the .json removed
-     * @return
+     * @return The list of all recipe files in <code>/plugins/Slimefun/recipes/[subdirectory]</code>
+     * with the .json removed
      */
-    public Set<String> getAllRecipeFilenames() {
-        Path dir = Path.of(SAVED_RECIPE_DIR);
+    public Set<String> getAllRecipeFilenames(String subdirectory) {
+        Path dir = Path.of(SAVED_RECIPE_DIR, subdirectory);
+        if (!dir.toFile().exists()) {
+            return Collections.emptySet();
+        }
         try (Stream<Path> files = Files.walk(dir)) {
             return files
                 .filter(f -> f.toString().endsWith(".json"))
@@ -399,6 +401,14 @@ public class RecipeService {
         } catch (Exception e) {
             return Collections.emptySet();
         }
+    }
+
+    /**
+     * @return The list of all recipe files in <code>/plugins/Slimefun/recipes</code>
+     * directory, with the .json removed
+     */
+    public Set<String> getAllRecipeFilenames() {
+        return getAllRecipeFilenames("");
     }
 
     public void loadAllRecipes() {

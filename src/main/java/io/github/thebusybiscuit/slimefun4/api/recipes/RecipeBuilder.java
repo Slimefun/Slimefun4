@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,10 +48,14 @@ public class RecipeBuilder {
     
     public RecipeBuilder() {}
 
+    protected String getRecipeSubdirectory() {
+        return "";
+    }
+
     public Recipe build() {
         return new Recipe(
             id,
-            filename,
+            Path.of(getRecipeSubdirectory(), filename).toString(),
             inputGenerator.create(inputItems, match, width, height),
             outputGenerator.apply(outputItems),
             types,
