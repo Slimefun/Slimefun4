@@ -19,7 +19,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 /**
  * The {@link ElectricPress} is a pretty simple electrical machine.
  * It allows you to compact items into their block variant, e.g. 9 diamonds into a diamond block.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */

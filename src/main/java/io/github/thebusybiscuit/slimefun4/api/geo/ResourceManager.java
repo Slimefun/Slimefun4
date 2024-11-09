@@ -38,9 +38,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 /**
  * The {@link ResourceManager} is responsible for registering and managing a {@link GEOResource}.
  * You have to use the {@link ResourceManager} if you want to generate or consume a {@link GEOResource} too.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see GEOResource
  * @see GEOMiner
  * @see GEOScanner
@@ -53,7 +53,7 @@ public class ResourceManager {
 
     /**
      * This will create a new {@link ResourceManager}.
-     * 
+     *
      * @param plugin
      *            Our {@link Slimefun} instance
      */
@@ -64,7 +64,7 @@ public class ResourceManager {
     /**
      * This method registers the given {@link GEOResource}.
      * It may never be called directly, use {@link GEOResource#register()} instead.
-     * 
+     *
      * @param resource
      *            The {@link GEOResource} to register
      */
@@ -93,7 +93,7 @@ public class ResourceManager {
      * This method returns the amount of a certain {@link GEOResource} found in a given {@link Chunk}.
      * The result is an {@link OptionalInt} which will be empty if this {@link GEOResource}
      * has not been generated at that {@link Location} yet.
-     * 
+     *
      * @param resource
      *            The {@link GEOResource} to query
      * @param world
@@ -102,7 +102,7 @@ public class ResourceManager {
      *            The {@link Chunk} x coordinate
      * @param z
      *            The {@link Chunk} z coordinate
-     * 
+     *
      * @return An {@link OptionalInt}, either empty or containing the amount of the given {@link GEOResource}
      */
     public @Nonnull OptionalInt getSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
@@ -121,7 +121,7 @@ public class ResourceManager {
 
     /**
      * This method will set the supplies in a given {@link Chunk} to the specified value.
-     * 
+     *
      * @param resource
      *            The {@link GEOResource}
      * @param world
@@ -147,7 +147,7 @@ public class ResourceManager {
      * <p>
      * This method will invoke {@link #setSupplies(GEOResource, World, int, int, int)} and also calls a
      * {@link GEOResourceGenerationEvent}.
-     * 
+     *
      * @param resource
      *            The {@link GEOResource} to generate
      * @param world
@@ -156,7 +156,7 @@ public class ResourceManager {
      *            The x coordinate of that {@link Chunk}
      * @param z
      *            The z coordinate of that {@link Chunk}
-     * 
+     *
      * @return The new supply value
      */
     private int generate(@Nonnull GEOResource resource, @Nonnull World world, int x, int y, int z) {
@@ -199,11 +199,11 @@ public class ResourceManager {
     /**
      * This method will start a geo-scan at the given {@link Block} and display the result
      * of that scan to the given {@link Player}.
-     * 
+     *
      * Note that scans are always per {@link Chunk}, not per {@link Block}, the {@link Block}
      * parameter only determines the {@link Location} that was clicked but it will still scan
      * the entire {@link Chunk}.
-     * 
+     *
      * @param p
      *            The {@link Player} who requested these results
      * @param block
@@ -227,7 +227,7 @@ public class ResourceManager {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(4, new CustomItemStack(HeadTexture.MINECRAFT_CHUNK.getAsItemStack(), ChatColor.YELLOW + Slimefun.getLocalization().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + Slimefun.getLocalization().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(4, CustomItemStack.create(HeadTexture.MINECRAFT_CHUNK.getAsItemStack(), ChatColor.YELLOW + Slimefun.getLocalization().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + Slimefun.getLocalization().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
         List<GEOResource> resources = new ArrayList<>(Slimefun.getRegistry().getGEOResources().values());
         resources.sort(Comparator.comparing(a -> a.getName(p).toLowerCase(Locale.ROOT)));
 
@@ -240,7 +240,7 @@ public class ResourceManager {
             int supplies = optional.orElseGet(() -> generate(resource, block.getWorld(), x, block.getY(), z));
             String suffix = Slimefun.getLocalization().getResourceString(p, ChatUtils.checkPlurality("tooltips.unit", supplies));
 
-            ItemStack item = new CustomItemStack(resource.getItem(), "&f" + resource.getName(p), "&8\u21E8 &e" + supplies + ' ' + suffix);
+            ItemStack item = CustomItemStack.create(resource.getItem(), "&f" + resource.getName(p), "&8\u21E8 &e" + supplies + ' ' + suffix);
 
             if (supplies > 1) {
                 item.setAmount(Math.min(supplies, item.getMaxStackSize()));

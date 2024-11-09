@@ -9,7 +9,7 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 /**
  * This enum covers all different fuel sources a {@link ProgrammableAndroid} can have.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -38,12 +38,12 @@ public enum AndroidFuelSource {
 
     /**
      * This returns a display {@link ItemStack} for this {@link AndroidFuelSource}.
-     * 
+     *
      * @return An {@link ItemStack} to display
      */
     @Nonnull
     public ItemStack getItem() {
-        return new CustomItemStack(HeadTexture.GENERATOR.getAsItemStack(), "&8\u21E9 &cFuel Input &8\u21E9", lore);
+        return CustomItemStack.create(HeadTexture.GENERATOR.getAsItemStack(), "&8\u21E9 &cFuel Input &8\u21E9", lore);
     }
 
 }
