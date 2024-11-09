@@ -27,11 +27,12 @@ class ResearchCommand extends SubCommand {
     }
 
     @Override
-    protected String getDescription() {
+    protected @Nonnull String getDescription() {
         return "commands.research.description";
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onExecute(CommandSender sender, String[] args) {
         // Check if researching is even enabled
         if (!Slimefun.getRegistry().isResearchingEnabled()) {
@@ -39,46 +40,48 @@ class ResearchCommand extends SubCommand {
             return;
         }
 
-        if (args.length == 3) {
-            if (!(sender instanceof Player) || sender.hasPermission("slimefun.cheat.researches")) {
-                Optional<Player> player = PlayerList.findByName(args[1]);
-
-                if (player.isPresent()) {
-                    Player p = player.get();
-
-                    // Getting the PlayerProfile async
-                    PlayerProfile.get(p, profile -> {
-                        if (args[2].equalsIgnoreCase("all")) {
-                            researchAll(sender, profile, p);
-                        } else if (args[2].equalsIgnoreCase("reset")) {
-                            reset(profile, p);
-                        } else {
-                            giveResearch(sender, p, args[2]);
-                        }
-                    });
-                } else {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
-                }
-            } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
-            }
-        } else {
+        if (args.length != 3) {
             Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf research <Player> <all/reset/Research>"));
+            return;
         }
+
+        if (sender instanceof Player && !sender.hasPermission("slimefun.cheat.researches")) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            return;
+        }
+
+        Optional<Player> player = PlayerList.findByName(args[1]);
+        if (player.isEmpty()) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
+            return;
+        }
+
+        // Getting the PlayerProfile async
+        Player p = player.get();
+        PlayerProfile.get(p, profile -> {
+            if (args[2].equalsIgnoreCase("all")) {
+                researchAll(sender, profile, p);
+            } else if (args[2].equalsIgnoreCase("reset")) {
+                reset(profile, p);
+            } else {
+                giveResearch(sender, p, args[2]);
+            }
+        });
     }
 
     @ParametersAreNonnullByDefault
     private void giveResearch(CommandSender sender, Player p, String input) {
         Optional<Research> research = getResearchFromString(input);
 
-        if (research.isPresent()) {
-            research.get().unlock(p, true, player -> {
-                UnaryOperator<String> variables = msg -> msg.replace(PLACEHOLDER_PLAYER, player.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(player));
-                Slimefun.getLocalization().sendMessage(player, "messages.give-research", true, variables);
-            });
-        } else {
+        if (research.isEmpty()) {
             Slimefun.getLocalization().sendMessage(sender, "messages.invalid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));
+            return;
         }
+
+        research.get().unlock(p, true, player -> {
+            UnaryOperator<String> variables = msg -> msg.replace(PLACEHOLDER_PLAYER, player.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(player));
+            Slimefun.getLocalization().sendMessage(player, "messages.give-research", true, variables);
+        });
     }
 
     @ParametersAreNonnullByDefault
@@ -101,8 +104,7 @@ class ResearchCommand extends SubCommand {
         Slimefun.getLocalization().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()));
     }
 
-    @Nonnull
-    private Optional<Research> getResearchFromString(@Nonnull String input) {
+    private @Nonnull Optional<Research> getResearchFromString(@Nonnull String input) {
         if (!input.contains(":")) {
             return Optional.empty();
         }
