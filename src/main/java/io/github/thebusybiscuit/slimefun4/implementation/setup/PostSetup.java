@@ -9,9 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
@@ -21,9 +19,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemRegistryFinalizedEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -32,7 +27,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Grind
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCrusher;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
-import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
+import io.github.thebusybiscuit.slimefun4.utils.WikiUtils;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -44,20 +39,7 @@ public final class PostSetup {
     public static void setupWiki() {
         Slimefun.logger().log(Level.INFO, "Loading Wiki pages...");
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Slimefun.class.getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
-            JsonElement element = JsonUtils.parseString(reader.lines().collect(Collectors.joining("")));
-            JsonObject json = element.getAsJsonObject();
-
-            for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
-                SlimefunItem item = SlimefunItem.getById(entry.getKey());
-
-                if (item != null) {
-                    item.addOfficialWikipage(entry.getValue().getAsString());
-                }
-            }
-        } catch (IOException e) {
-            Slimefun.logger().log(Level.SEVERE, "Failed to load wiki.json file", e);
-        }
+        WikiUtils.setupWiki(Slimefun.instance());
     }
 
     public static void loadItems() {
@@ -79,7 +61,7 @@ public final class PostSetup {
         }
 
         Bukkit.getPluginManager().callEvent(new SlimefunItemRegistryFinalizedEvent());
-        
+
         loadOreGrinderRecipes();
         loadSmelteryRecipes();
 
