@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.integrations;
 
 import javax.annotation.Nonnull;
 
+import com.gmail.nossr50.events.skills.repair.McMMOPlayerRepairCheckEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -19,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 
 /**
  * This handles all integrations with {@link mcMMO}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -55,6 +56,19 @@ class McMMOIntegration implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
+    public void onItemRepair(McMMOPlayerRepairCheckEvent e) {
+        ItemStack repaired = e.getRepairedObject();
+        ItemStack material = e.getRepairMaterial();
+
+        if (isSalvageable(repaired) && isSalvageable(material)) {
+            return;
+        }
+
+        e.setCancelled(true);
+        Slimefun.getLocalization().sendMessage(e.getPlayer(), "anvil.mcmmo-repair");
+    }
+
+    @EventHandler(ignoreCancelled = true)
     public void onAutoDisenchant(AutoDisenchantEvent e) {
         try {
             SkillUtils.removeAbilityBuff(e.getItem());
@@ -67,10 +81,10 @@ class McMMOIntegration implements Listener {
      * This method checks if an {@link ItemStack} can be salvaged or not.
      * We basically don't want players to salvage any {@link SlimefunItem} unless
      * it is a {@link VanillaItem}.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to check
-     * 
+     *
      * @return Whether this item can be safely salvaged
      */
     private boolean isSalvageable(@Nonnull ItemStack item) {
