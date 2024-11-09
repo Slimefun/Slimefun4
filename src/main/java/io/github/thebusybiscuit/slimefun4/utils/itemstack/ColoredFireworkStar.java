@@ -22,15 +22,12 @@ public class ColoredFireworkStar {
 
     @ParametersAreNonnullByDefault
     public static ItemStack create(Color color, String name, String... lore) {
+        FireworkEffect effect = FireworkEffect.builder().with(Type.BURST).withColor(color).build();
         return new ItemStackEditor(Material.FIREWORK_STAR)
                 .setDisplayName(name)
                 .setLore(lore)
                 .addFlags(VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-                .withMetaConsumer(meta -> {
-                    if (meta instanceof FireworkEffectMeta effectMeta) {
-                        effectMeta.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(color).build());
-                    }
-                })
+                .andMetaConsumer(FireworkEffectMeta.class, meta -> meta.setEffect(effect))
                 .create();
     }
 
