@@ -91,7 +91,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
         settings.add(new GoldPanDrop(this, "chance.FLINT", 40, new ItemStack(Material.FLINT)));
         settings.add(new GoldPanDrop(this, "chance.CLAY", 20, new ItemStack(Material.CLAY_BALL)));
-        settings.add(new GoldPanDrop(this, "chance.SIFTED_ORE", 35, SlimefunItems.SIFTED_ORE));
+        settings.add(new GoldPanDrop(this, "chance.SIFTED_ORE", 35, SlimefunItems.SIFTED_ORE.item()));
         settings.add(new GoldPanDrop(this, "chance.IRON_NUGGET", 5, new ItemStack(Material.IRON_NUGGET)));
 
         return settings;
