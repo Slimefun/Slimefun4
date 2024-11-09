@@ -21,18 +21,20 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * The {@link ItemFilter} is a performance-optimization for our {@link CargoNet}.
  * It is a snapshot of a cargo node's configuration.
  * 
  * @author TheBusyBiscuit
+ * @author Vaan1310
  * 
  * @see CargoNet
  * @see CargoNetworkTask
  *
  */
-class ItemFilter implements Predicate<ItemStack> {
+public class ItemFilter implements Predicate<ItemStack> {
 
     /**
      * Our {@link List} of items to check against, might be empty.
@@ -53,6 +55,8 @@ class ItemFilter implements Predicate<ItemStack> {
      * Whether we should also compare the lore.
      */
     private boolean checkLore;
+
+    private boolean checkEnchants;
 
     /**
      * If an {@link ItemFilter} is marked as dirty / outdated, then it will be updated
@@ -112,6 +116,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
                     this.items.clear();
                     this.checkLore = Objects.equals(blockData.getString("filter-lore"), "true");
+                    this.checkEnchants = Objects.equals(blockData.getString("filter-enchant"), "true");
                     this.rejectOnMatch = !Objects.equals(blockData.getString("filter-type"), "whitelist");
 
                     for (int slot : slots) {
@@ -140,6 +145,7 @@ class ItemFilter implements Predicate<ItemStack> {
     private void clear(boolean rejectOnMatch) {
         this.items.clear();
         this.checkLore = false;
+        this.checkEnchants = false;
         this.rejectOnMatch = rejectOnMatch;
     }
 
@@ -188,31 +194,43 @@ class ItemFilter implements Predicate<ItemStack> {
         if (potentialMatches == 0) {
             // If there is no match, we can safely assume the default value
             return rejectOnMatch;
-        } else {
-            /*
-             * If there is more than one potential match, create a wrapper to save
-             * performance on the ItemMeta otherwise just use the item directly.
-             */
-            ItemStack subject = potentialMatches == 1 ? item : ItemStackWrapper.wrap(item);
+        }
+        /*
+         * If there is more than one potential match, create a wrapper to save
+         * performance on the ItemMeta otherwise just use the item directly.
+         */
+        ItemStack subject = potentialMatches == 1 ? item : ItemStackWrapper.wrap(item);
 
-            /*
-             * If there is only one match, we won't need to create a Wrapper
-             * and thus only perform .getItemMeta() once
-             */
-            for (ItemStackWrapper stack : items) {
-                if (SlimefunUtils.isItemSimilar(subject, stack, checkLore, false)) {
-                    /*
-                     * The filter has found a match, we can return the opposite
-                     * of our default value. If we exclude items, this is where we
-                     * would return false. Otherwise, we return true.
-                     */
-                    return !rejectOnMatch;
-                }
+        /*
+         * If there is only one match, we won't need to create a Wrapper
+         * and thus only perform .getItemMeta() once
+         */
+        for (ItemStackWrapper stack : items) {
+            boolean isSimilar = SlimefunUtils.isItemSimilar(subject,stack,checkLore);
+
+            if (!isSimilar) {
+                continue;
             }
 
-            // If no particular item was matched, we fallback to our default value.
-            return rejectOnMatch;
-        }
-    }
+            if (!checkEnchants) {
+                /*
+                 * The filter has found a match, we can return the opposite
+                 * of our default value. If we exclude items, this is where we
+                 * would return false. Otherwise, we return true.
+                 */
+                return !rejectOnMatch;
+            }
 
+            boolean areSameEnchant = SlimefunUtils.areSameEnchants(subject, stack);
+
+            if (checkEnchants && areSameEnchant) {
+                return !rejectOnMatch;
+            }
+
+        }
+
+        // If no particular item was matched, we fallback to our default value.
+        return rejectOnMatch;
+
+    }
 }
