@@ -27,7 +27,7 @@ jobs:
         run: mvn clean package
 
       - name: Upload to Blob Builds
-        uses: WalshyDev/blob-builds/gh-action@f3da5ce7b7e2b70eb963e0c0014677b3d78c10fa
+        uses: WalshyDev/blob-builds/gh-action@cc89b7b6513728ab85e9421cf1e31eef18884cbd
         with:
           project: Slimefun4
           releaseChannel: ${{ github.ref == 'refs/heads/master' && 'Dev' || 'RC' }}
