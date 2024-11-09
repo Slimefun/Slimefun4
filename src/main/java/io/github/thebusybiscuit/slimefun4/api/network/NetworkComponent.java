@@ -20,6 +20,11 @@ public enum NetworkComponent {
     CONNECTOR,
 
     /**
+     * This represents a node that stops {@link NetworkComponent}s from connecting
+     */
+    INSULATOR,
+
+    /**
      * This represents the main component of the {@link Network}.
      * This node is responsible for managing the {@link Network}.
      */
