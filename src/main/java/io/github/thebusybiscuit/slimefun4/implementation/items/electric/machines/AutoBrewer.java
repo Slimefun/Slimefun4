@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -33,8 +33,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class AutoBrewer extends AContainer implements NotHopperable {
 
-    private static final Map<Material, PotionType> potionRecipes = new EnumMap<>(Material.class);
-    private static final Map<PotionType, PotionType> fermentations = new EnumMap<>(PotionType.class);
+    private static final Map<Material, PotionType> potionRecipes = new HashMap<>();
+    private static final Map<PotionType, PotionType> fermentations = new HashMap<>();
 
     static {
         potionRecipes.put(Material.SUGAR, VersionedPotionType.SWIFTNESS);

@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils.biomes;
 
-import java.util.EnumMap;
-import java.util.EnumSet;
+
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -25,12 +26,12 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
  * The {@link BiomeMapParser} allows you to parse json data into a {@link BiomeMap}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  * @param <T>
  *            The data type of the resulting {@link BiomeMap}
- * 
+ *
  * @see BiomeMap
  */
 public class BiomeMapParser<T> {
@@ -40,7 +41,7 @@ public class BiomeMapParser<T> {
 
     private final NamespacedKey key;
     private final BiomeDataConverter<T> valueConverter;
-    private final Map<Biome, T> map = new EnumMap<>(Biome.class);
+    private final Map<Biome, T> map = new HashMap<>();
 
     /**
      * This flag specifies whether the parsing is "lenient" or not.
@@ -54,7 +55,7 @@ public class BiomeMapParser<T> {
      * This constructs a new {@link BiomeMapParser}.
      * <p>
      * To parse data, use the {@link #read(JsonArray)} or {@link #read(String)} method.
-     * 
+     *
      * @param key
      *            The {@link NamespacedKey} for the resulting {@link BiomeMap}
      * @param valueConverter
@@ -75,7 +76,7 @@ public class BiomeMapParser<T> {
      * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
      * could not be found.
      * The default value is false.
-     * 
+     *
      * @param isLenient
      *            Whether this parser should be lenient or not.
      */
@@ -89,7 +90,7 @@ public class BiomeMapParser<T> {
      * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
      * could not be found.
      * The default value is false.
-     * 
+     *
      * @return Whether this parser is lenient or not.
      */
     public boolean isLenient() {
@@ -159,7 +160,7 @@ public class BiomeMapParser<T> {
 
     private @Nonnull Set<Biome> readBiomes(@Nonnull JsonArray array) throws BiomeMapException {
         Validate.notNull(array, "The JSON array should not be null!");
-        Set<Biome> biomes = EnumSet.noneOf(Biome.class);
+        Set<Biome> biomes = new HashSet<>();
 
         for (JsonElement element : array) {
             if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
@@ -196,7 +197,7 @@ public class BiomeMapParser<T> {
      * <p>
      * Make sure to parse data via {@link #read(JsonArray)} or {@link #read(String)}
      * before calling this method! Otherwise the resulting {@link BiomeMap} will be empty.
-     * 
+     *
      * @return The resulting {@link BiomeMap}
      */
     @Nonnull
