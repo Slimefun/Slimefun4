@@ -86,7 +86,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
             for (int j = 0; j < 9; j++) {
                 if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR) {
                     if (inv.getContents()[j].getAmount() > 1) {
-                        inv.setItem(j, new CustomItemStack(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
+                        inv.setItem(j, CustomItemStack.create(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
                     } else {
                         inv.setItem(j, null);
                     }

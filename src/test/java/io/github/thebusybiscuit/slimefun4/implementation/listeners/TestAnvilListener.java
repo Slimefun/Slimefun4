@@ -62,7 +62,7 @@ class TestAnvilListener {
 
     @Test
     void testAnvilWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_IRON_SWORD", new CustomItemStack(Material.IRON_SWORD, "&6Mock"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_IRON_SWORD", CustomItemStack.create(Material.IRON_SWORD, "&6Mock"));
         item.register(plugin);
 
         InventoryClickEvent event = mockAnvilEvent(item.getItem());

@@ -33,9 +33,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  * {@link RecipeType}.
  * The concrete implementation for this can be seen in the {@link EnhancedAutoCrafter} but
  * it theoretically works for any {@link RecipeType}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see EnhancedAutoCrafter
  *
  */
@@ -95,7 +95,7 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
                     ChestMenuUtils.drawBackground(menu, background);
                     ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);
 
-                    menu.addItem(49, new CustomItemStack(Material.CRAFTING_TABLE, ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "messages.auto-crafting.select")));
+                    menu.addItem(49, CustomItemStack.create(Material.CRAFTING_TABLE, ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "messages.auto-crafting.select")));
                     menu.addMenuClickHandler(49, (pl, stack, slot, action) -> {
                         setSelectedRecipe(b, recipe);
                         SoundEffect.AUTO_CRAFTER_UPDATE_RECIPE.playAt(b);

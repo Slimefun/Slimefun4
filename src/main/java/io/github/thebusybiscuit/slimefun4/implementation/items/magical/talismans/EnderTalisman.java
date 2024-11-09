@@ -15,13 +15,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 /**
  * An {@link EnderTalisman} is a special version of {@link Talisman}
  * that works while it is in your {@link EnderChest}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
 class EnderTalisman extends Talisman {
 
-    private static final LockedItemGroup ENDER_TALISMANS_ITEMGROUP = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "ender_talismans"), new CustomItemStack(SlimefunItems.ENDER_TALISMAN, "&7Talismans - &aTier II"), 3, Talisman.TALISMANS_ITEMGROUP.getKey());
+    private static final LockedItemGroup ENDER_TALISMANS_ITEMGROUP = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "ender_talismans"), CustomItemStack.create(SlimefunItems.ENDER_TALISMAN, "&7Talismans - &aTier II"), 3, Talisman.TALISMANS_ITEMGROUP.getKey());
 
     @ParametersAreNonnullByDefault
     public EnderTalisman(Talisman parent, SlimefunItemStack item) {

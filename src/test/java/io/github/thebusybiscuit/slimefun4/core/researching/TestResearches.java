@@ -78,7 +78,7 @@ class TestResearches {
     void testResearchRegistration() {
         NamespacedKey key = new NamespacedKey(plugin, "test_research");
         Research research = new Research(key, 1, "Test", 100);
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItemStack(Material.TORCH, "&bResearch Test"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", CustomItemStack.create(Material.TORCH, "&bResearch Test"));
         research.addItems(item, null);
         research.register();
 
@@ -98,7 +98,7 @@ class TestResearches {
     void testDisabledResearch() {
         NamespacedKey key = new NamespacedKey(plugin, "disabled_research");
         Research research = new Research(key, 2, "Test", 100);
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItemStack(Material.TORCH, "&bResearch Test"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", CustomItemStack.create(Material.TORCH, "&bResearch Test"));
         research.addItems(item);
 
         Slimefun.getRegistry().setResearchingEnabled(true);
@@ -127,7 +127,7 @@ class TestResearches {
     void testAddItems() {
         NamespacedKey key = new NamespacedKey(plugin, "add_items_to_research");
         Research research = new Research(key, 17, "Test", 100);
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_ITEMS_TEST", new CustomItemStack(Material.LAPIS_LAZULI, "&9Adding items is fun"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_ITEMS_TEST", CustomItemStack.create(Material.LAPIS_LAZULI, "&9Adding items is fun"));
         item.register(plugin);
 
         research.addItems(item.getItem(), null);
@@ -199,7 +199,7 @@ class TestResearches {
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
-        SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItemStack(Material.TORCH, "&bResearch Test"));
+        SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", CustomItemStack.create(Material.TORCH, "&bResearch Test"));
 
         research.unlockFromGuide(guide, player, profile, sfItem, sfItem.getItemGroup(), 0);
 

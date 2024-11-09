@@ -51,7 +51,7 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
             lore.add("");
             lore.add("&7\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.options.learning-animation." + optionState + ".click"));
 
-            ItemStack item = new CustomItemStack(enabled ? Material.MAP : Material.PAPER, lore);
+            ItemStack item = CustomItemStack.create(enabled ? Material.MAP : Material.PAPER, lore);
             return Optional.of(item);
         }
     }

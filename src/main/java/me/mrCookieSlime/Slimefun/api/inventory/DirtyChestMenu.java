@@ -33,7 +33,7 @@ public class DirtyChestMenu extends ChestMenu {
 
     /**
      * This method checks whether this {@link DirtyChestMenu} is currently viewed by a {@link Player}.
-     * 
+     *
      * @return Whether anyone is currently viewing this {@link Inventory}
      */
     public boolean hasViewer() {
@@ -136,7 +136,7 @@ public class DirtyChestMenu extends ChestMenu {
         }
 
         if (amount > 0) {
-            return new CustomItemStack(item, amount);
+            return CustomItemStack.create(item, amount);
         } else {
             return null;
         }

@@ -396,7 +396,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new BasicCircuitBoard(itemGroups.technicalComponents, SlimefunItems.BASIC_CIRCUIT_BOARD, RecipeType.MOB_DROP,
-        new ItemStack[] {null, null, null, null, new CustomItemStack(SlimefunUtils.getCustomHead(HeadTexture.IRON_GOLEM.getTexture()), "&aIron Golem"), null, null, null, null})
+        new ItemStack[] {null, null, null, null, CustomItemStack.create(SlimefunUtils.getCustomHead(HeadTexture.IRON_GOLEM.getTexture()), "&aIron Golem"), null, null, null, null})
         .register(plugin);
 
         new UnplaceableBlock(itemGroups.technicalComponents, SlimefunItems.ADVANCED_CIRCUIT_BOARD, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2663,7 +2663,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new StrangeNetherGoo(itemGroups.magicalResources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
-        new ItemStack[] {null, null, null, null, new CustomItemStack(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
+        new ItemStack[] {null, null, null, null, CustomItemStack.create(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
         .register(plugin);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {

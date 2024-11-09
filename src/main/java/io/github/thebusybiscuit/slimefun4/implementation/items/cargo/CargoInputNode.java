@@ -47,14 +47,14 @@ public class CargoInputNode extends AbstractFilterNode {
 
         String roundRobinMode = BlockStorage.getLocationInfo(b.getLocation(), ROUND_ROBIN_MODE);
         if (!BlockStorage.hasBlockInfo(b) || roundRobinMode == null || roundRobinMode.equals(String.valueOf(false))) {
-            menu.replaceExistingItem(24, new CustomItemStack(HeadTexture.ENERGY_REGULATOR.getAsItemStack(), "&7Round-Robin Mode: &4\u2718", "", "&e> Click to enable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
+            menu.replaceExistingItem(24, CustomItemStack.create(HeadTexture.ENERGY_REGULATOR.getAsItemStack(), "&7Round-Robin Mode: &4\u2718", "", "&e> Click to enable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
             menu.addMenuClickHandler(24, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, ROUND_ROBIN_MODE, String.valueOf(true));
                 updateBlockMenu(menu, b);
                 return false;
             });
         } else {
-            menu.replaceExistingItem(24, new CustomItemStack(HeadTexture.ENERGY_REGULATOR.getAsItemStack(), "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
+            menu.replaceExistingItem(24, CustomItemStack.create(HeadTexture.ENERGY_REGULATOR.getAsItemStack(), "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
             menu.addMenuClickHandler(24, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, ROUND_ROBIN_MODE, String.valueOf(false));
                 updateBlockMenu(menu, b);
@@ -64,14 +64,14 @@ public class CargoInputNode extends AbstractFilterNode {
 
         String smartFillNode = BlockStorage.getLocationInfo(b.getLocation(), SMART_FILL_MODE);
         if (!BlockStorage.hasBlockInfo(b) || smartFillNode == null || smartFillNode.equals(String.valueOf(false))) {
-            menu.replaceExistingItem(16, new CustomItemStack(Material.WRITABLE_BOOK, "&7\"Smart-Filling\" Mode: &4\u2718", "", "&e> Click to enable \"Smart-Filling\" Mode", "", "&fIn this mode, the Cargo node will attempt", "&fto keep a constant amount of items", "&fin the inventory. This is not perfect", "&fand will still fill in empty slots that", "&fcome before a stack of a configured item."));
+            menu.replaceExistingItem(16, CustomItemStack.create(Material.WRITABLE_BOOK, "&7\"Smart-Filling\" Mode: &4\u2718", "", "&e> Click to enable \"Smart-Filling\" Mode", "", "&fIn this mode, the Cargo node will attempt", "&fto keep a constant amount of items", "&fin the inventory. This is not perfect", "&fand will still fill in empty slots that", "&fcome before a stack of a configured item."));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, SMART_FILL_MODE, String.valueOf(true));
                 updateBlockMenu(menu, b);
                 return false;
             });
         } else {
-            menu.replaceExistingItem(16, new CustomItemStack(Material.WRITTEN_BOOK, "&7\"Smart-Filling\" Mode: &2\u2714", "", "&e> Click to disable \"Smart-Filling\" Mode", "", "&fIn this mode, the Cargo node will attempt", "&fto keep a constant amount of items", "&fin the inventory. This is not perfect", "&fand will still fill in empty slots that", "&fcome before a stack of a configured item."));
+            menu.replaceExistingItem(16, CustomItemStack.create(Material.WRITTEN_BOOK, "&7\"Smart-Filling\" Mode: &2\u2714", "", "&e> Click to disable \"Smart-Filling\" Mode", "", "&fIn this mode, the Cargo node will attempt", "&fto keep a constant amount of items", "&fin the inventory. This is not perfect", "&fand will still fill in empty slots that", "&fcome before a stack of a configured item."));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, SMART_FILL_MODE, String.valueOf(false));
                 updateBlockMenu(menu, b);

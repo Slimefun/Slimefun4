@@ -35,7 +35,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * The {@link ReactorAccessPort} is a block which acts as an interface
  * between a {@link Reactor} and a {@link CargoNet}.
  * Any item placed into the port will get transferred to the {@link Reactor}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author AlexLander123
  *
@@ -72,7 +72,7 @@ public class ReactorAccessPort extends SlimefunItem {
                 BlockMenu reactor = getReactor(b.getLocation());
 
                 if (reactor != null) {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItemStack(Material.GREEN_WOOL, "&7Reactor", "", "&6Detected", "", "&7> Click to view Reactor"));
+                    menu.replaceExistingItem(INFO_SLOT, CustomItemStack.create(Material.GREEN_WOOL, "&7Reactor", "", "&6Detected", "", "&7> Click to view Reactor"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         if (reactor != null) {
                             reactor.open(p);
@@ -83,7 +83,7 @@ public class ReactorAccessPort extends SlimefunItem {
                         return false;
                     });
                 } else {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItemStack(Material.RED_WOOL, "&7Reactor", "", "&cNot detected", "", "&7Reactor must be", "&7placed 3 blocks below", "&7the access port!"));
+                    menu.replaceExistingItem(INFO_SLOT, CustomItemStack.create(Material.RED_WOOL, "&7Reactor", "", "&cNot detected", "", "&7Reactor must be", "&7placed 3 blocks below", "&7the access port!"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         newInstance(menu, b);
                         return false;
@@ -135,13 +135,13 @@ public class ReactorAccessPort extends SlimefunItem {
     private void constructMenu(@Nonnull BlockMenuPreset preset) {
         preset.drawBackground(ChestMenuUtils.getBackground(), background);
 
-        preset.drawBackground(new CustomItemStack(Material.LIME_STAINED_GLASS_PANE, " "), fuelBorder);
-        preset.drawBackground(new CustomItemStack(Material.CYAN_STAINED_GLASS_PANE, " "), inputBorder);
-        preset.drawBackground(new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, " "), outputBorder);
+        preset.drawBackground(CustomItemStack.create(Material.LIME_STAINED_GLASS_PANE, " "), fuelBorder);
+        preset.drawBackground(CustomItemStack.create(Material.CYAN_STAINED_GLASS_PANE, " "), inputBorder);
+        preset.drawBackground(CustomItemStack.create(Material.GREEN_STAINED_GLASS_PANE, " "), outputBorder);
 
-        preset.addItem(1, new CustomItemStack(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(22, new CustomItemStack(SlimefunItems.PLUTONIUM, "&7Byproduct Slot", "", "&rThis Slot contains the Reactor's Byproduct", "&rsuch as &aNeptunium &ror &7Plutonium"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(7, new CustomItemStack(SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(1, CustomItemStack.create(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(22, CustomItemStack.create(SlimefunItems.PLUTONIUM, "&7Byproduct Slot", "", "&rThis Slot contains the Reactor's Byproduct", "&rsuch as &aNeptunium &ror &7Plutonium"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(7, CustomItemStack.create(SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"), ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Nonnull

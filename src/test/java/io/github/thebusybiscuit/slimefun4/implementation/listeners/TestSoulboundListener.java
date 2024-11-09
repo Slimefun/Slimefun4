@@ -44,7 +44,7 @@ class TestSoulboundListener {
     @DisplayName("Test if the soulbound item is dropped or not")
     void testItemDrop(boolean soulbound) {
         PlayerMock player = server.addPlayer();
-        ItemStack item = new CustomItemStack(Material.DIAMOND_SWORD, "&4Cool Sword");
+        ItemStack item = CustomItemStack.create(Material.DIAMOND_SWORD, "&4Cool Sword");
         SlimefunUtils.setSoulbound(item, soulbound);
         player.getInventory().setItem(6, item);
         player.setHealth(0);
@@ -83,7 +83,7 @@ class TestSoulboundListener {
     @DisplayName("Test if soulbound item is returned to player")
     void testItemRecover(boolean soulbound) {
         PlayerMock player = server.addPlayer();
-        ItemStack item = new CustomItemStack(Material.DIAMOND_SWORD, "&4Cool Sword");
+        ItemStack item = CustomItemStack.create(Material.DIAMOND_SWORD, "&4Cool Sword");
         SlimefunUtils.setSoulbound(item, soulbound);
         player.getInventory().setItem(6, item);
         player.setHealth(0);

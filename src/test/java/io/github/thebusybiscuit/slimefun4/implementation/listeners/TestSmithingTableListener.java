@@ -46,9 +46,9 @@ class TestSmithingTableListener {
         Slimefun plugin = MockBukkit.load(Slimefun.class);
         listener = new SmithingTableListener(plugin);
 
-        slimefunTool = TestUtilities.mockSlimefunItem(plugin, "MOCK_DIAMOND_SWORD", new CustomItemStack(Material.DIAMOND_SWORD, "&6Mock"));
-        slimefunIngot = TestUtilities.mockSlimefunItem(plugin, "MOCK_NETHERITE_INGOT", new CustomItemStack(Material.NETHERITE_INGOT, "&6Mock"));
-        usableSlimefunIngot = TestUtilities.mockSlimefunItem(plugin, "MOCK_NETHERITE_INGOT_USABLE", new CustomItemStack(Material.NETHERITE_INGOT, "&6Mock"));
+        slimefunTool = TestUtilities.mockSlimefunItem(plugin, "MOCK_DIAMOND_SWORD", CustomItemStack.create(Material.DIAMOND_SWORD, "&6Mock"));
+        slimefunIngot = TestUtilities.mockSlimefunItem(plugin, "MOCK_NETHERITE_INGOT", CustomItemStack.create(Material.NETHERITE_INGOT, "&6Mock"));
+        usableSlimefunIngot = TestUtilities.mockSlimefunItem(plugin, "MOCK_NETHERITE_INGOT_USABLE", CustomItemStack.create(Material.NETHERITE_INGOT, "&6Mock"));
         usableSlimefunIngot.setUseableInWorkbench(true);
 
         vanillaTool = TestUtilities.mockVanillaItem(plugin, Material.DIAMOND_SWORD, true);

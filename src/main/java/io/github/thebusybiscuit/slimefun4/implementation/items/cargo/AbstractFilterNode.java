@@ -25,9 +25,9 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 /**
  * This abstract super class represents all filtered Cargo nodes.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see CargoInputNode
  * @see AdvancedCargoOutputNode
  *
@@ -80,10 +80,10 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
     @Override
     protected void createBorder(BlockMenuPreset preset) {
         for (int i : getBorder()) {
-            preset.addItem(i, new CustomItemStack(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, CustomItemStack.create(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(2, new CustomItemStack(Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(2, CustomItemStack.create(Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"), ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Override
@@ -92,14 +92,14 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
         String filterType = BlockStorage.getLocationInfo(loc, FILTER_TYPE);
 
         if (!BlockStorage.hasBlockInfo(b) || filterType == null || filterType.equals("whitelist")) {
-            menu.replaceExistingItem(15, new CustomItemStack(Material.WHITE_WOOL, "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
+            menu.replaceExistingItem(15, CustomItemStack.create(Material.WHITE_WOOL, "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
             menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, FILTER_TYPE, "blacklist");
                 updateBlockMenu(menu, b);
                 return false;
             });
         } else {
-            menu.replaceExistingItem(15, new CustomItemStack(Material.BLACK_WOOL, "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
+            menu.replaceExistingItem(15, CustomItemStack.create(Material.BLACK_WOOL, "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
             menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, FILTER_TYPE, "whitelist");
                 updateBlockMenu(menu, b);
@@ -110,14 +110,14 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
         String lore = BlockStorage.getLocationInfo(b.getLocation(), FILTER_LORE);
 
         if (!BlockStorage.hasBlockInfo(b) || lore == null || lore.equals(String.valueOf(true))) {
-            menu.replaceExistingItem(25, new CustomItemStack(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
+            menu.replaceExistingItem(25, CustomItemStack.create(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, FILTER_LORE, String.valueOf(false));
                 updateBlockMenu(menu, b);
                 return false;
             });
         } else {
-            menu.replaceExistingItem(25, new CustomItemStack(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
+            menu.replaceExistingItem(25, CustomItemStack.create(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, FILTER_LORE, String.valueOf(true));
                 updateBlockMenu(menu, b);
