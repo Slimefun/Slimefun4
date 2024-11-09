@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
-import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -164,9 +163,9 @@ public interface SlimefunAddon {
         for (String name : resourceNames) {
             try (InputStream source = getClass().getResourceAsStream("/recipes/" + name + ".json")) {
                 Path dest = Path.of(RecipeService.SAVED_RECIPE_DIR, subdirectory, name + ".json");
-                File parent = dest.getParent().toFile();
-                if (!parent.exists()) {
-                    parent.mkdirs();
+                Path parent = dest.getParent();
+                if (parent != null && !parent.toFile().exists()) {
+                    parent.toFile().mkdirs();
                 }
                 Files.copy(source, dest);
             } catch (Exception e) {

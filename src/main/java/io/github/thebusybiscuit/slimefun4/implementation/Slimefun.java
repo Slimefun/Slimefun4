@@ -346,6 +346,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
 
+        // Back up recipes
+        logger.log(Level.INFO, "Backing up recipes...");
+        recipeService.backUpRecipeFiles();
+
         // Copy all recipes in the resources dir
         logger.log(Level.INFO, "Copying default recipes...");
         copyResourceRecipes();
@@ -597,7 +601,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
      */
     private void createDirectories() {
         String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
-        String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings", "recipes" };
+        String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings", "recipes/custom", "recipe-backups" };
 
         for (String folder : storageFolders) {
             File file = new File("data-storage/Slimefun", folder);

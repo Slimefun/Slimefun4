@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -58,6 +59,7 @@ import io.github.thebusybiscuit.slimefun4.utils.RecipeUtils;
 public class RecipeService {
 
     public static final String SAVED_RECIPE_DIR = "plugins/Slimefun/recipes/";
+    public static final String BACKUP_RECIPE_DIR = "plugins/Slimefun/recipe-backups/";
 
     private Plugin plugin;
     private Gson gson;
@@ -490,6 +492,31 @@ public class RecipeService {
             } catch (JsonIOException e) {
                 plugin.getLogger().warning("Couldn't save recipe to '" + filename + "': " + e.getLocalizedMessage());
             }
+        }
+    }
+
+    public void backUpRecipeFiles() {
+        // Delete old backups
+        try (Stream<Path> backups = Files.list(Path.of(BACKUP_RECIPE_DIR))) {
+            backups.forEach(p -> p.toFile().delete());
+
+            // Back up recipe files
+            getAllRecipeFilenames().forEach(source -> {
+                Path destination = Paths.get(BACKUP_RECIPE_DIR, source + ".json");
+                System.out.println(source);
+                System.out.println(destination);
+                Path parent = destination.getParent();
+                if (parent != null && !parent.toFile().exists()) {
+                    parent.toFile().mkdirs();
+                }
+                try {
+                    Files.copy(Path.of(SAVED_RECIPE_DIR, source + ".json"), destination);
+                } catch (IOException e) {
+                    plugin.getLogger().warning("Couldn't backup recipe '" + source + "'");
+                }
+            });
+        } catch (Exception e) {
+            plugin.getLogger().warning("Couldn't clear old backups");
         }
     }
 
