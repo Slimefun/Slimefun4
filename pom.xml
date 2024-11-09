@@ -355,9 +355,9 @@
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.baked-libs.dough</groupId>
+            <groupId>com.github.Slimefun.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>f8ff25187d</version>
+            <version>cb22e71335</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -395,9 +395,9 @@
         </dependency>
         <!-- This needs to be before Spigot because MockBukkit will fail otherwise. -->
         <dependency>
-            <groupId>com.github.MockBukkit</groupId>
-            <artifactId>MockBukkit</artifactId>
-            <version>v3.130.2</version>
+            <groupId>com.github.seeseemelk</groupId>
+            <artifactId>MockBukkit-v1.21</artifactId>
+            <version>3.133.2</version>
             <scope>test</scope>
 
             <exclusions>

@@ -34,9 +34,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 /**
  * The {@link TeleportationManager} handles the process of teleportation for a {@link Player}
  * who is using a {@link Teleporter}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see GPSNetwork
  * @see Teleporter
  *
@@ -79,7 +79,7 @@ public final class TeleportationManager {
                     menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
                 }
 
-                menu.addItem(4, new CustomItemStack(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(), ChatColor.YELLOW + Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.gui.title")));
+                menu.addItem(4, CustomItemStack.create(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(), ChatColor.YELLOW + Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.gui.title")));
                 menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 
                 Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
@@ -107,7 +107,7 @@ public final class TeleportationManager {
                     };
                     // @formatter:on
 
-                    menu.addItem(slot, new CustomItemStack(waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), lore));
+                    menu.addItem(slot, CustomItemStack.create(waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), lore));
                     menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                         pl.closeInventory();
                         teleport(pl.getUniqueId(), complexity, source, l, false);
@@ -136,21 +136,21 @@ public final class TeleportationManager {
      * to the destination {@link Location}, given the specified complexity.
      * <p>
      * The returned time will be measured in 500ms intervals.
-     * 
+     *
      * <ul>
      * <li>A returned time of {@literal 100} will mean 50,000ms (50s) of real-life time.</li>
      * <li>A returned time of {@literal 10} will mean 5,000ms (5s) of real-life time.</li>
      * <li>A returned time of {@literal 2} will mean 1,000ms (1s) of real-life time.</li>
      * <li>and so on...</li>
      * </ul>
-     * 
+     *
      * @param complexity
      *            The complexity of the {@link GPSNetwork}
      * @param source
      *            The source {@link Location}
      * @param destination
      *            The destination {@link Location}
-     * 
+     *
      * @return The amount of time the teleportation will take
      */
     public int getTeleportationTime(int complexity, @Nonnull Location source, @Nonnull Location destination) {

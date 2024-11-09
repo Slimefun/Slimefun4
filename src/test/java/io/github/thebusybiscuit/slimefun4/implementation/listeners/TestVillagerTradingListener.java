@@ -68,7 +68,7 @@ class TestVillagerTradingListener {
 
     @Test
     void testTradingWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_FAKE_EMERALD", new CustomItemStack(Material.EMERALD, "&aFake Emerald"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_FAKE_EMERALD", CustomItemStack.create(Material.EMERALD, "&aFake Emerald"));
         item.register(plugin);
 
         InventoryClickEvent event = mockClickEvent(item.getItem());

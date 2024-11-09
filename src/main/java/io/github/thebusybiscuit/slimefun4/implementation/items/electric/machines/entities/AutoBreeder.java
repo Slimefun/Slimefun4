@@ -65,7 +65,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
 
     protected void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItemStack(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+            preset.addItem(i, CustomItemStack.create(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
         }
     }
 
