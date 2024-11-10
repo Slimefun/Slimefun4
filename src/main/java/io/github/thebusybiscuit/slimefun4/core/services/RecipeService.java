@@ -35,7 +35,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 
@@ -383,12 +382,8 @@ public class RecipeService {
         return gson.fromJson(s, Recipe.class);
     }
 
-    /**
-     * @return The list of all recipe files in <code>/plugins/Slimefun/recipes/[subdirectory]</code>
-     * with the .json removed
-     */
-    public Set<String> getAllRecipeFilenames(String subdirectory) {
-        Path dir = Path.of(SAVED_RECIPE_DIR, subdirectory);
+    private Set<String> getAllRecipeFilenames(String directory, String subdirectory) {
+        Path dir = Path.of(directory, subdirectory);
         if (!dir.toFile().exists()) {
             return Collections.emptySet();
         }
@@ -403,6 +398,14 @@ public class RecipeService {
         } catch (Exception e) {
             return Collections.emptySet();
         }
+    }
+
+    /**
+     * @return The list of all recipe files in <code>/plugins/Slimefun/recipes/[subdirectory]</code>
+     * with the .json removed
+     */
+    public Set<String> getAllRecipeFilenames(String subdirectory) {
+        return getAllRecipeFilenames(SAVED_RECIPE_DIR, subdirectory);
     }
 
     /**
@@ -487,36 +490,59 @@ public class RecipeService {
                 } else {
                     gson.toJson(recipes, List.class, jsonWriter);
                 }
-            } catch (IOException e) {
-                plugin.getLogger().warning("Couldn't save recipe to '" + filename + "': " + e.getLocalizedMessage());
-            } catch (JsonIOException e) {
+            } catch (Exception e) {
                 plugin.getLogger().warning("Couldn't save recipe to '" + filename + "': " + e.getLocalizedMessage());
             }
         }
     }
 
-    public void backUpRecipeFiles() {
-        // Delete old backups
-        try (Stream<Path> backups = Files.list(Path.of(BACKUP_RECIPE_DIR))) {
-            backups.forEach(p -> p.toFile().delete());
+    private void copyRecipeFiles(String sourceDir, String targetDir, boolean clean) {
+        try (Stream<Path> target = Files.list(Path.of(targetDir))) {
+            Set<String> filenames = getAllRecipeFilenames(sourceDir, "");
+            target.forEach(p -> {
+                if (clean || filenames.contains(Path.of(targetDir).relativize(p).toString())) {
+                    p.toFile().delete();
+                }
+            });
 
-            // Back up recipe files
-            getAllRecipeFilenames().forEach(source -> {
-                Path destination = Paths.get(BACKUP_RECIPE_DIR, source + ".json");
-                System.out.println(source);
-                System.out.println(destination);
+            getAllRecipeFilenames(sourceDir, "").forEach(source -> {
+                Path destination = Paths.get(targetDir, source + ".json");
                 Path parent = destination.getParent();
                 if (parent != null && !parent.toFile().exists()) {
                     parent.toFile().mkdirs();
                 }
                 try {
-                    Files.copy(Path.of(SAVED_RECIPE_DIR, source + ".json"), destination);
+                    Files.copy(Path.of(sourceDir, source + ".json"), destination);
                 } catch (IOException e) {
-                    plugin.getLogger().warning("Couldn't backup recipe '" + source + "'");
+                    plugin.getLogger().warning("Couldn't copy recipe from '" + source + "' to '" + targetDir + "'");
                 }
             });
         } catch (Exception e) {
-            plugin.getLogger().warning("Couldn't clear old backups");
+            plugin.getLogger().warning("Couldn't copy recipes from '" + sourceDir + "' to '" + targetDir + "'");
+        }
+    }
+
+    public void backUpRecipeFiles() {
+        copyRecipeFiles(SAVED_RECIPE_DIR, BACKUP_RECIPE_DIR, true);
+    }
+
+    public void restoreBackupRecipeFiles() {
+        copyRecipeFiles(BACKUP_RECIPE_DIR, SAVED_RECIPE_DIR, false);
+    }
+
+    public void clear() {
+        recipesByFilename.clear();
+        recipesById.clear();
+        recipesByType.clear();
+        filesRead.clear();
+        recipeCache.clear();
+    }
+
+    public void deleteRecipeFiles() {
+        try (Stream<Path> target = Files.list(Path.of(SAVED_RECIPE_DIR))) {
+            target.forEach(p -> p.toFile().delete());
+        } catch (Exception e) {
+            plugin.getLogger().warning("Couldn't delete recipe files");
         }
     }
 

@@ -43,6 +43,36 @@ class RecipeCommand extends SubCommand {
                 }
                 Slimefun.getRecipeService().saveAllRecipes();
                 break;
+            case "backup":
+                if (args.length != 2) {
+                    Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf recipe backup"));
+                    break;
+                }
+                Slimefun.getRecipeService().saveAllRecipes();
+                Slimefun.getRecipeService().backUpRecipeFiles();
+                break;
+            case "restore_backup":
+                if (args.length != 2) {
+                    Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf recipe restore_backup"));
+                    break;
+                }
+                Slimefun.getRecipeService().restoreBackupRecipeFiles();
+                Slimefun.getRecipeService().loadAllRecipes();
+                break;
+            case "clear":
+                if (args.length != 2) {
+                    Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf recipe clear"));
+                    break;
+                }
+                Slimefun.getRecipeService().clear();
+                break;
+            case "delete":
+                if (args.length != 2) {
+                    Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf recipe delete"));
+                    break;
+                }
+                Slimefun.getRecipeService().deleteRecipeFiles();
+                break;
             default:
                 Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf recipe <subcommand>"));
                 break;
