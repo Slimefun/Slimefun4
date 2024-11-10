@@ -30,7 +30,7 @@ Slimefun, focusing on
   of recipes with this system.
 - Customizability: Server owners should be able to customize any and all
   Slimefun recipes
-- Performance: Should not blow up any servers
+- Performance: Should be on par or better than the current system.
 
 The new recipe system should also be completely backwards compatible.
 
