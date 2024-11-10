@@ -117,7 +117,7 @@ Here, `key` is the string representation of a namespaced key
 {
     "input"?: RecipeInput
     "output"?: RecipeOutput
-    "type": key | key[]
+    "type": NamespacedKey | NamespacedKey[]
     "energy"?: int
     "crafting-time"?: int
     "permission-node"?: string | string[]
@@ -135,7 +135,7 @@ inserted when the file is read, so it isn't (and shouldn't) be in the schema
     "key": {
         [key: string]: RecipeInputItem
     }
-    "match"?: key
+    "match"?: NamespacedKey
 }
 ```
 
@@ -151,11 +151,11 @@ inserted when the file is read, so it isn't (and shouldn't) be in the schema
 
 ```txt
 {
-    "id": key
+    "id": NamespacedKey
     "amount"?: int
     "durability"?: int
 } | {
-    "tag": key
+    "tag": NamespacedKey
     "amount"?: int
     "durability"?: int
 } | {
