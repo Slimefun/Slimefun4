@@ -295,7 +295,7 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(itemGroups.food, SlimefunItems.KELP_COOKIE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, new ItemStack(Material.DRIED_KELP), null, new ItemStack(Material.DRIED_KELP), new ItemStack(Material.SUGAR), new ItemStack(Material.DRIED_KELP), null, new ItemStack(Material.DRIED_KELP), null},
-                new SlimefunItemStack(SlimefunItems.KELP_COOKIE, 2))
+                new SlimefunItemStack(SlimefunItems.KELP_COOKIE, 2).item())
                 .register(plugin);
 
         new GrindStone(itemGroups.basicMachines, SlimefunItems.GRIND_STONE).register(plugin);
@@ -308,7 +308,7 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(itemGroups.magicalResources, SlimefunItems.MAGIC_LUMP_1, RecipeType.GRIND_STONE,
                 new ItemStack[] {new ItemStack(Material.NETHER_WART), null, null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_1, 2))
+                new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_1, 2).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.magicalResources, SlimefunItems.MAGIC_LUMP_2, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -321,7 +321,7 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(itemGroups.magicalResources, SlimefunItems.ENDER_LUMP_1, RecipeType.GRIND_STONE,
                 new ItemStack[] {new ItemStack(Material.ENDER_EYE), null, null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 2))
+                new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 2).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.magicalResources, SlimefunItems.ENDER_LUMP_2, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -553,12 +553,12 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.IRON_DUST, RecipeType.ORE_CRUSHER,
                 new ItemStack[] {new ItemStack(Material.IRON_ORE), null, null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.IRON_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
+                new SlimefunItemStack(SlimefunItems.IRON_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.GOLD_DUST, RecipeType.ORE_CRUSHER,
                 new ItemStack[] {new ItemStack(Material.GOLD_ORE), null, null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.GOLD_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
+                new SlimefunItemStack(SlimefunItems.GOLD_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_DUST, RecipeType.ORE_WASHER,
@@ -630,11 +630,11 @@ public final class SlimefunItemSetup {
                 .register(plugin);
 
         new SlimefunItem(itemGroups.misc, SlimefunItems.STEEL_PLATE, RecipeType.COMPRESSOR,
-                new ItemStack[] {new SlimefunItemStack(SlimefunItems.STEEL_INGOT.item(), 8), null, null, null, null, null, null, null, null})
+                new ItemStack[] {new SlimefunItemStack(SlimefunItems.STEEL_INGOT, 8).item(), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
         new UnplaceableBlock(itemGroups.resources, SlimefunItems.COMPRESSED_CARBON, RecipeType.COMPRESSOR,
-                new ItemStack[] {new SlimefunItemStack(SlimefunItems.CARBON.item(), 4), null, null, null, null, null, null, null, null})
+                new ItemStack[] {new SlimefunItemStack(SlimefunItems.CARBON, 4).item(), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
         new UnplaceableBlock(itemGroups.resources, SlimefunItems.CARBON_CHUNK, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -695,12 +695,12 @@ public final class SlimefunItemSetup {
 
         new HologramProjector(itemGroups.technicalGadgets, SlimefunItems.HOLOGRAM_PROJECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, SlimefunItems.POWER_CRYSTAL.item(), null, SlimefunItems.ALUMINUM_BRASS_INGOT.item(), SlimefunItems.ELECTRIC_MOTOR.item(), SlimefunItems.ALUMINUM_BRASS_INGOT.item(), null, SlimefunItems.ALUMINUM_BRASS_INGOT.item(), null},
-                new SlimefunItemStack(SlimefunItems.HOLOGRAM_PROJECTOR, 3))
+                new SlimefunItemStack(SlimefunItems.HOLOGRAM_PROJECTOR, 3).item())
                 .register(plugin);
 
         new UnplaceableBlock(itemGroups.misc, SlimefunItems.CHAIN, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, null, SlimefunItems.STEEL_INGOT.item(), null, SlimefunItems.STEEL_INGOT.item(), null, SlimefunItems.STEEL_INGOT.item(), null, null},
-                new SlimefunItemStack(SlimefunItems.CHAIN, 8))
+                new SlimefunItemStack(SlimefunItems.CHAIN, 8).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.misc, SlimefunItems.HOOK, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -849,7 +849,7 @@ public final class SlimefunItemSetup {
 
         new MagicalZombiePills(itemGroups.magicalGadgets, SlimefunItems.MAGICAL_ZOMBIE_PILLS, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[] {new ItemStack(Material.GOLD_INGOT), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.GOLD_INGOT), new ItemStack(Material.APPLE), weaknessPotion, new ItemStack(Material.APPLE), new ItemStack(Material.GOLD_INGOT), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.GOLD_INGOT)},
-                new SlimefunItemStack(SlimefunItems.MAGICAL_ZOMBIE_PILLS, 2))
+                new SlimefunItemStack(SlimefunItems.MAGICAL_ZOMBIE_PILLS, 2).item())
                 .register(plugin);
 
         new SmeltersPickaxe(itemGroups.tools, SlimefunItems.SMELTERS_PICKAXE, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -962,7 +962,7 @@ public final class SlimefunItemSetup {
 
         new HeavyCream(itemGroups.misc, SlimefunItems.HEAVY_CREAM, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.MILK_BUCKET), null, null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.HEAVY_CREAM, 2))
+                new SlimefunItemStack(SlimefunItems.HEAVY_CREAM, 2).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.misc, SlimefunItems.CHEESE, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -974,11 +974,11 @@ public final class SlimefunItemSetup {
                 .register(plugin);
 
         registerArmorSet(itemGroups.armor, SlimefunItems.GILDED_IRON, new ItemStack[] {
-                SlimefunItems.GILDED_IRON_HELMET, SlimefunItems.GILDED_IRON_CHESTPLATE, SlimefunItems.GILDED_IRON_LEGGINGS, SlimefunItems.GILDED_IRON_BOOTS
+                SlimefunItems.GILDED_IRON_HELMET.item(), SlimefunItems.GILDED_IRON_CHESTPLATE.item(), SlimefunItems.GILDED_IRON_LEGGINGS.item(), SlimefunItems.GILDED_IRON_BOOTS.item()
         }, "GILDED_IRON", false, new PotionEffect[0][0], plugin);
 
         new SlimefunItem(itemGroups.technicalComponents, SlimefunItems.REINFORCED_CLOTH, RecipeType.ENHANCED_CRAFTING_TABLE,
-                new ItemStack[] {null, SlimefunItems.CLOTH.item(), null, SlimefunItems.CLOTH.item(), SlimefunItems.LEAD_INGOT.item(), SlimefunItems.CLOTH.item(), null, SlimefunItems.CLOTH.item(), null}, new SlimefunItemStack(SlimefunItems.REINFORCED_CLOTH.item(), 2))
+                new ItemStack[] {null, SlimefunItems.CLOTH.item(), null, SlimefunItems.CLOTH.item(), SlimefunItems.LEAD_INGOT.item(), SlimefunItems.CLOTH.item(), null, SlimefunItems.CLOTH.item(), null}, new SlimefunItemStack(SlimefunItems.REINFORCED_CLOTH, 2).item())
                 .register(plugin);
 
         new HazmatArmorPiece(itemGroups.armor, SlimefunItems.SCUBA_HELMET, RecipeType.ARMOR_FORGE,
@@ -1028,32 +1028,32 @@ public final class SlimefunItemSetup {
                 .register(plugin);
 
         registerArmorSet(itemGroups.armor, SlimefunItems.GOLD_12K, new ItemStack[] {
-                SlimefunItems.GOLDEN_HELMET_12K, SlimefunItems.GOLDEN_CHESTPLATE_12K, SlimefunItems.GOLDEN_LEGGINGS_12K, SlimefunItems.GOLDEN_BOOTS_12K
+                SlimefunItems.GOLDEN_HELMET_12K.item(), SlimefunItems.GOLDEN_CHESTPLATE_12K.item(), SlimefunItems.GOLDEN_LEGGINGS_12K.item(), SlimefunItems.GOLDEN_BOOTS_12K.item()
         }, "GOLD_12K", false, new PotionEffect[0][0], plugin);
 
         new SlimefunItem(itemGroups.misc, SlimefunItems.CLOTH, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.WHITE_WOOL), null, null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CLOTH, 8))
+                new SlimefunItemStack(SlimefunItems.CLOTH, 8).item())
                 .register(plugin);
 
         new Bandage(itemGroups.usefulItems, SlimefunItems.RAG, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.CLOTH.item(), SlimefunItems.CLOTH.item(), SlimefunItems.CLOTH.item(), new ItemStack(Material.STRING), null, new ItemStack(Material.STRING), SlimefunItems.CLOTH.item(), SlimefunItems.CLOTH.item(), SlimefunItems.CLOTH.item()},
-                new SlimefunItemStack(SlimefunItems.RAG, 2), 0)
+                new SlimefunItemStack(SlimefunItems.RAG, 2).item(), 0)
                 .register(plugin);
 
         new Bandage(itemGroups.usefulItems, SlimefunItems.BANDAGE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.RAG.item(), new ItemStack(Material.STRING), SlimefunItems.RAG.item(), null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.BANDAGE, 4), 1)
+                new SlimefunItemStack(SlimefunItems.BANDAGE, 4).item(), 1)
                 .register(plugin);
 
         new Splint(itemGroups.usefulItems, SlimefunItems.SPLINT, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.STICK), new ItemStack(Material.STICK), new ItemStack(Material.STICK), null, new ItemStack(Material.IRON_INGOT), null},
-                new SlimefunItemStack(SlimefunItems.SPLINT, 4))
+                new SlimefunItemStack(SlimefunItems.SPLINT, 4).item())
                 .register(plugin);
 
         new UnplaceableBlock(itemGroups.misc, SlimefunItems.TIN_CAN, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.TIN_INGOT.item(), SlimefunItems.TIN_INGOT.item(), SlimefunItems.TIN_INGOT.item(), SlimefunItems.TIN_INGOT.item(), null, SlimefunItems.TIN_INGOT.item(), SlimefunItems.TIN_INGOT.item(), SlimefunItems.TIN_INGOT.item(), SlimefunItems.TIN_INGOT.item()},
-                new SlimefunItemStack(SlimefunItems.TIN_CAN, 8))
+                new SlimefunItemStack(SlimefunItems.TIN_CAN, 8).item())
                 .register(plugin);
 
         new Vitamins(itemGroups.usefulItems, SlimefunItems.VITAMINS, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1390,7 +1390,7 @@ public final class SlimefunItemSetup {
 
         new UnplaceableBlock(itemGroups.technicalComponents, SlimefunItems.COPPER_WIRE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, null, null, SlimefunItems.COPPER_INGOT.item(), SlimefunItems.COPPER_INGOT.item(), SlimefunItems.COPPER_INGOT.item(), null, null, null},
-                new SlimefunItemStack(SlimefunItems.COPPER_WIRE, 8))
+                new SlimefunItemStack(SlimefunItems.COPPER_WIRE, 8).item())
                 .register(plugin);
 
         new BlockPlacer(itemGroups.basicMachines, SlimefunItems.BLOCK_PLACER, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1415,7 +1415,7 @@ public final class SlimefunItemSetup {
 
         new KnowledgeFlask(itemGroups.magicalGadgets, SlimefunItems.FLASK_OF_KNOWLEDGE, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[] {null, null, null, SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.GLASS_PANE), SlimefunItems.MAGIC_LUMP_2.item(), null, SlimefunItems.MAGIC_LUMP_2.item(), null},
-                new SlimefunItemStack(SlimefunItems.FLASK_OF_KNOWLEDGE, 8))
+                new SlimefunItemStack(SlimefunItems.FLASK_OF_KNOWLEDGE, 8).item())
                 .register(plugin);
 
         new HiddenItem(itemGroups.magicalGadgets, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, RecipeType.INTERACT,
@@ -1428,37 +1428,37 @@ public final class SlimefunItemSetup {
 
         new Juice(itemGroups.christmas, SlimefunItems.CHRISTMAS_MILK, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.MILK_BUCKET), new ItemStack(Material.GLASS_BOTTLE), null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_MILK, 4))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_MILK, 4).item())
                 .register(plugin);
 
         new Juice(itemGroups.christmas, SlimefunItems.CHRISTMAS_CHOCOLATE_MILK, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.CHRISTMAS_MILK.item(), new ItemStack(Material.COCOA_BEANS), null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CHOCOLATE_MILK, 2))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CHOCOLATE_MILK, 2).item())
                 .register(plugin);
 
         new Juice(itemGroups.christmas, SlimefunItems.CHRISTMAS_EGG_NOG, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.CHRISTMAS_MILK.item(), new ItemStack(Material.EGG), null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_EGG_NOG, 2))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_EGG_NOG, 2).item())
                 .register(plugin);
 
         new Juice(itemGroups.christmas, SlimefunItems.CHRISTMAS_APPLE_CIDER, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.APPLE_JUICE.item(), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_CIDER, 2))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_CIDER, 2).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.christmas, SlimefunItems.CHRISTMAS_COOKIE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.COOKIE), new ItemStack(Material.SUGAR), new ItemStack(Material.LIME_DYE), null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_COOKIE, 16))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_COOKIE, 16).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.christmas, SlimefunItems.CHRISTMAS_FRUIT_CAKE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.EGG), new ItemStack(Material.APPLE), new ItemStack(Material.MELON), new ItemStack(Material.SUGAR), null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.christmas, SlimefunItems.CHRISTMAS_APPLE_PIE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_PIE, 2))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_PIE, 2).item())
                 .register(plugin);
 
         new Juice(itemGroups.christmas, SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, RecipeType.SMELTERY,
@@ -1467,56 +1467,56 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(itemGroups.christmas, SlimefunItems.CHRISTMAS_CAKE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.EGG), new ItemStack(Material.SUGAR), SlimefunItems.WHEAT_FLOUR.item(), new ItemStack(Material.MILK_BUCKET), null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CAKE, 4))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CAKE, 4).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.christmas, SlimefunItems.CHRISTMAS_CARAMEL, RecipeType.SMELTERY,
                 new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.SUGAR), null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CARAMEL, 4))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CARAMEL, 4).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.christmas, SlimefunItems.CHRISTMAS_CARAMEL_APPLE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, SlimefunItems.CHRISTMAS_CARAMEL.item(), null, null, new ItemStack(Material.APPLE), null, null, new ItemStack(Material.STICK), null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 2))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 2).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.christmas, SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, new ItemStack(Material.COCOA_BEANS), null, null, new ItemStack(Material.APPLE), null, null, new ItemStack(Material.STICK), null},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 2))
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 2).item())
                 .register(plugin);
 
         new ChristmasPresent(itemGroups.christmas, SlimefunItems.CHRISTMAS_PRESENT, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[] {null, new ItemStack(Material.NAME_TAG), null, new ItemStack(Material.RED_WOOL), new ItemStack(Material.GREEN_WOOL), new ItemStack(Material.RED_WOOL), new ItemStack(Material.RED_WOOL), new ItemStack(Material.GREEN_WOOL), new ItemStack(Material.RED_WOOL)},
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CAKE, 4),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_COOKIE, 8),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_PRESENT, 1),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_EGG_NOG, 1),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_MILK, 1),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4),
-                new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_PIE, 4),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_CAKE, 4).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_COOKIE, 8).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_PRESENT, 1).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_EGG_NOG, 1).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_MILK, 1).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4).item(),
+                new SlimefunItemStack(SlimefunItems.CHRISTMAS_APPLE_PIE, 4).item(),
                 new ItemStack(Material.EMERALD)
         ).register(plugin);
 
         new SlimefunItem(itemGroups.easter, SlimefunItems.EASTER_CARROT_PIE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.CARROT), new ItemStack(Material.EGG), null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.EASTER_CARROT_PIE, 2))
+                new SlimefunItemStack(SlimefunItems.EASTER_CARROT_PIE, 2).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.easter, SlimefunItems.EASTER_APPLE_PIE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.SUGAR), new ItemStack(Material.APPLE), new ItemStack(Material.EGG), null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.EASTER_APPLE_PIE, 2))
+                new SlimefunItemStack(SlimefunItems.EASTER_APPLE_PIE, 2).item())
                 .register(plugin);
 
         new EasterEgg(itemGroups.easter, SlimefunItems.EASTER_EGG, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, null, null, new ItemStack(Material.LIME_DYE), new ItemStack(Material.EGG), new ItemStack(Material.PURPLE_DYE), null, null, null},
-                new SlimefunItemStack(SlimefunItems.EASTER_EGG, 2),
+                new SlimefunItemStack(SlimefunItems.EASTER_EGG, 2).item(),
                 // Gifts:
-                new SlimefunItemStack(SlimefunItems.EASTER_CARROT_PIE, 4),
-                new SlimefunItemStack(SlimefunItems.CARROT_JUICE, 1),
+                new SlimefunItemStack(SlimefunItems.EASTER_CARROT_PIE, 4).item(),
+                new SlimefunItemStack(SlimefunItems.CARROT_JUICE, 1).item(),
                 new ItemStack(Material.EMERALD),
                 new ItemStack(Material.CAKE),
                 new ItemStack(Material.RABBIT_FOOT),
@@ -1526,12 +1526,12 @@ public final class SlimefunItemSetup {
         itemGroups.rickFlexGroup.register(plugin);
 
         new SlimefunItem(itemGroups.misc, SlimefunItems.REINFORCED_PLATE, RecipeType.COMPRESSOR,
-                new ItemStack[] {new SlimefunItemStack(SlimefunItems.REINFORCED_ALLOY_INGOT.item(), 8), null, null, null, null, null, null, null, null})
+                new ItemStack[] {new SlimefunItemStack(SlimefunItems.REINFORCED_ALLOY_INGOT, 8).item(), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
         new HardenedGlass(itemGroups.technicalComponents, SlimefunItems.HARDENED_GLASS, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), SlimefunItems.REINFORCED_PLATE.item(), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS)},
-                new SlimefunItemStack(SlimefunItems.HARDENED_GLASS, 16))
+                new SlimefunItemStack(SlimefunItems.HARDENED_GLASS, 16).item())
                 .register(plugin);
 
         new UnplaceableBlock(itemGroups.technicalComponents, SlimefunItems.COOLING_UNIT, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1544,12 +1544,12 @@ public final class SlimefunItemSetup {
 
         new WitherProofBlock(itemGroups.technicalComponents, SlimefunItems.WITHER_PROOF_OBSIDIAN, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.LEAD_INGOT.item(), new ItemStack(Material.OBSIDIAN), SlimefunItems.LEAD_INGOT.item(), new ItemStack(Material.OBSIDIAN), SlimefunItems.HARDENED_GLASS.item(), new ItemStack(Material.OBSIDIAN), SlimefunItems.LEAD_INGOT.item(), new ItemStack(Material.OBSIDIAN), SlimefunItems.LEAD_INGOT.item()},
-                new SlimefunItemStack(SlimefunItems.WITHER_PROOF_OBSIDIAN, 4))
+                new SlimefunItemStack(SlimefunItems.WITHER_PROOF_OBSIDIAN, 4).item())
                 .register(plugin);
 
         new AncientPedestal(itemGroups.magicalGadgets, SlimefunItems.ANCIENT_PEDESTAL, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[] {new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K.item(), new ItemStack(Material.OBSIDIAN), null, new ItemStack(Material.STONE), null, new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K.item(), new ItemStack(Material.OBSIDIAN)},
-                new SlimefunItemStack(SlimefunItems.ANCIENT_PEDESTAL, 4))
+                new SlimefunItemStack(SlimefunItems.ANCIENT_PEDESTAL, 4).item())
                 .register(plugin);
 
         new AncientAltar(itemGroups.magicalGadgets, SlimefunItems.ANCIENT_ALTAR, RecipeType.MAGIC_WORKBENCH,
@@ -1562,12 +1562,12 @@ public final class SlimefunItemSetup {
 
         new EnergyConnector(itemGroups.electricity, SlimefunItems.ENERGY_CONNECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.CARBON.item(), SlimefunItems.COPPER_WIRE.item(), SlimefunItems.CARBON.item(), SlimefunItems.COPPER_WIRE.item(), new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.COPPER_WIRE.item(), SlimefunItems.CARBON.item(), SlimefunItems.COPPER_WIRE.item(), SlimefunItems.CARBON.item()},
-                new SlimefunItemStack(SlimefunItems.ENERGY_CONNECTOR, 8))
+                new SlimefunItemStack(SlimefunItems.ENERGY_CONNECTOR, 8).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.misc, SlimefunItems.DUCT_TAPE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.ALUMINUM_DUST.item(), SlimefunItems.ALUMINUM_DUST.item(), SlimefunItems.ALUMINUM_DUST.item(), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.PAPER), new ItemStack(Material.PAPER), new ItemStack(Material.PAPER)},
-                new SlimefunItemStack(SlimefunItems.DUCT_TAPE, 2))
+                new SlimefunItemStack(SlimefunItems.DUCT_TAPE, 2).item())
                 .register(plugin);
 
         new Capacitor(itemGroups.electricity, 128, SlimefunItems.SMALL_CAPACITOR, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1875,7 +1875,7 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(itemGroups.technicalComponents, SlimefunItems.PLASTIC_SHEET, RecipeType.HEATED_PRESSURE_CHAMBER,
                 new ItemStack[] {null, null, null, null, SlimefunItems.OIL_BUCKET.item(), null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.PLASTIC_SHEET, 8))
+                new SlimefunItemStack(SlimefunItems.PLASTIC_SHEET, 8).item())
                 .register(plugin);
 
         new UnplaceableBlock(itemGroups.technicalComponents, SlimefunItems.ANDROID_MEMORY_CORE, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2020,32 +2020,32 @@ public final class SlimefunItemSetup {
 
         new ElementalRune(itemGroups.magicalResources, SlimefunItems.AIR_RUNE,
                 new ItemStack[] {new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_1.item(), new ItemStack(Material.FEATHER), new ItemStack(Material.GHAST_TEAR), SlimefunItems.BLANK_RUNE.item(), new ItemStack(Material.GHAST_TEAR), new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_1.item(), new ItemStack(Material.FEATHER)},
-                new SlimefunItemStack(SlimefunItems.AIR_RUNE, 4))
+                new SlimefunItemStack(SlimefunItems.AIR_RUNE, 4).item())
                 .register(plugin);
 
         new ElementalRune(itemGroups.magicalResources, SlimefunItems.EARTH_RUNE,
                 new ItemStack[] {new ItemStack(Material.DIRT), SlimefunItems.MAGIC_LUMP_1.item(), new ItemStack(Material.STONE), new ItemStack(Material.OBSIDIAN), SlimefunItems.BLANK_RUNE.item(), new ItemStack(Material.OBSIDIAN), new ItemStack(Material.STONE), SlimefunItems.MAGIC_LUMP_1.item(), new ItemStack(Material.DIRT)},
-                new SlimefunItemStack(SlimefunItems.EARTH_RUNE, 4))
+                new SlimefunItemStack(SlimefunItems.EARTH_RUNE, 4).item())
                 .register(plugin);
 
         new ElementalRune(itemGroups.magicalResources, SlimefunItems.FIRE_RUNE,
                 new ItemStack[] {new ItemStack(Material.FIRE_CHARGE), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.FIRE_CHARGE), new ItemStack(Material.BLAZE_POWDER), SlimefunItems.EARTH_RUNE.item(), new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.FIRE_CHARGE), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.FIRE_CHARGE)},
-                new SlimefunItemStack(SlimefunItems.FIRE_RUNE, 4))
+                new SlimefunItemStack(SlimefunItems.FIRE_RUNE, 4).item())
                 .register(plugin);
 
         new ElementalRune(itemGroups.magicalResources, SlimefunItems.WATER_RUNE,
                 new ItemStack[] {new ItemStack(Material.SALMON), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.SAND), SlimefunItems.BLANK_RUNE.item(), new ItemStack(Material.SAND), new ItemStack(Material.WATER_BUCKET), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.COD)},
-                new SlimefunItemStack(SlimefunItems.WATER_RUNE, 4))
+                new SlimefunItemStack(SlimefunItems.WATER_RUNE, 4).item())
                 .register(plugin);
 
         new ElementalRune(itemGroups.magicalResources, SlimefunItems.ENDER_RUNE,
                 new ItemStack[] {new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_3.item(), new ItemStack(Material.ENDER_PEARL), new ItemStack(Material.ENDER_EYE), SlimefunItems.BLANK_RUNE.item(), new ItemStack(Material.ENDER_EYE), new ItemStack(Material.ENDER_PEARL), SlimefunItems.ENDER_LUMP_3.item(), new ItemStack(Material.ENDER_PEARL)},
-                new SlimefunItemStack(SlimefunItems.ENDER_RUNE, 6))
+                new SlimefunItemStack(SlimefunItems.ENDER_RUNE, 6).item())
                 .register(plugin);
 
         new ElementalRune(itemGroups.magicalResources, SlimefunItems.LIGHTNING_RUNE,
                 new ItemStack[] {new ItemStack(Material.IRON_INGOT), SlimefunItems.MAGIC_LUMP_3.item(), new ItemStack(Material.IRON_INGOT), SlimefunItems.AIR_RUNE.item(), new ItemStack(Material.PHANTOM_MEMBRANE), SlimefunItems.WATER_RUNE.item(), new ItemStack(Material.IRON_INGOT), SlimefunItems.MAGIC_LUMP_3.item(), new ItemStack(Material.IRON_INGOT)},
-                new SlimefunItemStack(SlimefunItems.LIGHTNING_RUNE, 4))
+                new SlimefunItemStack(SlimefunItems.LIGHTNING_RUNE, 4).item())
                 .register(plugin);
 
         new ElementalRune(itemGroups.magicalResources, SlimefunItems.RAINBOW_RUNE,
@@ -2062,7 +2062,7 @@ public final class SlimefunItemSetup {
 
         new InfernalBonemeal(itemGroups.magicalGadgets, SlimefunItems.INFERNAL_BONEMEAL, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.NETHER_WART), SlimefunItems.EARTH_RUNE.item(), new ItemStack(Material.NETHER_WART), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.BONE_MEAL), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.NETHER_WART), new ItemStack(Material.BLAZE_POWDER), new ItemStack(Material.NETHER_WART)},
-                new SlimefunItemStack(SlimefunItems.INFERNAL_BONEMEAL, 8))
+                new SlimefunItemStack(SlimefunItems.INFERNAL_BONEMEAL, 8).item())
                 .register(plugin);
 
         new SlimefunItem(itemGroups.magicalGadgets, SlimefunItems.ELYTRA_SCALE, RecipeType.ANCIENT_ALTAR,
@@ -2091,133 +2091,133 @@ public final class SlimefunItemSetup {
 
         new RainbowBlock(itemGroups.magicalGadgets, SlimefunItems.RAINBOW_WOOL, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.WHITE_WOOL)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_WOOL, 8), new RainbowTickHandler(ColoredMaterial.WOOL))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_WOOL, 8).item(), new RainbowTickHandler(ColoredMaterial.WOOL))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.magicalGadgets, SlimefunItems.RAINBOW_GLASS, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.WHITE_STAINED_GLASS), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.WHITE_STAINED_GLASS)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS, 8), new RainbowTickHandler(ColoredMaterial.STAINED_GLASS))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS, 8).item(), new RainbowTickHandler(ColoredMaterial.STAINED_GLASS))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.magicalGadgets, SlimefunItems.RAINBOW_GLASS_PANE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE, 8), new RainbowTickHandler(ColoredMaterial.STAINED_GLASS_PANE))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE, 8).item(), new RainbowTickHandler(ColoredMaterial.STAINED_GLASS_PANE))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.magicalGadgets, SlimefunItems.RAINBOW_CLAY, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY, 8), new RainbowTickHandler(ColoredMaterial.TERRACOTTA))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY, 8).item(), new RainbowTickHandler(ColoredMaterial.TERRACOTTA))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.magicalGadgets, SlimefunItems.RAINBOW_CONCRETE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE, 8), new RainbowTickHandler(ColoredMaterial.CONCRETE))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE, 8).item(), new RainbowTickHandler(ColoredMaterial.CONCRETE))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.magicalGadgets, SlimefunItems.RAINBOW_GLAZED_TERRACOTTA, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA, 8), new RainbowTickHandler(ColoredMaterial.GLAZED_TERRACOTTA))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA, 8).item(), new RainbowTickHandler(ColoredMaterial.GLAZED_TERRACOTTA))
                 .register(plugin);
 
         // Christmas
 
         new RainbowBlock(itemGroups.christmas, SlimefunItems.RAINBOW_WOOL_XMAS, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_WOOL_XMAS, 2), new RainbowTickHandler(Material.RED_WOOL, Material.GREEN_WOOL))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_WOOL_XMAS, 2).item(), new RainbowTickHandler(Material.RED_WOOL, Material.GREEN_WOOL))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.christmas, SlimefunItems.RAINBOW_GLASS_XMAS, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_STAINED_GLASS), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_XMAS, 2), new RainbowTickHandler(Material.RED_STAINED_GLASS, Material.GREEN_STAINED_GLASS))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_XMAS, 2).item(), new RainbowTickHandler(Material.RED_STAINED_GLASS, Material.GREEN_STAINED_GLASS))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.christmas, SlimefunItems.RAINBOW_GLASS_PANE_XMAS, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE_XMAS, 2), new RainbowTickHandler(Material.RED_STAINED_GLASS_PANE, Material.GREEN_STAINED_GLASS_PANE))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE_XMAS, 2).item(), new RainbowTickHandler(Material.RED_STAINED_GLASS_PANE, Material.GREEN_STAINED_GLASS_PANE))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.christmas, SlimefunItems.RAINBOW_CLAY_XMAS, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY_XMAS, 2), new RainbowTickHandler(Material.RED_TERRACOTTA, Material.GREEN_TERRACOTTA))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY_XMAS, 2).item(), new RainbowTickHandler(Material.RED_TERRACOTTA, Material.GREEN_TERRACOTTA))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.christmas, SlimefunItems.RAINBOW_CONCRETE_XMAS, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_CONCRETE), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE_XMAS, 2), new RainbowTickHandler(Material.RED_CONCRETE, Material.GREEN_CONCRETE))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE_XMAS, 2).item(), new RainbowTickHandler(Material.RED_CONCRETE, Material.GREEN_CONCRETE))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.christmas, SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_XMAS, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.GREEN_DYE), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.GREEN_DYE), SlimefunItems.CHRISTMAS_COOKIE.item(), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_XMAS, 2), new RainbowTickHandler(Material.RED_GLAZED_TERRACOTTA, Material.GREEN_GLAZED_TERRACOTTA))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_XMAS, 2).item(), new RainbowTickHandler(Material.RED_GLAZED_TERRACOTTA, Material.GREEN_GLAZED_TERRACOTTA))
                 .register(plugin);
 
         // Valentines Day
 
         new RainbowBlock(itemGroups.valentinesDay, SlimefunItems.RAINBOW_WOOL_VALENTINE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_WOOL_VALENTINE, 2), new RainbowTickHandler(Material.MAGENTA_WOOL, Material.PINK_WOOL))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_WOOL_VALENTINE, 2).item(), new RainbowTickHandler(Material.MAGENTA_WOOL, Material.PINK_WOOL))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.valentinesDay, SlimefunItems.RAINBOW_GLASS_VALENTINE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_STAINED_GLASS), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_VALENTINE, 2), new RainbowTickHandler(Material.MAGENTA_STAINED_GLASS, Material.PINK_STAINED_GLASS))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_VALENTINE, 2).item(), new RainbowTickHandler(Material.MAGENTA_STAINED_GLASS, Material.PINK_STAINED_GLASS))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.valentinesDay, SlimefunItems.RAINBOW_GLASS_PANE_VALENTINE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE_VALENTINE, 2), new RainbowTickHandler(Material.MAGENTA_STAINED_GLASS_PANE, Material.PINK_STAINED_GLASS_PANE))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE_VALENTINE, 2).item(), new RainbowTickHandler(Material.MAGENTA_STAINED_GLASS_PANE, Material.PINK_STAINED_GLASS_PANE))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.valentinesDay, SlimefunItems.RAINBOW_CLAY_VALENTINE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY_VALENTINE, 2), new RainbowTickHandler(Material.MAGENTA_TERRACOTTA, Material.PINK_TERRACOTTA))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY_VALENTINE, 2).item(), new RainbowTickHandler(Material.MAGENTA_TERRACOTTA, Material.PINK_TERRACOTTA))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.valentinesDay, SlimefunItems.RAINBOW_CONCRETE_VALENTINE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_CONCRETE), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE_VALENTINE, 2), new RainbowTickHandler(Material.MAGENTA_CONCRETE, Material.PINK_CONCRETE))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE_VALENTINE, 2).item(), new RainbowTickHandler(Material.MAGENTA_CONCRETE, Material.PINK_CONCRETE))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.valentinesDay, SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_VALENTINE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.RED_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.PINK_DYE), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.PINK_DYE), new ItemStack(Material.POPPY), new ItemStack(Material.RED_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_VALENTINE, 2), new RainbowTickHandler(Material.MAGENTA_GLAZED_TERRACOTTA, Material.PINK_GLAZED_TERRACOTTA))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_VALENTINE, 2).item(), new RainbowTickHandler(Material.MAGENTA_GLAZED_TERRACOTTA, Material.PINK_GLAZED_TERRACOTTA))
                 .register(plugin);
 
         // Halloween
 
         new RainbowBlock(itemGroups.halloween, SlimefunItems.RAINBOW_WOOL_HALLOWEEN, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.ORANGE_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.ORANGE_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_WOOL_HALLOWEEN, 2), new RainbowTickHandler(Material.ORANGE_WOOL, Material.BLACK_WOOL))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_WOOL_HALLOWEEN, 2).item(), new RainbowTickHandler(Material.ORANGE_WOOL, Material.BLACK_WOOL))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.halloween, SlimefunItems.RAINBOW_GLASS_HALLOWEEN, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.ORANGE_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.WHITE_STAINED_GLASS), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_STAINED_GLASS), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.ORANGE_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_HALLOWEEN, 2), new RainbowTickHandler(Material.ORANGE_STAINED_GLASS, Material.BLACK_STAINED_GLASS))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_HALLOWEEN, 2).item(), new RainbowTickHandler(Material.ORANGE_STAINED_GLASS, Material.BLACK_STAINED_GLASS))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.halloween, SlimefunItems.RAINBOW_GLASS_PANE_HALLOWEEN, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.ORANGE_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_STAINED_GLASS_PANE), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.ORANGE_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE_HALLOWEEN, 2), new RainbowTickHandler(Material.ORANGE_STAINED_GLASS_PANE, Material.BLACK_STAINED_GLASS_PANE))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE_HALLOWEEN, 2).item(), new RainbowTickHandler(Material.ORANGE_STAINED_GLASS_PANE, Material.BLACK_STAINED_GLASS_PANE))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.halloween, SlimefunItems.RAINBOW_CLAY_HALLOWEEN, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.ORANGE_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.ORANGE_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY_HALLOWEEN, 2), new RainbowTickHandler(Material.ORANGE_TERRACOTTA, Material.BLACK_TERRACOTTA))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY_HALLOWEEN, 2).item(), new RainbowTickHandler(Material.ORANGE_TERRACOTTA, Material.BLACK_TERRACOTTA))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.halloween, SlimefunItems.RAINBOW_CONCRETE_HALLOWEEN, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.ORANGE_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.WHITE_CONCRETE), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.ORANGE_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE_HALLOWEEN, 2), new RainbowTickHandler(Material.ORANGE_CONCRETE, Material.BLACK_CONCRETE))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE_HALLOWEEN, 2).item(), new RainbowTickHandler(Material.ORANGE_CONCRETE, Material.BLACK_CONCRETE))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.halloween, SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {new ItemStack(Material.ORANGE_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.WHITE_GLAZED_TERRACOTTA), new ItemStack(Material.BLACK_DYE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.ORANGE_DYE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN, 2), new RainbowTickHandler(Material.ORANGE_GLAZED_TERRACOTTA, Material.BLACK_GLAZED_TERRACOTTA))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN, 2).item(), new RainbowTickHandler(Material.ORANGE_GLAZED_TERRACOTTA, Material.BLACK_GLAZED_TERRACOTTA))
                 .register(plugin);
 
         new WitherProofBlock(itemGroups.technicalComponents, SlimefunItems.WITHER_PROOF_GLASS, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.LEAD_INGOT.item(), SlimefunItems.WITHER_PROOF_OBSIDIAN.item(), SlimefunItems.LEAD_INGOT.item(), SlimefunItems.WITHER_PROOF_OBSIDIAN.item(), SlimefunItems.HARDENED_GLASS.item(), SlimefunItems.WITHER_PROOF_OBSIDIAN.item(), SlimefunItems.LEAD_INGOT.item(), SlimefunItems.WITHER_PROOF_OBSIDIAN.item(), SlimefunItems.LEAD_INGOT.item()},
-                new SlimefunItemStack(SlimefunItems.WITHER_PROOF_GLASS, 4))
+                new SlimefunItemStack(SlimefunItems.WITHER_PROOF_GLASS, 4).item())
                 .register(plugin);
 
         new GEOScanner(itemGroups.gps, SlimefunItems.GPS_GEO_SCANNER, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2281,7 +2281,7 @@ public final class SlimefunItemSetup {
 
         new TeleporterPylon(itemGroups.gps, SlimefunItems.GPS_TELEPORTER_PYLON, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.ZINC_INGOT.item(), new ItemStack(Material.GLASS), SlimefunItems.ZINC_INGOT.item(), new ItemStack(Material.GLASS), SlimefunItems.HEATING_COIL.item(), new ItemStack(Material.GLASS), SlimefunItems.ZINC_INGOT.item(), new ItemStack(Material.GLASS), SlimefunItems.ZINC_INGOT.item()},
-                new SlimefunItemStack(SlimefunItems.GPS_TELEPORTER_PYLON, 8))
+                new SlimefunItemStack(SlimefunItems.GPS_TELEPORTER_PYLON, 8).item())
                 .register(plugin);
 
         new Teleporter(itemGroups.gps, SlimefunItems.GPS_TELEPORTATION_MATRIX, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2318,12 +2318,12 @@ public final class SlimefunItemSetup {
 
         new RadioactiveItem(itemGroups.resources, Radioactivity.VERY_HIGH, SlimefunItems.ENRICHED_NETHER_ICE, RecipeType.HEATED_PRESSURE_CHAMBER,
                 new ItemStack[] {SlimefunItems.NETHER_ICE.item(), SlimefunItems.PLUTONIUM.item(), null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.ENRICHED_NETHER_ICE, 4))
+                new SlimefunItemStack(SlimefunItems.ENRICHED_NETHER_ICE, 4).item())
                 .register(plugin);
 
         new ElevatorPlate(itemGroups.gps, SlimefunItems.ELEVATOR_PLATE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, new ItemStack(Material.STONE_PRESSURE_PLATE), null, new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR.item(), new ItemStack(Material.PISTON), SlimefunItems.ALUMINUM_BRONZE_INGOT.item(), SlimefunItems.ALUMINUM_BRONZE_INGOT.item(), SlimefunItems.ALUMINUM_BRONZE_INGOT.item()},
-                new SlimefunItemStack(SlimefunItems.ELEVATOR_PLATE, 2))
+                new SlimefunItemStack(SlimefunItems.ELEVATOR_PLATE, 2).item())
                 .register(plugin);
 
         new FoodFabricator(itemGroups.electricity, SlimefunItems.FOOD_FABRICATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2503,7 +2503,7 @@ public final class SlimefunItemSetup {
 
         new CoolantCell(itemGroups.technicalComponents, SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
                 new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE.item(), null, null, null, null, null, null, null, null},
-                new SlimefunItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8))
+                new SlimefunItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8).item())
                 .register(plugin);
 
         new RadioactiveItem(itemGroups.resources, Radioactivity.HIGH, SlimefunItems.NEPTUNIUM, RecipeType.NUCLEAR_REACTOR,
@@ -2550,7 +2550,7 @@ public final class SlimefunItemSetup {
 
         new UnplaceableBlock(itemGroups.cargo, SlimefunItems.CARGO_MOTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.HARDENED_GLASS.item(), SlimefunItems.ELECTRO_MAGNET.item(), SlimefunItems.HARDENED_GLASS.item(), SlimefunItems.SILVER_INGOT.item(), SlimefunItems.ELECTRIC_MOTOR.item(), SlimefunItems.SILVER_INGOT.item(), SlimefunItems.HARDENED_GLASS.item(), SlimefunItems.ELECTRO_MAGNET.item(), SlimefunItems.HARDENED_GLASS.item()},
-                new SlimefunItemStack(SlimefunItems.CARGO_MOTOR, 4))
+                new SlimefunItemStack(SlimefunItems.CARGO_MOTOR, 4).item())
                 .register(plugin);
 
         new CargoManager(itemGroups.cargo, SlimefunItems.CARGO_MANAGER, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2559,17 +2559,17 @@ public final class SlimefunItemSetup {
 
         new CargoConnectorNode(itemGroups.cargo, SlimefunItems.CARGO_CONNECTOR_NODE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.BRONZE_INGOT.item(), SlimefunItems.SILVER_INGOT.item(), SlimefunItems.BRONZE_INGOT.item(), SlimefunItems.SILVER_INGOT.item(), SlimefunItems.CARGO_MOTOR.item(), SlimefunItems.SILVER_INGOT.item(), SlimefunItems.BRONZE_INGOT.item(), SlimefunItems.SILVER_INGOT.item(), SlimefunItems.BRONZE_INGOT.item()},
-                new SlimefunItemStack(SlimefunItems.CARGO_CONNECTOR_NODE, 4))
+                new SlimefunItemStack(SlimefunItems.CARGO_CONNECTOR_NODE, 4).item())
                 .register(plugin);
 
         new CargoInputNode(itemGroups.cargo, SlimefunItems.CARGO_INPUT_NODE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, new ItemStack(Material.HOPPER), null, SlimefunItems.BILLON_INGOT.item(), SlimefunItems.CARGO_CONNECTOR_NODE.item(), SlimefunItems.BILLON_INGOT.item(), null, new ItemStack(Material.HOPPER), null},
-                new SlimefunItemStack(SlimefunItems.CARGO_INPUT_NODE, 2))
+                new SlimefunItemStack(SlimefunItems.CARGO_INPUT_NODE, 2).item())
                 .register(plugin);
 
         new CargoOutputNode(itemGroups.cargo, SlimefunItems.CARGO_OUTPUT_NODE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {null, new ItemStack(Material.HOPPER), null, SlimefunItems.BRASS_INGOT.item(), SlimefunItems.CARGO_CONNECTOR_NODE.item(), SlimefunItems.BRASS_INGOT.item(), null, new ItemStack(Material.HOPPER), null},
-                new SlimefunItemStack(SlimefunItems.CARGO_OUTPUT_NODE, 2))
+                new SlimefunItemStack(SlimefunItems.CARGO_OUTPUT_NODE, 2).item())
                 .register(plugin);
 
         new AdvancedCargoOutputNode(itemGroups.cargo, SlimefunItems.CARGO_OUTPUT_NODE_2, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2657,7 +2657,7 @@ public final class SlimefunItemSetup {
 
         new VillagerRune(itemGroups.magicalResources, SlimefunItems.VILLAGER_RUNE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {SlimefunItems.MAGIC_LUMP_3.item(), SlimefunItems.MAGICAL_GLASS.item(), new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.STRANGE_NETHER_GOO.item(), SlimefunItems.FIRE_RUNE.item(), SlimefunItems.STRANGE_NETHER_GOO.item(), new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS.item(), SlimefunItems.MAGIC_LUMP_3.item()},
-                new SlimefunItemStack(SlimefunItems.VILLAGER_RUNE, 3))
+                new SlimefunItemStack(SlimefunItems.VILLAGER_RUNE, 3).item())
                 .register(plugin);
 
         new StrangeNetherGoo(itemGroups.magicalResources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
@@ -2676,12 +2676,12 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(itemGroups.magicalResources, SlimefunItems.RAINBOW_LEATHER, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] { new ItemStack(Material.EMERALD), new ItemStack(Material.LEATHER), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.RABBIT_HIDE), SlimefunItems.RAINBOW_RUNE.item(), new ItemStack(Material.RABBIT_HIDE), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.LEATHER), new ItemStack(Material.EMERALD) },
-                new SlimefunItemStack(SlimefunItems.RAINBOW_LEATHER, 4))
+                new SlimefunItemStack(SlimefunItems.RAINBOW_LEATHER, 4).item())
                 .register(plugin);
 
         new UnplaceableBlock(itemGroups.cargo, SlimefunItems.CRAFTING_MOTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.BLISTERING_INGOT_3.item(), new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.REDSTONE_ALLOY.item(), SlimefunItems.CARGO_MOTOR.item(), SlimefunItems.REDSTONE_ALLOY.item(), new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.BLISTERING_INGOT_3.item(), new ItemStack(Material.CRAFTING_TABLE)},
-                new SlimefunItemStack(SlimefunItems.CRAFTING_MOTOR, 2))
+                new SlimefunItemStack(SlimefunItems.CRAFTING_MOTOR, 2).item())
                 .register(plugin);
 
         new VanillaAutoCrafter(itemGroups.cargo, SlimefunItems.VANILLA_AUTO_CRAFTER, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2710,6 +2710,11 @@ public final class SlimefunItemSetup {
                 .register(plugin);
 
         // @formatter:on
+    }
+
+    @ParametersAreNonnullByDefault
+    private static void registerArmorSet(ItemGroup itemGroup, SlimefunItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, PotionEffect[][] effects, SlimefunAddon addon) {
+        registerArmorSet(itemGroup, baseComponent.item(), items, idSyntax, vanilla, effects, addon);
     }
 
     @ParametersAreNonnullByDefault
