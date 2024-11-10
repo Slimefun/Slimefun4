@@ -100,7 +100,7 @@ This would remove the need to use ItemSettings to determine the gold pan weights
 
 ### RecipeService
 
-This is the public interface for the recipe system, there are methods here to add,
+This is the public interface for the recipe system, there are methods here to register,
 load, save, and search recipes. It also stores a map of `MatchProcedures` and
 `RecipeType` by key for conversions from a string
 
