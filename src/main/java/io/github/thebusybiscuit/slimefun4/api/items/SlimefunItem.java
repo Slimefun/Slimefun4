@@ -908,12 +908,6 @@ public class SlimefunItem implements Placeable {
      * @return This item's name in {@link ItemStack} form
      */
     public final @Nonnull String getItemName() {
-
-        SlimefunItem slimefunItem = getByItem(itemStackTemplate);
-        if (slimefunItem != null) {
-            return slimefunItem.getItemName();
-        }
-
         return ItemUtils.getItemName(itemStackTemplate);
     }
 
