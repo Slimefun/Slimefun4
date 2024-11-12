@@ -68,7 +68,7 @@ class TestSlimefunItemInteractListener {
         energyConnector = new EnergyConnector(testGroup, SlimefunItems.ENERGY_CONNECTOR, RecipeType.NULL, new ItemStack[9], null);
         energyConnector.register(plugin);
 
-        windStaff = new WindStaff(testGroup, SlimefunItems.STAFF_WIND.item(), RecipeType.NULL, new ItemStack[9]);
+        windStaff = new WindStaff(testGroup, SlimefunItems.STAFF_WIND, RecipeType.NULL, new ItemStack[9]);
         windStaff.register(plugin);
     }
 

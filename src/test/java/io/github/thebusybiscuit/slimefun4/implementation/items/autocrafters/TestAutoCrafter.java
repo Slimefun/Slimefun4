@@ -151,21 +151,21 @@ class TestAutoCrafter {
         InventoryMock inv = new ChestInventoryMock(null, 9);
 
         SlimefunItemStack itemStack = new SlimefunItemStack("AUTO_CRAFTER_TEST_ITEM", Material.BAMBOO, "Panda Candy");
-        SlimefunItem slimefunItem = TestUtilities.mockSlimefunItem(plugin, itemStack.getItemId(), itemStack);
+        SlimefunItem slimefunItem = TestUtilities.mockSlimefunItem(plugin, itemStack.getItemId(), itemStack.item());
         slimefunItem.register(plugin);
 
-        inv.addItem(itemStack.clone());
+        inv.addItem(itemStack.cloneItem());
 
         // Test unusable SlimefunItem
         slimefunItem.setUseableInWorkbench(false);
         Assertions.assertFalse(crafter.craft(inv, abstractRecipe));
-        Assertions.assertTrue(inv.containsAtLeast(itemStack, 1));
+        Assertions.assertTrue(inv.containsAtLeast(itemStack.item(), 1));
         Assertions.assertFalse(inv.containsAtLeast(result, 1));
 
         // Test allowed SlimefunItem
         slimefunItem.setUseableInWorkbench(true);
         Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
-        Assertions.assertFalse(inv.containsAtLeast(itemStack, 1));
+        Assertions.assertFalse(inv.containsAtLeast(itemStack.item(), 1));
         Assertions.assertTrue(inv.containsAtLeast(result, 1));
     }
 
