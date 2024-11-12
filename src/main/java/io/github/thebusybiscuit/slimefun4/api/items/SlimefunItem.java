@@ -500,7 +500,7 @@ public class SlimefunItem implements Placeable {
                 this.itemHandlers.clear();
             }
 
-            // TODO find a way to lock the item or maybe clone the item everytime it is obtained
+            // TODO: ItemStack Lock - find a way to lock the item or maybe clone the item everytime it is obtained
             // Lock the SlimefunItemStack from any accidental manipulations
             //if (itemStackTemplate instanceof SlimefunItemStack stack && isItemStackImmutable()) {
             //    stack.lock();
