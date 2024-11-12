@@ -81,7 +81,27 @@ guide:
     translations:
       name: '&a少了些什么?'
       lore: '单击添加你自己的翻译'
+  modes:
+    selected: 'Slimefun 指南类型: '
+    change: '点击更改类型'
+    SURVIVAL_MODE: '生存模式'
+    CHEAT_MODE: '作弊模式'
   options:
+    fireworks:
+      enabled:
+        text:
+          - '&b烟花: &a是'
+          - ''
+          - '&7你现在可以选择是否'
+          - '&7启用研究物品时的烟花。'
+        click: '&e点击关闭烟花'
+      disabled:
+        text:
+          - '&b烟花: &4否'
+          - ''
+          - '&7你现在可以选择是否'
+          - '&7启用研究物品时的烟花。'
+        click: '&e点击开启烟花'
     learning-animation:
       enabled:
         text:
