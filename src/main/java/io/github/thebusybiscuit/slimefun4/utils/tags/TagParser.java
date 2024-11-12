@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -34,9 +35,9 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 /**
  * The {@link TagParser} is responsible for parsing a JSON input into a {@link SlimefunTag}.
- *
+ * 
  * @author TheBusyBiscuit
- *
+ * 
  * @see SlimefunTag
  *
  */
@@ -50,7 +51,7 @@ public class TagParser implements Keyed {
 
     /**
      * This constructs a new {@link TagParser}.
-     *
+     * 
      * @param key
      *            The {@link NamespacedKey} of the resulting {@link SlimefunTag}
      */
@@ -60,7 +61,7 @@ public class TagParser implements Keyed {
 
     /**
      * This constructs a new {@link TagParser} for the given {@link SlimefunTag}
-     *
+     * 
      * @param tag
      *            The {@link SlimefunTag} to parse inputs for
      */
@@ -81,12 +82,12 @@ public class TagParser implements Keyed {
     /**
      * This will parse the given JSON {@link String} and run the provided callback with {@link Set Sets} of
      * matched {@link Material Materials} and {@link Tag Tags}.
-     *
+     * 
      * @param json
      *            The JSON {@link String} to parse
      * @param callback
      *            A callback to run after successfully parsing the input
-     *
+     * 
      * @throws TagMisconfigurationException
      *             This is thrown whenever the given input is malformed or no adequate
      *             {@link Material} or {@link Tag} could be found
@@ -95,7 +96,7 @@ public class TagParser implements Keyed {
         Validate.notNull(json, "Cannot parse a null String");
 
         try {
-            Set<Material> materials = new HashSet<>();
+            Set<Material> materials = EnumSet.noneOf(Material.class);
             Set<Tag<Material>> tags = new HashSet<>();
 
             JsonObject root = JsonUtils.parseString(json).getAsJsonObject();
