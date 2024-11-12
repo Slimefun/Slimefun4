@@ -231,7 +231,7 @@ class TestLegacyBackend {
        PlayerProfile profile = TestUtilities.awaitProfile(player);
 
         PlayerBackpack backpack = profile.createBackpack(9);
-        backpack.getInventory().addItem(SlimefunItems.AIR_RUNE);
+        backpack.getInventory().addItem(SlimefunItems.AIR_RUNE.item());
 
         // Save the player data
         LegacyStorage storage = new LegacyStorage();
