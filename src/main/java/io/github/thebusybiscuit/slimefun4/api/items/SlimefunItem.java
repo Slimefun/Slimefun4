@@ -500,10 +500,11 @@ public class SlimefunItem implements Placeable {
                 this.itemHandlers.clear();
             }
 
+            // TODO find a way to lock the item or maybe clone the item everytime it is obtained
             // Lock the SlimefunItemStack from any accidental manipulations
-            if (itemStackTemplate instanceof SlimefunItemStack stack && isItemStackImmutable()) {
-                stack.lock();
-            }
+            //if (itemStackTemplate instanceof SlimefunItemStack stack && isItemStackImmutable()) {
+            //    stack.lock();
+            //}
 
             postRegister();
 
@@ -773,11 +774,6 @@ public class SlimefunItem implements Placeable {
             return false;
         }
 
-        // If the given item is a SlimefunitemStack, simply compare the id
-        if (item instanceof SlimefunItemStack stack) {
-            return getId().equals(stack.getItemId());
-        }
-
         if (item.hasItemMeta()) {
             Optional<String> itemId = Slimefun.getItemDataService().getItemData(item);
 
@@ -912,12 +908,10 @@ public class SlimefunItem implements Placeable {
      * @return This item's name in {@link ItemStack} form
      */
     public final @Nonnull String getItemName() {
-        if (itemStackTemplate instanceof SlimefunItemStack) {
-            Optional<String> name = ((SlimefunItemStack) itemStackTemplate).getItemMetaSnapshot().getDisplayName();
 
-            if (name.isPresent()) {
-                return name.get();
-            }
+        SlimefunItem slimefunItem = getByItem(itemStackTemplate);
+        if (slimefunItem != null) {
+            return slimefunItem.getItemName();
         }
 
         return ItemUtils.getItemName(itemStackTemplate);
@@ -1208,10 +1202,6 @@ public class SlimefunItem implements Placeable {
     public static @Nullable SlimefunItem getByItem(@Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return null;
-        }
-
-        if (item instanceof SlimefunItemStack stack) {
-            return getById(stack.getItemId());
         }
 
         Optional<String> itemID = Slimefun.getItemDataService().getItemData(item);
