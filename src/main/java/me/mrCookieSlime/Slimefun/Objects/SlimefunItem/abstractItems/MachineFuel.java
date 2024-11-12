@@ -44,8 +44,7 @@ public class MachineFuel implements Predicate<ItemStack> {
         this.ticks = seconds * 2;
         this.fuel = fuel.item();
         this.wrapper = ItemStackWrapper.wrap(this.fuel);
-        if (output != null)
-            this.output = output.item();
+        this.output = output != null ? output.item() : null;
     }
 
     public ItemStack getInput() {
