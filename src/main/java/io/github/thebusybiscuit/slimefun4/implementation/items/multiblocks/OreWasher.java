@@ -185,7 +185,7 @@ public class OreWasher extends MultiBlockMachine {
      */
     public @Nonnull ItemStack getRandomDust() {
         int index = ThreadLocalRandom.current().nextInt(dusts.length);
-        return dusts[index].cloneItem();
+        return dusts[index].item();
     }
 
 }

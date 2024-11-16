@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -122,17 +121,18 @@ class TestSlimefunItem {
         Assertions.assertEquals(sfItem, SlimefunItem.getByItem(new SlimefunItemStack(sfItem.getId(), item)));
     }
 
-    /* TODO: ItemStack Lock - Releated to the fact that we can't lock itemstacks directly
+
     @Test
-    @DisplayName("Test WrongItemStackException")
-    void testWrongItemStackException() {
+    @DisplayName("Test Defensive Item copy")
+    void testDefensiveItemCopy() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "WRONG_ITEMSTACK_EXCEPTION", CustomItemStack.create(Material.NETHER_STAR, "&4Do not modify me"));
         item.register(plugin);
         item.load();
 
         ItemStack itemStack = item.getItem();
-        Assertions.assertThrows(WrongItemStackException.class, () -> itemStack.setAmount(40));
-    }*/
+        itemStack.setAmount(40);
+        Assertions.assertNotEquals(itemStack, item.getItem());
+    }
 
     @Test
     @DisplayName("Test UnregisteredItemException")

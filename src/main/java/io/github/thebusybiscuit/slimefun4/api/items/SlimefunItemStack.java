@@ -61,7 +61,6 @@ public class SlimefunItemStack {
     private String id;
     private ItemMetaSnapshot itemMetaSnapshot;
 
-    private boolean locked = false;
     private String texture = null;
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item) {
@@ -255,30 +254,17 @@ public class SlimefunItemStack {
     }
 
     public boolean setItemMeta(ItemMeta meta) {
-        validate();
         itemMetaSnapshot = new ItemMetaSnapshot(meta);
 
         return delegate.setItemMeta(meta);
     }
 
     public void setType(Material type) {
-        validate();
         delegate.setType(type);
     }
 
     public void setAmount(int amount) {
-        validate();
         delegate.setAmount(amount);
-    }
-
-    private void validate() {
-        if (locked) {
-            throw new WrongItemStackException(id + " is not mutable.");
-        }
-    }
-
-    public void lock() {
-        locked = true;
     }
 
     public @Nonnull Optional<String> getSkullTexture() {

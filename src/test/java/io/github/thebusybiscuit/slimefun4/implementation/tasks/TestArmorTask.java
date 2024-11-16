@@ -62,7 +62,7 @@ class TestArmorTask {
         SlimefunArmorPiece armor = new SlimefunArmorPiece(TestUtilities.getItemGroup(plugin, "armor_test"), helmet, RecipeType.NULL, new ItemStack[9], effects);
         armor.register(plugin);
 
-        player.getInventory().setHelmet(helmet.cloneItem());
+        player.getInventory().setHelmet(helmet.item());
         player.getInventory().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
         new ArmorTask(false).run();
 
@@ -84,7 +84,7 @@ class TestArmorTask {
         SlimefunItemStack item = new SlimefunItemStack("MOCK_URANIUM_" + String.valueOf(hazmat).toUpperCase(Locale.ROOT) + "_" + String.valueOf(radioactiveFire).toUpperCase(Locale.ROOT), Material.EMERALD, "&aHi, I am deadly");
         new RadioactiveItem(itemGroup, Radioactivity.VERY_DEADLY, item, RecipeType.NULL, new ItemStack[9]).register(plugin);
 
-        player.getInventory().setItemInMainHand(item.cloneItem());
+        player.getInventory().setItemInMainHand(item.item());
         player.getInventory().setItemInOffHand(new ItemStack(Material.EMERALD_ORE));
 
         if (hazmat) {
@@ -92,7 +92,7 @@ class TestArmorTask {
             MockHazmatSuit armor = new MockHazmatSuit(itemGroup, chestplate);
             armor.register(plugin);
 
-            player.getInventory().setChestplate(chestplate.cloneItem());
+            player.getInventory().setChestplate(chestplate.item());
         }
 
         ArmorTask task = new ArmorTask(radioactiveFire);

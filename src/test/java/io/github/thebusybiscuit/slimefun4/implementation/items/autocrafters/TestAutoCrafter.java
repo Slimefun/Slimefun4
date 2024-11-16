@@ -154,7 +154,7 @@ class TestAutoCrafter {
         SlimefunItem slimefunItem = TestUtilities.mockSlimefunItem(plugin, itemStack.getItemId(), itemStack.item());
         slimefunItem.register(plugin);
 
-        inv.addItem(itemStack.cloneItem());
+        inv.addItem(itemStack.item());
 
         // Test unusable SlimefunItem
         slimefunItem.setUseableInWorkbench(false);

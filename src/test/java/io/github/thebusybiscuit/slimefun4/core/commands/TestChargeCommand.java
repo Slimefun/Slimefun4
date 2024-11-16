@@ -46,7 +46,7 @@ class TestChargeCommand {
 
         Player player = server.addPlayer();
         player.setOp(true);
-        player.getInventory().setItemInMainHand(RECHARGEABLE_ITEM.cloneItem());
+        player.getInventory().setItemInMainHand(RECHARGEABLE_ITEM.item());
 
         ItemStack chargedItemStack = player.getInventory().getItemInMainHand();
         Rechargeable chargedItem = (Rechargeable) SlimefunItem.getByItem(chargedItemStack);

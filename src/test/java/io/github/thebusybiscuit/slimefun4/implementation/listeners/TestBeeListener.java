@@ -54,7 +54,7 @@ class TestBeeListener {
             MockBeeProtectionSuit armor = new MockBeeProtectionSuit(itemGroup, chestplate);
             armor.register(plugin);
 
-            player.getInventory().setChestplate(chestplate.cloneItem());
+            player.getInventory().setChestplate(chestplate.item());
             // Force update the cached armor
             profile.getArmor()[1].update(chestplate.item(), armor);
         }
