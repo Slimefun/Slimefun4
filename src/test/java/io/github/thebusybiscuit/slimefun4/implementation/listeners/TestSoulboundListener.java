@@ -73,7 +73,7 @@ class TestSoulboundListener {
 
         server.getPluginManager().assertEventFired(EntityDeathEvent.class, event -> {
             // If the item is enabled, we don't want it to drop.
-            return enabled == !event.getDrops().contains(item);
+            return enabled == !event.getDrops().contains(item.item());
         });
         Slimefun.getRegistry().getEnabledSlimefunItems().remove(soulboundItem);
     }
