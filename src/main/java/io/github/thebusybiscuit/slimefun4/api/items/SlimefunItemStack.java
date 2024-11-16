@@ -5,21 +5,34 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import lombok.experimental.Delegate;
+import io.papermc.paper.inventory.ItemRarity;
+import io.papermc.paper.inventory.tooltip.TooltipContext;
+import io.papermc.paper.registry.set.RegistryKeySet;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -43,8 +56,6 @@ import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
  *
  */
 public class SlimefunItemStack {
-
-    @Delegate
     private ItemStack delegate;
 
     private String id;
@@ -343,5 +354,241 @@ public class SlimefunItemStack {
      */
     public @Nonnull ItemStack item() {
         return delegate;
+    }
+
+    public Material getType() {
+        return this.delegate.getType();
+    }
+
+    public ItemStack withType(Material type) {
+        return this.delegate.withType(type);
+    }
+
+    public int getAmount() {
+        return this.delegate.getAmount();
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public MaterialData getData() {
+        return this.delegate.getData();
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public void setData(MaterialData data) {
+        this.delegate.setData(data);
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public void setDurability(short durability) {
+        this.delegate.setDurability(durability);
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public short getDurability() {
+        return this.delegate.getDurability();
+    }
+
+    public int getMaxStackSize() {
+        return this.delegate.getMaxStackSize();
+    }
+
+    public boolean isSimilar(ItemStack stack) {
+        return this.delegate.isSimilar(stack);
+    }
+
+    public boolean containsEnchantment(Enchantment ench) {
+        return this.delegate.containsEnchantment(ench);
+    }
+
+    public int getEnchantmentLevel(Enchantment ench) {
+        return this.delegate.getEnchantmentLevel(ench);
+    }
+
+    public Map<Enchantment, Integer> getEnchantments() {
+        return this.delegate.getEnchantments();
+    }
+
+    public void addEnchantments(Map<Enchantment, Integer> enchantments) {
+        this.delegate.addEnchantments(enchantments);
+    }
+
+    public void addEnchantment(Enchantment ench, int level) {
+        this.delegate.addEnchantment(ench, level);
+    }
+
+    public void addUnsafeEnchantments(Map<Enchantment, Integer> enchantments) {
+        this.delegate.addUnsafeEnchantments(enchantments);
+    }
+
+    public void addUnsafeEnchantment(Enchantment ench, int level) {
+        this.delegate.addUnsafeEnchantment(ench, level);
+    }
+
+    public int removeEnchantment(Enchantment ench) {
+        return this.delegate.removeEnchantment(ench);
+    }
+
+    public void removeEnchantments() {
+        this.delegate.removeEnchantments();
+    }
+
+    public Map<String, Object> serialize() {
+        return this.delegate.serialize();
+    }
+
+    public boolean editMeta(Consumer<? super ItemMeta> consumer) {
+        return this.delegate.editMeta(consumer);
+    }
+
+    public <M extends ItemMeta> boolean editMeta(Class<M> metaClass, Consumer<? super M> consumer) {
+        return this.delegate.editMeta(metaClass, consumer);
+    }
+
+    public ItemMeta getItemMeta() {
+        return this.delegate.getItemMeta();
+    }
+
+    public boolean hasItemMeta() {
+        return this.delegate.hasItemMeta();
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public String getTranslationKey() {
+        return this.delegate.getTranslationKey();
+    }
+
+    public ItemStack enchantWithLevels(int levels, boolean allowTreasure, Random random) {
+        return this.delegate.enchantWithLevels(levels, allowTreasure, random);
+    }
+
+    public ItemStack enchantWithLevels(int levels, RegistryKeySet<Enchantment> keySet, Random random) {
+        return this.delegate.enchantWithLevels(levels, keySet, random);
+    }
+
+    public HoverEvent<HoverEvent.ShowItem> asHoverEvent(UnaryOperator<HoverEvent.ShowItem> op) {
+        return this.delegate.asHoverEvent(op);
+    }
+
+    public Component displayName() {
+        return this.delegate.displayName();
+    }
+
+    public ItemStack ensureServerConversions() {
+        return this.delegate.ensureServerConversions();
+    }
+
+    public byte[] serializeAsBytes() {
+        return this.delegate.serializeAsBytes();
+    }
+
+    /** @deprecated */
+    public String getI18NDisplayName() {
+        return this.delegate.getI18NDisplayName();
+    }
+
+    /** @deprecated */
+    public int getMaxItemUseDuration() {
+        return this.delegate.getMaxItemUseDuration();
+    }
+
+    public int getMaxItemUseDuration(LivingEntity entity) {
+        return this.delegate.getMaxItemUseDuration(entity);
+    }
+
+    public ItemStack asOne() {
+        return this.delegate.asOne();
+    }
+
+    public ItemStack asQuantity(int qty) {
+        return this.delegate.asQuantity(qty);
+    }
+
+    public ItemStack add() {
+        return this.delegate.add();
+    }
+
+    public ItemStack add(int qty) {
+        return this.delegate.add(qty);
+    }
+
+    public ItemStack subtract() {
+        return this.delegate.subtract();
+    }
+
+    public ItemStack subtract(int qty) {
+        return this.delegate.subtract(qty);
+    }
+
+    @Deprecated
+    public List<String> getLore() {
+        return this.delegate.getLore();
+    }
+
+    public List<Component> lore() {
+        return this.delegate.lore();
+    }
+
+    @Deprecated
+    public void setLore(List<String> lore) {
+        this.delegate.setLore(lore);
+    }
+
+    public void lore(List<? extends Component> lore) {
+        this.delegate.lore(lore);
+    }
+
+    public void addItemFlags(ItemFlag... itemFlags) {
+        this.delegate.addItemFlags(itemFlags);
+    }
+
+    public void removeItemFlags(ItemFlag... itemFlags) {
+        this.delegate.removeItemFlags(itemFlags);
+    }
+
+    public Set<ItemFlag> getItemFlags() {
+        return this.delegate.getItemFlags();
+    }
+
+    public boolean hasItemFlag(ItemFlag flag) {
+        return this.delegate.hasItemFlag(flag);
+    }
+
+    public String translationKey() {
+        return this.delegate.translationKey();
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public ItemRarity getRarity() {
+        return this.delegate.getRarity();
+    }
+
+    public boolean isRepairableBy(ItemStack repairMaterial) {
+        return this.delegate.isRepairableBy(repairMaterial);
+    }
+
+    public boolean canRepair(ItemStack toBeRepaired) {
+        return this.delegate.canRepair(toBeRepaired);
+    }
+
+    public ItemStack damage(int amount, LivingEntity livingEntity) {
+        return this.delegate.damage(amount, livingEntity);
+    }
+
+    public boolean isEmpty() {
+        return this.delegate.isEmpty();
+    }
+
+    public List<Component> computeTooltipLines(TooltipContext tooltipContext, Player player) {
+        return this.delegate.computeTooltipLines(tooltipContext, player);
+    }
+
+    public HoverEvent<HoverEvent.ShowItem> asHoverEvent() {
+        return this.delegate.asHoverEvent();
     }
 }
