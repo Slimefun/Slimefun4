@@ -370,10 +370,10 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                         if (isSurvivalMode()) {
                             displayItem(profile, slimefunItem, true);
                         } else if (pl.hasPermission("slimefun.cheat.items")) {
-                            if (sfitem instanceof MultiBlockMachine) {
+                            if (slimefunItem instanceof MultiBlockMachine) {
                                 Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                             } else {
-                                ItemStack clonedItem = sfitem.getItem().clone();
+                                ItemStack clonedItem = slimefunItem.getItem().clone();
 
                                 if (action.isShiftClicked()) {
                                     clonedItem.setAmount(clonedItem.getMaxStackSize());
