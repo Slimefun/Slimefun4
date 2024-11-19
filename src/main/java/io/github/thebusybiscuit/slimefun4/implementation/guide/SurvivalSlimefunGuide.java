@@ -367,10 +367,27 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 menu.addItem(index, itemstack);
                 menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
                     try {
-                        if (!isSurvivalMode()) {
-                            pl.getInventory().addItem(slimefunItem.getItem().clone());
-                        } else {
+                        if (isSurvivalMode()) {
                             displayItem(profile, slimefunItem, true);
+                        } else if (pl.hasPermission("slimefun.cheat.items")) {
+                            if (sfitem instanceof MultiBlockMachine) {
+                                Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
+                            } else {
+                                ItemStack clonedItem = sfitem.getItem().clone();
+
+                                if (action.isShiftClicked()) {
+                                    clonedItem.setAmount(clonedItem.getMaxStackSize());
+                                }
+
+                                pl.getInventory().addItem(clonedItem);
+                            }
+                        } else {
+                            /*
+                             * Fixes #3548 - If for whatever reason,
+                             * an unpermitted players gets access to this guide,
+                             * this will be our last line of defense to prevent any exploit.
+                             */
+                            Slimefun.getLocalization().sendMessage(pl, "messages.no-permission", true);
                         }
                     } catch (Exception | LinkageError x) {
                         printErrorMessage(pl, slimefunItem, x);
