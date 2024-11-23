@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
@@ -99,21 +100,12 @@ public class RecipeType implements Keyed {
         this.key = key;
         this.consumer = callback;
 
-        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
-
-        if (slimefunItem != null) {
-            this.machine = slimefunItem.getId();
-        } else {
-            this.machine = "";
-        }
+        Optional<String> itemId = Slimefun.getItemDataService().getItemData(item);
+        this.machine = itemId.orElse("");
     }
 
     public RecipeType(NamespacedKey key, ItemStack item) {
-        this.key = key;
-        this.item = item;
-
-        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
-        this.machine = slimefunItem != null ? slimefunItem.getId() : "";
+        this(key, item, null);
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {
