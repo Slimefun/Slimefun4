@@ -31,7 +31,6 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
@@ -573,20 +572,6 @@ public class SlimefunItem implements Placeable {
                 registry.getGlobalItemHandlers(handler.getIdentifier()).add(handler);
             }
         }
-    }
-
-    /**
-     * This method returns whether the original {@link SlimefunItemStack} of this
-     * {@link SlimefunItem} is immutable.
-     * 
-     * If <code>true</code> is returned, then any changes to the original {@link SlimefunItemStack}
-     * will be rejected with a {@link WrongItemStackException}.
-     * This ensures integrity so developers don't accidentally damage the wrong {@link ItemStack}.
-     * 
-     * @return Whether the original {@link SlimefunItemStack} is immutable.
-     */
-    protected boolean isItemStackImmutable() {
-        return true;
     }
 
     /**
