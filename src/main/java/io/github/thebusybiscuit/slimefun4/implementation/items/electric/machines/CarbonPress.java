@@ -24,12 +24,12 @@ public class CarbonPress extends AContainer implements RecipeDisplayItem {
     @Override
     protected void registerDefaultRecipes() {
         registerRecipe(15, new ItemStack[] { new ItemStack(Material.CHARCOAL, 4) }, new ItemStack[] { new ItemStack(Material.COAL) });
-        registerRecipe(20, new ItemStack[] { new ItemStack(Material.COAL, 8) }, new ItemStack[] { SlimefunItems.CARBON });
-        registerRecipe(180, new ItemStack[] { new ItemStack(Material.COAL_BLOCK, 8) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARBON, 9) });
-        registerRecipe(30, new ItemStack[] { CustomItemStack.create(SlimefunItems.CARBON, 4) }, new ItemStack[] { SlimefunItems.COMPRESSED_CARBON });
-        registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK, SlimefunItems.SYNTHETIC_DIAMOND }, new ItemStack[] { SlimefunItems.RAW_CARBONADO });
-        registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK }, new ItemStack[] { SlimefunItems.SYNTHETIC_DIAMOND });
-        registerRecipe(90, new ItemStack[] { SlimefunItems.RAW_CARBONADO }, new ItemStack[] { SlimefunItems.CARBONADO });
+        registerRecipe(20, new ItemStack[] { new ItemStack(Material.COAL, 8) }, new ItemStack[] { SlimefunItems.CARBON.item() });
+        registerRecipe(180, new ItemStack[] { new ItemStack(Material.COAL_BLOCK, 8) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARBON, 9).item() });
+        registerRecipe(30, new ItemStack[] { CustomItemStack.create(SlimefunItems.CARBON.item(), 4) }, new ItemStack[] { SlimefunItems.COMPRESSED_CARBON.item() });
+        registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK.item(), SlimefunItems.SYNTHETIC_DIAMOND.item() }, new ItemStack[] { SlimefunItems.RAW_CARBONADO.item() });
+        registerRecipe(60, new ItemStack[] { SlimefunItems.CARBON_CHUNK.item() }, new ItemStack[] { SlimefunItems.SYNTHETIC_DIAMOND.item() });
+        registerRecipe(90, new ItemStack[] { SlimefunItems.RAW_CARBONADO.item() }, new ItemStack[] { SlimefunItems.CARBONADO.item() });
     }
 
     @Override

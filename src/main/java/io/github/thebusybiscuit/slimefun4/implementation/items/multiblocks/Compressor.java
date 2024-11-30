@@ -37,14 +37,14 @@ public class Compressor extends MultiBlockMachine {
 
     @Override
     protected void registerDefaultRecipes(List<ItemStack> recipes) {
-        recipes.add(new SlimefunItemStack(SlimefunItems.STONE_CHUNK, 4));
+        recipes.add(new SlimefunItemStack(SlimefunItems.STONE_CHUNK, 4).item());
         recipes.add(new ItemStack(Material.COBBLESTONE));
 
         recipes.add(new ItemStack(Material.FLINT, 8));
         recipes.add(new ItemStack(Material.COBBLESTONE));
 
         recipes.add(new ItemStack(Material.COAL_BLOCK, 8));
-        recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 9));
+        recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 9).item());
 
         recipes.add(new ItemStack(Material.CHARCOAL, 4));
         recipes.add(new ItemStack(Material.COAL));
