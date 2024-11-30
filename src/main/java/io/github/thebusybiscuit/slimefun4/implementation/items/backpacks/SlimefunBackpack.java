@@ -69,6 +69,11 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> impleme
             return false;
         }
 
+        // Bundles aren't allowed either
+        if (SlimefunTag.BUNDLES.isTagged(item.getType())) {
+            return false;
+        }
+
         return !(itemAsSlimefunItem instanceof SlimefunBackpack);
     }
 
