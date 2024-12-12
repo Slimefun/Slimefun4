@@ -7,6 +7,7 @@ import java.util.OptionalInt;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.MachineBlockBreakHandler;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -197,18 +198,10 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
     @Nonnull
     private BlockBreakHandler onBlockBreak() {
-        return new SimpleBlockBreakHandler() {
-
+        return new MachineBlockBreakHandler(OUTPUT_SLOTS) {
             @Override
-            public void onBlockBreak(@Nonnull Block b) {
+            protected void beforeBreak(@Nonnull Block b) {
                 removeHologram(b);
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    inv.dropItems(b.getLocation(), OUTPUT_SLOTS);
-                }
-
-                processor.endOperation(b);
             }
         };
     }
