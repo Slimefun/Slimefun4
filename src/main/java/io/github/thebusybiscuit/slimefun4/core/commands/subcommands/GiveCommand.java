@@ -32,28 +32,31 @@ class GiveCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender.hasPermission("slimefun.cheat.items") || !(sender instanceof Player)) {
-            if (args.length > 2) {
-                Optional<Player> player = PlayerList.findByName(args[1]);
-
-                if (player.isPresent()) {
-                    Player p = player.get();
-
-                    SlimefunItem sfItem = SlimefunItem.getById(args[2].toUpperCase(Locale.ROOT));
-
-                    if (sfItem != null) {
-                        giveItem(sender, p, sfItem, args);
-                    } else {
-                        Slimefun.getLocalization().sendMessage(sender, "messages.invalid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
-                    }
-                } else {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
-                }
-            } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
-            }
-        } else {
+        if (!sender.hasPermission("slimefun.cheat.items") && sender instanceof Player) {
             Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            return;
+        }
+
+        if (args.length <= 2) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
+            return;
+        }
+
+        Optional<Player> player = PlayerList.findByName(args[1]);
+
+        if (player.isEmpty()) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
+            return;
+        }
+
+        Player p = player.get();
+
+        SlimefunItem sfItem = SlimefunItem.getById(args[2].toUpperCase(Locale.ROOT));
+
+        if (sfItem != null) {
+            giveItem(sender, p, sfItem, args);
+        } else {
+            Slimefun.getLocalization().sendMessage(sender, "messages.invalid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
         }
     }
 
