@@ -74,7 +74,8 @@ class GiveCommand extends SubCommand {
         }
 
         Slimefun.getLocalization().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
-        Map<Integer, ItemStack> excess = p.getInventory().addItem(new CustomItemStack(sfItem.getItem(), amount));
+        ItemStack[] items = parseStackArray(sfItem.getItem(), amount);
+        Map<Integer, ItemStack> excess = p.getInventory().addItem(items);
         if (Slimefun.getCfg().getBoolean("options.drop-excess-sf-give-items") && !excess.isEmpty()) {
             for (ItemStack is : excess.values()) {
                 p.getWorld().dropItem(p.getLocation(), is);
@@ -82,6 +83,30 @@ class GiveCommand extends SubCommand {
         }
 
         Slimefun.getLocalization().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+    }
+
+    private ItemStack[] parseStackArray(ItemStack itemStack, int amount) {
+        int stackSize = itemStack.getMaxStackSize();
+        int stackAmount = amount / stackSize;
+        int excess = amount - stackAmount * stackSize;
+
+        int totalSize = stackAmount;
+        if (excess != 0) {
+            totalSize++;
+        }
+
+        ItemStack[] toGive = new ItemStack[totalSize];
+        for (int i = 0; i < stackAmount; i++) {
+            toGive[i] = itemStack.clone();
+            toGive[i].setAmount(stackSize);
+        }
+
+        if (excess != 0) {
+            toGive[stackAmount] = itemStack.clone();
+            toGive[stackAmount].setAmount(excess);
+        }
+
+        return toGive;
     }
 
     private int parseAmount(String[] args) {
