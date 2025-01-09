@@ -1,0 +1,72 @@
+{
+  "values" : [
+    {
+      "id" : "minecraft:bundle",
+      "required" : false
+    },
+    {
+    "id" : "minecraft:white_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:orange_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:magenta_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:light_blue_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:yellow_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:lime_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:pink_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:gray_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:light_gray_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:cyan_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:purple_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:blue_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:brown_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:green_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:red_bundle",
+    "required" : false
+    },
+    {
+    "id" : "minecraft:black_bundle",
+    "required" : false
+    }
+  ]
+}
