@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +62,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     private final ItemSetting<Boolean> dualWielding = new ItemSetting<>(this, "dual-wielding", true);
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>(this, "damage-on-use", true);
 
-    private final Map<Material, ClimbableSurface> surfaces = new EnumMap<>(Material.class);
+    private final Map<Material, ClimbableSurface> surfaces = new HashMap<>();
     private final Set<UUID> users = new HashSet<>();
 
     @ParametersAreNonnullByDefault
@@ -97,7 +97,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     /**
      * This returns whether the {@link ClimbingPick} needs to be held in both
      * arms to work.
-     * 
+     *
      * @return Whether dual wielding is enabled
      */
     public boolean isDualWieldingEnabled() {
@@ -107,7 +107,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     /**
      * This method returns a {@link Collection} of every {@link ClimbableSurface} the
      * {@link ClimbingPick} can climb.
-     * 
+     *
      * @return A {@link Collection} of every {@link ClimbableSurface}
      */
     @Nonnull
@@ -117,10 +117,10 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
     /**
      * This returns the climbing speed for a given {@link Material}.
-     * 
+     *
      * @param type
      *            The {@link Material}
-     * 
+     *
      * @return The climbing speed for this {@link Material} or 0.
      */
     public double getClimbingSpeed(@Nonnull Material type) {
@@ -136,12 +136,12 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
     /**
      * This returns the climbing speed for a given {@link Material} and the used {@link ItemStack}.
-     * 
+     *
      * @param item
      *            the {@link ClimbingPick}'s {@link ItemStack}
      * @param type
      *            The {@link Material}
-     * 
+     *
      * @return The climbing speed or 0.
      */
     public double getClimbingSpeed(@Nonnull ItemStack item, @Nonnull Material type) {

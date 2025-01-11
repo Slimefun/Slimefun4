@@ -42,7 +42,7 @@ class TestAbstractRecipe {
     @DisplayName("Test ShapelessRecipe as AbstractRecipe")
     void testShapelessRecipe() {
         NamespacedKey key = new NamespacedKey(plugin, "shapeless_recipe_test");
-        ItemStack result = new CustomItemStack(Material.DIAMOND, "&6Special Diamond :o");
+        ItemStack result = CustomItemStack.create(Material.DIAMOND, "&6Special Diamond :o");
 
         ShapelessRecipe recipe = new ShapelessRecipe(key, result);
         recipe.addIngredient(new MaterialChoice(Material.IRON_NUGGET, Material.GOLD_NUGGET));
@@ -59,7 +59,7 @@ class TestAbstractRecipe {
     @DisplayName("Test ShapedRecipe as AbstractRecipe")
     void testShapedRecipe() {
         NamespacedKey key = new NamespacedKey(plugin, "shaped_recipe_test");
-        ItemStack result = new CustomItemStack(Material.EMERALD, "&6Special Emerald :o");
+        ItemStack result = CustomItemStack.create(Material.EMERALD, "&6Special Emerald :o");
 
         ShapedRecipe recipe = new ShapedRecipe(key, result);
         recipe.shape("OXO", " X ", "OXO");
@@ -80,7 +80,7 @@ class TestAbstractRecipe {
     @DisplayName("Test invalid recipes as AbstractRecipe")
     void testInvalidRecipes() {
         NamespacedKey key = new NamespacedKey(plugin, "furnace_recipe_test");
-        ItemStack result = new CustomItemStack(Material.COAL, "&6Special Coal :o");
+        ItemStack result = CustomItemStack.create(Material.COAL, "&6Special Coal :o");
         FurnaceRecipe recipe = new FurnaceRecipe(key, result, Material.COAL, 1, 1);
 
         Assertions.assertNull(AbstractRecipe.of(recipe));

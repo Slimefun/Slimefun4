@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,7 +34,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * The most common type is {@link Integer}, if you are using complex objects and try to read
  * your {@link BiomeMap} from a {@link JsonElement}, make sure to provide an adequate
  * {@link BiomeDataConverter} to convert the raw json data.
- * 
+ *
  * @author TheBusyBiscuit
  *
  * @param <T>
@@ -43,9 +43,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BiomeMap<T> implements Keyed {
 
     /**
-     * Our internal {@link EnumMap} holding all the data.
+     * Our internal {@link HashMap} holding all the data.
      */
-    private final Map<Biome, T> dataMap = new EnumMap<>(Biome.class);
+    private final Map<Biome, T> dataMap = new HashMap<>();
 
     /**
      * The {@link NamespacedKey} to identify this {@link BiomeMap}.
@@ -54,7 +54,7 @@ public class BiomeMap<T> implements Keyed {
 
     /**
      * This constructs a new {@link BiomeMap} with the given {@link NamespacedKey}.
-     * 
+     *
      * @param namespacedKey
      *            The {@link NamespacedKey} for this {@link BiomeMap}
      */
@@ -92,7 +92,7 @@ public class BiomeMap<T> implements Keyed {
     /**
      * This returns whether this {@link BiomeMap} is empty.
      * An empty {@link BiomeMap} contains no biomes or values.
-     * 
+     *
      * @return Whether this {@link BiomeMap} is empty.
      */
     public boolean isEmpty() {

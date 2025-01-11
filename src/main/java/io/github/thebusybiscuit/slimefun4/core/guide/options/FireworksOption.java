@@ -38,7 +38,7 @@ class FireworksOption implements SlimefunGuideOption<Boolean> {
             lore.add("");
             lore.add("&7\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.options.fireworks." + optionState + ".click"));
 
-            ItemStack item = new CustomItemStack(Material.FIREWORK_ROCKET, lore);
+            ItemStack item = CustomItemStack.create(Material.FIREWORK_ROCKET, lore);
             return Optional.of(item);
         } else {
             return Optional.empty();

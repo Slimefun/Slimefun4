@@ -77,7 +77,7 @@ class TestCauldronListener {
     @Test
     @DisplayName("Test Cauldron working as normal with non-leather slimefun items")
     void testCauldronWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK", new CustomItemStack(Material.GOLDEN_APPLE, "&6Mock"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK", CustomItemStack.create(Material.GOLDEN_APPLE, "&6Mock"));
         item.register(plugin);
 
         PlayerInteractEvent event = mockCauldronEvent(item.getItem());
@@ -87,7 +87,7 @@ class TestCauldronListener {
     @Test
     @DisplayName("Test Cauldron being cancelled with slimefun leather armor")
     void testCauldronWithSlimefunLeatherArmor() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK_LEATHER", new CustomItemStack(Material.LEATHER_BOOTS, "&6Mock Leather Armor"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK_LEATHER", CustomItemStack.create(Material.LEATHER_BOOTS, "&6Mock Leather Armor"));
         item.register(plugin);
 
         PlayerInteractEvent event = mockCauldronEvent(item.getItem());

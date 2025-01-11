@@ -39,7 +39,7 @@ class TestItemHandlers {
     @Test
     @DisplayName("Test validation for Item Handlers")
     void testIllegalItemHandlers() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST", CustomItemStack.create(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemHandler());
@@ -50,7 +50,7 @@ class TestItemHandlers {
     @Test
     @DisplayName("Test calling an ItemHandler")
     void testItemHandler() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST_2", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST_2", CustomItemStack.create(Material.DIAMOND, "&cTest"));
 
         MockItemHandler handler = new MockItemHandler();
         item.addItemHandler(handler);
@@ -72,12 +72,12 @@ class TestItemHandlers {
     @DisplayName("Test validation for BowShootHandler")
     void testBowShootHandler() {
         BowShootHandler handler = (e, n) -> {};
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "NOT_A_BOW", new CustomItemStack(Material.KELP, "&bNot a bow!"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "NOT_A_BOW", CustomItemStack.create(Material.KELP, "&bNot a bow!"));
 
         Optional<IncompatibleItemHandlerException> exception = handler.validate(item);
         Assertions.assertTrue(exception.isPresent());
 
-        SlimefunItem bow = TestUtilities.mockSlimefunItem(plugin, "A_BOW", new CustomItemStack(Material.BOW, "&bA bow!"));
+        SlimefunItem bow = TestUtilities.mockSlimefunItem(plugin, "A_BOW", CustomItemStack.create(Material.BOW, "&bA bow!"));
         Optional<IncompatibleItemHandlerException> exception2 = handler.validate(bow);
         Assertions.assertFalse(exception2.isPresent());
     }

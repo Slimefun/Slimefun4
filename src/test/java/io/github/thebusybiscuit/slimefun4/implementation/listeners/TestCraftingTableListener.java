@@ -93,7 +93,7 @@ class TestCraftingTableListener {
 
     @Test
     void testCraftEventWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_DIAMOND", new CustomItemStack(Material.DIAMOND, "&cMock Diamond"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_DIAMOND", CustomItemStack.create(Material.DIAMOND, "&cMock Diamond"));
         item.register(plugin);
 
         CraftItemEvent event = mockCraftingEvent(item.getItem());
@@ -102,7 +102,7 @@ class TestCraftingTableListener {
 
     @Test
     void testCraftEventWithChangingSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CHANGING_ITEM", new CustomItemStack(Material.DIAMOND, "&dChanging Diamond"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CHANGING_ITEM", CustomItemStack.create(Material.DIAMOND, "&dChanging Diamond"));
         item.register(plugin);
 
         item.setUseableInWorkbench(true);
@@ -131,7 +131,7 @@ class TestCraftingTableListener {
 
     @Test
     void testPreCraftEventWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_DIAMOND2", new CustomItemStack(Material.DIAMOND, "&cMock Diamond"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_DIAMOND2", CustomItemStack.create(Material.DIAMOND, "&cMock Diamond"));
         item.register(plugin);
 
         PrepareItemCraftEvent event = mockPreCraftingEvent(item.getItem());

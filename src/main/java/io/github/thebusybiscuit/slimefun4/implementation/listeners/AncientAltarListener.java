@@ -48,7 +48,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 /**
  * This {@link Listener} is responsible for providing the core mechanics of the {@link AncientAltar}
  * and the {@link AncientPedestal}, it also handles the crafting of items using the Altar.
- * 
+ *
  * @author Redemption198
  * @author TheBusyBiscuit
  *
@@ -73,7 +73,7 @@ public class AncientAltarListener implements Listener {
 
     /**
      * This returns all {@link AncientAltar Altars} that are currently in use.
-     * 
+     *
      * @return A {@link Set} of every {@link AncientAltar} currently in use
      */
     public @Nonnull Set<Location> getAltarsInUse() {
@@ -179,7 +179,7 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
-        ItemStack catalyst = new CustomItemStack(p.getInventory().getItemInMainHand(), 1);
+        ItemStack catalyst = CustomItemStack.create(p.getInventory().getItemInMainHand(), 1);
         List<Block> pedestals = getPedestals(altar);
 
         if (!altars.contains(altar)) {

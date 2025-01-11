@@ -17,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 
 /**
  * A super ordinary class.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -25,7 +25,7 @@ class RickFlexGroup extends FlexItemGroup {
 
     // Never instantiate more than once.
     RickFlexGroup(@Nonnull NamespacedKey key) {
-        super(key, new CustomItemStack(Material.NETHER_STAR, "&6&lSuper secret items"), 1);
+        super(key, CustomItemStack.create(Material.NETHER_STAR, "&6&lSuper secret items"), 1);
     }
 
     // Gonna override this method
