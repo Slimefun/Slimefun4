@@ -26,7 +26,7 @@ public class MachineBlockBreakHandler extends SimpleBlockBreakHandler {
     private final MachineProcessor<? extends MachineOperation> processor;
     private final int[][] slots;
 
-    public MachineBlockBreakHandler(@Nullable MachineProcessor<? extends MachineOperation> processor, @Nonnull int[]... slots) {
+    public MachineBlockBreakHandler(@Nullable MachineProcessor<?> processor, @Nonnull int[]... slots) {
         Preconditions.checkNotNull(slots, "MachineBlockBreakHandler doesn't allow null slots, you should probably use another type of SimpleBlockBreakHandler or create your own implementation.");
         this.processor = processor;
         this.slots = slots;
