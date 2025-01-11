@@ -71,7 +71,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     @Nonnull
     private BlockBreakHandler onBreak() {
-        return new MachineBlockBreakHandler(getOutputSlots(), getOutputSlots());
+        return new MachineBlockBreakHandler(getInputSlots(), getOutputSlots());
     }
 
     private void constructMenu(@Nonnull BlockMenuPreset preset) {
