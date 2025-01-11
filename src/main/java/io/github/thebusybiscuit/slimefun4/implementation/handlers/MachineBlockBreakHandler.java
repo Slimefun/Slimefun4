@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.handlers;
 
+import com.google.common.base.Preconditions;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
@@ -11,6 +12,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * A {@link SimpleBlockBreakHandler} given the processor and the slots to drop of a machine.
@@ -24,12 +26,13 @@ public class MachineBlockBreakHandler extends SimpleBlockBreakHandler {
     private final MachineProcessor<? extends MachineOperation> processor;
     private final int[][] slots;
 
-    public MachineBlockBreakHandler(MachineProcessor<? extends MachineOperation> processor, int[]... slots) {
+    public MachineBlockBreakHandler(@Nullable MachineProcessor<? extends MachineOperation> processor, @Nonnull int[]... slots) {
+        Preconditions.checkNotNull(slots, "MachineBlockBreakHandler doesn't allow null slots, you should probably use another type of SimpleBlockBreakHandler or create your own implementation.");
         this.processor = processor;
         this.slots = slots;
     }
 
-    public MachineBlockBreakHandler(int[]... slots) {
+    public MachineBlockBreakHandler(@Nonnull int[]... slots) {
         this(null, slots);
     }
 
