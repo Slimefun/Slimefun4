@@ -84,11 +84,12 @@ guide:
           - '&bKarunungang Animasyon: &aYes'
           - ''
           - ''
+          - '&7makikita ang impormasyon na pinagtatakahan mo sa chat'
           - ''
-          - ''
+        click: '&eI-click para huwag paganahin ang iyong learning animation'
       disabled:
         text:
-          - ''
+          - '&bKarunungang Animasyon: &4No'
           - ''
           - ''
           - '&7makikita ang impormasyon na pinagtatakahan mo sa chat'
@@ -116,6 +117,7 @@ guide:
     roles:
       translator: '&9Tagapagsaling-wika'
 messages:
+  not-researched: '&4Kulang ang iyong Kaalaman upang ito ay maintindihan. &cKailangan mo I-unlock &f"%item%&f"'
   not-enough-xp: '&4Kulang ang iyong XP upang ito''y ma-unlock.'
   unlocked: '&bNa-unlock mo ang &7"%research%"'
   only-players: '&4Ang command na ito ay para lamang sa Players.'
