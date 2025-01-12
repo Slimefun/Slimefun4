@@ -30,6 +30,7 @@ commands:
   debug:
     none-running: '&7Walang kaso ng pagsubok ang kasalukuyang pinapatakbo!'
     running: '&7Pinapatakbo ang debug mode kasama ang test: &6%test%'
+    disabled: '&7Hindi na tumatakbo ang debug mode.'
 placeholderapi:
   profile-loading: 'Naglo-load...'
 guide:
@@ -80,20 +81,8 @@ guide:
   options:
     learning-animation:
       enabled:
-        text:
-          - '&bKarunungang Animasyon: &aYes'
-          - ''
-          - ''
-          - '&7makikita ang impormasyon na pinagtatakahan mo sa chat'
-          - ''
         click: '&eI-click para huwag paganahin ang iyong learning animation'
       disabled:
-        text:
-          - '&bKarunungang Animasyon: &4No'
-          - ''
-          - ''
-          - '&7makikita ang impormasyon na pinagtatakahan mo sa chat'
-          - ''
         click: '&eI-click para paganahin ang iyong karunungang animasyon'
   title:
     main: 'Gabay para sa Slimefun'
