@@ -16,10 +16,12 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -38,7 +40,7 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  *
  * @see StormStaff
  */
-public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> {
+public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> implements DistinctiveItem {
 
     private final NamespacedKey defaultUsageKey;
     private int maxUseCount = -1;
@@ -66,7 +68,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      *
      * @param count
      *            The maximum number of times this item can be used.
-     * 
+     *
      * @return The {@link LimitedUseItem} for chaining of setters
      */
     public final @Nonnull LimitedUseItem setMaxUseCount(int count) {
@@ -149,4 +151,15 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
         }
     }
 
+    @Override
+    public boolean canStack(ItemMeta itemMetaOne, ItemMeta itemMetaTwo) {
+        if (!Slimefun.getItemDataService().getItemData(itemMetaOne).equals(Slimefun.getItemDataService().getItemData(itemMetaTwo))) {
+            return false;
+        }
+
+        NamespacedKey key = getStorageKey();
+        int usesLeft1 = PersistentDataAPI.getInt(itemMetaOne, key);
+        int usesLeft2 = PersistentDataAPI.getInt(itemMetaTwo, key);
+        return usesLeft1 == usesLeft2;
+    }
 }
