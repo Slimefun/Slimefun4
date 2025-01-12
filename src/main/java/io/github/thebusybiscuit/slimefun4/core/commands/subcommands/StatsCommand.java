@@ -22,6 +22,7 @@ class StatsCommand extends SubCommand {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onExecute(CommandSender sender, String[] args) {
         // Check if researching is even enabled
         if (!Slimefun.getRegistry().isResearchingEnabled()) {
@@ -29,23 +30,27 @@ class StatsCommand extends SubCommand {
             return;
         }
 
-        if (args.length > 1) {
-            if (sender.hasPermission("slimefun.stats.others") || sender instanceof ConsoleCommandSender) {
-                Optional<Player> player = PlayerList.findByName(args[1]);
-
-                if (player.isPresent()) {
-                    PlayerProfile.get(player.get(), profile -> profile.sendStats(sender));
-                } else {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
-                }
+        if (args.length <= 1) {
+            if (sender instanceof Player player) {
+                PlayerProfile.get(player, profile -> profile.sendStats(sender));
             } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+                Slimefun.getLocalization().sendMessage(sender, "messages.only-players", true);
             }
-        } else if (sender instanceof Player player) {
-            PlayerProfile.get(player, profile -> profile.sendStats(sender));
-        } else {
-            Slimefun.getLocalization().sendMessage(sender, "messages.only-players", true);
+            return;
         }
+
+        if (!sender.hasPermission("slimefun.stats.others") && !(sender instanceof ConsoleCommandSender)) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            return;
+        }
+
+        Optional<Player> player = PlayerList.findByName(args[1]);
+        if (player.isEmpty()) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
+            return;
+        }
+
+        PlayerProfile.get(player.get(), profile -> profile.sendStats(sender));
     }
 
 }
