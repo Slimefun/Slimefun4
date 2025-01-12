@@ -305,15 +305,16 @@ public class BlockStorage {
         return changes;
     }
 
-    public void save() {
+    public int saveChanges() {
         computeChanges();
-
+        
         if (changes == 0) {
-            return;
+            return 0;
         }
 
         Slimefun.logger().log(Level.INFO, "Saving block data for world \"{0}\" ({1} change(s) queued)", new Object[] { world.getName(), changes });
         Map<String, Config> cache = new HashMap<>(blocksCache);
+        int savedChanges = 0;
 
         for (Map.Entry<String, Config> entry : cache.entrySet()) {
             blocksCache.remove(entry.getKey());
@@ -325,6 +326,7 @@ public class BlockStorage {
                 if (file.exists()) {
                     try {
                         Files.delete(file.toPath());
+                        savedChanges++;
                     } catch (IOException e) {
                         Slimefun.logger().log(Level.WARNING, e, () -> "Could not delete file \"" + file.getName() + '"');
                     }
@@ -335,6 +337,7 @@ public class BlockStorage {
 
                 try {
                     Files.move(tmpFile.toPath(), cfg.getFile().toPath(), StandardCopyOption.ATOMIC_MOVE);
+                    savedChanges++;
                 } catch (IOException x) {
                     Slimefun.logger().log(Level.SEVERE, x, () -> "An Error occurred while copying a temporary File for Slimefun " + Slimefun.getVersion());
                 }
@@ -343,15 +346,24 @@ public class BlockStorage {
 
         Map<Location, BlockMenu> unsavedInventories = new HashMap<>(inventories);
         for (Map.Entry<Location, BlockMenu> entry : unsavedInventories.entrySet()) {
+            savedChanges += entry.getValue().getUnsavedChanges();
             entry.getValue().save(entry.getKey());
         }
 
         Map<String, UniversalBlockMenu> unsavedUniversalInventories = new HashMap<>(Slimefun.getRegistry().getUniversalInventories());
         for (Map.Entry<String, UniversalBlockMenu> entry : unsavedUniversalInventories.entrySet()) {
+            savedChanges += entry.getValue().getUnsavedChanges();
             entry.getValue().save();
         }
 
-        changes = 0;
+        Slimefun.logger().log(Level.INFO, "Saved block data for world \"{0}\" ({1} change(s) saved)", new Object[] { world.getName(), savedChanges });
+
+        this.changes = 0;
+        return savedChanges;
+    }
+
+    public void save() {
+        saveChanges();
     }
 
     public void saveAndRemove() {
