@@ -203,8 +203,12 @@ machines:
     waypoints: 'Panoramica dei waypoint'
   CARGO_NODES:
     must-be-placed: '&4Deve essere posizionato su una cassa o una macchina!'
+
 anvil:
   not-working: '&4Non puoi usare gli oggetti della Slimefun in un''incudine!'
+  mcmmo-salvaging: '&4Non puoi riciclare oggetti della Slimefun!'
+  mcmmo-repair: '&4Non puoi riparare usando oggetti della Slimefun!'
+
 smithing_table:
   not-working: '&4Non puoi usare un oggetto di Slimefun come materiale da fabbro!'
 backpack:
