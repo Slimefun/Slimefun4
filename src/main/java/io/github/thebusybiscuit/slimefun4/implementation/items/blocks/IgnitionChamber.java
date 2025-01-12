@@ -4,6 +4,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedDurability;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,6 +14,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Dropper;
 import org.bukkit.block.data.type.Dispenser;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -82,30 +86,43 @@ public class IgnitionChamber extends SlimefunItem {
         }
 
         // Check if the chamber contains a Flint and Steel
-        if (inv.contains(Material.FLINT_AND_STEEL)) {
-            ItemStack item = inv.getItem(inv.first(Material.FLINT_AND_STEEL));
-            ItemMeta meta = item.getItemMeta();
-
-            // Only damage the Flint and Steel if it isn't unbreakable.
-            if (!meta.isUnbreakable()) {
-                // Update the damage value
-                ((Damageable) meta).setDamage(((Damageable) meta).getDamage() + 1);
-
-                if (((Damageable) meta).getDamage() >= item.getType().getMaxDurability()) {
-                    // The Flint and Steel broke
-                    item.setAmount(0);
-                    SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
-                } else {
-                    item.setItemMeta(meta);
-                }
-            }
-
-            SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
-            return true;
-        } else {
+        if (!inv.contains(Material.FLINT_AND_STEEL)) {
             // Notify the Player there is a chamber but without any Flint and Steel
             Slimefun.getLocalization().sendMessage(p, "machines.ignition-chamber-no-flint", true);
             return false;
+        }
+
+        ItemStack item = inv.getItem(inv.first(Material.FLINT_AND_STEEL));
+
+        damageFlintAndSteel(item, smelteryBlock);
+
+        SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
+        return true;
+    }
+
+    private static void damageFlintAndSteel(ItemStack flintAndSteel, Block smelteryBlock) {
+        ItemMeta meta = flintAndSteel.getItemMeta();
+        Damageable damageable = (Damageable) meta;
+
+        // Only damage the Flint and Steel if it isn't unbreakable.
+        if (meta.isUnbreakable()) {
+            return;
+        }
+
+        Enchantment unbreaking = VersionedEnchantment.UNBREAKING;
+        int lvl = flintAndSteel.getEnchantmentLevel(unbreaking);
+
+        if (!UnbreakingAlgorithm.TOOLS.evaluate(lvl)) {
+            damageable.setDamage(damageable.getDamage() + 1);
+        }
+
+        if (damageable.getDamage() > VersionedDurability.getDurability(flintAndSteel)) {
+            // The Flint and Steel broke
+            flintAndSteel.setAmount(0);
+            SoundEffect.LIMITED_USE_ITEM_BREAK_SOUND.playAt(smelteryBlock);
+        } else {
+            SoundEffect.IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND.playAt(smelteryBlock);
+            flintAndSteel.setItemMeta(meta);
         }
     }
 
