@@ -1,1 +1,6 @@
 ---
+slimefun:
+  multiblock:
+    name: 'Multiblock'
+  oil_pump:
+    name: 'Oljepump'
