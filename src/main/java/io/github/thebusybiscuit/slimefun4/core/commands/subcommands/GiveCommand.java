@@ -32,51 +32,81 @@ class GiveCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender.hasPermission("slimefun.cheat.items") || !(sender instanceof Player)) {
-            if (args.length > 2) {
-                Optional<Player> player = PlayerList.findByName(args[1]);
-
-                if (player.isPresent()) {
-                    Player p = player.get();
-
-                    SlimefunItem sfItem = SlimefunItem.getById(args[2].toUpperCase(Locale.ROOT));
-
-                    if (sfItem != null) {
-                        giveItem(sender, p, sfItem, args);
-                    } else {
-                        Slimefun.getLocalization().sendMessage(sender, "messages.invalid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
-                    }
-                } else {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
-                }
-            } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
-            }
-        } else {
+        if (!sender.hasPermission("slimefun.cheat.items") && sender instanceof Player) {
             Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            return;
+        }
+
+        if (args.length <= 2) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
+            return;
+        }
+
+        Optional<Player> player = PlayerList.findByName(args[1]);
+
+        if (player.isEmpty()) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
+            return;
+        }
+
+        Player p = player.get();
+
+        SlimefunItem sfItem = SlimefunItem.getById(args[2].toUpperCase(Locale.ROOT));
+
+        if (sfItem != null) {
+            giveItem(sender, p, sfItem, args);
+        } else {
+            Slimefun.getLocalization().sendMessage(sender, "messages.invalid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
         }
     }
 
     private void giveItem(CommandSender sender, Player p, SlimefunItem sfItem, String[] args) {
         if (sfItem instanceof MultiBlockMachine) {
             Slimefun.getLocalization().sendMessage(sender, "guide.cheat.no-multiblocks");
-        } else {
-            int amount = parseAmount(args);
+            return;
+        }
 
-            if (amount > 0) {
-                Slimefun.getLocalization().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
-                Map<Integer, ItemStack> excess = p.getInventory().addItem(new CustomItemStack(sfItem.getItem(), amount));
-                if (Slimefun.getCfg().getBoolean("options.drop-excess-sf-give-items") && !excess.isEmpty()) {
-                    for (ItemStack is : excess.values()) {
-                        p.getWorld().dropItem(p.getLocation(), is);
-                    }
-                }
+        int amount = parseAmount(args);
 
-                Slimefun.getLocalization().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
-            } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.invalid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+        if (amount <= 0) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.invalid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+            return;
+        }
+
+        Slimefun.getLocalization().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+        ItemStack[] items = parseStackArray(sfItem.getItem(), amount);
+        Map<Integer, ItemStack> excess = p.getInventory().addItem(items);
+        if (Slimefun.getCfg().getBoolean("options.drop-excess-sf-give-items") && !excess.isEmpty()) {
+            for (ItemStack is : excess.values()) {
+                p.getWorld().dropItem(p.getLocation(), is);
             }
         }
+
+        Slimefun.getLocalization().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+    }
+
+    private ItemStack[] parseStackArray(ItemStack itemStack, int amount) {
+        int stackSize = itemStack.getMaxStackSize();
+        int stackAmount = amount / stackSize;
+        int excess = amount - stackAmount * stackSize;
+
+        int totalSize = stackAmount;
+        if (excess != 0) {
+            totalSize++;
+        }
+
+        ItemStack[] toGive = new ItemStack[totalSize];
+        for (int i = 0; i < stackAmount; i++) {
+            toGive[i] = itemStack.clone();
+            toGive[i].setAmount(stackSize);
+        }
+
+        if (excess != 0) {
+            toGive[stackAmount] = itemStack.clone();
+            toGive[stackAmount].setAmount(excess);
+        }
+
+        return toGive;
     }
 
     private int parseAmount(String[] args) {
