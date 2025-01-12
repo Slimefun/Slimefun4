@@ -124,6 +124,8 @@ guide:
       wiki: '&3Wiki szerkesztő'
       resourcepack: '&cForráscsomag művész'
       translator: '&9Fordító'
+actionbar:
+  radiation: '&6Sugárterhelési szint: &c%level%&7/&e100'
 messages:
   not-researched: '&4Nincs elég tudásod, hogy megértsd ezt.&cFel kel még oldanod ezt a tárgyat: &f"%item%&f"'
   not-enough-xp: '&4Nincs elég XP-d ennek a feloldásához'
@@ -147,6 +149,8 @@ messages:
   piglin-barter: '&4Slimefun tárgyakat nem cserélhetsz el a piglinekkel.'
   bee-suit-slow-fall: '&eA Bee Wings segít neked visszatérni a földre lassan és biztonságosan'
   deprecated-item: '&4Ez a tárgy elavult, és hamarosan eltávolítjuk a Slimefunból.'
+  researching-is-disabled: '&cA kutatás le van tiltva ezen a szerveren. Alapértelmezés szerint minden fel van oldva!'
+  await-deletion: '&cNem tehetsz le egy Slimefun blockot ilyen gyorsan egy másik kiütése után. Próbáld újra később.'
   multi-tool:
     mode-change: '&b%device% mód átállítva: &9%mode%'
     not-shears: '&cA Multi Tool nem használható óllóként!'
@@ -257,6 +261,9 @@ machines:
     pick-a-floor: '&3- Válassz emeletet -'
     current-floor: '&eEzen az emeleten tartózkodsz:'
     click-to-teleport: '&eKattints&7, hogy erre az emeletre teleportálj:'
+    enter-name: '&7Kérlek írd be a kívánt emelet nevét a Chatre. &f(Színkódok is használhatóak!)'
+    named: '&2Sikeresen elnevezted ezt az emeletet: &f%floor%'
+    editor-title: 'Lift konfigurálása'
   TELEPORTER:
     teleporting: '&3Teleportálás...'
     teleported: '&3Teleportálva!'
@@ -272,6 +279,8 @@ machines:
     waypoints: 'Útpont áttekintése'
   CARGO_NODES:
     must-be-placed: '&4Ládára vagy gépre kell helyezni!'
+    connected: '&2Csatlakoztatva!'
+    not-connected: '&4Nincs csatlakoztatva!'
   INDUSTRIAL_MINER:
     no-fuel: '&cAz Industrial Miner-ednek elfogyott az üzemanyaga! Tedd az üzemanyagot a felette lévő ládába.'
     piston-facing: '&cAz Industrial Miner-edhez szükségesek dugattyúk, amik felfelé néznek!'
@@ -301,6 +310,8 @@ cauldron:
   no-discoloring: '&4Nem színteleníthetsz Slimefun páncélt!'
 gps:
   deathpoint: '&4Halálpont: &7%date%'
+  status-online: 'ELÉRHETŐ'
+  status-offline: 'NEM ELÉRHETÔ'
   waypoint:
     new: '&eKérlek írd be az új útpont nevét chatre. &7(Színkódok használhatóak!)'
     added: '&aSikeresen létrehoztál egy útpontot'
@@ -400,3 +411,5 @@ languages:
   mk: 'Macedón'
   sr: 'Szerb'
   be: 'Belarusz'
+  si-LK: 'Szingaléz'
+  lt: 'Litván'
