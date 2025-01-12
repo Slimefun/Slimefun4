@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.MachineBlockBreakHandler;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -67,21 +68,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
     @Nonnull
     protected BlockBreakHandler onBlockBreak() {
-        return new SimpleBlockBreakHandler() {
-
-            @Override
-            public void onBlockBreak(Block b) {
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    inv.dropItems(b.getLocation(), getInputSlots());
-                    inv.dropItems(b.getLocation(), getOutputSlots());
-                }
-
-                processor.endOperation(b);
-            }
-
-        };
+        return new MachineBlockBreakHandler(processor, getOutputSlots(), getInputSlots());
     }
 
     @ParametersAreNonnullByDefault

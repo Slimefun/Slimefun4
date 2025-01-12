@@ -5,6 +5,7 @@ import java.util.Iterator;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.MachineBlockBreakHandler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -77,17 +78,7 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
     }
 
     private @Nonnull ItemHandler onBreak() {
-        return new SimpleBlockBreakHandler() {
-
-            @Override
-            public void onBlockBreak(@Nonnull Block b) {
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    inv.dropItems(b.getLocation(), getOutputSlots());
-                }
-            }
-        };
+        return new MachineBlockBreakHandler(getOutputSlots());
     }
 
     @Override
