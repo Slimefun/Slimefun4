@@ -307,10 +307,6 @@ public class SlimefunItemStack {
         return new SlimefunItemStack(id, delegate.clone());
     }
 
-    public @Nonnull ItemStack cloneItem() {
-        return delegate.clone();
-    }
-
     @Override
     public String toString() {
         return "SlimefunItemStack (" + id + (delegate.getAmount() > 1 ? (" x " + delegate.getAmount()) : "") + ')';
@@ -338,7 +334,7 @@ public class SlimefunItemStack {
      * @return underlying ItemStack used
      */
     public @Nonnull ItemStack item() {
-        return delegate;
+        return delegate.clone();
     }
 
     public Material getType() {
