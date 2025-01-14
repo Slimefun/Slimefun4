@@ -72,7 +72,7 @@ class TestCargoNodeListener {
         CargoInputNode node = new CargoInputNode(itemGroup, item, RecipeType.NULL, new ItemStack[9], null);
         node.register(plugin);
 
-        BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), against, item, player, true, EquipmentSlot.HAND);
+        BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), against, item.item(), player, true, EquipmentSlot.HAND);
         listener.onCargoNodePlace(event);
         Assertions.assertTrue(event.isCancelled());
     }
@@ -91,7 +91,7 @@ class TestCargoNodeListener {
         CargoInputNode node = new CargoInputNode(itemGroup, item, RecipeType.NULL, new ItemStack[9], null);
         node.register(plugin);
 
-        BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), b, item, player, true, EquipmentSlot.HAND);
+        BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), b, item.item(), player, true, EquipmentSlot.HAND);
         listener.onCargoNodePlace(event);
 
         Assertions.assertTrue(event.isCancelled());

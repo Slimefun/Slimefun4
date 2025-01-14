@@ -268,7 +268,9 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         List<ItemStack> display = new ArrayList<>();
 
         for (Material mat : surfaces.keySet()) {
-            display.add(new ItemStack(mat));
+            if (mat.isItem()) {
+                display.add(new ItemStack(mat));
+            }
         }
 
         return display;

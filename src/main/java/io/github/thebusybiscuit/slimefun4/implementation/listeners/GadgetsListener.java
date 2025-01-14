@@ -55,7 +55,7 @@ public class GadgetsListener implements Listener {
                 handleBoots(p, boots);
             }
 
-            if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
+            if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET.item(), true)) {
                 InfusedMagnet magnet = (InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem();
 
                 if (magnet.canUse(p, true)) {

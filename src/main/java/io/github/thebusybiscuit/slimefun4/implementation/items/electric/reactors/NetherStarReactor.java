@@ -53,7 +53,7 @@ public abstract class NetherStarReactor extends Reactor {
 
     @Override
     public ItemStack getCoolant() {
-        return SlimefunItems.NETHER_ICE_COOLANT_CELL;
+        return SlimefunItems.NETHER_ICE_COOLANT_CELL.item();
     }
 
     @Override

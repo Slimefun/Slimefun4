@@ -32,7 +32,7 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected void registerDefaultRecipes() {
-        addRecipe(4, new SlimefunItemStack(SlimefunItems.STONE_CHUNK, 3), new ItemStack(Material.COBBLESTONE));
+        addRecipe(4, new SlimefunItemStack(SlimefunItems.STONE_CHUNK, 3).item(), new ItemStack(Material.COBBLESTONE));
         addRecipe(4, new ItemStack(Material.FLINT, 6), new ItemStack(Material.COBBLESTONE));
         addRecipe(5, new ItemStack(Material.GLASS), new ItemStack(Material.GLASS_PANE, 3));
         addRecipe(4, new ItemStack(Material.SNOWBALL, 4), new ItemStack(Material.SNOW_BLOCK));
@@ -44,15 +44,15 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
         addRecipe(3, new ItemStack(Material.CLAY_BALL, 4), new ItemStack(Material.CLAY));
         addRecipe(3, new ItemStack(Material.BRICK, 4), new ItemStack(Material.BRICKS));
 
-        addRecipe(6, SlimefunItems.COPPER_INGOT, CustomItemStack.create(SlimefunItems.COPPER_WIRE, 3));
+        addRecipe(6, SlimefunItems.COPPER_INGOT.item(), CustomItemStack.create(SlimefunItems.COPPER_WIRE.item(), 3));
         addRecipe(16, new SlimefunItemStack(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE);
         addRecipe(18, new SlimefunItemStack(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE);
 
-        addRecipe(8, new ItemStack(Material.NETHER_WART), CustomItemStack.create(SlimefunItems.MAGIC_LUMP_1, 2));
+        addRecipe(8, new ItemStack(Material.NETHER_WART), CustomItemStack.create(SlimefunItems.MAGIC_LUMP_1.item(), 2));
         addRecipe(10, new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_1, 4), SlimefunItems.MAGIC_LUMP_2);
         addRecipe(12, new SlimefunItemStack(SlimefunItems.MAGIC_LUMP_2, 4), SlimefunItems.MAGIC_LUMP_3);
 
-        addRecipe(10, new ItemStack(Material.ENDER_EYE), CustomItemStack.create(SlimefunItems.ENDER_LUMP_1, 2));
+        addRecipe(10, new ItemStack(Material.ENDER_EYE), CustomItemStack.create(SlimefunItems.ENDER_LUMP_1.item(), 2));
         addRecipe(12, new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 4), SlimefunItems.ENDER_LUMP_2);
         addRecipe(14, new SlimefunItemStack(SlimefunItems.ENDER_LUMP_2, 4), SlimefunItems.ENDER_LUMP_3);
 
@@ -90,6 +90,11 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
     @ParametersAreNonnullByDefault
     private void addRecipe(int seconds, ItemStack input, ItemStack output) {
         registerRecipe(seconds, new ItemStack[] { input }, new ItemStack[] { output });
+    }
+
+    @ParametersAreNonnullByDefault
+    private void addRecipe(int seconds, SlimefunItemStack sfItem1, SlimefunItemStack sfItem2) {
+        registerRecipe(seconds, sfItem1.item(), sfItem2.item());
     }
 
     @Override
