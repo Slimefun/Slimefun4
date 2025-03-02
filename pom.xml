@@ -389,7 +389,7 @@
         <dependency>
             <groupId>com.github.MockBukkit</groupId>
             <artifactId>MockBukkit</artifactId>
-            <version>c7cc678834</version>
+            <version>v4.34.1</version>
             <scope>test</scope>
 
             <exclusions>
