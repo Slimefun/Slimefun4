@@ -232,7 +232,6 @@ public class ResourceManager {
             return false; // Deny all player inventory interactions
         });
 
-        // Rest of the method remains unchanged
         for (int slot : backgroundSlots) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }

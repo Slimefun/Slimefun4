@@ -247,7 +247,6 @@ public class GPSNetwork {
                 return false; // Deny all player inventory interactions
             });
 
-            // Rest of the method remains unchanged
             for (int slot : border) {
                 menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
