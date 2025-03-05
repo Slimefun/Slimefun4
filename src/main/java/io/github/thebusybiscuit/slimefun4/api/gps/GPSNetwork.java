@@ -44,9 +44,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * The {@link GPSNetwork} is a manager class for all {@link GPSTransmitter Transmitters} and waypoints.
  * There can only be one instance of this class per {@link Server}.
  * It is also responsible for teleportation and resource management.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see TeleportationManager
  * @see ResourceManager
  *
@@ -64,7 +64,7 @@ public class GPSNetwork {
     /**
      * This constructs a new {@link GPSNetwork}.
      * Note that this network is per {@link Server} and not per {@link Player}.
-     * 
+     *
      * @param plugin
      *            Our {@link Slimefun} instance
      */
@@ -74,7 +74,7 @@ public class GPSNetwork {
 
     /**
      * This method updates the status of a {@link GPSTransmitter}.
-     * 
+     *
      * @param l
      *            The {@link Location} of the {@link GPSTransmitter}
      * @param uuid
@@ -96,10 +96,10 @@ public class GPSNetwork {
      * This method calculates the GPS complexity for the given {@link UUID}.
      * The complexity is determined by the Y level of each {@link GPSTransmitter}
      * multiplied by the multiplier of that transmitter.
-     * 
+     *
      * @param uuid
      *            The {@link UUID} who to calculate it for
-     * 
+     *
      * @return The network complexity for that {@link UUID}
      */
     public int getNetworkComplexity(@Nonnull UUID uuid) {
@@ -124,10 +124,10 @@ public class GPSNetwork {
     /**
      * This method returns the amount of {@link GPSTransmitter Transmitters} for the
      * given {@link UUID}.
-     * 
+     *
      * @param uuid
      *            The {@link UUID} who these transmitters belong to
-     * 
+     *
      * @return The amount of transmitters
      */
     public int countTransmitters(@Nonnull UUID uuid) {
@@ -138,26 +138,23 @@ public class GPSNetwork {
     /**
      * This method opens the {@link GPSTransmitter} control panel to the given
      * {@link Player}.
-     * 
+     *
      * @param p
      *            The {@link Player}
      */
     public void openTransmitterControlPanel(@Nonnull Player p) {
         ChestMenu menu = new ChestMenu(ChatColor.BLUE + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.title"));
-        
-        // Prevent number key usage
-        menu.setPlayerInventoryClickable(true);
+
+        // Prevent both shift-clicking and number key usage
+        menu.setPlayerInventoryClickable(false);
         menu.setEmptySlotsClickable(false);
-        
-        // Add a special click handler to prevent number keys
+
+        // Add click handler to explicitly deny shift and number key actions
         menu.addPlayerInventoryClickHandler((player, slot, item, action) -> {
-            // Check if the click is a number key
-            if (action.isNumberKey()) {
-                return false;
-            }
-            return true;
+            return false; // Deny all player inventory interactions
         });
 
+        // Rest of the method remains unchanged
         for (int slot : border) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
@@ -205,14 +202,14 @@ public class GPSNetwork {
      * The icon is dependent on the {@link Environment} of the waypoint's {@link World}.
      * However if the name of this waypoint indicates that this is actually a deathmarker
      * then a different texture will be used.
-     * 
+     *
      * Otherwise it will return a globe, a nether or end sphere according to the {@link Environment}.
-     * 
+     *
      * @param name
      *            The name of a waypoint
      * @param environment
      *            The {@link Environment} of the waypoint's {@link World}
-     * 
+     *
      * @return An icon for this waypoint
      */
     @ParametersAreNonnullByDefault
@@ -240,20 +237,17 @@ public class GPSNetwork {
     public void openWaypointControlPanel(@Nonnull Player p) {
         PlayerProfile.get(p, profile -> {
             ChestMenu menu = new ChestMenu(ChatColor.BLUE + Slimefun.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.title"));
-            
-            // Prevent number key usage
-            menu.setPlayerInventoryClickable(true);
+
+            // Prevent both shift-clicking and number key usage
+            menu.setPlayerInventoryClickable(false);
             menu.setEmptySlotsClickable(false);
-            
-            // Add a special click handler to prevent number keys
+
+            // Add click handler to explicitly deny shift and number key actions
             menu.addPlayerInventoryClickHandler((player, slot, item, action) -> {
-                // Check if the click is a number key
-                if (action.isNumberKey()) {
-                    return false;
-                }
-                return true;
+                return false; // Deny all player inventory interactions
             });
 
+            // Rest of the method remains unchanged
             for (int slot : border) {
                 menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
@@ -299,7 +293,7 @@ public class GPSNetwork {
     /**
      * This method will prompt the given {@link Player} to enter a name for a waypoint.
      * After entering the name, it will be added to his waypoint list.
-     * 
+     *
      * @param p
      *            The {@link Player} who should get a new waypoint
      * @param l
@@ -324,7 +318,7 @@ public class GPSNetwork {
 
     /**
      * This method adds a new waypoint with the given name and {@link Location} for that {@link Player}.
-     * 
+     *
      * @param p
      *            The {@link Player} to get the new waypoint
      * @param name
@@ -369,10 +363,10 @@ public class GPSNetwork {
     /**
      * This method returns a {@link Set} of {@link Location Locations} for all {@link GPSTransmitter Transmitters}
      * owned by the given {@link UUID}.
-     * 
+     *
      * @param uuid
      *            The {@link UUID} owning those transmitters
-     * 
+     *
      * @return A {@link Set} with all {@link Location Locations} of transmitters for this {@link UUID}
      */
     @Nonnull
@@ -383,7 +377,7 @@ public class GPSNetwork {
     /**
      * This returns the {@link TeleportationManager} for this {@link GPSNetwork}.
      * It is responsible for all actions that relate to the {@link Teleporter}.
-     * 
+     *
      * @return The {@link TeleportationManager} for this {@link GPSNetwork}
      */
     @Nonnull
@@ -394,7 +388,7 @@ public class GPSNetwork {
     /**
      * This returns the {@link ResourceManager} for this {@link GPSNetwork}.
      * Use this to access {@link GEOResource GEOResources}.
-     * 
+     *
      * @return The {@link ResourceManager} for this {@link GPSNetwork}
      */
     @Nonnull
