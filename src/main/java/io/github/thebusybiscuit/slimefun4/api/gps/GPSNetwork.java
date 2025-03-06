@@ -151,10 +151,9 @@ public class GPSNetwork {
 
         // Add click handler to explicitly deny shift and number key actions
         menu.addPlayerInventoryClickHandler((player, slot, item, action) -> {
-            return false; // Deny all player inventory interactions
+            return false; 
         });
 
-        // Rest of the method remains unchanged
         for (int slot : border) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
