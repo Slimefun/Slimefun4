@@ -160,9 +160,9 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
         int withdrawn = 0;
         BlockMenu menu = BlockStorage.getInventory(location);
         for (int level = 0; level < getStoredExperience(location); level = level + 10) {
-            if (menu.fits(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, getOutputSlots())) {
+            if (menu.fits(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.item(), getOutputSlots())) {
                 withdrawn = withdrawn + 10;
-                menu.pushItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.clone(), getOutputSlots());
+                menu.pushItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.item(), getOutputSlots());
             } else {
                 // There is no room for more bottles, so lets stop checking if more will fit.
                 break;

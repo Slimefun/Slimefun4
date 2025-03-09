@@ -68,12 +68,12 @@ class TestSoulboundListener {
             Slimefun.getWorldSettingsService().setEnabled(player.getWorld(), soulboundItem, false);
         }
 
-        player.getInventory().setItem(0, item);
+        player.getInventory().setItem(0, item.item());
         player.setHealth(0);
 
         server.getPluginManager().assertEventFired(EntityDeathEvent.class, event -> {
             // If the item is enabled, we don't want it to drop.
-            return enabled == !event.getDrops().contains(item);
+            return enabled == !event.getDrops().contains(item.item());
         });
         Slimefun.getRegistry().getEnabledSlimefunItems().remove(soulboundItem);
     }

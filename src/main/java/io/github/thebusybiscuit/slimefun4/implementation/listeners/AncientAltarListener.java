@@ -316,8 +316,8 @@ public class AncientAltarListener implements Listener {
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(catalyst);
         List<ItemStackWrapper> items = ItemStackWrapper.wrapList(inputs);
 
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER, false, false)) {
-            if (!checkRecipe(SlimefunItems.BROKEN_SPAWNER, items).isPresent()) {
+        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER.item(), false, false)) {
+            if (!checkRecipe(SlimefunItems.BROKEN_SPAWNER.item(), items).isPresent()) {
                 return Optional.empty();
             }
 

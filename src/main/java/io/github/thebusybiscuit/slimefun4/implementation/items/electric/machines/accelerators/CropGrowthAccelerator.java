@@ -19,7 +19,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
 
     // We wanna strip the Slimefun Item id here
-    private static final ItemStack organicFertilizer = ItemStackWrapper.wrap(SlimefunItems.FERTILIZER);
+    private static final ItemStack organicFertilizer = ItemStackWrapper.wrap(SlimefunItems.FERTILIZER.item());
 
     protected CropGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);

@@ -163,8 +163,9 @@ public class ArmorTask implements Runnable {
 
         Set<SlimefunItem> radioactiveItems = Slimefun.getRegistry().getRadioactiveItems();
         ItemStack itemStack = item;
+        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 
-        if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {
+        if (slimefunItem != null && radioactiveItems.size() > 1) {
             // Performance optimization to reduce ItemMeta calls
             itemStack = ItemStackWrapper.wrap(item);
         }

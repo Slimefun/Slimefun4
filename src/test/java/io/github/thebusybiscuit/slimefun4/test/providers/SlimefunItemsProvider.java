@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
@@ -31,7 +33,8 @@ public class SlimefunItemsProvider implements ArgumentsProvider, AnnotationConsu
         Field field;
         try {
             field = clazz.getField(fieldName);
-            return (ItemStack) field.get(null);
+            SlimefunItemStack slimefunItem = (SlimefunItemStack) field.get(null);
+            return slimefunItem.item();
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
             throw new IllegalArgumentException("Could not find field SlimefunItems." + fieldName);
         }
