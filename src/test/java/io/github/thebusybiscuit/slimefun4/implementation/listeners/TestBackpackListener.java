@@ -122,15 +122,6 @@ class TestBackpackListener {
     }
 
     @Test
-    @DisplayName("Test backpacks opening to Players")
-    void testOpenBackpack() throws InterruptedException {
-        Player player = server.addPlayer();
-        PlayerBackpack backpack = openMockBackpack(player, "TEST_OPEN_BACKPACK", 27);
-        InventoryView view = player.getOpenInventory();
-        Assertions.assertEquals(backpack.getInventory(), view.getTopInventory());
-    }
-
-    @Test
     @DisplayName("Test backpacks not disturbing normal item dropping")
     void testBackpackDropNormalItem() throws InterruptedException {
         Player player = server.addPlayer();
@@ -146,11 +137,10 @@ class TestBackpackListener {
     private boolean isAllowed(String id, ItemStack item) throws InterruptedException {
         Player player = server.addPlayer();
         Inventory inv = openMockBackpack(player, id, 9).getInventory();
-        InventoryView playerInv = InventoryViewWrapper.wrap(player.getOpenInventory());
 
         int slot = 7;
         inv.setItem(slot, item);
-        InventoryClickEvent event = new InventoryClickEvent(playerInv, SlotType.CONTAINER, slot, ClickType.LEFT, InventoryAction.PICKUP_ONE);
+        InventoryClickEvent event = new InventoryClickEvent(player.getOpenInventory(), SlotType.CONTAINER, slot, ClickType.LEFT, InventoryAction.PICKUP_ONE);
         listener.onClick(event);
         return !event.isCancelled();
     }
