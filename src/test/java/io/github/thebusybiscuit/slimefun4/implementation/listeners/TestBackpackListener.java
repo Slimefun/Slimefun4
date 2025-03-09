@@ -1,10 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.UUID;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
+import io.github.thebusybiscuit.slimefun4.test.mocks.InventoryViewWrapper;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -26,21 +36,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
-import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
+import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 class TestBackpackListener {
 
@@ -85,7 +84,7 @@ class TestBackpackListener {
         PlayerBackpack backpack = profile.createBackpack(size);
         listener.setBackpackId(player, item, 2, backpack.getId());
 
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), new CustomItemStack(Material.CHEST, "&4Test Backpacks"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), CustomItemStack.create(Material.CHEST, "&4Test Backpacks"));
         SlimefunBackpack slimefunBackpack = new SlimefunBackpack(size, itemGroup, item, RecipeType.NULL, new ItemStack[9]);
         slimefunBackpack.register(plugin);
 
@@ -101,15 +100,15 @@ class TestBackpackListener {
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(null, null, 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, null, 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new ItemStack(Material.REDSTONE), 1, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItemStack(Material.REDSTONE, "Hi", "lore"), 1, 1));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, new CustomItemStack(Material.REDSTONE, "Hi", "lore", "no id"), 1, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, CustomItemStack.create(Material.REDSTONE, "Hi", "lore"), 1, 1));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(player, CustomItemStack.create(Material.REDSTONE, "Hi", "lore", "no id"), 1, 1));
     }
 
     @Test
     @DisplayName("Test if backpack id is properly applied to the lore")
     void testSetId() throws InterruptedException {
         Player player = server.addPlayer();
-        ItemStack item = new CustomItemStack(Material.CHEST, "&cA mocked Backpack", "", "&7Size: &e" + BACKPACK_SIZE, "&7ID: <ID>", "", "&7&eRight Click&7 to open");
+        ItemStack item = CustomItemStack.create(Material.CHEST, "&cA mocked Backpack", "", "&7Size: &e" + BACKPACK_SIZE, "&7ID: <ID>", "", "&7&eRight Click&7 to open");
 
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         int id = profile.createBackpack(BACKPACK_SIZE).getId();
@@ -147,10 +146,11 @@ class TestBackpackListener {
     private boolean isAllowed(String id, ItemStack item) throws InterruptedException {
         Player player = server.addPlayer();
         Inventory inv = openMockBackpack(player, id, 9).getInventory();
+        InventoryView playerInv = InventoryViewWrapper.wrap(player.getOpenInventory());
 
         int slot = 7;
         inv.setItem(slot, item);
-        InventoryClickEvent event = new InventoryClickEvent(player.getOpenInventory(), SlotType.CONTAINER, slot, ClickType.LEFT, InventoryAction.PICKUP_ONE);
+        InventoryClickEvent event = new InventoryClickEvent(playerInv, SlotType.CONTAINER, slot, ClickType.LEFT, InventoryAction.PICKUP_ONE);
         listener.onClick(event);
         return !event.isCancelled();
     }

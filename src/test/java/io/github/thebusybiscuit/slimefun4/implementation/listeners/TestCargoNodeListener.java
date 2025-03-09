@@ -68,7 +68,7 @@ class TestCargoNodeListener {
         Block against = b.getRelative(BlockFace.DOWN);
 
         ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "cargo_test");
-        SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE", new CustomItemStack(Material.PLAYER_HEAD, "&4Cargo node!"));
+        SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE", CustomItemStack.create(Material.PLAYER_HEAD, "&4Cargo node!"));
         CargoInputNode node = new CargoInputNode(itemGroup, item, RecipeType.NULL, new ItemStack[9], null);
         node.register(plugin);
 
@@ -87,7 +87,7 @@ class TestCargoNodeListener {
         b.setType(Material.GRASS_BLOCK);
 
         ItemGroup itemGroup = TestUtilities.getItemGroup(plugin, "cargo_test");
-        SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE_2", new CustomItemStack(Material.PLAYER_HEAD, "&4Cargo node!"));
+        SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE_2", CustomItemStack.create(Material.PLAYER_HEAD, "&4Cargo node!"));
         CargoInputNode node = new CargoInputNode(itemGroup, item, RecipeType.NULL, new ItemStack[9], null);
         node.register(plugin);
 

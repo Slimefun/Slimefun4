@@ -36,7 +36,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 /**
  * The {@link ExpCollector} is a machine which picks up any nearby {@link ExperienceOrb}
  * and produces a {@link KnowledgeFlask}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -107,7 +107,7 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
 
     protected void constructMenu(BlockMenuPreset preset) {
         for (int slot : border) {
-            preset.addItem(slot, new CustomItemStack(Material.PURPLE_STAINED_GLASS_PANE, " "), (p, s, item, action) -> false);
+            preset.addItem(slot, CustomItemStack.create(Material.PURPLE_STAINED_GLASS_PANE, " "), (p, s, item, action) -> false);
         }
     }
 

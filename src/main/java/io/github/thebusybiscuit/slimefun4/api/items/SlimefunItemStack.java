@@ -307,7 +307,7 @@ public class SlimefunItemStack extends ItemStack {
 
     @Override
     public ItemStack clone() {
-        return new SlimefunItemStack(id, this);
+        return new SlimefunItemStack(id, super.clone());
     }
 
     @Override

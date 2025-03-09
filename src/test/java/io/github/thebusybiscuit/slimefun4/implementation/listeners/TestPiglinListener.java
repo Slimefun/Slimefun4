@@ -81,7 +81,7 @@ class TestPiglinListener {
 
     @Test
     void testPiglinPickupWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PIGLIN_PICKUP_MOCK", new CustomItemStack(Material.GOLD_INGOT, "&6Piglin Bait"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PIGLIN_PICKUP_MOCK", CustomItemStack.create(Material.GOLD_INGOT, "&6Piglin Bait"));
         item.register(plugin);
 
         EntityPickupItemEvent event = createPickupEvent(item.getItem());
@@ -100,7 +100,7 @@ class TestPiglinListener {
     @ParameterizedTest
     @EnumSource(value = EquipmentSlot.class, names = { "HAND", "OFF_HAND" })
     void testPiglinInteractWithSlimefunItem(EquipmentSlot hand) {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PIGLIN_GIVE_" + hand.name(), new CustomItemStack(Material.GOLD_INGOT, "&6Piglin Bait"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PIGLIN_GIVE_" + hand.name(), CustomItemStack.create(Material.GOLD_INGOT, "&6Piglin Bait"));
         item.register(plugin);
 
         PlayerInteractEntityEvent event = createInteractEvent(hand, item.getItem());

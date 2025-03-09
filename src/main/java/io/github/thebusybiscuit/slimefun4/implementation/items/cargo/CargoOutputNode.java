@@ -39,7 +39,7 @@ public class CargoOutputNode extends AbstractCargoNode {
     @Override
     protected void createBorder(BlockMenuPreset preset) {
         for (int i : BORDER) {
-            preset.addItem(i, new CustomItemStack(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, CustomItemStack.create(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
     }
 

@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +43,14 @@ import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private static final double RANGE = 1.5;
-    private final Map<Material, List<Enchantment>> applicableEnchantments = new EnumMap<>(Material.class);
+    private final Map<Material, List<Enchantment>> applicableEnchantments = new HashMap<>();
 
     @ParametersAreNonnullByDefault
     public EnchantmentRune(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
         for (Material mat : Material.values()) {
-            if (Slimefun.instance().isUnitTest() && mat.isLegacy()) continue;
+            if (mat.isLegacy() || !mat.isItem()) continue;
 
             List<Enchantment> enchantments = new ArrayList<>();
 
