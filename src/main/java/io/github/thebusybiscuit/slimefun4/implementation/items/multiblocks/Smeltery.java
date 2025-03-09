@@ -57,7 +57,7 @@ public class Smeltery extends AbstractSmeltery {
 
     @Override
     protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
-        recipes.add(SlimefunItems.IRON_DUST);
+        recipes.add(SlimefunItems.IRON_DUST.item());
         recipes.add(new ItemStack(Material.IRON_INGOT));
     }
 

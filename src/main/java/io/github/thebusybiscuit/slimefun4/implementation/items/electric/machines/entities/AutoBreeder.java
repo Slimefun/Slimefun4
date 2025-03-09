@@ -38,7 +38,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
     private static final int ENERGY_CONSUMPTION = 60;
 
     // We wanna strip the Slimefun Item id here
-    private static final ItemStack organicFood = ItemStackWrapper.wrap(SlimefunItems.ORGANIC_FOOD);
+    private static final ItemStack organicFood = ItemStackWrapper.wrap(SlimefunItems.ORGANIC_FOOD.item());
 
     @ParametersAreNonnullByDefault
     public AutoBreeder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

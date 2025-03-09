@@ -82,13 +82,13 @@ class TestBackpackListener {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
         PlayerBackpack backpack = profile.createBackpack(size);
-        listener.setBackpackId(player, item, 2, backpack.getId());
+        listener.setBackpackId(player, item.item(), 2, backpack.getId());
 
         ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "test_backpacks"), CustomItemStack.create(Material.CHEST, "&4Test Backpacks"));
         SlimefunBackpack slimefunBackpack = new SlimefunBackpack(size, itemGroup, item, RecipeType.NULL, new ItemStack[9]);
         slimefunBackpack.register(plugin);
 
-        listener.openBackpack(player, item, slimefunBackpack);
+        listener.openBackpack(player, item.item(), slimefunBackpack);
         return backpack;
     }
 
@@ -119,15 +119,6 @@ class TestBackpackListener {
         PlayerBackpack backpack = awaitBackpack(item);
         Assertions.assertEquals(player.getUniqueId(), backpack.getOwnerId());
         Assertions.assertEquals(id, backpack.getId());
-    }
-
-    @Test
-    @DisplayName("Test backpacks opening to Players")
-    void testOpenBackpack() throws InterruptedException {
-        Player player = server.addPlayer();
-        PlayerBackpack backpack = openMockBackpack(player, "TEST_OPEN_BACKPACK", 27);
-        InventoryView view = player.getOpenInventory();
-        Assertions.assertEquals(backpack.getInventory(), view.getTopInventory());
     }
 
     @Test

@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
@@ -9,6 +10,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+
+import java.util.Arrays;
 
 /**
  * This static setup class is used to register all default implementations of
@@ -289,6 +292,11 @@ public final class ResearchSetup {
         register("trident", 279, "Trident", 20, "TRIDENT");
         register("farmer_talisman", 280, "Talisman of the Farmer", 18, SlimefunItems.TALISMAN_FARMER);
         register("rainbow_armor", 281, "I wanna see the rainbow high in the sky", 22, SlimefunItems.RAINBOW_HELMET, SlimefunItems.RAINBOW_CHESTPLATE, SlimefunItems.RAINBOW_LEGGINGS, SlimefunItems.RAINBOW_BOOTS);
+    }
+
+    private static void register(String key, int id, String name, int defaultCost, SlimefunItemStack... items) {
+        ItemStack[] array = Arrays.stream(items).map(SlimefunItemStack::item).toArray(ItemStack[]::new);
+        register(key, id, name, defaultCost, array);
     }
 
     @ParametersAreNonnullByDefault

@@ -23,7 +23,7 @@ public class AnimalGrowthAccelerator extends AbstractGrowthAccelerator {
     private static final double RADIUS = 3.0;
 
     // We wanna strip the Slimefun Item id here
-    private static final ItemStack organicFood = ItemStackWrapper.wrap(SlimefunItems.ORGANIC_FOOD);
+    private static final ItemStack organicFood = ItemStackWrapper.wrap(SlimefunItems.ORGANIC_FOOD.item());
 
     public AnimalGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);

@@ -124,6 +124,8 @@ guide:
       wiki: '&3ויקי עורך '
       resourcepack: '&c אמן חבילת משאבים'
       translator: '&9מתרגם'
+actionbar:
+  radiation: '&6רמת חשיפה לקרינה: &c%level%&7/&e100'
 messages:
   not-researched: '&4אין לך מספיק ידע להבין זאת. &c אתה צריך לשחרר את &f"%item%&f"'
   not-enough-xp: "&4אין לך מספיק נקודות ניסיון\nכדי לפתוח את זה "

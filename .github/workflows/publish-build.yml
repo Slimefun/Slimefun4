@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - stable
+      - experimental
 
 jobs:
   publish:
@@ -16,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.6.0
         with:
           distribution: 'adopt'
           java-version: '21'
@@ -26,11 +27,32 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
-      - name: Upload to Blob Builds
-        uses: WalshyDev/blob-builds/gh-action@f3da5ce7b7e2b70eb963e0c0014677b3d78c10fa
+      - name: Upload Dev build
+        uses: WalshyDev/blob-builds/gh-action@ea9ecd9266c902c6627f884e657560d0fa6b61dd
+        if: github.ref == 'refs/heads/master'
         with:
           project: Slimefun4
-          releaseChannel: ${{ github.ref == 'refs/heads/master' && 'Dev' || 'RC' }}
+          releaseChannel: Dev
+          apiToken: ${{ secrets.BLOB_BUILDS_API_TOKEN }}
+          file: './target/Slimefun v4.9-UNOFFICIAL.jar'
+          releaseNotes: ${{ github.event.head_commit.message }}
+
+      - name: Upload RC build
+        uses: WalshyDev/blob-builds/gh-action@ea9ecd9266c902c6627f884e657560d0fa6b61dd
+        if: github.ref == 'refs/heads/stable'
+        with:
+          project: Slimefun4
+          releaseChannel: 'RC'
+          apiToken: ${{ secrets.BLOB_BUILDS_API_TOKEN }}
+          file: './target/Slimefun v4.9-UNOFFICIAL.jar'
+          releaseNotes: ${{ github.event.head_commit.message }}
+    
+      - name: Upload Experimental build
+        uses: WalshyDev/blob-builds/gh-action@ea9ecd9266c902c6627f884e657560d0fa6b61dd
+        if: github.ref == 'refs/heads/experimental'
+        with:
+          project: Slimefun4
+          releaseChannel: 'Experimental'
           apiToken: ${{ secrets.BLOB_BUILDS_API_TOKEN }}
           file: './target/Slimefun v4.9-UNOFFICIAL.jar'
           releaseNotes: ${{ github.event.head_commit.message }}
