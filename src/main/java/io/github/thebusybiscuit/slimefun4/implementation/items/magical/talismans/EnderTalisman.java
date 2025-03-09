@@ -15,7 +15,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 /**
  * An {@link EnderTalisman} is a special version of {@link Talisman}
  * that works while it is in your {@link EnderChest}.
- *
+ * 
  * @author TheBusyBiscuit
  *
  */
