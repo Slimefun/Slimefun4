@@ -52,6 +52,7 @@ guide:
       miner: 'Recursos que podes obter com este Miner'
       generator: 'Tipos de combustível disponíveis'
       gold-pan: 'Recursos que podes obter'
+      climbing-pick: 'Superfícies que podes escalar'
   pages:
     previous: 'Página anterior'
     next: 'Página seguinte'
@@ -79,16 +80,18 @@ guide:
         text:
           - '&bAnimação de descoberta: &aSim'
           - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - '&7Agora podes escolher se tu'
+          - '&7vais ver informações sobre a tua ponderação no chat'
+          - '&7ao pesquisar um item.'
+        click: '&eClica para desativar a tua animação de descoberta'
       disabled:
         text:
           - '&bAnimação de descoberta: &aNão'
           - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - '&7Agora podes escolher se tu'
+          - '&7vais ver informações sobre a tua ponderação no chat'
+          - '&7ao pesquisar um item.'
+        click: '&eClica para desativar a tua animação de descoberta'
   title:
     main: 'Guia Slimefun'
     settings: 'Configurações e informação'
@@ -110,6 +113,9 @@ guide:
       resourcepack: '&cArtista de Resourcepack'
       translator: '&9Tradutor'
 messages:
+  not-researched: '&4Não tens conhecimento suficiente para entender isto. &cVais precisar de desbloquear &f"%item%&f"'
+  not-enough-xp: '&4Não tens XP suficiente para desbloquear isto'
+  unlocked: '&bDesbloqueaste &7"%research%"'
   only-players: '&4Este comando é apenas para Jogadores'
   unknown-player: '&4Jogador Desconhecido: &c%player%'
   no-permission: '&4Não tens as permissões necessárias para fazer isto'
@@ -121,19 +127,45 @@ messages:
   disabled-in-world: '&4&lEsse item foi desativado neste mundo'
   disabled-item: '&4&lEsse item foi desativado! Como é que o conseguiste?'
   piglin-barter: '&4Não podes trocar com piglins utilizando itens de Slimefun'
+  deprecated-item: '&4Este item foi descontinuado e será removido de Slimefun em breve.'
+  researching-is-disabled: '&cA pesquisa foi desativada neste servidor. Tudo está desbloqueado por padrão!'
+  await-deletion: '&cNão podes colocar um bloco do Slimefun logo após teres quebrado um. Tenta novamente.'
   auto-crafting:
+    select-a-recipe: '&eBaixa-te e faz Clique Direito &7neste bloco com o item que queres craftar.'
+    recipe-set: '&aDefiniste o item para esta máquina.'
+    recipe-removed: '&eRemoveste o item desta máquina. Podes mandá-la fazer um item novo.'
+    no-recipes: '&cNão conseguimos encontrar nenhuma maneira válida de fazer o item que tu seguras.'
+    missing-chest: '&cOs Auto-Crafters teem que ser colocados sobre um baú!'
+    select: 'Selecionar esta receita'
+    temporarily-disabled: '&eEste Auto-Crafter foi temporariamente desativado. Podes reativá-lo a qualquer momento!'
+    re-enabled: '&eEste Auto-Crafter foi reativado!'
+    recipe-unavailable: |
+      &cOu este item foi desativado pelo servidor, ou ainda não desbloqueaste.
+      &7Tenta fazer o item se nunca o fizeste antes para descbloqueares a receita.
     tooltips:
+      enabled:
+        - '&aEsta receita está ativada'
+        - ''
+        - '&eClique esquerdo &7para desativar a receita temporariamente'
+        - '&eClique direito &7para remover esta receita'
       disabled:
         - '&cEsta receita está desativada no momento'
         - ''
-        - '&eLeft Click &7to re-enable this recipe'
-        - '&eRight Click &7to remove this recipe'
+        - '&eClique direito &7para reativar esta receita'
+        - '&eClique direito &7para remover esta receita'
+  research:
+    progress: '&7Começas a ponderar &b%research% &e(%progress%)'
   no-pvp: '&cNão podes fazer pvp aqui!'
   opening-guide: '&bA abrir o guia, isto pode demorar alguns segundos...'
   opening-backpack: '&bA abrir a mochila, isto pode demorar alguns segundos...'
   link-prompt: '&eClique aqui:'
 machines:
+  pattern-not-found: '&eEu não reconheço esta receita. Coloca os itens no padrão correto no Dispenser.'
   full-inventory: '&eDesculpa, o meu inventário está cheio!'
+  in-use: '&cO inventário deste bloco foi aberto por um jogador diferente.'
+  ignition-chamber-no-flint: '&cA câmara de ignição não tem isqueiros.'
+  ANCIENT_ALTAR:
+    unknown-recipe: '&4Receita desconhecida! &cUsa a receita correta!'
   HOLOGRAM_PROJECTOR:
     inventory-title: 'Editor de Holograma'
   ELEVATOR:
@@ -150,6 +182,9 @@ machines:
   GPS_CONTROL_PANEL:
     transmitters: 'Transmissores'
     waypoints: 'Waypoints'
+  CARGO_NODES:
+    connected: '&2Conectado!'
+    not-connected: '&4Não conectado!'
 anvil:
   not-working: '&4Não podes usar itens de Slimefun em uma bigorna!'
   mcmmo-salvaging: '&4Não podes destruir itens do Slimefun!'
@@ -163,6 +198,9 @@ villagers:
   no-trading: '&4Não podes trocar itens de Slimefun com Villagers!'
 backpack:
   already-open: '&cEsta mochila está aberta em outro lugar!'
+gps:
+  status-online: 'LIGADO'
+  status-offline: 'DESLIGADO'
 inventory:
   no-access: '&4Não tens permissão para aceder este bloco'
 android:
@@ -221,6 +259,7 @@ languages:
   ru: 'Russo'
   sk: 'Eslovaco'
   zh-CN: 'Chines (China)'
+  zh-TW: 'Chinês (Taiwan)'
   vi: 'Vietnamita'
   id: 'Indonésio'
   el: 'Grego'
@@ -246,3 +285,5 @@ languages:
   mk: 'Macedónio'
   sr: 'Sérvio'
   be: 'Bielorrusso'
+  si-LK: 'Cingalês'
+  lt: 'Lituano'

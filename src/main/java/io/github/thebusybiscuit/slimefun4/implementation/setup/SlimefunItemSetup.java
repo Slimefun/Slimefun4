@@ -2386,8 +2386,10 @@ public final class SlimefunItemSetup {
                 .register(plugin);
 
         new ExpCollector(itemGroups.electricity, SlimefunItems.EXP_COLLECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-                new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3.item(), null, SlimefunItems.WITHER_PROOF_OBSIDIAN.item(), SlimefunItems.AUTO_ENCHANTER.item(), SlimefunItems.WITHER_PROOF_OBSIDIAN.item(), SlimefunItems.ALUMINUM_BRONZE_INGOT.item(), SlimefunItems.ELECTRIC_MOTOR.item(), SlimefunItems.ALUMINUM_BRONZE_INGOT.item()})
-                .register(plugin);
+        new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3.item(), null, SlimefunItems.WITHER_PROOF_OBSIDIAN.item(), SlimefunItems.AUTO_ENCHANTER.item(), SlimefunItems.WITHER_PROOF_OBSIDIAN.item(), SlimefunItems.ALUMINUM_BRONZE_INGOT.item(), SlimefunItems.ELECTRIC_MOTOR.item(), SlimefunItems.ALUMINUM_BRONZE_INGOT.item()})
+        .setEnergyConsumption(10)
+        .setCapacity(1024)
+        .register(plugin);
 
         new FoodComposter(itemGroups.electricity, SlimefunItems.FOOD_COMPOSTER, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT.item(), SlimefunItems.FOOD_FABRICATOR.item(), SlimefunItems.DAMASCUS_STEEL_INGOT.item(), SlimefunItems.TIN_CAN.item(), SlimefunItems.MEDIUM_CAPACITOR.item(), SlimefunItems.TIN_CAN.item(), null, SlimefunItems.ELECTRIC_MOTOR.item(), null})
