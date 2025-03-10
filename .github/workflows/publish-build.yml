@@ -46,7 +46,7 @@ jobs:
           apiToken: ${{ secrets.BLOB_BUILDS_API_TOKEN }}
           file: './target/Slimefun v4.9-UNOFFICIAL.jar'
           releaseNotes: ${{ github.event.head_commit.message }}
-    
+
       - name: Upload Experimental build
         uses: WalshyDev/blob-builds/gh-action@ea9ecd9266c902c6627f884e657560d0fa6b61dd
         if: github.ref == 'refs/heads/experimental'
