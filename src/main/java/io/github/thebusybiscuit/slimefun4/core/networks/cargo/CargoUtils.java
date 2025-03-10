@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.bakedlibs.dough.collections.Pair;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -289,22 +290,13 @@ final class CargoUtils {
                 continue;
             }
 
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
-                if (currentAmount < maxStackSize) {
-                    int amount = currentAmount + stack.getAmount();
+            if (!SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
+                continue;
+            }
 
-                    itemInSlot.setAmount(Math.min(amount, maxStackSize));
-                    if (amount > maxStackSize) {
-                        stack.setAmount(amount - maxStackSize);
-                    } else {
-                        stack = null;
-                    }
-
-                    menu.replaceExistingItem(slot, itemInSlot);
-                    return stack;
-                } else if (smartFill) {
-                    return stack;
-                }
+            var result = handleStack(stack, smartFill, itemInSlot, menu, slot);
+            if (Boolean.TRUE.equals(result.getSecondValue())) {
+                return result.getFirstValue();
             }
         }
 
@@ -333,35 +325,61 @@ final class CargoUtils {
             if (itemInSlot == null) {
                 inv.setItem(slot, stack);
                 return null;
-            } else {
-                int currentAmount = itemInSlot.getAmount();
-                int maxStackSize = itemInSlot.getType().getMaxStackSize();
+            }
 
-                if (!smartFill && currentAmount == maxStackSize) {
-                    // Skip full stacks - Performance optimization for non-smartfill nodes
-                    continue;
-                }
+            int currentAmount = itemInSlot.getAmount();
+            int maxStackSize = itemInSlot.getType().getMaxStackSize();
 
-                if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
-                    if (currentAmount < maxStackSize) {
-                        int amount = currentAmount + stack.getAmount();
+            if (!smartFill && currentAmount == maxStackSize) {
+                // Skip full stacks - Performance optimization for non-smartfill nodes
+                continue;
+            }
 
-                        if (amount > maxStackSize) {
-                            stack.setAmount(amount - maxStackSize);
-                            itemInSlot.setAmount(maxStackSize);
-                            return stack;
-                        } else {
-                            itemInSlot.setAmount(Math.min(amount, maxStackSize));
-                            return null;
-                        }
-                    } else if (smartFill) {
-                        return stack;
-                    }
-                }
+            if (!SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
+                continue;
+            }
+
+            var result = handleStack(stack, smartFill, itemInSlot, null, 0);
+            if (Boolean.TRUE.equals(result.getSecondValue())) {
+                return result.getFirstValue();
             }
         }
 
         return stack;
+    }
+
+    /**
+     *
+     * @param stack ItemStack to insert
+     * @param smartFill if smart fill enabled
+     * @param itemInSlot ItemStack in slot
+     * @param menu If not null replaces ihe item in the slot of specified in the parameter slot with itemInSlot
+     * @param slot Slot to replace if menu is not null
+     * @return Pair of itemstack and boolean, the boolean tells you if the operation was successful or not
+     */
+    private static Pair<ItemStack, Boolean> handleStack(ItemStack stack, boolean smartFill, ItemStack itemInSlot, @Nullable DirtyChestMenu menu, int slot) {
+        int currentAmount = itemInSlot.getAmount();
+        int maxStackSize = itemInSlot.getType().getMaxStackSize();
+
+        if (currentAmount < maxStackSize) {
+            int amount = currentAmount + stack.getAmount();
+
+            itemInSlot.setAmount(Math.min(amount, maxStackSize));
+            if (amount > maxStackSize) {
+                stack.setAmount(amount - maxStackSize);
+            } else {
+                stack = null;
+            }
+
+            if (menu != null)
+                menu.replaceExistingItem(slot, itemInSlot);
+
+            return new Pair<>(stack, true);
+        } else if (smartFill) {
+            return new Pair<>(stack, true);
+        }
+
+        return new Pair<>(null, false);
     }
 
     @Nullable
