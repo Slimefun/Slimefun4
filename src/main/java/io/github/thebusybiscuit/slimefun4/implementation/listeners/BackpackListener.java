@@ -22,6 +22,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -50,7 +51,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Slimefu
  */
 public class BackpackListener implements Listener {
 
-    private final Map<UUID, ItemStack> backpacks = new HashMap<>();
+    private final Map<UUID, ItemStack> backpacks = new HashMap<>(); // UUID of players with backpack open
 
     public void register(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -88,41 +89,61 @@ public class BackpackListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onItemSwap(PlayerSwapHandItemsEvent e) {
+        Player player = e.getPlayer();
+        if (!backpacks.containsKey(player.getUniqueId())) {
+            return;
+        }
+
+        ItemStack item = player.getInventory().getItemInOffHand();
+        if (item == null || item.getType().isAir()) {
+            return;
+        }
+
+        SlimefunItem backpack = SlimefunItem.getByItem(item);
+        if (backpack instanceof SlimefunBackpack) {
+            e.setCancelled(true);
+        }
+    }
+
     @EventHandler(ignoreCancelled = true)
     public void onClick(InventoryClickEvent e) {
         ItemStack item = backpacks.get(e.getWhoClicked().getUniqueId());
+        if (item == null) {
+            return;
+        }
 
-        if (item != null) {
-            SlimefunItem backpack = SlimefunItem.getByItem(item);
+        SlimefunItem backpack = SlimefunItem.getByItem(item);
+        if (!(backpack instanceof SlimefunBackpack slimefunBackpack)) {
+            return;
+        }
 
-            if (backpack instanceof SlimefunBackpack slimefunBackpack) {
-                if (e.getClick() == ClickType.NUMBER_KEY) {
-                    // Prevent disallowed items from being moved using number keys.
-                    if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
-                        ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
+        if (e.getClick() == ClickType.NUMBER_KEY) {
+            // Prevent disallowed items from being moved using number keys.
+            if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
+                ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
 
-                        if (!isAllowed(slimefunBackpack, hotbarItem)) {
-                            e.setCancelled(true);
-                        }
-                    }
-                } else if (e.getClick() == ClickType.SWAP_OFFHAND) {
-                    if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
-                        // Fixes #3265 - Don't move disallowed items using the off hand.
-                        ItemStack offHandItem = e.getWhoClicked().getInventory().getItemInOffHand();
-
-                        if (!isAllowed(slimefunBackpack, offHandItem)) {
-                            e.setCancelled(true);
-                        }
-                    } else {
-                        // Fixes #3664 - Do not swap the backpack to your off hand.
-                        if (e.getCurrentItem() != null && e.getCurrentItem().isSimilar(item)) {
-                            e.setCancelled(true);
-                        }
-                    }
-                } else if (!isAllowed(slimefunBackpack, e.getCurrentItem())) {
+                if (!isAllowed(slimefunBackpack, hotbarItem)) {
                     e.setCancelled(true);
                 }
             }
+        } else if (e.getClick() == ClickType.SWAP_OFFHAND) {
+            if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
+                // Fixes #3265 - Don't move disallowed items using the off hand.
+                ItemStack offHandItem = e.getWhoClicked().getInventory().getItemInOffHand();
+
+                if (!isAllowed(slimefunBackpack, offHandItem)) {
+                    e.setCancelled(true);
+                }
+            } else {
+                // Fixes #3664 - Do not swap the backpack to your off hand.
+                if (e.getCurrentItem() != null && e.getCurrentItem().isSimilar(item)) {
+                    e.setCancelled(true);
+                }
+            }
+        } else if (!isAllowed(slimefunBackpack, e.getCurrentItem())) {
+            e.setCancelled(true);
         }
     }
 
