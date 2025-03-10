@@ -115,6 +115,14 @@ public class HologramsService {
     }
 
     /**
+     * @see HologramsService#getHologram(Location, boolean)
+     */
+    @Nonnull
+    private Hologram getHologramOrCreate(@Nonnull Location loc) {
+        return getHologram(loc, true);
+    }
+
+    /**
      * This returns the {@link Hologram} associated with the given {@link Location}.
      * If createIfNoneExists is set to true a new {@link ArmorStand} will be spawned
      * if no existing one could be found.
@@ -238,41 +246,6 @@ public class HologramsService {
     }
 
     /**
-     * This updates the {@link Hologram}.
-     * You can use it to set the nametag or other properties.
-     * <p>
-     * <strong>This method must be executed on the main {@link Server} {@link Thread}.</strong>
-     * 
-     * @param loc
-     *            The {@link Location}
-     * @param consumer
-     *            The callback to run
-     */
-    private void updateHologram(@Nonnull Location loc, @Nonnull Consumer<Hologram> consumer) {
-        Validate.notNull(loc, "Location must not be null");
-        Validate.notNull(consumer, "Callbacks must not be null");
-
-        Runnable runnable = () -> {
-            try {
-                Hologram hologram = getHologram(loc, true);
-
-                if (hologram != null) {
-                    consumer.accept(hologram);
-                }
-            } catch (Exception | LinkageError x) {
-                Slimefun.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
-                Slimefun.logger().log(Level.SEVERE, "Something went wrong while trying to update this hologram", x);
-            }
-        };
-
-        if (Bukkit.isPrimaryThread()) {
-            runnable.run();
-        } else {
-            Slimefun.runSync(runnable);
-        }
-    }
-
-    /**
      * This removes the {@link Hologram} at that given {@link Location}.
      * <p>
      * <strong>This method must be executed on the main {@link Server} {@link Thread}.</strong>
@@ -318,7 +291,8 @@ public class HologramsService {
     public void setHologramLabel(@Nonnull Location loc, @Nullable String label) {
         Validate.notNull(loc, "Location must not be null");
 
-        updateHologram(loc, hologram -> hologram.setLabel(label));
+        Hologram hologram = getHologramOrCreate(loc);
+        hologram.setLabel(label);
     }
 
 }
