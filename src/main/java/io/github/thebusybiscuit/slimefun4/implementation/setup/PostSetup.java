@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Juicer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -82,6 +83,7 @@ public final class PostSetup {
         
         loadOreGrinderRecipes();
         loadSmelteryRecipes();
+        loadJuicer();
 
         CommandSender sender = Bukkit.getConsoleSender();
 
@@ -204,6 +206,34 @@ public final class PostSetup {
                 }
             }
         }
+    }
+
+    private static void loadJuicer() {
+        List<ItemStack[]> juicerRecipes = new ArrayList<>();
+
+        Juicer juicer = (Juicer) SlimefunItems.JUICER.getItem();
+        if (juicer == null) {
+            return;
+        }
+
+        ItemStack[] input = null;
+
+        for (ItemStack[] recipe : juicer.getRecipes()) {
+
+            if (input == null) {
+                input = recipe;
+                continue;
+            }
+
+            if (input[0] != null && recipe[0] != null) {
+                juicerRecipes.add(new ItemStack[] { input[0], recipe[0] });
+            }
+
+            input = null;
+        }
+
+        Stream<ItemStack[]> stream = juicerRecipes.stream();
+        stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_JUICER", 2, new ItemStack[] { recipe[0] }, new ItemStack[] { recipe[1] }));
     }
 
     private static void addSmelteryRecipe(ItemStack[] input, ItemStack[] output, MakeshiftSmeltery makeshiftSmeltery) {
