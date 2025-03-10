@@ -11,6 +11,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -96,6 +97,18 @@ class VersionsCommand extends SubCommand {
             }
 
             addJavaVersion(builder);
+
+            if (Slimefun.getUpdater().getBranch() == SlimefunBranch.STABLE) {
+                builder.append("\nYou are using a stable version," +
+                        "\nWe do not provide support to stable versions." +
+                        "\nDO NOT report any bugs to Discord/GitHub.\n")
+                    .color(ChatColor.RED)
+                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
+                        "We do not provide support for stable versions.\n" +
+                            "Please do not report any bugs with this version.\n" +
+                            "Upgrade to Dev version first for support."
+                    )));
+            }
 
             builder.append("\n").event((HoverEvent) null);
             addPluginVersions(builder);
