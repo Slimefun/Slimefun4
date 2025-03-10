@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.MachineBlockBreakHandler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -52,17 +53,7 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
 
     @Nonnull
     private BlockBreakHandler onBreak() {
-        return new SimpleBlockBreakHandler() {
-
-            @Override
-            public void onBlockBreak(@Nonnull Block b) {
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    inv.dropItems(b.getLocation(), SLOTS);
-                }
-            }
-        };
+        return new MachineBlockBreakHandler(SLOTS);
     }
 
     @Nonnull

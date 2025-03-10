@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.MachineBlockBreakHandler;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -39,17 +40,7 @@ public abstract class AbstractGrowthAccelerator extends SlimefunItem implements 
 
     @Nonnull
     private BlockBreakHandler onBreak() {
-        return new SimpleBlockBreakHandler() {
-
-            @Override
-            public void onBlockBreak(Block b) {
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    inv.dropItems(b.getLocation(), getInputSlots());
-                }
-            }
-        };
+        return new MachineBlockBreakHandler(getInputSlots());
     }
 
     private void constructMenu(BlockMenuPreset preset) {

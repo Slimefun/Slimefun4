@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.MachineBlockBreakHandler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -117,19 +118,7 @@ public class ReactorAccessPort extends SlimefunItem {
 
     @Nonnull
     private BlockBreakHandler onBreak() {
-        return new SimpleBlockBreakHandler() {
-
-            @Override
-            public void onBlockBreak(@Nonnull Block b) {
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    inv.dropItems(b.getLocation(), getFuelSlots());
-                    inv.dropItems(b.getLocation(), getCoolantSlots());
-                    inv.dropItems(b.getLocation(), getOutputSlots());
-                }
-            }
-        };
+        return new MachineBlockBreakHandler(getFuelSlots(), getCoolantSlots(), getOutputSlots());
     }
 
     private void constructMenu(@Nonnull BlockMenuPreset preset) {
