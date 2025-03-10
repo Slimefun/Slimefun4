@@ -46,6 +46,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
 
+import com.google.common.base.Preconditions;
+
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 /**
@@ -887,17 +889,44 @@ public class SlimefunItem implements Placeable {
      * 
      * @param page
      *            The associated wiki page
+     *
+     * @deprecated Use {@link #addWikiPage(String)} instead.
      */
+    @Deprecated
     public final void addOfficialWikipage(@Nonnull String page) {
-        Validate.notNull(page, "Wiki page cannot be null.");
-        wikiURL = Optional.of("https://github.com/Slimefun/Slimefun4/wiki/" + page);
+        addWikiPage(page);
+    }
+
+    /**
+     * This method assign the given wiki page to this Item.
+     * The page name will replace %item% placeholder in the URL.
+     *
+     * @param page
+     *            The associated wiki page name.
+     */
+    public final void addWikiPage(@Nonnull String page) {
+        Preconditions.checkArgument(page != null, "Wiki page cannot be null.");
+        Preconditions.checkState(getState() != ItemState.UNREGISTERED, "Wiki page can only be added after item has been registered.");
+        addCustomWikiPage(getAddon().getWikiUrlTemplate().replace("%item%", page));
+    }
+
+    /**
+     * This method assign the given wiki URL to this Item.
+     *
+     * @param url
+     *            The associated wiki page URL.
+     */
+    public final void addCustomWikiPage(@Nonnull String url) {
+        Preconditions.checkArgument(url != null, "Wiki page cannot be null.");
+        Preconditions.checkState(wikiURL.isEmpty(), "Wiki page cannot be modified after it has been set.");
+        wikiURL = Optional.of(url);
     }
 
     /**
      * This method returns the wiki page that has been assigned to this item.
      * It will return null, if no wiki page was found.
      * 
-     * @see SlimefunItem#addOfficialWikipage(String)
+     * @see SlimefunItem#addWikiPage(String)
      * 
      * @return This item's wiki page
      */

@@ -48,6 +48,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.WikiUtils;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
 
@@ -515,9 +516,25 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         Optional<String> wiki = item.getWikipage();
 
         if (wiki.isPresent()) {
-            menu.addItem(8, new CustomItemStack(Material.KNOWLEDGE_BOOK, ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
+            String message = Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.third-party");
+            if (WikiUtils.isSlimefunOfficialWiki(wiki.get())) {
+                message = Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.slimefun");
+            }
+
+            menu.addItem(8, new CustomItemStack(
+                Material.KNOWLEDGE_BOOK,
+                ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki.button").replace("%addon%", item.getAddon().getName()),
+                "",
+                ChatColor.WHITE + message,
+                "",
+                ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")
+            ));
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
                 pl.closeInventory();
+                if (!WikiUtils.isSlimefunOfficialWiki(wiki.get())) {
+                    Slimefun.getLocalization().sendMessage(pl, "messages.wiki-third-party",
+                        msg -> msg.replace("%addon%", item.getAddon().getName()));
+                }
                 ChatUtils.sendURL(pl, wiki.get());
                 return false;
             });
