@@ -33,6 +33,7 @@ researches:
   free-in-creative-mode: true
   enable-fireworks: true
   disable-learning-animation: false
+  use-vanilla-exp-cost-formula: false
 
 URID:
   info-delay: 3000

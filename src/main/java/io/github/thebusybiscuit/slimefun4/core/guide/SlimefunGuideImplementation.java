@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.utils.ExperienceUtils;
 
 /**
  * This interface is used for the different implementations that add behaviour
@@ -70,7 +71,15 @@ public interface SlimefunGuideImplementation {
         if (p.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {
-            p.setLevel(p.getLevel() - research.getCost());
+            if (Slimefun.getRegistry().isUsingVanillaExpFormula()) {
+                float currentExp = ExperienceUtils.getPlayerCurrentExp(p.getLevel(), p.getExp());
+                float requiredExp = ExperienceUtils.convertLevelToFloatExp(research.getCost());
+                ExperienceUtils.LevelAndProgress result = ExperienceUtils.convertExpToLevelAndProgress(currentExp - requiredExp);
+                p.setLevel(result.level);
+                p.setExp(result.progress);
+            } else {
+                p.setLevel(p.getLevel() - research.getCost());
+            }
 
             boolean skipLearningAnimation = Slimefun.getRegistry().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
             research.unlock(p, skipLearningAnimation, callback);
