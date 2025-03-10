@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.command.CommandSender;
@@ -27,28 +28,31 @@ class ChargeCommand extends SubCommand {
     }
 
     @Override
-    protected String getDescription() {
+    protected @Nonnull String getDescription() {
         return "commands.charge.description";
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender instanceof Player player) {
-            if (sender.hasPermission("slimefun.command.charge")) {
-                ItemStack item = player.getInventory().getItemInMainHand();
-                SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
-
-                if (slimefunItem instanceof Rechargeable rechargeableItem) {
-                    rechargeableItem.setItemCharge(item, rechargeableItem.getMaxItemCharge(item));
-                    Slimefun.getLocalization().sendMessage(sender, "commands.charge.charge-success", true);
-                } else {
-                    Slimefun.getLocalization().sendMessage(sender, "commands.charge.not-rechargeable", true);
-                }
-            } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
-            }
-        } else {
+        if (!(sender instanceof Player player)) {
             Slimefun.getLocalization().sendMessage(sender, "messages.only-players", true);
+            return;
+        }
+
+        if (!sender.hasPermission("slimefun.command.charge")) {
+            Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            return;
+        }
+
+        ItemStack item = player.getInventory().getItemInMainHand();
+        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+
+        if (slimefunItem instanceof Rechargeable rechargeableItem) {
+            rechargeableItem.setItemCharge(item, rechargeableItem.getMaxItemCharge(item));
+            Slimefun.getLocalization().sendMessage(sender, "commands.charge.charge-success", true);
+        } else {
+            Slimefun.getLocalization().sendMessage(sender, "commands.charge.not-rechargeable", true);
         }
     }
 }

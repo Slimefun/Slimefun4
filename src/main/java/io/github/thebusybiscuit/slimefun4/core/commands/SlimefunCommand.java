@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.Command;
@@ -68,6 +69,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length > 0) {
             for (SubCommand command : commands) {

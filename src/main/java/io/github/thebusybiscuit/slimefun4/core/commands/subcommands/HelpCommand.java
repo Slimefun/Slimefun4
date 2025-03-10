@@ -16,6 +16,7 @@ class HelpCommand extends SubCommand {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onExecute(CommandSender sender, String[] args) {
         cmd.sendHelp(sender);
     }
