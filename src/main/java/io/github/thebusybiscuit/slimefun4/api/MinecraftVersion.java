@@ -44,6 +44,12 @@ public enum MinecraftVersion {
     MINECRAFT_1_19(19, "1.19.x"),
 
     /**
+     * This constant represents Minecraft (Java Edition) Version 1.19.4
+     * This minor update added display entities
+     */
+    MINECRAFT_1_19_4(19, 4, "1.19.4"),
+
+    /**
      * This constant represents Minecraft (Java Edition) Version 1.20
      * ("The Trails &amp; Tales Update")
      */

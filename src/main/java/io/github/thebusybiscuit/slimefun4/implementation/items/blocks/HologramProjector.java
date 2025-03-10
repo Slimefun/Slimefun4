@@ -3,11 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -25,12 +22,12 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.utils.ArmorStandUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bukkit.util.Vector;
 
 /**
  * The {@link HologramProjector} is a very simple block which allows the {@link Player}
@@ -42,10 +39,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * 
  * @see HologramOwner
  * @see HologramsService
- *
  */
 public class HologramProjector extends SlimefunItem implements HologramOwner {
-
     private static final String OFFSET_PARAMETER = "offset";
 
     @ParametersAreNonnullByDefault
@@ -57,47 +52,55 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
 
     private @Nonnull BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
-
             @Override
-            public void onPlayerPlace(BlockPlaceEvent e) {
-                Block b = e.getBlockPlaced();
-                BlockStorage.addBlockInfo(b, "text", "Edit me via the Projector");
-                BlockStorage.addBlockInfo(b, OFFSET_PARAMETER, "0.5");
-                BlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
-
-                getArmorStand(b, true);
+            public void onPlayerPlace(@Nonnull BlockPlaceEvent event) {
+                Block block = event.getBlockPlaced();
+                BlockStorage.addBlockInfo(block, "text", "Edit me via the Projector");
+                BlockStorage.addBlockInfo(block, OFFSET_PARAMETER, "0.5");
+                BlockStorage.addBlockInfo(block, "owner", event.getPlayer().getUniqueId().toString());
+                updateHologram(block, "Edit me via the Projector");
             }
-
         };
     }
 
     private @Nonnull BlockBreakHandler onBreak() {
         return new SimpleBlockBreakHandler() {
-
             @Override
-            public void onBlockBreak(@Nonnull Block b) {
-                killArmorStand(b);
+            public void onBlockBreak(@Nonnull Block block) {
+                removeHologram(block);
             }
         };
     }
 
-    public @Nonnull BlockUseHandler onRightClick() {
-        return e -> {
-            e.cancel();
+    private @Nonnull BlockUseHandler onRightClick() {
+        return event -> {
+            event.cancel();
 
-            Player p = e.getPlayer();
-            Block b = e.getClickedBlock().get();
-
-            if (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString())) {
-                openEditor(p, b);
+            Player player = event.getPlayer();
+            Block block = event.getClickedBlock().get();
+            if (BlockStorage.getLocationInfo(block.getLocation(), "owner").equals(player.getUniqueId().toString())) {
+                openEditor(player, block);
             }
         };
+    }
+
+    public double getOffset(@Nonnull Block projector) {
+        return NumberUtils.reparseDouble(Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER)));
+    }
+
+    public String getText(@Nonnull Block projector) {
+        return BlockStorage.getLocationInfo(projector.getLocation(), "text");
+    }
+
+    @Override
+    public @Nonnull Vector getHologramOffset(@Nonnull Block projector) {
+        return new Vector(0.5, getOffset(projector), 0.5);
     }
 
     private void openEditor(@Nonnull Player p, @Nonnull Block projector) {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "machines.HOLOGRAM_PROJECTOR.inventory-title"));
 
-        menu.addItem(0, new CustomItemStack(Material.NAME_TAG, "&7Text &e(Click to edit)", "", "&f" + ChatColors.color(BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
+        menu.addItem(0, new CustomItemStack(Material.NAME_TAG, "&7Text &e(Click to edit)", "", "&f" + getText(projector)));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             pl.closeInventory();
             Slimefun.getLocalization().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
@@ -106,61 +109,29 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
                 // Fixes #3445 - Make sure the projector is not broken
                 if (!BlockStorage.check(projector, getId())) {
                     // Hologram projector no longer exists.
-                    // TODO: Add a chat message informing the player that their message was ignored.
+                    Slimefun.getLocalization().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.broken", true);
                     return;
                 }
 
-                ArmorStand hologram = getArmorStand(projector, true);
-                hologram.setCustomName(ChatColors.color(message));
-                BlockStorage.addBlockInfo(projector, "text", hologram.getCustomName());
+                message = ChatColors.color(message);
+                updateHologram(projector, message);
+                BlockStorage.addBlockInfo(projector, "text", message);
                 openEditor(pl, projector);
             });
 
             return false;
         });
 
-        menu.addItem(1, new CustomItemStack(Material.CLOCK, "&7Offset: &e" + NumberUtils.roundDecimalNumber(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER)) + 1.0D), "", "&fLeft Click: &7+0.1", "&fRight Click: &7-0.1"));
+        menu.addItem(1, new CustomItemStack(Material.CLOCK, "&7Offset: &e" + NumberUtils.roundDecimalNumber(getOffset(projector) + 1.0D), "", "&fLeft Click: &7+0.1", "&fRight Click: &7-0.1"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
-            double offset = NumberUtils.reparseDouble(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER)) + (action.isRightClicked() ? -0.1F : 0.1F));
-            ArmorStand hologram = getArmorStand(projector, true);
-            Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
-            hologram.teleport(l);
-
-            BlockStorage.addBlockInfo(projector, OFFSET_PARAMETER, String.valueOf(offset));
+            double offset = getOffset(projector) + (action.isRightClicked() ? -0.1F : 0.1F);
+            setOffset(projector, new Vector(0.5, offset, 0.5));
             openEditor(pl, projector);
+            BlockStorage.addBlockInfo(projector, OFFSET_PARAMETER, String.valueOf(offset));
             return false;
         });
 
         menu.open(p);
     }
 
-    private static ArmorStand getArmorStand(@Nonnull Block projector, boolean createIfNoneExists) {
-        String nametag = BlockStorage.getLocationInfo(projector.getLocation(), "text");
-        double offset = Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), OFFSET_PARAMETER));
-        Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
-
-        for (Entity n : l.getChunk().getEntities()) {
-            if (n instanceof ArmorStand armorStand && l.distanceSquared(n.getLocation()) < 0.4) {
-                String customName = n.getCustomName();
-
-                if (customName != null && customName.equals(nametag)) {
-                    return armorStand;
-                }
-            }
-        }
-
-        if (!createIfNoneExists) {
-            return null;
-        }
-        
-        return ArmorStandUtils.spawnArmorStand(l, nametag);
-    }
-
-    private static void killArmorStand(@Nonnull Block b) {
-        ArmorStand hologram = getArmorStand(b, false);
-
-        if (hologram != null) {
-            hologram.remove();
-        }
-    }
 }

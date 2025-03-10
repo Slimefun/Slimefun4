@@ -43,7 +43,7 @@ public class ArmorStandUtils {
     /**
      * Spawns an {@link ArmorStand} at the given {@link Location}
      * <br>
-     * Set Properties: Invisible, Silent, Marker, No-Gravity, No Base Plate, Don't Remove When Far Away
+     * For set properties see {@link #setupArmorStand(ArmorStand)}
      *
      * @param location The {@link Location} to spawn the {@link ArmorStand}
      *
@@ -63,7 +63,12 @@ public class ArmorStandUtils {
         return location.getWorld().spawn(location, ArmorStand.class, ArmorStandUtils::setupArmorStand);
     }
 
-    private static void setupArmorStand(ArmorStand armorStand) {
+    /**
+     * Sets Invisible, Silent, Marker, No-Gravity, No Base Plate, Don't Remove When Far Away
+     *
+     * @param armorStand The {@link ArmorStand} to set up
+     */
+    public static void setupArmorStand(ArmorStand armorStand) {
         armorStand.setVisible(false);
         armorStand.setSilent(true);
         armorStand.setMarker(true);
