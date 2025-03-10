@@ -1,8 +1,37 @@
 {
-	"values" : [
-		"#minecraft:saplings",
-		"#slimefun:torches",
-		"#slimefun:pressure_plates",
-		"minecraft:cake"
-	]
+    "values" : [
+        "#minecraft:saplings",
+        "#minecraft:carpets",
+        "#slimefun:torches",
+        "#slimefun:pressure_plates",
+        "minecraft:cake",
+        "minecraft:redstone_wire",
+        "minecraft:repeater",
+        "minecraft:comparator",
+        "minecraft:lantern",
+        {
+            "id" : "minecraft:soul_lantern",
+            "required" : false
+        },
+        {
+            "id" : "minecraft:amethyst_cluster",
+            "required" : false
+        },
+        {
+            "id" : "minecraft:small_amethyst_bud",
+            "required" : false
+        },
+        {
+            "id" : "minecraft:medium_amethyst_bud",
+            "required" : false
+        },
+        {
+            "id" : "minecraft:large_amethyst_bud",
+            "required" : false
+        },
+        {
+            "id" : "minecraft:sculk_vein",
+            "required" : false
+        }
+    ]
 }
