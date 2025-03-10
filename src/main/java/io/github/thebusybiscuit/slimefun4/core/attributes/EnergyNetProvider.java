@@ -3,9 +3,11 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 
@@ -61,6 +63,23 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      */
     default boolean willExplode(@Nonnull Location l, @Nonnull Config data) {
         return false;
+    }
+
+    /**
+     * This method determines what happens when the {@link Location} of
+     * this {@link EnergyNetProvider} is going to explode.
+     * <br>
+     * Note: This method is called async.
+     * The actual block is still there but the Slimefun block data is removed.
+     *
+     * @param l
+     *              The {@link Location} of this {@link EnergyNetProvider}
+     */
+    default void onExplode(@Nonnull Location l) {
+        Slimefun.runSync(() -> {
+            l.getBlock().setType(Material.LAVA);
+            l.getWorld().createExplosion(l, 0F, false);
+        });
     }
 
 }
