@@ -160,12 +160,13 @@ public final class TeleportationManager {
         if (complexity < 100) {
             return 100;
         }
+        else if (complexity >= 12246) { // 50_000 + c^2 >= 150_000_000 => c >= 12246
+            return 1;
+        }
 
         int speed = 50_000 + complexity * complexity;
-        int unsafeTime = Math.min(4 * distanceSquared(source, destination) / speed, 40);
-
-        // Fixes #3573 - Using Math.max is a safer way to ensure values > 0 than relying on addition.
-        return Math.max(1, unsafeTime);
+        int distance = 4 * distanceSquared(source, destination);
+        return Math.min(distance / speed, 40);
     }
 
     @ParametersAreNonnullByDefault
