@@ -43,7 +43,7 @@ import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.services.AnalyticsService;
-import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
+import io.github.thebusybiscuit.slimefun4.core.services.SavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
@@ -177,7 +177,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final GitHubService gitHubService = new GitHubService("Slimefun/Slimefun4");
     private final UpdaterService updaterService = new UpdaterService(this, getDescription().getVersion(), getFile());
     private final MetricsService metricsService = new MetricsService(this);
-    private final AutoSavingService autoSavingService = new AutoSavingService();
+    private final SavingService savingService = new SavingService();
     private final BackupService backupService = new BackupService();
     private final PermissionsService permissionsService = new PermissionsService(this);
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
@@ -379,7 +379,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
 
         // Starting our tasks
-        autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
+        savingService.startAutoSave(this, config.getInt("options.auto-save-delay-in-minutes"));
         hologramsService.start();
         ticker.start(this);
 
@@ -827,6 +827,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull BlockDataService getBlockDataService() {
         validateInstance();
         return instance.blockDataService;
+    }
+
+    public static @Nonnull SavingService getSavingService() {
+        validateInstance();
+        return instance.savingService;
     }
 
     /**
