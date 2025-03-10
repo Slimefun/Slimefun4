@@ -57,6 +57,7 @@ public abstract class Network {
     private final Queue<Location> nodeQueue = new ArrayDeque<>();
     protected final Set<Location> regulatorNodes = new HashSet<>();
     protected final Set<Location> connectorNodes = new HashSet<>();
+    protected final Set<Location> insulatorNodes = new HashSet<>();
     protected final Set<Location> terminusNodes = new HashSet<>();
 
     /**
@@ -121,7 +122,7 @@ public abstract class Network {
      * @return The size of this {@link Network}
      */
     public int getSize() {
-        return regulatorNodes.size() + connectorNodes.size() + terminusNodes.size();
+        return regulatorNodes.size() + connectorNodes.size() + terminusNodes.size() + insulatorNodes.size();
     }
 
     /**
@@ -181,6 +182,8 @@ public abstract class Network {
             return NetworkComponent.CONNECTOR;
         } else if (terminusNodes.contains(l)) {
             return NetworkComponent.TERMINUS;
+        } else if (insulatorNodes.contains(l)) {
+            return NetworkComponent.INSULATOR;
         }
 
         return null;
@@ -196,12 +199,15 @@ public abstract class Network {
             NetworkComponent classification = classifyLocation(l);
 
             if (classification != currentAssignment) {
-                if (currentAssignment == NetworkComponent.REGULATOR || currentAssignment == NetworkComponent.CONNECTOR) {
+                if (currentAssignment == NetworkComponent.REGULATOR || currentAssignment == NetworkComponent.CONNECTOR || classification == NetworkComponent.INSULATOR) {
                     // Requires a complete rebuild of the network, so we just throw the current one away.
                     manager.unregisterNetwork(this);
                     return;
                 } else if (currentAssignment == NetworkComponent.TERMINUS) {
                     terminusNodes.remove(l);
+                } else if (currentAssignment == NetworkComponent.INSULATOR) {
+                    insulatorNodes.remove(l);
+                    updateNeighbors(l);
                 }
 
                 if (classification == NetworkComponent.REGULATOR) {
@@ -226,8 +232,13 @@ public abstract class Network {
     }
 
     private void discoverNeighbors(@Nonnull Location l, double xDiff, double yDiff, double zDiff) {
-        for (int i = getRange() + 1; i > 0; i--) {
+        for (int i = 1; i <= getRange(); i++) {
             Location newLocation = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
+            if (classifyLocation(newLocation) == NetworkComponent.INSULATOR) {
+                positions.add(BlockPosition.getAsLong(newLocation));
+                insulatorNodes.add(newLocation);
+                return;
+            }
             addLocationToNetwork(newLocation);
         }
     }
@@ -239,6 +250,32 @@ public abstract class Network {
         discoverNeighbors(l, 0.0, -1.0, 0.0);
         discoverNeighbors(l, 0.0, 0.0, 1.0);
         discoverNeighbors(l, 0.0, 0.0, -1.0);
+    }
+
+    private void updateNeighbors(@Nonnull Location l, double xDiff, double yDiff, double zDiff) {
+        for (int i = 1; i <= getRange(); i++) {
+            Location newLocation = l.clone().add(i * xDiff, i * yDiff, i * zDiff);
+            NetworkComponent classification = classifyLocation(newLocation);
+            if (connectsTo(newLocation) && classification == NetworkComponent.CONNECTOR || classification == NetworkComponent.REGULATOR) {
+                discoverNeighbors(newLocation);
+            }
+        }
+    }
+
+    /**
+     * Make all the nodes that are connected to this network and
+     * in range of this location rediscover their neighbors.
+     *
+     * @param l
+     *      The location to search around
+     */
+    private void updateNeighbors(@Nonnull Location l) {
+        updateNeighbors(l, 1.0, 0.0, 0.0);
+        updateNeighbors(l, -1.0, 0.0, 0.0);
+        updateNeighbors(l, 0.0, 1.0, 0.0);
+        updateNeighbors(l, 0.0, -1.0, 0.0);
+        updateNeighbors(l, 0.0, 0.0, 1.0);
+        updateNeighbors(l, 0.0, 0.0, -1.0);
     }
 
     /**
