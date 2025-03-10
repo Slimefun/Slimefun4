@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -37,6 +38,7 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
     protected static final int[] SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
     private static final String FILTER_TYPE = "filter-type";
     private static final String FILTER_LORE = "filter-lore";
+    private static final String FILTER_ENCHANT = "filter-enchant";
 
     @ParametersAreNonnullByDefault
     protected AbstractFilterNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
@@ -74,6 +76,7 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
         BlockStorage.addBlockInfo(b, "index", "0");
         BlockStorage.addBlockInfo(b, FILTER_TYPE, "whitelist");
         BlockStorage.addBlockInfo(b, FILTER_LORE, String.valueOf(true));
+        BlockStorage.addBlockInfo(b, FILTER_ENCHANT, String.valueOf(false));
         BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(false));
     }
 
@@ -120,6 +123,24 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
             menu.replaceExistingItem(25, new CustomItemStack(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, FILTER_LORE, String.valueOf(true));
+                updateBlockMenu(menu, b);
+                return false;
+            });
+        }
+
+        String enchants = BlockStorage.getLocationInfo(b.getLocation(), FILTER_ENCHANT);
+
+        if (!BlockStorage.hasBlockInfo(b) || enchants == null || enchants.equals(String.valueOf(true))) {
+            menu.replaceExistingItem(34, new CustomItemStack(Material.MAP, "&7Include Enchants: &2\u2714", "", "&e> Click to toggle whether the Enchants have to match"));
+            menu.addMenuClickHandler(34, (p, slot, item, action) -> {
+                BlockStorage.addBlockInfo(b, FILTER_ENCHANT, String.valueOf(false));
+                updateBlockMenu(menu, b);
+                return false;
+            });
+        } else {
+            menu.replaceExistingItem(34, new CustomItemStack(Material.MAP, "&7Include Enchants: &4\u2718", "", "&e> Click to toggle whether the Enchants have to match"));
+            menu.addMenuClickHandler(34, (p, slot, item, action) -> {
+                BlockStorage.addBlockInfo(b, FILTER_ENCHANT, String.valueOf(true));
                 updateBlockMenu(menu, b);
                 return false;
             });
