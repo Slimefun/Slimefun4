@@ -15,7 +15,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.ArcaneMagnet;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.InfusedMagnetTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ArcaneMagnetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetBootsTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ParachuteTask;
@@ -32,7 +34,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * @see JetBootsTask
  * @see ParachuteTask
  * @see InfusedMagnetTask
- *
+ * @see ArcaneMagnetTask
  */
 public class GadgetsListener implements Listener {
 
@@ -42,25 +44,33 @@ public class GadgetsListener implements Listener {
 
     @EventHandler
     public void onToggleSneak(PlayerToggleSneakEvent e) {
-        if (e.isSneaking()) {
-            Player p = e.getPlayer();
+        if (!e.isSneaking()) {
+            return;
+        }
 
-            if (p.getInventory().getChestplate() != null) {
-                SlimefunItem chestplate = SlimefunItem.getByItem(p.getInventory().getChestplate());
-                handleChestplate(p, chestplate);
+        Player p = e.getPlayer();
+
+        if (p.getInventory().getChestplate() != null) {
+            SlimefunItem chestplate = SlimefunItem.getByItem(p.getInventory().getChestplate());
+            handleChestplate(p, chestplate);
+        }
+
+        if (p.getInventory().getBoots() != null) {
+            SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
+            handleBoots(p, boots);
+        }
+
+        if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.ARCANE_MAGNET, true)) {
+            ArcaneMagnet magnet = (ArcaneMagnet) SlimefunItems.ARCANE_MAGNET.getItem();
+
+            if (magnet.canUse(p, true)) {
+                new ArcaneMagnetTask(p, magnet.getItemRadius(), magnet.getExperienceRadius()).scheduleRepeating(0, 8);
             }
+        } else if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
+            InfusedMagnet magnet = (InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem();
 
-            if (p.getInventory().getBoots() != null) {
-                SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
-                handleBoots(p, boots);
-            }
-
-            if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
-                InfusedMagnet magnet = (InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem();
-
-                if (magnet.canUse(p, true)) {
-                    new InfusedMagnetTask(p, magnet.getRadius()).scheduleRepeating(0, 8);
-                }
+            if (magnet.canUse(p, true)) {
+                new InfusedMagnetTask(p, magnet.getRadius()).scheduleRepeating(0, 8);
             }
         }
     }
