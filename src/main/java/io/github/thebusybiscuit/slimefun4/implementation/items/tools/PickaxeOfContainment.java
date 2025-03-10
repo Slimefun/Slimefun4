@@ -25,6 +25,8 @@ import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
+import java.util.Optional;
+
 /**
  * The {@link PickaxeOfContainment} is a Pickaxe that allows you to break Spawners.
  * Upon breaking a Spawner, a {@link BrokenSpawner} will be dropped.
@@ -74,7 +76,13 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof CreatureSpawner creatureSpawner) {
-            EntityType entityType = creatureSpawner.getSpawnedType();
+            /*
+              Fixes #4209
+              Since update 1.19.3 changed the default spawner from EntityType.PIG to null,
+              it's required to manually fall back to EntityType.PIG
+             */
+            EntityType entityType = Optional.ofNullable(creatureSpawner.getSpawnedType()).orElse(EntityType.PIG);
+
             return spawner.getItemForEntityType(entityType);
         }
 
