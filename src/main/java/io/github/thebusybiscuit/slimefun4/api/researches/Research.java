@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
@@ -226,24 +227,29 @@ public class Research implements Keyed {
      *            The {@link PlayerProfile} of that {@link Player}.
      * @param sfItem
      *            The {@link SlimefunItem} on which the {@link Player} clicked.
-     * @param itemGroup
-     *            The {@link ItemGroup} where the {@link Player} was.
-     * @param page
-     *            The page number of where the {@link Player} was in the {@link ItemGroup};
+     * @param callback
+     *            The action to perform after unlocking this item.
      *
      */
     @ParametersAreNonnullByDefault
-    public void unlockFromGuide(SlimefunGuideImplementation guide, Player player, PlayerProfile profile, SlimefunItem sfItem, ItemGroup itemGroup, int page) {
+    public void unlockFromGuide(SlimefunGuideImplementation guide, Player player, PlayerProfile profile, SlimefunItem sfItem, Consumer<Player> callback) {
         if (!Slimefun.getRegistry().getCurrentlyResearchingPlayers().contains(player.getUniqueId())) {
             if (profile.hasUnlocked(this)) {
-                guide.openItemGroup(profile, itemGroup, page);
+                callback.accept(player);
             } else {
                 PlayerPreResearchEvent event = new PlayerPreResearchEvent(player, this, sfItem);
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (!event.isCancelled()) {
                     if (this.canUnlock(player)) {
-                        guide.unlockItem(player, sfItem, pl -> guide.openItemGroup(profile, itemGroup, page));
+                        if (player.getGameMode() == GameMode.CREATIVE && Slimefun.getRegistry().isFreeCreativeResearchingEnabled()) {
+                            unlock(player, true, callback);
+                        } else {
+                            player.setLevel(player.getLevel() - this.getCost());
+
+                            boolean skipLearningAnimation = Slimefun.getRegistry().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(player);
+                            unlock(player, skipLearningAnimation, callback);
+                        }
                     } else {
                         Slimefun.getLocalization().sendMessage(player, "messages.not-enough-xp", true);
                     }

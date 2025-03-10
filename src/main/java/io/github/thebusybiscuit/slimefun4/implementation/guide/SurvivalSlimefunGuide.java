@@ -43,6 +43,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
@@ -290,9 +291,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNoPermissionItem(), sfitem.getItemName(), message.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
         } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
-            menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNotResearchedItem(), ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level(s)"));
+            menu.addItem(index, createLockedItem(p, sfitem, research));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-                research.unlockFromGuide(this, p, profile, sfitem, itemGroup, page);
+                research.unlockFromGuide(this, p, profile, sfitem, player -> openItemGroup(profile, itemGroup, page));
                 return false;
             });
         } else {
@@ -306,7 +307,6 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                             Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
                         } else {
                             ItemStack clonedItem = sfitem.getItem().clone();
-
                             if (action.isShiftClicked()) {
                                 clonedItem.setAmount(clonedItem.getMaxStackSize());
                             }
@@ -328,6 +328,23 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 return false;
             });
         }
+    }
+
+    @ParametersAreNonnullByDefault
+    private @Nonnull ItemStack createLockedItem(Player p, SlimefunItem sfitem, Research research) {
+        SlimefunLocalization locale = Slimefun.getLocalization();
+
+        // @formatter:off
+        return new CustomItemStack(
+            ChestMenuUtils.getNotResearchedItem(),
+            "&f" + ItemUtils.getItemName(sfitem.getItem()),
+            "&4&l" + locale.getMessage(p, "guide.locked"),
+            "",
+            locale.getMessage(p, "guide.unlock.click"),
+            "",
+            locale.getMessage(p, "guide.unlock.cost").replace("%cost%", String.valueOf(research.getCost()))
+        );
+        // @formatter:on
     }
 
     @Override
@@ -549,10 +566,23 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeType recipeType, ItemStack[] recipe, AsyncRecipeChoiceTask task) {
         addBackButton(menu, 0, p, profile);
 
-        MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
+        MenuClickHandler clickHandler = (pl, slot, itemStack, action) -> {
             try {
-                if (itemstack != null && itemstack.getType() != Material.BARRIER) {
-                    displayItem(profile, itemstack, 0, true);
+                if (itemStack != null && itemStack.getType() != Material.BARRIER) {
+                    displayItem(profile, itemStack, 0, true);
+                }
+            } catch (Exception | LinkageError x) {
+                printErrorMessage(pl, x);
+            }
+            return false;
+        };
+
+        MenuClickHandler lockedClickHandler = (pl, slot, itemStack, action) -> {
+            try {
+                SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
+
+                if (sfItem != null && sfItem.getResearch() != null) {
+                    sfItem.getResearch().unlockFromGuide(this, p, profile, sfItem, player -> displayItem(profile, itemStack, 0, true));
                 }
             } catch (Exception | LinkageError x) {
                 printErrorMessage(pl, x);
@@ -564,7 +594,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
-            menu.addItem(recipeSlots[i], recipeItem, clickHandler);
+            MenuClickHandler handler = (recipeItem instanceof UnlockableItemStack) ? lockedClickHandler : clickHandler;
+
+            menu.addItem(recipeSlots[i], recipeItem, handler);
 
             if (recipeItem != null && item instanceof MultiBlockMachine) {
                 for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
@@ -642,12 +674,18 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         if (isSlimefunRecipe) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 
-            if (slimefunItem == null) {
+            if (slimefunItem == null || slimefunItem.canUse(p, false)) {
+                // Just return the item if it is usable or isn't a Slimefun item
                 return item;
             }
 
-            String lore = hasPermission(p, slimefunItem) ? "&fNeeds to be unlocked in " + slimefunItem.getItemGroup().getDisplayName(p) : "&fNo Permission";
-            return slimefunItem.canUse(p, false) ? item : new CustomItemStack(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", lore);
+            if (!Slimefun.getPermissionsService().hasPermission(p, slimefunItem)) {
+                return new CustomItemStack(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", "&f" + Slimefun.getLocalization().getMessage(p, "guide.no-permission"));
+            } else if (!slimefunItem.getItem().hasItemMeta()) {
+                return new CustomItemStack(Material.BARRIER, ItemUtils.getItemName(item));
+            } else {
+                return new UnlockableItemStack(slimefunItem, p);
+            }
         } else {
             return item;
         }
