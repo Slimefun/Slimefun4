@@ -28,7 +28,7 @@ jobs:
         run: mvn clean package
 
       - name: Upload Dev build
-        uses: WalshyDev/blob-builds/gh-action@ea9ecd9266c902c6627f884e657560d0fa6b61dd
+        uses: WalshyDev/blob-builds/gh-action@a1f3a1ce40dac4177a255d4571638c430f24a18f
         if: github.ref == 'refs/heads/master'
         with:
           project: Slimefun4
@@ -38,7 +38,7 @@ jobs:
           releaseNotes: ${{ github.event.head_commit.message }}
 
       - name: Upload RC build
-        uses: WalshyDev/blob-builds/gh-action@ea9ecd9266c902c6627f884e657560d0fa6b61dd
+        uses: WalshyDev/blob-builds/gh-action@a1f3a1ce40dac4177a255d4571638c430f24a18f
         if: github.ref == 'refs/heads/stable'
         with:
           project: Slimefun4
@@ -48,7 +48,7 @@ jobs:
           releaseNotes: ${{ github.event.head_commit.message }}
 
       - name: Upload Experimental build
-        uses: WalshyDev/blob-builds/gh-action@ea9ecd9266c902c6627f884e657560d0fa6b61dd
+        uses: WalshyDev/blob-builds/gh-action@a1f3a1ce40dac4177a255d4571638c430f24a18f
         if: github.ref == 'refs/heads/experimental'
         with:
           project: Slimefun4
