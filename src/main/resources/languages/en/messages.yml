@@ -360,6 +360,7 @@ machines:
 anvil:
   not-working: '&4You cannot use Slimefun items in an anvil!'
   mcmmo-salvaging: '&4You cannot salvage Slimefun items!'
+  mcmmo-repair: '&4You cannot repair using Slimefun items!'
 
 brewing_stand:
   not-working: '&4You cannot use Slimefun items in a brewing stand!'
