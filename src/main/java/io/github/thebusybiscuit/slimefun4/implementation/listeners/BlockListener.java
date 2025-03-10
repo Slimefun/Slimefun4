@@ -151,11 +151,12 @@ public class BlockListener implements Listener {
         }
 
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-        SlimefunItem sfItem = BlockStorage.check(e.getBlock());
+        Block block = e.getBlock();
+        SlimefunItem sfBlock = BlockStorage.check(block);
 
         // If there is a Slimefun Block here, call our BreakEvent and, if cancelled, cancel this event and return
-        if (sfItem != null) {
-            SlimefunBlockBreakEvent breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfItem);
+        if (sfBlock != null) {
+            SlimefunBlockBreakEvent breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), item, e.getBlock(), sfBlock);
             Bukkit.getPluginManager().callEvent(breakEvent);
 
             if (breakEvent.isCancelled()) {
@@ -176,9 +177,9 @@ public class BlockListener implements Listener {
             // TODO: merge this with the vanilla sensitive block check (when 1.18- is dropped)
             checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock(), item);
 
-            callBlockHandler(e, item, drops, sfItem);
+            callBlockHandler(e, item, drops, sfBlock);
 
-            dropItems(e, drops);
+            dropItems(e, item, block, sfBlock, drops);
 
             // Checks for vanilla sensitive blocks everywhere
             // checkForSensitiveBlocks(e.getBlock(), 0, e.isDropItems());
@@ -238,12 +239,12 @@ public class BlockListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    private void dropItems(BlockBreakEvent e, List<ItemStack> drops) {
+    private void dropItems(BlockBreakEvent e, ItemStack item, Block block, @Nullable SlimefunItem sfBlock, List<ItemStack> drops) {
         if (!drops.isEmpty()) {
             // TODO: properly support loading inventories within unit tests
             if (!Slimefun.instance().isUnitTest()) {
                 // Notify plugins like CoreProtect
-                Slimefun.getProtectionManager().logAction(e.getPlayer(), e.getBlock(), Interaction.BREAK_BLOCK);
+                Slimefun.getProtectionManager().logAction(e.getPlayer(), block, Interaction.BREAK_BLOCK);
             }
 
             // Fixes #2560
@@ -251,11 +252,17 @@ public class BlockListener implements Listener {
                 // Disable normal block drops
                 e.setDropItems(false);
 
+                // Fixes #4051
+                if (sfBlock == null) {
+                    block.breakNaturally(item);
+                }
+
+                // The list only contains other drops, not those from the block itself, so we still need to handle those
                 for (ItemStack drop : drops) {
                     // Prevent null or air from being dropped
                     if (drop != null && drop.getType() != Material.AIR) {
                         if (e.getPlayer().getGameMode() != GameMode.CREATIVE || Slimefun.getCfg().getBoolean("options.drop-block-creative")) {
-                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
+                            block.getWorld().dropItemNaturally(block.getLocation(), drop);
                         }
                     }
                 }
