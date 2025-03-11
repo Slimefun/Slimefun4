@@ -53,6 +53,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
+import io.github.thebusybiscuit.slimefun4.core.services.RecipeService;
 import io.github.thebusybiscuit.slimefun4.core.services.ThreadService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
@@ -181,7 +182,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final BackupService backupService = new BackupService();
     private final PermissionsService permissionsService = new PermissionsService(this);
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
-    private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
+    private final MinecraftRecipeService minecraftRecipeService = new MinecraftRecipeService(this);
+    private final RecipeService recipeService = new RecipeService(this);
     private final HologramsService hologramsService = new HologramsService(this);
     private final SoundService soundService = new SoundService(this);
     private final ThreadService threadService = new ThreadService(this);
@@ -344,6 +346,14 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
 
+        // Back up recipes
+        logger.log(Level.INFO, "Backing up recipes...");
+        recipeService.backUpRecipeFiles();
+
+        // Copy all recipes in the resources dir
+        logger.log(Level.INFO, "Copying default recipes...");
+        copyResourceRecipes();
+
         // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
         runSync(new SlimefunStartupTask(this, () -> {
             textureService.register(registry.getAllSlimefunItems(), true);
@@ -352,7 +362,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
             // This try/catch should prevent buggy Spigot builds from blocking item loading
             try {
-                recipeService.refresh();
+                minecraftRecipeService.refresh();
             } catch (Exception | LinkageError x) {
                 logger.log(Level.SEVERE, x, () -> "An Exception occurred while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
             }
@@ -447,6 +457,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
             menu.save();
         }
+
+        // Save all recipes
+        Slimefun.logger().info("Saving recipes");
+        getRecipeService().saveAllRecipes();
 
         // Create a new backup zip
         if (config.getBoolean("options.backup-data")) {
@@ -587,7 +601,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
      */
     private void createDirectories() {
         String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
-        String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings" };
+        String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings", "recipes/custom", "recipe-backups" };
 
         for (String folder : storageFolders) {
             File file = new File("data-storage/Slimefun", folder);
@@ -805,6 +819,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
      * @return Slimefun's {@link MinecraftRecipeService} instance
      */
     public static @Nonnull MinecraftRecipeService getMinecraftRecipeService() {
+        validateInstance();
+        return instance.minecraftRecipeService;
+    }
+
+    public static @Nonnull RecipeService getRecipeService() {
         validateInstance();
         return instance.recipeService;
     }

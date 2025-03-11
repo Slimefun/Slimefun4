@@ -1,6 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -11,6 +23,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.services.RecipeService;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This is a very basic interface that will be used to identify
@@ -95,6 +109,80 @@ public interface SlimefunAddon {
 
         PluginDescriptionFile description = getJavaPlugin().getDescription();
         return description.getDepend().contains(dependency) || description.getSoftDepend().contains(dependency);
+    }
+
+    /**
+     * @return A list of all recipes in the resources folder. Addons
+     * can override this to filter out certain recipes, if desired.
+     */
+    default Set<String> getResourceRecipeFilenames() {
+        URL resourceDir = getClass().getResource("/recipes");
+        if (resourceDir == null) {
+            return Collections.emptySet();
+        }
+        URI resourceUri;
+        try {
+            resourceUri = resourceDir.toURI();
+        } catch (URISyntaxException e) {
+            return Collections.emptySet();
+        }
+        if (!resourceUri.getScheme().equals("jar")) {
+            return Collections.emptySet();
+        }
+        try (FileSystem fs = FileSystems.newFileSystem(resourceUri, Collections.emptyMap())) {
+            Path recipeDir = fs.getPath("/recipes");
+            try (Stream<Path> files = Files.walk(recipeDir)) {
+                var names = files
+                    .filter(file -> file.toString().endsWith(".json"))
+                    .map(file -> {
+                        String filename = recipeDir.relativize(file).toString();
+                        return filename.substring(0, filename.length() - 5);
+                    })
+                    .collect(Collectors.toSet());
+                return names;
+            } catch (Exception e) {
+                return Collections.emptySet();
+            }
+        } catch (Exception e) {
+            return Collections.emptySet();
+        }
+    }
+
+    /**
+     * Copies all recipes in the recipes folder of the jar to
+     * <code>plugins/Slimefun/recipes/[subdirectory]</code>
+     * This should be done on enable. If you need to add
+     * any recipe overrides, those should be done before calling
+     * this method.
+     * @param subdirectory The subdirectory to copy files to
+     */
+    default void copyResourceRecipes(String subdirectory) {
+        Set<String> existingRecipes = Slimefun.getRecipeService().getAllRecipeFilenames(subdirectory);
+        Set<String> resourceNames = getResourceRecipeFilenames();
+        resourceNames.removeIf(existingRecipes::contains);
+        for (String name : resourceNames) {
+            try (InputStream source = getClass().getResourceAsStream("/recipes/" + name + ".json")) {
+                Path dest = Path.of(RecipeService.SAVED_RECIPE_DIR, subdirectory, name + ".json");
+                Path parent = dest.getParent();
+                if (parent != null && !parent.toFile().exists()) {
+                    parent.toFile().mkdirs();
+                }
+                Files.copy(source, dest);
+            } catch (Exception e) {
+                getLogger().warning("Couldn't copy recipes in resource file '" + name + "': " + e.getLocalizedMessage());
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * Copies all recipes in the recipes folder of the jar to
+     * plugins/Slimefun/recipes. This should be done on enable.
+     * If you need to add any recipe overrides, those should
+     * be done before calling this method.
+     */
+    default void copyResourceRecipes() {
+        copyResourceRecipes("");
     }
 
 }
