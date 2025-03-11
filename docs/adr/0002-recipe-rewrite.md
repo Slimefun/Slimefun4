@@ -40,7 +40,7 @@ The new recipe system should also be completely backwards compatible.
 
 All recipes are now `Recipe` objects. It is an association between
 inputs (see `RecipeInput`) and outputs (see `RecipeOutput`), along with
-how the recipe checks its inputs (`RecipeType`) and the permission required
+where the recipe is crafted (`RecipeType`) and the permission required
 to craft it.
 
 `RecipeInput`s are a list of `RecipeInputItem`s plus a `MatchProcedure` -- how the inputs of the recipe should be matched to items in a multiblock/machine when
