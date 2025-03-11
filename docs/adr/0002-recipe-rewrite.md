@@ -252,8 +252,10 @@ Example showing the `items`/`key` fields:
     "id": key
     "amount"?: int
 } | {
-    "group": RecipeOutputItem[]
-    "weights"?: int[]
+    "group": {
+        "item": RecipeOutputItem,
+        "weight"?: int
+    }[]
 }
 ```
 
