@@ -39,8 +39,9 @@ The new recipe system should also be completely backwards compatible.
 ### 5 main recipe classes
 
 All recipes are now `Recipe` objects. It is an association between
-inputs (see `RecipeInput`) and outputs (see `RecipeOutput`), along with other metadata
-for how the recipe should be crafted -- recipe type, energy cost, base crafting duration, etc.
+inputs (see `RecipeInput`) and outputs (see `RecipeOutput`), along with
+how the recipe checks its inputs (`RecipeType`) and the permission required
+to craft it.
 
 `RecipeInput`s are a list of `RecipeInputItem`s plus a `MatchProcedure` -- how the inputs of the recipe should be matched to items in a multiblock/machine when
 crafting. The ones provided by Slimefun are:
@@ -180,8 +181,6 @@ Here, `key` is the string representation of a namespaced key
     "input"?: RecipeInput
     "output"?: RecipeOutput
     "type": NamespacedKey | NamespacedKey[]
-    "energy"?: int
-    "craftingTime"?: int
     "permissionNode"?: string | string[]
 }
 ```
