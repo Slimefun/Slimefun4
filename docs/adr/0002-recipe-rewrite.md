@@ -1,7 +1,7 @@
 # 2. Recipe rewrite
 
 Date: 2024-11-03
-Last update: 2024-11-08
+Last update: 2025-03-11
 
 **DO NOT rely on any APIs introduced until we finish the work completely!**
 
@@ -42,24 +42,73 @@ All recipes are now `Recipe` objects. It is an association between
 inputs (see `RecipeInput`) and outputs (see `RecipeOutput`), along with other metadata
 for how the recipe should be crafted -- recipe type, energy cost, base crafting duration, etc.
 
-`RecipeInput`s are a list of `RecipeInputItem`s plus a `MatchProcedure` -- how the inputs of
-the recipe should be matched to items in a multiblock/machine when crafting. The base ones are:
+`RecipeInput`s are a list of `RecipeInputItem`s plus a `MatchProcedure` -- how the inputs of the recipe should be matched to items in a multiblock/machine when
+crafting. The ones provided by Slimefun are:
 
-- Shaped/Shapeless: Exactly the same as vanilla
-- Subset: How the current smeltery, etc. craft
-- Shaped-flippable: The recipe can be flipped on the Y-axis
-- Shaped-rotatable: The recipe can be rotated (currently only 45deg, 3x3)
+- Fixed: Each item must be in the exact same spot as the recipe.
+- Shaped: The positions of each item relative to each other must remain the same,
+  however the recipe as a whole can be shifted around the crafting grid
+  - Example: Placing two planks on any two vertically adjacent slots crafts sticks
+- Shapeless: The recipe can be crafted as long as all inputs -- and **only** those
+  inputs -- are present.
+  - Example: Flint and steel can be crafted with the flint and iron ingot anywhere
+    on the crafting grid.
+- Subset: The recipe can be crafted as long as all inputs are present
+  - Example: Crafting anything in the Slimefun smeltery
+- Shaped-flippable: Same as shaped, but the recipe can be flipped on the Y-axis
+  - Example: In vanilla minecraft, axes and hoes can be crafted facing the left
+    or right.
+- Shaped-rotatable: Same as shaped, but the recipe can be rotated 45 degrees any
+  number of times
+  - Example (pseudocode): The inputs for an Ancient Rune \[Water\] in the ancient altar
+  
+    ```txt
+    RecipeInput (
+        {
+            SALMON,       MAGIC_LUMP_2, WATER_BUCKET
+            SAND,         BLANK_RUNE,   SAND,
+            WATER_BUCKET, MAGIC_LUMP_2, COD
+        },
+        SHAPED_ROTATABLE_45_3X3
+    )
+    ```
+
+    would match
+
+    ```txt
+    SALMON,       MAGIC_LUMP_2, WATER_BUCKET
+    SAND,         BLANK_RUNE,   SAND,
+    WATER_BUCKET, MAGIC_LUMP_2, COD
+    ```
+
+    ```txt
+    SAND,         SALMON,     MAGIC_LUMP_2
+    WATER_BUCKET, BLANK_RUNE, WATER_BUCKET,
+    MAGIC_LUMP_2, COD,        SAND
+    ```
+
+    ```txt
+    WATER_BUCKET, SAND,       SALMON
+    MAGIC_LUMP_2, BLANK_RUNE, MAGIC_LUMP_2,
+    COD,          SAND,       WATER_BUCKET
+    ```
+
+    etc.
 
 `RecipeInputItem`s describe a single slot of a recipe and determines what
 items match it. There can be a single item that matches (see `RecipeInputSlimefunItem`,
 `RecipeInputItemStack`), or a list (tag) of items all of which can be used
 in that slot (see `RecipeInputGroup`, `RecipeInputTag`).
 
-`RecipeOutput`s are just a list of `RecipeOutputItem`s, all of which are crafted by the recipe.
+`RecipeOutput`s are a list of `RecipeOutputItem`s, all of which are the result
+of the recipe.
 
-An `RecipeOutputItem`s controls how an output is generated when the recipe is
-crafted. It can be a single item (see `RecipeOutputItemStack`, `RecipeOutputSlimefunItem`),
-or a group of items each with a certain weight of being output (see `RecipeOutputGroup`).
+`RecipeOutputItem`s controls how an output is generated when the recipe is
+crafted. It can be a single item (see `RecipeOutputItemStack`,
+`RecipeOutputSlimefunItem`),
+or a group of items each with a certain weight of being output (see
+`RecipeOutputGroup`). To output multiple items, specify multiple `RecipeOutputItem`s
+in the `RecipeOutput`
 
 #### Examples (pseudocode)
 
@@ -96,7 +145,20 @@ RecipeOutput (
 )
 ```
 
-This would remove the need to use ItemSettings to determine the gold pan weights
+This would remove the need to use `ItemSetting`s to determine the gold pan weights.
+
+Here are the inputs and outputs of a freezer turning water into ice
+
+```txt
+RecipeInput (
+    { RecipeOutputItemStack(WATER_BUCKET) },
+    SUBSET
+)
+RecipeOutput (
+    RecipeOutputItem(ICE),
+    RecipeOutputItem(BUCKET)
+)
+```
 
 ### RecipeService
 
@@ -125,7 +187,8 @@ Here, `key` is the string representation of a namespaced key
 ```
 
 The recipe deserializer technically needs a `__filename` field, but it is
-inserted when the file is read, so it isn't (and shouldn't) be in the schema
+inserted when the file is read, so it isn't (and shouldn't) be provided in
+the JSON.
 
 `RecipeInput`
 
@@ -153,11 +216,9 @@ inserted when the file is read, so it isn't (and shouldn't) be in the schema
 {
     "id": key
     "amount"?: int
-    "durability"?: int
 } | {
     "tag": key
     "amount"?: int
-    "durability"?: int
 } | {
     "group": RecipeInputItem[]
 }
@@ -177,8 +238,19 @@ inserted when the file is read, so it isn't (and shouldn't) be in the schema
 
 *In addition to those schemas, items can be in short form:
 
-- Single items: `<namespace>:<id>|<amount>`
-- Tags: `#<namespace>:<id>|<amount>`
+- Single items: `<namespace>:<id>` or `<namespace>:<id>|<amount>`
+  - Example: Two batteries `slimefun:battery|2`
+- Tags: `#<namespace>:<id>` or `#<namespace>:<id>|<amount>`
+  - Example: A single plank `#minecraft:planks`
+
+These short forms are purely for convenience when manually writing recipes
+and are not extensible.
+
+#### Implementation Note
+
+Slimefun does not have namespaced item ids at the time of writing, so any namespace
+that is not `minecraft` will be meaningless, however to future-proof this system,
+namespaces should still be used where specified
 
 ## Extensibility
 
@@ -196,49 +268,54 @@ and ensure they also add the `class` field
 
 ## Recipe Lifecycle
 
+### Folder Structure
+
+All JSON recipes are stored at `plugins/Slimefun/recipes`, which has subfolders
+Slimefun and each addon. There is another subfolder at
+`plugins/Slimefun/recipes/custom`, where recipes in it override their corresponding
+recipes in the parent folder.
+
+For example, a recipe at `plugins/Slimefun/recipes/custom/Slimefun/battery.json` will
+override the recipe at `plugins/Slimefun/recipes/Slimefun/battery.json` but not one at `plugins/Slimefun/recipes/custom/SomeAddon/battery.json`.
+
+The filename referenced in below sections refers to the path of the JSON file
+relative to `plugins/Slimefun/recipes/` or `plugins/Slimefun/recipes/custom`,
+whichever one it is in.
+
+### When the Server Starts
+
 ### Stage 1a
 
-When Slimefun is enabled, all recipes in the resources folder will be
-moved to `plugins/Slimefun/recipes/` (unless a file with its name already exists).
+When a new version of Slimefun is enabled, all recipes in the resources folder
+will be moved to `plugins/Slimefun/recipes/Slimefun`, and the version number will
+be saved there too.
 
-Addons should do the same. (We recommend saving to
-`plugins/Slimefun/recipes/<your-addon-name>/` but it's not required).
+Addons should do the same and save to `plugins/Slimefun/recipes/<your-addon-name>`.
 
 ### Stage 1b
 
 Also on enable, recipes defined in code should be registered. These two steps
-can be done in no particular order.
+can be done in either order.
 
 ### Stage 2
 
-On the first server tick, all recipes in the `plugins/Slimefun/recipes` folder
-are read and added to the `RecipeService`, removing all recipes with the
-same filename. This is why recipes should ideally be *defined* in JSON,
-to prevent unnecessary work.
+On the first server tick, all recipes in `plugins/Slimefun/recipes` (but not `/custom`)
+are read and added to the `RecipeService`, removing all recipes with the same
+filename that were already in the service.
 
-When loading JSON recipes, we also need to be able to tell the difference between
-a server owner changing a recipe, and a developer changing a recipe. To do this,
-we use a system called Recipe Overrides; it allows for updates to recipes from
-developers while also preserving custom recipes by server owners
-
-- Slimefun/addons should tell the recipe service it will apply a recipe
-  override on enable, **before** any JSON recipes are copied from the resources
-  folder
-- The recipe service checks all recipe overrides that have already run
-  (in the file `plugins/Slimefun/recipe-overrides`) and if it never received
-  that override before, it deletes the old files and all recipes inside them.
-  Then all recipes are loaded as before.
+Next, the server reads and adds all recipes in `plugins/Slimefun/recipes/custom`
+which again overrides previous recipes with the same filename. It keeps track
+of which recipes are custom overrides so it can be saved to the correct location
 
 ### Stage 3
 
 While the server is running, recipes can be modified in code, saved to disk, or
-re-loaded from disk. New recipes can also be added, however not to any existing
-file (unless forced, which is not recommended)
+re-loaded from disk. New recipes can also be added.
 
 ### Stage 4
 
 On server shutdown (or `/sf recipe save`), **all** recipes are saved to disk.
-This means any changes made while the server is running will be overwritten.
+This means any changes made while the server was running will be overwritten.
 Server owners should run `/sf recipe reload <file-name?>` to load new recipes
 dynamically from disk.
 
