@@ -30,7 +30,7 @@ Slimefun, focusing on
   of recipes with this system.
 - Customizability: Server owners should be able to customize any and all
   Slimefun recipes
-- Performance: Should not blow up any servers
+- Performance: Should be on par or better than the current system.
 
 The new recipe system should also be completely backwards compatible.
 
@@ -162,7 +162,7 @@ RecipeOutput (
 
 ### RecipeService
 
-This is the public interface for the recipe system, there are methods here to add,
+This is the public interface for the recipe system, there are methods here to register,
 load, save, and search recipes. It also stores a map of `MatchProcedures` and
 `RecipeType` by key for conversions from a string
 
@@ -179,7 +179,7 @@ Here, `key` is the string representation of a namespaced key
 {
     "input"?: RecipeInput
     "output"?: RecipeOutput
-    "type": key | key[]
+    "type": NamespacedKey | NamespacedKey[]
     "energy"?: int
     "crafting-time"?: int
     "permission-node"?: string | string[]
@@ -198,7 +198,7 @@ the JSON.
     "key": {
         [key: string]: RecipeInputItem
     }
-    "match"?: key
+    "match"?: NamespacedKey
 }
 ```
 
@@ -214,10 +214,10 @@ the JSON.
 
 ```txt
 {
-    "id": key
+    "id": NamespacedKey
     "amount"?: int
 } | {
-    "tag": key
+    "tag": NamespacedKey
     "amount"?: int
 } | {
     "group": RecipeInputItem[]
