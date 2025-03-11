@@ -106,7 +106,7 @@ of the recipe.
 `RecipeOutputItem`s controls how an output is generated when the recipe is
 crafted. It can be a single item (see `RecipeOutputItemStack`,
 `RecipeOutputSlimefunItem`),
-or a group of items each with a certain weight of being output (see
+or it can draw a single item from a weighted set of items (see
 `RecipeOutputGroup`). To output multiple items, specify multiple `RecipeOutputItem`s
 in the `RecipeOutput`
 
@@ -181,8 +181,8 @@ Here, `key` is the string representation of a namespaced key
     "output"?: RecipeOutput
     "type": NamespacedKey | NamespacedKey[]
     "energy"?: int
-    "crafting-time"?: int
-    "permission-node"?: string | string[]
+    "craftingTime"?: int
+    "permissionNode"?: string | string[]
 }
 ```
 
@@ -201,6 +201,27 @@ the JSON.
     "match"?: NamespacedKey
 }
 ```
+
+Example showing the `items`/`key` fields:
+
+```
+{
+    "items": [
+        "123",
+        " 4 ",
+        "   "
+    ],
+    "key": {
+        "1": "slimefun:nickel_ingot",
+        "2": "slimefun:magnet",
+        "3": "slimefun:cobalt_ingot",
+        "4": "slimefun:battery"
+    },
+    "match": "slimefun:shaped"
+},
+```
+
+`items` can also be a single string when shape doesn't matter
 
 `RecipeOutput`
 
@@ -231,7 +252,7 @@ the JSON.
     "id": key
     "amount"?: int
 } | {
-    "group": RecipeInputItem[]
+    "group": RecipeOutputItem[]
     "weights"?: int[]
 }
 ```
