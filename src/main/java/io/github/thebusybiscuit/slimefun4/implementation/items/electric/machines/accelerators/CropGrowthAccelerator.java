@@ -1,25 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFertilizer;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
-
-    // We wanna strip the Slimefun Item id here
-    private static final ItemStack organicFertilizer = ItemStackWrapper.wrap(SlimefunItems.FERTILIZER);
 
     protected CropGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -58,7 +56,7 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
 
         if (ageable.getAge() < ageable.getMaximumAge()) {
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false, false)) {
+                if (isFertilizer(inv.getItemInSlot(slot))) {
                     removeCharge(machine.getLocation(), getEnergyConsumption());
                     inv.consumeItem(slot);
 
@@ -72,6 +70,10 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
         }
 
         return false;
+    }
+
+    protected boolean isFertilizer(@Nullable ItemStack item) {
+        return SlimefunItem.getByItem(item) instanceof OrganicFertilizer;
     }
 
 }
