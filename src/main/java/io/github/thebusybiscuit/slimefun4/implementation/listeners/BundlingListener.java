@@ -22,7 +22,21 @@ public class BundlingListener implements Listener {
         ItemStack cursor = event.getCursor();
         ItemStack slot = event.getCurrentItem();
 
-        if (slot == null) {
+        if (slot == null || cursor.isEmpty()) {
+            return;
+        }
+
+        if (isBundle(cursor) && isBackpack(slot) || isBundle(slot) && isBackpack(cursor)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onCreativeBundle(InventoryClickEvent event) {
+        ItemStack cursor = event.getCursor();
+        ItemStack slot = event.getCurrentItem();
+
+        if (slot == null || cursor.isEmpty()) {
             return;
         }
 
