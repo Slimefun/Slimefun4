@@ -3,24 +3,21 @@ name: YAML Linter
 on:
   push:
     paths:
-    - '**.yml'
-  pull_request:
-    branches:
-    - master
+      - "**.yml"
+  pull_request: {}
 
 permissions:
   contents: read
 
 jobs:
   linter:
-
     name: YAML Linter
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - name: YAML Linter
-      uses: ibiqlik/action-yamllint@v3.1.1
-      with:
-        config_file: '.github/configs/yaml-linter.yml'
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: YAML Linter
+        uses: ibiqlik/action-yamllint@v3.1.1
+        with:
+          config_file: ".github/configs/yaml-linter.yml"

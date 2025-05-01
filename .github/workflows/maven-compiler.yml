@@ -3,44 +3,44 @@ name: Java CI
 on:
   push:
     branches:
-    - master
+      - master
+      - experimental
     paths:
-    - 'src/**'
-    - 'pom.xml'
+      - "src/**"
+      - "pom.xml"
   pull_request:
     paths:
-    - '.github/workflows/**'
-    - 'src/**'
-    - 'pom.xml'
-    - 'CHANGELOG.md'
+      - ".github/workflows/**"
+      - "src/**"
+      - "pom.xml"
+      - "CHANGELOG.md"
 
 permissions:
   contents: read
 
 jobs:
   build:
-
     name: Maven build
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4.6.0
-      with:
-        distribution: 'adopt'
-        java-version: '21'
-        java-package: jdk
-        architecture: x64
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4.6.0
+        with:
+          distribution: "adopt"
+          java-version: "21"
+          java-package: jdk
+          architecture: x64
 
-    - name: Cache Maven packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
-    - name: Build with Maven
-      run: mvn package --file pom.xml
+      - name: Build with Maven
+        run: mvn package --file pom.xml

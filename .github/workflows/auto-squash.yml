@@ -13,7 +13,6 @@ on:
 
 jobs:
   autosquash-crowdin:
-
     name: Auto squash (Crowdin)
     runs-on: ubuntu-latest
 
@@ -21,19 +20,18 @@ jobs:
     if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
 
     steps:
-    - name: Auto squash
-      uses: pascalgn/automerge-action@v0.16.4
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        UPDATE_RETRIES: 0
-        MERGE_METHOD: squash
-        MERGE_FORKS: false
-        MERGE_DELETE_BRANCH: true
-        MERGE_LABELS: '📄 Translations Update'
-        MERGE_COMMIT_MESSAGE: '[CI skip] New locale updates from Crowdin'
+      - name: Auto squash
+        uses: pascalgn/automerge-action@v0.16.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          UPDATE_RETRIES: 0
+          MERGE_METHOD: squash
+          MERGE_FORKS: false
+          MERGE_DELETE_BRANCH: true
+          MERGE_LABELS: "📄 Translations Update"
+          MERGE_COMMIT_MESSAGE: "[CI skip] New locale updates from Crowdin"
 
   autosquash-renovate:
-
     name: Auto squash (Renovate)
     runs-on: ubuntu-latest
 
@@ -41,13 +39,13 @@ jobs:
     if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
 
     steps:
-    - name: Auto squash
-      uses: pascalgn/automerge-action@v0.16.4
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        UPDATE_RETRIES: 0
-        MERGE_METHOD: squash
-        MERGE_FORKS: false
-        MERGE_DELETE_BRANCH: true
-        MERGE_LABELS: '🚨 Dependency Update'
-        MERGE_COMMIT_MESSAGE: '[CI skip] ${{ github.event.pull_request.title }}'
+      - name: Auto squash
+        uses: pascalgn/automerge-action@v0.16.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          UPDATE_RETRIES: 0
+          MERGE_METHOD: squash
+          MERGE_FORKS: false
+          MERGE_DELETE_BRANCH: true
+          MERGE_LABELS: "🚨 Dependency Update"
+          MERGE_COMMIT_MESSAGE: "[CI skip] ${{ github.event.pull_request.title }}"

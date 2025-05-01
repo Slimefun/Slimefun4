@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   label:
-
     name: Label Issue
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, '🐞 Bug Report')
@@ -29,4 +28,4 @@ jobs:
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           issue_number: ${{ github.event.issue.number }}
-          labels: '✔ Resolved'
+          labels: "✔ Resolved"

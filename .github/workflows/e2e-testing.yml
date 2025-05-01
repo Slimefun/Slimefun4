@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       artifact-name:
-        description: 'Slimefun artifact name'
+        description: "Slimefun artifact name"
         required: true
         type: string
 
@@ -17,18 +17,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - mcVersion: '1.16.5'
-            javaVersion: '16'
-          - mcVersion: '1.17.1'
-            javaVersion: '17'
-          - mcVersion: '1.18.2'
-            javaVersion: '18'
-          - mcVersion: '1.19.4'
-            javaVersion: '19'
-          - mcVersion: '1.20.4'
-            javaVersion: '20'
-          - mcVersion: '1.20.6'
-            javaVersion: '21'
+          - mcVersion: "1.21.1"
+            javaVersion: "21"
           #- mcVersion: 'latest'
           #  javaVersion: '21'
 
