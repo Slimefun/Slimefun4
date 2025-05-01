@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BundlingListener;
 import io.github.thebusybiscuit.slimefun4.storage.Storage;
 import io.github.thebusybiscuit.slimefun4.storage.backend.legacy.LegacyStorage;
 
@@ -655,6 +656,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         new PiglinListener(this);
         new SmithingTableListener(this);
         new JoinListener(this);
+        new BundlingListener(this);
 
         // Item-specific Listeners
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());

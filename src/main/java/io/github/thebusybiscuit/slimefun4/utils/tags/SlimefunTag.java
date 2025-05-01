@@ -277,7 +277,12 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All tile entities.
      */
-    TILE_ENTITIES;
+    TILE_ENTITIES,
+
+    /**
+     * All bundles.
+     */
+    BUNDLES;
 
     /**
      * Lookup table for tag names.
