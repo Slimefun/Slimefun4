@@ -522,7 +522,7 @@ public final class SlimefunItemSetup {
                 .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.SYNTHETIC_SAPPHIRE, RecipeType.SMELTERY,
-                new ItemStack[] {SlimefunItems.ALUMINUM_DUST.item(), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS_PANE), SlimefunItems.ALUMINUM_INGOT.item(), new ItemStack(Material.LAPIS_LAZULI), null, null, null, null})
+                new ItemStack[] {SlimefunItems.ALUMINUM_DUST.item(), new ItemStack(Material.GLASS), new ItemStack(Material.GLASS_PANE), SlimefunItems.ALUMINUM_INGOT.item(), SlimefunItems.SALT.item(), SlimefunItems.SULFATE.item(), new ItemStack(Material.CALCITE), null, null})
                 .setUseableInWorkbench(true)
                 .register(plugin);
 
