@@ -45,20 +45,25 @@ class WorldEditIntegration {
             public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 pos, T block) throws WorldEditException {
                 if (block.getBlockType().getMaterial().isAir()) {
                     World world = Bukkit.getWorld(event.getWorld().getName());
-
-                    if (world != null) {
-                        Location l = new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
-
+                
+                if (world != null) {
+                    Location l = new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
+                    
+                    try {
                         if (BlockStorage.hasBlockInfo(l)) {
                             BlockStorage.clearBlockInfo(l);
                         }
+                    } catch (Exception e) {
+                        LOGGER.warn("Failed to clear block storage at " + l.toString(), e);
                     }
                 }
+            }
 
                 return getExtent().setBlock(pos, block);
             }
-
-        });
+            
+            // Re-throw the exception if we can't handle it
+            throw e;
     }
 
 }
