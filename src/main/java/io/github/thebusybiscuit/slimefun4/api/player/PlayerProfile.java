@@ -280,7 +280,7 @@ public class PlayerProfile {
         return Optional.empty();
     }
 
-    private int countNonEmptyResearches(@Nonnull Collection<Research> researches) {
+    public int countNonEmptyResearches(@Nonnull Collection<Research> researches) {
         int count = 0;
         for (Research research : researches) {
             if (research.hasEnabledItems()) {

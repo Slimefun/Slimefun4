@@ -106,8 +106,9 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
             Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
             if (profile.isPresent()) {
-                Set<Research> set = profile.get().getResearches();
-                return String.valueOf(Math.round(((set.size() * 100.0F) / Slimefun.getRegistry().getResearches().size()) * 100.0F) / 100.0F);
+                int unlockedResearches = profile.get().countNonEmptyResearches(profile.get().getResearches());
+                int allResearches = profile.get().countNonEmptyResearches(Slimefun.getRegistry().getResearches());
+                return String.valueOf(Math.round(((unlockedResearches * 100.0F) / allResearches) * 100.0F) / 100.0F);
             } else if (p instanceof Player player) {
                 return getProfilePlaceholder(player);
             }
