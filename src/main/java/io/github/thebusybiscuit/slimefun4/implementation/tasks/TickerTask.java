@@ -138,7 +138,7 @@ public class TickerTask implements Runnable {
         try {
             // Only continue if the Chunk is actually loaded
             if (chunk.isLoaded()) {
-                for (Location l : locations) {
+                for (Location l : new HashSet<>(locations)) {
                     tickLocation(tickers, l);
                 }
             }
