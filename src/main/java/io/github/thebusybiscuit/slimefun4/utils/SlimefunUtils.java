@@ -355,7 +355,7 @@ public final class SlimefunUtils {
              * in which case we want to use the method provided to compare
              */
             if (checkDistinction && sf_sfitem instanceof DistinctiveItem distinctive && sf_item instanceof DistinctiveItem) {
-                return distinctive.canStack(sf_sfitem.getItem().getItemMeta(), sf_item.getItem().getItemMeta());
+                return distinctive.canStack(sfitem.getItemMeta(), item.getItemMeta());
             }
             return true;
         } else if (item.hasItemMeta()) {
