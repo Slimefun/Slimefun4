@@ -375,7 +375,7 @@ public final class SlimefunUtils {
                 return optionalDistinctive.get().canStack(sfItemMeta, itemMeta);
             }
 
-            return id.equals((sf_sfitem.getId()));
+            return id.equals(sf_sfitem.getId());
         } else if (sfitem instanceof ItemStackWrapper && sfitem.hasItemMeta()) {
             Debug.log(TestCase.CARGO_INPUT_TESTING, "  is wrapper");
             /*
