@@ -360,7 +360,7 @@ public final class SlimefunUtils {
             }
 
             if (!checkDistinction) {
-                return id.equals((sf_sfitem.getId()));
+                return id.equals(sf_sfitem.getId());
             }
 
             /*
