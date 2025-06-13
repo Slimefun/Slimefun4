@@ -342,12 +342,13 @@ public final class SlimefunUtils {
             return false;
         }
 
-        SlimefunItem sf_sfitem = SlimefunItem.getByItem(sfitem);
         if (!item.hasItemMeta()) {
             return !sfitem.hasItemMeta();
         }
 
         Debug.log(TestCase.CARGO_INPUT_TESTING, "SlimefunUtils#isItemSimilar - item.hasItemMeta()");
+
+        SlimefunItem sf_sfitem = SlimefunItem.getByItem(sfitem);
         ItemMeta itemMeta = item.getItemMeta();
 
         if (sf_sfitem != null) {
