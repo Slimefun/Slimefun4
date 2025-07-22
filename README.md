@@ -124,7 +124,7 @@ You can opt-out of the Auto-Updater and stats collection at any time!
 <details>
   <summary>Automatic updates</summary>
   
-Slimefun4 uses an Auto-Updater which connects to https://thebusybiscuit.github.io/builds/ to check for and download updates.<br>
+Slimefun4 uses an Auto-Updater which connects to https://blob.build/ to check for and download updates.<br>
 This behaviour is enabled by default but can be turned off under `/plugins/Slimefun/config.yml`.<br>
 We highly recommend you to keep this on at any time though, as you could be missing out on important patches.
 </details>
