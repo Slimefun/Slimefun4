@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
 
@@ -38,7 +39,6 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
-
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -280,6 +280,19 @@ public final class SlimefunRegistry {
     @Nonnull
     public Set<ItemStack> getBarteringDrops() {
         return barterDrops;
+    }
+
+    /**
+     * Returns a shuffled snapshot of the current bartering drops to avoid
+     * iteration order bias when evaluating random chances.
+     *
+     * @return A shuffled List of bartering drops
+     */
+    @Nonnull
+    public List<ItemStack> getRandomizedBarteringDrops() {
+        List<ItemStack> list = new ArrayList<>(barterDrops);
+        Collections.shuffle(list, ThreadLocalRandom.current());
+        return list;
     }
 
     @Nonnull
