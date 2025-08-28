@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
 
-import java.util.Set;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
@@ -78,21 +78,12 @@ public class PiglinListener implements Listener {
     @EventHandler
     public void onPiglinDropItem(EntityDropItemEvent e) {
         if (e.getEntity() instanceof Piglin) {
-            Set<ItemStack> drops = Slimefun.getRegistry().getBarteringDrops();
-
-            /*
-             * NOTE: Getting a new random number each iteration because multiple items could have the same
-             * % chance to drop, and if one fails all items with that number will fail.
-             * Getting a new random number will allow multiple items with the same % chance to drop.
-             */
-
+            List<ItemStack> drops = Slimefun.getRegistry().getRandomizedBarteringDrops();
+            
             for (ItemStack is : drops) {
                 SlimefunItem sfi = SlimefunItem.getByItem(is);
-                // Check the getBarteringLootChance and compare against a random number 0-100,
-                // if the random number is greater then replace the item.
                 if (sfi instanceof PiglinBarterDrop piglinBarterDrop) {
                     int chance = piglinBarterDrop.getBarteringLootChance();
-
                     if (chance < 1 || chance >= 100) {
                         sfi.warn("The Piglin Bartering chance must be between 1-99% on item: " + sfi.getId());
                     } else if (chance > ThreadLocalRandom.current().nextInt(100)) {
