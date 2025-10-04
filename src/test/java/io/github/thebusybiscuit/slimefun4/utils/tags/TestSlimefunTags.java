@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.MockBukkit;
 
 class TestSlimefunTags {
 
@@ -124,6 +124,14 @@ class TestSlimefunTags {
         Assertions.assertEquals(SlimefunTag.SHULKER_BOXES, SlimefunTag.getTag("SHULKER_BOXES"));
         Assertions.assertNull(SlimefunTag.getTag("hello"));
         Assertions.assertThrows(IllegalArgumentException.class, () -> SlimefunTag.getTag(null));
+    }
+
+    @Test
+    @DisplayName("Crafter should be cargo-compatible")
+    void testCrafterIsCargoStorage() throws TagMisconfigurationException {
+        SlimefunTag.reloadAll();
+
+        Assertions.assertTrue(SlimefunTag.CARGO_SUPPORTED_STORAGE_BLOCKS.isTagged(Material.CRAFTER));
     }
 
     private void assertNotCyclic(@Nonnull SlimefunTag tag) {

@@ -87,6 +87,7 @@ messages:
 machines:
   HOLOGRAM_PROJECTOR:
     inventory-title: 'ویرایشگر هولوگرام'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4مقصدی پیدا نشد'
   TELEPORTER:

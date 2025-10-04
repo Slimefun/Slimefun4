@@ -21,8 +21,8 @@ import org.junit.jupiter.api.Test;
 import io.github.bakedlibs.dough.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestRecipeService {
 
@@ -46,7 +46,7 @@ class TestRecipeService {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         NamespacedKey key = new NamespacedKey(plugin, "furnace_recipe_test");
-        ItemStack result = new ItemStack(Material.EMERALD_BLOCK);
+        ItemStack result = new ItemStack(Material.BEDROCK);
         FurnaceRecipe recipe = new FurnaceRecipe(key, result, new MaterialChoice(Material.DIAMOND), 1, 2);
         server.addRecipe(recipe);
 

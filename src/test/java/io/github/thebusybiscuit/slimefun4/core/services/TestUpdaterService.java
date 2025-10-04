@@ -8,10 +8,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import io.github.bakedlibs.dough.updater.PluginUpdater;
+import io.github.bakedlibs.dough.versions.PrefixedVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockito.Mockito;
 
 class TestUpdaterService {
 
@@ -36,8 +39,7 @@ class TestUpdaterService {
         UpdaterService service = new UpdaterService(plugin, "Dev - 131 (git 123456)", file);
         Assertions.assertEquals(SlimefunBranch.DEVELOPMENT, service.getBranch());
         Assertions.assertTrue(service.getBranch().isOfficial());
-        // Cannot currently be tested... yay
-        // Assertions.assertEquals(131, service.getBuildNumber());
+        Assertions.assertEquals(131, service.getBuildNumber());
     }
 
     @Test
@@ -46,8 +48,15 @@ class TestUpdaterService {
         UpdaterService service = new UpdaterService(plugin, "RC - 6 (git 123456)", file);
         Assertions.assertEquals(SlimefunBranch.STABLE, service.getBranch());
         Assertions.assertTrue(service.getBranch().isOfficial());
-        // Cannot currently be tested... yay
-        // Assertions.assertEquals(6, service.getBuildNumber());
+        Assertions.assertEquals(6, service.getBuildNumber());
+    }
+
+    @Test
+    @DisplayName("Test build parsing with invalid number")
+    void testInvalidBuildNumber() {
+        UpdaterService service = new UpdaterService(plugin, "Dev - abc", file);
+        Assertions.assertEquals(SlimefunBranch.DEVELOPMENT, service.getBranch());
+        Assertions.assertEquals(-1, service.getBuildNumber());
     }
 
     @Test
@@ -66,5 +75,31 @@ class TestUpdaterService {
         Assertions.assertEquals(SlimefunBranch.UNKNOWN, service.getBranch());
         Assertions.assertFalse(service.getBranch().isOfficial());
         Assertions.assertEquals(-1, service.getBuildNumber());
+    }
+
+    @Test
+    @DisplayName("Test if auto-update config is respected")
+    void testAutoUpdateConfig() {
+        PluginUpdater<PrefixedVersion> updater = Mockito.mock(PluginUpdater.class);
+        UpdaterService service = new UpdaterService(plugin, updater, SlimefunBranch.DEVELOPMENT);
+
+        Slimefun.getCfg().setValue("options.auto-update", false);
+        Assertions.assertFalse(service.isEnabled());
+
+        Slimefun.getCfg().setValue("options.auto-update", true);
+        Assertions.assertTrue(service.isEnabled());
+    }
+
+    @Test
+    @DisplayName("Test getting the latest version")
+    void testGetLatestVersion() {
+        PluginUpdater<PrefixedVersion> updater = Mockito.mock(PluginUpdater.class);
+        PrefixedVersion version = Mockito.mock(PrefixedVersion.class);
+        Mockito.when(version.getVersionNumber()).thenReturn(42);
+        java.util.concurrent.CompletableFuture<PrefixedVersion> future = java.util.concurrent.CompletableFuture.completedFuture(version);
+        Mockito.when(updater.getLatestVersion()).thenReturn(future);
+
+        UpdaterService service = new UpdaterService(plugin, updater, SlimefunBranch.DEVELOPMENT);
+        Assertions.assertEquals(42, service.getLatestVersion());
     }
 }

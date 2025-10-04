@@ -156,6 +156,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7الرجاء كتابة النص المجسم في الشات. &r(رموز الألوان مدعومة!)'
     inventory-title: 'محرر النص المجسم'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4لا يوجد وجهات'
     pick-a-floor: '&3- اختر طابق -'

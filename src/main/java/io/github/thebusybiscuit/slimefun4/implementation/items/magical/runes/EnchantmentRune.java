@@ -51,6 +51,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
 
         for (Material mat : Material.values()) {
             if (Slimefun.instance().isUnitTest() && mat.isLegacy()) continue;
+            if (!mat.isItem()) continue;
 
             List<Enchantment> enchantments = new ArrayList<>();
 

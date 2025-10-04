@@ -198,6 +198,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Digite o nome do holograma no bate-papo. &r(Códigos de cores são suportados!)'
     inventory-title: 'Editor de Holograma'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4Nenhum destino encontrado!'
     pick-a-floor: '&3- Escolha um andar -'

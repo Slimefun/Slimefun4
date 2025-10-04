@@ -47,13 +47,21 @@ public enum MinecraftVersion {
      * This constant represents Minecraft (Java Edition) Version 1.20
      * ("The Trails &amp; Tales Update")
      */
-    MINECRAFT_1_20(20, 0, 4, "1.20.x"),
+    MINECRAFT_1_20(20, 0, "1.20.x"),
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.20.5
      * ("The Armored Paws Update")
      */
     MINECRAFT_1_20_5(20, 5, "1.20.5+"),
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.21
+     * ("The Tricky Trials Update")
+     */
+
+    MINECRAFT_1_21(21, 0, 7, "1.21.x"),
+
 
     /**
      * This constant represents an exceptional state in which we were unable
@@ -209,10 +217,31 @@ public enum MinecraftVersion {
      * @return Whether this {@link MinecraftVersion} matches the specified version id
      */
     public boolean isMinecraftVersion(int minecraftVersion, int patchVersion) {
-        return !isVirtual()
-            && this.majorVersion == minecraftVersion
-            && (this.minorVersion == -1 || this.minorVersion <= patchVersion)
-                && (this.maxMinorVersion == -1 || patchVersion <= this.maxMinorVersion);
+        if (isVirtual() || this.majorVersion != minecraftVersion) {
+            return false;
+        }
+
+        if (this == MINECRAFT_1_20) {
+            if (patchVersion == -1) {
+                return true;
+            }
+
+            return patchVersion >= 0 && patchVersion <= 4;
+        }
+
+        if (patchVersion == -1) {
+            return true;
+        }
+
+        if (this.maxMinorVersion != -1) {
+            return patchVersion >= this.minorVersion && patchVersion <= this.maxMinorVersion;
+        }
+
+        if (this.minorVersion == -1) {
+            return true;
+        }
+
+        return patchVersion >= this.minorVersion;
     }
 
     /**
@@ -288,7 +317,15 @@ public enum MinecraftVersion {
             return this.majorVersion < minecraftVersion;
         }
 
-        return this.minorVersion == -1 ? patchVersion > 0 : this.minorVersion < patchVersion;
+        if (this.minorVersion == -1) {
+            return patchVersion > 0;
+        }
+
+        if (this.maxMinorVersion != -1) {
+            return patchVersion > this.maxMinorVersion;
+        }
+
+        return this.minorVersion < patchVersion;
     }
 
 }

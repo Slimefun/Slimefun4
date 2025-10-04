@@ -316,6 +316,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Please enter your desired Hologram Text into your Chat. &r(Color Codes are supported!)'
     inventory-title: 'Hologram Editor'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
 
   ELEVATOR:
     no-destinations: '&4No destinations found'

@@ -27,10 +27,9 @@ class TeleporterCommand extends SubCommand {
                     Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, player.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
                 } else if (args.length == 2) {
 
-                    @SuppressWarnings("deprecation")
                     OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[1]);
 
-                    if (targetPlayer.getName() != null) {
+                    if (targetPlayer.hasPlayedBefore() && targetPlayer.getName() != null) {
                         Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, targetPlayer.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
                     } else {
                         Slimefun.getLocalization().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));

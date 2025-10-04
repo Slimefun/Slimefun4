@@ -239,6 +239,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Lütfen Sohbette istediğiniz Hologram Metnini yazın. &r(Renk Kodları destekleniyor!)'
     inventory-title: 'Hologram Editörü'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4Varış noktası bulunamadı'
     pick-a-floor: '&3- Bir kat seçin -'

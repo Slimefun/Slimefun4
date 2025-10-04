@@ -172,6 +172,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7원하는 홀로그램 텍스트를 대화 상자에 입력해 주십시오. &r(색상 코드가 지원됨!)'
     inventory-title: '홀로그램 편집기'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: "&4대상을 찾을 수 없습니다.\n"
     pick-a-floor: "&3- 바닥을 고르세요 -\n"

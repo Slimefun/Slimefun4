@@ -1,11 +1,12 @@
 {
-  "values" : [
-    "#slimefun:shulker_boxes",
-    "minecraft:chest",
-    "minecraft:trapped_chest",
-    "minecraft:barrel",
-    "minecraft:furnace",
-    "minecraft:dispenser",
+    "values" : [
+      "#slimefun:shulker_boxes",
+      "minecraft:chest",
+      "minecraft:trapped_chest",
+      "minecraft:barrel",
+      "minecraft:crafter",
+      "minecraft:furnace",
+      "minecraft:dispenser",
     "minecraft:dropper",
     "minecraft:hopper",
     "minecraft:brewing_stand",

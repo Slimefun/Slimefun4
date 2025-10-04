@@ -1,4 +1,5 @@
 # Table of contents
+- [AI Test Fork Changelog](#ai-test-fork-changelog)
 - [Release Candidate 38 (TBD)](#release-candidate-38-tbd)
 - [Release Candidate 37 (25 Feb 2024)](#release-candidate-37-25-feb-2024)
 - [Release Candidate 36 (20 Dec 2023)](#release-candidate-36-20-dec-2023)
@@ -38,7 +39,47 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## AI Test Fork Changelog
+
+This fork aggregates closed pull requests to evaluate AI-driven automatic Minecraft version updates. Key pull requests include:
+
+- **#1–#3**: Initial updates for Spigot 1.21.7.
+- **#4–#6**: Additional compatibility fixes for 1.21.7.
+- **#7–#12**: Upgraded to Spigot 1.21.x and refreshed dependencies.
+- **#13**: Cleaned up merge conflicts.
+- **#14–#21**: Continued updates based on integration file.
+- **#22–#28**: Expanded Minecraft 1.21 integration, introducing version 1.21.8 support.
+- **#29–#33**: Completed 1.21.x integration and reviewed for omissions.
+- **#34–#36**: Ran comprehensive tests and resolved outstanding issues.
+- **#37–#40**: Consolidated all updates and ensured tests pass.
+
+This document serves as a test run to explore whether an AI agent can maintain Slimefun automatically.
+
 ## Release Candidate 38 (TBD)
+
+#### Additions
+* Produce Collector can brush Armadillos for Armadillo Scutes on 1.21+
+* Auto-Brewer can brew Oozing, Weaving, Wind Charging and Infestation potions
+* Auto crafters now require the new Crafter block in their recipes
+* Wolf Armor craftable in the Armor Forge from Armadillo Scutes
+* Copper Bulb craftable in the Enhanced Crafting Table
+* Ominous Bottle craftable in the Magic Workbench
+* Trial Key craftable in the Magic Workbench
+* Vault and Trial Spawner craftable in the Enhanced Crafting Table
+* Heavy Core craftable in the Enhanced Crafting Table
+* Mace craftable in the Enhanced Crafting Table from a Breeze Rod and Heavy Core
+* Ore Crusher and Electric Ore Grinder can crush Tuff and its variants into Sand
+
+* Butcher Android collects Breeze Rods, Wind Charges and mushrooms from new mobs
+* Butcher Android collects Creaking Hearts from Creakings
+* Wind Charges, Armadillo Scutes and Creaking Hearts are listed as vanilla items in the Slimefun guide
+
+
+#### Changes
+* Restrict Minecraft 1.21 support to patches up to 1.21.8
+
+#### Fixes
+* Use matchMaterial for 1.21 item stacks to maintain backwards compatibility
 
 ## Release Candidate 37 (25 Feb 2024)
 

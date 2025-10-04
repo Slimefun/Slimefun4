@@ -14,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.ExplosionResult;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.protection.Interaction;
@@ -78,7 +79,13 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         List<Block> blocksToDestroy = new ArrayList<>();
 
         if (callExplosionEvent.getValue()) {
-            BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
+            BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(
+                b,
+                b.getState(),
+                blocks,
+                0,
+                ExplosionResult.DESTROY
+            );
             Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
 
             if (!blockExplodeEvent.isCancelled()) {

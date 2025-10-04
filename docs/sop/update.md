@@ -12,10 +12,10 @@ This SOP will go over updating Slimefun to the newest Minecraft version, most of
 ### Updating Bukkit/Spigot
 
 The first step is just updating Spigot in the pom.xml. This should only be done in 2 cases:
-* There's a new major version (well, MC major - 1.19 -> 1.20 is a major)
+* There's a new major version (well, MC major - 1.20 -> 1.21 is a major)
 * There was a change within MC or Bukkit/Spigot that broke the API
 
-To update the Spigot version, you will need to go to the `pom.xml` and find the `spigot.version` property, this will be within the `properties` property. Simply make this the MC version (e.g. `1.20` or in the case of minor `1.20.4`).
+To update the Spigot version, you will need to go to the `pom.xml` and find the `spigot.version` property, this will be within the `properties` property. Simply make this the MC version (e.g. `1.21` or in the case of minor `1.21.8`).
 
 Once updated, **make sure to run a build** to check for compilation failures with `mvn clean package -DskipTests=true`. We will go over the tests next.
 
@@ -66,6 +66,6 @@ While the PR is open, make sure to verify the E2E tests are passing, and you sho
 
 **This is only needed in a major version**
 
-In the `e2e-testing.yml` file you will need to update the matrix strategy, please add the latest version of the old major (e.g. if 1.21 came out, add 1.20.x where x is the latest released version). If MC is requiring a new Java version make sure that is updated too in the `latest` version.
+In the `e2e-testing.yml` file you will need to update the matrix strategy, please add the latest version of the old major (e.g. if 1.22 came out, add 1.21.x where x is the latest released version). If MC is requiring a new Java version make sure that is updated too in the `latest` version.
 
 Once updated, push and re-verify that the E2E tests are still passing.

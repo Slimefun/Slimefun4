@@ -1,13 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
 import io.github.bakedlibs.dough.updater.BlobBuildUpdater;
-import org.bukkit.plugin.Plugin;
 
 import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.updater.PluginUpdater;
@@ -36,6 +37,13 @@ public class UpdaterService {
     private final PluginUpdater<PrefixedVersion> updater;
 
     /**
+     * The version string passed to this service.
+     */
+    private final String version;
+
+    private static final Pattern BUILD_PATTERN = Pattern.compile("^(?:Dev|RC) - (\\d+)");
+
+    /**
      * The {@link SlimefunBranch} we are currently on.
      * If this is an official {@link SlimefunBranch}, auto updates will be enabled.
      */
@@ -54,26 +62,33 @@ public class UpdaterService {
      */
     public UpdaterService(@Nonnull Slimefun plugin, @Nonnull String version, @Nonnull File file) {
         this.plugin = plugin;
+        this.version = version;
         BlobBuildUpdater autoUpdater = null;
 
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.
             branch = SlimefunBranch.UNOFFICIAL;
         } else if (version.startsWith("Dev - ")) {
-            // If we are using a development build, we want to switch to our custom
-            try {
-                autoUpdater = new BlobBuildUpdater(plugin, file, "Slimefun4", "Dev");
-            } catch (Exception x) {
-                plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
+            // If we are using a development build, only attempt to create an updater
+            // when the plugin's own version also follows the development pattern.
+            if (plugin.getDescription().getVersion().startsWith("Dev - ")) {
+                try {
+                    autoUpdater = new BlobBuildUpdater(plugin, file, "Slimefun4", "Dev");
+                } catch (Exception x) {
+                    plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
+                }
             }
 
             branch = SlimefunBranch.DEVELOPMENT;
         } else if (version.startsWith("RC - ")) {
-            // If we are using a "stable" build, we want to switch to our custom
-            try {
-                autoUpdater = new BlobBuildUpdater(plugin, file, "Slimefun4", "RC");
-            } catch (Exception x) {
-                plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
+            // If we are using a "stable" build, only attempt to create an updater
+            // when the plugin's version matches the stable pattern.
+            if (plugin.getDescription().getVersion().startsWith("RC - ")) {
+                try {
+                    autoUpdater = new BlobBuildUpdater(plugin, file, "Slimefun4", "RC");
+                } catch (Exception x) {
+                    plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
+                }
             }
 
             branch = SlimefunBranch.STABLE;
@@ -82,6 +97,13 @@ public class UpdaterService {
         }
 
         this.updater = autoUpdater;
+    }
+
+    UpdaterService(@Nonnull Slimefun plugin, PluginUpdater<PrefixedVersion> updater, SlimefunBranch branch) {
+        this.plugin = plugin;
+        this.version = plugin.getDescription().getVersion();
+        this.updater = updater;
+        this.branch = branch;
     }
 
     /**
@@ -103,9 +125,9 @@ public class UpdaterService {
      * @return The build number of this Slimefun.
      */
     public int getBuildNumber() {
-        if (updater != null) {
-            PrefixedVersion version = updater.getCurrentVersion();
-            return version.getVersionNumber();
+        Matcher matcher = BUILD_PATTERN.matcher(version);
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group(1));
         }
 
         return -1;
@@ -126,12 +148,15 @@ public class UpdaterService {
     }
 
     public boolean isLatestVersion() {
-        if (getBuildNumber() == -1 || getLatestVersion() == -1) {
+        int current = getBuildNumber();
+        int latest = getLatestVersion();
+
+        if (current == -1 || latest == -1) {
             // We don't know if we're latest so just report we are
             return true;
         }
-        
-        return getBuildNumber() == getLatestVersion();
+
+        return current == latest;
     }
 
     /**

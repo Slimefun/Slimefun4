@@ -22,6 +22,10 @@ public class VersionedPotionEffectType {
     public static final PotionEffectType JUMP_BOOST;
     public static final PotionEffectType NAUSEA;
     public static final PotionEffectType RESISTANCE;
+    public static final PotionEffectType OOZING;
+    public static final PotionEffectType WEAVING;
+    public static final PotionEffectType WIND_CHARGED;
+    public static final PotionEffectType INFESTED;
 
     static {
         MinecraftVersion version = Slimefun.getMinecraftVersion();
@@ -61,6 +65,12 @@ public class VersionedPotionEffectType {
         RESISTANCE = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)
             ? PotionEffectType.RESISTANCE
             : getKey("DAMAGE_RESISTANCE");
+
+        // Added in 1.21
+        OOZING = getKey("OOZING");
+        WEAVING = getKey("WEAVING");
+        WIND_CHARGED = getKey("WIND_CHARGED");
+        INFESTED = getKey("INFESTED");
     }
 
     @Nullable

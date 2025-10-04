@@ -251,6 +251,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Por favor, escribe en el chat el texto deseado. &r(¡Se permiten códigos de color!)'
     inventory-title: 'Editor de Holograma'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4No se han encontrado destinos.'
     pick-a-floor: '&3- Selecciona un piso -'

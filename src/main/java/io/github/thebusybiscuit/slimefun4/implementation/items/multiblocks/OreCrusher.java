@@ -107,6 +107,25 @@ public class OreCrusher extends MultiBlockMachine {
             recipes.add(new ItemStack(Material.COBBLED_DEEPSLATE, 8));
             recipes.add(new ItemStack(Material.SAND, 1));
         }
+
+        // Tuff and its variants can be crushed into sand
+        recipes.add(new ItemStack(Material.TUFF, 8));
+        recipes.add(new ItemStack(Material.SAND, 1));
+
+        String[] tuffVariants = {
+            "POLISHED_TUFF",
+            "TUFF_BRICKS",
+            "POLISHED_TUFF_BRICKS",
+            "CHISELED_TUFF",
+            "CHISELED_TUFF_BRICKS"
+        };
+        for (String variant : tuffVariants) {
+            Material mat = Material.matchMaterial(variant);
+            if (mat != null) {
+                recipes.add(new ItemStack(mat, 8));
+                recipes.add(new ItemStack(Material.SAND, 1));
+            }
+        }
     }
 
     public boolean isOreDoublingEnabled() {

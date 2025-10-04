@@ -276,6 +276,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7请写下想显示在全息文本上的话. &r(支持颜色代码)'
     inventory-title: '全息图像编辑器'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4找不到上下楼'
     pick-a-floor: '&3- 选择一个楼层 -'

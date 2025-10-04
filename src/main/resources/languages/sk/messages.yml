@@ -153,6 +153,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Prosím napíš text pre hologram do chatu. &r(Kódy farieb sú podporované!)'
     inventory-title: 'Editor hologramu'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4Nenájdený žiaden cieľ'
     pick-a-floor: '&3- Výber podlažia  -'

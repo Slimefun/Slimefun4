@@ -168,6 +168,7 @@ machines:
     unknown-recipe: '&4Receita desconhecida! &cUsa a receita correta!'
   HOLOGRAM_PROJECTOR:
     inventory-title: 'Editor de Holograma'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4Não foram encontrados destinos'
     pick-a-floor: '&3- Escolha um piso -'

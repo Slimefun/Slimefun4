@@ -106,7 +106,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
                 // Fixes #3445 - Make sure the projector is not broken
                 if (!BlockStorage.check(projector, getId())) {
                     // Hologram projector no longer exists.
-                    // TODO: Add a chat message informing the player that their message was ignored.
+                    Slimefun.getLocalization().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.projector-missing", true);
                     return;
                 }
 

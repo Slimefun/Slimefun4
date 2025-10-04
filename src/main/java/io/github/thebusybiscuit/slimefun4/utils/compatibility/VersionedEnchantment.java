@@ -17,6 +17,9 @@ public class VersionedEnchantment {
     public static final Enchantment LUCK_OF_THE_SEA;
     public static final Enchantment AQUA_AFFINITY;
     public static final Enchantment FORTUNE;
+    public static final Enchantment DENSITY;
+    public static final Enchantment BREACH;
+    public static final Enchantment WIND_BURST;
 
     static {
         // DIG_SPEED is renamed to EFFICIENCY in 1.20.5
@@ -39,6 +42,11 @@ public class VersionedEnchantment {
 
         // LOOT_BONUS_BLOCKS is renamed to FORTUNE in 1.20.5
         FORTUNE = getKey("fortune");
+
+        // Added in 1.21
+        DENSITY = getKey("density");
+        BREACH = getKey("breach");
+        WIND_BURST = getKey("wind_burst");
     }
 
     @Nullable

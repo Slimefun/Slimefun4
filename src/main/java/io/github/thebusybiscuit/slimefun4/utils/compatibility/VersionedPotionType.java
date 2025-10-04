@@ -18,6 +18,10 @@ public class VersionedPotionType {
     public static final PotionType HEALING;
     public static final PotionType HARMING;
     public static final PotionType REGENERATION;
+    public static final PotionType OOZING;
+    public static final PotionType WEAVING;
+    public static final PotionType WIND_CHARGED;
+    public static final PotionType INFESTED;
 
     static {
         MinecraftVersion version = Slimefun.getMinecraftVersion();
@@ -41,6 +45,12 @@ public class VersionedPotionType {
         REGENERATION = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)
             ? PotionType.REGENERATION
             : getKey("REGEN");
+
+        // Added in 1.21
+        OOZING = getKey("OOZING");
+        WEAVING = getKey("WEAVING");
+        WIND_CHARGED = getKey("WIND_CHARGED");
+        INFESTED = getKey("INFESTED");
     }
 
     @Nullable

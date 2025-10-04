@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -43,9 +43,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BiomeMap<T> implements Keyed {
 
     /**
-     * Our internal {@link EnumMap} holding all the data.
+     * Our internal {@link Map} holding all the data.
      */
-    private final Map<Biome, T> dataMap = new EnumMap<>(Biome.class);
+    private final Map<Biome, T> dataMap = new HashMap<>();
 
     /**
      * The {@link NamespacedKey} to identify this {@link BiomeMap}.

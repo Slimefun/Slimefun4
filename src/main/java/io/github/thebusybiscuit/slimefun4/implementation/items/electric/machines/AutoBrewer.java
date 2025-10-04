@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPotionType;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedMaterial;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -48,6 +49,13 @@ public class AutoBrewer extends AContainer implements NotHopperable {
         potionRecipes.put(Material.GOLDEN_CARROT, PotionType.NIGHT_VISION);
         potionRecipes.put(Material.TURTLE_HELMET, PotionType.TURTLE_MASTER);
         potionRecipes.put(Material.PHANTOM_MEMBRANE, PotionType.SLOW_FALLING);
+        potionRecipes.put(Material.SLIME_BLOCK, VersionedPotionType.OOZING);
+        potionRecipes.put(Material.COBWEB, VersionedPotionType.WEAVING);
+        potionRecipes.put(Material.STONE, VersionedPotionType.INFESTED);
+
+        if (VersionedMaterial.BREEZE_ROD != null) {
+            potionRecipes.put(VersionedMaterial.BREEZE_ROD, VersionedPotionType.WIND_CHARGED);
+        }
 
         fermentations.put(VersionedPotionType.SWIFTNESS, PotionType.SLOWNESS);
         fermentations.put(VersionedPotionType.LEAPING, PotionType.SLOWNESS);

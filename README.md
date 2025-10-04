@@ -11,6 +11,12 @@ It currently adds over **500 new items and recipes** to Minecraft ([Read more ab
 
 But it also comes with a lot of addons! Check out our [addons](https://github.com/Slimefun/Slimefun4/wiki/Addons), you may find exactly what you were looking for.
 
+### Support for Minecraft 1.21
+Slimefun now targets Spigot **1.21.x**. The plugin recognises new entities like Armadillos, Bogged, Breezes and Creakings and handles fresh potion effects and enchantments such as Oozing, Weaving, Wind Charged, Density, Breach and Wind Burst.
+
+These additions integrate seamlessly with existing mechanics, allowing you to craft recipes and machines that interact with the latest vanilla content. You can automatically brew Oozing, Weaving, Wind Charging and Infestation potions, brush Armadillos for Scutes to craft Wolf Armor, harvest Breeze Rods, Wind Charges, mushrooms and Creaking Hearts with the Butcher Android, craft the Crafter, Copper Bulb, Ominous Bottle, Trial Key, Heavy Core, Mace, Vault and Trial Spawner, and grind Tuff variants into sand.
+
+
 ### Quick navigation
 * **[:floppy_disk: Download Slimefun4](#floppy_disk-download-slimefun-4)**
 * **[:framed_picture: Screenshots](#framed_picture-screenshots)**
@@ -30,7 +36,7 @@ Here is a full summary of the differences between the two different versions of 
 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
-| **Minecraft version(s)** | :video_game: **1.16.\* - 1.20.\*** | :video_game: **1.16.\* - 1.20.\*** |
+| **Minecraft version(s)** | :video_game: **1.16.\* - 1.21.\*** | :video_game: **1.16.\* - 1.21.\*** |
 | **Java version** | :computer: **Java 16 (or higher)** | :computer: **Java 16 (or higher)** |
 | **automatic updates** | :heavy_check_mark: | :heavy_check_mark: |
 | **frequent updates** | :heavy_check_mark: | :x: |

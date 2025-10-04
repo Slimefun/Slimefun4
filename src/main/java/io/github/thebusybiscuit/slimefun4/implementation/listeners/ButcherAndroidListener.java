@@ -23,6 +23,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEntityType;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedMaterial;
 
 /**
  * This {@link Listener} handles the collection of drops from an {@link Entity} that was
@@ -91,6 +93,28 @@ public class ButcherAndroidListener implements Listener {
 
         if (entityType == EntityType.VINDICATOR) {
             drops.add(new ItemStack(Material.EMERALD, 1 + random.nextInt(2)));
+        }
+
+        if (entityType == VersionedEntityType.BOGGED) {
+            drops.add(new ItemStack(Material.BROWN_MUSHROOM, 1 + random.nextInt(2)));
+            drops.add(new ItemStack(Material.RED_MUSHROOM, 1 + random.nextInt(2)));
+        }
+
+        if (entityType == VersionedEntityType.ARMADILLO && VersionedMaterial.ARMADILLO_SCUTE != null) {
+            drops.add(new ItemStack(VersionedMaterial.ARMADILLO_SCUTE, 1 + random.nextInt(2)));
+        }
+
+        if (entityType == VersionedEntityType.BREEZE) {
+            if (VersionedMaterial.BREEZE_ROD != null) {
+                drops.add(new ItemStack(VersionedMaterial.BREEZE_ROD));
+            }
+            if (VersionedMaterial.WIND_CHARGE != null && random.nextInt(3) == 0) {
+                drops.add(new ItemStack(VersionedMaterial.WIND_CHARGE));
+            }
+        }
+
+        if (entityType == VersionedEntityType.CREAKING && VersionedMaterial.CREAKING_HEART != null) {
+            drops.add(new ItemStack(VersionedMaterial.CREAKING_HEART));
         }
     }
 }

@@ -75,16 +75,17 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
                  * But it is completely fine for this purpose since we only use
                  * it for lookups.
                  */
-                @SuppressWarnings("deprecation")
-                NamespacedKey key = new NamespacedKey(values[0], values[1]);
-                Recipe keyedRecipe = Slimefun.getMinecraftRecipeService().getRecipe(key);
+                NamespacedKey key = NamespacedKey.fromString(values[0] + ":" + values[1]);
+                if (key != null) {
+                    Recipe keyedRecipe = Slimefun.getMinecraftRecipeService().getRecipe(key);
 
-                if (keyedRecipe != null) {
-                    boolean enabled = !container.has(recipeEnabledKey, PersistentDataType.BYTE);
-                    AbstractRecipe recipe = AbstractRecipe.of(keyedRecipe);
-                    recipe.setEnabled(enabled);
+                    if (keyedRecipe != null) {
+                        boolean enabled = !container.has(recipeEnabledKey, PersistentDataType.BYTE);
+                        AbstractRecipe recipe = AbstractRecipe.of(keyedRecipe);
+                        recipe.setEnabled(enabled);
 
-                    return recipe;
+                        return recipe;
+                    }
                 }
             }
         }

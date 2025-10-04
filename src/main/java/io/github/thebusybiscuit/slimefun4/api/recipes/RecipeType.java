@@ -34,37 +34,41 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAlta
 // TODO: Remove this class and rewrite the recipe system
 public class RecipeType implements Keyed {
 
-    public static final RecipeType MULTIBLOCK = new RecipeType(new NamespacedKey(Slimefun.instance(), "multiblock"), new CustomItemStack(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
-    public static final RecipeType ARMOR_FORGE = new RecipeType(new NamespacedKey(Slimefun.instance(), "armor_forge"), SlimefunItems.ARMOR_FORGE, "", "&a&oCraft it in an Armor Forge");
-    public static final RecipeType GRIND_STONE = new RecipeType(new NamespacedKey(Slimefun.instance(), "grind_stone"), SlimefunItems.GRIND_STONE, "", "&a&oGrind it using the Grind Stone");
-    public static final RecipeType SMELTERY = new RecipeType(new NamespacedKey(Slimefun.instance(), "smeltery"), SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery");
-    public static final RecipeType ORE_CRUSHER = new RecipeType(new NamespacedKey(Slimefun.instance(), "ore_crusher"), SlimefunItems.ORE_CRUSHER, "", "&a&oCrush it using the Ore Crusher");
-    public static final RecipeType GOLD_PAN = new RecipeType(new NamespacedKey(Slimefun.instance(), "gold_pan"), SlimefunItems.GOLD_PAN, "", "&a&oUse a Gold Pan on Gravel to obtain this Item");
-    public static final RecipeType COMPRESSOR = new RecipeType(new NamespacedKey(Slimefun.instance(), "compressor"), SlimefunItems.COMPRESSOR, "", "&a&oCompress it using the Compressor");
-    public static final RecipeType PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(Slimefun.instance(), "pressure_chamber"), SlimefunItems.PRESSURE_CHAMBER, "", "&a&oCompress it using the Pressure Chamber");
-    public static final RecipeType MAGIC_WORKBENCH = new RecipeType(new NamespacedKey(Slimefun.instance(), "magic_workbench"), SlimefunItems.MAGIC_WORKBENCH, "", "&a&oCraft it in a Magic Workbench");
-    public static final RecipeType ORE_WASHER = new RecipeType(new NamespacedKey(Slimefun.instance(), "ore_washer"), SlimefunItems.ORE_WASHER, "", "&a&oWash it in an Ore Washer");
-    public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType(new NamespacedKey(Slimefun.instance(), "enhanced_crafting_table"), SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power...");
-    public static final RecipeType JUICER = new RecipeType(new NamespacedKey(Slimefun.instance(), "juicer"), SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
+    private static NamespacedKey sfKey(String key) {
+        Slimefun plugin = Slimefun.instance();
+        return plugin != null ? new NamespacedKey(plugin, key) : new NamespacedKey("slimefun", key);
+    }
 
-    public static final RecipeType ANCIENT_ALTAR = new RecipeType(new NamespacedKey(Slimefun.instance(), "ancient_altar"), SlimefunItems.ANCIENT_ALTAR, (recipe, output) -> {
+    public static final RecipeType MULTIBLOCK = new RecipeType(sfKey("multiblock"), new CustomItemStack(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
+    public static final RecipeType ARMOR_FORGE = new RecipeType(sfKey("armor_forge"), SlimefunItems.ARMOR_FORGE, "", "&a&oCraft it in an Armor Forge");
+    public static final RecipeType GRIND_STONE = new RecipeType(sfKey("grind_stone"), SlimefunItems.GRIND_STONE, "", "&a&oGrind it using the Grind Stone");
+    public static final RecipeType SMELTERY = new RecipeType(sfKey("smeltery"), SlimefunItems.SMELTERY, "", "&a&oSmelt it using a Smeltery");
+    public static final RecipeType ORE_CRUSHER = new RecipeType(sfKey("ore_crusher"), SlimefunItems.ORE_CRUSHER, "", "&a&oCrush it using the Ore Crusher");
+    public static final RecipeType GOLD_PAN = new RecipeType(sfKey("gold_pan"), SlimefunItems.GOLD_PAN, "", "&a&oUse a Gold Pan on Gravel to obtain this Item");
+    public static final RecipeType COMPRESSOR = new RecipeType(sfKey("compressor"), SlimefunItems.COMPRESSOR, "", "&a&oCompress it using the Compressor");
+    public static final RecipeType PRESSURE_CHAMBER = new RecipeType(sfKey("pressure_chamber"), SlimefunItems.PRESSURE_CHAMBER, "", "&a&oCompress it using the Pressure Chamber");
+    public static final RecipeType MAGIC_WORKBENCH = new RecipeType(sfKey("magic_workbench"), SlimefunItems.MAGIC_WORKBENCH, "", "&a&oCraft it in a Magic Workbench");
+    public static final RecipeType ORE_WASHER = new RecipeType(sfKey("ore_washer"), SlimefunItems.ORE_WASHER, "", "&a&oWash it in an Ore Washer");
+    public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType(sfKey("enhanced_crafting_table"), SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power...");
+    public static final RecipeType JUICER = new RecipeType(sfKey("juicer"), SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
+
+    public static final RecipeType ANCIENT_ALTAR = new RecipeType(sfKey("ancient_altar"), SlimefunItems.ANCIENT_ALTAR, (recipe, output) -> {
         AltarRecipe altarRecipe = new AltarRecipe(Arrays.asList(recipe), output);
         AncientAltar altar = ((AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem());
         altar.getRecipes().add(altarRecipe);
     });
+    public static final RecipeType MOB_DROP = new RecipeType(sfKey("mob_drop"), new CustomItemStack(Material.IRON_SWORD, "&bMob Drop"), RecipeType::registerMobDrop, "", "&rKill the specified Mob to obtain this Item");
+    public static final RecipeType BARTER_DROP = new RecipeType(sfKey("barter_drop"), new CustomItemStack(Material.GOLD_INGOT, "&bBarter Drop"), RecipeType::registerBarterDrop, "&aBarter with piglins for a chance", "&ato obtain this item");
+    public static final RecipeType INTERACT = new RecipeType(sfKey("interact"), new CustomItemStack(Material.PLAYER_HEAD, "&bInteract", "", "&a&oRight click with this item"));
 
-    public static final RecipeType MOB_DROP = new RecipeType(new NamespacedKey(Slimefun.instance(), "mob_drop"), new CustomItemStack(Material.IRON_SWORD, "&bMob Drop"), RecipeType::registerMobDrop, "", "&rKill the specified Mob to obtain this Item");
-    public static final RecipeType BARTER_DROP = new RecipeType(new NamespacedKey(Slimefun.instance(), "barter_drop"), new CustomItemStack(Material.GOLD_INGOT, "&bBarter Drop"), RecipeType::registerBarterDrop, "&aBarter with piglins for a chance", "&ato obtain this item");
-    public static final RecipeType INTERACT = new RecipeType(new NamespacedKey(Slimefun.instance(), "interact"), new CustomItemStack(Material.PLAYER_HEAD, "&bInteract", "", "&a&oRight click with this item"));
+    public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(sfKey("heated_pressure_chamber"), SlimefunItems.HEATED_PRESSURE_CHAMBER);
+    public static final RecipeType FOOD_FABRICATOR = new RecipeType(sfKey("food_fabricator"), SlimefunItems.FOOD_FABRICATOR);
+    public static final RecipeType FOOD_COMPOSTER = new RecipeType(sfKey("food_composter"), SlimefunItems.FOOD_COMPOSTER);
+    public static final RecipeType FREEZER = new RecipeType(sfKey("freezer"), SlimefunItems.FREEZER);
+    public static final RecipeType REFINERY = new RecipeType(sfKey("refinery"), SlimefunItems.REFINERY);
 
-    public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(Slimefun.instance(), "heated_pressure_chamber"), SlimefunItems.HEATED_PRESSURE_CHAMBER);
-    public static final RecipeType FOOD_FABRICATOR = new RecipeType(new NamespacedKey(Slimefun.instance(), "food_fabricator"), SlimefunItems.FOOD_FABRICATOR);
-    public static final RecipeType FOOD_COMPOSTER = new RecipeType(new NamespacedKey(Slimefun.instance(), "food_composter"), SlimefunItems.FOOD_COMPOSTER);
-    public static final RecipeType FREEZER = new RecipeType(new NamespacedKey(Slimefun.instance(), "freezer"), SlimefunItems.FREEZER);
-    public static final RecipeType REFINERY = new RecipeType(new NamespacedKey(Slimefun.instance(), "refinery"), SlimefunItems.REFINERY);
-
-    public static final RecipeType GEO_MINER = new RecipeType(new NamespacedKey(Slimefun.instance(), "geo_miner"), SlimefunItems.GEO_MINER);
-    public static final RecipeType NUCLEAR_REACTOR = new RecipeType(new NamespacedKey(Slimefun.instance(), "nuclear_reactor"), SlimefunItems.NUCLEAR_REACTOR);
+    public static final RecipeType GEO_MINER = new RecipeType(sfKey("geo_miner"), SlimefunItems.GEO_MINER);
+    public static final RecipeType NUCLEAR_REACTOR = new RecipeType(sfKey("nuclear_reactor"), SlimefunItems.NUCLEAR_REACTOR);
 
     public static final RecipeType NULL = new RecipeType();
 
@@ -76,7 +80,7 @@ public class RecipeType implements Keyed {
     private RecipeType() {
         this.item = null;
         this.machine = "";
-        this.key = new NamespacedKey(Slimefun.instance(), "null");
+        this.key = sfKey("null");
     }
 
     public RecipeType(ItemStack item, String machine) {
@@ -84,9 +88,9 @@ public class RecipeType implements Keyed {
         this.machine = machine;
 
         if (machine.length() > 0) {
-            this.key = new NamespacedKey(Slimefun.instance(), machine.toLowerCase(Locale.ROOT));
+            this.key = sfKey(machine.toLowerCase(Locale.ROOT));
         } else {
-            this.key = new NamespacedKey(Slimefun.instance(), "unknown");
+            this.key = sfKey("unknown");
         }
     }
 

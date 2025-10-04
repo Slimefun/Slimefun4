@@ -252,6 +252,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7請輸入你想要顯示的文字訊息。 &r（可以輸入顏色代碼）'
     inventory-title: '全息投影編輯器'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4找不到目的地'
     pick-a-floor: '&3- 選擇樓層 -'

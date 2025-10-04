@@ -158,6 +158,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Skriv in önskad hologramtext i chatten &r(färgkoder stöds!)'
     inventory-title: 'Hologramändrare'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4Ingen destination funnen'
     pick-a-floor: '&3- Välj en våning -'

@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import be.seeseemelk.mockbukkit.block.BlockMock;
+import org.mockbukkit.mockbukkit.block.BlockMock;
 
 /**
  * This is a convenient interface for us to use in unit test classes

@@ -43,4 +43,14 @@ class TestChatUtils {
         Assertions.assertEquals("Bananas", ChatUtils.checkPlurality(input, 2));
     }
 
+    @Test
+    @DisplayName("Test ChatUtils.crop(...)")
+    void testCrop() {
+        String longText = "abcdefghijklmnopqrstuvw";
+        Assertions.assertEquals(ChatColor.RED + "abcdefghijklmnop...", ChatUtils.crop(ChatColor.RED, longText));
+
+        String shortText = "short";
+        Assertions.assertEquals(ChatColor.BLUE + "short", ChatUtils.crop(ChatColor.BLUE, shortText));
+    }
+
 }

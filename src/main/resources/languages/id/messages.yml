@@ -186,6 +186,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Masukan teks sesuai yang anda inginkan. &r(Mendukung warna teks!)'
     inventory-title: 'Pengedit hologram'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4Tujuan tidak ditemukan'
     pick-a-floor: '&3- Pilih Lantai -'

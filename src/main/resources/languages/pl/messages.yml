@@ -171,6 +171,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Wprowadź żądany tekst hologramu na czacie. &r(Kody kolorów są obsługiwane!)'
     inventory-title: 'Edytor hologramów'
+    projector-missing: '&4The hologram projector was removed before your message could be saved.'
   ELEVATOR:
     no-destinations: '&4Nie znaleziono miejsc docelowych'
     pick-a-floor: '&3- Wybierz piętro-'
