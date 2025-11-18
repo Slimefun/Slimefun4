@@ -67,7 +67,7 @@ public final class ResearchSetup {
         register("cactus_armor", 31, "Cactus Suit", 5, SlimefunItems.CACTUS_BOOTS, SlimefunItems.CACTUS_CHESTPLATE, SlimefunItems.CACTUS_HELMET, SlimefunItems.CACTUS_LEGGINGS);
         register("gold_pan", 32, "Gold Pan", 5, SlimefunItems.GOLD_PAN);
         register("magical_book_cover", 33, "Magical Book Binding", 5, SlimefunItems.MAGICAL_BOOK_COVER);
-        register("slimefun_metals", 34, "New Metals", 6, SlimefunItems.COPPER_INGOT, SlimefunItems.TIN_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.MAGNESIUM_INGOT);
+        register("slimefun_metals", 34, "New Metals", 6, SlimefunItems.TIN_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.MAGNESIUM_INGOT);
         register("ore_crusher", 35, "Ore Doubling", 6, SlimefunItems.ORE_CRUSHER);
         register("bronze", 36, "Bronze Creation", 8, SlimefunItems.BRONZE_INGOT);
         register("alloys", 37, "Advanced Alloys", 12, SlimefunItems.BILLON_INGOT, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.SOLDER_INGOT, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.BRASS_INGOT);
