@@ -73,7 +73,7 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
      */
     public void heal(@Nonnull LivingEntity n) {
         double health = n.getHealth() + healAmount;
-        double maxHealth = n.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double maxHealth = n.getAttribute(Attribute.MAX_HEALTH).getValue();
         n.setHealth(Math.min(health, maxHealth));
     }
 

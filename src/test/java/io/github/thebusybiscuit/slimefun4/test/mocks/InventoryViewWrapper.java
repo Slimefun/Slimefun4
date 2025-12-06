@@ -6,6 +6,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MenuType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,6 +31,17 @@ public class InventoryViewWrapper extends InventoryViewMock {
                                  Inventory bottom,
                                  InventoryType type) {
         super(player, name, top, bottom, type);
+    }
+
+    @Override
+    public void open() {
+        // implementation not needed for tests
+    }
+
+    @Override
+    public @org.jetbrains.annotations.Nullable MenuType getMenuType() {
+        // implementation not needed for tests
+        return null;
     }
 
     @Nonnull
