@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.slimefun</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.9.1-UNOFFICIAL</version>
+    <version>5.0</version>
     <inceptionYear>2013</inceptionYear>
     <packaging>jar</packaging>
     
@@ -26,6 +26,7 @@
         <!-- Paper properties for 1.21.10 -->
         <paper.version>1.21.10</paper.version>
         <paper.javadocs>https://jd.papermc.io/paper/1.21/</paper.javadocs>
+        <mockbukkit.skip>true</mockbukkit.skip>
         
         <!-- Default settings for sonarcloud.io -->
         <sonar.projectKey>Slimefun_Slimefun4</sonar.projectKey>
@@ -144,6 +145,7 @@
                 <configuration>
                     <junitArtifactName>org.junit.jupiter:junit-jupiter</junitArtifactName>
                     <trimStackTrace>false</trimStackTrace>
+                    <skipTests>${mockbukkit.skip}</skipTests>
                 </configuration>
             </plugin>
             
@@ -203,6 +205,13 @@
                             <artifact>*:*</artifact>
                             <excludes>
                                 <exclude>META-INF/*</exclude>
+                            </excludes>
+                        </filter>
+                        <filter>
+                            <artifact>io.github.baked-libs:dough-api</artifact>
+                            <excludes>
+                                <exclude>io/github/bakedlibs/dough/skins/CustomGameProfile.class</exclude>
+                                <exclude>io/github/bakedlibs/dough/skins/PlayerHead.class</exclude>
                             </excludes>
                         </filter>
                     </filters>
@@ -326,9 +335,9 @@
         
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.Slimefun.dough</groupId>
+            <groupId>io.github.baked-libs</groupId>
             <artifactId>dough-api</artifactId>
-            <version>cb22e71335</version>
+            <version>1.4.0</version>
             <scope>compile</scope>
         </dependency>
         
