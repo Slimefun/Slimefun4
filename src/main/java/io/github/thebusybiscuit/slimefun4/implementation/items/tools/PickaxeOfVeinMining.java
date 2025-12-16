@@ -23,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * The {@link PickaxeOfVeinMining} is a powerful tool which allows you to mine an entire vein of ores
@@ -55,6 +56,10 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
     @ParametersAreNonnullByDefault
     private void breakBlocks(Player p, List<Block> blocks, ItemStack tool) {
         for (Block b : blocks) {
+            if (BlockStorage.check(b.getLocation()) != null) {
+                continue;
+            }
+
             if (Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.BREAK_BLOCK)) {
                 b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 
