@@ -122,9 +122,13 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         ExplosiveToolBreakBlocksEvent event = new ExplosiveToolBreakBlocksEvent(p, b, blocksToDestroy, item, this);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
+        blocksToDestroy.sort((b1, b2) -> Integer.compare(b2.getY(), b1.getY()));
+
         if (!event.isCancelled()) {
             for (Block block : blocksToDestroy) {
-                breakBlock(e, p, item, block, drops);
+                if (block.getType() != Material.AIR) {
+                    breakBlock(e, p, item, block, drops);
+                }
             }
         }
     }
@@ -195,7 +199,9 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
                 BlockStorage.clearBlockInfo(b);
             }
         } else {
-            b.breakNaturally(item);
+            if (b.getType() != Material.AIR) {
+                b.breakNaturally(item);
+            }
         }
 
         damageItem(p, item);
