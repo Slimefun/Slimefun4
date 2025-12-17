@@ -12,6 +12,7 @@ import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
@@ -39,67 +40,81 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHoppe
 
     @Override
     protected void registerDefaultRecipes() {
-        recipeList = new ArrayList<>();
-        recipeList.add(new ItemStack(Material.ROTTEN_FLESH));
-        recipeList.add(new ItemStack(Material.LEATHER));
+        List<ItemStack> rawRecipes = new ArrayList<>();
 
-        recipeList.add(new ItemStack(Material.WET_SPONGE));
-        recipeList.add(new ItemStack(Material.SPONGE));
+        rawRecipes.add(new ItemStack(Material.ROTTEN_FLESH));
+        rawRecipes.add(new ItemStack(Material.LEATHER));
 
-        recipeList.add(new ItemStack(Material.KELP));
-        recipeList.add(new ItemStack(Material.DRIED_KELP));
+        rawRecipes.add(new ItemStack(Material.WET_SPONGE));
+        rawRecipes.add(new ItemStack(Material.SPONGE));
 
-        recipeList.add(new ItemStack(Material.POTION));
-        recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
+        rawRecipes.add(new ItemStack(Material.KELP));
+        rawRecipes.add(new ItemStack(Material.DRIED_KELP));
 
-        recipeList.add(new ItemStack(Material.SPLASH_POTION));
-        recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
+        rawRecipes.add(new ItemStack(Material.POTION));
+        rawRecipes.add(new ItemStack(Material.GLASS_BOTTLE));
 
-        recipeList.add(new ItemStack(Material.LINGERING_POTION));
-        recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
+        rawRecipes.add(new ItemStack(Material.SPLASH_POTION));
+        rawRecipes.add(new ItemStack(Material.GLASS_BOTTLE));
 
-        recipeList.add(new ItemStack(Material.WATER_BUCKET));
-        recipeList.add(new ItemStack(Material.BUCKET));
+        rawRecipes.add(new ItemStack(Material.LINGERING_POTION));
+        rawRecipes.add(new ItemStack(Material.GLASS_BOTTLE));
 
-        recipeList.add(new ItemStack(Material.COOKED_BEEF));
-        recipeList.add(SlimefunItems.BEEF_JERKY.item());
+        rawRecipes.add(new ItemStack(Material.WATER_BUCKET));
+        rawRecipes.add(new ItemStack(Material.BUCKET));
 
-        recipeList.add(new ItemStack(Material.COOKED_PORKCHOP));
-        recipeList.add(SlimefunItems.PORK_JERKY.item());
+        rawRecipes.add(new ItemStack(Material.COOKED_BEEF));
+        rawRecipes.add(SlimefunItems.BEEF_JERKY.item());
 
-        recipeList.add(new ItemStack(Material.COOKED_CHICKEN));
-        recipeList.add(SlimefunItems.CHICKEN_JERKY.item());
+        rawRecipes.add(new ItemStack(Material.COOKED_PORKCHOP));
+        rawRecipes.add(SlimefunItems.PORK_JERKY.item());
 
-        recipeList.add(new ItemStack(Material.COOKED_MUTTON));
-        recipeList.add(SlimefunItems.MUTTON_JERKY.item());
+        rawRecipes.add(new ItemStack(Material.COOKED_CHICKEN));
+        rawRecipes.add(SlimefunItems.CHICKEN_JERKY.item());
 
-        recipeList.add(new ItemStack(Material.COOKED_RABBIT));
-        recipeList.add(SlimefunItems.RABBIT_JERKY.item());
+        rawRecipes.add(new ItemStack(Material.COOKED_MUTTON));
+        rawRecipes.add(SlimefunItems.MUTTON_JERKY.item());
 
-        recipeList.add(new ItemStack(Material.COOKED_COD));
-        recipeList.add(SlimefunItems.FISH_JERKY.item());
+        rawRecipes.add(new ItemStack(Material.COOKED_RABBIT));
+        rawRecipes.add(SlimefunItems.RABBIT_JERKY.item());
 
-        recipeList.add(new ItemStack(Material.COOKED_SALMON));
-        recipeList.add(SlimefunItems.FISH_JERKY.item());
+        rawRecipes.add(new ItemStack(Material.COOKED_COD));
+        rawRecipes.add(SlimefunItems.FISH_JERKY.item());
+
+        rawRecipes.add(new ItemStack(Material.COOKED_SALMON));
+        rawRecipes.add(SlimefunItems.FISH_JERKY.item());
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
-            recipeList.add(new ItemStack(Material.MUD));
-            recipeList.add(new ItemStack(Material.CLAY));
+            rawRecipes.add(new ItemStack(Material.MUD));
+            rawRecipes.add(new ItemStack(Material.CLAY));
         }
 
         for (Material sapling : Tag.SAPLINGS.getValues()) {
-            recipeList.add(new ItemStack(sapling));
-            recipeList.add(new ItemStack(Material.STICK, 2));
+            rawRecipes.add(new ItemStack(sapling));
+            rawRecipes.add(new ItemStack(Material.STICK, 2));
         }
 
         for (Material leaves : Tag.LEAVES.getValues()) {
-            recipeList.add(new ItemStack(leaves));
-            recipeList.add(new ItemStack(Material.STICK));
+            rawRecipes.add(new ItemStack(leaves));
+            rawRecipes.add(new ItemStack(Material.STICK));
         }
 
-        // Now convert them to machine recipes
-        for (int i = 0; i < recipeList.size(); i += 2) {
-            registerRecipe(6, recipeList.get(i), recipeList.get(i + 1));
+        this.recipeList = new ArrayList<>();
+
+        for (int i = 0; i < rawRecipes.size(); i += 2) {
+            ItemStack input = rawRecipes.get(i);
+            ItemStack output = rawRecipes.get(i + 1);
+
+            SlimefunItem sfItem = SlimefunItem.getByItem(output);
+
+            if (sfItem != null && sfItem.isDisabled()) {
+                continue;
+            }
+
+            registerRecipe(6, input, output);
+            
+            this.recipeList.add(input);
+            this.recipeList.add(output);
         }
     }
 
