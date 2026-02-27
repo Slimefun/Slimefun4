@@ -9,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -23,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 
 /**
@@ -594,11 +594,11 @@ public final class SlimefunItems {
 
     static {
         ItemMeta meta = INDUSTRIAL_MINER.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ATTRIBUTES);
         INDUSTRIAL_MINER.setItemMeta(meta);
 
         ItemMeta meta2 = ADVANCED_INDUSTRIAL_MINER.getItemMeta();
-        meta2.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        VersionedItemFlag.addFlags(meta2, VersionedItemFlag.HIDE_ATTRIBUTES);
         ADVANCED_INDUSTRIAL_MINER.setItemMeta(meta2);
     }
 

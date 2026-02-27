@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,6 +19,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
@@ -35,7 +35,7 @@ public final class ChestMenuUtils {
     private static final ItemStack NO_PERMISSION = new SlimefunItemStack("_UI_NO_PERMISSION", Material.BARRIER, "No Permission").item();
     private static final ItemStack NOT_RESEARCHED = new SlimefunItemStack("_UI_NOT_RESEARCHED", Material.BARRIER, "Not researched").item();
 
-    private static final ItemStack BACK_BUTTON = new SlimefunItemStack("_UI_BACK", Material.ENCHANTED_BOOK, "&7\u21E6 Back", meta -> meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)).item();
+    private static final ItemStack BACK_BUTTON = new SlimefunItemStack("_UI_BACK", Material.ENCHANTED_BOOK, "&7\u21E6 Back", meta -> VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ENCHANTS)).item();
     private static final ItemStack MENU_BUTTON = new SlimefunItemStack("_UI_MENU", Material.COMPARATOR, "&eSettings / Info", "", "&7\u21E8 Click to see more").item();
     private static final ItemStack SEARCH_BUTTON = new SlimefunItemStack("_UI_SEARCH", Material.NAME_TAG, "&bSearch").item();
     private static final ItemStack WIKI_BUTTON = new SlimefunItemStack("_UI_WIKI", Material.KNOWLEDGE_BOOK, "&3Slimefun Wiki").item();
@@ -154,7 +154,7 @@ public final class ChestMenuUtils {
 
         ItemStack item = indicator.clone();
         ItemMeta im = item.getItemMeta();
-        im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        VersionedItemFlag.addFlags(im, VersionedItemFlag.HIDE_ATTRIBUTES);
 
         if (im instanceof Damageable damageable) {
             damageable.setDamage(getDurability(item, timeLeft, time));

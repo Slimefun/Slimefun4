@@ -38,8 +38,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
-import io.github.bakedlibs.dough.skins.PlayerHead;
-import io.github.bakedlibs.dough.skins.PlayerSkin;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPlayerHead;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -172,7 +171,7 @@ public class SlimefunItemStack {
                 potionMeta.addCustomEffect(effect, true);
 
                 if (effect.getType().equals(PotionEffectType.SATURATION)) {
-                    im.addItemFlags(VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+                    VersionedItemFlag.addFlags(im, VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP);
                 }
             }
         });
@@ -284,8 +283,7 @@ public class SlimefunItemStack {
             return new ItemStack(Material.PLAYER_HEAD);
         }
 
-        PlayerSkin skin = PlayerSkin.fromBase64(getTexture(id, texture));
-        return PlayerHead.getItemStack(skin);
+        return VersionedPlayerHead.getItemStack(getTexture(id, texture));
     }
 
     private static @Nonnull String getTexture(@Nonnull String id, @Nonnull String texture) {

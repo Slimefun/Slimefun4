@@ -20,13 +20,13 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
@@ -337,8 +337,8 @@ public abstract class SlimefunLocalization implements Keyed {
                 meta.setLore(lore);
             }
 
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ATTRIBUTES);
+            VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ENCHANTS);
         });
     }
 

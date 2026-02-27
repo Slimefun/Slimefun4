@@ -149,7 +149,7 @@ public class AutoBrewer extends AContainer implements NotHopperable {
     }
 
     @ParametersAreNonnullByDefault
-    @SuppressWarnings("deprecration")
+    @SuppressWarnings("deprecation")
     private ItemStack brewPreBasePotionType(Material input, Material potionType, PotionMeta potion) {
         PotionData data = potion.getBasePotionData();
         PotionType type = data.getType();

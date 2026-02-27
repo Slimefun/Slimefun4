@@ -21,15 +21,14 @@
         <!-- UTF-8 is our standard encoding for source files -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Target Java 16 -->
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-        <!-- Run tests using java 21 -->
+        <!-- Target Java 21 (required by Minecraft 1.21.2+) -->
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.testSource>21</maven.compiler.testSource>
         <maven.compiler.testTarget>21</maven.compiler.testTarget>
 
         <!-- Spigot properties -->
-        <paper.version>1.21.1</paper.version>
+        <paper.version>1.21.4</paper.version>
         <paper.javadocs>https://hub.spigotmc.org/javadocs/spigot/</paper.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -221,6 +220,14 @@
                                 <exclude>META-INF/*</exclude>
                             </excludes>
                         </filter>
+                        <!-- Exclude dough skins package - replaced by VersionedPlayerHead
+                             to avoid IncompatibleClassChangeError with final GameProfile in MC 1.21.5+ -->
+                        <filter>
+                            <artifact>com.github.Slimefun.dough:dough-api</artifact>
+                            <excludes>
+                                <exclude>io/github/bakedlibs/dough/skins/**</exclude>
+                            </excludes>
+                        </filter>
                     </filters>
                 </configuration>
 
@@ -362,12 +369,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.Slimefun.dough</groupId>
-            <artifactId>dough-api</artifactId>
-            <version>cb22e71335</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>io.papermc</groupId>
             <artifactId>paperlib</artifactId>
             <version>1.0.8</version>
@@ -402,9 +403,9 @@
         </dependency>
         <!-- This needs to be before Spigot because MockBukkit will fail otherwise. -->
         <dependency>
-            <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.21</artifactId>
-            <version>3.133.2</version>
+            <groupId>com.github.MockBukkit</groupId>
+            <artifactId>MockBukkit</artifactId>
+            <version>v4.106.1</version>
             <scope>test</scope>
 
             <exclusions>

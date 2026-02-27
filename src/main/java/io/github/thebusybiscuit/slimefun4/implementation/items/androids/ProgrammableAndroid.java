@@ -34,8 +34,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.bakedlibs.dough.skins.PlayerHead;
-import io.github.bakedlibs.dough.skins.PlayerSkin;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPlayerHead;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -880,11 +879,10 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             block.setBlockData(blockData);
 
             Slimefun.runSync(() -> {
-                PlayerSkin skin = PlayerSkin.fromBase64(texture);
                 Material type = block.getType();
                 // Ensure that this Block is still a Player Head
                 if (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD) {
-                    PlayerHead.setSkin(block, skin, true);
+                    VersionedPlayerHead.setSkin(block, texture, true);
                 }
             });
 
