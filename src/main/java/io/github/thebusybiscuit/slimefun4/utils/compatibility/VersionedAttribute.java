@@ -7,23 +7,13 @@ import org.bukkit.attribute.Attribute;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
- * Compatibility layer for {@link Attribute} constants that were renamed
- * when {@link Attribute} changed from an enum to an interface in Minecraft 1.21.2+.
- *
- * <p>In 1.21.2+, {@code Attribute.GENERIC_MAX_HEALTH} was renamed to
- * {@code Attribute.MAX_HEALTH}. Using the registry-based lookup ensures
- * compatibility across both old and new API versions.</p>
- */
+// https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse/src/main/java/org/bukkit/craftbukkit/legacy/FieldRename.java?until=2a6207fe150b6165722fce94c83cc1f206620ab5&untilPath=src%2Fmain%2Fjava%2Forg%2Fbukkit%2Fcraftbukkit%2Flegacy%2FFieldRename.java#112-157
 public class VersionedAttribute {
 
-    /**
-     * The max health attribute.
-     * Was {@code GENERIC_MAX_HEALTH} pre-1.21.2, renamed to {@code MAX_HEALTH} in 1.21.2+.
-     */
     public static final Attribute MAX_HEALTH;
 
     static {
+        // Attribute.GENERIC_MAX_HEALTH was renamed to Attribute.MAX_HEALTH in Minecraft 1.21.2+.
         // Registry key is "generic.max_health" across all versions
         MAX_HEALTH = getKey("generic.max_health");
     }

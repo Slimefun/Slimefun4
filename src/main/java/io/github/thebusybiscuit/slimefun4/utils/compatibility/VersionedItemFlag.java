@@ -38,14 +38,7 @@ public class VersionedItemFlag {
         HIDE_ENCHANTS = getKey("HIDE_ENCHANTS");
     }
 
-    /**
-     * Safely adds {@link ItemFlag}s to the given {@link ItemMeta}, skipping any
-     * {@code null} flags. This is necessary because some flags may not exist on
-     * the running Minecraft version (e.g. HIDE_ATTRIBUTES was removed in 1.21.5).
-     *
-     * @param meta  The {@link ItemMeta} to add flags to
-     * @param flags The flags to add (nulls are silently ignored)
-     */
+    // Safely adds ItemFlags to ItemMeta, skipping null flags that don't exist in the current Minecraft version
     public static void addFlags(@Nonnull ItemMeta meta, @Nullable ItemFlag... flags) {
         for (ItemFlag flag : flags) {
             if (flag != null) {

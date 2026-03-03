@@ -28,26 +28,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-/**
- * Replacement for dough's {@code PlayerSkin}, {@code PlayerHead}, and {@code CustomGameProfile}
- * that avoids extending {@code com.mojang.authlib.GameProfile}, which became {@code final}
- * in Minecraft 1.21.5+.
- *
- * <p>Uses the Bukkit {@link PlayerProfile} API (available since MC 1.18) instead of
- * authlib reflection, making this forward-compatible with all future versions.</p>
- */
 public final class VersionedPlayerHead {
 
     private static final String PROFILE_NAME = "CS-CoreLib";
 
     private VersionedPlayerHead() {}
 
-    /**
-     * Creates a player head {@link ItemStack} with the given base64-encoded texture.
-     *
-     * @param base64 The base64-encoded texture JSON string
-     * @return An {@link ItemStack} with the texture applied
-     */
     public static @Nonnull ItemStack getItemStack(@Nonnull String base64) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) item.getItemMeta();
@@ -58,12 +44,6 @@ public final class VersionedPlayerHead {
         return item;
     }
 
-    /**
-     * Applies a base64-encoded texture to the given {@link SkullMeta}.
-     *
-     * @param meta   The {@link SkullMeta} to modify
-     * @param base64 The base64-encoded texture JSON string
-     */
     public static void applyTextureToMeta(@Nonnull SkullMeta meta, @Nonnull String base64) {
         UUID uuid = UUID.nameUUIDFromBytes(base64.getBytes(StandardCharsets.UTF_8));
         URL skinUrl = extractSkinUrl(base64);
@@ -77,13 +57,6 @@ public final class VersionedPlayerHead {
         }
     }
 
-    /**
-     * Sets the skin texture on a player head block using a base64-encoded texture.
-     *
-     * @param block           The {@link Block} to update (must be PLAYER_HEAD or PLAYER_WALL_HEAD)
-     * @param base64          The base64-encoded texture JSON string
-     * @param sendBlockUpdate Whether to send a block update to clients
-     */
     public static void setSkin(@Nonnull Block block, @Nonnull String base64, boolean sendBlockUpdate) {
         Material material = block.getType();
         if (material != Material.PLAYER_HEAD && material != Material.PLAYER_WALL_HEAD) {
@@ -104,14 +77,6 @@ public final class VersionedPlayerHead {
         }
     }
 
-    /**
-     * Sets the skin texture on a player head block using a texture hash code and a specific UUID.
-     *
-     * @param block           The {@link Block} to update
-     * @param uuid            The {@link UUID} to use for the profile
-     * @param hashCode        The hex texture hash code
-     * @param sendBlockUpdate Whether to send a block update to clients
-     */
     public static void setSkinFromHash(@Nonnull Block block, @Nonnull UUID uuid, @Nonnull String hashCode, boolean sendBlockUpdate) {
         Material material = block.getType();
         if (material != Material.PLAYER_HEAD && material != Material.PLAYER_WALL_HEAD) {
@@ -131,23 +96,11 @@ public final class VersionedPlayerHead {
         }
     }
 
-    /**
-     * Converts a hex hash code to a base64-encoded texture string.
-     *
-     * @param hashCode The hex texture hash code
-     * @return A base64-encoded texture JSON string
-     */
     public static @Nonnull String hashToBase64(@Nonnull String hashCode) {
         String value = "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + hashCode + "\"}}}";
         return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
     }
 
-    /**
-     * Fetches a player's skin texture (base64) from the Mojang session server.
-     *
-     * @param playerUuid The player's {@link UUID}
-     * @return A {@link CompletableFuture} containing the base64 texture string, or null if not found
-     */
     public static @Nonnull CompletableFuture<String> fetchSkinTexture(@Nonnull UUID playerUuid) {
         return CompletableFuture.supplyAsync(() -> {
             try {
@@ -184,12 +137,6 @@ public final class VersionedPlayerHead {
         });
     }
 
-    /**
-     * Looks up a player's UUID from their username using the playerdb.co API.
-     *
-     * @param username The Minecraft username
-     * @return A {@link CompletableFuture} containing the player's UUID, or null if not found
-     */
     public static @Nonnull CompletableFuture<UUID> lookupUUID(@Nonnull String username) {
         return CompletableFuture.supplyAsync(() -> {
             try {
@@ -222,9 +169,6 @@ public final class VersionedPlayerHead {
         });
     }
 
-    /**
-     * Gets the texture URL from a hex hash code.
-     */
     @Nullable
     private static URL getTextureUrl(@Nonnull String hashCode) {
         try {
@@ -234,9 +178,6 @@ public final class VersionedPlayerHead {
         }
     }
 
-    /**
-     * Extracts the skin URL from a base64-encoded texture string.
-     */
     @Nullable
     private static URL extractSkinUrl(@Nonnull String base64) {
         try {

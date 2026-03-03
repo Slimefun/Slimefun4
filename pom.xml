@@ -21,7 +21,7 @@
         <!-- UTF-8 is our standard encoding for source files -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Target Java 21 (required by Minecraft 1.21.2+) -->
+        <!-- Target Java 21 -->
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.testSource>21</maven.compiler.testSource>
