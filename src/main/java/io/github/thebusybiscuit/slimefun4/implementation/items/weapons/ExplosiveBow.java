@@ -6,7 +6,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Particle;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -22,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 
 /**
  * The {@link ExplosiveBow} is a {@link SlimefunBow} which creates a fake explosion when it hits
@@ -49,7 +49,7 @@ public class ExplosiveBow extends SlimefunBow {
     @Override
     public BowShootHandler onShoot() {
         return (e, target) -> {
-            target.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, target.getLocation(), 1);
+            target.getWorld().spawnParticle(VersionedParticle.EXPLOSION, target.getLocation(), 1);
             SoundEffect.EXPLOSIVE_BOW_HIT_SOUND.playAt(target.getLocation(), SoundCategory.PLAYERS);
             int radius = range.getValue();
 

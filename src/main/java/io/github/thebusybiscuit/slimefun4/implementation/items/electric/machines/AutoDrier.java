@@ -62,25 +62,25 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHoppe
         recipeList.add(new ItemStack(Material.BUCKET));
 
         recipeList.add(new ItemStack(Material.COOKED_BEEF));
-        recipeList.add(SlimefunItems.BEEF_JERKY);
+        recipeList.add(SlimefunItems.BEEF_JERKY.item());
 
         recipeList.add(new ItemStack(Material.COOKED_PORKCHOP));
-        recipeList.add(SlimefunItems.PORK_JERKY);
+        recipeList.add(SlimefunItems.PORK_JERKY.item());
 
         recipeList.add(new ItemStack(Material.COOKED_CHICKEN));
-        recipeList.add(SlimefunItems.CHICKEN_JERKY);
+        recipeList.add(SlimefunItems.CHICKEN_JERKY.item());
 
         recipeList.add(new ItemStack(Material.COOKED_MUTTON));
-        recipeList.add(SlimefunItems.MUTTON_JERKY);
+        recipeList.add(SlimefunItems.MUTTON_JERKY.item());
 
         recipeList.add(new ItemStack(Material.COOKED_RABBIT));
-        recipeList.add(SlimefunItems.RABBIT_JERKY);
+        recipeList.add(SlimefunItems.RABBIT_JERKY.item());
 
         recipeList.add(new ItemStack(Material.COOKED_COD));
-        recipeList.add(SlimefunItems.FISH_JERKY);
+        recipeList.add(SlimefunItems.FISH_JERKY.item());
 
         recipeList.add(new ItemStack(Material.COOKED_SALMON));
-        recipeList.add(SlimefunItems.FISH_JERKY);
+        recipeList.add(SlimefunItems.FISH_JERKY.item());
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
             recipeList.add(new ItemStack(Material.MUD));

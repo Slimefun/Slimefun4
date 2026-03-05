@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
 import java.util.function.Predicate;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,6 +31,20 @@ public class MachineFuel implements Predicate<ItemStack> {
         this.fuel = fuel;
         this.wrapper = ItemStackWrapper.wrap(fuel);
         this.output = output;
+    }
+
+    public MachineFuel(int seconds, SlimefunItemStack fuel) {
+        this(seconds, fuel.item(), null);
+    }
+
+    public MachineFuel(int seconds, SlimefunItemStack fuel, SlimefunItemStack output) {
+        Validate.notNull(fuel, "Fuel must never be null!");
+        Validate.isTrue(seconds > 0, "Fuel must last at least one second!");
+
+        this.ticks = seconds * 2;
+        this.fuel = fuel.item();
+        this.wrapper = ItemStackWrapper.wrap(this.fuel);
+        this.output = output != null ? output.item() : null;
     }
 
     public ItemStack getInput() {

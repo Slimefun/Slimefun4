@@ -39,7 +39,7 @@ import io.papermc.lib.PaperLib;
 public class OreWasher extends MultiBlockMachine {
 
     // @formatter:off
-    private final ItemStack[] dusts = new ItemStack[] {
+    private final SlimefunItemStack[] dusts = new SlimefunItemStack[] {
         SlimefunItems.IRON_DUST,
         SlimefunItems.GOLD_DUST,
         SlimefunItems.COPPER_DUST,
@@ -74,14 +74,14 @@ public class OreWasher extends MultiBlockMachine {
          * way of obtaining them. But we also wanna display them here, so we just
          * add these two recipes manually
          */
-        recipes.add(SlimefunItems.SIFTED_ORE);
-        recipes.add(SlimefunItems.IRON_DUST);
+        recipes.add(SlimefunItems.SIFTED_ORE.item());
+        recipes.add(SlimefunItems.IRON_DUST.item());
 
-        recipes.add(SlimefunItems.SIFTED_ORE);
-        recipes.add(SlimefunItems.GOLD_DUST);
+        recipes.add(SlimefunItems.SIFTED_ORE.item());
+        recipes.add(SlimefunItems.GOLD_DUST.item());
 
         recipes.add(new ItemStack(Material.SAND));
-        recipes.add(SlimefunItems.SALT);
+        recipes.add(SlimefunItems.SALT.item());
     }
 
     @Override
@@ -99,7 +99,7 @@ public class OreWasher extends MultiBlockMachine {
 
             for (ItemStack input : inv.getContents()) {
                 if (input != null) {
-                    if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE, true)) {
+                    if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE.item(), true)) {
                         ItemStack output = getRandomDust();
                         Inventory outputInv;
 
@@ -113,7 +113,7 @@ public class OreWasher extends MultiBlockMachine {
                              * SlimefunItems.DEBUG_FISH however, signals that it's not supposed
                              * to be given to the player.
                              */
-                            ItemStack dummyAdding = SlimefunItems.DEBUG_FISH;
+                            ItemStack dummyAdding = SlimefunItems.DEBUG_FISH.item();
                             outputInv = findOutputInventory(dummyAdding, dispBlock, inv);
                         } else {
                             outputInv = findOutputInventory(output, dispBlock, inv);
@@ -127,12 +127,12 @@ public class OreWasher extends MultiBlockMachine {
                         removeItem(p, b, inv, outputInv, input, event.getOutput(), 1);
 
                         if (outputInv != null) {
-                            outputInv.addItem(SlimefunItems.STONE_CHUNK);
+                            outputInv.addItem(SlimefunItems.STONE_CHUNK.item());
                         }
 
                         return;
                     } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND, 2), false)) {
-                        ItemStack output = SlimefunItems.SALT;
+                        ItemStack output = SlimefunItems.SALT.item();
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
                         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
@@ -143,8 +143,8 @@ public class OreWasher extends MultiBlockMachine {
                         removeItem(p, b, inv, outputInv, input, event.getOutput(), 2);
 
                         return;
-                    } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
-                        ItemStack output = SlimefunItems.PURE_ORE_CLUSTER;
+                    } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE.item(), true)) {
+                        ItemStack output = SlimefunItems.PURE_ORE_CLUSTER.item();
                         Inventory outputInv = findOutputInventory(output, dispBlock, inv);
                         MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
 
@@ -185,7 +185,7 @@ public class OreWasher extends MultiBlockMachine {
      */
     public @Nonnull ItemStack getRandomDust() {
         int index = ThreadLocalRandom.current().nextInt(dusts.length);
-        return dusts[index].clone();
+        return dusts[index].item();
     }
 
 }

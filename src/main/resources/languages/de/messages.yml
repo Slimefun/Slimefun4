@@ -148,6 +148,7 @@ messages:
   bee-suit-slow-fall: '&eDeine Bienenflügel haben dir eine sichere Landung ermöglicht'
   deprecated-item: '&4Dieses Item ist veraltet und wird bald aus Slimefun entfernt.'
   researching-is-disabled: '&cDas Freischalten von Items wurde auf diesem Server deaktiviert. Alles ist bereits automatisch freigeschaltet!'
+  await-deletion: '&cDu kannst keinen Slimefun Block so kurz nach dem Abbauen eines anderen platzieren. Versuche es in Kürze erneut.'
   multi-tool:
     mode-change: '&bDer Modus von deinem Multi-Tool wurde geändert zu: &9%mode%'
     not-shears: '&cEinMulti Tool kann nicht als Schere verwendet werden!'

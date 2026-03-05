@@ -78,6 +78,24 @@ guide:
     translations:
       name: '&aBir şeyler mi eksik?'
       lore: 'Kendi çevirinizi eklemek için tıklayın'
+  options:
+    learning-animation:
+      enabled:
+        text:
+          - '&bÖğrenme Animasyonu: &aAçık'
+          - ''
+          - '&7İstediğiniz zaman Eşyanın bilgilerini'
+          - '&7yazdığınız zaman'
+          - '&7kanalda görmenizi sağlar.'
+        click: '&eÖğrenme animasyonunu kapatmak için tıkla'
+      disabled:
+        text:
+          - '&bÖğrenme Animasyonu: &4Kapalı'
+          - ''
+          - '&7İstediğiniz zaman Eşyanın bilgilerini'
+          - '&7yazdığınız zaman'
+          - '&7kanalda görmenizi sağlar.'
+        click: '&eÖğrenme animasyonunu açmak için tıkla'
   title:
     main: 'Slimefun Rehberi'
     settings: 'Ayarlar & Bilgi'
@@ -127,18 +145,24 @@ messages:
     mode-change: '&b%device% modül değiştirildi: &9%mode%'
     not-shears: '&cBir Multi Tool makas olarak kullanılamaz!'
   auto-crafting:
+    recipe-set: '&aBu makinenin tarifini başarıyla ayarladınız.'
+    recipe-removed: '&eTarifi bu makineden başarıyla kaldırdınız. İstediğiniz zaman yeni bir tarif ayarlayabilirsiniz!'
+    no-recipes: '&cTuttuğunuz öğe için geçerli herhangi bir tarif bulamadık.'
+    missing-chest: '&cKayıp göğüs! Otomatik zanaatkarlar bir sandığın üzerine yerleştirilmelidir.'
     select: 'Bu tarifi seçin'
+    temporarily-disabled: '&eBu otomatik Crafter geçici olarak devre dışı bırakıldı. İstediğiniz zaman yeniden etkinleştirebilirsiniz!'
+    re-enabled: '&eBu otomatik Crafter yeniden etkinleştirildi!'
     tooltips:
       enabled:
         - '&aBu tarif şu anda etkin'
         - ''
-        - '&eLeft Click &7to temporarily disable the recipe'
-        - '&eRight Click &7to remove this recipe'
+        - '&eSol Tıklama &7tarifi geçici olarak devre dışı bırakmak için'
+        - '&eSağ Tıklama &7bu tarifi kaldırmak için'
       disabled:
         - '&cBu tarif şu anda devre dışı'
         - ''
-        - '&eLeft Click &7to re-enable this recipe'
-        - '&eRight Click &7to remove this recipe'
+        - '&eSol Tıklama &7bu tarifi yeniden etkinleştirmek için'
+        - '&eSağ Tıklama &7bu tarifi kaldırmak için'
   talisman:
     anvil: '&a&oTılsım aletinizi kırılmadan kurtardı'
     miner: '&a&oTılsımın madenini ikiye katladı'
@@ -235,6 +259,7 @@ machines:
     waypoints: 'Yer Noktası Genel Bakışı'
   CARGO_NODES:
     must-be-placed: '&4Mutlaka bir sandık veya makineye bağlanmalı!'
+    connected: '&2Bağlandı!'
   INDUSTRIAL_MINER:
     no-fuel: '&cIndustrial Miner''ınızın yakıtı bitti! Yukarıdaki sandığa yakıt koyun.'
     piston-facing: '&cIndustrial Miner''ınızın pistonu yukarıya bakmalı!'

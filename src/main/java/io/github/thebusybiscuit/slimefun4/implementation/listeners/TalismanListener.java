@@ -49,18 +49,19 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 /**
  * This {@link Listener} is responsible for handling any {@link Event}
  * that is required for activating a {@link Talisman}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author StarWishsama
  * @author svr333
  * @author martinbrom
  * @author Sfiguz7
- * 
+ *
  * @see Talisman
  *
  */
@@ -123,7 +124,7 @@ public class TalismanListener implements Listener {
     /**
      * This method is used for the {@link Talisman} of the whirlwind, it returns a copy
      * of a {@link Projectile} that was fired at a {@link Player}.
-     * 
+     *
      * @param p
      *            The {@link Player} who was hit
      * @param projectile
@@ -209,7 +210,7 @@ public class TalismanListener implements Listener {
         /*
          * WARNING: This check is broken as entities now set their
          * equipment to NULL before calling the event!
-         * 
+         *
          * It prevents duplication of handheld items or armor.
          */
         EntityEquipment equipment = entity.getEquipment();
@@ -289,7 +290,7 @@ public class TalismanListener implements Listener {
         if (enchantment != null && Talisman.trigger(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             /*
              * Fixes #2679
-             * 
+             *
              * By default, the Bukkit API doesn't allow us to give enchantment books
              * extra enchantments.
              */
@@ -301,7 +302,7 @@ public class TalismanListener implements Listener {
         }
 
         // Wizard Talisman
-        if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.trigger(e, SlimefunItems.TALISMAN_WIZARD)) {
+        if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && VersionedEnchantment.FORTUNE.canEnchantItem(e.getItem()) && Talisman.trigger(e, SlimefunItems.TALISMAN_WIZARD)) {
             // Randomly lower some enchantments
             for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
                 if (entry.getValue() > 1 && random.nextInt(100) < 40) {
@@ -310,7 +311,7 @@ public class TalismanListener implements Listener {
             }
 
             // Give an extra Fortune boost (Lvl 3 - 5)
-            enchantments.put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
+            enchantments.put(VersionedEnchantment.FORTUNE, random.nextInt(3) + 3);
         }
     }
 
@@ -351,7 +352,7 @@ public class TalismanListener implements Listener {
             Collection<Item> drops = e.getItems();
 
             if (Talisman.trigger(e, talismanItemStack, false)) {
-                int dropAmount = getAmountWithFortune(type, meta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
+                int dropAmount = getAmountWithFortune(type, meta.getEnchantLevel(VersionedEnchantment.FORTUNE));
 
                 // Keep track of whether we actually doubled the drops or not
                 boolean doubledDrops = false;
@@ -363,7 +364,7 @@ public class TalismanListener implements Listener {
                     // We do not want to dupe blocks
                     if (!droppedItem.getType().isBlock()) {
                         int amount = Math.max(1, (dropAmount * 2) - droppedItem.getAmount());
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItemStack(droppedItem, amount));
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), CustomItemStack.create(droppedItem, amount));
                         doubledDrops = true;
                     }
                 }

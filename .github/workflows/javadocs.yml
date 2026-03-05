@@ -1,0 +1,37 @@
+name: Javadocs
+
+on:
+  push:
+    paths:
+    - 'src/**'
+    - 'pom.xml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Maven build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4.6.0
+      with:
+        distribution: 'adopt'
+        java-version: '21'
+        java-package: jdk
+        architecture: x64
+
+    - name: Cache Maven packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build Javadocs
+      run: mvn javadoc:javadoc

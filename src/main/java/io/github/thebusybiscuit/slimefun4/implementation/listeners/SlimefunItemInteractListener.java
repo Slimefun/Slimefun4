@@ -53,7 +53,7 @@ public class SlimefunItemInteractListener implements Listener {
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             // Exclude the Debug Fish here because it is handled in a seperate Listener
-            if (SlimefunUtils.isItemSimilar(e.getItem(), SlimefunItems.DEBUG_FISH, true)) {
+            if (SlimefunUtils.isItemSimilar(e.getItem(), SlimefunItems.DEBUG_FISH.item(), true)) {
                 return;
             }
 

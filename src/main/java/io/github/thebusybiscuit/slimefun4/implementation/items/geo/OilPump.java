@@ -74,7 +74,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     @Override
     public List<ItemStack> getDisplayRecipes() {
-        return Arrays.asList(emptyBucket, SlimefunItems.OIL_BUCKET);
+        return Arrays.asList(emptyBucket, SlimefunItems.OIL_BUCKET.item());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected MachineRecipe findNextRecipe(BlockMenu inv) {
-        if (inv.fits(SlimefunItems.OIL_BUCKET, getOutputSlots())) {
+        if (inv.fits(SlimefunItems.OIL_BUCKET.item(), getOutputSlots())) {
             Block b = inv.getBlock();
 
             for (int slot : getInputSlots()) {
@@ -97,7 +97,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
                     OptionalInt supplies = Slimefun.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (supplies.isPresent() && supplies.getAsInt() > 0) {
-                        MachineRecipe recipe = new MachineRecipe(26, new ItemStack[] { emptyBucket }, new ItemStack[] { SlimefunItems.OIL_BUCKET });
+                        MachineRecipe recipe = new MachineRecipe(26, new ItemStack[] { emptyBucket }, new ItemStack[] { SlimefunItems.OIL_BUCKET.item() });
 
                         inv.consumeItem(slot);
                         Slimefun.getGPSNetwork().getResourceManager().setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);

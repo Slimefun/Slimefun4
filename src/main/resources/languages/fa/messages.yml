@@ -109,7 +109,7 @@ android:
     editor: 'ویرایش برنامه'
     uploaded:
       - '&bدرحال آپلود...'
-      - '&aSuccessfully uploaded your script!'
+      - '&aآپلود اسکریپت کامل شد!'
 languages:
   default: 'پیشفرض سرور'
   en: 'انگلیسی'
@@ -118,9 +118,11 @@ languages:
   it: 'ایتالیایی'
   es: 'اسپانیایی'
   pl: 'لهستانی'
+  sv: 'سوئدی'
   nl: 'هلندی'
   cs: 'کشور چک'
   hu: 'مجارستانی'
+  lv: 'لاتویایی'
   ru: 'روسی'
   zh-TW: 'چینی (تایوان)'
   vi: 'ویتنامی'

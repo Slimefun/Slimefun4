@@ -28,7 +28,7 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 /**
  * The {@link PickaxeOfVeinMining} is a powerful tool which allows you to mine an entire vein of ores
  * at once. It even works with the fortune {@link Enchantment}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Linox
  *
@@ -63,7 +63,7 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
                     b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
                 } else {
                     for (ItemStack drop : b.getDrops(tool)) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : new CustomItemStack(drop, fortune));
+                        b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : CustomItemStack.create(drop, fortune));
                     }
                 }
 

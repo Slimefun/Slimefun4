@@ -3,7 +3,7 @@ name: Java CI
 on:
   push:
     branches:
-    - master
+    - stable
     paths:
     - 'src/**'
     - 'pom.xml'
@@ -27,11 +27,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4.0.0
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4.6.0
       with:
         distribution: 'adopt'
-        java-version: '17'
+        java-version: '21'
         java-package: jdk
         architecture: x64
 

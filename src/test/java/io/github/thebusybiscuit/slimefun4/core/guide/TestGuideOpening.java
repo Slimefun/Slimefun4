@@ -65,7 +65,7 @@ class TestGuideOpening {
     @Test
     @DisplayName("Test if an ItemGroup can be opened from the History")
     void testOpenItemGroup() throws InterruptedException {
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "history_itemgroup"), new CustomItemStack(Material.BLUE_TERRACOTTA, "&9Testy test"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "history_itemgroup"), CustomItemStack.create(Material.BLUE_TERRACOTTA, "&9Testy test"));
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
         PlayerProfile profile = prepare(guide, history -> history.add(itemGroup, 1));
@@ -75,7 +75,7 @@ class TestGuideOpening {
     @Test
     @DisplayName("Test if a SlimefunItem can be viewed from the History")
     void testOpenSlimefunItem() throws InterruptedException {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "OPEN_SLIMEFUN_ITEM", new CustomItemStack(Material.PRISMARINE_SHARD, "&5Some Shard I guess"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "OPEN_SLIMEFUN_ITEM", CustomItemStack.create(Material.PRISMARINE_SHARD, "&5Some Shard I guess"));
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
         PlayerProfile profile = prepare(guide, history -> history.add(item));
@@ -98,7 +98,7 @@ class TestGuideOpening {
         String normalTerm = "iron";
         String coloredTerm = ChatColor.DARK_PURPLE + "iron";
 
-        SlimefunItem testItem = TestUtilities.mockSlimefunItem(plugin, "IRON_ITEM", new CustomItemStack(Material.IRON_INGOT, "iron item"));
+        SlimefunItem testItem = TestUtilities.mockSlimefunItem(plugin, "IRON_ITEM", CustomItemStack.create(Material.IRON_INGOT, "iron item"));
         testItem.register(plugin);
 
         Player player = server.addPlayer();

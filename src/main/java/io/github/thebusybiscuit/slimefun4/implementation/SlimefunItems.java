@@ -9,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -22,6 +21,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.St
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 
 /**
@@ -192,8 +193,8 @@ public final class SlimefunItems {
         GRANDPAS_WALKING_STICK.addUnsafeEnchantment(Enchantment.KNOCKBACK, 5);
 
         BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 2);
-        BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.DURABILITY, 4);
-        BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
+        BLADE_OF_VAMPIRES.addUnsafeEnchantment(VersionedEnchantment.UNBREAKING, 4);
+        BLADE_OF_VAMPIRES.addUnsafeEnchantment(VersionedEnchantment.SHARPNESS, 2);
     }
 
     /* Bows */
@@ -212,8 +213,8 @@ public final class SlimefunItems {
     public static final SlimefunItemStack CLIMBING_PICK = new SlimefunItemStack("CLIMBING_PICK", Material.IRON_PICKAXE, "&bClimbing Pick", "", "&fAllows you to climb certain surfaces", "&fby right-clicking.", "&fEnchant this pick with Efficiency to", "&fclimb even faster!");
 
     static {
-        COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.DIG_SPEED, 6);
+        COBALT_PICKAXE.addUnsafeEnchantment(VersionedEnchantment.UNBREAKING, 10);
+        COBALT_PICKAXE.addUnsafeEnchantment(VersionedEnchantment.EFFICIENCY, 6);
     }
 
     /* Armor */
@@ -304,7 +305,7 @@ public final class SlimefunItems {
     static {
         Map<Enchantment, Integer> cactusEnchs = new HashMap<>();
         cactusEnchs.put(Enchantment.THORNS, 3);
-        cactusEnchs.put(Enchantment.DURABILITY, 6);
+        cactusEnchs.put(VersionedEnchantment.UNBREAKING, 6);
 
         CACTUS_HELMET.addUnsafeEnchantments(cactusEnchs);
         CACTUS_CHESTPLATE.addUnsafeEnchantments(cactusEnchs);
@@ -312,8 +313,8 @@ public final class SlimefunItems {
         CACTUS_BOOTS.addUnsafeEnchantments(cactusEnchs);
 
         Map<Enchantment, Integer> damascusEnchs = new HashMap<>();
-        damascusEnchs.put(Enchantment.DURABILITY, 5);
-        damascusEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
+        damascusEnchs.put(VersionedEnchantment.UNBREAKING, 5);
+        damascusEnchs.put(VersionedEnchantment.PROTECTION, 5);
 
         DAMASCUS_STEEL_HELMET.addUnsafeEnchantments(damascusEnchs);
         DAMASCUS_STEEL_CHESTPLATE.addUnsafeEnchantments(damascusEnchs);
@@ -321,8 +322,8 @@ public final class SlimefunItems {
         DAMASCUS_STEEL_BOOTS.addUnsafeEnchantments(damascusEnchs);
 
         Map<Enchantment, Integer> reinforcedEnchs = new HashMap<>();
-        reinforcedEnchs.put(Enchantment.DURABILITY, 9);
-        reinforcedEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 9);
+        reinforcedEnchs.put(VersionedEnchantment.UNBREAKING, 9);
+        reinforcedEnchs.put(VersionedEnchantment.PROTECTION, 9);
 
         REINFORCED_ALLOY_HELMET.addUnsafeEnchantments(reinforcedEnchs);
         REINFORCED_ALLOY_CHESTPLATE.addUnsafeEnchantments(reinforcedEnchs);
@@ -330,22 +331,22 @@ public final class SlimefunItems {
         REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforcedEnchs);
 
         Map<Enchantment, Integer> gildedEnchs = new HashMap<>();
-        gildedEnchs.put(Enchantment.DURABILITY, 6);
-        gildedEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);
+        gildedEnchs.put(VersionedEnchantment.UNBREAKING, 6);
+        gildedEnchs.put(VersionedEnchantment.PROTECTION, 8);
 
         GILDED_IRON_HELMET.addUnsafeEnchantments(gildedEnchs);
         GILDED_IRON_CHESTPLATE.addUnsafeEnchantments(gildedEnchs);
         GILDED_IRON_LEGGINGS.addUnsafeEnchantments(gildedEnchs);
         GILDED_IRON_BOOTS.addUnsafeEnchantments(gildedEnchs);
 
-        GOLDEN_HELMET_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        GOLDEN_CHESTPLATE_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        GOLDEN_LEGGINGS_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        GOLDEN_BOOTS_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
+        GOLDEN_HELMET_12K.addUnsafeEnchantment(VersionedEnchantment.UNBREAKING, 10);
+        GOLDEN_CHESTPLATE_12K.addUnsafeEnchantment(VersionedEnchantment.UNBREAKING, 10);
+        GOLDEN_LEGGINGS_12K.addUnsafeEnchantment(VersionedEnchantment.UNBREAKING, 10);
+        GOLDEN_BOOTS_12K.addUnsafeEnchantment(VersionedEnchantment.UNBREAKING, 10);
 
         Map<Enchantment, Integer> slimeEnchs = new HashMap<>();
-        slimeEnchs.put(Enchantment.DURABILITY, 4);
-        slimeEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        slimeEnchs.put(VersionedEnchantment.UNBREAKING, 4);
+        slimeEnchs.put(VersionedEnchantment.PROTECTION, 2);
 
         SLIME_HELMET_STEEL.addUnsafeEnchantments(slimeEnchs);
         SLIME_CHESTPLATE_STEEL.addUnsafeEnchantments(slimeEnchs);
@@ -353,8 +354,8 @@ public final class SlimefunItems {
         SLIME_BOOTS_STEEL.addUnsafeEnchantments(slimeEnchs);
 
         Map<Enchantment, Integer> beeEnchs = new HashMap<>();
-        beeEnchs.put(Enchantment.DURABILITY, 4);
-        beeEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        beeEnchs.put(VersionedEnchantment.UNBREAKING, 4);
+        beeEnchs.put(VersionedEnchantment.PROTECTION, 2);
 
         BEE_HELMET.addUnsafeEnchantments(beeEnchs);
         BEE_WINGS.addUnsafeEnchantments(beeEnchs);
@@ -567,10 +568,10 @@ public final class SlimefunItems {
     public static final SlimefunItemStack STAFF_STORM = new SlimefunItemStack("STAFF_ELEMENTAL_STORM", Material.STICK, "&6Elemental Staff &7- &8&oStorm", "", "&7Element: &8&oStorm", "", "&eRight Click&7 to summon a lightning", LoreBuilder.usesLeft(StormStaff.MAX_USES));
 
     static {
-        STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK, 1);
+        STAFF_WIND.addUnsafeEnchantment(VersionedEnchantment.LUCK_OF_THE_SEA, 1);
         STAFF_FIRE.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 5);
-        STAFF_WATER.addUnsafeEnchantment(Enchantment.WATER_WORKER, 1);
-        STAFF_STORM.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+        STAFF_WATER.addUnsafeEnchantment(VersionedEnchantment.AQUA_AFFINITY, 1);
+        STAFF_STORM.addUnsafeEnchantment(VersionedEnchantment.UNBREAKING, 1);
     }
 
     /* Multiblocks */
@@ -593,11 +594,11 @@ public final class SlimefunItems {
 
     static {
         ItemMeta meta = INDUSTRIAL_MINER.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ATTRIBUTES);
         INDUSTRIAL_MINER.setItemMeta(meta);
 
         ItemMeta meta2 = ADVANCED_INDUSTRIAL_MINER.getItemMeta();
-        meta2.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        VersionedItemFlag.addFlags(meta2, VersionedItemFlag.HIDE_ATTRIBUTES);
         ADVANCED_INDUSTRIAL_MINER.setItemMeta(meta2);
     }
 
@@ -639,19 +640,19 @@ public final class SlimefunItems {
     public static final SlimefunItemStack SOULBOUND_BOOTS = new SlimefunItemStack("SOULBOUND_BOOTS", Material.DIAMOND_BOOTS, "&cSoulbound Boots");
 
     /* Runes */
-    public static final SlimefunItemStack BLANK_RUNE = new SlimefunItemStack("BLANK_RUNE", new ColoredFireworkStar(Color.BLACK, "&8Blank Rune"));
+    public static final SlimefunItemStack BLANK_RUNE = new SlimefunItemStack("BLANK_RUNE", ColoredFireworkStar.create(Color.BLACK, "&8Blank Rune"));
 
-    public static final SlimefunItemStack AIR_RUNE = new SlimefunItemStack("ANCIENT_RUNE_AIR", new ColoredFireworkStar(Color.AQUA, "&7Ancient Rune &8&l[&b&lAir&8&l]"));
-    public static final SlimefunItemStack WATER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_WATER", new ColoredFireworkStar(Color.BLUE, "&7Ancient Rune &8&l[&1&lWater&8&l]"));
-    public static final SlimefunItemStack FIRE_RUNE = new SlimefunItemStack("ANCIENT_RUNE_FIRE", new ColoredFireworkStar(Color.RED, "&7Ancient Rune &8&l[&4&lFire&8&l]"));
-    public static final SlimefunItemStack EARTH_RUNE = new SlimefunItemStack("ANCIENT_RUNE_EARTH", new ColoredFireworkStar(Color.fromRGB(112, 47, 7), "&7Ancient Rune &8&l[&c&lEarth&8&l]"));
-    public static final SlimefunItemStack ENDER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_ENDER", new ColoredFireworkStar(Color.PURPLE, "&7Ancient Rune &8&l[&5&lEnder&8&l]"));
+    public static final SlimefunItemStack AIR_RUNE = new SlimefunItemStack("ANCIENT_RUNE_AIR", ColoredFireworkStar.create(Color.AQUA, "&7Ancient Rune &8&l[&b&lAir&8&l]"));
+    public static final SlimefunItemStack WATER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_WATER", ColoredFireworkStar.create(Color.BLUE, "&7Ancient Rune &8&l[&1&lWater&8&l]"));
+    public static final SlimefunItemStack FIRE_RUNE = new SlimefunItemStack("ANCIENT_RUNE_FIRE", ColoredFireworkStar.create(Color.RED, "&7Ancient Rune &8&l[&4&lFire&8&l]"));
+    public static final SlimefunItemStack EARTH_RUNE = new SlimefunItemStack("ANCIENT_RUNE_EARTH", ColoredFireworkStar.create(Color.fromRGB(112, 47, 7), "&7Ancient Rune &8&l[&c&lEarth&8&l]"));
+    public static final SlimefunItemStack ENDER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_ENDER", ColoredFireworkStar.create(Color.PURPLE, "&7Ancient Rune &8&l[&5&lEnder&8&l]"));
 
-    public static final SlimefunItemStack RAINBOW_RUNE = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", new ColoredFireworkStar(Color.FUCHSIA, "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
-    public static final SlimefunItemStack LIGHTNING_RUNE = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", new ColoredFireworkStar(Color.fromRGB(255, 255, 95), "&7Ancient Rune &8&l[&e&lLightning&8&l]"));
-    public static final SlimefunItemStack SOULBOUND_RUNE = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", new ColoredFireworkStar(Color.fromRGB(47, 0, 117), "&7Ancient Rune &8&l[&5&lSoulbound&8&l]", "&eDrop this rune onto a dropped item to", "&5bind &ethat item to your soul.", " ", "&eIt is advised that you only use this rune", "&eon &6important &eitems.", " ", "&eItems bound to your soul won't drop on death."));
-    public static final SlimefunItemStack ENCHANTMENT_RUNE = new SlimefunItemStack("ANCIENT_RUNE_ENCHANTMENT", new ColoredFireworkStar(Color.fromRGB(255, 217, 25), "&7Ancient Rune &8&l[&6&lEnchantment&8&l]", "&eDrop this rune onto a dropped item to", "&6enchant &ethat item with a random enchantment."));
-    public static final SlimefunItemStack VILLAGER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_VILLAGERS", new ColoredFireworkStar(Color.fromRGB(160, 20, 5), "&7Ancient Rune &8&l[&4&lVillagers&8&l]", "&eRight click a villager to clear", "&etheir current job and trades.", "&eThe villager will start looking", "&efor a job again after some", "&etime has passed."));
+    public static final SlimefunItemStack RAINBOW_RUNE = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", ColoredFireworkStar.create(Color.FUCHSIA, "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
+    public static final SlimefunItemStack LIGHTNING_RUNE = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", ColoredFireworkStar.create(Color.fromRGB(255, 255, 95), "&7Ancient Rune &8&l[&e&lLightning&8&l]"));
+    public static final SlimefunItemStack SOULBOUND_RUNE = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", ColoredFireworkStar.create(Color.fromRGB(47, 0, 117), "&7Ancient Rune &8&l[&5&lSoulbound&8&l]", "&eDrop this rune onto a dropped item to", "&5bind &ethat item to your soul.", " ", "&eIt is advised that you only use this rune", "&eon &6important &eitems.", " ", "&eItems bound to your soul won't drop on death."));
+    public static final SlimefunItemStack ENCHANTMENT_RUNE = new SlimefunItemStack("ANCIENT_RUNE_ENCHANTMENT", ColoredFireworkStar.create(Color.fromRGB(255, 217, 25), "&7Ancient Rune &8&l[&6&lEnchantment&8&l]", "&eDrop this rune onto a dropped item to", "&6enchant &ethat item with a random enchantment."));
+    public static final SlimefunItemStack VILLAGER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_VILLAGERS", ColoredFireworkStar.create(Color.fromRGB(160, 20, 5), "&7Ancient Rune &8&l[&4&lVillagers&8&l]", "&eRight click a villager to clear", "&etheir current job and trades.", "&eThe villager will start looking", "&efor a job again after some", "&etime has passed."));
 
     /* Electricity */
     public static final SlimefunItemStack SOLAR_GENERATOR = new SlimefunItemStack("SOLAR_GENERATOR", Material.DAYLIGHT_DETECTOR, "&bSolar Generator", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.GENERATOR), LoreBuilder.powerBuffer(0), LoreBuilder.powerPerSecond(4));

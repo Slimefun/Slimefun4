@@ -9,7 +9,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.bakedlibs.dough.skins.PlayerSkin;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPlayerHead;
 
 /**
  * This enum holds all currently used Head textures in Slimefun.
@@ -163,8 +163,13 @@ public enum HeadTexture {
         return SlimefunUtils.getCustomHead(getTexture());
     }
 
-    public @Nonnull PlayerSkin getAsSkin() {
-        return PlayerSkin.fromHashCode(texture);
+    /**
+     * Returns a base64-encoded texture string for this head texture.
+     *
+     * @return The base64 texture string
+     */
+    public @Nonnull String getBase64Texture() {
+        return VersionedPlayerHead.hashToBase64(texture);
     }
 
 }

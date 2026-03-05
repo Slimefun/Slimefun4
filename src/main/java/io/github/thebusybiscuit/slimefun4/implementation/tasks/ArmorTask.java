@@ -24,10 +24,9 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPotionEffectType;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 /**
@@ -55,10 +54,10 @@ public class ArmorTask implements Runnable {
         Set<PotionEffect> effects = new HashSet<>();
         effects.add(new PotionEffect(PotionEffectType.WITHER, 400, 2));
         effects.add(new PotionEffect(PotionEffectType.BLINDNESS, 400, 3));
-        effects.add(new PotionEffect(PotionEffectType.CONFUSION, 400, 3));
+        effects.add(new PotionEffect(VersionedPotionEffectType.NAUSEA, 400, 3));
         effects.add(new PotionEffect(PotionEffectType.WEAKNESS, 400, 2));
-        effects.add(new PotionEffect(PotionEffectType.SLOW, 400, 1));
-        effects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, 400, 1));
+        effects.add(new PotionEffect(VersionedPotionEffectType.SLOWNESS, 400, 1));
+        effects.add(new PotionEffect(VersionedPotionEffectType.MINING_FATIGUE, 400, 1));
         radiationEffects = Collections.unmodifiableSet(effects);
     }
 
@@ -164,8 +163,9 @@ public class ArmorTask implements Runnable {
 
         Set<SlimefunItem> radioactiveItems = Slimefun.getRegistry().getRadioactiveItems();
         ItemStack itemStack = item;
+        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 
-        if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {
+        if (slimefunItem != null && radioactiveItems.size() > 1) {
             // Performance optimization to reduce ItemMeta calls
             itemStack = ItemStackWrapper.wrap(item);
         }

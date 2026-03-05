@@ -15,6 +15,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEntityType;
+
 /**
  * This is a simple utility class for spawning random and colorful {@link Firework} rockets.
  * 
@@ -31,6 +33,8 @@ public final class FireworkUtils {
         Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW
     };
     // @formatter:on
+    
+    private static final EntityType firework = VersionedEntityType.FIREWORK;
 
     private FireworkUtils() {}
 
@@ -39,7 +43,7 @@ public final class FireworkUtils {
     }
 
     public static @Nonnull Firework createFirework(@Nonnull Location l, @Nonnull Color color) {
-        Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
+        Firework fw = (Firework) l.getWorld().spawnEntity(l, firework);
         FireworkMeta meta = fw.getFireworkMeta();
 
         meta.setDisplayName(ChatColor.GREEN + "Slimefun Research");

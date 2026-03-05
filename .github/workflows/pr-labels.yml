@@ -14,7 +14,7 @@ jobs:
 
     name: Pull Request Labels
     runs-on: ubuntu-latest
-    if: github.repository == 'Slimefun/Slimefun4'
+    if: github.repository == 'Slimefun5/Slimefun5'
 
     steps:
       - uses: baked-libs/pull-request-labels@v1.1

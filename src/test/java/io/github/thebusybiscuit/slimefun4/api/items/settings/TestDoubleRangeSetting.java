@@ -34,14 +34,14 @@ class TestDoubleRangeSetting {
     @Test
     @DisplayName("Test Constructor validation")
     void testConstructorValidation() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST_00", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST_00", CustomItemStack.create(Material.DIAMOND, "&cTest"));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new DoubleRangeSetting(item, "test", min, -1.0, max));
     }
 
     @Test
     @DisplayName("Test min and max getters")
     void testMinMaxGetters() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST_0", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST_0", CustomItemStack.create(Material.DIAMOND, "&cTest"));
         DoubleRangeSetting setting = new DoubleRangeSetting(item, "test", min, 0.5, max);
 
         Assertions.assertEquals(min, setting.getMinimum());
@@ -51,7 +51,7 @@ class TestDoubleRangeSetting {
     @Test
     @DisplayName("Test illegal values")
     void testIllegalValues() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST", CustomItemStack.create(Material.DIAMOND, "&cTest"));
         DoubleRangeSetting setting = new DoubleRangeSetting(item, "test", min, 0.5, max);
 
         item.addItemSetting(setting);
@@ -65,7 +65,7 @@ class TestDoubleRangeSetting {
     @Test
     @DisplayName("Test allowed value")
     void testAllowedValue() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST_2", new CustomItemStack(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST_2", CustomItemStack.create(Material.DIAMOND, "&cTest"));
         DoubleRangeSetting setting = new DoubleRangeSetting(item, "test", min, 0.25, max);
 
         item.addItemSetting(setting);

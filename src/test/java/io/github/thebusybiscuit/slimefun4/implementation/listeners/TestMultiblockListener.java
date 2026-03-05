@@ -37,7 +37,7 @@ class TestMultiblockListener {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(Slimefun.class);
         listener = new MultiBlockListener(plugin);
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_LISTENER_TEST", new CustomItemStack(Material.DIAMOND, "&9Some multiblock item"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_LISTENER_TEST", CustomItemStack.create(Material.DIAMOND, "&9Some multiblock item"));
         multiblock = new MultiBlock(item, new Material[] { null, Material.EMERALD_BLOCK, null, null, Material.DIAMOND_BLOCK, null, null, Material.LAPIS_BLOCK, null }, BlockFace.SELF);
         Slimefun.getRegistry().getMultiBlocks().add(multiblock);
     }

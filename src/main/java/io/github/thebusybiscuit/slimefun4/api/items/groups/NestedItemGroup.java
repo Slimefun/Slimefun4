@@ -41,7 +41,7 @@ public class NestedItemGroup extends FlexItemGroup {
 
     /**
      * This will add the given {@link SubItemGroup} to this {@link NestedItemGroup}.
-     * 
+     *
      * @param group
      *            The {@link SubItemGroup} to add.
      */
@@ -53,7 +53,7 @@ public class NestedItemGroup extends FlexItemGroup {
 
     /**
      * This will remove the given {@link SubItemGroup} from this {@link NestedItemGroup} (if present).
-     * 
+     *
      * @param group
      *            The {@link SubItemGroup} to remove.
      */
@@ -90,7 +90,7 @@ public class NestedItemGroup extends FlexItemGroup {
         menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         guide.createHeader(p, profile, menu);
 
-        menu.addItem(1, new CustomItemStack(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + Slimefun.getLocalization().getMessage(p, "guide.back.guide"))));
+        menu.addItem(1, ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + Slimefun.getLocalization().getMessage(p, "guide.back.guide")));
         menu.addMenuClickHandler(1, (pl, s, is, action) -> {
             SlimefunGuide.openMainMenu(profile, mode, history.getMainMenuPage());
             return false;

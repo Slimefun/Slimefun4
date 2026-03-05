@@ -20,13 +20,13 @@ jobs:
         uses: TheBusyBiscuit/recently-closed-issues@1.1.0
         id: resolved
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           max_commits: 20
 
       - name: Add label
         if: contains(steps.resolved.outputs.issues, github.event.issue.number)
         uses: maxkomarychev/octions/octions/issues/add-labels@master
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           issue_number: ${{ github.event.issue.number }}
           labels: '✔ Resolved'

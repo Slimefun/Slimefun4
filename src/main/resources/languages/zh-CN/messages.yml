@@ -81,7 +81,27 @@ guide:
     translations:
       name: '&a少了些什么?'
       lore: '单击添加你自己的翻译'
+  modes:
+    selected: 'Slimefun 指南类型: '
+    change: '点击更改类型'
+    SURVIVAL_MODE: '生存模式'
+    CHEAT_MODE: '作弊模式'
   options:
+    fireworks:
+      enabled:
+        text:
+          - '&b烟花: &a是'
+          - ''
+          - '&7你现在可以选择是否'
+          - '&7启用研究物品时的烟花。'
+        click: '&e点击关闭烟花'
+      disabled:
+        text:
+          - '&b烟花: &4否'
+          - ''
+          - '&7你现在可以选择是否'
+          - '&7启用研究物品时的烟花。'
+        click: '&e点击开启烟花'
     learning-animation:
       enabled:
         text:
@@ -124,6 +144,8 @@ guide:
       wiki: '&3Wiki 编辑者'
       resourcepack: '&c材质制作者'
       translator: '&9翻译者'
+actionbar:
+  radiation: '&6辐射暴露等级：&c%level%&7/&e100'
 messages:
   not-researched: '&4你的知识还不足以理解这个物品. &c你需要先解锁 &f"%item%"&f'
   not-enough-xp: '&4你没有足够的经验来解锁这个研究'
@@ -148,6 +170,7 @@ messages:
   bee-suit-slow-fall: '&e你的蜂翅将会让你安全缓降'
   deprecated-item: '&4该物品已被弃用，将在不久后从 Slimefun 中移除。'
   researching-is-disabled: '&c该服务器已禁用研究，所有物品都已解锁！'
+  await-deletion: '&c你不能在破坏一个 Slimefun 方块后立即放置一个 Slimefun 方块。请稍后再试。'
   multi-tool:
     mode-change: '&b%device% 的模式已切换为: &9%mode%'
     not-shears: '&c多功能工具 (Multi Tool) 不能作为剪刀使用!'

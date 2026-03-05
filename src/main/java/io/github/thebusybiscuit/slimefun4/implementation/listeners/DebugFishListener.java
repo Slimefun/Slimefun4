@@ -21,7 +21,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
@@ -30,6 +29,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPlayerHead;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -61,7 +61,7 @@ public class DebugFishListener implements Listener {
 
         Player p = e.getPlayer();
 
-        if (SlimefunUtils.isItemSimilar(e.getItem(), SlimefunItems.DEBUG_FISH, true, false)) {
+        if (SlimefunUtils.isItemSimilar(e.getItem(), SlimefunItems.DEBUG_FISH.item(), true, false)) {
             e.setCancelled(true);
 
             if (p.hasPermission("slimefun.debugging")) {
@@ -95,7 +95,7 @@ public class DebugFishListener implements Listener {
                 Block block = b.getRelative(face);
                 block.setType(Material.PLAYER_HEAD);
 
-                PlayerHead.setSkin(block, HeadTexture.MISSING_TEXTURE.getAsSkin(), true);
+                VersionedPlayerHead.setSkin(block, HeadTexture.MISSING_TEXTURE.getBase64Texture(), true);
                 SoundEffect.DEBUG_FISH_CLICK_SOUND.playFor(p);
             }, 2L);
         } else if (BlockStorage.hasBlockInfo(b)) {

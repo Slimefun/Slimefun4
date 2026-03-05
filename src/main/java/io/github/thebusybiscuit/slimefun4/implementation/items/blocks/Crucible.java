@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.Tag;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
@@ -30,6 +29,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -165,7 +165,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         // Fixes #2877 - If water in the nether is disabled, abort and play an effect.
         if (isWater && block.getWorld().getEnvironment() == Environment.NETHER && !allowWaterInNether.getValue()) {
             // We will still consume the items but won't generate water in the Nether.
-            block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getLocation().add(0.5, 0.5, 0.5), 4);
+            block.getWorld().spawnParticle(VersionedParticle.SMOKE, block.getLocation().add(0.5, 0.5, 0.5), 4);
             SoundEffect.CRUCIBLE_GENERATE_LIQUID_SOUND.playAt(block);
             return;
         }

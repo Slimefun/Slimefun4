@@ -68,21 +68,24 @@ guide:
         text:
           - '&bAnimasi Pembelajaran: &aYa'
           - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - '&7Sekarang Anda dapat beralih apakah Anda ingin'
+          - '&7akan melihat informasi tentang perenungan Anda dalam obrolan'
+          - '&7setelah meneliti suatu item.'
+        click: '&eKlik untuk menonaktifkan animasi pembelajaran Anda'
       disabled:
         text:
           - '&bAnimasi Pembelajaran: &4Tidak'
           - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+          - '&7Sekarang Anda dapat beralih apakah Anda ingin'
+          - '&7akan melihat informasi tentang perenungan Anda dalam obrolan'
+          - '&7setelah meneliti suatu item.'
+        click: '&eKlik untuk mengaktifkan animasi pembelajaran Anda'
   title:
     main: 'Panduan Slimefun'
     settings: 'Pengaturan & Informasi'
     languages: 'Pilih Bahasa Yang Anda Inginkan'
     credits: 'Para Kontributor Slimefun4'
+    wiki: 'Slimefun4 Wiki'
     addons: 'Addons untuk Slimefun4'
     bugs: 'Laporkan masalah'
     source: 'Kode sumber'
@@ -97,6 +100,7 @@ guide:
       resourcepack: '&cArtis Resourcepack'
       translator: '&9Penerjemah'
 messages:
+  not-researched: '&4Anda tidak memiliki cukup pengetahuan untuk memahami ini. &cAnda butuh membuka &f"%item%&f" terlebih dahulu'
   not-enough-xp: '&4Anda Tidak Memiliki Cukup XP untuk Membuka Ini'
   unlocked: '&bAnda Telah Membuka &7"%research%"'
   only-players: '&4Perintah Ini Hanya Untuk Para Pemain'
@@ -115,6 +119,9 @@ messages:
   disabled-item: '&4&lBenda Ini Telah Dinonakrifkan! Bagaimana Anda Mendapatkannya?'
   no-tome-yourself: '&cKamu Tidak Bisa Menggunakan &4Tome Of Knowledge &cUntuk Diri Anda Sendiri...'
   multimeter: '&bEnergi Yang Telah Tersimpan: &3%stored% &b/ &3%capacity%'
+  deprecated-item: '&4Item ini telah lama tidak digunakan dan akan dihapus dari slimefun sebentar lagi.'
+  researching-is-disabled: "&cPembelajaran telah dimatikan di server ini.\nSemua ilmu terbuka gratis!"
+  await-deletion: '&cAnda tidak bisa menempatkan blok slimefun segera setelah menghancurkannya. Coba lagi sesaat kemudian.'
   auto-crafting:
     select: 'Pilih resep ini'
   talisman:

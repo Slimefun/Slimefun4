@@ -43,7 +43,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 /**
  * The {@link ProduceCollector} allows you to collect produce from animals.
  * Providing it with a bucket and a nearby {@link Cow} will allow you to obtain milk.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Walshy
  *
@@ -85,7 +85,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
 
     /**
      * This method adds a new {@link AnimalProduce} to this machine.
-     * 
+     *
      * @param produce
      *            The {@link AnimalProduce} to add
      */
@@ -116,15 +116,15 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
 
-        displayRecipes.add(new CustomItemStack(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
+        displayRecipes.add(CustomItemStack.create(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
         displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            displayRecipes.add(new CustomItemStack(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
+            displayRecipes.add(CustomItemStack.create(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
             displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
         }
 
-        displayRecipes.add(new CustomItemStack(Material.BOWL, null, "&fRequires &bMooshroom &fnearby"));
+        displayRecipes.add(CustomItemStack.create(Material.BOWL, null, "&fRequires &bMooshroom &fnearby"));
         displayRecipes.add(new ItemStack(Material.MUSHROOM_STEW));
 
         return displayRecipes;

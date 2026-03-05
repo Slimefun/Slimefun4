@@ -39,7 +39,7 @@ public final class ThreadService {
      * This is a much better alternative to using
      * {@link BukkitScheduler#runTaskAsynchronously(org.bukkit.plugin.Plugin, Runnable)}
      * as this will show not only the plugin but a useful name.
-     * By default, Bukkit will use "Craft Scheduler Thread - <x> - <plugin>" which is nice to show the plugin but
+     * By default, Bukkit will use "Craft Scheduler Thread - {@literal <x>} - {@literal <plugin>}" which is nice to show the plugin but
      * it's impossible to track exactly what thread that is.
      *
      * @param plugin The {@link JavaPlugin} that is creating this thread
@@ -60,7 +60,7 @@ public final class ThreadService {
      * This is a much better alternative to using
      * {@link BukkitScheduler#runTaskTimerAsynchronously(org.bukkit.plugin.Plugin, Runnable, long, long)}
      * as this will show not only the plugin but a useful name.
-     * By default, Bukkit will use "Craft Scheduler Thread - <x> - <plugin>" which is nice to show the plugin but
+     * By default, Bukkit will use "Craft Scheduler Thread - {@literal <x>} - {@literal <plugin>}" which is nice to show the plugin but
      * it's impossible to track exactly what thread that is.
      *
      * @param plugin The {@link JavaPlugin} that is creating this thread

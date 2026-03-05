@@ -44,7 +44,7 @@ class TestPermissionsService {
     @ValueSource(booleans = { false, true })
     void testDefaultPermission(boolean registered) {
         PermissionsService service = new PermissionsService(plugin);
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItemStack(Material.EMERALD, "&bBad omen"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", CustomItemStack.create(Material.EMERALD, "&bBad omen"));
 
         if (registered) {
             service.register(Arrays.asList(item), false);
@@ -58,7 +58,7 @@ class TestPermissionsService {
     @DisplayName("Test if a permission node can be set")
     void testSetPermission() {
         PermissionsService service = new PermissionsService(plugin);
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItemStack(Material.EMERALD, "&bBad omen"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", CustomItemStack.create(Material.EMERALD, "&bBad omen"));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.setPermission(null, null));
 
@@ -80,7 +80,7 @@ class TestPermissionsService {
     void testHasPermissionTrue() {
         PermissionsService service = new PermissionsService(plugin);
         Player player = server.addPlayer();
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItemStack(Material.EMERALD, "&bBad omen"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", CustomItemStack.create(Material.EMERALD, "&bBad omen"));
 
         Assertions.assertTrue(service.hasPermission(player, null));
         Assertions.assertTrue(service.hasPermission(player, item));
@@ -94,7 +94,7 @@ class TestPermissionsService {
     void testHasPermissionFalse() {
         PermissionsService service = new PermissionsService(plugin);
         Player player = server.addPlayer();
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItemStack(Material.EMERALD, "&bBad omen"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", CustomItemStack.create(Material.EMERALD, "&bBad omen"));
 
         service.setPermission(item, "slimefun.tests");
         Assertions.assertFalse(service.hasPermission(player, item));
@@ -106,7 +106,7 @@ class TestPermissionsService {
         PermissionsService service = new PermissionsService(plugin);
         Player player = server.addPlayer();
         player.setOp(true);
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItemStack(Material.EMERALD, "&bBad omen"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", CustomItemStack.create(Material.EMERALD, "&bBad omen"));
 
         Permission permission = new Permission("slimefun.unit.tests.op", PermissionDefault.OP);
 
@@ -119,7 +119,7 @@ class TestPermissionsService {
     void testHasPermissionSet() {
         PermissionsService service = new PermissionsService(plugin);
         Player player = server.addPlayer();
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItemStack(Material.EMERALD, "&bBad omen"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", CustomItemStack.create(Material.EMERALD, "&bBad omen"));
 
         String permission = "slimefun.unit.tests.permission";
         player.addAttachment(plugin, permission, true);

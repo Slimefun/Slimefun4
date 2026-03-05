@@ -35,6 +35,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -201,7 +202,7 @@ public class BlockStorage {
                      * error to the console (if enabled).
                      */
                     if (Slimefun.getRegistry().logDuplicateBlockEntries()) {
-                        Slimefun.logger().log(Level.INFO, "Ignoring duplicate block @ {0}, {1}, {2} ({3} -> {4})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), blockInfo.getString("id"), storage.get(l).getString("id") });
+                        Slimefun.logger().log(Level.INFO, "Ignoring duplicate block @ %d, %d, %d (%s -> %s)".formatted(l.getBlockX(), l.getBlockY(), l.getBlockZ(), blockInfo.getString("id"), storage.get(l).getString("id")));
                     }
 
                     return;
@@ -513,8 +514,16 @@ public class BlockStorage {
         return getLocationInfo(l).getString(key);
     }
 
+    public static String getLocationInfo(BlockPosition l, String key) {
+        return getLocationInfo(l.toLocation()).getString(key);
+    }
+
     public static void addBlockInfo(Location l, String key, String value) {
         addBlockInfo(l, key, value, false);
+    }
+
+    public static void addBlockInfo(BlockPosition l, String key, String value) {
+        addBlockInfo(l.toLocation(), key, value, false);
     }
 
     public static void addBlockInfo(Block block, String key, String value) {
@@ -523,6 +532,10 @@ public class BlockStorage {
 
     public static void addBlockInfo(Block block, String key, String value, boolean updateTicker) {
         addBlockInfo(block.getLocation(), key, value, updateTicker);
+    }
+
+    public static void addBlockInfo(BlockPosition l, String key, String value, boolean updateTicker) {
+        addBlockInfo(l.toLocation(), key, value, updateTicker);
     }
 
     public static void addBlockInfo(Location l, String key, String value, boolean updateTicker) {

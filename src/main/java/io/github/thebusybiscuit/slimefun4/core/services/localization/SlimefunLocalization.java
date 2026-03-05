@@ -20,13 +20,13 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
@@ -68,7 +68,7 @@ public abstract class SlimefunLocalization implements Keyed {
      * This returns the chat prefix for our messages.
      * Every message (unless explicitly omitted) will have this
      * prefix prepended.
-     * 
+     *
      * @return The chat prefix
      */
     public @Nonnull String getChatPrefix() {
@@ -321,7 +321,7 @@ public abstract class SlimefunLocalization implements Keyed {
         Language language = getLanguage(p);
         NamespacedKey key = recipeType.getKey();
 
-        return new CustomItemStack(item, meta -> {
+        return CustomItemStack.create(item, meta -> {
             String displayName = getStringOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
 
             // Set the display name if possible, else keep the default item name.
@@ -337,8 +337,8 @@ public abstract class SlimefunLocalization implements Keyed {
                 meta.setLore(lore);
             }
 
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ATTRIBUTES);
+            VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ENCHANTS);
         });
     }
 

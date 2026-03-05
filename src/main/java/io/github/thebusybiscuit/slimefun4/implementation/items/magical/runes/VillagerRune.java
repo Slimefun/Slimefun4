@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 
 /**
  * This {@link SlimefunItem} allows you to reset a {@link Villager} profession.
@@ -64,7 +65,7 @@ public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
 
                 SoundEffect.VILLAGER_RUNE_TRANSFORM_SOUND.playAt(villager.getLocation(), SoundCategory.NEUTRAL);
                 villager.getWorld().spawnParticle(Particle.CRIMSON_SPORE, villager.getLocation(), 10, 0, offset / 2, 0, 0);
-                villager.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, villager.getLocation(), 5, 0.04, 1, 0.04);
+                villager.getWorld().spawnParticle(VersionedParticle.ENCHANT, villager.getLocation(), 5, 0.04, 1, 0.04);
             }
         };
     }

@@ -13,6 +13,9 @@ commands:
     description: Låser upp/återställer en spelares forskningar
     reset: '&cDu har återställt %player%s kunskap'
     reset-target: '&cDin kunskap har blivit återställd'
+  backpack:
+    invalid-id: '&4ID måste vara ett icke-negativt tal!'
+    backpack-does-not-exist: '&4Den angivna ryggsäcken finns inte!'
 placeholderapi:
   profile-loading: 'Laddar...'
 guide:
@@ -36,6 +39,7 @@ guide:
       miner: 'Resurser du kan få med denna Gruvarbetare'
       generator: 'Tillgängliga typer av bränsle'
       gold-pan: 'Resurser du kan få'
+      climbing-pick: 'Ytor som du kan klättra'
   cheat:
     no-multiblocks: '&4Du kan inte fuska fram Multiblocks, du måste bygga dem!'
   pages:
@@ -59,6 +63,7 @@ guide:
     settings: 'Inställningar & Info'
     languages: 'Välj ditt föredragna språk'
     credits: 'Slimefun4-medhjälpare'
+    wiki: 'Slimefun4 Wiki'
     addons: 'Tilläg till Slimefun4'
     bugs: 'Bugg Rapporter'
     source: 'Källkoden'
@@ -91,6 +96,8 @@ messages:
   disabled-item: '&4&lDetta föremål är inaktiverat! Hur fick du ens det?'
   no-tome-yourself: '&cDu kan inte använda &4Tome of Knowledge &cpå dig själv'
   multimeter: '&bLagrad energi: &3%stored% &b/ &3%capacity%'
+  auto-crafting:
+    select: 'Välj recept'
   talisman:
     anvil: '&a&oDin talisman förhindrade ditt verktyg från att gå sönder'
     miner: '&a&oDin talisman dubblade precis dina gruvfynd'

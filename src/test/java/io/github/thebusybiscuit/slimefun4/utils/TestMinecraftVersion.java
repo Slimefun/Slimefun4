@@ -11,11 +11,40 @@ class TestMinecraftVersion {
     @Test
     @DisplayName("Test if Minecraft versions match themselves")
     void testMatches() {
-        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(16));
-        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_17.isMinecraftVersion(17));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(16, -1));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_17.isMinecraftVersion(17, -1));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20_5.isMinecraftVersion(20, 5));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21_4.isMinecraftVersion(21, 4));
 
-        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_17.isMinecraftVersion(16));
-        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(0));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_17.isMinecraftVersion(16, -1));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(0, -1));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20_5.isMinecraftVersion(20, 4));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_21_4.isMinecraftVersion(21, 3));
+    }
+
+    @Test
+    @DisplayName("Test if Minecraft versions match minor versions")
+    void testMatchesMinor() {
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(16, 1));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(16, 2));
+
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isMinecraftVersion(20, 4));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20_5.isMinecraftVersion(20, 6));
+
+        // 1.21.x covers 1.21.0 through 1.21.3
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21.isMinecraftVersion(21, 0));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21.isMinecraftVersion(21, 3));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_21.isMinecraftVersion(21, 4));
+
+        // 1.21.4+ covers 1.21.4 and above
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21_4.isMinecraftVersion(21, 4));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21_4.isMinecraftVersion(21, 5));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21_4.isMinecraftVersion(21, 11));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_21_4.isMinecraftVersion(21, 3));
+
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20.isMinecraftVersion(20, 5));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_16.isMinecraftVersion(17, 1));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20_5.isMinecraftVersion(20, 4));
     }
 
     @Test
@@ -24,8 +53,13 @@ class TestMinecraftVersion {
         Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_18.isAtLeast(MinecraftVersion.MINECRAFT_1_16));
         Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_17.isAtLeast(MinecraftVersion.MINECRAFT_1_16));
         Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_17.isAtLeast(MinecraftVersion.MINECRAFT_1_17));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isAtLeast(MinecraftVersion.MINECRAFT_1_20));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20_5.isAtLeast(MinecraftVersion.MINECRAFT_1_20));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21_4.isAtLeast(MinecraftVersion.MINECRAFT_1_21));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21_4.isAtLeast(MinecraftVersion.MINECRAFT_1_21_4));
 
         Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_17.isAtLeast(MinecraftVersion.MINECRAFT_1_18));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_21.isAtLeast(MinecraftVersion.MINECRAFT_1_21_4));
     }
 
     @Test
@@ -46,6 +80,29 @@ class TestMinecraftVersion {
 
         Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_17.isBefore(MinecraftVersion.MINECRAFT_1_17));
         Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_17.isBefore(MinecraftVersion.MINECRAFT_1_16));
+    }
+
+    @Test
+    @DisplayName("Test if Minecraft versions #isBefore behaves correctly for minor versions")
+    void testIsBeforeMinor() {
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_18.isBefore(16, 5));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_18.isBefore(17, 1));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_18.isBefore(18, 0));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_18.isBefore(18, 1));
+
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 0));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 2));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 4));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20.isBefore(20, 5));
+
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20_5.isBefore(20, 4));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_20_5.isBefore(20, 5));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_20_5.isBefore(20, 6));
+
+        // 1.21.4+ version boundary tests
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_21_4.isBefore(21, 3));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_21_4.isBefore(21, 4));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21_4.isBefore(21, 5));
     }
 
     @Test

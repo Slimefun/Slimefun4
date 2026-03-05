@@ -49,7 +49,7 @@ class TestItemGroups {
     @Test
     @DisplayName("Test the Getters for ItemGroup")
     void testItemGroupGetters() {
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "getter_test"), new CustomItemStack(Material.DIAMOND_AXE, "&6Testing"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "getter_test"), CustomItemStack.create(Material.DIAMOND_AXE, "&6Testing"));
 
         Assertions.assertEquals(3, itemGroup.getTier());
         Assertions.assertEquals(new NamespacedKey(Slimefun.instance(), "getter_test"), itemGroup.getKey());
@@ -64,8 +64,8 @@ class TestItemGroups {
     @Test
     @DisplayName("Test adding an item to a ItemGroup")
     void testAddItem() {
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "items_test"), new CustomItemStack(Material.DIAMOND_AXE, "&6Testing"));
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUPS_TEST_ITEM", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "items_test"), CustomItemStack.create(Material.DIAMOND_AXE, "&6Testing"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUPS_TEST_ITEM", CustomItemStack.create(Material.BAMBOO, "&6Test Bamboo"));
         item.setItemGroup(itemGroup);
         item.register(plugin);
         item.load();
@@ -89,7 +89,7 @@ class TestItemGroups {
         // Empty Item Groups are also hidden
         Assertions.assertFalse(group.isVisible(player));
 
-        SlimefunItem disabledItem = TestUtilities.mockSlimefunItem(plugin, "DISABLED_ITEM_GROUP_ITEM", new CustomItemStack(Material.BEETROOT, "&4Disabled"));
+        SlimefunItem disabledItem = TestUtilities.mockSlimefunItem(plugin, "DISABLED_ITEM_GROUP_ITEM", CustomItemStack.create(Material.BEETROOT, "&4Disabled"));
         Slimefun.getItemCfg().setValue("DISABLED_ITEM_GROUP_ITEM.enabled", false);
         disabledItem.setItemGroup(group);
         disabledItem.register(plugin);
@@ -98,7 +98,7 @@ class TestItemGroups {
         // A disabled Item should also make the ItemGroup hide
         Assertions.assertFalse(group.isVisible(player));
 
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUP_HIDDEN_TEST", new CustomItemStack(Material.BAMBOO, "&6Test Bamboo"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUP_HIDDEN_TEST", CustomItemStack.create(Material.BAMBOO, "&6Test Bamboo"));
         item.setItemGroup(group);
         item.setHidden(true);
         item.register(plugin);
@@ -114,7 +114,7 @@ class TestItemGroups {
     @Test
     @DisplayName("Test ItemGroup#contains")
     void testContains() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUP_TEST_ITEM_2", new CustomItemStack(Material.BOW, "&6Test Bow"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_GROUP_TEST_ITEM_2", CustomItemStack.create(Material.BOW, "&6Test Bow"));
         item.register(plugin);
         item.load();
 
@@ -130,14 +130,14 @@ class TestItemGroups {
     @Test
     @DisplayName("Test LockedItemGroup parental locking")
     void testLockedItemGroupsParents() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedItemGroup(new NamespacedKey(plugin, "locked"), CustomItemStack.create(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
-        ItemGroup group = new ItemGroup(new NamespacedKey(plugin, "unlocked"), new CustomItemStack(Material.EMERALD, "&5I am SHERlocked"));
+        ItemGroup group = new ItemGroup(new NamespacedKey(plugin, "unlocked"), CustomItemStack.create(Material.EMERALD, "&5I am SHERlocked"));
         group.register(plugin);
 
-        ItemGroup unregistered = new ItemGroup(new NamespacedKey(plugin, "unregistered"), new CustomItemStack(Material.EMERALD, "&5I am unregistered"));
+        ItemGroup unregistered = new ItemGroup(new NamespacedKey(plugin, "unregistered"), CustomItemStack.create(Material.EMERALD, "&5I am unregistered"));
 
-        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), group.getKey(), unregistered.getKey());
+        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked"), CustomItemStack.create(Material.GOLD_NUGGET, "&6Locked Test"), group.getKey(), unregistered.getKey());
         locked.register(plugin);
 
         Assertions.assertTrue(locked.getParents().contains(group));
@@ -159,18 +159,18 @@ class TestItemGroups {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedItemGroup(new NamespacedKey(plugin, "locked"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedItemGroup(new NamespacedKey(plugin, "locked"), CustomItemStack.create(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
-        ItemGroup group = new ItemGroup(new NamespacedKey(plugin, "parent"), new CustomItemStack(Material.EMERALD, "&5I am SHERlocked"));
+        ItemGroup group = new ItemGroup(new NamespacedKey(plugin, "parent"), CustomItemStack.create(Material.EMERALD, "&5I am SHERlocked"));
         group.register(plugin);
 
-        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked2"), new CustomItemStack(Material.GOLD_NUGGET, "&6Locked Test"), group.getKey());
+        LockedItemGroup locked = new LockedItemGroup(new NamespacedKey(plugin, "locked2"), CustomItemStack.create(Material.GOLD_NUGGET, "&6Locked Test"), group.getKey());
         locked.register(plugin);
 
         // No Items, so it should be unlocked
         Assertions.assertTrue(locked.hasUnlocked(player, profile));
 
-        SlimefunItem item = new SlimefunItem(group, new SlimefunItemStack("LOCKED_ITEMGROUP_TEST", new CustomItemStack(Material.LANTERN, "&6Test Item for locked categories")), RecipeType.NULL, new ItemStack[9]);
+        SlimefunItem item = new SlimefunItem(group, new SlimefunItemStack("LOCKED_ITEMGROUP_TEST", CustomItemStack.create(Material.LANTERN, "&6Test Item for locked categories")), RecipeType.NULL, new ItemStack[9]);
         item.register(plugin);
         item.load();
 
@@ -192,8 +192,8 @@ class TestItemGroups {
     void ItemGroups() {
         // ItemGroup with current Month
         Month month = LocalDate.now().getMonth();
-        SeasonalItemGroup group = new SeasonalItemGroup(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItemStack(Material.NETHER_STAR, "&cSeasonal Test"));
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "SEASONAL_ITEM", new CustomItemStack(Material.NETHER_STAR, "&dSeasonal Test Star"));
+        SeasonalItemGroup group = new SeasonalItemGroup(new NamespacedKey(plugin, "seasonal"), month, 1, CustomItemStack.create(Material.NETHER_STAR, "&cSeasonal Test"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "SEASONAL_ITEM", CustomItemStack.create(Material.NETHER_STAR, "&dSeasonal Test Star"));
         item.setItemGroup(group);
         item.register(plugin);
         item.load();
@@ -204,14 +204,14 @@ class TestItemGroups {
         Assertions.assertTrue(group.isVisible(player));
 
         // ItemGroup with future Month
-        SeasonalItemGroup itemGroup2 = new SeasonalItemGroup(group.getKey(), month.plus(6), 1, new CustomItemStack(Material.MILK_BUCKET, "&dSeasonal Test"));
+        SeasonalItemGroup itemGroup2 = new SeasonalItemGroup(group.getKey(), month.plus(6), 1, CustomItemStack.create(Material.MILK_BUCKET, "&dSeasonal Test"));
         Assertions.assertFalse(itemGroup2.isVisible(player));
     }
 
     @Test
     @DisplayName("Test the FlexItemGroup")
     void testFlexItemGroup() {
-        FlexItemGroup group = new FlexItemGroup(new NamespacedKey(plugin, "flex"), new CustomItemStack(Material.REDSTONE, "&4Weird flex but ok")) {
+        FlexItemGroup group = new FlexItemGroup(new NamespacedKey(plugin, "flex"), CustomItemStack.create(Material.REDSTONE, "&4Weird flex but ok")) {
 
             @Override
             public void open(Player p, PlayerProfile profile, SlimefunGuideMode layout) {

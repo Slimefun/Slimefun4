@@ -20,17 +20,17 @@ public class FoodComposter extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected void registerDefaultRecipes() {
-        registerRecipe(30, new ItemStack[] { SlimefunItems.WHEAT_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.WHEAT_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.CARROT_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARROT_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.POTATO_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.POTATO_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.SEEDS_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEEDS_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.BEETROOT_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.BEETROOT_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.MELON_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.MELON_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.APPLE_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.APPLE_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.KELP_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.KELP_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.COCOA_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.COCOA_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SWEET_BERRIES_FERTILIZER, OrganicFertilizer.OUTPUT) });
-        registerRecipe(30, new ItemStack[] { SlimefunItems.SEAGRASS_ORGANIC_FOOD }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEAGRASS_FERTILIZER, OrganicFertilizer.OUTPUT) });
+        registerRecipe(30, SlimefunItems.WHEAT_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.WHEAT_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.CARROT_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.CARROT_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.POTATO_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.POTATO_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.SEEDS_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.SEEDS_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.BEETROOT_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.BEETROOT_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.MELON_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.MELON_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.APPLE_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.APPLE_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.KELP_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.KELP_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.COCOA_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.COCOA_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.SWEET_BERRIES_FERTILIZER, OrganicFertilizer.OUTPUT));
+        registerRecipe(30, SlimefunItems.SEAGRASS_ORGANIC_FOOD, new SlimefunItemStack(SlimefunItems.SEAGRASS_FERTILIZER, OrganicFertilizer.OUTPUT));
     }
 
     @Override

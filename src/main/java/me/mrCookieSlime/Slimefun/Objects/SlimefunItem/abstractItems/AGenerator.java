@@ -12,7 +12,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -35,8 +34,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -122,21 +119,10 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
         }
 
         for (int i : getOutputSlots()) {
-            preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
-
-                @Override
-                public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return false;
-                }
-
-                @Override
-                public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
-                }
-            });
+            preset.addMenuClickHandler(i, ChestMenuUtils.getDefaultOutputHandler());
         }
 
-        preset.addItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(22, CustomItemStack.create(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Override
@@ -178,7 +164,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
                     inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                 }
 
-                inv.replaceExistingItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
+                inv.replaceExistingItem(22, CustomItemStack.create(Material.BLACK_STAINED_GLASS_PANE, " "));
 
                 processor.endOperation(l);
                 return 0;
@@ -205,7 +191,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
         }
 
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
-        return item.getType() == Material.LAVA_BUCKET || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.FUEL_BUCKET, true) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.OIL_BUCKET, true);
+        return item.getType() == Material.LAVA_BUCKET || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.FUEL_BUCKET.item(), true) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.OIL_BUCKET.item(), true);
     }
 
     private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
@@ -223,7 +209,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
     /**
      * This method returns the max amount of electricity this machine can hold.
-     * 
+     *
      * @return The max amount of electricity this Block can store.
      */
     public int getCapacity() {
@@ -232,7 +218,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
     /**
      * This method returns the amount of energy that is consumed per operation.
-     * 
+     *
      * @return The rate of energy consumption
      */
     @Override
@@ -244,10 +230,10 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
      * This sets the energy capacity for this machine.
      * This method <strong>must</strong> be called before registering the item
      * and only before registering.
-     * 
+     *
      * @param capacity
      *            The amount of energy this machine can store
-     * 
+     *
      * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
      */
     public final AGenerator setCapacity(int capacity) {
@@ -263,10 +249,10 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
     /**
      * This method sets the energy produced by this machine per tick.
-     * 
+     *
      * @param energyProduced
      *            The energy produced per tick
-     * 
+     *
      * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
      */
     public final AGenerator setEnergyProduction(int energyProduced) {
@@ -282,7 +268,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
         if (getCapacity() < 0) {
             warn("The capacity has not been configured correctly. The Item was disabled.");
-            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setCapacity(...)' before registering!");
         }
 
         if (getEnergyProduction() <= 0) {

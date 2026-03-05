@@ -30,6 +30,7 @@ commands:
   debug:
     none-running: '&7Walang kaso ng pagsubok ang kasalukuyang pinapatakbo!'
     running: '&7Pinapatakbo ang debug mode kasama ang test: &6%test%'
+    disabled: '&7Hindi na tumatakbo ang debug mode.'
 placeholderapi:
   profile-loading: 'Naglo-load...'
 guide:
@@ -80,19 +81,8 @@ guide:
   options:
     learning-animation:
       enabled:
-        text:
-          - '&bKarunungang Animasyon: &aYes'
-          - ''
-          - '&7You can now toggle whether you'
-          - '&7will see information about your pondering in chat'
-          - '&7upon researching an item.'
+        click: '&eI-click para huwag paganahin ang iyong learning animation'
       disabled:
-        text:
-          - '&bLearning Animation: &4No'
-          - ''
-          - '&7You can now toggle whether you'
-          - '&7makikita ang impormasyon na pinagtatakahan mo sa chat'
-          - '&7upon researching an item.'
         click: '&eI-click para paganahin ang iyong karunungang animasyon'
   title:
     main: 'Gabay para sa Slimefun'
@@ -116,6 +106,7 @@ guide:
     roles:
       translator: '&9Tagapagsaling-wika'
 messages:
+  not-researched: '&4Kulang ang iyong Kaalaman upang ito ay maintindihan. &cKailangan mo I-unlock &f"%item%&f"'
   not-enough-xp: '&4Kulang ang iyong XP upang ito''y ma-unlock.'
   unlocked: '&bNa-unlock mo ang &7"%research%"'
   only-players: '&4Ang command na ito ay para lamang sa Players.'

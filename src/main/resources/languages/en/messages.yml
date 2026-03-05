@@ -98,7 +98,28 @@ guide:
       name: '&aIs something missing?'
       lore: 'Click to add your own translation'
 
+  modes:
+    selected: 'Slimefun Guide Type: '
+    change: 'Click to change the type'
+    SURVIVAL_MODE: 'Survival Mode'
+    CHEAT_MODE: 'Cheat Sheet'
+
   options:
+    fireworks:
+      enabled:
+        text:
+        - '&bFireworks: &aYes'
+        - ''
+        - '&7You can now toggle whether you'
+        - '&7will see fireworks upon researching an item.'
+        click: '&eClick to disable your fireworks'
+      disabled:
+        text:
+        - '&bFireworks: &4No'
+        - ''
+        - '&7You can now toggle whether you'
+        - '&7will see fireworks upon researching an item.'
+        click: '&eClick to enable your fireworks'
     learning-animation:
       enabled:
         text:

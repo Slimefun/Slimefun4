@@ -32,11 +32,11 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 /**
  * This static utility class offers various methods that provide access to the
  * Settings menu of our {@link SlimefunGuide}.
- * 
+ *
  * This menu is used to allow a {@link Player} to change things such as the {@link Language}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SlimefunGuide
  *
  */
@@ -78,11 +78,10 @@ public final class SlimefunGuideSettings {
         LocalizationService locale = Slimefun.getLocalization();
 
         // @formatter:off
-        menu.addItem(0, new CustomItemStack(SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE),
+        menu.addItem(0, CustomItemStack.create(SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE),
             "&e\u21E6 " + locale.getMessage(p, "guide.back.title"),
             "",
-            "&7" + locale.getMessage(p, "guide.back.guide")
-        ));
+            "&7" + locale.getMessage(p, "guide.back.guide")));
         // @formatter:on
 
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
@@ -99,10 +98,9 @@ public final class SlimefunGuideSettings {
         contributorsLore.add("&7\u21E8 &e" + locale.getMessage(p, "guide.credits.open"));
 
         // @formatter:off
-        menu.addItem(2, new CustomItemStack(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"),
+        menu.addItem(2, CustomItemStack.create(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"),
             "&c" + locale.getMessage(p, "guide.title.credits"),
-            contributorsLore.toArray(new String[0])
-        ));
+            contributorsLore.toArray(new String[0])));
         // @formatter:on
 
         menu.addMenuClickHandler(2, (pl, slot, action, item) -> {
@@ -111,7 +109,7 @@ public final class SlimefunGuideSettings {
         });
 
         // @formatter:off
-        menu.addItem(4, new CustomItemStack(Material.WRITABLE_BOOK, 
+        menu.addItem(4, CustomItemStack.create(Material.WRITABLE_BOOK,
             ChatColor.GREEN + locale.getMessage(p, "guide.title.versions"),
             "&7&o" + locale.getMessage(p, "guide.tooltips.versions-notice"),
             "",
@@ -122,7 +120,7 @@ public final class SlimefunGuideSettings {
         // @formatter:on
 
         // @formatter:off
-        menu.addItem(6, new CustomItemStack(Material.COMPARATOR, 
+        menu.addItem(6, CustomItemStack.create(Material.COMPARATOR,
            "&e" + locale.getMessage(p, "guide.title.source"),
            "", "&7Last Activity: &a" + NumberUtils.getElapsedTime(github.getLastUpdate()) + " ago",
            "&7Forks: &e" + github.getForks(),
@@ -133,8 +131,7 @@ public final class SlimefunGuideSettings {
            "&7&oand if you want to keep this Plugin alive,",
            "&7&othen please consider contributing to it",
            "",
-           "&7\u21E8 &eClick to go to GitHub"
-        ));
+           "&7\u21E8 &eClick to go to GitHub"));
         // @formatter:on
 
         menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
@@ -144,15 +141,14 @@ public final class SlimefunGuideSettings {
         });
 
         // @formatter:off
-        menu.addItem(8, new CustomItemStack(Material.KNOWLEDGE_BOOK,
+        menu.addItem(8, CustomItemStack.create(Material.KNOWLEDGE_BOOK,
             "&3" + locale.getMessage(p, "guide.title.wiki"),
             "", "&7Do you need help with an Item or machine?",
             "&7You cannot figure out what to do?",
             "&7Check out our community-maintained Wiki",
             "&7and become one of our Editors!",
             "",
-            "&7\u21E8 &eClick to go to the official Slimefun Wiki"
-        ));
+            "&7\u21E8 &eClick to go to the official Slimefun Wiki"));
         // @formatter:on
 
         menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
@@ -162,7 +158,7 @@ public final class SlimefunGuideSettings {
         });
 
         // @formatter:off
-        menu.addItem(47, new CustomItemStack(Material.BOOKSHELF,
+        menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
             "&3" + locale.getMessage(p, "guide.title.addons"),
             "",
             "&7Slimefun is huge. But its addons are what makes",
@@ -171,8 +167,7 @@ public final class SlimefunGuideSettings {
             "",
             "&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(),
             "",
-            "&7\u21E8 &eClick to see all available addons for Slimefun4"
-        ));
+            "&7\u21E8 &eClick to see all available addons for Slimefun4"));
         // @formatter:on
 
         menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
@@ -183,7 +178,7 @@ public final class SlimefunGuideSettings {
 
         if (Slimefun.getUpdater().getBranch().isOfficial()) {
             // @formatter:off
-            menu.addItem(49, new CustomItemStack(Material.REDSTONE_TORCH,
+            menu.addItem(49, CustomItemStack.create(Material.REDSTONE_TORCH,
                 "&4" + locale.getMessage(p, "guide.title.bugs"),
                 "",
                 "&7&oBug reports have to be made in English!",
@@ -191,8 +186,7 @@ public final class SlimefunGuideSettings {
                 "&7Open Issues: &a" + github.getOpenIssues(),
                 "&7Pending Pull Requests: &a" + github.getPendingPullRequests(),
                 "",
-                "&7\u21E8 &eClick to go to the Slimefun4 Bug Tracker"
-            ));
+                "&7\u21E8 &eClick to go to the Slimefun4 Bug Tracker"));
             // @formatter:on
 
             menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
@@ -204,7 +198,7 @@ public final class SlimefunGuideSettings {
             menu.addItem(49, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(51, new CustomItemStack(Material.TOTEM_OF_UNDYING, ChatColor.RED + locale.getMessage(p, "guide.work-in-progress")), (pl, slot, item, action) -> {
+        menu.addItem(51, CustomItemStack.create(Material.TOTEM_OF_UNDYING, ChatColor.RED + locale.getMessage(p, "guide.work-in-progress")), (pl, slot, item, action) -> {
             // Add something here
             return false;
         });
@@ -233,10 +227,10 @@ public final class SlimefunGuideSettings {
      * This method checks if the given {@link Player} has enabled the {@link FireworksOption}
      * in their {@link SlimefunGuide}.
      * If they enabled this setting, they will see fireworks when they unlock a {@link Research}.
-     * 
+     *
      * @param p
      *            The {@link Player}
-     * 
+     *
      * @return Whether this {@link Player} wants to see fireworks when unlocking a {@link Research}
      */
     public static boolean hasFireworksEnabled(@Nonnull Player p) {
@@ -271,7 +265,7 @@ public final class SlimefunGuideSettings {
      *            Type of the {@link SlimefunGuideOption}
      * @param <V>
      *            Type of the {@link SlimefunGuideOption} value
-     * 
+     *
      * @return The value of given {@link SlimefunGuideOption}
      */
     @Nonnull

@@ -27,7 +27,7 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 /**
  * A {@link Script} represents runnable code for a {@link ProgrammableAndroid}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -40,7 +40,7 @@ public final class Script {
 
     /**
      * This constructs a new {@link Script} from the given {@link Config}.
-     * 
+     *
      * @param config
      *            The {@link Config}
      */
@@ -64,7 +64,7 @@ public final class Script {
 
     /**
      * This returns the name of this {@link Script}.
-     * 
+     *
      * @return The name
      */
     @Nonnull
@@ -75,7 +75,7 @@ public final class Script {
     /**
      * This returns the author of this {@link Script}.
      * The author is the person who initially created and uploaded this {@link Script}.
-     * 
+     *
      * @return The author of this {@link Script}
      */
     @Nonnull
@@ -87,7 +87,7 @@ public final class Script {
      * This method returns the actual code of this {@link Script}.
      * It is basically a {@link String} describing the order of {@link Instruction Instructions} that
      * shall be executed.
-     * 
+     *
      * @return The code for this {@link Script}
      */
     @Nonnull
@@ -98,10 +98,10 @@ public final class Script {
     /**
      * This method determines whether the given {@link OfflinePlayer} is the author of
      * this {@link Script}.
-     * 
+     *
      * @param p
      *            The {@link OfflinePlayer} to check for
-     * 
+     *
      * @return Whether the given {@link OfflinePlayer} is the author of this {@link Script}.
      */
     public boolean isAuthor(@Nonnull OfflinePlayer p) {
@@ -111,10 +111,10 @@ public final class Script {
     /**
      * This method checks whether a given {@link Player} is able to leave a rating for this {@link Script}.
      * A {@link Player} is unable to rate his own {@link Script} or a {@link Script} he already rated before.
-     * 
+     *
      * @param p
      *            The {@link Player} to check for
-     * 
+     *
      * @return Whether the given {@link Player} is able to rate this {@link Script}
      */
     public boolean canRate(@Nonnull Player p) {
@@ -145,7 +145,7 @@ public final class Script {
             lore.add("&eShift + Right Click &fto leave a negative Rating");
         }
 
-        return new CustomItemStack(android.getItem(), "&b" + getName(), lore.toArray(new String[0]));
+        return CustomItemStack.create(android.getItem(), "&b" + getName(), lore.toArray(new String[0]));
     }
 
     @Nonnull
@@ -156,7 +156,7 @@ public final class Script {
 
     /**
      * This method returns the amount of upvotes this {@link Script} has received.
-     * 
+     *
      * @return The amount of upvotes
      */
     public int getUpvotes() {
@@ -165,7 +165,7 @@ public final class Script {
 
     /**
      * This method returns the amount of downvotes this {@link Script} has received.
-     * 
+     *
      * @return The amount of downvotes
      */
     public int getDownvotes() {
@@ -174,7 +174,7 @@ public final class Script {
 
     /**
      * This returns how often this {@link Script} has been downloaded.
-     * 
+     *
      * @return The amount of downloads for this {@link Script}.
      */
     public int getDownloads() {
@@ -184,7 +184,7 @@ public final class Script {
     /**
      * This returns the "rating" of this {@link Script}.
      * This value is calculated from the up- and downvotes this {@link Script} received.
-     * 
+     *
      * @return The rating for this {@link Script}
      */
     public float getRating() {

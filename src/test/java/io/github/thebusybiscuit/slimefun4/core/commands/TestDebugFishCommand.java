@@ -38,6 +38,6 @@ class TestDebugFishCommand {
         player.setOp(op);
         server.execute("slimefun", player, "debug_fish").assertSucceeded();
 
-        Assertions.assertEquals(op, SlimefunUtils.containsSimilarItem(player.getInventory(), SlimefunItems.DEBUG_FISH, true));
+        Assertions.assertEquals(op, SlimefunUtils.containsSimilarItem(player.getInventory(), SlimefunItems.DEBUG_FISH.item(), true));
     }
 }

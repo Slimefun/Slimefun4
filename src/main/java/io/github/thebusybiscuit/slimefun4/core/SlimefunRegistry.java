@@ -47,7 +47,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 /**
  * This class houses a lot of instances of {@link Map} and {@link List} that hold
  * various mappings and collections related to {@link SlimefunItem}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -87,7 +87,7 @@ public final class SlimefunRegistry {
     private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
     private final Map<SlimefunGuideMode, SlimefunGuideImplementation> guides = new EnumMap<>(SlimefunGuideMode.class);
-    private final Map<EntityType, Set<ItemStack>> mobDrops = new EnumMap<>(EntityType.class);
+    private final Map<EntityType, Set<ItemStack>> mobDrops = new HashMap<>();
 
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
     private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
@@ -120,7 +120,7 @@ public final class SlimefunRegistry {
      * Auto-Loading will automatically call {@link SlimefunItem#load()} when the item is registered.
      * Normally that method is called after the {@link Server} finished starting up.
      * But in the unusual scenario if a {@link SlimefunItem} is registered after that, this is gonna cover that.
-     * 
+     *
      * @return Whether auto-loading is enabled
      */
     public boolean isAutoLoadingEnabled() {
@@ -132,7 +132,7 @@ public final class SlimefunRegistry {
      * call {@link SlimefunItem#load()}.
      * Normally this method call is delayed but when the {@link Server} is already running,
      * the method can be called instantaneously.
-     * 
+     *
      * @param mode
      *            Whether auto-loading should be enabled
      */
@@ -142,7 +142,7 @@ public final class SlimefunRegistry {
 
     /**
      * This returns a {@link List} containing every enabled {@link ItemGroup}.
-     * 
+     *
      * @return {@link List} containing every enabled {@link ItemGroup}
      */
     public @Nonnull List<ItemGroup> getAllItemGroups() {
@@ -151,7 +151,7 @@ public final class SlimefunRegistry {
 
     /**
      * This {@link List} contains every {@link SlimefunItem}, even disabled items.
-     * 
+     *
      * @return A {@link List} containing every {@link SlimefunItem}
      */
     public @Nonnull List<SlimefunItem> getAllSlimefunItems() {
@@ -160,7 +160,7 @@ public final class SlimefunRegistry {
 
     /**
      * This {@link List} contains every <strong>enabled</strong> {@link SlimefunItem}.
-     * 
+     *
      * @return A {@link List} containing every enabled {@link SlimefunItem}
      */
     @Nonnull
@@ -170,7 +170,7 @@ public final class SlimefunRegistry {
 
     /**
      * This returns a {@link List} containing every enabled {@link Research}.
-     * 
+     *
      * @return A {@link List} containing every enabled {@link Research}
      */
     @Nonnull
@@ -181,7 +181,7 @@ public final class SlimefunRegistry {
     /**
      * This method returns a {@link Set} containing the {@link UUID} of every
      * {@link Player} who is currently unlocking a {@link Research}.
-     * 
+     *
      * @return A {@link Set} holding the {@link UUID} from every {@link Player}
      *         who is currently unlocking a {@link Research}
      */
@@ -226,7 +226,7 @@ public final class SlimefunRegistry {
 
     /**
      * This method returns a {@link List} of every enabled {@link MultiBlock}.
-     * 
+     *
      * @return A {@link List} containing every enabled {@link MultiBlock}
      */
     @Nonnull
@@ -241,10 +241,10 @@ public final class SlimefunRegistry {
      * This mainly only exists for internal purposes, if you want to open a certain section
      * using the {@link SlimefunGuide}, then please use the static methods provided in the
      * {@link SlimefunGuide} class.
-     * 
+     *
      * @param mode
      *            The {@link SlimefunGuideMode}
-     * 
+     *
      * @return The corresponding {@link SlimefunGuideImplementation}
      */
     @Nonnull
@@ -263,7 +263,7 @@ public final class SlimefunRegistry {
     /**
      * This returns a {@link Map} connecting the {@link EntityType} with a {@link Set}
      * of {@link ItemStack ItemStacks} which would be dropped when an {@link Entity} of that type was killed.
-     * 
+     *
      * @return The {@link Map} of custom mob drops
      */
     @Nonnull
@@ -274,7 +274,7 @@ public final class SlimefunRegistry {
     /**
      * This returns a {@link Set} of {@link ItemStack ItemStacks} which can be obtained by bartering
      * with {@link Piglin Piglins}.
-     * 
+     *
      * @return A {@link Set} of bartering drops
      */
     @Nonnull

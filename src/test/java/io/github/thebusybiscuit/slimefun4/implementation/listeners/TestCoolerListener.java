@@ -25,7 +25,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
@@ -42,7 +41,7 @@ class TestCoolerListener {
         server = MockBukkit.mock();
         Slimefun plugin = MockBukkit.load(Slimefun.class);
 
-        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "cooler_test"), new CustomItemStack(Material.SNOWBALL, "Mr. Freeze"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(plugin, "cooler_test"), CustomItemStack.create(Material.SNOWBALL, "Mr. Freeze"));
         SlimefunItemStack item = new SlimefunItemStack("TEST_COOLER", Material.SNOWBALL, "&6Test Cooler", "", "&7ID: <ID>");
         cooler = new Cooler(18, itemGroup, item, RecipeType.NULL, new ItemStack[9]);
         cooler.register(plugin);
