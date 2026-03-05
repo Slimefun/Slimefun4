@@ -44,7 +44,7 @@ jobs:
         echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> "$GITHUB_ENV"
         echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> "$GITHUB_OUTPUT"
         echo "JAR_VERSION=$JAR_VERSION" >> "$GITHUB_ENV"
-        sed -i "s/<version>4.9-UNOFFICIAL<\/version>/<version>$JAR_VERSION<\/version>/g" pom.xml
+        sed -i "s/<version>5.0.0-UNOFFICIAL<\/version>/<version>$JAR_VERSION<\/version>/g" pom.xml
 
     - name: Build with Maven
       run: mvn package
