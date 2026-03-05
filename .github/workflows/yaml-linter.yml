@@ -6,7 +6,7 @@ on:
     - '**.yml'
   pull_request:
     branches:
-    - master
+    - stable
 
 permissions:
   contents: read

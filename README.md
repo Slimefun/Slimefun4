@@ -17,7 +17,7 @@ Check out the available [addons](https://github.com/Slimefun/Slimefun4/wiki/Addo
 * **[:beetle: Bug Tracker](https://github.com/Slimefun5/Slimefun5/issues)**
 * **[:open_book: Wiki](https://github.com/Slimefun/Slimefun4/wiki)**
 * **[:interrobang: FAQ](https://github.com/Slimefun/Slimefun4/wiki/FAQ)**
-* **[:handshake: How to contribute](https://github.com/Slimefun5/Slimefun5/blob/master/CONTRIBUTING.md)**
+* **[:handshake: How to contribute](https://github.com/Slimefun5/Slimefun5/blob/stable/CONTRIBUTING.md)**
 
 ## :floppy_disk: Download
 Slimefun requires your Minecraft Server to be running on [Spigot](https://spigotmc.org/), [Paper](https://papermc.io/) or on any fork of these.<br>
@@ -58,8 +58,8 @@ The wiki is entirely community-run, so if you find an article missing, feel free
 
 ## :handshake: Contributing to this project
 Slimefun is an Open-Source project and licensed under
-[GNU GPLv3](https://github.com/Slimefun5/Slimefun5/blob/master/LICENSE).<br>
-Pull requests are welcome! Please read our [CONTRIBUTING.md](https://github.com/Slimefun5/Slimefun5/blob/master/CONTRIBUTING.md) before submitting.
+[GNU GPLv3](https://github.com/Slimefun5/Slimefun5/blob/stable/LICENSE).<br>
+Pull requests are welcome! Please read our [CONTRIBUTING.md](https://github.com/Slimefun5/Slimefun5/blob/stable/CONTRIBUTING.md) before submitting.
 
 ## :exclamation: Disclaimers
 This fork uses various systems that collect usage information or connect to external services.

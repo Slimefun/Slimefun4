@@ -54,5 +54,3 @@ jobs:
       with:
         name: slimefun-${{ github.event.number }}-${{ env.SHORT_COMMIT_HASH }}
         path: 'target/Slimefun v${{ env.JAR_VERSION }}.jar'
-
-

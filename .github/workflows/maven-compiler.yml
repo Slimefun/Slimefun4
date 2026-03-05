@@ -3,7 +3,7 @@ name: Java CI
 on:
   push:
     branches:
-    - master
+    - stable
     paths:
     - 'src/**'
     - 'pom.xml'

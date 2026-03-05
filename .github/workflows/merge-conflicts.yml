@@ -3,7 +3,7 @@ name: Merge Conflicts
 on:
   push:
     branches:
-    - master
+    - stable
 
 permissions:
   contents: read
