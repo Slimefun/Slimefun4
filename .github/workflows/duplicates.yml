@@ -20,6 +20,6 @@ jobs:
       - name: Add label to the Issue
         uses: maxkomarychev/octions/octions/issues/add-labels@master
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           issue_number: ${{ github.event.issue.number }}
           labels: '🚩 Duplicate'

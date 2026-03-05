@@ -16,11 +16,11 @@ jobs:
       pull-requests: write
 
     # Only run this on the main repo
-    if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
+    if: github.event.pull_request.head.repo.full_name == 'Slimefun5/Slimefun5'
 
     steps:
     - name: Approve via actions
       uses: hmarr/auto-approve-action@v4.0.0
-      if: github.actor == 'TheBusyBot' || github.actor == 'renovate[bot]'
+      if: github.actor == 'renovate[bot]'
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"

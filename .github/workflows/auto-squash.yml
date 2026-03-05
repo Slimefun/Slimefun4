@@ -18,13 +18,13 @@ jobs:
     runs-on: ubuntu-latest
 
     ## Only run this on the main repo
-    if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
+    if: github.event.pull_request.head.repo.full_name == 'Slimefun5/Slimefun5'
 
     steps:
     - name: Auto squash
       uses: pascalgn/automerge-action@v0.16.4
       env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         UPDATE_RETRIES: 0
         MERGE_METHOD: squash
         MERGE_FORKS: false
@@ -38,13 +38,13 @@ jobs:
     runs-on: ubuntu-latest
 
     ## Only run this on the main repo
-    if: github.event.pull_request.head.repo.full_name == 'Slimefun/Slimefun4'
+    if: github.event.pull_request.head.repo.full_name == 'Slimefun5/Slimefun5'
 
     steps:
     - name: Auto squash
       uses: pascalgn/automerge-action@v0.16.4
       env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         UPDATE_RETRIES: 0
         MERGE_METHOD: squash
         MERGE_FORKS: false

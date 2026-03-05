@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   validate:
-    if: github.repository == 'Slimefun/Slimefun4'
+    if: github.repository == 'Slimefun5/Slimefun5'
     name: Check for merge conflicts
     runs-on: ubuntu-latest
 
@@ -19,4 +19,4 @@ jobs:
     - uses: mschilde/auto-label-merge-conflicts@master
       with:
         CONFLICT_LABEL_NAME: '⚡ Merge Conflicts'
-        GITHUB_TOKEN: "${{ secrets.ACCESS_TOKEN }}"
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

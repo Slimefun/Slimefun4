@@ -55,8 +55,4 @@ jobs:
         name: slimefun-${{ github.event.number }}-${{ env.SHORT_COMMIT_HASH }}
         path: 'target/Slimefun v${{ env.JAR_VERSION }}.jar'
 
-  call-workflows:
-    needs: [setup-preview-build]
-    uses: ./.github/workflows/e2e-testing.yml
-    with:
-      artifact-name: slimefun-${{ github.event.number }}-${{ needs.setup-preview-build.outputs.short-commit-hash }}
+
