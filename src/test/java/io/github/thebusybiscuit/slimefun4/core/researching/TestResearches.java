@@ -22,8 +22,11 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestResearches {
 
@@ -203,13 +206,13 @@ class TestResearches {
 
         research.unlockFromGuide(guide, player, profile, sfItem, sfItem.getItemGroup(), 0);
 
-        server.getPluginManager().assertEventFired(PlayerPreResearchEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(PlayerPreResearchEvent.class, event -> {
             Assertions.assertEquals(player, event.getPlayer());
             Assertions.assertEquals(research, event.getResearch());
             Assertions.assertEquals(sfItem, event.getSlimefunItem());
             Assertions.assertFalse(event.isCancelled());
             return true;
-        });
+        }));
     }
 
 }

@@ -35,20 +35,20 @@ jobs:
         java-package: jdk
         architecture: x64
 
-    - name: Cache Maven packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
+    - name: Set version from tag
+      run: |
+        VERSION="${GITHUB_REF_NAME#v}"
+        echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+        sed -i "s/version = \"5.0.0-UNOFFICIAL\"/version = \"$VERSION\"/" build.gradle.kts
 
-    - name: Build with Maven
-      run: mvn clean package -Dmaven.test.skip=true --file pom.xml
+    - name: Build with Gradle
+      uses: gradle/actions/setup-gradle@v4
+    - run: ./gradlew shadowJar
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-        files: 'target/Slimefun v4.9-UNOFFICIAL.jar'
+        files: 'build/libs/Slimefun v${{ env.VERSION }}.jar'
         generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

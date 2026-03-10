@@ -28,10 +28,13 @@ import io.github.thebusybiscuit.slimefun4.test.presets.SlimefunItemTest;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.block.BlockMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.block.BlockMock;
+import org.mockbukkit.mockbukkit.entity.PlayerMock;
 
 class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
@@ -139,7 +142,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         if (shouldFireEvent) {
             Assertions.assertTrue(pick.getClimbingSpeed(block.getType()) > 0);
             Assertions.assertTrue(player.getVelocity().length() > 0);
-            server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class, e -> e.getPlayer() == player && e.getPick() == pick);
+            assertThat(server.getPluginManager(), hasFiredFilteredEvent(ClimbingPickLaunchEvent.class, e -> e.getPlayer() == player && e.getPick() == pick));
         } else {
             Assertions.assertEquals(0, player.getVelocity().length());
         }

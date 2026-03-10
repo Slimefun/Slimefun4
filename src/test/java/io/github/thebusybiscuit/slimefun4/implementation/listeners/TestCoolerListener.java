@@ -25,8 +25,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestCoolerListener {
 
@@ -78,10 +81,10 @@ class TestCoolerListener {
         new BackpackListener().setBackpackId(player, personalCooler, 1, backpack.getId());
         player.getInventory().setItem(7, personalCooler);
 
-        FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, 16);
+        FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, 16, null);
         listener.onHungerLoss(event);
 
         Assertions.assertTrue(player.hasPotionEffect(PotionEffectType.HEALTH_BOOST));
-        server.getPluginManager().assertEventFired(CoolerFeedPlayerEvent.class, e -> e.getPlayer() == player && e.getCooler() == cooler);
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(CoolerFeedPlayerEvent.class, e -> e.getPlayer() == player && e.getCooler() == cooler));
     }
 }

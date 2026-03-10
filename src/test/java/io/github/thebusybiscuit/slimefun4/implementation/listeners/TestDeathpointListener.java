@@ -12,8 +12,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestDeathpointListener {
 
@@ -39,7 +43,7 @@ class TestDeathpointListener {
         TestUtilities.awaitProfile(player);
 
         player.setHealth(0);
-        Assertions.assertThrows(AssertionError.class, () -> server.getPluginManager().assertEventFired(WaypointCreateEvent.class, event -> event.getPlayer() == player && event.isDeathpoint()));
+        assertThat(server.getPluginManager(), not(hasFiredFilteredEvent(WaypointCreateEvent.class, event -> event.getPlayer() == player && event.isDeathpoint())));
     }
 
     @Test
@@ -50,7 +54,7 @@ class TestDeathpointListener {
         player.getInventory().setItem(8, SlimefunItems.GPS_EMERGENCY_TRANSMITTER.item());
 
         player.setHealth(0);
-        server.getPluginManager().assertEventFired(WaypointCreateEvent.class, event -> event.getPlayer() == player && event.isDeathpoint());
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(WaypointCreateEvent.class, event -> event.getPlayer() == player && event.isDeathpoint()));
     }
 
 }

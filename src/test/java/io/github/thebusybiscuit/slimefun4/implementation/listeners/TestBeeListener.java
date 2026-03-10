@@ -1,10 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.EnumMap;
+
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
+import com.google.common.collect.ImmutableMap;
+
 import org.bukkit.Material;
+import org.bukkit.damage.DamageSource;
 import org.bukkit.entity.Bee;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,8 +28,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.BeeListener;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestBeeListener {
 
@@ -41,6 +49,7 @@ class TestBeeListener {
         MockBukkit.unmock();
     }
 
+    @SuppressWarnings("deprecation")
     @ParameterizedTest
     @DisplayName("Test Bee damage protection")
     @ValueSource(booleans = { true, false })
@@ -62,7 +71,11 @@ class TestBeeListener {
         double damage = 7.5;
 
         Bee bee = Mockito.mock(Bee.class);
-        EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(bee, player, DamageCause.ENTITY_ATTACK, damage);
+        DamageSource source = Mockito.mock(DamageSource.class);
+        EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(bee, player, DamageCause.ENTITY_ATTACK, source,
+                new EnumMap<>(ImmutableMap.of(DamageModifier.BASE, damage)),
+                new EnumMap<DamageModifier, Function<? super Double, Double>>(ImmutableMap.of(DamageModifier.BASE, Functions.constant(-0.0))),
+                false);
         listener.onDamage(event);
 
         if (hasArmor) {

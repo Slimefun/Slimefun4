@@ -28,8 +28,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestCraftingTableListener {
 
@@ -54,6 +54,8 @@ class TestCraftingTableListener {
         Player player = server.addPlayer();
 
         CraftingInventory inv = Mockito.mock(CraftingInventory.class);
+        Mockito.when(inv.getType()).thenReturn(org.bukkit.event.inventory.InventoryType.CRAFTING);
+        Mockito.when(inv.getSize()).thenReturn(10);
         Mockito.when(inv.getContents()).thenReturn(new ItemStack[] { item, null, null, null, null, null, null, null, null });
 
         InventoryView view = player.openInventory(inv);
@@ -67,6 +69,8 @@ class TestCraftingTableListener {
         Player player = server.addPlayer();
 
         CraftingInventory inv = Mockito.mock(CraftingInventory.class);
+        Mockito.when(inv.getType()).thenReturn(org.bukkit.event.inventory.InventoryType.CRAFTING);
+        Mockito.when(inv.getSize()).thenReturn(10);
         MutableObject result = new MutableObject(new ItemStack(Material.EMERALD));
 
         Mockito.doAnswer(invocation -> {

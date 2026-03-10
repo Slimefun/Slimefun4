@@ -19,8 +19,11 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestResearchUnlocking {
 
@@ -63,12 +66,12 @@ class TestResearchUnlocking {
         Player p = awaitUnlock(player, research, instant);
         Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
-        server.getPluginManager().assertEventFired(ResearchUnlockEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(ResearchUnlockEvent.class, event -> {
             Assertions.assertEquals(p, event.getPlayer());
             Assertions.assertEquals(research, event.getResearch());
             Assertions.assertFalse(event.isCancelled());
             return true;
-        });
+        }));
 
         Assertions.assertEquals(player, p);
         Assertions.assertTrue(profile.isPresent());

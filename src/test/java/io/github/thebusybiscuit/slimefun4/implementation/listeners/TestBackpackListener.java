@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.entity.ItemMock;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -127,7 +127,7 @@ class TestBackpackListener {
         Player player = server.addPlayer();
         openMockBackpack(player, "DROP_NORMAL_ITEM_BACKPACK_TEST", 27);
 
-        Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.SUGAR_CANE));
+        Item item = new ItemMock(server, UUID.randomUUID(), new ItemStack(Material.SUGAR_CANE));
         PlayerDropItemEvent event = new PlayerDropItemEvent(player, item);
         listener.onItemDrop(event);
 
@@ -136,10 +136,12 @@ class TestBackpackListener {
 
     private boolean isAllowed(String id, ItemStack item) throws InterruptedException {
         Player player = server.addPlayer();
-        Inventory inv = openMockBackpack(player, id, 9).getInventory();
+        openMockBackpack(player, id, 9);
 
+        // Use the view's top inventory so getCurrentItem() sees the item
+        Inventory topInv = player.getOpenInventory().getTopInventory();
         int slot = 7;
-        inv.setItem(slot, item);
+        topInv.setItem(slot, item);
         InventoryClickEvent event = new InventoryClickEvent(player.getOpenInventory(), SlotType.CONTAINER, slot, ClickType.LEFT, InventoryAction.PICKUP_ONE);
         listener.onClick(event);
         return !event.isCancelled();

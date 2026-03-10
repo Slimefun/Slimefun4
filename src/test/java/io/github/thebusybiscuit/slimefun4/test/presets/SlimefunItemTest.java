@@ -16,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import be.seeseemelk.mockbukkit.block.BlockMock;
+import org.mockbukkit.mockbukkit.block.BlockMock;
 
 /**
  * This is a convenient interface for us to use in unit test classes
@@ -59,7 +59,7 @@ public interface SlimefunItemTest<T extends SlimefunItem> {
 
     @ParametersAreNonnullByDefault
     default void simulateConsumption(Player player, T item) {
-        PlayerItemConsumeEvent event = new PlayerItemConsumeEvent(player, item.getItem().clone());
+        PlayerItemConsumeEvent event = new PlayerItemConsumeEvent(player, item.getItem().clone(), EquipmentSlot.HAND);
         item.callItemHandler(ItemConsumptionHandler.class, handler -> handler.onConsume(event, player, event.getItem()));
     }
 

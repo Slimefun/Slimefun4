@@ -16,9 +16,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.presets.SlimefunItemTest;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.sound.SoundReceiverSoundHeardMatcher.hasHeard;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.entity.PlayerMock;
 
 class TestDietCookie implements SlimefunItemTest<DietCookie> {
 
@@ -52,7 +55,7 @@ class TestDietCookie implements SlimefunItemTest<DietCookie> {
 
         simulateConsumption(player, cookie);
 
-        player.assertSoundHeard(SoundEffect.DIET_COOKIE_CONSUME_SOUND.getDefaultSoundId());
+        assertThat(player, hasHeard(SoundEffect.DIET_COOKIE_CONSUME_SOUND.getDefaultSoundId()));
         Assertions.assertTrue(player.hasPotionEffect(PotionEffectType.LEVITATION));
     }
 

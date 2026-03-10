@@ -7,8 +7,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 
@@ -35,7 +38,7 @@ class TestSlimefunRegistryFinalizedEvent {
         Assertions.assertDoesNotThrow(() -> PostSetup.loadItems());
         
         // Make sure post setup sent the event
-        server.getPluginManager().assertEventFired(SlimefunItemRegistryFinalizedEvent.class, ignored -> true);
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(SlimefunItemRegistryFinalizedEvent.class, ignored -> true));
  
         server.getPluginManager().clearEvents();
     }

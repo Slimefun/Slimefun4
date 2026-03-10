@@ -21,8 +21,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.command.CommandResultSucceedMatcher.hasSucceeded;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestBackpackCommand {
 
@@ -61,7 +64,7 @@ class TestBackpackCommand {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         PlayerBackpack backpack = profile.createBackpack(54);
 
-        server.execute("slimefun", player, "backpack", player.getName(), String.valueOf(backpack.getId())).assertSucceeded();
+        assertThat(server.execute("slimefun", player, "backpack", player.getName(), String.valueOf(backpack.getId())), hasSucceeded());
 
         Assertions.assertTrue(hasBackpack(player, backpack.getId()));
     }
@@ -74,7 +77,7 @@ class TestBackpackCommand {
         player.setOp(true);
         TestUtilities.awaitProfile(player);
 
-        server.execute("slimefun", player, "backpack", player.getName(), id).assertSucceeded();
+        assertThat(server.execute("slimefun", player, "backpack", player.getName(), id), hasSucceeded());
 
         if (CommonPatterns.NUMERIC.matcher(id).matches()) {
             Assertions.assertFalse(hasBackpack(player, Integer.parseInt(id)));

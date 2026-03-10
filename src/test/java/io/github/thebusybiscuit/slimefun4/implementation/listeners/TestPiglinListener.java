@@ -25,9 +25,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.PiglinListener;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.entity.ItemMock;
 
 class TestPiglinListener {
 
@@ -51,7 +51,7 @@ class TestPiglinListener {
         Piglin piglin = Mockito.mock(Piglin.class);
         Mockito.when(piglin.getType()).thenReturn(EntityType.PIGLIN);
 
-        Item itemEntity = new ItemEntityMock(server, UUID.randomUUID(), item);
+        Item itemEntity = new ItemMock(server, UUID.randomUUID(), item);
 
         return new EntityPickupItemEvent(piglin, itemEntity, 1);
     }

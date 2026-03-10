@@ -22,8 +22,11 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestMultiblockListener {
 
@@ -81,12 +84,12 @@ class TestMultiblockListener {
 
         Assertions.assertEquals(Result.DENY, event.useInteractedBlock());
 
-        server.getPluginManager().assertEventFired(MultiBlockInteractEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(MultiBlockInteractEvent.class, e -> {
             Assertions.assertEquals(player, e.getPlayer());
             Assertions.assertEquals(self, e.getClickedBlock());
             Assertions.assertEquals(BlockFace.NORTH, e.getClickedFace());
             Assertions.assertEquals(multiblock, e.getMultiBlock());
             return true;
-        });
+        }));
     }
 }

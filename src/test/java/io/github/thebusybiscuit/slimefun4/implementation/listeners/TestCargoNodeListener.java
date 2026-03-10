@@ -24,8 +24,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoInputN
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.providers.SlimefunItemsSource;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestCargoNodeListener {
 

@@ -1,6 +1,6 @@
 # Name and version
 name: Slimefun
-version: ${project.version}
+version: ${version}
 
 # Project metadata
 author: The Slimefun 4 Community

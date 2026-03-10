@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import net.kyori.adventure.text.Component;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -13,8 +15,8 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestPlayerProfileListener {
 
@@ -39,7 +41,7 @@ class TestPlayerProfileListener {
     void testPlayerLeave() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
-        PlayerQuitEvent event = new PlayerQuitEvent(player, "bye");
+        PlayerQuitEvent event = new PlayerQuitEvent(player, Component.text("bye"), PlayerQuitEvent.QuitReason.DISCONNECTED);
         listener.onDisconnect(event);
 
         Assertions.assertTrue(profile.isMarkedForDeletion());
@@ -49,7 +51,7 @@ class TestPlayerProfileListener {
     @DisplayName("Test PlayerProfile being unloaded when Player leaves")
     void testUnloadedPlayerLeave() {
         Player player = server.addPlayer();
-        PlayerQuitEvent event = new PlayerQuitEvent(player, "bye");
+        PlayerQuitEvent event = new PlayerQuitEvent(player, Component.text("bye"), PlayerQuitEvent.QuitReason.DISCONNECTED);
         listener.onDisconnect(event);
 
         Assertions.assertFalse(PlayerProfile.find(player).isPresent());
@@ -60,7 +62,7 @@ class TestPlayerProfileListener {
     void testPlayerKick() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
-        PlayerKickEvent event = new PlayerKickEvent(player, "You're not welcome anymore", "bye");
+        PlayerKickEvent event = new PlayerKickEvent(player, Component.text("You're not welcome anymore"), Component.text("bye"), PlayerKickEvent.Cause.PLUGIN);
         listener.onKick(event);
 
         Assertions.assertTrue(profile.isMarkedForDeletion());
@@ -70,7 +72,7 @@ class TestPlayerProfileListener {
     @DisplayName("Test PlayerProfile being unloaded when Player is kicked")
     void testUnloadedPlayerKick() {
         Player player = server.addPlayer();
-        PlayerKickEvent event = new PlayerKickEvent(player, "You're not welcome anymore", "bye");
+        PlayerKickEvent event = new PlayerKickEvent(player, Component.text("You're not welcome anymore"), Component.text("bye"), PlayerKickEvent.Cause.PLUGIN);
         listener.onKick(event);
 
         Assertions.assertFalse(PlayerProfile.find(player).isPresent());

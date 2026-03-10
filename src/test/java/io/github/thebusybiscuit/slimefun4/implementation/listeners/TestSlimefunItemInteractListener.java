@@ -30,9 +30,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.Wi
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.entity.PlayerMock;
 
 class TestSlimefunItemInteractListener {
 
@@ -100,17 +104,17 @@ class TestSlimefunItemInteractListener {
         );
 
         server.getPluginManager().callEvent(playerInteractEvent);
-        server.getPluginManager().assertEventFired(PlayerInteractEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(PlayerInteractEvent.class, e -> {
             // We cancel the event on inventory open
             Assertions.assertSame(e.useInteractedBlock(), Result.DENY);
             return true;
-        });
+        }));
 
         // Assert our right click event fired and the block usage was not denied
-        server.getPluginManager().assertEventFired(PlayerRightClickEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(PlayerRightClickEvent.class, e -> {
             Assertions.assertNotSame(e.useBlock(), Result.DENY);
             return true;
-        });
+        }));
 
         // Assert we do have an inventory which would be opened
         // TODO: Create an event for open inventory so this isn't guess work
@@ -123,10 +127,10 @@ class TestSlimefunItemInteractListener {
         // Break the block
         BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
         server.getPluginManager().callEvent(blockBreakEvent);
-        server.getPluginManager().assertEventFired(SlimefunBlockBreakEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(SlimefunBlockBreakEvent.class, e -> {
             Assertions.assertEquals(electricFurnace.getId(), e.getSlimefunItem().getId());
             return true;
-        });
+        }));
 
         // Assert the block is queued for removal
         Assertions.assertTrue(Slimefun.getTickerTask().isDeletedSoon(block.getLocation()));
@@ -143,17 +147,14 @@ class TestSlimefunItemInteractListener {
         );
 
         server.getPluginManager().callEvent(secondPlayerInteractEvent);
-        server.getPluginManager().assertEventFired(PlayerInteractEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(PlayerInteractEvent.class, e -> {
             // We cancelled the event due to the block being removed
             Assertions.assertSame(e.useInteractedBlock(), Result.DENY);
             return true;
-        });
+        }));
 
         // Assert our right click event was not fired due to the block being broken
-        Assertions.assertThrows(
-            AssertionError.class,
-            () -> server.getPluginManager().assertEventFired(PlayerRightClickEvent.class, e -> true)
-        );
+        assertThat(server.getPluginManager(), not(hasFiredFilteredEvent(PlayerRightClickEvent.class, e -> true)));
     }
 
     @Test
@@ -171,17 +172,17 @@ class TestSlimefunItemInteractListener {
         );
 
         server.getPluginManager().callEvent(playerInteractEvent);
-        server.getPluginManager().assertEventFired(PlayerInteractEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(PlayerInteractEvent.class, e -> {
             // Assert our interaction was not cancelled
             Assertions.assertNotSame(e.useItemInHand(), Result.DENY);
             return true;
-        });
+        }));
 
         // Assert our right click event fired and the item usage was not denied
-        server.getPluginManager().assertEventFired(PlayerRightClickEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(PlayerRightClickEvent.class, e -> {
             Assertions.assertNotSame(e.useItem(), Result.DENY);
             return true;
-        });
+        }));
 
         // Assert our food level is now 18
         Assertions.assertEquals(18, player.getFoodLevel());
@@ -204,17 +205,17 @@ class TestSlimefunItemInteractListener {
         );
 
         server.getPluginManager().callEvent(playerInteractEvent);
-        server.getPluginManager().assertEventFired(PlayerInteractEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(PlayerInteractEvent.class, e -> {
             // Allow interaction of the block
             Assertions.assertSame(e.useInteractedBlock(), Result.ALLOW);
             return true;
-        });
+        }));
 
         // Assert our right click event fired and the block usage was not denied
-        server.getPluginManager().assertEventFired(PlayerRightClickEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(PlayerRightClickEvent.class, e -> {
             Assertions.assertNotSame(e.useBlock(), Result.DENY);
             return true;
-        });
+        }));
 
         // Assert the message our energy connector sends
         Assertions.assertEquals(ChatColors.color("&7Connected: " + "&4\u2718"), player.nextMessage());

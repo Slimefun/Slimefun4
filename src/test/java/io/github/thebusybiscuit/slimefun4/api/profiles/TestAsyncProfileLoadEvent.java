@@ -14,9 +14,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockProfile;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.OfflinePlayerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.entity.OfflinePlayerMock;
 
 class TestAsyncProfileLoadEvent {
 
@@ -41,7 +44,7 @@ class TestAsyncProfileLoadEvent {
         OfflinePlayer player = new OfflinePlayerMock("EventFire");
         TestUtilities.awaitProfile(player);
 
-        server.getPluginManager().assertEventFired(AsyncProfileLoadEvent.class, Event::isAsynchronous);
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(AsyncProfileLoadEvent.class, Event::isAsynchronous));
     }
 
     @Test
@@ -52,7 +55,7 @@ class TestAsyncProfileLoadEvent {
         OfflinePlayer player = new OfflinePlayerMock("GetProfile");
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        server.getPluginManager().assertEventFired(AsyncProfileLoadEvent.class, e -> e.getProfile().equals(profile));
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(AsyncProfileLoadEvent.class, e -> e.getProfile().equals(profile)));
     }
 
     @Test

@@ -20,9 +20,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.WorldMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventClassMatcher.hasFiredEventInstance;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.world.WorldMock;
 
 class TestInfiniteBlockGenerators {
 
@@ -70,7 +73,7 @@ class TestInfiniteBlockGenerators {
         Assertions.assertTrue(generator.test(block));
         Assertions.assertNotNull(generator.callEvent(block));
 
-        server.getPluginManager().assertEventFired(BlockFormEvent.class);
+        assertThat(server.getPluginManager(), hasFiredEventInstance(BlockFormEvent.class));
         server.getPluginManager().clearEvents();
 
         Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block));
@@ -112,7 +115,7 @@ class TestInfiniteBlockGenerators {
         Assertions.assertTrue(generator.test(block));
         Assertions.assertNotNull(generator.callEvent(block));
 
-        server.getPluginManager().assertEventFired(BlockFormEvent.class);
+        assertThat(server.getPluginManager(), hasFiredEventInstance(BlockFormEvent.class));
         server.getPluginManager().clearEvents();
 
         Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block));
@@ -153,7 +156,7 @@ class TestInfiniteBlockGenerators {
         Assertions.assertTrue(generator.test(block));
         Assertions.assertNotNull(generator.callEvent(block));
 
-        server.getPluginManager().assertEventFired(BlockFormEvent.class);
+        assertThat(server.getPluginManager(), hasFiredEventInstance(BlockFormEvent.class));
         server.getPluginManager().clearEvents();
 
         Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block));
