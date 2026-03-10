@@ -28,4 +28,5 @@ jobs:
 
     - name: Build Javadocs
       uses: gradle/actions/setup-gradle@v4
+    - run: chmod +x ./gradlew
     - run: ./gradlew javadoc
