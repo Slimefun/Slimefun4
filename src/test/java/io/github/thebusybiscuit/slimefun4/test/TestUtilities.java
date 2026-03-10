@@ -26,8 +26,11 @@ import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.block.BlockMock;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.block.BlockMock;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -117,7 +120,7 @@ public final class TestUtilities {
         );
 
         server.getPluginManager().callEvent(blockPlaceEvent);
-        server.getPluginManager().assertEventFired(SlimefunBlockPlaceEvent.class, e -> true);
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(SlimefunBlockPlaceEvent.class, e -> true));
 
         return block;
     }

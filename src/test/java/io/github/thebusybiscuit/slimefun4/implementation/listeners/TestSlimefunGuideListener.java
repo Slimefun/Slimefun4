@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.stream.Stream;
 
+import net.kyori.adventure.text.Component;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
@@ -17,9 +19,9 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.entity.PlayerMock;
 
 class TestSlimefunGuideListener {
 
@@ -48,7 +50,7 @@ class TestSlimefunGuideListener {
             server.getPlayerList().setLastSeen(player.getUniqueId(), System.currentTimeMillis());
         }
 
-        PlayerJoinEvent event = new PlayerJoinEvent(player, "CanIHazGuide has joined and wants sum guide");
+        PlayerJoinEvent event = new PlayerJoinEvent(player, Component.text("CanIHazGuide has joined and wants sum guide"));
         listener.onJoin(event);
 
         ItemStack guide = SlimefunGuide.getItem(SlimefunGuide.getDefaultMode());

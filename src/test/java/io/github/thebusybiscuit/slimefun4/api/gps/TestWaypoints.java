@@ -16,8 +16,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.utils.FileUtils;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestWaypoints {
 
@@ -114,7 +117,7 @@ class TestWaypoints {
         TestUtilities.awaitProfile(player);
 
         network.addWaypoint(player, "Hello world", player.getLocation());
-        server.getPluginManager().assertEventFired(WaypointCreateEvent.class, event -> event.getPlayer() == player);
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(WaypointCreateEvent.class, event -> event.getPlayer() == player));
     }
 
     @Test

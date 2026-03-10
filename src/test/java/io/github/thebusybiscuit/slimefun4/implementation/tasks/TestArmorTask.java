@@ -28,8 +28,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.test.mocks.MockHazmatSuit;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestArmorTask {
 

@@ -18,9 +18,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Soulbound
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.entity.PlayerMock;
 
 class TestSoulboundListener {
 
@@ -49,9 +52,9 @@ class TestSoulboundListener {
         player.getInventory().setItem(6, item);
         player.setHealth(0);
 
-        server.getPluginManager().assertEventFired(EntityDeathEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(EntityDeathEvent.class, event -> {
             return soulbound != event.getDrops().contains(item);
-        });
+        }));
     }
 
     @ParameterizedTest
@@ -71,10 +74,10 @@ class TestSoulboundListener {
         player.getInventory().setItem(0, item.item());
         player.setHealth(0);
 
-        server.getPluginManager().assertEventFired(EntityDeathEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(EntityDeathEvent.class, event -> {
             // If the item is enabled, we don't want it to drop.
             return enabled == !event.getDrops().contains(item.item());
-        });
+        }));
         Slimefun.getRegistry().getEnabledSlimefunItems().remove(soulboundItem);
     }
 
@@ -89,10 +92,10 @@ class TestSoulboundListener {
         player.setHealth(0);
         player.respawn();
 
-        server.getPluginManager().assertEventFired(PlayerRespawnEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(PlayerRespawnEvent.class, event -> {
             ItemStack stack = player.getInventory().getItem(6);
             return SlimefunUtils.isItemSimilar(stack, item, true) == soulbound;
-        });
+        }));
     }
 
 }

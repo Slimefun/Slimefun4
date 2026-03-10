@@ -21,10 +21,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
-import be.seeseemelk.mockbukkit.inventory.HopperInventoryMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.entity.ItemMock;
+import org.mockbukkit.mockbukkit.inventory.HopperInventoryMock;
 
 class TestItemPickupListener {
 
@@ -48,7 +48,7 @@ class TestItemPickupListener {
     @ValueSource(booleans = { true, false })
     void testNoPickupFlagForEntities(boolean flag) {
         Player player = server.addPlayer();
-        Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.COMPASS));
+        Item item = new ItemMock(server, UUID.randomUUID(), new ItemStack(Material.COMPASS));
 
         if (flag) {
             SlimefunUtils.markAsNoPickup(item, "Unit Test");
@@ -64,7 +64,7 @@ class TestItemPickupListener {
     @ValueSource(booleans = { true, false })
     void testNoPickupFlagForInventories(boolean flag) {
         Inventory inventory = new HopperInventoryMock(null);
-        Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.COMPASS));
+        Item item = new ItemMock(server, UUID.randomUUID(), new ItemStack(Material.COMPASS));
 
         if (flag) {
             SlimefunUtils.markAsNoPickup(item, "Unit Test");
@@ -89,7 +89,7 @@ class TestItemPickupListener {
         }
 
         AtomicBoolean removed = new AtomicBoolean(false);
-        Item item = new ItemEntityMock(server, UUID.randomUUID(), stack) {
+        Item item = new ItemMock(server, UUID.randomUUID(), stack) {
 
             @Override
             public void remove() {
@@ -117,7 +117,7 @@ class TestItemPickupListener {
         }
 
         AtomicBoolean removed = new AtomicBoolean(false);
-        Item item = new ItemEntityMock(server, UUID.randomUUID(), stack) {
+        Item item = new ItemMock(server, UUID.randomUUID(), stack) {
 
             @Override
             public void remove() {

@@ -4,14 +4,14 @@ on:
   push:
     paths:
     - 'src/**'
-    - 'pom.xml'
+    - 'build.gradle.kts'
 
 permissions:
   contents: read
 
 jobs:
   build:
-    name: Maven build
+    name: Gradle Javadocs
     runs-on: ubuntu-latest
 
     steps:
@@ -26,12 +26,6 @@ jobs:
         java-package: jdk
         architecture: x64
 
-    - name: Cache Maven packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
-
     - name: Build Javadocs
-      run: mvn javadoc:javadoc
+      uses: gradle/actions/setup-gradle@v4
+    - run: ./gradlew javadoc

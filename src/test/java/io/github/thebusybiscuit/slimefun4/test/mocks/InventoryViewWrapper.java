@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.test.mocks;
 
-import be.seeseemelk.mockbukkit.inventory.InventoryViewMock;
+import org.mockbukkit.mockbukkit.inventory.InventoryViewMock;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -25,21 +25,19 @@ import javax.annotation.Nullable;
 public class InventoryViewWrapper extends InventoryViewMock {
 
     private InventoryViewWrapper(HumanEntity player,
-                                 String name,
                                  Inventory top,
                                  Inventory bottom,
                                  InventoryType type) {
-        super(player, name, top, bottom, type);
+        super(player, top, bottom, type);
     }
 
     @Nonnull
     public static InventoryViewWrapper wrap(@Nonnull InventoryView inventoryView) {
         HumanEntity player = inventoryView.getPlayer();
-        String name = inventoryView.getTitle();
         Inventory top = inventoryView.getTopInventory();
         Inventory bottom = inventoryView.getBottomInventory();
         InventoryType inventoryType = inventoryView.getType();
-        return new InventoryViewWrapper(player, name, top, bottom, inventoryType);
+        return new InventoryViewWrapper(player, top, bottom, inventoryType);
     }
 
     @Override

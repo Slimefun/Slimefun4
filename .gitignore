@@ -1,4 +1,5 @@
 /bin/
+/build/
 /target/
 /plugins/
 /sonar/
@@ -7,6 +8,7 @@
 /.vscode/
 /data-storage/
 /javadocs/
+/.gradle/
 
 dependency-reduced-pom.xml
 

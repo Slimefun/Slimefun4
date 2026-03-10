@@ -6,12 +6,14 @@ on:
     - stable
     paths:
     - 'src/**'
-    - 'pom.xml'
+    - 'build.gradle.kts'
+    - 'settings.gradle.kts'
   pull_request:
     paths:
     - '.github/workflows/**'
     - 'src/**'
-    - 'pom.xml'
+    - 'build.gradle.kts'
+    - 'settings.gradle.kts'
     - 'CHANGELOG.md'
 
 permissions:
@@ -20,7 +22,7 @@ permissions:
 jobs:
   build:
 
-    name: Maven build
+    name: Gradle build
     runs-on: ubuntu-latest
 
     steps:
@@ -35,12 +37,6 @@ jobs:
         java-package: jdk
         architecture: x64
 
-    - name: Cache Maven packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
-
-    - name: Build with Maven
-      run: mvn package --file pom.xml
+    - name: Build with Gradle
+      uses: gradle/actions/setup-gradle@v4
+    - run: ./gradlew shadowJar

@@ -13,8 +13,11 @@ import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.test.TestUtilities;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.command.CommandResultSucceedMatcher.hasSucceeded;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestResearchCommand {
 
@@ -46,7 +49,7 @@ class TestResearchCommand {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        server.executeConsole("slimefun", "research", player.getName(), "all").assertSucceeded();
+        assertThat(server.executeConsole("slimefun", "research", player.getName(), "all"), hasSucceeded());
 
         Assertions.assertTrue(profile.hasUnlocked(research));
         Assertions.assertTrue(profile.hasUnlocked(research2));
@@ -59,7 +62,7 @@ class TestResearchCommand {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        server.executeConsole("slimefun", "research", player.getName(), research.getKey().toString()).assertSucceeded();
+        assertThat(server.executeConsole("slimefun", "research", player.getName(), research.getKey().toString()), hasSucceeded());
 
         Assertions.assertTrue(profile.hasUnlocked(research));
         Assertions.assertFalse(profile.hasUnlocked(research2));
@@ -72,12 +75,12 @@ class TestResearchCommand {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
-        server.executeConsole("slimefun", "research", player.getName(), "all").assertSucceeded();
+        assertThat(server.executeConsole("slimefun", "research", player.getName(), "all"), hasSucceeded());
 
         Assertions.assertTrue(profile.hasUnlocked(research));
         Assertions.assertTrue(profile.hasUnlocked(research2));
 
-        server.executeConsole("slimefun", "research", player.getName(), "reset").assertSucceeded();
+        assertThat(server.executeConsole("slimefun", "research", player.getName(), "reset"), hasSucceeded());
 
         Assertions.assertFalse(profile.hasUnlocked(research));
         Assertions.assertFalse(profile.hasUnlocked(research2));

@@ -1,7 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -71,27 +75,21 @@ class TestTalismanActivateEvent {
     void testEventIsFired() {
         // Assert the talisman activates in the inventory
         activateAnvilTalisman(false, false);
-        server.getPluginManager().assertEventFired(TalismanActivateEvent.class, ignored -> true);
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(TalismanActivateEvent.class, ignored -> true));
         server.getPluginManager().clearEvents();
 
         // Assert the talisman activates in the ender chest
         activateAnvilTalisman(true, true);
-        server.getPluginManager().assertEventFired(TalismanActivateEvent.class, ignored -> true);
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(TalismanActivateEvent.class, ignored -> true));
         server.getPluginManager().clearEvents();
 
         // Assert the normal talisman does not activate in the ender chest
         activateAnvilTalisman(false, true);
-        Assertions.assertThrows(
-            AssertionError.class,
-            () -> server.getPluginManager().assertEventFired(TalismanActivateEvent.class, ignored -> true)
-        );
+        assertThat(server.getPluginManager(), not(hasFiredFilteredEvent(TalismanActivateEvent.class, ignored -> true)));
 
         // Assert the ender talisman does not activate in the inventory
         activateAnvilTalisman(true, false);
-        Assertions.assertThrows(
-            AssertionError.class,
-            () -> server.getPluginManager().assertEventFired(TalismanActivateEvent.class, ignored -> true)
-        );
+        assertThat(server.getPluginManager(), not(hasFiredFilteredEvent(TalismanActivateEvent.class, ignored -> true)));
     }
 
     @Test
@@ -99,22 +97,22 @@ class TestTalismanActivateEvent {
     void testEventFields() {
         // Assert the talisman activates in the inventory
         activateAnvilTalisman(false, false);
-        server.getPluginManager().assertEventFired(TalismanActivateEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(TalismanActivateEvent.class, event -> {
             Assertions.assertEquals(talisman, event.getTalisman());
             Assertions.assertEquals(talisman.getItem(), event.getTalismanItem());
             Assertions.assertEquals(player, event.getPlayer());
             return true;
-        });
+        }));
         server.getPluginManager().clearEvents();
 
         // Assert the talisman activates in the ender chest
         activateAnvilTalisman(true, true);
-        server.getPluginManager().assertEventFired(TalismanActivateEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(TalismanActivateEvent.class, event -> {
             Assertions.assertEquals(enderTalisman, event.getTalisman());
             Assertions.assertEquals(enderTalisman.getItem(), event.getTalismanItem());
             Assertions.assertEquals(player, event.getPlayer());
             return true;
-        });
+        }));
         server.getPluginManager().clearEvents();
     }
 
@@ -130,18 +128,18 @@ class TestTalismanActivateEvent {
 
         // Assert the talisman activates in the inventory
         activateAnvilTalisman(false, false);
-        server.getPluginManager().assertEventFired(TalismanActivateEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(TalismanActivateEvent.class, event -> {
             Assertions.assertTrue(event.isCancelled());
             return true;
-        });
+        }));
         server.getPluginManager().clearEvents();
 
         // Assert the talisman activates in the ender chest
         activateAnvilTalisman(true, true);
-        server.getPluginManager().assertEventFired(TalismanActivateEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(TalismanActivateEvent.class, event -> {
             Assertions.assertTrue(event.isCancelled());
             return true;
-        });
+        }));
         server.getPluginManager().clearEvents();
     }
 
@@ -157,18 +155,18 @@ class TestTalismanActivateEvent {
 
         // Assert the talisman activates in the inventory
         activateAnvilTalisman(false, false);
-        server.getPluginManager().assertEventFired(TalismanActivateEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(TalismanActivateEvent.class, event -> {
             Assertions.assertTrue(event.preventsConsumption());
             return true;
-        });
+        }));
         server.getPluginManager().clearEvents();
 
         // Assert the talisman activates in the ender chest
         activateAnvilTalisman(true, true);
-        server.getPluginManager().assertEventFired(TalismanActivateEvent.class, event -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(TalismanActivateEvent.class, event -> {
             Assertions.assertTrue(event.preventsConsumption());
             return true;
-        });
+        }));
         server.getPluginManager().clearEvents();
     }
 }

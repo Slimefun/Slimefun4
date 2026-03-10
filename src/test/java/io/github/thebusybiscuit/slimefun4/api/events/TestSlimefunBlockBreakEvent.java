@@ -1,9 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.block.BlockMock;
-import be.seeseemelk.mockbukkit.entity.PlayerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.plugin.PluginManagerFiredEventFilterMatcher.hasFiredFilteredEvent;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.block.BlockMock;
+import org.mockbukkit.mockbukkit.entity.PlayerMock;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
@@ -64,7 +67,7 @@ class TestSlimefunBlockBreakEvent {
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
         server.getPluginManager().callEvent(new BlockBreakEvent(block, player));
-        server.getPluginManager().assertEventFired(SlimefunBlockBreakEvent.class, e -> true);
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(SlimefunBlockBreakEvent.class, e -> true));
     }
 
     @Test
@@ -81,14 +84,14 @@ class TestSlimefunBlockBreakEvent {
         BlockStorage.addBlockInfo(block, "id", "FOOD_COMPOSTER");
 
         server.getPluginManager().callEvent(new BlockBreakEvent(block, player));
-        server.getPluginManager().assertEventFired(SlimefunBlockBreakEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(SlimefunBlockBreakEvent.class, e -> {
             Assertions.assertEquals(block, e.getBlockBroken());
             Assertions.assertEquals(slimefunItem, e.getSlimefunItem());
             Assertions.assertEquals(itemStack, e.getHeldItem());
             Assertions.assertEquals(player, e.getPlayer());
             Assertions.assertFalse(e.isCancelled());
             return true;
-        });
+        }));
     }
 
     @Test
@@ -113,11 +116,11 @@ class TestSlimefunBlockBreakEvent {
 
         BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
         server.getPluginManager().callEvent(blockBreakEvent);
-        server.getPluginManager().assertEventFired(SlimefunBlockBreakEvent.class, e -> {
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(SlimefunBlockBreakEvent.class, e -> {
             Assertions.assertTrue(e.isCancelled());
             Assertions.assertTrue(blockBreakEvent.isCancelled());
             return true;
-        });
+        }));
     }
 
     @Test
@@ -135,7 +138,7 @@ class TestSlimefunBlockBreakEvent {
 
         BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
         server.getPluginManager().callEvent(blockBreakEvent);
-        server.getPluginManager().assertEventFired(SlimefunBlockBreakEvent.class, e -> true);
+        assertThat(server.getPluginManager(), hasFiredFilteredEvent(SlimefunBlockBreakEvent.class, e -> true));
 
         Assertions.assertTrue(Slimefun.getTickerTask().isDeletedSoon(block.getLocation()));
     }

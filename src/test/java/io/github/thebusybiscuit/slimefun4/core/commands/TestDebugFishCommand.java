@@ -12,8 +12,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.command.CommandResultSucceedMatcher.hasSucceeded;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestDebugFishCommand {
 
@@ -36,7 +39,7 @@ class TestDebugFishCommand {
     void testCommand(boolean op) {
         Player player = server.addPlayer();
         player.setOp(op);
-        server.execute("slimefun", player, "debug_fish").assertSucceeded();
+        assertThat(server.execute("slimefun", player, "debug_fish"), hasSucceeded());
 
         Assertions.assertEquals(op, SlimefunUtils.containsSimilarItem(player.getInventory(), SlimefunItems.DEBUG_FISH.item(), true));
     }

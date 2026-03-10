@@ -14,8 +14,11 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockbukkit.mockbukkit.matcher.command.CommandResultSucceedMatcher.hasSucceeded;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 class TestGuideCommand {
 
@@ -39,7 +42,7 @@ class TestGuideCommand {
         Player player = server.addPlayer();
         player.setOp(op);
         boolean hasPermission = player.hasPermission("slimefun.command.guide");
-        server.execute("slimefun", player, "guide").assertSucceeded();
+        assertThat(server.execute("slimefun", player, "guide"), hasSucceeded());
         ItemStack guide = SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE);
         Assertions.assertEquals(hasPermission, SlimefunUtils.containsSimilarItem(player.getInventory(), guide, true));
     }
