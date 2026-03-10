@@ -328,7 +328,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#28
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#27
 
 ### **Breaking Changes (API)**
-This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
+This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun5/Slimefun5/pull/3139)
 
 * Category has been renamed to ItemGroup.
 * All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun4.api.items.groups`
