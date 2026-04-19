@@ -221,6 +221,8 @@
                                 <exclude>META-INF/*</exclude>
                             </excludes>
                         </filter>
+                        <!-- Exclude dough's MinecraftVersion so our patched version (which handles
+                             the new 26.x year.drop.hotfix format) wins in the shaded jar. -->
                     </filters>
                 </configuration>
 
