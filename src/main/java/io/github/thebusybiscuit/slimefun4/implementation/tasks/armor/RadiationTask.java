@@ -10,9 +10,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.RadioactivityListener;
 import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -92,9 +90,7 @@ public class RadiationTask extends AbstractArmorTask {
                 String msg = Slimefun.getLocalization()
                         .getMessage(p, "actionbar.radiation")
                         .replace("%level%", "" + exposureLevelAfter);
-                BaseComponent[] components =
-                        new ComponentBuilder().append(ChatColors.color(msg)).create();
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
+                p.sendActionBar(LegacyComponentSerializer.legacySection().deserialize(ChatColors.color(msg)));
             }
         } else {
             RadiationUtils.removeExposure(p, 1);
