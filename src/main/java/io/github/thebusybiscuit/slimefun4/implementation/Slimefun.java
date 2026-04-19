@@ -147,7 +147,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
      * This does not necessarily mean that it's the minimum version
      * required to run Slimefun.
      */
-    private static final int RECOMMENDED_JAVA_VERSION = 17;
+    private static final int RECOMMENDED_JAVA_VERSION = 25;
 
     /**
      * Our static instance of {@link Slimefun}.
@@ -523,9 +523,14 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
                 return true;
             }
 
-            // Now check the actual Version of Minecraft
-            int version = PaperLib.getMinecraftVersion();
-            int patchVersion = PaperLib.getMinecraftPatchVersion();
+            // Now check the actual Version of Minecraft.
+            // PaperLib 1.0.8 assumes the legacy "1.x.y" scheme and returns the
+            // drop number (e.g. 1 for "26.1.2"), so we parse the Bukkit version
+            // ourselves to also support the year.drop.hotfix scheme introduced
+            // with Minecraft 26.
+            int[] parsed = parseBukkitVersion(Bukkit.getBukkitVersion());
+            int version = parsed[0];
+            int patchVersion = parsed[1];
 
             if (version > 0) {
                 // Check all supported versions of Minecraft
@@ -555,6 +560,41 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
             // We assume "unsupported" if something went wrong.
             return true;
+        }
+    }
+
+    /**
+     * Parses the value returned by {@link Bukkit#getBukkitVersion()} into a
+     * {@code {major, patch}} pair that maps onto {@link MinecraftVersion}'s
+     * numeric fields.
+     * <p>
+     * Handles both the legacy {@code "1.<major>.<patch>"} format and the new
+     * {@code "<year>.<drop>.<hotfix>"} format (Minecraft 26+). Returns
+     * {@code {-1, -1}} when the string cannot be parsed.
+     */
+    private static int[] parseBukkitVersion(@Nonnull String bukkitVersion) {
+        try {
+            String core = bukkitVersion.split("-", 2)[0];
+            String[] parts = core.split("\\.");
+
+            if (parts.length < 2) {
+                return new int[] { -1, -1 };
+            }
+
+            int major;
+            int patch;
+            if ("1".equals(parts[0])) {
+                // Legacy scheme: 1.<major>.<patch>
+                major = Integer.parseInt(parts[1]);
+                patch = parts.length > 2 ? Integer.parseInt(parts[2]) : 0;
+            } else {
+                // Year-based scheme: <year>.<drop>.<hotfix>
+                major = Integer.parseInt(parts[0]);
+                patch = Integer.parseInt(parts[1]);
+            }
+            return new int[] { major, patch };
+        } catch (NumberFormatException ex) {
+            return new int[] { -1, -1 };
         }
     }
 

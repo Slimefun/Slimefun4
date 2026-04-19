@@ -36,13 +36,13 @@ class VersionsCommand extends SubCommand {
      * This is the Java version we recommend to use.
      * Bump as necessary and adjust the warning.
      */
-    private static final int RECOMMENDED_JAVA_VERSION = 16;
+    private static final int RECOMMENDED_JAVA_VERSION = 25;
 
     /**
      * This is the notice that will be displayed when an
      * older version of Java is detected.
      */
-    private static final String JAVA_VERSION_NOTICE = "As of Minecraft 1.17 Java 16 will be required!";
+    private static final String JAVA_VERSION_NOTICE = "As of Minecraft 26.1 Java 25 is required!";
 
     @ParametersAreNonnullByDefault
     VersionsCommand(Slimefun plugin, SlimefunCommand cmd) {

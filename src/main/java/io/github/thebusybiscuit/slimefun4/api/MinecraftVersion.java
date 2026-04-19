@@ -62,6 +62,12 @@ public enum MinecraftVersion {
     MINECRAFT_1_21(21, 0, "1.21.x"),
 
     /**
+     * Minecraft (Java Edition) 26.1 &mdash; first release under the new
+     * year.drop.hotfix versioning scheme. Matches 26.1.0 through 26.1.x.
+     */
+    MINECRAFT_26_1(26, 1, "26.1.x"),
+
+    /**
      * This constant represents an exceptional state in which we were unable
      * to identify the Minecraft Version we are using
      */
