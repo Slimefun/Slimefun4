@@ -34,12 +34,12 @@ final class StartupWarnings {
     }
 
     @ParametersAreNonnullByDefault
-    static void invalidMinecraftVersion(Logger logger, int majorVersion, String slimefunVersion) {
+    static void invalidMinecraftVersion(Logger logger, String versionDisplay, String slimefunVersion) {
         logger.log(Level.SEVERE, BORDER);
         logger.log(Level.SEVERE, PREFIX + "Slimefun was not installed correctly!");
         logger.log(Level.SEVERE, PREFIX + "You are using the wrong version of Minecraft!");
         logger.log(Level.SEVERE, PREFIX);
-        logger.log(Level.SEVERE, PREFIX + "You are using Minecraft 1.{0}.x", majorVersion);
+        logger.log(Level.SEVERE, PREFIX + "You are using Minecraft {0}", versionDisplay);
         logger.log(Level.SEVERE, PREFIX + "but Slimefun {0} requires you to be using", slimefunVersion);
         logger.log(Level.SEVERE, PREFIX + "Minecraft {0}", String.join(" / ", Slimefun.getSupportedVersions()));
         logger.log(Level.SEVERE, BORDER);

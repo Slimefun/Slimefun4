@@ -100,4 +100,22 @@ class TestMinecraftVersion {
         Assertions.assertThrows(IllegalArgumentException.class, () -> MinecraftVersion.UNIT_TEST.isAtLeast(MinecraftVersion.MINECRAFT_1_16));
     }
 
+    @Test
+    @DisplayName("Test MINECRAFT_26_1 matches 26.1.x and is ordered after 1.21")
+    void testMinecraft26() {
+        // 26.1 should match major=26, patch=1
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_26_1.isMinecraftVersion(26, 1));
+        // 26.1.2 hotfix also falls in the 26.1.x range
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_26_1.isMinecraftVersion(26, 2));
+        // 26.0.x is before the 26.1 drop — must not match
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_26_1.isMinecraftVersion(26, 0));
+        // different major must not match
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_26_1.isMinecraftVersion(21, 0));
+
+        // ordinal ordering: 26.1 is newer than 1.21
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_26_1.isAtLeast(MinecraftVersion.MINECRAFT_1_21));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_26_1.isBefore(MinecraftVersion.MINECRAFT_1_21));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_21.isBefore(MinecraftVersion.MINECRAFT_26_1));
+    }
+
 }

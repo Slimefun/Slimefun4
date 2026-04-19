@@ -542,7 +542,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
                 }
 
                 // Looks like you are using an unsupported Minecraft Version
-                StartupWarnings.invalidMinecraftVersion(getLogger(), version, getDescription().getVersion());
+                String versionDisplay = version >= 26
+                    ? version + "." + patchVersion + ".x"
+                    : "1." + version + ".x";
+                StartupWarnings.invalidMinecraftVersion(getLogger(), versionDisplay, getDescription().getVersion());
                 return true;
             } else {
                 getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using? ({0})", Bukkit.getVersion());
