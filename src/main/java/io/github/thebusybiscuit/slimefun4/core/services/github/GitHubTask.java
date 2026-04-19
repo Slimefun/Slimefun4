@@ -1,23 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
 
-import io.github.bakedlibs.dough.skins.PlayerSkin;
-import io.github.bakedlibs.dough.skins.UUIDLookup;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
@@ -33,6 +36,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 class GitHubTask implements Runnable {
 
     private static final int MAX_REQUESTS_PER_MINUTE = 16;
+    private static final Pattern UUID_PATTERN = Pattern.compile("\"id\"\\s*:\\s*\"([0-9a-fA-F]{32})\"");
+    private static final Pattern TEXTURE_VALUE_PATTERN = Pattern.compile("\"name\"\\s*:\\s*\"textures\"\\s*,\\s*\"value\"\\s*:\\s*\"([^\"]+)\"");
     private final GitHubService gitHubService;
 
     GitHubTask(@Nonnull GitHubService github) {
@@ -107,9 +112,6 @@ class GitHubTask implements Runnable {
             } catch (IllegalArgumentException x) {
                 // There cannot be a texture found because it is not a valid MC username
                 contributor.setTexture(null);
-            } catch (InterruptedException x) {
-                Slimefun.logger().log(Level.WARNING, "The contributors thread was interrupted!");
-                Thread.currentThread().interrupt();
             } catch (Exception x) {
                 // Too many requests
                 Slimefun.logger().log(Level.WARNING, "Attempted to refresh skin cache, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
@@ -129,25 +131,72 @@ class GitHubTask implements Runnable {
         return 0;
     }
 
-    private @Nullable String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws InterruptedException, ExecutionException, TimeoutException {
+    private @Nullable String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws IOException {
         Optional<UUID> uuid = contributor.getUniqueId();
 
         if (!uuid.isPresent()) {
-            CompletableFuture<UUID> future = UUIDLookup.getUuidFromUsername(Slimefun.instance(), contributor.getMinecraftName());
-
-            // Fixes #3241 - Do not wait for more than 30 seconds
-            uuid = Optional.ofNullable(future.get(30, TimeUnit.SECONDS));
-            uuid.ifPresent(contributor::setUniqueId);
+            UUID resolved = lookupUuid(contributor.getMinecraftName());
+            if (resolved != null) {
+                contributor.setUniqueId(resolved);
+                uuid = Optional.of(resolved);
+            }
         }
 
         if (uuid.isPresent()) {
-            CompletableFuture<PlayerSkin> future = PlayerSkin.fromPlayerUUID(Slimefun.instance(), uuid.get());
-            Optional<String> skin = Optional.of(future.get().getProfile().getBase64Texture());
-            skins.put(contributor.getMinecraftName(), skin.orElse(""));
-            return skin.orElse(null);
+            String texture = lookupTexture(uuid.get());
+            skins.put(contributor.getMinecraftName(), texture == null ? "" : texture);
+            return texture;
         } else {
             return null;
         }
     }
 
+    private @Nullable UUID lookupUuid(@Nonnull String username) throws IOException {
+        String body = fetch("https://api.mojang.com/users/profiles/minecraft/" + username);
+        if (body == null) {
+            return null;
+        }
+        Matcher m = UUID_PATTERN.matcher(body);
+        if (!m.find()) {
+            return null;
+        }
+        String raw = m.group(1);
+        String formatted = raw.substring(0, 8) + '-' + raw.substring(8, 12) + '-'
+                + raw.substring(12, 16) + '-' + raw.substring(16, 20) + '-'
+                + raw.substring(20);
+        return UUID.fromString(formatted);
+    }
+
+    private @Nullable String lookupTexture(@Nonnull UUID uuid) throws IOException {
+        String body = fetch("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
+        if (body == null) {
+            return null;
+        }
+        Matcher m = TEXTURE_VALUE_PATTERN.matcher(body);
+        return m.find() ? m.group(1) : null;
+    }
+
+    private @Nullable String fetch(@Nonnull String endpoint) throws IOException {
+        URL url = URI.create(endpoint).toURL();
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setConnectTimeout(10_000);
+        conn.setReadTimeout(10_000);
+        conn.setRequestProperty("User-Agent", "Slimefun4");
+        int status = conn.getResponseCode();
+        if (status == 429) {
+            throw new IOException("429 Too Many Requests");
+        }
+        if (status != 200) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        }
+        return sb.toString();
+    }
 }
