@@ -32,8 +32,6 @@ jobs:
       with:
         distribution: 'adopt'
         java-version: '21'
-        java-package: jdk
-        architecture: x64
 
     - name: Set version from tag
       run: |
@@ -41,15 +39,9 @@ jobs:
         echo "VERSION=$VERSION" >> "$GITHUB_ENV"
         sed -i "s/version = \"5.0.0-UNOFFICIAL\"/version = \"$VERSION\"/" build.gradle.kts
 
-    - name: Build with Gradle
+    - name: Build and publish release
       uses: gradle/actions/setup-gradle@v4
     - run: chmod +x ./gradlew
-    - run: ./gradlew shadowJar
-
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v2
-      with:
-        files: 'build/libs/Slimefun v${{ env.VERSION }}.jar'
-        generate_release_notes: true
+    - run: ./gradlew publishGithub
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

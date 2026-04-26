@@ -1,11 +1,20 @@
 plugins {
     java
     id("com.gradleup.shadow") version "9.3.2"
+    id("io.github.intisy.github-gradle") version "1.3.8"
 }
 
 group = "com.github.slimefun"
 version = "5.0.0-UNOFFICIAL"
 description = "Slimefun is a Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server."
+
+github {
+    accessToken = System.getenv("GITHUB_TOKEN") ?: ""
+}
+
+publishGithub {
+    tag = System.getenv("GITHUB_REF_NAME")
+}
 
 java {
     toolchain {
