@@ -2,6 +2,7 @@ plugins {
     java
     id("com.gradleup.shadow") version "9.3.2"
     id("io.github.intisy.github-gradle") version "1.8.2.1"
+    id("xyz.jpenilla.run-paper") version "2.2.3"
 }
 
 group = "com.github.slimefun"
@@ -125,5 +126,98 @@ tasks {
     // Make 'build' produce the shaded jar
     build {
         dependsOn(shadowJar)
+    }
+}
+
+val cloneAndBuildAddons by tasks.registering {
+    group = "slimefun"
+    description = "Clones or pulls and compiles specified addons from GitHub"
+
+    doLast {
+        var addonsProp = project.findProperty("addons") as String? ?: ""
+        
+        if (addonsProp.isBlank()) {
+            val defaultAddonsFile = file("default-addons.txt")
+            if (defaultAddonsFile.exists()) {
+                addonsProp = defaultAddonsFile.readLines()
+                    .filter { it.isNotBlank() && !it.startsWith("#") }
+                    .joinToString(",")
+            }
+        }
+
+        if (addonsProp.isBlank()) {
+            println("No addons specified in -Paddons or default-addons.txt")
+            return@doLast
+        }
+
+        val addonsSrcDir = project.layout.buildDirectory.dir("addons-src").get().asFile
+        addonsSrcDir.mkdirs()
+
+        val pluginsDir = project.layout.projectDirectory.dir("run/plugins").asFile
+        pluginsDir.mkdirs()
+
+        val addons = addonsProp.split(",")
+
+        for (addon in addons) {
+            val parts = addon.split("/")
+            if (parts.size != 2) {
+                println("Invalid addon format: $addon. Expected Owner/Repo")
+                continue
+            }
+            val repo = parts[1]
+
+            val repoDir = File(addonsSrcDir, repo)
+            val isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows
+
+            if (repoDir.exists()) {
+                println("Pulling latest for $addon...")
+                val process = ProcessBuilder("git", "pull")
+                    .directory(repoDir)
+                    .inheritIO()
+                    .start()
+                process.waitFor()
+            } else {
+                println("Cloning $addon...")
+                val process = ProcessBuilder("git", "clone", "https://github.com/$addon.git")
+                    .directory(addonsSrcDir)
+                    .inheritIO()
+                    .start()
+                process.waitFor()
+            }
+
+            println("Building $addon...")
+            val gradlewCmd = if (isWindows) "gradlew.bat" else "./gradlew"
+            val buildProcess = if (isWindows) {
+                ProcessBuilder("cmd", "/c", "$gradlewCmd shadowJar")
+            } else {
+                ProcessBuilder("sh", "-c", "$gradlewCmd shadowJar")
+            }
+            buildProcess.directory(repoDir)
+                .inheritIO()
+                .start()
+                .waitFor()
+
+            val libsDir = File(repoDir, "build/libs")
+            val jars = libsDir.listFiles { file: File -> file.name.endsWith(".jar") && !file.name.endsWith("-javadoc.jar") && !file.name.endsWith("-sources.jar") }
+            if (jars != null && jars.isNotEmpty()) {
+                val targetJar = jars.firstOrNull { it.name.contains("v") || it.name.contains("shadow") } ?: jars[0]
+                println("Copying ${targetJar.name} to plugins folder...")
+                targetJar.copyTo(File(pluginsDir, targetJar.name), overwrite = true)
+            } else {
+                println("WARNING: No compiled jar found for $addon")
+            }
+        }
+    }
+}
+
+tasks.runServer {
+    dependsOn(tasks.shadowJar, cloneAndBuildAddons)
+    minecraftVersion("1.21.1")
+
+    doFirst {
+        val sfJar = tasks.shadowJar.get().archiveFile.get().asFile
+        val pluginsDir = project.layout.projectDirectory.dir("run/plugins").asFile
+        pluginsDir.mkdirs()
+        sfJar.copyTo(File(pluginsDir, sfJar.name), overwrite = true)
     }
 }
