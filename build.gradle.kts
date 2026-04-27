@@ -1,7 +1,7 @@
 plugins {
     java
     id("com.gradleup.shadow") version "9.3.2"
-    id("io.github.intisy.github-gradle") version "1.3.8"
+    id("io.github.intisy.github-gradle") version "1.8.2.1"
 }
 
 group = "com.github.slimefun"
@@ -10,10 +10,9 @@ description = "Slimefun is a Paper plugin that simulates a modpack-like atmosphe
 
 github {
     accessToken = System.getenv("GITHUB_TOKEN") ?: ""
-}
-
-publishGithub {
-    tag = System.getenv("GITHUB_REF_NAME")
+    publish {
+        tag = System.getenv("GITHUB_REF_NAME")
+    }
 }
 
 java {
