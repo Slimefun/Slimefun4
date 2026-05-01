@@ -158,6 +158,19 @@ val cloneAndBuildAddons by tasks.registering {
 
         val addons = addonsProp.split(",")
 
+        fun getGitHash(dir: File): String {
+            try {
+                val proc = ProcessBuilder("git", "rev-parse", "HEAD")
+                    .directory(dir)
+                    .redirectErrorStream(true)
+                    .start()
+                proc.waitFor()
+                return proc.inputStream.bufferedReader().readText().trim()
+            } catch (e: Exception) {
+                return ""
+            }
+        }
+
         for (addon in addons) {
             val parts = addon.split("/")
             if (parts.size != 2) {
@@ -168,6 +181,8 @@ val cloneAndBuildAddons by tasks.registering {
 
             val repoDir = File(addonsSrcDir, repo)
             val isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows
+
+            val oldHash = if (repoDir.exists()) getGitHash(repoDir) else ""
 
             if (repoDir.exists()) {
                 println("Pulling latest for $addon...")
@@ -184,6 +199,19 @@ val cloneAndBuildAddons by tasks.registering {
                 process.waitFor()
             }
 
+            val newHash = getGitHash(repoDir)
+            val libsDir = File(repoDir, "build/libs")
+            val jars = libsDir.listFiles { file: File -> file.name.endsWith(".jar") && !file.name.endsWith("-javadoc.jar") && !file.name.endsWith("-sources.jar") }
+            val hasCompiledJar = jars != null && jars.isNotEmpty()
+
+            if (oldHash == newHash && oldHash.isNotBlank() && hasCompiledJar) {
+                println("No updates found for $addon. Skipping build.")
+                val targetJar = jars!!.firstOrNull { it.name.contains("v") || it.name.contains("shadow") } ?: jars!![0]
+                println("Copying ${targetJar.name} to plugins folder...")
+                targetJar.copyTo(File(pluginsDir, targetJar.name), overwrite = true)
+                continue
+            }
+
             println("Building $addon...")
             val gradlewCmd = if (isWindows) "gradlew.bat" else "./gradlew"
             val buildProcess = if (isWindows) {
@@ -191,15 +219,19 @@ val cloneAndBuildAddons by tasks.registering {
             } else {
                 ProcessBuilder("sh", "-c", "$gradlewCmd shadowJar")
             }
-            buildProcess.directory(repoDir)
+            val exitCode = buildProcess.directory(repoDir)
                 .inheritIO()
                 .start()
                 .waitFor()
 
-            val libsDir = File(repoDir, "build/libs")
-            val jars = libsDir.listFiles { file: File -> file.name.endsWith(".jar") && !file.name.endsWith("-javadoc.jar") && !file.name.endsWith("-sources.jar") }
-            if (jars != null && jars.isNotEmpty()) {
-                val targetJar = jars.firstOrNull { it.name.contains("v") || it.name.contains("shadow") } ?: jars[0]
+            if (exitCode != 0) {
+                println("WARNING: Build failed for $addon (Exit Code: $exitCode). Skipping.")
+                continue
+            }
+
+            val newJars = libsDir.listFiles { file: File -> file.name.endsWith(".jar") && !file.name.endsWith("-javadoc.jar") && !file.name.endsWith("-sources.jar") }
+            if (newJars != null && newJars.isNotEmpty()) {
+                val targetJar = newJars.firstOrNull { it.name.contains("v") || it.name.contains("shadow") } ?: newJars[0]
                 println("Copying ${targetJar.name} to plugins folder...")
                 targetJar.copyTo(File(pluginsDir, targetJar.name), overwrite = true)
             } else {
