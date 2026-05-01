@@ -171,11 +171,10 @@ val cloneAndBuildAddons by tasks.registering {
 
             if (repoDir.exists()) {
                 println("Pulling latest for $addon...")
-                val process = ProcessBuilder("git", "pull")
-                    .directory(repoDir)
-                    .inheritIO()
-                    .start()
-                process.waitFor()
+                ProcessBuilder("git", "fetch", "--all")
+                    .directory(repoDir).inheritIO().start().waitFor()
+                ProcessBuilder("git", "reset", "--hard", "origin/master")
+                    .directory(repoDir).inheritIO().start().waitFor()
             } else {
                 println("Cloning $addon...")
                 val process = ProcessBuilder("git", "clone", "https://github.com/$addon.git")
