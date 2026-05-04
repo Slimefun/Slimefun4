@@ -1,3 +1,4 @@
+import java.util.concurrent.TimeUnit
 plugins {
     java
     id("com.gradleup.shadow") version "9.3.2"
@@ -42,7 +43,7 @@ dependencies {
 
     // Compile-only (provided at runtime by the server)
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     compileOnly("com.mojang:authlib:6.0.52") { isTransitive = false }
 
     // Third-party plugin integrations (soft dependencies)
@@ -171,6 +172,36 @@ val cloneAndBuildAddons by tasks.registering {
             }
         }
 
+        val buildTimeoutMinutes = 5L
+
+        fun runProcess(pb: ProcessBuilder, timeoutMinutes: Long = buildTimeoutMinutes): Int {
+            pb.redirectErrorStream(true)
+            pb.redirectInput(ProcessBuilder.Redirect.from(
+                if (org.gradle.internal.os.OperatingSystem.current().isWindows) File("NUL") else File("/dev/null")
+            ))
+            val proc = pb.start()
+            val output = StringBuilder()
+            val reader = proc.inputStream.bufferedReader()
+            val readerThread = Thread {
+                reader.forEachLine { output.appendLine(it) }
+            }
+            readerThread.start()
+            val finished = proc.waitFor(timeoutMinutes, TimeUnit.MINUTES)
+            if (!finished) {
+                proc.destroyForcibly()
+                readerThread.join(2000)
+                println(output)
+                println("ERROR: Process timed out after $timeoutMinutes minutes.")
+                return -1
+            }
+            readerThread.join(2000)
+            val exitCode = proc.exitValue()
+            if (exitCode != 0) {
+                println(output)
+            }
+            return exitCode
+        }
+
         for (addon in addons) {
             val parts = addon.split("/")
             if (parts.size != 2) {
@@ -186,17 +217,22 @@ val cloneAndBuildAddons by tasks.registering {
 
             if (repoDir.exists()) {
                 println("Pulling latest for $addon...")
-                ProcessBuilder("git", "fetch", "--all")
-                    .directory(repoDir).inheritIO().start().waitFor()
-                ProcessBuilder("git", "reset", "--hard", "origin/master")
-                    .directory(repoDir).inheritIO().start().waitFor()
+                runProcess(ProcessBuilder("git", "fetch", "--all").directory(repoDir), 2)
+                runProcess(ProcessBuilder("git", "remote", "set-head", "origin", "-a").directory(repoDir), 1)
+                // Only reset hard if we have no local commits ahead of origin.
+                // Local fix commits (not yet pushed) must survive runServer restarts.
+                val aheadProc = ProcessBuilder("git", "rev-list", "--count", "origin/HEAD..HEAD")
+                    .directory(repoDir).redirectErrorStream(true).start()
+                aheadProc.waitFor()
+                val aheadCount = aheadProc.inputStream.bufferedReader().readText().trim().toIntOrNull() ?: 0
+                if (aheadCount > 0) {
+                    println("  Local branch is $aheadCount commit(s) ahead of origin — preserving local fixes.")
+                } else {
+                    runProcess(ProcessBuilder("git", "reset", "--hard", "origin/HEAD").directory(repoDir), 1)
+                }
             } else {
                 println("Cloning $addon...")
-                val process = ProcessBuilder("git", "clone", "https://github.com/$addon.git")
-                    .directory(addonsSrcDir)
-                    .inheritIO()
-                    .start()
-                process.waitFor()
+                runProcess(ProcessBuilder("git", "clone", "https://github.com/$addon.git").directory(addonsSrcDir), 5)
             }
 
             val newHash = getGitHash(repoDir)
@@ -204,7 +240,13 @@ val cloneAndBuildAddons by tasks.registering {
             val jars = libsDir.listFiles { file: File -> file.name.endsWith(".jar") && !file.name.endsWith("-javadoc.jar") && !file.name.endsWith("-sources.jar") }
             val hasCompiledJar = jars != null && jars.isNotEmpty()
 
-            if (oldHash == newHash && oldHash.isNotBlank() && hasCompiledJar) {
+            // If local branch is ahead of origin, we have unpushed fixes — always rebuild.
+            val aheadCheck = ProcessBuilder("git", "rev-list", "--count", "origin/HEAD..HEAD")
+                .directory(repoDir).redirectErrorStream(true).start()
+            aheadCheck.waitFor()
+            val localAhead = aheadCheck.inputStream.bufferedReader().readText().trim().toIntOrNull() ?: 0
+
+            if (oldHash == newHash && oldHash.isNotBlank() && hasCompiledJar && localAhead == 0) {
                 println("No updates found for $addon. Skipping build.")
                 val targetJar = jars!!.firstOrNull { it.name.contains("v") || it.name.contains("shadow") } ?: jars!![0]
                 println("Copying ${targetJar.name} to plugins folder...")
@@ -214,15 +256,13 @@ val cloneAndBuildAddons by tasks.registering {
 
             println("Building $addon...")
             val gradlewCmd = if (isWindows) "gradlew.bat" else "./gradlew"
-            val buildProcess = if (isWindows) {
+            val buildPb = if (isWindows) {
                 ProcessBuilder("cmd", "/c", "$gradlewCmd shadowJar")
             } else {
                 ProcessBuilder("sh", "-c", "$gradlewCmd shadowJar")
             }
-            val exitCode = buildProcess.directory(repoDir)
-                .inheritIO()
-                .start()
-                .waitFor()
+            buildPb.directory(repoDir)
+            val exitCode = runProcess(buildPb, buildTimeoutMinutes)
 
             if (exitCode != 0) {
                 println("WARNING: Build failed for $addon (Exit Code: $exitCode). Skipping.")
@@ -243,7 +283,7 @@ val cloneAndBuildAddons by tasks.registering {
 
 tasks.runServer {
     dependsOn(tasks.shadowJar, cloneAndBuildAddons)
-    minecraftVersion("1.21.1")
+    minecraftVersion("1.21.4")
 
     doFirst {
         val sfJar = tasks.shadowJar.get().archiveFile.get().asFile
