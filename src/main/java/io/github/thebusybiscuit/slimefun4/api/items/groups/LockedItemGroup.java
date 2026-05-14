@@ -70,7 +70,9 @@ public class LockedItemGroup extends ItemGroup {
     @ParametersAreNonnullByDefault
     public LockedItemGroup(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
         super(key, item, tier);
-        Validate.noNullElements(parents, "A LockedItemGroup must not have any 'null' parents!");
+        for (NamespacedKey parent : parents) {
+            Preconditions.checkNotNull(parent, "A LockedItemGroup must not have any 'null' parents!");
+        }
 
         this.keys = parents;
     }

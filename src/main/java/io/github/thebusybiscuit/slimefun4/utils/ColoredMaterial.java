@@ -216,7 +216,9 @@ public enum ColoredMaterial {
      *            The {@link Material Materials} for this {@link ColoredMaterial}.
      */
     ColoredMaterial(@Nonnull Material[] materials) {
-        Validate.noNullElements(materials, "The List cannot contain any null elements");
+        for (Material m : materials) {
+            Preconditions.checkNotNull(m, "The List cannot contain any null elements");
+        }
         Preconditions.checkArgument(materials.length == 16, "Expected 16, received: " + materials.length + ". Did you miss a color?");
 
         list = Collections.unmodifiableList(Arrays.asList(materials));

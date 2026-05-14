@@ -783,8 +783,10 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
     public final void addItemHandler(ItemHandler... handlers) {
-        Preconditions.checkArgument(!handlers, "You cannot add zero handlers...");
-        Validate.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
+        Preconditions.checkArgument(handlers != null && handlers.length > 0, "You cannot add zero handlers...");
+        for (ItemHandler handler : handlers) {
+            Preconditions.checkNotNull(handler, "You cannot add any 'null' ItemHandler!");
+        }
 
         // Make sure they are added before the item was registered.
         if (state != ItemState.UNREGISTERED) {
@@ -811,8 +813,10 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
      */
     public final void addItemSetting(ItemSetting<?>... settings) {
-        Preconditions.checkArgument(!settings, "You cannot add zero settings...");
-        Validate.noNullElements(settings, "You cannot add any 'null' ItemSettings!");
+        Preconditions.checkArgument(settings != null && settings.length > 0, "You cannot add zero settings...");
+        for (ItemSetting<?> setting : settings) {
+            Preconditions.checkNotNull(setting, "You cannot add any 'null' ItemSettings!");
+        }
 
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemSetting after the SlimefunItem was registered.");

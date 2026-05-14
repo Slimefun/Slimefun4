@@ -39,7 +39,7 @@ public class RainbowArmorPiece extends SlimefunArmorPiece {
         super(itemGroup, item, recipeType, recipe, new PotionEffect[0]);
 
         // TODO Change this validation over to our custom validation blocked by https://github.com/baked-libs/dough/pull/184
-        Preconditions.checkArgument(!dyeColors, "RainbowArmorPiece colors cannot be empty!");
+        Preconditions.checkArgument(dyeColors != null && dyeColors.length > 0, "RainbowArmorPiece colors cannot be empty!");
 
         if (!SlimefunTag.LEATHER_ARMOR.isTagged(item.getType())) {
             throw new IllegalArgumentException("Rainbow armor needs to be a leather armor piece!");

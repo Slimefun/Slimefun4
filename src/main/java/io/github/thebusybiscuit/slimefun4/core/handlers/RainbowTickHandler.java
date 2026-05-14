@@ -39,7 +39,9 @@ public class RainbowTickHandler extends BlockTicker {
     private Material material;
 
     public RainbowTickHandler(@Nonnull List<Material> materials) {
-        Validate.noNullElements(materials, "A RainbowTicker cannot have a Material that is null!");
+        for (Material m : materials) {
+            Preconditions.checkNotNull(m, "A RainbowTicker cannot have a Material that is null!");
+        }
 
         if (materials.isEmpty()) {
             throw new IllegalArgumentException("A RainbowTicker must have at least one Material associated with it!");
