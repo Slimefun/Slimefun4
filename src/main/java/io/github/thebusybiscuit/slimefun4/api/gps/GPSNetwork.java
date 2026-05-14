@@ -10,7 +10,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -280,8 +280,8 @@ public class GPSNetwork {
      *            The {@link Location} of the new waypoint
      */
     public void createWaypoint(@Nonnull Player p, @Nonnull Location l) {
-        Validate.notNull(p, "Player cannot be null!");
-        Validate.notNull(l, "Waypoint Location cannot be null!");
+        Preconditions.checkNotNull(p, "Player cannot be null!");
+        Preconditions.checkNotNull(l, "Waypoint Location cannot be null!");
 
         PlayerProfile.get(p, profile -> {
             if ((profile.getWaypoints().size() + 2) > inventory.length) {
@@ -307,9 +307,9 @@ public class GPSNetwork {
      *            The {@link Location} of this waypoint
      */
     public void addWaypoint(@Nonnull Player p, @Nonnull String name, @Nonnull Location l) {
-        Validate.notNull(p, "Player cannot be null!");
-        Validate.notNull(name, "Waypoint name cannot be null!");
-        Validate.notNull(l, "Waypoint Location cannot be null!");
+        Preconditions.checkNotNull(p, "Player cannot be null!");
+        Preconditions.checkNotNull(name, "Waypoint name cannot be null!");
+        Preconditions.checkNotNull(l, "Waypoint Location cannot be null!");
 
         PlayerProfile.get(p, profile -> {
             if ((profile.getWaypoints().size() + 2) > inventory.length) {

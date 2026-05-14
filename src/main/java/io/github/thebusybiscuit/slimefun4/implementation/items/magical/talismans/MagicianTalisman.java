@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -74,8 +74,8 @@ public class MagicianTalisman extends Talisman {
      */
     @Nullable
     public TalismanEnchantment getRandomEnchantment(@Nonnull ItemStack item, @Nonnull Set<Enchantment> existingEnchantments) {
-        Validate.notNull(item, "The ItemStack cannot be null");
-        Validate.notNull(existingEnchantments, "The Enchantments Set cannot be null");
+        Preconditions.checkNotNull(item, "The ItemStack cannot be null");
+        Preconditions.checkNotNull(existingEnchantments, "The Enchantments Set cannot be null");
 
         // @formatter:off
         List<TalismanEnchantment> enabled = enchantments.stream()

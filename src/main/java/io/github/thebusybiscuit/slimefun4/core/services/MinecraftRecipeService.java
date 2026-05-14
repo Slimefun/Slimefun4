@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -86,7 +86,7 @@ public class MinecraftRecipeService {
      *            A callback to run when the {@link RecipeSnapshot} has been created.
      */
     public void subscribe(@Nonnull Consumer<RecipeSnapshot> subscription) {
-        Validate.notNull(subscription, "Callback must not be null!");
+        Preconditions.checkNotNull(subscription, "Callback must not be null!");
         subscriptions.add(subscription);
     }
 
@@ -132,7 +132,7 @@ public class MinecraftRecipeService {
      * @return An Array of {@link RecipeChoice} representing the shape of this {@link Recipe}
      */
     public @Nonnull RecipeChoice[] getRecipeShape(@Nonnull Recipe recipe) {
-        Validate.notNull(recipe, "Recipe must not be null!");
+        Preconditions.checkNotNull(recipe, "Recipe must not be null!");
 
         if (recipe instanceof ShapedRecipe shapedRecipe) {
             List<RecipeChoice> choices = new LinkedList<>();
@@ -185,7 +185,7 @@ public class MinecraftRecipeService {
      * @return The corresponding {@link Recipe} or null
      */
     public @Nullable Recipe getRecipe(@Nonnull NamespacedKey key) {
-        Validate.notNull(key, "The NamespacedKey should not be null");
+        Preconditions.checkNotNull(key, "The NamespacedKey should not be null");
 
         if (snapshot != null) {
             // We operate on a cached HashMap which is much faster than Bukkit's method.

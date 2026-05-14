@@ -5,7 +5,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -68,8 +68,8 @@ public class OutputChest extends SlimefunItem {
      */
     @Nonnull
     public static Optional<Inventory> findOutputChestFor(@Nonnull Block b, @Nonnull ItemStack item) {
-        Validate.notNull(b, "The target block must not be null!");
-        Validate.notNull(item, "The ItemStack should not be null!");
+        Preconditions.checkNotNull(b, "The target block must not be null!");
+        Preconditions.checkNotNull(item, "The ItemStack should not be null!");
 
         for (BlockFace face : possibleFaces) {
             Block potentialOutput = b.getRelative(face);

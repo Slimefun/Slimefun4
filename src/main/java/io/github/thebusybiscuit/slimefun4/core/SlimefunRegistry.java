@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
@@ -94,8 +94,8 @@ public final class SlimefunRegistry {
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
 
     public void load(@Nonnull Slimefun plugin, @Nonnull Config cfg) {
-        Validate.notNull(plugin, "The Plugin cannot be null!");
-        Validate.notNull(cfg, "The Config cannot be null!");
+        Preconditions.checkNotNull(plugin, "The Plugin cannot be null!");
+        Preconditions.checkNotNull(cfg, "The Config cannot be null!");
 
         soulboundKey = new NamespacedKey(plugin, "soulbound");
         itemChargeKey = new NamespacedKey(plugin, "item_charge");
@@ -249,7 +249,7 @@ public final class SlimefunRegistry {
      */
     @Nonnull
     public SlimefunGuideImplementation getSlimefunGuide(@Nonnull SlimefunGuideMode mode) {
-        Validate.notNull(mode, "The Guide mode cannot be null");
+        Preconditions.checkNotNull(mode, "The Guide mode cannot be null");
 
         SlimefunGuideImplementation guide = guides.get(mode);
 
@@ -319,7 +319,7 @@ public final class SlimefunRegistry {
 
     @Nonnull
     public Set<ItemHandler> getGlobalItemHandlers(@Nonnull Class<? extends ItemHandler> identifier) {
-        Validate.notNull(identifier, "The identifier for an ItemHandler cannot be null!");
+        Preconditions.checkNotNull(identifier, "The identifier for an ItemHandler cannot be null!");
 
         return globalItemHandlers.computeIfAbsent(identifier, c -> new HashSet<>());
     }

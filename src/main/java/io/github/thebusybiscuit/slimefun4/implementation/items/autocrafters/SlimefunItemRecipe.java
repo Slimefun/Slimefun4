@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -54,8 +54,8 @@ class SlimefunItemRecipe extends AbstractRecipe {
 
     @Override
     public void show(@Nonnull ChestMenu menu, @Nonnull AsyncRecipeChoiceTask task) {
-        Validate.notNull(menu, "The ChestMenu cannot be null!");
-        Validate.notNull(task, "The RecipeChoiceTask cannot be null!");
+        Preconditions.checkNotNull(menu, "The ChestMenu cannot be null!");
+        Preconditions.checkNotNull(task, "The RecipeChoiceTask cannot be null!");
         menu.addItem(24, getResult().clone(), ChestMenuUtils.getEmptyClickHandler());
         ItemStack[] recipe = item.getRecipe();
 

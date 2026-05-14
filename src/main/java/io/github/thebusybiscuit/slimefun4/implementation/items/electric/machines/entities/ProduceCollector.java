@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Ageable;
@@ -90,7 +90,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
      *            The {@link AnimalProduce} to add
      */
     public void addProduce(@Nonnull AnimalProduce produce) {
-        Validate.notNull(produce, "A produce cannot be null");
+        Preconditions.checkNotNull(produce, "A produce cannot be null");
 
         this.animalProduces.add(produce);
     }

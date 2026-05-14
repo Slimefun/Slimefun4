@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.operations;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
@@ -28,9 +28,9 @@ public class CraftingOperation implements MachineOperation {
     }
 
     public CraftingOperation(@Nonnull ItemStack[] ingredients, @Nonnull ItemStack[] results, int totalTicks) {
-        Validate.notEmpty(ingredients, "The Ingredients array cannot be empty or null");
-        Validate.notEmpty(results, "The results array cannot be empty or null");
-        Validate.isTrue(totalTicks >= 0, "The amount of total ticks must be a positive integer or zero, received: " + totalTicks);
+        Preconditions.checkArgument(!ingredients, "The Ingredients array cannot be empty or null");
+        Preconditions.checkArgument(!results, "The results array cannot be empty or null");
+        Preconditions.checkArgument(totalTicks >= 0, "The amount of total ticks must be a positive integer or zero, received: " + totalTicks);
 
         this.ingredients = ingredients;
         this.results = results;
@@ -39,7 +39,7 @@ public class CraftingOperation implements MachineOperation {
 
     @Override
     public void addProgress(int num) {
-        Validate.isTrue(num > 0, "Progress must be positive.");
+        Preconditions.checkArgument(num > 0, "Progress must be positive.");
         currentTicks += num;
     }
 

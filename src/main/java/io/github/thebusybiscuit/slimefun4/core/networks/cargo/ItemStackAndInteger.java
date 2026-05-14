@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -14,7 +14,7 @@ class ItemStackAndInteger {
     private int number;
 
     ItemStackAndInteger(@Nonnull ItemStack item, int amount) {
-        Validate.notNull(item, "Item cannot be null!");
+        Preconditions.checkNotNull(item, "Item cannot be null!");
         this.number = amount;
         this.item = item;
     }

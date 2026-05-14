@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -146,8 +146,8 @@ public class IndustrialMiner extends MultiBlockMachine {
      *            The item that shall be consumed
      */
     public void addFuelType(int ores, @Nonnull ItemStack item) {
-        Validate.isTrue(ores > 1 && ores % 2 == 0, "The amount of ores must be at least 2 and a multiple of 2.");
-        Validate.notNull(item, "The fuel item cannot be null");
+        Preconditions.checkArgument(ores > 1 && ores % 2 == 0, "The amount of ores must be at least 2 and a multiple of 2.");
+        Preconditions.checkNotNull(item, "The fuel item cannot be null");
 
         fuelTypes.add(new MachineFuel(ores / 2, item));
     }

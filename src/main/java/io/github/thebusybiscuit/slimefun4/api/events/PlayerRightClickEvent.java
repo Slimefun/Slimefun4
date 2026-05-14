@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -168,12 +168,12 @@ public class PlayerRightClickEvent extends PlayerEvent {
     }
 
     public void setUseItem(@Nonnull Result result) {
-        Validate.notNull(result, "Result cannot be null");
+        Preconditions.checkNotNull(result, "Result cannot be null");
         itemResult = result;
     }
 
     public void setUseBlock(@Nonnull Result result) {
-        Validate.notNull(result, "Result cannot be null");
+        Preconditions.checkNotNull(result, "Result cannot be null");
         blockResult = result;
     }
 

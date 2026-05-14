@@ -10,7 +10,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
@@ -107,7 +107,7 @@ public class PermissionsService {
      */
     @Nonnull
     public Optional<String> getPermission(@Nonnull SlimefunItem item) {
-        Validate.notNull(item, "Cannot get permissions for null");
+        Preconditions.checkNotNull(item, "Cannot get permissions for null");
         String permission = permissions.get(item.getId());
 
         if (permission == null || permission.equals("none")) {
@@ -126,7 +126,7 @@ public class PermissionsService {
      *            The {@link Permission} to set
      */
     public void setPermission(@Nonnull SlimefunItem item, @Nullable String permission) {
-        Validate.notNull(item, "You cannot set the permission for null");
+        Preconditions.checkNotNull(item, "You cannot set the permission for null");
         permissions.put(item.getId(), permission != null ? permission : "none");
     }
 

@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,9 +37,9 @@ abstract class AbstractResource implements GEOResource {
 
     @ParametersAreNonnullByDefault
     AbstractResource(String key, String defaultName, ItemStack item, int maxDeviation, boolean geoMiner) {
-        Validate.notNull(key, "NamespacedKey cannot be null!");
-        Validate.notNull(defaultName, "The default name cannot be null!");
-        Validate.notNull(item, "item cannot be null!");
+        Preconditions.checkNotNull(key, "NamespacedKey cannot be null!");
+        Preconditions.checkNotNull(defaultName, "The default name cannot be null!");
+        Preconditions.checkNotNull(item, "item cannot be null!");
 
         this.key = new NamespacedKey(Slimefun.instance(), key);
         this.defaultName = defaultName;
@@ -89,8 +89,8 @@ abstract class AbstractResource implements GEOResource {
      */
     @ParametersAreNonnullByDefault
     static final @Nonnull BiomeMap<Integer> getBiomeMap(AbstractResource resource, String path) {
-        Validate.notNull(resource, "Resource cannot be null.");
-        Validate.notNull(path, "Path cannot be null.");
+        Preconditions.checkNotNull(resource, "Resource cannot be null.");
+        Preconditions.checkNotNull(path, "Path cannot be null.");
 
         try {
             return BiomeMap.fromResource(resource.getKey(), Slimefun.instance(), path, JsonElement::getAsInt);

@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -31,9 +31,9 @@ public class AsyncAutoEnchanterProcessEvent extends Event implements Cancellable
     public AsyncAutoEnchanterProcessEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantedBook, @Nonnull BlockMenu menu) {
         super(true);
 
-        Validate.notNull(item, "The item to enchant cannot be null!");
-        Validate.notNull(enchantedBook, "The enchanted book to enchant cannot be null!");
-        Validate.notNull(menu, "The menu of auto-enchanter cannot be null!");
+        Preconditions.checkNotNull(item, "The item to enchant cannot be null!");
+        Preconditions.checkNotNull(enchantedBook, "The enchanted book to enchant cannot be null!");
+        Preconditions.checkNotNull(menu, "The menu of auto-enchanter cannot be null!");
 
         this.item = item;
         this.enchantedBook = enchantedBook;

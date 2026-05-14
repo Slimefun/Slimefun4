@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.ChatColor;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
@@ -89,7 +89,7 @@ public final class NumberUtils {
      * @return The {@link LocalDateTime} for the given input
      */
     public static @Nonnull LocalDateTime parseGitHubDate(@Nonnull String date) {
-        Validate.notNull(date, "Provided date was null");
+        Preconditions.checkNotNull(date, "Provided date was null");
         return LocalDateTime.parse(date.substring(0, date.length() - 1));
     }
 
@@ -155,8 +155,8 @@ public final class NumberUtils {
      * @return The elapsed time as a {@link String}
      */
     public static @Nonnull String getElapsedTime(@Nonnull LocalDateTime current, @Nonnull LocalDateTime priorDate) {
-        Validate.notNull(current, "Provided current date was null");
-        Validate.notNull(priorDate, "Provided past date was null");
+        Preconditions.checkNotNull(current, "Provided current date was null");
+        Preconditions.checkNotNull(priorDate, "Provided past date was null");
 
         long hours = Duration.between(priorDate, current).toHours();
 

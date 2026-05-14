@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SummaryOrderType;
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -42,8 +42,8 @@ public class PlayerPerformanceInspector implements PerformanceInspector {
      *            The {@link SummaryOrderType} of the timings
      */
     public PlayerPerformanceInspector(@Nonnull Player player, @Nonnull SummaryOrderType orderType) {
-        Validate.notNull(player, "Player cannot be null");
-        Validate.notNull(orderType, "SummaryOrderType cannot be null");
+        Preconditions.checkNotNull(player, "Player cannot be null");
+        Preconditions.checkNotNull(orderType, "SummaryOrderType cannot be null");
 
         this.uuid = player.getUniqueId();
         this.orderType = orderType;

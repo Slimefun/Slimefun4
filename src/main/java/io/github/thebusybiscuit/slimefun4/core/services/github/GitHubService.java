@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -105,10 +105,10 @@ public class GitHubService {
     }
 
     public @Nonnull Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
-        Validate.notNull(minecraftName, "Minecraft username must not be null.");
-        Validate.notNull(profileURL, "GitHub profile url must not be null.");
-        Validate.notNull(role, "Role should not be null.");
-        Validate.isTrue(commits >= 0, "Commit count cannot be negative.");
+        Preconditions.checkNotNull(minecraftName, "Minecraft username must not be null.");
+        Preconditions.checkNotNull(profileURL, "GitHub profile url must not be null.");
+        Preconditions.checkNotNull(role, "Role should not be null.");
+        Preconditions.checkArgument(commits >= 0, "Commit count cannot be negative.");
 
         String username = profileURL.substring(profileURL.lastIndexOf('/') + 1);
 
@@ -119,9 +119,9 @@ public class GitHubService {
     }
 
     public @Nonnull Contributor addContributor(@Nonnull String username, @Nonnull String role, int commits) {
-        Validate.notNull(username, "Username must not be null.");
-        Validate.notNull(role, "Role should not be null.");
-        Validate.isTrue(commits >= 0, "Commit count cannot be negative.");
+        Preconditions.checkNotNull(username, "Username must not be null.");
+        Preconditions.checkNotNull(role, "Role should not be null.");
+        Preconditions.checkArgument(commits >= 0, "Commit count cannot be negative.");
 
         Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(username));
         contributor.setContributions(role, commits);

@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -114,7 +114,7 @@ public final class ItemStackWrapper extends ItemStack {
      * @see #wrap(ItemStack)
      */
     public static @Nonnull ItemStackWrapper forceWrap(@Nonnull ItemStack itemStack) {
-        Validate.notNull(itemStack, "The ItemStack cannot be null!");
+        Preconditions.checkNotNull(itemStack, "The ItemStack cannot be null!");
 
         return new ItemStackWrapper(itemStack);
     }
@@ -130,7 +130,7 @@ public final class ItemStackWrapper extends ItemStack {
      * @see #forceWrap(ItemStack)
      */
     public static @Nonnull ItemStackWrapper wrap(@Nonnull ItemStack itemStack) {
-        Validate.notNull(itemStack, "The ItemStack cannot be null!");
+        Preconditions.checkNotNull(itemStack, "The ItemStack cannot be null!");
 
         if (itemStack instanceof ItemStackWrapper wrapper) {
             return wrapper;
@@ -148,7 +148,7 @@ public final class ItemStackWrapper extends ItemStack {
      * @return An {@link ItemStackWrapper} array
      */
     public static @Nonnull ItemStackWrapper[] wrapArray(@Nonnull ItemStack[] items) {
-        Validate.notNull(items, "The array must not be null!");
+        Preconditions.checkNotNull(items, "The array must not be null!");
 
         ItemStackWrapper[] array = new ItemStackWrapper[items.length];
 
@@ -170,7 +170,7 @@ public final class ItemStackWrapper extends ItemStack {
      * @return An {@link ItemStackWrapper} array
      */
     public static @Nonnull List<ItemStackWrapper> wrapList(@Nonnull List<ItemStack> items) {
-        Validate.notNull(items, "The list must not be null!");
+        Preconditions.checkNotNull(items, "The list must not be null!");
         List<ItemStackWrapper> list = new ArrayList<>(items.size());
 
         for (ItemStack item : items) {

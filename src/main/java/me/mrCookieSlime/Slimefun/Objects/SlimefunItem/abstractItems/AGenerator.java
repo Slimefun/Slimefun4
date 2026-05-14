@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -237,7 +237,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
      * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
      */
     public final AGenerator setCapacity(int capacity) {
-        Validate.isTrue(capacity >= 0, "The capacity cannot be negative!");
+        Preconditions.checkArgument(capacity >= 0, "The capacity cannot be negative!");
 
         if (getState() == ItemState.UNREGISTERED) {
             this.energyCapacity = capacity;
@@ -256,7 +256,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
      * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
      */
     public final AGenerator setEnergyProduction(int energyProduced) {
-        Validate.isTrue(energyProduced > 0, "The energy production must be greater than zero!");
+        Preconditions.checkArgument(energyProduced > 0, "The energy production must be greater than zero!");
 
         this.energyProducedPerTick = energyProduced;
         return this;

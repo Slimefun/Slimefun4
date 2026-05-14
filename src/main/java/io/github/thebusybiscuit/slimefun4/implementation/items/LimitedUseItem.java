@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -70,7 +70,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
      * @return The {@link LimitedUseItem} for chaining of setters
      */
     public final @Nonnull LimitedUseItem setMaxUseCount(int count) {
-        Validate.isTrue(count > 0, "The maximum use count must be greater than zero!");
+        Preconditions.checkArgument(count > 0, "The maximum use count must be greater than zero!");
 
         maxUseCount = count;
         return this;

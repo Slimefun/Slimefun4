@@ -20,7 +20,7 @@ import io.papermc.paper.inventory.tooltip.TooltipContext;
 import io.papermc.paper.registry.set.RegistryKeySet;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -65,8 +65,8 @@ public class SlimefunItemStack {
     public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item) {
         delegate = new ItemStack(item);
 
-        Validate.notNull(id, "The Item id must never be null!");
-        Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
+        Preconditions.checkNotNull(id, "The Item id must never be null!");
+        Preconditions.checkArgument(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
 
         if (Slimefun.instance() == null) {
             throw new PrematureCodeException("A SlimefunItemStack must never be be created before your Plugin was enabled.");
@@ -289,8 +289,8 @@ public class SlimefunItemStack {
     }
 
     private static @Nonnull String getTexture(@Nonnull String id, @Nonnull String texture) {
-        Validate.notNull(id, "The id cannot be null");
-        Validate.notNull(texture, "The texture cannot be null");
+        Preconditions.checkNotNull(id, "The id cannot be null");
+        Preconditions.checkNotNull(texture, "The texture cannot be null");
 
         if (texture.startsWith("ey")) {
             return texture;

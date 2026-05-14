@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
@@ -49,7 +49,7 @@ public class VanillaInventoryDropHandler<T extends BlockState & InventoryHolder>
      */
     public VanillaInventoryDropHandler(@Nonnull Class<T> blockStateClass) {
         super(false, true);
-        Validate.notNull(blockStateClass, "The provided class must not be null!");
+        Preconditions.checkNotNull(blockStateClass, "The provided class must not be null!");
 
         this.blockStateClass = blockStateClass;
     }

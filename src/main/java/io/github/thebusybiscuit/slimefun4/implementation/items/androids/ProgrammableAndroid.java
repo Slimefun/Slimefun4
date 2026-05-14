@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -577,17 +577,17 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @Nonnull
     public String getScript(@Nonnull Location l) {
-        Validate.notNull(l, "Location for android not specified");
+        Preconditions.checkNotNull(l, "Location for android not specified");
         String script = BlockStorage.getLocationInfo(l, "script");
         return script != null ? script : DEFAULT_SCRIPT;
     }
 
     public void setScript(@Nonnull Location l, @Nonnull String script) {
-        Validate.notNull(l, "Location for android not specified");
-        Validate.notNull(script, "No script given");
-        Validate.isTrue(script.startsWith(Instruction.START.name() + '-'), "A script must begin with a 'START' token.");
-        Validate.isTrue(script.endsWith('-' + Instruction.REPEAT.name()), "A script must end with a 'REPEAT' token.");
-        Validate.isTrue(CommonPatterns.DASH.split(script).length <= MAX_SCRIPT_LENGTH, "Scripts may not have more than " + MAX_SCRIPT_LENGTH + " segments");
+        Preconditions.checkNotNull(l, "Location for android not specified");
+        Preconditions.checkNotNull(script, "No script given");
+        Preconditions.checkArgument(script.startsWith(Instruction.START.name() + '-'), "A script must begin with a 'START' token.");
+        Preconditions.checkArgument(script.endsWith('-' + Instruction.REPEAT.name()), "A script must end with a 'REPEAT' token.");
+        Preconditions.checkArgument(CommonPatterns.DASH.split(script).length <= MAX_SCRIPT_LENGTH, "Scripts may not have more than " + MAX_SCRIPT_LENGTH + " segments");
 
         BlockStorage.addBlockInfo(l, "script", script);
     }
@@ -629,7 +629,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     }
 
     public void registerFuelType(@Nonnull MachineFuel fuel) {
-        Validate.notNull(fuel, "Cannot register null as a Fuel type");
+        Preconditions.checkNotNull(fuel, "Cannot register null as a Fuel type");
 
         fuelTypes.add(fuel);
     }
@@ -852,7 +852,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @ParametersAreNonnullByDefault
     public void addItems(Block b, ItemStack... items) {
-        Validate.notNull(b, "The Block cannot be null.");
+        Preconditions.checkNotNull(b, "The Block cannot be null.");
 
         BlockMenu inv = BlockStorage.getInventory(b);
 

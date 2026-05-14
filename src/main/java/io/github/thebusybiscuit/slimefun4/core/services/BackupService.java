@@ -17,7 +17,7 @@ import java.util.zip.ZipOutputStream;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
@@ -79,7 +79,7 @@ public class BackupService implements Runnable {
     }
 
     private void createBackup(@Nonnull ZipOutputStream output) throws IOException {
-        Validate.notNull(output, "The Output Stream cannot be null!");
+        Preconditions.checkNotNull(output, "The Output Stream cannot be null!");
 
         for (File folder : new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
             addDirectory(output, folder, "stored-blocks/" + folder.getName());
