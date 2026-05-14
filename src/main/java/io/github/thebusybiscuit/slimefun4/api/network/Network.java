@@ -9,7 +9,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -68,8 +68,8 @@ public abstract class Network {
      *            The {@link Location} marking the regulator of this {@link Network}.
      */
     protected Network(@Nonnull NetworkManager manager, @Nonnull Location regulator) {
-        Validate.notNull(manager, "A NetworkManager must be provided");
-        Validate.notNull(regulator, "No regulator was specified");
+        Preconditions.checkNotNull(manager, "A NetworkManager must be provided");
+        Preconditions.checkNotNull(regulator, "No regulator was specified");
 
         this.manager = manager;
         this.regulator = regulator;
@@ -131,8 +131,8 @@ public abstract class Network {
      *            The {@link Location} to add
      */
     protected void addLocationToNetwork(@Nonnull Location l) {
-        Validate.notNull(l, "You cannot add a Location to a Network which is null!");
-        Validate.isTrue(l.getWorld().getUID().equals(worldId), "Networks cannot exist in multiple worlds!");
+        Preconditions.checkNotNull(l, "You cannot add a Location to a Network which is null!");
+        Preconditions.checkArgument(l.getWorld().getUID().equals(worldId), "Networks cannot exist in multiple worlds!");
 
         if (positions.add(BlockPosition.getAsLong(l))) {
             markDirty(l);
@@ -163,7 +163,7 @@ public abstract class Network {
      * @return Whether the given {@link Location} is part of this {@link Network}
      */
     public boolean connectsTo(@Nonnull Location l) {
-        Validate.notNull(l, "The Location cannot be null.");
+        Preconditions.checkNotNull(l, "The Location cannot be null.");
 
         if (this.regulator.equals(l)) {
             return true;

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
@@ -127,8 +127,8 @@ public enum HeadTexture {
     private final UUID uuid;
 
     HeadTexture(@Nonnull String texture) {
-        Validate.notNull(texture, "Texture cannot be null");
-        Validate.isTrue(CommonPatterns.HEXADECIMAL.matcher(texture).matches(), "Textures must be in hexadecimal.");
+        Preconditions.checkNotNull(texture, "Texture cannot be null");
+        Preconditions.checkArgument(CommonPatterns.HEXADECIMAL.matcher(texture).matches(), "Textures must be in hexadecimal.");
 
         this.texture = texture;
         this.uuid = UUID.nameUUIDFromBytes(texture.getBytes(StandardCharsets.UTF_8));

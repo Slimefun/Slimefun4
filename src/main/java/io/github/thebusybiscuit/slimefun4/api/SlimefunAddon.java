@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -86,7 +86,7 @@ public interface SlimefunAddon {
      * @return Whether this {@link SlimefunAddon} depends on the given {@link Plugin}
      */
     default boolean hasDependency(@Nonnull String dependency) {
-        Validate.notNull(dependency, "The dependency cannot be null");
+        Preconditions.checkNotNull(dependency, "The dependency cannot be null");
 
         // Well... it cannot depend on itself but you get the idea.
         if (getJavaPlugin().getName().equalsIgnoreCase(dependency)) {

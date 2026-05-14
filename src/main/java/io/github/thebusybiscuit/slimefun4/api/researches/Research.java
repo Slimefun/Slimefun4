@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -68,8 +68,8 @@ public class Research implements Keyed {
      * 
      */
     public Research(@Nonnull NamespacedKey key, int id, @Nonnull String defaultName, int defaultCost) {
-        Validate.notNull(key, "A NamespacedKey must be provided");
-        Validate.notNull(defaultName, "A default name must be specified");
+        Preconditions.checkNotNull(key, "A NamespacedKey must be provided");
+        Preconditions.checkNotNull(defaultName, "A default name must be specified");
 
         this.key = key;
         this.id = id;

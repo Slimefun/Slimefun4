@@ -5,7 +5,7 @@ import java.util.Arrays;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +39,7 @@ public class RainbowArmorPiece extends SlimefunArmorPiece {
         super(itemGroup, item, recipeType, recipe, new PotionEffect[0]);
 
         // TODO Change this validation over to our custom validation blocked by https://github.com/baked-libs/dough/pull/184
-        Validate.notEmpty(dyeColors, "RainbowArmorPiece colors cannot be empty!");
+        Preconditions.checkArgument(dyeColors != null && dyeColors.length > 0, "RainbowArmorPiece colors cannot be empty!");
 
         if (!SlimefunTag.LEATHER_ARMOR.isTagged(item.getType())) {
             throw new IllegalArgumentException("Rainbow armor needs to be a leather armor piece!");

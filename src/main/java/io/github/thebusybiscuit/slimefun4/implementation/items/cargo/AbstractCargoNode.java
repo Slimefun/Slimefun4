@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -128,7 +128,7 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
 
     @Override
     public int getSelectedChannel(@Nonnull Block b) {
-        Validate.notNull(b, "Block must not be null");
+        Preconditions.checkNotNull(b, "Block must not be null");
 
         if (!BlockStorage.hasBlockInfo(b)) {
             return 0;

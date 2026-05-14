@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -56,7 +56,7 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
     @Override
     @Nullable
     public AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
-        Validate.notNull(b, "The Block cannot be null!");
+        Preconditions.checkNotNull(b, "The Block cannot be null!");
 
         BlockState state = PaperLib.getBlockState(b, false).getState();
 

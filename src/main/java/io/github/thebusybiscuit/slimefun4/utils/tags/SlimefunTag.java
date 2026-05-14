@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -433,7 +433,7 @@ public enum SlimefunTag implements Tag<Material> {
      * @return The {@link SlimefunTag} or null if it does not exist.
      */
     public static @Nullable SlimefunTag getTag(@Nonnull String value) {
-        Validate.notNull(value, "A tag cannot be null!");
+        Preconditions.checkNotNull(value, "A tag cannot be null!");
 
         return nameLookup.get(value);
     }

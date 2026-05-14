@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -46,7 +46,7 @@ public class NestedItemGroup extends FlexItemGroup {
      *            The {@link SubItemGroup} to add.
      */
     public void addSubGroup(@Nonnull SubItemGroup group) {
-        Validate.notNull(group, "The sub item group cannot be null!");
+        Preconditions.checkNotNull(group, "The sub item group cannot be null!");
 
         subGroups.add(group);
     }
@@ -58,7 +58,7 @@ public class NestedItemGroup extends FlexItemGroup {
      *            The {@link SubItemGroup} to remove.
      */
     public void removeSubGroup(@Nonnull SubItemGroup group) {
-        Validate.notNull(group, "The sub item group cannot be null!");
+        Preconditions.checkNotNull(group, "The sub item group cannot be null!");
 
         subGroups.remove(group);
     }

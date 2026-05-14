@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -582,9 +582,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     @ParametersAreNonnullByDefault
     public void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
-        Validate.notNull(p, "The Player cannot be null!");
-        Validate.notNull(profile, "The Profile cannot be null!");
-        Validate.notNull(menu, "The Inventory cannot be null!");
+        Preconditions.checkNotNull(p, "The Player cannot be null!");
+        Preconditions.checkNotNull(profile, "The Profile cannot be null!");
+        Preconditions.checkNotNull(menu, "The Inventory cannot be null!");
 
         for (int i = 0; i < 9; i++) {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());

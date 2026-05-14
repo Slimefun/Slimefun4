@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -125,8 +125,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     @ParametersAreNonnullByDefault
     public void onRightClick(Block b, Player p) {
-        Validate.notNull(b, "The Block must not be null!");
-        Validate.notNull(p, "The Player cannot be null!");
+        Preconditions.checkNotNull(b, "The Block must not be null!");
+        Preconditions.checkNotNull(p, "The Player cannot be null!");
 
         // Check if we have a valid chest below
         if (!isValidInventory(b.getRelative(BlockFace.DOWN))) {
@@ -238,7 +238,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      *            The {@link AbstractRecipe} to select
      */
     protected void setSelectedRecipe(@Nonnull Block b, @Nullable AbstractRecipe recipe) {
-        Validate.notNull(b, "The Block cannot be null!");
+        Preconditions.checkNotNull(b, "The Block cannot be null!");
 
         BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
         BlockState state = result.getState();
@@ -274,9 +274,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     @ParametersAreNonnullByDefault
     protected void showRecipe(Player p, Block b, AbstractRecipe recipe) {
-        Validate.notNull(p, "The Player should not be null");
-        Validate.notNull(b, "The Block should not be null");
-        Validate.notNull(recipe, "The Recipe should not be null");
+        Preconditions.checkNotNull(p, "The Player should not be null");
+        Preconditions.checkNotNull(b, "The Block should not be null");
+        Preconditions.checkNotNull(recipe, "The Recipe should not be null");
 
         ChestMenu menu = new ChestMenu(getItemName());
         menu.setPlayerInventoryClickable(false);
@@ -399,8 +399,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * @return Whether this crafting operation was successful or not
      */
     public boolean craft(@Nonnull Inventory inv, @Nonnull AbstractRecipe recipe) {
-        Validate.notNull(inv, "The Inventory must not be null");
-        Validate.notNull(recipe, "The Recipe shall not be null");
+        Preconditions.checkNotNull(inv, "The Inventory must not be null");
+        Preconditions.checkNotNull(recipe, "The Recipe shall not be null");
 
         // Make sure that the Recipe is actually enabled
         if (!recipe.isEnabled()) {
@@ -513,7 +513,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     @Nonnull
     public final AbstractAutoCrafter setCapacity(int capacity) {
-        Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
+        Preconditions.checkArgument(capacity > 0, "The capacity must be greater than zero!");
 
         if (getState() == ItemState.UNREGISTERED) {
             this.energyCapacity = capacity;
@@ -533,9 +533,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     @Nonnull
     public final AbstractAutoCrafter setEnergyConsumption(int energyConsumption) {
-        Validate.isTrue(energyConsumption > 0, "The energy consumption must be greater than zero!");
-        Validate.isTrue(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
-        Validate.isTrue(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
+        Preconditions.checkArgument(energyConsumption > 0, "The energy consumption must be greater than zero!");
+        Preconditions.checkArgument(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
+        Preconditions.checkArgument(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
 
         this.energyConsumed = energyConsumption;
         return this;
@@ -543,7 +543,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     @Override
     public void register(@Nonnull SlimefunAddon addon) {
-        Validate.notNull(addon, "A SlimefunAddon cannot be null!");
+        Preconditions.checkNotNull(addon, "A SlimefunAddon cannot be null!");
         this.addon = addon;
 
         if (getCapacity() <= 0) {

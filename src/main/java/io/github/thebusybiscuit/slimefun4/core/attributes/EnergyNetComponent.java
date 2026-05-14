@@ -4,7 +4,7 @@ import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 
 import io.github.bakedlibs.dough.blocks.BlockPosition;
@@ -92,8 +92,8 @@ public interface EnergyNetComponent extends ItemAttribute {
      * @return The charge stored at that {@link Location}
      */
     default int getCharge(@Nonnull Location l, @Nonnull Config data) {
-        Validate.notNull(l, "Location was null!");
-        Validate.notNull(data, "data was null!");
+        Preconditions.checkNotNull(l, "Location was null!");
+        Preconditions.checkNotNull(data, "data was null!");
 
         // Emergency fallback, this cannot hold a charge, so we'll just return zero
         if (!isChargeable()) {
@@ -120,8 +120,8 @@ public interface EnergyNetComponent extends ItemAttribute {
      *            The new charge
      */
     default void setCharge(@Nonnull Location l, int charge) {
-        Validate.notNull(l, "Location was null!");
-        Validate.isTrue(charge >= 0, "You can only set a charge of zero or more!");
+        Preconditions.checkNotNull(l, "Location was null!");
+        Preconditions.checkArgument(charge >= 0, "You can only set a charge of zero or more!");
 
         try {
             int capacity = getCapacity();
@@ -146,8 +146,8 @@ public interface EnergyNetComponent extends ItemAttribute {
     }
 
     default void addCharge(@Nonnull Location l, int charge) {
-        Validate.notNull(l, "Location was null!");
-        Validate.isTrue(charge > 0, "You can only add a positive charge!");
+        Preconditions.checkNotNull(l, "Location was null!");
+        Preconditions.checkArgument(charge > 0, "You can only add a positive charge!");
 
         try {
             int capacity = getCapacity();
@@ -173,8 +173,8 @@ public interface EnergyNetComponent extends ItemAttribute {
     }
 
     default void removeCharge(@Nonnull Location l, int charge) {
-        Validate.notNull(l, "Location was null!");
-        Validate.isTrue(charge > 0, "The charge to remove must be greater than zero!");
+        Preconditions.checkNotNull(l, "Location was null!");
+        Preconditions.checkArgument(charge > 0, "The charge to remove must be greater than zero!");
 
         try {
             int capacity = getCapacity();

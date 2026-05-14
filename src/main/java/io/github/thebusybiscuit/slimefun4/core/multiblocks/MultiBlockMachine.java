@@ -11,7 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.base.Preconditions;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -87,7 +87,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     }
 
     public void addRecipe(ItemStack[] input, ItemStack output) {
-        Validate.notNull(output, "Recipes must have an Output!");
+        Preconditions.checkNotNull(output, "Recipes must have an Output!");
 
         recipes.add(input);
         recipes.add(new ItemStack[] { output });

@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -45,8 +45,8 @@ public final class Language {
      *            The hash of the skull texture to use
      */
     public Language(@Nonnull String id, @Nonnull String hash) {
-        Validate.notNull(id, "A Language must have an id that is not null!");
-        Validate.notNull(hash, "A Language must have a texture that is not null!");
+        Preconditions.checkNotNull(id, "A Language must have an id that is not null!");
+        Preconditions.checkNotNull(hash, "A Language must have a texture that is not null!");
 
         this.id = id;
         this.item = SlimefunUtils.getCustomHead(hash);
@@ -88,8 +88,8 @@ public final class Language {
     }
 
     public void setFile(@Nonnull LanguageFile file, @Nonnull FileConfiguration config) {
-        Validate.notNull(file, "The provided file should not be null.");
-        Validate.notNull(config, "The provided config should not be null.");
+        Preconditions.checkNotNull(file, "The provided file should not be null.");
+        Preconditions.checkNotNull(config, "The provided config should not be null.");
 
         files.put(file, config);
     }

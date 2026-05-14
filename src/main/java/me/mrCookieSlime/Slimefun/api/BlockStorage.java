@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -403,7 +403,7 @@ public class BlockStorage {
      */
     @Nullable
     public static Map<Location, Config> getRawStorage(@Nonnull World world) {
-        Validate.notNull(world, "World cannot be null!");
+        Preconditions.checkNotNull(world, "World cannot be null!");
 
         BlockStorage storage = getStorage(world);
         if (storage != null) {

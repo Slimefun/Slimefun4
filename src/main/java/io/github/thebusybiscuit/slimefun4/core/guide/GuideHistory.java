@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,7 +37,7 @@ public class GuideHistory {
      *            The {@link PlayerProfile} this {@link GuideHistory} was made for
      */
     public GuideHistory(@Nonnull PlayerProfile profile) {
-        Validate.notNull(profile, "Cannot create a GuideHistory without a PlayerProfile!");
+        Preconditions.checkNotNull(profile, "Cannot create a GuideHistory without a PlayerProfile!");
         this.profile = profile;
     }
 
@@ -55,7 +55,7 @@ public class GuideHistory {
      *            The current page of the main menu that should be stored
      */
     public void setMainMenuPage(int page) {
-        Validate.isTrue(page >= 1, "page must be greater than 0!");
+        Preconditions.checkArgument(page >= 1, "page must be greater than 0!");
 
         mainMenuPage = page;
     }
@@ -104,7 +104,7 @@ public class GuideHistory {
      *            The {@link SlimefunItem} that should be added to this {@link GuideHistory}
      */
     public void add(@Nonnull SlimefunItem item) {
-        Validate.notNull(item, "Cannot add a non-existing SlimefunItem to the GuideHistory!");
+        Preconditions.checkNotNull(item, "Cannot add a non-existing SlimefunItem to the GuideHistory!");
         queue.add(new GuideEntry<>(item, 0));
     }
 
@@ -115,13 +115,13 @@ public class GuideHistory {
      *            The term that the {@link Player} searched for
      */
     public void add(@Nonnull String searchTerm) {
-        Validate.notNull(searchTerm, "Cannot add an empty Search Term to the GuideHistory!");
+        Preconditions.checkNotNull(searchTerm, "Cannot add an empty Search Term to the GuideHistory!");
         queue.add(new GuideEntry<>(searchTerm, 0));
     }
 
     private <T> void refresh(@Nonnull T object, int page) {
-        Validate.notNull(object, "Cannot add a null Entry to the GuideHistory!");
-        Validate.isTrue(page >= 0, "page must not be negative!");
+        Preconditions.checkNotNull(object, "Cannot add a null Entry to the GuideHistory!");
+        Preconditions.checkArgument(page >= 0, "page must not be negative!");
 
         GuideEntry<?> lastEntry = getLastEntry(false);
 

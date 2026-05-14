@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -282,7 +282,7 @@ public enum Instruction {
 
     @ParametersAreNonnullByDefault
     public void execute(ProgrammableAndroid android, Block b, BlockMenu inventory, BlockFace face) {
-        Validate.notNull(method, "Instruction '" + name() + "' must be executed manually!");
+        Preconditions.checkNotNull(method, "Instruction '" + name() + "' must be executed manually!");
         method.perform(android, b, inventory, face);
     }
 
@@ -299,7 +299,7 @@ public enum Instruction {
      */
     @Nullable
     public static Instruction getInstruction(@Nonnull String value) {
-        Validate.notNull(value, "An Instruction cannot be null!");
+        Preconditions.checkNotNull(value, "An Instruction cannot be null!");
         return nameLookup.get(value);
     }
 }

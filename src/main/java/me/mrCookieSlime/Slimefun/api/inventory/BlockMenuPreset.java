@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -41,7 +41,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, boolean universal) {
         super(title);
 
-        Validate.notNull(id, "You need to specify an id!");
+        Preconditions.checkNotNull(id, "You need to specify an id!");
 
         this.id = id;
         this.inventoryTitle = title;
@@ -119,7 +119,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
      *            The slots which should be treated as background
      */
     public void drawBackground(@Nonnull ItemStack item, @Nonnull int[] slots) {
-        Validate.notNull(item, "The background item cannot be null!");
+        Preconditions.checkNotNull(item, "The background item cannot be null!");
         checkIfLocked();
 
         for (int slot : slots) {
@@ -248,7 +248,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     }
 
     public void newInstance(@Nonnull BlockMenu menu, @Nonnull Location l) {
-        Validate.notNull(l, "Cannot create a new BlockMenu without a Location");
+        Preconditions.checkNotNull(l, "Cannot create a new BlockMenu without a Location");
 
         Slimefun.runSync(() -> {
             locked = true;

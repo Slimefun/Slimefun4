@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -32,7 +32,7 @@ public class AsyncProfileLoadEvent extends Event {
     public AsyncProfileLoadEvent(@Nonnull PlayerProfile profile) {
         super(true);
 
-        Validate.notNull(profile, "The Profile cannot be null");
+        Preconditions.checkNotNull(profile, "The Profile cannot be null");
 
         this.uniqueId = profile.getUUID();
         this.profile = profile;
@@ -56,8 +56,8 @@ public class AsyncProfileLoadEvent extends Event {
      *            The {@link PlayerProfile}
      */
     public void setProfile(@Nonnull PlayerProfile profile) {
-        Validate.notNull(profile, "The PlayerProfile cannot be null!");
-        Validate.isTrue(profile.getUUID().equals(uniqueId), "Cannot inject a PlayerProfile with a different UUID");
+        Preconditions.checkNotNull(profile, "The PlayerProfile cannot be null!");
+        Preconditions.checkArgument(profile.getUUID().equals(uniqueId), "Cannot inject a PlayerProfile with a different UUID");
 
         this.profile = profile;
     }

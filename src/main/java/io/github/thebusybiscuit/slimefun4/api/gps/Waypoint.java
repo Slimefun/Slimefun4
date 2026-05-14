@@ -6,7 +6,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World.Environment;
@@ -71,10 +71,10 @@ public class Waypoint {
      */
     @ParametersAreNonnullByDefault
     public Waypoint(UUID ownerId, String id, Location loc, String name) {
-        Validate.notNull(ownerId, "owner ID must never be null!");
-        Validate.notNull(id, "id must never be null!");
-        Validate.notNull(loc, "Location must never be null!");
-        Validate.notNull(name, "Name must never be null!");
+        Preconditions.checkNotNull(ownerId, "owner ID must never be null!");
+        Preconditions.checkNotNull(id, "id must never be null!");
+        Preconditions.checkNotNull(loc, "Location must never be null!");
+        Preconditions.checkNotNull(name, "Name must never be null!");
 
         this.ownerId = ownerId;
         this.id = id;

@@ -7,7 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.ChatColor;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
@@ -50,7 +50,7 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
      */
     @Nonnull
     public Optional<EntityType> getEntityType(@Nonnull ItemStack item) {
-        Validate.notNull(item, "The Item cannot be null");
+        Preconditions.checkNotNull(item, "The Item cannot be null");
 
         ItemMeta meta = item.getItemMeta();
 
@@ -77,7 +77,7 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
      */
     @Nonnull
     public ItemStack getItemForEntityType(@Nonnull EntityType type) {
-        Validate.notNull(type, "The EntityType cannot be null");
+        Preconditions.checkNotNull(type, "The EntityType cannot be null");
 
         ItemStack item = getItem().clone();
         ItemMeta meta = item.getItemMeta();

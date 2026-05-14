@@ -8,7 +8,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World;
@@ -55,7 +55,7 @@ public class MultiBlock {
     private final boolean isSymmetric;
 
     public MultiBlock(@Nonnull SlimefunItem item, Material[] build, @Nonnull BlockFace trigger) {
-        Validate.notNull(item, "A MultiBlock requires a SlimefunItem!");
+        Preconditions.checkNotNull(item, "A MultiBlock requires a SlimefunItem!");
 
         if (build == null || build.length != 9) {
             throw new IllegalArgumentException("MultiBlocks must have a length of 9!");

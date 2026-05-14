@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -37,8 +37,8 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
     public WaypointCreateEvent(@Nonnull Player player, @Nonnull String name, @Nonnull Location location) {
         super(player);
 
-        Validate.notNull(location, "Location must not be null!");
-        Validate.notNull(name, "Name must not be null!");
+        Preconditions.checkNotNull(location, "Location must not be null!");
+        Preconditions.checkNotNull(name, "Name must not be null!");
 
         this.location = location;
         this.name = name;
@@ -63,7 +63,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
      *            The {@link Location} to set
      */
     public void setLocation(@Nonnull Location loc) {
-        Validate.notNull(loc, "Cannot set the Location to null!");
+        Preconditions.checkNotNull(loc, "Cannot set the Location to null!");
         this.location = loc;
     }
 
@@ -84,7 +84,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
      *            The name for this waypoint
      */
     public void setName(@Nonnull String name) {
-        Validate.notEmpty(name, "The name of a waypoint must not be empty!");
+        Preconditions.checkArgument(name != null && !name.isEmpty(), "The name of a waypoint must not be empty!");
         this.name = name;
     }
 

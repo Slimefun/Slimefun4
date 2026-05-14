@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -154,8 +154,8 @@ public final class TeleportationManager {
      * @return The amount of time the teleportation will take
      */
     public int getTeleportationTime(int complexity, @Nonnull Location source, @Nonnull Location destination) {
-        Validate.notNull(source, "Source cannot be null");
-        Validate.notNull(source, "Destination cannot be null");
+        Preconditions.checkNotNull(source, "Source cannot be null");
+        Preconditions.checkNotNull(source, "Destination cannot be null");
 
         if (complexity < 100) {
             return 100;

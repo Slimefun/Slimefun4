@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Server;
 import org.bukkit.World;
 
@@ -61,7 +61,7 @@ public class PerWorldSettingsService {
      *            The {@link World} to load
      */
     public void load(@Nonnull World world) {
-        Validate.notNull(world, "Cannot load a world that is null");
+        Preconditions.checkNotNull(world, "Cannot load a world that is null");
         disabledItems.putIfAbsent(world.getUID(), loadWorldFromConfig(world));
     }
 
@@ -76,8 +76,8 @@ public class PerWorldSettingsService {
      * @return Whether the given {@link SlimefunItem} is enabled in that {@link World}
      */
     public boolean isEnabled(@Nonnull World world, @Nonnull SlimefunItem item) {
-        Validate.notNull(world, "The world cannot be null");
-        Validate.notNull(item, "The SlimefunItem cannot be null");
+        Preconditions.checkNotNull(world, "The world cannot be null");
+        Preconditions.checkNotNull(item, "The SlimefunItem cannot be null");
 
         Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
@@ -99,8 +99,8 @@ public class PerWorldSettingsService {
      *            Whether the given {@link SlimefunItem} should be enabled in that world
      */
     public void setEnabled(@Nonnull World world, @Nonnull SlimefunItem item, boolean enabled) {
-        Validate.notNull(world, "The world cannot be null");
-        Validate.notNull(item, "The SlimefunItem cannot be null");
+        Preconditions.checkNotNull(world, "The world cannot be null");
+        Preconditions.checkNotNull(item, "The SlimefunItem cannot be null");
 
         Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
@@ -120,7 +120,7 @@ public class PerWorldSettingsService {
      *            Whether this {@link World} should be enabled or not
      */
     public void setEnabled(@Nonnull World world, boolean enabled) {
-        Validate.notNull(world, "null is not a valid World");
+        Preconditions.checkNotNull(world, "null is not a valid World");
         load(world);
 
         if (enabled) {
@@ -139,7 +139,7 @@ public class PerWorldSettingsService {
      * @return Whether this {@link World} is enabled
      */
     public boolean isWorldEnabled(@Nonnull World world) {
-        Validate.notNull(world, "null is not a valid World");
+        Preconditions.checkNotNull(world, "null is not a valid World");
         load(world);
 
         return !disabledWorlds.contains(world.getUID());
@@ -156,8 +156,8 @@ public class PerWorldSettingsService {
      * @return Whether this addon is enabled in that {@link World}
      */
     public boolean isAddonEnabled(@Nonnull World world, @Nonnull SlimefunAddon addon) {
-        Validate.notNull(world, "World cannot be null");
-        Validate.notNull(addon, "Addon cannot be null");
+        Preconditions.checkNotNull(world, "World cannot be null");
+        Preconditions.checkNotNull(addon, "Addon cannot be null");
         return isWorldEnabled(world) && disabledAddons.getOrDefault(addon, Collections.emptySet()).contains(world.getName());
     }
 
@@ -170,7 +170,7 @@ public class PerWorldSettingsService {
      *            The {@link World} to save
      */
     public void save(@Nonnull World world) {
-        Validate.notNull(world, "Cannot save a World that does not exist");
+        Preconditions.checkNotNull(world, "Cannot save a World that does not exist");
         Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         Config config = getConfig(world);
@@ -187,7 +187,7 @@ public class PerWorldSettingsService {
 
     @Nonnull
     private Set<String> loadWorldFromConfig(@Nonnull World world) {
-        Validate.notNull(world, "Cannot load a World that does not exist");
+        Preconditions.checkNotNull(world, "Cannot load a World that does not exist");
 
         String name = world.getName();
         Optional<Set<String>> optional = disabledItems.get(world.getUID());
@@ -249,7 +249,7 @@ public class PerWorldSettingsService {
      */
     @Nonnull
     private Config getConfig(@Nonnull World world) {
-        Validate.notNull(world, "World cannot be null");
+        Preconditions.checkNotNull(world, "World cannot be null");
         return new Config(plugin, "world-settings/" + world.getName() + ".yml");
     }
 

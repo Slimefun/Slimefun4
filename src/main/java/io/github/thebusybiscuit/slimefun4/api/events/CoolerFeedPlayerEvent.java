@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -84,8 +84,8 @@ public class CoolerFeedPlayerEvent extends PlayerEvent implements Cancellable {
      *            The new {@link ItemStack}
      */
     public void setConsumedItem(@Nonnull ItemStack item) {
-        Validate.notNull(item, "The consumed Item cannot be null!");
-        Validate.isTrue(item.getItemMeta() instanceof PotionMeta, "The item must be a potion!");
+        Preconditions.checkNotNull(item, "The consumed Item cannot be null!");
+        Preconditions.checkArgument(item.getItemMeta() instanceof PotionMeta, "The item must be a potion!");
 
         this.consumedItem = item;
     }

@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 
@@ -45,7 +45,7 @@ public enum SlimefunBranch {
     private final boolean official;
 
     SlimefunBranch(@Nonnull String name, boolean official) {
-        Validate.notNull(name, "The branch name cannot be null");
+        Preconditions.checkNotNull(name, "The branch name cannot be null");
 
         this.name = name;
         this.official = official;

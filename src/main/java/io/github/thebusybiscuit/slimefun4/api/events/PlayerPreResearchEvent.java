@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -35,9 +35,9 @@ public class PlayerPreResearchEvent extends Event implements Cancellable {
 
     @ParametersAreNonnullByDefault
     public PlayerPreResearchEvent(Player p, Research research, SlimefunItem slimefunItem) {
-        Validate.notNull(p, "The Player cannot be null");
-        Validate.notNull(research, "Research cannot be null");
-        Validate.notNull(slimefunItem, "SlimefunItem cannot be null");
+        Preconditions.checkNotNull(p, "The Player cannot be null");
+        Preconditions.checkNotNull(research, "Research cannot be null");
+        Preconditions.checkNotNull(slimefunItem, "SlimefunItem cannot be null");
 
         this.player = p;
         this.research = research;

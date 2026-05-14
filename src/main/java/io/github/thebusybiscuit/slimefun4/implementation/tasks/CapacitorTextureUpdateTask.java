@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -45,7 +45,7 @@ public class CapacitorTextureUpdateTask implements Runnable {
      *            The capacity of this {@link Capacitor}
      */
     public CapacitorTextureUpdateTask(@Nonnull Location l, double charge, double capacity) {
-        Validate.notNull(l, "The Location cannot be null");
+        Preconditions.checkNotNull(l, "The Location cannot be null");
 
         this.l = l;
         this.filledPercentage = charge / capacity;

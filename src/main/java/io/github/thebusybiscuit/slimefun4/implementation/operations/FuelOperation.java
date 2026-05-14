@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.operations;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
@@ -29,8 +29,8 @@ public class FuelOperation implements MachineOperation {
     }
 
     public FuelOperation(@Nonnull ItemStack ingredient, @Nullable ItemStack result, int totalTicks) {
-        Validate.notNull(ingredient, "The Ingredient cannot be null");
-        Validate.isTrue(totalTicks > 0, "The amount of total ticks must be a positive integer");
+        Preconditions.checkNotNull(ingredient, "The Ingredient cannot be null");
+        Preconditions.checkArgument(totalTicks > 0, "The amount of total ticks must be a positive integer");
 
         this.ingredient = ingredient;
         this.result = result;
@@ -39,7 +39,7 @@ public class FuelOperation implements MachineOperation {
 
     @Override
     public void addProgress(int num) {
-        Validate.isTrue(num > 0, "Progress must be positive.");
+        Preconditions.checkArgument(num > 0, "Progress must be positive.");
         currentTicks += num;
     }
 

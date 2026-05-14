@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -75,7 +75,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
      *            The {@link ItemStack} to be placed
      */
     public void setItemStack(@Nonnull ItemStack item) {
-        Validate.notNull(item, "The ItemStack must not be null!");
+        Preconditions.checkNotNull(item, "The ItemStack must not be null!");
 
         if (!locked) {
             this.placedItem = item;

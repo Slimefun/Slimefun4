@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -74,7 +74,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      */
     @Override
     public boolean test(@Nonnull Block b) {
-        Validate.notNull(b, "Block cannot be null!");
+        Preconditions.checkNotNull(b, "Block cannot be null!");
 
         /*
          * This will eliminate non-matching base materials If we
@@ -106,8 +106,8 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
 
     @ParametersAreNonnullByDefault
     private boolean hasSurroundingMaterials(Block b, Material... materials) {
-        Validate.notNull(b, "The Block cannot be null!");
-        Validate.notEmpty(materials, "Materials need to have a size of at least one!");
+        Preconditions.checkNotNull(b, "The Block cannot be null!");
+        Preconditions.checkArgument(materials != null && materials.length > 0, "Materials need to have a size of at least one!");
 
         boolean[] matches = new boolean[materials.length];
         int count = 0;
@@ -143,7 +143,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * @return Our called {@link BlockFormEvent}
      */
     public @Nonnull BlockFormEvent callEvent(@Nonnull Block block) {
-        Validate.notNull(block, "The Block cannot be null!");
+        Preconditions.checkNotNull(block, "The Block cannot be null!");
         BlockState state = PaperLib.getBlockState(block, false).getState();
         BlockFormEvent event = new BlockFormEvent(block, state);
         Bukkit.getPluginManager().callEvent(event);
@@ -159,7 +159,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * @return An {@link InfiniteBlockGenerator} or null if none was found.
      */
     public static @Nullable InfiniteBlockGenerator findAt(@Nonnull Block b) {
-        Validate.notNull(b, "Cannot find a generator without a Location!");
+        Preconditions.checkNotNull(b, "Cannot find a generator without a Location!");
 
         for (InfiniteBlockGenerator generator : valuesCached) {
             if (generator.test(b)) {
