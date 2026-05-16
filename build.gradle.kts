@@ -203,7 +203,7 @@ val cloneAndBuildAddons by tasks.registering {
                 aheadProc.waitFor()
                 val aheadCount = aheadProc.inputStream.bufferedReader().readText().trim().toIntOrNull() ?: 0
                 if (aheadCount > 0) {
-                    println("  Local branch is $aheadCount commit(s) ahead of origin — preserving local fixes.")
+                    println("  Local branch is $aheadCount commit(s) ahead of origin - preserving local fixes.")
                 } else {
                     runProcess(ProcessBuilder("git", "reset", "--hard", "origin/HEAD").directory(repoDir), 1)
                 }

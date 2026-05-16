@@ -9,7 +9,7 @@ We feature a magical altar, an electric power grid and even item transport syste
 This project originally started back **in 2013** and has grown ever since.<br>
 It currently adds over **500 new items and recipes** to Minecraft ([Read more about the history of this project](https://github.com/Slimefun5/Slimefun5/wiki/Slimefun-in-a-nutshell)).
 
-Check out the available [addons](https://github.com/Slimefun5/Slimefun5/wiki/Addons) — they may have exactly what you were looking for.
+Check out the available [addons](https://github.com/Slimefun5/Slimefun5/wiki/Addons) - they may have exactly what you were looking for.
 
 ### Quick navigation
 * **[:floppy_disk: Download](#floppy_disk-download)**
