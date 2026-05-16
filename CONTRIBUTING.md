@@ -58,9 +58,9 @@ You can find a tutorial on how to contribute to our wiki right here:<br>
 https://github.com/Slimefun5/Slimefun5/wiki/Expanding-the-Wiki
 
 ## :star: 6. Pull Requests: Code Quality
-Slimefun uses [sonarcloud.io](https://sonarcloud.io/dashboard?id=Slimefun_Slimefun4) to monitor Code Quality.
+Slimefun uses [sonarcloud.io](https://sonarcloud.io/dashboard?id=Slimefun_Slimefun5) to monitor Code Quality.
 
-We always welcome quality improvements to the code and the "Code Smells" section on [sonarcloud.io](https://sonarcloud.io/dashboard?id=Slimefun_Slimefun4) is a great place to start.
+We always welcome quality improvements to the code and the "Code Smells" section on [sonarcloud.io](https://sonarcloud.io/dashboard?id=Slimefun_Slimefun5) is a great place to start.
 But please keep in mind that some design patterns may not be changed too abruptly if an addon depends on them. 
 To prevent any accidents from happening, please contact us on our [Discord Server](https://discord.gg/slimefun) before-hand and state your intended changes.
 
@@ -70,16 +70,16 @@ Code documentation is also a great way to improve the maintainability of the pro
 2. Classes should also include an `@author` tag to indicate who worked on that class.
 3. Methods and parameters should be annotated with `@Nullable` or `@Nonnull` to indicate whether or not null values are accepted.
 
-Feel free to visit our [Javadocs](https://slimefun.github.io/javadocs/Slimefun4/docs/overview-summary.html)
+Feel free to visit our [Javadocs](https://slimefun.github.io/javadocs/Slimefun5/docs/overview-summary.html)
 
 #### Unit Tests
 Unit Tests help us test the project to work as intended in an automated manner.<br>
-More or better Unit Tests are always good to have, so feel free to submit a Test and place it in our [src/test/java](https://github.com/Slimefun5/Slimefun5/tree/master/src/test/java/io/github/thebusybiscuit/slimefun4/testing) directory
+More or better Unit Tests are always good to have, so feel free to submit a Test and place it in our [src/test/java](https://github.com/Slimefun5/Slimefun5/tree/master/src/test/java/io/github/thebusybiscuit/slimefun5/testing) directory
 
 We are using [Junit 5 - Jupiter](https://github.com/junit-team/junit5/) and [MockBukkit](https://github.com/seeseemelk/MockBukkit) as our testing environment.<br>
 Every new Unit Test should have a `@DisplayName` annotation with a plain text description on what the Unit Test tests.
 
-## :toolbox: How to compile Slimefun4
+## :toolbox: How to compile Slimefun5
 Slimefun is written in Java and uses [Maven](https://maven.apache.org/) for compilation.<br>
 To compile Slimefun yourself, follow these steps:
 
@@ -144,7 +144,7 @@ But do try to follow our code style as best as you can.*
 * Constants (`static final` fields) should be in *SCREAMING_SNAKE_CASE* (e.g. `MY_CONSTANT_FIELD`)
 * Variables, parameters and fields should be in *camelCase* (e.g. `myVariableOrField`)
 * All methods should be in *camelCase* (e.g. `myMethod`)
-* Packages must be all lowercase, consecutive words should generally be avoided. (e.g. `io.github.thebusybiscuit.slimefun4.core.something`)
+* Packages must be all lowercase, consecutive words should generally be avoided. (e.g. `io.github.thebusybiscuit.slimefun5.core.something`)
 #### 7. Style preferences
 * Use **Spaces**, not Tabs!
 * One class per file! Please don't put multiple classes into one file, this also applies to enums, make a seperate file for new classes or enums.
@@ -200,3 +200,4 @@ private void example(int x) {
     }
 }
 ```
+

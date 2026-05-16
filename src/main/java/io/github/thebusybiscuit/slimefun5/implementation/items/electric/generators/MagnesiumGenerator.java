@@ -1,0 +1,34 @@
+package io.github.thebusybiscuit.slimefun5.implementation.items.electric.generators;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+
+public class MagnesiumGenerator extends AGenerator {
+
+    @ParametersAreNonnullByDefault
+    public MagnesiumGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
+    }
+
+    @Override
+    protected void registerDefaultFuelTypes() {
+        registerFuel(new MachineFuel(20, SlimefunItems.MAGNESIUM_SALT));
+    }
+
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.FLINT_AND_STEEL);
+    }
+
+}
+

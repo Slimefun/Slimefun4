@@ -2,9 +2,7 @@
     {
         "value" : 20,
         "biomes" : [
-            "minecraft:swamp",
-            "minecraft:swamp_hills"
-        ]
+            "minecraft:swamp"]
     },
     {
         "value" : 40,

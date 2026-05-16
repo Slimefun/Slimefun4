@@ -1,9 +1,9 @@
 import java.util.concurrent.TimeUnit
 plugins {
     java
-    id("com.gradleup.shadow") version "9.3.2"
-    id("io.github.intisy.github-gradle") version "1.8.2.1"
-    id("xyz.jpenilla.run-paper") version "2.2.3"
+    id("com.gradleup.shadow")
+    id("io.github.intisy.github-gradle")
+    id("xyz.jpenilla.run-paper")
 }
 
 group = "com.github.slimefun"
@@ -19,7 +19,7 @@ github {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
 
@@ -36,17 +36,14 @@ repositories {
 }
 
 dependencies {
-    // Shaded dependencies (bundled into the final jar)
     implementation("com.github.Slimefun.dough:dough-api:cb22e71335")
     implementation("io.papermc:paperlib:1.0.8")
     implementation("commons-lang:commons-lang:2.6")
 
-    // Compile-only (provided at runtime by the server)
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:${property("paperApiVersion")}")
     compileOnly("com.mojang:authlib:6.0.52") { isTransitive = false }
 
-    // Third-party plugin integrations (soft dependencies)
     compileOnly("com.sk89q.worldedit:worldedit-core:7.3.9") { isTransitive = false }
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.9") { isTransitive = false }
     compileOnly("com.gmail.nossr50.mcMMO:mcMMO:2.2.029") { isTransitive = false }
@@ -55,8 +52,6 @@ dependencies {
     compileOnly("com.github.LoneDev6:itemsadder-api:3.6.1") { isTransitive = false }
     compileOnly("net.imprex:orebfuscator-api:5.4.0") { isTransitive = false }
 
-    // Testing
-    // Note: paper-api version must match what MockBukkit was built against (1.21.11).
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -67,8 +62,6 @@ dependencies {
     }
 }
 
-// Make compileOnly dependencies available on the test classpath
-// (mirrors Maven's 'provided' scope behavior — tests need paper-api, jsr305, etc.)
 configurations {
     testImplementation {
         extendsFrom(configurations.compileOnly.get())
@@ -87,34 +80,26 @@ tasks {
     }
 
     processResources {
-        // Replace ${version} in plugin.yml with the project version
         filesMatching("plugin.yml") {
             expand("version" to project.version)
         }
     }
 
     jar {
-        // Disable the default jar — only shadowJar should be produced
         enabled = false
     }
 
     shadowJar {
-        // Output: "Slimefun v5.0.0.jar"
-        archiveFileName.set("Slimefun v${project.version}.jar")
+        archiveFileName.set("Slimefun v${project.version}-MC26.1.2.jar")
 
-        // Relocate shaded dependencies to avoid classpath conflicts
-        relocate("io.github.bakedlibs.dough", "io.github.thebusybiscuit.slimefun4.libraries.dough")
-        relocate("io.papermc.lib", "io.github.thebusybiscuit.slimefun4.libraries.paperlib")
-        relocate("org.apache.commons.lang", "io.github.thebusybiscuit.slimefun4.libraries.commons.lang")
+        relocate("io.github.bakedlibs.dough", "io.github.thebusybiscuit.slimefun5.libraries.dough")
+        relocate("io.papermc.lib", "io.github.thebusybiscuit.slimefun5.libraries.paperlib")
+        relocate("org.apache.commons.lang", "io.github.thebusybiscuit.slimefun5.libraries.commons.lang")
 
-        // Exclude META-INF from all shaded dependencies
         exclude("META-INF/**")
 
-        // Exclude dough skins package - replaced by VersionedPlayerHead
-        // to avoid IncompatibleClassChangeError with final GameProfile in MC 1.21.5+
         exclude("io/github/bakedlibs/dough/skins/**")
 
-        // Include LICENSE
         from(rootProject.projectDir) {
             include("LICENSE")
         }
@@ -124,7 +109,6 @@ tasks {
         useJUnitPlatform()
     }
 
-    // Make 'build' produce the shaded jar
     build {
         dependsOn(shadowJar)
     }
@@ -138,12 +122,7 @@ val cloneAndBuildAddons by tasks.registering {
         var addonsProp = project.findProperty("addons") as String? ?: ""
         
         if (addonsProp.isBlank()) {
-            val defaultAddonsFile = file("default-addons.txt")
-            if (defaultAddonsFile.exists()) {
-                addonsProp = defaultAddonsFile.readLines()
-                    .filter { it.isNotBlank() && !it.startsWith("#") }
-                    .joinToString(",")
-            }
+            addonsProp = project.findProperty("slimefunAddons") as String? ?: ""
         }
 
         if (addonsProp.isBlank()) {
@@ -219,8 +198,6 @@ val cloneAndBuildAddons by tasks.registering {
                 println("Pulling latest for $addon...")
                 runProcess(ProcessBuilder("git", "fetch", "--all").directory(repoDir), 2)
                 runProcess(ProcessBuilder("git", "remote", "set-head", "origin", "-a").directory(repoDir), 1)
-                // Only reset hard if we have no local commits ahead of origin.
-                // Local fix commits (not yet pushed) must survive runServer restarts.
                 val aheadProc = ProcessBuilder("git", "rev-list", "--count", "origin/HEAD..HEAD")
                     .directory(repoDir).redirectErrorStream(true).start()
                 aheadProc.waitFor()
@@ -240,7 +217,6 @@ val cloneAndBuildAddons by tasks.registering {
             val jars = libsDir.listFiles { file: File -> file.name.endsWith(".jar") && !file.name.endsWith("-javadoc.jar") && !file.name.endsWith("-sources.jar") }
             val hasCompiledJar = jars != null && jars.isNotEmpty()
 
-            // If local branch is ahead of origin, we have unpushed fixes — always rebuild.
             val aheadCheck = ProcessBuilder("git", "rev-list", "--count", "origin/HEAD..HEAD")
                 .directory(repoDir).redirectErrorStream(true).start()
             aheadCheck.waitFor()
@@ -283,12 +259,7 @@ val cloneAndBuildAddons by tasks.registering {
 
 tasks.runServer {
     dependsOn(tasks.shadowJar, cloneAndBuildAddons)
-    minecraftVersion("1.21.4")
-
-    doFirst {
-        val sfJar = tasks.shadowJar.get().archiveFile.get().asFile
-        val pluginsDir = project.layout.projectDirectory.dir("run/plugins").asFile
-        pluginsDir.mkdirs()
-        sfJar.copyTo(File(pluginsDir, sfJar.name), overwrite = true)
-    }
+    minecraftVersion("26.1.2")
 }
+
+

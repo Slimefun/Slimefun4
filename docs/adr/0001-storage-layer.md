@@ -35,7 +35,7 @@ We want to create a new storage layer abstraction and implementations
 which will be backwards-compatible but open up new ways of storing data
 within Slimefun. The end end goal is we can quickly and easily support
 new storage backends (such as binary storage, SQL, etc.) for things like
-[PlayerProfile](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java), [BlockStorage](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java), etc.
+[PlayerProfile](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java), [BlockStorage](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java), etc.
 
 We also want to be generally more efficient in the way we save and load data.
 Today, we load way more than is required.
@@ -56,7 +56,7 @@ as possible.
 There is a new interface called [`Storage`](TBD) which is what all storage
 backends will implement.
 This will have methods for loading and saving things like
-[`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java) and [`BlockStorage`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java).
+[`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java) and [`BlockStorage`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java).
 
 Then, backends will implement these
 (e.g. [`LegacyStorageBackend`](TBD) (today's YAML situation))
@@ -86,17 +86,17 @@ Phases do not (and very likely will not) be done within a single PR. They will a
 
 The current plan looks like this:
 
-* Phase 1 - Implement legacy data backend for [`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java).
+* Phase 1 - Implement legacy data backend for [`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java).
   * We want to load player data using the new storage layer with the current
     data system.
   * We'll want to monitor for any possible issues and generally refine 
     how this system should look
-* Phase 2 - Implement new experimental binary backend for [`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java).
+* Phase 2 - Implement new experimental binary backend for [`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java).
   * Create a new backend for binary storage
   * Implement in an experimental capacity and allow users to opt-in
     * Provide a warning that this is **experimental** and there will be bugs.
   * Implement new metric for storage backend being used
-* Phase 3 - Mark the new backend as stable for [`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java).
+* Phase 3 - Mark the new backend as stable for [`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java).
   * Mark it as stable and remove the warnings once we're sure things are
     working correctly
   * Create a migration path for users currently using "legacy".

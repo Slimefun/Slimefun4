@@ -2,12 +2,12 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
 import java.util.function.Predicate;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun5.utils.itemstack.ItemStackWrapper;
 
 // This class will be rewritten in the "Recipe Rewrite"
 public class MachineFuel implements Predicate<ItemStack> {
@@ -71,3 +71,4 @@ public class MachineFuel implements Predicate<ItemStack> {
     }
 
 }
+

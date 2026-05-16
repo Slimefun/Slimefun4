@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import io.github.thebusybiscuit.slimefun5.utils.itemstack.ItemStackWrapper;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
@@ -171,3 +171,4 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
 }
+

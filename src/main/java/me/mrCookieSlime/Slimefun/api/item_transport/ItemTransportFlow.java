@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.api.item_transport;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
+import io.github.thebusybiscuit.slimefun5.core.networks.cargo.CargoNet;
 
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -33,3 +33,4 @@ public enum ItemTransportFlow {
     WITHDRAW;
 
 }
+

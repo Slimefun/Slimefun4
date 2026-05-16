@@ -1,6 +1,6 @@
 # Slimefun 5 (Continued Fork)
 
-> **This is a community-maintained fork of [Slimefun4](https://github.com/Slimefun/Slimefun4), which was discontinued by its original developers. This fork continues development with support for modern Minecraft versions.**
+> **This is a community-maintained fork of [Slimefun5](https://github.com/Slimefun5/Slimefun5), which was discontinued by its original developers. This fork continues development with support for modern Minecraft versions.**
 
 Slimefun is a plugin which aims to turn your Spigot Server into a modpack without ever installing a single mod. From Backpacks to Jetpacks! Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.<br>
 We got everything from magical wands to nuclear reactors.<br>
