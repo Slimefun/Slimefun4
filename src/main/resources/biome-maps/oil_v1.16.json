@@ -40,7 +40,6 @@
         "value" : 45,
         "biomes" : [
             "minecraft:desert",
-            ,
             "minecraft:desert_lakes"
         ]
     },
