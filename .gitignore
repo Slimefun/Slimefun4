@@ -13,3 +13,5 @@ bin/
 # Temporary files
 *.tmp
 *.log
+
+target/
