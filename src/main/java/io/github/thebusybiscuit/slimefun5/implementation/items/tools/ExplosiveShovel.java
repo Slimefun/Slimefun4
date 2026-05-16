@@ -1,0 +1,40 @@
+package io.github.thebusybiscuit.slimefun5.implementation.items.tools;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.tags.SlimefunTag;
+
+/**
+ * The {@link ExplosiveShovel} works similar to the {@link ExplosivePickaxe}.
+ * However it can only break blocks that a shovel can break.
+ * 
+ * @author Linox
+ *
+ * @see ExplosivePickaxe
+ * @see ExplosiveTool
+ *
+ */
+public class ExplosiveShovel extends ExplosiveTool {
+
+    @ParametersAreNonnullByDefault
+    public ExplosiveShovel(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
+    }
+
+    @Override
+    protected boolean canBreak(@Nonnull Player p, Block b) {
+        return SlimefunTag.EXPLOSIVE_SHOVEL_BLOCKS.isTagged(b.getType()) && Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.BREAK_BLOCK);
+    }
+
+}
+

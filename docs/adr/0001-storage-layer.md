@@ -35,7 +35,7 @@ We want to create a new storage layer abstraction and implementations
 which will be backwards-compatible but open up new ways of storing data
 within Slimefun. The end end goal is we can quickly and easily support
 new storage backends (such as binary storage, SQL, etc.) for things like
-[PlayerProfile](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java), [BlockStorage](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java), etc.
+[PlayerProfile](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java), [BlockStorage](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java), etc.
 
 We also want to be generally more efficient in the way we save and load data.
 Today, we load way more than is required.
@@ -56,13 +56,13 @@ as possible.
 There is a new interface called [`Storage`](TBD) which is what all storage
 backends will implement.
 This will have methods for loading and saving things like
-[`PlayerProfile`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java) and [`BlockStorage`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java).
+[`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java) and [`BlockStorage`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java).
 
 Then, backends will implement these
 (e.g. [`LegacyStorageBackend`](TBD) (today's YAML situation))
 in order to support these functions.
 Not all storage backends are required support each data type.
-e.g. SQL may not support [`BlockStorage`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java).
+e.g. SQL may not support [`BlockStorage`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java).
 
 
 ## Addons
@@ -86,29 +86,29 @@ Phases do not (and very likely will not) be done within a single PR. They will a
 
 The current plan looks like this:
 
-* Phase 1 - Implement legacy data backend for [`PlayerProfile`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java).
+* Phase 1 - Implement legacy data backend for [`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java).
   * We want to load player data using the new storage layer with the current
     data system.
   * We'll want to monitor for any possible issues and generally refine 
     how this system should look
-* Phase 2 - Implement new experimental binary backend for [`PlayerProfile`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java).
+* Phase 2 - Implement new experimental binary backend for [`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java).
   * Create a new backend for binary storage
   * Implement in an experimental capacity and allow users to opt-in
     * Provide a warning that this is **experimental** and there will be bugs.
   * Implement new metric for storage backend being used
-* Phase 3 - Mark the new backend as stable for [`PlayerProfile`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun4/api/player/PlayerProfile.java).
+* Phase 3 - Mark the new backend as stable for [`PlayerProfile`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/io/github/thebusybiscuit/slimefun5/api/player/PlayerProfile.java).
   * Mark it as stable and remove the warnings once we're sure things are
     working correctly
   * Create a migration path for users currently using "legacy".
   * Enable by default for new servers
-* Phase 4 - Move [`BlockStorage`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java) to new storage layer.
+* Phase 4 - Move [`BlockStorage`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java) to new storage layer.
   * The big one! We're gonna tackle adding this to BlockStorage.
     This will probably be a large change and we'll want to be as 
     careful as possible here.
   * Implement `legacy` and `binary` as experimental storage backends
     for BlockStorage and allow users to opt-in
     * Provide a warning that this is **experimental** and there will be bugs.
-* Phase 5 - Mark the new storage layer as stable for [`BlockStorage`](https://github.com/Slimefun/Slimefun4/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java).
+* Phase 5 - Mark the new storage layer as stable for [`BlockStorage`](https://github.com/Slimefun5/Slimefun5/blob/bbfb9734b9f549d7e82291eff041f9b666a61b63/src/main/java/me/mrCookieSlime/Slimefun/api/BlockStorage.java).
   * Mark it as stable and remove the warnings once we're sure things are
     working correctly
   * Ensure migration path works here too.
@@ -121,7 +121,7 @@ The current plan looks like this:
 ## State of work
 
 * Phase 1: In progress
-  * https://github.com/Slimefun/Slimefun4/pull/4065
+  * https://github.com/Slimefun5/Slimefun5/pull/4065
 * Phase 2: Not started
 * Phase 3: Not started
 * Phase 4: Not started

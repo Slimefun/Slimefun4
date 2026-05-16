@@ -1,27 +1,27 @@
 # Slimefun 5 (Continued Fork)
 
-> **This is a community-maintained fork of [Slimefun4](https://github.com/Slimefun/Slimefun4), which was discontinued by its original developers. This fork continues development with support for modern Minecraft versions.**
+> **This is a community-maintained fork of [Slimefun5](https://github.com/Slimefun5/Slimefun5), which was discontinued by its original developers. This fork continues development with support for modern Minecraft versions.**
 
 Slimefun is a plugin which aims to turn your Spigot Server into a modpack without ever installing a single mod. From Backpacks to Jetpacks! Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.<br>
 We got everything from magical wands to nuclear reactors.<br>
 We feature a magical altar, an electric power grid and even item transport systems.
 
 This project originally started back **in 2013** and has grown ever since.<br>
-It currently adds over **500 new items and recipes** to Minecraft ([Read more about the history of this project](https://github.com/Slimefun/Slimefun4/wiki/Slimefun-in-a-nutshell)).
+It currently adds over **500 new items and recipes** to Minecraft ([Read more about the history of this project](https://github.com/Slimefun5/Slimefun5/wiki/Slimefun-in-a-nutshell)).
 
-Check out the available [addons](https://github.com/Slimefun/Slimefun4/wiki/Addons) — they may have exactly what you were looking for.
+Check out the available [addons](https://github.com/Slimefun5/Slimefun5/wiki/Addons) — they may have exactly what you were looking for.
 
 ### Quick navigation
 * **[:floppy_disk: Download](#floppy_disk-download)**
 * **[:framed_picture: Screenshots](#framed_picture-screenshots)**
 * **[:beetle: Bug Tracker](https://github.com/Slimefun5/Slimefun5/issues)**
-* **[:open_book: Wiki](https://github.com/Slimefun/Slimefun4/wiki)**
-* **[:interrobang: FAQ](https://github.com/Slimefun/Slimefun4/wiki/FAQ)**
+* **[:open_book: Wiki](https://github.com/Slimefun5/Slimefun5/wiki)**
+* **[:interrobang: FAQ](https://github.com/Slimefun5/Slimefun5/wiki/FAQ)**
 * **[:handshake: How to contribute](https://github.com/Slimefun5/Slimefun5/blob/stable/CONTRIBUTING.md)**
 
 ## :floppy_disk: Download
 Slimefun requires your Minecraft Server to be running on [Spigot](https://spigotmc.org/), [Paper](https://papermc.io/) or on any fork of these.<br>
-(See also: [How to install Slimefun](https://github.com/Slimefun/Slimefun4/wiki/Installing-Slimefun))
+(See also: [How to install Slimefun](https://github.com/Slimefun5/Slimefun5/wiki/Installing-Slimefun))
 
 | | This fork |
 | ------------------ | -------- |
@@ -43,16 +43,16 @@ Here are some screenshots from the community:
 
 ## :open_book: Wiki
 The upstream Slimefun wiki remains a great resource for getting started:<br>
-https://github.com/Slimefun/Slimefun4/wiki
+https://github.com/Slimefun5/Slimefun5/wiki
 
 #### :star: Highlighted Articles
-* [What is Slimefun?](https://github.com/Slimefun/Slimefun4/wiki/Slimefun-in-a-nutshell)
-* [How to install Slimefun](https://github.com/Slimefun/Slimefun4/wiki/Installing-Slimefun)
-* [Addons for Slimefun 4](https://github.com/Slimefun/Slimefun4/wiki/Addons)
-* [How to create an Addon](https://github.com/Slimefun/Slimefun4/wiki/Developer-Guide)
-* [Getting Started](https://github.com/Slimefun/Slimefun4/wiki/Getting-Started)
-* [Frequently Asked Questions](https://github.com/Slimefun/Slimefun4/wiki/FAQ)
-* [Common issues](https://github.com/Slimefun/Slimefun4/wiki/Common-Issues)
+* [What is Slimefun?](https://github.com/Slimefun5/Slimefun5/wiki/Slimefun-in-a-nutshell)
+* [How to install Slimefun](https://github.com/Slimefun5/Slimefun5/wiki/Installing-Slimefun)
+* [Addons for Slimefun 4](https://github.com/Slimefun5/Slimefun5/wiki/Addons)
+* [How to create an Addon](https://github.com/Slimefun5/Slimefun5/wiki/Developer-Guide)
+* [Getting Started](https://github.com/Slimefun5/Slimefun5/wiki/Getting-Started)
+* [Frequently Asked Questions](https://github.com/Slimefun5/Slimefun5/wiki/FAQ)
+* [Common issues](https://github.com/Slimefun5/Slimefun5/wiki/Common-Issues)
 
 The wiki is entirely community-run, so if you find an article missing, feel free to write one and share it with others.
 

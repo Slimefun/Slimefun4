@@ -130,7 +130,7 @@
 * Fixed backpack dupe within cargo (#3379)
 
 ## Release Candidate 34 (20 Jun 2023)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#34
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#34
 
 #### Additions
 * Added "Cobbled Deepslate -> Gravel" recipe to the Grind Stone
@@ -171,7 +171,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#34
 * Fixed #3414
 
 ## Release Candidate 33 (07 Jan 2023)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#33
 
 #### Additions
 * (API) Added Tinted Glass to "GLASS_BLOCKS" tag
@@ -205,7 +205,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#33
 * Fixed BlockPlacer being able to place disabled items
 
 ## Release Candidate 32 (26 Jun 2022)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#32
 
 #### Additions
 * Added Organic Food for Seagrass
@@ -224,7 +224,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#32
 * Fixed an issue with machines being placed below y=0
 
 ## Release Candidate 31 (14 Mar 2022)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#31
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#31
 
 #### Additions
 * Added Armored Jetpack
@@ -267,7 +267,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#31
 * Fixed #3336 (again)
 
 ## Release Candidate 30 (31 Dec 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#30
 
 #### Additions
 * Added a ton of wiki links to the guide
@@ -289,7 +289,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#30
 * Fixed (Easter) Apple Pie recipe yielding (Christmas) Apple Pies
 
 ## Release Candidate 29 (07 Nov 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#29
 
 #### Additions
 * Added support for deepslate ores and copper with the Hercules' Pickaxe
@@ -318,25 +318,25 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#29
 * Fixed smithing table issue on 1.15 and lower
 
 ## Release Candidate 28 (06 Sep 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#28
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#28
 
 #### Fixes
 * Fixed Metrics
 * Fixed some naming conventions and localization keys for RC-27
 
 ## Release Candidate 27 (03 Sep 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#27
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#27
 
 ### **Breaking Changes (API)**
-This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun/Slimefun4/pull/3139)
+This RC brings a lot of breaking changes to the API. For more info on why we did this and what happened [please refer to our PSA](https://github.com/Slimefun5/Slimefun5/pull/3139)
 
 * Category has been renamed to ItemGroup.
-* All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun4.api.items.groups`
-* The SlimefunItem class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
-* The SlimefunItemStack class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
-* The ItemHandler class has been relocated to `io.github.thebusybiscuit.slimefun4.api.items`
-* The RecipeType class has been relocated to `io.github.thebusybiscuit.slimefun4.api.recipes`
-* Research classes have been moved from `io.github.thebusybiscuit.slimefun4.core.researching` to `io.github.thebusybiscuit.slimefun4.api.researches`
+* All Category / ItemGroup variants have been relocated to `io.github.thebusybiscuit.slimefun5.api.items.groups`
+* The SlimefunItem class has been relocated to `io.github.thebusybiscuit.slimefun5.api.items`
+* The SlimefunItemStack class has been relocated to `io.github.thebusybiscuit.slimefun5.api.items`
+* The ItemHandler class has been relocated to `io.github.thebusybiscuit.slimefun5.api.items`
+* The RecipeType class has been relocated to `io.github.thebusybiscuit.slimefun5.api.recipes`
+* Research classes have been moved from `io.github.thebusybiscuit.slimefun5.core.researching` to `io.github.thebusybiscuit.slimefun5.api.researches`
 * The main class `SlimefunPlugin` was renamed to `Slimefun`
 * CS-CoreLib2 was removed and replaced by dough
 
@@ -373,7 +373,7 @@ This RC brings a lot of breaking changes to the API. For more info on why we did
 * Fixed Ender Lumps showing an incorrect recipe in the guide
 
 ## Release Candidate 26 (20 Jul 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#26
 
 #### Additions
 * Diamonds can now be ground into Carbon using a Grind Stone
@@ -395,7 +395,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#26
 * Fixed #3136
 
 ## Release Candidate 25 (20 Jun 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#25
 
 #### Additions
 * Added "4 Charcoal -> 1 Coal" recipe to the Compressor
@@ -424,7 +424,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#25
 * Fixed #3116
 
 ## Release Candidate 24 (03 Jun 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#24
 
 #### Additions
 * (API) Added AsyncMachineOperationFinishEvent
@@ -457,7 +457,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#24
 * Fixed #3095
 
 ## Release Candidate 23 (19 May 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#23
 
 #### Additions
 * Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
@@ -505,7 +505,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#23
 * Fixed #3060
 
 ## Release Candidate 22 (18 Apr 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#22
 
 #### Additions
 * Added Vanilla Auto-Crafter
@@ -557,7 +557,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 * Fixed #2942
 
 ## Release Candidate 21 (14 Mar 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#21
 
 #### Additions
 * Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
@@ -601,7 +601,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 * Fixed #2883
 
 ## Release Candidate 20 (30 Jan 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#20
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#20
 
 #### Additions
 * Added a new language: Bulgarian
@@ -640,7 +640,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#20
 * Fixed #2679
 
 ## Release Candidate 19 (11 Jan 2021)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#19
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#19
 
 #### Additions
 * Added Bee Armor (1.15+ only)
@@ -667,7 +667,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#19
 * Fixed #2675
 
 ## Release Candidate 18 (03 Dec 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#18
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#18
 
 #### Additions
 * The Smelters Pick now also works on Ancient Debris
@@ -733,7 +733,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#18
 * Fixed #2583
 
 ## Release Candidate 17 (17 Oct 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#17
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#17
 
 #### Additions
 * Added /sf charge
@@ -806,7 +806,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#17
 * Fixed a dupe bug with mcMMO
 
 ## Release Candidate 16 (07 Sep 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#16
 
 #### Additions
 * Added an option for Industrial Miners to mine Ancient Debris
@@ -894,7 +894,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
 * Fixed Teleports getting stuck sometimes
 
 ## Release Candidate 15 (01 Aug 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#15
 
 #### Additions
 * Added "Bone Block -> Bone meal" recipe to the Grind Stone
@@ -949,7 +949,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
 * Fixed #2166
 
 ## Release Candidate 14 (12 Jul 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#14
 
 #### Additions
 * Added support for Minecraft 1.16
@@ -1028,7 +1028,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
 * Fixed a NullPointerException when Generators throw an Error Report
 
 ## Release Candidate 13 (16 Jun 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#13
 
 #### Additions
 * Added Dried Kelp Blocks recipe to the Electric Press
@@ -1079,7 +1079,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
 * Fixed research fireworks still dealing damage sometimes
 
 ## Release Candidate 12 (27 May 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#12
 
 #### Additions
 * Added Ukrainian translations
@@ -1124,7 +1124,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 * Fixed #1935
 
 ## Release Candidate 11 (25 Apr 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#11
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#11
 
 #### Additions
 * Added GEOResourceGenerationEvent
@@ -1182,7 +1182,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#11
 * Fixed GPS Emergency Transmitters not working
 
 ## Release Candidate 10 (28 Mar 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#10
 
 #### Additions
 * Added some new charts to bStats
@@ -1229,19 +1229,19 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
 * Fixed #1768
 
 ## Release Candidate 9 (07 Mar 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#9
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#9
 
 #### Fixes
 * Fixed Solar Generators not working
 
 ## Release Candidate 8 (06 Mar 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#8
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#8
 
 #### Fixes
 * Fixed bStats Metrics not sending properly
 
 ## Release Candidate 7 (06 Mar 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#7
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#7
 
 #### Additions
 * Added translations for Recipe Types
@@ -1265,7 +1265,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#7
 * Fixed #1613
 
 ## Release Candidate 6 (16 Feb 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#6
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#6
 
 #### Additions
 * Added a new language: Japanese
@@ -1284,7 +1284,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#6
 * Fixed magician talisman not being able to enchant books
 
 ## Release Candidate 5 (09 Feb 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#5
 
 #### Additions
 * Added preset messages.yml files
@@ -1338,7 +1338,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 * Fixed Android Script Component textures
 
 ## Release Candidate 4 (06 Jan 2020)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#4
 
 #### Additions
 * Added 1.15 support (1.14 and 1.15 are both supported)
@@ -1414,7 +1414,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Fixed #1354
 
 ## Release Candidate 3 (21 Nov 2019)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#3
 
 #### Additions
 * Smeltery now shows some recipes in the guide
@@ -1465,7 +1465,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3
 * Fixed Ancient Altar allowing you to craft locked items
 
 ## Release Candidate 2 (29 Sep 2019)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#2
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#2
 
 #### Additions
 * Added GEO - Miner
@@ -1482,6 +1482,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#2
 * Fixed Auto-Updater for stable builds
 
 ## Release Candidate 1 (26 Sep 2019)
-https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#1
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/#1
 
 * First "stable" release since over a year. Stable builds will NOT receive support for bug reports since they are technically outdated. 
+

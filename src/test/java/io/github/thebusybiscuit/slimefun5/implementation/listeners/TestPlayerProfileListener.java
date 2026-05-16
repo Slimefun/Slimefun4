@@ -1,0 +1,82 @@
+package io.github.thebusybiscuit.slimefun5.implementation.listeners;
+
+import net.kyori.adventure.text.Component;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.test.TestUtilities;
+
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
+
+class TestPlayerProfileListener {
+
+    private static Slimefun plugin;
+    private static PlayerProfileListener listener;
+    private static ServerMock server;
+
+    @BeforeAll
+    public static void load() {
+        server = MockBukkit.mock();
+        plugin = MockBukkit.load(Slimefun.class);
+        listener = new PlayerProfileListener(plugin);
+    }
+
+    @AfterAll
+    public static void unload() {
+        MockBukkit.unmock();
+    }
+
+    @Test
+    @DisplayName("Test PlayerProfile being marked for deletion when Player leaves")
+    void testPlayerLeave() throws InterruptedException {
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+        PlayerQuitEvent event = new PlayerQuitEvent(player, Component.text("bye"), PlayerQuitEvent.QuitReason.DISCONNECTED);
+        listener.onDisconnect(event);
+
+        Assertions.assertTrue(profile.isMarkedForDeletion());
+    }
+
+    @Test
+    @DisplayName("Test PlayerProfile being unloaded when Player leaves")
+    void testUnloadedPlayerLeave() {
+        Player player = server.addPlayer();
+        PlayerQuitEvent event = new PlayerQuitEvent(player, Component.text("bye"), PlayerQuitEvent.QuitReason.DISCONNECTED);
+        listener.onDisconnect(event);
+
+        Assertions.assertFalse(PlayerProfile.find(player).isPresent());
+    }
+
+    @Test
+    @DisplayName("Test PlayerProfile being marked for deletion when Player is kicked")
+    void testPlayerKick() throws InterruptedException {
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+        PlayerKickEvent event = new PlayerKickEvent(player, Component.text("You're not welcome anymore"), Component.text("bye"), PlayerKickEvent.Cause.PLUGIN);
+        listener.onKick(event);
+
+        Assertions.assertTrue(profile.isMarkedForDeletion());
+    }
+
+    @Test
+    @DisplayName("Test PlayerProfile being unloaded when Player is kicked")
+    void testUnloadedPlayerKick() {
+        Player player = server.addPlayer();
+        PlayerKickEvent event = new PlayerKickEvent(player, Component.text("You're not welcome anymore"), Component.text("bye"), PlayerKickEvent.Cause.PLUGIN);
+        listener.onKick(event);
+
+        Assertions.assertFalse(PlayerProfile.find(player).isPresent());
+    }
+
+}
+
