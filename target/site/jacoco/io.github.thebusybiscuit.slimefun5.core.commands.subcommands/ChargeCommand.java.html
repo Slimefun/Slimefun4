@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChargeCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.commands.subcommands</a> &gt; <span class="el_source">ChargeCommand.java</span></div><h1>ChargeCommand.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * {@link ChargeCommand} adds an in game command which charges any {@link Rechargeable}
+ * item to maximum charge, defined by {@link Rechargeable#getMaxItemCharge(ItemStack)}.
+ *
+ * @author FluffyBear
+ *
+ */
+class ChargeCommand extends SubCommand {
+
+    @ParametersAreNonnullByDefault
+    ChargeCommand(Slimefun plugin, SlimefunCommand cmd) {
+<span class="nc" id="L26">        super(plugin, cmd, &quot;charge&quot;, false);</span>
+<span class="nc" id="L27">    }</span>
+
+    @Override
+    protected String getDescription() {
+<span class="nc" id="L31">        return &quot;commands.charge.description&quot;;</span>
+    }
+
+    @Override
+    public void onExecute(CommandSender sender, String[] args) {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (sender instanceof Player player) {</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (sender.hasPermission(&quot;slimefun.command.charge&quot;)) {</span>
+<span class="nc" id="L38">                ItemStack item = player.getInventory().getItemInMainHand();</span>
+<span class="nc" id="L39">                SlimefunItem slimefunItem = SlimefunItem.getByItem(item);</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                if (slimefunItem instanceof Rechargeable rechargeableItem) {</span>
+<span class="nc" id="L42">                    rechargeableItem.setItemCharge(item, rechargeableItem.getMaxItemCharge(item));</span>
+<span class="nc" id="L43">                    Slimefun.getLocalization().sendMessage(sender, &quot;commands.charge.charge-success&quot;, true);</span>
+                } else {
+<span class="nc" id="L45">                    Slimefun.getLocalization().sendMessage(sender, &quot;commands.charge.not-rechargeable&quot;, true);</span>
+                }
+<span class="nc" id="L47">            } else {</span>
+<span class="nc" id="L48">                Slimefun.getLocalization().sendMessage(sender, &quot;messages.no-permission&quot;, true);</span>
+            }
+        } else {
+<span class="nc" id="L51">            Slimefun.getLocalization().sendMessage(sender, &quot;messages.only-players&quot;, true);</span>
+        }
+<span class="nc" id="L53">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AutoSavingService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services</a> &gt; <span class="el_source">AutoSavingService.java</span></div><h1>AutoSavingService.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+/**
+ * This Service is responsible for automatically saving {@link Player} and {@link Block}
+ * data.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+<span class="nc" id="L29">public class AutoSavingService {</span>
+
+    private int interval;
+
+    /**
+     * This method starts the {@link AutoSavingService} with the given interval.
+     * 
+     * @param plugin
+     *            The current instance of Slimefun
+     * @param interval
+     *            The interval in which to run this task
+     */
+    public void start(@Nonnull Slimefun plugin, int interval) {
+<span class="nc" id="L42">        this.interval = interval;</span>
+
+<span class="nc" id="L44">        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::saveAllPlayers, 2000L, interval * 60L * 20L);</span>
+<span class="nc" id="L45">        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::saveAllBlocks, 2000L, interval * 60L * 20L);</span>
+<span class="nc" id="L46">    }</span>
+
+    /**
+     * This method saves every {@link PlayerProfile} in memory and removes profiles
+     * that were marked for deletion.
+     */
+    private void saveAllPlayers() {
+<span class="nc" id="L53">        Iterator&lt;PlayerProfile&gt; iterator = PlayerProfile.iterator();</span>
+<span class="nc" id="L54">        int players = 0;</span>
+
+<span class="nc" id="L56">        Debug.log(TestCase.PLAYER_PROFILE_DATA, &quot;Saving all players data&quot;);</span>
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        while (iterator.hasNext()) {</span>
+<span class="nc" id="L59">            PlayerProfile profile = iterator.next();</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">            if (profile.isDirty()) {</span>
+<span class="nc" id="L62">                players++;</span>
+<span class="nc" id="L63">                profile.save();</span>
+
+<span class="nc" id="L65">                Debug.log(TestCase.PLAYER_PROFILE_DATA, &quot;Saved data for {} ({})&quot;,</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                    profile.getPlayer() != null ? profile.getPlayer().getName() : &quot;Unknown&quot;, profile.getUUID()</span>
+                );
+            }
+
+            // Remove the PlayerProfile from memory if the player has left the server (marked from removal)
+            // and they're still not on the server
+            // At this point, we've already saved their profile so we can safely remove it
+            // without worry for having a data sync issue (e.g. data is changed but then we try to re-load older data)
+<span class="nc bnc" id="L74" title="All 4 branches missed.">            if (profile.isMarkedForDeletion() &amp;&amp; profile.getPlayer() == null) {</span>
+<span class="nc" id="L75">                iterator.remove();</span>
+
+<span class="nc" id="L77">                Debug.log(TestCase.PLAYER_PROFILE_DATA, &quot;Removed data from memory for {}&quot;,</span>
+<span class="nc" id="L78">                    profile.getUUID()</span>
+                );
+            }
+<span class="nc" id="L81">        }</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (players &gt; 0) {</span>
+<span class="nc" id="L84">            Slimefun.logger().log(Level.INFO, &quot;Auto-saved all player data for {0} player(s)!&quot;, players);</span>
+        }
+<span class="nc" id="L86">    }</span>
+
+    /**
+     * This method saves the data of every {@link Block} marked dirty by {@link BlockStorage}.
+     */
+    private void saveAllBlocks() {
+<span class="nc" id="L92">        Set&lt;BlockStorage&gt; worlds = new HashSet&lt;&gt;();</span>
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        for (World world : Bukkit.getWorlds()) {</span>
+<span class="nc" id="L95">            BlockStorage storage = BlockStorage.getStorage(world);</span>
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">            if (storage != null) {</span>
+<span class="nc" id="L98">                storage.computeChanges();</span>
+
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                if (storage.getChanges() &gt; 0) {</span>
+<span class="nc" id="L101">                    worlds.add(storage);</span>
+                }
+            }
+<span class="nc" id="L104">        }</span>
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (!worlds.isEmpty()) {</span>
+<span class="nc" id="L107">            Slimefun.logger().log(Level.INFO, &quot;Auto-saving block data... (Next auto-save: {0}m)&quot;, interval);</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            for (BlockStorage storage : worlds) {</span>
+<span class="nc" id="L110">                storage.save();</span>
+<span class="nc" id="L111">            }</span>
+        }
+
+<span class="nc" id="L114">        BlockStorage.saveChunks();</span>
+<span class="nc" id="L115">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

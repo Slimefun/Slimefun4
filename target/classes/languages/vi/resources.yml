@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: 'Kết Quả Quét Tiếp Thị Phương Pháp Địa Lý'
+  chunk: 'Quét Vùng'
+  world: 'Thế Giới'
+  unit: 'Đơn Vị'
+  units: 'Các Đơn Vị'
+resources:
+  slimefun:
+    oil: 'Dầu'
+    nether_ice: 'Băng Âm Phủ'
+    salt: 'Muối'
+    uranium: 'Uranium ( Urani,U:Atom=92 )'
+  slimefunorechunks:
+    iron_ore_chunk: 'Mảng Quặng Sắt'
+    gold_ore_chunk: 'Mảng Quặng Vàng'
+    copper_ore_chunk: 'Mảng Quặng Đồng'
+    tin_ore_chunk: 'Mảng Quằng Ôxit Thiếc'
+    silver_ore_chunk: 'Mảng Quặng Bạc'
+    aluminum_ore_chunk: 'Mảnh quặng nhôm'
+    lead_ore_chunk: 'Mảnh quăng chì'
+    zinc_ore_chunk: 'Mảnh quặng kẽm'
+    nickel_ore_chunk: 'Mảnh quặng ni-ken'
+    cobalt_ore_chunk: 'Mảnh quặng cô-ban'

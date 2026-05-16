@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElectricSmeltery.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines</a> &gt; <span class="el_source">ElectricSmeltery.java</span></div><h1>ElectricSmeltery.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+
+/**
+ * The {@link ElectricSmeltery} is an electric version of the standard {@link Smeltery}.
+ *
+ * @author TheBusyBiscuit
+ *
+ */
+public class ElectricSmeltery extends AContainer implements NotHopperable {
+
+<span class="nc" id="L40">    private static final int[] border = { 4, 5, 6, 7, 8, 13, 31, 40, 41, 42, 43, 44 };</span>
+<span class="nc" id="L41">    private static final int[] inputBorder = { 0, 1, 2, 3, 9, 12, 18, 21, 27, 30, 36, 37, 38, 39 };</span>
+<span class="nc" id="L42">    private static final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };</span>
+
+    @ParametersAreNonnullByDefault
+    public ElectricSmeltery(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L46">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L48">        new BlockMenuPreset(getId(), getItemName()) {</span>
+
+            @Override
+            public void init() {
+<span class="nc" id="L52">                constructMenu(this);</span>
+<span class="nc" id="L53">            }</span>
+
+            @Override
+            public boolean canOpen(Block b, Player p) {
+<span class="nc bnc" id="L57" title="All 4 branches missed.">                return p.hasPermission(&quot;slimefun.inventory.bypass&quot;) || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);</span>
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+<span class="nc" id="L62">                return new int[0];</span>
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                if (flow == ItemTransportFlow.WITHDRAW) {</span>
+<span class="nc" id="L68">                    return getOutputSlots();</span>
+                }
+
+<span class="nc" id="L71">                int fullSlots = 0;</span>
+<span class="nc" id="L72">                List&lt;Integer&gt; slots = new LinkedList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                for (int slot : getInputSlots()) {</span>
+<span class="nc" id="L75">                    ItemStack stack = menu.getItemInSlot(slot);</span>
+<span class="nc bnc" id="L76" title="All 4 branches missed.">                    if (stack != null &amp;&amp; SlimefunUtils.isItemSimilar(stack, item, true, false)) {</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                        if (stack.getAmount() &gt;= stack.getMaxStackSize()) {</span>
+<span class="nc" id="L78">                            fullSlots++;</span>
+                        }
+
+<span class="nc" id="L81">                        slots.add(slot);</span>
+                    }
+                }
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                if (slots.isEmpty()) {</span>
+<span class="nc" id="L86">                    return getInputSlots();</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                } else if (fullSlots == slots.size()) {</span>
+                    // All slots with that item are already full
+<span class="nc" id="L89">                    return new int[0];</span>
+                } else {
+<span class="nc" id="L91">                    Collections.sort(slots, compareSlots(menu));</span>
+<span class="nc" id="L92">                    int[] array = new int[slots.size()];</span>
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                    for (int i = 0; i &lt; slots.size(); i++) {</span>
+<span class="nc" id="L95">                        array[i] = slots.get(i);</span>
+                    }
+
+<span class="nc" id="L98">                    return array;</span>
+                }
+            }
+        };
+<span class="nc" id="L102">    }</span>
+
+    @Nonnull
+    private Comparator&lt;Integer&gt; compareSlots(@Nonnull DirtyChestMenu menu) {
+<span class="nc" id="L106">        return Comparator.comparingInt(slot -&gt; menu.getItemInSlot(slot).getAmount());</span>
+    }
+
+    @Override
+    protected void constructMenu(BlockMenuPreset preset) {
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        for (int i : border) {</span>
+<span class="nc" id="L112">            preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        for (int i : inputBorder) {</span>
+<span class="nc" id="L116">            preset.addItem(i, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for (int i : outputBorder) {</span>
+<span class="nc" id="L120">            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc" id="L123">        preset.addItem(22, CustomItemStack.create(Material.BLACK_STAINED_GLASS_PANE, &quot; &quot;), ChestMenuUtils.getEmptyClickHandler());</span>
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        for (int i : getOutputSlots()) {</span>
+<span class="nc" id="L126">            preset.addMenuClickHandler(i, ChestMenuUtils.getDefaultOutputHandler());</span>
+        }
+<span class="nc" id="L128">    }</span>
+
+    @Override
+    public ItemStack getProgressBar() {
+<span class="nc" id="L132">        return new ItemStack(Material.FLINT_AND_STEEL);</span>
+    }
+
+    @Override
+    public int[] getInputSlots() {
+<span class="nc" id="L137">        return new int[] { 10, 11, 19, 20, 28, 29 };</span>
+    }
+
+    @Override
+    public int[] getOutputSlots() {
+<span class="nc" id="L142">        return new int[] { 24, 25 };</span>
+    }
+
+    @Override
+    public String getMachineIdentifier() {
+<span class="nc" id="L147">        return &quot;ELECTRIC_SMELTERY&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerProfileListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners</a> &gt; <span class="el_source">PlayerProfileListener.java</span></div><h1>PlayerProfileListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Server;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * This {@link Listener} removes a {@link PlayerProfile} from memory if the corresponding {@link Player}
+ * has left the {@link Server} or was kicked.
+ * 
+ * @author TheBusyBiscuit
+ * @author SoSeDiK
+ *
+ */
+public class PlayerProfileListener implements Listener {
+
+<span class="nc" id="L27">    public PlayerProfileListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L28">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L29">    }</span>
+
+    @EventHandler
+    public void onDisconnect(PlayerQuitEvent e) {
+<span class="nc" id="L33">        Optional&lt;PlayerProfile&gt; profile = PlayerProfile.find(e.getPlayer());</span>
+
+        // if we still have a profile of this Player in memory, delete it
+<span class="nc" id="L36">        profile.ifPresent(PlayerProfile::markForDeletion);</span>
+<span class="nc" id="L37">    }</span>
+
+    @EventHandler(ignoreCancelled = true)
+    public void onKick(PlayerKickEvent e) {
+<span class="nc" id="L41">        Optional&lt;PlayerProfile&gt; profile = PlayerProfile.find(e.getPlayer());</span>
+
+        // if we still have a profile of this Player in memory, delete it
+<span class="nc" id="L44">        profile.ifPresent(PlayerProfile::markForDeletion);</span>
+<span class="nc" id="L45">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

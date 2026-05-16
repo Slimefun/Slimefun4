@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractArmorTask.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.tasks.armor</a> &gt; <span class="el_source">AbstractArmorTask.java</span></div><h1>AbstractArmorTask.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.tasks.armor;
+
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import com.google.common.base.Preconditions;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * This is a base class for any ArmorTask, it checks every online player
+ * and handles any armor functionality.
+ *
+ * @author TheBusyBiscuit
+ * @author martinbrom
+ *
+ * @see SlimefunArmorTask
+ * @see RainbowArmorTask
+ */
+<span class="nc" id="L26">public abstract class AbstractArmorTask implements Runnable {</span>
+
+    @Override
+    public final void run() {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        for (Player p : Bukkit.getOnlinePlayers()) {</span>
+<span class="nc bnc" id="L31" title="All 4 branches missed.">            if (!p.isValid() || p.isDead()) {</span>
+<span class="nc" id="L32">                continue;</span>
+            }
+
+<span class="nc" id="L35">            PlayerProfile.get(p, profile -&gt; onPlayerTick(p, profile));</span>
+<span class="nc" id="L36">        }</span>
+
+<span class="nc" id="L38">        onTick();</span>
+<span class="nc" id="L39">    }</span>
+
+    /**
+     * Schedules this {@link AbstractArmorTask} to run every {@code tickInterval} ticks
+     *
+     * @param plugin
+     *            The {@link Slimefun}
+     * @param tickInterval
+     *            Delay between two &quot;runs&quot; of this task in ticks
+     */
+    public final void schedule(@Nonnull Slimefun plugin, long tickInterval) {
+<span class="nc" id="L50">        Preconditions.checkNotNull(plugin, &quot;The plugin instance cannot be null!&quot;);</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (tickInterval &lt; 1) {</span>
+<span class="nc" id="L53">            tickInterval = 1;</span>
+<span class="nc" id="L54">            plugin.getLogger().log(Level.WARNING, &quot;The interval for {0} is misconfigured! Received {1}, expected at least 1.&quot;, new Object[] { getClass().getSimpleName(), tickInterval });</span>
+        }
+
+<span class="nc" id="L57">        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this, 0L, tickInterval);</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * Method to handle things related to the task itself.
+     * Called once per tick (per schedule interval).
+     */
+    protected void onTick() {
+        // Can be overridden as necessary.
+<span class="nc" id="L66">    }</span>
+
+    /**
+     * Method to handle behavior for player's armor as a whole.
+     * It is called once per player.
+     *
+     * @param p
+     *            The {@link Player} wearing the armor
+     * @param profile
+     *            The {@link Player}'s {@link PlayerProfile}
+     */
+    @ParametersAreNonnullByDefault
+    protected abstract void onPlayerTick(Player p, PlayerProfile profile);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

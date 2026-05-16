@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GEOMiner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.geo</a> &gt; <span class="el_source">GEOMiner.java</span></div><h1>GEOMiner.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.geo;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.OptionalInt;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.GEOMiningOperation;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+
+/**
+ * The {@link GEOMiner} is an electrical machine that allows you to obtain a {@link GEOResource}.
+ *
+ * @author TheBusyBiscuit
+ *
+ * @see GEOResource
+ */
+public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyNetComponent, InventoryBlock, HologramOwner, MachineProcessHolder&lt;GEOMiningOperation&gt; {
+
+<span class="nc" id="L54">    private static final int[] BORDER = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 53 };</span>
+<span class="nc" id="L55">    private static final int[] OUTPUT_BORDER = { 19, 20, 21, 22, 23, 24, 25, 28, 34, 37, 43, 46, 47, 48, 49, 50, 51, 52 };</span>
+<span class="nc" id="L56">    private static final int[] OUTPUT_SLOTS = { 29, 30, 31, 32, 33, 38, 39, 40, 41, 42 };</span>
+
+    private static final int PROCESSING_TIME = 14;
+
+<span class="nc" id="L60">    private final MachineProcessor&lt;GEOMiningOperation&gt; processor = new MachineProcessor&lt;&gt;(this);</span>
+
+<span class="nc" id="L62">    private int energyConsumedPerTick = -1;</span>
+<span class="nc" id="L63">    private int energyCapacity = -1;</span>
+<span class="nc" id="L64">    private int processingSpeed = -1;</span>
+
+    @ParametersAreNonnullByDefault
+    public GEOMiner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L68">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L70">        processor.setProgressBar(new ItemStack(Material.DIAMOND_PICKAXE));</span>
+<span class="nc" id="L71">        createPreset(this, getItemName(), this::constructMenu);</span>
+<span class="nc" id="L72">        addItemHandler(onBlockPlace(), onBlockBreak());</span>
+<span class="nc" id="L73">    }</span>
+
+    @Override
+    public @Nonnull MachineProcessor&lt;GEOMiningOperation&gt; getMachineProcessor() {
+<span class="nc" id="L77">        return processor;</span>
+    }
+
+    /**
+     * This method returns the max amount of electricity this machine can hold.
+     *
+     * @return The max amount of electricity this Block can store.
+     */
+    @Override
+    public int getCapacity() {
+<span class="nc" id="L87">        return energyCapacity;</span>
+    }
+
+    /**
+     * This method returns the amount of energy that is consumed per operation.
+     *
+     * @return The rate of energy consumption
+     */
+    public int getEnergyConsumption() {
+<span class="nc" id="L96">        return energyConsumedPerTick;</span>
+    }
+
+    /**
+     * This method returns the speed at which this machine will operate.
+     * This can be implemented on an instantiation-level to create different tiers
+     * of machines.
+     *
+     * @return The speed of this machine
+     */
+    public int getSpeed() {
+<span class="nc" id="L107">        return processingSpeed;</span>
+    }
+
+    /**
+     * This sets the energy capacity for this machine.
+     * This method &lt;strong&gt;must&lt;/strong&gt; be called before registering the item
+     * and only before registering.
+     *
+     * @param capacity
+     *            The amount of energy this machine can store
+     *
+     * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
+     */
+    public final GEOMiner setCapacity(int capacity) {
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        Validate.isTrue(capacity &gt; 0, &quot;The capacity must be greater than zero!&quot;);</span>
+
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (getState() == ItemState.UNREGISTERED) {</span>
+<span class="nc" id="L124">            this.energyCapacity = capacity;</span>
+<span class="nc" id="L125">            return this;</span>
+        } else {
+<span class="nc" id="L127">            throw new IllegalStateException(&quot;You cannot modify the capacity after the Item was registered.&quot;);</span>
+        }
+    }
+
+    /**
+     * This sets the speed of this machine.
+     *
+     * @param speed
+     *            The speed multiplier for this machine, must be above zero
+     *
+     * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
+     */
+    public final GEOMiner setProcessingSpeed(int speed) {
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        Validate.isTrue(speed &gt; 0, &quot;The speed must be greater than zero!&quot;);</span>
+
+<span class="nc" id="L142">        this.processingSpeed = speed;</span>
+<span class="nc" id="L143">        return this;</span>
+    }
+
+    /**
+     * This method sets the energy consumed by this machine per tick.
+     *
+     * @param energyConsumption
+     *            The energy consumed per tick
+     *
+     * @return This method will return the current instance of {@link GEOMiner}, so that can be chained.
+     */
+    public final GEOMiner setEnergyConsumption(int energyConsumption) {
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        Validate.isTrue(energyConsumption &gt; 0, &quot;The energy consumption must be greater than zero!&quot;);</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        Validate.isTrue(energyCapacity &gt; 0, &quot;You must specify the capacity before you can set the consumption amount.&quot;);</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        Validate.isTrue(energyConsumption &lt;= energyCapacity, &quot;The energy consumption cannot be higher than the capacity (&quot; + energyCapacity + ')');</span>
+
+<span class="nc" id="L159">        this.energyConsumedPerTick = energyConsumption;</span>
+<span class="nc" id="L160">        return this;</span>
+    }
+
+    @Override
+    public void register(@Nonnull SlimefunAddon addon) {
+<span class="nc" id="L165">        this.addon = addon;</span>
+
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        if (getCapacity() &lt;= 0) {</span>
+<span class="nc" id="L168">            warn(&quot;The capacity has not been configured correctly. The Item was disabled.&quot;);</span>
+<span class="nc" id="L169">            warn(&quot;Make sure to call '&quot; + getClass().getSimpleName() + &quot;#setEnergyCapacity(...)' before registering!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (getEnergyConsumption() &lt;= 0) {</span>
+<span class="nc" id="L173">            warn(&quot;The energy consumption has not been configured correctly. The Item was disabled.&quot;);</span>
+<span class="nc" id="L174">            warn(&quot;Make sure to call '&quot; + getClass().getSimpleName() + &quot;#setEnergyConsumption(...)' before registering!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if (getSpeed() &lt;= 0) {</span>
+<span class="nc" id="L178">            warn(&quot;The processing speed has not been configured correctly. The Item was disabled.&quot;);</span>
+<span class="nc" id="L179">            warn(&quot;Make sure to call '&quot; + getClass().getSimpleName() + &quot;#setProcessingSpeed(...)' before registering!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L182" title="All 6 branches missed.">        if (getCapacity() &gt; 0 &amp;&amp; getEnergyConsumption() &gt; 0 &amp;&amp; getSpeed() &gt; 0) {</span>
+<span class="nc" id="L183">            super.register(addon);</span>
+        }
+<span class="nc" id="L185">    }</span>
+
+    @Nonnull
+    private BlockPlaceHandler onBlockPlace() {
+<span class="nc" id="L189">        return new BlockPlaceHandler(false) {</span>
+
+            @Override
+            public void onPlayerPlace(BlockPlaceEvent e) {
+<span class="nc" id="L193">                updateHologram(e.getBlock(), &quot;&amp;7Idling...&quot;);</span>
+<span class="nc" id="L194">            }</span>
+        };
+    }
+
+    @Nonnull
+    private BlockBreakHandler onBlockBreak() {
+<span class="nc" id="L200">        return new SimpleBlockBreakHandler() {</span>
+
+            @Override
+            public void onBlockBreak(@Nonnull Block b) {
+<span class="nc" id="L204">                removeHologram(b);</span>
+<span class="nc" id="L205">                BlockMenu inv = BlockStorage.getInventory(b);</span>
+
+<span class="nc bnc" id="L207" title="All 2 branches missed.">                if (inv != null) {</span>
+<span class="nc" id="L208">                    inv.dropItems(b.getLocation(), OUTPUT_SLOTS);</span>
+                }
+
+<span class="nc" id="L211">                processor.endOperation(b);</span>
+<span class="nc" id="L212">            }</span>
+        };
+    }
+
+    @Nonnull
+    @Override
+    public int[] getInputSlots() {
+<span class="nc" id="L219">        return new int[0];</span>
+    }
+
+    @Nonnull
+    @Override
+    public int[] getOutputSlots() {
+<span class="nc" id="L225">        return OUTPUT_SLOTS;</span>
+    }
+
+    @Nonnull
+    @Override
+    public List&lt;ItemStack&gt; getDisplayRecipes() {
+<span class="nc" id="L231">        List&lt;ItemStack&gt; displayRecipes = new LinkedList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        for (GEOResource resource : Slimefun.getRegistry().getGEOResources().values()) {</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">            if (resource.isObtainableFromGEOMiner()) {</span>
+<span class="nc" id="L235">                displayRecipes.add(CustomItemStack.create(resource.getItem(), ChatColor.RESET + resource.getName()));</span>
+            }
+<span class="nc" id="L237">        }</span>
+
+<span class="nc" id="L239">        return displayRecipes;</span>
+    }
+
+    @Override
+    public @Nonnull String getLabelLocalPath() {
+<span class="nc" id="L244">        return &quot;guide.tooltips.recipes.miner&quot;;</span>
+    }
+
+    @Override
+    public EnergyNetComponentType getEnergyComponentType() {
+<span class="nc" id="L249">        return EnergyNetComponentType.CONSUMER;</span>
+    }
+
+    protected void constructMenu(@Nonnull BlockMenuPreset preset) {
+<span class="nc bnc" id="L253" title="All 2 branches missed.">        for (int i : BORDER) {</span>
+<span class="nc" id="L254">            preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc bnc" id="L257" title="All 2 branches missed.">        for (int i : OUTPUT_BORDER) {</span>
+<span class="nc" id="L258">            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc" id="L261">        preset.addItem(4, CustomItemStack.create(Material.BLACK_STAINED_GLASS_PANE, &quot; &quot;), ChestMenuUtils.getEmptyClickHandler());</span>
+
+<span class="nc bnc" id="L263" title="All 2 branches missed.">        for (int i : OUTPUT_SLOTS) {</span>
+<span class="nc" id="L264">            preset.addMenuClickHandler(i, ChestMenuUtils.getDefaultOutputHandler());</span>
+        }
+<span class="nc" id="L266">    }</span>
+
+    @Override
+    public void preRegister() {
+<span class="nc" id="L270">        addItemHandler(new BlockTicker() {</span>
+
+            @Override
+            public void tick(Block b, SlimefunItem sf, Config data) {
+<span class="nc" id="L274">                GEOMiner.this.tick(b);</span>
+<span class="nc" id="L275">            }</span>
+
+            @Override
+            public boolean isSynchronized() {
+<span class="nc" id="L279">                return false;</span>
+            }
+        });
+<span class="nc" id="L282">    }</span>
+
+    protected void tick(@Nonnull Block b) {
+<span class="nc" id="L285">        BlockMenu inv = BlockStorage.getInventory(b);</span>
+<span class="nc" id="L286">        GEOMiningOperation operation = processor.getOperation(b);</span>
+
+<span class="nc bnc" id="L288" title="All 2 branches missed.">        if (operation != null) {</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">            if (!operation.isFinished()) {</span>
+<span class="nc" id="L290">                processor.updateProgressBar(inv, 4, operation);</span>
+
+<span class="nc bnc" id="L292" title="All 2 branches missed.">                if (getCharge(b.getLocation()) &lt; getEnergyConsumption()) {</span>
+<span class="nc" id="L293">                    return;</span>
+                }
+
+<span class="nc" id="L296">                removeCharge(b.getLocation(), getEnergyConsumption());</span>
+<span class="nc" id="L297">                operation.addProgress(getSpeed());</span>
+            } else {
+<span class="nc" id="L299">                inv.replaceExistingItem(4, CustomItemStack.create(Material.BLACK_STAINED_GLASS_PANE, &quot; &quot;));</span>
+<span class="nc" id="L300">                inv.pushItem(operation.getResult(), OUTPUT_SLOTS);</span>
+
+<span class="nc" id="L302">                processor.endOperation(b);</span>
+            }
+<span class="nc bnc" id="L304" title="All 2 branches missed.">        } else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() &gt;&gt; 4, b.getZ() &gt;&gt; 4)) {</span>
+<span class="nc" id="L305">            updateHologram(b, &quot;&amp;4GEO-Scan required!&quot;);</span>
+        } else {
+<span class="nc" id="L307">            start(b, inv);</span>
+        }
+<span class="nc" id="L309">    }</span>
+
+    private void start(@Nonnull Block b, @Nonnull BlockMenu inv) {
+<span class="nc bnc" id="L312" title="All 2 branches missed.">        for (GEOResource resource : Slimefun.getRegistry().getGEOResources().values()) {</span>
+<span class="nc bnc" id="L313" title="All 2 branches missed.">            if (resource.isObtainableFromGEOMiner()) {</span>
+<span class="nc" id="L314">                OptionalInt optional = Slimefun.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() &gt;&gt; 4, b.getZ() &gt;&gt; 4);</span>
+
+<span class="nc bnc" id="L316" title="All 2 branches missed.">                if (!optional.isPresent()) {</span>
+<span class="nc" id="L317">                    updateHologram(b, &quot;&amp;4GEO-Scan required!&quot;);</span>
+<span class="nc" id="L318">                    return;</span>
+                }
+
+<span class="nc" id="L321">                int supplies = optional.getAsInt();</span>
+<span class="nc bnc" id="L322" title="All 2 branches missed.">                if (supplies &gt; 0) {</span>
+<span class="nc bnc" id="L323" title="All 2 branches missed.">                    if (!inv.fits(resource.getItem(), OUTPUT_SLOTS)) {</span>
+<span class="nc" id="L324">                        return;</span>
+                    }
+
+<span class="nc" id="L327">                    processor.startOperation(b, new GEOMiningOperation(resource, PROCESSING_TIME));</span>
+<span class="nc" id="L328">                    Slimefun.getGPSNetwork().getResourceManager().setSupplies(resource, b.getWorld(), b.getX() &gt;&gt; 4, b.getZ() &gt;&gt; 4, supplies - 1);</span>
+<span class="nc" id="L329">                    updateHologram(b, &quot;&amp;7Mining: &amp;r&quot; + resource.getName());</span>
+<span class="nc" id="L330">                    return;</span>
+                }
+            }
+<span class="nc" id="L333">        }</span>
+
+<span class="nc" id="L335">        updateHologram(b, &quot;&amp;7Finished&quot;);</span>
+<span class="nc" id="L336">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

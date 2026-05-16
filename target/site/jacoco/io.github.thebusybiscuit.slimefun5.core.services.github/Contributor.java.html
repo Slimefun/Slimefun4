@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Contributor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services.github</a> &gt; <span class="el_source">Contributor.java</span></div><h1>Contributor.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services.github;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+
+import io.github.bakedlibs.dough.data.TriStateOptional;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+
+/**
+ * Represents a {@link Contributor} who contributed to a GitHub repository.
+ *
+ * @author TheBusyBiscuit
+ * @author Walshy
+ * 
+ * @see GitHubService
+ * 
+ */
+public class Contributor {
+
+    private final String githubUsername;
+    private final String minecraftUsername;
+    private final String profileLink;
+
+<span class="nc" id="L37">    private final ConcurrentMap&lt;String, Integer&gt; contributions = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="nc" id="L38">    private final TriStateOptional&lt;String&gt; headTexture = TriStateOptional.createNew();</span>
+
+<span class="nc" id="L40">    private Optional&lt;UUID&gt; uuid = Optional.empty();</span>
+
+    /**
+     * This creates a new {@link Contributor} with the given ingame name and GitHub profile.
+     * 
+     * @param minecraftName
+     *            The ingame name in Minecraft for this {@link Contributor}
+     * @param profile
+     *            A link to their GitHub profile
+     */
+<span class="nc" id="L50">    public Contributor(@Nonnull String minecraftName, @Nonnull String profile) {</span>
+<span class="nc" id="L51">        Validate.notNull(minecraftName, &quot;Username must never be null!&quot;);</span>
+<span class="nc" id="L52">        Validate.notNull(profile, &quot;The profile cannot be null!&quot;);</span>
+
+<span class="nc" id="L54">        githubUsername = profile.substring(profile.lastIndexOf('/') + 1);</span>
+<span class="nc" id="L55">        minecraftUsername = minecraftName;</span>
+<span class="nc" id="L56">        profileLink = profile;</span>
+<span class="nc" id="L57">    }</span>
+
+    /**
+     * This creates a new {@link Contributor} with the given username.
+     * 
+     * @param username
+     *            The username of this {@link Contributor}
+     */
+<span class="nc" id="L65">    public Contributor(@Nonnull String username) {</span>
+<span class="nc" id="L66">        Validate.notNull(username, &quot;Username must never be null!&quot;);</span>
+
+<span class="nc" id="L68">        githubUsername = username;</span>
+<span class="nc" id="L69">        minecraftUsername = username;</span>
+<span class="nc" id="L70">        profileLink = null;</span>
+<span class="nc" id="L71">    }</span>
+
+    /**
+     * This sets the amount of contributions of this {@link Contributor} for the
+     * specified role.
+     * 
+     * @param role
+     *            The role of this {@link Contributor}
+     * @param commits
+     *            The amount of contributions made as that role
+     */
+    public void setContributions(@Nonnull String role, int commits) {
+<span class="nc" id="L83">        Validate.notNull(role, &quot;The role cannot be null!&quot;);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        Validate.isTrue(commits &gt;= 0, &quot;Contributions cannot be negative&quot;);</span>
+
+<span class="nc" id="L86">        contributions.put(role, commits);</span>
+<span class="nc" id="L87">    }</span>
+
+    /**
+     * Returns the name of this {@link Contributor}.
+     *
+     * @return the name of this {@link Contributor}
+     */
+    @Nonnull
+    public String getName() {
+<span class="nc" id="L96">        return githubUsername;</span>
+    }
+
+    /**
+     * Returns the Minecraft username of the {@link Contributor}.
+     * This can be the same as {@link #getName()}.
+     *
+     * @return The Minecraft username of this {@link Contributor}.
+     */
+    @Nonnull
+    public String getMinecraftName() {
+<span class="nc" id="L107">        return minecraftUsername;</span>
+    }
+
+    /**
+     * Returns a link to the GitHub profile of this {@link Contributor}.
+     *
+     * @return The GitHub profile of this {@link Contributor}
+     */
+    @Nullable
+    public String getProfile() {
+<span class="nc" id="L117">        return profileLink;</span>
+    }
+
+    /**
+     * This returns a {@link List} of contributions for this {@link Contributor}.
+     * Each entry consists of a {@link String} (for the role) and an {@link Integer}
+     * (for the amount of commits).
+     * 
+     * @return A {@link List} of contributions for this {@link Contributor}
+     */
+    @Nonnull
+    public List&lt;Map.Entry&lt;String, Integer&gt;&gt; getContributions() {
+<span class="nc" id="L129">        List&lt;Map.Entry&lt;String, Integer&gt;&gt; list = new ArrayList&lt;&gt;(contributions.entrySet());</span>
+<span class="nc" id="L130">        list.sort(Comparator.comparingInt(entry -&gt; -entry.getValue()));</span>
+<span class="nc" id="L131">        return list;</span>
+    }
+
+    /**
+     * This method gives you the amount of contributions this {@link Contributor}
+     * has submmited in the name of the given role.
+     * 
+     * @param role
+     *            The role for which to count the contributions.
+     * 
+     * @return The amount of contributions this {@link Contributor} submitted as the given role
+     */
+    public int getContributions(@Nonnull String role) {
+<span class="nc" id="L144">        Validate.notNull(role, &quot;The role cannot be null!&quot;);</span>
+
+<span class="nc" id="L146">        return contributions.getOrDefault(role, 0);</span>
+    }
+
+    /**
+     * This method sets the {@link UUID} for this {@link Contributor}.
+     * 
+     * @param uuid
+     *            The {@link UUID} for this {@link Contributor}
+     */
+    public void setUniqueId(@Nullable UUID uuid) {
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        this.uuid = uuid == null ? Optional.empty() : Optional.of(uuid);</span>
+<span class="nc" id="L157">    }</span>
+
+    /**
+     * This returns the {@link UUID} for this {@link Contributor}.
+     * This {@link UUID} may be loaded from a cache.
+     * 
+     * @return The {@link UUID} of this {@link Contributor}
+     */
+    @Nonnull
+    public Optional&lt;UUID&gt; getUniqueId() {
+<span class="nc" id="L167">        return uuid;</span>
+    }
+
+    /**
+     * Returns this contributor's head texture.
+     * If no texture could be found, or it hasn't been pulled yet,
+     * then it will return a placeholder texture.
+     * 
+     * @return A Base64-Head Texture
+     */
+    @Nonnull
+    public String getTexture() {
+<span class="nc" id="L179">        return getTexture(Slimefun.getGitHubService());</span>
+    }
+
+    /**
+     * Returns this contributor's head texture.
+     * If no texture could be found, or it hasn't been pulled yet,
+     * then it will return a placeholder texture.
+     * 
+     * @param github
+     *            Our {@link GitHubService} instance
+     * 
+     * @return A Base64-Head Texture
+     */
+    @Nonnull
+    protected String getTexture(@Nonnull GitHubService github) {
+<span class="nc bnc" id="L194" title="All 4 branches missed.">        if (!headTexture.isComputed() || !headTexture.isPresent()) {</span>
+<span class="nc" id="L195">            String cached = github.getCachedTexture(githubUsername);</span>
+
+<span class="nc bnc" id="L197" title="All 2 branches missed.">            if (cached != null) {</span>
+<span class="nc" id="L198">                return cached;</span>
+            } else {
+<span class="nc" id="L200">                return HeadTexture.UNKNOWN.getTexture();</span>
+            }
+        } else {
+<span class="nc" id="L203">            return headTexture.get();</span>
+        }
+    }
+
+    /**
+     * This method will return whether this instance of {@link Contributor} has
+     * pulled a texture yet.
+     * 
+     * @return Whether this {@link Contributor} has been assigned a texture yet
+     */
+    public boolean hasTexture() {
+<span class="nc" id="L214">        return headTexture.isComputed();</span>
+    }
+
+    /**
+     * This sets the skin texture of this {@link Contributor} or clears it.
+     * 
+     * @param skin
+     *            The base64 skin texture or null
+     */
+    public void setTexture(@Nullable String skin) {
+<span class="nc" id="L224">        headTexture.compute(skin);</span>
+<span class="nc" id="L225">    }</span>
+
+    /**
+     * This returns the total amount of contributions towards this project for this
+     * {@link Contributor}.
+     * 
+     * @return The total amount of contributions
+     */
+    public int getTotalContributions() {
+<span class="nc" id="L234">        return contributions.values().stream().mapToInt(Integer::intValue).sum();</span>
+    }
+
+    /**
+     * This returns the final display name for this {@link Contributor}.
+     * The display name is basically the GitHub username but if the Minecraft username differs,
+     * it will be appended in brackets behind the GitHub username.
+     * 
+     * @return The final display name of this {@link Contributor}.
+     */
+    @Nonnull
+    public String getDisplayName() {
+<span class="nc bnc" id="L246" title="All 2 branches missed.">        return ChatColor.GRAY + githubUsername + (!githubUsername.equals(minecraftUsername) ? ChatColor.DARK_GRAY + &quot; (MC: &quot; + minecraftUsername + &quot;)&quot; : &quot;&quot;);</span>
+    }
+
+    /**
+     * This returns the position on where to order this {@link Contributor}.
+     * This is just a convenience method for a {@link Comparator}, it is equivalent to
+     * {@link #getTotalContributions()} multiplied by minus one.
+     * 
+     * @return The position of this {@link Contributor} in terms for positioning and ordering.
+     */
+    public int getPosition() {
+<span class="nc" id="L257">        return -getTotalContributions();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

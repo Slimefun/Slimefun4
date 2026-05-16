@@ -1,0 +1,138 @@
+recipes:
+  # Output item, colon (:) to indicate the amount
+  # Accepts Material (https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html) or Slimefun Item ID
+  'COAL:20':
+    # Recipe, x = UU-Matter, space = nothing
+    - '  x'
+    - 'x  '
+    - '  x'
+  COPPER_DUST:
+    - '  x'
+    - 'x x'
+  DIAMOND:
+    - 'xxx'
+    - 'xxx'
+    - 'xxx'
+  'GOLD_ORE:2':
+    - ' x '
+    - 'xxx'
+    - ' x '
+  'IRON_ORE:2':
+    - 'x x'
+    - ' x '
+    - 'x x'
+  'LAPIS_LAZULI:9':
+    - ' x '
+    - ' x '
+    - ' x '
+  'REDSTONE:24':
+    - '   '
+    - ' x '
+    - 'xxx'
+  'TIN_DUST:5':
+    - '   '
+    - 'x x'
+    - '  x'
+  'CHISELED_STONE_BRICKS:48':
+    - 'xx '
+    - 'xx '
+    - 'x  '
+  'CLAY_BALL:48':
+    - 'xx '
+    - 'x  '
+    - 'xx '
+  'GLASS:32':
+    - ' x '
+    - 'x x'
+    - ' x '
+  'GLOWSTONE:8':
+    - ' x '
+    - 'x x'
+    - 'xxx'
+  'GRASS_BLOCK:16':
+    - '   '
+    - 'x  '
+    - 'x  '
+  'MOSSY_COBBLESTONE:16':
+    - '   '
+    - ' x '
+    - 'x x'
+  'MYCELIUM:24':
+    - '   '
+    - 'x x'
+    - 'xxx'
+  'NETHERRACK:16':
+    - '  x'
+    - ' x '
+    - 'x  '
+  'OBSIDIAN:12':
+    - 'x x'
+    - 'x x'
+  'SANDSTONE:16':
+    - '   '
+    - '  x'
+    - ' x '
+  'SNOW_BLOCK:4':
+    - 'x x'
+  'STONE:16':
+    - '   '
+    - ' x '
+  'OAK_LOG:8':
+    - ' x '
+  'WHITE_WOOL:12':
+    - 'x x'
+    - '   '
+    - ' x '
+  'BONE:32':
+    - 'x  '
+    - 'xx '
+    - 'x  '
+  'CACTUS:48':
+    - ' x '
+    - 'xxx'
+    - 'x x'
+  'COCOA_BEANS:32':
+    - 'xx '
+    - '  x'
+    - 'xx '
+  'FEATHER:32':
+    - ' x '
+    - ' x '
+    - 'x x'
+  'FLINT:32':
+    - ' x '
+    - 'xx '
+    - 'xx '
+  'GUNPOWDER:15':
+    - 'xxx'
+    - 'x  '
+    - 'xxx'
+  'INK_SAC:48':
+    - ' xx'
+    - ' xx'
+    - ' x '
+  LAVA_BUCKET:
+    - '  x'
+    - ' x '
+    - ' x '
+  WATER_BUCKET:
+    - '   '
+    - ' x '
+    - ' x '
+  'SNOWBALL:16':
+    - '   '
+    - '   '
+    - 'xxx'
+  'SUGAR_CANE:48':
+    - 'x x'
+    - 'x x'
+    - 'x x'
+  'VINE:24':
+    - 'x  '
+    - 'x  '
+    - 'x  '
+
+  STICKY_RESIN:
+    - 'x x'
+    - '   '
+    - 'x x'

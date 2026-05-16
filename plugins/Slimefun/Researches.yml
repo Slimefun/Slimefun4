@@ -1,0 +1,776 @@
+enable-researching: true
+slimefun:
+  walking_sticks:
+    cost: 1
+    enabled: true
+  portable_crafter:
+    cost: 1
+    enabled: true
+  fortune_cookie:
+    cost: 1
+    enabled: true
+  portable_dustbin:
+    cost: 2
+    enabled: true
+  meat_jerky:
+    cost: 2
+    enabled: true
+  armor_forge:
+    cost: 2
+    enabled: true
+  glowstone_armor:
+    cost: 3
+    enabled: true
+  lumps:
+    cost: 3
+    enabled: true
+  ender_backpack:
+    cost: 4
+    enabled: true
+  ender_armor:
+    cost: 4
+    enabled: true
+  magic_eye_of_ender:
+    cost: 4
+    enabled: true
+  magic_sugar:
+    cost: 4
+    enabled: true
+  monster_jerky:
+    cost: 5
+    enabled: true
+  slime_armor:
+    cost: 5
+    enabled: true
+  sword_of_beheading:
+    cost: 6
+    enabled: true
+  basic_circuit_board:
+    cost: 8
+    enabled: true
+  advanced_circuit_board:
+    cost: 9
+    enabled: true
+  smeltery:
+    cost: 10
+    enabled: true
+  steel:
+    cost: 11
+    enabled: true
+  misc_power_items:
+    cost: 12
+    enabled: true
+  battery:
+    cost: 10
+    enabled: true
+  steel_plate:
+    cost: 14
+    enabled: true
+  steel_thruster:
+    cost: 14
+    enabled: true
+  parachute:
+    cost: 15
+    enabled: true
+  grappling_hook:
+    cost: 15
+    enabled: true
+  jetpacks:
+    cost: 22
+    enabled: true
+  multitools:
+    cost: 18
+    enabled: true
+  solar_panel_and_helmet:
+    cost: 17
+    enabled: true
+  elemental_staff:
+    cost: 17
+    enabled: true
+  grind_stone:
+    cost: 4
+    enabled: true
+  cactus_armor:
+    cost: 5
+    enabled: true
+  gold_pan:
+    cost: 5
+    enabled: true
+  magical_book_cover:
+    cost: 5
+    enabled: true
+  slimefun_metals:
+    cost: 6
+    enabled: true
+  ore_crusher:
+    cost: 6
+    enabled: true
+  bronze:
+    cost: 8
+    enabled: true
+  alloys:
+    cost: 12
+    enabled: true
+  compressor_and_carbon:
+    cost: 9
+    enabled: true
+  gilded_iron_armor:
+    cost: 16
+    enabled: true
+  synthetic_diamond:
+    cost: 10
+    enabled: true
+  pressure_chamber:
+    cost: 14
+    enabled: true
+  synthetic_sapphire:
+    cost: 16
+    enabled: true
+  damascus_steel:
+    cost: 17
+    enabled: true
+  damascus_steel_armor:
+    cost: 18
+    enabled: true
+  reinforced_alloy:
+    cost: 22
+    enabled: true
+  carbonado:
+    cost: 26
+    enabled: true
+  magic_workbench:
+    cost: 12
+    enabled: true
+  wind_staff:
+    cost: 17
+    enabled: true
+  reinforced_armor:
+    cost: 26
+    enabled: true
+  ore_washer:
+    cost: 5
+    enabled: true
+  gold_carats:
+    cost: 7
+    enabled: true
+  silicon:
+    cost: 12
+    enabled: true
+  fire_staff:
+    cost: 2
+    enabled: true
+  smelters_pickaxe:
+    cost: 17
+    enabled: true
+  common_talisman:
+    cost: 14
+    enabled: true
+  anvil_talisman:
+    cost: 18
+    enabled: true
+  miner_talisman:
+    cost: 18
+    enabled: true
+  hunter_talisman:
+    cost: 18
+    enabled: true
+  lava_talisman:
+    cost: 18
+    enabled: true
+  water_talisman:
+    cost: 18
+    enabled: true
+  angel_talisman:
+    cost: 18
+    enabled: true
+  fire_talisman:
+    cost: 18
+    enabled: true
+  lava_crystal:
+    cost: 14
+    enabled: true
+  magician_talisman:
+    cost: 20
+    enabled: true
+  traveller_talisman:
+    cost: 20
+    enabled: true
+  warrior_talisman:
+    cost: 20
+    enabled: true
+  knight_talisman:
+    cost: 20
+    enabled: true
+  gilded_iron:
+    cost: 11
+    enabled: true
+  synthetic_emerald:
+    cost: 17
+    enabled: true
+  chainmail_armor:
+    cost: 8
+    enabled: true
+  whirlwind_talisman:
+    cost: 19
+    enabled: true
+  wizard_talisman:
+    cost: 22
+    enabled: true
+  lumber_axe:
+    cost: 21
+    enabled: true
+  hazmat_suit:
+    cost: 21
+    enabled: true
+  uranium:
+    cost: 30
+    enabled: true
+  crushed_ore:
+    cost: 25
+    enabled: true
+  redstone_alloy:
+    cost: 16
+    enabled: true
+  carbonado_tools:
+    cost: 24
+    enabled: true
+  first_aid:
+    cost: 2
+    enabled: true
+  gold_armor:
+    cost: 13
+    enabled: true
+  night_vision_googles:
+    cost: 10
+    enabled: true
+  pickaxe_of_containment:
+    cost: 14
+    enabled: true
+  table_saw:
+    cost: 4
+    enabled: true
+  slime_steel_armor:
+    cost: 27
+    enabled: true
+  blade_of_vampires:
+    cost: 26
+    enabled: true
+  water_staff:
+    cost: 8
+    enabled: true
+  24k_gold_block:
+    cost: 19
+    enabled: true
+  composter:
+    cost: 3
+    enabled: true
+  farmer_shoes:
+    cost: 4
+    enabled: true
+  explosive_tools:
+    cost: 30
+    enabled: true
+  automated_panning_machine:
+    cost: 17
+    enabled: true
+  boots_of_the_stomper:
+    cost: 19
+    enabled: true
+  pickaxe_of_the_seeker:
+    cost: 19
+    enabled: true
+  backpacks:
+    cost: 15
+    enabled: true
+  woven_backpack:
+    cost: 19
+    enabled: true
+  crucible:
+    cost: 13
+    enabled: true
+  gilded_backpack:
+    cost: 22
+    enabled: true
+  armored_jetpack:
+    cost: 27
+    enabled: true
+  ender_talismans:
+    cost: 28
+    enabled: true
+  nickel_and_cobalt:
+    cost: 10
+    enabled: true
+  magnet:
+    cost: 16
+    enabled: true
+  infused_magnet:
+    cost: 18
+    enabled: true
+  cobalt_pickaxe:
+    cost: 14
+    enabled: true
+  essence_of_afterlife:
+    cost: 19
+    enabled: true
+  bound_backpack:
+    cost: 22
+    enabled: true
+  jetboots:
+    cost: 25
+    enabled: true
+  armored_jetboots:
+    cost: 27
+    enabled: true
+  seismic_axe:
+    cost: 29
+    enabled: true
+  pickaxe_of_vein_mining:
+    cost: 29
+    enabled: true
+  bound_weapons:
+    cost: 29
+    enabled: true
+  bound_tools:
+    cost: 29
+    enabled: true
+  bound_armor:
+    cost: 29
+    enabled: true
+  juicer:
+    cost: 29
+    enabled: true
+  repaired_spawner:
+    cost: 15
+    enabled: true
+  enhanced_furnace:
+    cost: 7
+    enabled: true
+  more_enhanced_furnaces:
+    cost: 18
+    enabled: true
+  high_tier_enhanced_furnaces:
+    cost: 29
+    enabled: true
+  reinforced_furnace:
+    cost: 32
+    enabled: true
+  carbonado_furnace:
+    cost: 35
+    enabled: true
+  electric_motor:
+    cost: 32
+    enabled: true
+  block_placer:
+    cost: 17
+    enabled: true
+  scroll_of_dimensional_teleposition:
+    cost: 38
+    enabled: true
+  special_bows:
+    cost: 22
+    enabled: true
+  tome_of_knowledge_sharing:
+    cost: 30
+    enabled: true
+  flask_of_knowledge:
+    cost: 13
+    enabled: true
+  hardened_glass:
+    cost: 15
+    enabled: true
+  golden_apple_juice:
+    cost: 24
+    enabled: true
+  cooler:
+    cost: 24
+    enabled: true
+  ancient_altar:
+    cost: 15
+    enabled: true
+  wither_proof_obsidian:
+    cost: 21
+    enabled: true
+  ancient_runes:
+    cost: 15
+    enabled: true
+  special_runes:
+    cost: 18
+    enabled: true
+  infernal_bonemeal:
+    cost: 12
+    enabled: true
+  rainbow_blocks:
+    cost: 24
+    enabled: true
+  infused_hopper:
+    cost: 22
+    enabled: true
+  wither_proof_glass:
+    cost: 20
+    enabled: true
+  duct_tape:
+    cost: 14
+    enabled: true
+  plastic_sheet:
+    cost: 25
+    enabled: true
+  android_memory_core:
+    cost: 28
+    enabled: true
+  oil:
+    cost: 30
+    enabled: true
+  fuel:
+    cost: 30
+    enabled: true
+  hologram_projector:
+    cost: 36
+    enabled: true
+  capacitors:
+    cost: 25
+    enabled: true
+  high_tier_capacitors:
+    cost: 32
+    enabled: true
+  solar_generators:
+    cost: 14
+    enabled: true
+  electric_furnaces:
+    cost: 15
+    enabled: true
+  electric_ore_grinding:
+    cost: 20
+    enabled: true
+  heated_pressure_chamber:
+    cost: 22
+    enabled: true
+  coal_generator:
+    cost: 14
+    enabled: true
+  bio_reactor:
+    cost: 18
+    enabled: true
+  auto_enchanting:
+    cost: 24
+    enabled: true
+  auto_anvil:
+    cost: 34
+    enabled: true
+  multimeter:
+    cost: 10
+    enabled: true
+  gps_setup:
+    cost: 28
+    enabled: true
+  gps_emergency_transmitter:
+    cost: 30
+    enabled: true
+  programmable_androids:
+    cost: 50
+    enabled: true
+  android_interfaces:
+    cost: 26
+    enabled: true
+  geo_scanner:
+    cost: 30
+    enabled: true
+  combustion_reactor:
+    cost: 38
+    enabled: true
+  teleporter:
+    cost: 42
+    enabled: true
+  teleporter_activation_plates:
+    cost: 36
+    enabled: true
+  better_solar_generators:
+    cost: 28
+    enabled: true
+  better_gps_transmitters:
+    cost: 36
+    enabled: true
+  elevator:
+    cost: 28
+    enabled: true
+  energized_solar_generator:
+    cost: 44
+    enabled: true
+  energized_gps_transmitter:
+    cost: 44
+    enabled: true
+  energy_regulator:
+    cost: 6
+    enabled: true
+  butcher_androids:
+    cost: 32
+    enabled: true
+  organic_food:
+    cost: 25
+    enabled: true
+  auto_breeder:
+    cost: 25
+    enabled: true
+  advanced_android:
+    cost: 60
+    enabled: true
+  advanced_butcher_android:
+    cost: 30
+    enabled: true
+  advanced_fisherman_android:
+    cost: 30
+    enabled: true
+  animal_growth_accelerator:
+    cost: 32
+    enabled: true
+  xp_collector:
+    cost: 36
+    enabled: true
+  organic_fertilizer:
+    cost: 36
+    enabled: true
+  crop_growth_accelerator:
+    cost: 40
+    enabled: true
+  better_crop_growth_accelerator:
+    cost: 44
+    enabled: true
+  reactor_essentials:
+    cost: 36
+    enabled: true
+  nuclear_reactor:
+    cost: 48
+    enabled: true
+  freezer:
+    cost: 20
+    enabled: true
+  cargo_basics:
+    cost: 30
+    enabled: true
+  cargo_nodes:
+    cost: 30
+    enabled: true
+  electric_ingot_machines:
+    cost: 18
+    enabled: true
+  medium_tier_electric_ingot_machines:
+    cost: 25
+    enabled: true
+  high_tier_electric_ingot_machines:
+    cost: 32
+    enabled: true
+  better_food_fabricator:
+    cost: 28
+    enabled: true
+  reactor_access_port:
+    cost: 18
+    enabled: true
+  fluid_pump:
+    cost: 28
+    enabled: true
+  better_freezer:
+    cost: 29
+    enabled: true
+  boosted_uranium:
+    cost: 30
+    enabled: true
+  trash_can:
+    cost: 8
+    enabled: true
+  advanced_output_node:
+    cost: 24
+    enabled: true
+  carbon_press:
+    cost: 28
+    enabled: true
+  electric_smeltery:
+    cost: 28
+    enabled: true
+  better_electric_furnace:
+    cost: 20
+    enabled: true
+  better_carbon_press:
+    cost: 26
+    enabled: true
+  empowered_android:
+    cost: 60
+    enabled: true
+  empowered_butcher_android:
+    cost: 30
+    enabled: true
+  empowered_fisherman_android:
+    cost: 30
+    enabled: true
+  high_tier_carbon_press:
+    cost: 32
+    enabled: true
+  wither_assembler:
+    cost: 35
+    enabled: true
+  better_heated_pressure_chamber:
+    cost: 20
+    enabled: true
+  elytra:
+    cost: 20
+    enabled: true
+  special_elytras:
+    cost: 30
+    enabled: true
+  electric_crucible:
+    cost: 26
+    enabled: true
+  better_electric_crucibles:
+    cost: 30
+    enabled: true
+  advanced_electric_smeltery:
+    cost: 28
+    enabled: true
+  advanced_farmer_android:
+    cost: 30
+    enabled: true
+  lava_generator:
+    cost: 16
+    enabled: true
+  nether_ice:
+    cost: 45
+    enabled: true
+  nether_star_reactor:
+    cost: 60
+    enabled: true
+  blistering_ingots:
+    cost: 38
+    enabled: true
+  automatic_ignition_chamber:
+    cost: 12
+    enabled: true
+  output_chest:
+    cost: 20
+    enabled: true
+  copper_wire:
+    cost: 15
+    enabled: true
+  radiant_backpack:
+    cost: 25
+    enabled: true
+  auto_drier:
+    cost: 15
+    enabled: true
+  diet_cookie:
+    cost: 3
+    enabled: true
+  storm_staff:
+    cost: 30
+    enabled: true
+  soulbound_rune:
+    cost: 60
+    enabled: true
+  geo_miner:
+    cost: 24
+    enabled: true
+  lightning_rune:
+    cost: 24
+    enabled: true
+  totem_of_undying:
+    cost: 36
+    enabled: true
+  charging_bench:
+    cost: 8
+    enabled: true
+  nether_gold_pan:
+    cost: 8
+    enabled: true
+  electric_press:
+    cost: 16
+    enabled: true
+  magnesium_generator:
+    cost: 20
+    enabled: true
+  kelp_cookie:
+    cost: 4
+    enabled: true
+  makeshift_smeltery:
+    cost: 6
+    enabled: true
+  tree_growth_accelerator:
+    cost: 18
+    enabled: true
+  industrial_miner:
+    cost: 28
+    enabled: true
+  advanced_industrial_miner:
+    cost: 36
+    enabled: true
+  magical_zombie_pills:
+    cost: 22
+    enabled: true
+  auto_brewer:
+    cost: 30
+    enabled: true
+  enchantment_rune:
+    cost: 24
+    enabled: true
+  lead_clothing:
+    cost: 14
+    enabled: true
+  tape_measure:
+    cost: 7
+    enabled: true
+  iron_golem_assembler:
+    cost: 30
+    enabled: true
+  shulker_shell:
+    cost: 30
+    enabled: true
+  villager_rune:
+    cost: 26
+    enabled: true
+  climbing_pick:
+    cost: 20
+    enabled: true
+  even_higher_tier_capacitors:
+    cost: 40
+    enabled: true
+  caveman_talisman:
+    cost: 20
+    enabled: true
+  elytra_cap:
+    cost: 20
+    enabled: true
+  energy_connectors:
+    cost: 12
+    enabled: true
+  bee_armor:
+    cost: 24
+    enabled: true
+  wise_talisman:
+    cost: 20
+    enabled: true
+  book_binder:
+    cost: 26
+    enabled: true
+  auto_crafting:
+    cost: 30
+    enabled: true
+  produce_collector:
+    cost: 20
+    enabled: true
+  improved_generators:
+    cost: 24
+    enabled: true
+  ingredients_and_cheese:
+    cost: 5
+    enabled: true
+  medium_tier_auto_enchanting:
+    cost: 48
+    enabled: true
+  portable_teleporter:
+    cost: 42
+    enabled: true
+  trident:
+    cost: 20
+    enabled: true
+  farmer_talisman:
+    cost: 18
+    enabled: true
+  rainbow_armor:
+    cost: 22
+    enabled: true

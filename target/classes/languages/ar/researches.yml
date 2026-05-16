@@ -1,0 +1,234 @@
+---
+slimefun:
+  walking_sticks: عصي المشي
+  portable_crafter: منضدة عمل محمولة
+  fortune_cookie: كعكة الحظ
+  portable_dustbin: سلة المهملات المحمولة
+  meat_jerky: لحم مقدد
+  armor_forge: صناعة الدروع
+  glowstone_armor: الدرع المتوهج
+  lumps: الكتل والسحر
+  ender_backpack: حقيبة اندر
+  ender_armor: درع اندر
+  magic_eye_of_ender: عين اندر سحرية
+  magic_sugar: السكر السحري
+  monster_jerky: لحم وحوش مقدد
+  slime_armor: الدرع المخاطي
+  sword_of_beheading: سيف الرؤوس
+  basic_circuit_board: لوحة إلكترونية بدائية
+  advanced_circuit_board: لوحة إلكترونية متقدمة
+  smeltery: مصاهر
+  steel: العصر الفولاذي
+  misc_power_items: أدوات طاقة مهمة
+  battery: بطاريتك الأولى
+  steel_plate: طلاء فولاذي
+  steel_thruster: الدافع الفولاذي
+  parachute: المظلات
+  grappling_hook: خطاف سحب
+  jetpacks: حقائب نفاثة
+  multitools: أدوات متعددة الغرض
+  solar_panel_and_helmet: الطاقة الشمسية
+  elemental_staff: العصي العنصرية
+  grind_stone: المجلخة
+  cactus_armor: بدلة الصبار
+  gold_pan: غربال ذهب
+  magical_book_cover: مجلد كتاب سحري
+  slimefun_metals: معادن جديدة
+  ore_crusher: مضاعفة الركاز
+  bronze: صناعة البرونز
+  alloys: سبائك متقدمة
+  compressor_and_carbon: صناعة الكربون
+  gilded_iron_armor: درع حديدي مذهب
+  synthetic_diamond: ماسة اصطناعية
+  pressure_chamber: حجرة الضغط
+  synthetic_sapphire: ياقوت اصطناعي
+  damascus_steel: الفولاذ الدمشقي
+  damascus_steel_armor: درع فولاذي دمشقي
+  reinforced_alloy: سبيكة معززة
+  carbonado: الماس الأسود
+  magic_workbench: منضدة السحر
+  wind_staff: عصا الرياح
+  reinforced_armor: درع مقوى
+  ore_washer: غسالة خام
+  gold_carats: ذهب خالص
+  silicon: وادي السيليكون
+  fire_staff: عصا النار
+  smelters_pickaxe: الفأس المصهر
+  common_talisman: تعويذة أولية
+  anvil_talisman: تعويذة السندان
+  miner_talisman: تعويذة الحفار
+  hunter_talisman: تعويذة الصياد
+  lava_talisman: تعويذة المشي على الحمم البركانية
+  water_talisman: تعويذة التنفس تحت الماء
+  angel_talisman: تعويذة الملاك
+  fire_talisman: تعويذة محارب اللهب
+  lava_crystal: موقف ناري
+  magician_talisman: تعويذة الساحر
+  traveller_talisman: تعويذة المسافر
+  warrior_talisman: تعويذة المحارب
+  knight_talisman: تعويذة الفارس
+  gilded_iron: الحديد اللامع
+  synthetic_emerald: جوهرة زائفة
+  chainmail_armor: درع القماش المشمع
+  whirlwind_talisman: تعويذة الزوبعة
+  wizard_talisman: تعويذة المشعوذ
+  lumber_axe: فأس قاطع الخشب
+  hazmat_suit: بدلة الخطر
+  uranium: إشعاعي
+  crushed_ore: تنقية الخام
+  redstone_alloy: سبيكة ريدستون
+  carbonado_tools: آلات المستويات العليا
+  first_aid: إسعافات أولية
+  gold_armor: الدرع اللامع
+  night_vision_googles: نظارات الرؤية الليلية
+  pickaxe_of_containment: فأس الإحتواء
+  hercules_pickaxe: فأس هرقل
+  table_saw: سينية منشار
+  slime_steel_armor: درع مخاطي فولاذي
+  blade_of_vampires: نصل مصاصو الدماء
+  water_staff: العصا المائية
+  24k_gold_block: المدينة الذهبية
+  composter: تدمين التراب
+  farmer_shoes: حذاء المزارع
+  explosive_tools: الأدوات المتفجرة
+  automated_panning_machine: غربال ذهب آلي
+  boots_of_the_stomper: حذاء الدائس
+  pickaxe_of_the_seeker: الفأس الباحث
+  backpacks: حقائب الظهر
+  woven_backpack: حقيبة منسوجة
+  crucible: بوتقة
+  gilded_backpack: حقيبة ظهر مذهبة
+  armored_jetpack: حقيبة نفاثة مدرعة
+  ender_talismans: تعويذة اندر
+  nickel_and_cobalt: ركاز أكثر
+  magnet: المعادن المغناطيسية
+  infused_magnet: مغناطيس جاذب
+  cobalt_pickaxe: الفأس السريع
+  essence_of_afterlife: إستحضار الأرواح
+  bound_backpack: التخزين الروحي
+  jetboots: الأخذية النفاثة
+  armored_jetboots: الأخذية النفاثة المدرعة
+  seismic_axe: فأس مزلزل
+  pickaxe_of_vein_mining: فأس تعدين الأوردة
+  bound_weapons: الأسلحة الروحية
+  bound_tools: الأدوات الروحية
+  bound_armor: الدروع الروحية
+  juicer: المشروبات اللذيذة
+  repaired_spawner: إصلاح مولدات الوحوش
+  enhanced_furnace: أفران معززة
+  more_enhanced_furnaces: أفران أفضل
+  high_tier_enhanced_furnaces: الأفران ذات المستوى العالي
+  reinforced_furnace: الأفران المدعمة
+  carbonado_furnace: فرن مطعم بالكربونادو
+  electric_motor: التسخين
+  block_placer: واضع المكعبات
+  scroll_of_dimensional_teleposition: قلب الأمور
+  special_bows: روبن هود
+  tome_of_knowledge_sharing: المشاركة مع الأصدقاء
+  flask_of_knowledge: تخزين الخبرة
+  hardened_glass: تحمل الانفجارات
+  golden_apple_juice: جرعة ذهبية
+  cooler: المشروبات المحمولة
+  ancient_altar: الهيكل العتيق
+  wither_proof_obsidian: سبج ضد الملاشي
+  ancient_runes: أحجار العناصر السحرية
+  special_runes: أحجار سحرية أرجوانية
+  infernal_bonemeal: السماد الجهنمي
+  rainbow_blocks: مكعبات قوس قزح
+  infused_hopper: قادوس جاذب
+  wither_proof_glass: زجاج ضد الملاشي
+  duct_tape: شريط لاصق
+  plastic_sheet: بلاستيك
+  android_memory_core: ذاكرة مركزية
+  oil: نفط
+  fuel: وقود
+  hologram_projector: مجسمات
+  capacitors: مكثفات مستوى أول
+  high_tier_capacitors: مكثفات مستوى ثاني
+  solar_generators: محطة طاقة شمسية
+  electric_furnaces: فرن آلي
+  electric_ore_grinding: سحق وطحن
+  heated_pressure_chamber: غرفة ضغط ساخنة
+  coal_generator: مولد الفحم
+  bio_reactor: مفاعل حيوي
+  auto_enchanting: أثر وتحرير السحر تلقائيا
+  auto_anvil: السندان الآلي
+  multimeter: قياس القوة
+  gps_setup: إعداد ملاحة بدائي
+  gps_emergency_transmitter: وجهة ملاحة طارئة
+  programmable_androids: روبوتات مبرمجة
+  android_interfaces: واجهات الروبوتات
+  geo_scanner: المسح الجغرافي
+  combustion_reactor: مفاعل الاحتراق
+  teleporter: مكونات قاعدة النقل
+  teleporter_activation_plates: تفعيل النقل
+  better_solar_generators: مولدات شمسية محسنة
+  better_gps_transmitters: أجهزة إرسال مطورة
+  elevator: مصاعد
+  energized_solar_generator: الطاقة الشمسية دائمة الكمال
+  energized_gps_transmitter: أجهزة إرسال ذات مستوى عالي
+  energy_regulator: سنة أولى شبكات
+  butcher_androids: روبوتات قاتلة
+  organic_food: طعام عضوي
+  auto_breeder: التغذية التلقائية
+  advanced_android: روبوتات متقدمة
+  advanced_butcher_android: روبوتات قاتلة متقدمة
+  advanced_fisherman_android: روبوتات متقدمة صيادة
+  animal_growth_accelerator: التلاعب بنمو الحيوانات
+  xp_collector: مجمع الخبرة
+  organic_fertilizer: الأسمدة العضوية
+  crop_growth_accelerator: تسريع نمو المحاصيل
+  better_crop_growth_accelerator: مسرع نمو محاصيل متقدم
+  reactor_essentials: أساسيات المفاعل
+  nuclear_reactor: محطة الطاقة النووية
+  freezer: الثلاجة
+  cargo_basics: أساسيات الشحن
+  cargo_nodes: إعداد الشحن
+  electric_ingot_machines: تصنيع السبائك الكهربي
+  high_tier_electric_ingot_machines: تصنيع السبائك فائق السرعة
+  automated_crafting_chamber: الصناعة الآلية
+  better_food_fabricator: تصنيع الأغذية المتقدم
+  reactor_access_port: منفذ المفاعل النووي
+  fluid_pump: مضخة السوائل
+  better_freezer: ثلاجة متقدمة
+  boosted_uranium: دائرة لا منتهية
+  trash_can: قمامة
+  advanced_output_node: منفذ إخراج متقدم
+  carbon_press: مكبس كربون
+  electric_smeltery: صهر كهربائي
+  better_electric_furnace: فرن كهربائي متقدم
+  better_carbon_press: مكبس كربون متقدم
+  empowered_android: روبوت مدعم
+  empowered_butcher_android: روبوت قاتل مدعم
+  empowered_fisherman_android: روبوت صياد مدعم
+  high_tier_carbon_press: مكبس كربون مطلق
+  wither_assembler: قاتل الملاشي التلقائي
+  better_heated_pressure_chamber: غرفة ضغط ساخنة متقدمة
+  elytra: الأجنحة
+  special_elytras: أجنحة خاصة
+  electric_crucible: بوتقة آلية
+  better_electric_crucibles: بوتقة ساخنة
+  advanced_electric_smeltery: مصاهر آلي متقدم
+  advanced_farmer_android: روبوت مزارع متقدم
+  lava_generator: مولد الحمم
+  nether_ice: مبرد ثلج الجحيم
+  nether_star_reactor: مفاعل نجوم الجحيم
+  blistering_ingots: نشاط إشعاعي منفط
+  automatic_ignition_chamber: غرفة إشعال تلقائية
+  output_chest: صندوق إخراج الآلات الأولية
+  copper_wire: توصيل نحيف
+  radiant_backpack: حقيبة مشعة
+  auto_drier: يوم جاف
+  diet_cookie: كعكة الرجيم
+  storm_staff: عصا الأعاصير
+  soulbound_rune: حجر سحري روحي
+  geo_miner: الحفار الجغرافي
+  lightning_rune: حجر البرق السحري
+  totem_of_undying: صنم الخلود
+  charging_bench: محطة شحن
+  nether_gold_pan: غربال ذهب جحيمي
+  electric_press: مكبس آلي
+  magnesium_generator: الطاقة من المغنيسيوم
+  kelp_cookie: عشب البحر اللذيذ
+  makeshift_smeltery: مصاهر مرتجل
+  tree_growth_accelerator: نمو شجر أسرع

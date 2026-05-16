@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MetricsService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services</a> &gt; <span class="el_source">MetricsService.java</span></div><h1>MetricsService.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandler;
+import java.net.http.HttpResponse.BodySubscriber;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.Flow.Subscription;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.plugin.Plugin;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
+
+/**
+ * This Class represents a Metrics Service that sends data to https://bstats.org/
+ * This data is used to analyse the usage of this {@link Plugin}.
+ * &lt;p&gt;
+ * You can find more info in the README file of this Project on GitHub. &lt;br&gt;
+ * &lt;b&gt;Note:&lt;/b&gt; To start the metrics you will need to be calling {@link #start()}
+ *
+ * @author WalshyDev
+ */
+public class MetricsService {
+
+    /**
+     * The URL pointing towards the GitHub API.
+     */
+    private static final String API_URL = &quot;https://api.github.com/&quot;;
+
+    /**
+     * The Name of our repository - Version 2 of this repo (due to big breaking changes)
+     */
+    private static final String REPO_NAME = &quot;MetricsModule2&quot;;
+
+    /**
+     * The name of the metrics jar file.
+     */
+    private static final String JAR_NAME = &quot;MetricsModule&quot;;
+
+    /**
+     * The URL pointing towards the /releases/ endpoint of our
+     * Metrics repository
+     */
+    private static final String RELEASES_URL = API_URL + &quot;repos/Slimefun/&quot; + REPO_NAME + &quot;/releases/latest&quot;;
+
+    /**
+     * The URL pointing towards the download location for a
+     * GitHub release of our Metrics repository
+     */
+    private static final String DOWNLOAD_URL = &quot;https://github.com/Slimefun/&quot; + REPO_NAME + &quot;/releases/download&quot;;
+
+    private final Slimefun plugin;
+    private final File parentFolder;
+    private final File metricsModuleFile;
+<span class="nc" id="L78">    private final HttpClient client = HttpClient.newHttpClient();</span>
+
+    private URLClassLoader moduleClassLoader;
+<span class="nc" id="L81">    private String metricVersion = null;</span>
+<span class="nc" id="L82">    private boolean hasDownloadedUpdate = false;</span>
+
+    /**
+     * This constructs a new instance of our {@link MetricsService}.
+     * 
+     * @param plugin
+     *            Our {@link Slimefun} instance
+     */
+<span class="nc" id="L90">    public MetricsService(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L91">        this.plugin = plugin;</span>
+<span class="nc" id="L92">        this.parentFolder = new File(plugin.getDataFolder(), &quot;cache&quot; + File.separatorChar + &quot;modules&quot;);</span>
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (!parentFolder.exists()) {</span>
+<span class="nc" id="L95">            parentFolder.mkdirs();</span>
+        }
+
+<span class="nc" id="L98">        this.metricsModuleFile = new File(parentFolder, JAR_NAME + &quot;.jar&quot;);</span>
+<span class="nc" id="L99">    }</span>
+
+    /**
+     * This method loads the metric module and starts the metrics collection.
+     */
+    public void start() {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if (!metricsModuleFile.exists()) {</span>
+<span class="nc" id="L106">            plugin.getLogger().info(JAR_NAME + &quot; does not exist, downloading...&quot;);</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (!download(getLatestVersion())) {</span>
+<span class="nc" id="L109">                plugin.getLogger().warning(&quot;Failed to start metrics as the file could not be downloaded.&quot;);</span>
+<span class="nc" id="L110">                return;</span>
+            }
+        }
+
+        try {
+            /*
+             * Load the jar file into a child class loader using the Slimefun
+             * PluginClassLoader as a parent.
+             */
+<span class="nc" id="L119">            moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricsModuleFile.toURI().toURL() }, plugin.getClass().getClassLoader());</span>
+<span class="nc" id="L120">            Class&lt;?&gt; metricsClass = moduleClassLoader.loadClass(&quot;dev.walshy.sfmetrics.MetricsModule&quot;);</span>
+
+<span class="nc" id="L122">            metricVersion = metricsClass.getPackage().getImplementationVersion();</span>
+
+            /*
+             * If it has not been newly downloaded, auto-updates are enabled
+             * AND there's a new version then cleanup, download and start
+             */
+<span class="nc bnc" id="L128" title="All 6 branches missed.">            if (!hasDownloadedUpdate &amp;&amp; hasAutoUpdates() &amp;&amp; checkForUpdate(metricVersion)) {</span>
+<span class="nc" id="L129">                plugin.getLogger().info(&quot;Cleaned up, now re-loading Metrics-Module!&quot;);</span>
+<span class="nc" id="L130">                start();</span>
+<span class="nc" id="L131">                return;</span>
+            }
+
+            // Finally, we're good to start this.
+<span class="nc" id="L135">            Method start = metricsClass.getDeclaredMethod(&quot;start&quot;);</span>
+<span class="nc" id="L136">            String version = metricsClass.getPackage().getImplementationVersion();</span>
+
+            // This is required to be sync due to bStats.
+<span class="nc" id="L139">            Slimefun.runSync(() -&gt; {</span>
+                try {
+<span class="nc" id="L141">                    start.invoke(null);</span>
+<span class="nc" id="L142">                    plugin.getLogger().info(&quot;Metrics build #&quot; + version + &quot; started.&quot;);</span>
+<span class="nc" id="L143">                } catch (InvocationTargetException e) {</span>
+<span class="nc" id="L144">                    plugin.getLogger().log(Level.WARNING, &quot;An exception was thrown while starting the metrics module&quot;, e.getCause());</span>
+<span class="nc" id="L145">                } catch (Exception | LinkageError e) {</span>
+<span class="nc" id="L146">                    plugin.getLogger().log(Level.WARNING, &quot;Failed to start metrics.&quot;, e);</span>
+<span class="nc" id="L147">                }</span>
+<span class="nc" id="L148">            });</span>
+<span class="nc" id="L149">        } catch (Exception | LinkageError e) {</span>
+<span class="nc" id="L150">            plugin.getLogger().log(Level.WARNING, &quot;Failed to load the metrics module. Maybe the jar is corrupt?&quot;, e);</span>
+<span class="nc" id="L151">        }</span>
+<span class="nc" id="L152">    }</span>
+
+    /**
+     * This will close the child {@link ClassLoader} and mark all the resources held under this no longer
+     * in use, they will be cleaned up the next GC run.
+     */
+    public void cleanUp() {
+        try {
+<span class="nc bnc" id="L160" title="All 2 branches missed.">            if (moduleClassLoader != null) {</span>
+<span class="nc" id="L161">                moduleClassLoader.close();</span>
+            }
+<span class="nc" id="L163">        } catch (IOException e) {</span>
+<span class="nc" id="L164">            plugin.getLogger().log(Level.WARNING, &quot;Could not clean up module class loader. Some memory may have been leaked.&quot;);</span>
+<span class="nc" id="L165">        }</span>
+<span class="nc" id="L166">    }</span>
+
+    /**
+     * Checks for a new update and compares it against the current version.
+     * If there is a new version available then this returns true.
+     *
+     * @param currentVersion
+     *            The current version which is being used.
+     * 
+     * @return if there is an update available.
+     */
+    public boolean checkForUpdate(@Nullable String currentVersion) {
+<span class="nc bnc" id="L178" title="All 4 branches missed.">        if (currentVersion == null || !CommonPatterns.NUMERIC.matcher(currentVersion).matches()) {</span>
+<span class="nc" id="L179">            return false;</span>
+        }
+
+<span class="nc" id="L182">        int latest = getLatestVersion();</span>
+
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        if (latest &gt; Integer.parseInt(currentVersion)) {</span>
+<span class="nc" id="L185">            return download(latest);</span>
+        }
+
+<span class="nc" id="L188">        return false;</span>
+    }
+
+    /**
+     * Gets the latest version available as an int.
+     * This is an internal method used by {@link #checkForUpdate(String)}.
+     * If it cannot get the version for whatever reason this will return 0, effectively always
+     * being behind.
+     *
+     * @return The latest version as an integer or -1 if it failed to fetch.
+     */
+    private int getLatestVersion() {
+        try {
+<span class="nc" id="L201">            HttpResponse&lt;String&gt; response = client.send(buildBaseRequest(URI.create(RELEASES_URL)), HttpResponse.BodyHandlers.ofString());</span>
+
+<span class="nc bnc" id="L203" title="All 4 branches missed.">            if (response.statusCode() &lt; 200 || response.statusCode() &gt;= 300) {</span>
+<span class="nc" id="L204">                return -1;</span>
+            }
+
+<span class="nc" id="L207">            JsonElement element = JsonUtils.parseString(response.body());</span>
+
+<span class="nc" id="L209">            return element.getAsJsonObject().get(&quot;tag_name&quot;).getAsInt();</span>
+<span class="nc" id="L210">        } catch (IOException | InterruptedException | JsonParseException e) {</span>
+<span class="nc" id="L211">            plugin.getLogger().log(Level.WARNING, &quot;Failed to fetch latest builds for Metrics: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L212">            return -1;</span>
+        }
+    }
+
+    /**
+     * Downloads the version specified to Slimefun's data folder.
+     *
+     * @param version
+     *            The version to download.
+     */
+    private boolean download(int version) {
+<span class="nc" id="L223">        File file = new File(parentFolder, &quot;Metrics-&quot; + version + &quot;.jar&quot;);</span>
+
+        try {
+<span class="nc" id="L226">            plugin.getLogger().log(Level.INFO, &quot;# Starting download of MetricsModule build: #{0}&quot;, version);</span>
+
+<span class="nc bnc" id="L228" title="All 2 branches missed.">            if (file.exists()) {</span>
+                // Delete the file in case we accidentally downloaded it before
+<span class="nc" id="L230">                Files.delete(file.toPath());</span>
+            }
+
+<span class="nc" id="L233">            HttpResponse&lt;Path&gt; response = client.send(</span>
+<span class="nc" id="L234">                buildBaseRequest(URI.create(DOWNLOAD_URL + &quot;/&quot; + version + &quot;/&quot; + JAR_NAME + &quot;.jar&quot;)),</span>
+<span class="nc" id="L235">                downloadMonitor(HttpResponse.BodyHandlers.ofFile(file.toPath()))</span>
+            );
+
+<span class="nc bnc" id="L238" title="All 4 branches missed.">            if (response.statusCode() &gt;= 200 &amp;&amp; response.statusCode() &lt; 300) {</span>
+<span class="nc" id="L239">                plugin.getLogger().log(Level.INFO, &quot;Successfully downloaded {0} build: #{1}&quot;, new Object[] { JAR_NAME, version });</span>
+
+                // Replace the metric file with the new one
+<span class="nc" id="L242">                cleanUp();</span>
+<span class="nc" id="L243">                Files.move(file.toPath(), metricsModuleFile.toPath(), StandardCopyOption.REPLACE_EXISTING);</span>
+
+<span class="nc" id="L245">                metricVersion = String.valueOf(version);</span>
+<span class="nc" id="L246">                hasDownloadedUpdate = true;</span>
+<span class="nc" id="L247">                return true;</span>
+            } else {
+<span class="nc" id="L249">                plugin.getLogger().log(Level.WARNING, &quot;Failed to download the latest jar file from GitHub. Response code: {0}&quot;, response.statusCode());</span>
+            }
+<span class="nc" id="L251">        } catch (InterruptedException | JsonParseException e) {</span>
+<span class="nc" id="L252">            plugin.getLogger().log(Level.WARNING, &quot;Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down? Response: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L253">        } catch (IOException e) {</span>
+<span class="nc" id="L254">            plugin.getLogger().log(Level.WARNING, &quot;Failed to replace the old metric file with the new one. Please do this manually! Error: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L255">        }</span>
+
+<span class="nc" id="L257">        return false;</span>
+    }
+
+    /**
+     * Returns the currently downloaded metrics version.
+     * This &lt;strong&gt;can change&lt;/strong&gt;! It may be null or an
+     * older version before it has downloaded a newer one.
+     *
+     * @return The current version or null if not loaded.
+     */
+    @Nullable
+    public String getVersion() {
+<span class="nc" id="L269">        return metricVersion;</span>
+    }
+
+    /**
+     * Returns if the current server has metrics auto-updates enabled.
+     *
+     * @return True if the current server has metrics auto-updates enabled.
+     */
+    public boolean hasAutoUpdates() {
+<span class="nc" id="L278">        return Slimefun.instance().getConfig().getBoolean(&quot;metrics.auto-update&quot;);</span>
+    }
+
+    private HttpRequest buildBaseRequest(@Nonnull URI uri) {
+<span class="nc" id="L282">        return HttpRequest.newBuilder()</span>
+<span class="nc" id="L283">                .uri(uri)</span>
+<span class="nc" id="L284">                .timeout(Duration.ofSeconds(5))</span>
+<span class="nc" id="L285">                .header(&quot;User-Agent&quot;, &quot;MetricsModule Auto-Updater&quot;)</span>
+<span class="nc" id="L286">                .header(&quot;Accept&quot;, &quot;application/vnd.github.v3+json&quot;)</span>
+<span class="nc" id="L287">                .build();</span>
+    }
+
+    private &lt;T&gt; BodyHandler&lt;T&gt; downloadMonitor(BodyHandler&lt;T&gt; h) {
+<span class="nc" id="L291">        return info -&gt; new BodySubscriber&lt;T&gt;() {</span>
+
+<span class="nc" id="L293">            private BodySubscriber&lt;T&gt; delegateSubscriber = h.apply(info);</span>
+<span class="nc" id="L294">            private int lastPercentPosted = 0;</span>
+<span class="nc" id="L295">            private long bytesWritten = 0;</span>
+
+            @Override
+            public void onSubscribe(Subscription subscription) {
+<span class="nc" id="L299">                delegateSubscriber.onSubscribe(subscription);</span>
+<span class="nc" id="L300">            }</span>
+
+            @Override
+            public void onNext(List&lt;ByteBuffer&gt; item) {
+<span class="nc" id="L304">                bytesWritten += item.stream().mapToLong(ByteBuffer::capacity).sum();</span>
+<span class="nc" id="L305">                long totalBytes = info.headers().firstValue(&quot;Content-Length&quot;).map(Long::parseLong).orElse(-1L);</span>
+
+<span class="nc" id="L307">                int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));</span>
+
+<span class="nc bnc" id="L309" title="All 4 branches missed.">                if (percent != 0 &amp;&amp; percent != lastPercentPosted) {</span>
+<span class="nc" id="L310">                    plugin.getLogger().info(&quot;# Downloading... &quot; + percent + &quot;% &quot; + &quot;(&quot; + bytesWritten + &quot;/&quot; + totalBytes + &quot; bytes)&quot;);</span>
+<span class="nc" id="L311">                    lastPercentPosted = percent;</span>
+                }
+
+<span class="nc" id="L314">                delegateSubscriber.onNext(item);</span>
+<span class="nc" id="L315">            }</span>
+
+            @Override
+            public void onError(Throwable throwable) {
+<span class="nc" id="L319">                delegateSubscriber.onError(throwable);</span>
+
+<span class="nc" id="L321">            }</span>
+
+            @Override
+            public void onComplete() {
+<span class="nc" id="L325">                delegateSubscriber.onComplete();</span>
+<span class="nc" id="L326">            }</span>
+
+            @Override
+            public CompletionStage&lt;T&gt; getBody() {
+<span class="nc" id="L330">                return delegateSubscriber.getBody();</span>
+            }
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

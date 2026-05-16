@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnhancedFurnace.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.blocks</a> &gt; <span class="el_source">EnhancedFurnace.java</span></div><h1>EnhancedFurnace.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
+
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Furnace;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.papermc.lib.PaperLib;
+import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+/**
+ * The {@link EnhancedFurnace} is an upgraded version of a {@link Furnace}.
+ * It has a custom speed, efficiency and also a level of fortune.
+ * All of these values are tweaked for every instance of this class.
+ * 
+ * It uses a {@link BlockTicker} to manipulate the {@link Furnace} into working faster.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class EnhancedFurnace extends SimpleSlimefunItem&lt;BlockTicker&gt; {
+
+    private final int speed;
+    private final int efficiency;
+    private final int fortuneLevel;
+
+    public EnhancedFurnace(ItemGroup itemGroup, int speed, int efficiency, int fortune, SlimefunItemStack item, ItemStack[] recipe) {
+<span class="nc" id="L43">        super(itemGroup, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);</span>
+
+<span class="nc" id="L45">        this.speed = speed - 1;</span>
+<span class="nc" id="L46">        this.efficiency = efficiency - 1;</span>
+<span class="nc" id="L47">        this.fortuneLevel = fortune - 1;</span>
+
+<span class="nc" id="L49">        addItemHandler(new VanillaInventoryDropHandler&lt;&gt;(Furnace.class));</span>
+<span class="nc" id="L50">    }</span>
+
+    /**
+     * This returns the processing speed of this {@link EnhancedFurnace}.
+     * 
+     * @return The processing speed
+     */
+    public int getProcessingSpeed() {
+<span class="nc" id="L58">        return speed;</span>
+    }
+
+    /**
+     * This returns the fuel efficiency of this {@link EnhancedFurnace}.
+     * The fuel efficiency is a multiplier that is applied to any fuel burnt in this {@link EnhancedFurnace}.
+     * 
+     * @return The fuel multiplier
+     */
+    public int getFuelEfficiency() {
+<span class="nc" id="L68">        return efficiency;</span>
+    }
+
+    public int getRandomOutputAmount() {
+<span class="nc" id="L72">        int bonus = ThreadLocalRandom.current().nextInt(fortuneLevel + 2);</span>
+<span class="nc" id="L73">        return 1 + bonus;</span>
+    }
+
+    @Override
+    public BlockTicker getItemHandler() {
+<span class="nc" id="L78">        return new BlockTicker() {</span>
+
+            @Override
+            public void tick(Block b, SlimefunItem item, Config data) {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                if (b.getType() != Material.FURNACE) {</span>
+                    // The Furnace has been destroyed, we can clear the block data
+<span class="nc" id="L84">                    BlockStorage.clearBlockInfo(b);</span>
+                } else {
+<span class="nc" id="L86">                    BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);</span>
+<span class="nc" id="L87">                    BlockState state = result.getState();</span>
+
+                    // Check if the BlockState is a Furnace and cooking something
+<span class="nc bnc" id="L90" title="All 4 branches missed.">                    if (state instanceof Furnace furnace &amp;&amp; furnace.getCookTime() &gt; 0) {</span>
+<span class="nc" id="L91">                        setProgress(furnace);</span>
+
+                        // Only update if necessary
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                        if (result.isSnapshot()) {</span>
+<span class="nc" id="L95">                            state.update(true, false);</span>
+                        }
+                    }
+                }
+<span class="nc" id="L99">            }</span>
+
+            @Override
+            public boolean isSynchronized() {
+                // This messes with BlockStates, so it needs to be synchronized
+<span class="nc" id="L104">                return true;</span>
+            }
+        };
+    }
+
+    private void setProgress(@Nonnull Furnace furnace) {
+        // Update the cooktime
+<span class="nc" id="L111">        int cookTime = furnace.getCookTime() + getProcessingSpeed() * 10;</span>
+<span class="nc" id="L112">        furnace.setCookTime((short) Math.min(cookTime, furnace.getCookTimeTotal() - 1));</span>
+<span class="nc" id="L113">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

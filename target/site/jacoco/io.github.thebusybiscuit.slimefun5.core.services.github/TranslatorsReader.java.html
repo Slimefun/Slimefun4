@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TranslatorsReader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services.github</a> &gt; <span class="el_source">TranslatorsReader.java</span></div><h1>TranslatorsReader.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services.github;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
+
+/**
+ * This class reads all translators of this project.
+ * A translator is equivalent to the class {@link Contributor} as it also uses that internally.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Contributor
+ *
+ */
+final class TranslatorsReader {
+
+    private final GitHubService github;
+
+    // We maybe should switch to a json file in our resources folder at some point.
+<span class="nc" id="L34">    TranslatorsReader(@Nonnull GitHubService github) {</span>
+<span class="nc" id="L35">        this.github = github;</span>
+<span class="nc" id="L36">    }</span>
+
+    public void load() {
+<span class="nc" id="L39">        InputStream inputStream = Slimefun.class.getResourceAsStream(&quot;/languages/translators.json&quot;);</span>
+
+<span class="nc" id="L41">        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {</span>
+<span class="nc" id="L42">            JsonElement element = JsonUtils.parseString(reader.lines().collect(Collectors.joining(&quot;&quot;)));</span>
+<span class="nc" id="L43">            JsonObject json = element.getAsJsonObject();</span>
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">            for (Map.Entry&lt;String, JsonElement&gt; entry : json.entrySet()) {</span>
+<span class="nc" id="L46">                String languageCode = entry.getKey();</span>
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                if (entry.getValue().isJsonArray()) {</span>
+<span class="nc" id="L49">                    String role = ContributorRole.TRANSLATOR.getId() + ',' + languageCode;</span>
+<span class="nc" id="L50">                    JsonArray users = entry.getValue().getAsJsonArray();</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">                    for (JsonElement user : users) {</span>
+<span class="nc" id="L53">                        github.addContributor(user.getAsString(), role, 0);</span>
+<span class="nc" id="L54">                    }</span>
+                }
+<span class="nc" id="L56">            }</span>
+<span class="nc" id="L57">        } catch (Exception e) {</span>
+<span class="nc" id="L58">            Slimefun.logger().log(Level.SEVERE, &quot;Failed to load translators.json file&quot;, e);</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

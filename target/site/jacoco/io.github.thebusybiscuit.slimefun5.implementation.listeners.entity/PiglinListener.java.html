@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PiglinListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners.entity</a> &gt; <span class="el_source">PiglinListener.java</span></div><h1>PiglinListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
+
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Piglin;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDropItemEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.PiglinBarterDrop;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * This {@link Listener} prevents a {@link Piglin} from bartering with a
+ * {@link SlimefunItem}.
+ * It also listens to the {@link EntityDropItemEvent} to
+ * inject a {@link PiglinBarterDrop} if the chance check passes.
+ *
+ * @author poma123
+ * @author dNiym
+ * 
+ */
+public class PiglinListener implements Listener {
+
+<span class="nc" id="L36">    public PiglinListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L37">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L38">    }</span>
+
+    @EventHandler
+    public void onPickup(EntityPickupItemEvent e) {
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (e.getEntityType() == EntityType.PIGLIN) {</span>
+<span class="nc" id="L43">            ItemStack item = e.getItem().getItemStack();</span>
+
+            // Don't let Piglins pick up gold from Slimefun
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            if (SlimefunItem.getByItem(item) != null) {</span>
+<span class="nc" id="L47">                e.setCancelled(true);</span>
+            }
+        }
+<span class="nc" id="L50">    }</span>
+
+    @EventHandler
+    public void onInteract(PlayerInteractEntityEvent e) {
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        if (!e.getRightClicked().isValid() || e.getRightClicked().getType() != EntityType.PIGLIN) {</span>
+<span class="nc" id="L55">            return;</span>
+        }
+
+<span class="nc" id="L58">        Player p = e.getPlayer();</span>
+        ItemStack item;
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (e.getHand() == EquipmentSlot.OFF_HAND) {</span>
+<span class="nc" id="L62">            item = p.getInventory().getItemInOffHand();</span>
+        } else {
+<span class="nc" id="L64">            item = p.getInventory().getItemInMainHand();</span>
+        }
+
+        // We only care about Gold since it's the actual &quot;Bartering&quot; we wanna prevent
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (item.getType() == Material.GOLD_INGOT) {</span>
+<span class="nc" id="L69">            SlimefunItem sfItem = SlimefunItem.getByItem(item);</span>
+
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (sfItem != null) {</span>
+<span class="nc" id="L72">                Slimefun.getLocalization().sendMessage(p, &quot;messages.piglin-barter&quot;, true);</span>
+<span class="nc" id="L73">                e.setCancelled(true);</span>
+            }
+        }
+<span class="nc" id="L76">    }</span>
+
+    @EventHandler
+    public void onPiglinDropItem(EntityDropItemEvent e) {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (e.getEntity() instanceof Piglin) {</span>
+<span class="nc" id="L81">            Set&lt;ItemStack&gt; drops = Slimefun.getRegistry().getBarteringDrops();</span>
+
+            /*
+             * NOTE: Getting a new random number each iteration because multiple items could have the same
+             * % chance to drop, and if one fails all items with that number will fail.
+             * Getting a new random number will allow multiple items with the same % chance to drop.
+             */
+
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            for (ItemStack is : drops) {</span>
+<span class="nc" id="L90">                SlimefunItem sfi = SlimefunItem.getByItem(is);</span>
+                // Check the getBarteringLootChance and compare against a random number 0-100,
+                // if the random number is greater then replace the item.
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                if (sfi instanceof PiglinBarterDrop piglinBarterDrop) {</span>
+<span class="nc" id="L94">                    int chance = piglinBarterDrop.getBarteringLootChance();</span>
+
+<span class="nc bnc" id="L96" title="All 4 branches missed.">                    if (chance &lt; 1 || chance &gt;= 100) {</span>
+<span class="nc" id="L97">                        sfi.warn(&quot;The Piglin Bartering chance must be between 1-99% on item: &quot; + sfi.getId());</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">                    } else if (chance &gt; ThreadLocalRandom.current().nextInt(100)) {</span>
+<span class="nc" id="L99">                        e.getItemDrop().setItemStack(sfi.getRecipeOutput());</span>
+<span class="nc" id="L100">                        return;</span>
+                    }
+                }
+<span class="nc" id="L103">            }</span>
+        }
+<span class="nc" id="L105">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

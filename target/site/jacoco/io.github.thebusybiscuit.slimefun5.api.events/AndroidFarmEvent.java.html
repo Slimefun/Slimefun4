@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AndroidFarmEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.events</a> &gt; <span class="el_source">AndroidFarmEvent.java</span></div><h1>AndroidFarmEvent.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.events;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.block.Block;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FarmerAndroid;
+
+/**
+ * This {@link Event} is fired before a {@link FarmerAndroid} harvests a {@link Block}.
+ * If this {@link Event} is cancelled, the {@link Block} will not be harvested.
+ * &lt;p&gt;
+ * The {@link Event} will still be fired for non-harvestable blocks.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ */
+public class AndroidFarmEvent extends Event implements Cancellable {
+
+<span class="nc" id="L26">    private static final HandlerList handlers = new HandlerList();</span>
+
+    private final Block block;
+    private final AndroidInstance android;
+    private final boolean isAdvanced;
+    private ItemStack drop;
+    private boolean cancelled;
+
+    /**
+     * @param block
+     *            The harvested {@link Block}
+     * @param android
+     *            The {@link AndroidInstance} that triggered this {@link Event}
+     * @param isAdvanced
+     *            Whether this is an advanced farming action
+     * @param drop
+     *            The item to be dropped or null
+     */
+<span class="nc" id="L44">    public AndroidFarmEvent(@Nonnull Block block, @Nonnull AndroidInstance android, boolean isAdvanced, @Nullable ItemStack drop) {</span>
+<span class="nc" id="L45">        this.block = block;</span>
+<span class="nc" id="L46">        this.android = android;</span>
+<span class="nc" id="L47">        this.isAdvanced = isAdvanced;</span>
+<span class="nc" id="L48">        this.drop = drop;</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * This method returns the mined {@link Block}
+     *
+     * @return the mined {@link Block}
+     */
+    @Nonnull
+    public Block getBlock() {
+<span class="nc" id="L58">        return block;</span>
+    }
+
+    /**
+     * This returns the harvested item or null.
+     * 
+     * @return The harvested item or null
+     */
+    @Nullable
+    public ItemStack getDrop() {
+<span class="nc" id="L68">        return drop;</span>
+    }
+
+    /**
+     * Whether this was invoked via an advanced farming action
+     * 
+     * @return Whether it is advanced
+     */
+    public boolean isAdvanced() {
+<span class="nc" id="L77">        return isAdvanced;</span>
+    }
+
+    /**
+     * This will set the {@link ItemStack} result.
+     * 
+     * @param drop
+     *            The result or null
+     */
+    public void setDrop(@Nullable ItemStack drop) {
+<span class="nc" id="L87">        this.drop = drop;</span>
+<span class="nc" id="L88">    }</span>
+
+    /**
+     * This method returns the {@link AndroidInstance} who
+     * triggered this {@link Event}
+     *
+     * @return the involved {@link AndroidInstance}
+     */
+    @Nonnull
+    public AndroidInstance getAndroid() {
+<span class="nc" id="L98">        return android;</span>
+    }
+
+    @Override
+    public boolean isCancelled() {
+<span class="nc" id="L103">        return cancelled;</span>
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+<span class="nc" id="L108">        cancelled = cancel;</span>
+<span class="nc" id="L109">    }</span>
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+<span class="nc" id="L113">        return handlers;</span>
+    }
+
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
+<span class="nc" id="L119">        return getHandlerList();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

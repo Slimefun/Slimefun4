@@ -1,0 +1,22 @@
+---
+tooltips:
+  results: 'GEO-Skannings Resultat'
+  chunk: 'Skannade Chunks'
+  world: 'Världen'
+  unit: 'Enhet'
+  units: 'Enheter'
+resources:
+  slimefun:
+    oil: 'Olja'
+    nether_ice: 'Nether Is'
+  slimefunorechunks:
+    iron_ore_chunk: 'Järnmalms Bit'
+    gold_ore_chunk: 'Guldmalms Bit'
+    copper_ore_chunk: 'Kopparmalm Bit'
+    tin_ore_chunk: 'Tennmalm Bit'
+    silver_ore_chunk: 'Silvermalm Bit'
+    aluminum_ore_chunk: 'Aluminiummalm Bit'
+    lead_ore_chunk: 'Blymalm Bit'
+    zinc_ore_chunk: 'Zinkmalm Bit'
+    nickel_ore_chunk: 'Nickelmalm Bit'
+    cobalt_ore_chunk: 'Koboltmalm Bit'

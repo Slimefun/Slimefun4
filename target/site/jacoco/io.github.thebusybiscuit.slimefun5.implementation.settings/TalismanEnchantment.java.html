@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TalismanEnchantment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.settings</a> &gt; <span class="el_source">TalismanEnchantment.java</span></div><h1>TalismanEnchantment.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.settings;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.enchantments.Enchantment;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
+
+/**
+ * This class is an extension of {@link ItemSetting} that holds an {@link Enchantment} and
+ * a level. It is only used by the {@link TalismanListener} to handle the {@link MagicianTalisman}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @see MagicianTalisman
+ */
+public class TalismanEnchantment extends ItemSetting&lt;Boolean&gt; {
+
+    private final Enchantment enchantment;
+    private final int level;
+
+    @ParametersAreNonnullByDefault
+    public TalismanEnchantment(MagicianTalisman talisman, Enchantment enchantment, int level) {
+<span class="nc" id="L27">        super(talisman, &quot;allow-enchantments.&quot; + enchantment.getKey().getNamespace() + '.' + enchantment.getKey().getKey() + &quot;.level.&quot; + level, true);</span>
+
+<span class="nc" id="L29">        this.enchantment = enchantment;</span>
+<span class="nc" id="L30">        this.level = level;</span>
+<span class="nc" id="L31">    }</span>
+
+    /**
+     * This returns the actual {@link Enchantment} represented by this {@link ItemSetting}.
+     * 
+     * @return The associated {@link Enchantment}
+     */
+    @Nonnull
+    public Enchantment getEnchantment() {
+<span class="nc" id="L40">        return enchantment;</span>
+    }
+
+    /**
+     * This returns the level for this {@link Enchantment}.
+     * 
+     * @return The level
+     */
+    public int getLevel() {
+<span class="nc" id="L49">        return level;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

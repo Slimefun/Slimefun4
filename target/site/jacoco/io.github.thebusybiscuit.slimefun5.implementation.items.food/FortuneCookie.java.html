@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FortuneCookie.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.food</a> &gt; <span class="el_source">FortuneCookie.java</span></div><h1>FortuneCookie.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.food;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+
+/**
+ * The {@link FortuneCookie} is a rather simple {@link SlimefunItem}, it's a cookie which
+ * sends the {@link Player} who ate it a random text message.
+ * The messages can be defined in the {@link LocalizationService}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class FortuneCookie extends SimpleSlimefunItem&lt;ItemConsumptionHandler&gt; {
+
+    @ParametersAreNonnullByDefault
+    public FortuneCookie(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L33">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L34">    }</span>
+
+    @Override
+    public ItemConsumptionHandler getItemHandler() {
+<span class="nc" id="L38">        return (e, p, item) -&gt; {</span>
+<span class="nc" id="L39">            List&lt;String&gt; messages = Slimefun.getLocalization().getMessages(p, &quot;messages.fortune-cookie&quot;);</span>
+<span class="nc" id="L40">            String message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));</span>
+
+<span class="nc" id="L42">            p.sendMessage(ChatColors.color(message));</span>
+<span class="nc" id="L43">        };</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

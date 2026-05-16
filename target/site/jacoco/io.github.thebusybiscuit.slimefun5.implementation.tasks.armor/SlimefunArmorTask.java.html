@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlimefunArmorTask.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.tasks.armor</a> &gt; <span class="el_source">SlimefunArmorTask.java</span></div><h1>SlimefunArmorTask.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.tasks.armor;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+
+import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+
+/**
+ * The {@link SlimefunArmorTask} is responsible for handling {@link SlimefunArmorPiece}
+ *
+ * @author TheBusyBiscuit
+ * @author martinbrom
+ * @author Semisol
+ */
+<span class="nc" id="L23">public class SlimefunArmorTask extends AbstractArmorTask {</span>
+
+    @Override
+    @ParametersAreNonnullByDefault
+    protected void onPlayerTick(Player p, PlayerProfile profile) {
+<span class="nc" id="L28">        ItemStack[] armor = p.getInventory().getArmorContents();</span>
+<span class="nc" id="L29">        updateAndHandleArmor(p, armor, profile.getArmor());</span>
+<span class="nc" id="L30">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void updateAndHandleArmor(Player p, ItemStack[] armor, HashedArmorpiece[] cachedArmor) {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        for (int slot = 0; slot &lt; 4; slot++) {</span>
+<span class="nc" id="L35">            ItemStack item = armor[slot];</span>
+<span class="nc" id="L36">            HashedArmorpiece armorPiece = cachedArmor[slot];</span>
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (armorPiece.hasDiverged(item)) {</span>
+<span class="nc" id="L39">                SlimefunItem sfItem = SlimefunItem.getByItem(item);</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                if (!(sfItem instanceof SlimefunArmorPiece)) {</span>
+                    // If it isn't actually Armor, then we won't care about it.
+<span class="nc" id="L43">                    sfItem = null;</span>
+                }
+
+<span class="nc" id="L46">                armorPiece.update(item, sfItem);</span>
+            }
+
+<span class="nc bnc" id="L49" title="All 4 branches missed.">            if (item != null &amp;&amp; armorPiece.getItem().isPresent()) {</span>
+<span class="nc" id="L50">                Slimefun.runSync(() -&gt; {</span>
+<span class="nc" id="L51">                    SlimefunArmorPiece sfArmorPiece = armorPiece.getItem().get();</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                    if (sfArmorPiece.canUse(p, true)) {</span>
+<span class="nc" id="L54">                        onArmorPieceTick(p, sfArmorPiece, item);</span>
+                    }
+<span class="nc" id="L56">                });</span>
+            }
+        }
+<span class="nc" id="L59">    }</span>
+
+    /**
+     * Method to handle behavior for pieces of armor.
+     * It is called per-player and per piece of armor.
+     *
+     * @param p
+     *            The {@link Player} wearing the piece of armor
+     * @param sfArmorPiece
+     *            {@link SlimefunArmorPiece} Slimefun instance of the piece of armor
+     * @param armorPiece
+     *            The actual {@link ItemStack} of the armor piece
+     */
+    @ParametersAreNonnullByDefault
+    protected void onArmorPieceTick(Player p, SlimefunArmorPiece sfArmorPiece, ItemStack armorPiece) {
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (PotionEffect effect : sfArmorPiece.getPotionEffects()) {</span>
+<span class="nc" id="L75">            p.removePotionEffect(effect.getType());</span>
+<span class="nc" id="L76">            p.addPotionEffect(effect);</span>
+        }
+<span class="nc" id="L78">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

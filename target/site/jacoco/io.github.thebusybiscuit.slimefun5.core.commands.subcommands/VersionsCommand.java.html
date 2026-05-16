@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VersionsCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.commands.subcommands</a> &gt; <span class="el_source">VersionsCommand.java</span></div><h1>VersionsCommand.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
+
+import java.util.Collection;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.plugin.Plugin;
+
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.papermc.lib.PaperLib;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
+
+/**
+ * This is our class for the /sf versions subcommand.
+ * 
+ * @author TheBusyBiscuit
+ * @author Walshy
+ *
+ */
+class VersionsCommand extends SubCommand {
+
+    /**
+     * This is the Java version we recommend to use.
+     * Bump as necessary and adjust the warning.
+     */
+    private static final int RECOMMENDED_JAVA_VERSION = 16;
+
+    /**
+     * This is the notice that will be displayed when an
+     * older version of Java is detected.
+     */
+    private static final String JAVA_VERSION_NOTICE = &quot;As of Minecraft 1.17 Java 16 will be required!&quot;;
+
+    @ParametersAreNonnullByDefault
+    VersionsCommand(Slimefun plugin, SlimefunCommand cmd) {
+<span class="nc" id="L49">        super(plugin, cmd, &quot;versions&quot;, false);</span>
+<span class="nc" id="L50">    }</span>
+
+    @Override
+    public void onExecute(@Nonnull CommandSender sender, @Nonnull String[] args) {
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        if (sender.hasPermission(&quot;slimefun.command.versions&quot;) || sender instanceof ConsoleCommandSender) {</span>
+            /*
+             * After all these years... Spigot still displays as &quot;CraftBukkit&quot;.
+             * so we will just fix this inconsistency for them :)
+             */
+<span class="nc bnc" id="L59" title="All 4 branches missed.">            String serverSoftware = PaperLib.isSpigot() &amp;&amp; !PaperLib.isPaper() ? &quot;Spigot&quot; : Bukkit.getName();</span>
+<span class="nc" id="L60">            ComponentBuilder builder = new ComponentBuilder();</span>
+
+            // @formatter:off
+<span class="nc" id="L63">            builder.append(&quot;This Server uses the following setup of Slimefun:\n&quot;)</span>
+<span class="nc" id="L64">                .color(ChatColor.GRAY)</span>
+<span class="nc" id="L65">                .append(serverSoftware)</span>
+<span class="nc" id="L66">                .color(ChatColor.GREEN)</span>
+<span class="nc" id="L67">                .append(&quot; &quot; + Bukkit.getVersion() + '\n')</span>
+<span class="nc" id="L68">                .color(ChatColor.DARK_GREEN);</span>
+
+<span class="nc" id="L70">            builder</span>
+<span class="nc" id="L71">                .append(&quot;Slimefun &quot;)</span>
+<span class="nc" id="L72">                .color(ChatColor.GREEN)</span>
+<span class="nc" id="L73">                .append(Slimefun.getVersion())</span>
+<span class="nc" id="L74">                .color(ChatColor.DARK_GREEN);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if (!Slimefun.getUpdater().isLatestVersion()) {</span>
+<span class="nc" id="L76">                builder</span>
+<span class="nc" id="L77">                    .append(&quot; (&quot;).color(ChatColor.GRAY)</span>
+<span class="nc" id="L78">                    .append(&quot;Update available&quot;).color(ChatColor.RED).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(</span>
+                        &quot;Your Slimefun version is out of date!\n&quot; +
+                        &quot;Please update to get the latest bug fixes and performance improvements.\n&quot; +
+                        &quot;Please do not report any bugs without updating first.&quot;
+                    )))
+<span class="nc" id="L83">                    .append(&quot;)&quot;).color(ChatColor.GRAY);</span>
+            }
+
+<span class="nc" id="L86">            builder.append(&quot;\n&quot;).event((HoverEvent) null);</span>
+            // @formatter:on
+
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (Slimefun.getMetricsService().getVersion() != null) {</span>
+                // @formatter:off
+<span class="nc" id="L91">                builder.append(&quot;Metrics-Module &quot;)</span>
+<span class="nc" id="L92">                    .color(ChatColor.GREEN)</span>
+<span class="nc" id="L93">                    .append(&quot;#&quot; + Slimefun.getMetricsService().getVersion() + '\n')</span>
+<span class="nc" id="L94">                    .color(ChatColor.DARK_GREEN);</span>
+                // @formatter:on
+            }
+
+<span class="nc" id="L98">            addJavaVersion(builder);</span>
+
+<span class="nc" id="L100">            builder.append(&quot;\n&quot;).event((HoverEvent) null);</span>
+<span class="nc" id="L101">            addPluginVersions(builder);</span>
+
+<span class="nc" id="L103">            sender.spigot().sendMessage(builder.create());</span>
+<span class="nc" id="L104">        } else {</span>
+<span class="nc" id="L105">            Slimefun.getLocalization().sendMessage(sender, &quot;messages.no-permission&quot;, true);</span>
+        }
+<span class="nc" id="L107">    }</span>
+
+    private void addJavaVersion(@Nonnull ComponentBuilder builder) {
+<span class="nc" id="L110">        int version = NumberUtils.getJavaVersion();</span>
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (version &lt; RECOMMENDED_JAVA_VERSION) {</span>
+            // @formatter:off
+<span class="nc" id="L114">            builder.append(&quot;Java &quot; + version).color(ChatColor.RED)</span>
+<span class="nc" id="L115">                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(</span>
+                    &quot;Your Java version is out of date!\n!&quot; +
+                    &quot;You should use Java &quot; + RECOMMENDED_JAVA_VERSION + &quot; or higher.\n&quot; +
+                    JAVA_VERSION_NOTICE
+                )))
+<span class="nc" id="L120">                .append(&quot;\n&quot;)</span>
+<span class="nc" id="L121">                .event((HoverEvent) null);</span>
+            // @formatter:on
+        } else {
+<span class="nc" id="L124">            builder.append(&quot;Java &quot;).color(ChatColor.GREEN).append(version + &quot;\n&quot;).color(ChatColor.DARK_GREEN);</span>
+        }
+<span class="nc" id="L126">    }</span>
+
+    private void addPluginVersions(@Nonnull ComponentBuilder builder) {
+<span class="nc" id="L129">        Collection&lt;Plugin&gt; addons = Slimefun.getInstalledAddons();</span>
+
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (addons.isEmpty()) {</span>
+<span class="nc" id="L132">            builder.append(&quot;No Addons installed&quot;).color(ChatColor.GRAY).italic(true);</span>
+<span class="nc" id="L133">            return;</span>
+        }
+
+<span class="nc" id="L136">        builder.append(&quot;Installed Addons: &quot;).color(ChatColor.GRAY).append(&quot;(&quot; + addons.size() + &quot;)&quot;).color(ChatColor.DARK_GRAY);</span>
+
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        for (Plugin plugin : addons) {</span>
+<span class="nc" id="L139">            String version = plugin.getDescription().getVersion();</span>
+
+<span class="nc" id="L141">            HoverEvent hoverEvent = null;</span>
+<span class="nc" id="L142">            ClickEvent clickEvent = null;</span>
+            ChatColor primaryColor;
+            ChatColor secondaryColor;
+
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {</span>
+<span class="nc" id="L147">                primaryColor = ChatColor.GREEN;</span>
+<span class="nc" id="L148">                secondaryColor = ChatColor.DARK_GREEN;</span>
+<span class="nc" id="L149">                String authors = String.join(&quot;, &quot;, plugin.getDescription().getAuthors());</span>
+
+<span class="nc bnc" id="L151" title="All 4 branches missed.">                if (plugin instanceof SlimefunAddon addon &amp;&amp; addon.getBugTrackerURL() != null) {</span>
+                    // @formatter:off
+<span class="nc" id="L153">                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder()</span>
+<span class="nc" id="L154">                        .append(&quot;Author(s): &quot;)</span>
+<span class="nc" id="L155">                        .append(authors)</span>
+<span class="nc" id="L156">                        .color(ChatColor.YELLOW)</span>
+<span class="nc" id="L157">                        .append(&quot;\n&gt; Click here to go to their issues tracker&quot;)</span>
+<span class="nc" id="L158">                        .color(ChatColor.GOLD)</span>
+<span class="nc" id="L159">                        .create()</span>
+                    ));
+                    // @formatter:on
+
+<span class="nc" id="L163">                    clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, addon.getBugTrackerURL());</span>
+                } else {
+                    // @formatter:off
+<span class="nc" id="L166">                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder()</span>
+<span class="nc" id="L167">                        .append(&quot;Author(s): &quot;)</span>
+<span class="nc" id="L168">                        .append(authors)</span>
+<span class="nc" id="L169">                        .color(ChatColor.YELLOW)</span>
+<span class="nc" id="L170">                        .create()</span>
+                    ));
+                    // @formatter:on
+                }
+<span class="nc" id="L174">            } else {</span>
+<span class="nc" id="L175">                primaryColor = ChatColor.RED;</span>
+<span class="nc" id="L176">                secondaryColor = ChatColor.DARK_RED;</span>
+
+<span class="nc bnc" id="L178" title="All 4 branches missed.">                if (plugin instanceof SlimefunAddon addon &amp;&amp; addon.getBugTrackerURL() != null) {</span>
+                    // @formatter:off
+<span class="nc" id="L180">                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder()</span>
+<span class="nc" id="L181">                        .append(&quot;This plugin is disabled.\nCheck the console for an error message.&quot;)</span>
+<span class="nc" id="L182">                        .color(ChatColor.RED)</span>
+<span class="nc" id="L183">                        .append(&quot;\n&gt; Click here to report on their issues tracker&quot;)</span>
+<span class="nc" id="L184">                        .color(ChatColor.DARK_RED)</span>
+<span class="nc" id="L185">                        .create()</span>
+                    ));
+                    // @formatter:on
+
+<span class="nc bnc" id="L189" title="All 2 branches missed.">                    if (addon.getBugTrackerURL() != null) {</span>
+<span class="nc" id="L190">                        clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, addon.getBugTrackerURL());</span>
+                    }
+                } else {
+<span class="nc" id="L193">                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(&quot;Plugin is disabled. Check the console for an error and report on their issues tracker.&quot;));</span>
+                }
+            }
+
+            // @formatter:off
+            // We need to reset the hover event or it's added to all components
+<span class="nc" id="L199">            builder.append(&quot;\n  &quot; + plugin.getName())</span>
+<span class="nc" id="L200">                .color(primaryColor)</span>
+<span class="nc" id="L201">                .event(hoverEvent)</span>
+<span class="nc" id="L202">                .event(clickEvent)</span>
+<span class="nc" id="L203">                .append(&quot; v&quot; + version)</span>
+<span class="nc" id="L204">                .color(secondaryColor)</span>
+<span class="nc" id="L205">                .append(&quot;&quot;)</span>
+<span class="nc" id="L206">                .event((ClickEvent) null)</span>
+<span class="nc" id="L207">                .event((HoverEvent) null);</span>
+            // @formatter:on
+<span class="nc" id="L209">        }</span>
+<span class="nc" id="L210">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

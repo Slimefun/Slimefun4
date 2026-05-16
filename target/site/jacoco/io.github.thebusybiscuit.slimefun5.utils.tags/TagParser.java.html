@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TagParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils.tags</a> &gt; <span class="el_source">TagParser.java</span></div><h1>TagParser.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils.tags;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Keyed;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+
+/**
+ * The {@link TagParser} is responsible for parsing a JSON input into a {@link SlimefunTag}.
+ *
+ * @author TheBusyBiscuit
+ *
+ * @see SlimefunTag
+ *
+ */
+public class TagParser implements Keyed {
+
+    /**
+     * Every {@link Tag} has a {@link NamespacedKey}.
+     * This is the {@link NamespacedKey} for the resulting {@link Tag}.
+     */
+    private final NamespacedKey key;
+
+    /**
+     * This constructs a new {@link TagParser}.
+     *
+     * @param key
+     *            The {@link NamespacedKey} of the resulting {@link SlimefunTag}
+     */
+<span class="nc" id="L57">    public TagParser(@Nonnull NamespacedKey key) {</span>
+<span class="nc" id="L58">        this.key = key;</span>
+<span class="nc" id="L59">    }</span>
+
+    /**
+     * This constructs a new {@link TagParser} for the given {@link SlimefunTag}
+     *
+     * @param tag
+     *            The {@link SlimefunTag} to parse inputs for
+     */
+    TagParser(@Nonnull SlimefunTag tag) {
+<span class="nc" id="L68">        this(tag.getKey());</span>
+<span class="nc" id="L69">    }</span>
+
+    void parse(@Nonnull SlimefunTag tag, @Nonnull BiConsumer&lt;Set&lt;Material&gt;, Set&lt;Tag&lt;Material&gt;&gt;&gt; callback) throws TagMisconfigurationException {
+<span class="nc" id="L72">        String path = &quot;/tags/&quot; + tag.getKey().getKey() + &quot;.json&quot;;</span>
+
+<span class="nc" id="L74">        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Slimefun.class.getResourceAsStream(path), StandardCharsets.UTF_8))) {</span>
+<span class="nc" id="L75">            parse(reader.lines().collect(Collectors.joining(&quot;&quot;)), callback);</span>
+<span class="nc" id="L76">        } catch (IOException x) {</span>
+<span class="nc" id="L77">            throw new TagMisconfigurationException(key, x);</span>
+<span class="nc" id="L78">        }</span>
+<span class="nc" id="L79">    }</span>
+
+    /**
+     * This will parse the given JSON {@link String} and run the provided callback with {@link Set Sets} of
+     * matched {@link Material Materials} and {@link Tag Tags}.
+     *
+     * @param json
+     *            The JSON {@link String} to parse
+     * @param callback
+     *            A callback to run after successfully parsing the input
+     *
+     * @throws TagMisconfigurationException
+     *             This is thrown whenever the given input is malformed or no adequate
+     *             {@link Material} or {@link Tag} could be found
+     */
+    public void parse(@Nonnull String json, @Nonnull BiConsumer&lt;Set&lt;Material&gt;, Set&lt;Tag&lt;Material&gt;&gt;&gt; callback) throws TagMisconfigurationException {
+<span class="nc" id="L95">        Validate.notNull(json, &quot;Cannot parse a null String&quot;);</span>
+
+        try {
+<span class="nc" id="L98">            Set&lt;Material&gt; materials = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L99">            Set&lt;Tag&lt;Material&gt;&gt; tags = new HashSet&lt;&gt;();</span>
+
+<span class="nc" id="L101">            JsonObject root = JsonUtils.parseString(json).getAsJsonObject();</span>
+<span class="nc" id="L102">            JsonElement child = root.get(&quot;values&quot;);</span>
+
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            if (child instanceof JsonArray) {</span>
+<span class="nc" id="L105">                JsonArray values = child.getAsJsonArray();</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                for (JsonElement element : values) {</span>
+<span class="nc bnc" id="L108" title="All 4 branches missed.">                    if (element instanceof JsonPrimitive primitive &amp;&amp; primitive.isString()) {</span>
+                        // Strings will be parsed directly
+<span class="nc" id="L110">                        parsePrimitiveValue(element.getAsString(), materials, tags, true);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                    } else if (element instanceof JsonObject) {</span>
+                        /*
+                         * JSONObjects can have a &quot;required&quot; property which can
+                         * make it optional to resolve the underlying value
+                         */
+<span class="nc" id="L116">                        parseComplexValue(element.getAsJsonObject(), materials, tags);</span>
+                    } else {
+<span class="nc" id="L118">                        throw new TagMisconfigurationException(key, &quot;Unexpected value format: &quot; + element.getClass().getSimpleName() + &quot; - &quot; + element.toString());</span>
+                    }
+<span class="nc" id="L120">                }</span>
+
+                // Run the callback with the filled-in materials and tags
+<span class="nc" id="L123">                callback.accept(materials, tags);</span>
+<span class="nc" id="L124">            } else {</span>
+                // The JSON seems to be empty yet valid
+<span class="nc" id="L126">                throw new TagMisconfigurationException(key, &quot;No values array specified&quot;);</span>
+            }
+<span class="nc" id="L128">        } catch (IllegalStateException | JsonParseException x) {</span>
+<span class="nc" id="L129">            throw new TagMisconfigurationException(key, x);</span>
+<span class="nc" id="L130">        }</span>
+<span class="nc" id="L131">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void parsePrimitiveValue(String value, Set&lt;Material&gt; materials, Set&lt;Tag&lt;Material&gt;&gt; tags, boolean throwException) throws TagMisconfigurationException {
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        if (PatternUtils.MINECRAFT_NAMESPACEDKEY.matcher(value).matches()) {</span>
+            // Match the NamespacedKey against Materials
+<span class="nc" id="L137">            Material material = Material.matchMaterial(value);</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">            if (material != null) {</span>
+                // If the Material could be matched, simply add it to our Set
+<span class="nc" id="L141">                materials.add(material);</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">            } else if (throwException) {</span>
+<span class="nc" id="L143">                throw new TagMisconfigurationException(key, &quot;Minecraft Material '&quot; + value + &quot;' seems to not exist!&quot;);</span>
+            }
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        } else if (PatternUtils.MINECRAFT_TAG.matcher(value).matches()) {</span>
+            // Get the actual Key portion and match it to item and block tags.
+<span class="nc" id="L147">            String keyValue = CommonPatterns.COLON.split(value)[1];</span>
+<span class="nc" id="L148">            NamespacedKey namespacedKey = NamespacedKey.minecraft(keyValue);</span>
+<span class="nc" id="L149">            Tag&lt;Material&gt; itemsTag = Bukkit.getTag(Tag.REGISTRY_ITEMS, namespacedKey, Material.class);</span>
+<span class="nc" id="L150">            Tag&lt;Material&gt; blocksTag = Bukkit.getTag(Tag.REGISTRY_BLOCKS, namespacedKey, Material.class);</span>
+
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            if (itemsTag != null) {</span>
+                // We will prioritize the item tag
+<span class="nc" id="L154">                tags.add(itemsTag);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            } else if (blocksTag != null) {</span>
+                // If no item tag exists, fall back to the block tag
+<span class="nc" id="L157">                tags.add(blocksTag);</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">            } else if (throwException) {</span>
+                // If both fail, then the tag does not exist.
+<span class="nc" id="L160">                throw new TagMisconfigurationException(key, &quot;There is no '&quot; + value + &quot;' tag in Minecraft.&quot;);</span>
+            }
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        } else if (PatternUtils.SLIMEFUN_TAG.matcher(value).matches()) {</span>
+            // Get a SlimefunTag enum value for the given key
+<span class="nc" id="L164">            String keyValue = CommonPatterns.COLON.split(value)[1].toUpperCase(Locale.ROOT);</span>
+<span class="nc" id="L165">            SlimefunTag tag = SlimefunTag.getTag(keyValue);</span>
+
+<span class="nc bnc" id="L167" title="All 2 branches missed.">            if (tag != null) {</span>
+<span class="nc" id="L168">                tags.add(tag);</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">            } else if (throwException) {</span>
+<span class="nc" id="L170">                throw new TagMisconfigurationException(key, &quot;There is no '&quot; + value + &quot;' tag in Slimefun&quot;);</span>
+            }
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        } else if (throwException) {</span>
+            // If no RegEx pattern matched, it's malformed.
+<span class="nc" id="L174">            throw new TagMisconfigurationException(key, &quot;Could not recognize value '&quot; + value + &quot;'&quot;);</span>
+        }
+<span class="nc" id="L176">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void parseComplexValue(JsonObject entry, Set&lt;Material&gt; materials, Set&lt;Tag&lt;Material&gt;&gt; tags) throws TagMisconfigurationException {
+<span class="nc" id="L180">        JsonElement id = entry.get(&quot;id&quot;);</span>
+<span class="nc" id="L181">        JsonElement required = entry.get(&quot;required&quot;);</span>
+
+        // Check if the entry contains elements of the correct type
+<span class="nc bnc" id="L184" title="All 8 branches missed.">        if (id instanceof JsonPrimitive idJson &amp;&amp; idJson.isString() &amp;&amp; required instanceof JsonPrimitive requiredJson &amp;&amp; requiredJson.isBoolean()) {</span>
+<span class="nc" id="L185">            boolean isRequired = required.getAsBoolean();</span>
+
+            /*
+             * If the Tag is required, an exception may be thrown.
+             * Otherwise it will just ignore the value
+             */
+<span class="nc" id="L191">            parsePrimitiveValue(id.getAsString(), materials, tags, isRequired);</span>
+<span class="nc" id="L192">        } else {</span>
+<span class="nc" id="L193">            throw new TagMisconfigurationException(key, &quot;Found a JSON Object value without an id!&quot;);</span>
+        }
+<span class="nc" id="L195">    }</span>
+
+    @Override
+    public @Nonnull NamespacedKey getKey() {
+<span class="nc" id="L199">        return key;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

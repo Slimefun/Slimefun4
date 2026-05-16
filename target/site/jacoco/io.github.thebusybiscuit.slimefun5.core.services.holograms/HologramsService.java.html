@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HologramsService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services.holograms</a> &gt; <span class="el_source">HologramsService.java</span></div><h1>HologramsService.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services.holograms;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
+
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * This service is responsible for handling holograms.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @see HologramOwner
+ */
+public class HologramsService {
+
+    /**
+     * The radius in which we scan for holograms
+     */
+    private static final double RADIUS = 0.45;
+
+    /**
+     * The frequency at which to purge.
+     * Every 45 seconds.
+     */
+    private static final long PURGE_RATE = 45L * 20L;
+
+    /**
+     * Our {@link Plugin} instance
+     */
+    private final Plugin plugin;
+
+    /**
+     * The default hologram offset
+     */
+<span class="nc" id="L59">    private final Vector defaultOffset = new Vector(0.5, 0.75, 0.5);</span>
+
+    /**
+     * The {@link NamespacedKey} used to store data on a hologram
+     */
+    private final NamespacedKey persistentDataKey;
+
+    /**
+     * Our cache to save {@link Entity} lookups
+     */
+<span class="nc" id="L69">    private final Map&lt;BlockPosition, Hologram&gt; cache = new HashMap&lt;&gt;();</span>
+
+    /**
+     * This constructs a new {@link HologramsService}.
+     * 
+     * @param plugin
+     *            Our {@link Plugin} instance
+     */
+<span class="nc" id="L77">    public HologramsService(@Nonnull Plugin plugin) {</span>
+<span class="nc" id="L78">        this.plugin = plugin;</span>
+
+        // Null-Validation is performed in the NamespacedKey constructor
+<span class="nc" id="L81">        persistentDataKey = new NamespacedKey(plugin, &quot;hologram_id&quot;);</span>
+<span class="nc" id="L82">    }</span>
+
+    /**
+     * This will start the {@link HologramsService} and schedule a repeating
+     * purge-task.
+     */
+    public void start() {
+<span class="nc" id="L89">        plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this::purge, PURGE_RATE, PURGE_RATE);</span>
+<span class="nc" id="L90">    }</span>
+
+    /**
+     * This returns the default {@link Hologram} offset.
+     * 
+     * @return The default offset
+     */
+    @Nonnull
+    public Vector getDefaultOffset() {
+<span class="nc" id="L99">        return defaultOffset;</span>
+    }
+
+    /**
+     * This purges any expired {@link Hologram}.
+     */
+    private void purge() {
+<span class="nc" id="L106">        Iterator&lt;Hologram&gt; iterator = cache.values().iterator();</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        while (iterator.hasNext()) {</span>
+<span class="nc" id="L109">            Hologram hologram = iterator.next();</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            if (hologram.hasExpired()) {</span>
+<span class="nc" id="L112">                iterator.remove();</span>
+            }
+<span class="nc" id="L114">        }</span>
+<span class="nc" id="L115">    }</span>
+
+    /**
+     * This returns the {@link Hologram} associated with the given {@link Location}.
+     * If createIfNoneExists is set to true a new {@link ArmorStand} will be spawned
+     * if no existing one could be found.
+     * 
+     * @param loc
+     *            The {@link Location}
+     * @param createIfNoneExists
+     *            Whether to create a new {@link ArmorStand} if none was found
+     * 
+     * @return The existing (or newly created) hologram
+     */
+    @Nullable
+    private Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
+<span class="nc" id="L131">        Validate.notNull(loc, &quot;Location cannot be null&quot;);</span>
+
+<span class="nc" id="L133">        BlockPosition position = new BlockPosition(loc);</span>
+<span class="nc" id="L134">        Hologram hologram = cache.get(position);</span>
+
+        // Check if the ArmorStand was cached and still exists
+<span class="nc bnc" id="L137" title="All 4 branches missed.">        if (hologram != null &amp;&amp; !hologram.hasDespawned()) {</span>
+<span class="nc" id="L138">            return hologram;</span>
+        }
+
+        // Scan all nearby entities which could be possible holograms
+<span class="nc" id="L142">        Collection&lt;Entity&gt; holograms = loc.getWorld().getNearbyEntities(loc, RADIUS, RADIUS, RADIUS, this::isHologram);</span>
+
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        for (Entity n : holograms) {</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            if (n instanceof ArmorStand) {</span>
+<span class="nc" id="L146">                PersistentDataContainer container = n.getPersistentDataContainer();</span>
+
+                /*
+                 * Any hologram we created will have a persistent data key for identification.
+                 * Make sure that the value matches our BlockPosition.
+                 */
+<span class="nc bnc" id="L152" title="All 2 branches missed.">                if (hasHologramData(container, position)) {</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">                    if (hologram != null) {</span>
+                        // Fixes #2927 - Remove any duplicates we find
+<span class="nc" id="L155">                        n.remove();</span>
+                    } else {
+<span class="nc" id="L157">                        hologram = getAsHologram(position, n, container);</span>
+                    }
+                }
+            }
+<span class="nc" id="L161">        }</span>
+
+<span class="nc bnc" id="L163" title="All 4 branches missed.">        if (hologram == null &amp;&amp; createIfNoneExists) {</span>
+            // Spawn a new ArmorStand
+<span class="nc" id="L165">            ArmorStand armorstand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);</span>
+<span class="nc" id="L166">            PersistentDataContainer container = armorstand.getPersistentDataContainer();</span>
+
+<span class="nc" id="L168">            return getAsHologram(position, armorstand, container);</span>
+        } else {
+<span class="nc" id="L170">            return hologram;</span>
+        }
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean hasHologramData(PersistentDataContainer container, BlockPosition position) {
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (container.has(persistentDataKey, PersistentDataType.LONG)) {</span>
+<span class="nc" id="L177">            long value = container.get(persistentDataKey, PersistentDataType.LONG);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">            return value == position.getPosition();</span>
+        } else {
+<span class="nc" id="L180">            return false;</span>
+        }
+    }
+
+    /**
+     * This checks if a given {@link Entity} is an {@link ArmorStand}
+     * and whether it has the correct attributes to be considered a {@link Hologram}.
+     * 
+     * @param n
+     *            The {@link Entity} to check
+     * 
+     * @return Whether this could be a hologram
+     */
+    private boolean isHologram(@Nonnull Entity n) {
+<span class="nc bnc" id="L194" title="All 2 branches missed.">        if (n instanceof ArmorStand armorStand) {</span>
+            // The absolute minimum requirements to count as a hologram
+<span class="nc bnc" id="L196" title="All 6 branches missed.">            return !armorStand.isVisible() &amp;&amp; armorStand.isSilent() &amp;&amp; !armorStand.hasGravity();</span>
+        } else {
+<span class="nc" id="L198">            return false;</span>
+        }
+    }
+
+    /**
+     * This will cast the {@link Entity} to an {@link ArmorStand} and it will apply
+     * all necessary attributes to the {@link ArmorStand}, then return a {@link Hologram}.
+     * 
+     * @param position
+     *            The {@link BlockPosition} of this hologram
+     * @param entity
+     *            The {@link Entity}
+     * @param container
+     *            The {@link PersistentDataContainer} of the given {@link Entity}
+     * 
+     * @return The {@link Hologram}
+     */
+    @Nullable
+    private Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
+<span class="nc bnc" id="L217" title="All 2 branches missed.">        if (entity instanceof ArmorStand armorStand) {</span>
+<span class="nc" id="L218">            armorStand.setVisible(false);</span>
+<span class="nc" id="L219">            armorStand.setInvulnerable(true);</span>
+<span class="nc" id="L220">            armorStand.setSilent(true);</span>
+<span class="nc" id="L221">            armorStand.setMarker(true);</span>
+<span class="nc" id="L222">            armorStand.setAI(false);</span>
+<span class="nc" id="L223">            armorStand.setGravity(false);</span>
+<span class="nc" id="L224">            armorStand.setRemoveWhenFarAway(false);</span>
+
+            // Set a persistent tag to re-identify the correct hologram later
+<span class="nc" id="L227">            container.set(persistentDataKey, PersistentDataType.LONG, position.getPosition());</span>
+
+            // Store in cache for faster access
+<span class="nc" id="L230">            Hologram hologram = new Hologram(armorStand.getUniqueId());</span>
+<span class="nc" id="L231">            cache.put(position, hologram);</span>
+
+<span class="nc" id="L233">            return hologram;</span>
+        } else {
+            // This should never be reached
+<span class="nc" id="L236">            return null;</span>
+        }
+    }
+
+    /**
+     * This updates the {@link Hologram}.
+     * You can use it to set the nametag or other properties.
+     * &lt;p&gt;
+     * &lt;strong&gt;This method must be executed on the main {@link Server} {@link Thread}.&lt;/strong&gt;
+     * 
+     * @param loc
+     *            The {@link Location}
+     * @param consumer
+     *            The callback to run
+     */
+    private void updateHologram(@Nonnull Location loc, @Nonnull Consumer&lt;Hologram&gt; consumer) {
+<span class="nc" id="L252">        Validate.notNull(loc, &quot;Location must not be null&quot;);</span>
+<span class="nc" id="L253">        Validate.notNull(consumer, &quot;Callbacks must not be null&quot;);</span>
+
+<span class="nc" id="L255">        Runnable runnable = () -&gt; {</span>
+            try {
+<span class="nc" id="L257">                Hologram hologram = getHologram(loc, true);</span>
+
+<span class="nc bnc" id="L259" title="All 2 branches missed.">                if (hologram != null) {</span>
+<span class="nc" id="L260">                    consumer.accept(hologram);</span>
+                }
+<span class="nc" id="L262">            } catch (Exception | LinkageError x) {</span>
+<span class="nc" id="L263">                Slimefun.logger().log(Level.SEVERE, &quot;Hologram located at {0}&quot;, new BlockPosition(loc));</span>
+<span class="nc" id="L264">                Slimefun.logger().log(Level.SEVERE, &quot;Something went wrong while trying to update this hologram&quot;, x);</span>
+<span class="nc" id="L265">            }</span>
+<span class="nc" id="L266">        };</span>
+
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (Bukkit.isPrimaryThread()) {</span>
+<span class="nc" id="L269">            runnable.run();</span>
+        } else {
+<span class="nc" id="L271">            Slimefun.runSync(runnable);</span>
+        }
+<span class="nc" id="L273">    }</span>
+
+    /**
+     * This removes the {@link Hologram} at that given {@link Location}.
+     * &lt;p&gt;
+     * &lt;strong&gt;This method must be executed on the main {@link Server} {@link Thread}.&lt;/strong&gt;
+     * 
+     * @param loc
+     *            The {@link Location}
+     * 
+     * @return Whether the {@link Hologram} could be removed, false if the {@link Hologram} does not
+     *         exist or was already removed
+     */
+    public boolean removeHologram(@Nonnull Location loc) {
+<span class="nc" id="L287">        Validate.notNull(loc, &quot;Location cannot be null&quot;);</span>
+
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        if (Bukkit.isPrimaryThread()) {</span>
+            try {
+<span class="nc" id="L291">                Hologram hologram = getHologram(loc, false);</span>
+
+<span class="nc bnc" id="L293" title="All 2 branches missed.">                if (hologram != null) {</span>
+<span class="nc" id="L294">                    cache.remove(new BlockPosition(loc));</span>
+<span class="nc" id="L295">                    hologram.remove();</span>
+<span class="nc" id="L296">                    return true;</span>
+                } else {
+<span class="nc" id="L298">                    return false;</span>
+                }
+<span class="nc" id="L300">            } catch (Exception | LinkageError x) {</span>
+<span class="nc" id="L301">                Slimefun.logger().log(Level.SEVERE, &quot;Hologram located at {0}&quot;, new BlockPosition(loc));</span>
+<span class="nc" id="L302">                Slimefun.logger().log(Level.SEVERE, &quot;Something went wrong while trying to remove this hologram&quot;, x);</span>
+<span class="nc" id="L303">                return false;</span>
+            }
+        } else {
+<span class="nc" id="L306">            throw new UnsupportedOperationException(&quot;You cannot remove a hologram asynchronously.&quot;);</span>
+        }
+    }
+
+    /**
+     * This will update the label of the {@link Hologram}.
+     * 
+     * @param loc
+     *            The {@link Location} of this {@link Hologram}
+     * @param label
+     *            The label to set, can be null
+     */
+    public void setHologramLabel(@Nonnull Location loc, @Nullable String label) {
+<span class="nc" id="L319">        Validate.notNull(loc, &quot;Location must not be null&quot;);</span>
+
+<span class="nc" id="L321">        updateHologram(loc, hologram -&gt; hologram.setLabel(label));</span>
+<span class="nc" id="L322">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

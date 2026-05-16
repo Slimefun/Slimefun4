@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BowShootHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.handlers</a> &gt; <span class="el_source">BowShootHandler.java</span></div><h1>BowShootHandler.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.handlers;
+
+import java.util.Optional;
+
+import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SlimefunBow;
+
+/**
+ * This {@link ItemHandler} is triggered when the {@link SlimefunItem} it was assigned to
+ * is a {@link SlimefunBow} and an Arrow fired from this bow hit a {@link LivingEntity}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @see ItemHandler
+ * @see SlimefunBow
+ * 
+ */
+@FunctionalInterface
+public interface BowShootHandler extends ItemHandler {
+
+    void onHit(EntityDamageByEntityEvent e, LivingEntity n);
+
+    @Override
+    default Optional&lt;IncompatibleItemHandlerException&gt; validate(SlimefunItem item) {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (item.getItem().getType() != Material.BOW) {</span>
+<span class="nc" id="L32">            return Optional.of(new IncompatibleItemHandlerException(&quot;Only bows can have a BowShootHandler.&quot;, item, this));</span>
+        }
+
+<span class="nc" id="L35">        return Optional.empty();</span>
+    }
+
+    @Override
+    default Class&lt;? extends ItemHandler&gt; getIdentifier() {
+<span class="nc" id="L40">        return BowShootHandler.class;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheatSheetSlimefunGuide.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.guide</a> &gt; <span class="el_source">CheatSheetSlimefunGuide.java</span></div><h1>CheatSheetSlimefunGuide.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.guide;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+
+/**
+ * This is an admin-variant of the {@link SurvivalSlimefunGuide} which allows a {@link Player}
+ * to spawn in a {@link SlimefunItem} via click rather than showing their {@link Recipe}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
+
+    private final ItemStack item;
+
+    public CheatSheetSlimefunGuide() {
+<span class="nc" id="L37">        super(false, true);</span>
+
+<span class="nc" id="L39">        item = new SlimefunGuideItem(this, &quot;&amp;cSlimefun Guide &amp;4(Cheat Sheet)&quot;);</span>
+<span class="nc" id="L40">    }</span>
+
+    /**
+     * Returns a {@link List} of visible {@link ItemGroup} instances that the {@link SlimefunGuide} would display.
+     *
+     * @param p
+     *            The {@link Player} who opened his {@link SlimefunGuide}
+     * @param profile
+     *            The {@link PlayerProfile} of the {@link Player}
+     * 
+     * @return a {@link List} of visible {@link ItemGroup} instances
+     */
+    @Override
+    protected List&lt;ItemGroup&gt; getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+<span class="nc" id="L54">        List&lt;ItemGroup&gt; groups = new LinkedList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">            if (!(group instanceof FlexItemGroup flexItemGroup) || flexItemGroup.isVisible(p, profile, getMode())) {</span>
+<span class="nc" id="L58">                groups.add(group);</span>
+            }
+<span class="nc" id="L60">        }</span>
+
+<span class="nc" id="L62">        return groups;</span>
+    }
+
+    @Override
+    public @Nonnull SlimefunGuideMode getMode() {
+<span class="nc" id="L67">        return SlimefunGuideMode.CHEAT_MODE;</span>
+    }
+
+    @Override
+    public @Nonnull ItemStack getItem() {
+<span class="nc" id="L72">        return item;</span>
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
+    public void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
+<span class="nc" id="L78">        super.createHeader(p, profile, menu);</span>
+
+        // Remove Settings Panel
+<span class="nc" id="L81">        menu.addItem(1, ChestMenuUtils.getBackground());</span>
+<span class="nc" id="L82">        menu.addMenuClickHandler(1, ChestMenuUtils.getEmptyClickHandler());</span>
+<span class="nc" id="L83">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

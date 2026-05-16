@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnergyNet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.networks.energy</a> &gt; <span class="el_source">EnergyNet.java</span></div><h1>EnergyNet.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.networks.energy;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.LongConsumer;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+
+import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+/**
+ * The {@link EnergyNet} is an implementation of {@link Network} that deals with
+ * electrical energy being sent from and to nodes.
+ * 
+ * @author meiamsome
+ * @author TheBusyBiscuit
+ * 
+ * @see Network
+ * @see EnergyNetComponent
+ * @see EnergyNetProvider
+ * @see EnergyNetComponentType
+ *
+ */
+public class EnergyNet extends Network implements HologramOwner {
+
+    private static final int RANGE = 6;
+
+<span class="nc" id="L50">    private final Map&lt;Location, EnergyNetProvider&gt; generators = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L51">    private final Map&lt;Location, EnergyNetComponent&gt; capacitors = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L52">    private final Map&lt;Location, EnergyNetComponent&gt; consumers = new HashMap&lt;&gt;();</span>
+
+    protected EnergyNet(@Nonnull Location l) {
+<span class="nc" id="L55">        super(Slimefun.getNetworkManager(), l);</span>
+<span class="nc" id="L56">    }</span>
+
+    @Override
+    public int getRange() {
+<span class="nc" id="L60">        return RANGE;</span>
+    }
+    
+    /**
+     * This creates an immutable {@link Map} of {@link EnergyNetProvider}s within this {@link EnergyNet} instance.
+     *
+     * @return An immutable {@link Map} of generators
+     */
+    public @Nonnull Map&lt;Location, EnergyNetProvider&gt; getGenerators() {
+<span class="nc" id="L69">        return Collections.unmodifiableMap(generators);</span>
+    }
+    
+    /**
+     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CAPACITOR} {@link EnergyNetComponent}s within this {@link EnergyNet} instance.
+     *
+     * @return An immutable {@link Map} of capacitors
+     */
+    public @Nonnull Map&lt;Location, EnergyNetComponent&gt; getCapacitors() {
+<span class="nc" id="L78">        return Collections.unmodifiableMap(capacitors);</span>
+    }
+    
+    /**
+     * This creates an immutable {@link Map} of {@link EnergyNetComponentType#CONSUMER} {@link EnergyNetComponent}s within this {@link EnergyNet} instance.
+     *
+     * @return An immutable {@link Map} of consumers
+     */
+    public @Nonnull Map&lt;Location, EnergyNetComponent&gt; getConsumers() {
+<span class="nc" id="L87">        return Collections.unmodifiableMap(consumers);</span>
+    }
+
+    @Override
+    public @Nonnull String getId() {
+<span class="nc" id="L92">        return &quot;ENERGY_NETWORK&quot;;</span>
+    }
+
+    @Override
+    public NetworkComponent classifyLocation(@Nonnull Location l) {
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (regulator.equals(l)) {</span>
+<span class="nc" id="L98">            return NetworkComponent.REGULATOR;</span>
+        }
+
+<span class="nc" id="L101">        EnergyNetComponent component = getComponent(l);</span>
+
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (component == null) {</span>
+<span class="nc" id="L104">            return null;</span>
+        } else {
+<span class="nc bnc" id="L106" title="All 3 branches missed.">            return switch (component.getEnergyComponentType()) {</span>
+                case CONNECTOR,
+<span class="nc" id="L108">                    CAPACITOR -&gt; NetworkComponent.CONNECTOR;</span>
+                case CONSUMER,
+<span class="nc" id="L110">                    GENERATOR -&gt; NetworkComponent.TERMINUS;</span>
+<span class="nc" id="L111">                default -&gt; null;</span>
+            };
+        }
+    }
+
+    @Override
+    public void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (from == NetworkComponent.TERMINUS) {</span>
+<span class="nc" id="L119">            generators.remove(l);</span>
+<span class="nc" id="L120">            consumers.remove(l);</span>
+        }
+
+<span class="nc" id="L123">        EnergyNetComponent component = getComponent(l);</span>
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (component != null) {</span>
+<span class="nc bnc" id="L126" title="All 4 branches missed.">            switch (component.getEnergyComponentType()) {</span>
+                case CAPACITOR:
+<span class="nc" id="L128">                    capacitors.put(l, component);</span>
+<span class="nc" id="L129">                    break;</span>
+                case CONSUMER:
+<span class="nc" id="L131">                    consumers.put(l, component);</span>
+<span class="nc" id="L132">                    break;</span>
+                case GENERATOR:
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                    if (component instanceof EnergyNetProvider provider) {</span>
+<span class="nc" id="L135">                        generators.put(l, provider);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                    } else if (component instanceof SlimefunItem item) {</span>
+<span class="nc" id="L137">                        item.warn(&quot;This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!&quot;);</span>
+                    }
+<span class="nc" id="L139">                    break;</span>
+                default:
+                    break;
+            }
+        }
+<span class="nc" id="L144">    }</span>
+
+    public void tick(@Nonnull Block b) {
+<span class="nc" id="L147">        AtomicLong timestamp = new AtomicLong(Slimefun.getProfiler().newEntry());</span>
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (!regulator.equals(b.getLocation())) {</span>
+<span class="nc" id="L150">            updateHologram(b, &quot;&amp;4Multiple Energy Regulators connected&quot;);</span>
+<span class="nc" id="L151">            Slimefun.getProfiler().closeEntry(b.getLocation(), SlimefunItems.ENERGY_REGULATOR.getItem(), timestamp.get());</span>
+<span class="nc" id="L152">            return;</span>
+        }
+
+<span class="nc" id="L155">        super.tick();</span>
+
+<span class="nc bnc" id="L157" title="All 4 branches missed.">        if (connectorNodes.isEmpty() &amp;&amp; terminusNodes.isEmpty()) {</span>
+<span class="nc" id="L158">            updateHologram(b, &quot;&amp;4No Energy Network found&quot;);</span>
+        } else {
+<span class="nc" id="L160">            int generatorsSupply = tickAllGenerators(timestamp::getAndAdd);</span>
+<span class="nc" id="L161">            int capacitorsSupply = tickAllCapacitors();</span>
+<span class="nc" id="L162">            int supply = NumberUtils.flowSafeAddition(generatorsSupply, capacitorsSupply);</span>
+<span class="nc" id="L163">            int remainingEnergy = supply;</span>
+<span class="nc" id="L164">            int demand = 0;</span>
+
+<span class="nc bnc" id="L166" title="All 2 branches missed.">            for (Map.Entry&lt;Location, EnergyNetComponent&gt; entry : consumers.entrySet()) {</span>
+<span class="nc" id="L167">                Location loc = entry.getKey();</span>
+<span class="nc" id="L168">                EnergyNetComponent component = entry.getValue();</span>
+<span class="nc" id="L169">                int capacity = component.getCapacity();</span>
+<span class="nc" id="L170">                int charge = component.getCharge(loc);</span>
+
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                if (charge &lt; capacity) {</span>
+<span class="nc" id="L173">                    int availableSpace = capacity - charge;</span>
+<span class="nc" id="L174">                    demand = NumberUtils.flowSafeAddition(demand, availableSpace);</span>
+
+<span class="nc bnc" id="L176" title="All 2 branches missed.">                    if (remainingEnergy &gt; 0) {</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">                        if (remainingEnergy &gt; availableSpace) {</span>
+<span class="nc" id="L178">                            component.setCharge(loc, capacity);</span>
+<span class="nc" id="L179">                            remainingEnergy -= availableSpace;</span>
+                        } else {
+<span class="nc" id="L181">                            component.setCharge(loc, charge + remainingEnergy);</span>
+<span class="nc" id="L182">                            remainingEnergy = 0;</span>
+                        }
+                    }
+                }
+<span class="nc" id="L186">            }</span>
+
+<span class="nc" id="L188">            storeRemainingEnergy(remainingEnergy);</span>
+<span class="nc" id="L189">            updateHologram(b, supply, demand);</span>
+        }
+
+        // We have subtracted the timings from Generators, so they do not show up twice.
+<span class="nc" id="L193">        Slimefun.getProfiler().closeEntry(b.getLocation(), SlimefunItems.ENERGY_REGULATOR.getItem(), timestamp.get());</span>
+<span class="nc" id="L194">    }</span>
+
+    private void storeRemainingEnergy(int remainingEnergy) {
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        for (Map.Entry&lt;Location, EnergyNetComponent&gt; entry : capacitors.entrySet()) {</span>
+<span class="nc" id="L198">            Location loc = entry.getKey();</span>
+<span class="nc" id="L199">            EnergyNetComponent component = entry.getValue();</span>
+
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            if (remainingEnergy &gt; 0) {</span>
+<span class="nc" id="L202">                int capacity = component.getCapacity();</span>
+
+<span class="nc bnc" id="L204" title="All 2 branches missed.">                if (remainingEnergy &gt; capacity) {</span>
+<span class="nc" id="L205">                    component.setCharge(loc, capacity);</span>
+<span class="nc" id="L206">                    remainingEnergy -= capacity;</span>
+                } else {
+<span class="nc" id="L208">                    component.setCharge(loc, remainingEnergy);</span>
+<span class="nc" id="L209">                    remainingEnergy = 0;</span>
+                }
+<span class="nc" id="L211">            } else {</span>
+<span class="nc" id="L212">                component.setCharge(loc, 0);</span>
+            }
+<span class="nc" id="L214">        }</span>
+
+<span class="nc bnc" id="L216" title="All 2 branches missed.">        for (Map.Entry&lt;Location, EnergyNetProvider&gt; entry : generators.entrySet()) {</span>
+<span class="nc" id="L217">            Location loc = entry.getKey();</span>
+<span class="nc" id="L218">            EnergyNetProvider component = entry.getValue();</span>
+<span class="nc" id="L219">            int capacity = component.getCapacity();</span>
+
+<span class="nc bnc" id="L221" title="All 2 branches missed.">            if (remainingEnergy &gt; 0) {</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">                if (remainingEnergy &gt; capacity) {</span>
+<span class="nc" id="L223">                    component.setCharge(loc, capacity);</span>
+<span class="nc" id="L224">                    remainingEnergy -= capacity;</span>
+                } else {
+<span class="nc" id="L226">                    component.setCharge(loc, remainingEnergy);</span>
+<span class="nc" id="L227">                    remainingEnergy = 0;</span>
+                }
+            } else {
+<span class="nc" id="L230">                component.setCharge(loc, 0);</span>
+            }
+<span class="nc" id="L232">        }</span>
+<span class="nc" id="L233">    }</span>
+
+    private int tickAllGenerators(@Nonnull LongConsumer timings) {
+<span class="nc" id="L236">        Set&lt;Location&gt; explodedBlocks = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L237">        int supply = 0;</span>
+
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        for (Map.Entry&lt;Location, EnergyNetProvider&gt; entry : generators.entrySet()) {</span>
+<span class="nc" id="L240">            long timestamp = Slimefun.getProfiler().newEntry();</span>
+<span class="nc" id="L241">            Location loc = entry.getKey();</span>
+<span class="nc" id="L242">            EnergyNetProvider provider = entry.getValue();</span>
+<span class="nc" id="L243">            SlimefunItem item = (SlimefunItem) provider;</span>
+
+            try {
+<span class="nc" id="L246">                Config data = BlockStorage.getLocationInfo(loc);</span>
+<span class="nc" id="L247">                int energy = provider.getGeneratedOutput(loc, data);</span>
+
+<span class="nc bnc" id="L249" title="All 2 branches missed.">                if (provider.isChargeable()) {</span>
+<span class="nc" id="L250">                    energy = NumberUtils.flowSafeAddition(energy, provider.getCharge(loc, data));</span>
+                }
+
+<span class="nc bnc" id="L253" title="All 2 branches missed.">                if (provider.willExplode(loc, data)) {</span>
+<span class="nc" id="L254">                    explodedBlocks.add(loc);</span>
+<span class="nc" id="L255">                    BlockStorage.clearBlockInfo(loc);</span>
+
+<span class="nc" id="L257">                    Slimefun.runSync(() -&gt; {</span>
+<span class="nc" id="L258">                        loc.getBlock().setType(Material.LAVA);</span>
+<span class="nc" id="L259">                        loc.getWorld().createExplosion(loc, 0F, false);</span>
+<span class="nc" id="L260">                    });</span>
+                } else {
+<span class="nc" id="L262">                    supply = NumberUtils.flowSafeAddition(supply, energy);</span>
+                }
+<span class="nc" id="L264">            } catch (Exception | LinkageError throwable) {</span>
+<span class="nc" id="L265">                explodedBlocks.add(loc);</span>
+<span class="nc" id="L266">                new ErrorReport&lt;&gt;(throwable, loc, item);</span>
+<span class="nc" id="L267">            }</span>
+
+<span class="nc" id="L269">            long time = Slimefun.getProfiler().closeEntry(loc, item, timestamp);</span>
+<span class="nc" id="L270">            timings.accept(time);</span>
+<span class="nc" id="L271">        }</span>
+
+        // Remove all generators which have exploded
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        if (!explodedBlocks.isEmpty()) {</span>
+<span class="nc" id="L275">            generators.keySet().removeAll(explodedBlocks);</span>
+        }
+
+<span class="nc" id="L278">        return supply;</span>
+    }
+
+    private int tickAllCapacitors() {
+<span class="nc" id="L282">        int supply = 0;</span>
+
+<span class="nc bnc" id="L284" title="All 2 branches missed.">        for (Map.Entry&lt;Location, EnergyNetComponent&gt; entry : capacitors.entrySet()) {</span>
+<span class="nc" id="L285">            supply = NumberUtils.flowSafeAddition(supply, entry.getValue().getCharge(entry.getKey()));</span>
+<span class="nc" id="L286">        }</span>
+
+<span class="nc" id="L288">        return supply;</span>
+    }
+
+    private void updateHologram(@Nonnull Block b, double supply, double demand) {
+<span class="nc bnc" id="L292" title="All 2 branches missed.">        if (demand &gt; supply) {</span>
+<span class="nc" id="L293">            String netLoss = NumberUtils.getCompactDouble(demand - supply);</span>
+<span class="nc" id="L294">            updateHologram(b, &quot;&amp;4&amp;l- &amp;c&quot; + netLoss + &quot; &amp;7J &amp;e\u26A1&quot;);</span>
+<span class="nc" id="L295">        } else {</span>
+<span class="nc" id="L296">            String netGain = NumberUtils.getCompactDouble(supply - demand);</span>
+<span class="nc" id="L297">            updateHologram(b, &quot;&amp;2&amp;l+ &amp;a&quot; + netGain + &quot; &amp;7J &amp;e\u26A1&quot;);</span>
+        }
+<span class="nc" id="L299">    }</span>
+
+    @Nullable
+    private static EnergyNetComponent getComponent(@Nonnull Location l) {
+<span class="nc" id="L303">        SlimefunItem item = BlockStorage.check(l);</span>
+
+<span class="nc bnc" id="L305" title="All 2 branches missed.">        if (item instanceof EnergyNetComponent component) {</span>
+<span class="nc" id="L306">            return component;</span>
+        }
+
+<span class="nc" id="L309">        return null;</span>
+    }
+
+    /**
+     * This attempts to get an {@link EnergyNet} from a given {@link Location}.
+     * If no suitable {@link EnergyNet} could be found, {@code null} will be returned.
+     *
+     * @param l
+     *            The target {@link Location}
+     *
+     * @return The {@link EnergyNet} at that {@link Location}, or {@code null}
+     */
+    @Nullable
+    public static EnergyNet getNetworkFromLocation(@Nonnull Location l) {
+<span class="nc" id="L323">        return Slimefun.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class).orElse(null);</span>
+    }
+
+    /**
+     * This attempts to get an {@link EnergyNet} from a given {@link Location}.
+     * If no suitable {@link EnergyNet} could be found, a new one will be created.
+     * 
+     * @param l
+     *            The target {@link Location}
+     * 
+     * @return The {@link EnergyNet} at that {@link Location}, or a new one
+     */
+    @Nonnull
+    public static EnergyNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
+<span class="nc" id="L337">        Optional&lt;EnergyNet&gt; energyNetwork = Slimefun.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);</span>
+
+<span class="nc bnc" id="L339" title="All 2 branches missed.">        if (energyNetwork.isPresent()) {</span>
+<span class="nc" id="L340">            return energyNetwork.get();</span>
+        } else {
+<span class="nc" id="L342">            EnergyNet network = new EnergyNet(l);</span>
+<span class="nc" id="L343">            Slimefun.getNetworkManager().registerNetwork(network);</span>
+<span class="nc" id="L344">            return network;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

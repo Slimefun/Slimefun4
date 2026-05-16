@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TimingsCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.commands.subcommands</a> &gt; <span class="el_source">TimingsCommand.java</span></div><h1>TimingsCommand.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.SummaryOrderType;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.ConsolePerformanceInspector;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.PlayerPerformanceInspector;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+class TimingsCommand extends SubCommand {
+
+    private static final String FLAG_PREFIX = &quot;--&quot;;
+<span class="nc" id="L26">    private final Set&lt;String&gt; flags = new HashSet&lt;&gt;(Arrays.asList(&quot;verbose&quot;, &quot;avg&quot;, &quot;low&quot;));</span>
+
+    @ParametersAreNonnullByDefault
+    TimingsCommand(Slimefun plugin, SlimefunCommand cmd) {
+<span class="nc" id="L30">        super(plugin, cmd, &quot;timings&quot;, false);</span>
+<span class="nc" id="L31">    }</span>
+
+    @Override
+    protected @Nonnull String getDescription() {
+<span class="nc" id="L35">        return &quot;commands.timings.description&quot;;</span>
+    }
+
+    @Override
+    public void onExecute(CommandSender sender, @Nonnull String[] args) {
+<span class="nc bnc" id="L40" title="All 4 branches missed.">        if (!sender.hasPermission(&quot;slimefun.command.timings&quot;) &amp;&amp; !(sender instanceof ConsoleCommandSender)) {</span>
+<span class="nc" id="L41">            Slimefun.getLocalization().sendMessage(sender, &quot;messages.no-permission&quot;, true);</span>
+<span class="nc" id="L42">            return;</span>
+        }
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (hasInvalidFlags(sender, args)) {</span>
+<span class="nc" id="L46">            return;</span>
+        }
+
+<span class="nc" id="L49">        boolean verbose = hasFlag(args, &quot;verbose&quot;);</span>
+
+<span class="nc bnc" id="L51" title="All 4 branches missed.">        if (verbose &amp;&amp; sender instanceof Player) {</span>
+<span class="nc" id="L52">            Slimefun.getLocalization().sendMessage(sender, &quot;commands.timings.verbose-player&quot;, true);</span>
+<span class="nc" id="L53">            return;</span>
+        }
+
+<span class="nc" id="L56">        SummaryOrderType orderType = SummaryOrderType.HIGHEST;</span>
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (hasFlag(args, &quot;avg&quot;)) {</span>
+<span class="nc" id="L59">            orderType = SummaryOrderType.AVERAGE;</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        } else if (hasFlag(args, &quot;low&quot;)) {</span>
+<span class="nc" id="L61">            orderType = SummaryOrderType.LOWEST;</span>
+        }
+
+<span class="nc" id="L64">        Slimefun.getLocalization().sendMessage(sender, &quot;commands.timings.please-wait&quot;, true);</span>
+
+<span class="nc" id="L66">        PerformanceInspector inspector = inspectorOf(sender, verbose, orderType);</span>
+<span class="nc" id="L67">        Slimefun.getProfiler().requestSummary(inspector);</span>
+<span class="nc" id="L68">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private boolean hasInvalidFlags(CommandSender sender, String[] args) {
+<span class="nc" id="L72">        boolean hasInvalidFlags = false;</span>
+
+        // We start at 1 because args[0] will be &quot;timings&quot;.
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        for (int i = 1; i &lt; args.length; i++) {</span>
+<span class="nc" id="L76">            String argument = args[i].toLowerCase(Locale.ROOT);</span>
+
+<span class="nc bnc" id="L78" title="All 4 branches missed.">            if (argument.startsWith(FLAG_PREFIX) &amp;&amp; !flags.contains(argument.substring(2))) {</span>
+<span class="nc" id="L79">                hasInvalidFlags = true;</span>
+<span class="nc" id="L80">                Slimefun.getLocalization().sendMessage(sender, &quot;commands.timings.unknown-flag&quot;, true, msg -&gt; msg.replace(&quot;%flag%&quot;, argument));</span>
+            }
+        }
+
+<span class="nc" id="L84">        return hasInvalidFlags;</span>
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean hasFlag(String[] args, String flag) {
+        // We start at 1 because args[0] will be &quot;timings&quot;.
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        for (int i = 1; i &lt; args.length; i++) {</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            if (args[i].equalsIgnoreCase(FLAG_PREFIX + flag)) {</span>
+<span class="nc" id="L92">                return true;</span>
+            }
+        }
+
+<span class="nc" id="L96">        return false;</span>
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    private PerformanceInspector inspectorOf(CommandSender sender, boolean verbose, SummaryOrderType orderType) {
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (sender instanceof Player player) {</span>
+<span class="nc" id="L103">            return new PlayerPerformanceInspector(player, orderType);</span>
+        } else {
+<span class="nc" id="L105">            return new ConsolePerformanceInspector(sender, verbose, orderType);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JoinListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners</a> &gt; <span class="el_source">JoinListener.java</span></div><h1>JoinListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
+
+/**
+ * This {@link Listener} caches the armor of the player on join.
+ * This is mainly for the {@link RadiationTask}.
+ *
+ * @author iTwins
+ */
+public class JoinListener implements Listener {
+
+<span class="nc" id="L26">    public JoinListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L27">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L28">    }</span>
+
+    @EventHandler
+    public void onJoin(@Nonnull PlayerJoinEvent e) {
+<span class="nc" id="L32">        PlayerProfile.get(e.getPlayer(), playerProfile -&gt; {</span>
+<span class="nc" id="L33">            final ItemStack[] armorContents = e.getPlayer().getInventory().getArmorContents();</span>
+<span class="nc" id="L34">            final HashedArmorpiece[] hashedArmorpieces = playerProfile.getArmor();</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            for (int i = 0; i &lt; 4; i++) {</span>
+<span class="nc" id="L36">                final ItemStack armorPiece = armorContents[i];</span>
+<span class="nc bnc" id="L37" title="All 6 branches missed.">                if (armorPiece != null &amp;&amp; armorPiece.getType() != Material.AIR &amp;&amp; SlimefunItem.getByItem(armorPiece) instanceof SlimefunArmorPiece sfArmorPiece) {</span>
+<span class="nc" id="L38">                    hashedArmorpieces[i].update(armorPiece, sfArmorPiece);</span>
+                }
+            }
+<span class="nc" id="L41">        });</span>
+<span class="nc" id="L42">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

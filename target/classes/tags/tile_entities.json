@@ -1,0 +1,42 @@
+{
+  "values" : [
+    "#slimefun:shulker_boxes",
+    "#minecraft:signs",
+    "#minecraft:banners",
+    "#minecraft:beds",
+    "minecraft:chest",
+    "minecraft:trapped_chest",
+    "minecraft:barrel",
+    "minecraft:furnace",
+    "minecraft:dispenser",
+    "minecraft:dropper",
+    "minecraft:hopper",
+    "minecraft:brewing_stand",
+    "minecraft:blast_furnace",
+    "minecraft:smoker",
+    "minecraft:beacon",
+    "minecraft:spawner",
+    "minecraft:note_block",
+    "minecraft:jukebox",
+    "minecraft:enchanting_table",
+    "minecraft:end_portal",
+    "minecraft:ender_chest",
+    "minecraft:command_block",
+    "minecraft:structure_block",
+    "minecraft:end_gateway",
+    "minecraft:comparator",
+    "minecraft:conduit",
+    "minecraft:bell",
+    "minecraft:daylight_detector",
+    "minecraft:player_head",
+    "minecraft:player_wall_head",
+    {
+      "id" : "minecraft:soul_campfire",
+      "required" : false
+    },
+    {
+      "id" : "minecraft:lectern",
+      "required" : false
+    }
+  ]
+}

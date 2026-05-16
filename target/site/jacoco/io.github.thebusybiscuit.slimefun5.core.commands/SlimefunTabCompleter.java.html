@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlimefunTabCompleter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.commands</a> &gt; <span class="el_source">SlimefunTabCompleter.java</span></div><h1>SlimefunTabCompleter.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.commands;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+class SlimefunTabCompleter implements TabCompleter {
+
+    private static final int MAX_SUGGESTIONS = 80;
+
+    private final SlimefunCommand command;
+
+<span class="nc" id="L28">    public SlimefunTabCompleter(@Nonnull SlimefunCommand command) {</span>
+<span class="nc" id="L29">        this.command = command;</span>
+<span class="nc" id="L30">    }</span>
+
+    @Nullable
+    @Override
+    public List&lt;String&gt; onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (args.length == 1) {</span>
+<span class="nc" id="L36">            return createReturnList(command.getSubCommandNames(), args[0]);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        } else if (args.length == 2) {</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (args[0].equalsIgnoreCase(&quot;debug&quot;)) {</span>
+<span class="nc" id="L39">                return createReturnList(TestCase.VALUES_LIST, args[1]);</span>
+            } else {
+                // Returning null will make it fallback to the default arguments (all online players)
+<span class="nc" id="L42">                return null;</span>
+            }
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        } else if (args.length == 3) {</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">            if (args[0].equalsIgnoreCase(&quot;give&quot;)) {</span>
+<span class="nc" id="L46">                return createReturnList(getSlimefunItems(), args[2]);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            } else if (args[0].equalsIgnoreCase(&quot;research&quot;)) {</span>
+<span class="nc" id="L48">                List&lt;Research&gt; researches = Slimefun.getRegistry().getResearches();</span>
+<span class="nc" id="L49">                List&lt;String&gt; suggestions = new LinkedList&lt;&gt;();</span>
+
+<span class="nc" id="L51">                suggestions.add(&quot;all&quot;);</span>
+<span class="nc" id="L52">                suggestions.add(&quot;reset&quot;);</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                for (Research research : researches) {</span>
+<span class="nc" id="L55">                    suggestions.add(research.getKey().toString().toLowerCase(Locale.ROOT));</span>
+<span class="nc" id="L56">                }</span>
+
+<span class="nc" id="L58">                return createReturnList(suggestions, args[2]);</span>
+            } else {
+                // Returning null will make it fallback to the default arguments (all online players)
+<span class="nc" id="L61">                return null;</span>
+            }
+<span class="nc bnc" id="L63" title="All 4 branches missed.">        } else if (args.length == 4 &amp;&amp; args[0].equalsIgnoreCase(&quot;give&quot;)) {</span>
+<span class="nc" id="L64">            return createReturnList(Arrays.asList(&quot;1&quot;, &quot;2&quot;, &quot;4&quot;, &quot;8&quot;, &quot;16&quot;, &quot;32&quot;, &quot;64&quot;), args[3]);</span>
+        } else {
+            // Returning null will make it fallback to the default arguments (all online players)
+<span class="nc" id="L67">            return null;</span>
+        }
+    }
+
+    /***
+     * Returns a sublist from a given list containing items that start with the given string if string is not empty
+     * 
+     * @param list
+     *            The list to process
+     * @param string
+     *            The typed string
+     * @return Sublist if string is not empty
+     */
+    @Nonnull
+    private List&lt;String&gt; createReturnList(@Nonnull List&lt;String&gt; list, @Nonnull String string) {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (string.length() == 0) {</span>
+<span class="nc" id="L83">            return list;</span>
+        }
+
+<span class="nc" id="L86">        String input = string.toLowerCase(Locale.ROOT);</span>
+<span class="nc" id="L87">        List&lt;String&gt; returnList = new LinkedList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        for (String item : list) {</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if (item.toLowerCase(Locale.ROOT).contains(input)) {</span>
+<span class="nc" id="L91">                returnList.add(item);</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                if (returnList.size() &gt;= MAX_SUGGESTIONS) {</span>
+<span class="nc" id="L94">                    break;</span>
+                }
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            } else if (item.equalsIgnoreCase(input)) {</span>
+<span class="nc" id="L97">                return Collections.emptyList();</span>
+            }
+<span class="nc" id="L99">        }</span>
+
+<span class="nc" id="L101">        return returnList;</span>
+    }
+
+    @Nonnull
+    private List&lt;String&gt; getSlimefunItems() {
+<span class="nc" id="L106">        List&lt;SlimefunItem&gt; items = Slimefun.getRegistry().getEnabledSlimefunItems();</span>
+<span class="nc" id="L107">        List&lt;String&gt; list = new ArrayList&lt;&gt;(items.size());</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        for (SlimefunItem item : items) {</span>
+<span class="nc" id="L110">            list.add(item.getId());</span>
+<span class="nc" id="L111">        }</span>
+
+<span class="nc" id="L113">        return list;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils</a> &gt; <span class="el_source">JsonUtils.java</span></div><h1>JsonUtils.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils;
+
+import javax.annotation.Nonnull;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * Some helper methods for dealing with Json data.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public final class JsonUtils {
+
+    /**
+     * Do not instantiate this class.
+     */
+    private JsonUtils() {}
+
+    /**
+     * Little helper method to provide {@link JsonParser} functionality across different
+     * versions of Gson.
+     * 
+     * @param json
+     *            The {@link String} to parse
+     * 
+     * @return The parsed {@link JsonElement}
+     */
+    @SuppressWarnings(&quot;deprecation&quot;)
+    public static @Nonnull JsonElement parseString(@Nonnull String json) {
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_18)) {</span>
+            /*
+             * As of 1.18 Spigot includes a newer version of Gson that
+             * favours static method access.
+             */
+<span class="nc" id="L40">            return JsonParser.parseString(json);</span>
+        } else {
+            /*
+             * For older versions, we will need to use this way.
+             */
+<span class="nc" id="L45">            return new JsonParser().parse(json);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WaypointCreateEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.events</a> &gt; <span class="el_source">WaypointCreateEvent.java</span></div><h1>WaypointCreateEvent.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.events;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
+
+import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
+import io.github.thebusybiscuit.slimefun4.api.gps.TeleportationManager;
+import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
+
+/**
+ * A {@link WaypointCreateEvent} is called when a {@link Player} creates a new waypoint.
+ * Either manually or through dying with an emergency transmitter.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see GPSNetwork
+ * @see TeleportationManager
+ * @see Waypoint
+ *
+ */
+public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
+
+<span class="nc" id="L29">    private static final HandlerList handlers = new HandlerList();</span>
+
+    private Location location;
+    private String name;
+
+    private final boolean deathpoint;
+    private boolean cancelled;
+
+    public WaypointCreateEvent(@Nonnull Player player, @Nonnull String name, @Nonnull Location location) {
+<span class="nc" id="L38">        super(player);</span>
+
+<span class="nc" id="L40">        Validate.notNull(location, &quot;Location must not be null!&quot;);</span>
+<span class="nc" id="L41">        Validate.notNull(name, &quot;Name must not be null!&quot;);</span>
+
+<span class="nc" id="L43">        this.location = location;</span>
+<span class="nc" id="L44">        this.name = name;</span>
+<span class="nc" id="L45">        this.deathpoint = name.startsWith(&quot;player:death &quot;);</span>
+<span class="nc" id="L46">    }</span>
+
+    /**
+     * This returns the {@link Location} of the waypoint that should be created.
+     * 
+     * @return The {@link Location} of this waypoint
+     */
+    @Nonnull
+    public Location getLocation() {
+<span class="nc" id="L55">        return location;</span>
+    }
+
+    /**
+     * This sets the {@link Location} of the waypoint.
+     * The {@link Location} may never be null!
+     * 
+     * @param loc
+     *            The {@link Location} to set
+     */
+    public void setLocation(@Nonnull Location loc) {
+<span class="nc" id="L66">        Validate.notNull(loc, &quot;Cannot set the Location to null!&quot;);</span>
+<span class="nc" id="L67">        this.location = loc;</span>
+<span class="nc" id="L68">    }</span>
+
+    /**
+     * This returns the name of the waypoint.
+     * 
+     * @return The name of this waypoint
+     */
+    @Nonnull
+    public String getName() {
+<span class="nc" id="L77">        return name;</span>
+    }
+
+    /**
+     * This sets the name of the waypoint to the given argument.
+     * 
+     * @param name
+     *            The name for this waypoint
+     */
+    public void setName(@Nonnull String name) {
+<span class="nc" id="L87">        Validate.notEmpty(name, &quot;The name of a waypoint must not be empty!&quot;);</span>
+<span class="nc" id="L88">        this.name = name;</span>
+<span class="nc" id="L89">    }</span>
+
+    /**
+     * This method returns whether this waypoint was created by an Emergency Transmitter.
+     * This should mean that our {@link Player} has died.
+     * 
+     * @return Whether this is a deathpoint
+     */
+    public boolean isDeathpoint() {
+<span class="nc" id="L98">        return deathpoint;</span>
+    }
+
+    @Override
+    public boolean isCancelled() {
+<span class="nc" id="L103">        return cancelled;</span>
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+<span class="nc" id="L108">        this.cancelled = cancel;</span>
+<span class="nc" id="L109">    }</span>
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+<span class="nc" id="L113">        return handlers;</span>
+    }
+
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
+<span class="nc" id="L119">        return getHandlerList();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultItemGroups.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.setup</a> &gt; <span class="el_source">DefaultItemGroups.java</span></div><h1>DefaultItemGroups.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.setup;
+
+import java.time.Month;
+
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.groups.SeasonalItemGroup;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+/**
+ * This class holds a reference to every {@link ItemGroup}
+ * found in Slimefun itself.
+ * 
+ * Addons should use their own {@link ItemGroup} hence why the visible of this class was now
+ * changed to package-private. Only {@link SlimefunItemSetup} has access to this class.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see ItemGroup
+ * @see LockedItemGroup
+ * @see SeasonalItemGroup
+ *
+ */
+<span class="nc" id="L33">class DefaultItemGroups {</span>
+
+    // Standard Item Groups
+<span class="nc" id="L36">    protected final ItemGroup weapons = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;weapons&quot;), CustomItemStack.create(SlimefunItems.BLADE_OF_VAMPIRES.item(), &quot;&amp;7Weapons&quot;), 1);</span>
+<span class="nc" id="L37">    protected final ItemGroup tools = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;tools&quot;), CustomItemStack.create(SlimefunItems.SMELTERS_PICKAXE.item(), &quot;&amp;7Tools&quot;), 1);</span>
+<span class="nc" id="L38">    protected final ItemGroup usefulItems = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;items&quot;), CustomItemStack.create(SlimefunItems.BACKPACK_MEDIUM.item(), &quot;&amp;7Useful Items&quot;), 1);</span>
+<span class="nc" id="L39">    protected final ItemGroup basicMachines = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;basic_machines&quot;), CustomItemStack.create(SlimefunItems.ENHANCED_CRAFTING_TABLE.item(), &quot;&amp;7Basic Machines&quot;), 1);</span>
+<span class="nc" id="L40">    protected final ItemGroup food = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;food&quot;), CustomItemStack.create(SlimefunItems.FORTUNE_COOKIE.item(), &quot;&amp;7Food&quot;), 2);</span>
+<span class="nc" id="L41">    protected final ItemGroup armor = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;armor&quot;), CustomItemStack.create(SlimefunItems.DAMASCUS_STEEL_CHESTPLATE.item(), &quot;&amp;7Armor&quot;), 2);</span>
+
+    // Magical
+<span class="nc" id="L44">    protected final ItemGroup magicalResources = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;magical_items&quot;), CustomItemStack.create(SlimefunItems.ENDER_RUNE.item(), &quot;&amp;7Magical Items&quot;), 2);</span>
+<span class="nc" id="L45">    protected final ItemGroup magicalGadgets = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;magical_gadgets&quot;), CustomItemStack.create(SlimefunItems.INFUSED_ELYTRA.item(), &quot;&amp;7Magical Gadgets&quot;), 3);</span>
+<span class="nc" id="L46">    protected final ItemGroup magicalArmor = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;magical_armor&quot;), CustomItemStack.create(SlimefunItems.ENDER_HELMET.item(), &quot;&amp;7Magical Armor&quot;), 2);</span>
+
+    // Resources and tech stuff
+<span class="nc" id="L49">    protected final ItemGroup misc = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;misc&quot;), CustomItemStack.create(SlimefunItems.TIN_CAN.item(), &quot;&amp;7Miscellaneous&quot;), 2);</span>
+<span class="nc" id="L50">    protected final ItemGroup technicalComponents = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;tech_misc&quot;), CustomItemStack.create(SlimefunItems.HEATING_COIL.item(), &quot;&amp;7Technical Components&quot;), 2);</span>
+<span class="nc" id="L51">    protected final ItemGroup technicalGadgets = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;technical_gadgets&quot;), CustomItemStack.create(SlimefunItems.STEEL_JETPACK.item(), &quot;&amp;7Technical Gadgets&quot;), 3);</span>
+<span class="nc" id="L52">    protected final ItemGroup resources = new ItemGroup(new NamespacedKey(Slimefun.instance(), &quot;resources&quot;), CustomItemStack.create(SlimefunItems.SYNTHETIC_SAPPHIRE.item(), &quot;&amp;7Resources&quot;), 1);</span>
+
+    // Locked Item Groups
+<span class="nc" id="L55">    protected final LockedItemGroup electricity = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), &quot;electricity&quot;), CustomItemStack.create(SlimefunItems.NUCLEAR_REACTOR.item(), &quot;&amp;bEnergy and Electricity&quot;), 4, basicMachines.getKey());</span>
+<span class="nc" id="L56">    protected final LockedItemGroup androids = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), &quot;androids&quot;), CustomItemStack.create(SlimefunItems.PROGRAMMABLE_ANDROID.item(), &quot;&amp;cProgrammable Androids&quot;), 4, basicMachines.getKey());</span>
+<span class="nc" id="L57">    protected final ItemGroup cargo = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), &quot;cargo&quot;), CustomItemStack.create(SlimefunItems.CARGO_MANAGER.item(), &quot;&amp;cCargo Management&quot;), 4, basicMachines.getKey());</span>
+<span class="nc" id="L58">    protected final LockedItemGroup gps = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), &quot;gps&quot;), CustomItemStack.create(SlimefunItems.GPS_TRANSMITTER.item(), &quot;&amp;bGPS-based Machines&quot;), 4, basicMachines.getKey());</span>
+
+    // Seasonal Item Groups
+<span class="nc" id="L61">    protected final SeasonalItemGroup christmas = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), &quot;christmas&quot;), Month.DECEMBER, 1, CustomItemStack.create(SlimefunUtils.getCustomHead(&quot;215ba31cde2671b8f176de6a9ffd008035f0590d63ee240be6e8921cd2037a45&quot;), ChatUtils.christmas(&quot;Christmas&quot;) + &quot; &amp;7(December only)&quot;));</span>
+<span class="nc" id="L62">    protected final SeasonalItemGroup valentinesDay = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), &quot;valentines_day&quot;), Month.FEBRUARY, 2, CustomItemStack.create(SlimefunUtils.getCustomHead(&quot;55d89431d14bfef2060461b4a3565614dc51115c001fae2508e8684bc0ae6a80&quot;), &quot;&amp;dValentine's Day&quot; + &quot; &amp;7(14th February)&quot;));</span>
+<span class="nc" id="L63">    protected final SeasonalItemGroup easter = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), &quot;easter&quot;), Month.APRIL, 2, CustomItemStack.create(HeadTexture.EASTER_EGG.getAsItemStack(), &quot;&amp;6Easter&quot; + &quot; &amp;7(April)&quot;));</span>
+<span class="nc" id="L64">    protected final SeasonalItemGroup birthday = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), &quot;birthday&quot;), Month.OCTOBER, 1, CustomItemStack.create(Material.FIREWORK_ROCKET, &quot;&amp;a&amp;lTheBusyBiscuit's Birthday &amp;7(26th October)&quot;));</span>
+<span class="nc" id="L65">    protected final SeasonalItemGroup halloween = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), &quot;halloween&quot;), Month.OCTOBER, 1, CustomItemStack.create(Material.JACK_O_LANTERN, &quot;&amp;6&amp;lHalloween &amp;7(31st October)&quot;));</span>
+
+    // Flex Item Groups
+<span class="nc" id="L68">    protected final FlexItemGroup rickFlexGroup = new RickFlexGroup(new NamespacedKey(Slimefun.instance(), &quot;rick&quot;));</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

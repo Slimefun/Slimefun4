@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: 'Výsledky GEO Skenu'
+  chunk: 'Naskenovaný chunk'
+  world: 'Svět'
+  unit: 'Jednotka'
+  units: 'Jednotky'
+resources:
+  slimefun:
+    oil: 'Olej'
+    nether_ice: 'Nether led'
+    salt: 'Sůl'
+    uranium: 'Uran'
+  slimefunorechunks:
+    iron_ore_chunk: 'Kus železné rudy'
+    gold_ore_chunk: 'Kus zlaté rudy'
+    copper_ore_chunk: 'Kus měděné rudy'
+    tin_ore_chunk: 'Kus cínové rudy'
+    silver_ore_chunk: 'Kus stříbrné rudy'
+    aluminum_ore_chunk: 'Kus hliníkové rudy'
+    lead_ore_chunk: 'Kus olovové rudy'
+    zinc_ore_chunk: 'Kus zinkové rudy'
+    nickel_ore_chunk: 'Kus niklové rudy'
+    cobalt_ore_chunk: 'Kus kobaltové rudy'

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultiBlockMachine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.multiblocks</a> &gt; <span class="el_source">MultiBlockMachine.java</span></div><h1>MultiBlockMachine.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.multiblocks;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import com.google.common.base.Preconditions;
+
+import org.apache.commons.lang.Validate;
+
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Container;
+import org.bukkit.block.Dispenser;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+/**
+ * A {@link MultiBlockMachine} is a {@link SlimefunItem} that is built in the {@link World}.
+ * It holds recipes and a {@link MultiBlock} object which represents its structure.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see MultiBlock
+ *
+ */
+public abstract class MultiBlockMachine extends SlimefunItem implements NotPlaceable, RecipeDisplayItem {
+
+    protected final List&lt;ItemStack[]&gt; recipes;
+    protected final List&lt;ItemStack&gt; displayRecipes;
+    protected final MultiBlock multiblock;
+
+    @ParametersAreNonnullByDefault
+    protected MultiBlockMachine(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+<span class="nc" id="L58">        super(itemGroup, item, RecipeType.MULTIBLOCK, recipe);</span>
+<span class="nc" id="L59">        this.recipes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L60">        this.displayRecipes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L61">        this.displayRecipes.addAll(Arrays.asList(machineRecipes));</span>
+<span class="nc" id="L62">        this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);</span>
+
+<span class="nc" id="L64">        registerDefaultRecipes(displayRecipes);</span>
+<span class="nc" id="L65">    }</span>
+
+    @ParametersAreNonnullByDefault
+    protected MultiBlockMachine(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
+<span class="nc" id="L69">        this(itemGroup, item, recipe, new ItemStack[0], trigger);</span>
+<span class="nc" id="L70">    }</span>
+
+    protected void registerDefaultRecipes(@Nonnull List&lt;ItemStack&gt; recipes) {
+        // Override this method to register some default recipes
+<span class="nc" id="L74">    }</span>
+
+    public @Nonnull List&lt;ItemStack[]&gt; getRecipes() {
+<span class="nc" id="L77">        return recipes;</span>
+    }
+
+    @Override
+    public @Nonnull List&lt;ItemStack&gt; getDisplayRecipes() {
+<span class="nc" id="L82">        return displayRecipes;</span>
+    }
+
+    public @Nonnull MultiBlock getMultiBlock() {
+<span class="nc" id="L86">        return multiblock;</span>
+    }
+
+    public void addRecipe(ItemStack[] input, ItemStack output) {
+<span class="nc" id="L90">        Validate.notNull(output, &quot;Recipes must have an Output!&quot;);</span>
+
+<span class="nc" id="L92">        recipes.add(input);</span>
+<span class="nc" id="L93">        recipes.add(new ItemStack[] { output });</span>
+<span class="nc" id="L94">    }</span>
+
+    @Override
+    public void register(@Nonnull SlimefunAddon addon) {
+<span class="nc" id="L98">        addItemHandler(getInteractionHandler());</span>
+<span class="nc" id="L99">        super.register(addon);</span>
+<span class="nc" id="L100">    }</span>
+
+    @Override
+    public void postRegister() {
+<span class="nc" id="L104">        Slimefun.getRegistry().getMultiBlocks().add(multiblock);</span>
+<span class="nc" id="L105">    }</span>
+
+    @Override
+    public void load() {
+<span class="nc" id="L109">        super.load();</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        Preconditions.checkArgument(displayRecipes.size() % 2 == 0, &quot;This MultiBlockMachine's display recipes were illegally modified!&quot;);</span>
+
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        for (int i = 0; i &lt; displayRecipes.size(); i += 2) {</span>
+<span class="nc" id="L114">            ItemStack inputStack = displayRecipes.get(i);</span>
+<span class="nc" id="L115">            ItemStack outputStack = null;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            if (displayRecipes.size() &gt;= i + 2) {</span>
+<span class="nc" id="L117">                outputStack = displayRecipes.get(i + 1);</span>
+            }
+
+<span class="nc" id="L120">            SlimefunItem inputItem = SlimefunItem.getByItem(inputStack);</span>
+<span class="nc" id="L121">            SlimefunItem outputItem = SlimefunItem.getByItem(outputStack);</span>
+            // If the input/output is not a Slimefun item or it's not disabled then it's valid.
+<span class="nc bnc" id="L123" title="All 8 branches missed.">            if ((inputItem == null || !inputItem.isDisabled()) &amp;&amp; (outputItem == null || !outputItem.isDisabled())) {</span>
+<span class="nc" id="L124">                recipes.add(new ItemStack[] { inputStack });</span>
+<span class="nc" id="L125">                recipes.add(new ItemStack[] { outputStack });</span>
+            }
+        }
+<span class="nc" id="L128">    }</span>
+
+    protected @Nonnull MultiBlockInteractionHandler getInteractionHandler() {
+<span class="nc" id="L131">        return (p, mb, b) -&gt; {</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            if (mb.equals(getMultiBlock())) {</span>
+<span class="nc bnc" id="L133" title="All 4 branches missed.">                if (canUse(p, true) &amp;&amp; Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK)) {</span>
+<span class="nc" id="L134">                    onInteract(p, b);</span>
+                }
+
+<span class="nc" id="L137">                return true;</span>
+            } else {
+<span class="nc" id="L139">                return false;</span>
+            }
+        };
+    }
+
+    public abstract void onInteract(Player p, Block b);
+
+    /**
+     * Overloaded method for finding a potential output chest.
+     * Fallbacks to the old system of putting the adding back into the dispenser.
+     * Optional last argument Inventory placeCheckerInv is for a {@link MultiBlockMachine} that create
+     * a dummy inventory to check if there's a space for the adding, i.e. Enhanced crafting table
+     * 
+     * @param adding
+     *            The {@link ItemStack} that should be added
+     * @param dispBlock
+     *            The {@link Block} of our {@link Dispenser}
+     * @param dispInv
+     *            The {@link Inventory} of our {@link Dispenser}
+     * 
+     * @return The target {@link Inventory}
+     */
+
+    @ParametersAreNonnullByDefault
+    protected @Nullable Inventory findOutputInventory(ItemStack adding, Block dispBlock, Inventory dispInv) {
+<span class="nc" id="L164">        return findOutputInventory(adding, dispBlock, dispInv, dispInv);</span>
+    }
+
+    @ParametersAreNonnullByDefault
+    protected @Nullable Inventory findOutputInventory(ItemStack product, Block dispBlock, Inventory dispInv, Inventory placeCheckerInv) {
+<span class="nc" id="L169">        Optional&lt;Inventory&gt; outputChest = OutputChest.findOutputChestFor(dispBlock, product);</span>
+
+        /*
+         * This if-clause will trigger if no suitable output chest was found.
+         * It's functionally the same as the old fit check for the dispenser,
+         * only refactored.
+         */
+<span class="nc bnc" id="L176" title="All 4 branches missed.">        if (!outputChest.isPresent() &amp;&amp; InvUtils.fits(placeCheckerInv, product)) {</span>
+<span class="nc" id="L177">            return dispInv;</span>
+        } else {
+<span class="nc" id="L179">            return outputChest.orElse(null);</span>
+        }
+    }
+
+    /**
+     * This method handles an output {@link ItemStack} from the {@link MultiBlockMachine} which has a crafting delay
+     *
+     * @param outputItem
+     *            A crafted {@link ItemStack} from {@link MultiBlockMachine}
+     * @param block
+     *            Main {@link Block} of our {@link Container} from {@link MultiBlockMachine}
+     * @param blockInv
+     *            The {@link Inventory} of our {@link Container}
+     *
+     */
+    @ParametersAreNonnullByDefault
+    protected void handleCraftedItem(ItemStack outputItem, Block block, Inventory blockInv) {
+<span class="nc" id="L196">        Inventory outputInv = findOutputInventory(outputItem, block, blockInv);</span>
+
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        if (outputInv != null) {</span>
+<span class="nc" id="L199">            outputInv.addItem(outputItem);</span>
+        } else {
+<span class="nc" id="L201">            ItemStack rest = blockInv.addItem(outputItem).get(0);</span>
+
+            // fallback: drop item
+<span class="nc bnc" id="L204" title="All 2 branches missed.">            if (rest != null) {</span>
+<span class="nc" id="L205">                SlimefunUtils.spawnItem(block.getLocation(), rest, ItemSpawnReason.MULTIBLOCK_MACHINE_OVERFLOW, true);</span>
+            }
+        }
+<span class="nc" id="L208">    }</span>
+
+    private static @Nonnull Material[] convertItemStacksToMaterial(@Nonnull ItemStack[] items) {
+<span class="nc" id="L211">        List&lt;Material&gt; materials = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L213" title="All 2 branches missed.">        for (ItemStack item : items) {</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">            if (item == null) {</span>
+<span class="nc" id="L215">                materials.add(null);</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">            } else if (item.getType() == Material.FLINT_AND_STEEL) {</span>
+<span class="nc" id="L217">                materials.add(Material.FIRE);</span>
+            } else {
+<span class="nc" id="L219">                materials.add(item.getType());</span>
+            }
+        }
+
+<span class="nc" id="L223">        return materials.toArray(new Material[0]);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

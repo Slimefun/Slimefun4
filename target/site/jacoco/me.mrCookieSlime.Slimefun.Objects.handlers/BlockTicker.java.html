@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlockTicker.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">me.mrCookieSlime.Slimefun.Objects.handlers</a> &gt; <span class="el_source">BlockTicker.java</span></div><h1>BlockTicker.java</h1><pre class="source lang-java linenums">package me.mrCookieSlime.Slimefun.Objects.handlers;
+
+import java.util.Optional;
+
+import org.bukkit.block.Block;
+
+import io.github.thebusybiscuit.slimefun5.api.exceptions.IncompatibleItemHandlerException;
+import io.github.thebusybiscuit.slimefun5.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.core.attributes.NotPlaceable;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+
+<span class="nc" id="L14">public abstract class BlockTicker implements ItemHandler {</span>
+
+<span class="nc" id="L16">    protected boolean unique = true;</span>
+
+    public void update() {
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        if (unique) {</span>
+<span class="nc" id="L20">            uniqueTick();</span>
+<span class="nc" id="L21">            unique = false;</span>
+        }
+<span class="nc" id="L23">    }</span>
+
+    @Override
+    public Optional&lt;IncompatibleItemHandlerException&gt; validate(SlimefunItem item) {
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (!item.getItem().getType().isBlock()) {</span>
+<span class="nc" id="L28">            return Optional.of(new IncompatibleItemHandlerException(&quot;Only Materials that are blocks can have a BlockTicker.&quot;, item, this));</span>
+        }
+
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (item instanceof NotPlaceable) {</span>
+<span class="nc" id="L32">            return Optional.of(new IncompatibleItemHandlerException(&quot;Only Slimefun items that are not marked as 'NotPlaceable' can have a BlockTicker.&quot;, item, this));</span>
+        }
+
+<span class="nc" id="L35">        return Optional.empty();</span>
+    }
+
+    /**
+     * This method must be overridden to define whether a Block
+     * needs to be run on the main server thread (World Manipulation requires that)
+     * 
+     * @return Whether this task should run on the main server thread
+     */
+    public abstract boolean isSynchronized();
+
+    /**
+     * This method is called every tick for every block
+     * 
+     * @param b
+     *            The {@link Block} that was ticked
+     * @param item
+     *            The corresponding {@link SlimefunItem}
+     * @param data
+     *            The data stored in this {@link Block}
+     */
+    public abstract void tick(Block b, SlimefunItem item, Config data);
+
+    /**
+     * This method is called every tick but not per-block and only once.
+     */
+    public void uniqueTick() {
+        // Override this method and fill it with content
+<span class="nc" id="L63">    }</span>
+
+    @Override
+    public Class&lt;? extends ItemHandler&gt; getIdentifier() {
+<span class="nc" id="L67">        return BlockTicker.class;</span>
+    }
+
+    /**
+     * This method resets the 'unique' flag for {@link BlockTicker#uniqueTick()}
+     */
+    public void startNewTick() {
+<span class="nc" id="L74">        unique = true;</span>
+<span class="nc" id="L75">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

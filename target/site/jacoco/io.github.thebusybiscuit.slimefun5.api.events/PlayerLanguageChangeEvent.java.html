@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerLanguageChangeEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.events</a> &gt; <span class="el_source">PlayerLanguageChangeEvent.java</span></div><h1>PlayerLanguageChangeEvent.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.events;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+
+import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+
+/**
+ * This {@link Event} gets called when a {@link Player} has switched their {@link Language}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Language
+ * @see LocalizationService
+ *
+ */
+public class PlayerLanguageChangeEvent extends Event {
+
+<span class="nc" id="L23">    private static final HandlerList handlers = new HandlerList();</span>
+
+    private final Player player;
+    private final Language from;
+    private final Language to;
+
+<span class="nc" id="L29">    public PlayerLanguageChangeEvent(@Nonnull Player p, @Nonnull Language from, @Nonnull Language to) {</span>
+<span class="nc" id="L30">        player = p;</span>
+<span class="nc" id="L31">        this.from = from;</span>
+<span class="nc" id="L32">        this.to = to;</span>
+<span class="nc" id="L33">    }</span>
+
+    /**
+     * Returns the {@link Player} who triggered this {@link Event},
+     * the {@link Player} who switched his {@link Language} to be precise.
+     * 
+     * @return The {@link Player} who switched his {@link Language}
+     */
+    @Nonnull
+    public Player getPlayer() {
+<span class="nc" id="L43">        return player;</span>
+    }
+
+    /**
+     * This returns the {@link Language} that this {@link Player} was using before.
+     * 
+     * @return The previous {@link Language} of our {@link Player}
+     */
+    @Nonnull
+    public Language getPreviousLanguage() {
+<span class="nc" id="L53">        return from;</span>
+    }
+
+    /**
+     * This returns the {@link Language} that this {@link Player} wants to switch to.
+     * 
+     * @return The new {@link Language}
+     */
+    @Nonnull
+    public Language getNewLanguage() {
+<span class="nc" id="L63">        return to;</span>
+    }
+
+    public static HandlerList getHandlerList() {
+<span class="nc" id="L67">        return handlers;</span>
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+<span class="nc" id="L72">        return getHandlerList();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

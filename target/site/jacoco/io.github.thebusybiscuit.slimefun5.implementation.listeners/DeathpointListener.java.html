@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeathpointListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners</a> &gt; <span class="el_source">DeathpointListener.java</span></div><h1>DeathpointListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+/**
+ * This {@link Listener} listens to the {@link EntityDeathEvent} to automatically
+ * create a waypoint for a {@link Player} who carries an Emergency Transmitter.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class DeathpointListener implements Listener {
+
+<span class="nc" id="L28">    private final DateTimeFormatter format = DateTimeFormatter.ofPattern(&quot;(MMM dd, yyyy @ hh:mm)&quot;, Locale.ROOT);</span>
+
+<span class="nc" id="L30">    public DeathpointListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L31">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L32">    }</span>
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+<span class="nc" id="L36">        Player p = e.getEntity();</span>
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.GPS_EMERGENCY_TRANSMITTER.item(), true)) {</span>
+<span class="nc" id="L39">            Slimefun.getGPSNetwork().addWaypoint(p, &quot;player:death &quot; + Slimefun.getLocalization().getMessage(p, &quot;gps.deathpoint&quot;).replace(&quot;%date%&quot;, format.format(LocalDateTime.now())), p.getLocation().getBlock().getLocation());</span>
+        }
+<span class="nc" id="L41">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PickaxeOfContainment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.tools</a> &gt; <span class="el_source">PickaxeOfContainment.java</span></div><h1>PickaxeOfContainment.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.AbstractMonsterSpawner;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BrokenSpawner;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+/**
+ * The {@link PickaxeOfContainment} is a Pickaxe that allows you to break Spawners.
+ * Upon breaking a Spawner, a {@link BrokenSpawner} will be dropped.
+ * But it also allows you to break a {@link RepairedSpawner}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see BrokenSpawner
+ * @see RepairedSpawner
+ *
+ */
+public class PickaxeOfContainment extends SimpleSlimefunItem&lt;ToolUseHandler&gt; {
+
+    @ParametersAreNonnullByDefault
+    public PickaxeOfContainment(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L43">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    public @Nonnull ToolUseHandler getItemHandler() {
+<span class="nc" id="L48">        return (e, tool, fortune, drops) -&gt; {</span>
+<span class="nc" id="L49">            Block b = e.getBlock();</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (b.getType() == Material.SPAWNER) {</span>
+<span class="nc" id="L52">                ItemStack spawner = breakSpawner(b);</span>
+<span class="nc" id="L53">                SlimefunUtils.spawnItem(b.getLocation(), spawner, ItemSpawnReason.BROKEN_SPAWNER_DROP, true, e.getPlayer());</span>
+
+<span class="nc" id="L55">                e.setExpToDrop(0);</span>
+<span class="nc" id="L56">                e.setDropItems(false);</span>
+            }
+<span class="nc" id="L58">        };</span>
+    }
+
+    private @Nonnull ItemStack breakSpawner(@Nonnull Block b) {
+        AbstractMonsterSpawner spawner;
+
+        /*
+          If the spawner's BlockStorage has BlockInfo, then it's not a vanilla spawner
+          and should not give a broken spawner but a repaired one instead.
+         */
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (BlockStorage.hasBlockInfo(b)) {</span>
+<span class="nc" id="L69">            spawner = (AbstractMonsterSpawner) SlimefunItems.REPAIRED_SPAWNER.getItem();</span>
+        } else {
+<span class="nc" id="L71">            spawner = (AbstractMonsterSpawner) SlimefunItems.BROKEN_SPAWNER.getItem();</span>
+        }
+
+<span class="nc" id="L74">        BlockState state = PaperLib.getBlockState(b, false).getState();</span>
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (state instanceof CreatureSpawner creatureSpawner) {</span>
+<span class="nc" id="L77">            EntityType entityType = creatureSpawner.getSpawnedType();</span>
+<span class="nc" id="L78">            return spawner.getItemForEntityType(entityType);</span>
+        }
+
+<span class="nc" id="L81">        return new ItemStack(Material.SPAWNER);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

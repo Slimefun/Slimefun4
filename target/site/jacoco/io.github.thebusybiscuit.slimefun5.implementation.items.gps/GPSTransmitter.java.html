@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GPSTransmitter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.gps</a> &gt; <span class="el_source">GPSTransmitter.java</span></div><h1>GPSTransmitter.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.gps;
+
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+public abstract class GPSTransmitter extends SimpleSlimefunItem&lt;BlockTicker&gt; implements EnergyNetComponent {
+
+    private final int capacity;
+
+    @ParametersAreNonnullByDefault
+    protected GPSTransmitter(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L36">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L37">        this.capacity = 4 &lt;&lt; (2 * tier);</span>
+
+<span class="nc" id="L39">        addItemHandler(onPlace(), onBreak());</span>
+<span class="nc" id="L40">    }</span>
+
+    @Override
+    public int getCapacity() {
+<span class="nc" id="L44">        return capacity;</span>
+    }
+
+    @Nonnull
+    private BlockPlaceHandler onPlace() {
+<span class="nc" id="L49">        return new BlockPlaceHandler(false) {</span>
+
+            @Override
+            public void onPlayerPlace(BlockPlaceEvent e) {
+<span class="nc" id="L53">                BlockStorage.addBlockInfo(e.getBlock(), &quot;owner&quot;, e.getPlayer().getUniqueId().toString());</span>
+<span class="nc" id="L54">            }</span>
+        };
+    }
+
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+<span class="nc" id="L60">        return new BlockBreakHandler(false, false) {</span>
+
+            @Override
+            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List&lt;ItemStack&gt; drops) {
+<span class="nc" id="L64">                Location l = e.getBlock().getLocation();</span>
+<span class="nc" id="L65">                UUID owner = UUID.fromString(BlockStorage.getLocationInfo(l, &quot;owner&quot;));</span>
+<span class="nc" id="L66">                Slimefun.getGPSNetwork().updateTransmitter(l, owner, false);</span>
+<span class="nc" id="L67">            }</span>
+        };
+    }
+
+    public abstract int getMultiplier(int y);
+
+    public abstract int getEnergyConsumption();
+
+    @Override
+    public BlockTicker getItemHandler() {
+<span class="nc" id="L77">        return new BlockTicker() {</span>
+
+            @Override
+            public void tick(Block b, SlimefunItem item, Config data) {
+<span class="nc" id="L81">                int charge = getCharge(b.getLocation(), data);</span>
+<span class="nc" id="L82">                UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), &quot;owner&quot;));</span>
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                if (charge &gt;= getEnergyConsumption()) {</span>
+<span class="nc" id="L85">                    Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), owner, true);</span>
+<span class="nc" id="L86">                    removeCharge(b.getLocation(), getEnergyConsumption());</span>
+                } else {
+<span class="nc" id="L88">                    Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);</span>
+                }
+<span class="nc" id="L90">            }</span>
+
+            @Override
+            public boolean isSynchronized() {
+<span class="nc" id="L94">                return false;</span>
+            }
+        };
+    }
+
+    @Override
+    public EnergyNetComponentType getEnergyComponentType() {
+<span class="nc" id="L101">        return EnergyNetComponentType.CONSUMER;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

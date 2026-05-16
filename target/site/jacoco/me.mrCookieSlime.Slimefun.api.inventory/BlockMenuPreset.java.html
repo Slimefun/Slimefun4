@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlockMenuPreset.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">me.mrCookieSlime.Slimefun.api.inventory</a> &gt; <span class="el_source">BlockMenuPreset.java</span></div><h1>BlockMenuPreset.java</h1><pre class="source lang-java linenums">package me.mrCookieSlime.Slimefun.api.inventory;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+
+// This class will be deprecated, relocated and rewritten in a future version.
+public abstract class BlockMenuPreset extends ChestMenu {
+
+<span class="nc" id="L27">    private final Set&lt;Integer&gt; occupiedSlots = new HashSet&lt;&gt;();</span>
+    private final String inventoryTitle;
+    private final String id;
+
+    // -1 means &quot;automatically update according to the contents&quot;
+<span class="nc" id="L32">    private int size = -1;</span>
+
+    private final boolean universal;
+    private boolean locked;
+
+    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title) {
+<span class="nc" id="L38">        this(id, title, false);</span>
+<span class="nc" id="L39">    }</span>
+
+    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, boolean universal) {
+<span class="nc" id="L42">        super(title);</span>
+
+<span class="nc" id="L44">        Validate.notNull(id, &quot;You need to specify an id!&quot;);</span>
+
+<span class="nc" id="L46">        this.id = id;</span>
+<span class="nc" id="L47">        this.inventoryTitle = title;</span>
+<span class="nc" id="L48">        this.universal = universal;</span>
+<span class="nc" id="L49">        init();</span>
+
+<span class="nc" id="L51">        Slimefun.getRegistry().getMenuPresets().put(id, this);</span>
+<span class="nc" id="L52">    }</span>
+
+    private void checkIfLocked() {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (locked) {</span>
+<span class="nc" id="L56">            throw new UnsupportedOperationException(&quot;You cannot modify the BlockMenuPreset anymore, modify the individual instances instead.&quot;);</span>
+        }
+<span class="nc" id="L58">    }</span>
+
+    public abstract void init();
+
+    /**
+     * This method returns whether a given {@link Player} is allowed to open the
+     * {@link BlockMenu} of that {@link Block}.
+     * Override this as necessary.
+     * 
+     * @param b
+     *            The {@link Block} trying to be opened
+     * @param p
+     *            The {@link Player} who wants to open the {@link BlockMenu}
+     * 
+     * @return Whether that {@link Player} is allowed
+     */
+    public abstract boolean canOpen(@Nonnull Block b, @Nonnull Player p);
+
+    public abstract int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow);
+
+    /**
+     * This method is called whenever an {@link ItemStack} changes.
+     * You can override this as necessary if you need to listen to these events
+     * 
+     * @param menu
+     *            The {@link Inventory} affected by this
+     * @param slot
+     *            The affected slot
+     * @param previous
+     *            The {@link ItemStack} in that slot before the operation
+     * @param next
+     *            The {@link ItemStack} that it changes to
+     * 
+     * @return The new outcome of this operation
+     */
+    @Nullable
+    protected ItemStack onItemStackChange(@Nonnull DirtyChestMenu menu, int slot, @Nullable ItemStack previous, @Nullable ItemStack next) {
+        // Override this as necessary
+<span class="nc" id="L96">        return next;</span>
+    }
+
+    public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+        // This method can optionally be overridden by implementations
+<span class="nc" id="L101">    }</span>
+
+    public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
+        // This method will default to that method, it can be overridden by subclasses though
+<span class="nc" id="L105">        return getSlotsAccessedByItemTransport(flow);</span>
+    }
+
+    @Override
+    public void replaceExistingItem(int slot, ItemStack item) {
+<span class="nc" id="L110">        throw new UnsupportedOperationException(&quot;BlockMenuPreset does not support this method.&quot;);</span>
+    }
+
+    /**
+     * This method will draw unclickable background items into this {@link BlockMenuPreset}.
+     * 
+     * @param item
+     *            The {@link ItemStack} that should be used as background
+     * @param slots
+     *            The slots which should be treated as background
+     */
+    public void drawBackground(@Nonnull ItemStack item, @Nonnull int[] slots) {
+<span class="nc" id="L122">        Validate.notNull(item, &quot;The background item cannot be null!&quot;);</span>
+<span class="nc" id="L123">        checkIfLocked();</span>
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        for (int slot : slots) {</span>
+<span class="nc" id="L126">            addItem(slot, item, ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+<span class="nc" id="L128">    }</span>
+
+    /**
+     * This method will draw unclickable background items into this {@link BlockMenuPreset}.
+     * 
+     * @param slots
+     *            The slots which should be treated as background
+     */
+    public void drawBackground(@Nonnull int[] slots) {
+<span class="nc" id="L137">        drawBackground(ChestMenuUtils.getBackground(), slots);</span>
+<span class="nc" id="L138">    }</span>
+
+    @Override
+    public ChestMenu addItem(int slot, @Nullable ItemStack item) {
+<span class="nc" id="L142">        checkIfLocked();</span>
+
+<span class="nc" id="L144">        occupiedSlots.add(slot);</span>
+<span class="nc" id="L145">        return super.addItem(slot, item);</span>
+    }
+
+    @Override
+    public ChestMenu addMenuClickHandler(int slot, MenuClickHandler handler) {
+<span class="nc" id="L150">        checkIfLocked();</span>
+<span class="nc" id="L151">        return super.addMenuClickHandler(slot, handler);</span>
+    }
+
+    @Nonnull
+    public ChestMenu setSize(int size) {
+<span class="nc" id="L156">        checkIfLocked();</span>
+
+<span class="nc bnc" id="L158" title="All 6 branches missed.">        if (size % 9 == 0 &amp;&amp; size &gt;= 0 &amp;&amp; size &lt; 55) {</span>
+<span class="nc" id="L159">            this.size = size;</span>
+<span class="nc" id="L160">            return this;</span>
+        } else {
+<span class="nc" id="L162">            throw new IllegalArgumentException(&quot;The size of a BlockMenuPreset must be a multiple of 9 and within the bounds 0-54, received: &quot; + size);</span>
+        }
+    }
+
+    /**
+     * This method returns the size of this {@link BlockMenuPreset}.
+     * If the size has not been determined yet, this will return -1.
+     * 
+     * @return The size of this {@link BlockMenuPreset}
+     */
+    public int getSize() {
+<span class="nc" id="L173">        return size;</span>
+    }
+
+    private boolean isSizeAutomaticallyInferred() {
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        return size == -1;</span>
+    }
+
+    /**
+     * This returns the title of this {@link BlockMenuPreset}, the title will
+     * be visible in every {@link InventoryView} for any menu created using this {@link BlockMenuPreset}.
+     * 
+     * @return The inventory title for this {@link BlockMenuPreset}
+     */
+    public String getTitle() {
+<span class="nc" id="L187">        return inventoryTitle;</span>
+    }
+
+    /**
+     * This method returns whether this {@link BlockMenuPreset} will spawn a {@link UniversalBlockMenu}.
+     * 
+     * @return Whether this {@link BlockMenuPreset} is universal
+     */
+    public boolean isUniversal() {
+<span class="nc" id="L196">        return universal;</span>
+    }
+
+    @Nonnull
+    public Set&lt;Integer&gt; getPresetSlots() {
+<span class="nc" id="L201">        return occupiedSlots;</span>
+    }
+
+    @Nonnull
+    public Set&lt;Integer&gt; getInventorySlots() {
+<span class="nc" id="L206">        Set&lt;Integer&gt; emptySlots = new HashSet&lt;&gt;();</span>
+
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (isSizeAutomaticallyInferred()) {</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">            for (int i = 0; i &lt; toInventory().getSize(); i++) {</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">                if (!occupiedSlots.contains(i)) {</span>
+<span class="nc" id="L211">                    emptySlots.add(i);</span>
+                }
+            }
+        } else {
+<span class="nc bnc" id="L215" title="All 2 branches missed.">            for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">                if (!occupiedSlots.contains(i)) {</span>
+<span class="nc" id="L217">                    emptySlots.add(i);</span>
+                }
+            }
+        }
+
+<span class="nc" id="L222">        return emptySlots;</span>
+    }
+
+    protected void clone(@Nonnull DirtyChestMenu menu) {
+<span class="nc" id="L226">        menu.setPlayerInventoryClickable(true);</span>
+
+<span class="nc bnc" id="L228" title="All 2 branches missed.">        for (int slot : occupiedSlots) {</span>
+<span class="nc" id="L229">            menu.addItem(slot, getItemInSlot(slot));</span>
+<span class="nc" id="L230">        }</span>
+
+<span class="nc bnc" id="L232" title="All 2 branches missed.">        if (size &gt; -1) {</span>
+<span class="nc" id="L233">            menu.addItem(size - 1, null);</span>
+        }
+
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        if (menu instanceof BlockMenu blockMenu) {</span>
+<span class="nc" id="L237">            newInstance(blockMenu, blockMenu.getLocation());</span>
+        }
+
+<span class="nc bnc" id="L240" title="All 2 branches missed.">        for (int slot = 0; slot &lt; 54; slot++) {</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">            if (getMenuClickHandler(slot) != null) {</span>
+<span class="nc" id="L242">                menu.addMenuClickHandler(slot, getMenuClickHandler(slot));</span>
+            }
+        }
+
+<span class="nc" id="L246">        menu.addMenuOpeningHandler(getMenuOpeningHandler());</span>
+<span class="nc" id="L247">        menu.addMenuCloseHandler(getMenuCloseHandler());</span>
+<span class="nc" id="L248">    }</span>
+
+    public void newInstance(@Nonnull BlockMenu menu, @Nonnull Location l) {
+<span class="nc" id="L251">        Validate.notNull(l, &quot;Cannot create a new BlockMenu without a Location&quot;);</span>
+
+<span class="nc" id="L253">        Slimefun.runSync(() -&gt; {</span>
+<span class="nc" id="L254">            locked = true;</span>
+
+            try {
+<span class="nc" id="L257">                newInstance(menu, l.getBlock());</span>
+<span class="nc" id="L258">            } catch (Exception | LinkageError x) {</span>
+<span class="nc" id="L259">                getSlimefunItem().error(&quot;An Error occurred while trying to create a BlockMenu&quot;, x);</span>
+<span class="nc" id="L260">            }</span>
+<span class="nc" id="L261">        });</span>
+<span class="nc" id="L262">    }</span>
+
+    /**
+     * This returns the id of the associated {@link SlimefunItem}.
+     * It also doubles as the id for this {@link BlockMenuPreset}.
+     * 
+     * @return Our identifier
+     */
+
+    @Nonnull
+    public String getID() {
+<span class="nc" id="L273">        return id;</span>
+    }
+
+    /**
+     * This returns the {@link SlimefunItem} associated with this {@link BlockMenuPreset}.
+     * 
+     * @return The associated {@link SlimefunItem}
+     */
+
+    @Nonnull
+    public SlimefunItem getSlimefunItem() {
+<span class="nc" id="L284">        return SlimefunItem.getById(id);</span>
+    }
+
+    @Nullable
+    public static BlockMenuPreset getPreset(@Nullable String id) {
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        return id == null ? null : Slimefun.getRegistry().getMenuPresets().get(id);</span>
+    }
+
+    public static boolean isInventory(String id) {
+<span class="nc" id="L293">        return Slimefun.getRegistry().getMenuPresets().containsKey(id);</span>
+    }
+
+    public static boolean isUniversalInventory(String id) {
+<span class="nc" id="L297">        BlockMenuPreset preset = Slimefun.getRegistry().getMenuPresets().get(id);</span>
+<span class="nc bnc" id="L298" title="All 4 branches missed.">        return preset != null &amp;&amp; preset.isUniversal();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

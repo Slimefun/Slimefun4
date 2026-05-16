@@ -1,0 +1,12 @@
+{
+	"values" : [
+		"#slimefun:concrete_powders",
+		"#minecraft:sand",
+		"minecraft:gravel",
+		"minecraft:clay",
+		{
+			"id" : "minecraft:skulk",
+			"required" : false
+		}
+	]
+}

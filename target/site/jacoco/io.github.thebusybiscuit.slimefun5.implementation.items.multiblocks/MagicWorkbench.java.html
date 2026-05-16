@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MagicWorkbench.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks</a> &gt; <span class="el_source">MagicWorkbench.java</span></div><h1>MagicWorkbench.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
+
+import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Dispenser;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
+
+public class MagicWorkbench extends AbstractCraftingTable {
+
+    @ParametersAreNonnullByDefault
+    public MagicWorkbench(ItemGroup itemGroup, SlimefunItemStack item) {
+<span class="nc" id="L34">        super(itemGroup, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, BlockFace.UP);</span>
+<span class="nc" id="L35">    }</span>
+
+    @Override
+    public void onInteract(Player p, Block b) {
+<span class="nc" id="L39">        Block possibleDispener = locateDispenser(b);</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (possibleDispener == null) {</span>
+            // How even...
+<span class="nc" id="L43">            return;</span>
+        }
+
+<span class="nc" id="L46">        BlockState state = PaperLib.getBlockState(possibleDispener, false).getState();</span>
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (state instanceof Dispenser dispenser) {</span>
+<span class="nc" id="L49">            Inventory inv = dispenser.getInventory();</span>
+<span class="nc" id="L50">            List&lt;ItemStack[]&gt; inputs = RecipeType.getRecipeInputList(this);</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            for (ItemStack[] input : inputs) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                if (isCraftable(inv, input)) {</span>
+<span class="nc" id="L54">                    ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();</span>
+<span class="nc" id="L55">                    MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);</span>
+
+<span class="nc" id="L57">                    Bukkit.getPluginManager().callEvent(event);</span>
+<span class="nc bnc" id="L58" title="All 4 branches missed.">                    if (!event.isCancelled() &amp;&amp; SlimefunUtils.canPlayerUseItem(p, output, true)) {</span>
+<span class="nc" id="L59">                        craft(inv, possibleDispener, p, b, event.getOutput());</span>
+                    }
+
+<span class="nc" id="L62">                    return;</span>
+                }
+<span class="nc" id="L64">            }</span>
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            if (inv.isEmpty()) {</span>
+<span class="nc" id="L67">                Slimefun.getLocalization().sendMessage(p, &quot;machines.inventory-empty&quot;, true);</span>
+            } else {
+<span class="nc" id="L69">                Slimefun.getLocalization().sendMessage(p, &quot;machines.pattern-not-found&quot;, true);</span>
+            }
+        }
+<span class="nc" id="L72">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {
+<span class="nc" id="L76">        Inventory fakeInv = createVirtualInventory(inv);</span>
+<span class="nc" id="L77">        Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);</span>
+
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (outputInv != null) {</span>
+<span class="nc" id="L80">            SlimefunItem sfItem = SlimefunItem.getByItem(output);</span>
+
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (sfItem instanceof SlimefunBackpack backpack) {</span>
+<span class="nc" id="L83">                upgradeBackpack(p, inv, backpack, output);</span>
+            }
+
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            for (int j = 0; j &lt; 9; j++) {</span>
+<span class="nc bnc" id="L87" title="All 4 branches missed.">                if (inv.getContents()[j] != null &amp;&amp; inv.getContents()[j].getType() != Material.AIR) {</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                    if (inv.getContents()[j].getAmount() &gt; 1) {</span>
+<span class="nc" id="L89">                        inv.setItem(j, CustomItemStack.create(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));</span>
+                    } else {
+<span class="nc" id="L91">                        inv.setItem(j, null);</span>
+                    }
+                }
+            }
+
+<span class="nc" id="L96">            startAnimation(p, b, inv, dispenser, output);</span>
+<span class="nc" id="L97">        } else {</span>
+<span class="nc" id="L98">            Slimefun.getLocalization().sendMessage(p, &quot;machines.full-inventory&quot;, true);</span>
+        }
+<span class="nc" id="L100">    }</span>
+
+    private void startAnimation(Player p, Block b, Inventory dispInv, Block dispenser, ItemStack output) {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        for (int j = 0; j &lt; 4; j++) {</span>
+<span class="nc" id="L104">            int current = j;</span>
+<span class="nc" id="L105">            Slimefun.runSync(() -&gt; {</span>
+<span class="nc" id="L106">                p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);</span>
+<span class="nc" id="L107">                p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                if (current &lt; 3) {</span>
+<span class="nc" id="L110">                    SoundEffect.MAGIC_WORKBENCH_START_ANIMATION_SOUND.playAt(b);</span>
+                } else {
+<span class="nc" id="L112">                    SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND.playAt(b);</span>
+<span class="nc" id="L113">                    handleCraftedItem(output, dispenser, dispInv);</span>
+                }
+<span class="nc" id="L115">            }, j * 20L);</span>
+        }
+<span class="nc" id="L117">    }</span>
+
+    private Block locateDispenser(Block b) {
+<span class="nc" id="L120">        Block block = null;</span>
+
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if (b.getRelative(1, 0, 0).getType() == Material.DISPENSER) {</span>
+<span class="nc" id="L123">            block = b.getRelative(1, 0, 0);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        } else if (b.getRelative(0, 0, 1).getType() == Material.DISPENSER) {</span>
+<span class="nc" id="L125">            block = b.getRelative(0, 0, 1);</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        } else if (b.getRelative(-1, 0, 0).getType() == Material.DISPENSER) {</span>
+<span class="nc" id="L127">            block = b.getRelative(-1, 0, 0);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        } else if (b.getRelative(0, 0, -1).getType() == Material.DISPENSER) {</span>
+<span class="nc" id="L129">            block = b.getRelative(0, 0, -1);</span>
+        }
+
+<span class="nc" id="L132">        return block;</span>
+    }
+
+    private boolean isCraftable(Inventory inv, ItemStack[] recipe) {
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        for (int j = 0; j &lt; inv.getContents().length; j++) {</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], true, true, false)) {</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                if (SlimefunItem.getByItem(recipe[j]) instanceof SlimefunBackpack) {</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">                    if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], false, true, false)) {</span>
+<span class="nc" id="L140">                        return false;</span>
+                    }
+                } else {
+<span class="nc" id="L143">                    return false;</span>
+                }
+            }
+        }
+
+<span class="nc" id="L148">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

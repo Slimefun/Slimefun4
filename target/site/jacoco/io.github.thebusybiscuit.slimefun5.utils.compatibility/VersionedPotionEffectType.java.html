@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VersionedPotionEffectType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils.compatibility</a> &gt; <span class="el_source">VersionedPotionEffectType.java</span></div><h1>VersionedPotionEffectType.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils.compatibility;
+
+import java.lang.reflect.Field;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.potion.PotionEffectType;
+
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+// https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse/src/main/java/org/bukkit/craftbukkit/legacy/FieldRename.java?until=2a6207fe150b6165722fce94c83cc1f206620ab5&amp;untilPath=src%2Fmain%2Fjava%2Forg%2Fbukkit%2Fcraftbukkit%2Flegacy%2FFieldRename.java#216-228
+<span class="nc" id="L14">public class VersionedPotionEffectType {</span>
+
+    public static final PotionEffectType SLOWNESS;
+    public static final PotionEffectType HASTE;
+    public static final PotionEffectType MINING_FATIGUE;
+    public static final PotionEffectType STRENGTH;
+    public static final PotionEffectType INSTANT_HEALTH;
+    public static final PotionEffectType INSTANT_DAMAGE;
+    public static final PotionEffectType JUMP_BOOST;
+    public static final PotionEffectType NAUSEA;
+    public static final PotionEffectType RESISTANCE;
+
+    static {
+<span class="nc" id="L27">        MinecraftVersion version = Slimefun.getMinecraftVersion();</span>
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        SLOWNESS = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)</span>
+<span class="nc" id="L30">            ? PotionEffectType.SLOWNESS</span>
+<span class="nc" id="L31">            : getKey(&quot;SLOW&quot;);</span>
+
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        HASTE = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)</span>
+<span class="nc" id="L34">            ? PotionEffectType.HASTE</span>
+<span class="nc" id="L35">            : getKey(&quot;FAST_DIGGING&quot;);</span>
+
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        MINING_FATIGUE = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)</span>
+<span class="nc" id="L38">            ? PotionEffectType.MINING_FATIGUE</span>
+<span class="nc" id="L39">            : getKey(&quot;SLOW_DIGGING&quot;);</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        STRENGTH = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)</span>
+<span class="nc" id="L42">            ? PotionEffectType.STRENGTH</span>
+<span class="nc" id="L43">            : getKey(&quot;INCREASE_DAMAGE&quot;);</span>
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        INSTANT_HEALTH = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)</span>
+<span class="nc" id="L46">            ? PotionEffectType.INSTANT_HEALTH</span>
+<span class="nc" id="L47">            : getKey(&quot;HEAL&quot;);</span>
+
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        INSTANT_DAMAGE = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)</span>
+<span class="nc" id="L50">            ? PotionEffectType.INSTANT_DAMAGE</span>
+<span class="nc" id="L51">            : getKey(&quot;HARM&quot;);</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        JUMP_BOOST = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)</span>
+<span class="nc" id="L54">            ? PotionEffectType.JUMP_BOOST</span>
+<span class="nc" id="L55">            : getKey(&quot;JUMP&quot;);</span>
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        NAUSEA = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)</span>
+<span class="nc" id="L58">            ? PotionEffectType.NAUSEA</span>
+<span class="nc" id="L59">            : getKey(&quot;CONFUSION&quot;);</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        RESISTANCE = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)</span>
+<span class="nc" id="L62">            ? PotionEffectType.RESISTANCE</span>
+<span class="nc" id="L63">            : getKey(&quot;DAMAGE_RESISTANCE&quot;);</span>
+<span class="nc" id="L64">    }</span>
+
+    @Nullable
+    private static PotionEffectType getKey(@Nonnull String key) {
+        try {
+<span class="nc" id="L69">            Field field = PotionEffectType.class.getDeclaredField(key);</span>
+<span class="nc" id="L70">            return (PotionEffectType) field.get(null);</span>
+<span class="nc" id="L71">        } catch(Exception e) {</span>
+<span class="nc" id="L72">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

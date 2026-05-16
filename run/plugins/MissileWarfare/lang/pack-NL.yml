@@ -1,0 +1,333 @@
+missilegroupname: "&6Missile Warfare"
+translator: "Kaiyan2006"
+
+messages:
+    launchers:
+        createantiair:
+            success: "Created Anti Missile Launcher"
+            failure: "Missing Obsidian Below Launcher"
+        createantielytra:
+            success: "Created Anti Elytra Launcher"
+            failure: "Missing Obsidian Below Launcher"
+        ground:
+            create:
+                success: "Created Small Launcher!"
+                # Formatting: {type}
+                failure: "Below Block is type: {type} It needs Type GREEN_CONCRETE"
+            # Formatting: {xcoord} {ycoord} {dist}
+            coords: "The coords are: [{xcoord} , {ycoord}] And the DIST is: {dist}"
+            setting:
+                notanumber: "NOT A INTEGER NUMBER (No decimals)"
+                notacoord: "NOT A COORD"
+                cruisealt: "Cruise Alt: "
+
+    manpad:
+        locking: "Engaging Targeting Mode..."
+        itemchange: "Failed: Changed item"
+        notarget: "Failed to fire: No Target"
+
+    elytraattack:
+        locking: "!!!MISSILE LOCKING ON!!!"
+        locked: "!!!MISSILE LOCKED ON!!!"
+
+    radar: "Place a redstone ontop of this block to get its output, a repeater is required to get the one tick pulse"
+
+    playerlist:
+        resetkey: "Reset Key"
+        addedkey: "Added ID "
+        noid: "Couldn't add ID to the launcher, No ID assigned to this PlayerList"
+        askwriteprompt: "What player would you like to add? Say exit to exit"
+        addedplayer: "Added player"
+        invalidplayer: "INVALID PLAYER"
+        removeplayer: "What player would you like to remove?"
+        removedplayer: "Removed Player"
+        incorrectinput: "Incorrect Input"
+        asktoread: "Say 'read' to see the players associated with this ID, Say 'add' to add a player, Say 'remove' to remove a player, Say 'exit' to exit"
+        #INPUTS THE PLAYERLIST WILL TAKE IN AFTER SENDING ASKTOREAD
+        inputs:
+            read: "read"
+            add: "add"
+            remove: "remove"
+        askinputid: "Input ID to create, say exit to leave"
+        #FORMATTING: {id}
+        createdid: "Created ID : {id}, You can now write to it"
+        gottenid: "Gotten ID"
+
+materials:
+    sugarfuel:
+        name: "Zuikerbrandstof"
+        lore:
+            - "Goedkoop een hoge energie brandstof."
+    guidebook:
+        name: "Gids"
+        lore:
+            - "Sorry, maar er zijn geen fotos"
+    explosivepowder:
+        name: "Explosiefpoeder"
+        lore:
+            - "Breekbaar, wees zachtaardig!"
+    compressedexplosives:
+        name: "Geperst Explosiefpoeder"
+        lore:
+            - "Perfect geperst"
+    ultraliteingot:
+        name: "UltraLite Ingot"
+        lore:
+            - "Een lichte Ingot om te raketten maken"
+    ultraliteplate:
+        name: "UltraLite Plate"
+        lore:
+            - "Een lichte Ingot om te raketten maken"
+    simpleflightcomputer:
+        name: "Simpel Vluchtcomputer"
+        lore:
+            - "Een simpel computer dat kan raketten leiden"
+    radar:
+        name: "Radar"
+        lore:
+            - "Kan Raketten en spelers volgen"
+    rocketfuel:
+        name: "Raketbrandstof"
+        lore:
+            - "Brandt met Confidence™"
+    smallwarhead:
+        name: "Kleine Kernkop"
+        lore:
+            - "Voor het maken van raketten."
+            - "'Niet aanraken'"
+    smallbody:
+        name: "Kleine Raketromp"
+        lore:
+            - "Voor het maken van raketten"
+            - "'Voorzichtig'"
+    smallfin:
+        name: "Small Missile Fins"
+        lore:
+            - "Used in the creation of a missile"
+    missilebody:
+        name: "Missile Body"
+        lore:
+            - "Missile body containing a flight computer"
+    missilefins:
+        name: "Missile Fins"
+        lore:
+            - "Able to direct the missile better"
+    warhead:
+        name: "Missile Warhead"
+        lore:
+            - "Used in creation of a missile."
+            - "'Potato-be-gone'"
+    reinforcedwarhead:
+        name: "Reinforced Warhead"
+        lore:
+            - "Used to create AP Missiles"
+            - "'Bunker-be-Gone'"
+    chlorine:
+        name: "Chlorine"
+        lore:
+            - "Poisonous"
+            - "Causes a slow and painful death!"
+    chlorinepellet:
+        name: "Chlorine Pellet"
+        lore:
+            - "A pellet of Chlorine"
+    advancedbody:
+        name: "Advanced Missile Body"
+        lore:
+            - "An upgraded version ofthe missile body"
+    heavywarhead:
+        name: "Heavy Warhead"
+        lore:
+            - "A warhead packed with heavy explosives"
+    icbmbody:
+        name: "ICBM Body"
+        lore:
+            - "Engineered to perfection, Sleek, Deadly."
+            - "Uranium added for a cool glow effect"
+            - "The body of the ICBM missile"
+    mine:
+        name: "Mine"
+        lore:
+            - "Will it work on tanks?"
+
+
+missiles:
+    smallmissile:
+        lore: "Small Ground-to-Ground Missile"
+        missiles:
+            normal:
+                name: "Small GtG Missile"
+                variant: "Normal Variant"
+                lore: "'Little Timmy never stood a chance...'"
+            he:
+                name: "Small GtG Missile HE"
+                variant: "High Explosive Variant"
+                lore: "'Large Timmy never stood a chance...'"
+            lr:
+                name: "Small GtG Missile LR"
+                variant: "Long Range Variant"
+                lore: "'Very far away timmy never stood a chance'"
+            ac:
+                name: "Small GtG Missile AC"
+                variant: "Accurate Variant"
+                lore: "'Tiny Timmy never stood a chance'"
+    anti-missiles:
+        lore: "Anti-Missile / Anti-Elytra"
+        missiles:
+            missile:
+                name: "Anti-Missile Missile"
+                variant: "Anti-Missile Variant"
+                lore: "'Timmy's fireworks have been canceled'"
+            elytra:
+                name: "Anti-Elytra Missile"
+                variant: "Anti-Elytra Variant"
+                lore: "'Airborne Timmy Never Stood A Chance'"
+    normalmissile:
+        lore: "GtG Missile"
+        missiles:
+            normal:
+                name: "Kleine GtG Raket"
+                variant: "Normale Variant"
+                lore: "'Timmetje had geen kans...'"
+            he:
+                name: "GtG Missile HE"
+                variant: "High Explosive Variant"
+                lore: "'Your not-so friendly neighbourhood missile'"
+            lr:
+                name: "GtG Missile LR"
+                variant: "Long Range Variant"
+                lore: "'Your friendly city missile'"
+            ac:
+                name: "GtG Missile AC"
+                variant: "Accurate Variant"
+                lore: "'Your friendly room-clearing missile'"
+    armourpiercing:
+        lore: "GtG Armour Piercing Missile"
+        missiles:
+            tierone:
+                name: "GtG Missile AP"
+                variant: "Tier 1 AP"
+                lore:
+                    - "Goes through 1 block before exploding"
+                    - "Wont go through obsidian"
+                    - "'Your basement isnt safe for long!'"
+            tiertwo:
+                name: "GtG Missile AP"
+                variant: "Tier 2 AP"
+                lore:
+                    - "Goes through 1 block before exploding"
+                    - "50% Chance to go through obsidian"
+                    - "10% chance to break the hit obsidian"
+                    - "'Your bunker isnt safe for long!'"
+            tierthree:
+                name: "GtG Missile AP"
+                variant: "Tier 3 AP"
+                lore:
+                    - Goes through 2 block before exploding"
+                    - "75% Chance to go through obsidian"
+                    - "20% chance to break the hit obsidian"
+                    - "'Your bunker definitely isnt safe for long!'"
+    advanced:
+        lore: "GtG Advanced Missiles"
+        missiles:
+            normal:
+                name: "GtG Advanced Missile"
+                variant: "Normal Variant"
+                lore: "'Powered by AI (technically)'"
+            he:
+                name: "GtG Advanced Missile HE"
+                variant: "High Explosive Variant"
+                lore: "'Very dangerous, do not touche'"
+            lr:
+                name: "Kleine GtG Missile LR"
+                variant: "langeafstand Variant"
+                lore: "'Heel ver weg Timmetje had geen kans...'"
+            ac:
+                name: "GtG Advanced Missile AC"
+                variant: "Accurate Variant"
+                lore: "'Pretty accurate i guess'"
+
+specialmissiles:
+    gasmissile:
+        name: "Gas Missile"
+        lore:
+            - "Cleaning Missile"
+            - "Deploys poisonous gas on hitting a target"
+        afterlore: "'Commit Timmycide.'"
+    excavmissile:
+        name: "Excavation Missile"
+        lore:
+            - "Utility Missile"
+            - "Has a large explosion radius but little damage"
+            - "Used for mining"
+        afterlore: "'Better than a 100 Pickaxes!'"
+    stickymissile:
+        name: "Sticky Missile"
+        lore:
+            - "Trap Missile"
+            - "A small explosion that releases cobwebs"
+        afterlore: "'Dont ask what its made of.'"
+    icbm:
+        name: "ICBM Missile"
+        lore:
+            - "Long-Range Missile"
+            - "Inter-Continental Ballistic Missile"
+        afterlore:
+            - "'Nowhere is safe.'"
+    clustermissile:
+        name: "Cluster Missile"
+        lore:
+            - "Cluster Missile, Deploys many missiles before hitting"
+        afterlore:
+            - "'Removes villages faster than you can scream!'"
+    napalmmissile:
+        name: "Napalm Missile"
+        lore:
+            - "Fire Missile"
+            - "Napalm Missile, Throws fire everywhere upon hit."
+        afterlore:
+            - "'Kindergarten Remover! Tried and tested™'"
+
+
+launchers:
+    ground:
+        name: "GtG Missile Launcher"
+        lore:
+            - "Shoots a specified area on the ground."
+            - "Use a stick to set target coords"
+            - "Shift with a stick to check if it can fire"
+            - "Right click with a blaze rod to set cruise alt"
+            - "Default cruise alt is Y:120"
+            - "Needs to be built on 1 green concrete block."
+    antimissile:
+        name: "Anti Missile Launcher"
+        lore:
+            - "Targets and shoots down other missiles in the area."
+            - "Use redstone to disable it"
+            - "Needs to be built on obsidian"
+            - "Needs Anti-Missile Missiles"
+    antielytra:
+        name: "Anti Elytra Launcher"
+        lore:
+            - "Fires a missile at nearby player"
+            - "that are using an elytra"
+            - "Excluding those on the"
+            - "ID assigned to this"
+            - "use a stick to set the group ID"
+            - "Needs Anti-Elytra Missiles"
+
+other:
+    manpad:
+        name: "Manpad"
+        lore:
+            - "Handheld anti-missile device"
+            - "Shift+RMB to begin tracking"
+            - "Release Shift fire"
+    playerlist:
+        name: Player List
+        lore:
+            - "Right Click to set the players"
+            - "for a ID"
+            - "THESE ID'S ARE GLOBAL"
+            - "ANYONE CAN EDIT THEM IF"
+            - "THEY HAVE THE ID"

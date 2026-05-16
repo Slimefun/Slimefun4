@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DebugCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.commands.subcommands</a> &gt; <span class="el_source">DebugCommand.java</span></div><h1>DebugCommand.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.command.CommandSender;
+
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * The debug command will allow server owners to get information for us developers.
+ * We can put debug messages in the code and they can trigger it for us to see what exactly is going on.
+ *
+ * @author WalshyDev
+ */
+public class DebugCommand extends SubCommand {
+
+    protected DebugCommand(@Nonnull Slimefun plugin, @Nonnull SlimefunCommand cmd) {
+<span class="nc" id="L21">        super(plugin, cmd, &quot;debug&quot;, true);</span>
+<span class="nc" id="L22">    }</span>
+
+    @Override
+    protected @Nonnull String getDescription() {
+<span class="nc" id="L26">        return &quot;commands.debug.description&quot;;</span>
+    }
+
+    @Override
+    public void onExecute(@Nonnull CommandSender sender, @Nonnull String[] args) {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (!sender.hasPermission(&quot;slimefun.command.debug&quot;)) {</span>
+<span class="nc" id="L32">            Slimefun.getLocalization().sendMessage(sender, &quot;messages.no-permission&quot;, true);</span>
+<span class="nc" id="L33">            return;</span>
+        }
+
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (args.length == 1) {</span>
+<span class="nc" id="L37">            String currentCase = Debug.getTestCase();</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (currentCase != null) {</span>
+<span class="nc" id="L39">                Slimefun.getLocalization().sendMessage(sender, &quot;commands.debug.current&quot;, true, msg -&gt; msg.replace(&quot;%test_case%&quot;, currentCase));</span>
+            } else {
+<span class="nc" id="L41">                Slimefun.getLocalization().sendMessage(sender, &quot;commands.debug.none-running&quot;, true);</span>
+            }
+<span class="nc" id="L43">            return;</span>
+        }
+
+<span class="nc" id="L46">        String test = args[1];</span>
+
+<span class="nc bnc" id="L48" title="All 4 branches missed.">        if (test.equalsIgnoreCase(&quot;disable&quot;) || test.equalsIgnoreCase(&quot;off&quot;)) {</span>
+<span class="nc" id="L49">            Debug.setTestCase(null);</span>
+<span class="nc" id="L50">            Slimefun.getLocalization().sendMessage(sender, &quot;commands.debug.disabled&quot;);</span>
+        } else {
+<span class="nc" id="L52">            Debug.setTestCase(test);</span>
+<span class="nc" id="L53">            Slimefun.getLocalization().sendMessage(sender, &quot;commands.debug.running&quot;, msg -&gt; msg.replace(&quot;%test%&quot;, test));</span>
+        }
+<span class="nc" id="L55">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

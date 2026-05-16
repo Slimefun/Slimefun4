@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LegacyStorage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.storage.backend.legacy</a> &gt; <span class="el_source">LegacyStorage.java</span></div><h1>LegacyStorage.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.storage.backend.legacy;
+
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.storage.Storage;
+import io.github.thebusybiscuit.slimefun4.storage.data.PlayerData;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
+
+import com.google.common.annotations.Beta;
+
+import javax.annotation.Nonnull;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.logging.Level;
+
+@Beta
+<span class="nc" id="L26">public class LegacyStorage implements Storage {</span>
+
+    @Override
+    public PlayerData loadPlayerData(@Nonnull UUID uuid) {
+<span class="nc" id="L30">        long start = System.nanoTime();</span>
+
+<span class="nc" id="L32">        Config playerFile = new Config(&quot;data-storage/Slimefun/Players/&quot; + uuid + &quot;.yml&quot;);</span>
+        // Not too sure why this is its own file
+<span class="nc" id="L34">        Config waypointsFile = new Config(&quot;data-storage/Slimefun/waypoints/&quot; + uuid + &quot;.yml&quot;);</span>
+
+        // Load research
+<span class="nc" id="L37">        Set&lt;Research&gt; researches = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        for (Research research : Slimefun.getRegistry().getResearches()) {</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if (playerFile.contains(&quot;researches.&quot; + research.getID())) {</span>
+<span class="nc" id="L40">                researches.add(research);</span>
+            }
+<span class="nc" id="L42">        }</span>
+
+        // Load backpacks
+<span class="nc" id="L45">        HashMap&lt;Integer, PlayerBackpack&gt; backpacks = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (String key : playerFile.getKeys(&quot;backpacks&quot;)) {</span>
+            try {
+<span class="nc" id="L48">                int id = Integer.parseInt(key);</span>
+<span class="nc" id="L49">                int size = playerFile.getInt(&quot;backpacks.&quot; + key + &quot;.size&quot;);</span>
+
+<span class="nc" id="L51">                HashMap&lt;Integer, ItemStack&gt; items = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">                for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L53">                    items.put(i, playerFile.getItem(&quot;backpacks.&quot; + key + &quot;.contents.&quot; + i));</span>
+                }
+
+<span class="nc" id="L56">                PlayerBackpack backpack = PlayerBackpack.load(uuid, id, size, items);</span>
+
+<span class="nc" id="L58">                backpacks.put(id, backpack);</span>
+<span class="nc" id="L59">            } catch (Exception x) {</span>
+<span class="nc" id="L60">                Slimefun.logger().log(Level.WARNING, x, () -&gt; &quot;Could not load Backpack \&quot;&quot; + key + &quot;\&quot; for Player \&quot;&quot; + uuid + '&quot;');</span>
+<span class="nc" id="L61">            }</span>
+<span class="nc" id="L62">        }</span>
+
+        // Load waypoints
+<span class="nc" id="L65">        Set&lt;Waypoint&gt; waypoints = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        for (String key : waypointsFile.getKeys()) {</span>
+            try {
+<span class="nc bnc" id="L68" title="All 4 branches missed.">                if (waypointsFile.contains(key + &quot;.world&quot;) &amp;&amp; Bukkit.getWorld(waypointsFile.getString(key + &quot;.world&quot;)) != null) {</span>
+<span class="nc" id="L69">                    String waypointName = waypointsFile.getString(key + &quot;.name&quot;);</span>
+<span class="nc" id="L70">                    Location loc = waypointsFile.getLocation(key);</span>
+<span class="nc" id="L71">                    waypoints.add(new Waypoint(uuid, key, loc, waypointName));</span>
+                }
+<span class="nc" id="L73">            } catch (Exception x) {</span>
+<span class="nc" id="L74">                Slimefun.logger().log(Level.WARNING, x, () -&gt; &quot;Could not load Waypoint \&quot;&quot; + key + &quot;\&quot; for Player \&quot;&quot; + uuid + '&quot;');</span>
+<span class="nc" id="L75">            }</span>
+<span class="nc" id="L76">        }</span>
+
+<span class="nc" id="L78">        long end = System.nanoTime();</span>
+<span class="nc" id="L79">        Slimefun.getAnalyticsService().recordPlayerProfileDataTime(&quot;legacy&quot;, true, end - start);</span>
+
+<span class="nc" id="L81">        return new PlayerData(researches, backpacks, waypoints);</span>
+    }
+
+    // The current design of saving all at once isn't great, this will be refined.
+    @Override
+    public void savePlayerData(@Nonnull UUID uuid, @Nonnull PlayerData data) {
+<span class="nc" id="L87">        long start = System.nanoTime();</span>
+
+<span class="nc" id="L89">        Config playerFile = new Config(&quot;data-storage/Slimefun/Players/&quot; + uuid + &quot;.yml&quot;);</span>
+        // Not too sure why this is its own file
+<span class="nc" id="L91">        Config waypointsFile = new Config(&quot;data-storage/Slimefun/waypoints/&quot; + uuid + &quot;.yml&quot;);</span>
+
+        // Save research
+<span class="nc" id="L94">        playerFile.setValue(&quot;rearches&quot;, null);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        for (Research research : Slimefun.getRegistry().getResearches()) {</span>
+            // Save the research if it's researched
+<span class="nc bnc" id="L97" title="All 2 branches missed.">            if (data.getResearches().contains(research)) {</span>
+<span class="nc" id="L98">                playerFile.setValue(&quot;researches.&quot; + research.getID(), true);</span>
+
+            // Remove the research if it's no longer researched
+            // ----
+            // We have a duplicate ID (173) used for both Coal Gen and Bio Reactor
+            // If you researched the Goal Gen we would remove it on save if you didn't also have the Bio Reactor
+            // Due to the fact we would set it as researched (true in the branch above) on Coal Gen
+            // but then go into this branch and remove it if you didn't have Bio Reactor
+            // Sooooo we're gonna hack this for now while we move away from the Legacy Storage
+            // Let's make sure the user doesn't have _any_ research with this ID and _then_ remove it
+<span class="nc" id="L108">            } else if (</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                playerFile.contains(&quot;researches.&quot; + research.getID())</span>
+<span class="nc bnc" id="L110" title="All 4 branches missed.">                &amp;&amp; !data.getResearches().stream().anyMatch((r) -&gt; r.getID() == research.getID())</span>
+            ) {
+<span class="nc" id="L112">                playerFile.setValue(&quot;researches.&quot; + research.getID(), null);</span>
+            }
+<span class="nc" id="L114">        }</span>
+
+        // Save backpacks
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        for (PlayerBackpack backpack : data.getBackpacks().values()) {</span>
+<span class="nc" id="L118">            playerFile.setValue(&quot;backpacks.&quot; + backpack.getId() + &quot;.size&quot;, backpack.getSize());</span>
+
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            for (int i = 0; i &lt; backpack.getSize(); i++) {</span>
+<span class="nc" id="L121">                ItemStack item = backpack.getInventory().getItem(i);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                if (item != null) {</span>
+<span class="nc" id="L123">                    playerFile.setValue(&quot;backpacks.&quot; + backpack.getId() + &quot;.contents.&quot; + i, item);</span>
+
+                // Remove the item if it's no longer in the inventory
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                } else if (playerFile.contains(&quot;backpacks.&quot; + backpack.getId() + &quot;.contents.&quot; + i)) {</span>
+<span class="nc" id="L127">                    playerFile.setValue(&quot;backpacks.&quot; + backpack.getId() + &quot;.contents.&quot; + i, null);</span>
+                }
+            }
+<span class="nc" id="L130">        }</span>
+
+        // Save waypoints
+<span class="nc" id="L133">        waypointsFile.clear();</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        for (Waypoint waypoint : data.getWaypoints()) {</span>
+            // Legacy data uses IDs
+<span class="nc" id="L136">            waypointsFile.setValue(waypoint.getId(), waypoint.getLocation());</span>
+<span class="nc" id="L137">            waypointsFile.setValue(waypoint.getId() + &quot;.name&quot;, waypoint.getName());</span>
+<span class="nc" id="L138">        }</span>
+
+        // Save files
+<span class="nc" id="L141">        playerFile.save();</span>
+<span class="nc" id="L142">        waypointsFile.save();</span>
+
+<span class="nc" id="L144">        long end = System.nanoTime();</span>
+<span class="nc" id="L145">        Slimefun.getAnalyticsService().recordPlayerProfileDataTime(&quot;legacy&quot;, false, end - start);</span>
+<span class="nc" id="L146">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

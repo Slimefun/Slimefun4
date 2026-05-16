@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InteractionResult.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.attributes.interactions</a> &gt; <span class="el_source">InteractionResult.java</span></div><h1>InteractionResult.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.attributes.interactions;
+
+import io.github.thebusybiscuit.slimefun4.core.attributes.ExternallyInteractable;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+/**
+ * This class represents the result of an interaction on an {@link ExternallyInteractable} item.
+ */
+public class InteractionResult {
+
+    private final boolean interactionSuccessful;
+    private @Nullable String resultMessage;
+
+    /**
+     * Creates a new InteractionResult.
+     *
+     * @param successful Whether the interaction was successful or not.
+     */
+    @ParametersAreNonnullByDefault
+<span class="nc" id="L22">    public InteractionResult(boolean successful) {</span>
+<span class="nc" id="L23">        this.interactionSuccessful = successful;</span>
+<span class="nc" id="L24">    }</span>
+
+    /**
+     * Returns whether the interaction was successful or not.
+     *
+     * @return boolean denoting whether the interaction was successful or not.
+     */
+    public boolean isInteractionSuccessful() {
+<span class="nc" id="L32">        return interactionSuccessful;</span>
+    }
+
+    /**
+     * Sets a custom result message for this interaction.
+     *
+     * @param resultMessage The message to be sent with the Result
+     */
+    public void setResultMessage(@Nullable String resultMessage) {
+<span class="nc" id="L41">        this.resultMessage = resultMessage;</span>
+<span class="nc" id="L42">    }</span>
+
+    /**
+     * Returns whether this result has a result message or is null.
+     *
+     * @return true if a result message is present
+     */
+    public boolean hasResultMessage() {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        return this.resultMessage != null;</span>
+    }
+
+    /**
+     * Returns the custom result message for this result or null if not set.
+     *
+     * @return A String of the provided custom result message.
+     */
+    public @Nullable String getResultMessage() {
+<span class="nc" id="L59">        return resultMessage;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DispenserListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners</a> &gt; <span class="el_source">DispenserListener.java</span></div><h1>DispenserListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Dispenser;
+import org.bukkit.block.data.Directional;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDispenseEvent;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.papermc.lib.PaperLib;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+/**
+ * This {@link Listener} listens to the {@link BlockDispenseEvent} and calls the
+ * {@link BlockDispenseHandler} as a result of that.
+ * 
+ * @author TheBusyBiscuit
+ * @author MisterErwin
+ * 
+ * @see BlockDispenseHandler
+ *
+ */
+public class DispenserListener implements Listener {
+
+<span class="nc" id="L34">    public DispenserListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L35">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L36">    }</span>
+
+    @EventHandler
+    public void onBlockDispensing(BlockDispenseEvent e) {
+<span class="nc" id="L40">        Block b = e.getBlock();</span>
+
+<span class="nc bnc" id="L42" title="All 4 branches missed.">        if (b.getType() == Material.DISPENSER &amp;&amp; b.getRelative(BlockFace.DOWN).getType() != Material.HOPPER) {</span>
+<span class="nc" id="L43">            SlimefunItem machine = BlockStorage.check(b);</span>
+
+            // Fixes #2959
+<span class="nc bnc" id="L46" title="All 4 branches missed.">            if (machine != null &amp;&amp; !machine.isDisabledIn(e.getBlock().getWorld())) {</span>
+<span class="nc" id="L47">                machine.callItemHandler(BlockDispenseHandler.class, handler -&gt; {</span>
+<span class="nc" id="L48">                    BlockState state = PaperLib.getBlockState(b, false).getState();</span>
+
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                    if (state instanceof Dispenser dispenser) {</span>
+<span class="nc" id="L51">                        BlockFace face = ((Directional) b.getBlockData()).getFacing();</span>
+<span class="nc" id="L52">                        Block block = b.getRelative(face);</span>
+<span class="nc" id="L53">                        handler.onBlockDispense(e, dispenser, block, machine);</span>
+                    }
+<span class="nc" id="L55">                });</span>
+            }
+        }
+<span class="nc" id="L58">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

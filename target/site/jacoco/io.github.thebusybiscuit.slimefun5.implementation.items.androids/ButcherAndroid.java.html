@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ButcherAndroid.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.androids</a> &gt; <span class="el_source">ButcherAndroid.java</span></div><h1>ButcherAndroid.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
+
+import java.util.function.Predicate;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+public class ButcherAndroid extends ProgrammableAndroid {
+
+    private static final String METADATA_KEY = &quot;android_killer&quot;;
+
+    @ParametersAreNonnullByDefault
+    public ButcherAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L27">        super(itemGroup, tier, item, recipeType, recipe);</span>
+<span class="nc" id="L28">    }</span>
+
+    @Override
+    public AndroidType getAndroidType() {
+<span class="nc" id="L32">        return AndroidType.FIGHTER;</span>
+    }
+
+    @Override
+    protected void attack(Block b, BlockFace face, Predicate&lt;LivingEntity&gt; predicate) {
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        double damage = getTier() &gt;= 3 ? 20D : 4D * getTier();</span>
+<span class="nc" id="L38">        double radius = 4.0 + getTier();</span>
+
+<span class="nc bnc" id="L40" title="All 12 branches missed.">        for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -&gt; n instanceof LivingEntity livingEntity &amp;&amp; !(n instanceof ArmorStand) &amp;&amp; !(n instanceof Player) &amp;&amp; n.isValid() &amp;&amp; predicate.test(livingEntity))) {</span>
+            // Check if our android is facing this entity.
+<span class="nc bnc" id="L42" title="All 5 branches missed.">            boolean willAttack = switch (face) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                case NORTH -&gt; n.getLocation().getZ() &lt; b.getZ();</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">                case EAST -&gt; n.getLocation().getX() &gt; b.getX();</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                case SOUTH -&gt; n.getLocation().getZ() &gt; b.getZ();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                case WEST -&gt; n.getLocation().getX() &lt; b.getX();</span>
+<span class="nc" id="L47">                default -&gt; false;</span>
+            };
+
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (willAttack) {</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                if (n.hasMetadata(METADATA_KEY)) {</span>
+<span class="nc" id="L52">                    n.removeMetadata(METADATA_KEY, Slimefun.instance());</span>
+                }
+
+<span class="nc" id="L55">                n.setMetadata(METADATA_KEY, new FixedMetadataValue(Slimefun.instance(), new AndroidInstance(this, b)));</span>
+
+<span class="nc" id="L57">                ((LivingEntity) n).damage(damage);</span>
+<span class="nc" id="L58">                break;</span>
+            }
+<span class="nc" id="L60">        }</span>
+<span class="nc" id="L61">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

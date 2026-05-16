@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Parachute.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.armor</a> &gt; <span class="el_source">Parachute.java</span></div><h1>Parachute.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ParachuteTask;
+
+/**
+ * The {@link Parachute} is a {@link SlimefunItem} that can be equipped as a chestplate.
+ * It allows you slowly glide to the ground while holding shift.
+ * 
+ * This class does not contain much code to see, check our the {@link ParachuteTask} class
+ * for the actual logic behind this.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see ParachuteTask
+ * @see Jetpack
+ *
+ */
+public class Parachute extends SlimefunItem {
+
+    @ParametersAreNonnullByDefault
+    public Parachute(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L31">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L32">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

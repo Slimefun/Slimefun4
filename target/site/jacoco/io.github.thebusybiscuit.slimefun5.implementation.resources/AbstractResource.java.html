@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractResource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.resources</a> &gt; <span class="el_source">AbstractResource.java</span></div><h1>AbstractResource.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.resources;
+
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+
+import com.google.gson.JsonElement;
+
+import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
+
+/**
+ * This is an abstract parent class for any {@link GEOResource}
+ * that is added by Slimefun itself. It is package-private, therefore
+ * only classes inside this package can access it.
+ * &lt;p&gt;
+ * It just provides a bit of a convenience for us to reduce redundancies
+ * in our {@link GEOResource} implementations.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+abstract class AbstractResource implements GEOResource {
+
+    private final NamespacedKey key;
+    private final String defaultName;
+    private final ItemStack item;
+    private final int maxDeviation;
+    private final boolean geoMiner;
+
+    @ParametersAreNonnullByDefault
+<span class="nc" id="L39">    AbstractResource(String key, String defaultName, ItemStack item, int maxDeviation, boolean geoMiner) {</span>
+<span class="nc" id="L40">        Validate.notNull(key, &quot;NamespacedKey cannot be null!&quot;);</span>
+<span class="nc" id="L41">        Validate.notNull(defaultName, &quot;The default name cannot be null!&quot;);</span>
+<span class="nc" id="L42">        Validate.notNull(item, &quot;item cannot be null!&quot;);</span>
+
+<span class="nc" id="L44">        this.key = new NamespacedKey(Slimefun.instance(), key);</span>
+<span class="nc" id="L45">        this.defaultName = defaultName;</span>
+<span class="nc" id="L46">        this.item = item;</span>
+<span class="nc" id="L47">        this.maxDeviation = maxDeviation;</span>
+<span class="nc" id="L48">        this.geoMiner = geoMiner;</span>
+<span class="nc" id="L49">    }</span>
+
+    @Override
+    @Nonnull
+    public NamespacedKey getKey() {
+<span class="nc" id="L54">        return key;</span>
+    }
+
+    @Override
+    @Nonnull
+    public String getName() {
+<span class="nc" id="L60">        return defaultName;</span>
+    }
+
+    @Override
+    @Nonnull
+    public ItemStack getItem() {
+<span class="nc" id="L66">        return item.clone();</span>
+    }
+
+    @Override
+    public int getMaxDeviation() {
+<span class="nc" id="L71">        return maxDeviation;</span>
+    }
+
+    @Override
+    public boolean isObtainableFromGEOMiner() {
+<span class="nc" id="L76">        return geoMiner;</span>
+    }
+
+    /**
+     * Internal helper method for reading a {@link BiomeMap} of {@link Integer} type values from
+     * a resource file.
+     * 
+     * @param resource
+     *            The {@link AbstractResource} instance
+     * @param path
+     *            The path to our biome map file
+     * 
+     * @return A {@link BiomeMap} for this resource
+     */
+    @ParametersAreNonnullByDefault
+    static final @Nonnull BiomeMap&lt;Integer&gt; getBiomeMap(AbstractResource resource, String path) {
+<span class="nc" id="L92">        Validate.notNull(resource, &quot;Resource cannot be null.&quot;);</span>
+<span class="nc" id="L93">        Validate.notNull(path, &quot;Path cannot be null.&quot;);</span>
+
+        try {
+<span class="nc" id="L96">            return BiomeMap.fromResource(resource.getKey(), Slimefun.instance(), path, JsonElement::getAsInt);</span>
+<span class="nc" id="L97">        } catch (BiomeMapException x) {</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (Slimefun.instance().isUnitTest()) {</span>
+                // Unit Tests should always fail here, so we re-throw the exception
+<span class="nc" id="L100">                throw new IllegalStateException(x);</span>
+            } else {
+                // In a server environment, we should just print a warning and carry on
+<span class="nc" id="L103">                Slimefun.logger().log(Level.WARNING, x, () -&gt; &quot;Failed to load BiomeMap for GEO-resource: &quot; + resource.getKey());</span>
+<span class="nc" id="L104">                return new BiomeMap&lt;&gt;(resource.getKey());</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlimefunItemStack.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.items</a> &gt; <span class="el_source">SlimefunItemStack.java</span></div><h1>SlimefunItemStack.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.items;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import io.papermc.paper.inventory.ItemRarity;
+import io.papermc.paper.inventory.tooltip.TooltipContext;
+import io.papermc.paper.registry.set.RegistryKeySet;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPlayerHead;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
+
+/**
+ * The {@link SlimefunItemStack} functions as the base for any
+ * {@link SlimefunItem}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Walshy
+ *
+ */
+public class SlimefunItemStack {
+    private ItemStack delegate;
+
+    private String id;
+    private ItemMetaSnapshot itemMetaSnapshot;
+
+<span class="nc" id="L62">    private String texture = null;</span>
+
+<span class="nc" id="L64">    public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item) {</span>
+<span class="nc" id="L65">        delegate = new ItemStack(item);</span>
+
+<span class="nc" id="L67">        Validate.notNull(id, &quot;The Item id must never be null!&quot;);</span>
+<span class="nc" id="L68">        Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), &quot;Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')&quot;);</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (Slimefun.instance() == null) {</span>
+<span class="nc" id="L71">            throw new PrematureCodeException(&quot;A SlimefunItemStack must never be be created before your Plugin was enabled.&quot;);</span>
+        }
+
+<span class="nc" id="L74">        this.id = id;</span>
+
+<span class="nc" id="L76">        ItemMeta meta = delegate.getItemMeta();</span>
+
+<span class="nc" id="L78">        Slimefun.getItemDataService().setItemData(meta, id);</span>
+<span class="nc" id="L79">        Slimefun.getItemTextureService().setTexture(meta, id);</span>
+
+<span class="nc" id="L81">        setItemMeta(meta);</span>
+<span class="nc" id="L82">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item, @Nonnull Consumer&lt;ItemMeta&gt; consumer) {
+<span class="nc" id="L85">        this(id, item);</span>
+
+<span class="nc" id="L87">        ItemMeta im = delegate.getItemMeta();</span>
+<span class="nc" id="L88">        consumer.accept(im);</span>
+<span class="nc" id="L89">        setItemMeta(im);</span>
+<span class="nc" id="L90">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Consumer&lt;ItemMeta&gt; consumer) {
+<span class="nc" id="L93">        this(id, new ItemStack(type), consumer);</span>
+<span class="nc" id="L94">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, @Nonnull Consumer&lt;ItemMeta&gt; consumer) {
+<span class="nc" id="L97">        this(id, type, meta -&gt; {</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (name != null) {</span>
+<span class="nc" id="L99">                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&amp;', name));</span>
+            }
+
+<span class="nc" id="L102">            consumer.accept(meta);</span>
+<span class="nc" id="L103">        });</span>
+<span class="nc" id="L104">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item, @Nullable String name, String... lore) {
+<span class="nc" id="L107">        this(id, item, im -&gt; {</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (name != null) {</span>
+<span class="nc" id="L109">                im.setDisplayName(ChatColor.translateAlternateColorCodes('&amp;', name));</span>
+            }
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">            if (lore.length &gt; 0) {</span>
+<span class="nc" id="L113">                List&lt;String&gt; lines = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">                for (String line : lore) {</span>
+<span class="nc" id="L116">                    lines.add(ChatColor.translateAlternateColorCodes('&amp;', line));</span>
+                }
+<span class="nc" id="L118">                im.setLore(lines);</span>
+            }
+<span class="nc" id="L120">        });</span>
+<span class="nc" id="L121">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, String... lore) {
+<span class="nc" id="L124">        this(id, new ItemStack(type), name, lore);</span>
+<span class="nc" id="L125">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Color color, @Nullable String name, String... lore) {
+<span class="nc" id="L128">        this(id, type, im -&gt; {</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">            if (name != null) {</span>
+<span class="nc" id="L130">                im.setDisplayName(ChatColor.translateAlternateColorCodes('&amp;', name));</span>
+            }
+
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            if (lore.length &gt; 0) {</span>
+<span class="nc" id="L134">                List&lt;String&gt; lines = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                for (String line : lore) {</span>
+<span class="nc" id="L137">                    lines.add(ChatColor.translateAlternateColorCodes('&amp;', line));</span>
+                }
+
+<span class="nc" id="L140">                im.setLore(lines);</span>
+            }
+
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            if (im instanceof LeatherArmorMeta leatherArmorMeta) {</span>
+<span class="nc" id="L144">                leatherArmorMeta.setColor(color);</span>
+            }
+
+<span class="nc bnc" id="L147" title="All 2 branches missed.">            if (im instanceof PotionMeta potionMeta) {</span>
+<span class="nc" id="L148">                potionMeta.setColor(color);</span>
+            }
+<span class="nc" id="L150">        });</span>
+<span class="nc" id="L151">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Color color, @Nonnull PotionEffect effect, @Nullable String name, String... lore) {
+<span class="nc" id="L154">        this(id, Material.POTION, im -&gt; {</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            if (name != null) {</span>
+<span class="nc" id="L156">                im.setDisplayName(ChatColor.translateAlternateColorCodes('&amp;', name));</span>
+            }
+
+<span class="nc bnc" id="L159" title="All 2 branches missed.">            if (lore.length &gt; 0) {</span>
+<span class="nc" id="L160">                List&lt;String&gt; lines = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L162" title="All 2 branches missed.">                for (String line : lore) {</span>
+<span class="nc" id="L163">                    lines.add(ChatColor.translateAlternateColorCodes('&amp;', line));</span>
+                }
+
+<span class="nc" id="L166">                im.setLore(lines);</span>
+            }
+
+<span class="nc bnc" id="L169" title="All 2 branches missed.">            if (im instanceof PotionMeta potionMeta) {</span>
+<span class="nc" id="L170">                potionMeta.setColor(color);</span>
+<span class="nc" id="L171">                potionMeta.addCustomEffect(effect, true);</span>
+
+<span class="nc bnc" id="L173" title="All 2 branches missed.">                if (effect.getType().equals(PotionEffectType.SATURATION)) {</span>
+<span class="nc" id="L174">                    VersionedItemFlag.addFlags(im, VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP);</span>
+                }
+            }
+<span class="nc" id="L177">        });</span>
+<span class="nc" id="L178">    }</span>
+
+    public SlimefunItemStack(@Nonnull SlimefunItemStack item, int amount) {
+<span class="nc" id="L181">        this(item.getItemId(), item.item());</span>
+<span class="nc" id="L182">        setAmount(amount);</span>
+<span class="nc" id="L183">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull String texture, @Nullable String name, String... lore) {
+<span class="nc" id="L186">        this(id, getSkull(id, texture), name, lore);</span>
+<span class="nc" id="L187">        this.texture = getTexture(id, texture);</span>
+<span class="nc" id="L188">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull HeadTexture head, @Nullable String name, String... lore) {
+<span class="nc" id="L191">        this(id, head.getTexture(), name, lore);</span>
+<span class="nc" id="L192">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull String texture, @Nullable String name, @Nonnull Consumer&lt;ItemMeta&gt; consumer) {
+<span class="nc" id="L195">        this(id, getSkull(id, texture), meta -&gt; {</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">            if (name != null) {</span>
+<span class="nc" id="L197">                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&amp;', name));</span>
+            }
+
+<span class="nc" id="L200">            consumer.accept(meta);</span>
+<span class="nc" id="L201">        });</span>
+
+<span class="nc" id="L203">        this.texture = getTexture(id, texture);</span>
+<span class="nc" id="L204">    }</span>
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull String texture, @Nonnull Consumer&lt;ItemMeta&gt; consumer) {
+<span class="nc" id="L207">        this(id, getSkull(id, texture), consumer);</span>
+<span class="nc" id="L208">        this.texture = getTexture(id, texture);</span>
+<span class="nc" id="L209">    }</span>
+
+    /**
+     * Returns the id that was given to this {@link SlimefunItemStack}.
+     * 
+     * @return The {@link SlimefunItem} id for this {@link SlimefunItemStack}
+     */
+    public final @Nonnull String getItemId() {
+<span class="nc" id="L217">        return id;</span>
+    }
+
+    /**
+     * Gets the {@link SlimefunItem} associated for this {@link SlimefunItemStack}.
+     * Null if no item is found.
+     *
+     * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
+     */
+    public @Nullable SlimefunItem getItem() {
+<span class="nc" id="L227">        return SlimefunItem.getById(id);</span>
+    }
+
+    /**
+     * This method returns the associated {@link SlimefunItem} and casts it to the provided
+     * {@link Class}.
+     * 
+     * If no item was found or the found {@link SlimefunItem} is not of the requested type,
+     * the method will return null.
+     * 
+     * @param &lt;T&gt;
+     *            The type of {@link SlimefunItem} to cast this to
+     * @param type
+     *            The {@link Class} of the target {@link SlimefunItem}
+     * 
+     * @return The {@link SlimefunItem} this {@link SlimefunItem} represents, casted to the given type
+     */
+
+    public @Nullable &lt;T extends SlimefunItem&gt; T getItem(@Nonnull Class&lt;T&gt; type) {
+<span class="nc" id="L246">        SlimefunItem item = getItem();</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">        return type.isInstance(item) ? type.cast(item) : null;</span>
+    }
+
+    public @Nonnull ItemMetaSnapshot getItemMetaSnapshot() {
+<span class="nc" id="L251">        return itemMetaSnapshot;</span>
+    }
+
+    public boolean setItemMeta(ItemMeta meta) {
+<span class="nc" id="L255">        itemMetaSnapshot = new ItemMetaSnapshot(meta);</span>
+
+<span class="nc" id="L257">        return delegate.setItemMeta(meta);</span>
+    }
+
+    public void setType(Material type) {
+<span class="nc" id="L261">        delegate.setType(type);</span>
+<span class="nc" id="L262">    }</span>
+
+    public void setAmount(int amount) {
+<span class="nc" id="L265">        delegate.setAmount(amount);</span>
+<span class="nc" id="L266">    }</span>
+
+    public @Nonnull Optional&lt;String&gt; getSkullTexture() {
+<span class="nc" id="L269">        return Optional.ofNullable(texture);</span>
+    }
+
+    public @Nullable String getDisplayName() {
+<span class="nc bnc" id="L273" title="All 2 branches missed.">        if (itemMetaSnapshot == null) {</span>
+            // Just to be extra safe
+<span class="nc" id="L275">            return null;</span>
+        }
+
+<span class="nc" id="L278">        return itemMetaSnapshot.getDisplayName().orElse(null);</span>
+    }
+
+    private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {</span>
+<span class="nc" id="L283">            return new ItemStack(Material.PLAYER_HEAD);</span>
+        }
+
+<span class="nc" id="L286">        return VersionedPlayerHead.getItemStack(getTexture(id, texture));</span>
+    }
+
+    private static @Nonnull String getTexture(@Nonnull String id, @Nonnull String texture) {
+<span class="nc" id="L290">        Validate.notNull(id, &quot;The id cannot be null&quot;);</span>
+<span class="nc" id="L291">        Validate.notNull(texture, &quot;The texture cannot be null&quot;);</span>
+
+<span class="nc bnc" id="L293" title="All 2 branches missed.">        if (texture.startsWith(&quot;ey&quot;)) {</span>
+<span class="nc" id="L294">            return texture;</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">        } else if (CommonPatterns.HEXADECIMAL.matcher(texture).matches()) {</span>
+<span class="nc" id="L296">            String value = &quot;{\&quot;textures\&quot;:{\&quot;SKIN\&quot;:{\&quot;url\&quot;:\&quot;http://textures.minecraft.net/texture/&quot; + texture + &quot;\&quot;}}}&quot;;</span>
+<span class="nc" id="L297">            return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));</span>
+        } else {
+<span class="nc" id="L299">            throw new IllegalArgumentException(&quot;The provided texture for Item \&quot;&quot; + id + &quot;\&quot; does not seem to be a valid texture String!&quot;);</span>
+        }
+    }
+
+    @Override
+    public @Nonnull SlimefunItemStack clone() {
+<span class="nc" id="L305">        return new SlimefunItemStack(id, delegate.clone());</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc bnc" id="L310" title="All 2 branches missed.">        return &quot;SlimefunItemStack (&quot; + id + (delegate.getAmount() &gt; 1 ? (&quot; x &quot; + delegate.getAmount()) : &quot;&quot;) + ')';</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final boolean equals(Object obj) {
+        // We don't want people to override this, it should use the super method
+<span class="nc" id="L319">        return super.equals(obj);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final int hashCode() {
+        // We don't want people to override this, it should use the super method
+<span class="nc" id="L328">        return super.hashCode();</span>
+    }
+
+    /**
+     * @return underlying ItemStack used
+     */
+    public @Nonnull ItemStack item() {
+<span class="nc" id="L335">        return delegate.clone();</span>
+    }
+
+    public Material getType() {
+<span class="nc" id="L339">        return this.delegate.getType();</span>
+    }
+
+    public ItemStack withType(Material type) {
+<span class="nc" id="L343">        return this.delegate.withType(type);</span>
+    }
+
+    public int getAmount() {
+<span class="nc" id="L347">        return this.delegate.getAmount();</span>
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public MaterialData getData() {
+<span class="nc" id="L353">        return this.delegate.getData();</span>
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public void setData(MaterialData data) {
+<span class="nc" id="L359">        this.delegate.setData(data);</span>
+<span class="nc" id="L360">    }</span>
+
+    /** @deprecated */
+    @Deprecated
+    public void setDurability(short durability) {
+<span class="nc" id="L365">        this.delegate.setDurability(durability);</span>
+<span class="nc" id="L366">    }</span>
+
+    /** @deprecated */
+    @Deprecated
+    public short getDurability() {
+<span class="nc" id="L371">        return this.delegate.getDurability();</span>
+    }
+
+    public int getMaxStackSize() {
+<span class="nc" id="L375">        return this.delegate.getMaxStackSize();</span>
+    }
+
+    public boolean isSimilar(ItemStack stack) {
+<span class="nc" id="L379">        return this.delegate.isSimilar(stack);</span>
+    }
+
+    public boolean containsEnchantment(Enchantment ench) {
+<span class="nc" id="L383">        return this.delegate.containsEnchantment(ench);</span>
+    }
+
+    public int getEnchantmentLevel(Enchantment ench) {
+<span class="nc" id="L387">        return this.delegate.getEnchantmentLevel(ench);</span>
+    }
+
+    public Map&lt;Enchantment, Integer&gt; getEnchantments() {
+<span class="nc" id="L391">        return this.delegate.getEnchantments();</span>
+    }
+
+    public void addEnchantments(Map&lt;Enchantment, Integer&gt; enchantments) {
+<span class="nc" id="L395">        this.delegate.addEnchantments(enchantments);</span>
+<span class="nc" id="L396">    }</span>
+
+    public void addEnchantment(Enchantment ench, int level) {
+<span class="nc" id="L399">        this.delegate.addEnchantment(ench, level);</span>
+<span class="nc" id="L400">    }</span>
+
+    public void addUnsafeEnchantments(Map&lt;Enchantment, Integer&gt; enchantments) {
+<span class="nc" id="L403">        this.delegate.addUnsafeEnchantments(enchantments);</span>
+<span class="nc" id="L404">    }</span>
+
+    public void addUnsafeEnchantment(Enchantment ench, int level) {
+<span class="nc" id="L407">        this.delegate.addUnsafeEnchantment(ench, level);</span>
+<span class="nc" id="L408">    }</span>
+
+    public int removeEnchantment(Enchantment ench) {
+<span class="nc" id="L411">        return this.delegate.removeEnchantment(ench);</span>
+    }
+
+    public void removeEnchantments() {
+<span class="nc" id="L415">        this.delegate.removeEnchantments();</span>
+<span class="nc" id="L416">    }</span>
+
+    public Map&lt;String, Object&gt; serialize() {
+<span class="nc" id="L419">        return this.delegate.serialize();</span>
+    }
+
+    public boolean editMeta(Consumer&lt;? super ItemMeta&gt; consumer) {
+<span class="nc" id="L423">        return this.delegate.editMeta(consumer);</span>
+    }
+
+    public &lt;M extends ItemMeta&gt; boolean editMeta(Class&lt;M&gt; metaClass, Consumer&lt;? super M&gt; consumer) {
+<span class="nc" id="L427">        return this.delegate.editMeta(metaClass, consumer);</span>
+    }
+
+    public ItemMeta getItemMeta() {
+<span class="nc" id="L431">        return this.delegate.getItemMeta();</span>
+    }
+
+    public boolean hasItemMeta() {
+<span class="nc" id="L435">        return this.delegate.hasItemMeta();</span>
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public String getTranslationKey() {
+<span class="nc" id="L441">        return this.delegate.getTranslationKey();</span>
+    }
+
+    public ItemStack enchantWithLevels(int levels, boolean allowTreasure, Random random) {
+<span class="nc" id="L445">        return this.delegate.enchantWithLevels(levels, allowTreasure, random);</span>
+    }
+
+    public ItemStack enchantWithLevels(int levels, RegistryKeySet&lt;Enchantment&gt; keySet, Random random) {
+<span class="nc" id="L449">        return this.delegate.enchantWithLevels(levels, keySet, random);</span>
+    }
+
+    public HoverEvent&lt;HoverEvent.ShowItem&gt; asHoverEvent(UnaryOperator&lt;HoverEvent.ShowItem&gt; op) {
+<span class="nc" id="L453">        return this.delegate.asHoverEvent(op);</span>
+    }
+
+    public Component displayName() {
+<span class="nc" id="L457">        return this.delegate.displayName();</span>
+    }
+
+    public ItemStack ensureServerConversions() {
+<span class="nc" id="L461">        return this.delegate.ensureServerConversions();</span>
+    }
+
+    public byte[] serializeAsBytes() {
+<span class="nc" id="L465">        return this.delegate.serializeAsBytes();</span>
+    }
+
+    /** @deprecated */
+    public String getI18NDisplayName() {
+<span class="nc" id="L470">        return this.delegate.getI18NDisplayName();</span>
+    }
+
+    /** @deprecated */
+    public int getMaxItemUseDuration() {
+<span class="nc" id="L475">        return this.delegate.getMaxItemUseDuration();</span>
+    }
+
+    public int getMaxItemUseDuration(LivingEntity entity) {
+<span class="nc" id="L479">        return this.delegate.getMaxItemUseDuration(entity);</span>
+    }
+
+    public ItemStack asOne() {
+<span class="nc" id="L483">        return this.delegate.asOne();</span>
+    }
+
+    public ItemStack asQuantity(int qty) {
+<span class="nc" id="L487">        return this.delegate.asQuantity(qty);</span>
+    }
+
+    public ItemStack add() {
+<span class="nc" id="L491">        return this.delegate.add();</span>
+    }
+
+    public ItemStack add(int qty) {
+<span class="nc" id="L495">        return this.delegate.add(qty);</span>
+    }
+
+    public ItemStack subtract() {
+<span class="nc" id="L499">        return this.delegate.subtract();</span>
+    }
+
+    public ItemStack subtract(int qty) {
+<span class="nc" id="L503">        return this.delegate.subtract(qty);</span>
+    }
+
+    @Deprecated
+    public List&lt;String&gt; getLore() {
+<span class="nc" id="L508">        return this.delegate.getLore();</span>
+    }
+
+    public List&lt;Component&gt; lore() {
+<span class="nc" id="L512">        return this.delegate.lore();</span>
+    }
+
+    @Deprecated
+    public void setLore(List&lt;String&gt; lore) {
+<span class="nc" id="L517">        this.delegate.setLore(lore);</span>
+<span class="nc" id="L518">    }</span>
+
+    public void lore(List&lt;? extends Component&gt; lore) {
+<span class="nc" id="L521">        this.delegate.lore(lore);</span>
+<span class="nc" id="L522">    }</span>
+
+    public void addItemFlags(ItemFlag... itemFlags) {
+<span class="nc" id="L525">        this.delegate.addItemFlags(itemFlags);</span>
+<span class="nc" id="L526">    }</span>
+
+    public void removeItemFlags(ItemFlag... itemFlags) {
+<span class="nc" id="L529">        this.delegate.removeItemFlags(itemFlags);</span>
+<span class="nc" id="L530">    }</span>
+
+    public Set&lt;ItemFlag&gt; getItemFlags() {
+<span class="nc" id="L533">        return this.delegate.getItemFlags();</span>
+    }
+
+    public boolean hasItemFlag(ItemFlag flag) {
+<span class="nc" id="L537">        return this.delegate.hasItemFlag(flag);</span>
+    }
+
+    public String translationKey() {
+<span class="nc" id="L541">        return this.delegate.translationKey();</span>
+    }
+
+    /** @deprecated */
+    @Deprecated
+    public ItemRarity getRarity() {
+<span class="nc" id="L547">        return this.delegate.getRarity();</span>
+    }
+
+    public boolean isRepairableBy(ItemStack repairMaterial) {
+<span class="nc" id="L551">        return this.delegate.isRepairableBy(repairMaterial);</span>
+    }
+
+    public boolean canRepair(ItemStack toBeRepaired) {
+<span class="nc" id="L555">        return this.delegate.canRepair(toBeRepaired);</span>
+    }
+
+    public ItemStack damage(int amount, LivingEntity livingEntity) {
+<span class="nc" id="L559">        return this.delegate.damage(amount, livingEntity);</span>
+    }
+
+    public boolean isEmpty() {
+<span class="nc" id="L563">        return this.delegate.isEmpty();</span>
+    }
+
+    public List&lt;Component&gt; computeTooltipLines(TooltipContext tooltipContext, Player player) {
+<span class="nc" id="L567">        return this.delegate.computeTooltipLines(tooltipContext, player);</span>
+    }
+
+    public HoverEvent&lt;HoverEvent.ShowItem&gt; asHoverEvent() {
+<span class="nc" id="L571">        return this.delegate.asHoverEvent();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

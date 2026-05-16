@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: 'Resultados del GEO-Scan '
+  chunk: 'Chunk Escaneado'
+  world: 'Mundo'
+  unit: 'Unidad'
+  units: 'Unidades'
+resources:
+  slimefun:
+    oil: 'Petróleo'
+    nether_ice: 'Hielo del Nether'
+    salt: 'Sal'
+    uranium: 'Uranio'
+  slimefunorechunks:
+    iron_ore_chunk: 'Pedazo de Mineral de Hierro'
+    gold_ore_chunk: 'Pedazo de Mineral de Oro'
+    copper_ore_chunk: 'Pedazo de Mineral de Cobre'
+    tin_ore_chunk: 'Pedazo de Mineral de Estaño'
+    silver_ore_chunk: 'Pedazo de Mineral de Plata'
+    aluminum_ore_chunk: 'Pedazo de Mineral de Aluminio'
+    lead_ore_chunk: 'Pedazo de Mineral de Plomo'
+    zinc_ore_chunk: 'Pedazo de Mineral de Zinc'
+    nickel_ore_chunk: 'Pedazo de Mineral de Nickel'
+    cobalt_ore_chunk: 'Pedazo de Mineral de Cobalto'

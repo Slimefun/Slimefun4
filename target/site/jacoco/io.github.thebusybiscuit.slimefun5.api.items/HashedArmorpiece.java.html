@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HashedArmorpiece.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.items</a> &gt; <span class="el_source">HashedArmorpiece.java</span></div><h1>HashedArmorpiece.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.items;
+
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SlimefunArmorTask;
+
+/**
+ * This class serves as a way of checking whether a {@link Player} has changed their armor
+ * between ticks. We do that by storing the hash of their armor and a reference to the
+ * corresponding {@link SlimefunArmorPiece} if such a correlation exists.
+ * 
+ * This gives us a significant performance improvement as we only need to check for a
+ * {@link SlimefunArmorPiece} if the item diverged in the first place.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @see SlimefunArmorPiece
+ * @see SlimefunArmorTask
+ */
+public final class HashedArmorpiece {
+
+    private int hash;
+    private Optional&lt;SlimefunArmorPiece&gt; item;
+
+    /**
+     * This initializes a new {@link HashedArmorpiece} with no {@link SlimefunArmorPiece}
+     * and a zero hash.
+     */
+<span class="nc" id="L39">    public HashedArmorpiece() {</span>
+<span class="nc" id="L40">        this.hash = 0;</span>
+<span class="nc" id="L41">        this.item = Optional.empty();</span>
+<span class="nc" id="L42">    }</span>
+
+    /**
+     * This will update this {@link HashedArmorpiece} with the given {@link ItemStack}
+     * and the corresponding {@link SlimefunItem}
+     * 
+     * @param stack
+     *            The new armorpiece to be stored in this {@link HashedArmorpiece}
+     * @param item
+     *            The {@link SlimefunItem} corresponding to the provided {@link ItemStack}, may be null
+     */
+    public void update(@Nullable ItemStack stack, @Nullable SlimefunItem item) {
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        if (stack == null || stack.getType() == Material.AIR) {</span>
+<span class="nc" id="L55">            this.hash = 0;</span>
+        } else {
+<span class="nc" id="L57">            ItemStack copy = stack.clone();</span>
+<span class="nc" id="L58">            ItemMeta meta = copy.getItemMeta();</span>
+<span class="nc" id="L59">            ((Damageable) meta).setDamage(0);</span>
+<span class="nc" id="L60">            copy.setItemMeta(meta);</span>
+<span class="nc" id="L61">            this.hash = copy.hashCode();</span>
+        }
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (item instanceof SlimefunArmorPiece armorPiece) {</span>
+<span class="nc" id="L65">            this.item = Optional.of(armorPiece);</span>
+        } else {
+<span class="nc" id="L67">            this.item = Optional.empty();</span>
+        }
+<span class="nc" id="L69">    }</span>
+
+    /**
+     * This method checks whether the given {@link ItemStack} is no longer similar to the
+     * one represented by this {@link HashedArmorpiece}.
+     * 
+     * @param stack
+     *            The {@link ItemStack} to compare
+     * @return Whether the {@link HashedArmorpiece} and the given {@link ItemStack} mismatch
+     */
+    public boolean hasDiverged(@Nullable ItemStack stack) {
+<span class="nc bnc" id="L80" title="All 4 branches missed.">        if (stack == null || stack.getType() == Material.AIR) {</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            return hash != 0;</span>
+        } else {
+<span class="nc" id="L83">            ItemStack copy = stack.clone();</span>
+<span class="nc" id="L84">            ItemMeta meta = copy.getItemMeta();</span>
+<span class="nc" id="L85">            ((Damageable) meta).setDamage(0);</span>
+<span class="nc" id="L86">            copy.setItemMeta(meta);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            return copy.hashCode() != hash;</span>
+        }
+    }
+
+    /**
+     * Returns the {@link SlimefunArmorPiece} that corresponds to this {@link HashedArmorpiece},
+     * or an empty {@link Optional}
+     * 
+     * @return An {@link Optional} describing the result
+     */
+    public @Nonnull Optional&lt;SlimefunArmorPiece&gt; getItem() {
+<span class="nc" id="L98">        return item;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L103">        return &quot;HashedArmorpiece {hash=&quot; + hash + &quot;,item=&quot; + item.map(SlimefunItem::getId).orElse(&quot;null&quot;) + '}';</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

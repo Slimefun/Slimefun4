@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MachineProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.machines</a> &gt; <span class="el_source">MachineProcessor.java</span></div><h1>MachineProcessor.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.machines;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineOperationFinishEvent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+
+/**
+ * A {@link MachineProcessor} manages different {@link MachineOperation}s and handles
+ * their progress.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @param &lt;T&gt;
+ *            The type of {@link MachineOperation} this processor can hold.
+ * 
+ * @see MachineOperation
+ * @see MachineProcessHolder
+ */
+public class MachineProcessor&lt;T extends MachineOperation&gt; {
+
+<span class="nc" id="L37">    private final Map&lt;BlockPosition, T&gt; machines = new ConcurrentHashMap&lt;&gt;();</span>
+    private final MachineProcessHolder&lt;T&gt; owner;
+
+    private ItemStack progressBar;
+
+    /**
+     * This creates a new {@link MachineProcessor}.
+     * 
+     * @param owner
+     *            The owner of this {@link MachineProcessor}.
+     */
+<span class="nc" id="L48">    public MachineProcessor(@Nonnull MachineProcessHolder&lt;T&gt; owner) {</span>
+<span class="nc" id="L49">        Validate.notNull(owner, &quot;The MachineProcessHolder cannot be null.&quot;);</span>
+
+<span class="nc" id="L51">        this.owner = owner;</span>
+<span class="nc" id="L52">    }</span>
+
+    /**
+     * This returns the owner of this {@link MachineProcessor}.
+     * 
+     * @return The owner / holder
+     */
+    public @Nonnull MachineProcessHolder&lt;T&gt; getOwner() {
+<span class="nc" id="L60">        return owner;</span>
+    }
+
+    /**
+     * This returns the progress bar icon for this {@link MachineProcessor}
+     * or null if no progress bar was set.
+     * 
+     * @return The progress bar icon or null
+     */
+    public @Nullable ItemStack getProgressBar() {
+<span class="nc" id="L70">        return progressBar;</span>
+    }
+
+    /**
+     * This sets the progress bar icon for this {@link MachineProcessor}.
+     * You can also set it to null to clear the progress bar.
+     * 
+     * @param progressBar
+     *            An {@link ItemStack} or null
+     */
+    public void setProgressBar(@Nullable ItemStack progressBar) {
+<span class="nc" id="L81">        this.progressBar = progressBar;</span>
+<span class="nc" id="L82">    }</span>
+
+    /**
+     * This method will start a {@link MachineOperation} at the given {@link Location}.
+     * 
+     * @param loc
+     *            The {@link Location} at which our machine is located.
+     * @param operation
+     *            The {@link MachineOperation} to start
+     * 
+     * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
+     *         {@link MachineOperation} has already been started at that {@link Location}.
+     */
+    public boolean startOperation(@Nonnull Location loc, @Nonnull T operation) {
+<span class="nc" id="L96">        Validate.notNull(loc, &quot;The location must not be null&quot;);</span>
+<span class="nc" id="L97">        Validate.notNull(operation, &quot;The operation cannot be null&quot;);</span>
+
+<span class="nc" id="L99">        return startOperation(new BlockPosition(loc), operation);</span>
+    }
+
+    /**
+     * This method will start a {@link MachineOperation} at the given {@link Block}.
+     * 
+     * @param b
+     *            The {@link Block} at which our machine is located.
+     * @param operation
+     *            The {@link MachineOperation} to start
+     * 
+     * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
+     *         {@link MachineOperation} has already been started at that {@link Block}.
+     */
+    public boolean startOperation(@Nonnull Block b, @Nonnull T operation) {
+<span class="nc" id="L114">        Validate.notNull(b, &quot;The Block must not be null&quot;);</span>
+<span class="nc" id="L115">        Validate.notNull(operation, &quot;The machine operation cannot be null&quot;);</span>
+
+<span class="nc" id="L117">        return startOperation(new BlockPosition(b), operation);</span>
+    }
+
+    /**
+     * This method will actually start the {@link MachineOperation}.
+     * 
+     * @param pos
+     *            The {@link BlockPosition} of our machine
+     * @param operation
+     *            The {@link MachineOperation} to start
+     * 
+     * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
+     *         {@link MachineOperation} has already been started at that {@link BlockPosition}.
+     */
+    public boolean startOperation(@Nonnull BlockPosition pos, @Nonnull T operation) {
+<span class="nc" id="L132">        Validate.notNull(pos, &quot;The BlockPosition must not be null&quot;);</span>
+<span class="nc" id="L133">        Validate.notNull(operation, &quot;The machine operation cannot be null&quot;);</span>
+
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        return machines.putIfAbsent(pos, operation) == null;</span>
+    }
+
+    /**
+     * This returns the current {@link MachineOperation} at that given {@link Location}.
+     * 
+     * @param loc
+     *            The {@link Location} at which our machine is located.
+     * 
+     * @return The current {@link MachineOperation} or null.
+     */
+    public @Nullable T getOperation(@Nonnull Location loc) {
+<span class="nc" id="L147">        Validate.notNull(loc, &quot;The location cannot be null&quot;);</span>
+
+<span class="nc" id="L149">        return getOperation(new BlockPosition(loc));</span>
+    }
+
+    /**
+     * This returns the current {@link MachineOperation} at that given {@link Block}.
+     * 
+     * @param b
+     *            The {@link Block} at which our machine is located.
+     * 
+     * @return The current {@link MachineOperation} or null.
+     */
+    public @Nullable T getOperation(@Nonnull Block b) {
+<span class="nc" id="L161">        Validate.notNull(b, &quot;The Block cannot be null&quot;);</span>
+
+<span class="nc" id="L163">        return getOperation(new BlockPosition(b));</span>
+    }
+
+    /**
+     * This returns the current {@link MachineOperation} at that given {@link BlockPosition}.
+     * 
+     * @param pos
+     *            The {@link BlockPosition} at which our machine is located.
+     * 
+     * @return The current {@link MachineOperation} or null.
+     */
+    public @Nullable T getOperation(@Nonnull BlockPosition pos) {
+<span class="nc" id="L175">        Validate.notNull(pos, &quot;The BlockPosition must not be null&quot;);</span>
+
+<span class="nc" id="L177">        return machines.get(pos);</span>
+    }
+
+    /**
+     * This will end the {@link MachineOperation} at the given {@link Location}.
+     * 
+     * @param loc
+     *            The {@link Location} at which our machine is located.
+     * 
+     * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
+     *         {@link MachineOperation} to begin with.
+     */
+    public boolean endOperation(@Nonnull Location loc) {
+<span class="nc" id="L190">        Validate.notNull(loc, &quot;The location should not be null&quot;);</span>
+
+<span class="nc" id="L192">        return endOperation(new BlockPosition(loc));</span>
+    }
+
+    /**
+     * This will end the {@link MachineOperation} at the given {@link Block}.
+     * 
+     * @param b
+     *            The {@link Block} at which our machine is located.
+     * 
+     * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
+     *         {@link MachineOperation} to begin with.
+     */
+    public boolean endOperation(@Nonnull Block b) {
+<span class="nc" id="L205">        Validate.notNull(b, &quot;The Block should not be null&quot;);</span>
+
+<span class="nc" id="L207">        return endOperation(new BlockPosition(b));</span>
+    }
+
+    /**
+     * This will end the {@link MachineOperation} at the given {@link BlockPosition}.
+     * 
+     * @param pos
+     *            The {@link BlockPosition} at which our machine is located.
+     * 
+     * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
+     *         {@link MachineOperation} to begin with.
+     */
+    public boolean endOperation(@Nonnull BlockPosition pos) {
+<span class="nc" id="L220">        Validate.notNull(pos, &quot;The BlockPosition cannot be null&quot;);</span>
+
+<span class="nc" id="L222">        T operation = machines.remove(pos);</span>
+
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (operation != null) {</span>
+            /*
+             * Only call an event if the operation actually finished.
+             * If it was ended prematurely (aka aborted), then we don't call any event.
+             */
+<span class="nc bnc" id="L229" title="All 2 branches missed.">            if (operation.isFinished()) {</span>
+<span class="nc" id="L230">                Event event = new AsyncMachineOperationFinishEvent(pos, this, operation);</span>
+<span class="nc" id="L231">                Bukkit.getPluginManager().callEvent(event);</span>
+<span class="nc" id="L232">            } else {</span>
+<span class="nc" id="L233">                operation.onCancel(pos);</span>
+            }
+
+<span class="nc" id="L236">            return true;</span>
+        } else {
+<span class="nc" id="L238">            return false;</span>
+        }
+    }
+
+    public void updateProgressBar(@Nonnull BlockMenu inv, int slot, @Nonnull T operation) {
+<span class="nc" id="L243">        Validate.notNull(inv, &quot;The inventory must not be null.&quot;);</span>
+<span class="nc" id="L244">        Validate.notNull(operation, &quot;The MachineOperation must not be null.&quot;);</span>
+
+<span class="nc bnc" id="L246" title="All 2 branches missed.">        if (getProgressBar() == null) {</span>
+            // No progress bar, no need to update anything.
+<span class="nc" id="L248">            return;</span>
+        }
+
+        // Update the progress bar in our inventory (if anyone is watching)
+<span class="nc" id="L252">        int remainingTicks = operation.getRemainingTicks();</span>
+<span class="nc" id="L253">        int totalTicks = operation.getTotalTicks();</span>
+
+        // Fixes #3538 - If the operation is finished, we don't need to update the progress bar.
+<span class="nc bnc" id="L256" title="All 4 branches missed.">        if (remainingTicks &gt; 0 || totalTicks &gt; 0) {</span>
+<span class="nc" id="L257">            ChestMenuUtils.updateProgressbar(inv, slot, remainingTicks, totalTicks, getProgressBar());</span>
+        }
+<span class="nc" id="L259">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

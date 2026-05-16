@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OreWasher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks</a> &gt; <span class="el_source">OreWasher.java</span></div><h1>OreWasher.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Dispenser;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
+
+/**
+ * The {@link OreWasher} is a special {@link MultiBlockMachine} which allows you to
+ * turn Sifted Ore into ore dusts.
+ * 
+ * @author TheBusyBiscuit
+ * @author Sfiguz7
+ *
+ */
+public class OreWasher extends MultiBlockMachine {
+
+    // @formatter:off
+<span class="nc" id="L42">    private final SlimefunItemStack[] dusts = new SlimefunItemStack[] {</span>
+        SlimefunItems.IRON_DUST,
+        SlimefunItems.GOLD_DUST,
+        SlimefunItems.COPPER_DUST,
+        SlimefunItems.TIN_DUST,
+        SlimefunItems.ZINC_DUST,
+        SlimefunItems.ALUMINUM_DUST,
+        SlimefunItems.MAGNESIUM_DUST,
+        SlimefunItems.LEAD_DUST,
+        SlimefunItems.SILVER_DUST
+    };
+    // @formatter:on
+
+    private final boolean legacyMode;
+
+    @ParametersAreNonnullByDefault
+    public OreWasher(ItemGroup itemGroup, SlimefunItemStack item) {
+        // @formatter:off
+<span class="nc" id="L60">        super(itemGroup, item, new ItemStack[] {</span>
+            null, new ItemStack(Material.DISPENSER), null,
+            null, new ItemStack(Material.OAK_FENCE), null,
+            null, new ItemStack(Material.CAULDRON), null
+        }, BlockFace.SELF);
+        // @formatter:on
+
+<span class="nc" id="L67">        legacyMode = Slimefun.getCfg().getBoolean(&quot;options.legacy-ore-washer&quot;);</span>
+<span class="nc" id="L68">    }</span>
+
+    @Override
+    protected void registerDefaultRecipes(List&lt;ItemStack&gt; recipes) {
+        /*
+         * Iron and Gold are displayed as Ore Crusher recipes, as that is their primary
+         * way of obtaining them. But we also wanna display them here, so we just
+         * add these two recipes manually
+         */
+<span class="nc" id="L77">        recipes.add(SlimefunItems.SIFTED_ORE.item());</span>
+<span class="nc" id="L78">        recipes.add(SlimefunItems.IRON_DUST.item());</span>
+
+<span class="nc" id="L80">        recipes.add(SlimefunItems.SIFTED_ORE.item());</span>
+<span class="nc" id="L81">        recipes.add(SlimefunItems.GOLD_DUST.item());</span>
+
+<span class="nc" id="L83">        recipes.add(new ItemStack(Material.SAND));</span>
+<span class="nc" id="L84">        recipes.add(SlimefunItems.SALT.item());</span>
+<span class="nc" id="L85">    }</span>
+
+    @Override
+    public @Nonnull List&lt;ItemStack&gt; getDisplayRecipes() {
+<span class="nc" id="L89">        return recipes.stream().map(items -&gt; items[0]).toList();</span>
+    }
+
+    @Override
+    public void onInteract(Player p, Block b) {
+<span class="nc" id="L94">        Block dispBlock = b.getRelative(BlockFace.UP);</span>
+<span class="nc" id="L95">        BlockState state = PaperLib.getBlockState(dispBlock, false).getState();</span>
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (state instanceof Dispenser disp) {</span>
+<span class="nc" id="L98">            Inventory inv = disp.getInventory();</span>
+
+<span class="nc bnc" id="L100" title="All 2 branches missed.">            for (ItemStack input : inv.getContents()) {</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">                if (input != null) {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">                    if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE.item(), true)) {</span>
+<span class="nc" id="L103">                        ItemStack output = getRandomDust();</span>
+                        Inventory outputInv;
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                        if (!legacyMode) {</span>
+                            /*
+                             * This is a fancy way of checking if there is empty space in the inv
+                             * by checking if an unobtainable item could fit in it.
+                             * However, due to the way the method findValidOutputInv() functions,
+                             * the dummyAdding will never actually be added to the real inventory,
+                             * so it really doesn't matter what item the ItemStack is made by.
+                             * SlimefunItems.DEBUG_FISH however, signals that it's not supposed
+                             * to be given to the player.
+                             */
+<span class="nc" id="L116">                            ItemStack dummyAdding = SlimefunItems.DEBUG_FISH.item();</span>
+<span class="nc" id="L117">                            outputInv = findOutputInventory(dummyAdding, dispBlock, inv);</span>
+<span class="nc" id="L118">                        } else {</span>
+<span class="nc" id="L119">                            outputInv = findOutputInventory(output, dispBlock, inv);</span>
+                        }
+
+<span class="nc" id="L122">                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">                        if (event.isCancelled()) {</span>
+<span class="nc" id="L124">                            return;</span>
+                        }
+
+<span class="nc" id="L127">                        removeItem(p, b, inv, outputInv, input, event.getOutput(), 1);</span>
+
+<span class="nc bnc" id="L129" title="All 2 branches missed.">                        if (outputInv != null) {</span>
+<span class="nc" id="L130">                            outputInv.addItem(SlimefunItems.STONE_CHUNK.item());</span>
+                        }
+
+<span class="nc" id="L133">                        return;</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                    } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND, 2), false)) {</span>
+<span class="nc" id="L135">                        ItemStack output = SlimefunItems.SALT.item();</span>
+<span class="nc" id="L136">                        Inventory outputInv = findOutputInventory(output, dispBlock, inv);</span>
+
+<span class="nc" id="L138">                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">                        if (event.isCancelled()) {</span>
+<span class="nc" id="L140">                            return;</span>
+                        }
+
+<span class="nc" id="L143">                        removeItem(p, b, inv, outputInv, input, event.getOutput(), 2);</span>
+
+<span class="nc" id="L145">                        return;</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                    } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE.item(), true)) {</span>
+<span class="nc" id="L147">                        ItemStack output = SlimefunItems.PURE_ORE_CLUSTER.item();</span>
+<span class="nc" id="L148">                        Inventory outputInv = findOutputInventory(output, dispBlock, inv);</span>
+<span class="nc" id="L149">                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);</span>
+
+<span class="nc" id="L151">                        Bukkit.getPluginManager().callEvent(event);</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">                        if (event.isCancelled()) {</span>
+<span class="nc" id="L153">                            return;</span>
+                        }
+
+<span class="nc" id="L156">                        removeItem(p, b, inv, outputInv, input, event.getOutput(), 1);</span>
+
+<span class="nc" id="L158">                        return;</span>
+                    }
+                }
+            }
+<span class="nc" id="L162">            Slimefun.getLocalization().sendMessage(p, &quot;machines.unknown-material&quot;, true);</span>
+        }
+<span class="nc" id="L164">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void removeItem(Player p, Block b, Inventory inputInv, @Nullable Inventory outputInv, ItemStack input, ItemStack output, int amount) {
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (outputInv != null) {</span>
+<span class="nc" id="L169">            ItemStack removing = input.clone();</span>
+<span class="nc" id="L170">            removing.setAmount(amount);</span>
+<span class="nc" id="L171">            inputInv.removeItem(removing);</span>
+<span class="nc" id="L172">            outputInv.addItem(output.clone());</span>
+
+<span class="nc" id="L174">            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);</span>
+<span class="nc" id="L175">            SoundEffect.ORE_WASHER_WASH_SOUND.playAt(b);</span>
+<span class="nc" id="L176">        } else {</span>
+<span class="nc" id="L177">            Slimefun.getLocalization().sendMessage(p, &quot;machines.full-inventory&quot;, true);</span>
+        }
+<span class="nc" id="L179">    }</span>
+
+    /**
+     * This returns a random dust item from Slimefun.
+     * 
+     * @return A randomly picked dust item
+     */
+    public @Nonnull ItemStack getRandomDust() {
+<span class="nc" id="L187">        int index = ThreadLocalRandom.current().nextInt(dusts.length);</span>
+<span class="nc" id="L188">        return dusts[index].item();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

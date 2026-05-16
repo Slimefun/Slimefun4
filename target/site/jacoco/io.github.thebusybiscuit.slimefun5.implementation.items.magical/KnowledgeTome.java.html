@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KnowledgeTome.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.magical</a> &gt; <span class="el_source">KnowledgeTome.java</span></div><h1>KnowledgeTome.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
+
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+
+/**
+ * The {@link KnowledgeTome} allows you to copy every unlocked {@link Research}
+ * from one {@link Player} to another.
+ *
+ * @author TheBusyBiscuit
+ *
+ */
+public class KnowledgeTome extends SimpleSlimefunItem&lt;ItemUseHandler&gt; {
+
+    @ParametersAreNonnullByDefault
+    public KnowledgeTome(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L39">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L40">    }</span>
+
+    @Override
+    public @Nonnull ItemUseHandler getItemHandler() {
+<span class="nc" id="L44">        return e -&gt; {</span>
+<span class="nc" id="L45">            Player p = e.getPlayer();</span>
+<span class="nc" id="L46">            ItemStack item = e.getItem();</span>
+
+<span class="nc" id="L48">            e.setUseBlock(Result.DENY);</span>
+
+<span class="nc" id="L50">            ItemMeta im = item.getItemMeta();</span>
+<span class="nc" id="L51">            List&lt;String&gt; lore = im.getLore();</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (lore.get(1).isEmpty()) {</span>
+<span class="nc" id="L54">                lore.set(0, ChatColors.color(&quot;&amp;7Owner: &amp;b&quot; + p.getName()));</span>
+<span class="nc" id="L55">                lore.set(1, ChatColor.BLACK + &quot;&quot; + p.getUniqueId());</span>
+<span class="nc" id="L56">                im.setLore(lore);</span>
+<span class="nc" id="L57">                item.setItemMeta(im);</span>
+<span class="nc" id="L58">                SoundEffect.TOME_OF_KNOWLEDGE_USE_SOUND.playFor(p);</span>
+            } else {
+<span class="nc" id="L60">                UUID uuid = UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));</span>
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                if (p.getUniqueId().equals(uuid)) {</span>
+<span class="nc" id="L63">                    Slimefun.getLocalization().sendMessage(p, &quot;messages.no-tome-yourself&quot;);</span>
+<span class="nc" id="L64">                    return;</span>
+                }
+
+<span class="nc" id="L67">                PlayerProfile.get(p, profile -&gt; PlayerProfile.fromUUID(uuid, owner -&gt; {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                    for (Research research : owner.getResearches()) {</span>
+<span class="nc" id="L69">                        research.unlock(p, true);</span>
+<span class="nc" id="L70">                    }</span>
+<span class="nc" id="L71">                }));</span>
+
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                if (p.getGameMode() != GameMode.CREATIVE) {</span>
+<span class="nc" id="L74">                    ItemUtils.consumeItem(item, false);</span>
+                }
+            }
+<span class="nc" id="L77">        };</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

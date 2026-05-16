@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AutoAnvil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines</a> &gt; <span class="el_source">AutoAnvil.java</span></div><h1>AutoAnvil.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+
+/**
+ * The {@link AutoAnvil} is an electric machine which can repair any {@link ItemStack} using
+ * Duct tape.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class AutoAnvil extends AContainer {
+
+    private final int repairFactor;
+
+    public AutoAnvil(ItemGroup itemGroup, int repairFactor, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L30">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L32">        this.repairFactor = repairFactor;</span>
+<span class="nc" id="L33">    }</span>
+
+    @Override
+    public ItemStack getProgressBar() {
+<span class="nc" id="L37">        return new ItemStack(Material.IRON_PICKAXE);</span>
+    }
+
+    @Override
+    public String getMachineIdentifier() {
+<span class="nc" id="L42">        return &quot;AUTO_ANVIL&quot;;</span>
+    }
+
+    @Override
+    protected MachineRecipe findNextRecipe(BlockMenu menu) {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (int slot : getInputSlots()) {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            ItemStack ductTape = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);</span>
+<span class="nc" id="L49">            ItemStack item = menu.getItemInSlot(slot);</span>
+
+<span class="nc bnc" id="L51" title="All 6 branches missed.">            if (item != null &amp;&amp; item.getType().getMaxDurability() &gt; 0 &amp;&amp; ((Damageable) item.getItemMeta()).getDamage() &gt; 0) {</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">                if (SlimefunUtils.isItemSimilar(ductTape, SlimefunItems.DUCT_TAPE.item(), true, false)) {</span>
+<span class="nc" id="L53">                    ItemStack repairedItem = repair(item);</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                    if (!menu.fits(repairedItem, getOutputSlots())) {</span>
+<span class="nc" id="L56">                        return null;</span>
+                    }
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                    for (int inputSlot : getInputSlots()) {</span>
+<span class="nc" id="L60">                        menu.consumeItem(inputSlot);</span>
+                    }
+
+<span class="nc" id="L63">                    return new MachineRecipe(30, new ItemStack[] { ductTape, item }, new ItemStack[] { repairedItem });</span>
+                }
+
+                break;
+            }
+        }
+
+<span class="nc" id="L70">        return null;</span>
+    }
+
+    private ItemStack repair(ItemStack item) {
+<span class="nc" id="L74">        ItemStack repaired = item.clone();</span>
+<span class="nc" id="L75">        ItemMeta meta = repaired.getItemMeta();</span>
+
+<span class="nc" id="L77">        short maxDurability = item.getType().getMaxDurability();</span>
+<span class="nc" id="L78">        int repairPercentage = 100 / repairFactor;</span>
+<span class="nc" id="L79">        short durability = (short) (((Damageable) meta).getDamage() - (maxDurability / repairPercentage));</span>
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (durability &lt; 0) {</span>
+<span class="nc" id="L82">            durability = 0;</span>
+        }
+
+<span class="nc" id="L85">        ((Damageable) meta).setDamage(durability);</span>
+<span class="nc" id="L86">        repaired.setItemMeta(meta);</span>
+<span class="nc" id="L87">        return repaired;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

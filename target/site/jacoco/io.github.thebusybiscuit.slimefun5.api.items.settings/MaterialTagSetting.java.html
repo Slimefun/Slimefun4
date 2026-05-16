@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MaterialTagSetting.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.items.settings</a> &gt; <span class="el_source">MaterialTagSetting.java</span></div><h1>MaterialTagSetting.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.items.settings;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.Tag;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+
+/**
+ * This variation of {@link ItemSetting} allows you to define a default {@link Tag}.
+ * The {@link Tag} will be translated into a {@link String} {@link List} which the user
+ * can then configure as they wish.
+ * 
+ * It also validates all inputs to be a valid {@link Material}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see ItemSetting
+ *
+ */
+public class MaterialTagSetting extends ItemSetting&lt;List&lt;String&gt;&gt; {
+
+    private final Tag&lt;Material&gt; defaultTag;
+
+    @ParametersAreNonnullByDefault
+    public MaterialTagSetting(SlimefunItem item, String key, Tag&lt;Material&gt; defaultTag) {
+<span class="nc" id="L33">        super(item, key, getAsStringList(defaultTag));</span>
+
+<span class="nc" id="L35">        this.defaultTag = defaultTag;</span>
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * This {@link Tag} holds the default values for this {@link MaterialTagSetting}.
+     * 
+     * @return The default {@link Tag}
+     */
+    public @Nonnull Tag&lt;Material&gt; getDefaultTag() {
+<span class="nc" id="L44">        return defaultTag;</span>
+    }
+
+    @Override
+    protected @Nonnull String getErrorMessage() {
+<span class="nc" id="L49">        return &quot;This List can only contain Materials in the format of e.g. REDSTONE_BLOCK&quot;;</span>
+    }
+
+    @Override
+    public boolean validateInput(List&lt;String&gt; input) {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (super.validateInput(input)) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            for (String value : input) {</span>
+<span class="nc" id="L56">                Material material = Material.matchMaterial(value);</span>
+
+                // This value is not a valid material, the setting is not valid.
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                if (material == null) {</span>
+<span class="nc" id="L60">                    return false;</span>
+                }
+<span class="nc" id="L62">            }</span>
+
+<span class="nc" id="L64">            return true;</span>
+        } else {
+<span class="nc" id="L66">            return false;</span>
+        }
+    }
+
+    /**
+     * Internal method to turn a {@link Tag} into a {@link List} of {@link String Strings}.
+     * 
+     * @param tag
+     *            Our {@link Tag}
+     * 
+     * @return The {@link String} {@link List}
+     */
+    private static @Nonnull List&lt;String&gt; getAsStringList(@Nonnull Tag&lt;Material&gt; tag) {
+<span class="nc" id="L79">        return tag.getValues().stream().map(Material::name).collect(Collectors.toList());</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

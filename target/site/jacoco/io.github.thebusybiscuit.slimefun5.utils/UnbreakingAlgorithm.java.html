@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UnbreakingAlgorithm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils</a> &gt; <span class="el_source">UnbreakingAlgorithm.java</span></div><h1>UnbreakingAlgorithm.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils;
+
+import java.util.function.IntFunction;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.enchantments.Enchantment;
+
+import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
+
+/**
+ * This a enum evaluating and indicating a {@link DamageableItem} 's chance to be damaged
+ * depending if it is a tool or an armor
+ *
+ * @author RobotHanzo
+ * 
+ * @see DamageableItem
+ */
+<span class="nc" id="L19">public enum UnbreakingAlgorithm {</span>
+
+    /**
+     * For armor sets, unbreaking is capped at max. 40% effectiveness.
+     */
+<span class="nc bnc" id="L24" title="All 2 branches missed.">    ARMOR(lvl -&gt; Math.random() &gt;= 0.6 + (0.4 / (lvl + 1))),</span>
+
+    /**
+     * For tools, unbreaking is calculated like this.
+     * The effect increases indefinitely.
+     */
+<span class="nc bnc" id="L30" title="All 2 branches missed.">    TOOLS(lvl -&gt; Math.random() &gt;= 1.0 / (lvl + 1));</span>
+
+    private final IntFunction&lt;Boolean&gt; function;
+
+<span class="nc" id="L34">    UnbreakingAlgorithm(@Nonnull IntFunction&lt;Boolean&gt; function) {</span>
+<span class="nc" id="L35">        this.function = function;</span>
+<span class="nc" id="L36">    }</span>
+
+    /**
+     * This method will randomly decide if the item should be damaged or not
+     * based on the internal formula of this {@link UnbreakingAlgorithm}.
+     * If this method returns true, the item should not take damage.
+     * 
+     * @param unbreakingLevel
+     *            The {@link Integer} level of the unbreaking {@link Enchantment}
+     * 
+     * @return Whether to save the item from taking damage
+     *
+     */
+    public boolean evaluate(int unbreakingLevel) {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (unbreakingLevel &gt; 0) {</span>
+<span class="nc" id="L51">            return function.apply(unbreakingLevel);</span>
+        } else {
+<span class="nc" id="L53">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

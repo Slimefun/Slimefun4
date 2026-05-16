@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HeatedPressureChamber.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines</a> &gt; <span class="el_source">HeatedPressureChamber.java</span></div><h1>HeatedPressureChamber.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+
+public class HeatedPressureChamber extends AContainer {
+
+    @ParametersAreNonnullByDefault
+    public HeatedPressureChamber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L33">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L35">        new BlockMenuPreset(getId(), getItemName()) {</span>
+
+            @Override
+            public void init() {
+<span class="nc" id="L39">                constructMenu(this);</span>
+<span class="nc" id="L40">            }</span>
+
+            @Override
+            public boolean canOpen(Block b, Player p) {
+<span class="nc bnc" id="L44" title="All 4 branches missed.">                return p.hasPermission(&quot;slimefun.inventory.bypass&quot;) || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);</span>
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+<span class="nc" id="L49">                return new int[0];</span>
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                if (flow == ItemTransportFlow.WITHDRAW) {</span>
+<span class="nc" id="L55">                    return getOutputSlots();</span>
+                }
+
+<span class="nc" id="L58">                List&lt;Integer&gt; slots = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                for (int slot : getInputSlots()) {</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">                    if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true)) {</span>
+<span class="nc" id="L62">                        slots.add(slot);</span>
+                    }
+                }
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                if (slots.isEmpty()) {</span>
+<span class="nc" id="L67">                    return getInputSlots();</span>
+                } else {
+<span class="nc" id="L69">                    Collections.sort(slots, compareSlots(menu));</span>
+<span class="nc" id="L70">                    int[] array = new int[slots.size()];</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                    for (int i = 0; i &lt; slots.size(); i++) {</span>
+<span class="nc" id="L73">                        array[i] = slots.get(i);</span>
+                    }
+
+<span class="nc" id="L76">                    return array;</span>
+                }
+            }
+        };
+<span class="nc" id="L80">    }</span>
+
+    private Comparator&lt;Integer&gt; compareSlots(DirtyChestMenu menu) {
+<span class="nc" id="L83">        return Comparator.comparingInt(slot -&gt; menu.getItemInSlot(slot).getAmount());</span>
+    }
+
+    @Override
+    protected void registerDefaultRecipes() {
+<span class="nc" id="L88">        registerRecipe(45, new ItemStack[] { SlimefunItems.OIL_BUCKET.item() }, new ItemStack[] { CustomItemStack.create(SlimefunItems.PLASTIC_SHEET.item(), 8) });</span>
+<span class="nc" id="L89">        registerRecipe(30, new SlimefunItemStack[] { SlimefunItems.GOLD_24K, SlimefunItems.URANIUM }, new SlimefunItemStack[] { SlimefunItems.BLISTERING_INGOT });</span>
+<span class="nc" id="L90">        registerRecipe(30, new SlimefunItemStack[] { SlimefunItems.BLISTERING_INGOT, SlimefunItems.CARBONADO }, new SlimefunItemStack[] { SlimefunItems.BLISTERING_INGOT_2 });</span>
+<span class="nc" id="L91">        registerRecipe(60, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_2.item(), new ItemStack(Material.NETHER_STAR) }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_3.item() });</span>
+<span class="nc" id="L92">        registerRecipe(90, new SlimefunItemStack[] { SlimefunItems.PLUTONIUM, SlimefunItems.URANIUM }, new SlimefunItemStack[] { SlimefunItems.BOOSTED_URANIUM });</span>
+<span class="nc" id="L93">        registerRecipe(60, new ItemStack[] { SlimefunItems.NETHER_ICE.item(), SlimefunItems.PLUTONIUM.item() }, new ItemStack[] { CustomItemStack.create(SlimefunItems.ENRICHED_NETHER_ICE.item(), 4) });</span>
+<span class="nc" id="L94">        registerRecipe(45, new ItemStack[] { SlimefunItems.ENRICHED_NETHER_ICE.item() }, new ItemStack[] { CustomItemStack.create(SlimefunItems.NETHER_ICE_COOLANT_CELL.item(), 8) });</span>
+<span class="nc" id="L95">        registerRecipe(8, new SlimefunItemStack[] { SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT }, new SlimefunItemStack[] { SlimefunItems.MAGNESIUM_SALT });</span>
+<span class="nc" id="L96">    }</span>
+
+    @Override
+    public ItemStack getProgressBar() {
+<span class="nc" id="L100">        return new ItemStack(Material.FLINT_AND_STEEL);</span>
+    }
+
+    @Override
+    public String getMachineIdentifier() {
+<span class="nc" id="L105">        return &quot;HEATED_PRESSURE_CHAMBER&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

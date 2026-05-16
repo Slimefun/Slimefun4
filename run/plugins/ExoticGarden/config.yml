@@ -1,0 +1,56 @@
+grass-drops:
+  MELON_SEEDS: true
+  OAK_SAPLING: true
+  RASPBERRY_BUSH: true
+  BLUEBERRY_BUSH: true
+  PLUM_SAPLING: true
+  ONION_BUSH: true
+  CORN_BUSH: true
+  SWEET POTATO_BUSH: true
+  ORANGE_SAPLING: true
+  CILANTRO_BUSH: true
+  PEACH_SAPLING: true
+  PALE_OAK_SAPLING: true
+  GRASS_SEEDS: true
+  WHEAT_SEEDS: true
+  CURRY LEAF_BUSH: true
+  BLACKBERRY_BUSH: true
+  CHERRY_SAPLING: true
+  DARK_OAK_SAPLING: true
+  TOMATO_BUSH: true
+  OAK_APPLE_SAPLING: true
+  ACACIA_SAPLING: true
+  TEA LEAF_BUSH: true
+  BIRCH_SAPLING: true
+  DRAGON_FRUIT_SAPLING: true
+  ELDERBERRY_BUSH: true
+  RED BELL PEPPER_BUSH: true
+  POMEGRANATE_SAPLING: true
+  JUNGLE_SAPLING: true
+  CABBAGE_BUSH: true
+  LETTUCE_BUSH: true
+  COCONUT_SAPLING: true
+  LIME_SAPLING: true
+  CRANBERRY_BUSH: true
+  PUMPKIN_SEEDS: true
+  BLACK PEPPER_BUSH: true
+  COWBERRY_BUSH: true
+  LEMON_SAPLING: true
+  GARLIC_BUSH: true
+  PINEAPPLE_BUSH: true
+  FLOWERING_AZALEA: true
+  STRAWBERRY_BUSH: true
+  MUSTARD SEED_BUSH: true
+  PEAR_SAPLING: true
+  MANGROVE_PROPAGULE: true
+  GRAPE_BUSH: true
+  SPRUCE_SAPLING: true
+  AZALEA: true
+world-blacklist:
+- world_nether
+- world_the_end
+chances:
+  TREE: 22
+  BUSH: 16
+options:
+  auto-update: true

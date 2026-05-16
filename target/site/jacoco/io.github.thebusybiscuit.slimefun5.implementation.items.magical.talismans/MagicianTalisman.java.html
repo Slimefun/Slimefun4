@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MagicianTalisman.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans</a> &gt; <span class="el_source">MagicianTalisman.java</span></div><h1>MagicianTalisman.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
+
+/**
+ * The {@link MagicianTalisman} is a special kind of {@link Talisman} which awards a {@link Player}
+ * with an extra {@link Enchantment} when they enchant their {@link ItemStack}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class MagicianTalisman extends Talisman {
+
+<span class="nc" id="L34">    private final ItemSetting&lt;Boolean&gt; allowEnchantmentBooks = new ItemSetting&lt;&gt;(this, &quot;allow-enchantment-books&quot;, false);</span>
+<span class="nc" id="L35">    private final Set&lt;TalismanEnchantment&gt; enchantments = new HashSet&lt;&gt;();</span>
+
+    @ParametersAreNonnullByDefault
+    public MagicianTalisman(SlimefunItemStack item, ItemStack[] recipe) {
+<span class="nc" id="L39">        super(item, recipe, false, false, &quot;magician&quot;, 80);</span>
+
+<span class="nc" id="L41">        addItemSetting(allowEnchantmentBooks);</span>
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        for (Enchantment enchantment : Enchantment.values()) {</span>
+            try {
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                for (int i = 1; i &lt;= enchantment.getMaxLevel(); i++) {</span>
+<span class="nc" id="L46">                    enchantments.add(new TalismanEnchantment(this, enchantment, i));</span>
+                }
+<span class="nc" id="L48">            } catch (Exception x) {</span>
+<span class="nc" id="L49">                Slimefun.logger().log(Level.SEVERE, x, () -&gt; &quot;The following Exception occurred while trying to register the following Enchantment: &quot; + enchantment);</span>
+<span class="nc" id="L50">            }</span>
+        }
+
+        try {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (!enchantments.isEmpty()) {</span>
+                // Fixes #3007 - This is a Set, so every Enchantment should only be contained in here once.
+<span class="nc" id="L56">                addItemSetting(enchantments.toArray(new ItemSetting[0]));</span>
+            }
+<span class="nc" id="L58">        } catch (Exception x) {</span>
+<span class="nc" id="L59">            Slimefun.logger().log(Level.SEVERE, x, () -&gt; &quot;The following Exception was thrown when initializing the settings for &quot; + toString());</span>
+<span class="nc" id="L60">        }</span>
+<span class="nc" id="L61">    }</span>
+
+    /**
+     * This method picks a random {@link TalismanEnchantment} for the provided {@link ItemStack}.
+     * The method will return null, if null was provided or no applicable {@link Enchantment} was found.
+     * 
+     * @param item
+     *            The {@link ItemStack} to find an {@link Enchantment} for
+     * @param existingEnchantments
+     *            A {@link Set} containing the {@link Enchantment Enchantments} that currently exist on the
+     *            {@link ItemStack}
+     * 
+     * @return An applicable {@link TalismanEnchantment} or null
+     */
+    @Nullable
+    public TalismanEnchantment getRandomEnchantment(@Nonnull ItemStack item, @Nonnull Set&lt;Enchantment&gt; existingEnchantments) {
+<span class="nc" id="L77">        Validate.notNull(item, &quot;The ItemStack cannot be null&quot;);</span>
+<span class="nc" id="L78">        Validate.notNull(existingEnchantments, &quot;The Enchantments Set cannot be null&quot;);</span>
+
+        // @formatter:off
+<span class="nc" id="L81">        List&lt;TalismanEnchantment&gt; enabled = enchantments.stream()</span>
+<span class="nc bnc" id="L82" title="All 6 branches missed.">                .filter(e -&gt; (isEnchantmentBookAllowed() &amp;&amp; item.getType() == Material.BOOK) || e.getEnchantment().canEnchantItem(item))</span>
+<span class="nc" id="L83">                .filter(e -&gt; hasConflicts(existingEnchantments, e))</span>
+<span class="nc" id="L84">                .filter(TalismanEnchantment::getValue)</span>
+<span class="nc" id="L85">                .collect(Collectors.toList());</span>
+        // @formatter:on
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        return enabled.isEmpty() ? null : enabled.get(ThreadLocalRandom.current().nextInt(enabled.size()));</span>
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean hasConflicts(Set&lt;Enchantment&gt; enchantments, TalismanEnchantment ench) {
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for (Enchantment existing : enchantments) {</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            if (existing.conflictsWith(ench.getEnchantment())) {</span>
+<span class="nc" id="L95">                return false;</span>
+            }
+<span class="nc" id="L97">        }</span>
+
+<span class="nc" id="L99">        return true;</span>
+    }
+
+    /**
+     * This method checks whether enchantment books
+     * can be given an extra {@link Enchantment} or not.
+     *
+     * @return Whether enchantment books can receive an extra {@link Enchantment}
+     */
+    public boolean isEnchantmentBookAllowed() {
+<span class="nc" id="L109">        return allowEnchantmentBooks.getValue();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

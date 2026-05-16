@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SeismicAxeListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners</a> &gt; <span class="el_source">SeismicAxeListener.java</span></div><h1>SeismicAxeListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
+
+/**
+ * This {@link Listener} is responsible for removing every {@link FallingBlock} that was
+ * created using a {@link SeismicAxe}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see SeismicAxe
+ *
+ */
+public class SeismicAxeListener implements Listener {
+
+    private final SeismicAxe seismicAxe;
+
+<span class="nc" id="L27">    public SeismicAxeListener(@Nonnull Slimefun plugin, @Nonnull SeismicAxe seismicAxe) {</span>
+<span class="nc" id="L28">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L29">        this.seismicAxe = seismicAxe;</span>
+<span class="nc" id="L30">    }</span>
+
+    @EventHandler
+    public void onBlockFall(EntityChangeBlockEvent e) {
+<span class="nc bnc" id="L34" title="All 4 branches missed.">        if (seismicAxe == null || seismicAxe.isDisabled()) {</span>
+<span class="nc" id="L35">            return;</span>
+        }
+
+<span class="nc bnc" id="L38" title="All 4 branches missed.">        if (e.getEntity().getType() == EntityType.FALLING_BLOCK &amp;&amp; e.getEntity().hasMetadata(&quot;seismic_axe&quot;)) {</span>
+<span class="nc" id="L39">            e.setCancelled(true);</span>
+<span class="nc" id="L40">            e.getEntity().removeMetadata(&quot;seismic_axe&quot;, Slimefun.instance());</span>
+<span class="nc" id="L41">            e.getEntity().remove();</span>
+        }
+<span class="nc" id="L43">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

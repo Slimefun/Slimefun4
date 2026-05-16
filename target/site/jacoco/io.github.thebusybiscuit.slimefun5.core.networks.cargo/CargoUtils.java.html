@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CargoUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.networks.cargo</a> &gt; <span class="el_source">CargoUtils.java</span></div><h1>CargoUtils.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
+
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.inventory.BrewerInventory;
+import org.bukkit.inventory.FurnaceInventory;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import io.papermc.lib.PaperLib;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+
+/**
+ * This is a helper class for the {@link CargoNet} which provides
+ * a free static utility methods to let the {@link CargoNet} interact with
+ * an {@link Inventory} or {@link BlockMenu}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Walshy
+ * @author DNx5
+ *
+ */
+final class CargoUtils {
+
+    /**
+     * These are the slots where our filter items sit.
+     */
+<span class="nc" id="L48">    private static final int[] FILTER_SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };</span>
+
+    /**
+     * This is a utility class and should not be instantiated.
+     * Therefore we just hide the public constructor.
+     */
+    private CargoUtils() {}
+
+    /**
+     * This is a performance-saving shortcut to quickly test whether a given
+     * {@link Block} might be an {@link InventoryHolder} or not.
+     * 
+     * @param block
+     *            The {@link Block} to check
+     * 
+     * @return Whether this {@link Block} represents a {@link BlockState} that is an {@link InventoryHolder}
+     */
+    static boolean hasInventory(@Nullable Block block) {
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (block == null) {</span>
+            // No block, no inventory
+<span class="nc" id="L68">            return false;</span>
+        }
+
+<span class="nc" id="L71">        Material type = block.getType();</span>
+<span class="nc" id="L72">        return SlimefunTag.CARGO_SUPPORTED_STORAGE_BLOCKS.isTagged(type);</span>
+    }
+
+    @Nonnull
+    static int[] getInputSlotRange(@Nonnull Inventory inv, @Nullable ItemStack item) {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (inv instanceof FurnaceInventory) {</span>
+<span class="nc bnc" id="L78" title="All 4 branches missed.">            if (item != null &amp;&amp; item.getType().isFuel()) {</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">                if (isSmeltable(item, true)) {</span>
+                    // Any non-smeltable items should not land in the upper slot
+<span class="nc" id="L81">                    return new int[] { 0, 2 };</span>
+                } else {
+<span class="nc" id="L83">                    return new int[] { 1, 2 };</span>
+                }
+            } else {
+<span class="nc" id="L86">                return new int[] { 0, 1 };</span>
+            }
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        } else if (inv instanceof BrewerInventory) {</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (isPotion(item)) {</span>
+                // Slots for potions
+<span class="nc" id="L91">                return new int[] { 0, 3 };</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">            } else if (item != null &amp;&amp; item.getType() == Material.BLAZE_POWDER) {</span>
+                // Blaze Powder slot
+<span class="nc" id="L94">                return new int[] { 4, 5 };</span>
+            } else {
+                // Input slot
+<span class="nc" id="L97">                return new int[] { 3, 4 };</span>
+            }
+        } else {
+            // Slot 0-size
+<span class="nc" id="L101">            return new int[] { 0, inv.getSize() };</span>
+        }
+    }
+
+    @Nonnull
+    static int[] getOutputSlotRange(@Nonnull Inventory inv) {
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (inv instanceof FurnaceInventory) {</span>
+            // Slot 2-3
+<span class="nc" id="L109">            return new int[] { 2, 3 };</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        } else if (inv instanceof BrewerInventory) {</span>
+            // Slot 0-3
+<span class="nc" id="L112">            return new int[] { 0, 3 };</span>
+        } else {
+            // Slot 0-size
+<span class="nc" id="L115">            return new int[] { 0, inv.getSize() };</span>
+        }
+    }
+
+    @Nullable
+    static ItemStack withdraw(AbstractItemNetwork network, Map&lt;Location, Inventory&gt; inventories, Block node, Block target, ItemStack template) {
+<span class="nc" id="L121">        DirtyChestMenu menu = getChestMenu(target);</span>
+
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (menu == null) {</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">            if (hasInventory(target)) {</span>
+<span class="nc" id="L125">                Inventory inventory = inventories.get(target.getLocation());</span>
+
+<span class="nc bnc" id="L127" title="All 2 branches missed.">                if (inventory != null) {</span>
+<span class="nc" id="L128">                    return withdrawFromVanillaInventory(network, node, template, inventory);</span>
+                }
+
+<span class="nc" id="L131">                BlockState state = PaperLib.getBlockState(target, false).getState();</span>
+
+<span class="nc bnc" id="L133" title="All 2 branches missed.">                if (state instanceof InventoryHolder inventoryHolder) {</span>
+<span class="nc" id="L134">                    inventory = inventoryHolder.getInventory();</span>
+<span class="nc" id="L135">                    inventories.put(target.getLocation(), inventory);</span>
+<span class="nc" id="L136">                    return withdrawFromVanillaInventory(network, node, template, inventory);</span>
+                }
+            }
+
+<span class="nc" id="L140">            return null;</span>
+        }
+
+<span class="nc" id="L143">        ItemStackWrapper wrapperTemplate = ItemStackWrapper.wrap(template);</span>
+
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {</span>
+<span class="nc" id="L146">            ItemStack is = menu.getItemInSlot(slot);</span>
+<span class="nc" id="L147">            ItemStackWrapper wrapperItemInSlot = ItemStackWrapper.wrap(is);</span>
+
+<span class="nc bnc" id="L149" title="All 4 branches missed.">            if (SlimefunUtils.isItemSimilar(wrapperItemInSlot, wrapperTemplate, true) &amp;&amp; matchesFilter(network, node, wrapperItemInSlot)) {</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">                if (is.getAmount() &gt; template.getAmount()) {</span>
+<span class="nc" id="L151">                    is.setAmount(is.getAmount() - template.getAmount());</span>
+<span class="nc" id="L152">                    menu.replaceExistingItem(slot, is);</span>
+<span class="nc" id="L153">                    return template;</span>
+                } else {
+<span class="nc" id="L155">                    menu.replaceExistingItem(slot, null);</span>
+<span class="nc" id="L156">                    return is;</span>
+                }
+            }
+        }
+
+<span class="nc" id="L161">        return null;</span>
+    }
+
+    @Nullable
+    static ItemStack withdrawFromVanillaInventory(AbstractItemNetwork network, Block node, ItemStack template, Inventory inv) {
+<span class="nc" id="L166">        ItemStack[] contents = inv.getContents();</span>
+<span class="nc" id="L167">        int[] range = getOutputSlotRange(inv);</span>
+<span class="nc" id="L168">        int minSlot = range[0];</span>
+<span class="nc" id="L169">        int maxSlot = range[1];</span>
+
+<span class="nc" id="L171">        ItemStackWrapper wrapper = ItemStackWrapper.wrap(template);</span>
+
+<span class="nc bnc" id="L173" title="All 2 branches missed.">        for (int slot = minSlot; slot &lt; maxSlot; slot++) {</span>
+            // Changes to these ItemStacks are synchronized with the Item in the Inventory
+<span class="nc" id="L175">            ItemStack itemInSlot = contents[slot];</span>
+<span class="nc bnc" id="L176" title="All 4 branches missed.">            if (itemInSlot == null || itemInSlot.getType().isAir()) {</span>
+<span class="nc" id="L177">                continue;</span>
+            }
+
+<span class="nc" id="L180">            ItemStackWrapper wrapperInSlot = ItemStackWrapper.wrap(itemInSlot);</span>
+<span class="nc bnc" id="L181" title="All 4 branches missed.">            if (SlimefunUtils.isItemSimilar(wrapperInSlot, wrapper, true, false) &amp;&amp; matchesFilter(network, node, wrapperInSlot)) {</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">                if (itemInSlot.getAmount() &gt; template.getAmount()) {</span>
+<span class="nc" id="L183">                    itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());</span>
+<span class="nc" id="L184">                    return template;</span>
+                } else {
+<span class="nc" id="L186">                    ItemStack clone = itemInSlot.clone();</span>
+<span class="nc" id="L187">                    itemInSlot.setAmount(0);</span>
+<span class="nc" id="L188">                    return clone;</span>
+                }
+            }
+        }
+
+<span class="nc" id="L193">        return null;</span>
+    }
+
+    @Nullable
+    static ItemStackAndInteger withdraw(AbstractItemNetwork network, Map&lt;Location, Inventory&gt; inventories, Block node, Block target) {
+<span class="nc" id="L198">        DirtyChestMenu menu = getChestMenu(target);</span>
+
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        if (menu != null) {</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {</span>
+<span class="nc" id="L202">                ItemStack is = menu.getItemInSlot(slot);</span>
+
+<span class="nc bnc" id="L204" title="All 2 branches missed.">                if (matchesFilter(network, node, is)) {</span>
+<span class="nc" id="L205">                    menu.replaceExistingItem(slot, null);</span>
+<span class="nc" id="L206">                    return new ItemStackAndInteger(is, slot);</span>
+                }
+            }
+<span class="nc bnc" id="L209" title="All 2 branches missed.">        } else if (hasInventory(target)) {</span>
+<span class="nc" id="L210">            Inventory inventory = inventories.get(target.getLocation());</span>
+
+<span class="nc bnc" id="L212" title="All 2 branches missed.">            if (inventory != null) {</span>
+<span class="nc" id="L213">                return withdrawFromVanillaInventory(network, node, inventory);</span>
+            }
+
+<span class="nc" id="L216">            BlockState state = PaperLib.getBlockState(target, false).getState();</span>
+
+<span class="nc bnc" id="L218" title="All 2 branches missed.">            if (state instanceof InventoryHolder inventoryHolder) {</span>
+<span class="nc" id="L219">                inventory = inventoryHolder.getInventory();</span>
+<span class="nc" id="L220">                inventories.put(target.getLocation(), inventory);</span>
+<span class="nc" id="L221">                return withdrawFromVanillaInventory(network, node, inventory);</span>
+            }
+        }
+
+<span class="nc" id="L225">        return null;</span>
+    }
+
+    @Nullable
+    private static ItemStackAndInteger withdrawFromVanillaInventory(AbstractItemNetwork network, Block node, Inventory inv) {
+<span class="nc" id="L230">        ItemStack[] contents = inv.getContents();</span>
+<span class="nc" id="L231">        int[] range = getOutputSlotRange(inv);</span>
+<span class="nc" id="L232">        int minSlot = range[0];</span>
+<span class="nc" id="L233">        int maxSlot = range[1];</span>
+
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        for (int slot = minSlot; slot &lt; maxSlot; slot++) {</span>
+<span class="nc" id="L236">            ItemStack item = contents[slot];</span>
+
+<span class="nc bnc" id="L238" title="All 2 branches missed.">            if (matchesFilter(network, node, item)) {</span>
+<span class="nc" id="L239">                inv.setItem(slot, null);</span>
+<span class="nc" id="L240">                return new ItemStackAndInteger(item, slot);</span>
+            }
+        }
+
+<span class="nc" id="L244">        return null;</span>
+    }
+
+    @Nullable
+    static ItemStack insert(AbstractItemNetwork network, Map&lt;Location, Inventory&gt; inventories, Block node, Block target, boolean smartFill, ItemStack stack, ItemStackWrapper wrapper) {
+<span class="nc" id="L249">        Debug.log(TestCase.CARGO_INPUT_TESTING, &quot;CargoUtils#insert&quot;);</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">        if (!matchesFilter(network, node, stack)) {</span>
+<span class="nc" id="L251">            return stack;</span>
+        }
+
+<span class="nc" id="L254">        DirtyChestMenu menu = getChestMenu(target);</span>
+
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        if (menu == null) {</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">            if (hasInventory(target)) {</span>
+<span class="nc" id="L258">                Inventory inventory = inventories.get(target.getLocation());</span>
+
+<span class="nc bnc" id="L260" title="All 2 branches missed.">                if (inventory != null) {</span>
+<span class="nc" id="L261">                    return insertIntoVanillaInventory(stack, wrapper, smartFill, inventory);</span>
+                }
+
+<span class="nc" id="L264">                BlockState state = PaperLib.getBlockState(target, false).getState();</span>
+
+<span class="nc bnc" id="L266" title="All 2 branches missed.">                if (state instanceof InventoryHolder inventoryHolder) {</span>
+<span class="nc" id="L267">                    inventory = inventoryHolder.getInventory();</span>
+<span class="nc" id="L268">                    inventories.put(target.getLocation(), inventory);</span>
+<span class="nc" id="L269">                    return insertIntoVanillaInventory(stack, wrapper, smartFill, inventory);</span>
+                }
+            }
+
+<span class="nc" id="L273">            return stack;</span>
+        }
+
+<span class="nc bnc" id="L276" title="All 2 branches missed.">        for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, wrapper)) {</span>
+<span class="nc" id="L277">            ItemStack itemInSlot = menu.getItemInSlot(slot);</span>
+
+<span class="nc bnc" id="L279" title="All 2 branches missed.">            if (itemInSlot == null) {</span>
+<span class="nc" id="L280">                menu.replaceExistingItem(slot, stack);</span>
+<span class="nc" id="L281">                return null;</span>
+            }
+
+<span class="nc" id="L284">            int maxStackSize = itemInSlot.getType().getMaxStackSize();</span>
+<span class="nc" id="L285">            int currentAmount = itemInSlot.getAmount();</span>
+
+<span class="nc bnc" id="L287" title="All 4 branches missed.">            if (!smartFill &amp;&amp; currentAmount == maxStackSize) {</span>
+                // Skip full stacks - Performance optimization for non-smartfill nodes
+<span class="nc" id="L289">                continue;</span>
+            }
+
+<span class="nc bnc" id="L292" title="All 2 branches missed.">            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">                if (currentAmount &lt; maxStackSize) {</span>
+<span class="nc" id="L294">                    int amount = currentAmount + stack.getAmount();</span>
+
+<span class="nc" id="L296">                    itemInSlot.setAmount(Math.min(amount, maxStackSize));</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">                    if (amount &gt; maxStackSize) {</span>
+<span class="nc" id="L298">                        stack.setAmount(amount - maxStackSize);</span>
+                    } else {
+<span class="nc" id="L300">                        stack = null;</span>
+                    }
+
+<span class="nc" id="L303">                    menu.replaceExistingItem(slot, itemInSlot);</span>
+<span class="nc" id="L304">                    return stack;</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">                } else if (smartFill) {</span>
+<span class="nc" id="L306">                    return stack;</span>
+                }
+            }
+        }
+
+<span class="nc" id="L311">        return stack;</span>
+    }
+
+    @Nullable
+    private static ItemStack insertIntoVanillaInventory(@Nonnull ItemStack stack, @Nonnull ItemStackWrapper wrapper, boolean smartFill, @Nonnull Inventory inv) {
+        /*
+         * If the Inventory does not accept this Item Type, bounce the item back.
+         * Example: Shulker boxes within shulker boxes (fixes #2662)
+         */
+<span class="nc bnc" id="L320" title="All 2 branches missed.">        if (!InvUtils.isItemAllowed(stack.getType(), inv.getType())) {</span>
+<span class="nc" id="L321">            return stack;</span>
+        }
+
+<span class="nc" id="L324">        ItemStack[] contents = inv.getContents();</span>
+<span class="nc" id="L325">        int[] range = getInputSlotRange(inv, stack);</span>
+<span class="nc" id="L326">        int minSlot = range[0];</span>
+<span class="nc" id="L327">        int maxSlot = range[1];</span>
+
+<span class="nc bnc" id="L329" title="All 2 branches missed.">        for (int slot = minSlot; slot &lt; maxSlot; slot++) {</span>
+            // Changes to this ItemStack are synchronized with the Item in the Inventory
+<span class="nc" id="L331">            ItemStack itemInSlot = contents[slot];</span>
+
+<span class="nc bnc" id="L333" title="All 2 branches missed.">            if (itemInSlot == null) {</span>
+<span class="nc" id="L334">                inv.setItem(slot, stack);</span>
+<span class="nc" id="L335">                return null;</span>
+            } else {
+<span class="nc" id="L337">                int currentAmount = itemInSlot.getAmount();</span>
+<span class="nc" id="L338">                int maxStackSize = itemInSlot.getType().getMaxStackSize();</span>
+
+<span class="nc bnc" id="L340" title="All 4 branches missed.">                if (!smartFill &amp;&amp; currentAmount == maxStackSize) {</span>
+                    // Skip full stacks - Performance optimization for non-smartfill nodes
+<span class="nc" id="L342">                    continue;</span>
+                }
+
+<span class="nc bnc" id="L345" title="All 2 branches missed.">                if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {</span>
+<span class="nc bnc" id="L346" title="All 2 branches missed.">                    if (currentAmount &lt; maxStackSize) {</span>
+<span class="nc" id="L347">                        int amount = currentAmount + stack.getAmount();</span>
+
+<span class="nc bnc" id="L349" title="All 2 branches missed.">                        if (amount &gt; maxStackSize) {</span>
+<span class="nc" id="L350">                            stack.setAmount(amount - maxStackSize);</span>
+<span class="nc" id="L351">                            itemInSlot.setAmount(maxStackSize);</span>
+<span class="nc" id="L352">                            return stack;</span>
+                        } else {
+<span class="nc" id="L354">                            itemInSlot.setAmount(Math.min(amount, maxStackSize));</span>
+<span class="nc" id="L355">                            return null;</span>
+                        }
+<span class="nc bnc" id="L357" title="All 2 branches missed.">                    } else if (smartFill) {</span>
+<span class="nc" id="L358">                        return stack;</span>
+                    }
+                }
+            }
+        }
+
+<span class="nc" id="L364">        return stack;</span>
+    }
+
+    @Nullable
+    static DirtyChestMenu getChestMenu(@Nonnull Block block) {
+<span class="nc bnc" id="L369" title="All 2 branches missed.">        if (BlockStorage.hasInventory(block)) {</span>
+<span class="nc" id="L370">            return BlockStorage.getInventory(block);</span>
+        } else {
+<span class="nc" id="L372">            return BlockStorage.getUniversalInventory(block);</span>
+        }
+    }
+
+    static boolean matchesFilter(@Nonnull AbstractItemNetwork network, @Nonnull Block node, @Nullable ItemStack item) {
+<span class="nc bnc" id="L377" title="All 4 branches missed.">        if (item == null || item.getType() == Material.AIR) {</span>
+<span class="nc" id="L378">            return false;</span>
+        }
+
+<span class="nc" id="L381">        return network.getItemFilter(node).test(item);</span>
+    }
+
+    /**
+     * This method checks if a given {@link ItemStack} is smeltable or not.
+     * The lazy-option is a performance-saver since actually calculating this can be quite expensive.
+     * For the current applicational purposes a quick check for any wooden logs is sufficient.
+     * Otherwise the &quot;lazyness&quot; can be turned off in the future.
+     * 
+     * @param stack
+     *            The {@link ItemStack} to test
+     * @param lazy
+     *            Whether or not to perform a &quot;lazy&quot; but performance-saving check
+     * 
+     * @return Whether the given {@link ItemStack} can be smelted or not
+     */
+    private static boolean isSmeltable(@Nullable ItemStack stack, boolean lazy) {
+<span class="nc bnc" id="L398" title="All 2 branches missed.">        if (lazy) {</span>
+<span class="nc bnc" id="L399" title="All 4 branches missed.">            return stack != null &amp;&amp; Tag.LOGS.isTagged(stack.getType());</span>
+        } else {
+<span class="nc" id="L401">            return Slimefun.getMinecraftRecipeService().isSmeltable(stack);</span>
+        }
+    }
+
+    private static boolean isPotion(@Nullable ItemStack item) {
+<span class="nc bnc" id="L406" title="All 2 branches missed.">        if (item != null) {</span>
+<span class="nc" id="L407">            Material type = item.getType();</span>
+<span class="nc bnc" id="L408" title="All 6 branches missed.">            return type == Material.POTION || type == Material.SPLASH_POTION || type == Material.LINGERING_POTION;</span>
+        } else {
+<span class="nc" id="L410">            return false;</span>
+        }
+    }
+
+    /**
+     * Gets the {@link ItemFilter} slots for a Cargo Node. If you wish to access the items
+     * in the cargo (without hardcoding the slots in case of change) then you can use this method.
+     *
+     * @return The slots where the {@link ItemFilter} section for a cargo node sits
+     */
+    @Nonnull
+    public static int[] getFilteringSlots() {
+<span class="nc" id="L422">        return FILTER_SLOTS;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

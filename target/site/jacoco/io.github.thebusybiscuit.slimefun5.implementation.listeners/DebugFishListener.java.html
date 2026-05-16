@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DebugFishListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners</a> &gt; <span class="el_source">DebugFishListener.java</span></div><h1>DebugFishListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+
+import java.util.EnumSet;
+import java.util.Set;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Skull;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Rotatable;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
+
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPlayerHead;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+/**
+ * This {@link Listener} is responsible for handling our debugging tool, the debug fish.
+ * This is where the functionality of this item is implemented.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class DebugFishListener implements Listener {
+
+    private final String greenCheckmark;
+    private final String redCross;
+
+<span class="nc" id="L49">    public DebugFishListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L50">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+
+<span class="nc" id="L52">        greenCheckmark = &quot;&amp;2\u2714&quot;;</span>
+<span class="nc" id="L53">        redCross = &quot;&amp;4\u2718&quot;;</span>
+<span class="nc" id="L54">    }</span>
+
+    @EventHandler
+    public void onDebug(PlayerInteractEvent e) {
+<span class="nc bnc" id="L58" title="All 4 branches missed.">        if (e.getAction() == Action.PHYSICAL || e.getHand() != EquipmentSlot.HAND) {</span>
+<span class="nc" id="L59">            return;</span>
+        }
+
+<span class="nc" id="L62">        Player p = e.getPlayer();</span>
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (SlimefunUtils.isItemSimilar(e.getItem(), SlimefunItems.DEBUG_FISH.item(), true, false)) {</span>
+<span class="nc" id="L65">            e.setCancelled(true);</span>
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">            if (p.hasPermission(&quot;slimefun.debugging&quot;)) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                if (e.getAction() == Action.LEFT_CLICK_BLOCK) {</span>
+<span class="nc" id="L69">                    onLeftClick(p, e.getClickedBlock(), e);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {</span>
+<span class="nc" id="L71">                    onRightClick(p, e.getClickedBlock(), e.getBlockFace());</span>
+                }
+            } else {
+<span class="nc" id="L74">                Slimefun.getLocalization().sendMessage(p, &quot;messages.no-permission&quot;, true);</span>
+            }
+        }
+<span class="nc" id="L77">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void onLeftClick(Player p, Block b, PlayerInteractEvent e) {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (p.isSneaking()) {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (BlockStorage.hasBlockInfo(b)) {</span>
+<span class="nc" id="L83">                BlockStorage.clearBlockInfo(b);</span>
+            }
+        } else {
+<span class="nc" id="L86">            e.setCancelled(false);</span>
+        }
+<span class="nc" id="L88">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void onRightClick(Player p, Block b, BlockFace face) {
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (p.isSneaking()) {</span>
+            // Fixes #2655 - Delaying the placement to prevent a new event from being fired
+<span class="nc" id="L94">            Slimefun.runSync(() -&gt; {</span>
+<span class="nc" id="L95">                Block block = b.getRelative(face);</span>
+<span class="nc" id="L96">                block.setType(Material.PLAYER_HEAD);</span>
+
+<span class="nc" id="L98">                VersionedPlayerHead.setSkin(block, HeadTexture.MISSING_TEXTURE.getBase64Texture(), true);</span>
+<span class="nc" id="L99">                SoundEffect.DEBUG_FISH_CLICK_SOUND.playFor(p);</span>
+<span class="nc" id="L100">            }, 2L);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        } else if (BlockStorage.hasBlockInfo(b)) {</span>
+            try {
+<span class="nc" id="L103">                sendInfo(p, b);</span>
+<span class="nc" id="L104">            } catch (Exception x) {</span>
+<span class="nc" id="L105">                Slimefun.logger().log(Level.SEVERE, &quot;An Exception occurred while using a Debug-Fish&quot;, x);</span>
+<span class="nc" id="L106">            }</span>
+        } else {
+            // Read applicable Slimefun tags
+<span class="nc" id="L109">            Set&lt;SlimefunTag&gt; tags = EnumSet.noneOf(SlimefunTag.class);</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            for (SlimefunTag tag : SlimefunTag.values()) {</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">                if (tag.isTagged(b.getType())) {</span>
+<span class="nc" id="L113">                    tags.add(tag);</span>
+                }
+            }
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (!tags.isEmpty()) {</span>
+<span class="nc" id="L118">                p.sendMessage(&quot; &quot;);</span>
+<span class="nc" id="L119">                p.sendMessage(ChatColors.color(&quot;&amp;dSlimefun tags for: &amp;e&quot;) + b.getType().name());</span>
+
+<span class="nc bnc" id="L121" title="All 2 branches missed.">                for (SlimefunTag tag : tags) {</span>
+<span class="nc" id="L122">                    p.sendMessage(ChatColors.color(&quot;&amp;d* &amp;e&quot;) + tag.name());</span>
+<span class="nc" id="L123">                }</span>
+
+<span class="nc" id="L125">                p.sendMessage(&quot; &quot;);</span>
+            }
+        }
+<span class="nc" id="L128">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void sendInfo(Player p, Block b) {
+<span class="nc" id="L132">        SlimefunItem item = BlockStorage.check(b);</span>
+
+<span class="nc" id="L134">        p.sendMessage(&quot; &quot;);</span>
+<span class="nc" id="L135">        p.sendMessage(ChatColors.color(&quot;&amp;d&quot; + b.getType() + &quot; &amp;e@ X: &quot; + b.getX() + &quot; Y: &quot; + b.getY() + &quot; Z: &quot; + b.getZ()));</span>
+<span class="nc" id="L136">        p.sendMessage(ChatColors.color(&quot;&amp;dId: &quot; + &quot;&amp;e&quot; + item.getId()));</span>
+<span class="nc" id="L137">        p.sendMessage(ChatColors.color(&quot;&amp;dPlugin: &quot; + &quot;&amp;e&quot; + item.getAddon().getName()));</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (b.getState() instanceof Skull) {</span>
+<span class="nc" id="L140">            p.sendMessage(ChatColors.color(&quot;&amp;dSkull: &quot; + greenCheckmark));</span>
+
+            // Check if the skull is a wall skull, and if so use Directional instead of Rotatable.
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            if (b.getType() == Material.PLAYER_WALL_HEAD) {</span>
+<span class="nc" id="L144">                p.sendMessage(ChatColors.color(&quot;  &amp;dFacing: &amp;e&quot; + ((Directional) b.getBlockData()).getFacing().toString()));</span>
+            } else {
+<span class="nc" id="L146">                p.sendMessage(ChatColors.color(&quot;  &amp;dRotation: &amp;e&quot; + ((Rotatable) b.getBlockData()).getRotation().toString()));</span>
+            }
+        }
+
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (BlockStorage.getStorage(b.getWorld()).hasInventory(b.getLocation())) {</span>
+<span class="nc" id="L151">            p.sendMessage(ChatColors.color(&quot;&amp;dInventory: &quot; + greenCheckmark));</span>
+        } else {
+<span class="nc" id="L153">            p.sendMessage(ChatColors.color(&quot;&amp;dInventory: &quot; + redCross));</span>
+        }
+
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        if (item.isTicking()) {</span>
+<span class="nc" id="L157">            p.sendMessage(ChatColors.color(&quot;&amp;dTicking: &quot; + greenCheckmark));</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">            p.sendMessage(ChatColors.color(&quot;  &amp;dAsync: &amp;e&quot; + (item.getBlockTicker().isSynchronized() ? redCross : greenCheckmark)));</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        } else if (item instanceof EnergyNetProvider) {</span>
+<span class="nc" id="L160">            p.sendMessage(ChatColors.color(&quot;&amp;dTicking: &amp;3Indirect (Generator)&quot;));</span>
+        } else {
+<span class="nc" id="L162">            p.sendMessage(ChatColors.color(&quot;&amp;dTicking: &quot; + redCross));</span>
+        }
+
+<span class="nc bnc" id="L165" title="All 2 branches missed.">        if (Slimefun.getProfiler().hasTimings(b)) {</span>
+<span class="nc" id="L166">            p.sendMessage(ChatColors.color(&quot;  &amp;dTimings: &amp;e&quot; + Slimefun.getProfiler().getTime(b)));</span>
+<span class="nc" id="L167">            p.sendMessage(ChatColors.color(&quot;  &amp;dTotal Timings: &amp;e&quot; + Slimefun.getProfiler().getTime(item)));</span>
+<span class="nc" id="L168">            p.sendMessage(ChatColors.color(&quot;  &amp;dChunk Timings: &amp;e&quot; + Slimefun.getProfiler().getTime(b.getChunk())));</span>
+        }
+
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (item instanceof EnergyNetComponent component) {</span>
+<span class="nc" id="L172">            p.sendMessage(ChatColors.color(&quot;&amp;dEnergyNet Component&quot;));</span>
+<span class="nc" id="L173">            p.sendMessage(ChatColors.color(&quot;  &amp;dType: &amp;e&quot; + component.getEnergyComponentType()));</span>
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            if (component.isChargeable()) {</span>
+<span class="nc" id="L176">                p.sendMessage(ChatColors.color(&quot;  &amp;dChargeable: &quot; + greenCheckmark));</span>
+<span class="nc" id="L177">                p.sendMessage(ChatColors.color(&quot;  &amp;dEnergy: &amp;e&quot; + component.getCharge(b.getLocation()) + &quot; / &quot; + component.getCapacity()));</span>
+            } else {
+<span class="nc" id="L179">                p.sendMessage(ChatColors.color(&quot;&amp;dChargeable: &quot; + redCross));</span>
+            }
+        }
+
+<span class="nc" id="L183">        p.sendMessage(ChatColors.color(&quot;&amp;6&quot; + BlockStorage.getBlockInfoAsJson(b)));</span>
+<span class="nc" id="L184">        p.sendMessage(&quot; &quot;);</span>
+<span class="nc" id="L185">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

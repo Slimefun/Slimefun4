@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlimefunAddon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api</a> &gt; <span class="el_source">SlimefunAddon.java</span></div><h1>SlimefunAddon.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api;
+
+import java.util.logging.Logger;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+
+/**
+ * This is a very basic interface that will be used to identify
+ * the {@link Plugin} that registered a {@link SlimefunItem}.
+ * 
+ * It will also contain some utility methods such as {@link SlimefunAddon#getBugTrackerURL()}
+ * to provide some context when bugs arise.
+ * 
+ * It is recommended to implement this interface if you are developing
+ * an Addon.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public interface SlimefunAddon {
+
+    /**
+     * This method returns the instance of {@link JavaPlugin} that this
+     * {@link SlimefunAddon} refers to.
+     * 
+     * @return The instance of your {@link JavaPlugin}
+     */
+    @Nonnull
+    JavaPlugin getJavaPlugin();
+
+    /**
+     * This method returns a link to the Bug Tracker of this {@link SlimefunAddon}
+     * 
+     * @return The URL for this Plugin's Bug Tracker, or null
+     */
+    @Nullable
+    String getBugTrackerURL();
+
+    /**
+     * This method returns the name of this addon, it defaults to the name
+     * of the {@link JavaPlugin} provided by {@link SlimefunAddon#getJavaPlugin()}
+     * 
+     * @return The Name of this {@link SlimefunAddon}
+     */
+    default @Nonnull String getName() {
+<span class="nc" id="L54">        return getJavaPlugin().getName();</span>
+    }
+
+    /**
+     * This method returns the version of this addon, it defaults to the version
+     * of the {@link JavaPlugin} provided by {@link SlimefunAddon#getJavaPlugin()}
+     * 
+     * @return The version of this {@link SlimefunAddon}
+     */
+    default @Nonnull String getPluginVersion() {
+<span class="nc" id="L64">        return getJavaPlugin().getDescription().getVersion();</span>
+    }
+
+    /**
+     * This method returns the {@link Logger} of this addon, it defaults to the {@link Logger}
+     * of the {@link JavaPlugin} provided by {@link SlimefunAddon#getJavaPlugin()}
+     * 
+     * @return The {@link Logger} of this {@link SlimefunAddon}
+     */
+    default @Nonnull Logger getLogger() {
+<span class="nc" id="L74">        return getJavaPlugin().getLogger();</span>
+    }
+
+    /**
+     * This method checks whether the given String is the name of a dependency of this
+     * {@link SlimefunAddon}.
+     * It specifically checks whether the given String can be found in {@link PluginDescriptionFile#getDepend()}
+     * or {@link PluginDescriptionFile#getSoftDepend()}
+     * 
+     * @param dependency
+     *            The dependency to check for
+     * 
+     * @return Whether this {@link SlimefunAddon} depends on the given {@link Plugin}
+     */
+    default boolean hasDependency(@Nonnull String dependency) {
+<span class="nc" id="L89">        Validate.notNull(dependency, &quot;The dependency cannot be null&quot;);</span>
+
+        // Well... it cannot depend on itself but you get the idea.
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (getJavaPlugin().getName().equalsIgnoreCase(dependency)) {</span>
+<span class="nc" id="L93">            return true;</span>
+        }
+
+<span class="nc" id="L96">        PluginDescriptionFile description = getJavaPlugin().getDescription();</span>
+<span class="nc bnc" id="L97" title="All 4 branches missed.">        return description.getDepend().contains(dependency) || description.getSoftDepend().contains(dependency);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

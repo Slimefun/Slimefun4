@@ -1,0 +1,190 @@
+portable_workbench:
+  group: basic
+  display:
+    type: CRAFTING_TABLE
+    name: "&aPortable Crafting"
+    lore:
+      - "Use a portable crafting table"
+  frame_type: GOAL
+  name: "&a[Portable Crafting]"
+  criteria:
+    interact:
+      name: "Use portable crafting table"
+      type: interact
+      amount: 1
+      item:
+        type: PORTABLE_CRAFTER
+  rewards:
+    commands:
+      - "experience add %p% 3 levels"
+
+dust:
+  group: basic
+  display:
+    type: GUNPOWDER
+    name: "&aInto dust it turns"
+    lore:
+      - "Crush an ore using an ore crusher"
+  frame_type: TASK
+  name: "&a[Into dust it turns]"
+  criteria:
+    inventory:
+      name: "Use ore crusher"
+      type: multiblock
+      multiblock: ORE_CRUSHER
+
+electricity:
+  group: electric
+  display:
+    type: ENERGY_REGULATOR
+    name: "&aElectricity!!!"
+    lore:
+      - "Place an energy regulator"
+  name: "&a[Electricity!!!]"
+  criteria:
+    build:
+      name: "Place energy regulator"
+      type: place
+      amount: 1
+      item:
+        type: ENERGY_REGULATOR
+
+gapple_juice:
+  group: other
+  display:
+    type: GOLDEN_APPLE_JUICE
+    name: "&aTastes like aged wine"
+    lore:
+      - "Drink golden apple juice"
+  name: "&a[Tastes like aged wine]"
+  criteria:
+    consume:
+      name: "Consume golden apple juice"
+      type: consume
+      amount: 5
+      item:
+        type: GOLDEN_APPLE_JUICE
+
+industrial_revolution:
+  group: electric
+  display:
+    type: FURNACE
+    name: "&aIndustrial Revolution"
+    lore:
+      - "Obtain the following items:"
+      - "ore grinder, gold pan, dust washer, ingot factory"
+  name: "&a[Industrial Revolution]"
+  criteria:
+    oregrinder:
+      name: "Obtain an electric ore grinder"
+      type: inventory
+      item:
+        type: ELECTRIC_ORE_GRINDER
+    goldpan:
+      name: "Obtain an electric gold pan"
+      type: inventory
+      item:
+        type: ELECTRIC_GOLD_PAN
+    dustwasher:
+      name: "Obtain an electric dust washer"
+      type: inventory
+      item:
+        type: ELECTRIC_DUST_WASHER
+    ingotfactory:
+      name: "Obtain an electric ingot factory"
+      type: inventory
+      item:
+        type: ELECTRIC_INGOT_FACTORY
+
+exploding_tools:
+  group: other
+  display:
+    type: EXPLOSIVE_PICKAXE
+    name: "&aExploding Tools"
+    lore:
+      - "Obtain an explosive pickaxe and shovel"
+  name: "&a[Exploding Tools]"
+  criteria:
+    pickaxe:
+      name: "Obtain explosive pickaxe"
+      type: inventory
+      item:
+        type: EXPLOSIVE_PICKAXE
+    shovel:
+      name: "Obtain explosive shovel"
+      type: inventory
+      item:
+        type: EXPLOSIVE_SHOVEL
+
+fake_diamond:
+  group: basic
+  display:
+    type: SYNTHETIC_DIAMOND
+    name: "&aMan-made diamonds"
+    lore:
+      - "Create a synthetic diamond"
+  name: "&a[Man-made diamonds]"
+  criteria:
+    diamond:
+      name: "Obtain synthetic diamond"
+      type: inventory
+      item:
+        type: SYNTHETIC_DIAMOND
+
+carbonado:
+  group: basic
+  display:
+    type: CARBONADO
+    name: "&aShiny darkness"
+    lore:
+      - "Create a carbonado diamond"
+  frame_type: CHALLENGER
+  name: "&a[Shiny darkness]"
+  criteria:
+    carbonado:
+      name: "Obtain carbonado"
+      type: inventory
+      item: CARBONADO
+
+black_gold:
+  group: basic
+  display:
+    type: BUCKET_OF_OIL
+    name: "&aBlack Gold"
+    lore:
+      - "Mine for oil"
+  name: "&a[Black Gold]"
+  criteria:
+    oil:
+      name: "Obtain oil"
+      type: inventory
+      item: BUCKET_OF_OIL
+
+ender_charms:
+  group: magical
+  display:
+    type: ENDER_PEARL
+    name: "&aEnder Charms"
+    lore:
+      - "Research ender talismans"
+  name: "&a[Ender Charms]"
+  criteria:
+    research:
+      name: "Research ender talismans"
+      type: research
+      research: "slimefun:ender_talismans"
+
+who_asked:
+  group: other
+  display:
+    type: MAP
+    name: "&aWho Asked?"
+    lore:
+      - "Search for who asked"
+  name: "&a[Who Asked?]"
+  criteria:
+    ask:
+      name: "Search for who asked"
+      type: search
+      search: "who asked"
+  hidden: true

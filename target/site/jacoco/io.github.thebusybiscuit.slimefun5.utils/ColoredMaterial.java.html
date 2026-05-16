@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ColoredMaterial.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils</a> &gt; <span class="el_source">ColoredMaterial.java</span></div><h1>ColoredMaterial.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
+
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+/**
+ * This class holds a few ordered {@link List Lists} that hold colored variants
+ * of {@link Material}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see SlimefunTag
+ *
+ */
+<span class="nc" id="L24">public enum ColoredMaterial {</span>
+
+    // @formatter:off (We want this to stay formatted like this)
+    
+    /**
+     * This {@link List} contains all wool colors ordered by their appearance ingame.
+     */
+<span class="nc" id="L31">    WOOL(new Material[] {</span>
+            Material.WHITE_WOOL,
+            Material.ORANGE_WOOL,
+            Material.MAGENTA_WOOL,
+            Material.LIGHT_BLUE_WOOL,
+            Material.YELLOW_WOOL,
+            Material.LIME_WOOL,
+            Material.PINK_WOOL,
+            Material.GRAY_WOOL,
+            Material.LIGHT_GRAY_WOOL,
+            Material.CYAN_WOOL,
+            Material.PURPLE_WOOL,
+            Material.BLUE_WOOL,
+            Material.BROWN_WOOL,
+            Material.GREEN_WOOL,
+            Material.RED_WOOL,
+            Material.BLACK_WOOL
+    }),
+
+    /**
+     * This {@link List} contains all carpet colors ordered by their appearance ingame.
+     */
+<span class="nc" id="L53">    CARPET(new Material[] {</span>
+            Material.WHITE_CARPET,
+            Material.ORANGE_CARPET,
+            Material.MAGENTA_CARPET,
+            Material.LIGHT_BLUE_CARPET,
+            Material.YELLOW_CARPET,
+            Material.LIME_CARPET,
+            Material.PINK_CARPET,
+            Material.GRAY_CARPET,
+            Material.LIGHT_GRAY_CARPET,
+            Material.CYAN_CARPET,
+            Material.PURPLE_CARPET,
+            Material.BLUE_CARPET,
+            Material.BROWN_CARPET,
+            Material.GREEN_CARPET,
+            Material.RED_CARPET,
+            Material.BLACK_CARPET
+    }),
+
+    /**
+     * This {@link List} contains all stained glass colors ordered by their appearance ingame.
+     */
+<span class="nc" id="L75">    STAINED_GLASS(new Material[] {</span>
+            Material.WHITE_STAINED_GLASS,
+            Material.ORANGE_STAINED_GLASS,
+            Material.MAGENTA_STAINED_GLASS,
+            Material.LIGHT_BLUE_STAINED_GLASS,
+            Material.YELLOW_STAINED_GLASS,
+            Material.LIME_STAINED_GLASS,
+            Material.PINK_STAINED_GLASS,
+            Material.GRAY_STAINED_GLASS,
+            Material.LIGHT_GRAY_STAINED_GLASS,
+            Material.CYAN_STAINED_GLASS,
+            Material.PURPLE_STAINED_GLASS,
+            Material.BLUE_STAINED_GLASS,
+            Material.BROWN_STAINED_GLASS,
+            Material.GREEN_STAINED_GLASS,
+            Material.RED_STAINED_GLASS,
+            Material.BLACK_STAINED_GLASS
+    }),
+
+    /**
+     * This {@link List} contains all stained glass pane colors ordered by their appearance ingame.
+     */
+<span class="nc" id="L97">    STAINED_GLASS_PANE(new Material[] {</span>
+            Material.WHITE_STAINED_GLASS_PANE,
+            Material.ORANGE_STAINED_GLASS_PANE,
+            Material.MAGENTA_STAINED_GLASS_PANE,
+            Material.LIGHT_BLUE_STAINED_GLASS_PANE,
+            Material.YELLOW_STAINED_GLASS_PANE,
+            Material.LIME_STAINED_GLASS_PANE,
+            Material.PINK_STAINED_GLASS_PANE,
+            Material.GRAY_STAINED_GLASS_PANE,
+            Material.LIGHT_GRAY_STAINED_GLASS_PANE,
+            Material.CYAN_STAINED_GLASS_PANE,
+            Material.PURPLE_STAINED_GLASS_PANE,
+            Material.BLUE_STAINED_GLASS_PANE,
+            Material.BROWN_STAINED_GLASS_PANE,
+            Material.GREEN_STAINED_GLASS_PANE,
+            Material.RED_STAINED_GLASS_PANE,
+            Material.BLACK_STAINED_GLASS_PANE
+    }),
+
+    /**
+     * This {@link List} contains all terracotta colors ordered by their appearance ingame.
+     */
+<span class="nc" id="L119">    TERRACOTTA(new Material[] {</span>
+            Material.WHITE_TERRACOTTA,
+            Material.ORANGE_TERRACOTTA,
+            Material.MAGENTA_TERRACOTTA,
+            Material.LIGHT_BLUE_TERRACOTTA,
+            Material.YELLOW_TERRACOTTA,
+            Material.LIME_TERRACOTTA,
+            Material.PINK_TERRACOTTA,
+            Material.GRAY_TERRACOTTA,
+            Material.LIGHT_GRAY_TERRACOTTA,
+            Material.CYAN_TERRACOTTA,
+            Material.PURPLE_TERRACOTTA,
+            Material.BLUE_TERRACOTTA,
+            Material.BROWN_TERRACOTTA,
+            Material.GREEN_TERRACOTTA,
+            Material.RED_TERRACOTTA,
+            Material.BLACK_TERRACOTTA
+    }),
+
+    /**
+     * This {@link List} contains all glazed terracotta colors ordered by their appearance ingame.
+     */
+<span class="nc" id="L141">    GLAZED_TERRACOTTA(new Material[] {</span>
+            Material.WHITE_GLAZED_TERRACOTTA,
+            Material.ORANGE_GLAZED_TERRACOTTA,
+            Material.MAGENTA_GLAZED_TERRACOTTA,
+            Material.LIGHT_BLUE_GLAZED_TERRACOTTA,
+            Material.YELLOW_GLAZED_TERRACOTTA,
+            Material.LIME_GLAZED_TERRACOTTA,
+            Material.PINK_GLAZED_TERRACOTTA,
+            Material.GRAY_GLAZED_TERRACOTTA,
+            Material.LIGHT_GRAY_GLAZED_TERRACOTTA,
+            Material.CYAN_GLAZED_TERRACOTTA,
+            Material.PURPLE_GLAZED_TERRACOTTA,
+            Material.BLUE_GLAZED_TERRACOTTA,
+            Material.BROWN_GLAZED_TERRACOTTA,
+            Material.GREEN_GLAZED_TERRACOTTA,
+            Material.RED_GLAZED_TERRACOTTA,
+            Material.BLACK_GLAZED_TERRACOTTA
+    }),
+
+    /**
+     * This {@link List} contains all concrete colors ordered by their appearance ingame.
+     */
+<span class="nc" id="L163">    CONCRETE(new Material[] {</span>
+            Material.WHITE_CONCRETE,
+            Material.ORANGE_CONCRETE,
+            Material.MAGENTA_CONCRETE,
+            Material.LIGHT_BLUE_CONCRETE,
+            Material.YELLOW_CONCRETE,
+            Material.LIME_CONCRETE,
+            Material.PINK_CONCRETE,
+            Material.GRAY_CONCRETE,
+            Material.LIGHT_GRAY_CONCRETE,
+            Material.CYAN_CONCRETE,
+            Material.PURPLE_CONCRETE,
+            Material.BLUE_CONCRETE,
+            Material.BROWN_CONCRETE,
+            Material.GREEN_CONCRETE,
+            Material.RED_CONCRETE,
+            Material.BLACK_CONCRETE
+    }),
+
+    /**
+     * This {@link List} contains all shulker box colors ordered by their appearance ingame.
+     */
+<span class="nc" id="L185">    SHULKER_BOX(new Material[] {</span>
+            Material.WHITE_SHULKER_BOX,
+            Material.ORANGE_SHULKER_BOX,
+            Material.MAGENTA_SHULKER_BOX,
+            Material.LIGHT_BLUE_SHULKER_BOX,
+            Material.YELLOW_SHULKER_BOX,
+            Material.LIME_SHULKER_BOX,
+            Material.PINK_SHULKER_BOX,
+            Material.GRAY_SHULKER_BOX,
+            Material.LIGHT_GRAY_SHULKER_BOX,
+            Material.CYAN_SHULKER_BOX,
+            Material.PURPLE_SHULKER_BOX,
+            Material.BLUE_SHULKER_BOX,
+            Material.BROWN_SHULKER_BOX,
+            Material.GREEN_SHULKER_BOX,
+            Material.RED_SHULKER_BOX,
+            Material.BLACK_SHULKER_BOX
+    });
+    
+    // @formatter:on
+
+    /**
+     * This is our {@link List} of {@link Material Materials}, the backbone of this enum.
+     */
+    private final List&lt;Material&gt; list;
+
+    /**
+     * This creates a new constant of {@link ColoredMaterial}.
+     * The array must have a length of 16 and cannot contain null elements!
+     * 
+     * @param materials
+     *            The {@link Material Materials} for this {@link ColoredMaterial}.
+     */
+<span class="nc" id="L218">    ColoredMaterial(@Nonnull Material[] materials) {</span>
+<span class="nc" id="L219">        Validate.noNullElements(materials, &quot;The List cannot contain any null elements&quot;);</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        Validate.isTrue(materials.length == 16, &quot;Expected 16, received: &quot; + materials.length + &quot;. Did you miss a color?&quot;);</span>
+
+<span class="nc" id="L222">        list = Collections.unmodifiableList(Arrays.asList(materials));</span>
+<span class="nc" id="L223">    }</span>
+
+    /**
+     * This returns an ordered {@link List} of {@link Material Materials}
+     * that are part o this {@link ColoredMaterial}.
+     * 
+     * @return An ordered {@link List} of {@link Material Materials}
+     */
+    public @Nonnull List&lt;Material&gt; asList() {
+<span class="nc" id="L232">        return list;</span>
+    }
+
+    /**
+     * This returns the {@link Material} at the given index.
+     * 
+     * @param index
+     *            The index
+     * 
+     * @return The {@link Material} at that index
+     */
+    public @Nonnull Material get(int index) {
+<span class="nc bnc" id="L244" title="All 4 branches missed.">        Validate.isTrue(index &gt;= 0 &amp;&amp; index &lt; 16, &quot;The index must be between 0 and 15 (inclusive).&quot;);</span>
+
+<span class="nc" id="L246">        return list.get(index);</span>
+    }
+
+    /**
+     * This returns the {@link Material} with the given {@link DyeColor}.
+     * 
+     * @param color
+     *            The {@link DyeColor}
+     * 
+     * @return The {@link Material} with that {@link DyeColor}
+     */
+    public @Nonnull Material get(@Nonnull DyeColor color) {
+<span class="nc" id="L258">        Validate.notNull(color, &quot;Color cannot be null!&quot;);</span>
+
+<span class="nc" id="L260">        return get(color.ordinal());</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

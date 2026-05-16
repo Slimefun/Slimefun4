@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnumSetting.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.items.settings</a> &gt; <span class="el_source">EnumSetting.java</span></div><h1>EnumSetting.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.items.settings;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+
+/**
+ * This variation of {@link ItemSetting} allows you to allow {@link Enum} constants to be
+ * used for {@link ItemSetting} validation.
+ * 
+ * @param &lt;T&gt;
+ *            The {@link Enum} type
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see ItemSetting
+ *
+ */
+public class EnumSetting&lt;T extends Enum&lt;T&gt;&gt; extends ItemSetting&lt;String&gt; {
+
+    private final Class&lt;T&gt; enumClass;
+
+    @ParametersAreNonnullByDefault
+    public EnumSetting(SlimefunItem item, String key, Class&lt;T&gt; enumClass, T defaultValue) {
+<span class="nc" id="L30">        super(item, key, defaultValue.name());</span>
+
+<span class="nc" id="L32">        this.enumClass = enumClass;</span>
+<span class="nc" id="L33">    }</span>
+
+    @Nonnull
+    @Override
+    protected String getErrorMessage() {
+<span class="nc" id="L38">        String values = Arrays.stream(getAllowedValues()).map(Enum::name).collect(Collectors.joining(&quot;, &quot;));</span>
+<span class="nc" id="L39">        return &quot;The following values are valid: &quot; + values;</span>
+    }
+
+    /**
+     * This returns an array of valid {@link Enum} values.
+     * This method may be overridden to further limit the allowed values.
+     * 
+     * @return An array of allowed {@link Enum} constants
+     */
+    @Nonnull
+    public T[] getAllowedValues() {
+<span class="nc" id="L50">        return enumClass.getEnumConstants();</span>
+    }
+
+    /**
+     * This will attempt to get the configured value as a constant of the desired {@link Enum}.
+     * 
+     * @return The value as an {@link Enum} constant
+     */
+    @Nonnull
+    public T getAsEnumConstant() {
+<span class="nc" id="L60">        return Enum.valueOf(enumClass, getValue());</span>
+    }
+
+    @Override
+    public boolean validateInput(String input) {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (!super.validateInput(input)) {</span>
+<span class="nc" id="L66">            return false;</span>
+        } else {
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            for (Enum&lt;T&gt; value : getAllowedValues()) {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                if (value.name().equals(input)) {</span>
+<span class="nc" id="L70">                    return true;</span>
+                }
+            }
+
+<span class="nc" id="L74">            return false;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntityInteractHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.handlers</a> &gt; <span class="el_source">EntityInteractHandler.java</span></div><h1>EntityInteractHandler.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.handlers;
+
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.EntityInteractionListener;
+
+/**
+ * This is triggered when a {@link Player} interacts with an {@link Entity}.
+ *
+ * @author Linox
+ *
+ * @see EntityInteractionListener
+ * @see ItemHandler
+ * @see SimpleSlimefunItem
+ *
+ */
+@FunctionalInterface
+public interface EntityInteractHandler extends ItemHandler {
+
+    /**
+     * This function is triggered when a {@link Player} right clicks with the assigned {@link SlimefunItem}
+     * in his hand.
+     *
+     * @param e
+     *            The {@link PlayerInteractAtEntityEvent} which was called
+     * @param item
+     *            The {@link ItemStack} that was held and used while triggering
+     * @param offHand
+     *            &lt;code&gt;true&lt;/code&gt; if the {@link EquipmentSlot} is off hand
+     */
+    void onInteract(PlayerInteractEntityEvent e, ItemStack item, boolean offHand);
+
+    @Override
+    default Class&lt;? extends ItemHandler&gt; getIdentifier() {
+<span class="nc" id="L43">        return EntityInteractHandler.class;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

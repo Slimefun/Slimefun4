@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlimefunProfiler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services.profiler</a> &gt; <span class="el_source">SlimefunProfiler.java</span></div><h1>SlimefunProfiler.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services.profiler;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.Server;
+import org.bukkit.block.Block;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import com.google.common.util.concurrent.AtomicDouble;
+
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+
+/**
+ * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is
+ * responsible for monitoring that task.
+ * It collects timings data for any ticked {@link Block} and the corresponding {@link SlimefunItem}.
+ * This allows developers to identify laggy {@link SlimefunItem SlimefunItems} or {@link SlimefunAddon SlimefunAddons}.
+ * But it also enables Server Admins to locate lag-inducing areas on the {@link Server}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see TickerTask
+ *
+ */
+<span class="nc" id="L45">public class SlimefunProfiler {</span>
+
+    /**
+     * A minecraft server tick is 50ms and Slimefun ticks are stretched
+     * across two ticks (sync and async blocks), so we use 100ms as a reference here
+     */
+    private static final int MAX_TICK_DURATION = 100;
+
+    /**
+     * Our internal instance of {@link SlimefunThreadFactory}, it provides the naming
+     * convention for our {@link Thread} pool and also the count of this pool.
+     */
+<span class="nc" id="L57">    private final SlimefunThreadFactory threadFactory = new SlimefunThreadFactory(2);</span>
+
+    /**
+     * This is our {@link Thread} pool to evaluate timings data.
+     * We cannot use the {@link BukkitScheduler} here because we need to evaluate
+     * this data in split seconds.
+     * So we cannot simply wait until the next server tick for this.
+     */
+<span class="nc" id="L65">    private final ExecutorService executor = Executors.newFixedThreadPool(threadFactory.getThreadCount(), threadFactory);</span>
+
+    /**
+     * All possible values of {@link PerformanceRating}.
+     * We cache these for fast access since Enum#values() creates
+     * an array everytime it is called.
+     */
+<span class="nc" id="L72">    private final PerformanceRating[] performanceRatings = PerformanceRating.values();</span>
+
+    /**
+     * This boolean marks whether we are currently profiling or not.
+     */
+<span class="nc" id="L77">    private volatile boolean isProfiling = false;</span>
+
+    /**
+     * This {@link AtomicInteger} holds the amount of blocks that still need to be
+     * profiled.
+     */
+<span class="nc" id="L83">    private final AtomicInteger queued = new AtomicInteger(0);</span>
+
+    private long totalElapsedTime;
+
+<span class="nc" id="L87">    private final Map&lt;ProfiledBlock, Long&gt; timings = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="nc" id="L88">    private final Queue&lt;PerformanceInspector&gt; requests = new ConcurrentLinkedQueue&lt;&gt;();</span>
+
+<span class="nc" id="L90">    private final AtomicLong totalMsTicked = new AtomicLong();</span>
+<span class="nc" id="L91">    private final AtomicInteger ticksPassed = new AtomicInteger();</span>
+<span class="nc" id="L92">    private final AtomicLong totalNsTicked = new AtomicLong();</span>
+<span class="nc" id="L93">    private final AtomicDouble averageTimingsPerMachine = new AtomicDouble();</span>
+
+    /**
+     * This method terminates the {@link SlimefunProfiler}.
+     * We need to call this method when the {@link Server} shuts down to prevent any
+     * of our {@link Thread Threads} from being kept alive.
+     */
+    public void kill() {
+<span class="nc" id="L101">        executor.shutdown();</span>
+<span class="nc" id="L102">    }</span>
+
+    /**
+     * This method starts the profiling, data from previous runs will be cleared.
+     */
+    public void start() {
+<span class="nc" id="L108">        isProfiling = true;</span>
+<span class="nc" id="L109">        queued.set(0);</span>
+<span class="nc" id="L110">        timings.clear();</span>
+<span class="nc" id="L111">    }</span>
+
+    /**
+     * This method starts a new profiler entry.
+     * 
+     * @return A timestamp, best fed back into {@link #closeEntry(Location, SlimefunItem, long)}
+     */
+    public long newEntry() {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (!isProfiling) {</span>
+<span class="nc" id="L120">            return 0;</span>
+        }
+
+<span class="nc" id="L123">        queued.incrementAndGet();</span>
+<span class="nc" id="L124">        return System.nanoTime();</span>
+    }
+
+    /**
+     * This method schedules a given amount of entries for the future.
+     * Be careful to {@link #closeEntry(Location, SlimefunItem, long)} all of them again!
+     * No {@link PerformanceSummary} will be sent until all entries were closed.
+     * 
+     * If the specified amount is negative, scheduled entries will be removed
+     * 
+     * @param amount
+     *            The amount of entries that should be scheduled. Can be negative
+     */
+    public void scheduleEntries(int amount) {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (isProfiling) {</span>
+<span class="nc" id="L139">            queued.getAndAdd(amount);</span>
+        }
+<span class="nc" id="L141">    }</span>
+
+    /**
+     * This method closes a previously started entry.
+     * Make sure to call {@link #newEntry()} to get the timestamp in advance.
+     * 
+     * @param l
+     *            The {@link Location} of our {@link Block}
+     * @param item
+     *            The {@link SlimefunItem} at this {@link Location}
+     * @param timestamp
+     *            The timestamp marking the start of this entry, you can retrieve it using {@link #newEntry()}
+     *
+     * @return The total timings of this entry
+     */
+    public long closeEntry(@Nonnull Location l, @Nonnull SlimefunItem item, long timestamp) {
+<span class="nc" id="L157">        Validate.notNull(l, &quot;Location must not be null!&quot;);</span>
+<span class="nc" id="L158">        Validate.notNull(item, &quot;You need to specify a SlimefunItem!&quot;);</span>
+
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if (timestamp == 0) {</span>
+<span class="nc" id="L161">            return 0;</span>
+        }
+
+<span class="nc" id="L164">        long elapsedTime = System.nanoTime() - timestamp;</span>
+
+<span class="nc" id="L166">        executor.execute(() -&gt; {</span>
+<span class="nc" id="L167">            ProfiledBlock block = new ProfiledBlock(l, item);</span>
+
+            // Merge (if we have multiple samples for whatever reason)
+<span class="nc" id="L170">            timings.merge(block, elapsedTime, Long::sum);</span>
+<span class="nc" id="L171">            queued.decrementAndGet();</span>
+<span class="nc" id="L172">        });</span>
+
+<span class="nc" id="L174">        return elapsedTime;</span>
+    }
+
+    /**
+     * This stops the profiling.
+     */
+    public void stop() {
+<span class="nc" id="L181">        isProfiling = false;</span>
+
+<span class="nc bnc" id="L183" title="All 4 branches missed.">        if (Slimefun.instance() == null || !Slimefun.instance().isEnabled()) {</span>
+            // Slimefun has been disabled
+<span class="nc" id="L185">            return;</span>
+        }
+
+<span class="nc" id="L188">        executor.execute(this::finishReport);</span>
+<span class="nc" id="L189">    }</span>
+
+    private void finishReport() {
+        // We will only wait for a maximum of this many 1ms sleeps
+<span class="nc" id="L193">        int iterations = 4000;</span>
+
+        // Wait for all timing results to come in
+<span class="nc bnc" id="L196" title="All 4 branches missed.">        while (!isProfiling &amp;&amp; queued.get() &gt; 0) {</span>
+            try {
+                /*
+                 * Since we got more than one Thread in our pool,
+                 * blocking this one is (hopefully) completely fine
+                 */
+<span class="nc" id="L202">                Thread.sleep(1);</span>
+<span class="nc" id="L203">                iterations--;</span>
+
+                // If we waited for too long, then we should just abort
+<span class="nc bnc" id="L206" title="All 2 branches missed.">                if (iterations &lt;= 0) {</span>
+<span class="nc" id="L207">                    Iterator&lt;PerformanceInspector&gt; iterator = requests.iterator();</span>
+
+<span class="nc bnc" id="L209" title="All 2 branches missed.">                    while (iterator.hasNext()) {</span>
+<span class="nc" id="L210">                        iterator.next().sendMessage(&quot;Your timings report has timed out, we were still waiting for &quot; + queued.get() + &quot; samples to be collected :/&quot;);</span>
+<span class="nc" id="L211">                        iterator.remove();</span>
+                    }
+
+<span class="nc" id="L214">                    return;</span>
+                }
+<span class="nc" id="L216">            } catch (InterruptedException e) {</span>
+<span class="nc" id="L217">                Slimefun.logger().log(Level.SEVERE, &quot;A Profiler Thread was interrupted&quot;, e);</span>
+<span class="nc" id="L218">                Thread.currentThread().interrupt();</span>
+<span class="nc" id="L219">            }</span>
+        }
+
+<span class="nc bnc" id="L222" title="All 4 branches missed.">        if (isProfiling &amp;&amp; queued.get() &gt; 0) {</span>
+            // Looks like the next profiling has already started, abort!
+<span class="nc" id="L224">            return;</span>
+        }
+
+<span class="nc" id="L227">        totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();</span>
+
+<span class="nc" id="L229">        averageTimingsPerMachine.getAndSet(timings.values().stream().mapToLong(Long::longValue).average().orElse(0));</span>
+
+        /*
+         * We log how many milliseconds have been ticked, and how many ticks have passed
+         * This is so when bStats requests the average timings, they're super quick to figure out
+         */
+<span class="nc" id="L235">        totalMsTicked.addAndGet(TimeUnit.NANOSECONDS.toMillis(totalElapsedTime));</span>
+<span class="nc" id="L236">        totalNsTicked.addAndGet(totalElapsedTime);</span>
+<span class="nc" id="L237">        ticksPassed.incrementAndGet();</span>
+
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        if (!requests.isEmpty()) {</span>
+<span class="nc" id="L240">            PerformanceSummary summary = new PerformanceSummary(this, totalElapsedTime, timings.size());</span>
+<span class="nc" id="L241">            Iterator&lt;PerformanceInspector&gt; iterator = requests.iterator();</span>
+
+<span class="nc bnc" id="L243" title="All 2 branches missed.">            while (iterator.hasNext()) {</span>
+<span class="nc" id="L244">                summary.send(iterator.next());</span>
+<span class="nc" id="L245">                iterator.remove();</span>
+            }
+        }
+<span class="nc" id="L248">    }</span>
+
+    /**
+     * This method requests a summary for the given {@link PerformanceInspector}.
+     * The summary will be sent upon the next available moment in time.
+     * 
+     * @param inspector
+     *            The {@link PerformanceInspector} who shall receive this summary.
+     */
+    public void requestSummary(@Nonnull PerformanceInspector inspector) {
+<span class="nc" id="L258">        Validate.notNull(inspector, &quot;Cannot request a summary for null&quot;);</span>
+
+<span class="nc" id="L260">        requests.add(inspector);</span>
+<span class="nc" id="L261">    }</span>
+
+    @Nonnull
+    protected Map&lt;String, Long&gt; getByItem() {
+<span class="nc" id="L265">        Map&lt;String, Long&gt; map = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        for (Map.Entry&lt;ProfiledBlock, Long&gt; entry : timings.entrySet()) {</span>
+<span class="nc" id="L268">            map.merge(entry.getKey().getId(), entry.getValue(), Long::sum);</span>
+<span class="nc" id="L269">        }</span>
+
+<span class="nc" id="L271">        return map;</span>
+    }
+
+    @Nonnull
+    protected Map&lt;String, Long&gt; getByPlugin() {
+<span class="nc" id="L276">        Map&lt;String, Long&gt; map = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L278" title="All 2 branches missed.">        for (Map.Entry&lt;ProfiledBlock, Long&gt; entry : timings.entrySet()) {</span>
+<span class="nc" id="L279">            map.merge(entry.getKey().getAddon().getName(), entry.getValue(), Long::sum);</span>
+<span class="nc" id="L280">        }</span>
+
+<span class="nc" id="L282">        return map;</span>
+    }
+
+    @Nonnull
+    protected Map&lt;String, Long&gt; getByChunk() {
+<span class="nc" id="L287">        Map&lt;String, Long&gt; map = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        for (Map.Entry&lt;ProfiledBlock, Long&gt; entry : timings.entrySet()) {</span>
+<span class="nc" id="L290">            ProfiledBlock block = entry.getKey();</span>
+<span class="nc" id="L291">            String world = block.getWorld().getName();</span>
+<span class="nc" id="L292">            int x = block.getChunkX();</span>
+<span class="nc" id="L293">            int z = block.getChunkZ();</span>
+
+<span class="nc" id="L295">            map.merge(world + &quot; (&quot; + x + ',' + z + ')', entry.getValue(), Long::sum);</span>
+<span class="nc" id="L296">        }</span>
+
+<span class="nc" id="L298">        return map;</span>
+    }
+
+    protected int getBlocksInChunk(@Nonnull String chunk) {
+<span class="nc" id="L302">        Validate.notNull(chunk, &quot;The chunk cannot be null!&quot;);</span>
+<span class="nc" id="L303">        int blocks = 0;</span>
+
+<span class="nc bnc" id="L305" title="All 2 branches missed.">        for (ProfiledBlock block : timings.keySet()) {</span>
+<span class="nc" id="L306">            String world = block.getWorld().getName();</span>
+<span class="nc" id="L307">            int x = block.getChunkX();</span>
+<span class="nc" id="L308">            int z = block.getChunkZ();</span>
+
+<span class="nc bnc" id="L310" title="All 2 branches missed.">            if (chunk.equals(world + &quot; (&quot; + x + ',' + z + ')')) {</span>
+<span class="nc" id="L311">                blocks++;</span>
+            }
+<span class="nc" id="L313">        }</span>
+
+<span class="nc" id="L315">        return blocks;</span>
+    }
+
+    protected int getBlocksOfId(@Nonnull String id) {
+<span class="nc" id="L319">        Validate.notNull(id, &quot;The id cannot be null!&quot;);</span>
+<span class="nc" id="L320">        int blocks = 0;</span>
+
+<span class="nc bnc" id="L322" title="All 2 branches missed.">        for (ProfiledBlock block : timings.keySet()) {</span>
+<span class="nc bnc" id="L323" title="All 2 branches missed.">            if (block.getId().equals(id)) {</span>
+<span class="nc" id="L324">                blocks++;</span>
+            }
+<span class="nc" id="L326">        }</span>
+
+<span class="nc" id="L328">        return blocks;</span>
+    }
+
+    protected int getBlocksFromPlugin(@Nonnull String pluginName) {
+<span class="nc" id="L332">        Validate.notNull(pluginName, &quot;The Plugin name cannot be null!&quot;);</span>
+<span class="nc" id="L333">        int blocks = 0;</span>
+
+<span class="nc bnc" id="L335" title="All 2 branches missed.">        for (ProfiledBlock block : timings.keySet()) {</span>
+<span class="nc bnc" id="L336" title="All 2 branches missed.">            if (block.getAddon().getName().equals(pluginName)) {</span>
+<span class="nc" id="L337">                blocks++;</span>
+            }
+<span class="nc" id="L339">        }</span>
+
+<span class="nc" id="L341">        return blocks;</span>
+    }
+
+    protected float getPercentageOfTick() {
+<span class="nc" id="L345">        float millis = totalElapsedTime / 1000000.0F;</span>
+<span class="nc" id="L346">        float fraction = (millis * 100.0F) / MAX_TICK_DURATION;</span>
+
+<span class="nc" id="L348">        return Math.round((fraction * 100.0F) / 100.0F);</span>
+    }
+
+    /**
+     * This method returns the current {@link PerformanceRating}.
+     * 
+     * @return The current performance grade
+     */
+    @Nonnull
+    public PerformanceRating getPerformance() {
+<span class="nc" id="L358">        float percentage = getPercentageOfTick();</span>
+
+<span class="nc bnc" id="L360" title="All 2 branches missed.">        for (PerformanceRating rating : performanceRatings) {</span>
+<span class="nc bnc" id="L361" title="All 2 branches missed.">            if (rating.test(percentage)) {</span>
+<span class="nc" id="L362">                return rating;</span>
+            }
+        }
+
+<span class="nc" id="L366">        return PerformanceRating.UNKNOWN;</span>
+    }
+
+    @Nonnull
+    public String getTime() {
+<span class="nc" id="L371">        return NumberUtils.getAsMillis(totalElapsedTime);</span>
+    }
+
+    public int getTickRate() {
+<span class="nc" id="L375">        return Slimefun.getTickerTask().getTickRate();</span>
+    }
+
+    /**
+     * This method checks whether the {@link SlimefunProfiler} has collected timings on
+     * the given {@link Block}
+     * 
+     * @param b
+     *            The {@link Block}
+     * 
+     * @return Whether timings of this {@link Block} have been collected
+     */
+    public boolean hasTimings(@Nonnull Block b) {
+<span class="nc" id="L388">        Validate.notNull(b, &quot;Cannot get timings for a null Block&quot;);</span>
+
+<span class="nc" id="L390">        return timings.containsKey(new ProfiledBlock(b));</span>
+    }
+
+    public String getTime(@Nonnull Block b) {
+<span class="nc" id="L394">        Validate.notNull(b, &quot;Cannot get timings for a null Block&quot;);</span>
+
+<span class="nc" id="L396">        long time = timings.getOrDefault(new ProfiledBlock(b), 0L);</span>
+<span class="nc" id="L397">        return NumberUtils.getAsMillis(time);</span>
+    }
+
+    public String getTime(@Nonnull Chunk chunk) {
+<span class="nc" id="L401">        Validate.notNull(chunk, &quot;Cannot get timings for a null Chunk&quot;);</span>
+
+<span class="nc" id="L403">        long time = getByChunk().getOrDefault(chunk.getWorld().getName() + &quot; (&quot; + chunk.getX() + ',' + chunk.getZ() + ')', 0L);</span>
+<span class="nc" id="L404">        return NumberUtils.getAsMillis(time);</span>
+    }
+
+    public String getTime(@Nonnull SlimefunItem item) {
+<span class="nc" id="L408">        Validate.notNull(item, &quot;Cannot get timings for a null SlimefunItem&quot;);</span>
+
+<span class="nc" id="L410">        long time = getByItem().getOrDefault(item.getId(), 0L);</span>
+<span class="nc" id="L411">        return NumberUtils.getAsMillis(time);</span>
+    }
+
+    /**
+     * Get and reset the average millisecond timing for this {@link SlimefunProfiler}.
+     *
+     * @return The average millisecond timing for this {@link SlimefunProfiler}.
+     */
+    public long getAndResetAverageTimings() {
+<span class="nc" id="L420">        long l = totalMsTicked.get() / ticksPassed.get();</span>
+<span class="nc" id="L421">        totalMsTicked.set(0);</span>
+<span class="nc" id="L422">        ticksPassed.set(0);</span>
+
+<span class="nc" id="L424">        return l;</span>
+    }
+
+    /**
+     * Get and reset the average nanosecond timing for this {@link SlimefunProfiler}.
+     *
+     * @return The average nanosecond timing for this {@link SlimefunProfiler}.
+     */
+    public double getAndResetAverageNanosecondTimings() {
+<span class="nc" id="L433">        long l = totalNsTicked.get() / ticksPassed.get();</span>
+<span class="nc" id="L434">        totalNsTicked.set(0);</span>
+<span class="nc" id="L435">        ticksPassed.set(0);</span>
+
+<span class="nc" id="L437">        return l;</span>
+    }
+
+    /**
+     * Get and reset the average millisecond timing for each machine.
+     *
+     * @return The average millisecond timing for each machine.
+     */
+    public double getAverageTimingsPerMachine() {
+<span class="nc" id="L446">        return averageTimingsPerMachine.getAndSet(0);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

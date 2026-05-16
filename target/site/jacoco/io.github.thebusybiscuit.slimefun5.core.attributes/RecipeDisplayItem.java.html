@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecipeDisplayItem.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.attributes</a> &gt; <span class="el_source">RecipeDisplayItem.java</span></div><h1>RecipeDisplayItem.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.attributes;
+
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+
+/**
+ * This interface, when attache to a {@link SlimefunItem} class will make additional items
+ * appear in the {@link SlimefunGuide}.
+ * These additional items can be used represent recipes or resources that are associated
+ * with this {@link SlimefunItem}.
+ * 
+ * You can find a few examples below.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see GoldPan
+ * @see GEOMiner
+ * @see AGenerator
+ *
+ */
+public interface RecipeDisplayItem extends ItemAttribute {
+
+    /**
+     * This is the list of items to display alongside this {@link SlimefunItem}.
+     * Note that these items will be filled in from top to bottom first.
+     * So if you want it to express a recipe, add your input {@link ItemStack}
+     * and then your output {@link ItemStack}.
+     * 
+     * @return The recipes to display in the {@link SlimefunGuide}
+     */
+    @Nonnull
+    List&lt;ItemStack&gt; getDisplayRecipes();
+
+    @Nonnull
+    default String getLabelLocalPath() {
+<span class="nc" id="L48">        return &quot;guide.tooltips.recipes.machine&quot;;</span>
+    }
+
+    @Nonnull
+    default String getRecipeSectionLabel(@Nonnull Player p) {
+<span class="nc" id="L53">        return &quot;&amp;7\u21E9 &quot; + Slimefun.getLocalization().getMessage(p, getLabelLocalPath()) + &quot; \u21E9&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CargoNet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.networks.cargo</a> &gt; <span class="el_source">CargoNet.java</span></div><h1>CargoNet.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+/**
+ * The {@link CargoNet} is a type of {@link Network} which deals with {@link ItemStack} transportation.
+ * It is also an extension of {@link AbstractItemNetwork} which provides methods to deal
+ * with the addon ChestTerminal.
+ * 
+ * @author meiamsome
+ * @author Poslovitch
+ * @author John000708
+ * @author BigBadE
+ * @author SoSeDiK
+ * @author TheBusyBiscuit
+ * @author Walshy
+ * @author DNx5
+ *
+ */
+public class CargoNet extends AbstractItemNetwork implements HologramOwner {
+
+    private static final int RANGE = 5;
+<span class="nc" id="L45">    private static final int TICK_DELAY = Slimefun.getCfg().getInt(&quot;networks.cargo-ticker-delay&quot;);</span>
+
+<span class="nc" id="L47">    private final Set&lt;Location&gt; inputNodes = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L48">    private final Set&lt;Location&gt; outputNodes = new HashSet&lt;&gt;();</span>
+
+<span class="nc" id="L50">    protected final Map&lt;Location, Integer&gt; roundRobin = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L51">    private int tickDelayThreshold = 0;</span>
+
+    public static @Nullable CargoNet getNetworkFromLocation(@Nonnull Location l) {
+<span class="nc" id="L54">        return Slimefun.getNetworkManager().getNetworkFromLocation(l, CargoNet.class).orElse(null);</span>
+    }
+
+    public static @Nonnull CargoNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
+<span class="nc" id="L58">        Optional&lt;CargoNet&gt; cargoNetwork = Slimefun.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);</span>
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (cargoNetwork.isPresent()) {</span>
+<span class="nc" id="L61">            return cargoNetwork.get();</span>
+        } else {
+<span class="nc" id="L63">            CargoNet network = new CargoNet(l);</span>
+<span class="nc" id="L64">            Slimefun.getNetworkManager().registerNetwork(network);</span>
+<span class="nc" id="L65">            return network;</span>
+        }
+    }
+
+    /**
+     * This constructs a new {@link CargoNet} at the given {@link Location}.
+     * 
+     * @param l
+     *            The {@link Location} marking the manager of this {@link Network}.
+     */
+    protected CargoNet(@Nonnull Location l) {
+<span class="nc" id="L76">        super(l);</span>
+<span class="nc" id="L77">    }</span>
+
+    @Override
+    public String getId() {
+<span class="nc" id="L81">        return &quot;CARGO_NETWORK&quot;;</span>
+    }
+
+    @Override
+    public int getRange() {
+<span class="nc" id="L86">        return RANGE;</span>
+    }
+
+    @Override
+    public NetworkComponent classifyLocation(@Nonnull Location l) {
+<span class="nc" id="L91">        String id = BlockStorage.checkID(l);</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (id == null) {</span>
+<span class="nc" id="L94">            return null;</span>
+        }
+
+<span class="nc bnc" id="L97" title="All 4 branches missed.">        return switch (id) {</span>
+<span class="nc" id="L98">            case &quot;CARGO_MANAGER&quot; -&gt; NetworkComponent.REGULATOR;</span>
+<span class="nc" id="L99">            case &quot;CARGO_NODE&quot; -&gt; NetworkComponent.CONNECTOR;</span>
+            case &quot;CARGO_NODE_INPUT&quot;,
+                &quot;CARGO_NODE_OUTPUT&quot;,
+<span class="nc" id="L102">                &quot;CARGO_NODE_OUTPUT_ADVANCED&quot; -&gt; NetworkComponent.TERMINUS;</span>
+<span class="nc" id="L103">            default -&gt; null;</span>
+        };
+    }
+
+    @Override
+    public void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+<span class="nc" id="L109">        connectorCache.remove(l);</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (from == NetworkComponent.TERMINUS) {</span>
+<span class="nc" id="L112">            inputNodes.remove(l);</span>
+<span class="nc" id="L113">            outputNodes.remove(l);</span>
+        }
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (to == NetworkComponent.TERMINUS) {</span>
+<span class="nc" id="L117">            String id = BlockStorage.checkID(l);</span>
+<span class="nc bnc" id="L118" title="All 3 branches missed.">            switch (id) {</span>
+<span class="nc" id="L119">                case &quot;CARGO_NODE_INPUT&quot; -&gt; inputNodes.add(l);</span>
+                case &quot;CARGO_NODE_OUTPUT&quot;,
+<span class="nc" id="L121">                    &quot;CARGO_NODE_OUTPUT_ADVANCED&quot; -&gt; outputNodes.add(l);</span>
+                default -&gt; {}
+            }
+        }
+<span class="nc" id="L125">    }</span>
+
+    public void tick(@Nonnull Block b) {
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (!regulator.equals(b.getLocation())) {</span>
+<span class="nc" id="L129">            updateHologram(b, &quot;&amp;4Multiple Cargo Regulators connected&quot;);</span>
+<span class="nc" id="L130">            return;</span>
+        }
+
+<span class="nc" id="L133">        super.tick();</span>
+
+<span class="nc bnc" id="L135" title="All 4 branches missed.">        if (connectorNodes.isEmpty() &amp;&amp; terminusNodes.isEmpty()) {</span>
+<span class="nc" id="L136">            updateHologram(b, &quot;&amp;cNo Cargo Nodes found&quot;);</span>
+        } else {
+<span class="nc" id="L138">            updateHologram(b, &quot;&amp;7Status: &amp;a&amp;lONLINE&quot;);</span>
+
+            // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
+            // but it's based on 'custom-ticker-delay' config.
+<span class="nc bnc" id="L142" title="All 2 branches missed.">            if (tickDelayThreshold &lt; TICK_DELAY) {</span>
+<span class="nc" id="L143">                tickDelayThreshold++;</span>
+<span class="nc" id="L144">                return;</span>
+            }
+
+            // Reset the internal threshold, so we can start skipping again
+<span class="nc" id="L148">            tickDelayThreshold = 0;</span>
+
+<span class="nc" id="L150">            Map&lt;Location, Integer&gt; inputs = mapInputNodes();</span>
+<span class="nc" id="L151">            Map&lt;Integer, List&lt;Location&gt;&gt; outputs = mapOutputNodes();</span>
+
+<span class="nc bnc" id="L153" title="All 2 branches missed.">            if (BlockStorage.getLocationInfo(b.getLocation(), &quot;visualizer&quot;) == null) {</span>
+<span class="nc" id="L154">                display();</span>
+            }
+
+<span class="nc" id="L157">            Slimefun.getProfiler().scheduleEntries(inputs.size() + 1);</span>
+
+<span class="nc" id="L159">            CargoNetworkTask runnable = new CargoNetworkTask(this, inputs, outputs);</span>
+<span class="nc" id="L160">            Slimefun.runSync(runnable);</span>
+        }
+<span class="nc" id="L162">    }</span>
+
+    private @Nonnull Map&lt;Location, Integer&gt; mapInputNodes() {
+<span class="nc" id="L165">        Map&lt;Location, Integer&gt; inputs = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        for (Location node : inputNodes) {</span>
+<span class="nc" id="L168">            int frequency = getFrequency(node);</span>
+
+<span class="nc bnc" id="L170" title="All 4 branches missed.">            if (frequency &gt;= 0 &amp;&amp; frequency &lt; 16) {</span>
+<span class="nc" id="L171">                inputs.put(node, frequency);</span>
+            }
+<span class="nc" id="L173">        }</span>
+
+<span class="nc" id="L175">        return inputs;</span>
+    }
+
+    private @Nonnull Map&lt;Integer, List&lt;Location&gt;&gt; mapOutputNodes() {
+<span class="nc" id="L179">        Map&lt;Integer, List&lt;Location&gt;&gt; output = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L181">        List&lt;Location&gt; list = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L182">        int lastFrequency = -1;</span>
+
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        for (Location node : outputNodes) {</span>
+<span class="nc" id="L185">            int frequency = getFrequency(node);</span>
+
+<span class="nc bnc" id="L187" title="All 4 branches missed.">            if (frequency != lastFrequency &amp;&amp; lastFrequency != -1) {</span>
+<span class="nc" id="L188">                output.merge(lastFrequency, list, (prev, next) -&gt; {</span>
+<span class="nc" id="L189">                    prev.addAll(next);</span>
+<span class="nc" id="L190">                    return prev;</span>
+                });
+
+<span class="nc" id="L193">                list = new LinkedList&lt;&gt;();</span>
+            }
+
+<span class="nc" id="L196">            list.add(node);</span>
+<span class="nc" id="L197">            lastFrequency = frequency;</span>
+<span class="nc" id="L198">        }</span>
+
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        if (!list.isEmpty()) {</span>
+<span class="nc" id="L201">            output.merge(lastFrequency, list, (prev, next) -&gt; {</span>
+<span class="nc" id="L202">                prev.addAll(next);</span>
+<span class="nc" id="L203">                return prev;</span>
+            });
+        }
+
+<span class="nc" id="L207">        return output;</span>
+    }
+
+    /**
+     * This method returns the frequency a given node is set to.
+     * Should there be invalid data this method it will fall back to zero in
+     * order to preserve the integrity of the {@link CargoNet}.
+     * 
+     * @param node
+     *            The {@link Location} of our cargo node
+     * 
+     * @return The frequency of the given node
+     */
+    private static int getFrequency(@Nonnull Location node) {
+<span class="nc" id="L221">        String frequency = BlockStorage.getLocationInfo(node, &quot;frequency&quot;);</span>
+
+<span class="nc bnc" id="L223" title="All 2 branches missed.">        if (frequency == null) {</span>
+<span class="nc" id="L224">            return 0;</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        } else if (!CommonPatterns.NUMERIC.matcher(frequency).matches()) {</span>
+<span class="nc" id="L226">            Slimefun.logger().log(Level.SEVERE, () -&gt; &quot;Failed to parse a Cargo Node Frequency (&quot; + node.getWorld().getName() + &quot; - &quot; + node.getBlockX() + ',' + node.getBlockY() + ',' + node.getBlockZ() + &quot;): &quot; + frequency);</span>
+<span class="nc" id="L227">            return 0;</span>
+        } else {
+<span class="nc" id="L229">            return Integer.parseInt(frequency);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

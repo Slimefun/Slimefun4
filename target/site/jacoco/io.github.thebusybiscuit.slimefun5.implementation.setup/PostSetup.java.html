@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PostSetup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.setup</a> &gt; <span class="el_source">PostSetup.java</span></div><h1>PostSetup.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.setup;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemRegistryFinalizedEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.GrindStone;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCrusher;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+
+public final class PostSetup {
+
+    private PostSetup() {}
+
+    public static void setupWiki() {
+<span class="nc" id="L45">        Slimefun.logger().log(Level.INFO, &quot;Loading Wiki pages...&quot;);</span>
+
+<span class="nc" id="L47">        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Slimefun.class.getResourceAsStream(&quot;/wiki.json&quot;), StandardCharsets.UTF_8))) {</span>
+<span class="nc" id="L48">            JsonElement element = JsonUtils.parseString(reader.lines().collect(Collectors.joining(&quot;&quot;)));</span>
+<span class="nc" id="L49">            JsonObject json = element.getAsJsonObject();</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            for (Map.Entry&lt;String, JsonElement&gt; entry : json.entrySet()) {</span>
+<span class="nc" id="L52">                SlimefunItem item = SlimefunItem.getById(entry.getKey());</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                if (item != null) {</span>
+<span class="nc" id="L55">                    item.addOfficialWikipage(entry.getValue().getAsString());</span>
+                }
+<span class="nc" id="L57">            }</span>
+<span class="nc" id="L58">        } catch (IOException e) {</span>
+<span class="nc" id="L59">            Slimefun.logger().log(Level.SEVERE, &quot;Failed to load wiki.json file&quot;, e);</span>
+<span class="nc" id="L60">        }</span>
+<span class="nc" id="L61">    }</span>
+
+    public static void loadItems() {
+<span class="nc" id="L64">        Iterator&lt;SlimefunItem&gt; iterator = Slimefun.getRegistry().getEnabledSlimefunItems().iterator();</span>
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        while (iterator.hasNext()) {</span>
+<span class="nc" id="L67">            SlimefunItem item = iterator.next();</span>
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (item == null) {</span>
+<span class="nc" id="L70">                Slimefun.logger().log(Level.WARNING, &quot;Removed bugged Item ('NULL?')&quot;);</span>
+<span class="nc" id="L71">                iterator.remove();</span>
+            } else {
+                try {
+<span class="nc" id="L74">                    item.load();</span>
+<span class="nc" id="L75">                } catch (Exception | LinkageError x) {</span>
+<span class="nc" id="L76">                    item.error(&quot;Failed to properly load this Item&quot;, x);</span>
+<span class="nc" id="L77">                }</span>
+            }
+<span class="nc" id="L79">        }</span>
+
+<span class="nc" id="L81">        Bukkit.getPluginManager().callEvent(new SlimefunItemRegistryFinalizedEvent());</span>
+        
+<span class="nc" id="L83">        loadOreGrinderRecipes();</span>
+<span class="nc" id="L84">        loadSmelteryRecipes();</span>
+
+<span class="nc" id="L86">        CommandSender sender = Bukkit.getConsoleSender();</span>
+
+<span class="nc" id="L88">        int total = Slimefun.getRegistry().getEnabledSlimefunItems().size();</span>
+<span class="nc" id="L89">        int slimefunOnly = countNonAddonItems();</span>
+
+<span class="nc" id="L91">        sender.sendMessage(&quot;&quot;);</span>
+<span class="nc" id="L92">        sender.sendMessage(ChatColor.GREEN + &quot;######################### - Slimefun v&quot; + Slimefun.getVersion() + &quot; - #########################&quot;);</span>
+<span class="nc" id="L93">        sender.sendMessage(&quot;&quot;);</span>
+<span class="nc" id="L94">        sender.sendMessage(ChatColor.GREEN + &quot;Successfully loaded &quot; + total + &quot; Items and &quot; + Slimefun.getRegistry().getResearches().size() + &quot; Researches&quot;);</span>
+<span class="nc" id="L95">        sender.sendMessage(ChatColor.GREEN + &quot;( &quot; + slimefunOnly + &quot; Items from Slimefun, &quot; + (total - slimefunOnly) + &quot; Items from &quot; + Slimefun.getInstalledAddons().size() + &quot; Addons )&quot;);</span>
+<span class="nc" id="L96">        sender.sendMessage(&quot;&quot;);</span>
+<span class="nc" id="L97">        sender.sendMessage(ChatColor.GREEN + &quot;Slimefun is an Open-Source project that is kept alive by a large community.&quot;);</span>
+<span class="nc" id="L98">        sender.sendMessage(ChatColor.GREEN + &quot;Consider helping us maintain this project by contributing on GitHub!&quot;);</span>
+
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (Slimefun.getUpdater().getBranch().isOfficial()) {</span>
+<span class="nc" id="L101">            sender.sendMessage(&quot;&quot;);</span>
+<span class="nc" id="L102">            sender.sendMessage(ChatColor.GREEN + &quot; - Source Code:  https://github.com/Slimefun/Slimefun4&quot;);</span>
+<span class="nc" id="L103">            sender.sendMessage(ChatColor.GREEN + &quot; - Wiki:         https://github.com/Slimefun/Slimefun4/wiki&quot;);</span>
+<span class="nc" id="L104">            sender.sendMessage(ChatColor.GREEN + &quot; - Addons:       https://github.com/Slimefun/Slimefun4/wiki/Addons&quot;);</span>
+<span class="nc" id="L105">            sender.sendMessage(ChatColor.GREEN + &quot; - Bug Reports:  https://github.com/Slimefun/Slimefun4/issues&quot;);</span>
+<span class="nc" id="L106">            sender.sendMessage(ChatColor.GREEN + &quot; - Discord:      https://discord.gg/slimefun&quot;);</span>
+        } else {
+<span class="nc" id="L108">            sender.sendMessage(ChatColor.GREEN + &quot; - UNOFFICIALLY MODIFIED BUILD - NO OFFICIAL SUPPORT GIVEN&quot;);</span>
+        }
+
+<span class="nc" id="L111">        sender.sendMessage(&quot;&quot;);</span>
+
+<span class="nc" id="L113">        Slimefun.getItemCfg().save();</span>
+<span class="nc" id="L114">        Slimefun.getResearchCfg().save();</span>
+<span class="nc" id="L115">        Slimefun.getRegistry().setAutoLoadingMode(true);</span>
+<span class="nc" id="L116">    }</span>
+
+    /**
+     * This method counts the amount of {@link SlimefunItem SlimefunItems} registered
+     * by Slimefun itself and not by any addons.
+     * 
+     * @return The amount of {@link SlimefunItem SlimefunItems} added by Slimefun itself
+     */
+    private static int countNonAddonItems() {
+        // @formatter:off
+<span class="nc" id="L126">        return (int) Slimefun.getRegistry().getEnabledSlimefunItems().stream()</span>
+<span class="nc" id="L127">                        .filter(item -&gt; item.getAddon() instanceof Slimefun)</span>
+<span class="nc" id="L128">                        .count();</span>
+        // @formatter:on
+    }
+
+    private static void loadOreGrinderRecipes() {
+<span class="nc" id="L133">        List&lt;ItemStack[]&gt; grinderRecipes = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L135">        GrindStone grinder = (GrindStone) SlimefunItems.GRIND_STONE.getItem();</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (grinder != null) {</span>
+<span class="nc" id="L137">            ItemStack[] input = null;</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">            for (ItemStack[] recipe : grinder.getRecipes()) {</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                if (input == null) {</span>
+<span class="nc" id="L141">                    input = recipe;</span>
+                } else {
+<span class="nc bnc" id="L143" title="All 4 branches missed.">                    if (input[0] != null &amp;&amp; recipe[0] != null) {</span>
+<span class="nc" id="L144">                        grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });</span>
+                    }
+
+<span class="nc" id="L147">                    input = null;</span>
+                }
+<span class="nc" id="L149">            }</span>
+        }
+
+<span class="nc" id="L152">        OreCrusher crusher = (OreCrusher) SlimefunItems.ORE_CRUSHER.getItem();</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        if (crusher != null) {</span>
+<span class="nc" id="L154">            ItemStack[] input = null;</span>
+
+<span class="nc bnc" id="L156" title="All 2 branches missed.">            for (ItemStack[] recipe : crusher.getRecipes()) {</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">                if (input == null) {</span>
+<span class="nc" id="L158">                    input = recipe;</span>
+                } else {
+<span class="nc bnc" id="L160" title="All 4 branches missed.">                    if (input[0] != null &amp;&amp; recipe[0] != null) {</span>
+<span class="nc" id="L161">                        grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });</span>
+                    }
+
+<span class="nc" id="L164">                    input = null;</span>
+                }
+<span class="nc" id="L166">            }</span>
+        }
+
+        // Favour 8 Cobblestone -&gt; 1 Sand Recipe over 1 Cobblestone -&gt; 1 Gravel Recipe
+<span class="nc" id="L170">        Stream&lt;ItemStack[]&gt; stream = grinderRecipes.stream();</span>
+
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (!Slimefun.getCfg().getBoolean(&quot;options.legacy-ore-grinder&quot;)) {</span>
+<span class="nc" id="L173">            stream = stream.sorted((a, b) -&gt; Integer.compare(b[0].getAmount(), a[0].getAmount()));</span>
+        }
+
+<span class="nc" id="L176">        stream.forEach(recipe -&gt; registerMachineRecipe(&quot;ELECTRIC_ORE_GRINDER&quot;, 4, new ItemStack[] { recipe[0] }, new ItemStack[] { recipe[1] }));</span>
+<span class="nc" id="L177">    }</span>
+
+    private static void loadSmelteryRecipes() {
+<span class="nc" id="L180">        Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();</span>
+
+<span class="nc bnc" id="L182" title="All 4 branches missed.">        if (smeltery != null &amp;&amp; !smeltery.isDisabled()) {</span>
+<span class="nc" id="L183">            MakeshiftSmeltery makeshiftSmeltery = ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem());</span>
+<span class="nc" id="L184">            ItemStack[] input = null;</span>
+
+<span class="nc bnc" id="L186" title="All 2 branches missed.">            for (ItemStack[] output : smeltery.getRecipes()) {</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">                if (input == null) {</span>
+<span class="nc" id="L188">                    input = output;</span>
+                } else {
+<span class="nc bnc" id="L190" title="All 4 branches missed.">                    if (input[0] != null &amp;&amp; output[0] != null) {</span>
+<span class="nc" id="L191">                        addSmelteryRecipe(input, output, makeshiftSmeltery);</span>
+                    }
+
+<span class="nc" id="L194">                    input = null;</span>
+                }
+<span class="nc" id="L196">            }</span>
+
+<span class="nc bnc" id="L198" title="All 2 branches missed.">            for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">                if (item instanceof AContainer machine) {</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">                    if (machine.getMachineIdentifier().equals(&quot;ELECTRIC_SMELTERY&quot;)) {</span>
+<span class="nc" id="L201">                        List&lt;MachineRecipe&gt; recipes = machine.getMachineRecipes();</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">                        Collections.sort(recipes, Comparator.comparingInt(recipe -&gt; recipe == null ? 0 : -recipe.getInput().length));</span>
+                    }
+                }
+<span class="nc" id="L205">            }</span>
+        }
+<span class="nc" id="L207">    }</span>
+
+    private static void addSmelteryRecipe(ItemStack[] input, ItemStack[] output, MakeshiftSmeltery makeshiftSmeltery) {
+<span class="nc" id="L210">        List&lt;ItemStack&gt; ingredients = new ArrayList&lt;&gt;();</span>
+
+        // Filter out 'null' items
+<span class="nc bnc" id="L213" title="All 2 branches missed.">        for (ItemStack item : input) {</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">            if (item != null) {</span>
+<span class="nc" id="L215">                ingredients.add(item);</span>
+            }
+        }
+
+        // We want to redirect Dust to Ingot Recipes
+<span class="nc bnc" id="L220" title="All 4 branches missed.">        if (ingredients.size() == 1 &amp;&amp; isDust(ingredients.get(0))) {</span>
+<span class="nc" id="L221">            makeshiftSmeltery.addRecipe(new ItemStack[] { ingredients.get(0) }, output[0]);</span>
+
+<span class="nc" id="L223">            registerMachineRecipe(&quot;ELECTRIC_INGOT_FACTORY&quot;, 8, new ItemStack[] { ingredients.get(0) }, new ItemStack[] { output[0] });</span>
+<span class="nc" id="L224">            registerMachineRecipe(&quot;ELECTRIC_INGOT_PULVERIZER&quot;, 3, new ItemStack[] { output[0] }, new ItemStack[] { ingredients.get(0) });</span>
+        } else {
+<span class="nc" id="L226">            registerMachineRecipe(&quot;ELECTRIC_SMELTERY&quot;, 12, ingredients.toArray(new ItemStack[0]), new ItemStack[] { output[0] });</span>
+        }
+<span class="nc" id="L228">    }</span>
+
+    private static boolean isDust(@Nonnull ItemStack item) {
+<span class="nc" id="L231">        SlimefunItem sfItem = SlimefunItem.getByItem(item);</span>
+<span class="nc bnc" id="L232" title="All 4 branches missed.">        return sfItem != null &amp;&amp; sfItem.getId().endsWith(&quot;_DUST&quot;);</span>
+    }
+
+    private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {</span>
+<span class="nc bnc" id="L237" title="All 4 branches missed.">            if (item instanceof AContainer container &amp;&amp; container.getMachineIdentifier().equals(machine)) {</span>
+<span class="nc" id="L238">                container.registerRecipe(seconds, input, output);</span>
+            }
+<span class="nc" id="L240">        }</span>
+<span class="nc" id="L241">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

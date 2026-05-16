@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.items</a> &gt; <span class="el_source">ItemHandler.java</span></div><h1>ItemHandler.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.items;
+
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+
+/**
+ * An {@link ItemHandler} represents a certain action that a {@link SlimefunItem}
+ * can perform.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @see ItemUseHandler
+ * @see ItemConsumptionHandler
+ * @see BlockUseHandler
+ * @see EntityKillHandler
+ * @see EntityInteractHandler
+ * @see BowShootHandler
+ */
+@FunctionalInterface
+public interface ItemHandler {
+
+    /**
+     * This method is used to check whether a given {@link SlimefunItem} is compatible
+     * with this {@link ItemHandler}, it will return an {@link IncompatibleItemHandlerException}
+     * if the items are not compatible.
+     * 
+     * @param item
+     *            The {@link SlimefunItem} to validate
+     * 
+     * @return An {@link Optional} describing the result, it will contain an {@link IncompatibleItemHandlerException}
+     *         should there be an issue
+     */
+    @Nonnull
+    default Optional&lt;IncompatibleItemHandlerException&gt; validate(@Nonnull SlimefunItem item) {
+<span class="nc" id="L44">        return Optional.empty();</span>
+    }
+
+    /**
+     * This method returns the identifier for this {@link ItemHandler}.
+     * We use a {@link Class} identifier to group Item Handlers together.
+     * 
+     * @return The {@link Class} identifier for this {@link ItemHandler}
+     */
+    @Nonnull
+    Class&lt;? extends ItemHandler&gt; getIdentifier();
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

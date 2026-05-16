@@ -1,0 +1,142 @@
+---
+slimefun:
+  multiblock:
+    name: 'Споруда'
+    lore:
+      - 'Будується в світі з блоків,'
+      - 'не крафтиться.'
+  enhanced_crafting_table:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Enhanced Crafting Table.'
+      - 'Звичайний верстак не втримає таку силу!'
+  armor_forge:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Armor Forge'
+  grind_stone:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Grind Stone'
+  smeltery:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Smeltery'
+  ore_crusher:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Ore Crusher'
+  mob_drop:
+    name: 'Дроп з моба'
+    lore:
+      - 'Убийте вказаного моба,'
+      - 'щоб отримати предмет'
+  gold_pan:
+    lore:
+      - 'Використайте Gold Pan,'
+      - 'щоб отримати предмет'
+  compressor:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Compressor'
+  pressure_chamber:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Pressure Chamber'
+  ore_washer:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Ore Washer'
+  juicer:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Juicer'
+  magic_workbench:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Magic Workbench'
+  ancient_altar:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Ancient Altar.'
+      - 'Дивіться Ancient Altar для додаткової інформації'
+  heated_pressure_chamber:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Heated Pressure Chamber'
+  food_fabricator:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Food Fabricator'
+  food_composter:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Food Composter'
+  freezer:
+    lore:
+      - 'Цей предмет створюється'
+      - 'у Freezer'
+  geo_miner:
+    lore:
+      - 'Цей предмет отримується'
+      - 'при використанні GEO Miner'
+  nuclear_reactor:
+    lore:
+      - 'Є побічним продуктом при'
+      - 'використанні Nuclear Reactor'
+  oil_pump:
+    lore:
+      - 'Цей предмет отримується'
+      - 'при використанні Oil Pump'
+  pickaxe_of_containment:
+    lore:
+      - 'Цей блок видобувається'
+      - 'за допомоги'
+      - 'Pickaxe of Containment'
+  refinery:
+    lore:
+      - 'Цей предмет створюється'
+      - 'в Refinery'
+minecraft:
+  shaped:
+    name: 'Звичайний рецепт'
+    lore:
+      - 'Цей предмет створюється'
+      - 'у звичайному верстаку.'
+      - 'Форма рецепту має значення.'
+  shapeless:
+    name: 'Безформовий рецепт'
+    lore:
+      - 'Цей предмет створюється'
+      - 'у звичайному верстаку.'
+      - 'Форма цецепту не має значення.'
+  furnace:
+    name: 'Плавиться у печі'
+    lore:
+      - 'Переплавте предмет у печі,'
+      - 'щоб отримати результат'
+  blasting:
+    name: 'Плавиться у плавильній печі'
+    lore:
+      - 'Переплавте предмет у плавильній'
+      - 'печі, щоб отримати результат'
+  smoking:
+    name: 'Смажиться у коптильні'
+    lore:
+      - 'Посмажте цей предмет в коптильні,'
+      - 'щоб отримати результат'
+  campfire:
+    name: 'Смажиться на багатті'
+    lore:
+      - 'Посмажте цей предмет на багатті'
+      - 'щоб отримати результат'
+  stonecutting:
+    name: 'Виточується в каменерізі'
+    lore:
+      - 'Цей предмет створюється'
+      - 'у камнерізі'
+  smithing:
+    name: 'Верстат коваля'
+    lore:
+      - 'Цей предмет створюється'
+      - 'на верстаті коваля'

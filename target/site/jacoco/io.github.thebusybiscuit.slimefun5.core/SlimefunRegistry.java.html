@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlimefunRegistry.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core</a> &gt; <span class="el_source">SlimefunRegistry.java</span></div><h1>SlimefunRegistry.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Piglin;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.collections.KeyMap;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+
+import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+
+/**
+ * This class houses a lot of instances of {@link Map} and {@link List} that hold
+ * various mappings and collections related to {@link SlimefunItem}.
+ *
+ * @author TheBusyBiscuit
+ *
+ */
+<span class="nc" id="L54">public final class SlimefunRegistry {</span>
+
+<span class="nc" id="L56">    private final Map&lt;String, SlimefunItem&gt; slimefunIds = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L57">    private final List&lt;SlimefunItem&gt; slimefunItems = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L58">    private final List&lt;SlimefunItem&gt; enabledItems = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L60">    private final List&lt;ItemGroup&gt; categories = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L61">    private final List&lt;MultiBlock&gt; multiblocks = new LinkedList&lt;&gt;();</span>
+
+<span class="nc" id="L63">    private final List&lt;Research&gt; researches = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L64">    private final List&lt;String&gt; researchRanks = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L65">    private final Set&lt;UUID&gt; researchingPlayers = Collections.synchronizedSet(new HashSet&lt;&gt;());</span>
+
+    // TODO: Move this all into a proper &quot;config cache&quot; class
+    private boolean automaticallyLoadItems;
+    private boolean enableResearches;
+    private boolean freeCreativeResearches;
+    private boolean researchFireworks;
+    private boolean disableLearningAnimation;
+    private boolean logDuplicateBlockEntries;
+    private boolean talismanActionBarMessages;
+
+<span class="nc" id="L76">    private final Set&lt;String&gt; tickers = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L77">    private final Set&lt;SlimefunItem&gt; radioactive = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L78">    private final Set&lt;ItemStack&gt; barterDrops = new HashSet&lt;&gt;();</span>
+
+    private NamespacedKey soulboundKey;
+    private NamespacedKey itemChargeKey;
+    private NamespacedKey guideKey;
+
+<span class="nc" id="L84">    private final KeyMap&lt;GEOResource&gt; geoResources = new KeyMap&lt;&gt;();</span>
+
+<span class="nc" id="L86">    private final Map&lt;UUID, PlayerProfile&gt; profiles = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="nc" id="L87">    private final Map&lt;String, BlockStorage&gt; worlds = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="nc" id="L88">    private final Map&lt;String, BlockInfoConfig&gt; chunks = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L89">    private final Map&lt;SlimefunGuideMode, SlimefunGuideImplementation&gt; guides = new EnumMap&lt;&gt;(SlimefunGuideMode.class);</span>
+<span class="nc" id="L90">    private final Map&lt;EntityType, Set&lt;ItemStack&gt;&gt; mobDrops = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L92">    private final Map&lt;String, BlockMenuPreset&gt; blockMenuPresets = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L93">    private final Map&lt;String, UniversalBlockMenu&gt; universalInventories = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L94">    private final Map&lt;Class&lt;? extends ItemHandler&gt;, Set&lt;ItemHandler&gt;&gt; globalItemHandlers = new HashMap&lt;&gt;();</span>
+
+    public void load(@Nonnull Slimefun plugin, @Nonnull Config cfg) {
+<span class="nc" id="L97">        Validate.notNull(plugin, &quot;The Plugin cannot be null!&quot;);</span>
+<span class="nc" id="L98">        Validate.notNull(cfg, &quot;The Config cannot be null!&quot;);</span>
+
+<span class="nc" id="L100">        soulboundKey = new NamespacedKey(plugin, &quot;soulbound&quot;);</span>
+<span class="nc" id="L101">        itemChargeKey = new NamespacedKey(plugin, &quot;item_charge&quot;);</span>
+<span class="nc" id="L102">        guideKey = new NamespacedKey(plugin, &quot;slimefun_guide_mode&quot;);</span>
+
+<span class="nc" id="L104">        boolean showVanillaRecipes = cfg.getBoolean(&quot;guide.show-vanilla-recipes&quot;);</span>
+<span class="nc" id="L105">        boolean showHiddenItemGroupsInSearch = cfg.getBoolean(&quot;guide.show-hidden-item-groups-in-search&quot;);</span>
+<span class="nc" id="L106">        guides.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide(showVanillaRecipes, showHiddenItemGroupsInSearch));</span>
+<span class="nc" id="L107">        guides.put(SlimefunGuideMode.CHEAT_MODE, new CheatSheetSlimefunGuide());</span>
+
+<span class="nc" id="L109">        researchRanks.addAll(cfg.getStringList(&quot;research-ranks&quot;));</span>
+
+<span class="nc" id="L111">        freeCreativeResearches = cfg.getBoolean(&quot;researches.free-in-creative-mode&quot;);</span>
+<span class="nc" id="L112">        researchFireworks = cfg.getBoolean(&quot;researches.enable-fireworks&quot;);</span>
+<span class="nc" id="L113">        disableLearningAnimation = cfg.getBoolean(&quot;researches.disable-learning-animation&quot;);</span>
+<span class="nc" id="L114">        logDuplicateBlockEntries = cfg.getBoolean(&quot;options.log-duplicate-block-entries&quot;);</span>
+<span class="nc" id="L115">        talismanActionBarMessages = cfg.getBoolean(&quot;talismans.use-actionbar&quot;);</span>
+<span class="nc" id="L116">    }</span>
+
+    /**
+     * This returns whether auto-loading is enabled.
+     * Auto-Loading will automatically call {@link SlimefunItem#load()} when the item is registered.
+     * Normally that method is called after the {@link Server} finished starting up.
+     * But in the unusual scenario if a {@link SlimefunItem} is registered after that, this is gonna cover that.
+     *
+     * @return Whether auto-loading is enabled
+     */
+    public boolean isAutoLoadingEnabled() {
+<span class="nc" id="L127">        return automaticallyLoadItems;</span>
+    }
+
+    /**
+     * This method will make any {@link SlimefunItem} which is registered automatically
+     * call {@link SlimefunItem#load()}.
+     * Normally this method call is delayed but when the {@link Server} is already running,
+     * the method can be called instantaneously.
+     *
+     * @param mode
+     *            Whether auto-loading should be enabled
+     */
+    public void setAutoLoadingMode(boolean mode) {
+<span class="nc" id="L140">        automaticallyLoadItems = mode;</span>
+<span class="nc" id="L141">    }</span>
+
+    /**
+     * This returns a {@link List} containing every enabled {@link ItemGroup}.
+     *
+     * @return {@link List} containing every enabled {@link ItemGroup}
+     */
+    public @Nonnull List&lt;ItemGroup&gt; getAllItemGroups() {
+<span class="nc" id="L149">        return categories;</span>
+    }
+
+    /**
+     * This {@link List} contains every {@link SlimefunItem}, even disabled items.
+     *
+     * @return A {@link List} containing every {@link SlimefunItem}
+     */
+    public @Nonnull List&lt;SlimefunItem&gt; getAllSlimefunItems() {
+<span class="nc" id="L158">        return slimefunItems;</span>
+    }
+
+    /**
+     * This {@link List} contains every &lt;strong&gt;enabled&lt;/strong&gt; {@link SlimefunItem}.
+     *
+     * @return A {@link List} containing every enabled {@link SlimefunItem}
+     */
+    @Nonnull
+    public List&lt;SlimefunItem&gt; getEnabledSlimefunItems() {
+<span class="nc" id="L168">        return enabledItems;</span>
+    }
+
+    /**
+     * This returns a {@link List} containing every enabled {@link Research}.
+     *
+     * @return A {@link List} containing every enabled {@link Research}
+     */
+    @Nonnull
+    public List&lt;Research&gt; getResearches() {
+<span class="nc" id="L178">        return researches;</span>
+    }
+
+    /**
+     * This method returns a {@link Set} containing the {@link UUID} of every
+     * {@link Player} who is currently unlocking a {@link Research}.
+     *
+     * @return A {@link Set} holding the {@link UUID} from every {@link Player}
+     *         who is currently unlocking a {@link Research}
+     */
+    @Nonnull
+    public Set&lt;UUID&gt; getCurrentlyResearchingPlayers() {
+<span class="nc" id="L190">        return researchingPlayers;</span>
+    }
+
+    @Nonnull
+    public List&lt;String&gt; getResearchRanks() {
+<span class="nc" id="L195">        return researchRanks;</span>
+    }
+
+    public void setResearchingEnabled(boolean enabled) {
+<span class="nc" id="L199">        enableResearches = enabled;</span>
+<span class="nc" id="L200">    }</span>
+
+    public boolean isResearchingEnabled() {
+<span class="nc" id="L203">        return enableResearches;</span>
+    }
+
+    public void setFreeCreativeResearchingEnabled(boolean enabled) {
+<span class="nc" id="L207">        freeCreativeResearches = enabled;</span>
+<span class="nc" id="L208">    }</span>
+
+    public boolean isFreeCreativeResearchingEnabled() {
+<span class="nc" id="L211">        return freeCreativeResearches;</span>
+    }
+
+    public boolean isResearchFireworkEnabled() {
+<span class="nc" id="L215">        return researchFireworks;</span>
+    }
+
+    /**
+     * Returns whether the research learning animations is disabled
+     *
+     * @return Whether the research learning animations is disabled
+     */
+    public boolean isLearningAnimationDisabled() {
+<span class="nc" id="L224">        return disableLearningAnimation;</span>
+    }
+
+    /**
+     * This method returns a {@link List} of every enabled {@link MultiBlock}.
+     *
+     * @return A {@link List} containing every enabled {@link MultiBlock}
+     */
+    @Nonnull
+    public List&lt;MultiBlock&gt; getMultiBlocks() {
+<span class="nc" id="L234">        return multiblocks;</span>
+    }
+
+    /**
+     * This returns the corresponding {@link SlimefunGuideImplementation} for a certain
+     * {@link SlimefunGuideMode}.
+     * &lt;p&gt;
+     * This mainly only exists for internal purposes, if you want to open a certain section
+     * using the {@link SlimefunGuide}, then please use the static methods provided in the
+     * {@link SlimefunGuide} class.
+     *
+     * @param mode
+     *            The {@link SlimefunGuideMode}
+     *
+     * @return The corresponding {@link SlimefunGuideImplementation}
+     */
+    @Nonnull
+    public SlimefunGuideImplementation getSlimefunGuide(@Nonnull SlimefunGuideMode mode) {
+<span class="nc" id="L252">        Validate.notNull(mode, &quot;The Guide mode cannot be null&quot;);</span>
+
+<span class="nc" id="L254">        SlimefunGuideImplementation guide = guides.get(mode);</span>
+
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        if (guide == null) {</span>
+<span class="nc" id="L257">            throw new IllegalStateException(&quot;Slimefun Guide '&quot; + mode + &quot;' has no registered implementation.&quot;);</span>
+        }
+
+<span class="nc" id="L260">        return guide;</span>
+    }
+
+    /**
+     * This returns a {@link Map} connecting the {@link EntityType} with a {@link Set}
+     * of {@link ItemStack ItemStacks} which would be dropped when an {@link Entity} of that type was killed.
+     *
+     * @return The {@link Map} of custom mob drops
+     */
+    @Nonnull
+    public Map&lt;EntityType, Set&lt;ItemStack&gt;&gt; getMobDrops() {
+<span class="nc" id="L271">        return mobDrops;</span>
+    }
+
+    /**
+     * This returns a {@link Set} of {@link ItemStack ItemStacks} which can be obtained by bartering
+     * with {@link Piglin Piglins}.
+     *
+     * @return A {@link Set} of bartering drops
+     */
+    @Nonnull
+    public Set&lt;ItemStack&gt; getBarteringDrops() {
+<span class="nc" id="L282">        return barterDrops;</span>
+    }
+
+    @Nonnull
+    public Set&lt;SlimefunItem&gt; getRadioactiveItems() {
+<span class="nc" id="L287">        return radioactive;</span>
+    }
+
+    @Nonnull
+    public Set&lt;String&gt; getTickerBlocks() {
+<span class="nc" id="L292">        return tickers;</span>
+    }
+
+    @Nonnull
+    public Map&lt;String, SlimefunItem&gt; getSlimefunItemIds() {
+<span class="nc" id="L297">        return slimefunIds;</span>
+    }
+
+    @Nonnull
+    public Map&lt;String, BlockMenuPreset&gt; getMenuPresets() {
+<span class="nc" id="L302">        return blockMenuPresets;</span>
+    }
+
+    @Nonnull
+    public Map&lt;String, UniversalBlockMenu&gt; getUniversalInventories() {
+<span class="nc" id="L307">        return universalInventories;</span>
+    }
+
+    @Nonnull
+    public Map&lt;UUID, PlayerProfile&gt; getPlayerProfiles() {
+<span class="nc" id="L312">        return profiles;</span>
+    }
+
+    @Nonnull
+    public Map&lt;Class&lt;? extends ItemHandler&gt;, Set&lt;ItemHandler&gt;&gt; getGlobalItemHandlers() {
+<span class="nc" id="L317">        return globalItemHandlers;</span>
+    }
+
+    @Nonnull
+    public Set&lt;ItemHandler&gt; getGlobalItemHandlers(@Nonnull Class&lt;? extends ItemHandler&gt; identifier) {
+<span class="nc" id="L322">        Validate.notNull(identifier, &quot;The identifier for an ItemHandler cannot be null!&quot;);</span>
+
+<span class="nc" id="L324">        return globalItemHandlers.computeIfAbsent(identifier, c -&gt; new HashSet&lt;&gt;());</span>
+    }
+
+    @Nonnull
+    public Map&lt;String, BlockStorage&gt; getWorlds() {
+<span class="nc" id="L329">        return worlds;</span>
+    }
+
+    @Nonnull
+    public Map&lt;String, BlockInfoConfig&gt; getChunks() {
+<span class="nc" id="L334">        return chunks;</span>
+    }
+
+    @Nonnull
+    public KeyMap&lt;GEOResource&gt; getGEOResources() {
+<span class="nc" id="L339">        return geoResources;</span>
+    }
+
+    public boolean logDuplicateBlockEntries() {
+<span class="nc" id="L343">        return logDuplicateBlockEntries;</span>
+    }
+
+    public boolean useActionbarForTalismans() {
+<span class="nc" id="L347">        return talismanActionBarMessages;</span>
+    }
+
+    @Nonnull
+    public NamespacedKey getSoulboundDataKey() {
+<span class="nc" id="L352">        return soulboundKey;</span>
+    }
+
+    @Nonnull
+    public NamespacedKey getItemChargeDataKey() {
+<span class="nc" id="L357">        return itemChargeKey;</span>
+    }
+
+    @Nonnull
+    public NamespacedKey getGuideDataKey() {
+<span class="nc" id="L362">        return guideKey;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HazmatArmorPiece.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.armor</a> &gt; <span class="el_source">HazmatArmorPiece.java</span></div><h1>HazmatArmorPiece.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * Represents 1 {@link SlimefunArmorPiece} of the Hazmat armor set.
+ * One of the very few utilisations of {@link ProtectiveArmor}.
+ *
+ * @author Linox
+ *
+ * @see SlimefunArmorPiece
+ * @see ProtectiveArmor
+ *
+ */
+public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveArmor {
+
+    private final NamespacedKey namespacedKey;
+    private final ProtectionType[] types;
+
+    @ParametersAreNonnullByDefault
+    public HazmatArmorPiece(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
+<span class="nc" id="L33">        super(itemGroup, item, recipeType, recipe, effects);</span>
+
+<span class="nc" id="L35">        types = new ProtectionType[] { ProtectionType.BEES, ProtectionType.RADIATION };</span>
+<span class="nc" id="L36">        namespacedKey = new NamespacedKey(Slimefun.instance(), &quot;hazmat_suit&quot;);</span>
+<span class="nc" id="L37">    }</span>
+
+    @Override
+    public ProtectionType[] getProtectionTypes() {
+<span class="nc" id="L41">        return types;</span>
+    }
+
+    @Override
+    public boolean isFullSetRequired() {
+<span class="nc" id="L46">        return true;</span>
+    }
+
+    @Override
+    public NamespacedKey getArmorSetId() {
+<span class="nc" id="L51">        return namespacedKey;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

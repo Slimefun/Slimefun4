@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExpCollector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities</a> &gt; <span class="el_source">ExpCollector.java</span></div><h1>ExpCollector.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities;
+
+import java.util.Iterator;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeFlask;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+
+/**
+ * The {@link ExpCollector} is a machine which picks up any nearby {@link ExperienceOrb}
+ * and produces a {@link KnowledgeFlask}.
+ *
+ * @author TheBusyBiscuit
+ *
+ */
+public class ExpCollector extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
+
+<span class="nc" id="L45">    private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };</span>
+
+    private static final String DATA_KEY = &quot;stored-exp&quot;;
+
+    private final double range;
+<span class="nc" id="L50">    private int energyConsumedPerTick = -1;</span>
+<span class="nc" id="L51">    private int energyCapacity = -1;</span>
+
+    @Deprecated(since = &quot;RC-38&quot;, forRemoval = true)
+    @ParametersAreNonnullByDefault
+    public ExpCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L56">        this(itemGroup, item, recipeType, recipe, 4.0);</span>
+<span class="nc" id="L57">    }</span>
+
+    @ParametersAreNonnullByDefault
+    public ExpCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double range) {
+<span class="nc" id="L61">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L62">        this.range = range;</span>
+
+<span class="nc" id="L64">        createPreset(this, this::constructMenu);</span>
+<span class="nc" id="L65">        addItemHandler(onPlace(), onBreak());</span>
+<span class="nc" id="L66">    }</span>
+
+
+    private @Nonnull BlockPlaceHandler onPlace() {
+<span class="nc" id="L70">        return new BlockPlaceHandler(false) {</span>
+
+            @Override
+            public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
+<span class="nc" id="L74">                BlockStorage.addBlockInfo(e.getBlock(), &quot;owner&quot;, e.getPlayer().getUniqueId().toString());</span>
+<span class="nc" id="L75">            }</span>
+        };
+    }
+
+    private @Nonnull ItemHandler onBreak() {
+<span class="nc" id="L80">        return new SimpleBlockBreakHandler() {</span>
+
+            @Override
+            public void onBlockBreak(@Nonnull Block b) {
+<span class="nc" id="L84">                BlockMenu inv = BlockStorage.getInventory(b);</span>
+
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if (inv != null) {</span>
+<span class="nc" id="L87">                    inv.dropItems(b.getLocation(), getOutputSlots());</span>
+                }
+<span class="nc" id="L89">            }</span>
+        };
+    }
+
+    @Override
+    public int[] getInputSlots() {
+<span class="nc" id="L95">        return new int[0];</span>
+    }
+
+    @Override
+    public int[] getOutputSlots() {
+<span class="nc" id="L100">        return new int[] { 12, 13, 14 };</span>
+    }
+
+    @Override
+    public EnergyNetComponentType getEnergyComponentType() {
+<span class="nc" id="L105">        return EnergyNetComponentType.CONSUMER;</span>
+    }
+
+    protected void constructMenu(BlockMenuPreset preset) {
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        for (int slot : border) {</span>
+<span class="nc" id="L110">            preset.addItem(slot, CustomItemStack.create(Material.PURPLE_STAINED_GLASS_PANE, &quot; &quot;), (p, s, item, action) -&gt; false);</span>
+        }
+<span class="nc" id="L112">    }</span>
+
+    @Override
+    public void preRegister() {
+<span class="nc" id="L116">        addItemHandler(new BlockTicker() {</span>
+
+            @Override
+            public void tick(Block b, SlimefunItem sf, Config data) {
+<span class="nc" id="L120">                ExpCollector.this.tick(b);</span>
+<span class="nc" id="L121">            }</span>
+
+            @Override
+            public boolean isSynchronized() {
+<span class="nc" id="L125">                return true;</span>
+            }
+        });
+<span class="nc" id="L128">    }</span>
+
+    protected void tick(Block block) {
+<span class="nc" id="L131">        Location location = block.getLocation();</span>
+<span class="nc bnc" id="L132" title="All 4 branches missed.">        Iterator&lt;Entity&gt; iterator = block.getWorld().getNearbyEntities(location, range, range, range, n -&gt; n instanceof ExperienceOrb &amp;&amp; n.isValid()).iterator();</span>
+<span class="nc" id="L133">        int experiencePoints = 0;</span>
+
+<span class="nc bnc" id="L135" title="All 4 branches missed.">        while (iterator.hasNext() &amp;&amp; experiencePoints == 0) {</span>
+<span class="nc" id="L136">            ExperienceOrb orb = (ExperienceOrb) iterator.next();</span>
+
+<span class="nc bnc" id="L138" title="All 2 branches missed.">            if (getCharge(location) &lt; getEnergyConsumption()) {</span>
+<span class="nc" id="L139">                return;</span>
+            }
+
+<span class="nc" id="L142">            experiencePoints = getStoredExperience(location) + orb.getExperience();</span>
+
+<span class="nc" id="L144">            removeCharge(location, getEnergyConsumption());</span>
+<span class="nc" id="L145">            orb.remove();</span>
+<span class="nc" id="L146">            produceFlasks(location, experiencePoints);</span>
+<span class="nc" id="L147">        }</span>
+<span class="nc" id="L148">    }</span>
+
+    /**
+     * Produces Flasks of Knowledge for the given block until it either uses all stored
+     * experience or runs out of room.
+     *
+     * @param location
+     *                  The {@link Location} of the {@link ExpCollector} to produce flasks in.
+     * @param experiencePoints
+     *                  The number of experience points to use during production.
+     */
+    private void produceFlasks(@Nonnull Location location, int experiencePoints) {
+<span class="nc" id="L160">        int withdrawn = 0;</span>
+<span class="nc" id="L161">        BlockMenu menu = BlockStorage.getInventory(location);</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        for (int level = 0; level &lt; getStoredExperience(location); level = level + 10) {</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">            if (menu.fits(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.item(), getOutputSlots())) {</span>
+<span class="nc" id="L164">                withdrawn = withdrawn + 10;</span>
+<span class="nc" id="L165">                menu.pushItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.item(), getOutputSlots());</span>
+            } else {
+                // There is no room for more bottles, so lets stop checking if more will fit.
+                break;
+            }
+        }
+<span class="nc" id="L171">        BlockStorage.addBlockInfo(location, DATA_KEY, String.valueOf(experiencePoints - withdrawn));</span>
+<span class="nc" id="L172">    }</span>
+
+    private int getStoredExperience(Location location) {
+<span class="nc" id="L175">        Config cfg = BlockStorage.getLocationInfo(location);</span>
+<span class="nc" id="L176">        String value = cfg.getString(DATA_KEY);</span>
+
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        if (value != null) {</span>
+<span class="nc" id="L179">            return Integer.parseInt(value);</span>
+        } else {
+<span class="nc" id="L181">            BlockStorage.addBlockInfo(location, DATA_KEY, &quot;0&quot;);</span>
+<span class="nc" id="L182">            return 0;</span>
+        }
+    }
+
+    public int getEnergyConsumption() {
+<span class="nc" id="L187">        return energyConsumedPerTick;</span>
+    }
+
+    public ExpCollector setEnergyConsumption(int energyConsumedPerTick) {
+<span class="nc" id="L191">        this.energyConsumedPerTick = energyConsumedPerTick;</span>
+<span class="nc" id="L192">        return this;</span>
+    }
+
+    @Override
+    public int getCapacity() {
+<span class="nc" id="L197">        return energyCapacity;</span>
+    }
+
+    public ExpCollector setCapacity(int energyCapacity) {
+<span class="nc" id="L201">        this.energyCapacity = energyCapacity;</span>
+<span class="nc" id="L202">        return this;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

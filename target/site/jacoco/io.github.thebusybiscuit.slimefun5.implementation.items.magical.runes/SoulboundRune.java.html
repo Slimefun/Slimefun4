@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SoulboundRune.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes</a> &gt; <span class="el_source">SoulboundRune.java</span></div><h1>SoulboundRune.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes;
+
+import java.util.Collection;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+import org.bukkit.SoundCategory;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+/**
+ * This {@link SlimefunItem} allows you to convert any {@link ItemStack} into a
+ * {@link SoulboundItem}. It is also one of the very few utilisations of {@link ItemDropHandler}.
+ * 
+ * @author Linox
+ * @author Walshy
+ * @author TheBusyBiscuit
+ * 
+ * @see ItemDropHandler
+ * @see Soulbound
+ *
+ */
+public class SoulboundRune extends SimpleSlimefunItem&lt;ItemDropHandler&gt; {
+
+    private static final double RANGE = 1.5;
+
+    @ParametersAreNonnullByDefault
+    public SoulboundRune(ItemGroup itemGroup, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
+<span class="nc" id="L46">        super(itemGroup, item, type, recipe);</span>
+<span class="nc" id="L47">    }</span>
+
+    @Override
+    public @Nonnull ItemDropHandler getItemHandler() {
+<span class="nc" id="L51">        return (e, p, item) -&gt; {</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if (isItem(item.getItemStack())) {</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                if (!canUse(p, true)) {</span>
+<span class="nc" id="L55">                    return true;</span>
+                }
+
+<span class="nc" id="L58">                Slimefun.runSync(() -&gt; activate(p, item), 20L);</span>
+
+<span class="nc" id="L60">                return true;</span>
+            }
+<span class="nc" id="L62">            return false;</span>
+        };
+    }
+
+    private void activate(@Nonnull Player p, @Nonnull Item rune) {
+        // Being sure the entity is still valid and not picked up or whatsoever.
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (!rune.isValid()) {</span>
+<span class="nc" id="L69">            return;</span>
+        }
+
+<span class="nc" id="L72">        Location l = rune.getLocation();</span>
+<span class="nc" id="L73">        Collection&lt;Entity&gt; entites = l.getWorld().getNearbyEntities(l, RANGE, RANGE, RANGE, this::findCompatibleItem);</span>
+<span class="nc" id="L74">        Optional&lt;Entity&gt; optional = entites.stream().findFirst();</span>
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (optional.isPresent()) {</span>
+<span class="nc" id="L77">            Item item = (Item) optional.get();</span>
+<span class="nc" id="L78">            ItemStack itemStack = item.getItemStack();</span>
+
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if (itemStack.getAmount() == 1) {</span>
+                // This lightning is just an effect, it deals no damage.
+<span class="nc" id="L82">                l.getWorld().strikeLightningEffect(l);</span>
+
+<span class="nc" id="L84">                Slimefun.runSync(() -&gt; {</span>
+                    // Being sure entities are still valid and not picked up or whatsoever.
+<span class="nc bnc" id="L86" title="All 6 branches missed.">                    if (rune.isValid() &amp;&amp; item.isValid() &amp;&amp; itemStack.getAmount() == 1) {</span>
+
+<span class="nc" id="L88">                        l.getWorld().createExplosion(l, 0);</span>
+<span class="nc" id="L89">                        SoundEffect.SOULBOUND_RUNE_RITUAL_SOUND.playAt(l, SoundCategory.PLAYERS);</span>
+
+<span class="nc" id="L91">                        item.remove();</span>
+<span class="nc" id="L92">                        rune.remove();</span>
+
+<span class="nc" id="L94">                        SlimefunUtils.setSoulbound(itemStack, true);</span>
+<span class="nc" id="L95">                        l.getWorld().dropItemNaturally(l, itemStack);</span>
+
+<span class="nc" id="L97">                        Slimefun.getLocalization().sendMessage(p, &quot;messages.soulbound-rune.success&quot;, true);</span>
+                    } else {
+<span class="nc" id="L99">                        Slimefun.getLocalization().sendMessage(p, &quot;messages.soulbound-rune.fail&quot;, true);</span>
+                    }
+<span class="nc" id="L101">                }, 10L);</span>
+            } else {
+<span class="nc" id="L103">                Slimefun.getLocalization().sendMessage(p, &quot;messages.soulbound-rune.fail&quot;, true);</span>
+            }
+        }
+<span class="nc" id="L106">    }</span>
+
+    /**
+     * This method checks whether a given {@link Entity} is an {@link Item} which can
+     * be bound to a soul. We exclude the {@link SoulboundRune} itself and any already
+     * {@link Soulbound} {@link Item}.
+     * 
+     * @param entity
+     *            The {@link Entity} to check
+     * 
+     * @return Whether this {@link Entity} is compatible
+     */
+    private boolean findCompatibleItem(@Nonnull Entity entity) {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (entity instanceof Item item) {</span>
+<span class="nc bnc" id="L120" title="All 6 branches missed.">            return item.getPickupDelay() &lt;= 0 &amp;&amp; !SlimefunUtils.isSoulbound(item.getItemStack()) &amp;&amp; !isItem(item.getItemStack());</span>
+        }
+
+<span class="nc" id="L123">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

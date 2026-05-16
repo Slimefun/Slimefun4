@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlaceholderAPIIntegration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.integrations</a> &gt; <span class="el_source">PlaceholderAPIIntegration.java</span></div><h1>PlaceholderAPIIntegration.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.integrations;
+
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+
+/**
+ * This is our integration for {@link PlaceholderAPI}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+class PlaceholderAPIIntegration extends PlaceholderExpansion {
+
+    private final String version;
+    private final String author;
+
+<span class="nc" id="L31">    public PlaceholderAPIIntegration(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L32">        this.version = plugin.getDescription().getVersion();</span>
+<span class="nc" id="L33">        this.author = plugin.getDescription().getAuthors().toString();</span>
+<span class="nc" id="L34">    }</span>
+
+    @Nonnull
+    @Override
+    public String getIdentifier() {
+<span class="nc" id="L39">        return &quot;slimefun&quot;;</span>
+    }
+
+    @Nonnull
+    @Override
+    public String getVersion() {
+<span class="nc" id="L45">        return version;</span>
+    }
+
+    @Nonnull
+    @Override
+    public String getAuthor() {
+<span class="nc" id="L51">        return author;</span>
+    }
+
+    @Override
+    public boolean persist() {
+<span class="nc" id="L56">        return true;</span>
+    }
+
+    @Override
+    public boolean canRegister() {
+<span class="nc" id="L61">        return true;</span>
+    }
+
+    private boolean isPlaceholder(@Nullable OfflinePlayer p, boolean requiresProfile, @Nonnull String params, @Nonnull String placeholder) {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (requiresProfile) {</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">            if (p != null &amp;&amp; placeholder.equals(params)) {</span>
+<span class="nc" id="L67">                PlayerProfile.request(p);</span>
+<span class="nc" id="L68">                return true;</span>
+            } else {
+<span class="nc" id="L70">                return false;</span>
+            }
+        } else {
+<span class="nc" id="L73">            return placeholder.equals(params);</span>
+        }
+    }
+
+    @Override
+    public String onRequest(@Nullable OfflinePlayer p, @Nonnull String params) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (isPlaceholder(p, true, params, &quot;researches_total_xp_levels_spent&quot;)) {</span>
+<span class="nc" id="L80">            Optional&lt;PlayerProfile&gt; profile = PlayerProfile.find(p);</span>
+
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (profile.isPresent()) {</span>
+<span class="nc" id="L83">                Stream&lt;Research&gt; stream = profile.get().getResearches().stream();</span>
+<span class="nc" id="L84">                return String.valueOf(stream.mapToInt(Research::getCost).sum());</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            } else if (p instanceof Player player) {</span>
+<span class="nc" id="L86">                return getProfilePlaceholder(player);</span>
+            }
+        }
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (isPlaceholder(p, true, params, &quot;researches_total_researches_unlocked&quot;)) {</span>
+<span class="nc" id="L91">            Optional&lt;PlayerProfile&gt; profile = PlayerProfile.find(p);</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (profile.isPresent()) {</span>
+<span class="nc" id="L94">                Set&lt;Research&gt; set = profile.get().getResearches();</span>
+<span class="nc" id="L95">                return String.valueOf(set.size());</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            } else if (p instanceof Player player) {</span>
+<span class="nc" id="L97">                return getProfilePlaceholder(player);</span>
+            }
+        }
+
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (isPlaceholder(p, false, params, &quot;researches_total_researches&quot;)) {</span>
+<span class="nc" id="L102">            return String.valueOf(Slimefun.getRegistry().getResearches().size());</span>
+        }
+
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if (isPlaceholder(p, true, params, &quot;researches_percentage_researches_unlocked&quot;)) {</span>
+<span class="nc" id="L106">            Optional&lt;PlayerProfile&gt; profile = PlayerProfile.find(p);</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (profile.isPresent()) {</span>
+<span class="nc" id="L109">                Set&lt;Research&gt; set = profile.get().getResearches();</span>
+<span class="nc" id="L110">                return String.valueOf(Math.round(((set.size() * 100.0F) / Slimefun.getRegistry().getResearches().size()) * 100.0F) / 100.0F);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            } else if (p instanceof Player player) {</span>
+<span class="nc" id="L112">                return getProfilePlaceholder(player);</span>
+            }
+        }
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (isPlaceholder(p, true, params, &quot;researches_title&quot;)) {</span>
+<span class="nc" id="L117">            Optional&lt;PlayerProfile&gt; profile = PlayerProfile.find(p);</span>
+
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            if (profile.isPresent()) {</span>
+<span class="nc" id="L120">                return profile.get().getTitle();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            } else if (p instanceof Player player) {</span>
+<span class="nc" id="L122">                return getProfilePlaceholder(player);</span>
+            }
+        }
+
+<span class="nc bnc" id="L126" title="All 4 branches missed.">        if (isPlaceholder(p, false, params, &quot;gps_complexity&quot;) &amp;&amp; p != null) {</span>
+<span class="nc" id="L127">            return String.valueOf(Slimefun.getGPSNetwork().getNetworkComplexity(p.getUniqueId()));</span>
+        }
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (isPlaceholder(p, false, params, &quot;timings_lag&quot;)) {</span>
+<span class="nc" id="L131">            return Slimefun.getProfiler().getTime();</span>
+        }
+
+<span class="nc bnc" id="L134" title="All 4 branches missed.">        if (isPlaceholder(p, false, params, &quot;language&quot;) &amp;&amp; p instanceof Player player) {</span>
+<span class="nc" id="L135">            return Slimefun.getLocalization().getLanguage(player).getName(player);</span>
+        }
+
+<span class="nc" id="L138">        return null;</span>
+    }
+
+    @Nonnull
+    private String getProfilePlaceholder(@Nonnull Player p) {
+<span class="nc" id="L143">        return Slimefun.getLocalization().getMessage(p, &quot;placeholderapi.profile-loading&quot;);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

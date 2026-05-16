@@ -1,0 +1,200 @@
+slimefun:
+
+  multiblock:
+    name: 'Multiblock'
+    lore:
+    - 'Build the shown structure'
+    - 'as shown. It is not crafted.'
+
+  enhanced_crafting_table:
+    name: 'Enhanced Crafting Table'
+    lore:
+    - 'Craft this Item as shown'
+    - 'in an Enhanced Crafting Table.'
+    - 'A normal Crafting Table will not suffice!'
+
+  armor_forge:
+    name: 'Armor Forge'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using an Armor Forge'
+
+  grind_stone:
+    name: 'Grind Stone'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Grind Stone'
+
+  smeltery:
+    name: 'Smeltery'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Smeltery'
+
+  ore_crusher:
+    name: 'Ore Crusher'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using an Ore Crusher'
+
+  mob_drop:
+    name: 'Mob Drop'
+    lore:
+    - 'Kill that Mob to'
+    - 'obtain this item'
+
+  gold_pan:
+    name: 'Gold Pan'
+    lore:
+    - 'Use a Gold Pan to'
+    - 'obtain this item'
+
+  compressor:
+    name: 'Compressor'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Compressor'
+
+  pressure_chamber:
+    name: 'Pressure Chamber'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Pressure Chamber'
+
+  ore_washer:
+    name: 'Ore Washer'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using an Ore Washer'
+
+  juicer:
+    name: 'Juicer'
+    lore:
+    - 'Craft this Juice as shown'
+    - 'using a Juicer'
+
+  magic_workbench:
+    name: 'Magic Workbench'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Magic Workbench'
+
+  ancient_altar:
+    name: 'Ancient Altar'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using an Ancient Altar.'
+    - 'Look up the Ancient Altar for more Info'
+    
+  heated_pressure_chamber:
+    name: 'Heated Pressure Chamber'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Heated Pressure Chamber'
+    
+  food_fabricator:
+    name: 'Food Fabricator'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Food Fabricator'
+    
+  food_composter:
+    name: 'Food Composter'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Food Composter'
+    
+  freezer:
+    name: 'Freezer'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Freezer'
+    
+  geo_miner:
+    name: 'GEO Miner'
+    lore:
+    - 'This Item can be gathered'
+    - 'by using a GEO Miner'
+    
+  nuclear_reactor:
+    name: 'Nuclear Reactor'
+    lore:
+    - 'This Item is a byproduct'
+    - 'of running a Nuclear Reactor'
+    
+  oil_pump:
+    name: 'Oil Pump'
+    lore:
+    - 'This Item can be gathered'
+    - 'by using an Oil Pump'
+    
+  pickaxe_of_containment:
+    name: 'Pickaxe of Containment'
+    lore:
+    - 'This Block can be obtained'
+    - 'by mining a Spawner with'
+    - 'the Pickaxe of Containment'
+    
+  refinery:
+    name: 'Refinery'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Refinery'
+    
+  barter_drop:
+    name: 'Piglin Bartering Drop'
+    lore:
+    - 'Barter with Piglins using'
+    - 'Gold Ingots to obtain this Item'
+    
+minecraft:
+
+  shaped:
+    name: 'Shaped Crafting Recipe'
+    lore:
+    - 'Craft this Item as shown'
+    - 'in a normal Crafting Table.'
+    - 'The shape is important.'
+    
+  shapeless:
+    name: 'Shapeless Crafting Recipe'
+    lore:
+    - 'Craft this Item as shown'
+    - 'in a normal Crafting Table.'
+    - 'This Recipe is shapeless.'
+    
+  furnace:
+    name: 'Furnace Recipe'
+    lore:
+    - 'Smelt this item in a Furnace'
+    - 'to craft your desired item'
+    
+  blasting:
+    name: 'Blast Furnace Recipe'
+    lore:
+    - 'Smelt this item in a Blast Furnace'
+    - 'to craft your desired item'
+    
+  smoking:
+    name: 'Smoker Recipe'
+    lore:
+    - 'Smelt this item in a Smoker'
+    - 'to craft your desired item'
+    
+  campfire:
+    name: 'Campfire Recipe'
+    lore:
+    - 'Smelt this item over a Campfire'
+    - 'to craft your desired item'
+    
+  stonecutting:
+    name: 'Stonecutter Recipe'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Stonecutter'
+    
+  smithing:
+    name: 'Smithing Table Recipe'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Smithing Table'

@@ -1,0 +1,186 @@
+-------------------------------------------------------------------------------
+Test set: io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 0, Errors: 6, Skipped: 0, Time elapsed: 1.303 s <<< FAILURE! -- in io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager
+io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testCornerConnection -- Time elapsed: 1.178 s <<< ERROR!
+java.util.ServiceConfigurationError: io.papermc.paper.registry.RegistryAccess: Provider be.seeseemelk.mockbukkit.registry.RegistryAccessMock could not be instantiated
+	at java.base/java.util.ServiceLoader.fail(ServiceLoader.java:552)
+	at java.base/java.util.ServiceLoader$ProviderImpl.newInstance(ServiceLoader.java:712)
+	at java.base/java.util.ServiceLoader$ProviderImpl.get(ServiceLoader.java:672)
+	at java.base/java.util.ServiceLoader$2.next(ServiceLoader.java:1256)
+	at java.base/java.util.ServiceLoader.findFirst(ServiceLoader.java:1660)
+	at io.papermc.paper.registry.RegistryAccessHolder.<clinit>(RegistryAccessHolder.java:8)
+	at io.papermc.paper.registry.RegistryAccess.registryAccess(RegistryAccess.java:24)
+	at org.bukkit.block.Biome.getBiome(Biome.java:102)
+	at org.bukkit.block.Biome.<clinit>(Biome.java:26)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testCornerConnection(TestNetworkManager.java:160)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: java.lang.ExceptionInInitializerError
+	at java.base/jdk.internal.misc.Unsafe.ensureClassInitialized0(Native Method)
+	at java.base/jdk.internal.misc.Unsafe.ensureClassInitialized(Unsafe.java:1169)
+	at java.base/jdk.internal.reflect.MethodHandleAccessorFactory.ensureClassInitialized(MethodHandleAccessorFactory.java:341)
+	at java.base/jdk.internal.reflect.MethodHandleAccessorFactory.newConstructorAccessor(MethodHandleAccessorFactory.java:104)
+	at java.base/jdk.internal.reflect.ReflectionFactory.newConstructorAccessor(ReflectionFactory.java:138)
+	at java.base/java.lang.reflect.Constructor.acquireConstructorAccessor(Constructor.java:546)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:496)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.ServiceLoader$ProviderImpl.newInstance(ServiceLoader.java:707)
+	... 16 more
+Caused by: java.lang.NullPointerException: Cannot invoke "com.google.gson.JsonElement.getAsString()" because the return value of "com.google.gson.JsonObject.get(String)" is null
+	at be.seeseemelk.mockbukkit.registry.RegistryAccessMock.createClassToKeyConversions(RegistryAccessMock.java:135)
+	at be.seeseemelk.mockbukkit.registry.RegistryAccessMock.<clinit>(RegistryAccessMock.java:35)
+	... 25 more
+
+io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testGetNetworkAtLocation -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class org.bukkit.block.Biome
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testGetNetworkAtLocation(TestNetworkManager.java:108)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: java.lang.ExceptionInInitializerError: Exception java.util.ServiceConfigurationError: io.papermc.paper.registry.RegistryAccess: Provider be.seeseemelk.mockbukkit.registry.RegistryAccessMock could not be instantiated [in thread "main"]
+	at java.base/java.util.ServiceLoader.fail(ServiceLoader.java:552)
+	at java.base/java.util.ServiceLoader$ProviderImpl.newInstance(ServiceLoader.java:712)
+	at java.base/java.util.ServiceLoader$ProviderImpl.get(ServiceLoader.java:672)
+	at java.base/java.util.ServiceLoader$2.next(ServiceLoader.java:1256)
+	at java.base/java.util.ServiceLoader.findFirst(ServiceLoader.java:1660)
+	at io.papermc.paper.registry.RegistryAccessHolder.<clinit>(RegistryAccessHolder.java:8)
+	at io.papermc.paper.registry.RegistryAccess.registryAccess(RegistryAccess.java:24)
+	at org.bukkit.block.Biome.getBiome(Biome.java:102)
+	at org.bukkit.block.Biome.<clinit>(Biome.java:26)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testCornerConnection(TestNetworkManager.java:160)
+	... 3 more
+
+io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testGetNetworkList -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class org.bukkit.block.Biome
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testGetNetworkList(TestNetworkManager.java:79)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: java.lang.ExceptionInInitializerError: Exception java.util.ServiceConfigurationError: io.papermc.paper.registry.RegistryAccess: Provider be.seeseemelk.mockbukkit.registry.RegistryAccessMock could not be instantiated [in thread "main"]
+	at java.base/java.util.ServiceLoader.fail(ServiceLoader.java:552)
+	at java.base/java.util.ServiceLoader$ProviderImpl.newInstance(ServiceLoader.java:712)
+	at java.base/java.util.ServiceLoader$ProviderImpl.get(ServiceLoader.java:672)
+	at java.base/java.util.ServiceLoader$2.next(ServiceLoader.java:1256)
+	at java.base/java.util.ServiceLoader.findFirst(ServiceLoader.java:1660)
+	at io.papermc.paper.registry.RegistryAccessHolder.<clinit>(RegistryAccessHolder.java:8)
+	at io.papermc.paper.registry.RegistryAccess.registryAccess(RegistryAccess.java:24)
+	at org.bukkit.block.Biome.getBiome(Biome.java:102)
+	at org.bukkit.block.Biome.<clinit>(Biome.java:26)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testCornerConnection(TestNetworkManager.java:160)
+	... 3 more
+
+io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testDirtyRegulatorUnregistersNetwork -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class org.bukkit.block.Biome
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testDirtyRegulatorUnregistersNetwork(TestNetworkManager.java:94)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: java.lang.ExceptionInInitializerError: Exception java.util.ServiceConfigurationError: io.papermc.paper.registry.RegistryAccess: Provider be.seeseemelk.mockbukkit.registry.RegistryAccessMock could not be instantiated [in thread "main"]
+	at java.base/java.util.ServiceLoader.fail(ServiceLoader.java:552)
+	at java.base/java.util.ServiceLoader$ProviderImpl.newInstance(ServiceLoader.java:712)
+	at java.base/java.util.ServiceLoader$ProviderImpl.get(ServiceLoader.java:672)
+	at java.base/java.util.ServiceLoader$2.next(ServiceLoader.java:1256)
+	at java.base/java.util.ServiceLoader.findFirst(ServiceLoader.java:1660)
+	at io.papermc.paper.registry.RegistryAccessHolder.<clinit>(RegistryAccessHolder.java:8)
+	at io.papermc.paper.registry.RegistryAccess.registryAccess(RegistryAccess.java:24)
+	at org.bukkit.block.Biome.getBiome(Biome.java:102)
+	at org.bukkit.block.Biome.<clinit>(Biome.java:26)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testCornerConnection(TestNetworkManager.java:160)
+	... 3 more
+
+io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testGetNetworksAtLocation -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class org.bukkit.block.Biome
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testGetNetworksAtLocation(TestNetworkManager.java:130)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: java.lang.ExceptionInInitializerError: Exception java.util.ServiceConfigurationError: io.papermc.paper.registry.RegistryAccess: Provider be.seeseemelk.mockbukkit.registry.RegistryAccessMock could not be instantiated [in thread "main"]
+	at java.base/java.util.ServiceLoader.fail(ServiceLoader.java:552)
+	at java.base/java.util.ServiceLoader$ProviderImpl.newInstance(ServiceLoader.java:712)
+	at java.base/java.util.ServiceLoader$ProviderImpl.get(ServiceLoader.java:672)
+	at java.base/java.util.ServiceLoader$2.next(ServiceLoader.java:1256)
+	at java.base/java.util.ServiceLoader.findFirst(ServiceLoader.java:1660)
+	at io.papermc.paper.registry.RegistryAccessHolder.<clinit>(RegistryAccessHolder.java:8)
+	at io.papermc.paper.registry.RegistryAccess.registryAccess(RegistryAccess.java:24)
+	at org.bukkit.block.Biome.getBiome(Biome.java:102)
+	at org.bukkit.block.Biome.<clinit>(Biome.java:26)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testCornerConnection(TestNetworkManager.java:160)
+	... 3 more
+
+io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testSingleNodeNetwork -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class org.bukkit.block.Biome
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testSingleNodeNetwork(TestNetworkManager.java:146)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: java.lang.ExceptionInInitializerError: Exception java.util.ServiceConfigurationError: io.papermc.paper.registry.RegistryAccess: Provider be.seeseemelk.mockbukkit.registry.RegistryAccessMock could not be instantiated [in thread "main"]
+	at java.base/java.util.ServiceLoader.fail(ServiceLoader.java:552)
+	at java.base/java.util.ServiceLoader$ProviderImpl.newInstance(ServiceLoader.java:712)
+	at java.base/java.util.ServiceLoader$ProviderImpl.get(ServiceLoader.java:672)
+	at java.base/java.util.ServiceLoader$2.next(ServiceLoader.java:1256)
+	at java.base/java.util.ServiceLoader.findFirst(ServiceLoader.java:1660)
+	at io.papermc.paper.registry.RegistryAccessHolder.<clinit>(RegistryAccessHolder.java:8)
+	at io.papermc.paper.registry.RegistryAccess.registryAccess(RegistryAccess.java:24)
+	at org.bukkit.block.Biome.getBiome(Biome.java:102)
+	at org.bukkit.block.Biome.<clinit>(Biome.java:26)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:382)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:491)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:502)
+	at be.seeseemelk.mockbukkit.WorldMock.<init>(WorldMock.java:510)
+	at be.seeseemelk.mockbukkit.ServerMock.addSimpleWorld(ServerMock.java:465)
+	at io.github.thebusybiscuit.slimefun5.core.networks.TestNetworkManager.testCornerConnection(TestNetworkManager.java:160)
+	... 3 more
+
+

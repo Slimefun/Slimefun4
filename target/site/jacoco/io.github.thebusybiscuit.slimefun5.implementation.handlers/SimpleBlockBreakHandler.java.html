@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimpleBlockBreakHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.handlers</a> &gt; <span class="el_source">SimpleBlockBreakHandler.java</span></div><h1>SimpleBlockBreakHandler.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.handlers;
+
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
+
+/**
+ * This simple implementation of {@link BlockBreakHandler} will execute the same code
+ * for when the {@link Block} is broken by a {@link Player}, by a {@link MinerAndroid} or an explosion.
+ * By default, both androids and explosions are allowed.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see BlockBreakHandler
+ *
+ */
+public abstract class SimpleBlockBreakHandler extends BlockBreakHandler {
+
+    /**
+     * This constructs a new {@link SimpleBlockBreakHandler}.
+     */
+    protected SimpleBlockBreakHandler() {
+<span class="nc" id="L32">        super(true, true);</span>
+<span class="nc" id="L33">    }</span>
+
+    /**
+     * This method is called when a {@link Block} of this type is broken by a {@link Player},
+     * by a {@link MinerAndroid} or through an explosion.
+     * 
+     * @param b
+     *            The broken {@link Block}
+     */
+    public abstract void onBlockBreak(@Nonnull Block b);
+
+    @Override
+    public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List&lt;ItemStack&gt; drops) {
+<span class="nc" id="L46">        onBlockBreak(e.getBlock());</span>
+<span class="nc" id="L47">    }</span>
+
+    @Override
+    public void onAndroidBreak(AndroidMineEvent e) {
+<span class="nc" id="L51">        onBlockBreak(e.getBlock());</span>
+<span class="nc" id="L52">    }</span>
+
+    @Override
+    public void onExplode(Block b, List&lt;ItemStack&gt; drops) {
+<span class="nc" id="L56">        onBlockBreak(b);</span>
+<span class="nc" id="L57">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

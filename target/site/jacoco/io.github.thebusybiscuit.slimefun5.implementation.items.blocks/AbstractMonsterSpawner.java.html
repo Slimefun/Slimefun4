@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractMonsterSpawner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.blocks</a> &gt; <span class="el_source">AbstractMonsterSpawner.java</span></div><h1>AbstractMonsterSpawner.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+
+/**
+ * This is a parent class for the {@link BrokenSpawner} and {@link RepairedSpawner}
+ * to provide some utility methods.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see BrokenSpawner
+ * @see RepairedSpawner
+ *
+ */
+public abstract class AbstractMonsterSpawner extends SlimefunItem {
+
+    @ParametersAreNonnullByDefault
+    AbstractMonsterSpawner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L39">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L40">    }</span>
+
+    /**
+     * This method tries to obtain an {@link EntityType} from a given {@link ItemStack}.
+     * The provided {@link ItemStack} must be a {@link RepairedSpawner} item.
+     * 
+     * @param item
+     *            The {@link ItemStack} to extract the {@link EntityType} from
+     * 
+     * @return An {@link Optional} describing the result
+     */
+    @Nonnull
+    public Optional&lt;EntityType&gt; getEntityType(@Nonnull ItemStack item) {
+<span class="nc" id="L53">        Validate.notNull(item, &quot;The Item cannot be null&quot;);</span>
+
+<span class="nc" id="L55">        ItemMeta meta = item.getItemMeta();</span>
+
+        // We may want to update this in the future to also make use of the BlockStateMeta
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        for (String line : meta.getLore()) {</span>
+<span class="nc bnc" id="L59" title="All 4 branches missed.">            if (ChatColor.stripColor(line).startsWith(&quot;Type: &quot;) &amp;&amp; !line.contains(&quot;&lt;Type&gt;&quot;)) {</span>
+<span class="nc" id="L60">                EntityType type = EntityType.valueOf(ChatColor.stripColor(line).replace(&quot;Type: &quot;, &quot;&quot;).replace(' ', '_').toUpperCase(Locale.ROOT));</span>
+<span class="nc" id="L61">                return Optional.of(type);</span>
+            }
+<span class="nc" id="L63">        }</span>
+
+<span class="nc" id="L65">        return Optional.empty();</span>
+    }
+
+    /**
+     * This method returns a finished {@link ItemStack} of this {@link SlimefunItem}, modified
+     * to hold and represent the given {@link EntityType}.
+     * It updates the lore and {@link BlockStateMeta} to reflect the specified {@link EntityType}.
+     * 
+     * @param type
+     *            The {@link EntityType} to apply
+     * 
+     * @return An {@link ItemStack} for this {@link SlimefunItem} holding that {@link EntityType}
+     */
+    @Nonnull
+    public ItemStack getItemForEntityType(@Nonnull EntityType type) {
+<span class="nc" id="L80">        Validate.notNull(type, &quot;The EntityType cannot be null&quot;);</span>
+
+<span class="nc" id="L82">        ItemStack item = getItem().clone();</span>
+<span class="nc" id="L83">        ItemMeta meta = item.getItemMeta();</span>
+
+        // Fixes #2583 - Proper NBT handling of Spawners
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (meta instanceof BlockStateMeta stateMeta) {</span>
+<span class="nc" id="L87">            BlockState state = stateMeta.getBlockState();</span>
+
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (state instanceof CreatureSpawner spawner) {</span>
+<span class="nc" id="L90">                spawner.setSpawnedType(type);</span>
+            }
+
+<span class="nc" id="L93">            stateMeta.setBlockState(state);</span>
+        }
+
+        // Setting the lore to indicate the Type visually
+<span class="nc" id="L97">        List&lt;String&gt; lore = meta.getLore();</span>
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (int i = 0; i &lt; lore.size(); i++) {</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">            if (lore.get(i).contains(&quot;&lt;Type&gt;&quot;)) {</span>
+<span class="nc" id="L101">                lore.set(i, lore.get(i).replace(&quot;&lt;Type&gt;&quot;, ChatUtils.humanize(type.name())));</span>
+<span class="nc" id="L102">                break;</span>
+            }
+        }
+
+<span class="nc" id="L106">        meta.setLore(lore);</span>
+<span class="nc" id="L107">        item.setItemMeta(meta);</span>
+
+<span class="nc" id="L109">        return item;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

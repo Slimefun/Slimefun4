@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProfiledBlock.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services.profiler</a> &gt; <span class="el_source">ProfiledBlock.java</span></div><h1>ProfiledBlock.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services.profiler;
+
+import java.util.Objects;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+
+/**
+ * This represents an entry in our {@link SlimefunProfiler}.
+ * It is a modification of {@link BlockPosition} to be as memory-efficient as possible.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+final class ProfiledBlock {
+
+    /**
+     * The {@link World} this {@link Block} is in.
+     * It is fine to keep an actual reference here since this is a throwaway object anyway.
+     */
+    private final World world;
+
+    /**
+     * A {@link Long} representation of our {@link Location} (x, y, z).
+     */
+    private final long position;
+
+    /**
+     * The {@link SlimefunItem} whihc is located at this {@link Location}.
+     */
+    private final SlimefunItem item;
+
+    /**
+     * This creates a new {@link ProfiledBlock} for the given {@link Location} and
+     * the {@link SlimefunItem} found at this {@link Location}.
+     * 
+     * @param l
+     *            The {@link Location}
+     * @param item
+     *            The {@link SlimefunItem} found at that {@link Location}
+     */
+<span class="nc" id="L49">    ProfiledBlock(@Nonnull Location l, @Nonnull SlimefunItem item) {</span>
+<span class="nc" id="L50">        this.world = l.getWorld();</span>
+<span class="nc" id="L51">        this.position = getLocationAsLong((int) l.getX(), (int) l.getY(), (int) l.getZ());</span>
+<span class="nc" id="L52">        this.item = item;</span>
+<span class="nc" id="L53">    }</span>
+
+    /**
+     * This is just a &lt;strong&gt;dummy&lt;/strong&gt; constructor.
+     * Please only use this for comparisons or lookups.
+     * 
+     * @param b
+     *            A {@link Block}
+     */
+<span class="nc" id="L62">    ProfiledBlock(@Nonnull Block b) {</span>
+<span class="nc" id="L63">        this.world = b.getWorld();</span>
+<span class="nc" id="L64">        this.position = getLocationAsLong(b.getX(), b.getY(), b.getZ());</span>
+<span class="nc" id="L65">        this.item = null;</span>
+<span class="nc" id="L66">    }</span>
+
+    /**
+     * This compresses our {@link Location} into a long for more efficient memory usage
+     * 
+     * @param x
+     *            The x value
+     * @param y
+     *            The y value
+     * @param z
+     *            The z value
+     * 
+     * @return A {@link Long} representation of this {@link Location}
+     */
+    private static long getLocationAsLong(int x, int y, int z) {
+<span class="nc" id="L81">        return ((long) (x &amp; 0x3FFFFFF) &lt;&lt; 38) | ((long) (z &amp; 0x3FFFFFF) &lt;&lt; 12) | (long) (y &amp; 0xFFF);</span>
+    }
+
+    @Nonnull
+    public World getWorld() {
+<span class="nc" id="L86">        return world;</span>
+    }
+
+    /**
+     * Gets the x for this block.
+     *
+     * @return This blocks x coordinate.
+     */
+    public int getX() {
+<span class="nc" id="L95">        return (int) (this.position &gt;&gt; 38);</span>
+    }
+
+    /**
+     * Gets the y for this block.
+     *
+     * @return This blocks y coordinate.
+     */
+    public int getY() {
+<span class="nc" id="L104">        return (int) (this.position &amp; 0xFFF);</span>
+    }
+
+    /**
+     * Gets the z for this block.
+     *
+     * @return This blocks z coordinate.
+     */
+    public int getZ() {
+<span class="nc" id="L113">        return (int) (this.position &lt;&lt; 26 &gt;&gt; 38);</span>
+    }
+
+    /**
+     * Gets the chunks x coordinate for this block.
+     *
+     * @return The blocks chunks x coordinate.
+     */
+    public int getChunkX() {
+<span class="nc" id="L122">        return this.getX() &gt;&gt; 4;</span>
+    }
+
+    /**
+     * Gets the chunks z coordinate for this block.
+     *
+     * @return The blocks chunks z coordinate.
+     */
+    public int getChunkZ() {
+<span class="nc" id="L131">        return this.getZ() &gt;&gt; 4;</span>
+    }
+
+    @Nonnull
+    public String getId() {
+<span class="nc" id="L136">        return item.getId();</span>
+    }
+
+    @Nonnull
+    public SlimefunAddon getAddon() {
+<span class="nc" id="L141">        return item.getAddon();</span>
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (obj instanceof ProfiledBlock profiledBlock) {</span>
+<span class="nc bnc" id="L147" title="All 4 branches missed.">            return position == profiledBlock.position &amp;&amp; Objects.equals(world, profiledBlock.world);</span>
+        }
+
+<span class="nc" id="L150">        return false;</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L155">        long hilo = world.getUID().getMostSignificantBits() ^ world.getUID().getLeastSignificantBits();</span>
+<span class="nc" id="L156">        return (int) (position ^ (position &gt;&gt; 32) ^ hilo ^ (hilo &gt;&gt; 32));</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

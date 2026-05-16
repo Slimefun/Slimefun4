@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AutomatedPanningMachine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks</a> &gt; <span class="el_source">AutomatedPanningMachine.java</span></div><h1>AutomatedPanningMachine.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.bakedlibs.dough.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
+
+/**
+ * The {@link AutomatedPanningMachine} is a {@link MultiBlockMachine} that
+ * functions as a semi-automatic version of the {@link GoldPan} and {@link NetherGoldPan}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Liruxo
+ * @author svr333
+ * @author JustAHuman
+ * 
+ * @see GoldPan
+ */
+public class AutomatedPanningMachine extends MultiBlockMachine {
+
+<span class="nc" id="L46">    private final GoldPan goldPan = SlimefunItems.GOLD_PAN.getItem(GoldPan.class);</span>
+<span class="nc" id="L47">    private final NetherGoldPan netherGoldPan = SlimefunItems.NETHER_GOLD_PAN.getItem(NetherGoldPan.class);</span>
+
+    @ParametersAreNonnullByDefault
+    public AutomatedPanningMachine(ItemGroup itemGroup, SlimefunItemStack item) {
+<span class="nc" id="L51">        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);</span>
+<span class="nc" id="L52">    }</span>
+
+    @Override
+    public @Nonnull List&lt;ItemStack&gt; getDisplayRecipes() {
+<span class="nc" id="L56">        List&lt;ItemStack&gt; recipes = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L58">        recipes.addAll(goldPan.getDisplayRecipes());</span>
+<span class="nc" id="L59">        recipes.addAll(netherGoldPan.getDisplayRecipes());</span>
+
+<span class="nc" id="L61">        return recipes;</span>
+    }
+
+    @Override
+    public void onInteract(Player p, Block b) {
+<span class="nc" id="L66">        ItemStack input = p.getInventory().getItemInMainHand();</span>
+<span class="nc" id="L67">        Material material = input.getType();</span>
+        ItemStack output;
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (goldPan.isValidInputMaterial(material)) {</span>
+<span class="nc" id="L71">            output = goldPan.getRandomOutput();</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        } else if (netherGoldPan.isValidInputMaterial(material)) {</span>
+<span class="nc" id="L73">            output = netherGoldPan.getRandomOutput();</span>
+        } else {
+<span class="nc" id="L75">            Slimefun.getLocalization().sendMessage(p, &quot;machines.wrong-item&quot;, true);</span>
+<span class="nc" id="L76">            return;</span>
+        }
+
+<span class="nc" id="L79">        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);</span>
+
+<span class="nc" id="L81">        Bukkit.getPluginManager().callEvent(event);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (event.isCancelled()) {</span>
+<span class="nc" id="L83">            return;</span>
+        }
+
+<span class="nc" id="L86">        ItemStack finalOutput = event.getOutput();</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (p.getGameMode() != GameMode.CREATIVE) {</span>
+<span class="nc" id="L88">            ItemUtils.consumeItem(input, false);</span>
+        }
+
+<span class="nc" id="L91">        TaskQueue queue = new TaskQueue();</span>
+
+<span class="nc" id="L93">        queue.thenRepeatEvery(20, 5, () -&gt; b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, material));</span>
+<span class="nc" id="L94">        queue.thenRun(20, () -&gt; {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if (finalOutput.getType() != Material.AIR) {</span>
+<span class="nc" id="L96">                Optional&lt;Inventory&gt; outputChest = OutputChest.findOutputChestFor(b.getRelative(BlockFace.DOWN), output);</span>
+
+<span class="nc bnc" id="L98" title="All 2 branches missed.">                if (outputChest.isPresent()) {</span>
+<span class="nc" id="L99">                    outputChest.get().addItem(finalOutput.clone());</span>
+                } else {
+<span class="nc" id="L101">                    b.getWorld().dropItemNaturally(b.getLocation(), finalOutput.clone());</span>
+                }
+
+<span class="nc" id="L104">                SoundEffect.AUTOMATED_PANNING_MACHINE_SUCCESS_SOUND.playAt(b);</span>
+<span class="nc" id="L105">            } else {</span>
+<span class="nc" id="L106">                SoundEffect.AUTOMATED_PANNING_MACHINE_FAIL_SOUND.playAt(b);</span>
+            }
+<span class="nc" id="L108">        });</span>
+
+<span class="nc" id="L110">        queue.execute(Slimefun.instance());</span>
+<span class="nc" id="L111">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChestMenuUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils</a> &gt; <span class="el_source">ChestMenuUtils.java</span></div><h1>ChestMenuUtils.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils;
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+
+public final class ChestMenuUtils {
+
+    private ChestMenuUtils() {}
+
+<span class="nc" id="L31">    private static final ItemStack UI_BACKGROUND = new SlimefunItemStack(&quot;_UI_BACKGROUND&quot;, Material.GRAY_STAINED_GLASS_PANE, &quot; &quot;).item();</span>
+<span class="nc" id="L32">    private static final ItemStack INPUT_SLOT = new SlimefunItemStack(&quot;_UI_INPUT_SLOT&quot;, Material.CYAN_STAINED_GLASS_PANE, &quot; &quot;).item();</span>
+<span class="nc" id="L33">    private static final ItemStack OUTPUT_SLOT = new SlimefunItemStack(&quot;_UI_OUTPUT_SLOT&quot;, Material.ORANGE_STAINED_GLASS_PANE, &quot; &quot;).item();</span>
+
+<span class="nc" id="L35">    private static final ItemStack NO_PERMISSION = new SlimefunItemStack(&quot;_UI_NO_PERMISSION&quot;, Material.BARRIER, &quot;No Permission&quot;).item();</span>
+<span class="nc" id="L36">    private static final ItemStack NOT_RESEARCHED = new SlimefunItemStack(&quot;_UI_NOT_RESEARCHED&quot;, Material.BARRIER, &quot;Not researched&quot;).item();</span>
+
+<span class="nc" id="L38">    private static final ItemStack BACK_BUTTON = new SlimefunItemStack(&quot;_UI_BACK&quot;, Material.ENCHANTED_BOOK, &quot;&amp;7\u21E6 Back&quot;, meta -&gt; VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ENCHANTS)).item();</span>
+<span class="nc" id="L39">    private static final ItemStack MENU_BUTTON = new SlimefunItemStack(&quot;_UI_MENU&quot;, Material.COMPARATOR, &quot;&amp;eSettings / Info&quot;, &quot;&quot;, &quot;&amp;7\u21E8 Click to see more&quot;).item();</span>
+<span class="nc" id="L40">    private static final ItemStack SEARCH_BUTTON = new SlimefunItemStack(&quot;_UI_SEARCH&quot;, Material.NAME_TAG, &quot;&amp;bSearch&quot;).item();</span>
+<span class="nc" id="L41">    private static final ItemStack WIKI_BUTTON = new SlimefunItemStack(&quot;_UI_WIKI&quot;, Material.KNOWLEDGE_BOOK, &quot;&amp;3Slimefun Wiki&quot;).item();</span>
+
+<span class="nc" id="L43">    private static final ItemStack PREV_BUTTON_ACTIVE = new SlimefunItemStack(&quot;_UI_PREVIOUS_ACTIVE&quot;, Material.LIME_STAINED_GLASS_PANE, &quot;&amp;r\u21E6 Previous Page&quot;).item();</span>
+<span class="nc" id="L44">    private static final ItemStack NEXT_BUTTON_ACTIVE = new SlimefunItemStack(&quot;_UI_NEXT_ACTIVE&quot;, Material.LIME_STAINED_GLASS_PANE, &quot;&amp;rNext Page \u21E8&quot;).item();</span>
+<span class="nc" id="L45">    private static final ItemStack PREV_BUTTON_INACTIVE = new SlimefunItemStack(&quot;_UI_PREVIOUS_INACTIVE&quot;, Material.BLACK_STAINED_GLASS_PANE, &quot;&amp;8\u21E6 Previous Page&quot;).item();</span>
+<span class="nc" id="L46">    private static final ItemStack NEXT_BUTTON_INACTIVE = new SlimefunItemStack(&quot;_UI_NEXT_INACTIVE&quot;, Material.BLACK_STAINED_GLASS_PANE, &quot;&amp;8Next Page \u21E8&quot;).item();</span>
+
+<span class="nc" id="L48">    private static final ChestMenu.AdvancedMenuClickHandler OUTPUT_HANDLER = new ChestMenu.AdvancedMenuClickHandler() {</span>
+
+        @Override
+        public boolean onClick(Player p, int slot, ItemStack cursor, ClickAction action) {
+<span class="nc" id="L52">            return false;</span>
+        }
+
+        @Override
+        public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
+<span class="nc bnc" id="L57" title="All 6 branches missed.">            return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;</span>
+        }
+    };
+
+<span class="nc" id="L61">    private static final MenuClickHandler CLICK_HANDLER = (p, s, i, a) -&gt; false;</span>
+
+    public static @Nonnull ItemStack getBackground() {
+<span class="nc" id="L64">        return UI_BACKGROUND;</span>
+    }
+
+    public static @Nonnull ItemStack getNoPermissionItem() {
+<span class="nc" id="L68">        return NO_PERMISSION;</span>
+    }
+
+    public static @Nonnull ItemStack getNotResearchedItem() {
+<span class="nc" id="L72">        return NOT_RESEARCHED;</span>
+    }
+
+    public static @Nonnull ItemStack getInputSlotTexture() {
+<span class="nc" id="L76">        return INPUT_SLOT;</span>
+    }
+
+    public static @Nonnull ItemStack getOutputSlotTexture() {
+<span class="nc" id="L80">        return OUTPUT_SLOT;</span>
+    }
+
+    public static @Nonnull MenuClickHandler getEmptyClickHandler() {
+<span class="nc" id="L84">        return CLICK_HANDLER;</span>
+    }
+
+    public static @Nonnull ChestMenu.AdvancedMenuClickHandler getDefaultOutputHandler() {
+<span class="nc" id="L88">        return OUTPUT_HANDLER;</span>
+    }
+
+    public static @Nonnull ItemStack getBackButton(@Nonnull Player p, String... lore) {
+<span class="nc" id="L92">        return CustomItemStack.create(BACK_BUTTON, &quot;&amp;7\u21E6 &quot; + Slimefun.getLocalization().getMessage(p, &quot;guide.back.title&quot;), lore);</span>
+    }
+
+    public static @Nonnull ItemStack getMenuButton(@Nonnull Player p) {
+<span class="nc" id="L96">        return CustomItemStack.create(MENU_BUTTON, ChatColor.YELLOW + Slimefun.getLocalization().getMessage(p, &quot;guide.title.settings&quot;), &quot;&quot;, &quot;&amp;7\u21E8 &quot; + Slimefun.getLocalization().getMessage(p, &quot;guide.tooltips.open-itemgroup&quot;));</span>
+    }
+
+    public static @Nonnull ItemStack getSearchButton(@Nonnull Player p) {
+<span class="nc" id="L100">        return CustomItemStack.create(SEARCH_BUTTON, meta -&gt; {</span>
+<span class="nc" id="L101">            meta.setDisplayName(ChatColors.color(Slimefun.getLocalization().getMessage(p, &quot;guide.search.name&quot;)));</span>
+
+<span class="nc" id="L103">            List&lt;String&gt; lore = Arrays.asList(&quot;&quot;, ChatColor.GRAY + &quot;\u21E8 &quot; + Slimefun.getLocalization().getMessage(p, &quot;guide.search.tooltip&quot;));</span>
+<span class="nc" id="L104">            lore.replaceAll(ChatColors::color);</span>
+<span class="nc" id="L105">            meta.setLore(lore);</span>
+<span class="nc" id="L106">        });</span>
+    }
+
+    public static @Nonnull ItemStack getWikiButton() {
+<span class="nc" id="L110">        return WIKI_BUTTON;</span>
+    }
+
+    public static @Nonnull ItemStack getPreviousButton(@Nonnull Player p, int page, int pages) {
+<span class="nc bnc" id="L114" title="All 4 branches missed.">        if (pages == 1 || page == 1) {</span>
+<span class="nc" id="L115">            return CustomItemStack.create(PREV_BUTTON_INACTIVE, meta -&gt; {</span>
+<span class="nc" id="L116">                meta.setDisplayName(ChatColor.DARK_GRAY + &quot;\u21E6 &quot; + Slimefun.getLocalization().getMessage(p, &quot;guide.pages.previous&quot;));</span>
+<span class="nc" id="L117">                meta.setLore(Arrays.asList(&quot;&quot;, ChatColor.GRAY + &quot;(&quot; + page + &quot; / &quot; + pages + &quot;)&quot;));</span>
+<span class="nc" id="L118">            });</span>
+        } else {
+<span class="nc" id="L120">            return CustomItemStack.create(PREV_BUTTON_ACTIVE, meta -&gt; {</span>
+<span class="nc" id="L121">                meta.setDisplayName(ChatColor.WHITE + &quot;\u21E6 &quot; + Slimefun.getLocalization().getMessage(p, &quot;guide.pages.previous&quot;));</span>
+<span class="nc" id="L122">                meta.setLore(Arrays.asList(&quot;&quot;, ChatColor.GRAY + &quot;(&quot; + page + &quot; / &quot; + pages + &quot;)&quot;));</span>
+<span class="nc" id="L123">            });</span>
+        }
+    }
+
+    public static @Nonnull ItemStack getNextButton(@Nonnull Player p, int page, int pages) {
+<span class="nc bnc" id="L128" title="All 4 branches missed.">        if (pages == 1 || page == pages) {</span>
+<span class="nc" id="L129">            return CustomItemStack.create(NEXT_BUTTON_INACTIVE, meta -&gt; {</span>
+<span class="nc" id="L130">                meta.setDisplayName(ChatColor.DARK_GRAY + Slimefun.getLocalization().getMessage(p, &quot;guide.pages.next&quot;) + &quot; \u21E8&quot;);</span>
+<span class="nc" id="L131">                meta.setLore(Arrays.asList(&quot;&quot;, ChatColor.GRAY + &quot;(&quot; + page + &quot; / &quot; + pages + &quot;)&quot;));</span>
+<span class="nc" id="L132">            });</span>
+        } else {
+<span class="nc" id="L134">            return CustomItemStack.create(NEXT_BUTTON_ACTIVE, meta -&gt; {</span>
+<span class="nc" id="L135">                meta.setDisplayName(ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, &quot;guide.pages.next&quot;) + &quot; \u21E8&quot;);</span>
+<span class="nc" id="L136">                meta.setLore(Arrays.asList(&quot;&quot;, ChatColor.GRAY + &quot;(&quot; + page + &quot; / &quot; + pages + &quot;)&quot;));</span>
+<span class="nc" id="L137">            });</span>
+        }
+    }
+
+    public static void drawBackground(@Nonnull ChestMenu menu, int... slots) {
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        for (int slot : slots) {</span>
+<span class="nc" id="L143">            menu.addItem(slot, getBackground(), getEmptyClickHandler());</span>
+        }
+<span class="nc" id="L145">    }</span>
+
+    public static void updateProgressbar(@Nonnull ChestMenu menu, int slot, int timeLeft, int time, @Nonnull ItemStack indicator) {
+<span class="nc" id="L148">        Inventory inv = menu.toInventory();</span>
+
+        // We don't need to update the progress bar if noone is watching :o
+<span class="nc bnc" id="L151" title="All 4 branches missed.">        if (inv == null || inv.getViewers().isEmpty()) {</span>
+<span class="nc" id="L152">            return;</span>
+        }
+
+<span class="nc" id="L155">        ItemStack item = indicator.clone();</span>
+<span class="nc" id="L156">        ItemMeta im = item.getItemMeta();</span>
+<span class="nc" id="L157">        VersionedItemFlag.addFlags(im, VersionedItemFlag.HIDE_ATTRIBUTES);</span>
+
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        if (im instanceof Damageable damageable) {</span>
+<span class="nc" id="L160">            damageable.setDamage(getDurability(item, timeLeft, time));</span>
+        }
+
+<span class="nc" id="L163">        im.setDisplayName(&quot; &quot;);</span>
+<span class="nc" id="L164">        im.setLore(Arrays.asList(getProgressBar(timeLeft, time), &quot;&quot;, ChatColor.GRAY + NumberUtils.getTimeLeft(timeLeft / 2)));</span>
+<span class="nc" id="L165">        item.setItemMeta(im);</span>
+
+<span class="nc" id="L167">        menu.replaceExistingItem(slot, item);</span>
+<span class="nc" id="L168">    }</span>
+
+    public static @Nonnull String getProgressBar(int time, int total) {
+<span class="nc" id="L171">        StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L172">        float percentage = Math.round(((((total - time) * 100.0F) / total) * 100.0F) / 100.0F);</span>
+
+<span class="nc" id="L174">        builder.append(NumberUtils.getColorFromPercentage(percentage));</span>
+
+<span class="nc" id="L176">        int rest = 20;</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        for (int i = (int) percentage; i &gt;= 5; i = i - 5) {</span>
+<span class="nc" id="L178">            builder.append(':');</span>
+<span class="nc" id="L179">            rest--;</span>
+        }
+
+<span class="nc" id="L182">        builder.append(&quot;&amp;7&quot;);</span>
+
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        for (int i = 0; i &lt; rest; i++) {</span>
+<span class="nc" id="L185">            builder.append(':');</span>
+        }
+
+<span class="nc" id="L188">        builder.append(&quot; - &quot;).append(percentage).append('%');</span>
+<span class="nc" id="L189">        return ChatColors.color(builder.toString());</span>
+    }
+
+    private static short getDurability(@Nonnull ItemStack item, int timeLeft, int max) {
+<span class="nc" id="L193">        return (short) ((item.getType().getMaxDurability() / max) * timeLeft);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

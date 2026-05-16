@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NetworkManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.networks</a> &gt; <span class="el_source">NetworkManager.java</span></div><h1>NetworkManager.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.networks;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.Server;
+
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+/**
+ * The {@link NetworkManager} is responsible for holding all instances of {@link Network}
+ * and providing some utility methods that would have probably been static otherwise.
+ * 
+ * @author TheBusyBiscuit
+ * @author meiamsome
+ * 
+ * @see Network
+ * @see NetworkListener
+ *
+ */
+public class NetworkManager {
+
+    private final int maxNodes;
+    private final boolean enableVisualizer;
+    private final boolean deleteExcessItems;
+
+    /**
+     * Fixes #3041
+     * 
+     * We use a {@link CopyOnWriteArrayList} here to ensure thread-safety.
+     * This {@link List} is also much more frequently read than being written to.
+     * Therefore a {@link CopyOnWriteArrayList} should be perfect for this, even
+     * if insertions come at a slight cost.
+     */
+<span class="fc" id="L52">    private final List&lt;Network&gt; networks = new CopyOnWriteArrayList&lt;&gt;();</span>
+
+    /**
+     * This creates a new {@link NetworkManager} with the given capacity.
+     * 
+     * @param maxStepSize
+     *            The maximum amount of nodes a {@link Network} can have
+     * @param enableVisualizer
+     *            Whether the {@link Network} visualizer is enabled
+     * @param deleteExcessItems
+     *            Whether excess items from a {@link CargoNet} should be voided
+     */
+<span class="fc" id="L64">    public NetworkManager(int maxStepSize, boolean enableVisualizer, boolean deleteExcessItems) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        Validate.isTrue(maxStepSize &gt; 0, &quot;The maximal Network size must be above zero!&quot;);</span>
+
+<span class="fc" id="L67">        this.enableVisualizer = enableVisualizer;</span>
+<span class="fc" id="L68">        this.deleteExcessItems = deleteExcessItems;</span>
+<span class="fc" id="L69">        maxNodes = maxStepSize;</span>
+<span class="fc" id="L70">    }</span>
+
+    /**
+     * This creates a new {@link NetworkManager} with the given capacity.
+     * 
+     * @param maxStepSize
+     *            The maximum amount of nodes a {@link Network} can have
+     */
+    public NetworkManager(int maxStepSize) {
+<span class="fc" id="L79">        this(maxStepSize, true, false);</span>
+<span class="fc" id="L80">    }</span>
+
+    /**
+     * This method returns the limit of nodes a {@link Network} can have.
+     * This value is read from the {@link Config} file.
+     * 
+     * @return the maximum amount of nodes a {@link Network} can have
+     */
+    public int getMaxSize() {
+<span class="fc" id="L89">        return maxNodes;</span>
+    }
+
+    /**
+     * This returns whether the {@link Network} visualizer is enabled.
+     * 
+     * @return Whether the {@link Network} visualizer is enabled
+     */
+    public boolean isVisualizerEnabled() {
+<span class="fc" id="L98">        return enableVisualizer;</span>
+    }
+
+    /**
+     * This returns whether excess items from a {@link CargoNet} should be voided
+     * instead of being dropped to the ground.
+     * 
+     * @return Whether to delete excess items
+     */
+    public boolean isItemDeletionEnabled() {
+<span class="fc" id="L108">        return deleteExcessItems;</span>
+    }
+
+    /**
+     * This returns a {@link List} of every {@link Network} on the {@link Server}.
+     * The returned {@link List} is not modifiable.
+     * 
+     * @return A {@link List} containing every {@link Network} on the {@link Server}
+     */
+    @Nonnull
+    public List&lt;Network&gt; getNetworkList() {
+<span class="nc" id="L119">        return Collections.unmodifiableList(networks);</span>
+    }
+
+    @Nonnull
+    public &lt;T extends Network&gt; Optional&lt;T&gt; getNetworkFromLocation(@Nullable Location l, @Nonnull Class&lt;T&gt; type) {
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">        if (l == null) {</span>
+<span class="fc" id="L125">            return Optional.empty();</span>
+        }
+
+<span class="nc" id="L128">        Validate.notNull(type, &quot;Type must not be null&quot;);</span>
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        for (Network network : networks) {</span>
+<span class="nc bnc" id="L131" title="All 4 branches missed.">            if (type.isInstance(network) &amp;&amp; network.connectsTo(l)) {</span>
+<span class="nc" id="L132">                return Optional.of(type.cast(network));</span>
+            }
+<span class="nc" id="L134">        }</span>
+
+<span class="nc" id="L136">        return Optional.empty();</span>
+    }
+
+    @Nonnull
+    public &lt;T extends Network&gt; List&lt;T&gt; getNetworksFromLocation(@Nullable Location l, @Nonnull Class&lt;T&gt; type) {
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if (l == null) {</span>
+            // No networks here, if the location does not even exist
+<span class="fc" id="L143">            return new ArrayList&lt;&gt;();</span>
+        }
+
+<span class="nc" id="L146">        Validate.notNull(type, &quot;Type must not be null&quot;);</span>
+<span class="nc" id="L147">        List&lt;T&gt; list = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        for (Network network : networks) {</span>
+<span class="nc bnc" id="L150" title="All 4 branches missed.">            if (type.isInstance(network) &amp;&amp; network.connectsTo(l)) {</span>
+<span class="nc" id="L151">                list.add(type.cast(network));</span>
+            }
+<span class="nc" id="L153">        }</span>
+
+<span class="nc" id="L155">        return list;</span>
+    }
+
+    /**
+     * This registers a given {@link Network}.
+     * 
+     * @param network
+     *            The {@link Network} to register
+     */
+    public void registerNetwork(@Nonnull Network network) {
+<span class="nc" id="L165">        Validate.notNull(network, &quot;Cannot register a null Network&quot;);</span>
+<span class="nc" id="L166">        networks.add(network);</span>
+<span class="nc" id="L167">    }</span>
+
+    /**
+     * This removes a {@link Network} from the network system.
+     * 
+     * @param network
+     *            The {@link Network} to remove
+     */
+    public void unregisterNetwork(@Nonnull Network network) {
+<span class="nc" id="L176">        Validate.notNull(network, &quot;Cannot unregister a null Network&quot;);</span>
+<span class="nc" id="L177">        networks.remove(network);</span>
+<span class="nc" id="L178">    }</span>
+
+    /**
+     * This method updates every {@link Network} found at the given {@link Location}.
+     * More precisely, {@link Network#markDirty(Location)} will be called.
+     * 
+     * @param l
+     *            The {@link Location} to update
+     */
+    public void updateAllNetworks(@Nonnull Location l) {
+<span class="nc" id="L188">        Validate.notNull(l, &quot;The Location cannot be null&quot;);</span>
+
+        try {
+            /*
+             * No need to create a sublist and loop through it if
+             * there aren't even any networks on the server.
+             */
+<span class="nc bnc" id="L195" title="All 2 branches missed.">            if (networks.isEmpty()) {</span>
+<span class="nc" id="L196">                return;</span>
+            }
+
+            /*
+             * Only a Slimefun block can be part of a Network.
+             * This check helps to speed up performance.
+             * 
+             * (Skip for Unit Tests as they don't support block info yet)
+             */
+<span class="nc bnc" id="L205" title="All 4 branches missed.">            if (!BlockStorage.hasBlockInfo(l) &amp;&amp; Slimefun.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {</span>
+<span class="nc" id="L206">                return;</span>
+            }
+
+<span class="nc bnc" id="L209" title="All 2 branches missed.">            for (Network network : getNetworksFromLocation(l, Network.class)) {</span>
+<span class="nc" id="L210">                network.markDirty(l);</span>
+<span class="nc" id="L211">            }</span>
+<span class="nc" id="L212">        } catch (Exception x) {</span>
+<span class="nc" id="L213">            Slimefun.logger().log(Level.SEVERE, x, () -&gt; &quot;An Exception was thrown while causing a networks update @ &quot; + new BlockPosition(l));</span>
+<span class="nc" id="L214">        }</span>
+<span class="nc" id="L215">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

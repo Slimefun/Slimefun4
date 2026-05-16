@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FoodFabricator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines</a> &gt; <span class="el_source">FoodFabricator.java</span></div><h1>FoodFabricator.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFood;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+
+public class FoodFabricator extends AContainer {
+
+    public FoodFabricator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L17">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L18">    }</span>
+
+    @Override
+    protected void registerDefaultRecipes() {
+<span class="nc" id="L22">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.WHEAT) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.WHEAT_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L23">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.CARROT) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARROT_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L24">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.POTATO) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.POTATO_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L25">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.WHEAT_SEEDS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEEDS_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L26">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.BEETROOT) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.BEETROOT_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L27">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.MELON_SLICE) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.MELON_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L28">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.APPLE) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.APPLE_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L29">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.DRIED_KELP) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.KELP_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L30">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.COCOA_BEANS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.COCOA_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L31">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.SWEET_BERRIES) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L32">        registerRecipe(12, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(Material.SEAGRASS) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.SEAGRASS_ORGANIC_FOOD, OrganicFood.OUTPUT).item() });</span>
+<span class="nc" id="L33">    }</span>
+
+    @Override
+    public String getMachineIdentifier() {
+<span class="nc" id="L37">        return &quot;FOOD_FABRICATOR&quot;;</span>
+    }
+
+    @Override
+    public ItemStack getProgressBar() {
+<span class="nc" id="L42">        return new ItemStack(Material.GOLDEN_HOE);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

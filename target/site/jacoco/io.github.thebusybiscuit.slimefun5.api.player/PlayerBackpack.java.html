@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerBackpack.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.player</a> &gt; <span class="el_source">PlayerBackpack.java</span></div><h1>PlayerBackpack.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.player;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
+
+/**
+ * This class represents the instance of a {@link SlimefunBackpack} that is ready to
+ * be opened.
+ * 
+ * It holds an actual {@link Inventory} and represents the backpack on the
+ * level of an individual {@link ItemStack} as opposed to the class {@link SlimefunBackpack}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @see SlimefunBackpack
+ * @see BackpackListener
+ */
+public class PlayerBackpack {
+
+    private static final String CONFIG_PREFIX = &quot;backpacks.&quot;;
+
+    private final UUID ownerId;
+    private final int id;
+
+    @Deprecated
+    private PlayerProfile profile;
+    @Deprecated
+    private Config cfg;
+    private Inventory inventory;
+    private int size;
+
+<span class="nc" id="L50">    private PlayerBackpack(@Nonnull UUID ownerId, int id, int size) {</span>
+<span class="nc" id="L51">        this.ownerId = ownerId;</span>
+<span class="nc" id="L52">        this.id = id;</span>
+<span class="nc" id="L53">        this.size = size;</span>
+<span class="nc" id="L54">    }</span>
+
+    /**
+     * This constructor loads an existing Backpack
+     * 
+     * @param profile
+     *            The {@link PlayerProfile} of this Backpack
+     * @param id
+     *            The id of this Backpack
+     *
+     * @deprecated Use {@link PlayerBackpack#load(UUID, int, int, HashMap)} instead
+     */
+    @Deprecated
+    public PlayerBackpack(@Nonnull PlayerProfile profile, int id) {
+<span class="nc" id="L68">        this(profile, id, profile.getConfig().getInt(CONFIG_PREFIX + id + &quot;.size&quot;));</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L71">            inventory.setItem(i, cfg.getItem(CONFIG_PREFIX + id + &quot;.contents.&quot; + i));</span>
+        }
+<span class="nc" id="L73">    }</span>
+
+    /**
+     * This constructor creates a new Backpack
+     * 
+     * @param profile
+     *            The {@link PlayerProfile} of this Backpack
+     * @param id
+     *            The id of this Backpack
+     * @param size
+     *            The size of this Backpack
+     *
+     * @deprecated Use {@link PlayerBackpack#newBackpack(UUID, int, int)} instead
+     */
+    @Deprecated
+<span class="nc" id="L88">    public PlayerBackpack(@Nonnull PlayerProfile profile, int id, int size) {</span>
+<span class="nc bnc" id="L89" title="All 6 branches missed.">        if (size &lt; 9 || size &gt; 54 || size % 9 != 0) {</span>
+<span class="nc" id="L90">            throw new IllegalArgumentException(&quot;Invalid size! Size must be one of: [9, 18, 27, 36, 45, 54]&quot;);</span>
+        }
+
+<span class="nc" id="L93">        this.ownerId = profile.getUUID();</span>
+<span class="nc" id="L94">        this.profile = profile;</span>
+<span class="nc" id="L95">        this.id = id;</span>
+<span class="nc" id="L96">        this.cfg = profile.getConfig();</span>
+<span class="nc" id="L97">        this.size = size;</span>
+
+<span class="nc" id="L99">        cfg.setValue(CONFIG_PREFIX + id + &quot;.size&quot;, size);</span>
+<span class="nc" id="L100">        markDirty();</span>
+
+<span class="nc" id="L102">        inventory = Bukkit.createInventory(null, size, &quot;Backpack [&quot; + size + &quot; Slots]&quot;);</span>
+<span class="nc" id="L103">    }</span>
+
+    /**
+     * This returns the id of this {@link PlayerBackpack}
+     * 
+     * @return The id of this {@link PlayerBackpack}
+     */
+    public int getId() {
+<span class="nc" id="L111">        return id;</span>
+    }
+
+    /**
+     * This method returns the {@link PlayerProfile} this {@link PlayerBackpack} belongs to
+     * 
+     * @return The owning {@link PlayerProfile}
+     * 
+     * @deprecated Use {@link PlayerBackpack#getOwnerId()} instead
+     */
+    @Deprecated
+    @Nonnull
+    public PlayerProfile getOwner() {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        return profile != null ? profile : PlayerProfile.find(Bukkit.getOfflinePlayer(ownerId)).orElse(null);</span>
+    }
+
+    public UUID getOwnerId() {
+<span class="nc" id="L128">        return this.ownerId;</span>
+    }
+
+    /**
+     * This returns the size of this {@link PlayerBackpack}.
+     * 
+     * @return The size of this {@link PlayerBackpack}
+     */
+    public int getSize() {
+<span class="nc" id="L137">        return size;</span>
+    }
+
+    /**
+     * This method returns the {@link Inventory} of this {@link PlayerBackpack}
+     * 
+     * @return The {@link Inventory} of this {@link PlayerBackpack}
+     */
+    @Nonnull
+    public Inventory getInventory() {
+<span class="nc" id="L147">        return inventory;</span>
+    }
+
+    /**
+     * This will open the {@link Inventory} of this backpack to every {@link Player}
+     * that was passed onto this method.
+     * 
+     * @param players
+     *            The players who this Backpack will be shown to
+     */
+    public void open(Player... players) {
+<span class="nc" id="L158">        Slimefun.runSync(() -&gt; {</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">            for (Player p : players) {</span>
+<span class="nc" id="L160">                p.openInventory(inventory);</span>
+            }
+<span class="nc" id="L162">        });</span>
+<span class="nc" id="L163">    }</span>
+
+    /**
+     * This will close the {@link Inventory} of this backpack for every {@link Player}
+     * that has opened it.
+     * 
+     * This process has to run on the main server thread.
+     * 
+     * @return A {@link CompletableFuture}.
+     */
+    public CompletableFuture&lt;Void&gt; closeForAll() {
+<span class="nc" id="L174">        CompletableFuture&lt;Void&gt; future = new CompletableFuture&lt;&gt;();</span>
+
+<span class="nc" id="L176">        Slimefun.runSync(() -&gt; {</span>
+<span class="nc" id="L177">            Iterator&lt;HumanEntity&gt; iterator = new ArrayList&lt;&gt;(inventory.getViewers()).iterator();</span>
+
+<span class="nc bnc" id="L179" title="All 2 branches missed.">            while (iterator.hasNext()) {</span>
+<span class="nc" id="L180">                iterator.next().closeInventory();</span>
+            }
+
+<span class="nc" id="L183">            future.complete(null);</span>
+<span class="nc" id="L184">        });</span>
+
+<span class="nc" id="L186">        return future;</span>
+    }
+
+    /**
+     * This will change the current size of this Backpack to the specified size.
+     * 
+     * @param size
+     *            The new size for this Backpack
+     */
+    public void setSize(int size) {
+<span class="nc bnc" id="L196" title="All 6 branches missed.">        if (size &lt; 9 || size &gt; 54 || size % 9 != 0) {</span>
+<span class="nc" id="L197">            throw new IllegalArgumentException(&quot;Invalid size! Size must be one of: [9, 18, 27, 36, 45, 54]&quot;);</span>
+        }
+
+<span class="nc" id="L200">        this.size = size;</span>
+
+<span class="nc" id="L202">        Inventory inv = Bukkit.createInventory(null, size, &quot;Backpack [&quot; + size + &quot; Slots]&quot;);</span>
+
+<span class="nc bnc" id="L204" title="All 2 branches missed.">        for (int slot = 0; slot &lt; this.inventory.getSize(); slot++) {</span>
+<span class="nc" id="L205">            inv.setItem(slot, this.inventory.getItem(slot));</span>
+        }
+
+<span class="nc" id="L208">        this.inventory = inv;</span>
+
+<span class="nc" id="L210">        markDirty();</span>
+<span class="nc" id="L211">    }</span>
+
+    /**
+     * This method will save the contents of this backpack to a {@link File}.
+     * 
+     * @deprecated Handled by {@link PlayerProfile#save()} now
+     */
+    @Deprecated
+    public void save() {
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L221">            cfg.setValue(CONFIG_PREFIX + id + &quot;.contents.&quot; + i, inventory.getItem(i));</span>
+        }
+<span class="nc" id="L223">    }</span>
+
+    /**
+     * This method marks the backpack dirty, it will then be queued for an autosave
+     * using {@link PlayerBackpack#save()}
+     */
+    public void markDirty() {
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        if (profile != null) {</span>
+<span class="nc" id="L231">            profile.markDirty();</span>
+        }
+<span class="nc" id="L233">    }</span>
+
+    private void setContents(int size, HashMap&lt;Integer, ItemStack&gt; contents) {
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        if (this.inventory == null) {</span>
+<span class="nc" id="L237">            this.inventory = Bukkit.createInventory(null, size, &quot;Backpack [&quot; + size + &quot; Slots]&quot;);</span>
+        }
+
+<span class="nc bnc" id="L240" title="All 2 branches missed.">        for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L241">            this.inventory.setItem(i, contents.get(i));</span>
+        }
+<span class="nc" id="L243">    }</span>
+
+    @ParametersAreNonnullByDefault
+    public static PlayerBackpack load(UUID ownerId, int id, int size, HashMap&lt;Integer, ItemStack&gt; contents) {
+<span class="nc" id="L247">        PlayerBackpack backpack = new PlayerBackpack(ownerId, id, size);</span>
+
+<span class="nc" id="L249">        backpack.setContents(size, contents);</span>
+
+<span class="nc" id="L251">        return backpack;</span>
+    }
+
+    @ParametersAreNonnullByDefault
+    public static PlayerBackpack newBackpack(UUID ownerId, int id, int size) {
+<span class="nc bnc" id="L256" title="All 6 branches missed.">        if (size &lt; 9 || size &gt; 54 || size % 9 != 0) {</span>
+<span class="nc" id="L257">            throw new IllegalArgumentException(&quot;Invalid size! Size must be one of: [9, 18, 27, 36, 45, 54]&quot;);</span>
+        }
+
+<span class="nc" id="L260">        PlayerBackpack backpack = new PlayerBackpack(ownerId, id, size);</span>
+
+<span class="nc" id="L262">        backpack.setContents(size, new HashMap&lt;&gt;());</span>
+
+<span class="nc" id="L264">        return backpack;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,4 @@
+auto-update: true
+use-advancements-api: true
+announce-advancements: true
+add-advancements-to-guide: true

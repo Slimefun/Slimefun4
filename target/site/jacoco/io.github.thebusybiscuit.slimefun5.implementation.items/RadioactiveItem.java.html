@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RadioactiveItem.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items</a> &gt; <span class="el_source">RadioactiveItem.java</span></div><h1>RadioactiveItem.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+
+/**
+ * A quick and easy implementation of {@link SlimefunItem} that also implements the
+ * interface {@link Radioactive}.
+ * This implementation is {@link NotPlaceable}!
+ * 
+ * Simply specify a level of {@link Radioactivity} in the constructor.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Radioactive
+ * @see Radioactivity
+ *
+ */
+public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPlaceable {
+
+    /**
+     * This is the level of {@link Radioactivity} for this {@link SlimefunItem}
+     */
+    private final Radioactivity radioactivity;
+
+    /**
+     * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
+     * 
+     * @param itemGroup
+     *            The {@link ItemGroup} of this {@link SlimefunItem}
+     * @param radioactivity
+     *            the level of {@link Radioactivity}
+     * @param item
+     *            the {@link SlimefunItemStack} this {@link SlimefunItem} represents
+     * @param recipeType
+     *            The {@link RecipeType} for this item
+     * @param recipe
+     *            The recipe of how to craft this {@link SlimefunItem}
+     */
+    @ParametersAreNonnullByDefault
+    public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L55">        this(itemGroup, radioactivity, item, recipeType, recipe, null);</span>
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
+     * 
+     * @param itemGroup
+     *            The {@link ItemGroup} of this {@link SlimefunItem}
+     * @param radioactivity
+     *            the level of {@link Radioactivity}
+     * @param item
+     *            the {@link SlimefunItemStack} this {@link SlimefunItem} represents
+     * @param recipeType
+     *            The {@link RecipeType} for this item
+     * @param recipe
+     *            The recipe of how to craft this {@link SlimefunItem}
+     * @param recipeOutput
+     *            The recipe output
+     */
+    @ParametersAreNonnullByDefault
+    public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+<span class="nc" id="L76">        super(itemGroup, item, recipeType, recipe, recipeOutput);</span>
+
+<span class="nc" id="L78">        this.radioactivity = radioactivity;</span>
+<span class="nc" id="L79">        addItemHandler(onRightClick());</span>
+<span class="nc" id="L80">    }</span>
+
+    @Nonnull
+    private ItemUseHandler onRightClick() {
+<span class="nc" id="L84">        return PlayerRightClickEvent::cancel;</span>
+    }
+
+    @Override
+    @Nonnull
+    public Radioactivity getRadioactivity() {
+<span class="nc" id="L90">        return radioactivity;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

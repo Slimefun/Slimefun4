@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AndroidType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.androids</a> &gt; <span class="el_source">AndroidType.java</span></div><h1>AndroidType.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
+
+import javax.annotation.Nonnull;
+
+/**
+ * This enum holds all the different types a {@link ProgrammableAndroid} can represent.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see ProgrammableAndroid
+ *
+ */
+<span class="nc" id="L13">public enum AndroidType {</span>
+
+    /**
+     * This is the default type. This {@link ProgrammableAndroid} has no special abilities.
+     * But it can move!
+     */
+<span class="nc" id="L19">    NONE,</span>
+
+    /**
+     * This type represents a {@link MinerAndroid}, it can break blocks.
+     */
+<span class="nc" id="L24">    MINER,</span>
+
+    /**
+     * This type stands for the {@link FarmerAndroid}, it can harvest crops.
+     */
+<span class="nc" id="L29">    FARMER,</span>
+
+    /**
+     * The Advanced Farmer is an extension of the {@link FarmerAndroid},
+     * it can also harvest plants from ExoticGarden.
+     */
+<span class="nc" id="L35">    ADVANCED_FARMER,</span>
+
+    /**
+     * This type represents the {@link WoodcutterAndroid}, it can chop trees.
+     */
+<span class="nc" id="L40">    WOODCUTTER,</span>
+
+    /**
+     * This type stands for the {@link ButcherAndroid}, it has the ability
+     * to damage entities.
+     */
+<span class="nc" id="L46">    FIGHTER,</span>
+
+    /**
+     * The {@link FishermanAndroid} can catch a fish and other materials.
+     */
+<span class="nc" id="L51">    FISHERMAN,</span>
+
+    /**
+     * This type that can represent any other {@link AndroidType} that is not {@code FIGHTER}.
+     * This is only used for internal purposes and has no actual implementation of {@link ProgrammableAndroid}
+     * that is equivalent to this.
+     */
+<span class="nc" id="L58">    NON_FIGHTER;</span>
+
+    boolean isType(@Nonnull AndroidType type) {
+<span class="nc bnc" id="L61" title="All 8 branches missed.">        return type == NONE || type == this || (type == NON_FIGHTER &amp;&amp; this != FIGHTER);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

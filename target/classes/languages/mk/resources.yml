@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: 'ГЕО-Скенирање Резулати'
+  chunk: 'Скениран Дел'
+  world: 'Свет'
+  unit: 'Единица'
+  units: 'Единици'
+resources:
+  slimefun:
+    oil: 'Нафта'
+    nether_ice: 'Nether Мраз'
+    salt: 'Сол'
+    uranium: 'Ураниум'
+  slimefunorechunks:
+    iron_ore_chunk: 'Дел од Железна Руда'
+    gold_ore_chunk: 'Дел од Златна Руда'
+    copper_ore_chunk: 'Дел од Бакарна Руда'
+    tin_ore_chunk: 'Дел од Калај Руда'
+    silver_ore_chunk: 'Дел од Сребрена Руда'
+    aluminum_ore_chunk: 'Дел од Алуминум Руда'
+    lead_ore_chunk: 'Дел од Оловна Руда'
+    zinc_ore_chunk: 'Дел од Цинк Руда'
+    nickel_ore_chunk: 'Дел од Никел Руда'
+    cobalt_ore_chunk: 'Дел од Кобалт Руда'

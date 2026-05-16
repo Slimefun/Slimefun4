@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: 'GEOスキャン結果'
+  chunk: 'スキャン対象チャンク'
+  world: 'ワールド'
+  unit: '塊'
+  units: '塊'
+resources:
+  slimefun:
+    oil: '原油'
+    nether_ice: 'ネザーアイス'
+    salt: '塩'
+    uranium: 'ウラニウム'
+  slimefunorechunks:
+    iron_ore_chunk: '鉄'
+    gold_ore_chunk: '金'
+    copper_ore_chunk: '銅'
+    tin_ore_chunk: '錫'
+    silver_ore_chunk: '銀'
+    aluminum_ore_chunk: 'アルミニウム'
+    lead_ore_chunk: '鉛'
+    zinc_ore_chunk: '亜鉛'
+    nickel_ore_chunk: 'ニッケル'
+    cobalt_ore_chunk: 'コバルト'

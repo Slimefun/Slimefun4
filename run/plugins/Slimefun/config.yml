@@ -1,0 +1,86 @@
+options:
+  # Instead of disabling Auto Updates consider using the "stable" version of Slimefun.
+  # These builds are much more tested and are far less likely to have any issues.
+  # Note: When running a stable build auto-updates ONLY update to other stable builds! Perfect eh?
+  # You can download the latest stable build here: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/
+
+  auto-update: true
+  chat-prefix: '&a&lSlimefun 4&7> '
+  armor-update-interval: 10
+  enable-armor-effects: true
+  enable-radiation: true
+  radiation-update-interval: 1
+  radiation-grace-period: 15
+  rainbow-armor-update-interval: 3
+  auto-save-delay-in-minutes: 10
+  legacy-ore-washer: false
+  legacy-dust-washer: false
+  legacy-ore-grinder: true
+  language: en
+  enable-translations: true
+  log-duplicate-block-entries: true
+  burn-players-when-radioactive: true
+  drop-excess-sf-give-items: false
+  backup-data: true
+  drop-block-creative: true
+guide:
+  show-vanilla-recipes: true
+  receive-on-first-join: true
+  show-hidden-item-groups-in-search: false
+researches:
+  free-in-creative-mode: true
+  enable-fireworks: true
+  disable-learning-animation: false
+URID:
+  info-delay: 3000
+  custom-ticker-delay: 10
+  enable-tickers: true
+networks:
+  max-size: 200
+  cargo-ticker-delay: 0
+  enable-visualizer: true
+  delete-excess-items: false
+talismans:
+  use-actionbar: true
+metrics:
+  auto-update: true
+  analytics: true
+research-ranks:
+- Chicken
+- Cow
+- Spider
+- Villager
+- Beginner
+- Clumsy Student
+- Unskilled Student
+- Incompetent Student
+- Student
+- Clumsy Apprentice
+- Apprentice
+- Skilled Apprentice
+- Upcoming Mage
+- Excellent Mage
+- Young Magician
+- Incompetent Magician
+- Common Magician
+- Magician
+- Proficient Magician
+- Skilled Magician
+- Accustomed Magician
+- Great Magician
+- Clumsy Wizard
+- Wizard
+- Common Wizard
+- Skilled Wizard
+- Great Wizard
+- Impressive Wizard
+- Young Master
+- Clumsy Master
+- Upcoming Master
+- Competent Master
+- Master
+- Skilled Master
+- Excellent Master
+- Great Master
+- Proficient Master
+- The Chosen One

@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: 'نتائج البحث الجغرافي'
+  chunk: 'قسم ممسوح'
+  world: 'العالم'
+  unit: 'وحدة'
+  units: 'وحدات'
+resources:
+  slimefun:
+    oil: 'نفط'
+    nether_ice: 'جليد جهنمي'
+    salt: 'ملح'
+    uranium: 'يورانيوم'
+  slimefunorechunks:
+    iron_ore_chunk: 'قسم ركاز حديد'
+    gold_ore_chunk: 'قسم ركاز ذهب'
+    copper_ore_chunk: 'قسم ركاز نحاس'
+    tin_ore_chunk: 'قسم ركاز قصدير'
+    silver_ore_chunk: 'قسم ركاز فضة'
+    aluminum_ore_chunk: 'قسم ركاز ألمنيوم'
+    lead_ore_chunk: 'قسم ركاز رصاص'
+    zinc_ore_chunk: 'قسم ركاز زنك'
+    nickel_ore_chunk: 'قسم ركاز نيكل'
+    cobalt_ore_chunk: 'قسم ركاز كوبالت'

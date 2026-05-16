@@ -1,0 +1,168 @@
+---
+slimefun:
+  multiblock:
+    name: 'Multiblokk'
+    lore:
+      - 'Építsd meg a látott szerkezetet'
+      - 'az ábra alapján. Ez nem barkácsolás.'
+  enhanced_crafting_table:
+    name: 'Továbbfejlesztett Barkácsasztal'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Enhanced Crafting Table-ben.'
+      - 'A sima barkácsasztal nem lesz elegendő!'
+  armor_forge:
+    name: 'Páncél Műhely'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Armor Forge segítségével'
+  grind_stone:
+    name: 'Köszörűkő'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Grind Stone segítségével'
+  smeltery:
+    name: 'Kohó'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Smeltery segítségével'
+  ore_crusher:
+    name: 'Érczúzó'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Ore Crusher segítségével'
+  mob_drop:
+    name: 'Élőlény dobja'
+    lore:
+      - 'Öld meg ezt az élőlényt,'
+      - 'hogy megszerezd ezt a tárgyat'
+  gold_pan:
+    name: 'Aranymosó'
+    lore:
+      - 'Használd az Gold Pan-t,'
+      - 'hogy megszerezd ezt a tárgyat'
+  compressor:
+    name: 'Kompresszor'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Compressor segítségével'
+  pressure_chamber:
+    name: 'Nyomáskamra'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Pressure Chamber segítségével'
+  ore_washer:
+    name: 'Ércmosó'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Ore Washer segítségével'
+  juicer:
+    name: 'Facsaró'
+    lore:
+      - 'Készítsd el ezt a gyümölcslevet az ábra alapján'
+      - 'egy Juicer segítségével'
+  magic_workbench:
+    name: 'Varázslatos Barkácsasztal'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Magic Workbench segítségével'
+  ancient_altar:
+    name: 'Ősi oltár'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Ancient Altar segítségével.'
+      - 'Keress utána az Ancient Altar-nak a további információkért'
+  heated_pressure_chamber:
+    name: 'Fűtött nyomáskamra'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Heated Pressure Chamber segítségével'
+  food_fabricator:
+    name: 'Élelmiszer Készítő'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Food Fabricator segítségével'
+  food_composter:
+    name: 'Élelmiszer-komposztáló'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Food Composter segítségével.'
+  freezer:
+    name: 'Fagyasztó'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Freezer segítségével.'
+  geo_miner:
+    name: 'GEO Bányászgép'
+    lore:
+      - 'Ez a tárgy összegyűjthető'
+      - 'egy GEO Miner segítségével.'
+  nuclear_reactor:
+    name: 'Nukleáris Reaktor'
+    lore:
+      - 'Ez a tárgy mellékterméke'
+      - 'a Nuclear Reactor működésének.'
+  oil_pump:
+    name: 'Olaj Pumpa'
+    lore:
+      - 'Ez a tárgy összegyűjthető'
+      - 'egy Oil Pump segítségével.'
+  pickaxe_of_containment:
+    name: 'Elszigetelés Csákánya'
+    lore:
+      - 'Ez a blokk megszerezhető úgy,'
+      - 'hogy egy spawnert kibányászol'
+      - 'a Pickaxe of Containment-tel.'
+  refinery:
+    name: 'Finomító'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy Refinery segítségével.'
+  barter_drop:
+    name: 'Piglinek dobják cserélésnél'
+    lore:
+      - 'Cserélj el piglenekkel aranyrudakat,'
+      - 'hogy megszerezd ezt a tárgyat.'
+minecraft:
+  shaped:
+    name: 'Barkácsrecept forma'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy sima barkácsasztal segítségével.'
+      - 'A forma fontos.'
+  shapeless:
+    name: 'Forma nélküli barkácsrecept'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy sima barkácsasztal segítségével.'
+      - 'Ez a recept forma nélküli.'
+  furnace:
+    name: 'Kemence recept'
+    lore:
+      - 'Olvaszd meg ezt a tárgyat egy kemencében,'
+      - 'hogy elkészítsd a kívánt tárgyat.'
+  blasting:
+    name: 'Kohó recept'
+    lore:
+      - 'Olvaszd meg ezt a tárgyat egy kohóban,'
+      - 'hogy elkészítsd a kívánt tárgyat.'
+  smoking:
+    name: 'Füstölő recept'
+    lore:
+      - 'Olvaszd meg ezt a tárgyat egy füstölőben,'
+      - 'hogy elkészítsd a kívánt tárgyat.'
+  campfire:
+    name: 'Tábortűz recept'
+    lore:
+      - 'Olvaszd meg ezt a tárgyat tábortűzön,'
+      - 'hogy elkészítsd a kívánt tárgyat.'
+  stonecutting:
+    name: 'Kővágó recept'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy kővágó segítségével.'
+  smithing:
+    name: 'Kovácsasztal recept'
+    lore:
+      - 'Készítsd el ezt a tárgyat az ábra alapján'
+      - 'egy kovácsasztal segítségével.'

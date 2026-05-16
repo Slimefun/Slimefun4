@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IndustrialMiner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner</a> &gt; <span class="el_source">IndustrialMiner.java</span></div><h1>IndustrialMiner.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+
+/**
+ * The {@link IndustrialMiner} is a {@link MultiBlockMachine} that can mine any
+ * ores it finds in a given range underneath where it was placed.
+ *
+ * &lt;i&gt;And for those of you who are wondering... yes this is the replacement for the
+ * long-time deprecated Digital Miner.&lt;/i&gt;
+ *
+ * @author TheBusyBiscuit
+ *
+ * @see AdvancedIndustrialMiner
+ * @see MiningTask
+ *
+ */
+public class IndustrialMiner extends MultiBlockMachine {
+
+<span class="nc" id="L52">    protected final Map&lt;Location, MiningTask&gt; activeMiners = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L53">    protected final List&lt;MachineFuel&gt; fuelTypes = new ArrayList&lt;&gt;();</span>
+
+    private final OreDictionary oreDictionary;
+<span class="nc" id="L56">    private final ItemSetting&lt;Boolean&gt; canMineAncientDebris = new ItemSetting&lt;&gt;(this, &quot;can-mine-ancient-debris&quot;, false);</span>
+<span class="nc" id="L57">    private final ItemSetting&lt;Boolean&gt; canMineDeepslateOres = new ItemSetting&lt;&gt;(this, &quot;can-mine-deepslate-ores&quot;, true);</span>
+    private final boolean silkTouch;
+    private final int range;
+
+    @ParametersAreNonnullByDefault
+    public IndustrialMiner(ItemGroup itemGroup, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
+        // @formatter:off
+<span class="nc" id="L64">        super(itemGroup, item, new ItemStack[] {</span>
+            null, null, null,
+<span class="nc" id="L66">            CustomItemStack.create(Material.PISTON, &quot;Piston (facing up)&quot;), new ItemStack(Material.CHEST), CustomItemStack.create(Material.PISTON, &quot;Piston (facing up)&quot;),</span>
+            new ItemStack(baseMaterial), new ItemStack(Material.BLAST_FURNACE), new ItemStack(baseMaterial)
+        }, BlockFace.UP);
+        // @formatter:on
+
+<span class="nc" id="L71">        this.oreDictionary = OreDictionary.forVersion(Slimefun.getMinecraftVersion());</span>
+<span class="nc" id="L72">        this.range = range;</span>
+<span class="nc" id="L73">        this.silkTouch = silkTouch;</span>
+
+<span class="nc" id="L75">        registerDefaultFuelTypes();</span>
+<span class="nc" id="L76">        addItemSetting(canMineAncientDebris);</span>
+<span class="nc" id="L77">        addItemSetting(canMineDeepslateOres);</span>
+<span class="nc" id="L78">    }</span>
+
+    /**
+     * This returns whether this {@link IndustrialMiner} will output ores as they are.
+     * Similar to the Silk Touch {@link Enchantment}.
+     *
+     * @return Whether to treat ores with Silk Touch
+     */
+    public boolean hasSilkTouch() {
+<span class="nc" id="L87">        return silkTouch;</span>
+    }
+
+    /**
+     * This method returns the range of the {@link IndustrialMiner}.
+     * The total area will be determined by the range multiplied by 2 plus the actual center
+     * of the machine.
+     *
+     * So a range of 3 will make the {@link IndustrialMiner} affect an area of 7x7 blocks.
+     * 3 on all axis, plus the center of the machine itself.
+     *
+     * @return The range of this {@link IndustrialMiner}
+     */
+    public int getRange() {
+<span class="nc" id="L101">        return range;</span>
+    }
+
+    /**
+     * This registers the various types of fuel that can be used in the
+     * {@link IndustrialMiner}.
+     */
+    protected void registerDefaultFuelTypes() {
+        // Coal &amp; Charcoal
+<span class="nc" id="L110">        fuelTypes.add(new MachineFuel(4, new ItemStack(Material.COAL)));</span>
+<span class="nc" id="L111">        fuelTypes.add(new MachineFuel(4, new ItemStack(Material.CHARCOAL)));</span>
+
+<span class="nc" id="L113">        fuelTypes.add(new MachineFuel(40, new ItemStack(Material.COAL_BLOCK)));</span>
+<span class="nc" id="L114">        fuelTypes.add(new MachineFuel(10, new ItemStack(Material.DRIED_KELP_BLOCK)));</span>
+<span class="nc" id="L115">        fuelTypes.add(new MachineFuel(4, new ItemStack(Material.BLAZE_ROD)));</span>
+
+        // Logs
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        for (Material mat : Tag.LOGS.getValues()) {</span>
+<span class="nc" id="L119">            fuelTypes.add(new MachineFuel(1, new ItemStack(mat)));</span>
+<span class="nc" id="L120">        }</span>
+<span class="nc" id="L121">    }</span>
+
+    /**
+     * This method returns the outcome that mining certain ores yields.
+     *
+     * @param material
+     *            The {@link Material} of the ore that was mined
+     *
+     * @return The outcome when mining this ore
+     */
+    public @Nonnull ItemStack getOutcome(@Nonnull Material material) {
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (hasSilkTouch()) {</span>
+<span class="nc" id="L133">            return new ItemStack(material);</span>
+        } else {
+<span class="nc" id="L135">            Random random = ThreadLocalRandom.current();</span>
+<span class="nc" id="L136">            return oreDictionary.getDrops(material, random);</span>
+        }
+    }
+
+    /**
+     * This registers a new fuel type for this {@link IndustrialMiner}.
+     *
+     * @param ores
+     *            The amount of ores this allows you to mine
+     * @param item
+     *            The item that shall be consumed
+     */
+    public void addFuelType(int ores, @Nonnull ItemStack item) {
+<span class="nc bnc" id="L149" title="All 4 branches missed.">        Validate.isTrue(ores &gt; 1 &amp;&amp; ores % 2 == 0, &quot;The amount of ores must be at least 2 and a multiple of 2.&quot;);</span>
+<span class="nc" id="L150">        Validate.notNull(item, &quot;The fuel item cannot be null&quot;);</span>
+
+<span class="nc" id="L152">        fuelTypes.add(new MachineFuel(ores / 2, item));</span>
+<span class="nc" id="L153">    }</span>
+
+    @Override
+    public @Nonnull String getLabelLocalPath() {
+<span class="nc" id="L157">        return &quot;guide.tooltips.recipes.generator&quot;;</span>
+    }
+
+    @Override
+    public @Nonnull List&lt;ItemStack&gt; getDisplayRecipes() {
+<span class="nc" id="L162">        List&lt;ItemStack&gt; list = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        for (MachineFuel fuel : fuelTypes) {</span>
+<span class="nc" id="L165">            ItemStack item = fuel.getInput().clone();</span>
+<span class="nc" id="L166">            ItemMeta im = item.getItemMeta();</span>
+<span class="nc" id="L167">            List&lt;String&gt; lore = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L168">            lore.add(ChatColors.color(&quot;&amp;8\u21E8 &amp;7Lasts for max. &quot; + fuel.getTicks() + &quot; Ores&quot;));</span>
+<span class="nc" id="L169">            im.setLore(lore);</span>
+<span class="nc" id="L170">            item.setItemMeta(im);</span>
+<span class="nc" id="L171">            list.add(item);</span>
+<span class="nc" id="L172">        }</span>
+
+<span class="nc" id="L174">        return list;</span>
+    }
+
+    @Override
+    public void onInteract(Player p, Block b) {
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if (activeMiners.containsKey(b.getLocation())) {</span>
+<span class="nc" id="L180">            Slimefun.getLocalization().sendMessage(p, &quot;machines.INDUSTRIAL_MINER.already-running&quot;);</span>
+<span class="nc" id="L181">            return;</span>
+        }
+
+<span class="nc" id="L184">        Block chest = b.getRelative(BlockFace.UP);</span>
+<span class="nc" id="L185">        Block[] pistons = findPistons(chest);</span>
+
+<span class="nc" id="L187">        int mod = getRange();</span>
+<span class="nc" id="L188">        Block start = b.getRelative(-mod, -1, -mod);</span>
+<span class="nc" id="L189">        Block end = b.getRelative(mod, -1, mod);</span>
+
+<span class="nc" id="L191">        MiningTask task = new MiningTask(this, p.getUniqueId(), chest, pistons, start, end);</span>
+<span class="nc" id="L192">        task.start(b);</span>
+<span class="nc" id="L193">    }</span>
+
+    private @Nonnull Block[] findPistons(@Nonnull Block chest) {
+<span class="nc" id="L196">        Block northern = chest.getRelative(BlockFace.NORTH);</span>
+
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        if (northern.getType() == Material.PISTON) {</span>
+<span class="nc" id="L199">            return new Block[] { northern, chest.getRelative(BlockFace.SOUTH) };</span>
+        } else {
+<span class="nc" id="L201">            return new Block[] { chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST) };</span>
+        }
+    }
+
+    /**
+     * This returns whether this {@link IndustrialMiner} can mine the given {@link Block}.
+     *
+     * @param block
+     *            The {@link Block} to check
+     *
+     * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Block}
+     */
+    public boolean canMine(@Nonnull Block block) {
+<span class="nc" id="L214">        MinecraftVersion version = Slimefun.getMinecraftVersion();</span>
+<span class="nc" id="L215">        Material type = block.getType();</span>
+
+<span class="nc bnc" id="L217" title="All 2 branches missed.">        if (type == Material.ANCIENT_DEBRIS) {</span>
+<span class="nc bnc" id="L218" title="All 4 branches missed.">            return canMineAncientDebris.getValue() &amp;&amp; !BlockStorage.hasBlockInfo(block);</span>
+<span class="nc bnc" id="L219" title="All 4 branches missed.">        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) &amp;&amp; SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {</span>
+<span class="nc bnc" id="L220" title="All 4 branches missed.">            return canMineDeepslateOres.getValue() &amp;&amp; !BlockStorage.hasBlockInfo(block);</span>
+        } else {
+<span class="nc bnc" id="L222" title="All 4 branches missed.">            return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type) &amp;&amp; !BlockStorage.hasBlockInfo(block);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

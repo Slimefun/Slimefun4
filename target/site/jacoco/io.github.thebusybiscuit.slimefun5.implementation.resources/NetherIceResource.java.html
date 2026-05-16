@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NetherIceResource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.resources</a> &gt; <span class="el_source">NetherIceResource.java</span></div><h1>NetherIceResource.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.resources;
+
+import org.bukkit.World.Environment;
+import org.bukkit.block.Biome;
+
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
+
+/**
+ * A {@link GEOResource} which consists of nether ice.
+ * It can only be found in the nether.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+class NetherIceResource extends AbstractResource {
+
+    private static final int DEFAULT_NETHER_VALUE = 32;
+
+    private final BiomeMap&lt;Integer&gt; biomes;
+
+    NetherIceResource() {
+<span class="nc" id="L24">        super(&quot;nether_ice&quot;, &quot;Nether Ice&quot;, SlimefunItems.NETHER_ICE.item(), 6, true);</span>
+
+<span class="nc" id="L26">        biomes = getBiomeMap(this, &quot;/biome-maps/nether_ice_v1.16.json&quot;);</span>
+<span class="nc" id="L27">    }</span>
+
+    @Override
+    public int getDefaultSupply(Environment environment, Biome biome) {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (environment != Environment.NETHER) {</span>
+<span class="nc" id="L32">            return 0;</span>
+        } else {
+<span class="nc" id="L34">            return biomes.getOrDefault(biome, DEFAULT_NETHER_VALUE);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

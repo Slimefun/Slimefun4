@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlockBreakHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.handlers</a> &gt; <span class="el_source">BlockBreakHandler.java</span></div><h1>BlockBreakHandler.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.handlers;
+
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
+
+/**
+ * The {@link BlockBreakHandler} is called when a {@link Block} is broken
+ * which holds a {@link SlimefunItem}.
+ * The {@link BlockBreakHandler} provides three methods for this, one for block breaking
+ * caused by a {@link Player}, one for a {@link MinerAndroid} and one method for a {@link Block}
+ * being destroyed by an explosion.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see BlockPlaceHandler
+ *
+ */
+public abstract class BlockBreakHandler implements ItemHandler {
+
+    /**
+     * Whether a {@link MinerAndroid} is allowed to break this block.
+     */
+    private final boolean allowAndroids;
+
+    /**
+     * Whether an explosion is allowed to destroy this block.
+     */
+    private final boolean allowExplosions;
+
+    /**
+     * This constructs a new {@link BlockBreakHandler}.
+     * 
+     * @param allowAndroids
+     *            Whether a {@link MinerAndroid} is allowed to break blocks of this type
+     * @param allowExplosions
+     *            Whether blocks of this type are allowed to be broken by explosions
+     */
+<span class="nc" id="L50">    protected BlockBreakHandler(boolean allowAndroids, boolean allowExplosions) {</span>
+<span class="nc" id="L51">        this.allowAndroids = allowAndroids;</span>
+<span class="nc" id="L52">        this.allowExplosions = allowExplosions;</span>
+<span class="nc" id="L53">    }</span>
+
+    @ParametersAreNonnullByDefault
+    public abstract void onPlayerBreak(BlockBreakEvent e, ItemStack item, List&lt;ItemStack&gt; drops);
+
+    @ParametersAreNonnullByDefault
+    public void onExplode(Block b, List&lt;ItemStack&gt; drops) {
+        // This can be overridden, if necessary
+<span class="nc" id="L61">    }</span>
+
+    @ParametersAreNonnullByDefault
+    public void onAndroidBreak(AndroidMineEvent e) {
+        // This can be overridden, if necessary
+<span class="nc" id="L66">    }</span>
+
+    /**
+     * This returns whether an explosion is able to break the given {@link Block}.
+     * 
+     * @param b
+     *            The {@link Block}
+     * @return Whether explosions can destroy this {@link Block}
+     */
+    public boolean isExplosionAllowed(@Nonnull Block b) {
+        /*
+         * By default our flag is returned, but you can override it
+         * to be handled on a per-Block basis.
+         */
+<span class="nc" id="L80">        return allowExplosions;</span>
+    }
+
+    /**
+     * This returns whether a {@link MinerAndroid} is allowed to break
+     * the given {@link Block}.
+     * 
+     * @param b
+     *            The {@link Block}
+     * 
+     * @return Whether androids can break the given {@link Block}
+     */
+    public boolean isAndroidAllowed(@Nonnull Block b) {
+        /*
+         * By default our flag is returned, but you can override it
+         * to be handled on a per-Block basis.
+         */
+<span class="nc" id="L97">        return allowAndroids;</span>
+    }
+
+    @Override
+    public final Class&lt;? extends ItemHandler&gt; getIdentifier() {
+<span class="nc" id="L102">        return BlockBreakHandler.class;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlockDataService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services</a> &gt; <span class="el_source">BlockDataService.java</span></div><h1>BlockDataService.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services;
+
+import java.util.Optional;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Keyed;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.TileState;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataHolder;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.papermc.lib.PaperLib;
+
+/**
+ * The {@link BlockDataService} is similar to the {@link CustomItemDataService},
+ * it is responsible for storing NBT data inside a {@link TileState}.
+ * 
+ * This is used to speed up performance and prevent
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class BlockDataService implements Keyed {
+
+    private final NamespacedKey namespacedKey;
+
+    /**
+     * This creates a new {@link BlockDataService} for the given {@link Plugin}.
+     * The {@link Plugin} and key will together form a {@link NamespacedKey} used to store
+     * data on a {@link TileState}.
+     * 
+     * @param plugin
+     *            The {@link Plugin} responsible for this service
+     * @param key
+     *            The key under which to store data
+     */
+<span class="nc" id="L49">    public BlockDataService(@Nonnull Plugin plugin, @Nonnull String key) {</span>
+<span class="nc" id="L50">        namespacedKey = new NamespacedKey(plugin, key);</span>
+<span class="nc" id="L51">    }</span>
+
+    @Override
+    public NamespacedKey getKey() {
+<span class="nc" id="L55">        return namespacedKey;</span>
+    }
+
+    /**
+     * This will store the given {@link String} inside the NBT data of the given {@link Block}
+     * 
+     * @param b
+     *            The {@link Block} in which to store the given value
+     * @param value
+     *            The value to store
+     */
+    public void setBlockData(@Nonnull Block b, @Nonnull String value) {
+<span class="nc" id="L67">        Validate.notNull(b, &quot;The block cannot be null!&quot;);</span>
+<span class="nc" id="L68">        Validate.notNull(value, &quot;The value cannot be null!&quot;);</span>
+
+        /**
+         * Don't use PaperLib here, it seems to be quite buggy in block-placing scenarios
+         * and it would be too tedious to check for individual build versions to circumvent this.
+         */
+<span class="nc" id="L74">        BlockState state = b.getState();</span>
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (state instanceof TileState tileState) {</span>
+            try {
+<span class="nc" id="L78">                PersistentDataContainer container = tileState.getPersistentDataContainer();</span>
+<span class="nc" id="L79">                container.set(namespacedKey, PersistentDataType.STRING, value);</span>
+<span class="nc" id="L80">                state.update();</span>
+<span class="nc" id="L81">            } catch (Exception x) {</span>
+<span class="nc" id="L82">                Slimefun.logger().log(Level.SEVERE, &quot;Please check if your Server Software is up to date!&quot;);</span>
+
+<span class="nc bnc" id="L84" title="All 4 branches missed.">                String serverSoftware = PaperLib.isSpigot() &amp;&amp; !PaperLib.isPaper() ? &quot;Spigot&quot; : Bukkit.getName();</span>
+<span class="nc" id="L85">                Slimefun.logger().log(Level.SEVERE, () -&gt; serverSoftware + &quot; | &quot; + Bukkit.getVersion() + &quot; | &quot; + Bukkit.getBukkitVersion());</span>
+
+<span class="nc" id="L87">                Slimefun.logger().log(Level.SEVERE, &quot;An Exception was thrown while trying to set Persistent Data for a Block&quot;, x);</span>
+<span class="nc" id="L88">            }</span>
+        }
+<span class="nc" id="L90">    }</span>
+
+    /**
+     * This method returns the NBT data previously stored inside this {@link Block}.
+     * 
+     * @param b
+     *            The {@link Block} to retrieve data from
+     * 
+     * @return The stored value
+     */
+    public Optional&lt;String&gt; getBlockData(@Nonnull Block b) {
+<span class="nc" id="L101">        Validate.notNull(b, &quot;The block cannot be null!&quot;);</span>
+
+<span class="nc" id="L103">        BlockState state = PaperLib.getBlockState(b, false).getState();</span>
+<span class="nc" id="L104">        PersistentDataContainer container = getPersistentDataContainer(state);</span>
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (container != null) {</span>
+<span class="nc" id="L107">            return Optional.ofNullable(container.get(namespacedKey, PersistentDataType.STRING));</span>
+        } else {
+<span class="nc" id="L109">            return Optional.empty();</span>
+        }
+    }
+
+    @Nullable
+    private PersistentDataContainer getPersistentDataContainer(@Nonnull BlockState state) {
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (state instanceof TileState tileState) {</span>
+<span class="nc" id="L116">            return tileState.getPersistentDataContainer();</span>
+        } else {
+<span class="nc" id="L118">            return null;</span>
+        }
+    }
+
+    /**
+     * This method checks whether the given {@link Material} is a Tile Entity.
+     * This is used to determine whether the {@link Block} produced by this {@link Material}
+     * produces a {@link TileState}, making it useable as a {@link PersistentDataHolder}.
+     * 
+     * Due to {@link Block#getState()} being a very expensive call performance-wise though,
+     * this simple lookup method is used instead.
+     * 
+     * @param type
+     *            The {@link Material} to check for
+     * 
+     * @return Whether the given {@link Material} is considered a Tile Entity
+     */
+    public boolean isTileEntity(@Nullable Material type) {
+<span class="nc bnc" id="L136" title="All 4 branches missed.">        if (type == null || type.isAir()) {</span>
+            // Cannot store data on air
+<span class="nc" id="L138">            return false;</span>
+        }
+
+<span class="nc" id="L141">        return SlimefunTag.TILE_ENTITIES.isTagged(type);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

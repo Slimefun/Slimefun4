@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlockStorage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">me.mrCookieSlime.Slimefun.api</a> &gt; <span class="el_source">BlockStorage.java</span></div><h1>BlockStorage.java</h1><pre class="source lang-java linenums">package me.mrCookieSlime.Slimefun.api;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.inventory.ItemStack;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
+
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.NumberUtils;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+
+// This class really needs a VERY big overhaul
+public class BlockStorage {
+
+    private static final String PATH_BLOCKS = &quot;data-storage/Slimefun/stored-blocks/&quot;;
+    private static final String PATH_CHUNKS = &quot;data-storage/Slimefun/stored-chunks/&quot;;
+    private static final String PATH_INVENTORIES = &quot;data-storage/Slimefun/stored-inventories/&quot;;
+
+<span class="nc" id="L56">    private static final EmptyBlockData emptyBlockData = new EmptyBlockData();</span>
+
+    private final World world;
+<span class="nc" id="L59">    private final Map&lt;Location, Config&gt; storage = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="nc" id="L60">    private final Map&lt;Location, BlockMenu&gt; inventories = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="nc" id="L61">    private final Map&lt;String, Config&gt; blocksCache = new ConcurrentHashMap&lt;&gt;();</span>
+
+<span class="nc" id="L63">    private static int chunkChanges = 0;</span>
+<span class="nc" id="L64">    private static boolean universalInventoriesLoaded = false;</span>
+
+<span class="nc" id="L66">    private int changes = 0;</span>
+<span class="nc" id="L67">    private AtomicBoolean isMarkedForRemoval = new AtomicBoolean(false);</span>
+
+    @Nullable
+    public static BlockStorage getStorage(@Nonnull World world) {
+<span class="nc" id="L71">        return Slimefun.getRegistry().getWorlds().get(world.getName());</span>
+    }
+
+    @Nonnull
+    public static BlockStorage getOrCreate(@Nonnull World world) {
+<span class="nc" id="L76">        BlockStorage storage = Slimefun.getRegistry().getWorlds().get(world.getName());</span>
+
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (storage == null) {</span>
+<span class="nc" id="L79">            return new BlockStorage(world);</span>
+        } else {
+<span class="nc" id="L81">            return storage;</span>
+        }
+    }
+
+    private static String serializeLocation(Location l) {
+<span class="nc" id="L86">        return l.getWorld().getName() + ';' + l.getBlockX() + ';' + l.getBlockY() + ';' + l.getBlockZ();</span>
+    }
+
+    private static String serializeChunk(World world, int x, int z) {
+<span class="nc" id="L90">        return world.getName() + &quot;;Chunk;&quot; + x + ';' + z;</span>
+    }
+
+    private static Location deserializeLocation(String l) {
+        try {
+<span class="nc" id="L95">            String[] components = CommonPatterns.SEMICOLON.split(l);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            if (components.length != 4) {</span>
+<span class="nc" id="L97">                return null;</span>
+            }
+
+<span class="nc" id="L100">            World w = Bukkit.getWorld(components[0]);</span>
+
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            if (w != null) {</span>
+<span class="nc" id="L103">                return new Location(w, Integer.parseInt(components[1]), Integer.parseInt(components[2]), Integer.parseInt(components[3]));</span>
+            }
+<span class="nc" id="L105">        } catch (NumberFormatException x) {</span>
+<span class="nc" id="L106">            Slimefun.logger().log(Level.WARNING, &quot;Could not parse Number&quot;, x);</span>
+<span class="nc" id="L107">        }</span>
+<span class="nc" id="L108">        return null;</span>
+    }
+
+<span class="nc" id="L111">    public BlockStorage(World w) {</span>
+<span class="nc" id="L112">        this.world = w;</span>
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (world.getName().indexOf('.') != -1) {</span>
+<span class="nc" id="L115">            throw new IllegalArgumentException(&quot;Slimefun cannot deal with World names that contain a dot: &quot; + w.getName());</span>
+        }
+
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (Slimefun.getRegistry().getWorlds().containsKey(w.getName())) {</span>
+            // Cancel the loading process if the world was already loaded
+<span class="nc" id="L120">            return;</span>
+        }
+
+<span class="nc" id="L123">        Slimefun.logger().log(Level.INFO, &quot;Loading Blocks for World \&quot;{0}\&quot;&quot;, w.getName());</span>
+<span class="nc" id="L124">        Slimefun.logger().log(Level.INFO, &quot;This may take a long time...&quot;);</span>
+
+<span class="nc" id="L126">        File dir = new File(PATH_BLOCKS + w.getName());</span>
+
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (dir.exists()) {</span>
+<span class="nc" id="L129">            loadBlocks(dir);</span>
+        } else {
+<span class="nc" id="L131">            dir.mkdirs();</span>
+        }
+
+<span class="nc" id="L134">        loadChunks();</span>
+
+        // TODO: properly support loading inventories within unit tests
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (!Slimefun.instance().isUnitTest()) {</span>
+<span class="nc" id="L138">            loadInventories();</span>
+        }
+<span class="nc" id="L140">        Slimefun.getRegistry().getWorlds().put(world.getName(), this);</span>
+<span class="nc" id="L141">    }</span>
+
+    private void loadBlocks(File directory) {
+<span class="nc" id="L144">        long total = directory.listFiles().length;</span>
+<span class="nc" id="L145">        long start = System.currentTimeMillis();</span>
+<span class="nc" id="L146">        long done = 0;</span>
+<span class="nc" id="L147">        long timestamp = System.currentTimeMillis();</span>
+<span class="nc" id="L148">        long totalBlocks = 0;</span>
+<span class="nc" id="L149">        int delay = Slimefun.getCfg().getInt(&quot;URID.info-delay&quot;);</span>
+
+        try {
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            for (File file : directory.listFiles()) {</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">                if (file.getName().equals(&quot;null.sfb&quot;)) {</span>
+<span class="nc" id="L154">                    Slimefun.logger().log(Level.WARNING, &quot;File with corrupted blocks detected!&quot;);</span>
+<span class="nc" id="L155">                    Slimefun.logger().log(Level.WARNING, &quot;Slimefun will simply skip this File, you should look inside though!&quot;);</span>
+<span class="nc" id="L156">                    Slimefun.logger().log(Level.WARNING, file.getPath());</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">                } else if (file.getName().endsWith(&quot;.sfb&quot;)) {</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">                    if (timestamp + delay &lt; System.currentTimeMillis()) {</span>
+<span class="nc" id="L159">                        int progress = Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F);</span>
+<span class="nc" id="L160">                        Slimefun.logger().log(Level.INFO, &quot;Loading Blocks... {0}% done (\&quot;{1}\&quot;)&quot;, new Object[] { progress, world.getName() });</span>
+<span class="nc" id="L161">                        timestamp = System.currentTimeMillis();</span>
+                    }
+
+<span class="nc" id="L164">                    FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);</span>
+
+<span class="nc bnc" id="L166" title="All 2 branches missed.">                    for (String key : cfg.getKeys(false)) {</span>
+<span class="nc" id="L167">                        loadBlock(file, cfg, key);</span>
+<span class="nc" id="L168">                        totalBlocks++;</span>
+<span class="nc" id="L169">                    }</span>
+
+<span class="nc" id="L171">                    done++;</span>
+                }
+            }
+        } finally {
+<span class="nc" id="L175">            long time = (System.currentTimeMillis() - start);</span>
+<span class="nc" id="L176">            Slimefun.logger().log(Level.INFO, &quot;Loading Blocks... 100% (FINISHED - {0}ms)&quot;, time);</span>
+<span class="nc" id="L177">            Slimefun.logger().log(Level.INFO, &quot;Loaded a total of {0} Blocks for World \&quot;{1}\&quot;&quot;, new Object[] { totalBlocks, world.getName() });</span>
+
+<span class="nc bnc" id="L179" title="All 2 branches missed.">            if (totalBlocks &gt; 0) {</span>
+<span class="nc" id="L180">                Slimefun.logger().log(Level.INFO, &quot;Avg: {0}ms/Block&quot;, NumberUtils.roundDecimalNumber((double) time / (double) totalBlocks));</span>
+            }
+        }
+<span class="nc" id="L183">    }</span>
+
+    private void loadBlock(File file, FileConfiguration cfg, String key) {
+<span class="nc" id="L186">        Location l = deserializeLocation(key);</span>
+
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        if (l == null) {</span>
+            // That location was malformed, we will skip this one
+<span class="nc" id="L190">            return;</span>
+        }
+
+        try {
+<span class="nc" id="L194">            String json = cfg.getString(key);</span>
+<span class="nc" id="L195">            Config blockInfo = parseBlockInfo(l, json);</span>
+
+<span class="nc bnc" id="L197" title="All 4 branches missed.">            if (blockInfo != null &amp;&amp; blockInfo.contains(&quot;id&quot;)) {</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">                if (storage.putIfAbsent(l, blockInfo) != null) {</span>
+                    /*
+                     * It should not be possible to have two blocks on the same location.
+                     * Ignore the new entry if a block is already present and print an
+                     * error to the console (if enabled).
+                     */
+<span class="nc bnc" id="L204" title="All 2 branches missed.">                    if (Slimefun.getRegistry().logDuplicateBlockEntries()) {</span>
+<span class="nc" id="L205">                        Slimefun.logger().log(Level.INFO, &quot;Ignoring duplicate block @ %d, %d, %d (%s -&gt; %s)&quot;.formatted(l.getBlockX(), l.getBlockY(), l.getBlockZ(), blockInfo.getString(&quot;id&quot;), storage.get(l).getString(&quot;id&quot;)));</span>
+                    }
+
+<span class="nc" id="L208">                    return;</span>
+                }
+
+<span class="nc" id="L211">                String fileName = file.getName().replace(&quot;.sfb&quot;, &quot;&quot;);</span>
+
+<span class="nc bnc" id="L213" title="All 2 branches missed.">                if (Slimefun.getRegistry().getTickerBlocks().contains(fileName)) {</span>
+<span class="nc" id="L214">                    Slimefun.getTickerTask().enableTicker(l);</span>
+                }
+            }
+<span class="nc" id="L217">        } catch (Exception x) {</span>
+<span class="nc" id="L218">            Slimefun.logger().log(Level.WARNING, x, () -&gt; &quot;Failed to load &quot; + file.getName() + '(' + key + &quot;) for Slimefun &quot; + Slimefun.getVersion());</span>
+<span class="nc" id="L219">        }</span>
+<span class="nc" id="L220">    }</span>
+
+    private void loadChunks() {
+<span class="nc" id="L223">        File chunks = new File(PATH_CHUNKS + &quot;chunks.sfc&quot;);</span>
+
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        if (chunks.exists()) {</span>
+<span class="nc" id="L226">            FileConfiguration cfg = YamlConfiguration.loadConfiguration(chunks);</span>
+
+<span class="nc bnc" id="L228" title="All 2 branches missed.">            for (String key : cfg.getKeys(false)) {</span>
+                try {
+<span class="nc bnc" id="L230" title="All 2 branches missed.">                    if (world.getName().equals(CommonPatterns.SEMICOLON.split(key)[0])) {</span>
+<span class="nc" id="L231">                        BlockInfoConfig data = new BlockInfoConfig(parseJSON(cfg.getString(key)));</span>
+<span class="nc" id="L232">                        Slimefun.getRegistry().getChunks().put(key, data);</span>
+                    }
+<span class="nc" id="L234">                } catch (Exception x) {</span>
+<span class="nc" id="L235">                    Slimefun.logger().log(Level.WARNING, x, () -&gt; &quot;Failed to load &quot; + chunks.getName() + &quot; in World &quot; + world.getName() + '(' + key + &quot;) for Slimefun &quot; + Slimefun.getVersion());</span>
+<span class="nc" id="L236">                }</span>
+<span class="nc" id="L237">            }</span>
+        }
+<span class="nc" id="L239">    }</span>
+
+    private void loadInventories() {
+<span class="nc bnc" id="L242" title="All 2 branches missed.">        for (File file : new File(&quot;data-storage/Slimefun/stored-inventories&quot;).listFiles()) {</span>
+<span class="nc bnc" id="L243" title="All 4 branches missed.">            if (file.getName().startsWith(world.getName()) &amp;&amp; file.getName().endsWith(&quot;.sfi&quot;)) {</span>
+                try {
+<span class="nc" id="L245">                    Location l = deserializeLocation(file.getName().replace(&quot;.sfi&quot;, &quot;&quot;));</span>
+
+                    // We only want to only load this world's menus
+<span class="nc bnc" id="L248" title="All 2 branches missed.">                    if (world != l.getWorld()) {</span>
+<span class="nc" id="L249">                        continue;</span>
+                    }
+
+<span class="nc" id="L252">                    io.github.bakedlibs.dough.config.Config cfg = new io.github.bakedlibs.dough.config.Config(file);</span>
+<span class="nc" id="L253">                    BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString(&quot;preset&quot;));</span>
+
+<span class="nc bnc" id="L255" title="All 2 branches missed.">                    if (preset == null) {</span>
+<span class="nc" id="L256">                        preset = BlockMenuPreset.getPreset(checkID(l));</span>
+                    }
+
+<span class="nc bnc" id="L259" title="All 2 branches missed.">                    if (preset != null) {</span>
+<span class="nc" id="L260">                        inventories.put(l, new BlockMenu(preset, l, cfg));</span>
+                    }
+<span class="nc" id="L262">                } catch (Exception x) {</span>
+<span class="nc" id="L263">                    Slimefun.logger().log(Level.SEVERE, x, () -&gt; &quot;An Error occurred while loading this Block Inventory: &quot; + file.getName());</span>
+<span class="nc" id="L264">                }</span>
+            }
+        }
+
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (universalInventoriesLoaded) {</span>
+<span class="nc" id="L269">            return;</span>
+        }
+
+<span class="nc" id="L272">        universalInventoriesLoaded = true;</span>
+
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        for (File file : new File(&quot;data-storage/Slimefun/universal-inventories&quot;).listFiles()) {</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">            if (file.getName().endsWith(&quot;.sfi&quot;)) {</span>
+                try {
+<span class="nc" id="L277">                    io.github.bakedlibs.dough.config.Config cfg = new io.github.bakedlibs.dough.config.Config(file);</span>
+<span class="nc" id="L278">                    BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString(&quot;preset&quot;));</span>
+
+<span class="nc bnc" id="L280" title="All 2 branches missed.">                    if (preset != null) {</span>
+<span class="nc" id="L281">                        Slimefun.getRegistry().getUniversalInventories().put(preset.getID(), new UniversalBlockMenu(preset, cfg));</span>
+                    }
+<span class="nc" id="L283">                } catch (Exception x) {</span>
+<span class="nc" id="L284">                    Slimefun.logger().log(Level.SEVERE, x, () -&gt; &quot;An Error occurred while loading this universal Inventory: &quot; + file.getName());</span>
+<span class="nc" id="L285">                }</span>
+            }
+        }
+<span class="nc" id="L288">    }</span>
+
+    public void computeChanges() {
+<span class="nc" id="L291">        changes = blocksCache.size();</span>
+
+<span class="nc" id="L293">        Map&lt;Location, BlockMenu&gt; inventories2 = new HashMap&lt;&gt;(inventories);</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">        for (Map.Entry&lt;Location, BlockMenu&gt; entry : inventories2.entrySet()) {</span>
+<span class="nc" id="L295">            changes += entry.getValue().getUnsavedChanges();</span>
+<span class="nc" id="L296">        }</span>
+
+<span class="nc" id="L298">        Map&lt;String, UniversalBlockMenu&gt; universalInventories2 = new HashMap&lt;&gt;(Slimefun.getRegistry().getUniversalInventories());</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">        for (Map.Entry&lt;String, UniversalBlockMenu&gt; entry : universalInventories2.entrySet()) {</span>
+<span class="nc" id="L300">            changes += entry.getValue().getUnsavedChanges();</span>
+<span class="nc" id="L301">        }</span>
+<span class="nc" id="L302">    }</span>
+
+    public int getChanges() {
+<span class="nc" id="L305">        return changes;</span>
+    }
+
+    public void save() {
+<span class="nc" id="L309">        computeChanges();</span>
+
+<span class="nc bnc" id="L311" title="All 2 branches missed.">        if (changes == 0) {</span>
+<span class="nc" id="L312">            return;</span>
+        }
+
+<span class="nc" id="L315">        Slimefun.logger().log(Level.INFO, &quot;Saving block data for world \&quot;{0}\&quot; ({1} change(s) queued)&quot;, new Object[] { world.getName(), changes });</span>
+<span class="nc" id="L316">        Map&lt;String, Config&gt; cache = new HashMap&lt;&gt;(blocksCache);</span>
+
+<span class="nc bnc" id="L318" title="All 2 branches missed.">        for (Map.Entry&lt;String, Config&gt; entry : cache.entrySet()) {</span>
+<span class="nc" id="L319">            blocksCache.remove(entry.getKey());</span>
+<span class="nc" id="L320">            Config cfg = entry.getValue();</span>
+
+<span class="nc bnc" id="L322" title="All 2 branches missed.">            if (cfg.getKeys().isEmpty()) {</span>
+<span class="nc" id="L323">                File file = cfg.getFile();</span>
+
+<span class="nc bnc" id="L325" title="All 2 branches missed.">                if (file.exists()) {</span>
+                    try {
+<span class="nc" id="L327">                        Files.delete(file.toPath());</span>
+<span class="nc" id="L328">                    } catch (IOException e) {</span>
+<span class="nc" id="L329">                        Slimefun.logger().log(Level.WARNING, e, () -&gt; &quot;Could not delete file \&quot;&quot; + file.getName() + '&quot;');</span>
+<span class="nc" id="L330">                    }</span>
+                }
+<span class="nc" id="L332">            } else {</span>
+<span class="nc" id="L333">                File tmpFile = new File(cfg.getFile().getParentFile(), cfg.getFile().getName() + &quot;.tmp&quot;);</span>
+<span class="nc" id="L334">                cfg.save(tmpFile);</span>
+
+                try {
+<span class="nc" id="L337">                    Files.move(tmpFile.toPath(), cfg.getFile().toPath(), StandardCopyOption.ATOMIC_MOVE);</span>
+<span class="nc" id="L338">                } catch (IOException x) {</span>
+<span class="nc" id="L339">                    Slimefun.logger().log(Level.SEVERE, x, () -&gt; &quot;An Error occurred while copying a temporary File for Slimefun &quot; + Slimefun.getVersion());</span>
+<span class="nc" id="L340">                }</span>
+            }
+<span class="nc" id="L342">        }</span>
+
+<span class="nc" id="L344">        Map&lt;Location, BlockMenu&gt; unsavedInventories = new HashMap&lt;&gt;(inventories);</span>
+<span class="nc bnc" id="L345" title="All 2 branches missed.">        for (Map.Entry&lt;Location, BlockMenu&gt; entry : unsavedInventories.entrySet()) {</span>
+<span class="nc" id="L346">            entry.getValue().save(entry.getKey());</span>
+<span class="nc" id="L347">        }</span>
+
+<span class="nc" id="L349">        Map&lt;String, UniversalBlockMenu&gt; unsavedUniversalInventories = new HashMap&lt;&gt;(Slimefun.getRegistry().getUniversalInventories());</span>
+<span class="nc bnc" id="L350" title="All 2 branches missed.">        for (Map.Entry&lt;String, UniversalBlockMenu&gt; entry : unsavedUniversalInventories.entrySet()) {</span>
+<span class="nc" id="L351">            entry.getValue().save();</span>
+<span class="nc" id="L352">        }</span>
+
+<span class="nc" id="L354">        changes = 0;</span>
+<span class="nc" id="L355">    }</span>
+
+    public void saveAndRemove() {
+<span class="nc" id="L358">        save();</span>
+<span class="nc" id="L359">        saveChunks();</span>
+<span class="nc" id="L360">        isMarkedForRemoval.set(true);</span>
+<span class="nc" id="L361">    }</span>
+
+    public boolean isMarkedForRemoval() {
+<span class="nc" id="L364">        return isMarkedForRemoval.get();</span>
+    }
+
+    public static void saveChunks() {
+<span class="nc bnc" id="L368" title="All 2 branches missed.">        if (chunkChanges &gt; 0) {</span>
+<span class="nc" id="L369">            File chunks = new File(PATH_CHUNKS + &quot;chunks.sfc&quot;);</span>
+<span class="nc" id="L370">            Config cfg = new Config(PATH_CHUNKS + &quot;chunks.temp&quot;);</span>
+
+<span class="nc bnc" id="L372" title="All 2 branches missed.">            for (Map.Entry&lt;String, BlockInfoConfig&gt; entry : Slimefun.getRegistry().getChunks().entrySet()) {</span>
+                // Saving empty chunk data is pointless
+<span class="nc bnc" id="L374" title="All 2 branches missed.">                if (!entry.getValue().getKeys().isEmpty()) {</span>
+<span class="nc" id="L375">                    cfg.setValue(entry.getKey(), entry.getValue().toJSON());</span>
+                }
+<span class="nc" id="L377">            }</span>
+
+<span class="nc" id="L379">            cfg.save(chunks);</span>
+
+<span class="nc" id="L381">            chunkChanges = 0;</span>
+        }
+<span class="nc" id="L383">    }</span>
+
+    /**
+     * This will return an {@link ImmutableMap} of the underline {@code Map&lt;String, Config&gt;} of
+     * this worlds {@link BlockStorage}.
+     *
+     * @return An {@link ImmutableMap} of the raw data.
+     */
+    @Nonnull
+    public Map&lt;Location, Config&gt; getRawStorage() {
+<span class="nc" id="L393">        return ImmutableMap.copyOf(this.storage);</span>
+    }
+
+    /**
+     * This will return an {@link ImmutableMap} of the underline {@code Map&lt;String, Config&gt;} of
+     * this worlds {@link BlockStorage}. If there is no registered world then this will return null.
+     *
+     * @param world
+     *            The world of which to fetch the data from.
+     * @return An {@link ImmutableMap} of the raw data or null if the world isn't registered.
+     */
+    @Nullable
+    public static Map&lt;Location, Config&gt; getRawStorage(@Nonnull World world) {
+<span class="nc" id="L406">        Validate.notNull(world, &quot;World cannot be null!&quot;);</span>
+
+<span class="nc" id="L408">        BlockStorage storage = getStorage(world);</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">        if (storage != null) {</span>
+<span class="nc" id="L410">            return storage.getRawStorage();</span>
+        } else {
+<span class="nc" id="L412">            return null;</span>
+        }
+    }
+
+    public static void store(Block block, ItemStack item) {
+<span class="nc" id="L417">        SlimefunItem sfitem = SlimefunItem.getByItem(item);</span>
+
+<span class="nc bnc" id="L419" title="All 2 branches missed.">        if (sfitem != null) {</span>
+<span class="nc" id="L420">            addBlockInfo(block, &quot;id&quot;, sfitem.getId(), true);</span>
+        }
+<span class="nc" id="L422">    }</span>
+
+    public static void store(Block block, String item) {
+<span class="nc" id="L425">        addBlockInfo(block, &quot;id&quot;, item, true);</span>
+<span class="nc" id="L426">    }</span>
+
+    /**
+     * Retrieves the SlimefunItem's ItemStack from the specified Block.
+     * If the specified Block is registered in BlockStorage,
+     * its data will be erased from it, regardless of the returned value.
+     *
+     * @param block
+     *            the block to retrieve the ItemStack from
+     * 
+     * @return the SlimefunItem's ItemStack corresponding to the block if it has one, otherwise null
+     */
+    @Nullable
+    public static ItemStack retrieve(@Nonnull Block block) {
+<span class="nc" id="L440">        SlimefunItem item = check(block);</span>
+
+<span class="nc bnc" id="L442" title="All 2 branches missed.">        if (item == null) {</span>
+<span class="nc" id="L443">            return null;</span>
+        } else {
+<span class="nc" id="L445">            clearBlockInfo(block);</span>
+<span class="nc" id="L446">            return item.getItem();</span>
+        }
+    }
+
+    @Nonnull
+    public static Config getLocationInfo(Location l) {
+<span class="nc" id="L452">        BlockStorage storage = getStorage(l.getWorld());</span>
+
+<span class="nc bnc" id="L454" title="All 2 branches missed.">        if (storage == null) {</span>
+<span class="nc" id="L455">            return emptyBlockData;</span>
+        }
+
+<span class="nc" id="L458">        Config cfg = storage.storage.get(l);</span>
+<span class="nc bnc" id="L459" title="All 2 branches missed.">        return cfg == null ? emptyBlockData : cfg;</span>
+    }
+
+    @Nonnull
+    private static Map&lt;String, String&gt; parseJSON(String json) {
+<span class="nc" id="L464">        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L466" title="All 4 branches missed.">        if (json != null &amp;&amp; json.length() &gt; 2) {</span>
+<span class="nc" id="L467">            JsonParser parser = new JsonParser();</span>
+<span class="nc" id="L468">            JsonObject obj = parser.parse(json).getAsJsonObject();</span>
+
+<span class="nc bnc" id="L470" title="All 2 branches missed.">            for (Map.Entry&lt;String, JsonElement&gt; entry : obj.entrySet()) {</span>
+<span class="nc" id="L471">                map.put(entry.getKey(), entry.getValue().getAsString());</span>
+<span class="nc" id="L472">            }</span>
+        }
+
+<span class="nc" id="L475">        return map;</span>
+    }
+
+    private static BlockInfoConfig parseBlockInfo(Location l, String json) {
+        try {
+<span class="nc" id="L480">            return new BlockInfoConfig(parseJSON(json));</span>
+<span class="nc" id="L481">        } catch (Exception x) {</span>
+<span class="nc" id="L482">            Logger logger = Slimefun.logger();</span>
+<span class="nc" id="L483">            logger.log(Level.WARNING, x.getClass().getName());</span>
+<span class="nc" id="L484">            logger.log(Level.WARNING, &quot;Failed to parse BlockInfo for Block @ {0}, {1}, {2}&quot;, new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ() });</span>
+<span class="nc" id="L485">            logger.log(Level.WARNING, json);</span>
+<span class="nc" id="L486">            logger.log(Level.WARNING, &quot;&quot;);</span>
+<span class="nc" id="L487">            logger.log(Level.WARNING, &quot;IGNORE THIS ERROR UNLESS IT IS SPAMMING&quot;);</span>
+<span class="nc" id="L488">            logger.log(Level.WARNING, &quot;&quot;);</span>
+<span class="nc" id="L489">            logger.log(Level.SEVERE, x, () -&gt; &quot;An Error occurred while parsing Block Info for Slimefun &quot; + Slimefun.getVersion());</span>
+<span class="nc" id="L490">            return null;</span>
+        }
+    }
+
+    private static String serializeBlockInfo(Config cfg) {
+<span class="nc" id="L495">        StringWriter string = new StringWriter();</span>
+
+<span class="nc" id="L497">        try (JsonWriter writer = new JsonWriter(string)) {</span>
+<span class="nc" id="L498">            writer.setLenient(true);</span>
+<span class="nc" id="L499">            writer.beginObject();</span>
+
+<span class="nc bnc" id="L501" title="All 2 branches missed.">            for (String key : cfg.getKeys()) {</span>
+<span class="nc" id="L502">                writer.name(key).value(cfg.getString(key));</span>
+<span class="nc" id="L503">            }</span>
+
+<span class="nc" id="L505">            writer.endObject();</span>
+<span class="nc" id="L506">            return string.toString();</span>
+<span class="nc" id="L507">        } catch (IOException x) {</span>
+<span class="nc" id="L508">            Slimefun.logger().log(Level.SEVERE, &quot;An error occurred while serializing BlockInfo&quot;, x);</span>
+<span class="nc" id="L509">            return null;</span>
+        }
+    }
+
+    public static String getLocationInfo(Location l, String key) {
+<span class="nc" id="L514">        return getLocationInfo(l).getString(key);</span>
+    }
+
+    public static String getLocationInfo(BlockPosition l, String key) {
+<span class="nc" id="L518">        return getLocationInfo(l.toLocation()).getString(key);</span>
+    }
+
+    public static void addBlockInfo(Location l, String key, String value) {
+<span class="nc" id="L522">        addBlockInfo(l, key, value, false);</span>
+<span class="nc" id="L523">    }</span>
+
+    public static void addBlockInfo(BlockPosition l, String key, String value) {
+<span class="nc" id="L526">        addBlockInfo(l.toLocation(), key, value, false);</span>
+<span class="nc" id="L527">    }</span>
+
+    public static void addBlockInfo(Block block, String key, String value) {
+<span class="nc" id="L530">        addBlockInfo(block.getLocation(), key, value);</span>
+<span class="nc" id="L531">    }</span>
+
+    public static void addBlockInfo(Block block, String key, String value, boolean updateTicker) {
+<span class="nc" id="L534">        addBlockInfo(block.getLocation(), key, value, updateTicker);</span>
+<span class="nc" id="L535">    }</span>
+
+    public static void addBlockInfo(BlockPosition l, String key, String value, boolean updateTicker) {
+<span class="nc" id="L538">        addBlockInfo(l.toLocation(), key, value, updateTicker);</span>
+<span class="nc" id="L539">    }</span>
+
+    public static void addBlockInfo(Location l, String key, String value, boolean updateTicker) {
+<span class="nc" id="L542">        Config cfg = getLocationInfo(l);</span>
+
+<span class="nc bnc" id="L544" title="All 2 branches missed.">        if (cfg == emptyBlockData) {</span>
+<span class="nc" id="L545">            cfg = new BlockInfoConfig();</span>
+        }
+
+<span class="nc" id="L548">        cfg.setValue(key, value);</span>
+<span class="nc" id="L549">        setBlockInfo(l, cfg, updateTicker);</span>
+<span class="nc" id="L550">    }</span>
+
+    public static boolean hasBlockInfo(Block block) {
+<span class="nc" id="L553">        return hasBlockInfo(block.getLocation());</span>
+    }
+
+    public static boolean hasBlockInfo(Location l) {
+<span class="nc" id="L557">        BlockStorage storage = getStorage(l.getWorld());</span>
+
+<span class="nc bnc" id="L559" title="All 2 branches missed.">        if (storage != null) {</span>
+<span class="nc" id="L560">            Config cfg = storage.storage.get(l);</span>
+<span class="nc bnc" id="L561" title="All 4 branches missed.">            return cfg != null &amp;&amp; cfg.getString(&quot;id&quot;) != null;</span>
+        } else {
+<span class="nc" id="L563">            return false;</span>
+        }
+    }
+
+    private static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
+<span class="nc" id="L568">        BlockStorage storage = getStorage(l.getWorld());</span>
+
+<span class="nc bnc" id="L570" title="All 2 branches missed.">        if (storage == null) {</span>
+<span class="nc" id="L571">            Slimefun.logger().warning(&quot;Could not set Block info for non-registered World '&quot; + l.getWorld().getName() + &quot;'. Is some plugin trying to store data in a fake world?&quot;);</span>
+<span class="nc" id="L572">            return;</span>
+        }
+
+<span class="nc" id="L575">        storage.storage.put(l, cfg);</span>
+<span class="nc" id="L576">        String id = cfg.getString(&quot;id&quot;);</span>
+<span class="nc" id="L577">        BlockMenuPreset preset = BlockMenuPreset.getPreset(id);</span>
+
+<span class="nc bnc" id="L579" title="All 2 branches missed.">        if (preset != null) {</span>
+<span class="nc bnc" id="L580" title="All 2 branches missed.">            if (BlockMenuPreset.isUniversalInventory(id)) {</span>
+<span class="nc" id="L581">                Slimefun.getRegistry().getUniversalInventories().computeIfAbsent(id, key -&gt; new UniversalBlockMenu(preset));</span>
+<span class="nc bnc" id="L582" title="All 2 branches missed.">            } else if (!storage.hasInventory(l)) {</span>
+<span class="nc" id="L583">                File file = new File(PATH_INVENTORIES + serializeLocation(l) + &quot;.sfi&quot;);</span>
+
+<span class="nc bnc" id="L585" title="All 2 branches missed.">                if (file.exists()) {</span>
+<span class="nc" id="L586">                    BlockMenu inventory = new BlockMenu(preset, l, new io.github.bakedlibs.dough.config.Config(file));</span>
+<span class="nc" id="L587">                    storage.inventories.put(l, inventory);</span>
+<span class="nc" id="L588">                } else {</span>
+<span class="nc" id="L589">                    storage.loadInventory(l, preset);</span>
+                }
+            }
+        }
+
+<span class="nc" id="L594">        refreshCache(storage, l, id, serializeBlockInfo(cfg), updateTicker);</span>
+<span class="nc" id="L595">    }</span>
+
+    public static void setBlockInfo(Block b, String json, boolean updateTicker) {
+<span class="nc" id="L598">        setBlockInfo(b.getLocation(), json, updateTicker);</span>
+<span class="nc" id="L599">    }</span>
+
+    public static void setBlockInfo(Location l, String json, boolean updateTicker) {
+<span class="nc bnc" id="L602" title="All 2 branches missed.">        Config blockInfo = json == null ? new BlockInfoConfig() : parseBlockInfo(l, json);</span>
+
+<span class="nc bnc" id="L604" title="All 2 branches missed.">        if (blockInfo == null) {</span>
+<span class="nc" id="L605">            return;</span>
+        }
+
+<span class="nc" id="L608">        setBlockInfo(l, blockInfo, updateTicker);</span>
+<span class="nc" id="L609">    }</span>
+
+    public static void clearBlockInfo(Block block) {
+<span class="nc" id="L612">        clearBlockInfo(block.getLocation());</span>
+<span class="nc" id="L613">    }</span>
+
+    public static void clearBlockInfo(Location l) {
+<span class="nc" id="L616">        clearBlockInfo(l, true);</span>
+<span class="nc" id="L617">    }</span>
+
+    public static void clearBlockInfo(Block b, boolean destroy) {
+<span class="nc" id="L620">        clearBlockInfo(b.getLocation(), destroy);</span>
+<span class="nc" id="L621">    }</span>
+
+    public static void clearBlockInfo(Location l, boolean destroy) {
+<span class="nc" id="L624">        Slimefun.getTickerTask().queueDelete(l, destroy);</span>
+<span class="nc" id="L625">    }</span>
+
+    public static void clearAllBlockInfoAtChunk(Chunk chunk, boolean destroy) {
+<span class="nc" id="L628">        clearAllBlockInfoAtChunk(chunk.getWorld(), chunk.getX(), chunk.getZ(), destroy);</span>
+<span class="nc" id="L629">    }</span>
+
+    public static void clearAllBlockInfoAtChunk(World world, int chunkX, int chunkZ, boolean destroy) {
+<span class="nc" id="L632">        BlockStorage blockStorage = getStorage(world);</span>
+<span class="nc bnc" id="L633" title="All 2 branches missed.">        if (blockStorage == null) {</span>
+<span class="nc" id="L634">            return;</span>
+        }
+<span class="nc" id="L636">        Map&lt;Location, Boolean&gt; toClear = new HashMap&lt;&gt;();</span>
+        // Unsafe: get raw storage for this world
+<span class="nc bnc" id="L638" title="All 2 branches missed.">        for (Location location : blockStorage.storage.keySet()) {</span>
+<span class="nc bnc" id="L639" title="All 4 branches missed.">            if (location.getBlockX() &gt;&gt; 4 == chunkX &amp;&amp; location.getBlockZ() &gt;&gt; 4 == chunkZ) {</span>
+<span class="nc" id="L640">                toClear.put(location, destroy);</span>
+            }
+<span class="nc" id="L642">        }</span>
+<span class="nc" id="L643">        Slimefun.getTickerTask().queueDelete(toClear);</span>
+<span class="nc" id="L644">    }</span>
+
+    /**
+     * &lt;strong&gt;Do not call this method!&lt;/strong&gt;.
+     * This method is used for internal purposes only.
+     * 
+     * @param l
+     *            The {@link Location}
+     * @param destroy
+     *            Whether to completely destroy the block data
+     */
+    public static void deleteLocationInfoUnsafely(Location l, boolean destroy) {
+<span class="nc" id="L656">        BlockStorage storage = getStorage(l.getWorld());</span>
+
+<span class="nc bnc" id="L658" title="All 2 branches missed.">        if (storage == null) {</span>
+<span class="nc" id="L659">            throw new IllegalStateException(&quot;World \&quot;&quot; + l.getWorld().getName() + &quot;\&quot; seems to have been deleted. Do not call unsafe methods directly!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L662" title="All 2 branches missed.">        if (hasBlockInfo(l)) {</span>
+<span class="nc" id="L663">            refreshCache(storage, l, getLocationInfo(l).getString(&quot;id&quot;), null, destroy);</span>
+<span class="nc" id="L664">            storage.storage.remove(l);</span>
+        }
+
+<span class="nc bnc" id="L667" title="All 2 branches missed.">        if (destroy) {</span>
+<span class="nc bnc" id="L668" title="All 2 branches missed.">            if (storage.hasInventory(l)) {</span>
+<span class="nc" id="L669">                storage.clearInventory(l);</span>
+            }
+
+<span class="nc" id="L672">            UniversalBlockMenu universalInventory = getUniversalInventory(l);</span>
+
+<span class="nc bnc" id="L674" title="All 2 branches missed.">            if (universalInventory != null) {</span>
+<span class="nc" id="L675">                universalInventory.close();</span>
+<span class="nc" id="L676">                universalInventory.save();</span>
+            }
+
+<span class="nc" id="L679">            Slimefun.getTickerTask().disableTicker(l);</span>
+        }
+<span class="nc" id="L681">    }</span>
+
+    @ParametersAreNonnullByDefault
+    public static void moveBlockInfo(Location from, Location to) {
+<span class="nc" id="L685">        Slimefun.getTickerTask().queueMove(from, to);</span>
+<span class="nc" id="L686">    }</span>
+
+    /**
+     * &lt;strong&gt;Do not call this method!&lt;/strong&gt;.
+     * This method is used for internal purposes only.
+     * 
+     * @param from
+     *            The origin {@link Location}
+     * @param to
+     *            The destination {@link Location}
+     */
+    @ParametersAreNonnullByDefault
+    public static void moveLocationInfoUnsafely(Location from, Location to) {
+<span class="nc bnc" id="L699" title="All 2 branches missed.">        if (!hasBlockInfo(from)) {</span>
+<span class="nc" id="L700">            return;</span>
+        }
+
+<span class="nc" id="L703">        BlockStorage storage = getStorage(from.getWorld());</span>
+<span class="nc" id="L704">        Config previousData = getLocationInfo(from);</span>
+<span class="nc" id="L705">        setBlockInfo(to, previousData, true);</span>
+
+<span class="nc bnc" id="L707" title="All 2 branches missed.">        if (storage.inventories.containsKey(from)) {</span>
+<span class="nc" id="L708">            BlockMenu menu = storage.inventories.get(from);</span>
+<span class="nc" id="L709">            storage.inventories.put(to, menu);</span>
+<span class="nc" id="L710">            storage.clearInventory(from);</span>
+<span class="nc" id="L711">            menu.move(to);</span>
+        }
+
+<span class="nc" id="L714">        refreshCache(storage, from, previousData.getString(&quot;id&quot;), null, true);</span>
+<span class="nc" id="L715">        storage.storage.remove(from);</span>
+
+<span class="nc" id="L717">        Slimefun.getTickerTask().disableTicker(from);</span>
+<span class="nc" id="L718">    }</span>
+
+    private static void refreshCache(BlockStorage storage, Location l, String key, String value, boolean updateTicker) {
+<span class="nc bnc" id="L721" title="All 2 branches missed.">        if (key == null) {</span>
+            /**
+             * This Block is no longer valid...
+             * Fixes #1577
+             */
+<span class="nc" id="L726">            return;</span>
+        }
+
+<span class="nc" id="L729">        Config cfg = storage.blocksCache.computeIfAbsent(key, k -&gt; new Config(PATH_BLOCKS + l.getWorld().getName() + '/' + key + &quot;.sfb&quot;));</span>
+<span class="nc" id="L730">        cfg.setValue(serializeLocation(l), value);</span>
+
+<span class="nc bnc" id="L732" title="All 2 branches missed.">        if (updateTicker) {</span>
+<span class="nc" id="L733">            SlimefunItem item = SlimefunItem.getById(key);</span>
+
+<span class="nc bnc" id="L735" title="All 4 branches missed.">            if (item != null</span>
+                &amp;&amp; value != null
+<span class="nc bnc" id="L737" title="All 2 branches missed.">                &amp;&amp; l.getWorld() != null</span>
+<span class="nc bnc" id="L738" title="All 2 branches missed.">                &amp;&amp; item.isTicking()</span>
+<span class="nc bnc" id="L739" title="All 2 branches missed.">                &amp;&amp; !item.isDisabledIn(l.getWorld())</span>
+            ) {
+<span class="nc" id="L741">                Slimefun.getTickerTask().enableTicker(l);</span>
+            }
+        }
+<span class="nc" id="L744">    }</span>
+
+    @Nullable
+    public static SlimefunItem check(@Nonnull Block b) {
+<span class="nc" id="L748">        String id = checkID(b);</span>
+<span class="nc bnc" id="L749" title="All 2 branches missed.">        return id == null ? null : SlimefunItem.getById(id);</span>
+    }
+
+    @Nullable
+    public static SlimefunItem check(@Nonnull Location l) {
+<span class="nc" id="L754">        String id = checkID(l);</span>
+<span class="nc bnc" id="L755" title="All 2 branches missed.">        return id == null ? null : SlimefunItem.getById(id);</span>
+    }
+
+    public static boolean check(Block block, String slimefunItem) {
+<span class="nc" id="L759">        String id = checkID(block);</span>
+<span class="nc bnc" id="L760" title="All 4 branches missed.">        return id != null &amp;&amp; id.equals(slimefunItem);</span>
+    }
+
+    @Nullable
+    public static String checkID(@Nonnull Block b) {
+        // Only access the BlockState when on the main thread
+<span class="nc bnc" id="L766" title="All 4 branches missed.">        if (Bukkit.isPrimaryThread() &amp;&amp; Slimefun.getBlockDataService().isTileEntity(b.getType())) {</span>
+<span class="nc" id="L767">            Optional&lt;String&gt; blockData = Slimefun.getBlockDataService().getBlockData(b);</span>
+
+<span class="nc bnc" id="L769" title="All 2 branches missed.">            if (blockData.isPresent()) {</span>
+<span class="nc" id="L770">                return blockData.get();</span>
+            }
+        }
+
+<span class="nc" id="L774">        return checkID(b.getLocation());</span>
+    }
+
+    @Nullable
+    public static String checkID(@Nonnull Location l) {
+<span class="nc" id="L779">        return getLocationInfo(l, &quot;id&quot;);</span>
+    }
+
+    public static boolean check(@Nonnull Location l, @Nullable String slimefunItem) {
+<span class="nc bnc" id="L783" title="All 2 branches missed.">        if (slimefunItem == null) {</span>
+<span class="nc" id="L784">            return false;</span>
+        }
+
+<span class="nc" id="L787">        String id = checkID(l);</span>
+<span class="nc bnc" id="L788" title="All 4 branches missed.">        return id != null &amp;&amp; id.equals(slimefunItem);</span>
+    }
+
+    public static boolean isWorldLoaded(@Nonnull World world) {
+<span class="nc" id="L792">        return Slimefun.getRegistry().getWorlds().containsKey(world.getName());</span>
+    }
+
+    public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
+<span class="nc bnc" id="L796" title="All 2 branches missed.">        if (preset == null) {</span>
+<span class="nc" id="L797">            return null;</span>
+        }
+
+<span class="nc" id="L800">        BlockMenu menu = new BlockMenu(preset, l);</span>
+<span class="nc" id="L801">        inventories.put(l, menu);</span>
+<span class="nc" id="L802">        return menu;</span>
+    }
+
+    /**
+     * Reload a BlockMenu based on the preset. This method is solely for if you wish to reload
+     * based on data from the preset.
+     *
+     * @param l
+     *            The location of the Block.
+     */
+    public void reloadInventory(Location l) {
+<span class="nc" id="L813">        BlockMenu menu = this.inventories.get(l);</span>
+
+<span class="nc bnc" id="L815" title="All 2 branches missed.">        if (menu != null) {</span>
+<span class="nc" id="L816">            menu.reload();</span>
+        }
+<span class="nc" id="L818">    }</span>
+
+    public void clearInventory(Location l) {
+<span class="nc" id="L821">        BlockMenu menu = getInventory(l);</span>
+
+<span class="nc bnc" id="L823" title="All 2 branches missed.">        if (menu != null) {</span>
+<span class="nc bnc" id="L824" title="All 2 branches missed.">            for (HumanEntity human : new ArrayList&lt;&gt;(menu.toInventory().getViewers())) {</span>
+                // Prevents &quot;java.lang.IllegalStateException: Asynchronous entity add!&quot;
+                // when closing the inventory while holding an item
+<span class="nc" id="L827">                Slimefun.runSync(human::closeInventory);</span>
+<span class="nc" id="L828">            }</span>
+
+<span class="nc" id="L830">            inventories.get(l).delete(l);</span>
+<span class="nc" id="L831">            inventories.remove(l);</span>
+        }
+<span class="nc" id="L833">    }</span>
+
+    public boolean hasInventory(Location l) {
+<span class="nc" id="L836">        return inventories.containsKey(l);</span>
+    }
+
+    public static boolean hasUniversalInventory(String id) {
+<span class="nc" id="L840">        return Slimefun.getRegistry().getUniversalInventories().containsKey(id);</span>
+    }
+
+    public static UniversalBlockMenu getUniversalInventory(Block block) {
+<span class="nc" id="L844">        return getUniversalInventory(block.getLocation());</span>
+    }
+
+    public static UniversalBlockMenu getUniversalInventory(Location l) {
+<span class="nc" id="L848">        String id = checkID(l);</span>
+<span class="nc bnc" id="L849" title="All 2 branches missed.">        return id == null ? null : getUniversalInventory(id);</span>
+    }
+
+    public static UniversalBlockMenu getUniversalInventory(String id) {
+<span class="nc" id="L853">        return Slimefun.getRegistry().getUniversalInventories().get(id);</span>
+    }
+
+    public static BlockMenu getInventory(Block b) {
+<span class="nc" id="L857">        return getInventory(b.getLocation());</span>
+    }
+
+    public static boolean hasInventory(Block b) {
+<span class="nc" id="L861">        BlockStorage storage = getStorage(b.getWorld());</span>
+
+<span class="nc bnc" id="L863" title="All 2 branches missed.">        if (storage == null) {</span>
+<span class="nc" id="L864">            return false;</span>
+        } else {
+<span class="nc" id="L866">            return storage.hasInventory(b.getLocation());</span>
+        }
+    }
+
+    public static BlockMenu getInventory(Location l) {
+<span class="nc" id="L871">        BlockStorage storage = getStorage(l.getWorld());</span>
+
+<span class="nc bnc" id="L873" title="All 2 branches missed.">        if (storage == null) {</span>
+<span class="nc" id="L874">            return null;</span>
+        }
+
+<span class="nc" id="L877">        BlockMenu menu = storage.inventories.get(l);</span>
+
+<span class="nc bnc" id="L879" title="All 2 branches missed.">        if (menu != null) {</span>
+<span class="nc" id="L880">            return menu;</span>
+        } else {
+<span class="nc" id="L882">            return storage.loadInventory(l, BlockMenuPreset.getPreset(checkID(l)));</span>
+        }
+    }
+
+    public static Config getChunkInfo(World world, int x, int z) {
+        try {
+<span class="nc bnc" id="L888" title="All 2 branches missed.">            if (!isWorldLoaded(world)) {</span>
+<span class="nc" id="L889">                return emptyBlockData;</span>
+            }
+
+<span class="nc" id="L892">            String key = serializeChunk(world, x, z);</span>
+<span class="nc" id="L893">            BlockInfoConfig cfg = Slimefun.getRegistry().getChunks().get(key);</span>
+
+<span class="nc bnc" id="L895" title="All 2 branches missed.">            if (cfg == null) {</span>
+<span class="nc" id="L896">                cfg = new BlockInfoConfig();</span>
+<span class="nc" id="L897">                Slimefun.getRegistry().getChunks().put(key, cfg);</span>
+            }
+
+<span class="nc" id="L900">            return cfg;</span>
+<span class="nc" id="L901">        } catch (Exception e) {</span>
+<span class="nc" id="L902">            Slimefun.logger().log(Level.SEVERE, e, () -&gt; &quot;Failed to parse ChunkInfo for Slimefun &quot; + Slimefun.getVersion());</span>
+<span class="nc" id="L903">            return emptyBlockData;</span>
+        }
+    }
+
+    public static void setChunkInfo(World world, int x, int z, String key, String value) {
+<span class="nc" id="L908">        String serializedChunk = serializeChunk(world, x, z);</span>
+<span class="nc" id="L909">        BlockInfoConfig cfg = Slimefun.getRegistry().getChunks().get(serializedChunk);</span>
+
+<span class="nc bnc" id="L911" title="All 2 branches missed.">        if (cfg == null) {</span>
+<span class="nc" id="L912">            cfg = new BlockInfoConfig();</span>
+<span class="nc" id="L913">            Slimefun.getRegistry().getChunks().put(serializedChunk, cfg);</span>
+        }
+
+<span class="nc" id="L916">        cfg.setValue(key, value);</span>
+
+<span class="nc" id="L918">        chunkChanges++;</span>
+<span class="nc" id="L919">    }</span>
+
+    public static boolean hasChunkInfo(World world, int x, int z) {
+<span class="nc" id="L922">        String serializedChunk = serializeChunk(world, x, z);</span>
+<span class="nc" id="L923">        return Slimefun.getRegistry().getChunks().containsKey(serializedChunk);</span>
+    }
+
+    public static String getChunkInfo(World world, int x, int z, String key) {
+<span class="nc" id="L927">        return getChunkInfo(world, x, z).getString(key);</span>
+    }
+
+    public static String getBlockInfoAsJson(Block block) {
+<span class="nc" id="L931">        return getBlockInfoAsJson(block.getLocation());</span>
+    }
+
+    public static String getBlockInfoAsJson(Location l) {
+<span class="nc" id="L935">        return serializeBlockInfo(getLocationInfo(l));</span>
+    }
+
+    public boolean hasUniversalInventory(Block block) {
+<span class="nc" id="L939">        return hasUniversalInventory(block.getLocation());</span>
+    }
+
+    public boolean hasUniversalInventory(Location l) {
+<span class="nc" id="L943">        String id = checkID(l);</span>
+<span class="nc bnc" id="L944" title="All 4 branches missed.">        return id != null &amp;&amp; hasUniversalInventory(id);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

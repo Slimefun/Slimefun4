@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BioGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators</a> &gt; <span class="el_source">BioGenerator.java</span></div><h1>BioGenerator.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+
+public class BioGenerator extends AGenerator {
+
+    @ParametersAreNonnullByDefault
+    public BioGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L23">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L24">    }</span>
+
+    @Override
+    protected void registerDefaultFuelTypes() {
+<span class="nc" id="L28">        registerFuel(new MachineFuel(2, new ItemStack(Material.ROTTEN_FLESH)));</span>
+<span class="nc" id="L29">        registerFuel(new MachineFuel(2, new ItemStack(Material.SPIDER_EYE)));</span>
+<span class="nc" id="L30">        registerFuel(new MachineFuel(2, new ItemStack(Material.BONE)));</span>
+<span class="nc" id="L31">        registerFuel(new MachineFuel(2, new ItemStack(Material.STRING)));</span>
+<span class="nc" id="L32">        registerFuel(new MachineFuel(3, new ItemStack(Material.APPLE)));</span>
+<span class="nc" id="L33">        registerFuel(new MachineFuel(3, new ItemStack(Material.MELON_SLICE)));</span>
+<span class="nc" id="L34">        registerFuel(new MachineFuel(27, new ItemStack(Material.MELON)));</span>
+<span class="nc" id="L35">        registerFuel(new MachineFuel(3, new ItemStack(Material.PUMPKIN)));</span>
+<span class="nc" id="L36">        registerFuel(new MachineFuel(3, new ItemStack(Material.PUMPKIN_SEEDS)));</span>
+<span class="nc" id="L37">        registerFuel(new MachineFuel(3, new ItemStack(Material.MELON_SEEDS)));</span>
+<span class="nc" id="L38">        registerFuel(new MachineFuel(3, new ItemStack(Material.WHEAT)));</span>
+<span class="nc" id="L39">        registerFuel(new MachineFuel(3, new ItemStack(Material.WHEAT_SEEDS)));</span>
+<span class="nc" id="L40">        registerFuel(new MachineFuel(3, new ItemStack(Material.CARROT)));</span>
+<span class="nc" id="L41">        registerFuel(new MachineFuel(3, new ItemStack(Material.POTATO)));</span>
+<span class="nc" id="L42">        registerFuel(new MachineFuel(3, new ItemStack(Material.SUGAR_CANE)));</span>
+<span class="nc" id="L43">        registerFuel(new MachineFuel(3, new ItemStack(Material.NETHER_WART)));</span>
+<span class="nc" id="L44">        registerFuel(new MachineFuel(2, new ItemStack(Material.RED_MUSHROOM)));</span>
+<span class="nc" id="L45">        registerFuel(new MachineFuel(2, new ItemStack(Material.BROWN_MUSHROOM)));</span>
+<span class="nc" id="L46">        registerFuel(new MachineFuel(2, new ItemStack(Material.VINE)));</span>
+<span class="nc" id="L47">        registerFuel(new MachineFuel(2, new ItemStack(Material.CACTUS)));</span>
+<span class="nc" id="L48">        registerFuel(new MachineFuel(2, new ItemStack(Material.LILY_PAD)));</span>
+<span class="nc" id="L49">        registerFuel(new MachineFuel(8, new ItemStack(Material.CHORUS_FRUIT)));</span>
+<span class="nc" id="L50">        registerFuel(new MachineFuel(1, new ItemStack(Material.KELP)));</span>
+<span class="nc" id="L51">        registerFuel(new MachineFuel(2, new ItemStack(Material.DRIED_KELP)));</span>
+<span class="nc" id="L52">        registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));</span>
+<span class="nc" id="L53">        registerFuel(new MachineFuel(1, new ItemStack(Material.SEAGRASS)));</span>
+<span class="nc" id="L54">        registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));</span>
+<span class="nc" id="L55">        registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));</span>
+<span class="nc" id="L56">        registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));</span>
+<span class="nc" id="L57">        registerFuel(new MachineFuel(2, new ItemStack(Material.COCOA_BEANS)));</span>
+<span class="nc" id="L58">        registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT)));</span>
+<span class="nc" id="L59">        registerFuel(new MachineFuel(3, new ItemStack(Material.BEETROOT_SEEDS)));</span>
+
+        // Small Flowers (formally just dandelions and poppies).
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (Material m : Tag.SMALL_FLOWERS.getValues()) {</span>
+<span class="nc" id="L63">            registerFuel(new MachineFuel(1, new ItemStack(m)));</span>
+<span class="nc" id="L64">        }</span>
+
+<span class="nc" id="L66">        registerFuel(new MachineFuel(4, new ItemStack(Material.HONEYCOMB)));</span>
+<span class="nc" id="L67">        registerFuel(new MachineFuel(40, new ItemStack(Material.HONEYCOMB_BLOCK)));</span>
+
+<span class="nc" id="L69">        registerFuel(new MachineFuel(4, new ItemStack(Material.SHROOMLIGHT)));</span>
+<span class="nc" id="L70">        registerFuel(new MachineFuel(2, new ItemStack(Material.CRIMSON_FUNGUS)));</span>
+<span class="nc" id="L71">        registerFuel(new MachineFuel(2, new ItemStack(Material.WARPED_FUNGUS)));</span>
+<span class="nc" id="L72">        registerFuel(new MachineFuel(16, SlimefunItems.STRANGE_NETHER_GOO.item()));</span>
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {</span>
+<span class="nc" id="L75">            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_BERRIES)));</span>
+<span class="nc" id="L76">            registerFuel(new MachineFuel(3, new ItemStack(Material.SMALL_DRIPLEAF)));</span>
+<span class="nc" id="L77">            registerFuel(new MachineFuel(3, new ItemStack(Material.BIG_DRIPLEAF)));</span>
+<span class="nc" id="L78">            registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_LICHEN)));</span>
+<span class="nc" id="L79">            registerFuel(new MachineFuel(20, new ItemStack(Material.SPORE_BLOSSOM)));</span>
+        }
+
+        // Leaves
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (Material m : Tag.LEAVES.getValues()) {</span>
+<span class="nc" id="L84">            registerFuel(new MachineFuel(1, new ItemStack(m)));</span>
+<span class="nc" id="L85">        }</span>
+
+        // Saplings
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        for (Material m : Tag.SAPLINGS.getValues()) {</span>
+<span class="nc" id="L89">            registerFuel(new MachineFuel(1, new ItemStack(m)));</span>
+<span class="nc" id="L90">        }</span>
+
+        // Corals
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for (Material m : Tag.CORALS.getValues()) {</span>
+<span class="nc" id="L94">            registerFuel(new MachineFuel(2, new ItemStack(m)));</span>
+<span class="nc" id="L95">        }</span>
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        for (Material m : Tag.CORAL_BLOCKS.getValues()) {</span>
+<span class="nc" id="L98">            registerFuel(new MachineFuel(2, new ItemStack(m)));</span>
+<span class="nc" id="L99">        }</span>
+<span class="nc" id="L100">    }</span>
+
+    @Override
+    public ItemStack getProgressBar() {
+<span class="nc" id="L104">        return new ItemStack(Material.GOLDEN_HOE);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

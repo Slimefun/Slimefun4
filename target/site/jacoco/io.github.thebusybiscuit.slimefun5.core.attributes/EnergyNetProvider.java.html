@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnergyNetProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.attributes</a> &gt; <span class="el_source">EnergyNetProvider.java</span></div><h1>EnergyNetProvider.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.attributes;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Location;
+
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+
+/**
+ * An {@link EnergyNetProvider} is an extension of {@link EnergyNetComponent} which provides
+ * energy to an {@link EnergyNet}.
+ * It must be implemented on any Generator or {@link Reactor}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see EnergyNet
+ * @see EnergyNetComponent
+ * @see AbstractEnergyProvider
+ * @see AGenerator
+ * @see Reactor
+ *
+ */
+public interface EnergyNetProvider extends EnergyNetComponent {
+
+    @Override
+    @Nonnull
+    default EnergyNetComponentType getEnergyComponentType() {
+<span class="nc" id="L34">        return EnergyNetComponentType.GENERATOR;</span>
+    }
+
+    /**
+     * This method returns how much energy this {@link EnergyNetProvider} provides to the {@link EnergyNet}.
+     * We call this method on every tick, so make sure to keep it light and fast.
+     * Stored energy does not have to be handled in here.
+     * 
+     * @param l
+     *            The {@link Location} of this {@link EnergyNetProvider}
+     * @param data
+     *            The stored block data
+     * 
+     * @return The generated output energy of this {@link EnergyNetProvider}.
+     */
+    int getGeneratedOutput(@Nonnull Location l, @Nonnull Config data);
+
+    /**
+     * This method returns whether the given {@link Location} is going to explode on the
+     * next tick.
+     * 
+     * @param l
+     *            The {@link Location} of this {@link EnergyNetProvider}
+     * @param data
+     *            The stored block data
+     * 
+     * @return Whether or not this {@link Location} will explode.
+     */
+    default boolean willExplode(@Nonnull Location l, @Nonnull Config data) {
+<span class="nc" id="L63">        return false;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

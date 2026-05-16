@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractItemNetwork.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.networks.cargo</a> &gt; <span class="el_source">AbstractItemNetwork.java</span></div><h1>AbstractItemNetwork.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+
+/**
+ * An abstract super class of {@link CargoNet} that handles
+ * interactions with ChestTerminal.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+abstract class AbstractItemNetwork extends Network {
+
+    /**
+     * This is a cache for the {@link BlockFace} a node is facing, so we don't need to
+     * request the {@link BlockData} each time we visit a node
+     */
+<span class="nc" id="L40">    protected Map&lt;Location, BlockFace&gt; connectorCache = new HashMap&lt;&gt;();</span>
+
+    /**
+     * This is our cache for the {@link ItemFilter} for each node.
+     */
+<span class="nc" id="L45">    protected Map&lt;Location, ItemFilter&gt; filterCache = new HashMap&lt;&gt;();</span>
+
+    protected AbstractItemNetwork(@Nonnull Location regulator) {
+<span class="nc" id="L48">        super(Slimefun.getNetworkManager(), regulator);</span>
+<span class="nc" id="L49">    }</span>
+
+    protected Optional&lt;Block&gt; getAttachedBlock(@Nonnull Location l) {
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (l.getWorld().isChunkLoaded(l.getBlockX() &gt;&gt; 4, l.getBlockZ() &gt;&gt; 4)) {</span>
+<span class="nc" id="L53">            Block block = l.getBlock();</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            if (block.getType() == Material.PLAYER_WALL_HEAD) {</span>
+<span class="nc" id="L56">                BlockFace cached = connectorCache.get(l);</span>
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                if (cached != null) {</span>
+<span class="nc" id="L59">                    return Optional.of(block.getRelative(cached));</span>
+                }
+
+<span class="nc" id="L62">                BlockFace face = ((Directional) block.getBlockData()).getFacing().getOppositeFace();</span>
+<span class="nc" id="L63">                connectorCache.put(l, face);</span>
+<span class="nc" id="L64">                return Optional.of(block.getRelative(face));</span>
+            }
+        }
+
+<span class="nc" id="L68">        return Optional.empty();</span>
+    }
+
+    @Override
+    public void markDirty(@Nonnull Location l) {
+<span class="nc" id="L73">        markCargoNodeConfigurationDirty(l);</span>
+<span class="nc" id="L74">        super.markDirty(l);</span>
+<span class="nc" id="L75">    }</span>
+
+    /**
+     * This will mark the {@link ItemFilter} of the given node dirty.
+     * It will also invalidate the cached rotation.
+     * 
+     * @param node
+     *            The {@link Location} of the cargo node
+     */
+    public void markCargoNodeConfigurationDirty(@Nonnull Location node) {
+<span class="nc" id="L85">        ItemFilter filter = filterCache.get(node);</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (filter != null) {</span>
+<span class="nc" id="L88">            filter.markDirty();</span>
+        }
+
+<span class="nc" id="L91">        connectorCache.remove(node);</span>
+<span class="nc" id="L92">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void handleWithdraw(DirtyChestMenu menu, List&lt;ItemStackAndInteger&gt; items, Location l) {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {</span>
+<span class="nc" id="L97">            filter(menu.getItemInSlot(slot), items, l);</span>
+        }
+<span class="nc" id="L99">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void filter(@Nullable ItemStack stack, List&lt;ItemStackAndInteger&gt; items, Location node) {
+<span class="nc bnc" id="L103" title="All 4 branches missed.">        if (stack != null &amp;&amp; CargoUtils.matchesFilter(this, node.getBlock(), stack)) {</span>
+<span class="nc" id="L104">            boolean add = true;</span>
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            for (ItemStackAndInteger item : items) {</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                if (SlimefunUtils.isItemSimilar(stack, item.getItemStackWrapper(), true, false)) {</span>
+<span class="nc" id="L108">                    add = false;</span>
+<span class="nc" id="L109">                    item.add(stack.getAmount());</span>
+                }
+<span class="nc" id="L111">            }</span>
+
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            if (add) {</span>
+<span class="nc" id="L114">                items.add(new ItemStackAndInteger(stack, stack.getAmount()));</span>
+            }
+        }
+<span class="nc" id="L117">    }</span>
+
+    protected @Nonnull ItemFilter getItemFilter(@Nonnull Block node) {
+<span class="nc" id="L120">        Location loc = node.getLocation();</span>
+<span class="nc" id="L121">        ItemFilter filter = filterCache.get(loc);</span>
+
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (filter == null) {</span>
+<span class="nc" id="L124">            ItemFilter newFilter = new ItemFilter(node);</span>
+<span class="nc" id="L125">            filterCache.put(loc, newFilter);</span>
+<span class="nc" id="L126">            return newFilter;</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        } else if (filter.isDirty()) {</span>
+<span class="nc" id="L128">            filter.update(node);</span>
+<span class="nc" id="L129">            return filter;</span>
+        } else {
+<span class="nc" id="L131">            return filter;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

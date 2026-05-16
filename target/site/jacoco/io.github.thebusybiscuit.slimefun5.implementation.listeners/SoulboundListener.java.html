@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SoulboundListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners</a> &gt; <span class="el_source">SoulboundListener.java</span></div><h1>SoulboundListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+/**
+ * This {@link Listener} is responsible for handling any {@link Soulbound} items.
+ * A {@link Soulbound} {@link ItemStack} will not drop upon a {@link Player Player's} death.
+ * Instead the {@link ItemStack} is saved and given back to the {@link Player} when they respawn.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class SoulboundListener implements Listener {
+
+<span class="nc" id="L30">    private final Map&lt;UUID, Map&lt;Integer, ItemStack&gt;&gt; soulbound = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L32">    public SoulboundListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L33">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L34">    }</span>
+
+    @EventHandler
+    public void onDamage(PlayerDeathEvent e) {
+<span class="nc" id="L38">        Map&lt;Integer, ItemStack&gt; items = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L39">        Player p = e.getEntity();</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        for (int slot = 0; slot &lt; p.getInventory().getSize(); slot++) {</span>
+<span class="nc" id="L42">            ItemStack item = p.getInventory().getItem(slot);</span>
+
+            // Store soulbound items for later retrieval
+<span class="nc bnc" id="L45" title="All 2 branches missed.">            if (SlimefunUtils.isSoulbound(item, p.getWorld())) {</span>
+<span class="nc" id="L46">                items.put(slot, item);</span>
+            }
+        }
+
+        // There shouldn't even be any items in there, but let's be extra safe!
+<span class="nc" id="L51">        Map&lt;Integer, ItemStack&gt; existingItems = soulbound.get(p.getUniqueId());</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (existingItems == null) {</span>
+<span class="nc" id="L54">            soulbound.put(p.getUniqueId(), items);</span>
+        } else {
+<span class="nc" id="L56">            existingItems.putAll(items);</span>
+        }
+
+        // Remove soulbound items from our drops
+<span class="nc" id="L60">        e.getDrops().removeIf(itemStack -&gt; SlimefunUtils.isSoulbound(itemStack, p.getWorld()));</span>
+<span class="nc" id="L61">    }</span>
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e) {
+<span class="nc" id="L65">        returnSoulboundItems(e.getPlayer());</span>
+<span class="nc" id="L66">    }</span>
+
+    private void returnSoulboundItems(@Nonnull Player p) {
+<span class="nc" id="L69">        Map&lt;Integer, ItemStack&gt; items = soulbound.remove(p.getUniqueId());</span>
+
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (items != null) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            for (Map.Entry&lt;Integer, ItemStack&gt; entry : items.entrySet()) {</span>
+<span class="nc" id="L73">                p.getInventory().setItem(entry.getKey(), entry.getValue());</span>
+<span class="nc" id="L74">            }</span>
+        }
+<span class="nc" id="L76">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

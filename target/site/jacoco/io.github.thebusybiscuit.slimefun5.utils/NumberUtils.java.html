@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NumberUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils</a> &gt; <span class="el_source">NumberUtils.java</span></div><h1>NumberUtils.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * This class contains various utilities related to numbers and number formatting.
+ * 
+ * @author TheBusyBiscuit
+ * @author Walshy
+ *
+ */
+public final class NumberUtils {
+
+    /**
+     * This is our {@link DecimalFormat} for decimal values.
+     * This instance is not thread-safe!
+     */
+<span class="fc" id="L33">    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(&quot;#.##&quot;, DecimalFormatSymbols.getInstance(Locale.ROOT));</span>
+
+    /**
+     * We do not want any instance of this to be created.
+     */
+    private NumberUtils() {}
+
+    /**
+     * This method formats a given {@link Integer} to be displayed nicely with
+     * decimal digit grouping.
+     * {@code 1000000} for example will return {@code &quot;1,000,000&quot;} as a {@link String}.
+     * It uses the american (US) {@link Locale} for this transformation.
+     * 
+     * @param number
+     *            Your {@link Integer}
+     * 
+     * @return The formatted String
+     */
+    public static @Nonnull String formatBigNumber(int number) {
+<span class="nc" id="L52">        return NumberFormat.getNumberInstance(Locale.US).format(number);</span>
+    }
+
+    public static @Nonnull String getCompactDouble(double value) {
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (value &lt; 0) {</span>
+            // Negative numbers are a special case
+<span class="fc" id="L58">            return '-' + getCompactDouble(-value);</span>
+        }
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (value &lt; 1000.0) {</span>
+            // Below 1K
+<span class="fc" id="L63">            return DECIMAL_FORMAT.format(value);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        } else if (value &lt; 1000000.0) {</span>
+            // Thousands
+<span class="fc" id="L66">            return DECIMAL_FORMAT.format(value / 1000.0) + 'K';</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        } else if (value &lt; 1000000000.0) {</span>
+            // Million
+<span class="fc" id="L69">            return DECIMAL_FORMAT.format(value / 1000000.0) + 'M';</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        } else if (value &lt; 1000000000000.0) {</span>
+            // Billion
+<span class="fc" id="L72">            return DECIMAL_FORMAT.format(value / 1000000000.0) + 'B';</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        } else if (value &lt; 1000000000000000.0) {</span>
+            // Trillion
+<span class="fc" id="L75">            return DECIMAL_FORMAT.format(value / 1000000000000.0) + 'T';</span>
+        } else {
+            // Quadrillion
+<span class="fc" id="L78">            return DECIMAL_FORMAT.format(value / 1000000000000000.0) + 'Q';</span>
+        }
+    }
+
+    /**
+     * This method transforms a String representation of a {@link LocalDateTime}
+     * from GitHub's API back into a {@link LocalDateTime} object
+     * 
+     * @param date
+     *            The formatted String version of a date from GitHub
+     * 
+     * @return The {@link LocalDateTime} for the given input
+     */
+    public static @Nonnull LocalDateTime parseGitHubDate(@Nonnull String date) {
+<span class="nc" id="L92">        Validate.notNull(date, &quot;Provided date was null&quot;);</span>
+<span class="nc" id="L93">        return LocalDateTime.parse(date.substring(0, date.length() - 1));</span>
+    }
+
+    /**
+     * This will return a representative color for the given percentage.
+     * Lower levels will result in a darker tone of red, higher levels will
+     * result in more brighter shades of green.
+     * 
+     * @param percentage
+     *            The amount of percentage as a float
+     * 
+     * @return A representative {@link ChatColor}
+     */
+    public static @Nonnull ChatColor getColorFromPercentage(float percentage) {
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (percentage &lt; 16.0F) {</span>
+<span class="nc" id="L108">            return ChatColor.DARK_RED;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        } else if (percentage &lt; 32.0F) {</span>
+<span class="nc" id="L110">            return ChatColor.RED;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        } else if (percentage &lt; 48.0F) {</span>
+<span class="nc" id="L112">            return ChatColor.GOLD;</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        } else if (percentage &lt; 64.0F) {</span>
+<span class="nc" id="L114">            return ChatColor.YELLOW;</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        } else if (percentage &lt; 80.0F) {</span>
+<span class="nc" id="L116">            return ChatColor.DARK_GREEN;</span>
+        } else {
+<span class="nc" id="L118">            return ChatColor.GREEN;</span>
+        }
+    }
+
+    /**
+     * This returns the elapsed time since the given {@link LocalDateTime}.
+     * The output will be nicely formatted based on the elapsed hours or days since the
+     * given {@link LocalDateTime}.
+     * 
+     * If a {@link LocalDateTime} from yesterday was passed it will return {@code &quot;1d&quot;}.
+     * One hour later it will read {@code &quot;1d 1h&quot;}. For values smaller than an hour {@code &quot;&lt; 1h&quot;}
+     * will be returned instead.
+     * 
+     * @param date
+     *            The {@link LocalDateTime}.
+     * 
+     * @return The elapsed time as a {@link String}
+     */
+    public static @Nonnull String getElapsedTime(@Nonnull LocalDateTime date) {
+<span class="nc" id="L137">        return getElapsedTime(LocalDateTime.now(), date);</span>
+    }
+
+    /**
+     * This returns the elapsed time between the two given {@link LocalDateTime LocalDateTimes}.
+     * The output will be nicely formatted based on the elapsed hours or days between the
+     * given {@link LocalDateTime LocalDateTime}.
+     * 
+     * If a {@link LocalDateTime} from today and yesterday (exactly 24h apart) was passed it
+     * will return {@code &quot;1d&quot;}.
+     * One hour later it will read {@code &quot;1d 1h&quot;}. For values smaller than an hour {@code &quot;&lt; 1h&quot;}
+     * will be returned instead.
+     * 
+     * @param current
+     *            The current {@link LocalDateTime}.
+     * @param priorDate
+     *            The {@link LocalDateTime} in the past.
+     * 
+     * @return The elapsed time as a {@link String}
+     */
+    public static @Nonnull String getElapsedTime(@Nonnull LocalDateTime current, @Nonnull LocalDateTime priorDate) {
+<span class="fc" id="L158">        Validate.notNull(current, &quot;Provided current date was null&quot;);</span>
+<span class="fc" id="L159">        Validate.notNull(priorDate, &quot;Provided past date was null&quot;);</span>
+
+<span class="fc" id="L161">        long hours = Duration.between(priorDate, current).toHours();</span>
+
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        if (hours == 0) {</span>
+<span class="fc" id="L164">            return &quot;&lt; 1h&quot;;</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        } else if (hours / 24 == 0) {</span>
+<span class="fc" id="L166">            return (hours % 24) + &quot;h&quot;;</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        } else if (hours % 24 == 0) {</span>
+<span class="fc" id="L168">            return (hours / 24) + &quot;d&quot;;</span>
+        } else {
+<span class="fc" id="L170">            return (hours / 24) + &quot;d &quot; + (hours % 24) + &quot;h&quot;;</span>
+        }
+    }
+
+    public static @Nonnull String getTimeLeft(int seconds) {
+<span class="nc" id="L175">        String timeleft = &quot;&quot;;</span>
+
+<span class="nc" id="L177">        int minutes = (int) (seconds / 60L);</span>
+
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if (minutes &gt; 0) {</span>
+<span class="nc" id="L180">            timeleft += minutes + &quot;m &quot;;</span>
+        }
+
+<span class="nc" id="L183">        seconds -= minutes * 60;</span>
+<span class="nc" id="L184">        return timeleft + seconds + &quot;s&quot;;</span>
+    }
+
+    /**
+     * This method parses a {@link String} into an {@link Integer}.
+     * If the {@link String} could not be parsed correctly, the provided
+     * default value will be returned instead.
+     * 
+     * @param str
+     *            The {@link String} to parse
+     * @param defaultValue
+     *            The default value for when the {@link String} could not be parsed
+     * 
+     * @return The resulting {@link Integer}
+     */
+    public static int getInt(@Nonnull String str, int defaultValue) {
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (CommonPatterns.NUMERIC.matcher(str).matches()) {</span>
+<span class="fc" id="L201">            return Integer.parseInt(str);</span>
+        } else {
+<span class="fc" id="L203">            return defaultValue;</span>
+        }
+    }
+
+    public static @Nonnull String getAsMillis(long nanoseconds) {
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (nanoseconds == 0) {</span>
+<span class="nc" id="L209">            return &quot;0ms&quot;;</span>
+        }
+
+<span class="nc" id="L212">        String number = roundDecimalNumber(nanoseconds / 1000000.0);</span>
+<span class="nc" id="L213">        String[] parts = CommonPatterns.NUMBER_SEPARATOR.split(number);</span>
+
+<span class="nc bnc" id="L215" title="All 2 branches missed.">        if (parts.length == 1) {</span>
+<span class="nc" id="L216">            return parts[0] + &quot;ms&quot;;</span>
+        } else {
+<span class="nc" id="L218">            return parts[0] + '.' + parts[1] + &quot;ms&quot;;</span>
+        }
+    }
+
+    public static @Nonnull String roundDecimalNumber(double number) {
+<span class="fc" id="L223">        return DECIMAL_FORMAT.format(number);</span>
+    }
+
+    public static double reparseDouble(double number) {
+<span class="nc" id="L227">        return Double.valueOf(roundDecimalNumber(number));</span>
+    }
+
+    public static long getLong(@Nullable Long value, long defaultValue) {
+<span class="fc bfc" id="L231" title="All 2 branches covered.">        return value == null ? defaultValue : value;</span>
+    }
+
+    public static int getInt(@Nullable Integer value, int defaultValue) {
+<span class="fc bfc" id="L235" title="All 2 branches covered.">        return value == null ? defaultValue : value;</span>
+    }
+
+    public static float getFloat(@Nullable Float value, float defaultValue) {
+<span class="fc bfc" id="L239" title="All 2 branches covered.">        return value == null ? defaultValue : value;</span>
+    }
+
+    /**
+     * This method is a combination of Math.min and Math.max, it clamps the given value
+     * between a minimum and a maximum.
+     * 
+     * @param min
+     *            The minimum value
+     * @param value
+     *            The value to clamp
+     * @param max
+     *            The maximum value
+     * 
+     * @return The clamped value
+     */
+    public static int clamp(int min, int value, int max) {
+<span class="fc bfc" id="L256" title="All 2 branches covered.">        if (value &lt; min) {</span>
+<span class="fc" id="L257">            return min;</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">        } else if (value &gt; max) {</span>
+<span class="fc" id="L259">            return max;</span>
+        } else {
+<span class="fc" id="L261">            return value;</span>
+        }
+    }
+
+    public static int getJavaVersion() {
+<span class="nc" id="L266">        String javaVer = System.getProperty(&quot;java.version&quot;);</span>
+
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (javaVer.startsWith(&quot;1.&quot;)) {</span>
+<span class="nc" id="L269">            javaVer = javaVer.substring(2);</span>
+        }
+
+        // If it's like 11.0.1.3 or 8.0_275
+<span class="nc bnc" id="L273" title="All 2 branches missed.">        if (javaVer.indexOf('.') != -1) {</span>
+<span class="nc" id="L274">            javaVer = javaVer.substring(0, javaVer.indexOf('.'));</span>
+        }
+
+<span class="nc bnc" id="L277" title="All 2 branches missed.">        if (CommonPatterns.NUMERIC.matcher(javaVer).matches()) {</span>
+<span class="nc" id="L278">            return Integer.parseInt(javaVer);</span>
+        } else {
+<span class="nc" id="L280">            Slimefun.logger().log(Level.SEVERE, &quot;Error: Cannot identify Java version - {0}&quot;, javaVer);</span>
+<span class="nc" id="L281">            return 0;</span>
+        }
+    }
+    
+    /**
+     * This detects if 2 integers will overflow/underflow and if they will, returns the corresponding value
+     * @param a the first integer
+     * @param b the second integer
+     * @return {@link Integer#MAX_VALUE} if overflow detected, {@link Integer#MIN_VALUE} if underflow detected, otherwise the sum of a and b
+     */
+    public static int flowSafeAddition(int a, int b) {
+<span class="fc" id="L292">        return limitedAddition(a, b, Integer.MIN_VALUE, Integer.MAX_VALUE);</span>
+    }
+    
+    /**
+     * This detects if 2 integers will overflow/underflow past a maximum or minimum value and if they will, returns the corresponding value
+     * @param a the first integer
+     * @param b the second integer
+     * @param min the minimum value for the operation
+     * @param max the maximum value for the operation
+     * @return max if overflow detected, min if underflow detected, otherwise the sum of a and b
+     */
+    public static int limitedAddition(int a, int b, int min, int max) {
+<span class="pc bpc" id="L304" title="3 of 12 branches missed.">        boolean willOverflow = (a == max &amp;&amp; b &gt; 0 || b == max &amp;&amp; a &gt; 0) || a &gt; 0 &amp;&amp; b &gt; max - a;</span>
+
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (willOverflow) {</span>
+<span class="fc" id="L307">            return max;</span>
+        }
+
+<span class="pc bpc" id="L310" title="4 of 12 branches missed.">        boolean willUnderflow = (a == min &amp;&amp; b &lt; 0 || b == min &amp;&amp; a &lt; 0) || a &lt; 0 &amp;&amp; b &lt; min - a;</span>
+
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">        if (willUnderflow) {</span>
+<span class="fc" id="L313">            return min;</span>
+        } else {
+<span class="nc" id="L315">            return a + b;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

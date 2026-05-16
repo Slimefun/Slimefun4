@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClimbingPick.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.tools</a> &gt; <span class="el_source">ClimbingPick.java</span></div><h1>ClimbingPick.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.events.ClimbingPickLaunchEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.ClimbableSurface;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+/**
+ * The {@link ClimbingPick} launches you 1 block upwards when you right click
+ * on a ice {@link Block}.
+ * Every level of efficiency {@link Enchantment} increases the launch by 0.2 blocks.
+ *
+ * @author Linox
+ * @author TheBusyBiscuit
+ *
+ */
+public class ClimbingPick extends SimpleSlimefunItem&lt;ItemUseHandler&gt; implements DamageableItem, RecipeDisplayItem {
+
+    private static final double STRONG_SURFACE_DEFAULT = 1.0;
+    private static final double WEAK_SURFACE_DEFAULT = 0.6;
+    private static final double MAX_DISTANCE = 4.4;
+    private static final double EFFICIENCY_MODIFIER = 0.125;
+    private static final long COOLDOWN = 4;
+
+<span class="nc" id="L62">    private final ItemSetting&lt;Boolean&gt; dualWielding = new ItemSetting&lt;&gt;(this, &quot;dual-wielding&quot;, true);</span>
+<span class="nc" id="L63">    private final ItemSetting&lt;Boolean&gt; damageOnUse = new ItemSetting&lt;&gt;(this, &quot;damage-on-use&quot;, true);</span>
+
+<span class="nc" id="L65">    private final Map&lt;Material, ClimbableSurface&gt; surfaces = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L66">    private final Set&lt;UUID&gt; users = new HashSet&lt;&gt;();</span>
+
+    @ParametersAreNonnullByDefault
+    public ClimbingPick(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L70">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L71">        addItemSetting(dualWielding, damageOnUse);</span>
+<span class="nc" id="L72">        addDefaultSurfaces();</span>
+<span class="nc" id="L73">    }</span>
+
+    /**
+     * This method adds every surface that is climbable by default.
+     */
+    protected void addDefaultSurfaces() {
+        // These are &quot;strong&quot; surfaces, they will give you the biggest boost
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (Material surface : SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.getValues()) {</span>
+<span class="nc" id="L81">            addSurface(surface, STRONG_SURFACE_DEFAULT);</span>
+<span class="nc" id="L82">        }</span>
+
+        // These are &quot;weak&quot; surfaces, you can still climb them but they don't have
+        // such a high boost as the &quot;strong&quot; surfaces
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for (Material surface : SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.getValues()) {</span>
+<span class="nc" id="L87">            addSurface(surface, WEAK_SURFACE_DEFAULT);</span>
+<span class="nc" id="L88">        }</span>
+<span class="nc" id="L89">    }</span>
+
+    protected void addSurface(@Nonnull Material type, double defaultValue) {
+<span class="nc" id="L92">        ClimbableSurface surface = new ClimbableSurface(this, type, defaultValue);</span>
+<span class="nc" id="L93">        addItemSetting(surface);</span>
+<span class="nc" id="L94">        surfaces.put(type, surface);</span>
+<span class="nc" id="L95">    }</span>
+
+    /**
+     * This returns whether the {@link ClimbingPick} needs to be held in both
+     * arms to work.
+     *
+     * @return Whether dual wielding is enabled
+     */
+    public boolean isDualWieldingEnabled() {
+<span class="nc" id="L104">        return dualWielding.getValue();</span>
+    }
+
+    /**
+     * This method returns a {@link Collection} of every {@link ClimbableSurface} the
+     * {@link ClimbingPick} can climb.
+     *
+     * @return A {@link Collection} of every {@link ClimbableSurface}
+     */
+    @Nonnull
+    public Collection&lt;ClimbableSurface&gt; getClimbableSurfaces() {
+<span class="nc" id="L115">        return surfaces.values();</span>
+    }
+
+    /**
+     * This returns the climbing speed for a given {@link Material}.
+     *
+     * @param type
+     *            The {@link Material}
+     *
+     * @return The climbing speed for this {@link Material} or 0.
+     */
+    public double getClimbingSpeed(@Nonnull Material type) {
+<span class="nc" id="L127">        Validate.notNull(type, &quot;The surface cannot be null&quot;);</span>
+<span class="nc" id="L128">        ClimbableSurface surface = surfaces.get(type);</span>
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (surface != null) {</span>
+<span class="nc" id="L131">            return surface.getValue();</span>
+        } else {
+<span class="nc" id="L133">            return 0;</span>
+        }
+    }
+
+    /**
+     * This returns the climbing speed for a given {@link Material} and the used {@link ItemStack}.
+     *
+     * @param item
+     *            the {@link ClimbingPick}'s {@link ItemStack}
+     * @param type
+     *            The {@link Material}
+     *
+     * @return The climbing speed or 0.
+     */
+    public double getClimbingSpeed(@Nonnull ItemStack item, @Nonnull Material type) {
+<span class="nc" id="L148">        double speed = getClimbingSpeed(type);</span>
+
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (speed &gt; 0) {</span>
+<span class="nc" id="L151">            int efficiencyLevel = item.getEnchantmentLevel(VersionedEnchantment.EFFICIENCY);</span>
+
+<span class="nc bnc" id="L153" title="All 2 branches missed.">            if (efficiencyLevel &gt; 0) {</span>
+<span class="nc" id="L154">                speed += efficiencyLevel * EFFICIENCY_MODIFIER;</span>
+            }
+        }
+
+<span class="nc" id="L158">        return speed;</span>
+    }
+
+    @Override
+    public ItemUseHandler getItemHandler() {
+<span class="nc" id="L163">        return e -&gt; {</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">            if (!e.getClickedBlock().isPresent()) {</span>
+<span class="nc" id="L165">                return;</span>
+            }
+
+<span class="nc" id="L168">            Block block = e.getClickedBlock().get();</span>
+<span class="nc" id="L169">            Player p = e.getPlayer();</span>
+
+            // Check if the Player is standing close enough to the wall
+<span class="nc bnc" id="L172" title="All 2 branches missed.">            if (p.getLocation().distanceSquared(block.getLocation().add(0.5, 0.5, 0.5)) &gt; MAX_DISTANCE) {</span>
+<span class="nc" id="L173">                return;</span>
+            }
+
+            // Check for dual wielding
+<span class="nc bnc" id="L177" title="All 4 branches missed.">            if (isDualWieldingEnabled() &amp;&amp; !isItem(getOtherHandItem(p, e.getHand()))) {</span>
+<span class="nc" id="L178">                Slimefun.getLocalization().sendMessage(p, &quot;messages.climbing-pick.dual-wielding&quot;);</span>
+<span class="nc" id="L179">                return;</span>
+            }
+
+            // Top and bottom faces won't be allowed
+<span class="nc bnc" id="L183" title="All 4 branches missed.">            if (e.getClickedFace() != BlockFace.DOWN &amp;&amp; e.getClickedFace() != BlockFace.UP) {</span>
+<span class="nc" id="L184">                climb(p, e.getHand(), e.getItem(), block);</span>
+            }
+<span class="nc" id="L186">        };</span>
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    private ItemStack getOtherHandItem(Player p, EquipmentSlot hand) {
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (hand == EquipmentSlot.HAND) {</span>
+<span class="nc" id="L193">            return p.getInventory().getItemInOffHand();</span>
+        } else {
+<span class="nc" id="L195">            return p.getInventory().getItemInMainHand();</span>
+        }
+    }
+
+    @ParametersAreNonnullByDefault
+    private void climb(Player p, EquipmentSlot hand, ItemStack item, Block block) {
+<span class="nc" id="L201">        double power = getClimbingSpeed(item, block.getType());</span>
+
+<span class="nc bnc" id="L203" title="All 2 branches missed.">        if (power &gt; 0.05) {</span>
+            // Prevent players from spamming this item by enforcing a cooldown
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            if (users.add(p.getUniqueId())) {</span>
+<span class="nc" id="L206">                Slimefun.runSync(() -&gt; users.remove(p.getUniqueId()), COOLDOWN);</span>
+<span class="nc" id="L207">                Vector velocity = new Vector(0, power, 0);</span>
+<span class="nc" id="L208">                ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);</span>
+<span class="nc" id="L209">                Bukkit.getPluginManager().callEvent(event);</span>
+
+<span class="nc bnc" id="L211" title="All 2 branches missed.">                if (!event.isCancelled()) {</span>
+<span class="nc" id="L212">                    p.setVelocity(event.getVelocity());</span>
+<span class="nc" id="L213">                    p.setFallDistance(0);</span>
+<span class="nc" id="L214">                    swing(p, block, hand, item);</span>
+                }
+<span class="nc" id="L216">            }</span>
+<span class="nc bnc" id="L217" title="All 4 branches missed.">        } else if (!isDualWieldingEnabled() || hand == EquipmentSlot.HAND) {</span>
+            // We don't wanna send the message twice, so we check for dual wielding
+<span class="nc" id="L219">            Slimefun.getLocalization().sendMessage(p, &quot;messages.climbing-pick.wrong-material&quot;);</span>
+        }
+<span class="nc" id="L221">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void swing(Player p, Block b, EquipmentSlot hand, ItemStack item) {
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        if (isDualWieldingEnabled()) {</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">            if (ThreadLocalRandom.current().nextBoolean()) {</span>
+<span class="nc" id="L227">                damageItem(p, p.getInventory().getItemInMainHand());</span>
+<span class="nc" id="L228">                playAnimation(p, b, EquipmentSlot.HAND);</span>
+            } else {
+<span class="nc" id="L230">                damageItem(p, p.getInventory().getItemInOffHand());</span>
+<span class="nc" id="L231">                playAnimation(p, b, EquipmentSlot.OFF_HAND);</span>
+            }
+        } else {
+<span class="nc" id="L234">            damageItem(p, item);</span>
+<span class="nc" id="L235">            playAnimation(p, b, hand);</span>
+        }
+<span class="nc" id="L237">    }</span>
+
+    @Override
+    public void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
+<span class="nc bnc" id="L241" title="All 2 branches missed.">        if (p.getGameMode() != GameMode.CREATIVE) {</span>
+<span class="nc" id="L242">            DamageableItem.super.damageItem(p, item);</span>
+        }
+<span class="nc" id="L244">    }</span>
+
+    @Override
+    public boolean isDamageable() {
+<span class="nc" id="L248">        return damageOnUse.getValue();</span>
+    }
+
+    @ParametersAreNonnullByDefault
+    private void playAnimation(Player p, Block b, EquipmentSlot hand) {
+<span class="nc" id="L253">        MinecraftVersion version = Slimefun.getMinecraftVersion();</span>
+
+<span class="nc bnc" id="L255" title="All 2 branches missed.">        if (version != MinecraftVersion.UNIT_TEST) {</span>
+<span class="nc" id="L256">            p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());</span>
+
+<span class="nc bnc" id="L258" title="All 2 branches missed.">            if (hand == EquipmentSlot.HAND) {</span>
+<span class="nc" id="L259">                p.swingMainHand();</span>
+            } else {
+<span class="nc" id="L261">                p.swingOffHand();</span>
+            }
+        }
+<span class="nc" id="L264">    }</span>
+
+    @Override
+    public List&lt;ItemStack&gt; getDisplayRecipes() {
+<span class="nc" id="L268">        List&lt;ItemStack&gt; display = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L270" title="All 2 branches missed.">        for (Material mat : surfaces.keySet()) {</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">            if (mat.isItem()) {</span>
+<span class="nc" id="L272">                display.add(new ItemStack(mat));</span>
+            }
+<span class="nc" id="L274">        }</span>
+
+<span class="nc" id="L276">        return display;</span>
+    }
+
+    @Override
+    public String getLabelLocalPath() {
+<span class="nc" id="L281">        return &quot;guide.tooltips.recipes.climbing-pick&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

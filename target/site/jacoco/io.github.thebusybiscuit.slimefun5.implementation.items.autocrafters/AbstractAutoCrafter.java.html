@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractAutoCrafter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters</a> &gt; <span class="el_source">AbstractAutoCrafter.java</span></div><h1>AbstractAutoCrafter.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Skull;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import io.papermc.lib.PaperLib;
+import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+
+/**
+ * This is the abstract super class for our auto crafters.
+ *
+ * @author TheBusyBiscuit
+ *
+ * @see VanillaAutoCrafter
+ * @see EnhancedAutoCrafter
+ *
+ */
+public abstract class AbstractAutoCrafter extends SlimefunItem implements EnergyNetComponent {
+
+    /**
+     * The amount of energy consumed per crafting operation.
+     */
+<span class="nc" id="L67">    private int energyConsumed = -1;</span>
+
+    /**
+     * The amount of energy this machine can store.
+     */
+<span class="nc" id="L72">    private int energyCapacity = -1;</span>
+
+    /**
+     * The {@link NamespacedKey} used to store recipe data.
+     */
+    protected final NamespacedKey recipeStorageKey;
+
+    /**
+     * The {@link NamespacedKey} used to determine whether the recipe is enabled.
+     */
+    protected final NamespacedKey recipeEnabledKey;
+
+    // @formatter:off
+<span class="nc" id="L85">    protected final int[] background = {</span>
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        9, 10, 14, 15, 16, 17,
+        18, 19, 23, 25, 26,
+        27, 28, 32, 33, 34, 35,
+        36, 37, 38, 39, 40, 41, 42, 43, 44
+    };
+    // @formatter:on
+
+    @ParametersAreNonnullByDefault
+    protected AbstractAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L96">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L98">        recipeStorageKey = new NamespacedKey(Slimefun.instance(), &quot;recipe_key&quot;);</span>
+<span class="nc" id="L99">        recipeEnabledKey = new NamespacedKey(Slimefun.instance(), &quot;recipe_enabled&quot;);</span>
+
+<span class="nc" id="L101">        addItemHandler(new BlockTicker() {</span>
+
+            @Override
+            public void tick(Block b, SlimefunItem item, Config data) {
+<span class="nc" id="L105">                AbstractAutoCrafter.this.tick(b, data);</span>
+<span class="nc" id="L106">            }</span>
+
+            @Override
+            public boolean isSynchronized() {
+<span class="nc" id="L110">                return true;</span>
+            }
+        });
+<span class="nc" id="L113">    }</span>
+
+    /**
+     * This method handles our right-clicking behaviour.
+     * &lt;p&gt;
+     * Do not call this method directly, see our {@link AutoCrafterListener} for the intended
+     * use case.
+     *
+     * @param b
+     *            The {@link Block} that was clicked
+     * @param p
+     *            The {@link Player} who clicked
+     */
+    @ParametersAreNonnullByDefault
+    public void onRightClick(Block b, Player p) {
+<span class="nc" id="L128">        Validate.notNull(b, &quot;The Block must not be null!&quot;);</span>
+<span class="nc" id="L129">        Validate.notNull(p, &quot;The Player cannot be null!&quot;);</span>
+
+        // Check if we have a valid chest below
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (!isValidInventory(b.getRelative(BlockFace.DOWN))) {</span>
+<span class="nc" id="L133">            Slimefun.getLocalization().sendMessage(p, &quot;messages.auto-crafting.missing-chest&quot;);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        } else if (Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK)) {</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            if (p.isSneaking()) {</span>
+                // Select a new recipe
+<span class="nc" id="L137">                updateRecipe(b, p);</span>
+            } else {
+<span class="nc" id="L139">                AbstractRecipe recipe = getSelectedRecipe(b);</span>
+
+<span class="nc bnc" id="L141" title="All 2 branches missed.">                if (recipe == null) {</span>
+                    // Prompt the User to crouch
+<span class="nc" id="L143">                    Slimefun.getLocalization().sendMessage(p, &quot;messages.auto-crafting.select-a-recipe&quot;);</span>
+                } else {
+                    // Show the current recipe
+<span class="nc" id="L146">                    showRecipe(p, b, recipe);</span>
+                }
+<span class="nc" id="L148">            }</span>
+        } else {
+<span class="nc" id="L150">            Slimefun.getLocalization().sendMessage(p, &quot;inventory.no-access&quot;);</span>
+        }
+<span class="nc" id="L152">    }</span>
+
+    /**
+     * This method performs one tick for the {@link AbstractAutoCrafter}.
+     *
+     * @param b
+     *            The block for this {@link AbstractAutoCrafter}
+     * @param data
+     *            The data stored on this block
+     */
+    protected void tick(@Nonnull Block b, @Nonnull Config data) {
+<span class="nc" id="L163">        AbstractRecipe recipe = getSelectedRecipe(b);</span>
+
+<span class="nc bnc" id="L165" title="All 6 branches missed.">        if (recipe == null || !recipe.isEnabled() || getCharge(b.getLocation(), data) &lt; getEnergyConsumption()) {</span>
+            // No recipe / disabled recipe / no energy, abort...
+<span class="nc" id="L167">            return;</span>
+        }
+
+        // The block below where we would expect our inventory holder.
+<span class="nc" id="L171">        Block targetBlock = b.getRelative(BlockFace.DOWN);</span>
+
+        // Make sure this is a Chest
+<span class="nc bnc" id="L174" title="All 2 branches missed.">        if (isValidInventory(targetBlock)) {</span>
+<span class="nc" id="L175">            BlockState state = PaperLib.getBlockState(targetBlock, false).getState();</span>
+
+<span class="nc bnc" id="L177" title="All 2 branches missed.">            if (state instanceof InventoryHolder inventoryHolder) {</span>
+<span class="nc" id="L178">                Inventory inv = inventoryHolder.getInventory();</span>
+
+<span class="nc bnc" id="L180" title="All 2 branches missed.">                if (craft(inv, recipe)) {</span>
+                    // We are done crafting!
+<span class="nc" id="L182">                    Location loc = b.getLocation().add(0.5, 0.8, 0.5);</span>
+<span class="nc" id="L183">                    b.getWorld().spawnParticle(VersionedParticle.HAPPY_VILLAGER, loc, 6);</span>
+<span class="nc" id="L184">                    removeCharge(b.getLocation(), getEnergyConsumption());</span>
+                }
+            }
+        }
+<span class="nc" id="L188">    }</span>
+
+    /**
+     * This method checks if the given {@link Block} has a valid {@link Inventory}
+     * where the Auto Crafter could be placed upon.
+     * Right now this only supports chests and a few select tile entities but it can change or
+     * be overridden in the future.
+     *
+     * @param block
+     *            The {@link Block} to check
+     *
+     * @return Whether that {@link Block} has a valid {@link Inventory}
+     */
+    protected boolean isValidInventory(@Nonnull Block block) {
+<span class="nc" id="L202">        Material type = block.getType();</span>
+
+<span class="nc" id="L204">        return SlimefunTag.AUTO_CRAFTER_SUPPORTED_STORAGE_BLOCKS.isTagged(type);</span>
+    }
+
+    /**
+     * This method returns the currently selected {@link AbstractRecipe} for the given
+     * {@link Block}.
+     *
+     * @param b
+     *            The {@link Block}
+     *
+     * @return The currently selected {@link AbstractRecipe} or null
+     */
+    @Nullable
+    public abstract AbstractRecipe getSelectedRecipe(@Nonnull Block b);
+
+    /**
+     * This method is called when a {@link Player} right clicks the {@link AbstractAutoCrafter}
+     * while holding the shift button.
+     * Use it to choose the {@link AbstractRecipe}.
+     *
+     * @param b
+     *            The {@link Block} which was clicked
+     * @param p
+     *            The {@link Player} who clicked
+     */
+    protected abstract void updateRecipe(@Nonnull Block b, @Nonnull Player p);
+
+    /**
+     * This method sets the selected {@link AbstractRecipe} for the given {@link Block}.
+     * The recipe will be stored using the {@link PersistentDataAPI}.
+     *
+     * @param b
+     *            The {@link Block} to store the data on
+     * @param recipe
+     *            The {@link AbstractRecipe} to select
+     */
+    protected void setSelectedRecipe(@Nonnull Block b, @Nullable AbstractRecipe recipe) {
+<span class="nc" id="L241">        Validate.notNull(b, &quot;The Block cannot be null!&quot;);</span>
+
+<span class="nc" id="L243">        BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);</span>
+<span class="nc" id="L244">        BlockState state = result.getState();</span>
+
+<span class="nc bnc" id="L246" title="All 2 branches missed.">        if (state instanceof Skull skull) {</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">            if (recipe == null) {</span>
+                // Clear the value from persistent data storage
+<span class="nc" id="L249">                PersistentDataAPI.remove(skull, recipeStorageKey);</span>
+
+                // Also remove the &quot;enabled&quot; state since this should be per-recipe.
+<span class="nc" id="L252">                PersistentDataAPI.remove(skull, recipeEnabledKey);</span>
+            } else {
+                // Store the value to persistent data storage
+<span class="nc" id="L255">                PersistentDataAPI.setString(skull, recipeStorageKey, recipe.toString());</span>
+            }
+
+            // Fixes #2899 - Update the BlockState if necessary
+<span class="nc bnc" id="L259" title="All 2 branches missed.">            if (result.isSnapshot()) {</span>
+<span class="nc" id="L260">                state.update(true, false);</span>
+            }
+        }
+<span class="nc" id="L263">    }</span>
+
+    /**
+     * This shows the given {@link AbstractRecipe} to the {@link Player} in a preview window.
+     *
+     * @param p
+     *            The {@link Player}
+     * @param b
+     *            The {@link Block} of the {@link AbstractAutoCrafter}
+     * @param recipe
+     *            The {@link AbstractRecipe} to show them
+     */
+    @ParametersAreNonnullByDefault
+    protected void showRecipe(Player p, Block b, AbstractRecipe recipe) {
+<span class="nc" id="L277">        Validate.notNull(p, &quot;The Player should not be null&quot;);</span>
+<span class="nc" id="L278">        Validate.notNull(b, &quot;The Block should not be null&quot;);</span>
+<span class="nc" id="L279">        Validate.notNull(recipe, &quot;The Recipe should not be null&quot;);</span>
+
+<span class="nc" id="L281">        ChestMenu menu = new ChestMenu(getItemName());</span>
+<span class="nc" id="L282">        menu.setPlayerInventoryClickable(false);</span>
+<span class="nc" id="L283">        menu.setEmptySlotsClickable(false);</span>
+
+<span class="nc" id="L285">        ChestMenuUtils.drawBackground(menu, background);</span>
+<span class="nc" id="L286">        ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);</span>
+
+<span class="nc bnc" id="L288" title="All 2 branches missed.">        if (recipe.isEnabled()) {</span>
+<span class="nc" id="L289">            menu.addItem(49, CustomItemStack.create(Material.BARRIER, Slimefun.getLocalization().getMessages(p, &quot;messages.auto-crafting.tooltips.enabled&quot;)));</span>
+<span class="nc" id="L290">            menu.addMenuClickHandler(49, (pl, item, slot, action) -&gt; {</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">                if (action.isRightClicked()) {</span>
+<span class="nc" id="L292">                    deleteRecipe(pl, b);</span>
+                } else {
+<span class="nc" id="L294">                    setRecipeEnabled(pl, b, false);</span>
+                }
+
+<span class="nc" id="L297">                return false;</span>
+            });
+        } else {
+<span class="nc" id="L300">            menu.addItem(49, CustomItemStack.create(HeadTexture.EXCLAMATION_MARK.getAsItemStack(), Slimefun.getLocalization().getMessages(p, &quot;messages.auto-crafting.tooltips.disabled&quot;)));</span>
+<span class="nc" id="L301">            menu.addMenuClickHandler(49, (pl, item, slot, action) -&gt; {</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">                if (action.isRightClicked()) {</span>
+<span class="nc" id="L303">                    deleteRecipe(pl, b);</span>
+                } else {
+<span class="nc" id="L305">                    setRecipeEnabled(pl, b, true);</span>
+                }
+
+<span class="nc" id="L308">                return false;</span>
+            });
+        }
+
+        // This makes the slots cycle through different ingredients
+<span class="nc" id="L313">        AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();</span>
+<span class="nc" id="L314">        recipe.show(menu, task);</span>
+<span class="nc" id="L315">        menu.open(p);</span>
+
+<span class="nc" id="L317">        SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);</span>
+
+        // Only schedule the task if necessary
+<span class="nc bnc" id="L320" title="All 2 branches missed.">        if (!task.isEmpty()) {</span>
+<span class="nc" id="L321">            task.start(menu.toInventory());</span>
+        }
+<span class="nc" id="L323">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void setRecipeEnabled(Player p, Block b, boolean enabled) {
+<span class="nc" id="L327">        p.closeInventory();</span>
+<span class="nc" id="L328">        SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);</span>
+<span class="nc" id="L329">        BlockState state = PaperLib.getBlockState(b, false).getState();</span>
+
+        // Make sure the block is still a Skull
+<span class="nc bnc" id="L332" title="All 2 branches missed.">        if (state instanceof Skull skull) {</span>
+<span class="nc bnc" id="L333" title="All 2 branches missed.">            if (enabled) {</span>
+<span class="nc" id="L334">                PersistentDataAPI.remove(skull, recipeEnabledKey);</span>
+<span class="nc" id="L335">                Slimefun.getLocalization().sendMessage(p, &quot;messages.auto-crafting.re-enabled&quot;);</span>
+            } else {
+<span class="nc" id="L337">                PersistentDataAPI.setByte(skull, recipeEnabledKey, (byte) 1);</span>
+<span class="nc" id="L338">                Slimefun.getLocalization().sendMessage(p, &quot;messages.auto-crafting.temporarily-disabled&quot;);</span>
+            }
+        }
+<span class="nc" id="L341">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void deleteRecipe(Player p, Block b) {
+<span class="nc" id="L345">        setSelectedRecipe(b, null);</span>
+<span class="nc" id="L346">        p.closeInventory();</span>
+<span class="nc" id="L347">        SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);</span>
+<span class="nc" id="L348">        Slimefun.getLocalization().sendMessage(p, &quot;messages.auto-crafting.recipe-removed&quot;);</span>
+<span class="nc" id="L349">    }</span>
+
+    /**
+     * This method checks whether the given {@link Predicate} matches the provided {@link ItemStack}.
+     *
+     * @param item
+     *            The {@link ItemStack} to check
+     * @param predicate
+     *            The {@link Predicate}
+     *
+     * @return Whether the {@link Predicate} matches the {@link ItemStack}
+     */
+    @ParametersAreNonnullByDefault
+    protected boolean matches(ItemStack item, Predicate&lt;ItemStack&gt; predicate) {
+<span class="nc" id="L363">        return predicate.test(item);</span>
+    }
+
+    @ParametersAreNonnullByDefault
+    protected boolean matchesAny(Inventory inv, Map&lt;Integer, Integer&gt; itemQuantities, Predicate&lt;ItemStack&gt; predicate) {
+<span class="nc" id="L368">        ItemStack[] contents = inv.getContents();</span>
+
+<span class="nc bnc" id="L370" title="All 2 branches missed.">        for (int slot = 0; slot &lt; contents.length; slot++) {</span>
+<span class="nc" id="L371">            ItemStack item = contents[slot];</span>
+
+<span class="nc bnc" id="L373" title="All 2 branches missed.">            if (item != null) {</span>
+<span class="nc" id="L374">                int amount = itemQuantities.getOrDefault(slot, item.getAmount());</span>
+
+<span class="nc bnc" id="L376" title="All 4 branches missed.">                if (amount &gt; 0 &amp;&amp; matches(item, predicate)) {</span>
+                    // Update our local quantity map
+<span class="nc" id="L378">                    itemQuantities.put(slot, amount - 1);</span>
+<span class="nc" id="L379">                    return true;</span>
+                }
+            }
+        }
+
+<span class="nc" id="L384">        return false;</span>
+    }
+
+    /**
+     * This method performs a crafting operation.
+     * It will attempt to fulfill the provided {@link AbstractRecipe} using
+     * the given {@link Inventory}.
+     * This will consume items and add the result to the {@link Inventory}.
+     * This method does not handle energy consumption.
+     *
+     * @param inv
+     *            The {@link Inventory} to take resources from
+     * @param recipe
+     *            The {@link AbstractRecipe} to craft
+     *
+     * @return Whether this crafting operation was successful or not
+     */
+    public boolean craft(@Nonnull Inventory inv, @Nonnull AbstractRecipe recipe) {
+<span class="nc" id="L402">        Validate.notNull(inv, &quot;The Inventory must not be null&quot;);</span>
+<span class="nc" id="L403">        Validate.notNull(recipe, &quot;The Recipe shall not be null&quot;);</span>
+
+        // Make sure that the Recipe is actually enabled
+<span class="nc bnc" id="L406" title="All 2 branches missed.">        if (!recipe.isEnabled()) {</span>
+<span class="nc" id="L407">            return false;</span>
+        }
+
+        // Check if we have an empty slot
+<span class="nc bnc" id="L411" title="All 2 branches missed.">        if (inv.firstEmpty() != -1) {</span>
+<span class="nc" id="L412">            Map&lt;Integer, Integer&gt; itemQuantities = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L414" title="All 2 branches missed.">            for (Predicate&lt;ItemStack&gt; predicate : recipe.getIngredients()) {</span>
+                // Check if any Item matches the Predicate
+<span class="nc bnc" id="L416" title="All 2 branches missed.">                if (!matchesAny(inv, itemQuantities, predicate)) {</span>
+<span class="nc" id="L417">                    return false;</span>
+                }
+<span class="nc" id="L419">            }</span>
+
+<span class="nc" id="L421">            List&lt;ItemStack&gt; leftoverItems = new ArrayList&lt;&gt;();</span>
+
+            // Remove ingredients
+<span class="nc bnc" id="L424" title="All 2 branches missed.">            for (Map.Entry&lt;Integer, Integer&gt; entry : itemQuantities.entrySet()) {</span>
+<span class="nc" id="L425">                ItemStack item = inv.getItem(entry.getKey());</span>
+
+                // Double-check to be extra safe
+<span class="nc bnc" id="L428" title="All 2 branches missed.">                if (item != null) {</span>
+                    // Handle leftovers
+<span class="nc" id="L430">                    ItemStack leftover = getLeftoverItem(item);</span>
+
+<span class="nc bnc" id="L432" title="All 2 branches missed.">                    if (leftover != null) {</span>
+                        // Account for the amount of removed items
+<span class="nc" id="L434">                        leftover.setAmount(item.getAmount() - entry.getValue());</span>
+<span class="nc" id="L435">                        leftoverItems.add(leftover);</span>
+                    }
+
+                    // Update the item amount
+<span class="nc" id="L439">                    item.setAmount(entry.getValue());</span>
+                }
+<span class="nc" id="L441">            }</span>
+
+<span class="nc" id="L443">            boolean success = inv.addItem(recipe.getResult().clone()).isEmpty();</span>
+
+<span class="nc bnc" id="L445" title="All 2 branches missed.">            if (success) {</span>
+                // Fixes #2926 - Push leftover items to the inventory.
+<span class="nc bnc" id="L447" title="All 2 branches missed.">                for (ItemStack leftoverItem : leftoverItems) {</span>
+<span class="nc" id="L448">                    inv.addItem(leftoverItem);</span>
+<span class="nc" id="L449">                }</span>
+            }
+
+<span class="nc" id="L452">            return success;</span>
+        }
+
+<span class="nc" id="L455">        return false;</span>
+    }
+
+    /**
+     * This method returns the &quot;leftovers&quot; from a crafting operation.
+     * The method functions very similarly to {@link Material#getCraftingRemainingItem()}.
+     * However we cannot use this method as it is only available in the latest 1.16 snapshots
+     * of Spigot, not even on earlier 1.16 builds...
+     * But this gives us more control over the leftovers anyway!
+     *
+     * @param item
+     *            The {@link ItemStack} that is being consumed
+     *
+     * @return The leftover item or null if the item is fully consumed
+     */
+    @Nullable
+    private ItemStack getLeftoverItem(@Nonnull ItemStack item) {
+<span class="nc" id="L472">        Material type = item.getType();</span>
+
+<span class="nc bnc" id="L474" title="All 3 branches missed.">        return switch (type) {</span>
+            case WATER_BUCKET,
+                LAVA_BUCKET,
+<span class="nc" id="L477">                MILK_BUCKET -&gt; new ItemStack(Material.BUCKET);</span>
+            case DRAGON_BREATH,
+                POTION,
+<span class="nc" id="L480">                HONEY_BOTTLE -&gt; new ItemStack(Material.GLASS_BOTTLE);</span>
+<span class="nc" id="L481">            default -&gt; null;</span>
+        };
+    }
+
+    /**
+     * This method returns the max amount of electricity this machine can hold.
+     *
+     * @return The max amount of electricity this Block can store.
+     */
+    @Override
+    public int getCapacity() {
+<span class="nc" id="L492">        return energyCapacity;</span>
+    }
+
+    /**
+     * This method returns the amount of energy that is consumed per operation.
+     *
+     * @return The rate of energy consumption
+     */
+    public int getEnergyConsumption() {
+<span class="nc" id="L501">        return energyConsumed;</span>
+    }
+
+    /**
+     * This sets the energy capacity for this machine.
+     * This method &lt;strong&gt;must&lt;/strong&gt; be called before registering the item
+     * and only before registering.
+     *
+     * @param capacity
+     *            The amount of energy this machine can store
+     *
+     * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
+     */
+    @Nonnull
+    public final AbstractAutoCrafter setCapacity(int capacity) {
+<span class="nc bnc" id="L516" title="All 2 branches missed.">        Validate.isTrue(capacity &gt; 0, &quot;The capacity must be greater than zero!&quot;);</span>
+
+<span class="nc bnc" id="L518" title="All 2 branches missed.">        if (getState() == ItemState.UNREGISTERED) {</span>
+<span class="nc" id="L519">            this.energyCapacity = capacity;</span>
+<span class="nc" id="L520">            return this;</span>
+        } else {
+<span class="nc" id="L522">            throw new IllegalStateException(&quot;You cannot modify the capacity after the Item was registered.&quot;);</span>
+        }
+    }
+
+    /**
+     * This method sets the energy consumed by this machine per tick.
+     *
+     * @param energyConsumption
+     *            The energy consumed per tick
+     *
+     * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
+     */
+    @Nonnull
+    public final AbstractAutoCrafter setEnergyConsumption(int energyConsumption) {
+<span class="nc bnc" id="L536" title="All 2 branches missed.">        Validate.isTrue(energyConsumption &gt; 0, &quot;The energy consumption must be greater than zero!&quot;);</span>
+<span class="nc bnc" id="L537" title="All 2 branches missed.">        Validate.isTrue(energyCapacity &gt; 0, &quot;You must specify the capacity before you can set the consumption amount.&quot;);</span>
+<span class="nc bnc" id="L538" title="All 2 branches missed.">        Validate.isTrue(energyConsumption &lt;= energyCapacity, &quot;The energy consumption cannot be higher than the capacity (&quot; + energyCapacity + ')');</span>
+
+<span class="nc" id="L540">        this.energyConsumed = energyConsumption;</span>
+<span class="nc" id="L541">        return this;</span>
+    }
+
+    @Override
+    public void register(@Nonnull SlimefunAddon addon) {
+<span class="nc" id="L546">        Validate.notNull(addon, &quot;A SlimefunAddon cannot be null!&quot;);</span>
+<span class="nc" id="L547">        this.addon = addon;</span>
+
+<span class="nc bnc" id="L549" title="All 2 branches missed.">        if (getCapacity() &lt;= 0) {</span>
+<span class="nc" id="L550">            warn(&quot;The capacity has not been configured correctly. The Item was disabled.&quot;);</span>
+<span class="nc" id="L551">            warn(&quot;Make sure to call '&quot; + getClass().getSimpleName() + &quot;#setEnergyCapacity(...)' before registering!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L554" title="All 2 branches missed.">        if (getEnergyConsumption() &lt;= 0) {</span>
+<span class="nc" id="L555">            warn(&quot;The energy consumption has not been configured correctly. The Item was disabled.&quot;);</span>
+<span class="nc" id="L556">            warn(&quot;Make sure to call '&quot; + getClass().getSimpleName() + &quot;#setEnergyConsumption(...)' before registering!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L559" title="All 4 branches missed.">        if (getCapacity() &gt; 0 &amp;&amp; getEnergyConsumption() &gt; 0) {</span>
+<span class="nc" id="L560">            super.register(addon);</span>
+        }
+<span class="nc" id="L562">    }</span>
+
+    @Override
+    public final EnergyNetComponentType getEnergyComponentType() {
+<span class="nc" id="L566">        return EnergyNetComponentType.CONSUMER;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

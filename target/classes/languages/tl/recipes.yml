@@ -1,0 +1,136 @@
+---
+slimefun:
+  multiblock:
+    lore:
+      - 'Buuin ang ipinakita na istraktura.'
+      - 'Hindi ito crafted.'
+  enhanced_crafting_table:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'sa Enhanced Crafting Table.'
+      - 'Ang isang normal na Crafting Table ay hindi sapat!'
+  armor_forge:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Armor Forge.'
+  grind_stone:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Grind Stone.'
+  smeltery:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Smeltery.'
+  ore_crusher:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ng Ore Crusher.'
+  mob_drop:
+    lore:
+      - 'Patayin ang mob na iyon upang'
+      - 'makuha ang aytem na ito.'
+  gold_pan:
+    lore:
+      - 'Gamitin ang Gold Pan upang'
+      - 'makuha ang aytem na ito.'
+  compressor:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Compressor.'
+  pressure_chamber:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Pressure Chamber'
+  ore_washer:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Ore Washer'
+  juicer:
+    lore:
+      - 'I-craft ang Juice na ito tulad ng ipinakita'
+      - 'gamit ang Juicer.'
+  magic_workbench:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Magic Workbench.'
+  ancient_altar:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Ancient Altar.'
+      - 'Hanapin ang Ancient Altar para sa mga karagdagang Impormasyon.'
+  heated_pressure_chamber:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Heated Pressure Chamber.'
+  food_fabricator:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Food Fabricator.'
+  food_composter:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Food Composter.'
+  freezer:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Freezer.'
+  geo_miner:
+    lore:
+      - 'Ang item na ito ay maaaring tipunin'
+      - 'sa pamamagitan ng paggamit ng isang GEO Miner.'
+  nuclear_reactor:
+    lore:
+      - 'Ang Item na ito ay isang byproduct'
+      - 'ng pagpapatakbo ng isang Nuclear Reactor.'
+  oil_pump:
+    lore:
+      - 'Ang item na ito ay maaaring tipunin'
+      - 'sa pamamagitan ng paggamit ng isang Oil Pump.'
+  pickaxe_of_containment:
+    lore:
+      - 'Maaaring makuha ang block na ito'
+      - 'sa pamamagitan ng pagmimina ng Spawner kasama'
+      - 'ang Pickaxe of Containment.'
+  refinery:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Refinery.'
+  barter_drop:
+    lore:
+      - 'Mag-barter kasama ang mga Piglins gamit ang mga'
+      - 'Gold Ingots upang makuha ang aytem na ito.'
+minecraft:
+  shaped:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'sa normal na Crafting Table.'
+      - 'Mahalaga ang hugis.'
+  shapeless:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'sa normal na Crafting Table.'
+      - 'Shapeless ang Recipe na ito.'
+  furnace:
+    lore:
+      - 'Lutuin ang item na ito sa isang Furnace'
+      - 'upang likhain ang iyong ninanais na item.'
+  blasting:
+    lore:
+      - 'Lutuin ang item na ito sa isang Blast Furnace'
+      - 'upang likhain ang iyong ninanais na item.'
+  smoking:
+    lore:
+      - 'Lutuin ang item na ito sa isang Smoker'
+      - 'upang likhain ang iyong ninanais na item.'
+  campfire:
+    lore:
+      - 'Lutuin ang item na ito sa isang Campfire'
+      - 'upang likhain ang iyong ninanais na item.'
+  stonecutting:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Stonecutter.'
+  smithing:
+    lore:
+      - 'I-craft ang item na ito tulad ng ipinakita'
+      - 'gamit ang Smithing Table.'

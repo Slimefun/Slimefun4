@@ -1,0 +1,248 @@
+---
+slimefun:
+  walking_sticks: Bastonlar
+  portable_crafter: Portatif Üretim Masası
+  fortune_cookie: Şans Kurabiyesi
+  portable_dustbin: Portatif Çöp Kovası
+  meat_jerky: Yağsız Et
+  armor_forge: Zırh Üretimi
+  glowstone_armor: Işık Taşı Zırhı
+  lumps: Yumrular ve Büyü
+  ender_backpack: Ender Sırt Çantası
+  ender_armor: Ender Zırhı
+  magic_eye_of_ender: Sihirli Ender Gözü
+  magic_sugar: Sihirli Şeker
+  monster_jerky: Yağsız Yaratık Eti
+  slime_armor: Balçık Zırhı
+  sword_of_beheading: Baş Kesme Kılıcı
+  basic_circuit_board: Temel Devre Kartı
+  advanced_circuit_board: Gelişmiş Devre Kartı
+  smeltery: Dökümhane
+  steel: Çelik Çağı
+  misc_power_items: Güçle ilgili önemli eşyalar
+  battery: İlk Piliniz
+  steel_plate: Çelik Kaplama
+  steel_thruster: Çelik İtici
+  parachute: Paraşüt
+  grappling_hook: Kanca
+  jetpacks: Jetpackler
+  multitools: Çoklu Aletler
+  solar_panel_and_helmet: Güneş Enerjisi
+  elemental_staff: Elementsel Asalar
+  grind_stone: Taş Öğütücü
+  cactus_armor: Kaktüs Takımı
+  gold_pan: Altın Tavası
+  magical_book_cover: Sihirli Kitap Eşleme
+  slimefun_metals: Yeni Metaller
+  ore_crusher: Maden Katlama
+  bronze: Bronz Üretimi
+  alloys: Gelişmiş Alaşımlar
+  compressor_and_carbon: Karbon Üretimi
+  gilded_iron_armor: Yaldızlı Demir Zırhı
+  synthetic_diamond: Sentetik Elmaslar
+  pressure_chamber: Basınç Odası
+  synthetic_sapphire: Sentetik Safirler
+  damascus_steel: Şam Çeliği
+  damascus_steel_armor: Şam Çeliği Zırhı
+  reinforced_alloy: Güçlendirilmiş Alaşım
+  carbonado: Siyah Elmaslar
+  magic_workbench: Sihirli Üretim Masası
+  wind_staff: Rüzgar Asası
+  reinforced_armor: Güçlendirilmiş Zırh
+  ore_washer: Maden Yıkayıcı
+  gold_carats: Saf Altın
+  silicon: Silikon Vadisi
+  fire_staff: Ateş Asası
+  smelters_pickaxe: Demircinin Kazması
+  common_talisman: Sıradan Tılsım
+  anvil_talisman: Örs Tılsımı
+  miner_talisman: Madenci Tılsımı
+  hunter_talisman: Avcı Tılsımı
+  lava_talisman: Lavda Yürüyen Tılsımı
+  water_talisman: Suda Nefes Alan Tılsımı
+  angel_talisman: Melek Tılsımı
+  fire_talisman: İtfaiyeci Tılsımı
+  caveman_talisman: Mağara Adamı Tılsımı
+  lava_crystal: Ateşli Durum
+  magician_talisman: Sihirbaz Tılsımı
+  traveller_talisman: Gezgin Tılsımı
+  warrior_talisman: Savaşçı Tılsımı
+  knight_talisman: Şövalye Tılsımı
+  gilded_iron: Parlak Demir
+  synthetic_emerald: Sahte Mücevher
+  chainmail_armor: Zincir Zırh
+  whirlwind_talisman: Kasırga Tılsımı
+  wizard_talisman: Büyücü Tılsımı
+  lumber_axe: Kereste Baltası
+  hazmat_suit: Koruyucu Takım
+  uranium: Radyoaktif
+  crushed_ore: Maden Arıtma
+  redstone_alloy: Kızıltaş Alaşımı
+  carbonado_tools: Üst Seviye Makineler
+  first_aid: İlk yardım
+  gold_armor: Parlak Zırh
+  night_vision_googles: Gece Görüş Gözlüğü
+  pickaxe_of_containment: Kapsama Kazması
+  hercules_pickaxe: Herkülün Kazması
+  table_saw: Masa Testeresi
+  slime_steel_armor: Çelik Balçık Zırhı
+  blade_of_vampires: Vampirlerin Bıçağı
+  water_staff: Su Asası
+  24k_gold_block: Altın Şehir
+  composter: Toprak Gübreleme
+  farmer_shoes: Çiftçi Ayakkabıları
+  explosive_tools: Patlayıcı Aletler
+  automated_panning_machine: Otomatik Altın Tavası
+  boots_of_the_stomper: Ağır Ayak Çizmeleri
+  pickaxe_of_the_seeker: Arayıcının Kazması
+  backpacks: Sırt Çantaları
+  woven_backpack: Dokuma Sırt Çantası
+  crucible: Pota
+  gilded_backpack: Yaldızlı Sırt Çantası
+  armored_jetpack: Zırhlı Jetpack
+  ender_talismans: Ender Tılsımları
+  nickel_and_cobalt: Daha fazla Maden
+  magnet: Manyetik Metaller
+  infused_magnet: Büyülü Mıknatıslar
+  cobalt_pickaxe: Hızlı Kazma
+  essence_of_afterlife: Nekromansi
+  bound_backpack: Ruh Bağlı Depolama
+  jetboots: Jet Botlar
+  armored_jetboots: Zırhlı Jet Botlar
+  seismic_axe: Sismik Balta
+  pickaxe_of_vein_mining: Damar Madenciliği Kazması
+  bound_weapons: Ruh Bağlı Silahlar
+  bound_tools: Ruh Bağlı Aletler
+  bound_armor: Ruh Bağlı Zırhlar
+  juicer: Lezzetli İçecekler
+  repaired_spawner: Çağırıcı Tamiratı
+  enhanced_furnace: Geliştirilmiş Fırın
+  more_enhanced_furnaces: Daha İyi Fırınlar
+  high_tier_enhanced_furnaces: Yüksek Seviye Fırın
+  reinforced_furnace: Güçlendirilmiş Fırın
+  carbonado_furnace: Kara Elmas Kaplamalı Fırın
+  electric_motor: Kızışıyor
+  block_placer: Blok Yerleştirici
+  scroll_of_dimensional_teleposition: Bir şeyleri etrafında çevirmek
+  tome_of_knowledge_sharing: Arkadaşlarla paylaşma
+  flask_of_knowledge: XP Depolama
+  hardened_glass: Patlamalara Dayanıklı
+  golden_apple_juice: Altın iksir
+  cooler: Portatif İçecekler
+  ancient_altar: Antik Sunak
+  wither_proof_obsidian: Wither-Geçirmez Obsidyen
+  ancient_runes: Elementsel Rünler
+  special_runes: Mor Rünler
+  infernal_bonemeal: Şeytani Kemik Tozu
+  rainbow_blocks: Gökkuşağı Blokları
+  infused_hopper: Büyülü Huni
+  wither_proof_glass: Wither-Geçirmez Cam
+  duct_tape: Koli Bandı
+  plastic_sheet: Plastik
+  android_memory_core: Bellek Çekirdeği
+  oil: Petrol
+  fuel: Yakıt
+  hologram_projector: Hologramlar
+  capacitors: Seviye 1 Kapasitörler
+  high_tier_capacitors: Seviye 2 Kapasitörler
+  even_higher_tier_capacitors: Seviye 3 Kapasitörler
+  solar_generators: Güneş Enerjisi Elektrik Santrali
+  electric_furnaces: Elektrikli Fırın
+  electric_ore_grinding: Kırma ve Öğütme
+  heated_pressure_chamber: Isıtmalı Basınç Odası
+  coal_generator: Kömür Jeneratörü
+  bio_reactor: Biyo-Reaktör
+  auto_enchanting: Otomatik Büyüleyici ve Büyü Sökücü
+  auto_anvil: Otomatik Örs
+  multimeter: Elektrik Ölçümü
+  gps_setup: Temel GPS Kurulumu
+  gps_emergency_transmitter: GPS Acil Durum Noktası
+  programmable_androids: Programlanabilir Androidler
+  android_interfaces: Android Arayüzleri
+  geo_scanner: GEO-Taramalar
+  combustion_reactor: İçten Yanmalı Reaktör
+  teleporter: Işınlayıcı Temel Bileşenleri
+  teleporter_activation_plates: Işınlayıcı Etkinleştirmesi
+  better_solar_generators: Gelişmiş Güneş Enerjisi Jeneratörleri
+  better_gps_transmitters: Gelişmiş Vericiler
+  elevator: Asansörler
+  energized_solar_generator: Tam Zamanlı Güneş Enerjisi
+  energized_gps_transmitter: Üst Seviye Verici
+  energy_regulator: Enerji Ağları 101
+  energy_connectors: Kablolu Bağlantı
+  butcher_androids: Kasap Androidleri
+  organic_food: Organik Yemek
+  auto_breeder: Otomatik Besleme
+  advanced_android: Gelişmiş Androidler
+  advanced_butcher_android: Gelişmiş Androidler - Kasap
+  advanced_fisherman_android: Gelişmiş Androidler - Balıkçı
+  animal_growth_accelerator: Hayvan Büyüme Manipülasyonu
+  xp_collector: XP Toplayıcı
+  organic_fertilizer: Organik Gübreleme
+  crop_growth_accelerator: Bitki Büyümesi Hızlandırması
+  better_crop_growth_accelerator: Gelişmiş Bitki Büyümesi Hızlandırıcı
+  reactor_essentials: Reaktör Temelleri
+  nuclear_reactor: Nükleer Enerji Santrali
+  freezer: Bay Donmuş
+  cargo_basics: Kargo Temelleri
+  cargo_nodes: Kargo Kurulumu
+  electric_ingot_machines: Elektrikli Külçe İmalatı
+  high_tier_electric_ingot_machines: Süper Hızlı Külçe İmalatı
+  automated_crafting_chamber: Otomatik Üretim
+  better_food_fabricator: Gelişmiş Yemek Üretimi
+  reactor_access_port: Reaktör Etkileşimi
+  fluid_pump: Sıvı Pompası
+  better_freezer: Gelişmiş Dondurucu
+  boosted_uranium: Sonsuz Döngü
+  trash_can: Çöp
+  advanced_output_node: Gelişmiş Çıkış Noktası
+  carbon_press: Karbon Presi
+  electric_smeltery: Elektrikli Dökümhane
+  better_electric_furnace: Gelişmiş Elektrikli Fırın
+  better_carbon_press: Gelişmiş Karbon Presi
+  empowered_android: Güçlendirilmiş Androidler
+  empowered_butcher_android: Güçlendirilmiş Androidler - Kasap
+  empowered_fisherman_android: Güçlendirilmiş Androidler - Balıkçı
+  high_tier_carbon_press: Güçlü Karbon Presi
+  wither_assembler: Otomatik Wither Öldürücü
+  better_heated_pressure_chamber: Gelişmiş Isıtmalı Basınç Odası
+  elytra: Elytralar
+  special_elytras: Özel Elytralar
+  electric_crucible: Elektrikli Pota
+  better_electric_crucibles: Sıcak Potalar
+  advanced_electric_smeltery: Gelişmiş Elektrikli Dökümhane
+  advanced_farmer_android: Gelişmiş Androidler - Çiftçi
+  lava_generator: Lav Jeneratörü
+  nether_ice: Nether Buzu Soğutucu
+  nether_star_reactor: Nether Yıldız Reaktörü
+  blistering_ingots: Parlayan Radyoaktivite
+  automatic_ignition_chamber: Otomatik Ateşleme Odası
+  output_chest: Temel Makine Çıkış Sandığı
+  copper_wire: İnceltilmiş İletkenlik
+  radiant_backpack: Göz Alıcı Sırt Çantası
+  auto_drier: Kuru Bir Gün
+  diet_cookie: Diyet Kurabiyesi
+  storm_staff: Fırtına Asası
+  soulbound_rune: Ruh Bağı Rünü
+  geo_miner: GEO-Madenci
+  lightning_rune: Yıldırım Rünü
+  totem_of_undying: Ölümsüzlük Totemi
+  charging_bench: Şarj Tezgahı
+  nether_gold_pan: Nether Altın Tavası
+  electric_press: Elektrikli Pres
+  magnesium_generator: Magnezyum Elektriği
+  kelp_cookie: Lezzetli Yosun
+  makeshift_smeltery: Doğaçlama Dökümhane
+  tree_growth_accelerator: Daha Hızlı Ağaçlar
+  industrial_miner: Endüstriyel Madencilik
+  advanced_industrial_miner: Gelişmiş Madencilik
+  magical_zombie_pills: A-Zombifikasyon
+  auto_brewer: Endüstriyel İksircilik
+  climbing_pick: Blok Raider
+  shulker_shell: Sentetik Shulkerlar
+  enchantment_rune: Kadim Büyücülük
+  lead_clothing: Kurşun Kaplama
+  tape_measure: Mezura
+  iron_golem_assembler: Otomize Demir Golemler
+  villager_rune: Sıfır Köylü Ticareti
+  elytra_cap: İniş Takımı

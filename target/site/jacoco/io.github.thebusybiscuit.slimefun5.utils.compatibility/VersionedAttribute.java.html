@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VersionedAttribute.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils.compatibility</a> &gt; <span class="el_source">VersionedAttribute.java</span></div><h1>VersionedAttribute.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils.compatibility;
+
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.attribute.Attribute;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+/**
+ * Compatibility layer for {@link Attribute} constants that were renamed
+ * when {@link Attribute} changed from an enum to an interface in Minecraft 1.21.2+.
+ *
+ * &lt;p&gt;In 1.21.2+, {@code Attribute.GENERIC_MAX_HEALTH} was renamed to
+ * {@code Attribute.MAX_HEALTH}. Using the registry-based lookup ensures
+ * compatibility across both old and new API versions.&lt;/p&gt;
+ */
+<span class="nc" id="L18">public class VersionedAttribute {</span>
+
+    /**
+     * The max health attribute.
+     * Was {@code GENERIC_MAX_HEALTH} pre-1.21.2, renamed to {@code MAX_HEALTH} in 1.21.2+.
+     */
+    public static final Attribute MAX_HEALTH;
+
+    static {
+        // Registry key is &quot;generic.max_health&quot; across all versions
+<span class="nc" id="L28">        MAX_HEALTH = getKey(&quot;generic.max_health&quot;);</span>
+<span class="nc" id="L29">    }</span>
+
+    @Nullable
+    private static Attribute getKey(@Nonnull String key) {
+<span class="nc" id="L33">        return Registry.ATTRIBUTE.get(NamespacedKey.minecraft(key));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

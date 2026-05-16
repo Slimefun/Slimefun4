@@ -1,0 +1,85 @@
+options:
+  auto-update: true
+chance: 2
+debug: false
+world-blacklist:
+- world_nether
+- world_the_end
+custom:
+  ExampleSurprise1:
+    enabled: false
+    lucklevel: LUCKY
+    items:
+      '1':
+        type: DIAMOND_SWORD
+        amount: 1
+        displayname: '&c&lExample Sword'
+        lore:
+        - '&7This is the lore.'
+        enchants:
+        - DAMAGE_ALL:5
+  ExampleSurprise2:
+    enabled: false
+    lucklevel: LUCKY
+    items:
+      '1':
+        slimefun_item: BIRTHDAY_CAKE
+        amount: 1
+  ExampleSurprise3:
+    enabled: false
+    lucklevel: UNLUCKY
+    commands:
+    - tell {player} You're a dead person now!
+    - execute as {player} run summon zombie {x} {y} {z}
+events:
+  Cooked Food: true
+  Golden Apples: true
+  Diamond Block with Lightning: true
+  Stained Clay Pillar with Diamond Block on top: true
+  Emerald Block: true
+  Iron Block: true
+  Tamed Dogs: true
+  Tamed Cats: true
+  Valuables: true
+  Lucky Sword: true
+  Lucky Pickaxe: true
+  Lucky Axe: true
+  XP Rain: true
+  Lucky Helmet: true
+  Lucky Chestplate: true
+  Lucky Leggings: true
+  Lucky Boots: true
+  Lucky Potions: true
+  Unlucky Potions: true
+  Cake: true
+  I am Groot: true
+  Raw Food: true
+  Fish: true
+  Wandering Trader: true
+  Mister Rainbow: true
+  Chicken Rain: true
+  Dyes: true
+  Hay there: true
+  Cookies: true
+  jeb Sheep: true
+  Villager Number X: true
+  PotatOS: true
+  Jerry the Slime: true
+  Charged Creeper: true
+  Witch and Bats: true
+  Explosion: true
+  Void Hole: true
+  Anvil Rain: true
+  Enclosed Water Pool: true
+  TNT Rain: true
+  Flying Creepers: true
+  Flying TNT: true
+  Normal and Fake Diamond Block: true
+  Bryan: true
+  Walshrus: true
+  Up up and away: true
+  Giant Slime: true
+  Cobwebs: true
+  Angry Zombie Pigmen: true
+  Reapers: true
+  Iron Golem Invasion: true

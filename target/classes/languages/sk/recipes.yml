@@ -1,0 +1,137 @@
+---
+slimefun:
+  multiblock:
+    name: 'Multiblok'
+    lore:
+      - 'Postav vo svete ako je '
+      - 'ukázané. Tento recept sa necraftí.'
+  enhanced_crafting_table:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'v Enhanced Crafting Table.'
+      - 'Normálny crafting table nebude stačiť!'
+  armor_forge:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Armor Forge'
+  grind_stone:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou  Grind Stone'
+  smeltery:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Smeltery'
+  ore_crusher:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Ore Crusher'
+  mob_drop:
+    name: 'Drop z moba'
+    lore:
+      - 'Zabi tohto moba pre'
+      - 'získanie tohto itemu'
+  gold_pan:
+    lore:
+      - 'Použi Gold Pan na'
+      - 'získanie tohto itemu'
+  compressor:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Compressor'
+  pressure_chamber:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Pressure Chamber'
+  ore_washer:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Ore Washer'
+  juicer:
+    lore:
+      - 'Vycrafti tento džús ako je ukázané'
+      - 'pomocou Juicer'
+  magic_workbench:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Magic Workbench'
+  ancient_altar:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Ancient Altar.'
+      - 'Viac informácií nájdete v Ancient Altar'
+  heated_pressure_chamber:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Heated Pressure Chamber'
+  food_fabricator:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Food Fabricator'
+  food_composter:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Food Composter'
+  freezer:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Freezer'
+  geo_miner:
+    lore:
+      - 'Tento item môžeš získať'
+      - 'pomocou GEO Miner'
+  nuclear_reactor:
+    lore:
+      - 'Tento item je vedľajším produktom'
+      - 'pri bežiacom Nuclear Reactor'
+  oil_pump:
+    lore:
+      - 'Tento item môžeš získať'
+      - 'pomocou Oil Pump'
+  pickaxe_of_containment:
+    lore:
+      - 'Tento blok môžeš získať'
+      - 'vyťažením spawneru'
+      - 'pomocou Pickaxe of Containment'
+  refinery:
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Refinery'
+minecraft:
+  shaped:
+    name: 'Recept s pevne určeným rozmiestnením itemov'
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'v normálnom Crafting Table'
+      - 'Rozmiestnenie itemov je dôležité.'
+  shapeless:
+    name: 'Recept bez pevne určeného rozmiestnenia itemov'
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'v normálnom Crafting Table'
+      - 'Tento recept nemá pevne určené rozmiestnenie itemov'
+  furnace:
+    name: 'Furnace recept'
+    lore:
+      - 'Vypeč tento item vo Furnace'
+      - 'pre vycraftenie tohto itemu'
+  blasting:
+    name: 'Blast Furnace recept'
+    lore:
+      - 'Vypeč tento item v  Blast Furnace'
+      - 'pre vycraftenie tohto itemu'
+  smoking:
+    name: 'Smoker recept'
+    lore:
+      - 'Vypeč tento item v  Smoker'
+      - 'pre vycraftenie tohto itemu'
+  campfire:
+    name: 'Campfire recept'
+    lore:
+      - 'Vypeč tento item nad Campfire'
+      - 'pre vycraftenie tohto itemu'
+  stonecutting:
+    name: 'Stonecutter recept'
+    lore:
+      - 'Vycrafti tento item ako je ukázané'
+      - 'pomocou Stonecutter'

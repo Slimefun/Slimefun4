@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FluidPump.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines</a> &gt; <span class="el_source">FluidPump.java</span></div><h1>FluidPump.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Levelled;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.blocks.Vein;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
+
+/**
+ * This machine collects liquids from the {@link World} and puts them
+ * into buckets provided to the machine by using energy.
+ *
+ * @author TheBusyBiscuit
+ * @author Linox
+ *
+ */
+public class FluidPump extends SimpleSlimefunItem&lt;BlockTicker&gt; implements InventoryBlock, EnergyNetComponent {
+
+    private static final int ENERGY_CONSUMPTION = 32;
+    private static final int RANGE = 42;
+
+<span class="nc" id="L56">    private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22 };</span>
+<span class="nc" id="L57">    private final int[] inputBorder = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };</span>
+<span class="nc" id="L58">    private final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };</span>
+
+<span class="nc" id="L60">    private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));</span>
+<span class="nc" id="L61">    private final ItemStack emptyBottle = ItemStackWrapper.wrap(new ItemStack(Material.GLASS_BOTTLE));</span>
+
+    @ParametersAreNonnullByDefault
+    public FluidPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L65">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L67">        addItemHandler(onBreak());</span>
+<span class="nc" id="L68">        createPreset(this, this::constructMenu);</span>
+<span class="nc" id="L69">    }</span>
+
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+<span class="nc" id="L73">        return new SimpleBlockBreakHandler() {</span>
+
+            @Override
+            public void onBlockBreak(Block b) {
+<span class="nc" id="L77">                BlockMenu inv = BlockStorage.getInventory(b);</span>
+
+<span class="nc bnc" id="L79" title="All 2 branches missed.">                if (inv != null) {</span>
+<span class="nc" id="L80">                    inv.dropItems(b.getLocation(), getInputSlots());</span>
+<span class="nc" id="L81">                    inv.dropItems(b.getLocation(), getOutputSlots());</span>
+                }
+<span class="nc" id="L83">            }</span>
+        };
+    }
+
+    private void constructMenu(@Nonnull BlockMenuPreset preset) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        for (int i : border) {</span>
+<span class="nc" id="L89">            preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        for (int i : inputBorder) {</span>
+<span class="nc" id="L93">            preset.addItem(i, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        for (int i : outputBorder) {</span>
+<span class="nc" id="L96">            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (int i : getOutputSlots()) {</span>
+<span class="nc" id="L100">            preset.addMenuClickHandler(i, ChestMenuUtils.getDefaultOutputHandler());</span>
+        }
+<span class="nc" id="L102">    }</span>
+
+    @Override
+    public int[] getInputSlots() {
+<span class="nc" id="L106">        return new int[] { 19, 20 };</span>
+    }
+
+    @Override
+    public int[] getOutputSlots() {
+<span class="nc" id="L111">        return new int[] { 24, 25 };</span>
+    }
+
+    @Override
+    public EnergyNetComponentType getEnergyComponentType() {
+<span class="nc" id="L116">        return EnergyNetComponentType.CONSUMER;</span>
+    }
+
+    @Override
+    public int getCapacity() {
+<span class="nc" id="L121">        return 512;</span>
+    }
+
+    protected void tick(@Nonnull Block b) {
+<span class="nc" id="L125">        Block fluid = b.getRelative(BlockFace.DOWN);</span>
+
+<span class="nc bnc" id="L127" title="All 4 branches missed.">        if (fluid.isLiquid() &amp;&amp; getCharge(b.getLocation()) &gt;= ENERGY_CONSUMPTION) {</span>
+<span class="nc" id="L128">            BlockMenu menu = BlockStorage.getInventory(b);</span>
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            for (int slot : getInputSlots()) {</span>
+<span class="nc" id="L131">                ItemStack itemInSlot = menu.getItemInSlot(slot);</span>
+
+<span class="nc bnc" id="L133" title="All 2 branches missed.">                if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBucket, true, false)) {</span>
+<span class="nc" id="L134">                    ItemStack bucket = getFilledBucket(fluid);</span>
+
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                    if (!menu.fits(bucket, getOutputSlots())) {</span>
+<span class="nc" id="L137">                        return;</span>
+                    }
+
+<span class="nc" id="L140">                    Block nextFluid = findNextFluid(fluid);</span>
+
+<span class="nc bnc" id="L142" title="All 2 branches missed.">                    if (nextFluid != null) {</span>
+<span class="nc" id="L143">                        removeCharge(b.getLocation(), ENERGY_CONSUMPTION);</span>
+<span class="nc" id="L144">                        menu.consumeItem(slot);</span>
+<span class="nc" id="L145">                        menu.pushItem(bucket, getOutputSlots());</span>
+<span class="nc" id="L146">                        nextFluid.setType(Material.AIR);</span>
+                    }
+
+<span class="nc" id="L149">                    return;</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">                } else if (SlimefunUtils.isItemSimilar(itemInSlot, emptyBottle, true, false)) {</span>
+<span class="nc" id="L151">                    ItemStack bottle = getFilledBottle(fluid);</span>
+
+<span class="nc bnc" id="L153" title="All 2 branches missed.">                    if (!menu.fits(bottle, getOutputSlots())) {</span>
+<span class="nc" id="L154">                        return;</span>
+                    }
+
+<span class="nc" id="L157">                    Block nextFluid = findNextFluid(fluid);</span>
+
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                    if (nextFluid != null) {</span>
+<span class="nc" id="L160">                        removeCharge(b.getLocation(), ENERGY_CONSUMPTION);</span>
+<span class="nc" id="L161">                        menu.consumeItem(slot);</span>
+<span class="nc" id="L162">                        menu.pushItem(bottle, getOutputSlots());</span>
+
+<span class="nc bnc" id="L164" title="All 2 branches missed.">                        if (ThreadLocalRandom.current().nextInt(100) &lt; 30) {</span>
+<span class="nc" id="L165">                            nextFluid.setType(Material.AIR);</span>
+                        }
+                    }
+
+<span class="nc" id="L169">                    return;</span>
+                }
+            }
+        }
+<span class="nc" id="L173">    }</span>
+
+    @Nullable
+    private Block findNextFluid(@Nonnull Block fluid) {
+<span class="nc bnc" id="L177" title="All 4 branches missed.">        if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {</span>
+            /**
+             * With water we can be sure to find an infinite source whenever we
+             * go further than a block, so we can just remove the water here and
+             * save ourselves all of that computing...
+             */
+<span class="nc bnc" id="L183" title="All 2 branches missed.">            if (isSource(fluid)) {</span>
+<span class="nc" id="L184">                return fluid;</span>
+            }
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        } else if (fluid.getType() == Material.LAVA) {</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">            List&lt;Block&gt; list = Vein.find(fluid, RANGE, block -&gt; block.getType() == fluid.getType());</span>
+
+<span class="nc bnc" id="L189" title="All 2 branches missed.">            for (int i = list.size() - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L190">                Block block = list.get(i);</span>
+
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                if (isSource(block)) {</span>
+<span class="nc" id="L193">                    return block;</span>
+                }
+            }
+        }
+
+<span class="nc" id="L198">        return null;</span>
+    }
+
+    private @Nonnull ItemStack getFilledBottle(@Nonnull Block fluid) {
+<span class="nc bnc" id="L202" title="All 2 branches missed.">        switch (fluid.getType()) {</span>
+            case WATER:
+            case BUBBLE_COLUMN:
+<span class="nc" id="L205">                ItemStack waterBottle = new ItemStack(Material.POTION);</span>
+<span class="nc" id="L206">                PotionMeta meta = (PotionMeta) waterBottle.getItemMeta();</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">                if (Slimefun.getMinecraftVersion().isBefore(20, 2)) {</span>
+<span class="nc" id="L208">                    meta.setBasePotionData(new PotionData(PotionType.WATER));</span>
+                } else {
+<span class="nc" id="L210">                    meta.setBasePotionType(PotionType.WATER);</span>
+                }
+<span class="nc" id="L212">                waterBottle.setItemMeta(meta);</span>
+<span class="nc" id="L213">                return waterBottle;</span>
+            default:
+<span class="nc" id="L215">                return new ItemStack(Material.GLASS_BOTTLE);</span>
+        }
+    }
+
+    private @Nonnull ItemStack getFilledBucket(@Nonnull Block fluid) {
+<span class="nc bnc" id="L220" title="All 3 branches missed.">        return switch (fluid.getType()) {</span>
+<span class="nc" id="L221">            case LAVA -&gt; new ItemStack(Material.LAVA_BUCKET);</span>
+            case WATER,
+<span class="nc" id="L223">                BUBBLE_COLUMN -&gt; new ItemStack(Material.WATER_BUCKET);</span>
+            default -&gt;
+                // Fallback for any new liquids
+<span class="nc" id="L226">                new ItemStack(Material.BUCKET);</span>
+        };
+    }
+
+    /**
+     * This method checks if the given {@link Block} is a liquid source {@link Block}.
+     *
+     * @param block
+     *            The {@link Block} in question
+     *
+     * @return Whether that {@link Block} is a liquid and a source {@link Block}.
+     */
+    private boolean isSource(@Nonnull Block block) {
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        if (block.isLiquid()) {</span>
+<span class="nc" id="L240">            BlockData data = block.getBlockData();</span>
+
+<span class="nc bnc" id="L242" title="All 2 branches missed.">            if (data instanceof Levelled levelled) {</span>
+                // Check if this is a full block.
+<span class="nc bnc" id="L244" title="All 2 branches missed.">                return levelled.getLevel() == 0;</span>
+            }
+        }
+
+<span class="nc" id="L248">        return false;</span>
+    }
+
+    @Override
+    public BlockTicker getItemHandler() {
+<span class="nc" id="L253">        return new BlockTicker() {</span>
+
+            @Override
+            public void tick(Block b, SlimefunItem sf, Config data) {
+<span class="nc" id="L257">                FluidPump.this.tick(b);</span>
+<span class="nc" id="L258">            }</span>
+
+            @Override
+            public boolean isSynchronized() {
+<span class="nc" id="L262">                return true;</span>
+            }
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

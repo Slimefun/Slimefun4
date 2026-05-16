@@ -1,0 +1,224 @@
+---
+slimefun:
+  walking_sticks: ไม้เท้า
+  portable_crafter: ที่คราฟพกพา
+  fortune_cookie: เรามาให้คุกกี้ทำนายกัน~~
+  portable_dustbin: ถังขยะพกพา
+  meat_jerky: เนื้อตากแห้ง
+  armor_forge: การคราฟชุดเกราะ
+  glowstone_armor: ชุดเกราะหินเรืองแสง
+  lumps: ก้อน และเวทย์มนตร์
+  ender_backpack: กระเป๋าเอนเดอร์
+  ender_armor: เกราะเอนเดอร์
+  magic_eye_of_ender: ดวงตาของเอนเดอร์ วิเศษ
+  magic_sugar: ผงวิเศษตราร่มชูชีพ
+  monster_jerky: เนื้อมอนสเตอร์ตากแห้ง
+  slime_armor: เกราะสไลม์
+  sword_of_beheading: ดาบแห่งการเก็บหัว
+  basic_circuit_board: วงจรไฟฟ้าธรรมดา
+  advanced_circuit_board: วงจรไฟฟ้าขั้นสูง
+  smeltery: เตาหลอม
+  steel: ยุคเหล็ก
+  misc_power_items: สิ่งสำคัญที่เกี่ยวข้องกับพลังงาน
+  battery: บี้เดอแรด
+  steel_plate: การทำแผ่นเหล็ก
+  steel_thruster: ท่อไอพ่นเหล็ก
+  parachute: โดดร่มจากตึก 69 ชั้น
+  grappling_hook: ตะขอเกี่ยว
+  jetpacks: เครื่องพ่นพกพา
+  multitools: เครื่องมือที่ใช้งานได้หลายอย่าง
+  solar_panel_and_helmet: พลังงานแสงอาทิตย์
+  elemental_staff: คฑาธาตุ
+  grind_stone: โกรกบดหิน
+  cactus_armor: ชุดกระบองเพชร(ตอนใส่คงจะเจ็บน่าดู)
+  gold_pan: ที่ร่อน
+  magical_book_cover: เชื่อมต่อหนังสือวิเศษ
+  slimefun_metals: โลหะใหม่ๆ
+  ore_crusher: แร่ 200%
+  bronze: การทำสมฤทธิ์
+  alloys: โลหะผสมขั้นสูง
+  compressor_and_carbon: การสร้างคาร์บอน
+  gilded_iron_armor: เกราะเหล็กหุ้มทอง
+  synthetic_diamond: เพชรสังเคราะห์
+  pressure_chamber: เครื่องอัดแรงดัน
+  synthetic_sapphire: ไพริณสังเคราะห์
+  damascus_steel: เหล็กดามัสกัส
+  damascus_steel_armor: เกราะเหล็กดามัสกัส
+  reinforced_alloy: โครตอัลลอยด์
+  carbonado: เพชรนิกโกร
+  magic_workbench: โต๊ะคราฟวิเศษ
+  wind_staff: คฑาลม
+  reinforced_armor: เกราะโคตรโลหะ
+  ore_washer: เครื่องล้างแร่
+  gold_carats: ทองคำบริสุทธิ์ 100%
+  silicon: ซิลิโคนเสริมนม
+  fire_staff: คฑาไฟ
+  common_talisman: เครื่องรางทั่วไป
+  anvil_talisman: เครื่องราง Anvil
+  miner_talisman: เครื่องราง  Miner
+  hunter_talisman: เครื่องราง Hunter
+  lava_talisman: เครื่องราง เดินบนลาวา
+  water_talisman: เครื่องราง หายใจใต้น้ำ
+  angel_talisman: เครื่องราง Angel
+  fire_talisman: เครื่องราง คนสู้ไฟ
+  lava_crystal: อยู่ในโลกแห่ง ล า ว า
+  magician_talisman: เครื่องราง Magician
+  traveller_talisman: เครื่องราง Traveller
+  warrior_talisman: เครื่องราง Warrior
+  knight_talisman: เครื่องราง Knight
+  gilded_iron: เหล็กสะท้อนแสงได้เหมือนหัวประวิทย์
+  synthetic_emerald: พลอยปลอม
+  chainmail_armor: เกราะโซ่
+  whirlwind_talisman: เครื่องราง Whirlwind
+  wizard_talisman: เครื่องราง Wizard
+  lumber_axe: ขวานตัดไม้ทั้งต้น
+  hazmat_suit: ชุดกันรังสี
+  uranium: กัมมันตรังสี
+  crushed_ore: การทำให้แร่บริสุทธิ์แบบ 100%
+  redstone_alloy: โลหะผสม Redstone
+  carbonado_tools: เครื่องจักร ระดับสูง
+  first_aid: ปฐมพยาบาล
+  gold_armor: เกราะสะท้อนแสงใด้เหมือนหัวประ......
+  night_vision_googles: แว่นตามองกลางคืน
+  table_saw: เลื่อยมือ
+  slime_steel_armor: เกราะเหล็กเสริมสไลม์
+  water_staff: คฑาน้ำ
+  24k_gold_block: บล็อกทองแบบ 400%
+  composter: หมักดิน
+  farmer_shoes: รองเท้าเกษตรกร
+  explosive_tools: เครื่องมือระเบิดได้
+  automated_panning_machine: เครื่องร่อนอัตโนมัติ
+  backpacks: เป้สะพายหลัง
+  woven_backpack: กระเป๋าเป้ทอ
+  crucible: เบ้าหลอมโลหะ
+  gilded_backpack: กระเป๋าเป้ทองคำเคลือบเหล็ก
+  armored_jetpack: เกราะไอพ่นสะพายหลัง
+  ender_talismans: เครื่องราง Ender
+  nickel_and_cobalt: แร่เยอะขึ้น
+  magnet: แม่เหล็ก
+  infused_magnet: แม่เหล็กผสม
+  cobalt_pickaxe: ขุดเร็ว
+  essence_of_afterlife: ผงวิเศษตราหลังความตาย
+  bound_backpack: ที่เก็บ Soundbound
+  jetboots: รองเท้าบูทเจ็ท
+  armored_jetboots: รองเท้าบูทหุ้มเกราะ
+  pickaxe_of_vein_mining: Vein Mining
+  bound_weapons: อาวุธ Soulbound
+  bound_tools: อุปกรณ์ Soulbound
+  bound_armor: เกราะ Soulbound
+  juicer: เครื่องดื่มแสนอร่อย
+  repaired_spawner: ซ่อมแซมสปอนเนอร์
+  enhanced_furnace: เตาเผาขั้นต่ำ
+  more_enhanced_furnaces: เตาเผาขั้นกลาง
+  high_tier_enhanced_furnaces: เตาเผาขั้นสูง
+  reinforced_furnace: โคตรเตาเผา
+  carbonado_furnace: เตาเผาขอบเพชรนิกโกร
+  electric_motor: มอเตอร์ไฟฟ้า
+  block_placer: เครื่องวางบล็อก
+  scroll_of_dimensional_teleposition: หมุนสิ่งต่าง ๆ ไปรอบ ๆ
+  special_bows: ธนูพิเศษ
+  tome_of_knowledge_sharing: แบ่งปันกับเพื่อน ๆ
+  flask_of_knowledge: ที่เก็บ XP
+  hardened_glass: อดทนต่อการระเบิด
+  golden_apple_juice: น้ำผลไม้ทองคำ
+  cooler: เครื่องดื่มพกพา
+  ancient_altar: แท่นบูชาโบราณ
+  wither_proof_obsidian: Obsidian กัน Wither
+  ancient_runes: รูนธาตุต่าง ๆ
+  special_runes: รูนม่วง
+  infernal_bonemeal: ปุ๋ยกระดูกไฟ
+  rainbow_blocks: บล็อกสายรุ้ง
+  infused_hopper: ฮอปเปอร์ไฟ
+  wither_proof_glass: กระจกกัน Wither
+  duct_tape: เทปพันสายไฟ
+  plastic_sheet: พลาสติก
+  android_memory_core: หน่วยความจำ
+  oil: น้ำมัน
+  fuel: เชื้อเพลิง
+  hologram_projector: โฮโลแกรม
+  capacitors: ตัวเก็บประจุ ชั้นที่ 1
+  high_tier_capacitors: ตัวเก็บประจุ ชั้นที่ 2
+  solar_generators: โรงไฟฟ้าพลังงานแสงอาทิตย์
+  electric_furnaces: เตาเผาไม่ใช้เชื้อเพลิง
+  electric_ore_grinding: ที่บดแร่อัตโนมัติ
+  heated_pressure_chamber: เครื่องอัดความร้อน
+  coal_generator: ผลิตไฟฟ้าโดยใช้ถ่าน
+  bio_reactor: ผลิตไฟฟ้าโดยใช้ของธรรมชาติ
+  auto_enchanting: ที่ใส่ และเอา Enchant ออก โดบใช้ไฟฟ้า
+  auto_anvil: Anvil อัตโนมัติ
+  multimeter: การวัดไฟฟ้า
+  gps_setup: การติดตั้ง GPS
+  gps_emergency_transmitter: Waypoint GPS  ฉุกเฉิน
+  programmable_androids: Androids ที่ตั้งโปรแกรมได้
+  android_interfaces: อินเทอร์เฟซ Android
+  combustion_reactor: เครื่องปฏิกรณ์เผาไหม้
+  teleporter: ส่วนประกอบฐาน เครื่องเทเลพอร์ด
+  teleporter_activation_plates: การเปิดใช้งาน Teleporter
+  better_solar_generators: โซลาร์เซลล์ที่ดีขึ้น
+  better_gps_transmitters: เครื่องส่งสัญญาณอัพเกรด
+  elevator: ลิฟท์
+  energized_solar_generator: พลังงานแสงอาทิตย์ทั้งวัน
+  energized_gps_transmitter: เครื่องส่งสัญญาณเทียร์สูงสุด
+  energy_regulator: เครือข่ายพลังงาน 101
+  butcher_androids: Androids แล่เนื้อ
+  organic_food: อาหารธรรมชาติ
+  auto_breeder: การให้อาหารอัตโนมัติ
+  advanced_android: Android ขั้นสูง
+  advanced_butcher_android: Android ขั้นสูง - แล่เนื้อ
+  advanced_fisherman_android: Android ขั้นสูง - ตกปลา
+  animal_growth_accelerator: การจัดการการเจริญเติบโตของสัตว์
+  xp_collector: ตัวเก็บ EXP
+  organic_fertilizer: ปุ๋ยอินทรีย์
+  crop_growth_accelerator: เร่งการเจริญเติบโตของพืช
+  better_crop_growth_accelerator: อัพเกรดเครื่องมือเร่งการเติบโตของพืช
+  reactor_essentials: สิ่งจำเป็นสำหรับเครื่องปฏิกรณ์
+  nuclear_reactor: โรงไฟฟ้านิวเคลียร์
+  freezer: ที่แช่แข็ง
+  cargo_basics: พื้นฐานการขนส่ง
+  cargo_nodes: การตั้งค่าการขนส่ง
+  electric_ingot_machines: การคราฟโลหะด้วยไฟฟ้า
+  high_tier_electric_ingot_machines: การคราฟโลหะเร็วสุด
+  automated_crafting_chamber: คราฟอัตโนมัติ
+  better_food_fabricator: การผลิตอาหารอัพเกรด
+  reactor_access_port: ใส่หรือเอาของออกเครื่องปฏิกรณ์
+  fluid_pump: ปั๊มน้ำ
+  better_freezer: ตู้แช่แข็งอัพเกรด
+  boosted_uranium: กัมมังตรังสีไม่มีครึ่งชีวิต
+  trash_can: ขยะ
+  advanced_output_node: โหนดเอาต์พุตขั้นสูง
+  carbon_press: ที่กดคาร์บอน
+  electric_smeltery: เตาหลอมไฟฟ้า
+  better_electric_furnace: เตาเผาไฟฟ้าแบบ อัพเกรด
+  better_carbon_press: ที่กดคาร์บอน อัพเกรด
+  empowered_android: Android ชั้นสูงสุด
+  empowered_butcher_android: Android ชั้นสูงสุด - แล่เนื้อ
+  empowered_fisherman_android: Android ชั้นสูงสุด - ตกปลา
+  high_tier_carbon_press: ที่กดคาร์บอนดีที่สุด
+  wither_assembler: ฆ่า Wither อัตโนมัติ
+  better_heated_pressure_chamber: เครื่องอัดความร้อนดีขึ้น
+  elytra: ปีก
+  special_elytras: ปีก พิเศษ
+  electric_crucible: เบ้าหลอมไฟฟ้า
+  better_electric_crucibles: เบ้าหลอมดีขึ้น
+  advanced_electric_smeltery: เตาหลอมไฟฟ้าขั้นสูง
+  advanced_farmer_android: Android ขั้นสูง - เกษตรกร
+  lava_generator: เครื่องผลิตไฟฟ้าจากลาวา
+  nether_ice: น้ำแข็งนรก
+  nether_star_reactor: เครื่องผลิตไฟฟ้าจาก Nether Star
+  blistering_ingots: ' ทองที่เป็นกัมมันตภาพรังสี'
+  automatic_ignition_chamber: จุดไฟอัตโนมัติ
+  output_chest: กลอ่งเก็บของพื้นฐาน
+  copper_wire: สายทองแดง
+  radiant_backpack: กระเป๋าเป้ Radiant
+  auto_drier: ทำให้แห้งอัตโนมัติ
+  diet_cookie: คุกกี้ไดเอท
+  storm_staff: คฑาวายุ
+  soulbound_rune: รูน Soulbound
+  lightning_rune: รูน Lightning
+  charging_bench: แท่นชาร์จ
+  nether_gold_pan: ที่ร่อนนรก
+  electric_press: เครื่องกดไฟฟ้า
+  magnesium_generator: พลังงานจากแมกนีเซียม
+  kelp_cookie: สาหร่ายทะเลแสนอร่อย
+  makeshift_smeltery: เตาหลอมพัฒนาขึ้น
+  tree_growth_accelerator: ต้นไม้โตเร็วขึ้น

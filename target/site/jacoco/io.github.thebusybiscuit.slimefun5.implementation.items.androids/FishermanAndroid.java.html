@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FishermanAndroid.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.androids</a> &gt; <span class="el_source">FishermanAndroid.java</span></div><h1>FishermanAndroid.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
+
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.collections.RandomizedSet;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+
+public class FishermanAndroid extends ProgrammableAndroid {
+
+<span class="nc" id="L23">    private final RandomizedSet&lt;ItemStack&gt; fishingLoot = new RandomizedSet&lt;&gt;();</span>
+
+    @ParametersAreNonnullByDefault
+    public FishermanAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L27">        super(itemGroup, tier, item, recipeType, recipe);</span>
+
+        // Fish
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        for (Material fish : Tag.ITEMS_FISHES.getValues()) {</span>
+<span class="nc" id="L31">            fishingLoot.add(new ItemStack(fish), 25);</span>
+<span class="nc" id="L32">        }</span>
+
+        // Junk
+<span class="nc" id="L35">        fishingLoot.add(new ItemStack(Material.BONE), 10);</span>
+<span class="nc" id="L36">        fishingLoot.add(new ItemStack(Material.STRING), 10);</span>
+<span class="nc" id="L37">        fishingLoot.add(new ItemStack(Material.INK_SAC), 8);</span>
+<span class="nc" id="L38">        fishingLoot.add(new ItemStack(Material.KELP), 6);</span>
+<span class="nc" id="L39">        fishingLoot.add(new ItemStack(Material.STICK), 5);</span>
+<span class="nc" id="L40">        fishingLoot.add(new ItemStack(Material.ROTTEN_FLESH), 3);</span>
+<span class="nc" id="L41">        fishingLoot.add(new ItemStack(Material.LEATHER), 2);</span>
+<span class="nc" id="L42">        fishingLoot.add(new ItemStack(Material.BAMBOO), 3);</span>
+
+        // &quot;loot&quot;
+<span class="nc" id="L45">        fishingLoot.add(new ItemStack(Material.SADDLE), 1);</span>
+<span class="nc" id="L46">        fishingLoot.add(new ItemStack(Material.NAME_TAG), 1);</span>
+<span class="nc" id="L47">        fishingLoot.add(new ItemStack(Material.NAUTILUS_SHELL), 1);</span>
+<span class="nc" id="L48">    }</span>
+
+    @Override
+    public AndroidType getAndroidType() {
+<span class="nc" id="L52">        return AndroidType.FISHERMAN;</span>
+    }
+
+    @Override
+    protected void fish(Block b, BlockMenu menu) {
+<span class="nc" id="L57">        Block water = b.getRelative(BlockFace.DOWN);</span>
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (water.getType() == Material.WATER) {</span>
+<span class="nc" id="L60">            SoundEffect.FISHERMAN_ANDROID_FISHING_SOUND.playAt(water);</span>
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (ThreadLocalRandom.current().nextInt(100) &lt; 10 * getTier()) {</span>
+<span class="nc" id="L63">                ItemStack drop = fishingLoot.getRandom();</span>
+<span class="nc" id="L64">                menu.pushItem(drop.clone(), getOutputSlots());</span>
+            }
+        }
+<span class="nc" id="L67">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

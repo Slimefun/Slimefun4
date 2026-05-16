@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ColoredFireworkStar.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils.itemstack</a> &gt; <span class="el_source">ColoredFireworkStar.java</span></div><h1>ColoredFireworkStar.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils.itemstack;
+
+import io.github.bakedlibs.dough.items.ItemStackEditor;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedItemFlag;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkEffectMeta;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+/**
+ * This simple {@link ItemStack} implementation allows us to obtain
+ * a colored {@code Material.FIREWORK_STAR} {@link ItemStack} quickly.
+ *
+ * @author TheBusyBiscuit
+ *
+ */
+<span class="nc" id="L21">public class ColoredFireworkStar {</span>
+
+    @ParametersAreNonnullByDefault
+    public static ItemStack create(Color color, String name, String... lore) {
+<span class="nc" id="L25">        FireworkEffect effect = FireworkEffect.builder().with(Type.BURST).withColor(color).build();</span>
+<span class="nc" id="L26">        return new ItemStackEditor(Material.FIREWORK_STAR)</span>
+<span class="nc" id="L27">                .setDisplayName(name)</span>
+<span class="nc" id="L28">                .setLore(lore)</span>
+<span class="nc" id="L29">                .addFlags(VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP)</span>
+<span class="nc" id="L30">                .andMetaConsumer(FireworkEffectMeta.class, meta -&gt; meta.setEffect(effect))</span>
+<span class="nc" id="L31">                .create();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

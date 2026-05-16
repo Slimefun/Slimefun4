@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PerWorldSettingsService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services</a> &gt; <span class="el_source">PerWorldSettingsService.java</span></div><h1>PerWorldSettingsService.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services;
+
+import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Server;
+import org.bukkit.World;
+
+import io.github.bakedlibs.dough.collections.OptionalMap;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * This Service is responsible for disabling a {@link SlimefunItem} in a certain {@link World}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class PerWorldSettingsService {
+
+    private final Slimefun plugin;
+
+<span class="nc" id="L37">    private final OptionalMap&lt;UUID, Set&lt;String&gt;&gt; disabledItems = new OptionalMap&lt;&gt;(HashMap::new);</span>
+<span class="nc" id="L38">    private final Map&lt;SlimefunAddon, Set&lt;String&gt;&gt; disabledAddons = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L39">    private final Set&lt;UUID&gt; disabledWorlds = new HashSet&lt;&gt;();</span>
+
+<span class="nc" id="L41">    public PerWorldSettingsService(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L42">        this.plugin = plugin;</span>
+<span class="nc" id="L43">    }</span>
+
+    /**
+     * This method will forcefully load all currently active Worlds to load up their settings.
+     * 
+     * @param worlds
+     *            An {@link Iterable} of {@link World Worlds} to load
+     */
+    public void load(@Nonnull Iterable&lt;World&gt; worlds) {
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        for (World world : worlds) {</span>
+<span class="nc" id="L53">            load(world);</span>
+<span class="nc" id="L54">        }</span>
+<span class="nc" id="L55">    }</span>
+
+    /**
+     * This method loads the given {@link World} if it was not loaded before.
+     * 
+     * @param world
+     *            The {@link World} to load
+     */
+    public void load(@Nonnull World world) {
+<span class="nc" id="L64">        Validate.notNull(world, &quot;Cannot load a world that is null&quot;);</span>
+<span class="nc" id="L65">        disabledItems.putIfAbsent(world.getUID(), loadWorldFromConfig(world));</span>
+<span class="nc" id="L66">    }</span>
+
+    /**
+     * This method checks whether the given {@link SlimefunItem} is enabled in the given {@link World}.
+     * 
+     * @param world
+     *            The {@link World} to check
+     * @param item
+     *            The {@link SlimefunItem} that should be checked
+     * 
+     * @return Whether the given {@link SlimefunItem} is enabled in that {@link World}
+     */
+    public boolean isEnabled(@Nonnull World world, @Nonnull SlimefunItem item) {
+<span class="nc" id="L79">        Validate.notNull(world, &quot;The world cannot be null&quot;);</span>
+<span class="nc" id="L80">        Validate.notNull(item, &quot;The SlimefunItem cannot be null&quot;);</span>
+
+<span class="nc" id="L82">        Set&lt;String&gt; items = disabledItems.computeIfAbsent(world.getUID(), id -&gt; loadWorldFromConfig(world));</span>
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (disabledWorlds.contains(world.getUID())) {</span>
+<span class="nc" id="L85">            return false;</span>
+        }
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        return !items.contains(item.getId());</span>
+    }
+
+    /**
+     * This method enables or disables the given {@link SlimefunItem} in the specified {@link World}.
+     * 
+     * @param world
+     *            The {@link World} in which to disable or enable the given {@link SlimefunItem}
+     * @param item
+     *            The {@link SlimefunItem} to enable or disable
+     * @param enabled
+     *            Whether the given {@link SlimefunItem} should be enabled in that world
+     */
+    public void setEnabled(@Nonnull World world, @Nonnull SlimefunItem item, boolean enabled) {
+<span class="nc" id="L102">        Validate.notNull(world, &quot;The world cannot be null&quot;);</span>
+<span class="nc" id="L103">        Validate.notNull(item, &quot;The SlimefunItem cannot be null&quot;);</span>
+
+<span class="nc" id="L105">        Set&lt;String&gt; items = disabledItems.computeIfAbsent(world.getUID(), id -&gt; loadWorldFromConfig(world));</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (enabled) {</span>
+<span class="nc" id="L108">            items.remove(item.getId());</span>
+        } else {
+<span class="nc" id="L110">            items.add(item.getId());</span>
+        }
+<span class="nc" id="L112">    }</span>
+
+    /**
+     * This method enables or disables the given {@link World}.
+     * 
+     * @param world
+     *            The {@link World} to enable or disable
+     * @param enabled
+     *            Whether this {@link World} should be enabled or not
+     */
+    public void setEnabled(@Nonnull World world, boolean enabled) {
+<span class="nc" id="L123">        Validate.notNull(world, &quot;null is not a valid World&quot;);</span>
+<span class="nc" id="L124">        load(world);</span>
+
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (enabled) {</span>
+<span class="nc" id="L127">            disabledWorlds.remove(world.getUID());</span>
+        } else {
+<span class="nc" id="L129">            disabledWorlds.add(world.getUID());</span>
+        }
+<span class="nc" id="L131">    }</span>
+
+    /**
+     * This checks whether the given {@link World} is enabled or not.
+     * 
+     * @param world
+     *            The {@link World} to check
+     * 
+     * @return Whether this {@link World} is enabled
+     */
+    public boolean isWorldEnabled(@Nonnull World world) {
+<span class="nc" id="L142">        Validate.notNull(world, &quot;null is not a valid World&quot;);</span>
+<span class="nc" id="L143">        load(world);</span>
+
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        return !disabledWorlds.contains(world.getUID());</span>
+    }
+
+    /**
+     * This method checks whether the given {@link SlimefunAddon} is enabled in that {@link World}.
+     * 
+     * @param world
+     *            The {@link World} to check
+     * @param addon
+     *            The {@link SlimefunAddon} to check
+     * 
+     * @return Whether this addon is enabled in that {@link World}
+     */
+    public boolean isAddonEnabled(@Nonnull World world, @Nonnull SlimefunAddon addon) {
+<span class="nc" id="L159">        Validate.notNull(world, &quot;World cannot be null&quot;);</span>
+<span class="nc" id="L160">        Validate.notNull(addon, &quot;Addon cannot be null&quot;);</span>
+<span class="nc bnc" id="L161" title="All 4 branches missed.">        return isWorldEnabled(world) &amp;&amp; disabledAddons.getOrDefault(addon, Collections.emptySet()).contains(world.getName());</span>
+    }
+
+    /**
+     * This will forcefully save the settings for that {@link World}.
+     * This should only be called if you altered the settings while the {@link Server} was still running.
+     * This writes to a {@link File} so it can be a heavy operation.
+     * 
+     * @param world
+     *            The {@link World} to save
+     */
+    public void save(@Nonnull World world) {
+<span class="nc" id="L173">        Validate.notNull(world, &quot;Cannot save a World that does not exist&quot;);</span>
+<span class="nc" id="L174">        Set&lt;String&gt; items = disabledItems.computeIfAbsent(world.getUID(), id -&gt; loadWorldFromConfig(world));</span>
+
+<span class="nc" id="L176">        Config config = getConfig(world);</span>
+
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">            if (item != null) {</span>
+<span class="nc" id="L180">                String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">                config.setValue(addon + '.' + item.getId(), !items.contains(item.getId()));</span>
+            }
+<span class="nc" id="L183">        }</span>
+
+<span class="nc" id="L185">        config.save();</span>
+<span class="nc" id="L186">    }</span>
+
+    @Nonnull
+    private Set&lt;String&gt; loadWorldFromConfig(@Nonnull World world) {
+<span class="nc" id="L190">        Validate.notNull(world, &quot;Cannot load a World that does not exist&quot;);</span>
+
+<span class="nc" id="L192">        String name = world.getName();</span>
+<span class="nc" id="L193">        Optional&lt;Set&lt;String&gt;&gt; optional = disabledItems.get(world.getUID());</span>
+
+<span class="nc bnc" id="L195" title="All 2 branches missed.">        if (optional.isPresent()) {</span>
+<span class="nc" id="L196">            return optional.get();</span>
+        } else {
+<span class="nc" id="L198">            Set&lt;String&gt; items = new LinkedHashSet&lt;&gt;();</span>
+<span class="nc" id="L199">            Config config = getConfig(world);</span>
+
+<span class="nc" id="L201">            config.getConfiguration().options().header(&quot;This file is used to disable certain items in a particular world.\nYou can set any item to 'false' to disable it in the world '&quot; + name + &quot;'.\nYou can also disable an entire addon from Slimefun by setting the respective\nvalue of 'enabled' for that Addon.\n\nItems which are disabled in this world will not show up in the Slimefun Guide.\nYou won't be able to use these items either. Using them will result in a warning message.&quot;);</span>
+<span class="nc" id="L202">            config.getConfiguration().options().copyHeader(true);</span>
+<span class="nc" id="L203">            config.setDefaultValue(&quot;enabled&quot;, true);</span>
+
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            if (config.getBoolean(&quot;enabled&quot;)) {</span>
+<span class="nc" id="L206">                loadItemsFromWorldConfig(name, config, items);</span>
+
+                // We don't actually wanna write to disk during a Unit test
+<span class="nc bnc" id="L209" title="All 2 branches missed.">                if (Slimefun.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {</span>
+<span class="nc" id="L210">                    config.save();</span>
+                }
+            } else {
+<span class="nc" id="L213">                disabledWorlds.add(world.getUID());</span>
+            }
+
+<span class="nc" id="L216">            return items;</span>
+        }
+    }
+
+    private void loadItemsFromWorldConfig(@Nonnull String worldName, @Nonnull Config config, @Nonnull Set&lt;String&gt; items) {
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">            if (item != null) {</span>
+<span class="nc" id="L223">                String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);</span>
+<span class="nc" id="L224">                config.setDefaultValue(addon + &quot;.enabled&quot;, true);</span>
+<span class="nc" id="L225">                config.setDefaultValue(addon + '.' + item.getId(), true);</span>
+
+                // Whether the entire addon has been disabled
+<span class="nc" id="L228">                boolean isAddonDisabled = config.getBoolean(addon + &quot;.enabled&quot;);</span>
+
+<span class="nc bnc" id="L230" title="All 2 branches missed.">                if (isAddonDisabled) {</span>
+<span class="nc" id="L231">                    Set&lt;String&gt; blacklist = disabledAddons.computeIfAbsent(plugin, key -&gt; new HashSet&lt;&gt;());</span>
+<span class="nc" id="L232">                    blacklist.add(worldName);</span>
+                }
+
+<span class="nc bnc" id="L235" title="All 4 branches missed.">                if (!isAddonDisabled || !config.getBoolean(addon + '.' + item.getId())) {</span>
+<span class="nc" id="L236">                    items.add(item.getId());</span>
+                }
+            }
+<span class="nc" id="L239">        }</span>
+<span class="nc" id="L240">    }</span>
+
+    /**
+     * This method returns the relevant {@link Config} for the given {@link World}
+     * 
+     * @param world
+     *            Our {@link World}
+     * 
+     * @return The corresponding {@link Config}
+     */
+    @Nonnull
+    private Config getConfig(@Nonnull World world) {
+<span class="nc" id="L252">        Validate.notNull(world, &quot;World cannot be null&quot;);</span>
+<span class="nc" id="L253">        return new Config(plugin, &quot;world-settings/&quot; + world.getName() + &quot;.yml&quot;);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

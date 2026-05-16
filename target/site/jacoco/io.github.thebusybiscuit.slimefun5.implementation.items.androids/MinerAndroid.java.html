@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MinerAndroid.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.androids</a> &gt; <span class="el_source">MinerAndroid.java</span></div><h1>MinerAndroid.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
+
+import java.util.Collection;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.InfiniteBlockGenerator;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+
+/**
+ * The {@link MinerAndroid} is a variant of the {@link ProgrammableAndroid} which
+ * is able to break blocks.
+ * The core functionalities boil down to {@link #dig(Block, BlockMenu, Block)} and
+ * {@link #moveAndDig(Block, BlockMenu, BlockFace, Block)}.
+ * Otherwise the functionality is similar to a regular android.
+ * &lt;p&gt;
+ * The {@link MinerAndroid} will also fire an {@link AndroidMineEvent} when breaking a {@link Block}.
+ * 
+ * @author TheBusyBiscuit
+ * @author creator3
+ * @author poma123
+ * @author Sfiguz7
+ * @author CyberPatriot
+ * @author Redemption198
+ * @author Poslovitch
+ * 
+ * @see AndroidMineEvent
+ *
+ */
+public class MinerAndroid extends ProgrammableAndroid {
+
+    // Determines the drops a miner android will get
+<span class="nc" id="L55">    private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);</span>
+
+<span class="nc" id="L57">    private final ItemSetting&lt;Boolean&gt; firesEvent = new ItemSetting&lt;&gt;(this, &quot;trigger-event-for-generators&quot;, false);</span>
+<span class="nc" id="L58">    private final ItemSetting&lt;Boolean&gt; applyOptimizations = new ItemSetting&lt;&gt;(this, &quot;reduced-block-updates&quot;, true);</span>
+
+    @ParametersAreNonnullByDefault
+    public MinerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L62">        super(itemGroup, tier, item, recipeType, recipe);</span>
+
+<span class="nc" id="L64">        addItemSetting(firesEvent, applyOptimizations);</span>
+<span class="nc" id="L65">    }</span>
+
+    @Override
+    @Nonnull
+    public AndroidType getAndroidType() {
+<span class="nc" id="L70">        return AndroidType.MINER;</span>
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
+    protected void dig(Block b, BlockMenu menu, Block block) {
+<span class="nc" id="L76">        Collection&lt;ItemStack&gt; drops = block.getDrops(effectivePickaxe);</span>
+
+<span class="nc bnc" id="L78" title="All 4 branches missed.">        if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) &amp;&amp; !drops.isEmpty()) {</span>
+<span class="nc" id="L79">            OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), &quot;owner&quot;)));</span>
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {</span>
+<span class="nc" id="L82">                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));</span>
+<span class="nc" id="L83">                Bukkit.getPluginManager().callEvent(event);</span>
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                if (event.isCancelled()) {</span>
+<span class="nc" id="L86">                    return;</span>
+                }
+
+                // We only want to break non-Slimefun blocks
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                if (!BlockStorage.hasBlockInfo(block)) {</span>
+<span class="nc" id="L91">                    breakBlock(menu, drops, block);</span>
+                }
+            }
+        }
+<span class="nc" id="L95">    }</span>
+
+    @Override
+    @ParametersAreNonnullByDefault
+    protected void moveAndDig(Block b, BlockMenu menu, BlockFace face, Block block) {
+<span class="nc" id="L100">        Collection&lt;ItemStack&gt; drops = block.getDrops(effectivePickaxe);</span>
+
+<span class="nc bnc" id="L102" title="All 4 branches missed.">        if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) &amp;&amp; !drops.isEmpty()) {</span>
+<span class="nc" id="L103">            OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), &quot;owner&quot;)));</span>
+
+<span class="nc bnc" id="L105" title="All 2 branches missed.">            if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {</span>
+<span class="nc" id="L106">                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));</span>
+<span class="nc" id="L107">                Bukkit.getPluginManager().callEvent(event);</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                if (event.isCancelled()) {</span>
+<span class="nc" id="L110">                    return;</span>
+                }
+
+                // We only want to break non-Slimefun blocks
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                if (!BlockStorage.hasBlockInfo(block)) {</span>
+<span class="nc" id="L115">                    breakBlock(menu, drops, block);</span>
+<span class="nc" id="L116">                    move(b, face, block);</span>
+                }
+<span class="nc" id="L118">            } else {</span>
+<span class="nc" id="L119">                move(b, face, block);</span>
+            }
+<span class="nc" id="L121">        } else {</span>
+<span class="nc" id="L122">            move(b, face, block);</span>
+        }
+<span class="nc" id="L124">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void breakBlock(BlockMenu menu, Collection&lt;ItemStack&gt; drops, Block block) {
+
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (!block.getWorld().getWorldBorder().isInside(block.getLocation())) {</span>
+<span class="nc" id="L130">            return;</span>
+        }
+
+<span class="nc" id="L133">        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());</span>
+
+        // Push our drops to the inventory
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        for (ItemStack drop : drops) {</span>
+<span class="nc" id="L137">            menu.pushItem(drop, getOutputSlots());</span>
+<span class="nc" id="L138">        }</span>
+
+        // Check if Block Generator optimizations should be applied.
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (applyOptimizations.getValue()) {</span>
+<span class="nc" id="L142">            InfiniteBlockGenerator generator = InfiniteBlockGenerator.findAt(block);</span>
+
+            // If we found a generator, continue.
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            if (generator != null) {</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                if (firesEvent.getValue()) {</span>
+<span class="nc" id="L147">                    generator.callEvent(block);</span>
+                }
+
+                // &quot;poof&quot; a &quot;new&quot; block was generated
+<span class="nc" id="L151">                SoundEffect.MINER_ANDROID_BLOCK_GENERATION_SOUND.playAt(block);</span>
+<span class="nc" id="L152">                block.getWorld().spawnParticle(VersionedParticle.SMOKE, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);</span>
+            } else {
+<span class="nc" id="L154">                block.setType(Material.AIR);</span>
+            }
+<span class="nc" id="L156">        } else {</span>
+<span class="nc" id="L157">            block.setType(Material.AIR);</span>
+        }
+<span class="nc" id="L159">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlimefunBranch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api</a> &gt; <span class="el_source">SlimefunBranch.java</span></div><h1>SlimefunBranch.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+
+import io.github.bakedlibs.dough.common.CommonPatterns;
+
+/**
+ * This enum represents the branch this Slimefun build is on.
+ * development or stable, unofficial or even unknown.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+<span class="nc" id="L16">public enum SlimefunBranch {</span>
+
+    // It is unbelievable that I have to say this...
+    // DO NOT TRANSLATE THIS FILE. I repeat:
+    // DO NOT TRANSLATE THIS FILE.
+    // You keep messing up our Metrics...
+
+    /**
+     * This build stems from the official &quot;development&quot; branch, it is prefixed with {@code DEV - X}
+     */
+<span class="nc" id="L26">    DEVELOPMENT(&quot;development build&quot;, true),</span>
+
+    /**
+     * This build stems from the official &quot;stable&quot; branch, it is prefixed with {@code RC - X}
+     */
+<span class="nc" id="L31">    STABLE(&quot;\&quot;stable\&quot; build&quot;, true),</span>
+
+    /**
+     * This build stems from an unofficial branch, it contains the string {@code UNOFFICIAL}
+     */
+<span class="nc" id="L36">    UNOFFICIAL(&quot;Unofficial build&quot;, false),</span>
+
+    /**
+     * This build comes from any other branch. The version does not look like anything we recognize.
+     * It is definitely not an official build.
+     */
+<span class="nc" id="L42">    UNKNOWN(&quot;Unofficial build&quot;, false);</span>
+
+    private final String name;
+    private final boolean official;
+
+<span class="nc" id="L47">    SlimefunBranch(@Nonnull String name, boolean official) {</span>
+<span class="nc" id="L48">        Validate.notNull(name, &quot;The branch name cannot be null&quot;);</span>
+
+<span class="nc" id="L50">        this.name = name;</span>
+<span class="nc" id="L51">        this.official = official;</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (!CommonPatterns.ASCII.matcher(name).matches()) {</span>
+<span class="nc" id="L54">            throw new IllegalStateException(&quot;The SlimefunBranch enum contains ILLEGAL CHARACTERS. DO NOT TRANSLATE THIS FILE.&quot;);</span>
+        }
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * This returns the name of this {@link SlimefunBranch}. The name is just a more readable
+     * version of the enum constant.
+     * 
+     * @return The name of this {@link SlimefunBranch}
+     */
+    public @Nonnull String getName() {
+<span class="nc" id="L65">        return name;</span>
+    }
+
+    /**
+     * This method returns whether this {@link SlimefunBranch} is considered official.
+     * Or whether it was unofficially modified.
+     * 
+     * @return Whether this branch is an official one.
+     */
+    public boolean isOfficial() {
+<span class="nc" id="L75">        return official;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

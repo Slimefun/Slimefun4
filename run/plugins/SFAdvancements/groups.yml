@@ -1,0 +1,41 @@
+basic:
+  display:
+    type: SLIME_BALL
+    name: "&fBasic"
+    lore:
+      - "&7&oThe core spirit of Slimefun."
+
+electric:
+  display:
+    type: REDSTONE
+    name: "&eElectric"
+    lore:
+      - "&7&oThe center of civilization."
+
+cargo:
+  display:
+    type: CARGO_MANAGER
+    name: "&6Cargo"
+    lore:
+      - "&7&oThe beginnings of something magnificent."
+
+technical:
+  display:
+    type: DIAMOND_PICKAXE
+    name: "&4Technical"
+    lore:
+      - "&7&ohaha spinny motor go nyooom"
+
+magical:
+  display:
+    type: ENDER_EYE
+    name: "&dMagical"
+    lore:
+      - "&7&oMastery is the product of time."
+
+other:
+  display:
+    type: LAVA_BUCKET
+    name: "&7Other"
+    lore:
+      - "&7&oMiscellaneous advancements"

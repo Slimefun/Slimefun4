@@ -1,0 +1,137 @@
+---
+slimefun:
+  multiblock:
+    name: 'Đa khối'
+    lore:
+      - 'Xây công trình đã hiển thị'
+      - 'hiển thị. Đây không phải công thức chế tạo'
+  enhanced_crafting_table:
+    lore:
+      - 'Chế tạo vật phẩm được hiển thị'
+      - 'trong Enhanced Crafting Table.'
+      - 'Một bàn chế tạo bình thường sẽ không đủ!'
+  armor_forge:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Armor Forge'
+  grind_stone:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Grind Stone'
+  smeltery:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Smeltery'
+  ore_crusher:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Ore Crusher'
+  mob_drop:
+    name: 'Vật phẩm bị rơi ra từ con vật bị giết'
+    lore:
+      - 'Giết con vật đó để'
+      - 'lấy vật phẩm này'
+  gold_pan:
+    lore:
+      - 'Dùng Gold Pan để'
+      - 'lấy vật phẩm này'
+  compressor:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Compressor'
+  pressure_chamber:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Pressure Chamber'
+  ore_washer:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Ore Washer'
+  juicer:
+    lore:
+      - 'Chế tạo nước ép này như đã hiển thị'
+      - 'sử dụng Juicer'
+  magic_workbench:
+    lore:
+      - 'Chế tạo vật phẩm này như hình'
+      - 'sử dụng Magic Workbench'
+  ancient_altar:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Ancient Altar.'
+      - 'Kiểm tra Ancient Altar biết thêm thông tin'
+  heated_pressure_chamber:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Heated Pressure Chamber'
+  food_fabricator:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Food Fabricator'
+  food_composter:
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng Food Composter'
+  freezer:
+    lore:
+      - 'Chế tạo vật phẩm như đã hiển thị'
+      - 'sử dụng Freezer'
+  geo_miner:
+    lore:
+      - 'Vật phẩm này có thể kiểm được'
+      - 'bàng cách sử dụng GEO Miner'
+  nuclear_reactor:
+    lore:
+      - 'Vật phẩm này là sản phẩm phụ'
+      - 'của Nuclear Reactor'
+  oil_pump:
+    lore:
+      - 'Vật phẩm này có thể kiếm được'
+      - 'bằng cách sử dụng Oil Pump'
+  pickaxe_of_containment:
+    lore:
+      - 'Spawner có thể thu được'
+      - 'bằng cách đập với'
+      - 'Pickaxe of Containment'
+  refinery:
+    lore:
+      - 'Chế tạo vật phẩm này như hình'
+      - 'sử dụng Refinery'
+minecraft:
+  shaped:
+    name: 'Công thức chế tạo hình'
+    lore:
+      - 'Chế tạo vật phẩm'
+      - 'trong bàn chế tạo thường.'
+      - 'Hình dạng rất quan trọng.'
+  shapeless:
+    name: 'Công thức chế tạo vô dạng'
+    lore:
+      - 'Chế tạo vật phẩm này'
+      - 'trong bàn chế tạo thường'
+      - 'Công thức này vô dạng.'
+  furnace:
+    name: 'Công thức nung lò nung'
+    lore:
+      - 'Nung vật phẩm này trong lò'
+      - 'để chế tạo vật phẩm bạn muốn'
+  blasting:
+    name: 'Công thức lò nung phản ứng'
+    lore:
+      - 'Nung vật phẩm này trong một lò nung phản ứng'
+      - 'để chế tạo vật phẩm mình muốn'
+  smoking:
+    name: 'Công thức máy tạo hơi khói'
+    lore:
+      - 'Nung vật phẩm này trong máy tạo hơi khói'
+      - 'để chế tạo vật phẩm bạn mong muốn'
+  campfire:
+    name: 'Công thức nung trên lửa trại'
+    lore:
+      - 'Nung vật phẩm này trên một lửa trại'
+      - 'để chế tạo vật phẩm bạn muốn'
+  stonecutting:
+    name: 'Công thức máy cắt đá'
+    lore:
+      - 'Chế tạo vật phẩm này như đã hiển thị'
+      - 'sử dụng máy cắt đá'

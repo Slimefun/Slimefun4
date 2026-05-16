@@ -1,0 +1,18 @@
+slimefun:
+  oil:
+    enabled: true
+  nether_ice:
+    enabled: true
+  uranium:
+    enabled: true
+  salt:
+    enabled: true
+litexpansion:
+  thorium:
+    enabled: true
+dynatech:
+  stardust_meteor:
+    enabled: true
+chestterminal:
+  milky_quartz:
+    enabled: true

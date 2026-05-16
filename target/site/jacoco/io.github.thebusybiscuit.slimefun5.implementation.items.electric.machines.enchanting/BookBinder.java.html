@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookBinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting</a> &gt; <span class="el_source">BookBinder.java</span></div><h1>BookBinder.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+
+/**
+ * Represents Book Binder, a machine that binds multiple enchantments books into one.
+ *
+ * @author ProfElements
+ */
+public class BookBinder extends AContainer {
+
+<span class="nc" id="L33">    private final ItemSetting&lt;Boolean&gt; bypassVanillaMaxLevel = new ItemSetting&lt;&gt;(this, &quot;bypass-vanilla-max-level&quot;, false);</span>
+<span class="nc" id="L34">    private final ItemSetting&lt;Boolean&gt; hasCustomMaxLevel = new ItemSetting&lt;&gt;(this, &quot;has-custom-max-level&quot;, false);</span>
+<span class="nc" id="L35">    private final ItemSetting&lt;Integer&gt; customMaxLevel = new IntRangeSetting(this, &quot;custom-max-level&quot;, 0, 15, Integer.MAX_VALUE);</span>
+
+    @ParametersAreNonnullByDefault
+    public BookBinder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L39">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L41">        addItemSetting(bypassVanillaMaxLevel, hasCustomMaxLevel, customMaxLevel);</span>
+<span class="nc" id="L42">    }</span>
+
+    @Override
+    protected MachineRecipe findNextRecipe(BlockMenu menu) {
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (int slot : getInputSlots()) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);</span>
+<span class="nc" id="L48">            ItemStack item = menu.getItemInSlot(slot);</span>
+
+<span class="nc bnc" id="L50" title="All 4 branches missed.">            if (isCompatible(item) &amp;&amp; isCompatible(target)) {</span>
+<span class="nc" id="L51">                EnchantmentStorageMeta itemMeta = (EnchantmentStorageMeta) item.getItemMeta();</span>
+<span class="nc" id="L52">                EnchantmentStorageMeta targetMeta = (EnchantmentStorageMeta) target.getItemMeta();</span>
+
+<span class="nc" id="L54">                Map&lt;Enchantment, Integer&gt; storedItemEnchantments = itemMeta.getStoredEnchants();</span>
+<span class="nc" id="L55">                Map&lt;Enchantment, Integer&gt; storedTargetEnchantments = targetMeta.getStoredEnchants();</span>
+<span class="nc" id="L56">                Map&lt;Enchantment, Integer&gt; enchantments = combineEnchantments(storedItemEnchantments, storedTargetEnchantments);</span>
+
+                // Just return if no enchantments exist. This shouldn't ever happen. :NotLikeThis:
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                if (enchantments.size() &gt; 0) {</span>
+<span class="nc bnc" id="L60" title="All 4 branches missed.">                    if (hasIllegalEnchants(storedItemEnchantments) || hasIllegalEnchants(storedTargetEnchantments)) {</span>
+<span class="nc" id="L61">                        return null;</span>
+                    }
+
+<span class="nc" id="L64">                    ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);</span>
+
+<span class="nc" id="L66">                    EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();</span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                    for (Map.Entry&lt;Enchantment, Integer&gt; entry : enchantments.entrySet()) {</span>
+<span class="nc" id="L69">                        enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), bypassVanillaMaxLevel.getValue());</span>
+<span class="nc" id="L70">                    }</span>
+
+                    // Make sure we never return an enchanted book with no enchantments.
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                    if (enchantMeta.getStoredEnchants().isEmpty()) {</span>
+<span class="nc" id="L74">                        return null;</span>
+                    }
+
+                    // If the output is the same as one of the inputs: don't consume items
+<span class="nc bnc" id="L78" title="All 4 branches missed.">                    if (enchantMeta.getStoredEnchants().equals(storedItemEnchantments) || enchantMeta.getStoredEnchants().equals(storedTargetEnchantments)) {</span>
+<span class="nc" id="L79">                        return null;</span>
+                    }
+
+<span class="nc" id="L82">                    book.setItemMeta(enchantMeta);</span>
+
+<span class="nc" id="L84">                    MachineRecipe recipe = new MachineRecipe(25 * (enchantments.size() / this.getSpeed()), new ItemStack[] { target, item }, new ItemStack[] { book });</span>
+
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                    if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {</span>
+<span class="nc" id="L87">                        return null;</span>
+                    }
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                    for (int inputSlot : getInputSlots()) {</span>
+<span class="nc" id="L91">                        menu.consumeItem(inputSlot);</span>
+                    }
+
+<span class="nc" id="L94">                    return recipe;</span>
+                }
+
+<span class="nc" id="L97">                return null;</span>
+            }
+
+        }
+
+<span class="nc" id="L102">        return null;</span>
+    }
+
+    private boolean isCompatible(@Nullable ItemStack item) {
+<span class="nc bnc" id="L106" title="All 4 branches missed.">        return item != null &amp;&amp; item.getType() == Material.ENCHANTED_BOOK;</span>
+    }
+
+    private boolean hasIllegalEnchants(@Nullable Map&lt;Enchantment, Integer&gt; enchantments) {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (enchantments == null) {</span>
+<span class="nc" id="L111">            return false;</span>
+        }
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        for (Map.Entry&lt;Enchantment, Integer&gt; entry : enchantments.entrySet()) {</span>
+<span class="nc bnc" id="L115" title="All 8 branches missed.">            if (bypassVanillaMaxLevel.getValue() &amp;&amp; entry.getValue() &gt; customMaxLevel.getValue() || !bypassVanillaMaxLevel.getValue() &amp;&amp; entry.getValue() &gt; entry.getKey().getMaxLevel()) {</span>
+<span class="nc" id="L116">                return true;</span>
+            }
+<span class="nc" id="L118">        }</span>
+<span class="nc" id="L119">        return false;</span>
+    }
+
+    @Override
+    public ItemStack getProgressBar() {
+<span class="nc" id="L124">        return new ItemStack(Material.IRON_CHESTPLATE);</span>
+    }
+
+    @Override
+    public String getMachineIdentifier() {
+<span class="nc" id="L129">        return &quot;BOOK_BINDER&quot;;</span>
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    private Map&lt;Enchantment, Integer&gt; combineEnchantments(Map&lt;Enchantment, Integer&gt; ech1, Map&lt;Enchantment, Integer&gt; ech2) {
+<span class="nc" id="L135">        Map&lt;Enchantment, Integer&gt; enchantments = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L136">        enchantments.putAll(ech1);</span>
+<span class="nc" id="L137">        boolean hasConflicts = false;</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        for (Map.Entry&lt;Enchantment, Integer&gt; entry : ech2.entrySet()) {</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">            for (Map.Entry&lt;Enchantment, Integer&gt; conflictsWith : enchantments.entrySet()) {</span>
+
+                /*
+                 * Check if entry enchantment and conflictsWith enchantment conflict
+                 * and confirm that the enchantsments aren't the exact same.
+                 */
+<span class="nc bnc" id="L146" title="All 4 branches missed.">                if (entry.getKey().conflictsWith(conflictsWith.getKey()) &amp;&amp; !entry.getKey().equals(conflictsWith.getKey())) {</span>
+<span class="nc" id="L147">                    hasConflicts = true;</span>
+                }
+<span class="nc" id="L149">            }</span>
+
+<span class="nc bnc" id="L151" title="All 2 branches missed.">            if (!hasConflicts) {</span>
+<span class="nc" id="L152">                enchantments.merge(entry.getKey(), entry.getValue(), (a, b) -&gt; {</span>
+<span class="nc" id="L153">                    int maxLevel = entry.getKey().getMaxLevel();</span>
+<span class="nc" id="L154">                    return combineEnchantmentLevels(maxLevel, a, b);</span>
+                });
+            }
+<span class="nc" id="L157">        }</span>
+
+<span class="nc" id="L159">        return enchantments;</span>
+
+    }
+
+    private int combineEnchantmentLevels(int maxLevel, int lvl1, int lvl2) {
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (lvl1 == lvl2) {</span>
+            /*
+             * Confirm the entry's enchant level doesn't go over the maximum
+             * unless it uses bypass-vanilla-max-level
+             */
+<span class="nc bnc" id="L169" title="All 4 branches missed.">            if (maxLevel &lt;= lvl1 &amp;&amp; !bypassVanillaMaxLevel.getValue()) {</span>
+<span class="nc" id="L170">                return maxLevel;</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">            } else if (hasCustomMaxLevel.getValue()) {</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                return lvl1 + 1 &gt; customMaxLevel.getValue() ? customMaxLevel.getValue() : lvl1 + 1;</span>
+            } else {
+<span class="nc" id="L174">                return lvl1 + 1;</span>
+            }
+        } else {
+<span class="nc" id="L177">            int highestLevel = Math.max(lvl1, lvl2);</span>
+
+            /*
+             * Confirm the entry's enchant level doesn't go over the maximum
+             * unless it uses bypass-vanilla-max-level
+             */
+<span class="nc bnc" id="L183" title="All 4 branches missed.">            if (maxLevel &lt;= highestLevel &amp;&amp; !bypassVanillaMaxLevel.getValue()) {</span>
+<span class="nc" id="L184">                return maxLevel;</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">            } else if (hasCustomMaxLevel.getValue()) {</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">                return highestLevel &gt; customMaxLevel.getValue() ? customMaxLevel.getValue() : highestLevel;</span>
+            } else {
+<span class="nc" id="L188">                return highestLevel;</span>
+            }
+
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

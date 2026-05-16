@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CauldronListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting</a> &gt; <span class="el_source">CauldronListener.java</span></div><h1>CauldronListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+/**
+ * This {@link Listener} prevents any {@link SlimefunItem} from being used in a
+ * Cauldron.
+ * This is mainly used to prevent the discoloring of leather armor.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class CauldronListener implements SlimefunCraftingListener {
+
+<span class="nc" id="L28">    public CauldronListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L29">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L30">    }</span>
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onCauldronUse(PlayerInteractEvent e) {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {</span>
+<span class="nc" id="L35">            Block block = e.getClickedBlock();</span>
+
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (block.getType() == Material.CAULDRON) {</span>
+<span class="nc" id="L38">                ItemStack item = e.getItem();</span>
+
+<span class="nc bnc" id="L40" title="All 4 branches missed.">                if (item != null &amp;&amp; SlimefunTag.LEATHER_ARMOR.isTagged(item.getType())) {</span>
+<span class="nc" id="L41">                    SlimefunItem sfItem = SlimefunItem.getByItem(item);</span>
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                    if (isUnallowed(sfItem)) {</span>
+<span class="nc" id="L44">                        e.setCancelled(true);</span>
+<span class="nc" id="L45">                        Slimefun.getLocalization().sendMessage(e.getPlayer(), &quot;cauldron.no-discoloring&quot;);</span>
+                    }
+                }
+            }
+        }
+<span class="nc" id="L50">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

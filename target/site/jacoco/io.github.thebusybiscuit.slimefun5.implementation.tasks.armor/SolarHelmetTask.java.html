@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SolarHelmetTask.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.tasks.armor</a> &gt; <span class="el_source">SolarHelmetTask.java</span></div><h1>SolarHelmetTask.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.tasks.armor;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+/**
+ * The {@link SolarHelmetTask} is responsible for handling {@link SolarHelmet} for generating power
+ * and adding checks for if it has sunlight and if the player is actually wearing it.
+ *
+ * @author TheBusyBiscuit
+ * @author martinbrom
+ * @author Semisol
+ */
+<span class="nc" id="L25">public class SolarHelmetTask extends AbstractArmorTask {</span>
+
+    @Override
+    @ParametersAreNonnullByDefault
+    protected void onPlayerTick(Player p, PlayerProfile profile) {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (hasSunlight(p)) {</span>
+<span class="nc" id="L31">            checkForSolarHelmet(p);</span>
+        }
+<span class="nc" id="L33">    }</span>
+
+    private void checkForSolarHelmet(@Nonnull Player p) {
+<span class="nc" id="L36">        ItemStack helmet = p.getInventory().getHelmet();</span>
+<span class="nc" id="L37">        SlimefunItem item = SlimefunItem.getByItem(helmet);</span>
+
+<span class="nc bnc" id="L39" title="All 4 branches missed.">        if (item instanceof SolarHelmet solarHelmet &amp;&amp; item.canUse(p, true)) {</span>
+<span class="nc" id="L40">            solarHelmet.rechargeItems(p);</span>
+        }
+<span class="nc" id="L42">    }</span>
+
+    private boolean hasSunlight(@Nonnull Player p) {
+<span class="nc" id="L45">        World world = p.getWorld();</span>
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (world.getEnvironment() != Environment.NORMAL) {</span>
+            // The End and Nether have no sunlight
+<span class="nc" id="L49">            return false;</span>
+        }
+
+<span class="nc bnc" id="L52" title="All 6 branches missed.">        return (world.getTime() &lt; 12300 || world.getTime() &gt; 23850) &amp;&amp; p.getEyeLocation().getBlock().getLightFromSky() == 15;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

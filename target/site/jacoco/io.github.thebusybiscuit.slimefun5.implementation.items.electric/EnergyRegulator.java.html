@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnergyRegulator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric</a> &gt; <span class="el_source">EnergyRegulator.java</span></div><h1>EnergyRegulator.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+
+/**
+ * The {@link EnergyRegulator} is a special type of {@link SlimefunItem} which serves as the heart of every
+ * {@link EnergyNet}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see EnergyNet
+ * @see EnergyNetComponent
+ *
+ */
+public class EnergyRegulator extends SlimefunItem implements HologramOwner {
+
+    @ParametersAreNonnullByDefault
+    public EnergyRegulator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L38">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L40">        addItemHandler(onBreak());</span>
+<span class="nc" id="L41">    }</span>
+
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+<span class="nc" id="L45">        return new SimpleBlockBreakHandler() {</span>
+
+            @Override
+            public void onBlockBreak(@Nonnull Block b) {
+<span class="nc" id="L49">                removeHologram(b);</span>
+<span class="nc" id="L50">            }</span>
+        };
+    }
+
+    @Nonnull
+    private BlockPlaceHandler onPlace() {
+<span class="nc" id="L56">        return new BlockPlaceHandler(false) {</span>
+
+            @Override
+            public void onPlayerPlace(BlockPlaceEvent e) {
+<span class="nc" id="L60">                updateHologram(e.getBlock(), &quot;&amp;7Connecting...&quot;);</span>
+<span class="nc" id="L61">            }</span>
+
+        };
+    }
+
+    @Override
+    public void preRegister() {
+<span class="nc" id="L68">        addItemHandler(onPlace());</span>
+
+<span class="nc" id="L70">        addItemHandler(new BlockTicker() {</span>
+
+            @Override
+            public boolean isSynchronized() {
+<span class="nc" id="L74">                return false;</span>
+            }
+
+            @Override
+            public void tick(Block b, SlimefunItem item, Config data) {
+<span class="nc" id="L79">                EnergyRegulator.this.tick(b);</span>
+<span class="nc" id="L80">            }</span>
+        });
+<span class="nc" id="L82">    }</span>
+
+    private void tick(@Nonnull Block b) {
+<span class="nc" id="L85">        EnergyNet network = EnergyNet.getNetworkFromLocationOrCreate(b.getLocation());</span>
+<span class="nc" id="L86">        network.tick(b);</span>
+<span class="nc" id="L87">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

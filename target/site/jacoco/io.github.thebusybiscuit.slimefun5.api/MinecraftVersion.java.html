@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MinecraftVersion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api</a> &gt; <span class="el_source">MinecraftVersion.java</span></div><h1>MinecraftVersion.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Server;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.papermc.lib.PaperLib;
+
+/**
+ * This enum holds all versions of Minecraft that we currently support.
+ *
+ * @author TheBusyBiscuit
+ * @author Walshy
+ *
+ * @see Slimefun
+ *
+ */
+<span class="fc" id="L20">public enum MinecraftVersion {</span>
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.16
+     * (The &quot;Nether Update&quot;)
+     */
+<span class="fc" id="L26">    MINECRAFT_1_16(16, &quot;1.16.x&quot;),</span>
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.17
+     * (The &quot;Caves and Cliffs: Part I&quot; Update)
+     */
+<span class="fc" id="L32">    MINECRAFT_1_17(17, &quot;1.17.x&quot;),</span>
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.18
+     * (The &quot;Caves and Cliffs: Part II&quot; Update)
+     */
+<span class="fc" id="L38">    MINECRAFT_1_18(18, &quot;1.18.x&quot;),</span>
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.19
+     * (&quot;The Wild Update&quot;)
+     */
+<span class="fc" id="L44">    MINECRAFT_1_19(19, &quot;1.19.x&quot;),</span>
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.20
+     * (&quot;The Trails &amp;amp; Tales Update&quot;)
+     */
+<span class="fc" id="L50">    MINECRAFT_1_20(20, 0, 4, &quot;1.20.x&quot;),</span>
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.20.5
+     * (&quot;The Armored Paws Update&quot;)
+     */
+<span class="fc" id="L56">    MINECRAFT_1_20_5(20, 5, &quot;1.20.5+&quot;),</span>
+
+     /**
+     * This constant represents Minecraft (Java Edition) Version 1.21
+     * (&quot;Tricky Trials&quot;)
+     * This covers versions 1.21.0 through 1.21.3
+     */
+<span class="fc" id="L63">    MINECRAFT_1_21(21, 0, 3, &quot;1.21.x&quot;),</span>
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.21.4+
+     * (&quot;The Garden Awakens&quot; and later drops including &quot;Spring to Life&quot;,
+     * &quot;The Copper Age&quot;, and &quot;Mounts of Mayhem&quot;)
+     */
+<span class="fc" id="L70">    MINECRAFT_1_21_4(21, 4, &quot;1.21.4+&quot;),</span>
+
+    /**
+     * This constant represents an exceptional state in which we were unable
+     * to identify the Minecraft Version we are using
+     */
+<span class="fc" id="L76">    UNKNOWN(&quot;Unknown&quot;, true),</span>
+
+    /**
+     * This is a very special state that represents the environment being a Unit
+     * Test and not an actual running Minecraft Server.
+     */
+<span class="fc" id="L82">    UNIT_TEST(&quot;Unit Test Environment&quot;, true);</span>
+
+    private final String name;
+    private final boolean virtual;
+    private final int majorVersion;
+    private final int minorVersion;
+    private final int maxMinorVersion;
+
+    /**
+     * This constructs a new {@link MinecraftVersion} with the given name.
+     * This constructor forces the {@link MinecraftVersion} to be real.
+     * It must be a real version of Minecraft.
+     *
+     * @param majorVersion
+     *            The major version of minecraft as an {@link Integer}
+     * @param name
+     *            The display name of this {@link MinecraftVersion}
+     */
+<span class="fc" id="L100">    MinecraftVersion(int majorVersion, @Nonnull String name) {</span>
+<span class="fc" id="L101">        this.name = name;</span>
+<span class="fc" id="L102">        this.majorVersion = majorVersion;</span>
+<span class="fc" id="L103">        this.minorVersion = -1;</span>
+<span class="fc" id="L104">        this.maxMinorVersion = -1;</span>
+<span class="fc" id="L105">        this.virtual = false;</span>
+<span class="fc" id="L106">    }</span>
+
+    /**
+     * This constructs a new {@link MinecraftVersion} with the given name.
+     * This constructor forces the {@link MinecraftVersion} to be real.
+     * It must be a real version of Minecraft.
+     *
+     * @param majorVersion
+     *            The major (minor in semver, major in MC land) version of minecraft as an {@link Integer}
+     * @param minor
+     *           The minor (patch in semver, minor in MC land) version of minecraft as an {@link Integer}
+     * @param name
+     *            The display name of this {@link MinecraftVersion}
+     */
+<span class="fc" id="L120">    MinecraftVersion(int majorVersion, int minor, @Nonnull String name) {</span>
+<span class="fc" id="L121">        this.name = name;</span>
+<span class="fc" id="L122">        this.majorVersion = majorVersion;</span>
+<span class="fc" id="L123">        this.minorVersion = minor;</span>
+<span class="fc" id="L124">        this.maxMinorVersion = -1;</span>
+<span class="fc" id="L125">        this.virtual = false;</span>
+<span class="fc" id="L126">    }</span>
+
+    /**
+     * This constructs a new {@link MinecraftVersion} with the given name.
+     * This constructor forces the {@link MinecraftVersion} to be real.
+     * It must be a real version of Minecraft.
+     *
+     * @param majorVersion
+     *            The major (minor in semver, major in MC land) version of minecraft as an {@link Integer}
+     * @param minor
+     *           The minor (patch in semver, minor in MC land) version of minecraft as an {@link Integer}
+     * @param maxMinorVersion
+     *           The maximum minor (patch) version of minecraft this version represents
+     * @param name
+     *            The display name of this {@link MinecraftVersion}
+     */
+<span class="fc" id="L142">    MinecraftVersion(int majorVersion, int minor, int maxMinorVersion, @Nonnull String name) {</span>
+<span class="fc" id="L143">        this.name = name;</span>
+<span class="fc" id="L144">        this.majorVersion = majorVersion;</span>
+<span class="fc" id="L145">        this.minorVersion = minor;</span>
+<span class="fc" id="L146">        this.maxMinorVersion = maxMinorVersion;</span>
+<span class="fc" id="L147">        this.virtual = false;</span>
+<span class="fc" id="L148">    }</span>
+
+    /**
+     * This constructs a new {@link MinecraftVersion} with the given name.
+     * A virtual {@link MinecraftVersion} (unknown or unit test) is not an actual
+     * version of Minecraft but rather a state of the {@link Server} software.
+     *
+     * @param name
+     *            The display name of this {@link MinecraftVersion}
+     * @param virtual
+     *            Whether this {@link MinecraftVersion} is virtual
+     */
+<span class="fc" id="L160">    MinecraftVersion(@Nonnull String name, boolean virtual) {</span>
+<span class="fc" id="L161">        this.name = name;</span>
+<span class="fc" id="L162">        this.majorVersion = 0;</span>
+<span class="fc" id="L163">        this.minorVersion = -1;</span>
+<span class="fc" id="L164">        this.maxMinorVersion = -1;</span>
+<span class="fc" id="L165">        this.virtual = virtual;</span>
+<span class="fc" id="L166">    }</span>
+
+    /**
+     * This returns the name of this {@link MinecraftVersion} in a readable format.
+     *
+     * @return The name of this {@link MinecraftVersion}
+     */
+    public @Nonnull String getName() {
+<span class="nc" id="L174">        return name;</span>
+    }
+
+    /**
+     * This returns whether this {@link MinecraftVersion} is virtual or not.
+     * A virtual {@link MinecraftVersion} does not actually exist but is rather
+     * a state of the {@link Server} software used.
+     * Virtual {@link MinecraftVersion MinecraftVersions} include &quot;UNKNOWN&quot; and
+     * &quot;UNIT TEST&quot;.
+     *
+     * @return Whether this {@link MinecraftVersion} is virtual or not
+     */
+    public boolean isVirtual() {
+<span class="fc" id="L187">        return virtual;</span>
+    }
+
+    /**
+     * This tests if the given minecraft version number matches with this
+     * {@link MinecraftVersion}.
+     * &lt;p&gt;
+     * You can obtain the version number by doing {@link PaperLib#getMinecraftVersion()}.
+     * It is equivalent to the &quot;major&quot; version
+     * &lt;p&gt;
+     * Example: {@literal &quot;1.13&quot;} returns {@literal 13}
+     *
+     * @param minecraftVersion
+     *            The {@link Integer} version to match
+     *
+     * @return Whether this {@link MinecraftVersion} matches the specified version id
+     */
+    public boolean isMinecraftVersion(int minecraftVersion) {
+<span class="nc" id="L205">        return this.isMinecraftVersion(minecraftVersion, -1);</span>
+    }
+
+    /**
+     * This tests if the given minecraft version matches with this
+     * {@link MinecraftVersion}.
+     * &lt;p&gt;
+     * You can obtain the version number by doing {@link PaperLib#getMinecraftVersion()}.
+     * It is equivalent to the &quot;major&quot; version&lt;br /&gt;
+     * You can obtain the patch version by doing {@link PaperLib#getMinecraftPatchVersion()}.
+     * It is equivalent to the &quot;minor&quot; version
+     * &lt;p&gt;
+     * Example: {@literal &quot;1.13&quot;} returns {@literal 13}&lt;br /&gt;
+     * Example: {@literal &quot;1.13.2&quot;} returns {@literal 13_2}
+     *
+     * @param minecraftVersion
+     *            The {@link Integer} version to match
+     *
+     * @return Whether this {@link MinecraftVersion} matches the specified version id
+     */
+    public boolean isMinecraftVersion(int minecraftVersion, int patchVersion) {
+<span class="pc bpc" id="L226" title="1 of 12 branches missed.">        return !isVirtual()</span>
+            &amp;&amp; this.majorVersion == minecraftVersion
+            &amp;&amp; (this.minorVersion == -1 || this.minorVersion &lt;= patchVersion)
+                &amp;&amp; (this.maxMinorVersion == -1 || patchVersion &lt;= this.maxMinorVersion);
+    }
+
+    /**
+     * This method checks whether this {@link MinecraftVersion} is newer or equal to
+     * the given {@link MinecraftVersion},
+     *
+     * An unknown version will default to {@literal false}.
+     *
+     * @param version
+     *            The {@link MinecraftVersion} to compare
+     *
+     * @return Whether this {@link MinecraftVersion} is newer or equal to the given {@link MinecraftVersion}
+     */
+    public boolean isAtLeast(@Nonnull MinecraftVersion version) {
+<span class="fc" id="L244">        Validate.notNull(version, &quot;A Minecraft version cannot be null!&quot;);</span>
+
+<span class="fc bfc" id="L246" title="All 2 branches covered.">        if (this == UNKNOWN) {</span>
+<span class="fc" id="L247">            return false;</span>
+        }
+
+        /**
+         * Unit-Test only code.
+         * Running #isAtLeast(...) should always be meaningful.
+         * If the provided version equals the lowest supported version, then
+         * this will essentially always return true and result in a tautology.
+         * This is most definitely an oversight from us and should be fixed, therefore
+         * we will trigger an exception.
+         *
+         * In order to not disrupt server operations, this exception is only thrown during
+         * unit tests since the oversight itself will be harmless.
+         */
+<span class="pc bpc" id="L261" title="1 of 4 branches missed.">        if (this == UNIT_TEST &amp;&amp; version.ordinal() == 0) {</span>
+<span class="fc" id="L262">            throw new IllegalArgumentException(&quot;Version &quot; + version + &quot; is the lowest supported version already!&quot;);</span>
+        }
+
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        return this.ordinal() &gt;= version.ordinal();</span>
+    }
+
+    /**
+     * This checks whether this {@link MinecraftVersion} is older than the specified {@link MinecraftVersion}.
+     *
+     * An unknown version will default to {@literal true}.
+     *
+     * @param version
+     *            The {@link MinecraftVersion} to compare
+     *
+     * @return Whether this {@link MinecraftVersion} is older than the given one
+     */
+    public boolean isBefore(@Nonnull MinecraftVersion version) {
+<span class="fc" id="L279">        Validate.notNull(version, &quot;A Minecraft version cannot be null!&quot;);</span>
+
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        if (this == UNKNOWN) {</span>
+<span class="fc" id="L282">            return true;</span>
+        }
+
+<span class="fc bfc" id="L285" title="All 2 branches covered.">        return version.ordinal() &gt; this.ordinal();</span>
+    }
+
+    /**
+     * Checks whether this {@link MinecraftVersion} is older than the specified minecraft and patch versions
+     * @param minecraftVersion The minecraft version
+     * @param patchVersion The patch version
+     * @return True if this version is before, False if this version is virtual or otherwise.
+     */
+    public boolean isBefore(int minecraftVersion, int patchVersion) {
+        // unit tests or whatever
+<span class="pc bpc" id="L296" title="1 of 2 branches missed.">        if (isVirtual()) {</span>
+<span class="nc" id="L297">            return false;</span>
+        }
+
+        // major version mismatch
+<span class="fc bfc" id="L301" title="All 2 branches covered.">        if (this.majorVersion != minecraftVersion) {</span>
+<span class="pc bpc" id="L302" title="1 of 2 branches missed.">            return this.majorVersion &lt; minecraftVersion;</span>
+        }
+
+<span class="fc bfc" id="L305" title="All 6 branches covered.">        return this.minorVersion == -1 ? patchVersion &gt; 0 : this.minorVersion &lt; patchVersion;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

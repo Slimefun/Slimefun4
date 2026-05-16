@@ -1,0 +1,120 @@
+
+# You should enable this to get bug fixes and receive support asap!
+auto-update: true
+
+balance-options:
+
+  # Increases or decreases the cost of infinity singularities
+  singularity-cost-multiplier: 1.0
+
+  # Will allow the gear transformer to change slimefun gear's material. Diamond tools can already be upgraded to netherite, 
+  # but some addon developers do not want there gear to be transformable so change this at your own risk.
+  allow-sf-item-transform: false
+
+  # Enables/Disables Researches which requires players to spend xp to unlock items
+  enable-researches: false
+
+mob-simulation-options:
+
+  # The number of slimefun ticks it takes to output xp and drops. 1 slimefun tick = .5 seconds by default
+  ticks-per-output: 20
+
+  # Multiplies amount of xp gained from mob simulation
+  xp-multiplier: 1.0
+
+quarry-options:
+
+  # The chance (0 to 1) of an oscillator activating each time a material would be produced
+  oscillators:
+    lapis: 0.5
+    diamond: 0.5
+    redstone: 0.5
+    quartz: 0.5
+    emerald: 0.5
+
+  # The number of slimefun ticks it takes to mine 1 block. 1 slimefun ticks = .6 seconds by default
+  ticks-per-output: 10
+
+  # Allow quarries to mine quartz, netherite, netherrack in any world
+  output-nether-materials-in-overworld: false
+
+  # Enable/Disable resources from being produced
+  resources:
+    coal: true
+    iron: true
+    gold: true
+    lapis: true
+
+    # Vanilla Copper (1.17+)
+    copper: true
+    quartz: true
+    diamond: true
+    emerald: true
+    redstone: true
+    netherite: true
+    netherrack: true
+
+# These are the maximum level of enchants that can be obtained by combining 2 of the same enchant of the same level.
+advanced-anvil-max-levels:
+  sharpness: 9
+  bane-of-arthropods: 9
+  smite: 9
+  protection: 10
+  fortune: 6
+  efficiency: 7
+  fire-aspect: 6
+  power: 7
+  thorns: 13
+  looting: 6
+  unbreaking: 13
+
+# levels of infinity gear. this will not affect existing items. adding more enchants wont have any effect, only change levels. 
+# protection caps out at 20 levels across all 4 pieces of gear. So 10+10+10+10 is still the same as 5+5+5+5.
+infinity-enchant-levels:
+  blade:
+    unbreakable: true
+    sharpness: 20
+    looting: 10
+    fire-aspect: 10
+  pickaxe:
+    unbreakable: true
+    efficiency: 40
+    fortune: 20
+  shovel:
+    unbreakable: true
+    efficiency: 40
+    silk-touch: 10
+  axe:
+    unbreakable: true
+    efficiency: 40
+    sharpness: 20
+    fire-aspect: 10
+    looting: 0
+    silk-touch: 0
+  bow:
+    unbreakable: true
+    power: 10
+    flame: 10
+    infinity: 10
+    punch: 0
+  crown:
+    unbreakable: true
+    protection: 20
+    aqua-affinity: 10
+  chestplate:
+    unbreakable: true
+    protection: 20
+    thorns: 10
+  leggings:
+    unbreakable: true
+    protection: 20
+    thorns: 10
+  boots:
+    unbreakable: true
+    protection: 20
+    feather-falling: 0
+    thorns: 0
+  shield:
+    unbreakable: true
+    protection: 20
+    thorns: 10

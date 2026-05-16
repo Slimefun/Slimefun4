@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MinerStoppingReason.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner</a> &gt; <span class="el_source">MinerStoppingReason.java</span></div><h1>MinerStoppingReason.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.block.Chest;
+import org.bukkit.block.data.type.Piston;
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
+
+/**
+ * This enum holds various different reasons as to why an {@link IndustrialMiner}
+ * may stop mining.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+<span class="nc" id="L18">enum MinerStoppingReason {</span>
+
+    /**
+     * The {@link IndustrialMiner} has run out of fuel.
+     */
+<span class="nc" id="L23">    NO_FUEL(&quot;machines.INDUSTRIAL_MINER.no-fuel&quot;),</span>
+
+    /**
+     * The {@link IndustrialMiner} has entered a region where
+     * the {@link Player} has no permission to build.
+     */
+<span class="nc" id="L29">    NO_PERMISSION(&quot;machines.INDUSTRIAL_MINER.no-permission&quot;),</span>
+
+    /**
+     * The {@link Chest} of our {@link IndustrialMiner} is full.
+     */
+<span class="nc" id="L34">    CHEST_FULL(&quot;machines.INDUSTRIAL_MINER.chest-full&quot;),</span>
+
+    /**
+     * The {@link MultiBlock} structure of the {@link IndustrialMiner}
+     * has been destroyed.
+     */
+<span class="nc" id="L40">    STRUCTURE_DESTROYED(&quot;machines.INDUSTRIAL_MINER.destroyed&quot;),</span>
+
+    /**
+     * The {@link Piston}s inside the structure faces the wrong way.
+     */
+<span class="nc" id="L45">    PISTON_WRONG_DIRECTION(&quot;machines.INDUSTRIAL_MINER.piston-facing&quot;),</span>
+
+    /**
+     * The {@link Piston}s have no space to move.
+     */
+<span class="nc" id="L50">    PISTON_NO_SPACE(&quot;machines.INDUSTRIAL_MINER.piston-space&quot;);</span>
+
+    private final String messageKey;
+
+<span class="nc" id="L54">    MinerStoppingReason(@Nonnull String messageKey) {</span>
+<span class="nc" id="L55">        this.messageKey = messageKey;</span>
+<span class="nc" id="L56">    }</span>
+
+    @Nonnull
+    String getErrorMessage() {
+<span class="nc" id="L60">        return messageKey;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

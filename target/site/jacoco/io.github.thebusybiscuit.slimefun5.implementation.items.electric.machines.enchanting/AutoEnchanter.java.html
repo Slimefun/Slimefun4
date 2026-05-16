@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AutoEnchanter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting</a> &gt; <span class="el_source">AutoEnchanter.java</span></div><h1>AutoEnchanter.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncAutoEnchanterProcessEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+
+/**
+ * The {@link AutoEnchanter}, in contrast to the {@link AutoDisenchanter}, adds
+ * {@link Enchantment Enchantments} from a given enchanted book and transfers them onto
+ * an {@link ItemStack}.
+ *
+ * @author TheBusyBiscuit
+ * @author Poslovitch
+ * @author Mooy1
+ * @author StarWishSama
+ * @author martinbrom
+ *
+ * @see AutoDisenchanter
+ *
+ */
+public class AutoEnchanter extends AbstractEnchantmentMachine {
+
+<span class="nc" id="L43">    private final ItemSetting&lt;Boolean&gt; overrideExistingEnchantsLvl = new ItemSetting&lt;&gt;(this, &quot;override-existing-enchants-lvl&quot;, false);</span>
+
+    @ParametersAreNonnullByDefault
+    public AutoEnchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L47">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L49">        addItemSetting(overrideExistingEnchantsLvl);</span>
+<span class="nc" id="L50">    }</span>
+
+    @Override
+    public ItemStack getProgressBar() {
+<span class="nc" id="L54">        return new ItemStack(Material.GOLDEN_CHESTPLATE);</span>
+    }
+
+    @Override
+    protected MachineRecipe findNextRecipe(BlockMenu menu) {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (int slot : getInputSlots()) {</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            ItemStack item = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);</span>
+
+            // Check if the item is enchantable
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (!isEnchantable(item)) {</span>
+<span class="nc" id="L64">                continue;</span>
+            }
+
+            // Call an event so other Plugins can modify it.
+<span class="nc" id="L68">            AutoEnchantEvent event = new AutoEnchantEvent(item);</span>
+<span class="nc" id="L69">            Bukkit.getPluginManager().callEvent(event);</span>
+
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (event.isCancelled()) {</span>
+<span class="nc" id="L72">                return null;</span>
+            }
+
+<span class="nc" id="L75">            ItemStack enchantedBook = menu.getItemInSlot(slot);</span>
+
+<span class="nc bnc" id="L77" title="All 4 branches missed.">            if (enchantedBook != null &amp;&amp; enchantedBook.getType() == Material.ENCHANTED_BOOK) {</span>
+<span class="nc" id="L78">                return enchant(menu, item, enchantedBook);</span>
+            }
+        }
+
+<span class="nc" id="L82">        return null;</span>
+    }
+
+    @Nullable
+    @ParametersAreNonnullByDefault
+    protected MachineRecipe enchant(BlockMenu menu, ItemStack target, ItemStack enchantedBook) {
+        // Call an event so other Plugins can modify it.
+<span class="nc" id="L89">        AsyncAutoEnchanterProcessEvent event = new AsyncAutoEnchanterProcessEvent(target, enchantedBook, menu);</span>
+<span class="nc" id="L90">        Bukkit.getPluginManager().callEvent(event);</span>
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (event.isCancelled()) {</span>
+<span class="nc" id="L93">            return null;</span>
+        }
+
+<span class="nc" id="L96">        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) enchantedBook.getItemMeta();</span>
+<span class="nc" id="L97">        Map&lt;Enchantment, Integer&gt; enchantments = new HashMap&lt;&gt;();</span>
+
+        // Find applicable enchantments
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        for (Map.Entry&lt;Enchantment, Integer&gt; entry : meta.getStoredEnchants().entrySet()) {</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (entry.getKey().canEnchantItem(target)) {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">                if (isEnchantmentLevelAllowed(entry.getValue())) {</span>
+<span class="nc" id="L103">                    enchantments.put(entry.getKey(), entry.getValue());</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                } else if (!menu.toInventory().getViewers().isEmpty()) {</span>
+<span class="nc" id="L105">                    showEnchantmentLevelWarning(menu);</span>
+<span class="nc" id="L106">                    return null;</span>
+                }
+            }
+<span class="nc" id="L109">        }</span>
+
+        /*
+         * If override is false, remove those with lower level so we don't override existing enchants
+         * This also removes those with the same level so they aren't accounted for enchanting time
+         */
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (!overrideExistingEnchantsLvl.getValue()) {</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            enchantments.entrySet().removeIf(e -&gt; target.getEnchantmentLevel(e.getKey()) &gt;= e.getValue());</span>
+        }
+
+        /*
+         * When maxEnchants is set to -1 it will be ignored. When it's set to 0 it will not allow any enchants to go
+         * on an item. When maxEnchants is set to any other value it will allow that many enchants to go on the item.
+         */
+<span class="nc" id="L123">        int preExistingEnchants = 0;</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        for (Map.Entry&lt;Enchantment, Integer&gt; entry : target.getEnchantments().entrySet()) {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">            if (meta.hasEnchant(entry.getKey())) {</span>
+<span class="nc" id="L126">                preExistingEnchants++;</span>
+            }
+<span class="nc" id="L128">        }</span>
+<span class="nc" id="L129">        int totalEnchants = enchantments.size() + preExistingEnchants;</span>
+
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (!isEnchantmentAmountAllowed(totalEnchants)) {</span>
+<span class="nc" id="L132">            return null;</span>
+        }
+
+        // Check if we found any valid enchantments
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (!enchantments.isEmpty()) {</span>
+<span class="nc" id="L137">            ItemStack enchantedItem = target.clone();</span>
+<span class="nc" id="L138">            enchantedItem.setAmount(1);</span>
+<span class="nc" id="L139">            enchantedItem.addUnsafeEnchantments(enchantments);</span>
+
+<span class="nc" id="L141">            MachineRecipe recipe = new MachineRecipe(75 * enchantments.size() / getSpeed(), new ItemStack[] { target, enchantedBook }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });</span>
+
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {</span>
+<span class="nc" id="L144">                return null;</span>
+            }
+
+<span class="nc bnc" id="L147" title="All 2 branches missed.">            for (int inputSlot : getInputSlots()) {</span>
+<span class="nc" id="L148">                menu.consumeItem(inputSlot);</span>
+            }
+
+<span class="nc" id="L151">            return recipe;</span>
+        } else {
+<span class="nc" id="L153">            return null;</span>
+        }
+    }
+
+    private boolean isEnchantable(@Nullable ItemStack item) {
+        // stops endless checks of getByItem for enchanted book stacks.
+<span class="nc bnc" id="L159" title="All 8 branches missed.">        if (item != null &amp;&amp; item.getType() != Material.ENCHANTED_BOOK &amp;&amp; !item.getType().isAir() &amp;&amp; !hasIgnoredLore(item)) {</span>
+<span class="nc" id="L160">            SlimefunItem sfItem = SlimefunItem.getByItem(item);</span>
+<span class="nc bnc" id="L161" title="All 4 branches missed.">            return sfItem == null || sfItem.isEnchantable();</span>
+        } else {
+<span class="nc" id="L163">            return false;</span>
+        }
+    }
+
+    @Override
+    public String getMachineIdentifier() {
+<span class="nc" id="L169">        return &quot;AUTO_ENCHANTER&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

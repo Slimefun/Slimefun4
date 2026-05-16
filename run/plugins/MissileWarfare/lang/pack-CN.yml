@@ -1,0 +1,388 @@
+missilegroupname: "&6导弹科技"
+translator: "haiman233, ybw0014"
+
+messages:
+    launchers:
+        createantiair:
+            success: "&a已创建反弹道导弹发射井"
+            failure: "&c发射井下方必须为黑曜石"
+        createantielytra:
+            success: "&a已创建防空导弹发射井"
+            failure: "&c发射井下方必须为黑曜石"
+        ground:
+            create:
+                success: "&a已创建对地导弹发射井"
+                # Formatting: {type}
+                failure: "&c发射井下方必须为绿色混凝土"
+            # Formatting: {xcoord} {ycoord} {dist}
+            coords: "&a目标坐标为: &6[{xcoord} , {ycoord}] &a距离: &6{dist}"
+            setting:
+                notanumber: "&c不是一个整数 (不支持小数)"
+                notacoord: "&c无效的坐标"
+                cruisealt: "&a已设置巡航高度(Y): "
+
+    manpad:
+        locking: "进入目标锁定模式..."
+        itemchange: "失败: 物品已切换"
+        notarget: "发射失败: 没有目标"
+
+    elytraattack:
+        locking: "!!!正在被导弹锁定!!!"
+        locked: "!!!已被导弹锁定!!!"
+
+    radar: "方块上方放置一个红石粉来获取红石信号，需要使用中继器来捕获脉冲信号"
+
+    playerlist:
+        resetkey: "&b已重置配置器"
+        addedkey: "&a已经设置识别系统的ID"
+        noid: "&c无法将ID添加到发射井"
+        askwriteprompt: "&e请输入要添加的玩家的名字"
+        addedplayer: "&a已添加玩家 &b"
+        invalidplayer: "&c无效的玩家"
+        removeplayer: "&e请输入要移除的玩家的名字"
+        removedplayer: "&a已移除玩家 &b"
+        incorrectinput: "&c无效输入"
+        asktoread: "&e输入&bread&e来查看与此ID相关的玩家，输入&badd&e来添加玩家，输入&bremove&e来移除玩家，输入&bexit&e退出编辑"
+        #INPUTS THE PLAYERLIST WILL TAKE IN AFTER SENDING ASKTOREAD
+        inputs:
+            read: "read"
+            add: "add"
+            remove: "remove"
+        askinputid: "&e请输入敌我识别系统的ID, 输入&bexit&e取消设置"
+        #FORMATTING: {id}
+        createdid: "&a已创建ID为 &b{id} &a的敌我识别系统，你现在可以添加玩家了"
+        gottenid: "获取ID"
+
+materials:
+    sugarfuel:
+        name: "糖燃料"
+        lore:
+            - "便宜，高能量，非常适合小型导弹"
+    guidebook:
+        name: "导弹指南书"
+        lore:
+            - "你真的能看懂吗?!?"
+    explosivepowder:
+        name: "炸药粉"
+        lore:
+            - "小心轻放!"
+    compressedexplosives:
+        name: "固态炸药粉"
+        lore:
+            - "炸药粉被压缩成了固体"
+    ultraliteingot:
+        name: "超轻铸锭"
+        lore:
+            - "用于导弹的超轻型铸锭"
+    ultraliteplate:
+        name: "超轻铸板"
+        lore:
+            - "用于导弹的超轻型铸板"
+    simpleflightcomputer:
+        name: "基础飞行计算机"
+        lore:
+            - "能够引导导弹的简单计算机"
+    radar:
+        name: "雷达"
+        lore:
+            - "引导防空导弹时使用"
+    rocketfuel:
+        name: "火箭燃料"
+        lore:
+            - "以1000个煤的功率燃烧..."
+    smallwarhead:
+        name: "小型导弹弹头"
+        lore:
+            - "用于制造导弹."
+            - "'请勿触碰红色部分'"
+    smallbody:
+        name: "小型导弹体"
+        lore:
+            - "用于制造导弹"
+            - "'请勿削弱防护层'"
+    smallfin:
+        name: "小型导弹鳍"
+        lore:
+            - "用于制造导弹"
+    missilebody:
+        name: "导弹体"
+        lore:
+            - "内含飞行计算机的导弹体"
+    missilefins:
+        name: "导弹鳍"
+        lore:
+            - "它能够更好地移动和引导导弹"
+    warhead:
+        name: "导弹弹头"
+        lore:
+            - "用于制作导弹"
+            - "'消失的土豆'"
+    reinforcedwarhead:
+        name: "增强型导弹弹头"
+        lore:
+            - "用于制作钻地导弹"
+            - "'消失的堡垒'"
+    chlorine:
+        name: "氯气"
+        lore:
+            - "有毒"
+            - "缓慢而痛苦地死去"
+    chlorinepellet:
+        name: "氯气弹"
+        lore:
+            - "一枚氯气弹"
+    advancedbody:
+        name: "增强型导弹体"
+        lore:
+            - "升级后的导弹体"
+    heavywarhead:
+        name: "重型导弹弹头"
+        lore:
+            - "装有重型炸药的导弹弹头"
+    icbmbody:
+        name: "洲际弹道导弹体"
+        lore:
+            - "设计完美、时尚且致命"
+            - "添加铀元素，打造完美的发光效果"
+            - "洲际弹道导弹的主体"
+    mine:
+        name: "地雷"
+        lore:
+            - "对坦克有用么?"
+
+
+missiles:
+    smallmissile:
+        lore: "小型对地导弹"
+        missiles:
+            normal:
+                name: "小型对地导弹"
+                variant: "普通"
+                lore: "'小Timmy从来没有机会...'"
+            he:
+                name: "小型对地导弹 - 高爆"
+                variant: "高爆"
+                lore: "'大Timmy从来没有机会...'"
+            lr:
+                name: "小型对地导弹 - 远距"
+                variant: "远距"
+                lore: "'遥远的Timmy从来没有机会'"
+            ac:
+                name: "小型对地导弹 - 精准"
+                variant: "专精"
+                lore: "'小Timmy从来没有机会'"
+    anti-missiles:
+        lore: "防空导弹"
+        missiles:
+            missile:
+                name: "防空导弹"
+                variant: "反弹道"
+                lore: "'Timmy的烟火表演取消了'"
+            elytra:
+                name: "防空导弹"
+                variant: "反鞘翅"
+                lore: "'空中的Timmy从来没有机会'"
+    normalmissile:
+        lore: "对地导弹"
+        missiles:
+            normal:
+                name: "对地导弹"
+                variant: "普通"
+                lore: "'高效的瞄准敌对目标'"
+            he:
+                name: "对地导弹 - 高爆"
+                variant: "高爆"
+                lore: "'高效的清除你的敌人'"
+            lr:
+                name: "对地导弹 - 远距"
+                variant: "远距"
+                lore: "'高效的城市导弹'"
+            ac:
+                name: "对地导弹 - 精准"
+                variant: "高精度"
+                lore: "'高效的区域清理导弹'"
+    armourpiercing:
+        lore: "钻地导弹"
+        missiles:
+            tierone:
+                name: "钻地导弹"
+                variant: "1级钻地弹"
+                lore:
+                    - "该导弹会在爆炸前钻过1个区块"
+                    - "但该穿透效果对黑曜石无效"
+                    - "'你的地下室也不会永保天命!'"
+            tiertwo:
+                name: "钻地导弹"
+                variant: "2级钻地弹"
+                lore:
+                    - "该导弹会在爆炸前钻过1个区块"
+                    - "50%的几率穿过黑曜石"
+                    - "10%的几率破坏命中的黑曜石"
+                    - "'你的掩体也即将离你而去!'"
+            tierthree:
+                name: "钻地导弹"
+                variant: "3级钻地弹"
+                lore:
+                    - "该导弹会在爆炸前钻过2个区块"
+                    - "75%的几率穿过黑曜石"
+                    - "20%的几率破坏命中的黑曜石"
+                    - "'别想着去当土拨鼠!'"
+    advanced:
+        lore: "增强型对地导弹"
+        missiles:
+            normal:
+                name: "增强型对地导弹"
+                variant: "普通"
+                lore: "'由AI发射(科技的力量!)'"
+            he:
+                name: "增强型对地导弹 - 高爆"
+                variant: "高爆"
+                lore: "'异常危险，禁止触摸'"
+            lr:
+                name: "增强型对地导弹 - 远距"
+                variant: "远距"
+                lore: "'我已经逃不掉了!'"
+            ac:
+                name: "增强型对地导弹 - 专精"
+                variant: "专精"
+                lore: "'我想这导弹相当精确'"
+
+specialmissiles:
+    gasmissile:
+        name: "芥子气弹"
+        lore:
+            - "清洁导弹"
+            - "击中目标时释放芥子气"
+        afterlore: "'不要忘记二战法西斯是如何对待百姓的！'"
+    excavmissile:
+        name: "开山导弹"
+        lore:
+            - "通用导弹"
+            - "爆炸半径大，但伤害小"
+            - "可用于开矿"
+        afterlore: "'它比100个钻石镐都要好!'"
+    stickymissile:
+        name: "粘性导弹"
+        lore:
+            - "陷阱导弹"
+            - "爆炸后会在小范围内释放蜘蛛网"
+        afterlore: "'不要问它是由什么制成的'"
+    icbm:
+        name: "洲际弹道导弹"
+        lore:
+            - "远程导弹"
+            - "可打击极远程目标"
+        afterlore:
+            - "'没有地方是安全的!'"
+    clustermissile:
+        name: "集束导弹"
+        lore:
+            - "集束导弹"
+            - "会在命中前部署更多导弹"
+        afterlore:
+            - "'移除村庄的速度比你尖叫的速度还快!'"
+    napalmmissile:
+        name: "凝固汽油弹"
+        lore:
+            - "燃烧导弹"
+            - "命中后会在爆炸范围内释放火焰"
+        afterlore:
+            - "'它屡试不爽!'"
+
+
+launchers:
+    ground:
+        name: "对地导弹发射地井"
+        lore:
+            - "用于打击地面上的特定区域"
+            - "使用木棍设定目标坐标"
+            - "手持木棍Shift单击以检查它是否能开火"
+            - "手持烈焰棒右键单击以设置巡航高度"
+            - "默认巡航高度为Y:120"
+            - "需要建在一块绿色混凝土上"
+    antimissile:
+        name: "反弹道导弹发射地井"
+        lore:
+            - "瞄准并击落该地区的其他导弹"
+            - "需用红石操控开关"
+            - "需要建在黑曜石上"
+            - "需要反弹道导弹"
+    antielytra:
+        name: "反鞘翅导弹发射地井"
+        lore:
+            - "向范围内正在使用鞘翅的玩家发射导弹"
+            - "不会向指定敌我识别系统中的玩家发射"
+            - "使用木棍设置敌我识别系统"
+            - "需要反鞘翅导弹"
+
+other:
+    manpad:
+        name: "便携式防空导弹"
+        lore:
+            - "一种手持反导设备"
+            - "Shift+右键点击 开始追踪"
+            - "释放Shift 发射导弹"
+    playerlist:
+        name: "敌我识别系统配置器"
+        lore:
+            - "制作完成后，右键点击设置系统的ID"
+            - "然后右键点击并按照提示来设置识别系统"
+            - "按Q来清除ID,Shift+Q丢弃物品"
+            - "系统ID全服共享，如果其他玩家知道了"
+            - "你的识别系统的ID，它们也能设置你的识别系统"
+            - "不要透露你的ID!"
+
+guidebook:
+    title: "导弹食用指南"
+    author: "haiman233" # Feel free to put your name here | E.G: author: "kiease"
+    homepage:
+        title: "导弹科技"
+        subtitle: "这本向导书是介绍导弹科技的"
+        contenttitle: "目录:"
+        content:
+            - "对地导弹发射井"
+            - "反弹道导弹发射井"
+            - "便携式防空导弹"
+            - "反鞘翅导弹发射井"
+    groundlauncherpage:
+        title: "对地导弹发射井"
+        content:
+            - "导弹发射井可以向给定坐标发射导弹"
+            - "手持木棍右击以设置发射坐标"
+            - "手持烈焰棒右击以设置巡航高度"
+            - "&l会命中己方导弹"
+    antimissilepage:
+        title: "反弹道导弹发射井"
+        content:
+            - "反弹道导弹发射井会尝试拦截任何来袭的导弹"
+            - "无论是友方还是敌方的导弹都会拦截"
+            - "向其提供红石信号来关闭拦截"
+    manpadpage:
+        title: "便携式防空导弹"
+        content:
+            - "便携式防空导弹可以随身携带，识别敌方导弹并拦截"
+            - "与反弹道导弹发射井不同，便携式防空导弹保证可以击落敌方来袭的导弹"
+            - "按住Shift来进行导弹识别"
+    antielytrapage:
+        title: "防空导弹发射井"
+        content:
+            - "防空导弹发射井可以发射导弹来破坏进入射程的玩家身上的鞘翅"
+            - "这在战争期间保卫城市时非常好用"
+            - "使用敌我识别系统来设置忽略的目标"
+            - "手持木棍右键点击来设置"
+    playeridpage:
+        title: "敌我识别系统"
+        content:
+            - "敌我识别系统可以用于让部分发射井忽略指定的玩家"
+            - "使用敌我识别系统配置器以进行设置"
+            - "&l敌我识别系统使用的ID是全服通用的，不要让别人知道你的ID!"
+
+radar:
+    name: "导弹雷达"
+    lore: "当700格内有导弹时发出红石信号"
+
+missiledesc:
+    range: "范围: "
+    power: "威力: "
+    speed: "速度: "
+    accuracy: "精度: {blocks} 格内"

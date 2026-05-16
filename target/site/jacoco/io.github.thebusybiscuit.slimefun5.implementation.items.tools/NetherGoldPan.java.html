@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NetherGoldPan.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.tools</a> &gt; <span class="el_source">NetherGoldPan.java</span></div><h1>NetherGoldPan.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
+
+/**
+ * The {@link NetherGoldPan} is a variant of the regular {@link GoldPan}
+ * which can be used on Soul Sand.
+ * 
+ * @author TheBusyBiscuit
+ * @author svr333
+ * @author JustAHuman
+ */
+public class NetherGoldPan extends GoldPan {
+
+<span class="nc" id="L28">    private final Set&lt;Material&gt; inputMaterials = new HashSet&lt;&gt;(Arrays.asList(Material.SOUL_SAND, Material.SOUL_SOIL));</span>
+
+    @ParametersAreNonnullByDefault
+    public NetherGoldPan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L32">        super(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L33">    }</span>
+
+    @Override
+    @Deprecated(since = &quot;RC-36&quot;)
+    public Material getInputMaterial() {
+<span class="nc" id="L38">        return Material.SOUL_SAND;</span>
+    }
+
+    @Override
+    public @Nonnull Set&lt;Material&gt; getInputMaterials() {
+<span class="nc" id="L43">        return inputMaterials;</span>
+    }
+
+    @Override
+    protected @Nonnull Set&lt;GoldPanDrop&gt; getGoldPanDrops() {
+<span class="nc" id="L48">        Set&lt;GoldPanDrop&gt; settings = new HashSet&lt;&gt;();</span>
+
+<span class="nc" id="L50">        settings.add(new GoldPanDrop(this, &quot;chance.QUARTZ&quot;, 50, new ItemStack(Material.QUARTZ)));</span>
+<span class="nc" id="L51">        settings.add(new GoldPanDrop(this, &quot;chance.GOLD_NUGGET&quot;, 25, new ItemStack(Material.GOLD_NUGGET)));</span>
+<span class="nc" id="L52">        settings.add(new GoldPanDrop(this, &quot;chance.NETHER_WART&quot;, 10, new ItemStack(Material.NETHER_WART)));</span>
+<span class="nc" id="L53">        settings.add(new GoldPanDrop(this, &quot;chance.BLAZE_POWDER&quot;, 8, new ItemStack(Material.BLAZE_POWDER)));</span>
+<span class="nc" id="L54">        settings.add(new GoldPanDrop(this, &quot;chance.GLOWSTONE_DUST&quot;, 5, new ItemStack(Material.GLOWSTONE_DUST)));</span>
+<span class="nc" id="L55">        settings.add(new GoldPanDrop(this, &quot;chance.GHAST_TEAR&quot;, 2, new ItemStack(Material.GHAST_TEAR)));</span>
+
+<span class="nc" id="L57">        return settings;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

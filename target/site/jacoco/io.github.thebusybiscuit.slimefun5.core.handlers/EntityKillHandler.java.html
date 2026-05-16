@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntityKillHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.handlers</a> &gt; <span class="el_source">EntityKillHandler.java</span></div><h1>EntityKillHandler.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.handlers;
+
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+
+/**
+ * If this {@link ItemHandler} is added to a {@link SlimefunItem} it will listen
+ * for any {@link EntityDeathEvent} that was triggered by a {@link Player} using
+ * the {@link SlimefunItem} this {@link EntityKillHandler} was linked to.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @see ItemHandler
+ * @see SimpleSlimefunItem
+ * 
+ */
+@FunctionalInterface
+public interface EntityKillHandler extends ItemHandler {
+
+    void onKill(EntityDeathEvent e, Entity entity, Player killer, ItemStack item);
+
+    @Override
+    default Class&lt;? extends ItemHandler&gt; getIdentifier() {
+<span class="nc" id="L30">        return EntityKillHandler.class;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

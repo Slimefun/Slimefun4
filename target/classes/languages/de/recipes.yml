@@ -1,0 +1,147 @@
+---
+slimefun:
+  multiblock:
+    lore:
+      - 'Baue die gezeigte Struktur, wie'
+      - 'man sie sieht. Sie wird nicht gecraftet.'
+  enhanced_crafting_table:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'im "Enhanced Crafting Table".'
+      - 'Eine normale Werkbank genügt nicht!'
+  armor_forge:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einer "Armor Forge".'
+  grind_stone:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'mit einem "Grind Stone".'
+  smeltery:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einer "Smeltery".'
+  ore_crusher:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'mit einem "Ore Crusher".'
+  mob_drop:
+    name: 'Mob-Drop'
+    lore:
+      - 'Töte den angebenen Mob'
+      - 'und er wird das Item fallen lassen'
+  gold_pan:
+    lore:
+      - 'Benutze eine "Gold Pan", um'
+      - 'dieses Item zu erhalten.'
+  compressor:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einem "Compressor".'
+  pressure_chamber:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einer "Pressure Chamber".'
+  ore_washer:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'mit einem "Ore Washer".'
+  juicer:
+    lore:
+      - 'Crafte diesen Saft wie gezeigt'
+      - 'in einem "Juicer"'
+  magic_workbench:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einer "Magic Workbench".'
+  ancient_altar:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'mithilfe des "Ancient Altar".'
+      - 'Für mehr Infos, schaue beim "Ancient Altar" nach.'
+  heated_pressure_chamber:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'mit einer "Heated Pressure Chamber".'
+  food_fabricator:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einem "Food Fabricator".'
+  food_composter:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einem "Food Composter".'
+  freezer:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einem "Freezer".'
+  geo_miner:
+    lore:
+      - 'Dieses Item kann mittels eines'
+      - '"GEO Miner" erhalten werden.'
+  nuclear_reactor:
+    name: 'Kernreaktor'
+    lore:
+      - 'Dieses Item ist ein Nebenprodukt vom'
+      - 'Betrieb eines "Nuclear Reactor".'
+  oil_pump:
+    lore:
+      - 'Dieses Item kann durch eine'
+      - 'Oil Pump gewonnen werden'
+  pickaxe_of_containment:
+    lore:
+      - 'Dieser Block kann durch das Abbauen'
+      - 'eines Spawners mit der'
+      - 'Pickaxe of Containment gewonnen werden'
+  refinery:
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einer "Refinery".'
+  barter_drop:
+    name: 'Piglin Tauschhandel'
+    lore:
+      - 'Tausche einen Goldbarren mit Piglins, um'
+      - 'das gewünschte Item zu erhalten'
+minecraft:
+  shaped:
+    name: 'Werkbankrezept (Geformt)'
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einer normalen Werkbank.'
+      - 'Die Form ist hierbei sehr wichtig.'
+  shapeless:
+    name: 'Werkbankrezept (Formlos)'
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'in einer normalen Werkbank.'
+      - 'Dieses Rezept ist formlos.'
+  furnace:
+    name: 'Ofen-Rezept'
+    lore:
+      - 'Schmelz dieses Item in einem Ofen,'
+      - 'um dein Item zu erhalten.'
+  blasting:
+    name: 'Schmelzofen-Rezept'
+    lore:
+      - 'Schmelz dieses Item in einem Schmelzofen,'
+      - 'um dein Item zu erhalten.'
+  smoking:
+    name: 'Räucherofen-Rezept'
+    lore:
+      - 'Schmelz dieses Item in einem Räucherofen,'
+      - 'um dein Item zu erhalten.'
+  campfire:
+    name: 'Lagerfeuer-Rezept'
+    lore:
+      - 'Schmelz dieses Item über einem Lagerfeuer,'
+      - 'um dein Item zu erhalten.'
+  stonecutting:
+    name: 'Steinsägen-Rezept'
+    lore:
+      - 'Crafte dieses Item wie gezeigt'
+      - 'mithilfe einer Steinsäge.'
+  smithing:
+    name: 'Schmiede Tisch'
+    lore:
+      - 'Crafte das Item wie gezeigt'
+      - 'mithilfe eines Schmiede Tisches'

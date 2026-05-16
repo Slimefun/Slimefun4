@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultiBlock.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.multiblocks</a> &gt; <span class="el_source">MultiBlock.java</span></div><h1>MultiBlock.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.multiblocks;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.World;
+import org.bukkit.block.BlockFace;
+
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
+
+/**
+ * A {@link MultiBlock} represents a structure build in a {@link World}.
+ * A {@link MultiBlock} is often linked to a {@link MultiBlockMachine} and is used
+ * to recognize that machine in a {@link MultiBlockInteractEvent}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Liruxo
+ * 
+ * @see MultiBlockMachine
+ * @see MultiBlockInteractionHandler
+ * @see MultiBlockInteractEvent
+ *
+ */
+public class MultiBlock {
+
+<span class="nc" id="L36">    private static final Set&lt;Tag&lt;Material&gt;&gt; SUPPORTED_TAGS = new HashSet&lt;&gt;();</span>
+
+    static {
+        // Allow variations of different types of wood to be used
+<span class="nc" id="L40">        SUPPORTED_TAGS.add(Tag.LOGS);</span>
+<span class="nc" id="L41">        SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);</span>
+<span class="nc" id="L42">        SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);</span>
+<span class="nc" id="L43">        SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);</span>
+<span class="nc" id="L44">        SUPPORTED_TAGS.add(Tag.FIRE);</span>
+<span class="nc" id="L45">    }</span>
+
+    @Nonnull
+    public static Set&lt;Tag&lt;Material&gt;&gt; getSupportedTags() {
+<span class="nc" id="L49">        return SUPPORTED_TAGS;</span>
+    }
+
+    private final SlimefunItem item;
+    private final Material[] blocks;
+    private final BlockFace trigger;
+    private final boolean isSymmetric;
+
+<span class="nc" id="L57">    public MultiBlock(@Nonnull SlimefunItem item, Material[] build, @Nonnull BlockFace trigger) {</span>
+<span class="nc" id="L58">        Validate.notNull(item, &quot;A MultiBlock requires a SlimefunItem!&quot;);</span>
+
+<span class="nc bnc" id="L60" title="All 4 branches missed.">        if (build == null || build.length != 9) {</span>
+<span class="nc" id="L61">            throw new IllegalArgumentException(&quot;MultiBlocks must have a length of 9!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L64" title="All 6 branches missed.">        if (trigger != BlockFace.SELF &amp;&amp; trigger != BlockFace.UP &amp;&amp; trigger != BlockFace.DOWN) {</span>
+<span class="nc" id="L65">            throw new IllegalArgumentException(&quot;Multiblock Blockface must be either UP, DOWN or SELF&quot;);</span>
+        }
+
+<span class="nc" id="L68">        this.item = item;</span>
+<span class="nc" id="L69">        this.blocks = build;</span>
+<span class="nc" id="L70">        this.trigger = trigger;</span>
+<span class="nc" id="L71">        this.isSymmetric = isSymmetric(build);</span>
+<span class="nc" id="L72">    }</span>
+
+    @Nonnull
+    public SlimefunItem getSlimefunItem() {
+<span class="nc" id="L76">        return item;</span>
+    }
+
+    private static boolean isSymmetric(@Nonnull Material[] blocks) {
+<span class="nc bnc" id="L80" title="All 6 branches missed.">        return blocks[0] == blocks[2] &amp;&amp; blocks[3] == blocks[5] &amp;&amp; blocks[6] == blocks[8];</span>
+    }
+
+    @Nonnull
+    public Material[] getStructure() {
+<span class="nc" id="L85">        return blocks;</span>
+    }
+
+    @Nonnull
+    public BlockFace getTriggerBlock() {
+<span class="nc" id="L90">        return trigger;</span>
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!(obj instanceof MultiBlock)) {</span>
+<span class="nc" id="L96">            return false;</span>
+        }
+
+<span class="nc" id="L99">        MultiBlock mb = (MultiBlock) obj;</span>
+
+<span class="nc bnc" id="L101" title="All 4 branches missed.">        if (trigger == mb.getTriggerBlock() &amp;&amp; isSymmetric == mb.isSymmetric) {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            for (int i = 0; i &lt; mb.getStructure().length; i++) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">                if (!compareBlocks(blocks[i], mb.getStructure()[i])) {</span>
+<span class="nc" id="L104">                    return false;</span>
+                }
+            }
+
+<span class="nc" id="L108">            return true;</span>
+        }
+
+<span class="nc" id="L111">        return false;</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L116">        return Objects.hash(item.getId(), blocks, trigger, isSymmetric);</span>
+    }
+
+    private boolean compareBlocks(Material a, @Nullable Material b) {
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (b != null) {</span>
+
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            for (Tag&lt;Material&gt; tag : SUPPORTED_TAGS) {</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">                if (tag.isTagged(b)) {</span>
+<span class="nc" id="L124">                    return tag.isTagged(a);</span>
+                }
+<span class="nc" id="L126">            }</span>
+
+            // This ensures that the Industrial Miner is still recognized while operating
+<span class="nc bnc" id="L129" title="All 2 branches missed.">            if (a == Material.PISTON) {</span>
+<span class="nc bnc" id="L130" title="All 4 branches missed.">                return b == Material.PISTON || b == Material.MOVING_PISTON;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            } else if (b == Material.PISTON) {</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">                return a == Material.MOVING_PISTON;</span>
+            }
+
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            if (b != a) {</span>
+<span class="nc" id="L136">                return false;</span>
+            }
+        }
+
+<span class="nc" id="L140">        return true;</span>
+    }
+
+    /**
+     * This returns whether this {@link MultiBlock} is a symmetric structure or whether
+     * the left and right side differ.
+     * 
+     * @return Whether this {@link MultiBlock} is a symmetric structure
+     */
+    public boolean isSymmetric() {
+<span class="nc" id="L150">        return isSymmetric;</span>
+    }
+    @Override
+    public String toString() {
+<span class="nc" id="L154">        return &quot;MultiBlock (&quot; + item.getId() + &quot;) {&quot; + Arrays.toString(blocks) + &quot;}&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

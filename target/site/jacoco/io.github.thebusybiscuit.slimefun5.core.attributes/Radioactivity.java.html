@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Radioactivity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.attributes</a> &gt; <span class="el_source">Radioactivity.java</span></div><h1>Radioactivity.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.attributes;
+
+import javax.annotation.Nonnull;
+
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+/**
+ * This enum holds all available levels of {@link Radioactivity}.
+ * The higher the level the more severe the effect of radiation will be.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see Radioactive
+ *
+ */
+<span class="nc" id="L19">public enum Radioactivity {</span>
+
+    /**
+     * This represents a low level of radiation.
+     * It will still cause damage but will take a while before it becomes deadly.
+     */
+<span class="nc" id="L25">    LOW(ChatColor.YELLOW, 1),</span>
+
+    /**
+     * This represents a medium level of radiation.
+     * This can be considered the default.
+     */
+<span class="nc" id="L31">    MODERATE(ChatColor.YELLOW, 2),</span>
+
+    /**
+     * This is a high level of radiation.
+     * It will cause death if the {@link Player} does not act quickly.
+     */
+<span class="nc" id="L37">    HIGH(ChatColor.GOLD, 3),</span>
+
+    /**
+     * A very high level of radiation will be deadly.
+     * The {@link Player} should not take this too lightly...
+     */
+<span class="nc" id="L43">    VERY_HIGH(ChatColor.RED, 5),</span>
+
+    /**
+     * This is the deadliest level of radiation.
+     * The {@link Player} has basically no chance to protect themselves in time.
+     * It will cause certain death.
+     */
+<span class="nc" id="L50">    VERY_DEADLY(ChatColor.DARK_RED, 10);</span>
+
+    private final ChatColor color;
+    private final int exposureModifier;
+
+<span class="nc" id="L55">    Radioactivity(@Nonnull ChatColor color, int exposureModifier) {</span>
+<span class="nc" id="L56">        this.color = color;</span>
+<span class="nc" id="L57">        this.exposureModifier = exposureModifier;</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * This method returns the amount of exposure applied
+     * to a player every run of the {@link RadiationTask}
+     * for this radiation level.
+     *
+     * @return The exposure amount applied per run.
+     */
+    public int getExposureModifier() {
+<span class="nc" id="L68">        return exposureModifier;</span>
+    }
+
+    public @Nonnull String getLore() {
+<span class="nc" id="L72">        return ChatColor.GREEN + &quot;\u2622&quot; + ChatColor.GRAY + &quot; Radiation level: &quot; + color + toString().replace('_', ' ');</span>
+    }
+
+    /**
+     * This method returns the level for the radiation effect to use in conjunction
+     * with this level of {@link Radioactive}.
+     * 
+     * It is basically the index of this enum constant.
+     * 
+     * @return The level of radiation associated with this constant.
+     */
+    public int getRadiationLevel() {
+<span class="nc" id="L84">        return ordinal() + 1;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

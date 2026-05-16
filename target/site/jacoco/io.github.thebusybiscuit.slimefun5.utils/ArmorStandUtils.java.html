@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ArmorStandUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils</a> &gt; <span class="el_source">ArmorStandUtils.java</span></div><h1>ArmorStandUtils.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils;
+
+import javax.annotation.Nonnull;
+
+import io.papermc.lib.PaperLib;
+import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
+
+import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramProjector;
+
+/**
+ * This class holds utilities for {@link ArmorStand}, useful for classes
+ * dealing with {@link ArmorStand}s that are not from {@link HologramsService}
+ *
+ * @see HologramProjector
+ * @see AncientPedestal
+ *
+ * @author JustAHuman
+ */
+public class ArmorStandUtils {
+
+    private ArmorStandUtils() {}
+
+    /**
+     * Spawns an {@link ArmorStand} at the given {@link Location} with the given custom name
+     * &lt;br&gt;
+     * Set Properties: Invisible, Silent, Marker, No-Gravity, No Base Plate, Don't Remove When Far Away
+     *
+     * @param location The {@link Location} to spawn the {@link ArmorStand}
+     * @param customName The {@link String} custom name the {@link ArmorStand} should display
+     *
+     * @return The spawned {@link ArmorStand}
+     */
+    public static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location location, @Nonnull String customName) {
+<span class="nc" id="L37">        ArmorStand armorStand = spawnArmorStand(location);</span>
+<span class="nc" id="L38">        armorStand.setCustomName(customName);</span>
+<span class="nc" id="L39">        armorStand.setCustomNameVisible(true);</span>
+<span class="nc" id="L40">        return armorStand;</span>
+    }
+    
+    /**
+     * Spawns an {@link ArmorStand} at the given {@link Location}
+     * &lt;br&gt;
+     * Set Properties: Invisible, Silent, Marker, No-Gravity, No Base Plate, Don't Remove When Far Away
+     *
+     * @param location The {@link Location} to spawn the {@link ArmorStand}
+     *
+     * @return The spawned {@link ArmorStand}
+     */
+    public static @Nonnull ArmorStand spawnArmorStand(@Nonnull Location location) {
+        // The consumer method was moved from World to RegionAccessor in 1.20.2
+        // Due to this, we need to use a rubbish workaround to support 1.20.1 and below
+        // This causes flicker on these versions which sucks but not sure a better way around this right now.
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (PaperLib.getMinecraftVersion() &lt; 20 ||</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">                (PaperLib.getMinecraftVersion() == 20 &amp;&amp; PaperLib.getMinecraftPatchVersion() &lt; 2)) {</span>
+<span class="nc" id="L58">            ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);</span>
+<span class="nc" id="L59">            setupArmorStand(armorStand);</span>
+<span class="nc" id="L60">            return armorStand;</span>
+        }
+
+<span class="nc" id="L63">        return location.getWorld().spawn(location, ArmorStand.class, ArmorStandUtils::setupArmorStand);</span>
+    }
+
+    private static void setupArmorStand(ArmorStand armorStand) {
+<span class="nc" id="L67">        armorStand.setVisible(false);</span>
+<span class="nc" id="L68">        armorStand.setSilent(true);</span>
+<span class="nc" id="L69">        armorStand.setMarker(true);</span>
+<span class="nc" id="L70">        armorStand.setGravity(false);</span>
+<span class="nc" id="L71">        armorStand.setBasePlate(false);</span>
+<span class="nc" id="L72">        armorStand.setRemoveWhenFarAway(false);</span>
+<span class="nc" id="L73">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

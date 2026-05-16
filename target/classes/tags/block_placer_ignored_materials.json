@@ -1,0 +1,70 @@
+{
+	"values" : [
+		"#slimefun:sensitive_materials",
+		"#slimefun:tall_flowers",
+		"#slimefun:mushrooms",
+		"#slimefun:wool_carpets",
+		"#minecraft:beds",
+		"#minecraft:buttons",
+		"#minecraft:signs",
+		"#minecraft:doors",
+		"#minecraft:rails",
+		"#minecraft:small_flowers",
+		"#minecraft:coral_blocks",
+		"#minecraft:corals",
+		"#minecraft:banners",
+		"minecraft:sugar_cane",
+		"minecraft:cactus",
+		"minecraft:bamboo",
+		"minecraft:vine",
+		"minecraft:ladder",
+		"minecraft:chorus_plant",
+		"minecraft:chorus_flower",
+		"minecraft:snow",
+		"minecraft:lever",
+		"minecraft:repeater",
+		"minecraft:tripwire_hook",
+		"minecraft:lily_pad",
+		"minecraft:dead_bush",
+		"minecraft:fern",
+		"minecraft:sea_pickle",
+		"minecraft:nether_wart",
+		"minecraft:seagrass",
+		"minecraft:tall_seagrass",
+		"minecraft:kelp",
+		"minecraft:bell",
+		"minecraft:lantern",
+		{
+			"id" : "minecraft:grass",
+			"required" : false
+		},
+		{
+			"id" : "minecraft:soul_lantern",
+			"required" : false
+		},
+		{
+			"id" : "minecraft:nether_sprouts",
+			"required" : false
+		},
+		{
+			"id" : "minecraft:crimson_roots",
+			"required": false
+		},
+		{
+			"id" : "minecraft:twisting_vines",
+			"required" : false
+		},
+		{
+			"id" : "minecraft:warped_roots",
+			"required" : false
+		},
+		{
+			"id" : "minecraft:weeping_vines",
+			"required" : false
+		},
+		{
+			"id" : "minecraft:short_grass",
+			"required" : false
+		}
+	]
+}

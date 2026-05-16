@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">me.mrCookieSlime.CSCoreLibPlugin.general.Inventory</a> &gt; <span class="el_source">MenuListener.java</span></div><h1>MenuListener.java</h1><pre class="source lang-java linenums">package me.mrCookieSlime.CSCoreLibPlugin.general.Inventory;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.plugin.Plugin;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+
+/**
+ * An old {@link Listener} for CS-CoreLib
+ * This is an old remnant of CS-CoreLib, the last bits of the past. They will be removed once everything is
+ *             updated.
+ */
+public class MenuListener implements Listener {
+
+<span class="nc" id="L25">    static final Map&lt;UUID, ChestMenu&gt; menus = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L27">    public MenuListener(Plugin plugin) {</span>
+<span class="nc" id="L28">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L29">    }</span>
+
+    @EventHandler
+    public void onClose(InventoryCloseEvent e) {
+<span class="nc" id="L33">        ChestMenu menu = menus.remove(e.getPlayer().getUniqueId());</span>
+
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (menu != null) {</span>
+<span class="nc" id="L36">            menu.getMenuCloseHandler().onClose((Player) e.getPlayer());</span>
+        }
+<span class="nc" id="L38">    }</span>
+
+    @EventHandler
+    public void onClick(InventoryClickEvent e) {
+<span class="nc" id="L42">        ChestMenu menu = menus.get(e.getWhoClicked().getUniqueId());</span>
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (menu != null) {</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">            if (e.getRawSlot() &lt; e.getInventory().getSize()) {</span>
+<span class="nc" id="L46">                MenuClickHandler handler = menu.getMenuClickHandler(e.getSlot());</span>
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                if (handler == null) {</span>
+<span class="nc bnc" id="L49" title="All 6 branches missed.">                    e.setCancelled(!menu.isEmptySlotsClickable() &amp;&amp; (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR));</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                } else if (handler instanceof AdvancedMenuClickHandler) {</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                    e.setCancelled(!((AdvancedMenuClickHandler) handler).onClick(e, (Player) e.getWhoClicked(), e.getSlot(), e.getCursor(), new ClickAction(e.isRightClick(), e.isShiftClick())));</span>
+                } else {
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                    e.setCancelled(!handler.onClick((Player) e.getWhoClicked(), e.getSlot(), e.getCurrentItem(), new ClickAction(e.isRightClick(), e.isShiftClick())));</span>
+                }
+<span class="nc" id="L55">            } else {</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                e.setCancelled(!menu.getPlayerInventoryClickHandler().onClick((Player) e.getWhoClicked(), e.getSlot(), e.getCurrentItem(), new ClickAction(e.isRightClick(), e.isShiftClick())));</span>
+            }
+        }
+<span class="nc" id="L59">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,324 @@
+ANCIENT_ALTAR_ITEM_CHECK_SOUND:
+  sound: entity.enderman.teleport
+  volume: 1.0
+  pitch: 2.0
+ANCIENT_ALTAR_ITEM_DROP_SOUND:
+  sound: entity.zombie.attack_iron_door
+  volume: 1.0
+  pitch: 1.0
+ANCIENT_ALTAR_ITEM_PICK_UP_SOUND:
+  sound: entity.item.pickup
+  volume: 1.0
+  pitch: 1.0
+ANCIENT_ALTAR_FINISH_SOUND:
+  sound: entity.zombie_villager.cure
+  volume: 1.0
+  pitch: 1.0
+ANCIENT_ALTAR_START_SOUND:
+  sound: entity.illusioner.prepare_mirror
+  volume: 1.0
+  pitch: 1.0
+ANCIENT_PEDESTAL_ITEM_PLACE_SOUND:
+  sound: entity.item.pickup
+  volume: 0.5
+  pitch: 0.5
+ARMOR_FORGE_FINISH_SOUND:
+  sound: block.anvil.use
+  volume: 1.0
+  pitch: 1.0
+ARMOR_FORGE_WORKING_SOUND:
+  sound: entity.arrow.hit_player
+  volume: 1.0
+  pitch: 1.0
+AUTO_CRAFTER_GUI_CLICK_SOUND:
+  sound: ui.button.click
+  volume: 1.0
+  pitch: 1.0
+AUTO_CRAFTER_UPDATE_RECIPE:
+  sound: ui.button.click
+  volume: 1.0
+  pitch: 1.0
+AUTOMATED_PANNING_MACHINE_FAIL_SOUND:
+  sound: entity.armor_stand.break
+  volume: 1.0
+  pitch: 1.0
+AUTOMATED_PANNING_MACHINE_SUCCESS_SOUND:
+  sound: entity.arrow.hit_player
+  volume: 1.0
+  pitch: 1.0
+BEE_BOOTS_FALL_SOUND:
+  sound: block.honey_block.fall
+  volume: 1.0
+  pitch: 1.0
+BACKPACK_CLOSE_SOUND:
+  sound: entity.horse.armor
+  volume: 1.0
+  pitch: 1.0
+BACKPACK_OPEN_SOUND:
+  sound: entity.horse.armor
+  volume: 1.0
+  pitch: 1.0
+COMPOSTER_COMPOST_SOUND:
+  sound: entity.arrow.hit_player
+  volume: 1.0
+  pitch: 1.0
+COMPRESSOR_CRAFT_SOUND:
+  sound: entity.arrow.hit_player
+  volume: 1.0
+  pitch: 1.0
+COMPRESSOR_CRAFT_CONTRACT_SOUND:
+  sound: block.piston.contract
+  volume: 1.0
+  pitch: 1.0
+COMPRESSOR_CRAFT_EXTEND_SOUND:
+  sound: block.piston.extend
+  volume: 1.0
+  pitch: 1.0
+COOLER_CONSUME_SOUND:
+  sound: entity.generic.drink
+  volume: 1.0
+  pitch: 1.0
+CRUCIBLE_ADD_WATER_SOUND:
+  sound: entity.player.splash
+  volume: 1.0
+  pitch: 1.0
+CRUCIBLE_ADD_LAVA_SOUND:
+  sound: block.lava.pop
+  volume: 1.0
+  pitch: 1.0
+CRUCIBLE_BLOCK_BREAK_SOUND:
+  sound: block.metal.break
+  volume: 1.0
+  pitch: 1.0
+CRUCIBLE_GENERATE_LIQUID_SOUND:
+  sound: block.lava.extinguish
+  volume: 1.0
+  pitch: 1.0
+CRUCIBLE_INTERACT_SOUND:
+  sound: entity.arrow.hit_player
+  volume: 1.0
+  pitch: 1.0
+CRUCIBLE_PLACE_LAVA_SOUND:
+  sound: block.lava.pop
+  volume: 1.0
+  pitch: 1.0
+CRUCIBLE_PLACE_WATER_SOUND:
+  sound: entity.player.splash
+  volume: 1.0
+  pitch: 1.0
+DEBUG_FISH_CLICK_SOUND:
+  sound: block.bamboo.place
+  volume: 1.0
+  pitch: 1.0
+DIET_COOKIE_CONSUME_SOUND:
+  sound: entity.generic.eat
+  volume: 1.0
+  pitch: 1.0
+ENCHANTMENT_RUNE_ADD_ENCHANT_SOUND:
+  sound: entity.zombie_villager.cure
+  volume: 1.0
+  pitch: 1.0
+ENDER_BACKPACK_OPEN_SOUND:
+  sound: entity.enderman.teleport
+  volume: 1.0
+  pitch: 1.0
+ENHANCED_CRAFTING_TABLE_CRAFT_SOUND:
+  sound: block.wooden_button.click_on
+  volume: 1.0
+  pitch: 1.0
+ELYTRA_CAP_IMPACT_SOUND:
+  sound: block.stone.hit
+  volume: 1.0
+  pitch: 1.0
+EXPLOSIVE_BOW_HIT_SOUND:
+  sound: entity.generic.explode
+  volume: 1.0
+  pitch: 1.0
+EXPLOSIVE_TOOL_EXPLODE_SOUND:
+  sound: entity.generic.explode
+  volume: 0.2
+  pitch: 1.0
+FISHERMAN_ANDROID_FISHING_SOUND:
+  sound: entity.player.splash
+  volume: 0.3
+  pitch: 0.7
+FLASK_OF_KNOWLEDGE_FILLUP_SOUND:
+  sound: entity.experience_orb.pickup
+  volume: 1.0
+  pitch: 0.5
+GUIDE_BUTTON_CLICK_SOUND:
+  sound: item.book.page_turn
+  volume: 1.0
+  pitch: 1.0
+GUIDE_CONTRIBUTORS_OPEN_SOUND:
+  sound: block.note_block.harp
+  volume: 0.7
+  pitch: 0.7
+GUIDE_LANGUAGE_OPEN_SOUND:
+  sound: block.note_block.harp
+  volume: 0.7
+  pitch: 0.7
+GUIDE_OPEN_SETTING_SOUND:
+  sound: block.note_block.harp
+  volume: 0.7
+  pitch: 0.7
+GRIND_STONE_INTERACT_SOUND:
+  sound: block.wooden_button.click_on
+  volume: 1.0
+  pitch: 1.0
+IGNITION_CHAMBER_USE_FLINT_AND_STEEL_SOUND:
+  sound: entity.item.break
+  volume: 1.0
+  pitch: 1.0
+INFUSED_HOPPER_TELEPORT_SOUND:
+  sound: entity.enderman.teleport
+  volume: 0.5
+  pitch: 2.0
+INFUSED_MAGNET_TELEPORT_SOUND:
+  sound: entity.enderman.teleport
+  volume: 0.25
+  pitch: 0.9
+IRON_GOLEM_ASSEMBLER_ASSEMBLE_SOUND:
+  sound: entity.iron_golem.repair
+  volume: 0.5
+  pitch: 1.0
+JETBOOTS_THRUST_SOUND:
+  sound: entity.tnt.primed
+  volume: 0.25
+  pitch: 1.0
+JETPACK_THRUST_SOUND:
+  sound: entity.generic.explode
+  volume: 0.25
+  pitch: 1.0
+JUICER_USE_SOUND:
+  sound: entity.player.splash
+  volume: 1.0
+  pitch: 1.0
+LIMITED_USE_ITEM_BREAK_SOUND:
+  sound: entity.item.break
+  volume: 1.0
+  pitch: 1.0
+MAGICAL_EYE_OF_ENDER_USE_SOUND:
+  sound: entity.enderman.teleport
+  volume: 1.0
+  pitch: 1.0
+MAGIC_SUGAR_CONSUME_SOUND:
+  sound: entity.generic.eat
+  volume: 1.0
+  pitch: 1.0
+MAGIC_WORKBENCH_FINISH_SOUND:
+  sound: entity.arrow.hit_player
+  volume: 1.0
+  pitch: 1.0
+MAGIC_WORKBENCH_START_ANIMATION_SOUND:
+  sound: block.wooden_button.click_on
+  volume: 1.0
+  pitch: 1.0
+MINER_ANDROID_BLOCK_GENERATION_SOUND:
+  sound: block.fire.extinguish
+  volume: 0.075
+  pitch: 0.8
+MINING_TASK_SOUND:
+  sound: entity.arrow.hit_player
+  volume: 0.2
+  pitch: 1.0
+ORE_WASHER_WASH_SOUND:
+  sound: entity.player.splash
+  volume: 1.0
+  pitch: 1.0
+PLAYER_RESEARCHING_SOUND:
+  sound: entity.bat.takeoff
+  volume: 0.7
+  pitch: 1.0
+PORTABLE_DUSTBIN_OPEN_SOUND:
+  sound: block.anvil.land
+  volume: 1.0
+  pitch: 1.0
+PORTABLE_CRAFTER_OPEN_SOUND:
+  sound: block.wooden_button.click_on
+  volume: 1.0
+  pitch: 1.0
+PRESSURE_CHAMBER_FINISH_SOUND:
+  sound: entity.arrow.hit_player
+  volume: 1.0
+  pitch: 1.0
+PRESSURE_CHAMBER_WORKING_SOUND:
+  sound: entity.tnt.primed
+  volume: 1.0
+  pitch: 1.0
+PROGRAMMABLE_ANDROID_SCRIPT_DOWNLOAD_SOUND:
+  sound: block.note_block.hat
+  volume: 0.7
+  pitch: 0.7
+SLIME_BOOTS_FALL_SOUND:
+  sound: block.slime_block.fall
+  volume: 1.0
+  pitch: 1.0
+TELEPORTATION_MANAGER_OPEN_GUI:
+  sound: ui.button.click
+  volume: 1.0
+  pitch: 1.0
+GPS_NETWORK_ADD_WAYPOINT:
+  sound: block.note_block.pling
+  volume: 1.0
+  pitch: 1.0
+GPS_NETWORK_CREATE_WAYPOINT:
+  sound: block.note_block.pling
+  volume: 0.5
+  pitch: 1.0
+GPS_NETWORK_OPEN_PANEL_SOUND:
+  sound: ui.button.click
+  volume: 1.0
+  pitch: 1.0
+SMELTERY_CRAFT_SOUND:
+  sound: block.lava.pop
+  volume: 1.0
+  pitch: 1.0
+SOULBOUND_RUNE_RITUAL_SOUND:
+  sound: entity.generic.explode
+  volume: 0.3
+  pitch: 1.0
+SPLINT_CONSUME_SOUND:
+  sound: entity.skeleton.hurt
+  volume: 1.0
+  pitch: 1.0
+STOMPER_BOOTS_STOMP_SOUND:
+  sound: entity.zombie.break_wooden_door
+  volume: 1.0
+  pitch: 2.0
+TAPE_MEASURE_MEASURE_SOUND:
+  sound: item.book.put
+  volume: 1.0
+  pitch: 0.7
+TOME_OF_KNOWLEDGE_USE_SOUND:
+  sound: entity.player.levelup
+  volume: 1.0
+  pitch: 1.0
+TELEPORT_UPDATE_SOUND:
+  sound: block.beacon.ambient
+  volume: 1.0
+  pitch: 0.6
+TELEPORT_SOUND:
+  sound: block.beacon.activate
+  volume: 1.0
+  pitch: 1.0
+VAMPIRE_BLADE_HEALING_SOUND:
+  sound: entity.arrow.hit_player
+  volume: 0.7
+  pitch: 0.7
+VANILLA_AUTO_CRAFTER_UPDATE_RECIPE_SOUND:
+  sound: ui.button.click
+  volume: 1.0
+  pitch: 1.0
+VILLAGER_RUNE_TRANSFORM_SOUND:
+  sound: entity.villager.celebrate
+  volume: 1.0
+  pitch: 1.4
+VITAMINS_CONSUME_SOUND:
+  sound: entity.generic.eat
+  volume: 1.0
+  pitch: 1.0
+WIND_STAFF_USE_SOUND:
+  sound: entity.tnt.primed
+  volume: 1.0
+  pitch: 1.0

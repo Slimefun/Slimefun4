@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils</a> &gt; <span class="el_source">ChatUtils.java</span></div><h1>ChatUtils.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils;
+
+import java.util.Locale;
+import java.util.function.Consumer;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import io.github.bakedlibs.dough.chat.ChatInput;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * This utility class contains a few static methods that are all about {@link String} manipulation
+ * or sending a {@link String} to a {@link Player}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public final class ChatUtils {
+
+    private ChatUtils() {}
+
+    public static void sendURL(@Nonnull CommandSender sender, @Nonnull String url) {
+        // If we get access to the URL prompt one day, we can just prompt the link to the Player that way.
+<span class="nc" id="L30">        sender.sendMessage(&quot;&quot;);</span>
+<span class="nc" id="L31">        Slimefun.getLocalization().sendMessage(sender, &quot;messages.link-prompt&quot;, false);</span>
+<span class="nc" id="L32">        sender.sendMessage(ChatColors.color(&quot;&amp;7&amp;o&quot; + url));</span>
+<span class="nc" id="L33">        sender.sendMessage(&quot;&quot;);</span>
+<span class="nc" id="L34">    }</span>
+
+    public static @Nonnull String removeColorCodes(@Nonnull String string) {
+<span class="fc" id="L37">        return ChatColor.stripColor(ChatColors.color(string));</span>
+    }
+
+    public static @Nonnull String crop(@Nonnull ChatColor color, @Nonnull String string) {
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (ChatColor.stripColor(color + string).length() &gt; 19) {</span>
+<span class="nc" id="L42">            return (color + ChatColor.stripColor(string)).substring(0, 18) + &quot;...&quot;;</span>
+        } else {
+<span class="nc" id="L44">            return color + ChatColor.stripColor(string);</span>
+        }
+    }
+
+    public static @Nonnull String christmas(@Nonnull String text) {
+<span class="fc" id="L49">        return ChatColors.alternating(text, ChatColor.GREEN, ChatColor.RED);</span>
+    }
+
+    public static void awaitInput(@Nonnull Player p, @Nonnull Consumer&lt;String&gt; callback) {
+<span class="nc" id="L53">        ChatInput.waitForPlayer(Slimefun.instance(), p, callback);</span>
+<span class="nc" id="L54">    }</span>
+
+    /**
+     * This converts a given {@link String} to a human-friendly version.
+     * This can be used to convert enum constants to easier to read words with
+     * spaces and upper case word starts.
+     * 
+     * For example:
+     * {@code ENUM_CONSTANT: Enum Constant}
+     * 
+     * @param string
+     *            The {@link String} to convert
+     * 
+     * @return A human-friendly version of the given {@link String}
+     */
+    public static @Nonnull String humanize(@Nonnull String string) {
+<span class="fc" id="L70">        StringBuilder builder = new StringBuilder();</span>
+<span class="fc" id="L71">        String[] segments = CommonPatterns.UNDERSCORE.split(string.toLowerCase(Locale.ROOT));</span>
+
+<span class="fc" id="L73">        builder.append(Character.toUpperCase(segments[0].charAt(0))).append(segments[0].substring(1));</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        for (int i = 1; i &lt; segments.length; i++) {</span>
+<span class="fc" id="L76">            String segment = segments[i];</span>
+<span class="fc" id="L77">            builder.append(' ').append(Character.toUpperCase(segment.charAt(0))).append(segment.substring(1));</span>
+        }
+
+<span class="fc" id="L80">        return builder.toString();</span>
+    }
+
+    /**
+     * This method adds an s to a string if the supplied integer is not 1.
+     *
+     * @param string
+     *      The string to potentially pluralize
+     * @param count
+     *      The amount of things
+     * @return
+     *      {@code string} if {@code count} is 1 else {@code string + &quot;s&quot;}
+     * @throws IllegalArgumentException
+     *      if count is less than 0
+     */
+    public static @Nonnull String checkPlurality(@Nonnull String string, int count) {
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (count &lt; 0) {</span>
+<span class="fc" id="L97">            throw new IllegalArgumentException(&quot;Argument count cannot be negative.&quot;);</span>
+        }
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (count == 1) {</span>
+<span class="fc" id="L100">            return string;</span>
+        }
+<span class="fc" id="L102">        return string + &quot;s&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

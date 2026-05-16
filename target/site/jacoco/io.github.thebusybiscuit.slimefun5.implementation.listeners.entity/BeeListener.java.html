@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeeListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners.entity</a> &gt; <span class="el_source">BeeListener.java</span></div><h1>BeeListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
+
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.entity.Bee;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * The {@link Listener} for Hazmat Suit's {@link Bee} sting protection.
+ * Only applied if the whole set is worn.
+ *
+ * @author Linox
+ *
+ */
+public class BeeListener implements Listener {
+
+<span class="nc" id="L28">    public BeeListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L29">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L30">    }</span>
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent e) {
+<span class="nc bnc" id="L34" title="All 4 branches missed.">        if (e.getDamager() instanceof Bee &amp;&amp; e.getEntity() instanceof Player) {</span>
+<span class="nc" id="L35">            Player p = (Player) e.getEntity();</span>
+<span class="nc" id="L36">            Optional&lt;PlayerProfile&gt; optional = PlayerProfile.find(p);</span>
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (!optional.isPresent()) {</span>
+<span class="nc" id="L39">                PlayerProfile.request(p);</span>
+<span class="nc" id="L40">                return;</span>
+            }
+
+<span class="nc" id="L43">            PlayerProfile profile = optional.get();</span>
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">            if (profile.hasFullProtectionAgainst(ProtectionType.BEES)) {</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                for (ItemStack armor : p.getInventory().getArmorContents()) {</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                    if (armor != null) {</span>
+<span class="nc" id="L48">                        ItemUtils.damageItem(armor, 1, false);</span>
+                    }
+                }
+
+<span class="nc" id="L52">                e.setDamage(0D);</span>
+            }
+        }
+<span class="nc" id="L55">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AContainer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems</a> &gt; <span class="el_source">AContainer.java</span></div><h1>AContainer.java</h1><pre class="source lang-java linenums">package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun5.api.items.ItemState;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun5.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun5.core.attributes.MachineProcessHolder;
+import io.github.thebusybiscuit.slimefun5.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun5.core.machines.MachineProcessor;
+import io.github.thebusybiscuit.slimefun5.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun5.implementation.handlers.SimpleBlockBreakHandler;
+import io.github.thebusybiscuit.slimefun5.implementation.operations.CraftingOperation;
+import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun5.utils.itemstack.ItemStackWrapper;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+
+// TODO: Replace this with &quot;AbstractContainer&quot; and &quot;AbstractElectricalMachine&quot; classes.
+public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent, MachineProcessHolder&lt;CraftingOperation&gt; {
+
+<span class="nc" id="L48">    private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };</span>
+<span class="nc" id="L49">    private static final int[] BORDER_IN = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };</span>
+<span class="nc" id="L50">    private static final int[] BORDER_OUT = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };</span>
+
+<span class="nc" id="L52">    protected final List&lt;MachineRecipe&gt; recipes = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L53">    private final MachineProcessor&lt;CraftingOperation&gt; processor = new MachineProcessor&lt;&gt;(this);</span>
+
+<span class="nc" id="L55">    private int energyConsumedPerTick = -1;</span>
+<span class="nc" id="L56">    private int energyCapacity = -1;</span>
+<span class="nc" id="L57">    private int processingSpeed = -1;</span>
+
+    @ParametersAreNonnullByDefault
+    protected AContainer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L61">        super(itemGroup, item, recipeType, recipe);</span>
+
+<span class="nc" id="L63">        processor.setProgressBar(getProgressBar());</span>
+<span class="nc" id="L64">        createPreset(this, getInventoryTitle(), this::constructMenu);</span>
+
+<span class="nc" id="L66">        addItemHandler(onBlockBreak());</span>
+<span class="nc" id="L67">    }</span>
+
+    @Nonnull
+    protected BlockBreakHandler onBlockBreak() {
+<span class="nc" id="L71">        return new SimpleBlockBreakHandler() {</span>
+
+            @Override
+            public void onBlockBreak(Block b) {
+<span class="nc" id="L75">                BlockMenu inv = BlockStorage.getInventory(b);</span>
+
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                if (inv != null) {</span>
+<span class="nc" id="L78">                    inv.dropItems(b.getLocation(), getInputSlots());</span>
+<span class="nc" id="L79">                    inv.dropItems(b.getLocation(), getOutputSlots());</span>
+                }
+
+<span class="nc" id="L82">                processor.endOperation(b);</span>
+<span class="nc" id="L83">            }</span>
+
+        };
+    }
+
+    @ParametersAreNonnullByDefault
+    protected AContainer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+<span class="nc" id="L90">        this(itemGroup, item, recipeType, recipe);</span>
+<span class="nc" id="L91">        this.recipeOutput = recipeOutput;</span>
+<span class="nc" id="L92">    }</span>
+
+    @Override
+    public MachineProcessor&lt;CraftingOperation&gt; getMachineProcessor() {
+<span class="nc" id="L96">        return processor;</span>
+    }
+
+    protected void constructMenu(BlockMenuPreset preset) {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        for (int i : BORDER) {</span>
+<span class="nc" id="L101">            preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        for (int i : BORDER_IN) {</span>
+<span class="nc" id="L105">            preset.addItem(i, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        for (int i : BORDER_OUT) {</span>
+<span class="nc" id="L109">            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());</span>
+        }
+
+<span class="nc" id="L112">        preset.addItem(22, CustomItemStack.create(Material.BLACK_STAINED_GLASS_PANE, &quot; &quot;), ChestMenuUtils.getEmptyClickHandler());</span>
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        for (int i : getOutputSlots()) {</span>
+<span class="nc" id="L115">            preset.addMenuClickHandler(i, ChestMenuUtils.getDefaultOutputHandler());</span>
+        }
+<span class="nc" id="L117">    }</span>
+
+    /**
+     * This method returns the title that is used for the {@link Inventory} of an
+     * {@link AContainer} that has been opened by a Player.
+     *
+     * Override this method to set the title.
+     *
+     * @return The title of the {@link Inventory} of this {@link AContainer}
+     */
+    @Nonnull
+    public String getInventoryTitle() {
+<span class="nc" id="L129">        return getItemName();</span>
+    }
+
+    /**
+     * This method returns the {@link ItemStack} that this {@link AContainer} will
+     * use as a progress bar.
+     *
+     * Override this method to set the progress bar.
+     *
+     * @return The {@link ItemStack} to use as the progress bar
+     */
+    public abstract ItemStack getProgressBar();
+
+    /**
+     * This method returns the max amount of electricity this machine can hold.
+     *
+     * @return The max amount of electricity this Block can store.
+     */
+    @Override
+    public int getCapacity() {
+<span class="nc" id="L149">        return energyCapacity;</span>
+    }
+
+    /**
+     * This method returns the amount of energy that is consumed per operation.
+     *
+     * @return The rate of energy consumption
+     */
+    public int getEnergyConsumption() {
+<span class="nc" id="L158">        return energyConsumedPerTick;</span>
+    }
+
+    /**
+     * This method returns the speed at which this machine will operate.
+     * This can be implemented on an instantiation-level to create different tiers
+     * of machines.
+     *
+     * @return The speed of this machine
+     */
+    public int getSpeed() {
+<span class="nc" id="L169">        return processingSpeed;</span>
+    }
+
+    /**
+     * This sets the energy capacity for this machine.
+     * This method &lt;strong&gt;must&lt;/strong&gt; be called before registering the item
+     * and only before registering.
+     *
+     * @param capacity
+     *            The amount of energy this machine can store
+     *
+     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     */
+    public final AContainer setCapacity(int capacity) {
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        Validate.isTrue(capacity &gt; 0, &quot;The capacity must be greater than zero!&quot;);</span>
+
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (getState() == ItemState.UNREGISTERED) {</span>
+<span class="nc" id="L186">            this.energyCapacity = capacity;</span>
+<span class="nc" id="L187">            return this;</span>
+        } else {
+<span class="nc" id="L189">            throw new IllegalStateException(&quot;You cannot modify the capacity after the Item was registered.&quot;);</span>
+        }
+    }
+
+    /**
+     * This sets the speed of this machine.
+     *
+     * @param speed
+     *            The speed multiplier for this machine, must be above zero
+     *
+     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     */
+    public final AContainer setProcessingSpeed(int speed) {
+<span class="nc bnc" id="L202" title="All 2 branches missed.">        Validate.isTrue(speed &gt; 0, &quot;The speed must be greater than zero!&quot;);</span>
+
+<span class="nc" id="L204">        this.processingSpeed = speed;</span>
+<span class="nc" id="L205">        return this;</span>
+    }
+
+    /**
+     * This method sets the energy consumed by this machine per tick.
+     *
+     * @param energyConsumption
+     *            The energy consumed per tick
+     *
+     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     */
+    public final AContainer setEnergyConsumption(int energyConsumption) {
+<span class="nc bnc" id="L217" title="All 2 branches missed.">        Validate.isTrue(energyConsumption &gt; 0, &quot;The energy consumption must be greater than zero!&quot;);</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">        Validate.isTrue(energyCapacity &gt; 0, &quot;You must specify the capacity before you can set the consumption amount.&quot;);</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        Validate.isTrue(energyConsumption &lt;= energyCapacity, &quot;The energy consumption cannot be higher than the capacity (&quot; + energyCapacity + ')');</span>
+
+<span class="nc" id="L221">        this.energyConsumedPerTick = energyConsumption;</span>
+<span class="nc" id="L222">        return this;</span>
+    }
+
+    @Override
+    public void register(@Nonnull SlimefunAddon addon) {
+<span class="nc" id="L227">        this.addon = addon;</span>
+
+<span class="nc bnc" id="L229" title="All 2 branches missed.">        if (getCapacity() &lt;= 0) {</span>
+<span class="nc" id="L230">            warn(&quot;The capacity has not been configured correctly. The Item was disabled.&quot;);</span>
+<span class="nc" id="L231">            warn(&quot;Make sure to call '&quot; + getClass().getSimpleName() + &quot;#setEnergyCapacity(...)' before registering!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        if (getEnergyConsumption() &lt;= 0) {</span>
+<span class="nc" id="L235">            warn(&quot;The energy consumption has not been configured correctly. The Item was disabled.&quot;);</span>
+<span class="nc" id="L236">            warn(&quot;Make sure to call '&quot; + getClass().getSimpleName() + &quot;#setEnergyConsumption(...)' before registering!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        if (getSpeed() &lt;= 0) {</span>
+<span class="nc" id="L240">            warn(&quot;The processing speed has not been configured correctly. The Item was disabled.&quot;);</span>
+<span class="nc" id="L241">            warn(&quot;Make sure to call '&quot; + getClass().getSimpleName() + &quot;#setProcessingSpeed(...)' before registering!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L244" title="All 6 branches missed.">        if (getCapacity() &gt; 0 &amp;&amp; getEnergyConsumption() &gt; 0 &amp;&amp; getSpeed() &gt; 0) {</span>
+<span class="nc" id="L245">            super.register(addon);</span>
+        }
+
+        // Fixes #3429 - Initialize Item Settings before recipes
+<span class="nc" id="L249">        registerDefaultRecipes();</span>
+<span class="nc" id="L250">    }</span>
+
+    /**
+     * This method returns an internal identifier that is used to identify this {@link AContainer}
+     * and its recipes.
+     *
+     * When adding recipes to an {@link AContainer} we will use this identifier to
+     * identify all instances of the same {@link AContainer}.
+     * This way we can add the recipes to all instances of the same machine.
+     *
+     * &lt;strong&gt;This method will be deprecated and replaced in the future&lt;/strong&gt;
+     *
+     * @return The identifier of this machine
+     */
+    @Nonnull
+    public abstract String getMachineIdentifier();
+
+    /**
+     * This method registers all default recipes for this machine.
+     */
+    protected void registerDefaultRecipes() {
+        // Override this method to register your machine recipes
+<span class="nc" id="L272">    }</span>
+
+    public List&lt;MachineRecipe&gt; getMachineRecipes() {
+<span class="nc" id="L275">        return recipes;</span>
+    }
+
+    public List&lt;ItemStack&gt; getDisplayRecipes() {
+<span class="nc" id="L279">        List&lt;ItemStack&gt; displayRecipes = new ArrayList&lt;&gt;(recipes.size() * 2);</span>
+
+<span class="nc bnc" id="L281" title="All 2 branches missed.">        for (MachineRecipe recipe : recipes) {</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">            if (recipe.getInput().length != 1) {</span>
+<span class="nc" id="L283">                continue;</span>
+            }
+
+<span class="nc" id="L286">            displayRecipes.add(recipe.getInput()[0]);</span>
+<span class="nc" id="L287">            displayRecipes.add(recipe.getOutput()[0]);</span>
+<span class="nc" id="L288">        }</span>
+
+<span class="nc" id="L290">        return displayRecipes;</span>
+    }
+
+    @Override
+    public int[] getInputSlots() {
+<span class="nc" id="L295">        return new int[] { 19, 20 };</span>
+    }
+
+    @Override
+    public int[] getOutputSlots() {
+<span class="nc" id="L300">        return new int[] { 24, 25 };</span>
+    }
+
+    @Override
+    public EnergyNetComponentType getEnergyComponentType() {
+<span class="nc" id="L305">        return EnergyNetComponentType.CONSUMER;</span>
+    }
+
+    public void registerRecipe(MachineRecipe recipe) {
+<span class="nc" id="L309">        recipe.setTicks(recipe.getTicks() / getSpeed());</span>
+<span class="nc" id="L310">        recipes.add(recipe);</span>
+<span class="nc" id="L311">    }</span>
+
+    public void registerRecipe(int seconds, ItemStack[] input, ItemStack[] output) {
+<span class="nc" id="L314">        registerRecipe(new MachineRecipe(seconds, input, output));</span>
+<span class="nc" id="L315">    }</span>
+
+    public void registerRecipe(int seconds, ItemStack input, ItemStack output) {
+<span class="nc" id="L318">        registerRecipe(new MachineRecipe(seconds, new ItemStack[] { input }, new ItemStack[] { output }));</span>
+<span class="nc" id="L319">    }</span>
+
+    public void registerRecipe(int seconds, SlimefunItemStack input, SlimefunItemStack output) {
+<span class="nc" id="L322">        registerRecipe(seconds, input.item(), output.item());</span>
+<span class="nc" id="L323">    }</span>
+
+    public void registerRecipe(int seconds, SlimefunItemStack[] input, SlimefunItemStack[] output) {
+<span class="nc" id="L326">        var inputAsItemStack = Arrays.stream(input)</span>
+<span class="nc" id="L327">                .map(SlimefunItemStack::item)</span>
+<span class="nc" id="L328">                .toArray(ItemStack[]::new);</span>
+
+<span class="nc" id="L330">        var outputAsItemStack = Arrays.stream(output)</span>
+<span class="nc" id="L331">                .map(SlimefunItemStack::item)</span>
+<span class="nc" id="L332">                .toArray(ItemStack[]::new);</span>
+
+<span class="nc" id="L334">        registerRecipe(seconds, inputAsItemStack, outputAsItemStack);</span>
+<span class="nc" id="L335">    }</span>
+
+    @Override
+    public void preRegister() {
+<span class="nc" id="L339">        addItemHandler(new BlockTicker() {</span>
+
+            @Override
+            public void tick(Block b, SlimefunItem sf, Config data) {
+<span class="nc" id="L343">                AContainer.this.tick(b);</span>
+<span class="nc" id="L344">            }</span>
+
+            @Override
+            public boolean isSynchronized() {
+<span class="nc" id="L348">                return false;</span>
+            }
+        });
+<span class="nc" id="L351">    }</span>
+
+    protected void tick(Block b) {
+<span class="nc" id="L354">        BlockMenu inv = BlockStorage.getInventory(b);</span>
+<span class="nc" id="L355">        CraftingOperation currentOperation = processor.getOperation(b);</span>
+
+<span class="nc bnc" id="L357" title="All 2 branches missed.">        if (currentOperation != null) {</span>
+<span class="nc bnc" id="L358" title="All 2 branches missed.">            if (takeCharge(b.getLocation())) {</span>
+
+<span class="nc bnc" id="L360" title="All 2 branches missed.">                if (!currentOperation.isFinished()) {</span>
+<span class="nc" id="L361">                    processor.updateProgressBar(inv, 22, currentOperation);</span>
+<span class="nc" id="L362">                    currentOperation.addProgress(1);</span>
+                } else {
+<span class="nc" id="L364">                    inv.replaceExistingItem(22, CustomItemStack.create(Material.BLACK_STAINED_GLASS_PANE, &quot; &quot;));</span>
+
+<span class="nc bnc" id="L366" title="All 2 branches missed.">                    for (ItemStack output : currentOperation.getResults()) {</span>
+<span class="nc" id="L367">                        inv.pushItem(output.clone(), getOutputSlots());</span>
+                    }
+
+<span class="nc" id="L370">                    processor.endOperation(b);</span>
+                }
+            }
+        } else {
+<span class="nc" id="L374">            MachineRecipe next = findNextRecipe(inv);</span>
+
+<span class="nc bnc" id="L376" title="All 2 branches missed.">            if (next != null) {</span>
+<span class="nc" id="L377">                currentOperation = new CraftingOperation(next);</span>
+<span class="nc" id="L378">                processor.startOperation(b, currentOperation);</span>
+
+                // Fixes #3534 - Update indicator immediately
+<span class="nc" id="L381">                processor.updateProgressBar(inv, 22, currentOperation);</span>
+            }
+        }
+<span class="nc" id="L384">    }</span>
+
+    /**
+     * This method will remove charge from a location if it is chargeable.
+     *
+     * @param l
+     *            location to try to remove charge from
+     * @return Whether charge was taken if its chargeable
+     */
+    protected boolean takeCharge(@Nonnull Location l) {
+<span class="nc" id="L394">        Validate.notNull(l, &quot;Can't attempt to take charge from a null location!&quot;);</span>
+
+<span class="nc bnc" id="L396" title="All 2 branches missed.">        if (isChargeable()) {</span>
+<span class="nc" id="L397">            int charge = getCharge(l);</span>
+
+<span class="nc bnc" id="L399" title="All 2 branches missed.">            if (charge &lt; getEnergyConsumption()) {</span>
+<span class="nc" id="L400">                return false;</span>
+            }
+
+<span class="nc" id="L403">            setCharge(l, charge - getEnergyConsumption());</span>
+<span class="nc" id="L404">            return true;</span>
+        } else {
+<span class="nc" id="L406">            return true;</span>
+        }
+    }
+
+    protected MachineRecipe findNextRecipe(BlockMenu inv) {
+<span class="nc" id="L411">        Map&lt;Integer, ItemStack&gt; inventory = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L413" title="All 2 branches missed.">        for (int slot : getInputSlots()) {</span>
+<span class="nc" id="L414">            ItemStack item = inv.getItemInSlot(slot);</span>
+
+<span class="nc bnc" id="L416" title="All 2 branches missed.">            if (item != null) {</span>
+<span class="nc" id="L417">                inventory.put(slot, ItemStackWrapper.wrap(item));</span>
+            }
+        }
+
+<span class="nc" id="L421">        Map&lt;Integer, Integer&gt; found = new HashMap&lt;&gt;();</span>
+
+<span class="nc bnc" id="L423" title="All 2 branches missed.">        for (MachineRecipe recipe : recipes) {</span>
+<span class="nc bnc" id="L424" title="All 2 branches missed.">            for (ItemStack input : recipe.getInput()) {</span>
+<span class="nc bnc" id="L425" title="All 2 branches missed.">                for (int slot : getInputSlots()) {</span>
+<span class="nc bnc" id="L426" title="All 2 branches missed.">                    if (SlimefunUtils.isItemSimilar(inventory.get(slot), input, true)) {</span>
+<span class="nc" id="L427">                        found.put(slot, input.getAmount());</span>
+<span class="nc" id="L428">                        break;</span>
+                    }
+                }
+            }
+
+<span class="nc bnc" id="L433" title="All 2 branches missed.">            if (found.size() == recipe.getInput().length) {</span>
+<span class="nc bnc" id="L434" title="All 2 branches missed.">                if (!InvUtils.fitAll(inv.toInventory(), recipe.getOutput(), getOutputSlots())) {</span>
+<span class="nc" id="L435">                    return null;</span>
+                }
+
+<span class="nc bnc" id="L438" title="All 2 branches missed.">                for (Map.Entry&lt;Integer, Integer&gt; entry : found.entrySet()) {</span>
+<span class="nc" id="L439">                    inv.consumeItem(entry.getKey(), entry.getValue());</span>
+<span class="nc" id="L440">                }</span>
+
+<span class="nc" id="L442">                return recipe;</span>
+            } else {
+<span class="nc" id="L444">                found.clear();</span>
+            }
+<span class="nc" id="L446">        }</span>
+
+<span class="nc" id="L448">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

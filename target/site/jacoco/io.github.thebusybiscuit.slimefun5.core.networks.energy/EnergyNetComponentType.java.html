@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnergyNetComponentType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.networks.energy</a> &gt; <span class="el_source">EnergyNetComponentType.java</span></div><h1>EnergyNetComponentType.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.networks.energy;
+
+import org.bukkit.block.Block;
+
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyConnector;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+
+/**
+ * This enum contains the different types of components an {@link EnergyNet}
+ * can have.
+ * 
+ * @author TheBusyBiscuit
+ * @author Linox
+ * 
+ * @see EnergyNetComponent
+ * @see EnergyNet
+ *
+ */
+<span class="nc" id="L24">public enum EnergyNetComponentType {</span>
+
+    /**
+     * A Generator generates Energy and feeds it into the network.
+     * Also see: {@link AGenerator} or {@link Reactor}
+     */
+<span class="nc" id="L30">    GENERATOR,</span>
+
+    /**
+     * A {@link Capacitor} stores energy from the network and provides it to any consumers.
+     * It can be used as a buffer.
+     */
+<span class="nc" id="L36">    CAPACITOR,</span>
+
+    /**
+     * A Consumer consumes energy from the network, most often linked to {@link AContainer}
+     * or other types of machinery.
+     */
+<span class="nc" id="L42">    CONSUMER,</span>
+
+    /**
+     * A Connector transmits energy through the network.
+     * Also see: {@link EnergyConnector}
+     */
+<span class="nc" id="L48">    CONNECTOR,</span>
+
+    /**
+     * A fallback value to use when a {@link Block} cannot be classified as any of the
+     * other options.
+     */
+<span class="nc" id="L54">    NONE;</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

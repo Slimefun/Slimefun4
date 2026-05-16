@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Juicer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks</a> &gt; <span class="el_source">Juicer.java</span></div><h1>Juicer.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Dispenser;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
+
+/**
+ * The {@link Juicer} is a {@link MultiBlockMachine} which can be used to
+ * craft {@link Juice}.
+ *
+ * @author TheBusyBiscuit
+ * @author Liruxo
+ *
+ * @see Juice
+ *
+ */
+public class Juicer extends MultiBlockMachine {
+
+    @ParametersAreNonnullByDefault
+    public Juicer(ItemGroup itemGroup, SlimefunItemStack item) {
+<span class="nc" id="L46">        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, CustomItemStack.create(Material.DISPENSER, &quot;Dispenser (Facing up)&quot;), null }, BlockFace.SELF);</span>
+<span class="nc" id="L47">    }</span>
+
+    @Override
+    public @Nonnull List&lt;ItemStack&gt; getDisplayRecipes() {
+<span class="nc" id="L51">        return recipes.stream().map(items -&gt; items[0]).collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public void onInteract(Player p, Block b) {
+<span class="nc" id="L56">        Block possibleDispenser = b.getRelative(BlockFace.DOWN);</span>
+<span class="nc" id="L57">        BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();</span>
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (state instanceof Dispenser dispenser) {</span>
+<span class="nc" id="L60">            Inventory inv = dispenser.getInventory();</span>
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            for (ItemStack current : inv.getContents()) {</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                for (ItemStack convert : RecipeType.getRecipeInputs(this)) {</span>
+<span class="nc bnc" id="L64" title="All 4 branches missed.">                    if (convert != null &amp;&amp; SlimefunUtils.isItemSimilar(current, convert, true)) {</span>
+<span class="nc" id="L65">                        ItemStack adding = RecipeType.getRecipeOutput(this, convert);</span>
+<span class="nc" id="L66">                        Inventory outputInv = findOutputInventory(adding, possibleDispenser, inv);</span>
+<span class="nc" id="L67">                        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, current, adding);</span>
+
+<span class="nc" id="L69">                        Bukkit.getPluginManager().callEvent(event);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                        if (event.isCancelled()) {</span>
+<span class="nc" id="L71">                            return;</span>
+                        }
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                        if (outputInv != null) {</span>
+<span class="nc" id="L75">                            ItemStack removing = current.clone();</span>
+<span class="nc" id="L76">                            removing.setAmount(1);</span>
+<span class="nc" id="L77">                            inv.removeItem(removing);</span>
+<span class="nc" id="L78">                            outputInv.addItem(event.getOutput());</span>
+
+<span class="nc" id="L80">                            SoundEffect.JUICER_USE_SOUND.playAt(b);</span>
+                            // Not changed since this is supposed to be a natural sound.
+<span class="nc" id="L82">                            p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);</span>
+<span class="nc" id="L83">                        } else {</span>
+<span class="nc" id="L84">                            Slimefun.getLocalization().sendMessage(p, &quot;machines.full-inventory&quot;, true);</span>
+                        }
+
+<span class="nc" id="L87">                        return;</span>
+                    }
+<span class="nc" id="L89">                }</span>
+            }
+
+<span class="nc" id="L92">            Slimefun.getLocalization().sendMessage(p, &quot;machines.unknown-material&quot;, true);</span>
+        }
+<span class="nc" id="L94">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

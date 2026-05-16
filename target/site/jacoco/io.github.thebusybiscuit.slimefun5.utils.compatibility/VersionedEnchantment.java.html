@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VersionedEnchantment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.utils.compatibility</a> &gt; <span class="el_source">VersionedEnchantment.java</span></div><h1>VersionedEnchantment.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.utils.compatibility;
+
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.enchantments.Enchantment;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+// https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse/src/main/java/org/bukkit/craftbukkit/legacy/FieldRename.java?until=2a6207fe150b6165722fce94c83cc1f206620ab5&amp;untilPath=src%2Fmain%2Fjava%2Forg%2Fbukkit%2Fcraftbukkit%2Flegacy%2FFieldRename.java#86-110
+<span class="nc" id="L11">public class VersionedEnchantment {</span>
+
+    public static final Enchantment EFFICIENCY;
+    public static final Enchantment UNBREAKING;
+    public static final Enchantment PROTECTION;
+    public static final Enchantment SHARPNESS;
+    public static final Enchantment LUCK_OF_THE_SEA;
+    public static final Enchantment AQUA_AFFINITY;
+    public static final Enchantment FORTUNE;
+
+    static {
+        // DIG_SPEED is renamed to EFFICIENCY in 1.20.5
+<span class="nc" id="L23">        EFFICIENCY = getKey(&quot;efficiency&quot;);</span>
+
+        // DURABILITY is renamed to UNBREAKING in 1.20.5
+<span class="nc" id="L26">        UNBREAKING = getKey(&quot;unbreaking&quot;);</span>
+
+        // PROTECTION_ENVIRONMENTAL is renamed to PROTECTION in 1.20.5
+<span class="nc" id="L29">        PROTECTION = getKey(&quot;protection&quot;);</span>
+
+        // DAMAGE_ALL is renamed to SHARPNESS in 1.20.5
+<span class="nc" id="L32">        SHARPNESS = getKey(&quot;sharpness&quot;);</span>
+
+        // LUCK is renamed to LUCK_OF_THE_SEA in 1.20.5
+<span class="nc" id="L35">        LUCK_OF_THE_SEA = getKey(&quot;luck_of_the_sea&quot;);</span>
+
+        // WATER_WORKER is renamed to AQUA_AFFINITY in 1.20.5
+<span class="nc" id="L38">        AQUA_AFFINITY = getKey(&quot;aqua_affinity&quot;);</span>
+
+        // LOOT_BONUS_BLOCKS is renamed to FORTUNE in 1.20.5
+<span class="nc" id="L41">        FORTUNE = getKey(&quot;fortune&quot;);</span>
+<span class="nc" id="L42">    }</span>
+
+    @Nullable
+    private static Enchantment getKey(@Nonnull String key) {
+<span class="nc" id="L46">        return Registry.ENCHANTMENT.get(NamespacedKey.minecraft(key));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

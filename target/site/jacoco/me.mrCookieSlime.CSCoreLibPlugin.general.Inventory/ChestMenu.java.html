@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChestMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">me.mrCookieSlime.CSCoreLibPlugin.general.Inventory</a> &gt; <span class="el_source">ChestMenu.java</span></div><h1>ChestMenu.java</h1><pre class="source lang-java linenums">package me.mrCookieSlime.CSCoreLibPlugin.general.Inventory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+/**
+ * An old remnant of CS-CoreLib.
+ * This will be removed once we updated everything.
+ * Don't look at the code, it will be gone soon, don't worry.
+ */
+public class ChestMenu {
+
+    private boolean clickable;
+    private boolean emptyClickable;
+    private String title;
+    private Inventory inv;
+    private List&lt;ItemStack&gt; items;
+    private Map&lt;Integer, MenuClickHandler&gt; handlers;
+    private MenuOpeningHandler open;
+    private MenuCloseHandler close;
+    private MenuClickHandler playerclick;
+
+    /**
+     * Creates a new ChestMenu with the specified
+     * Title
+     *
+     * @param title
+     *            The title of the Menu
+     */
+<span class="nc" id="L39">    public ChestMenu(String title) {</span>
+<span class="nc" id="L40">        this.title = ChatColor.translateAlternateColorCodes('&amp;', title);</span>
+<span class="nc" id="L41">        this.clickable = false;</span>
+<span class="nc" id="L42">        this.emptyClickable = true;</span>
+<span class="nc" id="L43">        this.items = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L44">        this.handlers = new HashMap&lt;&gt;();</span>
+
+<span class="nc" id="L46">        this.open = p -&gt; {};</span>
+<span class="nc" id="L47">        this.close = p -&gt; {};</span>
+<span class="nc" id="L48">        this.playerclick = (p, slot, item, action) -&gt; isPlayerInventoryClickable();</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * Toggles whether Players can access there
+     * Inventory while viewing this Menu
+     *
+     * @param clickable
+     *            Whether the Player can access his Inventory
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu setPlayerInventoryClickable(boolean clickable) {
+<span class="nc" id="L60">        this.clickable = clickable;</span>
+<span class="nc" id="L61">        return this;</span>
+    }
+
+    /**
+     * Returns whether the Player's Inventory is
+     * accessible while viewing this Menu
+     *
+     * @return Whether the Player Inventory is clickable
+     */
+    public boolean isPlayerInventoryClickable() {
+<span class="nc" id="L71">        return clickable;</span>
+    }
+
+    /**
+     * Toggles whether Players can click the
+     * empty menu slots while viewing this Menu
+     *
+     * @param emptyClickable
+     *            Whether the Player can click empty slots
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu setEmptySlotsClickable(boolean emptyClickable) {
+<span class="nc" id="L83">        this.emptyClickable = emptyClickable;</span>
+<span class="nc" id="L84">        return this;</span>
+    }
+
+    /**
+     * Returns whether the empty menu slots are
+     * clickable while viewing this Menu
+     *
+     * @return Whether the empty menu slots are clickable
+     */
+    public boolean isEmptySlotsClickable() {
+<span class="nc" id="L94">        return emptyClickable;</span>
+    }
+
+    /**
+     * Adds a ClickHandler to ALL Slots of the
+     * Player's Inventory
+     *
+     * @param handler
+     *            The MenuClickHandler
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu addPlayerInventoryClickHandler(MenuClickHandler handler) {
+<span class="nc" id="L106">        this.playerclick = handler;</span>
+<span class="nc" id="L107">        return this;</span>
+    }
+
+    /**
+     * Adds an Item to the Inventory in that Slot
+     *
+     * @param slot
+     *            The Slot in the Inventory
+     * @param item
+     *            The Item for that Slot
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu addItem(int slot, ItemStack item) {
+<span class="nc" id="L120">        final int size = this.items.size();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (size &gt; slot)</span>
+<span class="nc" id="L122">            this.items.set(slot, item);</span>
+        else {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">            for (int i = 0; i &lt; slot - size; i++) {</span>
+<span class="nc" id="L125">                this.items.add(null);</span>
+            }
+<span class="nc" id="L127">            this.items.add(item);</span>
+        }
+<span class="nc" id="L129">        return this;</span>
+    }
+
+    /**
+     * Adds an Item to the Inventory in that Slot
+     * as well as a Click Handler
+     *
+     * @param slot
+     *            The Slot in the Inventory
+     * @param item
+     *            The Item for that Slot
+     * @param clickHandler
+     *            The MenuClickHandler for that Slot
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu addItem(int slot, ItemStack item, MenuClickHandler clickHandler) {
+<span class="nc" id="L145">        addItem(slot, item);</span>
+<span class="nc" id="L146">        addMenuClickHandler(slot, clickHandler);</span>
+<span class="nc" id="L147">        return this;</span>
+    }
+
+    /**
+     * Returns the ItemStack in that Slot
+     *
+     * @param slot
+     *            The Slot in the Inventory
+     * @return The ItemStack in that Slot
+     */
+    public ItemStack getItemInSlot(int slot) {
+<span class="nc" id="L158">        setup();</span>
+<span class="nc" id="L159">        return this.inv.getItem(slot);</span>
+    }
+
+    /**
+     * Executes a certain Action upon clicking an
+     * Item in the Menu
+     *
+     * @param slot
+     *            The Slot in the Inventory
+     * @param handler
+     *            The MenuClickHandler
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu addMenuClickHandler(int slot, MenuClickHandler handler) {
+<span class="nc" id="L173">        this.handlers.put(slot, handler);</span>
+<span class="nc" id="L174">        return this;</span>
+    }
+
+    /**
+     * Executes a certain Action upon opening
+     * this Menu
+     *
+     * @param handler
+     *            The MenuOpeningHandler
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
+<span class="nc" id="L186">        this.open = handler;</span>
+<span class="nc" id="L187">        return this;</span>
+    }
+
+    /**
+     * Executes a certain Action upon closing
+     * this Menu
+     *
+     * @param handler
+     *            The MenuCloseHandler
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu addMenuCloseHandler(MenuCloseHandler handler) {
+<span class="nc" id="L199">        this.close = handler;</span>
+<span class="nc" id="L200">        return this;</span>
+    }
+
+    /**
+     * Finishes the Creation of the Menu
+     *
+     * @return The ChestMenu Instance
+     */
+    public ChestMenu build() {
+<span class="nc" id="L209">        return this;</span>
+    }
+
+    /**
+     * Returns an Array containing the Contents
+     * of this Inventory
+     *
+     * @return The Contents of this Inventory
+     */
+    public ItemStack[] getContents() {
+<span class="nc" id="L219">        setup();</span>
+<span class="nc" id="L220">        return this.inv.getContents();</span>
+    }
+
+    private void setup() {
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (this.inv != null)</span>
+<span class="nc" id="L225">            return;</span>
+<span class="nc" id="L226">        this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">        for (int i = 0; i &lt; this.items.size(); i++) {</span>
+<span class="nc" id="L228">            this.inv.setItem(i, this.items.get(i));</span>
+        }
+<span class="nc" id="L230">    }</span>
+
+    public void reset(boolean update) {
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        if (update)</span>
+<span class="nc" id="L234">            this.inv.clear();</span>
+        else
+<span class="nc" id="L236">            this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">        for (int i = 0; i &lt; this.items.size(); i++) {</span>
+<span class="nc" id="L238">            this.inv.setItem(i, this.items.get(i));</span>
+        }
+<span class="nc" id="L240">    }</span>
+
+    /**
+     * Modifies an ItemStack in an ALREADY OPENED ChestMenu
+     *
+     * @param slot
+     *            The Slot of the Item which will be replaced
+     * @param item
+     *            The new Item
+     */
+    public void replaceExistingItem(int slot, ItemStack item) {
+<span class="nc" id="L251">        setup();</span>
+<span class="nc" id="L252">        this.inv.setItem(slot, item);</span>
+<span class="nc" id="L253">    }</span>
+
+    /**
+     * Opens this Menu for the specified Player/s
+     * 
+     * @param players
+     *            The Players who will see this Menu
+     */
+    public void open(Player... players) {
+<span class="nc" id="L262">        setup();</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">        for (Player p : players) {</span>
+<span class="nc" id="L264">            p.openInventory(this.inv);</span>
+<span class="nc" id="L265">            MenuListener.menus.put(p.getUniqueId(), this);</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">            if (open != null)</span>
+<span class="nc" id="L267">                open.onOpen(p);</span>
+        }
+<span class="nc" id="L269">    }</span>
+
+    /**
+     * Returns the MenuClickHandler which was registered for the specified Slot
+     *
+     * @param slot
+     *            The Slot in the Inventory
+     * @return The MenuClickHandler registered for the specified Slot
+     */
+    public MenuClickHandler getMenuClickHandler(int slot) {
+<span class="nc" id="L279">        return handlers.get(slot);</span>
+    }
+
+    /**
+     * Returns the registered MenuCloseHandler
+     *
+     * @return The registered MenuCloseHandler
+     */
+    public MenuCloseHandler getMenuCloseHandler() {
+<span class="nc" id="L288">        return close;</span>
+    }
+
+    /**
+     * Returns the registered MenuOpeningHandler
+     *
+     * @return The registered MenuOpeningHandler
+     */
+    public MenuOpeningHandler getMenuOpeningHandler() {
+<span class="nc" id="L297">        return open;</span>
+    }
+
+    /**
+     * Returns the registered MenuClickHandler
+     * for Player Inventories
+     *
+     * @return The registered MenuClickHandler
+     */
+    public MenuClickHandler getPlayerInventoryClickHandler() {
+<span class="nc" id="L307">        return playerclick;</span>
+    }
+
+    /**
+     * Converts this ChestMenu Instance into a
+     * normal Inventory
+     *
+     * @return The converted Inventory
+     */
+    public Inventory toInventory() {
+<span class="nc" id="L317">        return this.inv;</span>
+    }
+
+    @FunctionalInterface
+    public interface MenuClickHandler {
+
+        public boolean onClick(Player p, int slot, ItemStack item, ClickAction action);
+    }
+
+    public interface AdvancedMenuClickHandler extends MenuClickHandler {
+
+        public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action);
+    }
+
+    @FunctionalInterface
+    public interface MenuOpeningHandler {
+
+        public void onOpen(Player p);
+    }
+
+    @FunctionalInterface
+    public interface MenuCloseHandler {
+
+        public void onClose(Player p);
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

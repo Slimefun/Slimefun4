@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StormStaff.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves</a> &gt; <span class="el_source">StormStaff.java</span></div><h1>StormStaff.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.World;
+import org.bukkit.entity.LightningStrike;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.LimitedUseItem;
+
+/**
+ * This {@link SlimefunItem} casts a {@link LightningStrike} where you are pointing.
+ * Unlike the other Staves, it has a limited amount of uses.
+ *
+ * @author Linox
+ * @author Walshy
+ * @author TheBusyBiscuit
+ */
+public class StormStaff extends LimitedUseItem {
+
+    public static final int MAX_USES = 8;
+
+<span class="nc" id="L38">    private static final NamespacedKey usageKey = new NamespacedKey(Slimefun.instance(), &quot;stormstaff_usage&quot;);</span>
+
+    @ParametersAreNonnullByDefault
+    public StormStaff(ItemGroup group, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+<span class="nc" id="L42">        super(group, item, recipeType, recipe);</span>
+
+<span class="nc" id="L44">        setMaxUseCount(MAX_USES);</span>
+<span class="nc" id="L45">    }</span>
+
+    @Override
+    protected @Nonnull NamespacedKey getStorageKey() {
+<span class="nc" id="L49">        return usageKey;</span>
+    }
+
+    @Override
+    public @Nonnull ItemUseHandler getItemHandler() {
+<span class="nc" id="L54">        return e -&gt; {</span>
+<span class="nc" id="L55">            Player p = e.getPlayer();</span>
+<span class="nc" id="L56">            ItemStack item = e.getItem();</span>
+
+<span class="nc bnc" id="L58" title="All 4 branches missed.">            if (p.getFoodLevel() &gt;= 4 || p.getGameMode() == GameMode.CREATIVE) {</span>
+                // Get a target block with max. 30 blocks of distance
+<span class="nc" id="L60">                Location loc = p.getTargetBlock(null, 30).getLocation();</span>
+
+<span class="nc bnc" id="L62" title="All 4 branches missed.">                if (loc.getWorld() != null &amp;&amp; loc.getChunk().isLoaded()) {</span>
+<span class="nc bnc" id="L63" title="All 4 branches missed.">                    if (loc.getWorld().getPVP() &amp;&amp; Slimefun.getProtectionManager().hasPermission(p, loc, Interaction.ATTACK_PLAYER)) {</span>
+<span class="nc" id="L64">                        e.cancel();</span>
+<span class="nc" id="L65">                        useItem(p, item, loc);</span>
+                    } else {
+<span class="nc" id="L67">                        Slimefun.getLocalization().sendMessage(p, &quot;messages.no-pvp&quot;, true);</span>
+                    }
+                }
+<span class="nc" id="L70">            } else {</span>
+<span class="nc" id="L71">                Slimefun.getLocalization().sendMessage(p, &quot;messages.hungry&quot;, true);</span>
+            }
+<span class="nc" id="L73">        };</span>
+    }
+
+    @ParametersAreNonnullByDefault
+    private void useItem(Player p, ItemStack item, Location loc) {
+<span class="nc" id="L78">        World world = loc.getWorld();</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (world != null) {</span>
+<span class="nc" id="L80">            world.strikeLightning(loc);</span>
+        }
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (item.getType() == Material.SHEARS) {</span>
+<span class="nc" id="L84">            return;</span>
+        }
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (p.getGameMode() != GameMode.CREATIVE) {</span>
+<span class="nc" id="L88">            FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 4);</span>
+<span class="nc" id="L89">            Bukkit.getPluginManager().callEvent(event);</span>
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            if (!event.isCancelled()) {</span>
+<span class="nc" id="L92">                p.setFoodLevel(event.getFoodLevel());</span>
+            }
+        }
+
+<span class="nc" id="L96">        damageItem(p, item);</span>
+<span class="nc" id="L97">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

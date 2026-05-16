@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomTextureService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.core.services</a> &gt; <span class="el_source">CustomTextureService.java</span></div><h1>CustomTextureService.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.core.services;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * This Service is responsible for applying custom model data to any {@link SlimefunItemStack}
+ * if a Server Owner configured Slimefun to use those.
+ * We simply use {@link ItemMeta#setCustomModelData(Integer)} for this.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class CustomTextureService {
+
+    /**
+     * The {@link Config} object in which the Server Owner can configure the item models.
+     */
+    private final Config config;
+
+    /**
+     * This nullable {@link StringBuffer} represents the &quot;version&quot; of the used item-models file.
+     * This version is served with our resource pack.
+     */
+<span class="nc" id="L43">    private String version = null;</span>
+
+    /**
+     * This boolean represents whether the file was modified anyway.
+     * This is equivalent to at least one value being set to a number which
+     * is not zero!
+     */
+<span class="nc" id="L50">    private boolean modified = false;</span>
+
+    /**
+     * This creates a new {@link CustomTextureService} for the provided {@link Config}
+     * 
+     * @param config
+     *            The {@link Config} to read custom model data from
+     */
+<span class="nc" id="L58">    public CustomTextureService(@Nonnull Config config) {</span>
+<span class="nc" id="L59">        this.config = config;</span>
+<span class="nc" id="L60">        config.getConfiguration().options().header(&quot;This file is used to assign items from Slimefun or any of its addons\n&quot; + &quot;the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n&quot; + &quot;to give items custom textures.\n0 means there is no data assigned to that item.\n\n&quot; + &quot;There is no official Slimefun resource pack at the moment.&quot;);</span>
+<span class="nc" id="L61">        config.getConfiguration().options().copyHeader(true);</span>
+<span class="nc" id="L62">    }</span>
+
+    /**
+     * This method registers the given {@link SlimefunItem SlimefunItems} to this {@link CustomTextureService}.
+     * If saving is enabled, it will save them to the {@link Config} file.
+     * 
+     * @param items
+     *            The {@link SlimefunItem SlimefunItems} to register
+     * @param save
+     *            Whether to save this file
+     */
+    public void register(@Nonnull Collection&lt;SlimefunItem&gt; items, boolean save) {
+<span class="nc" id="L74">        Validate.notEmpty(items, &quot;items must neither be null or empty.&quot;);</span>
+
+<span class="nc" id="L76">        loadDefaultValues();</span>
+
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        for (SlimefunItem item : items) {</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if (item != null) {</span>
+<span class="nc" id="L80">                config.setDefaultValue(item.getId(), 0);</span>
+
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                if (config.getInt(item.getId()) != 0) {</span>
+<span class="nc" id="L83">                    modified = true;</span>
+                }
+            }
+<span class="nc" id="L86">        }</span>
+
+<span class="nc" id="L88">        version = config.getString(&quot;version&quot;);</span>
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (save) {</span>
+<span class="nc" id="L91">            config.save();</span>
+        }
+<span class="nc" id="L93">    }</span>
+
+    private void loadDefaultValues() {
+<span class="nc" id="L96">        InputStream inputStream = Slimefun.class.getResourceAsStream(&quot;/item-models.yml&quot;);</span>
+
+<span class="nc" id="L98">        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {</span>
+<span class="nc" id="L99">            FileConfiguration cfg = YamlConfiguration.loadConfiguration(reader);</span>
+
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            for (String key : cfg.getKeys(false)) {</span>
+<span class="nc" id="L102">                config.setDefaultValue(key, cfg.getInt(key));</span>
+<span class="nc" id="L103">            }</span>
+<span class="nc" id="L104">        } catch (Exception e) {</span>
+<span class="nc" id="L105">            Slimefun.logger().log(Level.SEVERE, &quot;Failed to load default item-models.yml file&quot;, e);</span>
+<span class="nc" id="L106">        }</span>
+<span class="nc" id="L107">    }</span>
+
+    @Nullable
+    public String getVersion() {
+<span class="nc" id="L111">        return version;</span>
+    }
+
+    /**
+     * This returns true if any custom model data was configured.
+     * If every item id has no configured custom model data, it will return false.
+     * 
+     * @return Whether any custom model data was configured
+     */
+    public boolean isActive() {
+<span class="nc" id="L121">        return modified;</span>
+    }
+
+    /**
+     * This returns the configured custom model data for a given id.
+     * 
+     * @param id
+     *            The id to get the data for
+     * 
+     * @return The configured custom model data
+     */
+    public int getModelData(@Nonnull String id) {
+<span class="nc" id="L133">        Validate.notNull(id, &quot;Cannot get the ModelData for 'null'&quot;);</span>
+
+<span class="nc" id="L135">        return config.getInt(id);</span>
+    }
+
+    /**
+     * This method sets the custom model data for this {@link ItemStack}
+     * to the value configured for the provided item id.
+     * 
+     * @param item
+     *            The {@link ItemStack} to set the custom model data for
+     * @param id
+     *            The id for which to get the configured model data
+     */
+    public void setTexture(@Nonnull ItemStack item, @Nonnull String id) {
+<span class="nc" id="L148">        Validate.notNull(item, &quot;The Item cannot be null!&quot;);</span>
+<span class="nc" id="L149">        Validate.notNull(id, &quot;Cannot store null on an Item!&quot;);</span>
+
+<span class="nc" id="L151">        ItemMeta im = item.getItemMeta();</span>
+<span class="nc" id="L152">        setTexture(im, id);</span>
+<span class="nc" id="L153">        item.setItemMeta(im);</span>
+<span class="nc" id="L154">    }</span>
+
+    /**
+     * This method sets the custom model data for this {@link ItemMeta}
+     * to the value configured for the provided item id.
+     * 
+     * @param im
+     *            The {@link ItemMeta} to set the custom model data for
+     * @param id
+     *            The id for which to get the configured model data
+     */
+    public void setTexture(@Nonnull ItemMeta im, @Nonnull String id) {
+<span class="nc" id="L166">        Validate.notNull(im, &quot;The ItemMeta cannot be null!&quot;);</span>
+<span class="nc" id="L167">        Validate.notNull(id, &quot;Cannot store null on an ItemMeta!&quot;);</span>
+
+<span class="nc" id="L169">        int data = getModelData(id);</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        im.setCustomModelData(data == 0 ? null : data);</span>
+<span class="nc" id="L171">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

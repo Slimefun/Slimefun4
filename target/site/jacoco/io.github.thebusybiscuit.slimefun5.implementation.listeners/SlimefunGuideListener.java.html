@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlimefunGuideListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners</a> &gt; <span class="el_source">SlimefunGuideListener.java</span></div><h1>SlimefunGuideListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunGuideOpenEvent;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
+public class SlimefunGuideListener implements Listener {
+
+    private final boolean giveOnFirstJoin;
+
+<span class="nc" id="L27">    public SlimefunGuideListener(@Nonnull Slimefun plugin, boolean giveOnFirstJoin) {</span>
+<span class="nc" id="L28">        this.giveOnFirstJoin = giveOnFirstJoin;</span>
+<span class="nc" id="L29">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L30">    }</span>
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+<span class="nc bnc" id="L34" title="All 4 branches missed.">        if (giveOnFirstJoin &amp;&amp; !e.getPlayer().hasPlayedBefore()) {</span>
+<span class="nc" id="L35">            Player p = e.getPlayer();</span>
+
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (!Slimefun.getWorldSettingsService().isWorldEnabled(p.getWorld())) {</span>
+<span class="nc" id="L38">                return;</span>
+            }
+
+<span class="nc" id="L41">            SlimefunGuideMode type = SlimefunGuide.getDefaultMode();</span>
+<span class="nc" id="L42">            p.getInventory().addItem(SlimefunGuide.getItem(type).clone());</span>
+        }
+<span class="nc" id="L44">    }</span>
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onInteract(PlayerRightClickEvent e) {
+<span class="nc" id="L48">        Player p = e.getPlayer();</span>
+
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (tryOpenGuide(p, e, SlimefunGuideMode.SURVIVAL_MODE) == Result.ALLOW) {</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (p.isSneaking()) {</span>
+<span class="nc" id="L52">                SlimefunGuideSettings.openSettings(p, e.getItem());</span>
+            } else {
+<span class="nc" id="L54">                openGuide(p, e, SlimefunGuideMode.SURVIVAL_MODE);</span>
+            }
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        } else if (tryOpenGuide(p, e, SlimefunGuideMode.CHEAT_MODE) == Result.ALLOW) {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            if (p.isSneaking()) {</span>
+<span class="nc" id="L58">                SlimefunGuideSettings.openSettings(p, e.getItem());</span>
+            } else {
+                /*
+                 * We rather just run the command here, all
+                 * necessary permission checks will be handled there.
+                 */
+<span class="nc" id="L64">                p.chat(&quot;/sf cheat&quot;);</span>
+            }
+        }
+<span class="nc" id="L67">    }</span>
+
+    @ParametersAreNonnullByDefault
+    private void openGuide(Player p, PlayerRightClickEvent e, SlimefunGuideMode layout) {
+<span class="nc" id="L71">        SlimefunGuideOpenEvent event = new SlimefunGuideOpenEvent(p, e.getItem(), layout);</span>
+<span class="nc" id="L72">        Bukkit.getPluginManager().callEvent(event);</span>
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (!event.isCancelled()) {</span>
+<span class="nc" id="L75">            e.cancel();</span>
+<span class="nc" id="L76">            SlimefunGuide.openGuide(p, event.getGuideLayout());</span>
+        }
+<span class="nc" id="L78">    }</span>
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    private Result tryOpenGuide(Player p, PlayerRightClickEvent e, SlimefunGuideMode layout) {
+<span class="nc" id="L83">        ItemStack item = e.getItem();</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), false, false)) {</span>
+
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            if (!Slimefun.getWorldSettingsService().isWorldEnabled(p.getWorld())) {</span>
+<span class="nc" id="L87">                Slimefun.getLocalization().sendMessage(p, &quot;messages.disabled-item&quot;, true);</span>
+<span class="nc" id="L88">                return Result.DENY;</span>
+            }
+
+<span class="nc" id="L91">            return Result.ALLOW;</span>
+        }
+
+<span class="nc" id="L94">        return Result.DEFAULT;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

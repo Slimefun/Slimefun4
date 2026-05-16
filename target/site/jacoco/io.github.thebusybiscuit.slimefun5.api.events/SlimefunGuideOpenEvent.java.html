@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlimefunGuideOpenEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.api.events</a> &gt; <span class="el_source">SlimefunGuideOpenEvent.java</span></div><h1>SlimefunGuideOpenEvent.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.api.events;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+
+/**
+ * This {@link Event} is called whenever a {@link Player} tries to open the Slimefun Guide book.
+ * 
+ * @author Linox
+ *
+ * @see SlimefunGuideMode
+ */
+public class SlimefunGuideOpenEvent extends Event implements Cancellable {
+
+<span class="nc" id="L23">    private static final HandlerList handlers = new HandlerList();</span>
+
+    private final Player player;
+    private final ItemStack guide;
+    private SlimefunGuideMode layout;
+    private boolean cancelled;
+
+<span class="nc" id="L30">    public SlimefunGuideOpenEvent(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunGuideMode layout) {</span>
+<span class="nc" id="L31">        Validate.notNull(p, &quot;The Player cannot be null&quot;);</span>
+<span class="nc" id="L32">        Validate.notNull(guide, &quot;Guide cannot be null&quot;);</span>
+<span class="nc" id="L33">        Validate.notNull(layout, &quot;Layout cannot be null&quot;);</span>
+<span class="nc" id="L34">        this.player = p;</span>
+<span class="nc" id="L35">        this.guide = guide;</span>
+<span class="nc" id="L36">        this.layout = layout;</span>
+<span class="nc" id="L37">    }</span>
+
+    /**
+     * This returns the {@link Player} that tries to open
+     * the Slimefun Guide.
+     *
+     * @return The {@link Player}
+     */
+    @Nonnull
+    public Player getPlayer() {
+<span class="nc" id="L47">        return player;</span>
+    }
+
+    /**
+     * This returns the {@link ItemStack} that {@link Player}
+     * tries to open the Slimefun Guide with.
+     *
+     * @return The {@link ItemStack}
+     */
+    @Nonnull
+    public ItemStack getGuide() {
+<span class="nc" id="L58">        return guide;</span>
+    }
+
+    /**
+     * This returns the {@link SlimefunGuideMode} of the Slimefun Guide
+     * that {@link Player} tries to open.
+     *
+     * @return The {@link SlimefunGuideMode}
+     */
+    @Nonnull
+    public SlimefunGuideMode getGuideLayout() {
+<span class="nc" id="L69">        return layout;</span>
+    }
+
+    /**
+     * Changes the {@link SlimefunGuideMode} that was tried to be opened with.
+     *
+     * @param layout
+     *            The new {@link SlimefunGuideMode}
+     */
+    public void setGuideLayout(@Nonnull SlimefunGuideMode layout) {
+<span class="nc" id="L79">        Validate.notNull(layout, &quot;You must specify a layout that is not-null!&quot;);</span>
+<span class="nc" id="L80">        this.layout = layout;</span>
+<span class="nc" id="L81">    }</span>
+
+    @Override
+    public boolean isCancelled() {
+<span class="nc" id="L85">        return cancelled;</span>
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+<span class="nc" id="L90">        this.cancelled = cancel;</span>
+<span class="nc" id="L91">    }</span>
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+<span class="nc" id="L95">        return handlers;</span>
+    }
+
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
+<span class="nc" id="L101">        return getHandlerList();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InventoryBlock.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces</a> &gt; <span class="el_source">InventoryBlock.java</span></div><h1>InventoryBlock.java</h1><pre class="source lang-java linenums">package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
+
+import java.lang.reflect.Array;
+import java.util.function.Consumer;
+
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+
+/**
+ * 
+ * @deprecated This interface is not designed to be used by addons. The entire inventory system will be replaced
+ *             eventually.
+ *
+ */
+public interface InventoryBlock {
+
+    /**
+     * This method returns an {@link Array} of slots that serve as the input
+     * for the {@link Inventory} of this block.
+     * 
+     * @return The input slots for the {@link Inventory} of this block
+     */
+    int[] getInputSlots();
+
+    /**
+     * This method returns an {@link Array} of slots that serve as the output
+     * for the {@link Inventory} of this block.
+     * 
+     * @return The output slots for the {@link Inventory} of this block
+     */
+    int[] getOutputSlots();
+
+    default void createPreset(SlimefunItem item, Consumer&lt;BlockMenuPreset&gt; setup) {
+<span class="nc" id="L42">        createPreset(item, item.getItemName(), setup);</span>
+<span class="nc" id="L43">    }</span>
+
+    default void createPreset(SlimefunItem item, String title, Consumer&lt;BlockMenuPreset&gt; setup) {
+<span class="nc" id="L46">        new BlockMenuPreset(item.getId(), title) {</span>
+
+            @Override
+            public void init() {
+<span class="nc" id="L50">                setup.accept(this);</span>
+<span class="nc" id="L51">            }</span>
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (flow == ItemTransportFlow.INSERT) {</span>
+<span class="nc" id="L56">                    return getInputSlots();</span>
+                } else {
+<span class="nc" id="L58">                    return getOutputSlots();</span>
+                }
+            }
+
+            @Override
+            public boolean canOpen(Block b, Player p) {
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                if (p.hasPermission(&quot;slimefun.inventory.bypass&quot;)) {</span>
+<span class="nc" id="L65">                    return true;</span>
+                } else {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                    return item.canUse(p, false) &amp;&amp; (</span>
+                        // Protection manager doesn't exist in unit tests
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                        Slimefun.instance().isUnitTest()</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                        || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK)</span>
+                    );
+                }
+            }
+        };
+<span class="nc" id="L75">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

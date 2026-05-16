@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntityInteractionListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners.entity</a> &gt; <span class="el_source">EntityInteractionListener.java</span></div><h1>EntityInteractionListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+/**
+ * The {@link Listener} responsible for a {@link Player} interacting with an {@link Entity}.
+ *
+ * @author Linox
+ * @author TheBusyBiscuit
+ *
+ * @see EntityInteractHandler
+ *
+ */
+public class EntityInteractionListener implements Listener {
+
+<span class="nc" id="L29">    public EntityInteractionListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L30">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L31">    }</span>
+
+    @EventHandler
+    public void onInteractEntity(PlayerInteractEntityEvent e) {
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (!e.getRightClicked().isValid()) {</span>
+<span class="nc" id="L36">            return;</span>
+        }
+
+        ItemStack itemStack;
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (e.getHand() == EquipmentSlot.OFF_HAND) {</span>
+<span class="nc" id="L42">            itemStack = e.getPlayer().getInventory().getItemInOffHand();</span>
+        } else {
+<span class="nc" id="L44">            itemStack = e.getPlayer().getInventory().getItemInMainHand();</span>
+        }
+
+<span class="nc" id="L47">        SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);</span>
+
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (sfItem != null) {</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (sfItem.canUse(e.getPlayer(), true)) {</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                sfItem.callItemHandler(EntityInteractHandler.class, handler -&gt; handler.onInteract(e, itemStack, e.getHand() == EquipmentSlot.OFF_HAND));</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            } else if (sfItem.getState() != ItemState.VANILLA_FALLBACK) {</span>
+                /*
+                 * If an Item is disabled, we don't want it to fallback to the vanilla behaviour
+                 * unless it is a Vanilla Item of course.
+                 * Related to Issue #2446
+                 */
+<span class="nc" id="L58">                e.setCancelled(true);</span>
+            }
+        }
+<span class="nc" id="L61">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

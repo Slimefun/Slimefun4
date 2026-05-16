@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlockPhysicsListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.listeners</a> &gt; <span class="el_source">BlockPhysicsListener.java</span></div><h1>BlockPhysicsListener.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Piston;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockPistonEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+/**
+ * This {@link Listener} is responsible for listening to any physics-based events, such
+ * as {@link EntityChangeBlockEvent} or a {@link BlockPistonEvent}.
+ * 
+ * This ensures that a {@link Piston} cannot be abused to break Slimefun blocks.
+ * 
+ * @author VoidAngel
+ * @author Poslovitch
+ * @author TheBusyBiscuit
+ * @author AccelShark
+ *
+ */
+public class BlockPhysicsListener implements Listener {
+
+<span class="nc" id="L41">    public BlockPhysicsListener(@Nonnull Slimefun plugin) {</span>
+<span class="nc" id="L42">        plugin.getServer().getPluginManager().registerEvents(this, plugin);</span>
+<span class="nc" id="L43">    }</span>
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onBlockFall(EntityChangeBlockEvent e) {
+<span class="nc bnc" id="L47" title="All 4 branches missed.">        if (e.getEntity().getType() == EntityType.FALLING_BLOCK &amp;&amp; BlockStorage.hasBlockInfo(e.getBlock())) {</span>
+<span class="nc" id="L48">            e.setCancelled(true);</span>
+<span class="nc" id="L49">            FallingBlock block = (FallingBlock) e.getEntity();</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (block.getDropItem()) {</span>
+<span class="nc" id="L52">                block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getBlockData().getMaterial(), 1));</span>
+            }
+        }
+<span class="nc" id="L55">    }</span>
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPistonExtend(BlockPistonExtendEvent e) {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (BlockStorage.hasBlockInfo(e.getBlock())) {</span>
+<span class="nc" id="L60">            e.setCancelled(true);</span>
+        } else {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            for (Block b : e.getBlocks()) {</span>
+<span class="nc bnc" id="L63" title="All 6 branches missed.">                if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR &amp;&amp; BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {</span>
+<span class="nc" id="L64">                    e.setCancelled(true);</span>
+<span class="nc" id="L65">                    break;</span>
+                }
+<span class="nc" id="L67">            }</span>
+        }
+<span class="nc" id="L69">    }</span>
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPistonRetract(BlockPistonRetractEvent e) {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (BlockStorage.hasBlockInfo(e.getBlock())) {</span>
+<span class="nc" id="L74">            e.setCancelled(true);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        } else if (e.isSticky()) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            for (Block b : e.getBlocks()) {</span>
+<span class="nc bnc" id="L77" title="All 6 branches missed.">                if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR &amp;&amp; BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {</span>
+<span class="nc" id="L78">                    e.setCancelled(true);</span>
+<span class="nc" id="L79">                    break;</span>
+                }
+<span class="nc" id="L81">            }</span>
+        }
+<span class="nc" id="L83">    }</span>
+
+    @EventHandler(ignoreCancelled = true)
+    public void onLiquidFlow(BlockFromToEvent e) {
+<span class="nc" id="L87">        Block block = e.getToBlock();</span>
+<span class="nc" id="L88">        Material type = block.getType();</span>
+
+        // Check if this Material can be destroyed by fluids
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (SlimefunTag.FLUID_SENSITIVE_MATERIALS.isTagged(type)) {</span>
+            // Check if this Block holds any data
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (BlockStorage.hasBlockInfo(block)) {</span>
+<span class="nc" id="L94">                e.setCancelled(true);</span>
+            } else {
+<span class="nc" id="L96">                Location loc = block.getLocation();</span>
+
+                // Fixes #2496 - Make sure it is not a moving block
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                if (Slimefun.getTickerTask().isOccupiedSoon(loc)) {</span>
+<span class="nc" id="L100">                    e.setCancelled(true);</span>
+                }
+            }
+        }
+<span class="nc" id="L104">    }</span>
+
+    @EventHandler
+    public void onBucketUse(PlayerBucketEmptyEvent e) {
+        // Fix for placing water on player heads
+<span class="nc" id="L109">        Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (BlockStorage.hasBlockInfo(l)) {</span>
+<span class="nc" id="L112">            e.setCancelled(true);</span>
+        }
+<span class="nc" id="L114">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

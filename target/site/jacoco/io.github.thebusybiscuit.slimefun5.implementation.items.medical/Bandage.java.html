@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Bandage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Slimefun</a> &gt; <a href="index.source.html" class="el_package">io.github.thebusybiscuit.slimefun4.implementation.items.medical</a> &gt; <span class="el_source">Bandage.java</span></div><h1>Bandage.java</h1><pre class="source lang-java linenums">package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedAttribute;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPotionEffectType;
+
+/**
+ * A {@link Bandage} or Rag is a medical supply which heals the {@link Player} and extinguishes
+ * fire.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class Bandage extends SimpleSlimefunItem&lt;ItemUseHandler&gt; {
+
+    private final int healingLevel;
+
+    @ParametersAreNonnullByDefault
+    public Bandage(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
+<span class="nc" id="L34">        super(itemGroup, item, recipeType, recipe, recipeOutput);</span>
+
+<span class="nc" id="L36">        this.healingLevel = healingLevel;</span>
+<span class="nc" id="L37">    }</span>
+
+    @Override
+    public ItemUseHandler getItemHandler() {
+<span class="nc" id="L41">        return e -&gt; {</span>
+<span class="nc" id="L42">            Player p = e.getPlayer();</span>
+
+            // Player is neither burning nor injured
+<span class="nc bnc" id="L45" title="All 4 branches missed.">            if (p.getFireTicks() &lt;= 0 &amp;&amp; p.getHealth() &gt;= p.getAttribute(VersionedAttribute.MAX_HEALTH).getValue()) {</span>
+<span class="nc" id="L46">                return;</span>
+            }
+
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            if (p.getGameMode() != GameMode.CREATIVE) {</span>
+<span class="nc" id="L50">                ItemUtils.consumeItem(e.getItem(), false);</span>
+            }
+
+<span class="nc" id="L53">            p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, Material.WHITE_WOOL);</span>
+<span class="nc" id="L54">            p.addPotionEffect(new PotionEffect(VersionedPotionEffectType.INSTANT_HEALTH, 1, healingLevel));</span>
+<span class="nc" id="L55">            p.setFireTicks(0);</span>
+
+<span class="nc" id="L57">            e.cancel();</span>
+<span class="nc" id="L58">        };</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
