@@ -1,0 +1,22 @@
+name: Merge Conflicts
+
+on:
+  push:
+    branches:
+    - stable
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    if: github.repository == 'Slimefun5/Slimefun5'
+    name: Check for merge conflicts
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: mschilde/auto-label-merge-conflicts@master
+      with:
+        CONFLICT_LABEL_NAME: '⚡ Merge Conflicts'
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
