@@ -1,0 +1,12 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    uses: Slimefun5/workflows/.github/workflows/release.yaml@stable

@@ -1,0 +1,7 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    uses: Slimefun5/workflows/.github/workflows/ci.yaml@stable
