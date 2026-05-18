@@ -15,3 +15,6 @@ bin/
 *.log
 
 target/
+
+# Server runtime (test server)
+run/
