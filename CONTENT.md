@@ -1,6 +1,6 @@
-Slimefun is a Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.
-
 It offers everything you could possibly imagine, from Backpacks to Jetpacks! Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.
+We got everything from magical wands to nuclear reactors.
+We feature a magical altar, an electric power grid and even item transport systems.
 
 ## Features
 
