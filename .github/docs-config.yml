@@ -1,4 +1,6 @@
 description: "Slimefun is a Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server."
 java: "25"
-paper: "1.16.* - 26.1.*"
+paper: "26.1.2"
 gradle_plugin: "1.8.2.1"
+
+bstats: 4574
