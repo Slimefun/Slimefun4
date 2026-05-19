@@ -53,24 +53,24 @@ public class MetricsService {
     /**
      * The Name of our repository - Version 2 of this repo (due to big breaking changes)
      */
-    private static final String REPO_NAME = "MetricsModule2";
+    private static final String REPO_NAME = "SlimefunMetrics";
 
     /**
      * The name of the metrics jar file.
      */
-    private static final String JAR_NAME = "MetricsModule";
+    private static final String JAR_NAME = "SlimefunMetrics";
 
     /**
      * The URL pointing towards the /releases/ endpoint of our
      * Metrics repository
      */
-    private static final String RELEASES_URL = API_URL + "repos/Slimefun/" + REPO_NAME + "/releases/latest";
+    private static final String RELEASES_URL = API_URL + "repos/Slimefun5/" + REPO_NAME + "/releases/latest";
 
     /**
      * The URL pointing towards the download location for a
      * GitHub release of our Metrics repository
      */
-    private static final String DOWNLOAD_URL = "https://github.com/Slimefun/" + REPO_NAME + "/releases/download";
+    private static final String DOWNLOAD_URL = "https://github.com/Slimefun5/" + REPO_NAME + "/releases/download";
 
     private final Slimefun plugin;
     private final File parentFolder;
