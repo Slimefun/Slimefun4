@@ -161,7 +161,7 @@
                 <!-- Sonarcloud Scanner -->
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>5.0.0.4389</version>
+                <version>5.7.0.6970</version>
             </plugin>
 
             <plugin>
