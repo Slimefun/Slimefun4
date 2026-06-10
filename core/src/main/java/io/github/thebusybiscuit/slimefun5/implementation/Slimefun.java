@@ -622,65 +622,83 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
      */
     private void registerListeners() {
         // Old deprecated CS-CoreLib Listener
-        new MenuListener(this);
+        register(() -> new MenuListener(this));
 
-        new SlimefunBootsListener(this);
-        new SlimefunItemInteractListener(this);
-        new SlimefunItemConsumeListener(this);
-        new BlockPhysicsListener(this);
-        new CargoNodeListener(this);
-        new MultiBlockListener(this);
-        new GadgetsListener(this);
-        new DispenserListener(this);
-        new BlockListener(this);
-        new EnhancedFurnaceListener(this);
-        new ItemPickupListener(this);
-        new ItemDropListener(this);
-        new DeathpointListener(this);
-        new ExplosionsListener(this);
-        new DebugFishListener(this);
-        new FireworksListener(this);
-        new WitherListener(this);
-        new IronGolemListener(this);
-        new EntityInteractionListener(this);
-        new MobDropListener(this);
-        new VillagerTradingListener(this);
-        new ElytraImpactListener(this);
-        new CraftingTableListener(this);
-        new AnvilListener(this);
-        new BrewingStandListener(this);
-        new CauldronListener(this);
-        new GrindstoneListener(this);
-        new CartographyTableListener(this);
-        new ButcherAndroidListener(this);
-        new MiningAndroidListener(this);
-        new NetworkListener(this, networkManager);
-        new HopperListener(this);
-        new TalismanListener(this);
-        new SoulboundListener(this);
-        new AutoCrafterListener(this);
-        new SlimefunItemHitListener(this);
-        new MiddleClickListener(this);
-        new BeeListener(this);
-        new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
-        new PiglinListener(this);
-        new SmithingTableListener(this);
-        new JoinListener(this);
+        register(() -> new SlimefunBootsListener(this));
+        register(() -> new SlimefunItemInteractListener(this));
+        register(() -> new SlimefunItemConsumeListener(this));
+        register(() -> new BlockPhysicsListener(this));
+        register(() -> new CargoNodeListener(this));
+        register(() -> new MultiBlockListener(this));
+        register(() -> new GadgetsListener(this));
+        register(() -> new DispenserListener(this));
+        register(() -> new BlockListener(this));
+        register(() -> new EnhancedFurnaceListener(this));
+        register(() -> new ItemPickupListener(this));
+        register(() -> new ItemDropListener(this));
+        register(() -> new DeathpointListener(this));
+        register(() -> new ExplosionsListener(this));
+        register(() -> new DebugFishListener(this));
+        register(() -> new FireworksListener(this));
+        register(() -> new WitherListener(this));
+        register(() -> new IronGolemListener(this));
+        register(() -> new EntityInteractionListener(this));
+        register(() -> new MobDropListener(this));
+        register(() -> new VillagerTradingListener(this));
+        register(() -> new ElytraImpactListener(this));
+        register(() -> new CraftingTableListener(this));
+        register(() -> new AnvilListener(this));
+        register(() -> new BrewingStandListener(this));
+        register(() -> new CauldronListener(this));
+        register(() -> new GrindstoneListener(this));
+        register(() -> new CartographyTableListener(this));
+        register(() -> new ButcherAndroidListener(this));
+        register(() -> new MiningAndroidListener(this));
+        register(() -> new NetworkListener(this, networkManager));
+        register(() -> new HopperListener(this));
+        register(() -> new TalismanListener(this));
+        register(() -> new SoulboundListener(this));
+        register(() -> new AutoCrafterListener(this));
+        register(() -> new SlimefunItemHitListener(this));
+        register(() -> new MiddleClickListener(this));
+        register(() -> new BeeListener(this));
+        register(() -> new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem()));
+        register(() -> new PiglinListener(this));
+        register(() -> new SmithingTableListener(this));
+        register(() -> new JoinListener(this));
 
         // Item-specific Listeners
-        new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
-        new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem());
-        new RadioactivityListener(this);
-        new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
-        grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
-        bowListener.register(this);
-        backpackListener.register(this);
+        register(() -> new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem()));
+        register(() -> new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem()));
+        register(() -> new RadioactivityListener(this));
+        register(() -> new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem()));
+        register(() -> grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem()));
+        register(() -> bowListener.register(this));
+        register(() -> backpackListener.register(this));
 
         // Handle Slimefun Guide being given on Join
-        new SlimefunGuideListener(this, config.getBoolean("guide.receive-on-first-join"));
+        register(() -> new SlimefunGuideListener(this, config.getBoolean("guide.receive-on-first-join")));
 
         // Clear the Slimefun Guide History upon Player Leaving
-        new PlayerProfileListener(this);
+        register(() -> new PlayerProfileListener(this));
+    }
+
+    /**
+     * Registers a single {@link Listener}, tolerating failures caused by the universal Java-8 jar
+     * running on a legacy server. A {@link Listener} whose event types or items only exist on newer
+     * Minecraft versions throws {@link NoClassDefFoundError} (or another {@link LinkageError}) when
+     * Bukkit inspects its handler methods; on modern servers this never triggers, but on legacy we
+     * log and skip that one listener instead of aborting the whole plugin enable.
+     *
+     * @param listenerInit
+     *            The action that constructs and registers the {@link Listener}
+     */
+    private void register(@Nonnull Runnable listenerInit) {
+        try {
+            listenerInit.run();
+        } catch (LinkageError | RuntimeException e) {
+            getLogger().log(Level.WARNING, e, () -> "Skipped a listener that is unavailable on this Minecraft version");
+        }
     }
 
     /**
