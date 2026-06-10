@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun5.api.exceptions;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 
 import io.github.thebusybiscuit.slimefun5.utils.tags.SlimefunTag;
 

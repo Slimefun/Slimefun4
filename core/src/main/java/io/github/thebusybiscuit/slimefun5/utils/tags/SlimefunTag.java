@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import io.github.thebusybiscuit.slimefun5.implementation.items.autocrafters.AbstractAutoCrafter;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 
 import io.github.thebusybiscuit.slimefun5.api.exceptions.TagMisconfigurationException;
