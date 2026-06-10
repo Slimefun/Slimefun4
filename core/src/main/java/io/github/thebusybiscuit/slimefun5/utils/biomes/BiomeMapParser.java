@@ -21,7 +21,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun5.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun5.api.exceptions.BiomeMapException;
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.JsonUtils;
 import io.github.thebusybiscuit.slimefun5.utils.PatternUtils;
 
@@ -159,6 +161,11 @@ public class BiomeMapParser<T> {
         }
     }
 
+    private static boolean isLegacyServer() {
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
+        return version != null && version.isBefore(MinecraftVersion.MINECRAFT_1_13);
+    }
+
     private @Nonnull Set<Biome> readBiomes(@Nonnull JsonArray array) throws BiomeMapException {
         Validate.notNull(array, "The JSON array should not be null!");
         Set<Biome> biomes = new HashSet<>();
@@ -174,8 +181,11 @@ public class BiomeMapParser<T> {
                         Biome biome = Biome.valueOf(formattedValue);
                         biomes.add(biome);
                     } catch (IllegalArgumentException x) {
-                        // Lenient Parsers will ignore unknown biomes
-                        if (isLenient) {
+                        // Lenient parsers ignore unknown biomes. On legacy servers (pre-1.13) many
+                        // biome enum names were renamed (e.g. BEACH -> BEACHES), so a modern name not
+                        // existing is expected rather than a misconfiguration - skip it instead of
+                        // failing the whole biome map with a stacktrace.
+                        if (isLenient || isLegacyServer()) {
                             continue;
                         }
 
