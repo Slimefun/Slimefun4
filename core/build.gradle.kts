@@ -100,14 +100,14 @@ tasks {
         // Raise javac's default 100-error cap so the Java-8 port can see the full remaining surface.
         options.compilerArgs.addAll(listOf("-Xmaxerrs", "2000", "-Xmaxwarns", "2000"))
         exclude("**/package-info.java")
-        // Java-8 port: these optional integration hooks need modern-JVM libs; excluded for now and
-        // re-introduced via reflection later (see IntegrationsManager).
+        // Java-8 port: ClearLag/mcMMO/Orebfuscator hooks were rewritten to call their plugin APIs
+        // purely via reflection (no third-party type on the compile classpath), so they compile and
+        // re-activate at runtime when their plugin is present. WorldEdit and PlaceholderAPI remain
+        // excluded: their hooks must subclass a third-party class (AbstractDelegateExtent /
+        // PlaceholderExpansion), which is impossible without the Java-17 API on the Java-8 classpath.
         exclude(
             "**/integrations/WorldEditIntegration.java",
-            "**/integrations/McMMOIntegration.java",
-            "**/integrations/PlaceholderAPIIntegration.java",
-            "**/integrations/ClearLagIntegration.java",
-            "**/integrations/OrebfuscatorIntegration.java"
+            "**/integrations/PlaceholderAPIIntegration.java"
         )
     }
 

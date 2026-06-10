@@ -12,6 +12,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.ServicesManager;
 
 import io.github.thebusybiscuit.slimefun5.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun5.api.events.ExplosiveToolBreakBlocksEvent;
@@ -19,37 +20,55 @@ import io.github.thebusybiscuit.slimefun5.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun5.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.tools.GoldPan;
-
-import net.imprex.orebfuscator.api.OrebfuscatorService;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 
 /**
- * 
- * This handles block breaks with orebfuscator
- * 
- * @author NgLoader
+ * This handles block breaks with Orebfuscator.
  *
+ * <p>
+ * Java-8 universal port: {@code net.imprex.orebfuscator.api.OrebfuscatorService} is Java-17 bytecode
+ * and cannot sit on the Java-8 compile classpath, so the service is held as an opaque {@link Object}
+ * and {@code deobfuscate(Collection)} is invoked reflectively. All of this class's event handlers are
+ * on Slimefun's own events, so the class itself references no Orebfuscator type in its bytecode and is
+ * only ever registered when Orebfuscator is actually installed.
+ *
+ * @author NgLoader
  */
 class OrebfuscatorIntegration implements Listener {
 
+    private static final String SERVICE_CLASS = "net.imprex.orebfuscator.api.OrebfuscatorService";
+
     private final Slimefun plugin;
-    private OrebfuscatorService service;
+    private Object service;
 
     OrebfuscatorIntegration(@Nonnull Slimefun plugin) {
         this.plugin = plugin;
     }
 
     /**
-     * Init orebfuscation service and register listener
+     * Resolves the Orebfuscator service reflectively and registers the listener.
      */
     public void register() {
-        this.service = Bukkit.getServer().getServicesManager().getRegistration(OrebfuscatorService.class).getProvider();
+        ServicesManager servicesManager = Bukkit.getServer().getServicesManager();
+
+        try {
+            Class<?> serviceClass = Class.forName(SERVICE_CLASS);
+            this.service = servicesManager.getRegistration(serviceClass.asSubclass(Object.class)).getProvider();
+        } catch (ClassNotFoundException | RuntimeException e) {
+            // Re-throw so the IntegrationsManager logs and skips this integration.
+            throw new IllegalStateException("Could not resolve the Orebfuscator service", e);
+        }
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+    private void deobfuscate(@Nonnull Object blocks) {
+        ReflectionCompat.invoke(service, "deobfuscate", blocks);
+    }
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockPlacerPlace(BlockPlacerPlaceEvent event) {
-        this.service.deobfuscate(Arrays.asList(event.getBlock(), event.getBlockPlacer()));
+        deobfuscate(Arrays.asList(event.getBlock(), event.getBlockPlacer()));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -57,19 +76,18 @@ class OrebfuscatorIntegration implements Listener {
         Set<Block> blocks = new HashSet<>();
         blocks.addAll(event.getAdditionalBlocks());
         blocks.add(event.getPrimaryBlock());
-        this.service.deobfuscate(blocks);
+        deobfuscate(blocks);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onReactorExplode(ReactorExplodeEvent event) {
-        this.service.deobfuscate(Arrays.asList(event.getLocation().getBlock()));
+        deobfuscate(Arrays.asList(event.getLocation().getBlock()));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onGoldPanUse(PlayerRightClickEvent event) {
         if (event.getSlimefunItem().isPresent() && event.getClickedBlock().isPresent() && event.getSlimefunItem().get() instanceof GoldPan) {
-            this.service.deobfuscate(List.of(event.getClickedBlock().get()));
+            deobfuscate(Arrays.asList(event.getClickedBlock().get()));
         }
     }
 }
-

@@ -15,6 +15,7 @@ import org.bukkit.Server;
 import io.github.bakedlibs.dough.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
@@ -100,6 +101,63 @@ public class IntegrationsManager {
         } catch (Exception | LinkageError x) {
             Slimefun.logger().log(Level.WARNING, x, () -> "Failed to load Protection plugin integrations for Slimefun v" + Slimefun.getVersion());
         }
+
+        // Java-8 universal port: these soft-dependency hooks are re-added via reflection so they stay
+        // optional and JVM-version-agnostic. Each hook references no third-party type in its bytecode
+        // and is only registered when its plugin is actually present.
+        if (isPluginInstalled("ClearLag")) {
+            isClearLagInstalled = register("ClearLag", () -> new ClearLagIntegration(plugin).register());
+        }
+
+        if (isPluginInstalled("mcMMO")) {
+            isMcMMOInstalled = register("mcMMO", () -> new McMMOIntegration(plugin).register());
+        }
+
+        if (isPluginInstalled("Orebfuscator")) {
+            isOrebfuscatorInstalled = register("Orebfuscator", () -> new OrebfuscatorIntegration(plugin).register());
+        }
+
+        // Detection-only hooks (no listener to register): ItemsAdder is queried on demand below.
+        isItemsAdderInstalled = isPluginInstalled("ItemsAdder");
+
+        // WorldEdit and PlaceholderAPI cannot be re-added via reflection (their hooks must subclass a
+        // third-party class - AbstractDelegateExtent / PlaceholderExpansion - which is impossible
+        // without the Java-17 API on the compile classpath). They remain detected but inactive.
+        isWorldEditInstalled = isPluginInstalled("WorldEdit");
+        isPlaceholderAPIInstalled = isPluginInstalled("PlaceholderAPI");
+    }
+
+    /**
+     * Detects whether a {@link Plugin} is installed (loaded) on this server.
+     *
+     * @param name
+     *            The plugin name
+     *
+     * @return Whether the plugin is present
+     */
+    private boolean isPluginInstalled(@Nonnull String name) {
+        return Bukkit.getPluginManager().getPlugin(name) != null;
+    }
+
+    /**
+     * Runs a hook registration, logging and swallowing any failure so a broken integration never
+     * disrupts the others.
+     *
+     * @param name
+     *            The integration name (for logging)
+     * @param registration
+     *            The registration action
+     *
+     * @return Whether registration succeeded
+     */
+    private boolean register(@Nonnull String name, @Nonnull Runnable registration) {
+        try {
+            registration.run();
+            return true;
+        } catch (Exception | LinkageError x) {
+            logError(name, x);
+            return false;
+        }
     }
 
     /**
@@ -143,8 +201,17 @@ public class IntegrationsManager {
      * @return Whether this is a fake event
      */
     public boolean isEventFaked(@Nonnull Event event) {
-        // mcMMO hook disabled in the Java-8 stub.
-        return false;
+        // mcMMO fires "fake" events (marked by com.gmail.nossr50.events.fake.FakeEvent) for its
+        // abilities; resolve that marker reflectively so we don't act on them.
+        if (!isMcMMOInstalled) {
+            return false;
+        }
+
+        try {
+            return Class.forName("com.gmail.nossr50.events.fake.FakeEvent").isInstance(event);
+        } catch (Throwable e) {
+            return false;
+        }
     }
 
     /**
@@ -157,8 +224,17 @@ public class IntegrationsManager {
      * @return Whether a different custom {@link Block} exists at that location
      */
     public boolean isCustomBlock(@Nonnull Block block) {
-        // ItemsAdder hook disabled in the Java-8 stub.
-        return false;
+        // ItemsAdder: CustomBlock.byAlreadyPlaced(block) != null, resolved reflectively.
+        if (!isItemsAdderInstalled) {
+            return false;
+        }
+
+        try {
+            Object result = ReflectionCompat.invokeStatic(Class.forName("dev.lone.itemsadder.api.CustomBlock"), "byAlreadyPlaced", block);
+            return result != null;
+        } catch (Throwable e) {
+            return false;
+        }
     }
 
     /**
@@ -171,8 +247,17 @@ public class IntegrationsManager {
      * @return Whether this {@link ItemStack} is a custom item
      */
     public boolean isCustomItem(@Nonnull ItemStack item) {
-        // ItemsAdder hook disabled in the Java-8 stub.
-        return false;
+        // ItemsAdder: CustomStack.byItemStack(item) != null, resolved reflectively.
+        if (!isItemsAdderInstalled) {
+            return false;
+        }
+
+        try {
+            Object result = ReflectionCompat.invokeStatic(Class.forName("dev.lone.itemsadder.api.CustomStack"), "byItemStack", item);
+            return result != null;
+        } catch (Throwable e) {
+            return false;
+        }
     }
 
     /**
@@ -182,7 +267,16 @@ public class IntegrationsManager {
      *            The {@link ItemStack}
      */
     public void removeTemporaryEnchantments(@Nonnull ItemStack item) {
-        // mcMMO hook disabled in the Java-8 stub.
+        // mcMMO applies temporary ability buffs; remove them via SkillUtils reflectively.
+        if (!isMcMMOInstalled) {
+            return;
+        }
+
+        try {
+            ReflectionCompat.invokeStatic(Class.forName("com.gmail.nossr50.util.skills.SkillUtils"), "removeAbilityBuff", item);
+        } catch (Throwable e) {
+            // mcMMO API mismatch - ignore.
+        }
     }
 
     public boolean isPlaceholderAPIInstalled() {
