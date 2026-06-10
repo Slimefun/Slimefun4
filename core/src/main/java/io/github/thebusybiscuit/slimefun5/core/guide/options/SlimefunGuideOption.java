@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Keyed;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.Keyed;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

@@ -4,7 +4,7 @@ import java.time.Month;
 
 import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;

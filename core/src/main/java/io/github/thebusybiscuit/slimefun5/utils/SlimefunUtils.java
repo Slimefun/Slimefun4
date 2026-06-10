@@ -22,7 +22,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -34,8 +34,6 @@ import org.bukkit.potion.PotionData;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.PotionCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.ItemMetaCompat;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
@@ -155,10 +153,9 @@ public final class SlimefunUtils {
 
     private static boolean hasSoulboundFlag(@Nullable ItemMeta meta) {
         if (meta != null) {
-            PersistentDataContainer container = PdcCompat.container(meta);
             NamespacedKey key = Slimefun.getRegistry().getSoulboundDataKey();
 
-            return container.has(key, PersistentDataType.BYTE);
+            return PdcCompat.has(meta, key, "BYTE");
         }
 
         return false;
@@ -186,15 +183,14 @@ public final class SlimefunUtils {
         boolean isSoulbound = isSoulbound(item);
         ItemMeta meta = item.getItemMeta();
 
-        PersistentDataContainer container = PdcCompat.container(meta);
         NamespacedKey key = Slimefun.getRegistry().getSoulboundDataKey();
 
         if (makeSoulbound && !isSoulbound) {
-            container.set(key, PersistentDataType.BYTE, (byte) 1);
+            PdcCompat.set(meta, key, "BYTE", (byte) 1);
         }
 
         if (!makeSoulbound && isSoulbound) {
-            container.remove(key);
+            PdcCompat.remove(meta, key);
         }
 
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();

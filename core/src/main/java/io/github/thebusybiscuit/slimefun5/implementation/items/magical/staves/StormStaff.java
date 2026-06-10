@@ -8,7 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import java.util.Set;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;

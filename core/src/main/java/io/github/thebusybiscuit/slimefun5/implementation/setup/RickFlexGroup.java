@@ -6,7 +6,7 @@ import java.time.Month;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;

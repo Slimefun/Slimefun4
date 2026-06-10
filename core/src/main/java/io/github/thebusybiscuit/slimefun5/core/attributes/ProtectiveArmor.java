@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun5.core.attributes;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun5.implementation.items.armor.HazmatArmorPiece;
