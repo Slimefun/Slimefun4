@@ -1,5 +1,8 @@
 import java.util.concurrent.TimeUnit
 import java.io.ByteArrayOutputStream
+import java.net.URI
+import java.nio.file.FileSystems
+import java.nio.file.Files
 plugins {
     java
     id("com.gradleup.shadow")
@@ -136,6 +139,54 @@ tasks {
 
         from(rootProject.projectDir) {
             include("LICENSE")
+        }
+
+        // Java-8 universal jar: the shaded XSeries 9.10.0 parses the server version with the regex
+        // "MC: \d\.(\d+)", which hard-codes a single-digit major (the "1." of "1.x") and throws
+        // "Failed to parse server version" on a 26.x major. Newer XSeries that handle arbitrary
+        // majors require Java 11+, so instead we binary-patch this one constant in the relocated
+        // XMaterial$Data class to "MC: (?:1\.)?(\d+)": for "1.x" group(1) is still the minor (e.g. 16),
+        // for "26.x" it is the major (26 >= 13 -> flattened-material mode). Matching includes the
+        // 2-byte UTF-8 length prefix so it targets the constant-pool entry precisely and is idempotent.
+        doLast {
+            val jarFile = archiveFile.get().asFile
+            val entryName = "io/github/thebusybiscuit/slimefun5/libraries/xseries/XMaterial\$Data.class"
+
+            fun u2(value: ByteArray): ByteArray = byteArrayOf((value.size shr 8 and 0xFF).toByte(), (value.size and 0xFF).toByte())
+            val oldConst = u2("MC: \\d\\.(\\d+)".toByteArray(Charsets.UTF_8)) + "MC: \\d\\.(\\d+)".toByteArray(Charsets.UTF_8)
+            val newConst = u2("MC: (?:1\\.)?(\\d+)".toByteArray(Charsets.UTF_8)) + "MC: (?:1\\.)?(\\d+)".toByteArray(Charsets.UTF_8)
+
+            fun indexOf(haystack: ByteArray, needle: ByteArray): Int {
+                outer@ for (i in 0..haystack.size - needle.size) {
+                    for (j in needle.indices) {
+                        if (haystack[i + j] != needle[j]) continue@outer
+                    }
+                    return i
+                }
+                return -1
+            }
+
+            val uri = URI.create("jar:" + jarFile.toURI())
+            FileSystems.newFileSystem(uri, mapOf<String, String>()).use { fs ->
+                val path = fs.getPath(entryName)
+                if (!Files.exists(path)) {
+                    logger.warn("XSeries 26.x patch: $entryName not found in jar")
+                } else {
+                    val content = Files.readAllBytes(path)
+                    if (indexOf(content, newConst) >= 0) {
+                        logger.lifecycle("XSeries 26.x patch: already applied")
+                    } else {
+                        val idx = indexOf(content, oldConst)
+                        if (idx < 0) {
+                            logger.warn("XSeries 26.x patch: version regex constant not found (XSeries version changed?)")
+                        } else {
+                            val patched = content.copyOfRange(0, idx) + newConst + content.copyOfRange(idx + oldConst.size, content.size)
+                            Files.write(path, patched)
+                            logger.lifecycle("XSeries 26.x patch: rewrote XMaterial\$Data version regex for non-1.x majors")
+                        }
+                    }
+                }
+            }
         }
     }
 
