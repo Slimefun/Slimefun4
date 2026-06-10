@@ -19,6 +19,19 @@ import io.papermc.lib.PaperLib;
  */
 public enum MinecraftVersion {
 
+    /*
+     * Java-8 universal port: legacy versions 1.8-1.15 are supported by the universal jar. They are
+     * listed FIRST so the enum ordinal order stays oldest-to-newest (isAtLeast/isBefore rely on it).
+     */
+    MINECRAFT_1_8(8, "1.8.x"),
+    MINECRAFT_1_9(9, "1.9.x"),
+    MINECRAFT_1_10(10, "1.10.x"),
+    MINECRAFT_1_11(11, "1.11.x"),
+    MINECRAFT_1_12(12, "1.12.x"),
+    MINECRAFT_1_13(13, "1.13.x"),
+    MINECRAFT_1_14(14, "1.14.x"),
+    MINECRAFT_1_15(15, "1.15.x"),
+
     /**
      * This constant represents Minecraft (Java Edition) Version 1.16
      * (The "Nether Update")
