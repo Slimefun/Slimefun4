@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.implementation.guide;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -14,7 +16,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Tag;
+import com.cryptomorin.xseries.XMaterial;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -108,8 +111,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
             try {
-                if (group instanceof FlexItemGroup flexItemGroup) {
-                    if (flexItemGroup.isVisible(p, profile, getMode())) {
+                if (group instanceof FlexItemGroup) {
+                    FlexItemGroup flexItemGroup = (FlexItemGroup) group;                    if (flexItemGroup.isVisible(p, profile, getMode())) {
                         groups.add(group);
                     }
                 } else if (!group.isHidden(p)) {
@@ -222,8 +225,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        if (itemGroup instanceof FlexItemGroup flexItemGroup) {
-            flexItemGroup.open(p, profile, getMode());
+        if (itemGroup instanceof FlexItemGroup) {
+            FlexItemGroup flexItemGroup = (FlexItemGroup) itemGroup;            flexItemGroup.open(p, profile, getMode());
             return;
         }
 
@@ -482,16 +485,16 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private <T extends Recipe> void showRecipeChoices(T recipe, ItemStack[] recipeItems, AsyncRecipeChoiceTask task) {
         RecipeChoice[] choices = Slimefun.getMinecraftRecipeService().getRecipeShape(recipe);
 
-        if (choices.length == 1 && choices[0] instanceof MaterialChoice materialChoice) {
-            recipeItems[4] = new ItemStack(materialChoice.getChoices().get(0));
+        if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
+            MaterialChoice materialChoice = (MaterialChoice) choices[0];            recipeItems[4] = new ItemStack(materialChoice.getChoices().get(0));
 
             if (materialChoice.getChoices().size() > 1) {
                 task.add(recipeSlots[4], materialChoice);
             }
         } else {
             for (int i = 0; i < choices.length; i++) {
-                if (choices[i] instanceof MaterialChoice materialChoice) {
-                    recipeItems[i] = new ItemStack(materialChoice.getChoices().get(0));
+                if (choices[i] instanceof MaterialChoice) {
+                    MaterialChoice materialChoice = (MaterialChoice) choices[i];                    recipeItems[i] = new ItemStack(materialChoice.getChoices().get(0));
 
                     if (materialChoice.getChoices().size() > 1) {
                         task.add(recipeSlots[i], materialChoice);
@@ -514,7 +517,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         Optional<String> wiki = item.getWikipage();
 
         if (wiki.isPresent()) {
-            menu.addItem(8, CustomItemStack.create(Material.KNOWLEDGE_BOOK, ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
+            menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(), ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
                 pl.closeInventory();
                 ChatUtils.sendURL(pl, wiki.get());
@@ -534,8 +537,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         displayItem(menu, profile, p, item, result, recipeType, recipe, task);
 
-        if (item instanceof RecipeDisplayItem recipeDisplayItem) {
-            displayRecipes(p, profile, menu, recipeDisplayItem, 0);
+        if (item instanceof RecipeDisplayItem) {
+            RecipeDisplayItem recipeDisplayItem = (RecipeDisplayItem) item;            displayRecipes(p, profile, menu, recipeDisplayItem, 0);
         }
 
         menu.open(p);
@@ -592,7 +595,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         // Settings Panel
         menu.addItem(1, ChestMenuUtils.getMenuButton(p));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
-            SlimefunGuideSettings.openSettings(pl, pl.getInventory().getItemInMainHand());
+            SlimefunGuideSettings.openSettings(pl, HandCompat.getMainHand(pl.getInventory()));
             return false;
         });
 

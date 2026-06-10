@@ -54,8 +54,8 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
         List<ItemGroup> groups = new LinkedList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
-            if (!(group instanceof FlexItemGroup flexItemGroup) || flexItemGroup.isVisible(p, profile, getMode())) {
-                groups.add(group);
+            if (!(group instanceof FlexItemGroup) || ((FlexItemGroup) group).isVisible(p, profile, getMode())) {
+                FlexItemGroup flexItemGroup = (FlexItemGroup) group;                groups.add(group);
             }
         }
 
