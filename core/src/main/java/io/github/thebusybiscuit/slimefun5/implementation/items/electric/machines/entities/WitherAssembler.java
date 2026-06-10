@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link WitherAssembler} is an electrical machine that can automatically spawn
@@ -44,7 +45,7 @@ public class WitherAssembler extends AbstractEntityAssembler<Wither> {
 
     @Override
     public ItemStack getHead() {
-        return new ItemStack(XMaterial.WITHER_SKELETON_SKULL.parseMaterial(), 3);
+        return MaterialCompat.stack(XMaterial.WITHER_SKELETON_SKULL, 3);
     }
 
     @Override

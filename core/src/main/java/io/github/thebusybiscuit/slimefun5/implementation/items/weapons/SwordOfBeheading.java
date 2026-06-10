@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun5.core.handlers.EntityKillHandler;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link SwordOfBeheading} is a special kind of sword which allows you to obtain
@@ -73,38 +74,38 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
             if (fall || type == EntityCompat.entityType("ZOMBIE")) {
                 fall = true;
                 if (random.nextInt(100) < chanceZombie.getValue()) {
-                    e.getDrops().add(new ItemStack(XMaterial.ZOMBIE_HEAD.parseMaterial()));
+                    e.getDrops().add(MaterialCompat.stack(XMaterial.ZOMBIE_HEAD));
                 }
             }
             if (fall || type == EntityCompat.entityType("SKELETON")) {
                 fall = true;
                 if (random.nextInt(100) < chanceSkeleton.getValue()) {
-                    e.getDrops().add(new ItemStack(XMaterial.SKELETON_SKULL.parseMaterial()));
+                    e.getDrops().add(MaterialCompat.stack(XMaterial.SKELETON_SKULL));
                 }
             }
             if (fall || type == EntityCompat.entityType("CREEPER")) {
                 fall = true;
                 if (random.nextInt(100) < chanceCreeper.getValue()) {
-                    e.getDrops().add(new ItemStack(XMaterial.CREEPER_HEAD.parseMaterial()));
+                    e.getDrops().add(MaterialCompat.stack(XMaterial.CREEPER_HEAD));
                 }
             }
             if (fall || type == EntityCompat.entityType("WITHER_SKELETON")) {
                 fall = true;
                 if (random.nextInt(100) < chanceWitherSkeleton.getValue()) {
-                    e.getDrops().add(new ItemStack(XMaterial.WITHER_SKELETON_SKULL.parseMaterial()));
+                    e.getDrops().add(MaterialCompat.stack(XMaterial.WITHER_SKELETON_SKULL));
                 }
             }
             if (fall || type == EntityCompat.entityType("PIGLIN")) {
                 fall = true;
                 if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20) &&
                     random.nextInt(100) < chancePiglin.getValue()) {
-                    e.getDrops().add(new ItemStack(XMaterial.PIGLIN_HEAD.parseMaterial()));
+                    e.getDrops().add(MaterialCompat.stack(XMaterial.PIGLIN_HEAD));
                 }
             }
             if (fall || type == EntityCompat.entityType("PLAYER")) {
                 fall = true;
                 if (random.nextInt(100) < chancePlayer.getValue()) {
-                    ItemStack skull = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
+                    ItemStack skull = MaterialCompat.stack(XMaterial.PLAYER_HEAD);
 
                     ItemMeta meta = skull.getItemMeta();
                     ReflectionCompat.invoke((SkullMeta) meta, "setOwningPlayer", (Player) e.getEntity());

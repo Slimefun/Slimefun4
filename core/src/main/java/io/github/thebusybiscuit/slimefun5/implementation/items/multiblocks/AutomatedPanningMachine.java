@@ -32,6 +32,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.implementation.items.blocks.OutputChest;
 import io.github.thebusybiscuit.slimefun5.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun5.implementation.items.tools.NetherGoldPan;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link AutomatedPanningMachine} is a {@link MultiBlockMachine} that
@@ -51,7 +52,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public AutomatedPanningMachine(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(XMaterial.OAK_TRAPDOOR.parseMaterial()), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, MaterialCompat.stack(XMaterial.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
     }
 
     @Override

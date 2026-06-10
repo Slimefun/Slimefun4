@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun5.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link AutoDrier} is an implementation of {@link AContainer} that features recipes
@@ -44,19 +45,19 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHoppe
         recipeList.add(new ItemStack(Material.ROTTEN_FLESH));
         recipeList.add(new ItemStack(Material.LEATHER));
 
-        recipeList.add(new ItemStack(XMaterial.WET_SPONGE.parseMaterial()));
+        recipeList.add(MaterialCompat.stack(XMaterial.WET_SPONGE));
         recipeList.add(new ItemStack(Material.SPONGE));
 
-        recipeList.add(new ItemStack(XMaterial.KELP.parseMaterial()));
-        recipeList.add(new ItemStack(XMaterial.DRIED_KELP.parseMaterial()));
+        recipeList.add(MaterialCompat.stack(XMaterial.KELP));
+        recipeList.add(MaterialCompat.stack(XMaterial.DRIED_KELP));
 
         recipeList.add(new ItemStack(Material.POTION));
         recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
 
-        recipeList.add(new ItemStack(XMaterial.SPLASH_POTION.parseMaterial()));
+        recipeList.add(MaterialCompat.stack(XMaterial.SPLASH_POTION));
         recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
 
-        recipeList.add(new ItemStack(XMaterial.LINGERING_POTION.parseMaterial()));
+        recipeList.add(MaterialCompat.stack(XMaterial.LINGERING_POTION));
         recipeList.add(new ItemStack(Material.GLASS_BOTTLE));
 
         recipeList.add(new ItemStack(Material.WATER_BUCKET));
@@ -65,7 +66,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHoppe
         recipeList.add(new ItemStack(Material.COOKED_BEEF));
         recipeList.add(SlimefunItems.BEEF_JERKY.item());
 
-        recipeList.add(new ItemStack(XMaterial.COOKED_PORKCHOP.parseMaterial()));
+        recipeList.add(MaterialCompat.stack(XMaterial.COOKED_PORKCHOP));
         recipeList.add(SlimefunItems.PORK_JERKY.item());
 
         recipeList.add(new ItemStack(Material.COOKED_CHICKEN));
@@ -77,14 +78,14 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHoppe
         recipeList.add(new ItemStack(Material.COOKED_RABBIT));
         recipeList.add(SlimefunItems.RABBIT_JERKY.item());
 
-        recipeList.add(new ItemStack(XMaterial.COOKED_COD.parseMaterial()));
+        recipeList.add(MaterialCompat.stack(XMaterial.COOKED_COD));
         recipeList.add(SlimefunItems.FISH_JERKY.item());
 
-        recipeList.add(new ItemStack(XMaterial.COOKED_SALMON.parseMaterial()));
+        recipeList.add(MaterialCompat.stack(XMaterial.COOKED_SALMON));
         recipeList.add(SlimefunItems.FISH_JERKY.item());
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
-            recipeList.add(new ItemStack(XMaterial.MUD.parseMaterial()));
+            recipeList.add(MaterialCompat.stack(XMaterial.MUD));
             recipeList.add(new ItemStack(Material.CLAY));
         }
 

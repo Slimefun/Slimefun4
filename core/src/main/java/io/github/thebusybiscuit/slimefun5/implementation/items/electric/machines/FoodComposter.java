@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.implementation.items.misc.OrganicFertilizer;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class FoodComposter extends AContainer implements RecipeDisplayItem {
 
@@ -41,7 +42,7 @@ public class FoodComposter extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(XMaterial.GOLDEN_HOE.parseMaterial());
+        return MaterialCompat.stack(XMaterial.GOLDEN_HOE);
     }
 
 }

@@ -29,12 +29,13 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class GrindStone extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public GrindStone(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(XMaterial.OAK_FENCE.parseMaterial()), null, null, CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, MaterialCompat.stack(XMaterial.OAK_FENCE), null, null, CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
     }
 
     @Override
@@ -43,24 +44,24 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.BLAZE_POWDER, 4));
 
         recipes.add(new ItemStack(Material.BONE));
-        recipes.add(new ItemStack(XMaterial.BONE_MEAL.parseMaterial(), 4));
+        recipes.add(MaterialCompat.stack(XMaterial.BONE_MEAL, 4));
 
-        recipes.add(new ItemStack(XMaterial.BONE_BLOCK.parseMaterial()));
-        recipes.add(new ItemStack(XMaterial.BONE_MEAL.parseMaterial(), 9));
+        recipes.add(MaterialCompat.stack(XMaterial.BONE_BLOCK));
+        recipes.add(MaterialCompat.stack(XMaterial.BONE_MEAL, 9));
 
         recipes.add(new ItemStack(Material.COBBLESTONE));
         recipes.add(new ItemStack(Material.GRAVEL));
 
-        recipes.add(new ItemStack(XMaterial.ANDESITE.parseMaterial()));
+        recipes.add(MaterialCompat.stack(XMaterial.ANDESITE));
         recipes.add(new ItemStack(Material.GRAVEL));
 
-        recipes.add(new ItemStack(XMaterial.BLACKSTONE.parseMaterial()));
+        recipes.add(MaterialCompat.stack(XMaterial.BLACKSTONE));
         recipes.add(new ItemStack(Material.GRAVEL));
 
-        recipes.add(new ItemStack(XMaterial.DIORITE.parseMaterial()));
+        recipes.add(MaterialCompat.stack(XMaterial.DIORITE));
         recipes.add(new ItemStack(Material.GRAVEL));
 
-        recipes.add(new ItemStack(XMaterial.GRANITE.parseMaterial()));
+        recipes.add(MaterialCompat.stack(XMaterial.GRANITE));
         recipes.add(new ItemStack(Material.GRAVEL));
 
         recipes.add(new ItemStack(Material.DIRT));
@@ -70,28 +71,28 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.SAND, 4));
 
         recipes.add(new ItemStack(Material.RED_SANDSTONE));
-        recipes.add(new ItemStack(XMaterial.RED_SAND.parseMaterial(), 4));
+        recipes.add(MaterialCompat.stack(XMaterial.RED_SAND, 4));
 
-        recipes.add(new ItemStack(XMaterial.PRISMARINE_BRICKS.parseMaterial()));
+        recipes.add(MaterialCompat.stack(XMaterial.PRISMARINE_BRICKS));
         recipes.add(new ItemStack(Material.PRISMARINE, 2));
 
         recipes.add(new ItemStack(Material.PRISMARINE));
         recipes.add(new ItemStack(Material.PRISMARINE_SHARD, 4));
 
-        recipes.add(new ItemStack(XMaterial.NETHER_WART_BLOCK.parseMaterial()));
-        recipes.add(new ItemStack(XMaterial.NETHER_WART.parseMaterial(), 9));
+        recipes.add(MaterialCompat.stack(XMaterial.NETHER_WART_BLOCK));
+        recipes.add(MaterialCompat.stack(XMaterial.NETHER_WART, 9));
 
         recipes.add(new ItemStack(Material.QUARTZ_BLOCK));
         recipes.add(new ItemStack(Material.QUARTZ, 4));
 
-        recipes.add(new ItemStack(XMaterial.BASALT.parseMaterial(), 2));
-        recipes.add(new ItemStack(XMaterial.BLACKSTONE.parseMaterial()));
+        recipes.add(MaterialCompat.stack(XMaterial.BASALT, 2));
+        recipes.add(MaterialCompat.stack(XMaterial.BLACKSTONE));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            recipes.add(new ItemStack(XMaterial.AMETHYST_BLOCK.parseMaterial()));
-            recipes.add(new ItemStack(XMaterial.AMETHYST_SHARD.parseMaterial(), 4));
+            recipes.add(MaterialCompat.stack(XMaterial.AMETHYST_BLOCK));
+            recipes.add(MaterialCompat.stack(XMaterial.AMETHYST_SHARD, 4));
 
-            recipes.add(new ItemStack(XMaterial.COBBLED_DEEPSLATE.parseMaterial()));
+            recipes.add(MaterialCompat.stack(XMaterial.COBBLED_DEEPSLATE));
             recipes.add(new ItemStack(Material.GRAVEL));
         }
 

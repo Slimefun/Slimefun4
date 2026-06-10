@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.androids.AndroidInstance;
 import io.github.thebusybiscuit.slimefun5.implementation.items.androids.ButcherAndroid;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * This {@link Listener} handles the collection of drops from an {@link Entity} that was
@@ -85,7 +86,7 @@ public class ButcherAndroidListener implements Listener {
         Random random = ThreadLocalRandom.current();
 
         if (entityType == EntityCompat.entityType("WITHER_SKELETON") && random.nextInt(250) < 2) {
-            drops.add(new ItemStack(XMaterial.WITHER_SKELETON_SKULL.parseMaterial()));
+            drops.add(MaterialCompat.stack(XMaterial.WITHER_SKELETON_SKULL));
         }
 
         if (entityType == EntityType.BLAZE) {

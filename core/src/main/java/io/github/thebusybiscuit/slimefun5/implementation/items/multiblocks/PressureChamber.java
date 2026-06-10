@@ -28,12 +28,13 @@ import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class PressureChamber extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public PressureChamber(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { new ItemStack(XMaterial.SMOOTH_STONE_SLAB.parseMaterial()), CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(XMaterial.SMOOTH_STONE_SLAB.parseMaterial()), new ItemStack(XMaterial.PISTON.parseMaterial()), new ItemStack(Material.GLASS), new ItemStack(XMaterial.PISTON.parseMaterial()), new ItemStack(XMaterial.PISTON.parseMaterial()), new ItemStack(Material.CAULDRON), new ItemStack(XMaterial.PISTON.parseMaterial()) }, BlockFace.UP);
+        super(itemGroup, item, new ItemStack[] { MaterialCompat.stack(XMaterial.SMOOTH_STONE_SLAB), CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing down)"), MaterialCompat.stack(XMaterial.SMOOTH_STONE_SLAB), MaterialCompat.stack(XMaterial.PISTON), new ItemStack(Material.GLASS), MaterialCompat.stack(XMaterial.PISTON), MaterialCompat.stack(XMaterial.PISTON), new ItemStack(Material.CAULDRON), MaterialCompat.stack(XMaterial.PISTON) }, BlockFace.UP);
     }
 
     @Override

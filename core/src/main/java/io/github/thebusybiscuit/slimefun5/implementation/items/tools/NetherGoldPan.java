@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun5.implementation.settings.GoldPanDrop;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link NetherGoldPan} is a variant of the regular {@link GoldPan}
@@ -50,7 +51,7 @@ public class NetherGoldPan extends GoldPan {
 
         settings.add(new GoldPanDrop(this, "chance.QUARTZ", 50, new ItemStack(Material.QUARTZ)));
         settings.add(new GoldPanDrop(this, "chance.GOLD_NUGGET", 25, new ItemStack(Material.GOLD_NUGGET)));
-        settings.add(new GoldPanDrop(this, "chance.NETHER_WART", 10, new ItemStack(XMaterial.NETHER_WART.parseMaterial())));
+        settings.add(new GoldPanDrop(this, "chance.NETHER_WART", 10, MaterialCompat.stack(XMaterial.NETHER_WART)));
         settings.add(new GoldPanDrop(this, "chance.BLAZE_POWDER", 8, new ItemStack(Material.BLAZE_POWDER)));
         settings.add(new GoldPanDrop(this, "chance.GLOWSTONE_DUST", 5, new ItemStack(Material.GLOWSTONE_DUST)));
         settings.add(new GoldPanDrop(this, "chance.GHAST_TEAR", 2, new ItemStack(Material.GHAST_TEAR)));

@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.implementation.items.blocks.IgnitionChamber;
 import io.github.thebusybiscuit.slimefun5.implementation.items.misc.AlloyIngot;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link Smeltery} is an upgraded version of the {@link MakeshiftSmeltery}
@@ -51,7 +52,7 @@ public class Smeltery extends AbstractSmeltery {
 
     @ParametersAreNonnullByDefault
     public Smeltery(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, new ItemStack(XMaterial.NETHER_BRICK_FENCE.parseMaterial()), null, new ItemStack(XMaterial.NETHER_BRICKS.parseMaterial()), CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(XMaterial.NETHER_BRICKS.parseMaterial()), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
+        super(itemGroup, item, new ItemStack[] { null, MaterialCompat.stack(XMaterial.NETHER_BRICK_FENCE), null, MaterialCompat.stack(XMaterial.NETHER_BRICKS), CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), MaterialCompat.stack(XMaterial.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
 
         addItemSetting(fireBreakingChance);
     }

@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class FarmerAndroid extends ProgrammableAndroid {
 
@@ -84,13 +85,13 @@ public class FarmerAndroid extends ProgrammableAndroid {
         } else if (crop == XMaterial.CARROTS.parseMaterial()) {
             return new ItemStack(Material.CARROT, random.nextInt(3) + 1);
         } else if (crop == XMaterial.BEETROOTS.parseMaterial()) {
-            return new ItemStack(XMaterial.BEETROOT.parseMaterial(), random.nextInt(3) + 1);
+            return MaterialCompat.stack(XMaterial.BEETROOT, random.nextInt(3) + 1);
         } else if (crop == XMaterial.COCOA.parseMaterial()) {
-            return new ItemStack(XMaterial.COCOA_BEANS.parseMaterial(), random.nextInt(3) + 1);
+            return MaterialCompat.stack(XMaterial.COCOA_BEANS, random.nextInt(3) + 1);
         } else if (crop == XMaterial.NETHER_WART.parseMaterial()) {
-            return new ItemStack(XMaterial.NETHER_WART.parseMaterial(), random.nextInt(3) + 1);
+            return MaterialCompat.stack(XMaterial.NETHER_WART, random.nextInt(3) + 1);
         } else if (crop == XMaterial.SWEET_BERRY_BUSH.parseMaterial()) {
-            return new ItemStack(XMaterial.SWEET_BERRIES.parseMaterial(), random.nextInt(3) + 1);
+            return MaterialCompat.stack(XMaterial.SWEET_BERRIES, random.nextInt(3) + 1);
         } else {
             return null;
         }

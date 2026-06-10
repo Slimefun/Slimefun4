@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.blocks.OutputChest;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
@@ -52,7 +53,7 @@ public class TableSaw extends MultiBlockMachine {
         // @formatter:off
         super(group, item, new ItemStack[] {
             null, null, null,
-            new ItemStack(XMaterial.SMOOTH_STONE_SLAB.parseMaterial()), new ItemStack(XMaterial.STONECUTTER.parseMaterial()), new ItemStack(XMaterial.SMOOTH_STONE_SLAB.parseMaterial()),
+            MaterialCompat.stack(XMaterial.SMOOTH_STONE_SLAB), MaterialCompat.stack(XMaterial.STONECUTTER), MaterialCompat.stack(XMaterial.SMOOTH_STONE_SLAB),
             null, new ItemStack(Material.IRON_BLOCK), null
         }, BlockFace.SELF);
         // @formatter:on

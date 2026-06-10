@@ -41,6 +41,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link ProduceCollector} allows you to collect produce from animals.
@@ -76,7 +77,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
         }));
 
         // Mushroom Stew from Mooshrooms
-        addProduce(new AnimalProduce(new ItemStack(Material.BOWL), new ItemStack(XMaterial.MUSHROOM_STEW.parseMaterial()), n -> {
+        addProduce(new AnimalProduce(new ItemStack(Material.BOWL), MaterialCompat.stack(XMaterial.MUSHROOM_STEW), n -> {
             if (n instanceof MushroomCow) {
                 MushroomCow mushroomCow = (MushroomCow) n;                return mushroomCow.isAdult();
             } else {
@@ -127,7 +128,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
         }
 
         displayRecipes.add(CustomItemStack.create(Material.BOWL, null, "&fRequires &bMooshroom &fnearby"));
-        displayRecipes.add(new ItemStack(XMaterial.MUSHROOM_STEW.parseMaterial()));
+        displayRecipes.add(MaterialCompat.stack(XMaterial.MUSHROOM_STEW));
 
         return displayRecipes;
     }

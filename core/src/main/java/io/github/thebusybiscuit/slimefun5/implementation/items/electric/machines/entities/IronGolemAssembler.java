@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link IronGolemAssembler} is an electrical machine that can automatically spawn
@@ -46,7 +47,7 @@ public class IronGolemAssembler extends AbstractEntityAssembler<IronGolem> {
 
     @Override
     public ItemStack getHead() {
-        return new ItemStack(XMaterial.CARVED_PUMPKIN.parseMaterial());
+        return MaterialCompat.stack(XMaterial.CARVED_PUMPKIN);
     }
 
     @Override

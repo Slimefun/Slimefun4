@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link ElectricDustWasher} serves as an electrical {@link OreWasher}.
@@ -41,7 +42,7 @@ public class ElectricDustWasher extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(XMaterial.GOLDEN_SHOVEL.parseMaterial());
+        return MaterialCompat.stack(XMaterial.GOLDEN_SHOVEL);
     }
 
     @Override

@@ -34,6 +34,7 @@ import io.github.thebusybiscuit.slimefun5.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link IndustrialMiner} is a {@link MultiBlockMachine} that can mine any
@@ -65,7 +66,7 @@ public class IndustrialMiner extends MultiBlockMachine {
         super(itemGroup, item, new ItemStack[] {
             null, null, null,
             CustomItemStack.create(XMaterial.PISTON.parseMaterial(), "Piston (facing up)"), new ItemStack(Material.CHEST), CustomItemStack.create(XMaterial.PISTON.parseMaterial(), "Piston (facing up)"),
-            new ItemStack(baseMaterial), new ItemStack(XMaterial.BLAST_FURNACE.parseMaterial()), new ItemStack(baseMaterial)
+            new ItemStack(baseMaterial), MaterialCompat.stack(XMaterial.BLAST_FURNACE), new ItemStack(baseMaterial)
         }, BlockFace.UP);
         // @formatter:on
 
@@ -109,10 +110,10 @@ public class IndustrialMiner extends MultiBlockMachine {
     protected void registerDefaultFuelTypes() {
         // Coal & Charcoal
         fuelTypes.add(new MachineFuel(4, new ItemStack(Material.COAL)));
-        fuelTypes.add(new MachineFuel(4, new ItemStack(XMaterial.CHARCOAL.parseMaterial())));
+        fuelTypes.add(new MachineFuel(4, MaterialCompat.stack(XMaterial.CHARCOAL)));
 
         fuelTypes.add(new MachineFuel(40, new ItemStack(Material.COAL_BLOCK)));
-        fuelTypes.add(new MachineFuel(10, new ItemStack(XMaterial.DRIED_KELP_BLOCK.parseMaterial())));
+        fuelTypes.add(new MachineFuel(10, MaterialCompat.stack(XMaterial.DRIED_KELP_BLOCK)));
         fuelTypes.add(new MachineFuel(4, new ItemStack(Material.BLAZE_ROD)));
 
         // Logs

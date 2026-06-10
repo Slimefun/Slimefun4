@@ -83,7 +83,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         items.add(new ItemStack(Material.OBSIDIAN, 1));
         items.add(new ItemStack(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(XMaterial.TERRACOTTA.parseMaterial(), 12));
+        items.add(MaterialCompat.stack(XMaterial.TERRACOTTA, 12));
         items.add(new ItemStack(Material.LAVA_BUCKET));
 
         for (Material leave : Tag.LEAVES.getValues()) {
@@ -96,20 +96,20 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             items.add(new ItemStack(Material.LAVA_BUCKET));
         }
 
-        items.add(new ItemStack(XMaterial.BLACKSTONE.parseMaterial(), 8));
+        items.add(MaterialCompat.stack(XMaterial.BLACKSTONE, 8));
         items.add(new ItemStack(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(XMaterial.BASALT.parseMaterial(), 12));
+        items.add(MaterialCompat.stack(XMaterial.BASALT, 12));
         items.add(new ItemStack(Material.LAVA_BUCKET));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            items.add(new ItemStack(XMaterial.COBBLED_DEEPSLATE.parseMaterial(), 12));
+            items.add(MaterialCompat.stack(XMaterial.COBBLED_DEEPSLATE, 12));
             items.add(new ItemStack(Material.LAVA_BUCKET));
 
-            items.add(new ItemStack(XMaterial.DEEPSLATE.parseMaterial(), 10));
+            items.add(MaterialCompat.stack(XMaterial.DEEPSLATE, 10));
             items.add(new ItemStack(Material.LAVA_BUCKET));
 
-            items.add(new ItemStack(XMaterial.TUFF.parseMaterial(), 8));
+            items.add(MaterialCompat.stack(XMaterial.TUFF, 8));
             items.add(new ItemStack(Material.LAVA_BUCKET));
         }
 

@@ -65,6 +65,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock, RecipeDisplayItem {
 
@@ -605,12 +606,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             case SOLID: {
                 registerFuelType(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
                 registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
-                registerFuelType(new MachineFuel(70, new ItemStack(XMaterial.DRIED_KELP_BLOCK.parseMaterial())));
+                registerFuelType(new MachineFuel(70, MaterialCompat.stack(XMaterial.DRIED_KELP_BLOCK)));
 
                 // Coal, Charcoal & Bamboo
                 registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
-                registerFuelType(new MachineFuel(8, new ItemStack(XMaterial.CHARCOAL.parseMaterial())));
-                registerFuelType(new MachineFuel(1, new ItemStack(XMaterial.BAMBOO.parseMaterial())));
+                registerFuelType(new MachineFuel(8, MaterialCompat.stack(XMaterial.CHARCOAL)));
+                registerFuelType(new MachineFuel(1, MaterialCompat.stack(XMaterial.BAMBOO)));
 
                 // Logs
                 for (Material mat : Tag.LOGS.getValues()) {

@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.tags.SlimefunTag;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class ElectrifiedCrucible extends AContainer {
 
@@ -25,7 +26,7 @@ public class ElectrifiedCrucible extends AContainer {
         registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.COBBLESTONE, 16) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
         registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.NETHERRACK, 16) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
         registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.STONE, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-        registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(XMaterial.TERRACOTTA.parseMaterial(), 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+        registerRecipe(8, new ItemStack[] { new ItemStack(Material.BUCKET), MaterialCompat.stack(XMaterial.TERRACOTTA, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
         registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.OBSIDIAN) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
 
         for (Material terracotta : SlimefunTag.TERRACOTTA.getValues()) {
@@ -36,13 +37,13 @@ public class ElectrifiedCrucible extends AContainer {
             registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(leaves, 16) }, new ItemStack[] { new ItemStack(Material.WATER_BUCKET) });
         }
 
-        registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(XMaterial.BLACKSTONE.parseMaterial(), 8) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-        registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(XMaterial.BASALT.parseMaterial(), 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+        registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), MaterialCompat.stack(XMaterial.BLACKSTONE, 8) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+        registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), MaterialCompat.stack(XMaterial.BASALT, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(XMaterial.COBBLED_DEEPSLATE.parseMaterial(), 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(XMaterial.DEEPSLATE.parseMaterial(), 10) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
-            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(XMaterial.TUFF.parseMaterial(), 8) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), MaterialCompat.stack(XMaterial.COBBLED_DEEPSLATE, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), MaterialCompat.stack(XMaterial.DEEPSLATE, 10) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), MaterialCompat.stack(XMaterial.TUFF, 8) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
         }
     }
 

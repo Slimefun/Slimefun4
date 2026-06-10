@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link MakeshiftSmeltery} is a simpler version of the {@link Smeltery}.
@@ -31,7 +32,7 @@ public class MakeshiftSmeltery extends AbstractSmeltery {
 
     @ParametersAreNonnullByDefault
     public MakeshiftSmeltery(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, new ItemStack(XMaterial.OAK_FENCE.parseMaterial()), null, new ItemStack(XMaterial.BRICKS.parseMaterial()), CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(XMaterial.BRICKS.parseMaterial()), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
+        super(itemGroup, item, new ItemStack[] { null, MaterialCompat.stack(XMaterial.OAK_FENCE), null, MaterialCompat.stack(XMaterial.BRICKS), CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), MaterialCompat.stack(XMaterial.BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
     }
 
     @Override

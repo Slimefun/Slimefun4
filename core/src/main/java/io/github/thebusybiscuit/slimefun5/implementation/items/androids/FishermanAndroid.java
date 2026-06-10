@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class FishermanAndroid extends ProgrammableAndroid {
 
@@ -35,17 +36,17 @@ public class FishermanAndroid extends ProgrammableAndroid {
         // Junk
         fishingLoot.add(new ItemStack(Material.BONE), 10);
         fishingLoot.add(new ItemStack(Material.STRING), 10);
-        fishingLoot.add(new ItemStack(XMaterial.INK_SAC.parseMaterial()), 8);
-        fishingLoot.add(new ItemStack(XMaterial.KELP.parseMaterial()), 6);
+        fishingLoot.add(MaterialCompat.stack(XMaterial.INK_SAC), 8);
+        fishingLoot.add(MaterialCompat.stack(XMaterial.KELP), 6);
         fishingLoot.add(new ItemStack(Material.STICK), 5);
         fishingLoot.add(new ItemStack(Material.ROTTEN_FLESH), 3);
         fishingLoot.add(new ItemStack(Material.LEATHER), 2);
-        fishingLoot.add(new ItemStack(XMaterial.BAMBOO.parseMaterial()), 3);
+        fishingLoot.add(MaterialCompat.stack(XMaterial.BAMBOO), 3);
 
         // "loot"
         fishingLoot.add(new ItemStack(Material.SADDLE), 1);
         fishingLoot.add(new ItemStack(Material.NAME_TAG), 1);
-        fishingLoot.add(new ItemStack(XMaterial.NAUTILUS_SHELL.parseMaterial()), 1);
+        fishingLoot.add(MaterialCompat.stack(XMaterial.NAUTILUS_SHELL), 1);
     }
 
     @Override

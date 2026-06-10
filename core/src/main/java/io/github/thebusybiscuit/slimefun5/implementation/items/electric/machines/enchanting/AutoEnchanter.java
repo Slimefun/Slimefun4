@@ -54,7 +54,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(XMaterial.GOLDEN_CHESTPLATE.parseMaterial());
+        return MaterialCompat.stack(XMaterial.GOLDEN_CHESTPLATE);
     }
 
     @Override

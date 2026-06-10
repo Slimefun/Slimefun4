@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements RecipeDisplayItem {
 
@@ -66,7 +67,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
         items.add(new ItemStack(Material.SOUL_SAND));
 
         items.add(new ItemStack(Material.WHEAT, 4));
-        items.add(new ItemStack(XMaterial.NETHER_WART.parseMaterial()));
+        items.add(MaterialCompat.stack(XMaterial.NETHER_WART));
 
         return items;
     }

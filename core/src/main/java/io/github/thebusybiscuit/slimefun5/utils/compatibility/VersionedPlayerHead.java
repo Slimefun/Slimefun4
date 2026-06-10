@@ -27,6 +27,7 @@ import org.bukkit.profile.PlayerTextures;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * Java-8 universal port: applies head textures across versions. The player-profile API (1.18+) is
@@ -40,7 +41,7 @@ public final class VersionedPlayerHead {
     private VersionedPlayerHead() {}
 
     public static @Nonnull ItemStack getItemStack(@Nonnull String base64) {
-        ItemStack item = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
+        ItemStack item = MaterialCompat.stack(XMaterial.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) item.getItemMeta();
 
         applyTextureToMeta(meta, base64);

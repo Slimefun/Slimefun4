@@ -28,12 +28,13 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class MagicWorkbench extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
     public MagicWorkbench(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(XMaterial.CRAFTING_TABLE.parseMaterial()), new ItemStack(Material.DISPENSER) }, BlockFace.UP);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), MaterialCompat.stack(XMaterial.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, BlockFace.UP);
     }
 
     @Override

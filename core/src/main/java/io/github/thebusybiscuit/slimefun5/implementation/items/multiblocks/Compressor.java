@@ -28,12 +28,13 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class Compressor extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public Compressor(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(XMaterial.NETHER_BRICK_FENCE.parseMaterial()), null, new ItemStack(XMaterial.PISTON.parseMaterial()), CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(XMaterial.PISTON.parseMaterial()) }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, null, null, null, MaterialCompat.stack(XMaterial.NETHER_BRICK_FENCE), null, MaterialCompat.stack(XMaterial.PISTON), CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), MaterialCompat.stack(XMaterial.PISTON) }, BlockFace.SELF);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class Compressor extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.COAL_BLOCK, 8));
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 9).item());
 
-        recipes.add(new ItemStack(XMaterial.CHARCOAL.parseMaterial(), 4));
+        recipes.add(MaterialCompat.stack(XMaterial.CHARCOAL, 4));
         recipes.add(new ItemStack(Material.COAL));
     }
 

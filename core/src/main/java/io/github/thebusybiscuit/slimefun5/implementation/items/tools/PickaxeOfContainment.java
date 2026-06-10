@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link PickaxeOfContainment} is a Pickaxe that allows you to break Spawners.
@@ -80,7 +81,7 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<ToolUseHandler> {
             return spawner.getItemForEntityType(entityType);
         }
 
-        return new ItemStack(XMaterial.SPAWNER.parseMaterial());
+        return MaterialCompat.stack(XMaterial.SPAWNER);
     }
 
 }

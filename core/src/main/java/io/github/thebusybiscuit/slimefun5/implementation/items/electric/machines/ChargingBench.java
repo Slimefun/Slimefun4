@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun5.core.attributes.Rechargeable;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link ChargingBench} is a powered machine that can be used to charge any {@link Rechargeable} item.
@@ -31,7 +32,7 @@ public class ChargingBench extends AContainer {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(XMaterial.GOLDEN_PICKAXE.parseMaterial());
+        return MaterialCompat.stack(XMaterial.GOLDEN_PICKAXE);
     }
 
     @Override

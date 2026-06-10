@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link OreWasher} is a special {@link MultiBlockMachine} which allows you to
@@ -61,7 +62,7 @@ public class OreWasher extends MultiBlockMachine {
         // @formatter:off
         super(itemGroup, item, new ItemStack[] {
             null, new ItemStack(Material.DISPENSER), null,
-            null, new ItemStack(XMaterial.OAK_FENCE.parseMaterial()), null,
+            null, MaterialCompat.stack(XMaterial.OAK_FENCE), null,
             null, new ItemStack(Material.CAULDRON), null
         }, BlockFace.SELF);
         // @formatter:on

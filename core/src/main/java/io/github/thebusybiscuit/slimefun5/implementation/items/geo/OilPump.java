@@ -28,6 +28,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class OilPump extends AContainer implements RecipeDisplayItem {
 
@@ -85,7 +86,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(XMaterial.DIAMOND_SHOVEL.parseMaterial());
+        return MaterialCompat.stack(XMaterial.DIAMOND_SHOVEL);
     }
 
     @Override

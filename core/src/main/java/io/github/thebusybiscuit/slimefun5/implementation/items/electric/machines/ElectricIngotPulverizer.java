@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link ElectricIngotPulverizer} is an implementation of {@link AContainer} that allows
@@ -58,7 +59,7 @@ public class ElectricIngotPulverizer extends AContainer implements RecipeDisplay
         registerRecipe(3, new ItemStack(Material.GOLD_INGOT), SlimefunItems.GOLD_DUST.item());
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            registerRecipe(3, new ItemStack(XMaterial.COPPER_INGOT.parseMaterial()), SlimefunItems.COPPER_DUST.item());
+            registerRecipe(3, MaterialCompat.stack(XMaterial.COPPER_INGOT), SlimefunItems.COPPER_DUST.item());
         }
     }
 

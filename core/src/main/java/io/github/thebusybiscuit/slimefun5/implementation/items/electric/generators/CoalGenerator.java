@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class CoalGenerator extends AGenerator {
 
@@ -26,7 +27,7 @@ public class CoalGenerator extends AGenerator {
     protected void registerDefaultFuelTypes() {
         registerFuel(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
         registerFuel(new MachineFuel(12, new ItemStack(Material.BLAZE_ROD)));
-        registerFuel(new MachineFuel(20, new ItemStack(XMaterial.DRIED_KELP_BLOCK.parseMaterial())));
+        registerFuel(new MachineFuel(20, MaterialCompat.stack(XMaterial.DRIED_KELP_BLOCK)));
 
         // Boats
         for (Material mat : Tag.ITEMS_BOATS.getValues()) {
@@ -35,7 +36,7 @@ public class CoalGenerator extends AGenerator {
 
         // Coal & Charcoal
         registerFuel(new MachineFuel(8, new ItemStack(Material.COAL)));
-        registerFuel(new MachineFuel(8, new ItemStack(XMaterial.CHARCOAL.parseMaterial())));
+        registerFuel(new MachineFuel(8, MaterialCompat.stack(XMaterial.CHARCOAL)));
 
         // Logs
         for (Material mat : Tag.LOGS.getValues()) {

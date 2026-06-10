@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link Juicer} is a {@link MultiBlockMachine} which can be used to
@@ -44,7 +45,7 @@ public class Juicer extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public Juicer(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.GLASS), null, null, new ItemStack(XMaterial.NETHER_BRICK_FENCE.parseMaterial()), null, null, CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
+        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.GLASS), null, null, MaterialCompat.stack(XMaterial.NETHER_BRICK_FENCE), null, null, CustomItemStack.create(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
     }
 
     @Override

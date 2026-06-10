@@ -35,6 +35,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
@@ -70,7 +71,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
 
     protected void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, CustomItemStack.create(new ItemStack(XMaterial.CYAN_STAINED_GLASS_PANE.parseMaterial()), " "), (p, slot, item, action) -> false);
+            preset.addItem(i, CustomItemStack.create(MaterialCompat.stack(XMaterial.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
         }
     }
 

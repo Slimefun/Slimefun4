@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.items.tools.NetherGoldP
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link ElectricGoldPan} is an electric machine based on the {@link GoldPan}.
@@ -82,7 +83,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(XMaterial.DIAMOND_SHOVEL.parseMaterial());
+        return MaterialCompat.stack(XMaterial.DIAMOND_SHOVEL);
     }
 
     @Override

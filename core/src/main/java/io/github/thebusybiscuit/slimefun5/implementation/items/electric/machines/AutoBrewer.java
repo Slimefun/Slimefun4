@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedPotionTyp
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  *
@@ -119,9 +120,9 @@ public class AutoBrewer extends AContainer implements NotHopperable {
                 PotionCompat.setBasePotionType(potion, VersionedPotionType.AWKWARD);
                 return new ItemStack(potionType);
             } else if (potionType == Material.POTION && input == XMaterial.GUNPOWDER.parseMaterial()) {
-                return new ItemStack(XMaterial.SPLASH_POTION.parseMaterial());
+                return MaterialCompat.stack(XMaterial.SPLASH_POTION);
             } else if (potionType == XMaterial.SPLASH_POTION.parseMaterial() && input == XMaterial.DRAGON_BREATH.parseMaterial()) {
-                return new ItemStack(XMaterial.LINGERING_POTION.parseMaterial());
+                return MaterialCompat.stack(XMaterial.LINGERING_POTION);
             }
         } else if (input == Material.FERMENTED_SPIDER_EYE) {
             PotionType fermented = fermentations.get(type);
@@ -163,9 +164,9 @@ public class AutoBrewer extends AContainer implements NotHopperable {
                 PotionCompat.setBasePotionData(potion, new PotionData(VersionedPotionType.AWKWARD, false, false));
                 return new ItemStack(potionType);
             } else if (potionType == Material.POTION && input == XMaterial.GUNPOWDER.parseMaterial()) {
-                return new ItemStack(XMaterial.SPLASH_POTION.parseMaterial());
+                return MaterialCompat.stack(XMaterial.SPLASH_POTION);
             } else if (potionType == XMaterial.SPLASH_POTION.parseMaterial() && input == XMaterial.DRAGON_BREATH.parseMaterial()) {
-                return new ItemStack(XMaterial.LINGERING_POTION.parseMaterial());
+                return MaterialCompat.stack(XMaterial.LINGERING_POTION);
             }
         } else if (input == Material.FERMENTED_SPIDER_EYE) {
             PotionType fermented = fermentations.get(type);

@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link Freezer} can freeze items into its frozen state, e.g. water to ice.
@@ -41,18 +42,18 @@ public class Freezer extends AContainer implements RecipeDisplayItem {
         // This if statement makes the transformation follow Minecraft logic
         if (useVanillaRatios.getValue()) {
             registerRecipe(4, new ItemStack[] { new ItemStack(Material.ICE, 9) }, new ItemStack[] { new ItemStack(Material.PACKED_ICE) });
-            registerRecipe(6, new ItemStack[] { new ItemStack(Material.PACKED_ICE, 9) }, new ItemStack[] { new ItemStack(XMaterial.BLUE_ICE.parseMaterial()) });
+            registerRecipe(6, new ItemStack[] { new ItemStack(Material.PACKED_ICE, 9) }, new ItemStack[] { MaterialCompat.stack(XMaterial.BLUE_ICE) });
         } else {
             registerRecipe(4, new ItemStack[] { new ItemStack(Material.ICE) }, new ItemStack[] { new ItemStack(Material.PACKED_ICE) });
-            registerRecipe(6, new ItemStack[] { new ItemStack(Material.PACKED_ICE) }, new ItemStack[] { new ItemStack(XMaterial.BLUE_ICE.parseMaterial()) });
+            registerRecipe(6, new ItemStack[] { new ItemStack(Material.PACKED_ICE) }, new ItemStack[] { MaterialCompat.stack(XMaterial.BLUE_ICE) });
         }
 
         registerRecipe(2, new ItemStack[] { new ItemStack(Material.WATER_BUCKET) }, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.ICE) });
         registerRecipe(8, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) }, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.OBSIDIAN) });
-        registerRecipe(8, new ItemStack[] { new ItemStack(XMaterial.BLUE_ICE.parseMaterial()) }, new ItemStack[] { SlimefunItems.REACTOR_COOLANT_CELL.item() });
+        registerRecipe(8, new ItemStack[] { MaterialCompat.stack(XMaterial.BLUE_ICE) }, new ItemStack[] { SlimefunItems.REACTOR_COOLANT_CELL.item() });
         registerRecipe(6, new ItemStack[] { new ItemStack(Material.SNOW_BLOCK, 2) }, new ItemStack[] { new ItemStack(Material.ICE) });
         registerRecipe(6, new ItemStack[] { new ItemStack(Material.MAGMA_CREAM) }, new ItemStack[] { new ItemStack(Material.SLIME_BALL) });
-        registerRecipe(6, new ItemStack[] { new ItemStack(XMaterial.MAGMA_BLOCK.parseMaterial(), 2) }, new ItemStack[] { new ItemStack(Material.SLIME_BLOCK) });
+        registerRecipe(6, new ItemStack[] { MaterialCompat.stack(XMaterial.MAGMA_BLOCK, 2) }, new ItemStack[] { new ItemStack(Material.SLIME_BLOCK) });
     }
 
     @Override
@@ -69,7 +70,7 @@ public class Freezer extends AContainer implements RecipeDisplayItem {
 
     @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(XMaterial.GOLDEN_PICKAXE.parseMaterial());
+        return MaterialCompat.stack(XMaterial.GOLDEN_PICKAXE);
     }
 
     @Override

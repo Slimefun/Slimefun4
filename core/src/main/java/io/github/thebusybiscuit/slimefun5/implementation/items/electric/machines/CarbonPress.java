@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun5.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 public class CarbonPress extends AContainer implements RecipeDisplayItem {
 
@@ -24,7 +25,7 @@ public class CarbonPress extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected void registerDefaultRecipes() {
-        registerRecipe(15, new ItemStack[] { new ItemStack(XMaterial.CHARCOAL.parseMaterial(), 4) }, new ItemStack[] { new ItemStack(Material.COAL) });
+        registerRecipe(15, new ItemStack[] { MaterialCompat.stack(XMaterial.CHARCOAL, 4) }, new ItemStack[] { new ItemStack(Material.COAL) });
         registerRecipe(20, new ItemStack[] { new ItemStack(Material.COAL, 8) }, new ItemStack[] { SlimefunItems.CARBON.item() });
         registerRecipe(180, new ItemStack[] { new ItemStack(Material.COAL_BLOCK, 8) }, new ItemStack[] { new SlimefunItemStack(SlimefunItems.CARBON, 9).item() });
         registerRecipe(30, new ItemStack[] { CustomItemStack.create(SlimefunItems.CARBON.item(), 4) }, new ItemStack[] { SlimefunItems.COMPRESSED_CARBON.item() });

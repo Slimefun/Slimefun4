@@ -36,6 +36,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun5.implementation.items.multiblocks.AutomatedPanningMachine;
 import io.github.thebusybiscuit.slimefun5.implementation.settings.GoldPanDrop;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * A {@link GoldPan} is a {@link SlimefunItem} which allows you to obtain various
@@ -93,7 +94,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         settings.add(new GoldPanDrop(this, "chance.FLINT", 40, new ItemStack(Material.FLINT)));
         settings.add(new GoldPanDrop(this, "chance.CLAY", 20, new ItemStack(Material.CLAY_BALL)));
         settings.add(new GoldPanDrop(this, "chance.SIFTED_ORE", 35, SlimefunItems.SIFTED_ORE.item()));
-        settings.add(new GoldPanDrop(this, "chance.IRON_NUGGET", 5, new ItemStack(XMaterial.IRON_NUGGET.parseMaterial())));
+        settings.add(new GoldPanDrop(this, "chance.IRON_NUGGET", 5, MaterialCompat.stack(XMaterial.IRON_NUGGET)));
 
         return settings;
     }
