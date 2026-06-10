@@ -9,7 +9,10 @@ description: Slimefun basically turns your entire Server into a FTB modpack with
 
 # Technical settings
 main: io.github.thebusybiscuit.slimefun5.implementation.Slimefun
-api-version: '1.16'
+# Java-8 universal jar: declare the lowest flattening-era API (1.13) so the plugin loads on every
+# server from 1.13 up to the latest (servers reject an api-version newer than themselves, which is
+# why 1.16 was rejected on 1.13.x). Pre-1.13 servers (1.8-1.12) ignore this field entirely.
+api-version: '1.13'
 
 # (Soft) dependencies of Slimefun, we hook into these plugins.
 softdepend:
