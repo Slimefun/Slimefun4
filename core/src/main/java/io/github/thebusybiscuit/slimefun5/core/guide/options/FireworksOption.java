@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -57,13 +57,13 @@ class FireworksOption implements SlimefunGuideOption<Boolean> {
     @Override
     public Optional<Boolean> getSelectedOption(Player p, ItemStack guide) {
         NamespacedKey key = getKey();
-        boolean value = !PersistentDataAPI.hasByte(PdcCompat.holder(p), key) || PersistentDataAPI.getByte(PdcCompat.holder(p), key) == (byte) 1;
+        boolean value = !PdcCompat.hasByte(p, key) || PdcCompat.getByte(p, key) == (byte) 1;
         return Optional.of(value);
     }
 
     @Override
     public void setSelectedOption(Player p, ItemStack guide, Boolean value) {
-        PersistentDataAPI.setByte(PdcCompat.holder(p), getKey(), value.booleanValue() ? (byte) 1 : (byte) 0);
+        PdcCompat.setByte(p, getKey(), value.booleanValue() ? (byte) 1 : (byte) 0);
     }
 
 }

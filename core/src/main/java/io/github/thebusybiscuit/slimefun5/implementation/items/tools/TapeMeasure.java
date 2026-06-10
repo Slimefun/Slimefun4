@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -73,7 +73,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
         json.addProperty("y", block.getY());
         json.addProperty("z", block.getZ());
 
-        PdcCompat.container(meta).set(key, PersistentDataType.STRING, json.toString());
+        PdcCompat.set(meta, key, "STRING", json.toString());
 
         String anchor = block.getX() + " | " + block.getY() + " | " + block.getZ();
         Slimefun.getLocalization().sendMessage(p, "messages.tape-measure.anchor-set", msg -> msg.replace("%anchor%", anchor));
@@ -96,7 +96,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
     public @Nonnull Optional<Location> getAnchor(Player p, ItemStack item) {
         ItemMeta meta = item.getItemMeta();
 
-        String data = PdcCompat.container(meta).get(key, PersistentDataType.STRING);
+        String data = (String) PdcCompat.get(meta, key, "STRING");
 
         if (data != null) {
             JsonObject json = JsonUtils.parseString(data).getAsJsonObject();

@@ -12,10 +12,8 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun5.core.attributes.Rechargeable;
@@ -48,7 +46,7 @@ public final class ChargeUtils {
         float value = decimal.floatValue();
 
         NamespacedKey key = Slimefun.getRegistry().getItemChargeDataKey();
-        PdcCompat.container(meta).set(key, PersistentDataType.FLOAT, value);
+        PdcCompat.set(meta, key, "FLOAT", value);
 
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
         for (int i = 0; i < lore.size(); i++) {
@@ -69,8 +67,7 @@ public final class ChargeUtils {
         Validate.notNull(meta, "Meta cannot be null!");
 
         NamespacedKey key = Slimefun.getRegistry().getItemChargeDataKey();
-        PersistentDataContainer container = PdcCompat.container(meta);
-        Float value = container.get(key, PersistentDataType.FLOAT);
+        Float value = (Float) PdcCompat.get(meta, key, "FLOAT");
 
         // If persistent data is available, we just return this value
         if (value != null) {
@@ -84,7 +81,7 @@ public final class ChargeUtils {
                     String data = ChatColor.stripColor(PatternUtils.SLASH_SEPARATOR.split(line)[0].replace(LORE_PREFIX, ""));
 
                     float loreValue = Float.parseFloat(data);
-                    container.set(key, PersistentDataType.FLOAT, loreValue);
+                    PdcCompat.set(meta, key, "FLOAT", loreValue);
                     return loreValue;
                 }
             }

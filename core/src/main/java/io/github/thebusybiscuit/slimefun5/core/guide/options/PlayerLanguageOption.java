@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -71,9 +71,9 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
     @Override
     public void setSelectedOption(Player p, ItemStack guide, String value) {
         if (value == null) {
-            PersistentDataAPI.remove(PdcCompat.holder(p), getKey());
+            PdcCompat.remove(p, getKey());
         } else {
-            PersistentDataAPI.setString(PdcCompat.holder(p), getKey(), value);
+            PdcCompat.setString(p, getKey(), value);
         }
     }
 

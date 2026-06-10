@@ -13,15 +13,12 @@ import javax.annotation.Nullable;
 import io.github.thebusybiscuit.slimefun5.utils.tags.SlimefunTag;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
-import org.bukkit.Keyed;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.Keyed;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataHolder;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
@@ -78,9 +75,8 @@ public class BlockDataService implements Keyed {
         BlockState state = b.getState();
 
         if (state instanceof TileState) {
-            TileState tileState = (TileState) state;            try {
-                PersistentDataContainer container = PdcCompat.container(tileState);
-                container.set(namespacedKey, PersistentDataType.STRING, value);
+            try {
+                PdcCompat.set(state, namespacedKey, "STRING", value);
                 state.update();
             } catch (Exception x) {
                 Slimefun.logger().log(Level.SEVERE, "Please check if your Server Software is up to date!");
@@ -105,21 +101,11 @@ public class BlockDataService implements Keyed {
         Validate.notNull(b, "The block cannot be null!");
 
         BlockState state = PaperLib.getBlockState(b, false).getState();
-        PersistentDataContainer container = getPersistentDataContainer(state);
 
-        if (container != null) {
-            return Optional.ofNullable(container.get(namespacedKey, PersistentDataType.STRING));
+        if (state instanceof TileState) {
+            return Optional.ofNullable((String) PdcCompat.get(state, namespacedKey, "STRING"));
         } else {
             return Optional.empty();
-        }
-    }
-
-    @Nullable
-    private PersistentDataContainer getPersistentDataContainer(@Nonnull BlockState state) {
-        if (state instanceof TileState) {
-            TileState tileState = (TileState) state;            return PdcCompat.container(tileState);
-        } else {
-            return null;
         }
     }
 

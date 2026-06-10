@@ -18,7 +18,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -147,18 +147,16 @@ public class HologramsService {
 
         for (Entity n : holograms) {
             if (n instanceof ArmorStand) {
-                PersistentDataContainer container = PdcCompat.container(n);
-
                 /*
                  * Any hologram we created will have a persistent data key for identification.
                  * Make sure that the value matches our BlockPosition.
                  */
-                if (hasHologramData(container, position)) {
+                if (hasHologramData(n, position)) {
                     if (hologram != null) {
                         // Fixes #2927 - Remove any duplicates we find
                         n.remove();
                     } else {
-                        hologram = getAsHologram(position, n, container);
+                        hologram = getAsHologram(position, n);
                     }
                 }
             }
@@ -167,18 +165,17 @@ public class HologramsService {
         if (hologram == null && createIfNoneExists) {
             // Spawn a new ArmorStand
             ArmorStand armorstand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-            PersistentDataContainer container = PdcCompat.container(armorstand);
 
-            return getAsHologram(position, armorstand, container);
+            return getAsHologram(position, armorstand);
         } else {
             return hologram;
         }
     }
 
     @ParametersAreNonnullByDefault
-    private boolean hasHologramData(PersistentDataContainer container, BlockPosition position) {
-        if (container.has(persistentDataKey, PersistentDataType.LONG)) {
-            long value = container.get(persistentDataKey, PersistentDataType.LONG);
+    private boolean hasHologramData(Entity holder, BlockPosition position) {
+        if (PdcCompat.has(holder, persistentDataKey, "LONG")) {
+            long value = (Long) PdcCompat.get(holder, persistentDataKey, "LONG");
             return value == position.getPosition();
         } else {
             return false;
@@ -217,7 +214,7 @@ public class HologramsService {
      * @return The {@link Hologram}
      */
     @Nullable
-    private Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
+    private Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity) {
         if (entity instanceof ArmorStand) {
             ArmorStand armorStand = (ArmorStand) entity;            armorStand.setVisible(false);
             ReflectionCompat.invoke(armorStand, "setInvulnerable", true);
@@ -228,7 +225,7 @@ public class HologramsService {
             armorStand.setRemoveWhenFarAway(false);
 
             // Set a persistent tag to re-identify the correct hologram later
-            container.set(persistentDataKey, PersistentDataType.LONG, position.getPosition());
+            PdcCompat.set(entity, persistentDataKey, "LONG", position.getPosition());
 
             // Store in cache for faster access
             Hologram hologram = new Hologram(armorStand.getUniqueId());

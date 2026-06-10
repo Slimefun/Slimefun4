@@ -43,7 +43,7 @@ public class SlimefunGuideItem extends ItemStack {
 
         meta.setLore(lore);
 
-        PersistentDataAPI.setString(PdcCompat.holder(meta), Slimefun.getRegistry().getGuideDataKey(), type.name());
+        PdcCompat.setString(meta, Slimefun.getRegistry().getGuideDataKey(), type.name());
         Slimefun.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
 
         setItemMeta(meta);

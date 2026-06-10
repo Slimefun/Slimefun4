@@ -8,7 +8,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -67,13 +67,13 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
     @Override
     public Optional<Boolean> getSelectedOption(@Nonnull Player p, @Nonnull ItemStack guide) {
         NamespacedKey key = getKey();
-        boolean value = !PersistentDataAPI.hasByte(PdcCompat.holder(p), key) || PersistentDataAPI.getByte(PdcCompat.holder(p), key) == (byte) 1;
+        boolean value = !PdcCompat.hasByte(p, key) || PdcCompat.getByte(p, key) == (byte) 1;
         return Optional.of(value);
     }
 
     @Override
     public void setSelectedOption(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull Boolean value) {
-        PersistentDataAPI.setByte(PdcCompat.holder(p), getKey(), (byte) (value.booleanValue() ? 1 : 0));
+        PdcCompat.setByte(p, getKey(), (byte) (value.booleanValue() ? 1 : 0));
     }
 
 }

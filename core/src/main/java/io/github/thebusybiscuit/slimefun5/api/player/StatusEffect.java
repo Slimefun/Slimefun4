@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.Keyed;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
@@ -69,7 +69,7 @@ public class StatusEffect implements Keyed {
      *            The {@link TimeUnit} for the given duration
      */
     public void add(@Nonnull Player p, int level, int duration, @Nonnull TimeUnit unit) {
-        PersistentDataAPI.setString(PdcCompat.holder(p), getKey(), level + ";" + System.currentTimeMillis() + unit.toMillis(duration));
+        PdcCompat.setString(p, getKey(), level + ";" + System.currentTimeMillis() + unit.toMillis(duration));
     }
 
     /**
@@ -82,7 +82,7 @@ public class StatusEffect implements Keyed {
      *            The level of this effect
      */
     public void addPermanent(@Nonnull Player p, int level) {
-        PersistentDataAPI.setString(PdcCompat.holder(p), getKey(), level + ";0");
+        PdcCompat.setString(p, getKey(), level + ";0");
     }
 
     /**
@@ -96,7 +96,7 @@ public class StatusEffect implements Keyed {
      * @return Whether this {@link StatusEffect} is currently applied
      */
     public boolean isPresent(@Nonnull Player p) {
-        Optional<String> optional = PersistentDataAPI.getOptionalString(PdcCompat.holder(p), getKey());
+        Optional<String> optional = PdcCompat.getOptionalString(p, getKey());
 
         if (optional.isPresent()) {
             String[] data = CommonPatterns.SEMICOLON.split(optional.get());
@@ -122,7 +122,7 @@ public class StatusEffect implements Keyed {
      * @return An {@link OptionalInt} that describes the result
      */
     public @Nonnull OptionalInt getLevel(@Nonnull Player p) {
-        Optional<String> optional = PersistentDataAPI.getOptionalString(PdcCompat.holder(p), getKey());
+        Optional<String> optional = PdcCompat.getOptionalString(p, getKey());
 
         if (optional.isPresent()) {
             String[] data = CommonPatterns.SEMICOLON.split(optional.get());
@@ -139,7 +139,7 @@ public class StatusEffect implements Keyed {
      *            The {@link Player} to clear it from
      */
     public void clear(@Nonnull Player p) {
-        PersistentDataAPI.remove(PdcCompat.holder(p), getKey());
+        PdcCompat.remove(p, getKey());
     }
 
 }

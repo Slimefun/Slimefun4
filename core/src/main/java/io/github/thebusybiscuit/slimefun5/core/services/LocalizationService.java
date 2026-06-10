@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -156,8 +156,7 @@ public class LocalizationService extends SlimefunLocalization {
     public Language getLanguage(@Nonnull Player p) {
         Validate.notNull(p, "Player cannot be null!");
 
-        PersistentDataContainer container = PdcCompat.container(p);
-        String language = container.get(languageKey, PersistentDataType.STRING);
+        String language = (String) PdcCompat.get(p, languageKey, "STRING");
 
         if (language != null) {
             Language lang = languages.get(language);

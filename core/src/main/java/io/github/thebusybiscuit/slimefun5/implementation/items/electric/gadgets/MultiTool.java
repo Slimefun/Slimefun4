@@ -12,7 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -84,7 +84,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
             ItemMeta meta = item.getItemMeta();
             e.cancel();
 
-            int index = PersistentDataAPI.getInt(PdcCompat.holder(meta), key, 0);
+            int index = PdcCompat.getInt(meta, key, 0);
             SlimefunItem sfItem = modes.get(index).getItem();
 
             if (!p.isSneaking()) {
@@ -98,7 +98,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
                 String itemName = selectedItem != null ? selectedItem.getItemName() : "Unknown";
                 Slimefun.getLocalization().sendMessage(p, "messages.multi-tool.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
 
-                PersistentDataAPI.setInt(PdcCompat.holder(meta), key, index);
+                PdcCompat.setInt(meta, key, index);
 
                 List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
 

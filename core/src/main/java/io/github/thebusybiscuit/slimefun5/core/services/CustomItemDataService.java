@@ -8,13 +8,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Keyed;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.Keyed;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
@@ -87,8 +85,7 @@ public class CustomItemDataService implements Keyed {
         Validate.notNull(meta, "The ItemMeta cannot be null!");
         Validate.notNull(id, "Cannot store null on an ItemMeta!");
 
-        PersistentDataContainer container = PdcCompat.container(meta);
-        container.set(namespacedKey, PersistentDataType.STRING, id);
+        PdcCompat.set(meta, namespacedKey, "STRING", id);
     }
 
     /**
@@ -121,8 +118,7 @@ public class CustomItemDataService implements Keyed {
     public @Nonnull Optional<String> getItemData(@Nonnull ItemMeta meta) {
         Validate.notNull(meta, "Cannot read data from null!");
 
-        PersistentDataContainer container = PdcCompat.container(meta);
-        return Optional.ofNullable(container.get(namespacedKey, PersistentDataType.STRING));
+        return Optional.ofNullable((String) PdcCompat.get(meta, namespacedKey, "STRING"));
     }
 
     /**

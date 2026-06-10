@@ -10,7 +10,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -114,8 +114,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
         } else {
             ItemMeta meta = item.getItemMeta();
             NamespacedKey key = getStorageKey();
-            PersistentDataContainer pdc = PdcCompat.container(meta);
-            int usesLeft = pdc.getOrDefault(key, PersistentDataType.INTEGER, getMaxUseCount());
+            int usesLeft = (Integer) PdcCompat.getOrDefault(meta, key, "INTEGER", getMaxUseCount());
 
             if (usesLeft == 1) {
                 SoundEffect.LIMITED_USE_ITEM_BREAK_SOUND.playFor(p);
@@ -123,7 +122,7 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
                 item.setType(Material.AIR);
             } else {
                 usesLeft--;
-                pdc.set(key, PersistentDataType.INTEGER, usesLeft);
+                PdcCompat.set(meta, key, "INTEGER", usesLeft);
 
                 updateItemLore(item, meta, usesLeft);
             }
