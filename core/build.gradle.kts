@@ -347,155 +347,17 @@ val cloneAndBuildAddons by tasks.registering {
     }
 }
 
-var runServerMcVer = "26.1.2"
-if (project.hasProperty("mcVersion")) {
-    runServerMcVer = project.property("mcVersion") as String
-} else {
-    val tasksStr = gradle.startParameter.taskNames.joinToString(" ")
-    if (tasksStr.contains("runServer", ignoreCase = true)) {
-        val psScript = """
-            \${'$'}versions = @("1.8.8", "1.9.4", "1.10.2", "1.11.2", "1.12.2", "1.13.2", "1.14.4", "1.15.2", "1.16.5", "1.17.1", "1.18.2", "1.19.4", "1.20.6", "1.21.11", "26.1.2")
-            \${'$'}selectedIndex = \${'$'}versions.Length - 1
-            try {
-                if (\${'$'}Host.UI.RawUI.KeyAvailable -ne \${'$'}null) {}
-            } catch {
-                Write-Output "26.1.2"
-                exit
-            }
-            while (\${'$'}true) {
-                Clear-Host
-                Write-Host "=========================================" -ForegroundColor Cyan
-                Write-Host "   Slimefun5 - Select Server Version     " -ForegroundColor Cyan
-                Write-Host "=========================================" -ForegroundColor Cyan
-                Write-Host "Use [W]/[S] or [Up]/[Down] arrows to navigate." -ForegroundColor DarkGray
-                Write-Host "Press [Enter] to select and launch." -ForegroundColor DarkGray
-                Write-Host ""
-                for (\${'$'}i = 0; \${'$'}i -lt \${'$'}versions.Length; \${'$'}i++) {
-                    if (\${'$'}i -eq \${'$'}selectedIndex) { Write-Host "  > \${'$'}(\${'$'}versions[\${'$'}i]) <" -ForegroundColor Green }
-                    else { Write-Host "    \${'$'}(\${'$'}versions[\${'$'}i])" }
-                }
-                \${'$'}keyInfo = \${'$'}Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-                \${'$'}keyCode = \${'$'}keyInfo.VirtualKeyCode
-                \${'$'}char = \${'$'}keyInfo.Character
-                if (\${'$'}keyCode -eq 38 -or \${'$'}char -eq 'w' -or \${'$'}char -eq 'W') {
-                    \${'$'}selectedIndex--
-                    if (\${'$'}selectedIndex -lt 0) { \${'$'}selectedIndex = \${'$'}versions.Length - 1 }
-                } elseif (\${'$'}keyCode -eq 40 -or \${'$'}char -eq 's' -or \${'$'}char -eq 'S') {
-                    \${'$'}selectedIndex++
-                    if (\${'$'}selectedIndex -ge \${'$'}versions.Length) { \${'$'}selectedIndex = 0 }
-                } elseif (\${'$'}keyCode -eq 13) {
-                    break
-                }
-            }
-            Clear-Host
-            Write-Output \${'$'}versions[\${'$'}selectedIndex]
-        """.trimIndent()
+// runServer is configured entirely from properties; the interactive version/addon picker lives in
+// run.ps1 (Gradle's daemon has no attached console, so an in-build menu cannot read the keyboard and
+// just falls back to defaults). Defaults here: latest version, core only.
+//   ./run.ps1                                              interactive picker (recommended)
+//   ./gradlew runServer "-PmcVersion=1.16.5"               (quote -P args in PowerShell 5.1!)
+//   ./gradlew runServer "-PmcVersion=1.8.8" "-Paddons=Owner/Repo,Owner/Repo"
+val runServerMcVer = (project.findProperty("mcVersion") as String?)?.takeIf { it.isNotBlank() } ?: "26.1.2"
 
-        try {
-            val tmpFile = file("build/tmp/select_version.ps1")
-            tmpFile.parentFile.mkdirs()
-            tmpFile.writeText(psScript)
-
-            val res = providers.exec {
-                commandLine("powershell", "-ExecutionPolicy", "Bypass", "-File", tmpFile.absolutePath)
-            }.standardOutput.asText.get().trim()
-            if (res.isNotEmpty()) runServerMcVer = res
-        } catch(e: Exception) {
-            println("Interactive menu skipped: \${e.message}")
-        }
-    }
-}
-
-// Editable list of Slimefun addons offered by the interactive runServer picker (format: Owner/Repo).
-// InfinityLib and Networks are shared libraries other addons depend on, so they are listed first.
-// NB: the addons are not Java-8-ported yet, so building any of them will currently fail - the picker
-// is wired up ready for the addon-port phase. Edit the owner/repos here as the forks are finalised.
-val availableAddons = listOf(
-    "intisy/InfinityLib",
-    "intisy/Networks",
-    "intisy/InfinityExpansion",
-    "intisy/ExoticGarden",
-    "intisy/DynaTech",
-    "intisy/Galactifun",
-    "intisy/SlimeTinker",
-    "intisy/FluffyMachines",
-    "intisy/LiteXpansion",
-    "intisy/SensibleToolbox",
-    "intisy/ChestTerminal",
-    "intisy/ExtraGear",
-    "intisy/LuckyBlocks",
-    "intisy/MissileWarfare",
-    "intisy/SlimefunAdvancements"
-)
-
-// Resolve which addons runServer should build: explicit -Paddons wins; -PskipAddons forces none;
-// otherwise an interactive checkbox menu is shown (only for an interactive runServer invocation).
-// The result is published as the "resolvedAddons" extra property so cloneAndBuildAddons can read it.
-var runServerAddons = ""
-if (project.hasProperty("addons")) {
-    runServerAddons = project.property("addons") as String
-} else if (!project.hasProperty("skipAddons")
-        && gradle.startParameter.taskNames.joinToString(" ").contains("runServer", ignoreCase = true)) {
-    val addonsPsArray = availableAddons.joinToString(", ") { "\"$it\"" }
-    val psScript = """
-        \${'$'}addons = @($addonsPsArray)
-        \${'$'}selected = New-Object bool[] \${'$'}addons.Length
-        \${'$'}index = 0
-        try {
-            if (\${'$'}Host.UI.RawUI.KeyAvailable -ne \${'$'}null) {}
-        } catch {
-            Write-Output ""
-            exit
-        }
-        while (\${'$'}true) {
-            Clear-Host
-            Write-Host "=========================================" -ForegroundColor Cyan
-            Write-Host "   Slimefun5 - Select Addons to Build    " -ForegroundColor Cyan
-            Write-Host "=========================================" -ForegroundColor Cyan
-            Write-Host "Use [W]/[S] or [Up]/[Down] to move, [Space] to toggle, [Enter] to confirm." -ForegroundColor DarkGray
-            Write-Host "Select none to run the core only." -ForegroundColor DarkGray
-            Write-Host ""
-            for (\${'$'}i = 0; \${'$'}i -lt \${'$'}addons.Length; \${'$'}i++) {
-                \${'$'}mark = if (\${'$'}selected[\${'$'}i]) { "[x]" } else { "[ ]" }
-                if (\${'$'}i -eq \${'$'}index) { Write-Host "  > \${'$'}mark \${'$'}(\${'$'}addons[\${'$'}i])" -ForegroundColor Green }
-                else { Write-Host "    \${'$'}mark \${'$'}(\${'$'}addons[\${'$'}i])" }
-            }
-            \${'$'}keyInfo = \${'$'}Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-            \${'$'}keyCode = \${'$'}keyInfo.VirtualKeyCode
-            \${'$'}char = \${'$'}keyInfo.Character
-            if (\${'$'}keyCode -eq 38 -or \${'$'}char -eq 'w' -or \${'$'}char -eq 'W') {
-                \${'$'}index--
-                if (\${'$'}index -lt 0) { \${'$'}index = \${'$'}addons.Length - 1 }
-            } elseif (\${'$'}keyCode -eq 40 -or \${'$'}char -eq 's' -or \${'$'}char -eq 'S') {
-                \${'$'}index++
-                if (\${'$'}index -ge \${'$'}addons.Length) { \${'$'}index = 0 }
-            } elseif (\${'$'}keyCode -eq 32) {
-                \${'$'}selected[\${'$'}index] = -not \${'$'}selected[\${'$'}index]
-            } elseif (\${'$'}keyCode -eq 13) {
-                break
-            }
-        }
-        Clear-Host
-        \${'$'}chosen = @()
-        for (\${'$'}i = 0; \${'$'}i -lt \${'$'}addons.Length; \${'$'}i++) {
-            if (\${'$'}selected[\${'$'}i]) { \${'$'}chosen += \${'$'}addons[\${'$'}i] }
-        }
-        Write-Output (\${'$'}chosen -join ",")
-    """.trimIndent()
-
-    try {
-        val tmpFile = file("build/tmp/select_addons.ps1")
-        tmpFile.parentFile.mkdirs()
-        tmpFile.writeText(psScript)
-
-        val res = providers.exec {
-            commandLine("powershell", "-ExecutionPolicy", "Bypass", "-File", tmpFile.absolutePath)
-        }.standardOutput.asText.get().trim()
-        runServerAddons = res
-    } catch (e: Exception) {
-        println("Interactive addon menu skipped: \${e.message}")
-    }
-}
+// Addons to build for runServer: -Paddons (comma-separated Owner/Repo) selects them; otherwise none
+// (core only). -PskipAddons is still accepted as an explicit "no addons".
+val runServerAddons = if (project.hasProperty("skipAddons")) "" else (project.findProperty("addons") as String? ?: "")
 project.extra.set("resolvedAddons", runServerAddons)
 
 // The plugin jar is Java-8 bytecode (loads on every server), but the SERVER JVM must match the
