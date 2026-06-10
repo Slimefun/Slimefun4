@@ -233,8 +233,8 @@ public abstract class BlockMenuPreset extends ChestMenu {
             menu.addItem(size - 1, null);
         }
 
-        if (menu instanceof BlockMenu blockMenu) {
-            newInstance(blockMenu, blockMenu.getLocation());
+        if (menu instanceof BlockMenu) {
+            BlockMenu blockMenu = (BlockMenu) menu;            newInstance(blockMenu, blockMenu.getLocation());
         }
 
         for (int slot = 0; slot < 54; slot++) {

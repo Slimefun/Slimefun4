@@ -202,7 +202,7 @@ public class BlockStorage {
                      * error to the console (if enabled).
                      */
                     if (Slimefun.getRegistry().logDuplicateBlockEntries()) {
-                        Slimefun.logger().log(Level.INFO, "Ignoring duplicate block @ %d, %d, %d (%s -> %s)".formatted(l.getBlockX(), l.getBlockY(), l.getBlockZ(), blockInfo.getString("id"), storage.get(l).getString("id")));
+                        Slimefun.logger().log(Level.INFO, String.format("Ignoring duplicate block @ %d, %d, %d (%s -> %s)", l.getBlockX(), l.getBlockY(), l.getBlockZ(), blockInfo.getString("id"), storage.get(l).getString("id")));
                     }
 
                     return;

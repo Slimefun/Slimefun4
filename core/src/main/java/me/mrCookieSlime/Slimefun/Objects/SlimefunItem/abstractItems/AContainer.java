@@ -12,6 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -109,7 +110,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(22, CustomItemStack.create(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(22, CustomItemStack.create(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial(), " "), ChestMenuUtils.getEmptyClickHandler());
 
         for (int i : getOutputSlots()) {
             preset.addMenuClickHandler(i, ChestMenuUtils.getDefaultOutputHandler());
@@ -323,11 +324,11 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     }
 
     public void registerRecipe(int seconds, SlimefunItemStack[] input, SlimefunItemStack[] output) {
-        var inputAsItemStack = Arrays.stream(input)
+        ItemStack[] inputAsItemStack = Arrays.stream(input)
                 .map(SlimefunItemStack::item)
                 .toArray(ItemStack[]::new);
 
-        var outputAsItemStack = Arrays.stream(output)
+        ItemStack[] outputAsItemStack = Arrays.stream(output)
                 .map(SlimefunItemStack::item)
                 .toArray(ItemStack[]::new);
 
@@ -361,7 +362,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                     processor.updateProgressBar(inv, 22, currentOperation);
                     currentOperation.addProgress(1);
                 } else {
-                    inv.replaceExistingItem(22, CustomItemStack.create(Material.BLACK_STAINED_GLASS_PANE, " "));
+                    inv.replaceExistingItem(22, CustomItemStack.create(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial(), " "));
 
                     for (ItemStack output : currentOperation.getResults()) {
                         inv.pushItem(output.clone(), getOutputSlots());
